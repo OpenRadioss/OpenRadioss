@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani             ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE DFUNCF(ELBUF_TAB ,FUNC  ,IFUNC  ,IPARG    ,GEO  ,
@@ -40,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE my_alloc_mod
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +79,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
      .   FOR, AREA, FEQ, EPLAS,DAMMX   
-      INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, 
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
      .        NB16, LLL,NUVAR,IGTYP,IFAIL,
@@ -457,7 +459,7 @@ C             XM cannot be zero (was checked in starter).
 C
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
        END DO
       ENDDO ! DO NG=1,NGROUP
@@ -514,6 +516,7 @@ C + X-ELEMENTS
 !||    initbuf        ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE DFUNGPS1(ELBUF_TAB ,FUNC     ,IFUNC   ,IPARG   ,GEO     ,
@@ -524,7 +527,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -556,7 +560,7 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA
-      INTEGER I,J,K,II,N,NN, NG, NEL, ISC,MLW,NN1,  
+      INTEGER I, J, N, NG, NEL, MLW, NN1, 
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IHBE,MPT,JJ(6)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -784,6 +788,7 @@ C-----------------------------------------------
 !||    initbuf        ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE DFUNGPS2(ELBUF_TAB ,FUNC    ,IFUNC   ,IPARG   ,GEO     ,
@@ -794,7 +799,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -827,7 +833,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA,
      .   XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,THK0,AL0
-      INTEGER I,II, NG, NEL, ISC,
+      INTEGER I, NG, NEL, 
      .        IADD, N, J,K, MLW,  
      .        NN, MT, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
@@ -835,7 +841,7 @@ C     REAL
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,
      .        N1,N2,N3,N4,JJ(6)
-      INTEGER MLW2                
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       DO 900 NG=1,NGROUP

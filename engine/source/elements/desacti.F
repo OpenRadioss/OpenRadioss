@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radiatoff        ../engine/source/constraints/thermic/radiatoff.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
@@ -48,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       use glob_therm_mod
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,IFLAG,ISENS,IGSH,IGSH3,IGBR,IGQU,IGBM,IGTR,IGSP,OFFCHANGE
+      INTEGER I,N,IFLAG,ISENS,OFFCHANGE
       INTEGER ITHERM_FE
       my_real STARTT, STOPT
 C======================================================================|
@@ -98,7 +100,7 @@ C======================================================================|
         IF (IACTIV(10,N) == 1) THEN
          IF (ISENS > 0) THEN
 C----------------------------------------------------------------------
-C   DESACTIVATION DES ELEMENTS
+C   ELEMENT DEACTIVATION
 C----------------------------------------------------------------------
           IF (IFLAG == 1 .AND. TT > SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
@@ -116,7 +118,7 @@ C----------------------------------------------------------------------
               ENDDO
             ENDIF
 C----------------------------------------------------------------------
-C   ACTIVATION DES ELEMENTS
+C   ELEMENT ACTIVATION
 C----------------------------------------------------------------------
           ELSEIF (IFLAG == 0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
@@ -147,7 +149,7 @@ C----------------------------------------------------------------------
             OFFCHANGE=1
           ENDIF
 C----------------------------------------------------------------------
-C   ACTIVATION DES ELEMENTS
+C   ELEMENT ACTIVATION
 C----------------------------------------------------------------------
           STARTT = FACTIV(1,N)
           STOPT  = FACTIV(2,N)
@@ -167,7 +169,7 @@ C----------------------------------------------------------------------
             OFFCHANGE=1
           ENDIF
 C----------------------------------------------------------------------
-C   DESACTIVATION DES ELEMENTS
+C   ELEMENT DEACTIVATION
 C----------------------------------------------------------------------
           IF(IFLAG == 1 .AND. TT > STOPT) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,

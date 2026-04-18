@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,7 +53,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real
      .    P1(3),P2(3),P3(3),P4(3),PP2(3)
 C-----------------------------------------------
@@ -108,7 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,JSK
+      INTEGER JSK
       my_real
      .    SUM,PN(3)
 C-----------------------------------------------
@@ -375,7 +374,7 @@ C
 !||====================================================================
       SUBROUTINE INSIDE_SPHERE(PC, P, D, OK)
 C-----------------------------------------------
-C    Implicit sphere equation:
+C    Implicit Sphere Equation:
 C
 C      SUM ( ( P(1:3) - PC(1:3) )**2 ) = D**2/4
 C-----------------------------------------------

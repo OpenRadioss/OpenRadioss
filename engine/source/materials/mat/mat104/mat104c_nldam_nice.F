@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,24 +71,24 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,IGURSON,NINDX,INDEX(NEL),NICE
+      INTEGER I,II,IGURSON,NINDX,INDEX(NEL)
 c
       my_real ::
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR,HKHI,
-     .   Q1,Q2,ED,AN,EPN,KW,FR,FC,F0,A11,A12,NNU
+     .   Q1,Q2,ED,AN,KW,FR,FC,F0,A11,A12,NNU
       my_real ::
-     .   DTI,H,LDAV,SIGVM,SIGDR2,YLD2I,OMEGA,
+     .   DTI,SIGVM,SIGDR2,YLD2I,OMEGA,
      .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
       my_real :: 
      .   DPXX,DPYY,DPXY,DPZZ,DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,
-     .   DJ2DSXX,DJ2DSYY,DJ2DSXY,
-     .   DFDSXX,DFDSYY,DFDSXY,
-     .   DENOM,DPHI,SDPLA,SDV_DFDSIG,DFDSIG2,
-     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPHI_DFS,DFS_DFT,
-     .   DFN_DLAM,DFSH_DLAM,DFG_DLAM,DFT_DLAM,DFDPLA,NORMSIG,
-     .   DFN,DFSH,DFG,DFT,DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM
+     .   
+     .   
+     .   DENOM,DPHI,SDPLA,DFDSIG2,
+     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,
+     .   NORMSIG,
+     .   DYLD_DPLA
 c
       my_real, DIMENSION(NEL) ::
      .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
@@ -103,6 +103,7 @@ c
       !=======================================================================
       !UVAR(1)   PHI     YIELD FUNCTION VALUE
       !UVAR(2)   YLD     YIELD STRESS
+      !UVAR(3)   EPSD    PLASTIC STRAIN RATE SAVED FOR FILTERING
       !=======================================================================
 c
       !=======================================================================
@@ -183,7 +184,9 @@ c
         NORMYY(I)  = ZERO       ! Initialization of the y component of the normal tensor
         NORMZZ(I)  = ZERO       ! Initialization of the z component of the normal tensor
       ENDDO   
-c
+!
+      epsd(1:nel) = uvar(1:nel,3)
+!
       ! Initialization of damage, temperature and self-heating weight factor
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
@@ -611,6 +614,7 @@ c
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
+        UVAR(I,3)  = EPSD(I)
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((A11)/RHO(I))
         ! Storing the yield stress

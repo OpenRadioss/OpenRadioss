@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,KK,
-     .        N,ITY,IMESS, ISENS,INTERACT
+     .        ITY,IMESS, ISENS,INTERACT
       my_real
      .        XX,XY,XZ,DIST0(NINTSTAMP),
      .        VX(NINTSTAMP),VY(NINTSTAMP),VZ(NINTSTAMP),DTI,
@@ -139,7 +139,7 @@ C
                END IF
               END IF
 C
-C      Prepare test sur pas de temps sur l'interface
+C      prepare test on timestep on the interface
 C
               VX(KK) = MAX(VSLV(1,I)-VMSR(4,I),
      .                 VMSR(1,I)-VSLV(4,I),ZERO)
@@ -153,7 +153,7 @@ C
         END IF
       END DO
 C
-C test sur pas de temps sur l'interface (parith on spmd)
+C test on timestep on the interface (parith on spmd)
       IF(NSPMD>1) THEN
        CALL SPMD_I21CRIT(CRITERL,VX,VY,VZ,DIST0)
        IF(NBINTC21>0) THEN

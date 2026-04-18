@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -159,7 +159,7 @@ C---------------------------------------------------------------
      3         SENSORS              ,NOM_OPT         ,UNITAB     ,LSUBMODEL  ,TITR       ,
      4         NOM_OPTFRIC          ,INTBUF_FRIC_TAB ,NPC        ,NPC1       ,TF         ,
      5         INTERFACES%PARAMETERS,NPARI           ,NPARIR     ,SNPC       ,SNPC1      ,
-     6         NPTS                 ,ITHERM_FE       ,INTHEAT   )
+     6         NPTS                 ,ITHERM_FE       ,INTHEAT    ,IGRSLIN)
 
           CASE ('TYPE24')
               NTYP=24

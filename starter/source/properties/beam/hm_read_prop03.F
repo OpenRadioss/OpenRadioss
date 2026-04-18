@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -119,21 +119,10 @@ C--------------------------------------------------
 C----------------------
 C
 C----------------------
-        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
-          IHBE_OLD=IHBE
-          IHBE=0
-          CALL ANCMSG(MSGID=321,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=IG,
-     .                C1=IDTITL,
-     .                I2=IHBE_OLD,
-     .                I3=IHBE)
-        ENDIF
 C
         GEO(3)=ISMSTR
         IF ((ISMSTR==3).OR.(ISMSTR==1)) GEO(5)=EP06
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(10)=IHBE
         IGEO(11)=IGTYP

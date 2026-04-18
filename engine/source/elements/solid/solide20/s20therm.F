@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,7 +82,7 @@ C
         PHIZ(I) = KC*PHIZ(I)
       ENDDO
 C
-C force thermique nodale
+C nodal thermal force
 C
       DO N=1,NPE
        DO I= 1,NEL
@@ -111,7 +111,7 @@ C
 !        PHIY = KC*PHIY
 !        PHIZ = KC*PHIZ
 C
-C force thermique nodale
+C nodal thermal force
 C
 !        DO N=1,NPE
 !          FPHI(I,N) = FPHI(I,N) +

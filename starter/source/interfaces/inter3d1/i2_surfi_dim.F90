@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,11 +26,12 @@
 !||    lecint             ../starter/source/interfaces/interf1/lecint.F
 !||====================================================================
       module i2_surfi_dim_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing the dimensioning of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs the dimensioning of the interface type2 with input surf/surf
 !||====================================================================
 !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||--- called by ------------------------------------------------------
@@ -114,9 +115,9 @@
               if(itagn(n) == 0)then
                 ns = ns + 1
                 itagn(n) = 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           nsn = ns
           ns = 0
           do i=1,igrsurf(isu2)%nseg
@@ -126,9 +127,9 @@
               if(itagn(n) == 0)then
                 ns = ns + 1
                 itagn(n) = 2
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           nsn = nsn + ns
           nmn = nsn
           deallocate(itags1)

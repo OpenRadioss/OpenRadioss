@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
@@ -76,16 +76,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,NINDXD,ICOUP,SEL,FAILIP
-      INTEGER ,DIMENSION(NEL) :: INDX,INDXD
-      my_real :: DCRIT, EXP,D1,DF,TRIAX,SCALE,SXX,SYY,SZZ
+      INTEGER :: I, J, NINDX, ICOUP, SEL, FAILIP
+      INTEGER ,DIMENSION(NEL) :: INDX
+      my_real :: DCRIT, EXP, DF
       
-      my_real P1X,P1Y,S1X,S1Y,S2Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC ,
+      my_real P1X,P1Y,S1X,S1Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC ,
      .        P , SVM,TRIAXS
       my_real X_1(3) , X_2(3)
       EXTERNAL FINTER
       my_real EPS_FAIL,FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE
+ 
 C=======================================================================
       EPS_FAIL = ZERO
       X_1(1) = UPARAM(1)
@@ -236,8 +236,6 @@ c--------------------
 c------------------
  1000 FORMAT(5X,'FAILURE (BIQUAD) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4,1X )
- 2000 FORMAT(5X,'START DAMAGE (BIQUAD) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
-     .      ,2X,'AT TIME :',1PE12.4 )     
  1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)    
 c------------------
       RETURN

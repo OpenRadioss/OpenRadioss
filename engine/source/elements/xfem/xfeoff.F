@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE XFEOFF(XFEM_TAB ,
      .                  IPARG    ,IXC      ,NGROUC   ,IGROUC  ,IEL_CRK ,
@@ -46,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,8 +74,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IG,NG,JFT,JLT,NEL,NF1,IXFEM,IADXFEM,NXLAY,OFF,
-     .  STEP,ITG1,ITG2,FLAG,SIZE,LSDRC,ACTIFXFEM
+      INTEGER IG,NG,JFT,JLT,NEL,IXFEM,NXLAY,OFF,
+     .  ITG1,ITG2,FLAG,SIZE,LSDRC,ACTIFXFEM
 C=======================================================================
 C activation of new group if crack advancing or new crack initiate
 c-----------------------------------------------------------------------
@@ -91,7 +93,7 @@ C----------------------------------------
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 c-------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 c-------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c
@@ -126,7 +128,7 @@ C---
 !$OMP END DO
 C-------------
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC

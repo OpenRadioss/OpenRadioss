@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), 
      .    DT1D2, DT1D
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P
+     .   PXX2,PYY2,PZZ2
       my_real
      .   AAA,BBB
 C-----------------------------------------------   
@@ -251,7 +251,7 @@ C
         WZZ(I)=AAA*WZZ(I) + BBB*VZR(I)
        ENDDO
       ENDIF
-C pour le calcul du pas du temps      
+C for the calculation of the time step
       DO I=1, NEL
         DD(I) = - DXX(I)- DYY(I) - DZZ(I) 
       ENDDO  

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
@@ -98,19 +98,19 @@ C-----------------------------------------------
       REAL R4
       REAL,DIMENSION(:),ALLOCATABLE :: WA
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUF1,LBUF2
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_EOS_)  ,POINTER :: EBUF
       my_real, DIMENSION(:),POINTER  ::  DFMAX
-      my_real, DIMENSION(:) ,POINTER  :: UPARAM
-      INTEGER MID,IMAT,NUPARAM,IPOS,IADBUF,ISUBMAT,IU(4),ILAY
-      my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
-      my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
-      my_real :: v0g !< global volume at reference density (mixture)
-      my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
-      my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
-      my_real :: RHO0g !< global initial mass density (mixture)
-      LOGICAL detected
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -575,7 +575,7 @@ c-----------
         ELSE
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES GROUPES
+C       end of loop over groups
 C-----------------------------------------------
       ENDDO ! next NG
 C-----------------------------------------------

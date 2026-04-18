@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER ICC,IFLAG
+      INTEGER ICC
       my_real
      .   N12, N23, N31, E11, E22, E33, G12, G23, G31, SIGT1, SIGT2,
      .   SIGT3, DELTA, CA, CB, CN, FMAX, SIGYT1, SIGYT2, SIGYC1,
@@ -353,7 +353,7 @@ CC     Formulation for solid elements time step computation.
       PM(105) =DMIN/C1**2    
 C-----------------------------------------
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA    = 1    
       MTAG%L_PLA    = 1

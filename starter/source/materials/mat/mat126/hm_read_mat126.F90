@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -79,11 +79,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: idel,ifailso
-          real(kind=WP)                                                  &
-            :: rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,        &
-            efmin,pc,muc,pl,mul,k0,k1,k2,k3,d1,d2,young,nu,        &
-            eps_max,h
+          integer :: idel,ifailso,icowpsym
+          real(kind=WP) ::                                                     &
+            rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,efmin,pc,muc,       &
+            pl,mul,k0,k1,k2,k3,d1,d2,young,nu,eps_max,h,cst,powt,csc,powc
           logical :: is_encrypted, is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
@@ -94,42 +93,48 @@
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #rhoo
-          call hm_get_floatv('MAT_RHO'   ,rho0   ,is_available,lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"   ,rho0   ,is_available,lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #g
-          call hm_get_floatv('MAT_G'     ,shear  ,is_available,lsubmodel, unitab)
+          call hm_get_floatv("MAT_G"     ,shear  ,is_available,lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #a b m n fc t
-          call hm_get_floatv('MAT_A'     ,aa     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_B'     ,bb     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_N'     ,nn     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_FC'    ,fc     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_T0'    ,t0     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_A"     ,aa     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_B"     ,bb     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_N"     ,nn     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_FC"    ,fc     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_T0"    ,t0     ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #c epsp_0 sigma_f_max
-          call hm_get_floatv('MAT_C'     ,cc     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPS0'  ,eps0   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_FCUT'  ,asrate ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SFMAX' ,sfmax  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EFMIN' ,efmin  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_C"     ,cc     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPS0"  ,eps0   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_FCUT"  ,asrate ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SFMAX" ,sfmax  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EFMIN" ,efmin  ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #pc muc p1 mu1
-          call hm_get_floatv('MAT_PC'    ,pc     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_MUC'   ,muc    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_PL'    ,pl     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_MUL'   ,mul    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_PC"    ,pc     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_MUC"   ,muc    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_PL"    ,pl     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_MUL"   ,mul    ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #k1 k2 k3
-          call hm_get_floatv('MAT_K1'    ,k1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_K2'    ,k2     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_K3'    ,k3     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_K1"    ,k1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_K2"    ,k2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_K3"    ,k3     ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !         #d1 d2 idel
-          call hm_get_floatv('MAT_D1'    ,d1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_D2'    ,d2     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('IDEL'      ,idel   ,is_available, lsubmodel)
-          call hm_get_floatv('MAT_EPSMAX',eps_max,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('IFAILSO'   ,ifailso,is_available, lsubmodel)
+          call hm_get_floatv("MAT_D1"    ,d1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_D2"    ,d2     ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("IDEL"      ,idel   ,is_available, lsubmodel)
+          call hm_get_floatv("MAT_EPSMAX",eps_max,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("IFAILSO"   ,ifailso,is_available, lsubmodel)
+! ----------------------------------------------------------------------------------------------------------------------
+!         #ct powt cp powc
+          call hm_get_floatv("MAT_CT"    ,cst    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_POWT"  ,powt   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_CC"    ,csc    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_POWC"  ,powc   ,is_available, lsubmodel, unitab)
 !
           !< Bulk modulus in region 1
           k0 = pc/muc
@@ -144,26 +149,39 @@
             israte = 1
           else
             israte = 0
-          endif
+          end if
           !< Check flag for element failure
           idel = min(idel,4)
           idel = max(0,idel)
           !< Check flag for post-failure behavior
-          ifailso = min(ifailso,4)
+          ifailso = min(ifailso,5)
           ifailso = max(1,ifailso)
           !< Default values
           if (efmin   == zero) efmin   = em20
           if (cc      == zero) eps0    = one
           if (sfmax   == zero) sfmax   = infinity
           if (eps_max == zero) eps_max = infinity
+          if (cst == zero) then
+            icowpsym = 0
+            csc  = zero
+            powc = one
+            powt = one
+          else
+            icowpsym = 1
+            if (powt == zero) powt = one
+            if (csc == zero) then
+              csc = cst
+            endif
+            if (powc == zero) powc = powt
+          endif
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Filling buffer tables
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Number of integer material parameters
-          matparam%niparam = 2
+          matparam%niparam = 3
           !< Number of real material parameters
-          matparam%nuparam = 20
+          matparam%nuparam = 24
           !< Number of user variables
           nuvar = 4
 !
@@ -174,6 +192,7 @@
           !< Integer material parameter
           matparam%iparam(1)  = idel
           matparam%iparam(2)  = ifailso
+          matparam%iparam(3)  = icowpsym
 !
           !< Real material parameters
           matparam%young      = young
@@ -200,6 +219,10 @@
           matparam%uparam(18) = d2
           matparam%uparam(19) = eps_max
           matparam%uparam(20) = h
+          matparam%uparam(21) = cst
+          matparam%uparam(22) = powt
+          matparam%uparam(23) = csc
+          matparam%uparam(24) = powc
 !
           !< PARMAT table
           parmat(1) = k1
@@ -237,76 +260,100 @@
           write(iout, 900) trim(titr),mat_id,126
           write(iout,1000)
           if (is_encrypted) then
-            write(iout,'(5X,A,//)') 'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1100) rho0
             write(iout,1200) shear,young,nu
             write(iout,1300) aa,bb,nn,fc,t0
             if (israte > 0) then
-              write(iout,1400) cc,eps0,asrate,sfmax,efmin
+              if (icowpsym == 1) then
+                write(iout,1450) cst,powt,csc,powc,asrate,sfmax,efmin
+              else
+                write(iout,1400) cc,eps0,asrate,sfmax,efmin
+              end if
             else
-              write(iout,1500) cc,eps0,sfmax,efmin
-            endif
+              if (icowpsym == 1) then
+                write(iout,1550) cst,powt,csc,powc,sfmax,efmin
+              else
+                write(iout,1500) cc,eps0,sfmax,efmin
+              end if
+            end if
             write(iout,1600) pc,muc,pl,mul,k0,k1,k2,k3
             write(iout,1700) d1,d2,idel,eps_max,ifailso
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 900       format(/                                                        &
             5X,A,/,                                                       &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,      &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . .=",I10/,      &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . .=",I10/)
 1000      format(/                                                        &
-            5X,'-------------------------------------------',/            &
-            5X,'MATERIAL MODEL:  JOHNSON-HOLMQUIST CONCRETE',/,           &
-            5X,'-------------------------------------------',/)
+            5X,"-------------------------------------------",/            &
+            5X,"MATERIAL MODEL:  JOHNSON-HOLMQUIST CONCRETE",/,           &
+            5X,"-------------------------------------------",/)
 1100      format(/                                                        &
-            5X,'INITIAL DENSITY. . . . . . . . . . . . . . .=',1PG20.13/)
+            5X,"INITIAL DENSITY. . . . . . . . . . . . . . .=",1PG20.13/)
 1200      format(/                                                        &
-            5X,'SHEAR MODULUS (G). . . . . . . . . . . . . .=',1PG20.13/, &
-            5X,'YOUNG MODULUS E (COMPUTED) . . . . . . . . .=',1PG20.13/, &
+            5X,"SHEAR MODULUS (G). . . . . . . . . . . . . .=",1PG20.13/, &
+            5X,"YOUNG MODULUS E (COMPUTED) . . . . . . . . .=",1PG20.13/, &
             5X,"POISSON'S RATIO (COMPUTED) . . . . . . . . .=",1PG20.13/)
 1300      format(/                                                        &
-            5X,'NORMALIZED COHESIVE STRENGTH (A) . . . . . .=',1PG20.13/, &
-            5X,'NORMALIZED PRESSURE HARDENING (B). . . . . .=',1PG20.13/, &
-            5X,'PRESSURE HARDENING EXPONENT (N). . . . . . .=',1PG20.13/, &
-            5X,'COMPRESSIVE STRENGTH (FC). . . . . . . . . .=',1PG20.13/, &
-            5X,'TENSILE STRENGTH (T) . . . . . . . . . . . .=',1PG20.13/)
+            5X,"NORMALIZED COHESIVE STRENGTH (A) . . . . . .=",1PG20.13/, &
+            5X,"NORMALIZED PRESSURE HARDENING (B). . . . . .=",1PG20.13/, &
+            5X,"PRESSURE HARDENING EXPONENT (N). . . . . . .=",1PG20.13/, &
+            5X,"COMPRESSIVE STRENGTH (FC). . . . . . . . . .=",1PG20.13/, &
+            5X,"TENSILE STRENGTH (T) . . . . . . . . . . . .=",1PG20.13/)
 1400      format(/                                                        &
-            5X,'STRAIN RATE DEPENDENCY PARAMETER (C) . . . .=',1PG20.13/, &
-            5X,'REFERENCE STRAIN RATE (EPS0) . . . . . . . .=',1PG20.13/, &
-            5X,'STRAIN RATE FILTERING FREQUENCY (FCUT) . . .=',1PG20.13/, &
-            5X,'NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=',1PG20.13/, &
-            5X,'MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=',1PG20.13/)
+            5X,"STRAIN RATE DEPENDENCY PARAMETER (C) . . . .=",1PG20.13/, &
+            5X,"REFERENCE STRAIN RATE (EPS0) . . . . . . . .=",1PG20.13/, &
+            5X,"STRAIN RATE FILTERING FREQUENCY (FCUT) . . .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
+1450      format(/                                                        &
+            5X,"COWPER-SYMONDS TENSION PARAMETER (CT). . . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS TENSION EXPONENT  (POWT). . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION PARAMETER (CC). .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION EXPONENT (POWC) .=",1PG20.13/, &
+            5X,"STRAIN RATE FILTERING FREQUENCY (FCUT) . . .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
 1500      format(/                                                        &
-            5X,'STRAIN RATE DEPENDENCY PARAMETER (C) . . . .=',1PG20.13/, &
-            5X,'REFERENCE STRAIN RATE (EPS0) . . . . . . . .=',1PG20.13/, &
-            5X,'NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=',1PG20.13/, &
-            5X,'MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=',1PG20.13/)
+            5X,"STRAIN RATE DEPENDENCY PARAMETER (C) . . . .=",1PG20.13/, &
+            5X,"REFERENCE STRAIN RATE (EPS0) . . . . . . . .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
+1550      format(/                                                        &
+            5X,"COWPER-SYMONDS TENSION PARAMETER (CT). . . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS TENSION EXPONENT  (POWT). . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION PARAMETER (CC). .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION EXPONENT (POWC) .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)            
 1600      format(/                                                        &
-            5X,'CRUSHING PRESSURE (PC) . . . . . . . . . . .=',1PG20.13/, &
-            5X,'CRUSHING VOLUMETRIC STRAIN (MUC) . . . . . .=',1PG20.13/, &
-            5X,'LOCKING PRESSURE (PL). . . . . . . . . . . .=',1PG20.13/, &
-            5X,'LOCKING VOLUMETRIC STRAIN (MUL). . . . . . .=',1PG20.13/, &
-            5X,'BULK MODULUS IN REGION 1 (K0). . . . . . . .=',1PG20.13/, &
-            5X,'LINEAR BULK MODULUS (K1) . . . . . . . . . .=',1PG20.13/, &
-            5X,'QUADRATIC BULK MODULUS (K2). . . . . . . . .=',1PG20.13/, &
-            5X,'CUBIC BULK MODULUS (K3). . . . . . . . . . .=',1PG20.13/)
+            5X,"CRUSHING PRESSURE (PC) . . . . . . . . . . .=",1PG20.13/, &
+            5X,"CRUSHING VOLUMETRIC STRAIN (MUC) . . . . . .=",1PG20.13/, &
+            5X,"LOCKING PRESSURE (PL). . . . . . . . . . . .=",1PG20.13/, &
+            5X,"LOCKING VOLUMETRIC STRAIN (MUL). . . . . . .=",1PG20.13/, &
+            5X,"BULK MODULUS IN REGION 1 (K0). . . . . . . .=",1PG20.13/, &
+            5X,"LINEAR BULK MODULUS (K1) . . . . . . . . . .=",1PG20.13/, &
+            5X,"QUADRATIC BULK MODULUS (K2). . . . . . . . .=",1PG20.13/, &
+            5X,"CUBIC BULK MODULUS (K3). . . . . . . . . . .=",1PG20.13/)
 1700      format(/                                                        &
-            5X,'DAMAGE PARAMETER (D1). . . . . . . . . . . .=',1PG20.13/, &
-            5X,'DAMAGE EXPONENT (D2) . . . . . . . . . . . .=',1PG20.13/, &
-            5X,'ELEMENT FAILURE FLAG (IDEL). . . . . . . . .=',I10/,      &
-            5X,'  IDEL = 0:  NO ELEMENT FAILURE              ',/,         &
-            5X,'  IDEL = 1:  TENSILE FAILURE P* + T* < 0     ',/,         &
-            5X,'  IDEL = 2:  MAXIMUM PLASTIC STRAIN FAILURE  ',/,         &
-            5X,'  IDEL = 3:  FAILURE IF SIGY <= 0            ',/,         &
-            5X,'  IDEL = 4:  FAILURE IF DAMAGE = 1           ',/,         &
-            5X,'MAXIMUM PLASTIC STRAIN (EPS_MAX) . . . . . .=',1PG20.13/  &
-            5X,'POST-FAILURE BEHAVIOR FLAG (IFAILSO) . . . .=',I10/,      &
-            5X,'  IFAILSO = 1: NO ELEMENT DELETION           ',/,         &
-            5X,'  IFAILSO = 2: DEVIATORIC STRESS TENSOR IS VANISHED ',/,  &
-            5X,'  IFAILSO = 3: DEVIATORIC STRESS TENSOR IS VANISHED IN COMPR.',/,&
-            5X,'               STRESS TENSOR IS VANISHED IN TENSION ',/,  &
-            5X,'  IFAILSO = 4: STRESS TENSOR IS VANISHED',/)
+            5X,"DAMAGE PARAMETER (D1). . . . . . . . . . . .=",1PG20.13/, &
+            5X,"DAMAGE EXPONENT (D2) . . . . . . . . . . . .=",1PG20.13/, &
+            5X,"ELEMENT FAILURE FLAG (IDEL). . . . . . . . .=",I10/,      &
+            5X,"  IDEL = 0:  NO ELEMENT FAILURE              ",/,         &
+            5X,"  IDEL = 1:  TENSILE FAILURE P* + T* < 0     ",/,         &
+            5X,"  IDEL = 2:  MAXIMUM PLASTIC STRAIN FAILURE  ",/,         &
+            5X,"  IDEL = 3:  FAILURE IF SIGY <= 0            ",/,         &
+            5X,"  IDEL = 4:  FAILURE IF DAMAGE = 1           ",/,         &
+            5X,"MAXIMUM PLASTIC STRAIN (EPS_MAX) . . . . . .=",1PG20.13/  &
+            5X,"POST-FAILURE BEHAVIOR FLAG (IFAILSO) . . . .=",I10/,      &
+            5X,"  IFAILSO = 1: NO ELEMENT DELETION           ",/,         &
+            5X,"  IFAILSO = 2: DEVIATORIC STRESS TENSOR IS VANISHED ",/,  &
+            5X,"  IFAILSO = 3: DEVIATORIC STRESS TENSOR IS VANISHED IN COMPR.",/,&
+            5X,"               STRESS TENSOR IS VANISHED IN TENSION ",/,  &
+            5X,"  IFAILSO = 4: STRESS TENSOR IS VANISHED",/,              &
+            5X,"  IFAILSO = 5: STRESS TENSOR IS VANISHED IN TENSION ONLY",/)
 !
         end subroutine hm_read_mat126
 ! ----------------------------------------------------------------------------------------------------------------------

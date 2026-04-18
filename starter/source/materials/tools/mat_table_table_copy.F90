@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,8 +26,10 @@
 !||    mat_table_table_copy_mod   ../starter/source/materials/tools/mat_table_table_copy.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat129             ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat76              ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
       module mat_table_table_copy_mod
+      implicit none
       contains
 
 !! \brief  make a private copy of input function table to material table stored in mat_param
@@ -37,6 +39,7 @@
 !||    mat_table_table_copy   ../starter/source/materials/tools/mat_table_table_copy.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat129         ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat76          ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||--- calls      -----------------------------------------------------
 !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
 !||--- uses       -----------------------------------------------------
@@ -50,12 +53,9 @@
           use table4d_mod
           use names_and_titles_mod , only : nchartitle
           use constant_mod         , only : zero
+          use precision_mod        , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-!-----------------------------------------------
-!     Included files
-! ----------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !         Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,11 +63,11 @@
           integer                         ,intent(in)    :: ntable    !< number of function tables in input deck
           character(len=nchartitle)       ,intent(in)    :: mat_title !< material law title
           integer                         ,intent(in)    :: mat_id    !< material law Id
-          my_real                         ,intent(in)    :: x1scale   !< x1 scale factor
-          my_real                         ,intent(in)    :: x2scale   !< x2 scale factor
-          my_real                         ,intent(in)    :: x3scale   !< x3 scale factor
-          my_real                         ,intent(in)    :: x4scale   !< x4 scale factor
-          my_real                         ,intent(in)    :: fscale    !< function scale factor
+          real(kind=WP)                         ,intent(in)    :: x1scale   !< x1 scale factor
+          real(kind=WP)                         ,intent(in)    :: x2scale   !< x2 scale factor
+          real(kind=WP)                         ,intent(in)    :: x3scale   !< x3 scale factor
+          real(kind=WP)                         ,intent(in)    :: x4scale   !< x4 scale factor
+          real(kind=WP)                         ,intent(in)    :: fscale    !< function scale factor
           type(ttable), dimension(ntable) ,intent(in)    :: table     !< input table array
           type(table_4d_)                 ,intent(inout) :: mat_table !< target material table structure
           integer                         ,intent(out)   :: ierr      !< output error flag : no error=0 , error=1
@@ -170,5 +170,5 @@
           end if     ! ifunc > 0
 !------------------------------
           return
-        end
+        end subroutine mat_table_table_copy
       end module mat_table_table_copy_mod

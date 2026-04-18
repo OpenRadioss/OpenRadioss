@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,20 +27,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg             ../engine/source/output/message/message.F
 !||    arret              ../engine/source/system/arret.F
-!||    close_c            ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c          ../common_source/tools/input_output/write_routtines.c
+!||    close_c            ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c          ../common_source/tools/input_output/write_routines.c
 !||    dynain_c_strag     ../engine/source/output/dynain/dynain_c_strag.F
 !||    dynain_c_strsg     ../engine/source/output/dynain/dynain_c_strsg.F
 !||    dynain_node        ../engine/source/output/dynain/dynain_node.F
 !||    dynain_shel_mp     ../engine/source/output/dynain/dynain_shel_mp.F
 !||    dynain_shel_spmd   ../engine/source/output/dynain/dynain_shel_spmd.F
 !||    dynain_size_c      ../engine/source/output/dynain/dynain_size.F
-!||    open_c             ../common_source/tools/input_output/write_routtines.c
+!||    open_c             ../common_source/tools/input_output/write_routines.c
 !||    spmd_outpitab      ../engine/source/mpi/interfaces/spmd_outp.F
 !||    strs_txt50         ../engine/source/output/sta/sta_txt.F
 !||--- uses       -----------------------------------------------------
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod      ../common_source/modules/inoutfile_mod.F
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
@@ -63,6 +64,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD  
       USE STATE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,9 +99,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER CHSTAT*4,FILNAM*100,T10*10,MES*40
-      INTEGER FILEN,I,INNODA,IERR,J,N
-      INTEGER LENR,SIZLOC,SIZP0
+      CHARACTER CHSTAT*4, FILNAM*100, T10*10, MES*40
+      INTEGER FILEN, I, IERR, J, N
+      INTEGER SIZLOC, SIZP0
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: ITABG, NODTAG ,DYNAIN_INDXC ,
      .             DYNAIN_INDXTG
       INTEGER CTEXT(2149)
@@ -108,7 +110,7 @@ C-----------------------------------------------
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      LOGICAL IS_FILE_TO_BE_WRITTEN
+ 
       CHARACTER*100 LINE
 C-----------------------------------------------
 C   S o u r c e   L i n e s

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -112,7 +112,7 @@ C-----------------------------------------------
         !------------------------------------------------
         my_real PDISP_OLD, PDISP
         !-------------------------------
-        ! Donnees briques intersectantes
+        ! Interesting brick data
         !-------------------------------
         INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC 
         my_real, DIMENSION(:,:), POINTER :: XB
@@ -131,7 +131,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:,:), POINTER :: IFVTRI_ANIM
         my_real, DIMENSION(:,:), POINTER :: NOD_ANIM
         !------------------------
-        ! Polygones et polyhedres
+        ! Polygons and polyhedra
         !------------------------
         INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
      .                                    IFVPOLH, IFVPADR, IDPOLH,

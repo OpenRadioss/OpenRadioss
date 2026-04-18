@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,14 +48,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SIGSPH  ,ISPTAG   ,IPART,
      .                   IPM     ,NSIGSPH  ,PTSPH  ,NPF   ,
      .                   TF      ,ELBUF_STR,MCP    ,TEMP  ,ILOADP ,
-     .                   FACLOAD ,STIFINT  ,I7STIFS,GLOB_THERM)
+     .                   FACLOAD ,STIFINT  ,I7STIFS,GLOB_THERM,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE DETONATORS_MOD              
       USE ALE_CONNECTIVITY_MOD
-      use glob_therm_mod
+      USE GLOB_THERM_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,16 +94,17 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: STIFINT(NUMNOD)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       type (glob_therm_) ,intent(inout) :: glob_therm
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRT,IMAT,IG,N,I,M,J,INOD,IGTYP,IBID,NF1,NDEPAR,JJ,IP,II(6)
+      INTEGER IPRT,IMAT,IG,N,I,J,INOD,IGTYP,IBID,NF1,NDEPAR,JJ,IP,II(6)
       INTEGER MXT(MVSIZ),NGEO(MVSIZ),NC1(MVSIZ),NGL(MVSIZ)
       my_real
      .        VOL(MVSIZ),MASS(MVSIZ),RHO(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ),
      .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(MVSIZ)
       my_real
-     .        DIST,STI,FV,MP,BID,RHOCP
+     .        STI,FV,MP,RHOCP
       my_real :: TEMPEL(NEL)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -171,7 +173,7 @@ C error !
 C-----------------------------------------------
        NF1 =NFT+1
 C--------------------------------------------------
-C      NUMERO DE MATERIAU ET PID.
+C      MATERIAL NUMBER AND PID.
 C--------------------------------------------------
        DO I=LFT,LLT
         N=NFT+I
@@ -227,7 +229,7 @@ C--------------------------------------------------
      .            MXT     ,IPM    ,NSIGSPH    ,NUMSPHY   ,PTSPH  ,
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR,ILOADP ,
-     .            FACLOAD, DELTAX ,TEMPEL     )
+     .            FACLOAD, DELTAX ,TEMPEL     ,MAT_PARAM )
 C--------------------------------------------------
 C      INITIAL DIAMETER (Y files )
 C--------------------------------------------------
@@ -312,6 +314,4 @@ C--------------------------------------------------
 C--------------------------------------------------
       RETURN
 C--------------------------------------------------
- 999  CONTINUE
-      RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,8 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IP,N,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10,
-     .        M,IPERM(10,4),ICOR,NNEGA,INDEX(MVSIZ),J,NN
-      INTEGER ITER,NITER
+     . IPERM(10,4),ICOR,NNEGA,INDEX(MVSIZ),J,NN
       DOUBLE PRECISION
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
      .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),   
@@ -227,28 +226,56 @@ C
           ENDIF
         ENDDO
       ENDDO
-C-------------attention, /STOP /DEL are not implemented
+C-------------
       IF(JLAG/=0)THEN
        IF(ICOR/=0.AND.INCONV==1)THEN
-       DO IP=1,NPT
-        DO I=1,NEL
-          IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
-          ELSEIF(VOL(I,IP)<=ZERO)THEN
-            NNEGA=NNEGA+1
-              INDEX(NNEGA)=I
+          IF (INEG_V==0) THEN   ! /NEGVOL/STOP
+            DO IP=1,NPT ! avoid useless warnings
+              DO I=1,NEL
+                IF(VOL(I,IP)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                  VOL(I,IP)=ONE
+                  OFFG(I)=ZERO
 #include "lockon.inc"
-           IF(ISMSTR<10) THEN
-              CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             ELSE
-              CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             END IF
+                  CALL ANCMSG(MSGID=320,ANMODE=ANINFO,I1=NGL(I))
 #include "lockoff.inc"
-            OFFG(I) = TWO
-          ENDIF
-        ENDDO
-       ENDDO
+                END IF
+              END DO
+            END DO
+           MSTOP = 1
+          ELSE IF (INEG_V==2) THEN  !deletion
+            DO IP=1,NPT
+              DO I=1,NEL
+                IF(VOL(I,IP)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                  VOL(I,IP)=ONE
+                  OFFG(I)=ZERO
+#include "lockon.inc"
+                  CALL ANCMSG(MSGID=319,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+                  IDEL7NOK = 1
+                END IF
+              END DO
+            END DO
+          ELSE 
+            DO IP=1,NPT
+             DO I=1,NEL
+               IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
+               ELSEIF(VOL(I,IP)<=ZERO)THEN
+                 NNEGA=NNEGA+1
+                   INDEX(NNEGA)=I
+#include "lockon.inc"
+                 IF(ISMSTR<10) THEN
+                    CALL ANCMSG(MSGID=260,ANMODE=ANINFO,
+     .                          I1=NGL(I))
+                 ELSE
+                    CALL ANCMSG(MSGID=262,ANMODE=ANINFO,
+     .                          I1=NGL(I))
+                 END IF
+#include "lockoff.inc"
+                OFFG(I) = TWO
+              ENDIF
+             ENDDO
+            ENDDO
+          END IF !(INEG_V==0) THEN   
        END IF!(ICOR/=0.AND.INCONV==1)THEN
       ENDIF !(JLAG/=0)
 C     
@@ -378,15 +405,6 @@ C
       DO I=1,NEL
         VOLN(I) =VOLG(I)/NPT
       ENDDO
-C-----------
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 10 NODES TETRAHEDRON NB ',I10,
-     .        ' INTEGRATION POINT NB ',I1/)
- 1100 FORMAT(/' ZERO OR NEGATIVE VOLUME : 4 NODES TETRAHEDRON NB ',I10,
-     .        ' INTEGRATION POINT NB ',I1/)
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
- 3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
- 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/) 
 C-----------
       RETURN
       END

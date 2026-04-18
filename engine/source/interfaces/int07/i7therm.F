@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,12 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    i7therm    ../engine/source/interfaces/int07/i7therm.F
+!||    i7therm       ../engine/source/interfaces/int07/i7therm.F
 !||--- called by ------------------------------------------------------
-!||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
-!||    i7mainf    ../engine/source/interfaces/int07/i7mainf.F
+!||    i20mainf      ../engine/source/interfaces/int20/i20mainf.F
+!||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
 !||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
+!||    finter        ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I7THERM(JLT  ,IPARG ,PM    ,IXS   ,IFORM  ,X     ,
      1                   XI   ,YI    ,ZI    , X1    ,Y1    ,Z1    ,
@@ -39,6 +41,7 @@ C
      6                   CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                   FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
      8                   H4   ,theaccfact)     
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,20 +75,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II,L,NB3M, I3N,LS,J,IE,MAT
+      INTEGER I,MAT
 C     REAL
       my_real
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
-     .   AREAM ,TS, VOLM, TSTIF, TM,TSTIFM,
-     .   TSTIFT,AX,AY,AZ,DIST, NORM,COND,P,RSTIFF,
-     .   AX1,AY1,AZ1,AX2,AY2,AZ2,AREA,AREAC,PHIM
+     .   TS, TM,TSTIFM,
+     .   TSTIFT,DIST, NORM,COND,P,RSTIFF,
+     .   AREAC,PHIM
       my_real 
      .   FINTER 
       EXTERNAL FINTER
 C-----------------------------------------------
       IF(IFUNCTK==0)THEN ! KTHE =/ F(PEN)
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C     
        DO I=1,JLT
@@ -95,7 +98,7 @@ C
          CONDINT(I) = ZERO
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -103,7 +106,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -116,8 +119,8 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
-C              ET  LA  SURFACE (SURFACE NODALE)
+C         CALCULATION DISTANCE ENTRE LE NODE SECOND. 
+C              and the surface (nodal surface)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
 
@@ -206,7 +209,7 @@ C---------------------------------
          ENDDO
        ELSE
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C     
        DO I=1,JLT
@@ -214,7 +217,7 @@ C
 C
          TS = TEMPI(I)  
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -222,7 +225,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -235,8 +238,8 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
-C              ET  LA  SURFACE (SURFACE NODALE)
+C         CALCULATION DISTANCE ENTRE LE NODE SECOND. 
+C              and the surface (nodal surface)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
 
@@ -266,7 +269,7 @@ C---------------------------------
               MAT = IELECI(I)
 
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
               P      = XTHE * ABS(FNI(I)) / AREAC
               RSTIFF  = RSTIF / MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX))
@@ -304,7 +307,7 @@ C---------------------------------
      .               * (TM + TS) * (TM- TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
               P      = XTHE * ABS(FNI(I)) / AREAC
               RSTIFF  = RSTIF / MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX))

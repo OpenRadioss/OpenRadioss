@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,5 +38,5 @@
         integer :: len1               ! Length of line to write
         character(len=len1)  :: line  ! Line to write
 !-----------------------------------------------
-        write(fd,'(a)') line(1:len1)
+        write(fd,"(a)") line(1:len1)
       end subroutine write_out_file

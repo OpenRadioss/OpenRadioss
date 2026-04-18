@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,13 +35,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
      .            MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numeltg,iworksh,elm_group)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
       USE DDWEIGHTS_MOD
       USE MID_PID_MOD
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,12 +57,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NUMELC,OFF,
+      INTEGER  OFF,
      .  NUMMAT,NUMGEO,IXC(NIXC,*),
      .  IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),TABMP_L
       INTEGER, INTENT(IN) :: SIZE_IRUP ! maximum number of rupture criteria
-
-C     REAL OU REAL*8
+      integer, intent(in) :: numelc !< number of shell elements
+      integer, intent(in) :: numeltg ! number of shell3n elements
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),BUFMAT(*)
       REAL WD(*)
@@ -72,14 +74,16 @@ C     REAL OU REAL*8
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_SHELL
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_SHELL
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
+      integer, dimension(numelc,2), intent(in) :: elm_group !< group id & number of element in the group for each element 
 C-----------------------------------------------
-      INTEGER  NPN, MID, PID, JHBE, IGT, MLN,
-     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
-     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,
-     .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
-     .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
-     .    I_PRO,ISOL2,MUID_OLD,PUID_OLD,
-     .    TEST,NFUNC1,NFUNC2,NFAIL,IRUP2,II,IRUP_TAB(SIZE_IRUP),
+      INTEGER  NPN, MID, PID, MLN,
+     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, I, J,
+     .    NFUNC,
+     .    
+     .    
+     .    
+     .    NFAIL,IRUP2,II,IRUP_TAB(SIZE_IRUP),
      .    INDI,IAD,INDI2,MULT,IDRIL
       INTEGER :: INDI3,IGTYP,INDI4,INDI5
 
@@ -88,9 +92,9 @@ C-----------------------------------------------
       INTEGER :: SPECIAL_OPTION,SPE_I_1,SPE_I_2,SPE_I_3
            
       REAL
-     .   WTYPE(9),FWIHBE,FAC8,
-     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
-     .   BATOZMULT,TMAT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
+     .   WTYPE(9),
+     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,
+     .   BATOZMULT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
      .   WD_LOCAL,MULT_SPE,VISC_PRONY
            
       my_real
@@ -140,7 +144,8 @@ C-----------------------------------------------
         ENDIF
         ! -----------------
         NPN = NINT(GEO(6,PID))
-        NPT = ABS(NPN)
+        NPT = ABS(NPN) ! get the number of integration points
+        if(iworksh(2,i)>0) npt = iworksh(2,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
         IHBE = NINT(GEO(171,PID))
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
@@ -157,6 +162,7 @@ C-----------------------------------------------
           IRUP_TAB(J) = MAT_PARAM(MID)%FAIL(J)%IRUPT
          ENDDO
         ENDIF
+        telt = 0.
         TIMMAT = 0.
         TRUP = 0.
         TMATADD = 0.
@@ -387,7 +393,6 @@ C ow        test elem delete
                   TABMAT(J) = SHTNL(MIN(MLN,MAXLAW),J,INDI) + TMATADD
                 ENDDO
                 ! *******--------*******
-                NPT = ABS(NPN)
                 CALL INTERLAGRAN(TABMAT,TABX,3,NPT,TIMMAT)
 !               ----------------
 !               Failure 
@@ -410,7 +415,7 @@ C           0pt d integration doit etre traite a part
                 TIMMAT =  SHTNL(MIN(MLN,MAXLAW),0,INDI) + TMATADD
                 ! *******--------*******
 !               ----------------
-!               Failure incompatible N=0
+!               Incompatible failure n = 0
                 IF(NFAIL/=0) THEN
                  TRUP = 0.
                 ENDIF          !   <--- fin NFAIL/=0
@@ -436,7 +441,7 @@ C           0pt d integration doit etre traite a part
          INDI5 = 0
          IF(IDRIL==1) INDI5=2
 
-         IF(MLN/=0)THEN
+         IF(MLN/=0.and.wd_local==0.)THEN
            IF (IHBE>=11.AND.IHBE<=19) THEN
 C ow            BATOZ
                  TELT = SHTELT(INDI4*5+3+INDI5)+BATOZMULT*(TIMMAT + TRUP) + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY
@@ -453,18 +458,21 @@ C ow            Q4
 
         ! --------------------
         IF(RECHERCHE==0) THEN
-         IF((WD_LOCAL==0.).AND.(MLN/=0)) THEN
-           POIDS = TELT * INVTREF
-           WD(I+OFF) = POIDS
-           POIN_PART = IPARTC(I)
-           POIN_MID = POIN_PART_SHELL(1,POIN_PART)
-           POIN_PID = POIN_PART_SHELL(2,POIN_PART)
-           IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SHELL(POIN_MID)%COST1D(POIN_PID) = TELT
-         ELSEIF((WD_LOCAL==0.).AND.(MLN==0)) THEN
-           WD(I+OFF) = 0.0001
-         ENDIF
+          IF((WD_LOCAL==0.).AND.(MLN/=0)) THEN
+            if(elm_group(i,2)>0.and.elm_group(i,2)<80) then
+              telt = telt * (18.248*(elm_group(i,2))**(-0.625))
+            endif                   
+            POIDS = TELT * INVTREF     
+            WD(I+OFF) = POIDS
+            POIN_PART = IPARTC(I)
+            POIN_MID = POIN_PART_SHELL(1,POIN_PART)
+            POIN_PID = POIN_PART_SHELL(2,POIN_PART)
+            IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SHELL(POIN_MID)%COST1D(POIN_PID) = TELT
+          ELSEIF((WD_LOCAL==0.).AND.(MLN==0)) THEN
+            WD(I+OFF) = 0.0001
+          ENDIF
         ELSE
-         TELT_PRO = TELT
+          TELT_PRO = TELT
         ENDIF
         ! --------------------
       ENDDO

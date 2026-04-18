@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C     REAL
      .        VZS1(MVSIZ), VZS2(MVSIZ), VXM1(MVSIZ), VXM2(MVSIZ),
      .        VYM1(MVSIZ), VYM2(MVSIZ), VZM1(MVSIZ), VZM2(MVSIZ),
      .        MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ),
-     .        GAPV(MVSIZ), STIF(MVSIZ), KMIN, KMAX, DRAD,
+     .        GAPV(MVSIZ), STIF(MVSIZ), KMIN, KMAX,
      .        GAP_S_L(*),GAP_M_L(*),TEMP(*),AREAS(*),AREAM(*),
      .        TEMPI1(MVSIZ),TEMPI2(MVSIZ),TEMPM1(MVSIZ),TEMPM2(MVSIZ),
      .        AREAC(MVSIZ)
@@ -92,7 +92,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,NN ,NI ,L
       my_real
-     .        TM,DIST,SECS,SECM,XS,YS,ZS,XM,YM,ZM,LS,LM,CT,ST,AREA1,AREA2
+     .        SECS,SECM,XS,YS,ZS,XM,YM,ZM,LS,LM,CT,ST,AREA1,AREA2
 C-----------------------------------------------
 C
       IF(IGAP==0)THEN
@@ -270,7 +270,7 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I)<=NRTS) THEN
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -280,13 +280,13 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
              IELECI(I)= IELEC(CAND_S(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS =AREASFI(NIN)%P(NN)
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -296,7 +296,7 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
 
@@ -309,7 +309,7 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I)<=NRTS) THEN
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     main EDGE AREA
              SECM=AREAM(CAND_M(I))
@@ -332,7 +332,7 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)
 
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
 C     main TEMPERATURE
@@ -343,7 +343,7 @@ C     main TEMPERATURE
              IELESI(I)= IELES(CAND_M(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SECND NODAL AREA
+C     SECOND NODAL AREA
              SECS =AREASFI(NIN)%P(NN)
 C     main EDGE AREA
              SECM =AREAM(CAND_M(I))
@@ -366,7 +366,7 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)*HALF
 
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
 C     main TEMPERATURE

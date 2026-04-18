@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,20 +84,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NELTG,IGTYP,IPGMAT,IGMAT,
+     .   MG, NUM, NPT, LL, NELTG,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK, IG, IL
 C     REAL
       my_real
-     .   DXM, AREA, VOL, DX, GAPTMP,SLOPE,STFMIN
+     .   DXM, AREA, VOL, DX,SLOPE,STFMIN
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF THE STIFFNESSES OF THE SEGMENTS AND NODES
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, THE STIFFNESS OF THE SHELL IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
       DXM=ZERO
       NDX=0
@@ -445,7 +446,7 @@ C---------------------------
         ENDIF
       ENDIF
 C---------------------------------------------
-C     CALCUL DES RIGIDITES NODALES
+C     CALCULATION OF NODE STIFFNESSES
 C---------------------------------------------
       DO J=1,NSN
         NUM=NSEG(J+1)-NSEG(J)

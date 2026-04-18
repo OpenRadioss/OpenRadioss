@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD 
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, SET_ID,NSET_G,NSET_COL,OFFSET,NSET1,NSET2
+      INTEGER I, SET_ID, NSET_G, NSET_COL, NSET1, NSET2
       INTEGER, DIMENSION(:),ALLOCATABLE :: ISORT,ISORT2,SAV,SAV2
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX_SORT,INDEX_SORT2
       INTEGER, DIMENSION(70000) :: IWORK

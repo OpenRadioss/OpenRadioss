@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -79,7 +79,7 @@ C I N P U T A r g u m e n t s
 C-----------------------------------------------
        INTEGER, INTENT(IN) :: ILAY,IPTT,IPG
        INTEGER NEL,  NUVAR, NGL(NEL),
-     .   IPT,NPT0,NOFF(NEL)
+     .   IPT,NPT0
        my_real TIME,UPARAM(*),DPLA(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSXY(NEL),
      .   EPSYZ(NEL) ,EPSZX(NEL),
@@ -90,14 +90,14 @@ C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------
        INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF
-       my_real UVAR(NEL,NUVAR), OFF(NEL),OFFL(NEL),
+       my_real UVAR(NEL,NUVAR), OFF(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),UEL(NEL),
      .   SIGNXY(NEL)
 
 C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,NINDX,LEN
+       INTEGER I,J,NINDX
        INTEGER, DIMENSION(NEL) :: INDX
        my_real   E_HYD,E_11,E_22,E_33,E_12,E_23,E_13,
      .           EEQ,D_EEQ,SIG_11,SIG_A,SIG_B
@@ -130,7 +130,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             
             EEQ   = E_11**2 + E_22**2 + E_33**2
             EEQ   = EEQ + TWO * (E_12**2) + TWO * (E_23**2) + TWO * (E_13**2)
-            EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
+            EEQ   = 0.8164965809 * SQRT(EEQ) ! SQRT (2/3)*SQRT (...)
             
             D_EEQ = EEQ - UVAR(I,1)
             IF (D_EEQ <= ZERO) D_EEQ = ZERO

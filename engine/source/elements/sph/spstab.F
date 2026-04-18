@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,12 +66,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS, INOD, JNOD, M, NVOIS, NN, 
-     .        NSPACTF, NSPACTL, IPRT, IGEO, ID, IS,
-     .        NVOISS, JS, SM, NC, IACT
+      INTEGER  J, N, NS, INOD, JNOD, M, NVOIS, NN, 
+     .        NSPACTF, NSPACTL, IPRT, IGEO,
+     .          IACT
       my_real
-     .       XI, YI, ZI, XJ, YJ, ZJ, DI, DMIN, DD, WGHT,
-     .       XS, YS, ZS, ZSTAB,NUL,UNO
+     .       XI, YI, ZI, DI, DD, WGHT,
+     .          ZSTAB,NUL,UNO
 C-----------------------------------------------
       NUL=ZERO
       UNO=ONE
@@ -89,8 +89,8 @@ C-----------------------------------------------
         IGEO  =IPART(2,IPRT)
         ZSTAB =GET_U_GEO(7,IGEO)
 C
-C indique si il faut calculer SI =-MAX(ZERO,SI)
-C         <=> ZSTAB/=0 et il existe voisin a prendre en compte dans spforcp.F
+C Indicate if it is necessary to calculate if = -Max (zero, if)
+C         <=> zstab/= 0 and there is neighbor to take into account in Sporcp.f
         STAB(7,N)=ZERO
         IF(ZSTAB/=ZERO.AND.NVOIS/=0)THEN
           IACT=0
@@ -182,14 +182,14 @@ C-----------------------------------------------
       INTEGER I, J, N, NINDX, INDEX(MVSIZ), KS, JS, SM, SS, KR, NR,
      .        IG, NELEM, NG, OFFSET, NEL,
      .        NC, IC, IS, ISLIDE, NSPHRFT, NSPHRLT, L, SIZE,
-     .        NS, INOD, JNOD, M, NVOIS, 
+     .          
      .        NSPACTF, NSPACTL
       my_real
      .       SIGPRV(3,MVSIZ), DIRPRV(3,3,MVSIZ),
-     .       R1, R2, R3, XI, YI, ZI, XJ, YJ, ZJ, DI, DMIN, DD, WGHT,
-     .       XS, YS, ZS, SIG(6,MVSIZ)
+     .       R1, R2, R3,
+     .          SIG(6,MVSIZ)
 C-----------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c------------------------
@@ -323,7 +323,7 @@ c          STAB(6,KR)=ZERO
       END DO
 C----------------------------------
 C
-C Particules symetriques
+C Symmetrical particles
 C
 C     /---------------/
        CALL MY_BARRIER
@@ -412,7 +412,7 @@ c          STAB(6,KS)=ZERO
       END DO
 C-----
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
       DO NC=1,NSPCOND
         IC=ISPCOND(2,NC)
@@ -520,7 +520,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, II, NN, LMAX, LMAXV(MVSIZ),
+      INTEGER   N, II, NN, LMAX, LMAXV(MVSIZ),
      .       NINDEX1, NINDEX2, NINDEX3, 
      .       INDEX1(MVSIZ), INDEX2(MVSIZ), INDEX3(MVSIZ)
       my_real
@@ -528,21 +528,21 @@ C-----------------------------------------------
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     PRINCIPAL STRESS DEVIATOR
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on REAL or DOUBLE type
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -583,7 +583,7 @@ C
         VAL(1,NN) = STR(1,NN)-PR
         VAL(2,NN) = STR(2,NN)-PR
         VAL(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression----
+C accuracy reinforcement in compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -795,10 +795,10 @@ C
         VEC(8,NN)=VEC(3,NN)*VEC(4,NN)-VEC(1,NN)*VEC(6,NN)
         VEC(9,NN)=VEC(1,NN)*VEC(5,NN)-VEC(2,NN)*VEC(4,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod        ../engine/share/modules/cluster_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    stack_mod          ../engine/share/modules/stack_mod.F
 !||    th_mod             ../engine/share/modules/th_mod.F
@@ -53,6 +54,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: SITHBUF
-      INTEGER MBUFFER, NPARTL,NTHGRP2
+      INTEGER  NTHGRP2
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*),
      .   ITHGRP(NITHGR,*),ITHBUF(SITHBUF),IXR(NIXR,*),WEIGHT(NUMNOD)
       INTEGER, INTENT(in) :: ID
@@ -78,8 +80,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,M,N,II,JJ,IP,NP,NN,NG,ITY,NEL,NFT,N1,N2,NPT,NRWA,
-     .   JALE,FSAVMAX,PROC,NVAR,IAD,ITYP,IADV,FIRST,KRBHOL,ISKN,NNOD,ELTYPE
+      INTEGER I,J,N,
+     .   ELTYPE
       INTEGER :: MY_SIZE,TOTAL_INDEX_WA_SIZE,IJK
       INTEGER, DIMENSION(NTHGRP2+1) :: LOCAL_WA
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_WA_ELTYPE_P0,INDEX_WA_SIZE_P0

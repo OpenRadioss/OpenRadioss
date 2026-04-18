@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       use glob_therm_mod
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,15 +96,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NVC, IHBE, ISOLNOD, NDDIM, ILEV,NRIG_MAT,NUMEL,
-     .        NINDX,ISUBSTACK,NEL
+      INTEGER :: NVC, IHBE, ISOLNOD, NUMEL,NINDX,ISUBSTACK,NEL
       INTEGER ,INTENT(IN) :: IGTYP
-      INTEGER IXC(NIXC,*),IXS(NIXS,*),IXTG(NIXTG,*),IXS10(6,*),
-     .        IPARTS(*),IPARTC(*),IPARTT(*),IGEO(NPROPGI,*),
-     .        NSHNOD(*), SH4TREE(KSH4TREE,*), SH3TREE(*),
-     .        IRIG_NODE(*) ,CONNEC(NUMEL, 10),SH3TRIM(*)
-      INTEGER *8 I8MI(6,*),IPM(NPROPMI,*),PERTURB(NPERTURB)
-      my_real 
+      INTEGER :: IXC(NIXC,*),IXS(NIXS,*),IXTG(NIXTG,*),IXS10(6,*),
+     .          IPARTS(*),IPARTC(*),IPARTT(*),IGEO(NPROPGI,*),
+     .          NSHNOD(*), SH4TREE(KSH4TREE,*), SH3TREE(*),
+     .          IRIG_NODE(*) ,CONNEC(NUMEL, 10),SH3TRIM(*)
+      INTEGER*8 :: I8MI(6,*),IPM(NPROPMI,*),PERTURB(NPERTURB)
+      my_real ::
      .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*), 
      .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*), 
      .   X(3,*),V(3,*),VEUL(LVEUL,*),DTELEM(*),PARTSAV(20,*),
@@ -118,11 +118,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  NDEPAR, NDSA,NC(20),N,JJ,KK,J,K,IP,NF1,NF2,
-     .   ILAW,IMAT,IPROP,IBID(MVSIZ),NREFSTA,IMAS_DS
-      INTEGER NC10(MVSIZ,10)
+      INTEGER :: I,  NDEPAR, NC(20),N,JJ,J,IP,NF1,NF2,IMAT,IPROP,IBID(MVSIZ),NREFSTA,IMAS_DS
+      INTEGER :: NC10(MVSIZ,10)
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8,MXT,PID,NGL
-      my_real
+      my_real ::
      .   VOID(MVSIZ), 
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,SX(MVSIZ) ,
      .   SY(MVSIZ) ,SZ(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
@@ -152,7 +151,7 @@ C
       TYPE (STACK_PLY) :: STACK
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE+NUMELTG_DRAPE), TARGET :: DRAPE
 
-      DOUBLE PRECISION 
+      DOUBLE PRECISION ::
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -311,7 +310,7 @@ C Solid 8 nodes brick
          TEMP0(I) = ZERO 
         ENDDO
 C
-C Creation de la dependance au mat_rigid
+C Creation of the dependency on mat_rigid
         DO I=1,NEL
           N = I + NFT
           NINDX = NINDX + 1
@@ -369,7 +368,7 @@ C
      5         MCPS(1,NFT+1),MSSA         ,BID    ,BID        ,FILL, 
      6         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C  
-C Element time step
+C Time Step element
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,  
      .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO,IGTYP)  
 C

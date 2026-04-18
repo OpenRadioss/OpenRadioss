@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,14 +31,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE FXBYPID(IPARG ,         IXS   , IXQ   , IXC       ,
+      SUBROUTINE FXBYPID(OUTPUT,IPARG ,         IXS   , IXQ   , IXC       ,
      .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    , 
      .                   FXBNOD, ONOF  , ITAG  , ONFELT, ELBUF_STR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      USE OUTPUT_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*), 
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
      .        FXBIPM(*),FXBNOD(*),ONOF,ITAG(*),ONFELT
@@ -61,7 +66,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN,NG,MLW,ITY,NEL,NFT,IAD,I,II,NALL,IGOF,ISHFT,IWIOUT
+      
+      INTEGER NSN,NG,MLW,ITY,NEL,NFT,IAD,I,II,NALL,IGOF,IWIOUT
       my_real,
      .    DIMENSION(:), POINTER :: OFFG
 C-----------------------------------------------
@@ -236,7 +242,7 @@ C----------------------------------------
 C------------------------------
 C     7. 3-nodes shell elements
 C------------------------------
-       ELSEIF(ITY == 7 .and. MLW /= 0)THEN       ! loi0, pas de off
+       ELSEIF(ITY == 7 .and. MLW /= 0)THEN       ! law0, no off
          OFFG => ELBUF_STR(NG)%GBUF%OFF
          DO I=1,NEL
           II=I+NFT

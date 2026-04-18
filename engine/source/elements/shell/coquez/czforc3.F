@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,6 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dt_mod              ../engine/source/modules/dt_mod.F
 !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -111,7 +112,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
      T   IGRE,        JTUR,        DT,          NCYCLE,
      U   SNPC,        STF,         GLOB_THERM,  IDEL7NOK,
-     U   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     U   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -128,6 +129,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       use dttherm_mod
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -160,14 +162,14 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)    :: SNPC        ! Size of NPC
       INTEGER JFT,JLT,NFT,NPT,MTN,IPRI,ITHK,NELTST,
      .   ITYPTST ,ISTRAIN ,IPLA,NVC,JSMS,ITASK,IEXPAN,IXFEM,
-     .   IOFC,IHBE,KFTS,ISMSTR,IFAILURE,JTHE,ISUBSTACK,NEL,N1,N2,N3,N4
+     . IOFC,IHBE,KFTS,ISMSTR,IFAILURE,JTHE,ISUBSTACK,NEL
       INTEGER IXC(NIXC,*),IADC(4,*),IPARTC(*),NPF(*),IGEO(NPROPGI,*),
      .   IPM(NPROPMI,*),INDXOF(MVSIZ),GRTH(*),IGRTH(*),IPARG(*),ITAB(*),
      .   KNOD2ELC(*),XEDGE4N(4,*),
      .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),
      .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*),INDX_DRAPE(SCDRAPE)
       INTEGER :: IGRE,JTUR
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -194,18 +196,22 @@ C     REAL OU REAL*8
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_)         ,INTENT(IN)    :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer, intent(in) :: LIPART1
+ 
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
       LOGICAL PLAT(MVSIZ)
       INTEGER 
-     .   I,J,IR,IS,MX,NNOD,NUPAR,NLAY,NXLAY,ILAY,NPG,IXEL,IFAILWAVE,
+     . I,J,IR,IS,NNOD,NLAY,NXLAY,ILAY,NPG,IXEL,IFAILWAVE,
      .   IBID,ISROT,NG,IXFEM2,L_DIRA,L_DIRB,J1,J2,IORTH,IGTYP,IGMAT,IXLAY,
      .   NPTTOT,IREP,IPOUT,IDRAPE,NPTT,IT,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
       PARAMETER (NNOD = 4)
       my_real 
-     .  RH0(MVSIZ),LL(MVSIZ),
+     . LL(MVSIZ),
      .  VL13(MVSIZ,3), VL24(MVSIZ,3), VLHI(MVSIZ,3), RLXYZ(MVSIZ,8),
      .  X13(MVSIZ),  X24(MVSIZ),  Y13(MVSIZ),  Y24(MVSIZ),
      .  MX13(MVSIZ), MX23(MVSIZ), MX34(MVSIZ),
@@ -222,7 +228,7 @@ C--------------------------------
      .  ALPE(MVSIZ),YM(MVSIZ) ,BID,FACN(MVSIZ,2),
      .  LXYZ(MVSIZ,8),DD(MVSIZ,6),DB(MVSIZ,12),AMU(MVSIZ),
      .  GSR(MVSIZ), A11SR(MVSIZ), A12SR(MVSIZ), NUSR(MVSIZ),
-     .  SHFSR(MVSIZ),PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),PX1(MVSIZ),
+     . SHFSR(MVSIZ),PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),
      .  DIE(MVSIZ), TEMPEL(MVSIZ),THEM(MVSIZ,4),
      .  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .  R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -256,12 +262,13 @@ C--------------------------------
       my_real :: dtinv,asrate,eps_m2,eps_k2
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat    !  variable for heat transfer
+      my_real, dimension(mvsiz) :: ssp_eq    !  for time step compute
 !
-C--- Variables pour le non-local
+C--- variables for the non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, IMAT, INLOC,IINT
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
-      my_real, DIMENSION(:), POINTER :: BPRELD,DNL,UVAR
+      my_real, DIMENSION(:), POINTER :: DNL, UVAR
 C---
       INTEGER, DIMENSION(NEL) :: OFFLY
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
@@ -269,9 +276,9 @@ C---
       my_real, DIMENSION(:) ,POINTER     :: DIR_A,DIR_B,CRKDIR,CRKLEN,DADV
       TARGET :: DIRA,DIRB
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
@@ -311,7 +318,7 @@ C
       ENDDO
       UVAR  => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
 !-------------------------------------------      
-! Tableau pour la variable non-locale
+! array for the non-local variable
       NDDL = NPTTOT
       ALLOCATE(VAR_REG(NEL,NDDL)) 
 !-------------------------------------------
@@ -470,7 +477,7 @@ C
      4               DRAPE_SH4N  ,NFT  ,NEL    ,INDX_DRAPE , THKE,
      5               SEDRAPE,NUMEL_DRAPE       ,MAT_ELEM )
 C----------------------------------
-C     CALCUL VITESSE DE DEFORMATION 
+C     calculation of strain rate
 C----------------------------------
         CALL CZDEF(JFT     ,JLT   ,AREA ,A_I  ,VL13   ,VL24  ,
      2             VLHI    ,RLXYZ ,VDEF ,DHG  ,X13    ,
@@ -509,7 +516,7 @@ C
      3               Z1  ,WXY)
       END IF !(ISMSTR == 10 ) THEN
 C----------------------------------
-C     CALCUL DES DEFORMATIONS 
+C     calculation of strains
 C----------------------------------
       CALL CZSTRA3(JFT    ,JLT    ,NFT   ,VDEF ,GBUF%STRA,
      2             EXX    ,EYY    ,EXY   ,EXZ  ,EYZ      ,  
@@ -576,6 +583,7 @@ c-------------------------------------------
         eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
+      gbuf%epsd(1:nel) = asrate * epsd_pg(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
 !-------------------------------------------------------------------------------
       ! transfer nodal temperature to gauss points (/heat/mat)
       IF (JTHE /= 0) THEN      
@@ -613,13 +621,14 @@ C-----------------------------------------------
      R      INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT    ,
      Q      NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S      USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
-     T      SDIR_B   ,GBUF%FOR_G )
+     T      SDIR_B   ,GBUF%FOR_G ,SSP_EQ    ,
+     X    IPART      ,LIPART1   ,IPARTC   )
 
 C-----------------------------------------------
 c        
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
        IPOUT=2
       IF (IPRI == 1)
@@ -647,7 +656,7 @@ C
      5        IOFC  ,NNOD ,AREA,G  ,SHF   ,
      6        MSC   ,DMELC,JSMS,BID , IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT),NEL, ZOFFSET)
+     8        PM     ,MAT(JFT),NEL, ZOFFSET,SSP_EQ )
 c-------------------------------
          CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I     ,X13     ,
      2                 X24  ,Y13  ,Y24  ,Z1   ,MX23    ,MX13    ,
@@ -749,7 +758,7 @@ c-------------------------------
      8            Z1     ,LXYZ   ,DD     ,DB     ,LXYZ,
      9            ISROT  ,DIZ    ,VMZ    )
 C-------------------------
-c     Thermique des coques 
+c     shell thermal
 C--------------------------
         IF (JTHE /= 0) THEN  
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
@@ -766,7 +775,7 @@ c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+           call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
      .                  jtur    ,tempel  ,vol0    ,rho       ,
      .                  ll      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
         ENDIF
@@ -808,7 +817,7 @@ C--------------------------
      C                FTHESKY  ,CONDNSKY,CONDE   ,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-------------------------
-c     Fissure des coques 
+c     shell cracking
 C--------------------------
       IF (IXFEM > 0) THEN
         DO ILAY=1,NXLAY

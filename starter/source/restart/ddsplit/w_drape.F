@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,8 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, EL, J,NPT,NDIM,IDX,NUMELDRP_L,NDIM_SLICE,
-     .        NDIM_INDX_PLY,K,II,IS,NEL,NSLICE,NELDRP_L,NPT_DRP
+      INTEGER I, J,NPT,NDIM,NDIM_SLICE,
+     .        NDIM_INDX_PLY,II,IS,NEL,NSLICE,NELDRP_L,NPT_DRP
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
       my_real, DIMENSION(:)  , ALLOCATABLE :: THK
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP

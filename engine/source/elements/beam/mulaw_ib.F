@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -104,7 +104,7 @@ C
         II(I) = NEL*(I-1)
       ENDDO
 C-------------------------------------
-C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
+C     START OF LOOP OVER INTEGRATION POINTS
 C--------------------------------------
       DO IPT=1,NPT
         ILAYER=1
@@ -158,7 +158,7 @@ c---    Total strain
         ENDIF
 C
 C----------------------------------------------------------------
-C       CONTRAINTES ELASTO-PLASTIQUES (LOIS DE COMPORTEMENT)
+C       ELASTO-PLASTIC STRESSES (CONSTITUTIVE LAWS)
 C------------------------------------------
         SELECT CASE(MTN)
 C---
@@ -186,7 +186,7 @@ C---
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSP     ,
      4         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,NUVAR    ,
      5         UVAR     ,IFUNC    ,NVARTMP  ,VARTMP   ,NPF      ,
-     6         TF       ,NFUNC    ,SIGY_IPT)
+     6         TF       ,NFUNC    ,SIGY_IPT,NGL ,IPT)
 C---
           CASE (71)
             CALL SIGEPS71PI(
@@ -216,7 +216,7 @@ C---    Save stress components
           SIGY(I,IPT) = SIGY_IPT(I)
         ENDDO
 C-------------------------------------
-C       FIN DE BOUCLE SUR POINT INTEGRATION
+C       END OF LOOP OVER INTEGRATION POINTS
 C-------------------------------------
       ENDDO
 C------------------------------------------

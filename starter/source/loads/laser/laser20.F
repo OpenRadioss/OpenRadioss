@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER IL, NG, ITY, NFT, NEL, I, NE1, NE2, NFOUND, N1, J, N2 , II, NEXT
       LOGICAL lFOUND
 C--------------------------------------------------
-C RECHERCHE DU GROUPE ET  DU NUMERO DANS LE GROUPE
+C search for the group and the number in the group
 C--------------------------------------------------
       DO IL=1,NL+1
         NEXT = LAS(1,IL)
@@ -74,7 +74,7 @@ C--------------------------------------------------
 C
 C
 C---------------------------------
-C RECHERCHE DES NOEUDS DE SURFACE 
+C search for surface nodes
 C---------------------------------
       NE1  = LAS(2,NL) + IPARG(3,LAS(1,NL))
       NE2  = LAS(2,NL+1) + IPARG(3,LAS(1,NL+1))

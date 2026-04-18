@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,10 @@
 !||    resol_init                ../engine/source/engine/resol_init.F
 !||====================================================================
       module inter_sh_offset_ini_mod
+      implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do the initialization for offset treatment
+!!\brief This subroutine performs the initialization for offset treatment
 !=======================================================================================================================
 !||====================================================================
 !||    inter_sh_offset_ini       ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
@@ -73,13 +74,13 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ngroup           !< number of elem group
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                          :: npropg           !< 1er dim of geo
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
+          integer, intent (in   )                          :: npropg           !< first dimension of geo
           integer, intent (in   )                          :: numgeo           !< number of prop
           integer, intent (in   )                          :: numelc           !< number shell 4n element
-          integer, intent (in   )                          :: nixc             !< 1er dim of ixc
+          integer, intent (in   )                          :: nixc             !< first dimension of ixc
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
-          integer, intent (in   )                          :: nixtg            !< 1er dim of ixtg
+          integer, intent (in   )                          :: nixtg            !< first dimension of ixtg
           integer, intent (in   )                          :: numnod           !< number node
           integer, intent (in   )                          :: nspmd            !< number of domains
           integer, intent (in   )                          :: sfr_elem         !< number of comm nodes
@@ -96,8 +97,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,n,nel,nft,nn,ie,ii,igtyp,nf1,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
-          integer :: ibid(1),ndim1,ndim2,nsh_oset_g,nfr
+          integer :: i,j,k,n,nel,nft,nn,ie,ii,igtyp,ity,nnode,pid,nshel,ng,stat,lenr,nsh_oset,nnoset
+          integer :: ibid(1),ndim1,ndim2,nfr
           real(kind=WP) :: shelloff
           real(kind=WP), dimension(:)  ,  allocatable :: thkoset,thkoset_n
           double precision, dimension(:,:),  allocatable :: thkoset6,thkoset_n6
@@ -144,7 +145,7 @@
                     thkoset(nshel)=shelloff*thke(ie)
                   end if
                 end do
-              elseif (ity == 7)then
+              else if (ity == 7)then
                 nnode =3
                 do i=1,nel
                   ie = nft + i
@@ -180,8 +181,8 @@
               do j=iad_elem(1,i),iad_elem(1,i+1)-1
                 n = fr_elem(j)
                 if (sh_offset_tab%intag(n)>0) nn = nn + 1
-              enddo
-            enddo
+              end do
+            end do
             allocate(sh_offset_tab%iad_offset(2,nspmd+1),STAT=stat) ! dim (2,*) to use existing spmd_exch routines
             sh_offset_tab%iad_offset= 0
             allocate(sh_offset_tab%fr_offset(nn),STAT=stat)
@@ -194,9 +195,9 @@
                   k = k + 1
                   sh_offset_tab%fr_offset(k) = n
                 end if
-              enddo
+              end do
               sh_offset_tab%iad_offset(1,i+1) = k+1
-            enddo
+            end do
           end if !(nspmd>1)
 !  compute offset_n
           sh_offset_tab%intag = 0
@@ -235,7 +236,7 @@
               if (sh_offset_tab%intag(n)==0) cycle
               do k=1,6
                 thkoset_n(n) = thkoset_n(n) + thkoset_n6(k,n)
-              enddo
+              end do
             end do
             deallocate(thkoset6)
             deallocate(thkoset_n6)
@@ -295,8 +296,8 @@
               do j=iad_elem(1,i),iad_elem(1,i+1)-1
                 n = fr_elem(j)
                 if (sh_offset_tab%intag(n)>0) nfr = nfr + 1
-              enddo
-            enddo
+              end do
+            end do
             deallocate(sh_offset_tab%fr_offset)
             allocate(sh_offset_tab%fr_offset(nfr),STAT=stat)
             sh_offset_tab%iad_offset(1,1) = 1
@@ -309,9 +310,9 @@
                   k = k + 1
                   sh_offset_tab%fr_offset(k) = ii
                 end if
-              enddo
+              end do
               sh_offset_tab%iad_offset(1,i+1) = k+1
-            enddo
+            end do
           end if !(nspmd>1)
           deallocate(thkoset_n)
         end subroutine inter_sh_offset_ini

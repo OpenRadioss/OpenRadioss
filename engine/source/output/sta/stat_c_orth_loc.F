@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE STAT_C_ORTH_LOC(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXC ,
@@ -42,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -70,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,JJ,LEN, IOFF, IREP,NG, NEL, NFT, ITY, LFT, NPT,
+      INTEGER I, J, K, N, JJ, LEN, IOFF, IREP, NG, NEL, NFT, ITY, LFT, NPT, 
      .        LLT, MLW,NDIR,NLAY,IHBE,ISH3N,IDRAPE,NPTT, NPLY_MAX,IPT,
      .        IGTYP, ID, IPRT0, IPRT,NPG,IPG,IE, FLAGDEG,IDEL,ILAY,ILAW,IFRAM_OLD
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
@@ -85,7 +87,7 @@ C-----------------------------------------------
      .   X2L
       CHARACTER*100 DELIMIT,LINE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY 
+ 
        TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR   
 C-----------------------------------------------
       DATA DELIMIT(1:60)
@@ -168,7 +170,7 @@ C
             SZ = E2Z
           ENDIF
           IF (ISHFRAM == 0 .OR. IGTYP == 16) THEN
-C----       Repere convecte symetrique - version 5 (default)
+C---- Symmetrical convected mark-Version 5 (Default)
             SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
             SUMA   = ONE / MAX(SQRT(SUMA),EM20)                  
             E3X = E3X * SUMA                            
@@ -192,7 +194,7 @@ C
             E2Y = E3Z * E1X - E3X * E1Z
             E2Z = E3X * E1Y - E3Y * E1X
           ELSEIF (ISHFRAM == 2) THEN
-C----       Repere convecte nonsymetrique - version 4
+C---- Nononmetrical convected marker-Version 4
             SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z
             E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y
             E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z
@@ -525,7 +527,7 @@ C  charging all directions
           ENDIF  !  IF ( IGTYP )
 c
           IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
           PTWA(IE)=JJ
 c
          ENDDO  !  DO I=LFT,LLT
@@ -544,7 +546,7 @@ c------------------------------------------------------
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -554,9 +556,9 @@ c------------------------------------------------------
         IPRT0=0
         DO N=1,STAT_NUMELC_G
 
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXC(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 C
           IOFF = NINT(WAP0(J + 1))
@@ -1067,7 +1069,7 @@ C  charging all directions
           ENDIF  !  IF ( IGTYP )
 c
           IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
           PTWA(IE)=JJ
 c
          ENDDO  !  DO I=LFT,LLT
@@ -1086,7 +1088,7 @@ c-----------------------------------------------------
           PTWA_P0(N)=PTWA(N)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
        CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -1096,9 +1098,9 @@ c-----------------------------------------------------
 C
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXTG(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 C
           IOFF  = NINT(WAP0(J + 1))

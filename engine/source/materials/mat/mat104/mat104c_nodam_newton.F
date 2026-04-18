@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,26 +74,27 @@ c
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR,A11,A12,
      .   NNU, NORMSIG
       my_real 
-     .   H,LDAV,TRDFDS,SIGVM,OMEGA,
-     .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP,DEPXX,DEPYY
+     .   
+     .   DTEMP,DPDT,DLAM,DDEP
       my_real 
      .   DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,
-     .   DJ2DSXX,DJ2DSYY,DJ2DSXY,
-     .   DFDSXX,DFDSYY,DFDSXY,
+     .   
+     .   
      .   NORMXX,NORMYY,NORMXY,NORMZZ,
-     .   DENOM,DPHI,DPHI_DTRSIG,SIG_DFDSIG,DFDSIG2,
+     .   SIG_DFDSIG,DFDSIG2,
      .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DPDT_NL,
      .   DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM,DLAM_NL    
 c
       my_real, DIMENSION(NEL) ::
-     .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
+     .   TRSIG,
      .   SXX,SYY,SXY,SZZ,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
-     .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI0,PHI,DPLA_DLAM,
+     .   HARDP,FHARD,FRATE,FTHERM,FDR,PHI,DPLA_DLAM,
      .   DEZZ,DPHI_DLAM,DPXX,DPYY,DPXY,DPZZ,SIGDR2,YLD2I
       !=======================================================================
       !             DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW
       !=======================================================================
+      !UVAR(1)   EPSD    PLASTIC STRAIN RATE SAVED FOR FILTERING
 c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -140,7 +141,9 @@ c
         ET(I)    = ONE     ! Initialization of hourglass coefficient
         HARDP(I) = ZERO    ! Initialization of hardening modulus
       ENDDO
-c      
+!
+      epsd(1:nel) = uvar(1:nel,1)
+!
       ! Initialization of temperature and self-heating weight factor
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
@@ -432,6 +435,7 @@ c
         ! Plastic strain-rate (filtered)
         DPDT    = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I) = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
+        UVAR(I,1)  = EPSD(I)
         ! Computation of the sound speed   
         SOUNDSP(I) = SQRT(A11/RHO(I))
         ! Storing the yield stress

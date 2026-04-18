@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    initia                          ../starter/source/elements/initia/initia.F
 !||====================================================================
       module detonation_times_printout_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -99,8 +100,8 @@
                 if(tdet == ep21 .or. tdet == -ep21)then
                   elbuf_tab(ng)%gbuf%tb(i) = zero
                 end if
-              enddo
-            endif
+              end do
+            end if
           end do
 
           !---------------------------------!
@@ -109,12 +110,12 @@
           if(n2d == 0)then
             ix => ixs(1:nixs,1:numels)
             nix = nixs
-          elseif(numelq > 0)then
+          else if(numelq > 0)then
             ix => ixq(1:nixq,1:numelq)
             nix = nixq
           else
             ix => ixtg(1:nixtg,1:numeltg)
-            nix = nixq
+            nix = nixtg
           end if
 
           if(ipri >= 3)then
@@ -128,20 +129,20 @@
                   mpr = mpr+1
                   iel = ix(nix,i+nft)
                   tdet=-elbuf_tab(ng)%gbuf%tb(i)
-                  write(iout,510) nel,tdet
+                  write(iout,510) iel,tdet
                   if(mpr == 50) mpr=0
                 end do
-              endif
+              end if
             end do
-          endif
+          end if
 
           return
 
 ! ----------------------------------------------------------------------------------------------------------------------
 500       FORMAT(//, &
-            5X, 'DETONATION TIMES FOR JWL ELEMENTS' /, &
-            5X, '---------------------------------' //, &
-            5X, 'ELEMENT DETONATION TIME' /)
+            5X, "DETONATION TIMES FOR JWL ELEMENTS" /, &
+            5X, "---------------------------------" //, &
+            5X, "ELEMENT DETONATION TIME" /)
 510       FORMAT(5X,I10,E15.5)
 
 ! ----------------------------------------------------------------------------------------------------------------------

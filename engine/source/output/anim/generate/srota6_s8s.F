@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srota6_s8s   ../engine/source/output/anim/generate/srota6_s8s.F
+!||    srota6_s8s    ../engine/source/output/anim/generate/srota6_s8s.F
 !||--- called by ------------------------------------------------------
-!||    tensors      ../engine/source/output/anim/generate/tensor6.F
+!||    tensors       ../engine/source/output/anim/generate/tensor6.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SROTA6_S8S(
      1   KCVT,    TENS,    GAMA,    KHBE,
      2   ITYP,    FRAME,   IINT,    ISORTH)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +46,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   TENS(6),GAMA(6),FRAME(3,3)
-      INTEGER IXS(NIXS), KCVT, KHBE, ITYP
+      INTEGER  KCVT, KHBE, ITYP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

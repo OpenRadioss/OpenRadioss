@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_count_2d_element_seatbelt      ../starter/source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 !||    hm_get_max_id                     ../starter/source/devtools/hm_reader/hm_get_max_id.F
 !||    hm_messages                       ../starter/source/devtools/hm_reader/hm_messages.F
+!||    hm_rbodies_add_main_node          ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    hm_read_checksum                  ../starter/source/output/checksum/checksum_option.F90
 !||    hm_read_submodel                  ../starter/source/model/assembling/hm_read_submodel.F
 !||    ini_msg                           ../starter/source/output/message/inimsg.F
@@ -64,11 +65,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trace_in1                         ../starter/source/system/trace_back.F
 !||    trace_out1                        ../starter/source/system/trace_back.F
 !||--- uses       -----------------------------------------------------
+!||    analyse_arret_mod                 ../starter/source/output/analyse/analyse_arret.F
 !||    checksum_check_mod                ../starter/source/output/checksum/checksum_check.F90
 !||    checksum_starter_option_mod       ../starter/source/output/checksum/checksum_option.F90
 !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
 !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
 !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
+!||    hm_rbodies_add_main_node_mod      ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    message_mod                       ../starter/share/message_module/message_mod.F
 !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
 !||    th_mod                            ../starter/share/modules1/th_mod.F90
@@ -102,6 +105,8 @@ C-----------------------------------------------
       use checksum_starter_option_mod
       use checksum_check_mod
       use th_mod , only : TH_HAS_NODA_PEXT
+      use hm_rbodies_add_main_node_mod
+      use analyse_arret_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,8 +223,8 @@ C First task check the exec arguments (fill common)
       ! Options not requiering Starter deck read
       ! ----------------------------------------
       
-      ! -checksum_read [rootname]
-      IF ( OUTPUT%CHECKSUM%ST_CHECKSUM_READ == 1 ) THEN
+      ! -checksum_report [rootname]
+      IF ( OUTPUT%CHECKSUM%ST_CHECKSUM_REPORT == 1 ) THEN
          CALL CHECKSUM_CHECK(OUTPUT%CHECKSUM%ROOTNAME,PATH,CPUNAM,ARCHTITLE,IRESP)
          STOP
       ENDIF
@@ -251,7 +256,7 @@ C CODVERS : VERSION CODE        = 2019 IF RELEASE 2019
 C IMINVER : MINOR VERSION CODE  = 1 IF MINOR RELEASE A(A~1) OF 4.4 RELEASE
 C ISRCVER : SOURCE VERSION CODE = 41*100+9
 C-------------------------------------------------------------------
-      CODVERS          = 2026
+      CODVERS          = 2612
       IMINVER          = 1
       ISRCVER          = 1
 C-------------------------------------------------------------------
@@ -333,7 +338,7 @@ C ITESTV Format   [Version][YY][MM][DD]
       ALEFVM_Param%IPRINT_2 = 0
 C MUSCL Activation
       ALEMUSCL_Param%IALEMUSCL = 1
-C MUSCL compression coefficient, default value set to 1.
+C Muscl Compression Coefficient, Default Value Set to 1.
       ALEMUSCL_Param%BETA = TWO
       RATIO22 = ONE + TEN/HUNDRED
       RADIOSSV = 100090402
@@ -420,6 +425,7 @@ C       SEARCH RUN NUMBER
         LFNAME = 1
         ISTDI = 5
       ENDIF
+      NAMES_AND_TITLES%rootname = ROOTN(1:LENR)
 C------------------------------------------------
 C Read DYNA model & convert DYNA -> Radioss objects
 C------------------------------------------------
@@ -490,6 +496,9 @@ C
 
       ENDIF
       CALL TITRE1
+      ! Feed Output and Names_and_Titles structures with out filename and chrun (reduce cal stack)
+      OUTPUT%out_filename = TRIM(FILNAM)
+      NAMES_AND_TITLES%CHRUN=CHRUN(1:4)
 C------------------------------------------------
       ERR_MSG='OPEN OUTPUT FILE'
       ERR_CATEGORY='OPEN OUTPUT FILE'
@@ -519,16 +528,16 @@ c
       IUSC1=30
       TSUB =31
       TSUB_TMP =32
-C     IUSC2=9 ou 10
+C     iusc2=9 or 10
       IUSC3=50
 
 C new composite shell pid max nbs 200
       NPROPG =1000
       NPROPM =250
       NPARG  = 100
-      NPARI  = 100
-      NPARIR=48
-      LFXVELR = 9
+      NPARI  = 104
+      NPARIR=52
+      LFXVELR = 9 + 1
       NIBCLD = 9
       LFACCLD = 2
       NIGRV   = 6 
@@ -551,7 +560,7 @@ C new composite shell pid max nbs 200
       NIMV   = 75 ! array size for Monitored Volumes
       NRBY   = 30
       NRBYLAG= 0
-      NNPBY  = 19
+      NNPBY  = 19 + 1
       NMGRBY = 7
       NRWLP  = 26
       NIBVEL = 0
@@ -585,7 +594,7 @@ C     npsav not used by starter
 c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       NISPHIO = 16
       NRIVF = 13
-      NXFRAME = 36
+      NXFRAME = 36 
       LSKEW = 12
       LISKN = 6
       NBCSLAG  = 0
@@ -595,13 +604,13 @@ c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       LKJNR = 19
       NFRBYM = 28
       NIRBYM = 2
-      NNPRW = 8
+      NNPRW = 8 + 1
       SEGINDX=0
       NHIN2 =0
       NIFV = 16
       ALE%GLOBAL%NALENOVS = 6
       NLEDGE  = 15
-      NRTRANS = 22
+      NRTRANS = 23
 C
       NEXMAD=0
       NMADPRT=0
@@ -778,6 +787,10 @@ c 2d seatbelt translation
       IF (NB_SEATBELT_SHELLS > 0) 
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
+C-------------------------------------------------------------------
+C Add RBODY master node if not existing in /RBODY cards
+C------------------------------------------------------------------
+      CALL hm_rbodies_add_main_node(LSUBMODEL)
 C------------------------------------------------------------------
       ! Initialisation of glob_therm module
 C------------------------------------------------------------------
@@ -830,7 +843,7 @@ C--------------------------------------------------
         CALL LECTUR(
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
-     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT)
+     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT,CHECK_USED)
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
@@ -870,6 +883,8 @@ C
       ENDIF
 c     print timers
       CALL PRINTIME(1,GOT_TIMER,STARTDATE,STARTTIME,ENDDATE,ENDTIME)
+      OUTPUT%checksum%date=ENDDATE
+      OUTPUT%checksum%time=ENDTIME
 C
       IF (IPID/=0) THEN
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
@@ -887,8 +902,7 @@ C
 C
       CALL TRACE_OUT1()
 
-      CALL F_ANEND(OUT_FILE_NAME,LEN_TRIM(OUT_FILE_NAME),ROOTNAM,
-     *             ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
+      CALL F_ANEND(OUTPUT,NAMES_AND_TITLES)
 C---  
       print*,'done'
       RETURN

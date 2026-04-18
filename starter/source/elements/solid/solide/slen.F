@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    slen       ../starter/source/elements/solid/solide/slen.F
 !||--- called by ------------------------------------------------------
 !||    s6cderi3   ../starter/source/elements/thickshell/solide6c/s6cderi3.F
+!||    s6zderi3   ../starter/source/elements/solid/solide6z/s6zderi3.F90
 !||    sdlen3     ../starter/source/elements/solid/solide/sdlen3.F
 !||====================================================================
       SUBROUTINE SLEN(X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,J,

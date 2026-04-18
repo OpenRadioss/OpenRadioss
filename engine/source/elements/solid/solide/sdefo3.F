@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
 !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- uses       -----------------------------------------------------
-!||    aleanim_mod   ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod   ../common_source/modules/aleanim_mod.F
 !||====================================================================
-      SUBROUTINE SDEFO3(
+      SUBROUTINE SDEFO3(FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,
      3   PZ1,     PZ2,     PZ3,     PZ4,
@@ -58,7 +58,7 @@ C   W = 1/2 * (E - t(E))
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEANIM_MOD
+      USE ALEANIM_MOD, only : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(FANI_CELL_), intent(inout) :: FANI_CELL
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: ISMSTR
@@ -98,14 +99,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J, IDX
+      INTEGER  I
       my_real
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46, DT1D2, DT1D
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,FAC,
+     .   PXX2,PYY2,PZZ2,AAA,BBB,FAC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -171,6 +172,7 @@ C-----------------------------------------------
           ENDDO
           IF (IMPL_S == 0 .OR. (IDYNA > 0 .AND. ISMDISP == 0)) THEN
             DO I=1,NEL
+   
              EXX=DXX(I)
              EYY=DYY(I)
              EZZ=DZZ(I)

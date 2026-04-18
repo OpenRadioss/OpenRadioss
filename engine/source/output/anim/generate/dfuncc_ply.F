@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf            ../engine/share/resol/initbuf.F
 !||    sigrota            ../engine/source/output/anim/generate/sigrota.F
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
@@ -52,6 +53,7 @@ C-----------------------------------------------
       USE STACK_MOD       
       USE MATPARAM_DEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,29 +89,26 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   EVAR(MVSIZ),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, FAC, DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ), DMAX(MVSIZ),WPMAX(MVSIZ),
+     .   OFF, VONM2, S1, S2, S12, FAC,
      .   FAIL(MVSIZ),SIGE(MVSIZ,5)
-      INTEGER I, NG, NEL, ISS, ISC,N, J, MLW, NUVAR, IUS,
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
-     .        LLL,NINTLAY,NFAIL,
-     .        OFFSET,K,II,II_L,INC,KK,IHBE, 
-     .        NPTM,NPG, NBVU, I1, MPT, NEL5, NEL8,
+      INTEGER I, NG, NEL, ISS, N, J, MLW, NUVAR, IUS, 
+     .        ISTRAIN,JTURB,IPID,
+     .        NN1,NN3,NN4,NN5,NN6,
+     .        NINTLAY,NFAIL,
+     .        OFFSET,K,II,INC,IHBE, 
+     .        NPTM,NPG, I1, MPT, NEL5, NEL8,
      .        IPT,BUF,NPTR,NPTS,NPTT,NLAY,IR,IS,PTF,LENF,IL,
-     .        IADR,IPMAT,PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),
+     .        IADR,IPMAT,PID(MVSIZ),MAT(MVSIZ),
      .        NEL_PLY,ILAYER,IFLAG,JJ(5)
-      INTEGER IE,ISHPLYXFEM,IP,JPID,IPPID,IPLY0,ILAST,ION,NUVARV,
-     .        IVISC,IPMAT_IPLY,NUVARD,MAT_IPLY,
-     .        MATPLY,LL,IPLYC,I3,I2
+      INTEGER IE, ISHPLYXFEM, ILAST, NUVARV, 
+     .        IVISC,LL
       INTEGER PLYS,IPLY,PLYELEMS(NUMELC),ELC,NS1,MATL,
-     .   IIGEO,IADI,ISUBSTACK
+     .   ISUBSTACK
       REAL R4
       TYPE(G_BUFEL_)    ,POINTER :: GBUF     
       TYPE(BUF_LAY_)    ,POINTER :: BUFLY     
       TYPE(L_BUFEL_)    ,POINTER :: LBUF     
-      TYPE(BUF_INTLAY_) ,POINTER :: INTLAY 
+ 
       TYPE(BUF_INTLOC_) ,POINTER :: ILBUF
       TYPE(BUF_FAIL_)   ,POINTER :: FBUF
       my_real,
@@ -185,7 +184,7 @@ c---------
           ENDDO
 c---------
 C          
-C test sur un seul element du groupe          
+C test on a single element of the group
 C
           N = 1 + NFT
           DO  I=LFT,LLT
@@ -871,7 +870,7 @@ C
            ENDIF
           ELSEIF(IFUNC == 3)THEN
 C-------------------
-C energie specifique
+C Specific energy
 C-------------------
            IF(ITY == 3)THEN
             DO I=LFT,LLT
@@ -921,7 +920,7 @@ C-------------------
           ENDIF
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
        END DO
  900  CONTINUE

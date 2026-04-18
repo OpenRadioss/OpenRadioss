@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -125,7 +125,7 @@ C-----------------------------------------------
         A1(I) =YM2(I)*(ZM3(I)-ZM4(I))+YM3(I)*(ZM4(I)-ZM2(I))+YM4(I)*(ZM2(I)-ZM3(I))
         A2(I) =YM2(I)*(ZM4(I)-ZM1(I))+YM4(I)*(ZM1(I)-ZM2(I))+YM1(I)*(ZM2(I)-ZM4(I))
         AIREM(I)=(A1(I)+A2(I))*HALF
-        !AUTRE FORMULE AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
+        !ALTERNATIVE FORMULA AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
         YAVG(I) =YM1(I)+YM2(I)+YM3(I)+YM4(I)
       ENDDO
 
@@ -168,7 +168,7 @@ C-----------------------------------------------
         WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDDO
 C---------------------------------------
-C     DERIVEES POUR LE CALCUL DES FORCES
+C     DERIVATIVES FOR FORCE CALCULATION
 C---------------------------------------
       DO I=1,NEL
         PY1(I)=HALF*(Z2(I)-Z4(I))
@@ -177,7 +177,7 @@ C---------------------------------------
         PZ2(I)=HALF*(Y1(I)-Y3(I))      
       ENDDO
 C---------------------------------------
-C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
+C     LOCAL REFERENCE FRAME FOR NON-ISOTROPIC MATERIALS
 C---------------------------------------
       DO I=1,NEL
         RX(I)=ONE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IAD, IADL, NL, N, NLL, NN, IGRTMP(SIZLOADP,NLOADP),
+      INTEGER I, J, IAD, IADL, NL, NLL, IGRTMP(SIZLOADP,NLOADP),
      .        LGRTMP(LLLOADP_L),OFF,N1,N2,N3,N4
 C-----------------------------------------------
 C   S o u r c e   L i n e s

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,7 +157,8 @@ C--------------------------------------------------
       IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
 
         IF(MTN /= 35 .AND.MTN /= 38 .AND. MTN /= 42 .AND.
-     .     MTN /= 70 .AND. MTN /= 90.AND. MTN /= 1)THEN
+     .     MTN /= 70 .AND.MTN /= 88 .AND. MTN /= 90.AND. 
+     .     MTN /= 1)THEN
           NITRS=NITSAV
 C         message moved to hm_read_xref
           RETURN

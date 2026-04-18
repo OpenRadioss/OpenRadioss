@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -152,7 +152,7 @@ C
 CCC       IF(I==1)WRITE(*,*)'D_LAMBDA =',XSI
 C
 C     .. ENFORCING SOME CUT-OFFS, LEFT UNCHANGED
-C  ----!!!cette partie devrait etre   interieure de boucle ---  tester
+C  ----!!!this part should be inside the loop --- test
        AK(I)=AK(I)*EPD(I)
        IF(SIGMX(I)<AK(I))THEN
         AK(I)=SIGMX(I)

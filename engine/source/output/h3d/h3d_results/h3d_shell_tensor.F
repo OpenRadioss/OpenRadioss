@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod                   ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
 !||    stack_mod                   ../engine/share/modules/stack_mod.F
@@ -56,6 +57,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE DRAPE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,16 +93,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: A1,A2,A3,THK,CHARD,FACTOR
+      my_real :: A1,A2,A3,THK,CHARD,FACTOR,FACTOR_N,ZSHIFT
       my_real :: VALUE(5)
       INTEGER I,J,K,N,NG,NEL,NFT,ITY,NPT,MPT,IPT,NBFUNCT,NCHARD,MLW,
      .        ILAY,IR,IS,IT,NPTR,NPTS,NPTT,NLAY,NPG,IPLY,IDRAPE,
      .        IPID,NS1,NS2,ISTRE,IADBUF,NUPARAM,IMAT,NNI,N0,
-     .        IHBE,IREP,BUF,ISROT,IVISC,IGTYP,ISUBSTACK,
+     .        IHBE,IREP,ISROT,IVISC,IGTYP,ISUBSTACK,
      .        ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,MAT_ORTH,
      .        IXLAY,IXFEM,LAYNPT_MAX,NUMEL_DRAPE,SEDRAPE,NLAY_MAX,
      .        IPT_ALL,ISLICE,PTS,IPG,LENS,MPT0
-      INTEGER        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,I1
+      INTEGER        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10
       INTEGER PID(MVSIZ),MAT(MVSIZ),IOK_PART(MVSIZ),JJ(15)
       my_real ,DIMENSION(3,MVSIZ) :: STRAIN
       my_real ,DIMENSION(4*MVSIZ) :: XN,YN,ZN,DXN,DYN,DZN
@@ -280,6 +282,7 @@ C------------------------
               ENDIF
 c
               IREP = IGEO(6,IPID)
+              ZSHIFT = GEO(199, IPID)
             ENDIF 
            IF( KEYWORD == 'TENS/STRAIN' .OR.  KEYWORD == 'TENS/MSTRAIN') THEN
            !Npt_max
@@ -352,15 +355,18 @@ c
                 ISELECT = 1
                 IF (IPT_INPUT == -2 ) THEN
                   FACTOR = -SIX  ! lower
+                  FACTOR_N = ONE + SIX*ZSHIFT  
                 ELSEIF (IPT_INPUT == -3) THEN  
                   FACTOR = SIX   ! upper
+                  FACTOR_N = ONE - SIX*ZSHIFT  
                 ELSE
                   FACTOR = ZERO   ! mem
+                  FACTOR_N = ONE  
                 END IF
                 DO I=1,NEL
-                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I) + GBUF%MOM(JJ(1)+I) * FACTOR
-                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I) + GBUF%MOM(JJ(2)+I) * FACTOR 
-                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I) + GBUF%MOM(JJ(3)+I) * FACTOR                  
+                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I)*FACTOR_N + GBUF%MOM(JJ(1)+I) * FACTOR
+                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I)*FACTOR_N + GBUF%MOM(JJ(2)+I) * FACTOR 
+                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I)*FACTOR_N + GBUF%MOM(JJ(3)+I) * FACTOR                  
                 ENDDO 
 c
               ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN
@@ -662,9 +668,9 @@ C--------------------------------------------------
                 ISELECT = 1
                 DO I=1,NEL
                   IF (IPT == 1) THEN 
-                    FACTOR = -HALF*GBUF%THK(I)
+                    FACTOR = (ZSHIFT-HALF)*GBUF%THK(I)
                   ELSE 
-                    FACTOR =  HALF*GBUF%THK(I)
+                    FACTOR = (ZSHIFT+HALF)*GBUF%THK(I)
                   ENDIF
                   VALUE(1) =  GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) 
                   VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 
@@ -715,6 +721,7 @@ c               PLY=IPLY NPT=IPT
                              VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
                              VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                           ENDDO
+                            VALUE(1:3) = VALUE(1:3)/NPG
                             VALUE(3) = VALUE(3) * HALF 
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
@@ -794,6 +801,7 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                       VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
                       VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                     ENDDO 
+                    VALUE(1:3) = VALUE(1:3)/NPG
                     VALUE(3) = VALUE(3) * HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
@@ -1235,7 +1243,7 @@ C--------------------------------------------------
                IMAT = IXC(1,NFT+1)                    
                IADBUF = IPM(7,IMAT)                       
                NUPARAM= IPM(9,IMAT)                       
-               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                NBFUNCT = UPARAM(25) 
                NCHARD = 34 + 2*NBFUNCT +  22
                CHARD  = UPARAM (NCHARD)
@@ -1243,7 +1251,7 @@ C--------------------------------------------------
                IMAT = IXC(1,NFT+1)                        
                IADBUF = IPM(7,IMAT)                       
                NUPARAM= IPM(9,IMAT)                       
-               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                NBFUNCT = UPARAM(1) 
                NCHARD = 2*NBFUNCT + 14
                CHARD  = UPARAM (NCHARD)
@@ -1312,7 +1320,7 @@ C--------------------------------------------------
                     ENDDO !I              
                   ENDIF ! MLW==
                 ELSEIF(ID > 0) THEN !!
-                  IF(MLW == 36.AND. CHARD > ZERO) THEN ! forcement ID=1 y a qu une BS
+                  IF(MLW == 36.AND. CHARD > ZERO) THEN ! necessarily id = 1 there is only one bs
                     DO I=1,NEL  
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
@@ -1463,7 +1471,7 @@ C--------------------------------------------------
                   ENDIF!(MLW ==  
                 ENDIF !(ID >0 ) 
 C--------------------------------------------------
-c PLY=IPLY NPT=IPT pour prop avec ply 17-51-52
+c Ply = iPly npt = IPT for prop with Ply 17-51-52
 C--------------------------------------------------
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN 
                 DO J=1,NLAY
@@ -2131,7 +2139,7 @@ C-----------------------------------------------
           ENDIF ! IF (MLW /= 13)
         ENDIF ! IF(ITY == 2)
  490  CONTINUE
- 500  CONTINUE
+ !500  CONTINUE
 C-----------------------------------------------
 C
       RETURN
@@ -2168,11 +2176,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NNOD
+      INTEGER I,NNOD
       PARAMETER (NNOD = 4)
       my_real 
      .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL), 
-     .   LXYZ0(3),DETA1(NEL),COREL(2,NNOD),XX,YY,ZZ,
+     .   LXYZ0(3),COREL(2,NNOD),
      .   XL2(NEL),XL3(NEL),XL4(NEL),YL2(NEL),
      .   YL3(NEL),YL4(NEL),ZL1(NEL),ZL(NEL),
      .   X13,X24,Y13,Y24,UX1,UY1,UX2,UX3,UX4,UY2,UY3,UY4,
@@ -2373,7 +2381,7 @@ C     REAL
      .   E1X(NEL), E1Y(NEL), E1Z(NEL),
      .   E2X(NEL), E2Y(NEL), E2Z(NEL),
      .   E3X(NEL), E3Y(NEL), E3Z(NEL), 
-     .   C1,C2,CC,C1C1,C2C2,C1_1,C2_1
+     .   C1,C1C1,C2C2,C1_1,C2_1
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL
 C---------E3------------
@@ -2461,17 +2469,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NNOD
+      INTEGER I,NNOD
       PARAMETER (NNOD = 3)
       my_real 
      .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL), 
-     .   DETA1(NEL),XX,YY,ZZ,
+     .   
      .   XL2(NEL),XL3(NEL),YL2(NEL),YL3(NEL),
      .   UX1,UY1,UX2,UX3,UY2,UY3,
      .   PX2(NEL),PX3(NEL),PY2(NEL),PY3(NEL),
      .   UX21(NEL),UX31(NEL),UY21(NEL),UY31(NEL),
      .   X0L2(NEL),X0L3(NEL),Y0L2(NEL),
-     .   Y0L3(NEL),AREA(NEL),AREA_I(NEL),FXX,FYY,FXY,FYX,F(2,2,NEL) 
+     .   Y0L3(NEL),AREA(NEL),AREA_I(NEL),F(2,2,NEL) 
 C----------------------------------------------
 C------Compute coordinates in elementary local sys: actual configuration first
         CALL C3SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,AREA,NEL)
@@ -2607,10 +2615,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       DOUBLE PRECISION 
-     .         FMAT(2,2),UM(2,2),IC,I2C,I3C,IU,I2U,I3U,
-     .         C11,C21,C31,C12,C22,C32,C13,C23,C33,DETJ0,DETM1,
-     .         CC11,CC21,CC31,CC12,CC22,CC32,CC13,CC23,CC33,
-     .         A,B,ZZ,A1,A2,A3,A4,ALPHA,C_A,S_A,C_A2,S_A2
+     .         FMAT(2,2),UM(2,2),IC,
+     .         C11,C12,C22,
+     .         CC11,CC12,CC22,
+     .         B,ALPHA,C_A,S_A,C_A2,S_A2
 C-----------------------------------------------
       DO I=1,NEL
         FMAT(1,1)= F(1,1,I)+1.0

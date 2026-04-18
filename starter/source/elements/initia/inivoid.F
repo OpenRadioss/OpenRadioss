@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_10I
       use glob_therm_mod
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,7 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NVC, IHBE, ISOLNOD, NDDIM, ILEV,ISUBSTACK
+      INTEGER NVC, IHBE, ISOLNOD, ISUBSTACK
       INTEGER IXC(NIXC,*),IXS(NIXS,*),IXTG(NIXTG,*),
      .        IPARTS(*),IPARTC(*),IPARTT(*),IGEO(NPROPGI,*),
      .        NSHNOD(*), SH4TREE(*), SH3TREE(*),SH3TRIM(*),
@@ -136,8 +137,8 @@ C-----------------------------------------------
       INTEGER I, IGTYP,IMAT,IPROP, NDEPAR, NREFSTA, NCC, NF1
       INTEGER MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
-     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID(MVSIZ),IP,II(6),
-     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1,IMAS_DS,
+     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID(MVSIZ),II(6),
+     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,IMASS,KK1,IMAS_DS,
      .   IVECT(MVSIZ)
       my_real
      .   AREA(MVSIZ), RHO(MVSIZ),VOL(MVSIZ),
@@ -158,7 +159,7 @@ C-----------------------------------------------
      .   X2L(MVSIZ),X3L(MVSIZ),Y3L(MVSIZ),
      .   X31(MVSIZ),Y31(MVSIZ),Z31(MVSIZ), DELTAX(MVSIZ),
      .   BIDON, NOISE, XL(MVSIZ),LENGTH,UINER(MVSIZ),MASSR(MVSIZ),
-     .   XM, XINE,RATIO,STI,KX,EMS(MVSIZ),RHOR,VECT(3,MVSIZ)
+     .   XM, XINE,RATIO,KX,EMS(MVSIZ),RHOR,VECT(3,MVSIZ)
          my_real, DIMENSION(:), ALLOCATABLE :: STIFNTMP !numnod
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),

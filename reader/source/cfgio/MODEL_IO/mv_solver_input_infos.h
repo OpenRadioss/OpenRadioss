@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef MV_RADIOSS_INFOS_H
 #define MV_RADIOSS_INFOS_H
 
@@ -98,7 +98,7 @@ public:
         set<string>* stripheader = nullptr, obj_type_e etype = HCDI_OBJ_TYPE_NULL, bool isexactmatch = false) const;
 
     bool IsSupportedForContinueReadWithoutHeader() const;
-    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e& etype,
+    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e etype,
                                 IdentifierValuePairList& vallst) const;
     virtual bool IsExactUsername() const { return myUserNameExactMatch; }
 

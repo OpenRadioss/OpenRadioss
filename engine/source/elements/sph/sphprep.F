@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptime             ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
 !||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
@@ -84,6 +85,7 @@ C-----------------------------------------------
       USE SPH_STRUCT_MOD
       USE spmd_mod
       USE sph_crit_voxel_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,7 +145,7 @@ C-----------------------------------------------
       INTEGER I,N,NG,JFT,JLT,K,NELEM,NEL,OFFSET,
      .   ISORTSP,INOD,JNOD,J,NVOIS,M,IREDUCE,NS,
      .   KVNORM,IPRT,NSP2SORTF,NSP2SORTL,
-     .   ISORTSPG,IERROR,NBK,VOXSIZ
+     .   ISORTSPG,IERROR,NBK,VOXSIZ,IRUNN_BISG
       my_real
      .       DX,DY,DZ,
      .       DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX,MAJORD,
@@ -189,7 +191,7 @@ C      /---------------/
             ENDIF
           ENDDO
         ELSE
-C         Traitement des INLETS.
+C         Processing of INLETS.
           CALL SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2           ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
      3           PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
@@ -206,7 +208,7 @@ C         Traitement des INLETS.
         ENDIF
 
 C-----------------------------------------------
-C  Communication Retri en SPMD (fin du cycle precedent) sur tache0
+C  Communication retri in SPMD (end of the previous cycle) on a stain0
 C-----------------------------------------------
 C
 c globalize ISPHBUC
@@ -239,10 +241,10 @@ C
       NSP2SORTF = 1 + ITASK*NSP2SORT / NTHREAD
       NSP2SORTL = (ITASK+1)*NSP2SORT / NTHREAD
 C
-      ISORTSP=ISPHBUC
+      ISORTSP=ISPHBUC 
 C
       IF(ISORTSP==0)THEN
-C       echange des particules reelles/symetriques si traversee.
+C       Exchange of real/symmetrical particles if crossed.
         CALL SPECHAN(
      1   X       ,V       ,MS      ,SPBUF   ,ITAB      ,
      2   KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,XFRAME    ,
@@ -374,7 +376,7 @@ C
           ENDDO
 10        CONTINUE
 C-----------------------------------------------
-C  Communication Retri en SPMD sur tache0
+C  PTMD RETRI COMMUNICAT
 C-----------------------------------------------
           IF(NSPMD>1)THEN
             CALL SPMD_ALLGLOB_ISUM9(ISORTSP,1)
@@ -435,7 +437,7 @@ C    /---------------/
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK==0)CALL STARTIME(TIMERS,90)
+      IF(ITASK==0)CALL STARTIME(TIMERS,90) 
       IF(ISORTSP==1)THEN
           IF(ISPMD==0.and.ITASK == 0)THEN
             WRITE(ISTDO,*)
@@ -450,7 +452,7 @@ C
 C
           SPATRUE=SPASORT
 C
-C init DBUC, MIN/MAX + recherche cell remote si spmd 
+C init DBUC, MIN/MAX + search remote cell if spmd 
           CALL SPHTRI0(TIMERS, X   ,SPBUF,KXSP,WSP2SORT,BMINMA ,DMAX,
      2                 NSP2SORTF,NSP2SORTL,NSP2SORT,ITASK, DBUC)
 C
@@ -460,7 +462,7 @@ C
      1      CALL SPHTRI(X       ,SPBUF   ,KXSP   ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT ,BMINMA ,NSP2SORTF,NSP2SORTL,
      3                  ITASK   ,SPH_WORK%WREDUCE ,LGAUGE ,GAUGE    )
-C barriere a la fin de sptrivox (necessaire pour IREDUCE global)
+C barrier at the end of sptrivox (necessary for global IREDUCE)
 
 #include "lockon.inc"
           ISPHRED=MAX(ISPHRED,IREDUCE)
@@ -478,7 +480,7 @@ C
                 CALL STOPTIME(TIMERS,95)
               END IF
               CALL STARTIME(TIMERS,91)
-C Compactage des structures spmd pour cell remote + renumerotation IXSP + maj IREDUCE
+C Compacting of SPMD structures for Cell Remote + Renumerotation IXSP + Maj Ireduce
 C            
               CALL SPMD_SPHGAT(KXSP,IXSP,WSP2SORT,ISPHRED,LGAUGE)
               CALL STOPTIME(TIMERS,91)
@@ -518,7 +520,7 @@ C
             END IF
             CALL STARTIME(TIMERS,91)
 C
-C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
+C Send List of current active Remotes cells and reception V, M, RHO for active remote cells
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
@@ -531,7 +533,7 @@ C
      2    VSPSYM   ,WSP2SORT ,DMAX   ,ITASK   ,WSMCOMP  ,
      3    MYSPATRUE,SPBUF    ,KXSP)
 
-C Synchro sur echange SPMD et var partagee IREDUCE, MYSPATRUE, NSPHSYM
+C Synchro on SPMD and Var Share Ireduce, Myspatrue, NSPHSYM Exchange
 C    /---------------/
         CALL MY_BARRIER
 C    /---------------/
@@ -562,7 +564,7 @@ C
               CALL STOPTIME(TIMERS,95)
             END IF
             CALL STARTIME(TIMERS,91)
-C Maj globale de ISPHRED et SPATRUE apres SPSYMP (SPATRUE inutile)
+C Global majred majred and spatrue after SPSYMP (unnecessary spat)
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
@@ -575,7 +577,7 @@ C      /---------------/
 C
         IREDUCE  =ISPHRED
         MYSPATRUE=SPATRUE
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
      2               IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
@@ -619,7 +621,7 @@ C
               CALL STOPTIME(TIMERS,95)
             END IF
             CALL STARTIME(TIMERS,91)
-C Maj globale de ISPHRED et SPATRUE apres SPCLASV (ISPHRED inutile) 
+C Global majred majred and spclasv (isphred useless) 
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
@@ -639,13 +641,13 @@ C
           IF(ITASK==0) THEN
 C
             CALL STARTIME(TIMERS,92)
-C Reception X cellules remotes
+C Reception x Remotes cells
 C
             CALL SPMD_SPHGETX(KXSP, SPBUF ,X ,IPARTSP)
 C
             CALL STOPTIME(TIMERS,92)
           END IF 
-C Synchro sur echange SPMD
+C Synchronization on SPMD exchange
 C         /---------------/
           CALL MY_BARRIER
 C         /---------------/
@@ -654,30 +656,38 @@ C
 C  Alloc SPSYM arrays in case of RESTART or /RERUN 
         IF ((NCYCLE==0).OR.(IRUNN_BIS>1).OR.(MCHECK/=0)) THEN
           IF (ITASK==0) THEN
-            ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) XSPSYM%BUF = 0
-            ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) VSPSYM%BUF = 0
-            ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
-            IF(IERROR==0) WSMCOMP%BUF = 0
-            IRUNN_BIS = 0
+            IF(.NOT. ASSOCIATED(XSPSYM%BUF)) THEN
+              ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) XSPSYM%BUF = 0
+            ENDIF 
+            IF(.NOT. ASSOCIATED(VSPSYM%BUF)) THEN
+              ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) VSPSYM%BUF = 0
+            ENDIF
+            IF(.NOT. ASSOCIATED(WSMCOMP%BUF)) THEN
+              ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
+              IF(IERROR==0) WSMCOMP%BUF = 0
+            ENDIF
+            IRUNN_BISG = 0
           ENDIF
 C        /---------------/
           CALL MY_BARRIER
 C        /---------------/    
+          IRUNN_BIS = IRUNN_BISG
+C
         ENDIF
 C
-C MAJ XSPSYM avant SPCLASV mais apres SPMD_SPHGETX
+C MAJ XSPSYM BEFORE SPCLASV but after SPMD_SPHGETX
 C
         CALL SPADASM0(
      1             X       ,V       ,MS      ,SPBUF   ,ITAB    ,
      2             KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,ISPSYM  ,
      3             XFRAME  ,XSPSYM%BUF  ,WSP2SORT ,ITASK   )
-C Synchro sur XSPSYM
+C Synchronization on XSPSYM
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         IREDUCE  =0
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
@@ -691,7 +701,7 @@ C
           IF(ITASK==0) THEN
 C
             CALL STARTIME(TIMERS,92)
-C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
+C Send List of current active Remotes cells and reception V, M, RHO for active remote cells
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
@@ -703,7 +713,7 @@ C        /---------------/
 C       /---------------/
         END IF 
 C
-C Actualisation des particules symetriques : MAJ VSPSYM apres SPMD_SPHGETV
+C Updating symmetrical particles: Maj vSpsym after SPMD_SPHGETV
 C
         CALL SPADASM(
      1             X       ,V       ,MS      ,SPBUF   ,ITAB    ,
@@ -718,7 +728,7 @@ C
       ENDIF
 C
 C-----------------------------------------------
-C       Traitement des OUTLETS.
+C       Processing of OUTLETS.
 C-----------------------------------------------
       IF(ITASK==0)THEN
         IF(NSPHIO/=0)THEN
@@ -760,11 +770,11 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C       Wake up particles from solids (wake up groups)
-        NSPHACT=0
+        NSPHACT=0 
         CALL SOLTOSPH_ON2(
      . X      ,SPBUF    ,KXSP   ,IPARTSP ,ELBUF_TAB,
      . IPARG  ,NGROUNC ,IGROUNC ,ITASK   ,IXSP     ,
-     . NOD2SP ,SOL2SPH ,WASPACT )
+     . NOD2SP ,SOL2SPH ,WASPACT )  
 C
       ELSE
         NSPHACT=NSP2SORT
@@ -776,7 +786,7 @@ C    /---------------/
 C    /---------------/
 C
 C-----------------------------------------------
-C     CORRECTION DES NOYAUX.
+C     KERNEL CORRECTION.
 C-----------------------------------------------
       CALL SPCOMPL(
      1    X       ,V       ,MS       ,SPBUF  ,ITAB    ,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C  045      J=NUMNOD/2
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SYSFUS=ITABM1(J+NUMNOD)+0.1
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -84,20 +84,18 @@ C     >CAS IU>TABM
 C
 C     REAL
 !||====================================================================
-!||    sysfus2       ../engine/source/system/sysfus.F
+!||    sysfus2         ../engine/source/system/sysfus.F
 !||--- called by ------------------------------------------------------
-!||    ale51_spmd2   ../engine/source/ale/ale51/ale51_spmd2.F
-!||    ale51_spmd3   ../engine/source/ale/ale51/ale51_spmd3.F
-!||    forcefingeo   ../engine/source/loads/general/forcefingeo.F
-!||    fr_rlale      ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-!||    fr_rlink1     ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
-!||    genh3d        ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    lcbcsf        ../engine/source/constraints/general/bcs/lcbcsf.F
-!||    lecnoise      ../engine/source/general_controls/computation/lecnoise.F
+!||    fr_rlale        ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    fr_rlink1       ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
+!||    genh3d          ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
+!||    lcbcsf          ../engine/source/constraints/general/bcs/lcbcsf.F
+!||    lecnoise        ../engine/source/general_controls/computation/lecnoise.F
 !||====================================================================
       INTEGER FUNCTION SYSFUS2(IU,ITABM1,NUMNOD)
-C cette fonction retourne le no interne correspondant a un no user ou 0
-C si le noeud n'existe pas
+C this function returns the internal number corresponding to a user number or 0
+C If the node does not exist
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,12 +130,12 @@ C
       JSUP=NUMNOD
       J=MIN(1,NUMNOD/2)
    10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
-C     >CAS NOEUD non trouve
+C     > Noise case not found
         SYSFUS2=0
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SYSFUS2=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN

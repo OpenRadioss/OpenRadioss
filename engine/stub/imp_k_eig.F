@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod       ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    stack_mod       ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -57,6 +58,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD   
       USE STACK_MOD  
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +119,7 @@ C=======================================================================
       DO I=1,NDDL0
          LB(I)=ZERO
       ENDDO
-C Pas de vitesse imposee (ni de rigid wall) en analyse modale
+C No imposed velocity (or rigid wall) in modal analysis
       NFXVEL=0
       NT_RW=0
 C

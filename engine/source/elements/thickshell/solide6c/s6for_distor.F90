@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,8 +24,10 @@
 !||    s6for_distor_mod   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3           ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6for_distor_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief distortion control for penta6 element
@@ -34,6 +36,7 @@
 !||    s6for_distor       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3           ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
 !||    sfor_3n2s3         ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_n2s4          ../engine/source/elements/solid/solide/sfor_n2s4.F
@@ -133,7 +136,7 @@
               vz5(i)+vz6(i))
             stif(i) = sti_c(i)
             ifc1(i) = istab(i)
-          enddo
+          end do
 !
           nctl = 0
           forc_n = zero
@@ -163,7 +166,7 @@
               xc(i) = one_over_6*(x1(i)+x2(i)+x3(i)+x4(i)+x5(i)+x6(i))
               yc(i) = one_over_6*(y1(i)+y2(i)+y3(i)+y4(i)+y5(i)+y6(i))
               zc(i) = one_over_6*(z1(i)+z2(i)+z3(i)+z4(i)+z5(i)+z6(i))
-            enddo
+            end do
 !    ifc1 is used for contact
             gap_min = tol_c*em02  !percentage
             gap_max = five*gap_min
@@ -288,7 +291,7 @@
 !
               if (stif(i)>sti_c(i)) sti(i) = max(sti(i),stif(i))
             end do
-          endif !(ifctl >0) then
+          end if !(ifctl >0) then
 
 !
         end subroutine s6for_distor

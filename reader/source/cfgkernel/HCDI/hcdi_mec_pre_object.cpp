@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include <KERNEL/mv_descriptor.h>
 #include <KERNEL/mv_expression.h>
 #include <KERNEL_BASE/expression_API.h>
@@ -33,7 +33,7 @@
 HC_DATA_DLL_API IMECPREOBJECT HCDI_GetPreObjectHandle(const char *kernel_full_type, const char *input_full_type,const char *title,int id,int unit_id)
 {
     IMECPreObject *pre_obj =  new MECPreObject(kernel_full_type, input_full_type, title, id, unit_id);
-	return (IMECPREOBJECT)pre_obj;
+    return (IMECPREOBJECT)pre_obj;
 }
 HC_DATA_DLL_API IMECPREOBJECT HCDI_GetPreObjectHandleFromOtherPreObject(IMECPreObject *p_pre_obj)
 {
@@ -107,7 +107,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddBoolValue(skeyword.c_str(), ind, a_val);
+                pre_object.AddBoolValue(skeyword.c_str(), a_val);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -133,7 +133,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddIntValue(skeyword.c_str(), ind, (int)value);
+                pre_object.AddIntValue(skeyword.c_str(), (int)value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -156,7 +156,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddUIntValue(skeyword.c_str(), ind, (unsigned int)value);
+                pre_object.AddUIntValue(skeyword.c_str(), (unsigned int)value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -179,7 +179,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddFloatValue(skeyword.c_str(), ind, value);
+                pre_object.AddFloatValue(skeyword.c_str(), value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -195,7 +195,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
         if (ind < 0)
         {
             int otype = a_descr_p->getObjectType(attrib_ikey);
-            string otype_str = HCDI_get_entitystringtype(otype);
+            const string& otype_str = HCDI_get_entitystringtype(otype);
             if (str_val != "")
                 pre_object.AddObjectValue(skeyword.c_str(), otype_str.c_str(), str_val.c_str());
             else
@@ -215,6 +215,29 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
         }
     }
     break;
+    case VTYPE_STRING:
+    {
+        if (ind < 0)
+        {
+            pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
+        }
+        else
+        {
+            attribute_type_e a_atype = a_descr_p->getAttributeType(attrib_ikey);
+            int a_cell_ind = -1;
+            if (a_atype == ATYPE_VALUE)
+            {
+                pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
+            }
+            else if (a_atype == ATYPE_DYNAMIC_ARRAY)
+            {
+                a_cell_ind = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                if (a_cell_ind >= 0)
+                    pre_object.SetStringValue(a_cell_ind, ind, str_val.c_str());
+            }
+        }
+    }
+        break;
     default:
         break;
     }
@@ -409,7 +432,7 @@ HC_DATA_DLL_API void HCDI_AddArrayAttributesToPreObject(IMECPreObject& pre_objec
         int a_array_index = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, a_arr_skw.c_str());
         int Obj_Id = UINT_MAX;
         int otype = a_descr_p->getObjectType(arr_ikw);
-        string otype_str = HCDI_get_entitystringtype(otype);
+        const string& otype_str = HCDI_get_entitystringtype(otype);
         if (a_array_index >= 0)
         {
             int a_nb_values = pre_object.GetNbValues(IMECPreObject::VTY_OBJECT, a_array_index);
@@ -479,7 +502,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectStringValue(IMECPreObject& pre_object, 
         int a_cell_ind = -1;
         if (a_atype == ATYPE_VALUE)
         {
-            pre_object.AddStringValue(skeyword.c_str(), ind, str_val.c_str());
+            pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
         }
         else if (a_atype == ATYPE_DYNAMIC_ARRAY)
         {

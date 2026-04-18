@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,11 +52,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK,NEWFRONT ,NELTST,ITYPTST
+      INTEGER NIN,ITASK 
       INTEGER IPARI(NPARI,NINTER)
 C     REAL
       my_real 
-     .    X(3,*), V(3,*), DT2T,
+     .    X(3,*), V(3,*),
      .    XSLV_L(*), XMSR_L(*), VSLV_L(*) , VMSR_L(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB

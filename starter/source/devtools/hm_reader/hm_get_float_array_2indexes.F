@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,7 +82,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,VALUE_TYPE,SUB_ID,IFLAGUNIT,UID
+      INTEGER :: J,SUB_ID,IFLAGUNIT,UID
       my_real :: FAC_L,FAC_M,FAC_T,FAC
       REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
       LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE

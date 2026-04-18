@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,21 +22,29 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C new (energy  failure model)
 !||====================================================================
-!||    fail_energy_s   ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_energy_s           ../engine/source/materials/fail/energy/fail_energy_s.F
 !||--- called by ------------------------------------------------------
-!||    mmain           ../engine/source/materials/mat_share/mmain.F90
-!||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-!||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F90
-!||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
+!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
+!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
+!||    usermat_solid           ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      SUBROUTINE FAIL_ENERGY_S(
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,NPF      ,
-     2     TF       ,TIME     ,TIMESTEP ,UPARAM   ,NGL      ,EPSP     ,
-     3     UVAR     ,OFF      ,DFMAX    ,TDELE    ,DMGSCL   ,
+      SUBROUTINE FAIL_ENERGY_S(FAIL     ,
+     1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP  ,
+     2     TIME     ,TIMESTEP ,NGL      ,EPSP     ,
+     3     OFF      ,DFMAX    ,TDELE    ,DMGSCL   ,
      4     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5     DEPSXX   ,DEPSYY   ,DEPSZZ   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )    
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,11 +55,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -74,48 +77,32 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR
+      INTEGER, INTENT(IN) :: NEL,NUVAR,NVARTMP
       INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
       my_real, INTENT(IN) :: TIME,TIMESTEP
-      my_real, DIMENSION(NUPARAM), INTENT(IN) :: UPARAM
       my_real, DIMENSION(NEL), INTENT(IN) :: SIGNXX,SIGNYY,SIGNZZ,
-     .   SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,
-     .   DEPSZX,EPSP
+     .   SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,EPSP
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,DFMAX,DMGSCL,TDELE
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IR,IFAIL,JJ,
      .        ISOLID
-      my_real 
-     .       E1,E2,E3,E4,E5,E6,RFAC,E42,E52,E62,C,D, EPST,EPST2,
-     .       R1,R2,Y,YP,DAV,DYDX,IE_SP,P,SCALE,CC
-      my_real
-     .      EPS_MAX(MVSIZ),DAMAGE(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .      RIEF1,RIEF2,XFAC
+      my_real :: E1,E2,E3,E4,E5,E6,E42,E52,E62,C,D, EPST,EPST2,
+     .       R1,R2,Y,YP,DAV,IE_SP,P,SCALE,CC,RIEF1,RIEF2
+      my_real :: EPS_MAX(MVSIZ),DAMAGE(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ)
+      my_real :: RFAC(NEL),DYDX(NEL)
 C--------------------------------------------------------------
-      RIEF1 = UPARAM(1)
-      RIEF2 = UPARAM(2)
-      XFAC  = UPARAM(4)
-      !ISOLID = INT(UPARAM(4)) 
+      RIEF1 =  FAIL%UPARAM(1)
+      RIEF2 =  FAIL%UPARAM(2)
+
       DO I=1,NEL
         DAMAGE(I) = ZERO
         UVAR(I,1) = UVAR(I,1) + SIGNXX(I)*DEPSXX(I) + 
@@ -128,20 +115,22 @@ C--------------------------------------------------------------
 C-----------------------------------------------
       DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO
-        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 CC           
+      if (fail%table4d(1)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,epsp,rfac,dydx)
+        rfac(:) = max(rfac(:),em20)
+      else
+        rfac(:) = one
+      end if
+!
        NINDX=0  
        DO I=1,NEL
-        RFAC = ONE
-        IF(IFUNC(1)/=0)THEN
-          RFAC=FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
-          RFAC = MAX(RFAC,EM20)
-        ENDIF  
         IF(OFF(I)==ONE)THEN
           IE_SP = UVAR(I,1)
-          R1 = RIEF1*RFAC
-          R2 = RIEF2*RFAC
+          R1 = RIEF1*RFAC(I)
+          R2 = RIEF2*RFAC(I)
          IF(IE_SP>R1.AND.R1<R2) THEN
           DAMAGE(I)= (IE_SP-R1)/(R2-R1)
           DAMAGE(I)= MIN(ONE,DAMAGE(I))

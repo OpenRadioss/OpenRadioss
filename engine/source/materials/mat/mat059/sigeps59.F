@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,7 +80,7 @@ C---------+---------+---+---+--------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  
 C----------------------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,MAXFUNC, JSMS
+      INTEGER NEL,NUPARAM,MAXFUNC, JSMS
       INTEGER IFUNC(*),NPF(*)
       my_real
      .   TIME,TIMESTEP
@@ -95,13 +95,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I1,I2,I,J,IEL,IRATE,NRATE,IFILTR,NTRAC
-      INTEGER IFUNN(MAXFUNC),IFUNT(MAXFUNC),JJ(NEL),ELTRAC(NEL),II(NEL)
+      INTEGER IFUNN(MAXFUNC),IFUNT(MAXFUNC),ELTRAC(NEL),II(NEL)
       my_real
-     .   E,ECOMP,G,G3,G12,G23,FCUT,DYDX1,DYDX2,Y1,Y2,R,DSIG,DEPLA,
-     .   SVM,SIGT,DTB
+     .   E,ECOMP,G,G3,FCUT,DYDX1,DYDX2,Y1,Y2,R,DSIG,DEPLA,
+     .   SVM,DTB
       my_real
      .   DSIGX(NEL),DSIGY(NEL),DSIGZ(NEL),YFAC(MAXFUNC),RATE(MAXFUNC),
-     .   YLD(2,NEL),HC(2,NEL),DEPST(NEL),STF(NEL),FAC(NEL)
+     .   YLD(2,NEL),HC(2,NEL),STF(NEL),FAC(NEL)
 C----------------------------------------------------------
 C   E x t e r n a l  F u n c t i o n
 C----------------------------------------------------------
@@ -122,12 +122,12 @@ c
         ELTRAC(1:NEL) = 0
         NTRAC  = 0
         DO IEL=1,NEL
-          IF (EPSZZ(IEL) > ZERO) THEN   ! element in traction
+          IF (EPSZZ(IEL) > ZERO) THEN   ! In traction element
             STF(IEL)    = (E+G) * AREA(IEL)                                          
             DSIGZ(IEL)  = E*DEPSZZ(IEL)                                 
             NTRAC = NTRAC + 1
             ELTRAC(NTRAC) = IEL
-          ELSE                          ! element in compression
+          ELSE                          ! in compression
             STF(IEL)    = (ECOMP+G) * AREA(IEL)                                          
             DSIGZ(IEL)  = ECOMP*DEPSZZ(IEL)
           ENDIF

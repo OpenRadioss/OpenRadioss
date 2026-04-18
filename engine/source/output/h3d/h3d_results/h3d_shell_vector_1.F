@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
@@ -58,6 +59,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD              
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,16 +91,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real VALUE(3),P
-      INTEGER I,NEL,NPTR,NPTS,NPTT,NLAY,ILAY,MLW,JTURB,NVARF,
+      my_real VALUE(3)
+      INTEGER I, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, MLW, JTURB, 
      .        OFFSET,IHBE,NPG,MPT,IPT,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*)
       INTEGER NPT_ALL,IPLY,
      .        IOK_PART(MVSIZ),JJ(5),IUVAR,
      .        IS_WRITTEN_VALUE(MVSIZ)
-      REAL R4
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF    
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF
-      my_real,DIMENSION(:), POINTER  :: UVAR
+ 
+ 
 C----------------------------------------------- 
 
        CALL INITBUF(IPARG   ,NG      ,                    

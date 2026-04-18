@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s10coork   ../engine/source/elements/solid/solide10/s10coork.F
+!||    s10coork      ../engine/source/elements/solid/solide10/s10coork.F
 !||--- called by ------------------------------------------------------
-!||    s10ke3     ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s10ke3        ../engine/source/elements/solid/solide10/s10ke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S10COORK(
      1   X,       IXS,     IXS10,   XX,
@@ -44,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   K79,     K70,     K88,     K89,
      H   K80,     K99,     K90,     K00,
      I   NEL,     ISMSTR)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

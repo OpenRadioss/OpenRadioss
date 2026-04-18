@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,6 +36,7 @@
 !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
 !||====================================================================
       module fractal_dmg_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initialize local element buffer variable dammx in shell elements calculated by /fail/fractal_dmg
@@ -143,7 +144,7 @@
             if (debug == 1 .and. nelem_dmg > 0) then
               do ii=1,nelem_dmg
                 i = elem_dmg(ii)
-                print*,'    initially damaged elem ',ngl(i)
+                print*,"    initially damaged elem ",ngl(i)
               end do
             end if
             !------------------------------------------

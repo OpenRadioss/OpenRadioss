@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rdresb             ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db            ../common_source/tools/input_output/read_db.F
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    nlocal_reg_mod     ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
@@ -55,9 +55,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
+      INTEGER ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,LCNE_NL,MATSIZE
-      my_real, DIMENSION(:), POINTER :: FNL,STIFNL
+      my_real, DIMENSION(:), POINTER :: FNL
       INTEGER, DIMENSION(8)  :: 
      .  HEAD
 C=======================================================================

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER JFT,JLT,NG,NEL
+      INTEGER JFT,JLT,NEL
       MY_REAL 
      .   FOR(NEL,5),MOM(NEL,3), 
      .   PX2(*), PY2(*), PX3(*), PY3(*), 

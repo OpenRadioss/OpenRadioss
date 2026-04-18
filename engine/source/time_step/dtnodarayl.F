@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,8 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ISK,IGR,ND,K,L,LL,ITYPE,FL_VREL,ID_RBY,FL_FREQ_RANGE
-      my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
+      INTEGER I,J,IGR,ND,ITYPE,FL_VREL,FL_FREQ_RANGE
+      my_real FACTB,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
      .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,DAMP_A(3)     
 C----------------------------------------------------------

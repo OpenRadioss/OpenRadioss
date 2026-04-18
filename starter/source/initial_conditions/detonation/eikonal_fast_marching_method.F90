@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||====================================================================
       module eikonal_fast_marching_method_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -35,22 +36,26 @@
 !! \details Connectivity is provided with nod2el and knod2el arrays
 !! \details updown(:) array is used to define narrow band 1:frozen, 0:narrow_band, -1:far
 !||====================================================================
-!||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||--- called by ------------------------------------------------------
-!||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+!||    eikonal_solver                 ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||--- calls      -----------------------------------------------------
-!||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-!||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-!||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
-!||    eikonal_remove_first             ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-!||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    eikonal_compute_adjacent       ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||    eikonal_init_mixture_vel       ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting           ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list        ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_lmax                   ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
+!||    eikonal_remove_first           ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||    eikonal_sort_narrow_band       ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||--- uses       -----------------------------------------------------
-!||    detonators_mod                   ../starter/share/modules1/detonators_mod.F
-!||    eikonal_compute_adjacent_mod     ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
-!||    eikonal_init_mixture_vel_mod     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
-!||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
-!||    eikonal_remove_first_mod         ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
-!||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    detonators_mod                 ../starter/share/modules1/detonators_mod.F
+!||    eikonal_compute_adjacent_mod   ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+!||    eikonal_init_mixture_vel_mod   ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting_mod       ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list_mod    ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
+!||    eikonal_lmax_mod               ../starter/source/initial_conditions/detonation/eikonal_Lmax.F90
+!||    eikonal_remove_first_mod       ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+!||    eikonal_sort_narrow_band_mod   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
         subroutine eikonal_fast_marching_method(&
           ix,nix,numel,x,numnod, &
@@ -65,10 +70,12 @@
           use eikonal_sort_narrow_band_mod , only : eikonal_sort_narrow_band
           use eikonal_remove_first_mod , only : eikonal_remove_first
           use eikonal_compute_adjacent_mod , only : eikonal_compute_adjacent
-          use eikonal_init_start_list_2d_mod , only : eikonal_init_start_list_2d
+          use eikonal_init_start_list_mod , only : eikonal_init_start_list
           use eikonal_init_mixture_vel_mod , only : eikonal_init_mixture_vel
           use detonators_mod , only : detonators_struct_
           use precision_mod, only : WP
+          use eikonal_init_sorting_mod , only : eikonal_init_sorting
+          use eikonal_Lmax_mod , only : eikonal_Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -116,7 +123,9 @@
           integer :: n_queue
           integer, allocatable, dimension(:) :: idx_ng  !< group identifier for a given solid elem
           integer, allocatable, dimension(:) :: idx_i   !< local id in group
-          integer, allocatable, dimension(:) :: elem_list
+          integer, allocatable, dimension(:) :: elem_list !< local to global ids
+          integer, allocatable, dimension(:) ::  uelem_list !< user ids
+          integer, allocatable, dimension(:) :: elem_list_bij !< global to local ids
           real(kind=WP), allocatable, dimension(:) :: vel
           real(kind=WP) :: vel_adj(6)   ! tria 3<6, quad:4<6, hexa 6
           real(kind=WP), allocatable, dimension(:) :: tdet   !< detonation time
@@ -129,7 +138,6 @@
           integer :: nstart !< number of deotnation points (centroids)  ! can be adapt later from mesh nodes to elem centroid (spherical wave from node to centroid)
           integer,allocatable,dimension(:) :: start_elem_list
           real(kind=WP),allocatable,dimension(:) :: start_elem_tdet
-          integer, allocatable, dimension(:) :: elem_list_bij
           integer :: num_new_activated, list_new_activated(6)
           real(kind=WP) :: dx,dy,dz,dl,s, tmp
           real(kind=WP) :: Dcj !< Detonation velocity (law5 and 97)
@@ -137,11 +145,15 @@
           integer :: mid
           integer :: ishadow !< shadowing option for detonators (Eikonal equation solver)
           real(kind=WP) :: fac
+          integer :: isym(2) !< flag for symmetry condition (0: no symmetry, 1 : iframe defined)
+          integer,allocatable,dimension(:,:) :: itag_boundFaces ! for a given explosive element, several faces may be related by planes of symmetry
+          real(kind=WP) :: Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
           mat_det = detonators%point(idet)%mat
+          isym(1:2) = 0
 
           !numbering
           neldet = 0
@@ -150,6 +162,7 @@
             nel = iparg(2,ng)
             nft = iparg(3,ng)
             ity = iparg(5,ng)
+            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             mid = ix(1,nft+1)
             ishadow = nint(pm(96,mid))
             if(ishadow == 0)cycle
@@ -159,11 +172,12 @@
                   neldet = neldet + nel
                 end if
               end if
-            endif
-          enddo
+            end if
+          end do
 
           ! size neldet
           allocate(elem_list(neldet)) ; elem_list(:) = 0
+          allocate(uelem_list(neldet)); uelem_list(:) = 0
           allocate(idx_ng(neldet))    ; idx_ng(:) = 0
           allocate(idx_i(neldet))     ; idx_i(:) = 0
           allocate(updown(neldet))    ; updown(:) = -1
@@ -187,22 +201,22 @@
             nel = iparg(2,ng)
             nft = iparg(3,ng)
             ity = iparg(5,ng)
+            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             mid = ix(1,nft+1)
             ishadow = nint(pm(96,mid))
             if(ishadow == 0)cycle
-            if(ity /=1 .and. ity /= 2 .and. ity /= 7)cycle
             if(mid /= mat_det .and. mat_det /= 0)cycle
             Dcj = pm(38,mid)
             if(mlw == 51)then
               multimat_id = 51
-            elseif(mlw == 151)then
+            else if(mlw == 151)then
               multimat_id = 151
-            elseif(mlw /= 5 .and. mlw /= 97)then
+            else if(mlw /= 5 .and. mlw /= 97)then
               cycle
-            endif
+            end if
             if(ity == 2)then
               fac = fourth
-            elseif(ity == 7)then
+            else if(ity == 7)then
               fac = third
             else !ity == 1
               fac = one_over_8
@@ -212,10 +226,11 @@
                 !building list
                 neldet = neldet + 1
                 lgth = lgth + 1
-                elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                elem_list(neldet) = i+nft         ! elem_list      : [1..neldet] -> [1..numel]
+                uelem_list(neldet) = ix(nix,i+nft)! uelem_list     : [1..neldet] -> [min_user_id..max_user_id]
                 idx_ng(neldet) = ng
                 idx_i(neldet) = i
-                elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
+                elem_list_bij(i+nft) = neldet      ! elem_list_inv : [1..numel] -> [1..neldet]
                 !centroid coordinates
                 inod(1:nvois) = ix(2:nvois+1, i+nft)
                 xel(1, neldet) = zero ! x-center
@@ -223,13 +238,14 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:nvois))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             else ! 3d
               do i=1,nel
                 !building list
                 neldet = neldet + 1
                 lgth = lgth + 1
                 elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                uelem_list(neldet) = ix(nix,i+nft)
                 idx_ng(neldet) = ng
                 idx_i(neldet) = i
                 elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
@@ -240,7 +256,7 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:8))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             end if
             if(multimat_id /= 0)then
               ! Dcj not initialized for multimaterial law
@@ -251,16 +267,24 @@
               iad1 = neldet + 1
               lgth = 0
             end if
-          enddo
+          end do
 
-          call eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
+          call eikonal_Lmax(neldet, xel, Lmax, nvois)
+
+          !parith/on requires same order of treatment whatever is the domain decomposition (renumbered occurred in ddsplit)
+          ! ensuring same order of treatment
+          call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
+
+          allocate(itag_boundFaces(neldet,nvois)) ; itag_boundFaces(:,:) = 0
+          call eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
             nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
-            nix, ix, mat_det, vel)
+            nix, ix, mat_det, vel, uelem_list, elem_list, isym, itag_boundFaces, Lmax)
 
           if(nstart == 0)then
             !DEALLOCATE
             if(allocated(start_elem_list))deallocate(start_elem_list)
             if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
+            if(allocated(uelem_list))deallocate(uelem_list)
             if(allocated(elem_list))deallocate(elem_list)
             if(allocated(idx_ng))deallocate(idx_ng)
             if(allocated(idx_i))deallocate(idx_i)
@@ -279,7 +303,7 @@
           do jj=1,nstart
             updown(start_elem_list(jj)) = 1
             tdet(start_elem_list(jj)) = start_elem_tdet(jj)
-          enddo ! next jj
+          end do ! next jj
 
           ! initial narrow band
           !    mark first points in the narrow band (close)
@@ -299,19 +323,19 @@
                   if(mat_det /= 0 .and. ix(1,iev) /= mat_det)cycle
                   updown(iel) = 0
                   n_queue = n_queue + 1
-                  s=max(vel(iel),vel(ie))
+                  s=max(vel(iel),vel(ii))
                   s=one/s
-                  dx = xel(1,ie)-xel(1,iel)
-                  dy = xel(2,ie)-xel(2,iel)
-                  dz = xel(3,ie)-xel(3,iel)
+                  dx = xel(1,ii)-xel(1,iel)
+                  dy = xel(2,ii)-xel(2,iel)
+                  dz = xel(3,ii)-xel(3,iel)
                   dl = sqrt(dx*dx + dy*dy + dz*dz)
                   priority_queue_id(n_queue) = iel
-                  priority_queue_tt(n_queue) = tdet(ie) + dl*s
+                  priority_queue_tt(n_queue) = tdet(ii) + dl*s
                   tdet(iel) = priority_queue_tt(n_queue)
                 end if
-              ENDDO
+              END DO
             end if
-          enddo ! next ii
+          end do ! next ii
           call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
           ! main loop -------------------------------------------------------------------------
@@ -319,19 +343,20 @@
           do while (n_queue > 0)
 
             !freeze minimum
-            ie = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
-            updown(ie) = 1
+            iel = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
+            updown(iel) = 1
             call eikonal_remove_first(priority_queue_id,priority_queue_tt,n_queue)
 
             !compute adjacent (might be far)
+            ie = elem_list(iel)
             call eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
               tdet,tdet_adj,vel,vel_adj,xel,xel_adj,numel,elem_list_bij, &
               updown, num_new_activated, list_new_activated,  mat_det, &
-              nix,ix, nvois )
+              nix,ix,nvois,itag_boundFaces,numnod,x)
 
             !we may init only updated tdet from previous call above
             do ii=1,n_queue
-              priority_queue_tt(ii) = tdet(elem_list_bij(priority_queue_id(ii)))
+              priority_queue_tt(ii) = tdet(priority_queue_id(ii))
             end do
 
             do ii=1,num_new_activated
@@ -344,14 +369,14 @@
             ! reorder priority queue
             call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
-          enddo !wend
+          end do !wend
           ! end of main loop -------------------------------------------------------------------------
 
           ! initialize element buffer (arrival times)
           do ii=1,neldet
             ng = idx_ng(ii)
             i  = idx_i(ii)
-            tmp = -elbuf_tab(ng)%gbuf%tb(i)
+            tmp = abs(elbuf_tab(ng)%gbuf%tb(i)) ! Tdet was potentially already computed with standard detonator (no fast marching method), see m5in2 subroutine
             tmp = min (tmp, tdet(ii))
             elbuf_tab(ng)%gbuf%tb(i) = -tmp
           end do
@@ -369,6 +394,7 @@
           if(allocated(priority_queue_id))deallocate(priority_queue_id)
           if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
           if(allocated(elem_list_bij))deallocate(elem_list_bij)
+          if(allocated(itag_boundFaces))deallocate(itag_boundFaces)
 
         end subroutine eikonal_fast_marching_method
 ! ----------------------------------------------------------------------------------------------------------------------

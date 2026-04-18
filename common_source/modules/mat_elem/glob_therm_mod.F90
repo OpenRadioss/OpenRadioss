@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -116,6 +116,8 @@
 !||    rdresa                   ../engine/source/output/restart/rdresa.F
 !||    rdresb                   ../engine/source/output/restart/rdresb.F
 !||    resol                    ../engine/source/engine/resol.F
+!||    resol_alloc_phase5       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_python       ../engine/source/engine/resol_alloc.F90
 !||    resol_head               ../engine/source/engine/resol_head.F
 !||    resol_init               ../engine/source/engine/resol_init.F
 !||    restalloc                ../engine/source/output/restart/arralloc.F
@@ -128,6 +130,8 @@
 !||    s4forc3                  ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3                 ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||    s6cinit3                 ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zforc3                 ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zinit3                 ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cforc3                 ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8cinit3                 ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8eforc3                 ../engine/source/elements/solid/solide8e/s8eforc3.F

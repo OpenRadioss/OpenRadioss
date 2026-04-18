@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ C=======================================================================
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD     
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
+      INTEGER I, NG, NEL, NFT, N, ITY, JHBE, IGTYP, ICSTR, ISOLNOD
       INTEGER N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
       INTEGER,DIMENSION(:),ALLOCATABLE :: ITAG
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -401,7 +402,7 @@ C--------only linear for the moment
          END IF
        END IF
       ENDDO 
-C-------message out      
+C------ Out message      
       IF (IDTTSH>0 .AND.(IER1+IER2)>0) THEN
         IF (IER1>0.AND. IPRI>0 ) CALL ANCMSG(MSGID=2070,
      .                MSGTYPE=MSGINFO,

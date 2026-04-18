@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC,MLW
+      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,ITY,ISNOD,NFT,IVISC,MLW
       LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS,COMPAT_VISC
       CHARACTER (LEN = 10) :: ELTYP
       PID = -HUGE(PID)
@@ -73,7 +74,7 @@ c
       DO NG = 1,NGROUP
 c
         ! Group parameters
-        ITY   = IPARG(5,NG)         ! -> Element type 
+        ITY   = IPARG(5,NG)         ! -> Type element 
         IGTYP = ELBUF_STR(NG)%IGTYP ! -> Property type 
         NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers
         MLW   = IPARG(1,NG)         ! -> Material law type
@@ -193,12 +194,27 @@ c
               ! SOLID PROPERTIES
               ! ------------------------------------------------------------ 
               ! Isotropic solids property
-              CASE (14,20)
+              ! -> Brick and tetrahedral elements
+              CASE (14)
+                IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 5 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7) COMPAT_PROP = .FALSE.
+              ! -> Thickshell elements
+              CASE (20)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 5 .AND.
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
               ! Orthotropic solids property
-              CASE (6,21)
+              ! -> Brick and tetrahedral elements
+              CASE (6)
+                IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 2 .AND.               
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 8) COMPAT_PROP = .FALSE.
+              ! -> Thickshell elements
+              CASE (21)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 1 .AND. 
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 2 .AND.               
      .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
@@ -211,7 +227,8 @@ c
               ! Cohesive solids property
               CASE (43)
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 4 .AND.                   
-     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6) COMPAT_PROP = .FALSE.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 6 .AND.
+     .              MAT_PARAM(IMAT)%PROP_SOLID /= 7) COMPAT_PROP = .FALSE.
               ! Porous solids property
               CASE (15)          
                 IF (MAT_PARAM(IMAT)%PROP_SOLID /= 5) COMPAT_PROP = .FALSE.

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -118,12 +118,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,IP,ISK,IREP,JCVT,
      .    NPT,NPTR,NPTS,NPTT,ITET4,IET,ISTR,IHBE_OLD,ITET10,
-     .    ISHEAR,ISORTH,ICONTROL_D,ICONTROL
+     .    ISORTH,ICONTROL_D,ICONTROL
       my_real
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN,
      .    VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       INTEGER K,NSPHDIR,ID_PARTSPH,IPARTSPH,J
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS, IMAS_DS,
+      INTEGER     IHBE_DS,ISST_DS,IFRAME_DS,
      .            ITET4_D,ITET10_D,ICPRE_D
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------

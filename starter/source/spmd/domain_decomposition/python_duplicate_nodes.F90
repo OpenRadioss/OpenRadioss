@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,9 +73,9 @@
                 do p = 1, nspmd
                   call ifrontplus(j,p)
                   !write(6,*) "python_front: node ", nodes_global_ids(i), " is on processor ", p
-                enddo
-              endif
-            enddo
+                end do
+              end if
+            end do
           end do
         end subroutine python_duplicate_nodes
       end module python_duplicate_nodes_mod

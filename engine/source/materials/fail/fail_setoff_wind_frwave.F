@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,17 +70,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,IMAT,
-     .   IDMG,COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
-      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY  
-      INTEGER, DIMENSION(10) :: ISTRESS
+      INTEGER IEL, IPOS, IL, IFL, IPT, IG, IPG, JPG, NPTR, NPTS, NPTT, IMAT, 
+     . COUNTPG,NINDXPG,NFAIL,IPWEIGHT,IPTHKLY
+      INTEGER, DIMENSION(NEL) :: INDXPG
+ 
       INTEGER, DIMENSION(:), POINTER :: OFFLY,OFFPG,FOFF
       my_real, DIMENSION(NLAY,100)   :: PTHKF
-      my_real, DIMENSION(NEL) :: UEL1,DFMAX,TDEL,NPTTF,SIGSCALE
+ 
       my_real, DIMENSION(:), POINTER :: DMAX
-      my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
-      my_real :: THK_LAY,P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
+ 
+      my_real :: P_THICKG, FAIL_EXP, THFACT
+ 
       TYPE (STACK_PLY) :: STACK    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
@@ -205,9 +205,6 @@ c------------------
 c----------------------------------------
       ENDIF       ! PROPERTY TYPE
 c-------------------------------
- 2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
- 2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
 c-----------
       RETURN
       END

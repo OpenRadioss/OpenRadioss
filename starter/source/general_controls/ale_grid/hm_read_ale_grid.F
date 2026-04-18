@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NALE_GRID, II, NITER,NTETRA4
+      INTEGER :: NALE_GRID, II, NITER
       CHARACTER :: KEY*32
       LOGICAL :: IS_AVAILABLE
       LOGICAL :: IS_DEFINED_ALE_GRID

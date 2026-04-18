@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,25 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    insol3      ../starter/source/interfaces/inter3d1/insol3.F
+!||    insol3        ../starter/source/interfaces/inter3d1/insol3.F
 !||--- called by ------------------------------------------------------
-!||    i1chk3      ../starter/source/interfaces/inter3d1/i1chk3.F
-!||    i20sti3     ../starter/source/interfaces/inter3d1/i20sti3.F
-!||    i21els3     ../starter/source/interfaces/inter3d1/i21els3.F
-!||    i23gap3     ../starter/source/interfaces/inter3d1/i23gap3.F
-!||    i2_surfi    ../starter/source/interfaces/inter3d1/i2_surfi.F90
-!||    i2buc1      ../starter/source/interfaces/inter3d1/i2buc1.F
-!||    i2chk3      ../starter/source/interfaces/inter3d1/i2chk3.F
-!||    i2cor3      ../starter/source/interfaces/inter3d1/i2cor3.F
-!||    i3sti3      ../starter/source/interfaces/inter3d1/i3sti3.F
-!||    i9sti3      ../starter/source/interfaces/int09/i9sti3.F
-!||    r2r_count   ../starter/source/coupling/rad2rad/r2r_count.F
+!||    i1chk3        ../starter/source/interfaces/inter3d1/i1chk3.F
+!||    i20sti3       ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i21els3       ../starter/source/interfaces/inter3d1/i21els3.F
+!||    i23gap3       ../starter/source/interfaces/inter3d1/i23gap3.F
+!||    i2_surfi      ../starter/source/interfaces/inter3d1/i2_surfi.F90
+!||    i2buc1        ../starter/source/interfaces/inter3d1/i2buc1.F
+!||    i2chk3        ../starter/source/interfaces/inter3d1/i2chk3.F
+!||    i2cor3        ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i3sti3        ../starter/source/interfaces/inter3d1/i3sti3.F
+!||    i9sti3        ../starter/source/interfaces/int09/i9sti3.F
+!||    r2r_count     ../starter/source/coupling/rad2rad/r2r_count.F
 !||--- calls      -----------------------------------------------------
-!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL3(X   ,IRECT,IXS      ,NINT    ,NEL  ,I   ,
      .                 AREA ,NOINT,KNOD2ELS ,NOD2ELS ,IR   ,IXS10,
      .                 IXS16,IXS20)
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,7 +133,7 @@ C
   230  CONTINUE
        IF (NUSERM==-1) RETURN
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO
@@ -194,6 +196,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
+       use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -206,7 +209,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, I, NOINT,IR,J,NINV
+      INTEGER NINT, NEL, I, NOINT,IR,NINV
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
@@ -357,10 +360,14 @@ C
           IF(NTY==25) THEN
             IF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==1.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==0) THEN
               IC = 1  
+              IELEM_M(2) = 0
             ELSEIF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==0.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==1) THEN
               IC = 1
               NEL = IELEM_M(2)
               IELEM_M(1) = IELEM_M(2)
+              IELEM_M(2) = 0
+            ELSEIF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==0.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==0) THEN
+              IC = 1
               IELEM_M(2) = 0
             ENDIF
           ENDIF
@@ -460,6 +467,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+       use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -471,7 +479,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, I, NOINT,IR, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
+      INTEGER NINT, NEL, I, NOINT, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), IADD(*), INVC(*),NF,NTY
@@ -537,7 +545,7 @@ C
      4     ID,TITR)
        END IF !(NEL>NUMELS8.AND.NEL<=NUMELS8+NUMELS10) THEN
 C
-C 2 Elements connects  1 facette !
+C 2 Connects 1 Facette.
 C
        IF(IC>=2)THEN
          IF(NINT>0) CALL ANCMSG(MSGID=1245,
@@ -553,7 +561,7 @@ C
        ENDIF
        
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C TITR     ,DGAPLOAD    ,RESORT  )
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,13 +84,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDX, I, J, II, INRT, NELS, NELC, NELTG, NEL,
+      INTEGER NDX, I, J, II, INRT, NEL,
      .        N1,N2,N3,N4, IX, N, L, LLT, NN, IP, STAT
       INTEGER ITMP(NUMNOD)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, DX,GAPS1,GAPS2, GAPM, DDX, 
-     .   GAPTMP, XXX, YYY, ZZZ, X0, X1, Y0, Y1, Z0, Z1
+     .   DXM, GAPMX, GAPMN, DX,GAPS1,GAPS2, GAPM, 
+     .    XXX, YYY, ZZZ, X0, X1, Y0, Y1, Z0, Z1
       my_real
      .        X12(MVSIZ),Y12(MVSIZ),Z12(MVSIZ),
      .        X13(MVSIZ),Y13(MVSIZ),Z13(MVSIZ),
@@ -112,7 +113,7 @@ C------------------------------------
         CALL I4GMX3(X,IRECTS,INRT,GAPMX)
   250 CONTINUE
 C-------------------------------------------------------
-C     THICKNESS PART ON SECND NODES FOR GAP CALCULATION
+C     THICKNESS PART ON SECOND NODES FOR GAP CALCULATION
 C-------------------------------------------------------
       IF(IGAP>=1)THEN
          ALLOCATE (THK_PART_NODS(NUMNOD)        ,STAT=stat)
@@ -145,7 +146,7 @@ C-------------------------------------------------------
       ENDIF
 
 C------------------------------------
-C     GAP VARIABLE NOEUDS SECONDS
+C     GAP VARIABLE NODES SECONDS
 C------------------------------------
       IF(IGAP>=1)THEN
        DO I=1,NSN
@@ -190,22 +191,22 @@ C                                 =====
          GAPMIN = GAP
          GAPMAX = GAP
        ELSE
-C SUP DES GAPS VARIABLES
+C UPPER SIDE OF VARIABLE GAPS
          IF(GAP>ZERO)GAPMIN=GAP
          IF (RESORT==0) WRITE(IOUT,1000)GAPMIN
 C
-C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
+C        Gap is not used for IGAP> 0;Gapmin can be equal to 0.
          IF(GAPMAX==ZERO)GAPMAX=EP30
          IF (RESORT==0) WRITE(IOUT,1500)GAPMAX
          GAP = MIN(GAP,GAPMAX)
        ENDIF
 C---------------------------------------------
 C---------------------------------------------
-C SUP DES GAPS VARIABLES
+C UPPER SIDE OF VARIABLE GAPS
        GAP = MIN(GAPMAX,MAX(GAPS2,GAPMIN))    
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to be used during the retri criterion
 C
       IF (IGAP==0) THEN
         CRITER=GAP 
@@ -220,11 +221,11 @@ C
        IF(DGAPLOAD > ZERO) CRITER=MAX(CRITER,EM01*(GAP + DGAPLOAD))
 C
       IF(DEPTH==ZERO)THEN
-C Valeur par defaut de Depth = max( sup des gaps , largeur des elts )
+C Default value of Depth = max( upper side of gaps , width of elts )
         DEPTH=MAX(GAP,GAPMX)
-C cest encore necessaire au tri dans le starter
+C this is still necessary for sorting in the starter
       ELSEIF(DEPTH<GAP)THEN
-C Depth est tjrs superieur au gap (sup des gaps si variable)
+C Depth is always superior to the CAP (sup of the gaps so variable)
         DEPTH=GAP
       END IF
       IF (RESORT==0) WRITE(IOUT,2000)DEPTH
@@ -270,7 +271,7 @@ C------------------------------------
         STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODAL RIGIDITY MULTIPLIER
 C---------------------------------------------
       DO I=1,NSN
         STFN(I) = ONE

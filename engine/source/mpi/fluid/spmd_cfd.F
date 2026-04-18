@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -352,13 +352,9 @@ C
 !||====================================================================
 !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
-!||    aconve                           ../engine/source/ale/aconve.F
-!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
 !||    agauge                           ../engine/source/ale/agauge.F
-!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    alew6                            ../engine/source/ale/grid/alew6.F
-!||    arezon                           ../engine/source/ale/arezon.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
 !||    prelecflow                       ../engine/source/elements/solid/solide/prelecflow.F
@@ -460,8 +456,6 @@ C
 C
 !||====================================================================
 !||    spmd_e6vois    ../engine/source/mpi/fluid/spmd_cfd.F
-!||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
@@ -572,8 +566,6 @@ C
 
 !||====================================================================
 !||    spmd_e4vois    ../engine/source/mpi/fluid/spmd_cfd.F
-!||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
@@ -784,14 +776,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    spmd_i8vois    ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i8vois     ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I8VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
@@ -904,14 +896,14 @@ C
       END
 
 !||====================================================================
-!||    spmd_i4vois    ../engine/source/mpi/fluid/spmd_cfd.F
+!||    spmd_i4vois     ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- called by ------------------------------------------------------
-!||    afluxt         ../engine/source/ale/ale51/afluxt.F
+!||    init_ale_spmd   ../engine/source/ale/init_ale_spmd.F90
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_wait       ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_I4VOIS(
      1                       PHI   ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
@@ -1022,6 +1014,7 @@ C
 !||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_L11VOIS(
@@ -1033,6 +1026,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE SPMD_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2005,6 +1999,7 @@ C
 !||    spmd_waitany         ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
 !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
@@ -2018,6 +2013,7 @@ C-----------------------------------------------
       USE SPMD_MOD
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2063,7 +2059,7 @@ C-----------------------------------------------
       TYPE(BUF_MAT_)  ,POINTER :: MBUF               
 C-----------------------------------------------
 
-      ! X on remote nodes
+      ! X We Remote Nodes
       LOC_PROC             = ISPMD+1
       IDEB                 = 0
       IDEB2                = 0

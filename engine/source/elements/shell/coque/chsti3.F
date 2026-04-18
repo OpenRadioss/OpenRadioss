@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    chsti3       ../engine/source/elements/shell/coque/chsti3.F
+!||    chsti3        ../engine/source/elements/shell/coque/chsti3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHSTI3(JFT ,JLT,THK,HOUR,OFF ,PX1,
      2                  PX2,PY1,PY2 ,SIGY,IXC,DT1C,
@@ -39,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B   IPARTC ,PARTSAV,
      C   IHBE   ,NFT   ,ISMSTR ,SRH3 ,IGTYP ,
      D   IGMAT  ,A11R  ,NEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +92,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J
+      INTEGER I, MX
 C     REAL
       my_real
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
@@ -97,10 +100,10 @@ C     REAL
      .   HG1(MVSIZ), HG2(MVSIZ) ,HP1(MVSIZ), HP2(MVSIZ) , 
      .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),  
      .   A11(MVSIZ) ,EHOU(MVSIZ),
-     .   PX1V, PX2V, PY1V, PY2V, SSPHVL,ZZ2,VV, 
-     .   SHFPR3, FAC, BB, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
-     .   EHOURT, PX1VP,PX2VP,PY1VP,PY2VP, FMAX(MVSIZ),
-     .   HOUR1P,HOUR2P,HOUR3P,FMAX1,FMAXP1,FMAX2,FMAXP2,FMAXP,
+     .   PX1V, PX2V, PY1V, PY2V,VV, 
+     .   SHFPR3, FAC, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
+     .   EHOURT, FMAX(MVSIZ),
+     .   
      .   SCALE(MVSIZ)
 C-----------------------------------------------
 C

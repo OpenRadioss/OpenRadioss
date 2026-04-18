@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i11for3    ../engine/source/interfaces/int11/i11for3.F
+!||    i11for3      ../engine/source/interfaces/int11/i11for3.F
 !||--- called by ------------------------------------------------------
-!||    i11mainf   ../engine/source/interfaces/int11/i11mainf.F
-!||--- calls      -----------------------------------------------------
-!||    bitget     ../engine/source/interfaces/intsort/i20sto.F
+!||    i11mainf     ../engine/source/interfaces/int11/i11mainf.F
 !||--- uses       -----------------------------------------------------
-!||    tri7box    ../engine/share/modules/tri7box.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I11FOR3(
+      SUBROUTINE I11FOR3(OUTPUT,
      1                JLT      ,FSAV     ,GAP      ,FRIC    ,MS      ,
      2                VISC     ,VISCF    ,NOINT    ,ITAB    ,CS_LOC  ,
      3                CM_LOC   ,STIF     ,DT2T     ,HS1     ,HS2     ,
@@ -56,6 +55,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,12 +83,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
+      INTEGER NELTST,ITYPTST,JLT,IVIS2,INACTI,NRTS,NIN,INTTH
       INTEGER ITAB(*),
      .        NOINT,NEWFRONT,NISUB,NFT
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        CS_LOC(MVSIZ), CM_LOC(MVSIZ),
-     .        NSMS(MVSIZ),IFORM,INDEX(*),IFPEN(*), ISENSINT(*),
+     . IFORM,INDEX(*),IFPEN(*), ISENSINT(*),
      .        ADDSUBS(*),ADDSUBM(*),LISUBS(*),LISUBM(*),LISUB(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        TYPSUB(*),INFLG_SUBS(*), INFLG_SUBM(*)
@@ -116,14 +117,13 @@ C-----------------------------------------------
      .   FSAVPARIT(NISUB+1,11,*),FSAVSUB(NTHVKI,*),FRICC(MVSIZ),
      .   VISCFFRIC(MVSIZ)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      INTEGER BITGET
-      EXTERNAL BITGET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI
-      INTEGER NISKYL,NISKYL1,IDTM,IM,IS,JSUB,KSUB,JJ,KK,NSUB,PP,PPL,
-     .   ITYPSUB,ISS1,ISS2,IMS1,IMS2
+      INTEGER I ,K, NI
+      INTEGER IDTM,IM,IS,JSUB,KSUB,JJ,KK,NSUB,PP,PPL,
+     .   ITYPSUB
+      LOGICAL :: ISS1,ISS2,IMS1,IMS2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
@@ -487,9 +487,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             MAS2  = MS1(I)*HS1(I)
@@ -553,7 +553,7 @@ C
         ENDDO
       ENDIF
 C
-C     impulsion normale pour les sous-interfaces
+C     normal impulse for sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -635,15 +635,15 @@ C
                 JJ=JJ+1
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 surfacec
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -658,7 +658,7 @@ C
                     FSAV11=ABS(FNI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB(1,NSUB)=FSAVSUB(1,NSUB)-FSAV1
                       FSAVSUB(2,NSUB)=FSAVSUB(2,NSUB)-FSAV2
                       FSAVSUB(3,NSUB)=FSAVSUB(3,NSUB)-FSAV3
@@ -674,7 +674,7 @@ C
                     FSAVSUB(11,NSUB)=FSAVSUB(11,NSUB)+FSAV11
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FZI(I)
@@ -807,15 +807,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 surfacec
 
-                ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -830,7 +830,7 @@ C
                     FSAV11=ABS(FNI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB(1,NSUB)=FSAVSUB(1,NSUB)-FSAV1
                       FSAVSUB(2,NSUB)=FSAVSUB(2,NSUB)-FSAV2
                       FSAVSUB(3,NSUB)=FSAVSUB(3,NSUB)-FSAV3
@@ -846,7 +846,7 @@ C
                     FSAVSUB(11,NSUB)=FSAVSUB(11,NSUB)+FSAV11
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FZI(I)
@@ -1016,7 +1016,7 @@ C
       ENDIF
 C
 C
-C     impulsion tangentielle dans les sous-interfaces
+C     tangential impulse in sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1094,15 +1094,15 @@ C
                 JJ = JJ + 1
               ELSEIF(ITYPSUB == 3) THEN
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1117,7 +1117,7 @@ C
                     FSAV15 = SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0 ) THEN
+                    IF(IMS2) THEN
                       FSAVSUB(4,NSUB)=FSAVSUB(4,NSUB)-FSAV4
                       FSAVSUB(5,NSUB)=FSAVSUB(5,NSUB)-FSAV5
                       FSAVSUB(6,NSUB)=FSAVSUB(6,NSUB)-FSAV6
@@ -1132,7 +1132,7 @@ C
                     FSAVSUB(15,NSUB)=FSAVSUB(15,NSUB)+FSAV15
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0 ) THEN
+                      IF(IMS2 ) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  FZT(I)
@@ -1258,15 +1258,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN  ! Inter =0 : collecting forces from all inter with 2 Surfs
 
-                ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IM+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                       (IMS2  .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1281,7 +1281,7 @@ C
                     FSAV15 = SQRT(FXI(I)*FXI(I)+FYI(I)*FYI(I)+FZI(I)*FZI(I))*DT12
 C
                     NSUB=LISUB(JSUB)
-                    IF(IMS2 > 0) THEN
+                    IF(IMS2) THEN
                       FSAVSUB(4,NSUB)=FSAVSUB(4,NSUB)-FSAV4
                       FSAVSUB(5,NSUB)=FSAVSUB(5,NSUB)-FSAV5
                       FSAVSUB(6,NSUB)=FSAVSUB(6,NSUB)-FSAV6
@@ -1296,7 +1296,7 @@ C
                     FSAVSUB(15,NSUB)=FSAVSUB(15,NSUB)+FSAV15
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  -FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  -FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  -FZT(I)
@@ -1357,7 +1357,7 @@ ctmp+1 mic only
         DO I = 1,JLT
           IF(CS_LOC(I)>NRTS)THEN
             NI = CS_LOC(I)-NRTS
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(NI) = -ABS(NSVFI(NIN)%P(NI))
           ENDIF
         ENDDO

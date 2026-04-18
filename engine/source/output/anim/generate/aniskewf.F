@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +28,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad_spmd_recv   ../engine/source/mpi/generic/rad_spmd_recv.F
 !||    rad_spmd_send   ../engine/source/mpi/generic/rad_spmd_send.F
 !||    spmd_igath      ../engine/source/mpi/anim/spmd_igath.F
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ANISKEWF(GEO,SKEW,IPARG,IXR,DD_IAD,LRBUF)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,8 +56,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ISK,NB1,NB2,NB3,NB4,NB5,NB6,NB7,NB8,NB9,
-     .   NB10,NB11,NB12,NB13,NB14,NEL,LFT,LLT,NG,
+      INTEGER I,ISK,
+     .   NEL,LFT,LLT,NG,
      .   ITY,IAD,MLW,NFT,N,II,ISKK,MSGTAG,LEN,IGTYP
       INTEGER SRBUF(LRBUF)
       INTEGER, PARAMETER :: INTSIZE = 4
@@ -65,7 +68,7 @@ C-----------------------------------------------
       ISK=NUMSKW-1
 C   spmd
         II = 0
-C   pb sur ISK : incremente par pour ts les elem !
+C   problem on ISK: incremented by for all elements!
         MSGTAG = 1000
         IF (NSPMD > 1 .AND. ISPMD/=0) THEN
 
@@ -154,7 +157,7 @@ C-----------------------------------------------
       IF (ISPMD==0) THEN
         CALL WRITE_I_C(SRBUF,LEN)
       ENDIF
-c      ENDIF
+C      ENDIF
 
 C
       RETURN

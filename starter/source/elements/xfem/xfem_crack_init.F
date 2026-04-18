@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE XFEM2DEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER NG,ITY,LFT,LLT,N,I,J,IPRT,NEL,NFT,IXFEM,ILEV,NCOUNT,
+      INTEGER NG,ITY,LFT,LLT,N,I,J,NEL,NFT,IXFEM,ILEV,NCOUNT,
      .   SHCOUNT,NCOUNTG
       INTEGER TAG_ARRAY(NUMNOD),TAG_SHELLS_C(NUMELC),TAG_SHELLS_TG(NUMELTG),
      .   NLEVXF,NN(4),TYPE_SHELLS_C(NUMELC),TYPE_SHELLS_TG(NUMELTG)
@@ -161,7 +162,7 @@ C
       ENDDO  !       DO ILEV=1,NLEVMAX
 c
 C-----------------------------------------------------------------------
-C     Numeros globaux des shell crack (by level)
+C     Global shell crack numbers (by level)
 C-------------------------------
       NCOUNT = 0
       DO ILEV=1,NLEVMAX
@@ -186,7 +187,7 @@ C-------------------------------
       ENDDO
 C
 C-------------------------------
-C Numeros globaux des NODES (unconnected) for shell crack (by level)
+C Global NODES numbers (unconnected) for shell crack (by level)
 C-------------------------------
 C
       NCOUNTG = 0
@@ -200,7 +201,7 @@ C
            NCOUNT = NCOUNT + 1
            NCOUNTG = NCOUNTG + 1
            CRKSHELL(ILEV)%XNODEG(J,I) = NCOUNTG ! global num de phantom nodes 
-           CRKSHELL(ILEV)%XNODEL(J,I) = NCOUNT  ! or = 4*(I -1) + J = Num nodes phantomes d'un seul ilev
+           CRKSHELL(ILEV)%XNODEL(J,I) = NCOUNT  ! Or = 4*(i -1) + J '= Num nodes phantomes of a single Ilev
          END DO
         ENDDO
       ENDDO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,12 +62,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J, I1,I2, II,K, iTdet,  i, NPTS, NSEG,IDIST(MVSIZ),NDETCORD,NNOD
-      my_real :: DDMX, DTOS, XLP2, YLP2, XLP1     , ZLP2 ,YLP1,
+      INTEGER :: J, II,K,  i, NPTS, NSEG,IDIST(MVSIZ),NNOD
+      my_real ::  DTOS, XLP2, YLP2, XLP1     , ZLP2 ,YLP1,
      .           ZLP1, XL0 , YL0 , ZL0 , XL1      , YL1  ,ZL1 , XL2 ,YL2 ,ZL2,
      .           PS1 , PS2 , DL1 , DL2 , DL(MVSIZ), S1   ,S2  , S3,  TdetC, TP1, TP2, TH, TH1,TH2,
      .           TC1,TC2,TC0,TC,p1p2,dh,ALPHA,KNOTS(4),ZP(3),
-     .           ZH1(3),DIST1,T1,ZH2(3),DIST2,T2,DIST(MVSIZ),XX,YY,ZZ,D,LOCAL_PT(4,3),C(3),T,DD,
+     .           ZH1(3),DIST1,T1,ZH2(3),DIST2,T2,DIST(MVSIZ),XX,YY,ZZ,LOCAL_PT(4,3),C(3),T,DD,
      .           LEN,LEN1,LEN2
 
       type SPLINE_PATH
@@ -271,7 +271,7 @@ C-----------------------------------------------
 
        !TEST POINT PROJECTIONS
        DO J=LFT,LLT
-         !nearest point : IDIST(J)
+         !Nearest point: Idist (J)
          I=IDIST(J)
          I=MIN(I,NSEG)
          K=I

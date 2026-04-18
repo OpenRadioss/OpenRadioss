@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -249,7 +249,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOD(0:*), IFLAG
+      INTEGER NOD(0:*)
 C     REAL
       my_real
      .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), FS(*), MS(*),
@@ -298,7 +298,7 @@ C
       YCDG=ZERO
       ZCDG=ZERO      
 C----------------------------
-C     CALCUL DU CDG + MASSE
+C     calculation of the center of gravity and mass
 C----------------------------
       DO 100 I=1,NSN
       N = NOD(I)
@@ -380,7 +380,7 @@ C
       CJWORK(10)=MASSE
       CJWORK(11)=INER
 C----------------------------
-C     mvt de corps rigide autour de CDG (masse MASSE, inertie INER):
+C     MVT of rigid body around CDG (mass mass, inertia inert):
 C     Extract V(t-1/2) and VR(t-1/2)
 C----------------------------
       VX= ZERO
@@ -458,7 +458,7 @@ C
 C
       CJWORK(18)=DMASSE
 C----------------------------
-C     CALCUL ACCELERATIONS DE ROTATION
+C     calculation of rotational accelerations
 C----------------------------
       VG(1)=VXX+AXX*DT12
       VG(2)=VYY+AYY*DT12
@@ -497,7 +497,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN, NA, NB, I, N
+      INTEGER NSN, I, N
       my_real AX, AY, AZ, A0, N1, N2, N3, DMASSE
 C-----------------------------------------------
       NSN =NOD(0)
@@ -533,7 +533,7 @@ C
       AY=AY-N2*A0
       AZ=AZ-N3*A0
 C
-C transmet force au 1er nd
+C Transmet Force to the 1st ND
       N = NOD(1)
       A0=N1*A(1,N)+N2*A(2,N)+N3*A(3,N)
       A(1,N)=AX+N1*A0
@@ -602,7 +602,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN, NA, NB, I, N
+      INTEGER NSN, I, N
       my_real
      .   N1, N2, N3, AX, AY, AZ, AXX, AYY, AZZ, 
      .   XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0, 

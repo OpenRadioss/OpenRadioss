@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    initbuf        ../engine/share/resol/initbuf.F
-!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE CUTFUNCE(NC   ,NUMEL,ELBUF_TAB,IFUNC  ,
@@ -37,7 +38,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs         
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,10 +60,10 @@ C     REAL
       INTEGER NUMEL,IFUNC
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
-      INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,G_PLA,II(6)
+      INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,II(6)
 C     REAL
       my_real
-     .   OFF,  P, VONM2, VONM, S1, S2, S12, S3, VALUE     
+     .   OFF,  P, VONM2, VONM, S1, S2, S3, VALUE     
       REAL R4
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -132,10 +134,10 @@ c-----------
             ENDIF
 c-----------
            ELSEIF (IFUNC==8 . AND. JTURB/=0) THEN
-C            ENERGIE TURBULENTE     
+C            TURBULENT ENERGY     
              VALUE = GBUF%RK(I) 
            ELSEIF (IFUNC==9) THEN
-C           VISCOSITE TURBULENTE
+C           TURBULENT VISCOSITY
             IF((MLW==6 .OR. MLW==17).AND.JTURB/=0)THEN
                 MT=IXS(1,N)
                 VALUE=PM(81,MT)*GBUF%RK(I)**2/
@@ -147,7 +149,7 @@ C           VISCOSITE TURBULENTE
                ENDIF
 C
            ELSEIF(IFUNC==10)THEN
-C            VORTICITE
+C            VORTICITY
              IF(MLW==6 .OR. MLW==17)THEN
                VALUE = LBUF%VK(I)     
              ELSEIF(MLW==46 .OR. MLW==47)THEN

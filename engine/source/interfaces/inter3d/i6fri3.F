@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   H(4), XX1(4), XX2(4), XX3(4)
       my_real
      .   SS0,TT0,XC0,YC0,ZC0,SP,SM,TP,TM,FT,FTX,FTY,FTZ,
-     .   ANSX,ANSY,ANSZ,FMAX,FTI,FN,TN1,TN2,TN3,TN
+     .   ANSX,ANSY,ANSZ,FMAX,FN,TN1,TN2,TN3,TN
       my_real
      .   KFRIC(LLT),KFRICV(LLT),XX(LLT)
 C-----------------------------------------------
@@ -256,8 +256,7 @@ C
         EM(J2)=EM(J2)+FY4(I)
         EM(J3)=EM(J3)+FZ4(I)
 C---------------------------------
-C       FRICTION SECND
-C---------------------------------
+C       FRICTION SECOND C---------------------------------
         I3=3*IL
         I2=I3-1
         I1=I2-1

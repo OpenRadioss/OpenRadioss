@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,10 +45,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    aniskewf                     ../engine/source/output/anim/generate/aniskewf.F
 !||    anivflowp                    ../engine/source/output/anim/generate/monvol_anim.F90
 !||    arret                        ../engine/source/system/arret.F
-!||    close_c                      ../common_source/tools/input_output/write_routtines.c
+!||    close_c                      ../common_source/tools/input_output/write_routines.c
 !||    cntskew                      ../engine/source/output/anim/generate/aniskewf.F
 !||    compute_binary_checksum      ../common_source/output/checksum/checksum.cpp
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    cutcnt                       ../engine/source/tools/sect/cutcnt.F
 !||    cutfunc                      ../engine/source/tools/sect/cutfunc.F
 !||    cutfunce                     ../engine/source/tools/sect/cutfunce.F
@@ -95,7 +95,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dxyzsect                     ../engine/source/output/anim/generate/dxyzsect.F
 !||    dxyzsph                      ../engine/source/output/anim/generate/dxyzsph.F
 !||    dxyzsrg                      ../engine/source/output/anim/generate/dxyzsrg.F
-!||    file_size                    ../common_source/tools/input_output/write_routtines.c
+!||    file_size                    ../common_source/tools/input_output/write_routines.c
 !||    fretitl2                     ../engine/source/input/freform.F
 !||    nodal_schlieren              ../engine/source/output/anim/generate/nodal_schlieren.F
 !||    nodald                       ../engine/source/output/anim/generate/nodald.F
@@ -105,7 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodalvfrac                   ../engine/source/output/anim/generate/nodalvfrac.F
 !||    nodalzvol                    ../engine/source/output/anim/generate/nodalzvol.F
 !||    norcut                       ../engine/source/tools/sect/norcut.F
-!||    open_c                       ../common_source/tools/input_output/write_routtines.c
+!||    open_c                       ../common_source/tools/input_output/write_routines.c
 !||    parcut                       ../engine/source/tools/sect/parcut.F
 !||    parsor0                      ../engine/source/output/anim/generate/parsor0.F
 !||    parsor_crk                   ../engine/source/output/anim/generate/parsor_crk.F
@@ -162,10 +162,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    velvecc22                    ../engine/source/output/anim/generate/velvec.F
 !||    velvecc_max                  ../engine/source/output/anim/generate/velvec.F
 !||    velvecz22                    ../engine/source/output/anim/generate/velvecz22.F
-!||    write_c_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_s_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_i_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_s_c                    ../common_source/tools/input_output/write_routines.c
 !||    xfecut                       ../engine/source/output/anim/generate/xfecut.F
 !||    xyz16                        ../engine/source/output/anim/generate/monvol_anim.F90
 !||    xyzcut                       ../engine/source/tools/sect/xyzcut.F
@@ -179,13 +179,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xyznor_ply                   ../engine/source/output/anim/generate/xyznor_ply.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                  ../common_source/modules/aleanim_mod.F
 !||    anim_monvol_mod              ../engine/source/output/anim/generate/monvol_anim.F90
 !||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    cluster_mod                  ../engine/share/modules/cluster_mod.F
 !||    crackxfem_mod                ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod                    ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod                    ../engine/share/modules/fvbag_mod.F
 !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
@@ -205,7 +206,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  SIAD     ,IPARG    ,PM          ,GEO         ,MS       ,
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
-     7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
+     7                  FOPT     ,LPBY        ,NPBY        ,NSTRF    ,
      8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MAT_PARAM,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
@@ -257,8 +258,9 @@ C-----------------------------------------------
         use glob_therm_mod
         use my_alloc_mod
         use drape_mod
-        USE OUTPUT_MOD , ONLY : OUTPUT_, NODA_SURF, NODA_PEXT, ANIM_HAS_NODA_PEXT
+        USE OUTPUT_MOD , ONLY : OUTPUT_
         USE ANIM_MONVOL_MOD
+        use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -309,7 +311,7 @@ C-----------------------------------------------
      .     X(3*NUMNOD), D(3*NUMNOD), V(3*NUMNOD), A(3,NUMNOD), BUFEL(*),
      .     PM(NPROPM,NUMMAT), GEO(NPROPG,*),CONT(*),
      .     XCUT(*) , FINT(3,*),MS(*),RWBUF(NRWLP,*),SKEW(LSKEW,*),
-     .     RBY(NRBY,*),FEXT(3,*) ,FOPT(6,*),ANIN(*),TANI(6,*),EANI(*),
+     .     RBY(NRBY,*),FEXT(3,*) ,FOPT(6,*),TANI(6,*),EANI(*),
      .     TORS(15,*),BUFSF(*), RDATA(*),
      .     BUFMAT(*),BUFGEO(*),
      .     SPBUF(*), VR(*),VOLMON(*), RFLOW(*), FNCONT(3,*), FTCONT(3,*),
@@ -402,7 +404,7 @@ C-----------------------------------------------
 
         CHARACTER*80 STR, MES*30, CAUX,TITL*100
         CHARACTER CHANIM*9,FILNAM*100, CHANIM1*4
-        INTEGER I, IDX,NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,
+        INTEGER I, IDX,IDX0,IDX1,IDX2,NBF, NBPART, MAGIC, J, IFUNC, FILEN, NPSOL,
      .          NODCUT,NELCUT,LENR,LENI,LENCUT,LENCUTO,IXEL,
      .          MIC1,MIC2,MIC3,MIC4,MIC5,MAC1,MAC2,MAC3,NPSPR,N,K,
      .          I3000, NESCT,NERBY,NERWL,NNWL,TMPNBF,ISK(6),
@@ -657,8 +659,8 @@ C ISO GEO ELEMS __1.
 C-----------------------------------------------
         NANIM3D_L = 0
         IF (NUMELIG3D>0) THEN
-          BID_TEMP(:,:) = ZERO  ! MIS A ZERO POUR LES VALEURS VECTORIELLES QUI NE SONT PAS CALCULEES
-          FIRST_NODE_IG3D = 1000000000  ! ATTENTION SI ON CREE DES POINTS AUTRE PART, ON RISQUE DE DEBORDER DES 1000000000
+          BID_TEMP(:,:) = ZERO  ! set to zero for vector values that are not computed
+          FIRST_NODE_IG3D = 1000000000  ! warning: if points are created elsewhere, there is a risk of exceeding 1000000000
           CALL ANIMIG3D(ELBUF_TAB,IPARG    ,X     ,D     ,V      ,A ,
      .                  WIGE     ,KXIG3D   ,IXIG3D,IG3DSOLID,NANIM3D_L,
      .                  X_TEMP   ,D_TEMP   ,V_TEMP,A_TEMP, TABSTRESL,IGEO  ,
@@ -669,7 +671,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C      SKEW + NB1D
 C-----------------------------------------------
-C     dans le starter on calcul NB1DG et NSKEWAG
+C     in the starter, nb1dg and nskewag are computed
         NSKEWA=NUMELP + NUMELT + NUMSKW
         NB1D  =NUMELP + NUMELT + NUMELR
 C
@@ -914,7 +916,7 @@ C
               ENDDO
 C
               NFNOD_CRKXFEMG = NXFENODG
-              LEN_CRKX   = MAX(NFNOD_CRKXFEMG,NBF_CRKXFEMG) ! max de noeuds et elems phant
+              LEN_CRKX   = MAX(NFNOD_CRKXFEMG,NBF_CRKXFEMG) ! max of phantom nodes and elements
               SEL2FA_CRK = NBF_CRKXFEMG + 1
               SWAFT_CRK  = MAX(3*NFNOD_CRKXFEMG,3*NBF_CRKXFEMG)
             ELSE
@@ -965,7 +967,7 @@ C
      .             WAFT_CRK(0))
         ENDIF
 C-----------------------------------------------
-C   COUPES DANS LES SOLIDES
+C   cuts in solids
 C-----------------------------------------------
         NODCUT=0
         NELCUT=0
@@ -978,7 +980,7 @@ C-----------------------------------------------
         MAC2=1
         MAC3=1
         IF(NCUTS>0)THEN
-          CALL CUTCNT (ICUT,XCUT,IXS,X,D,LENCUT)
+          CALL CUTCNT(output,ICUT,XCUT,IXS,X,D,LENCUT)
           LENCUT = MAX(LENCUT,NCUTS)
           IF(LENCUT>LENCUTO)THEN
             IF(ALLOCATED(CBUF))THEN
@@ -1010,7 +1012,7 @@ C     IF(.NOT.(ALLOCATED(CBUF)))  ALLOCATE(CBUF(1),STAT=oui)
 C     IF(.NOT.(ALLOCATED(ICBUF)))  ALLOCATE(ICBUF(1),STAT=oui)
 
 C-----------------------------------------------
-C  pour avoir une unification des tests en SPH
+C  to have unified tests in sph
         NUMSPH_T = NUMSPHG
 
         NESCT = 0
@@ -1043,7 +1045,7 @@ C-----------------------------------------------
         NFVTR=0
         NFVPART=0
         NFVSUBS=0
-C traitement equivalent en mono
+C Equivalent treatment in mono
         IF (ANIM_PLY > 0) THEN
           IDMAX=0
           DO I=1,NUMNOD
@@ -1085,7 +1087,7 @@ c     xfem crack for layered shells
         IF (ANIM_CRK > 0) THEN
           IF (NSPMD == 1) THEN
             DO I=1,NUMNOD
-              IDMAX = MAX(IDMAX,ITAB(I)) ! Id max de tous les noeuds std
+              IDMAX = MAX(IDMAX,ITAB(I)) ! max id of all standard nodes
             ENDDO
           ELSE
             CALL SPMD_CRK_IDMAX(IDMAX,ITAB)
@@ -1276,7 +1278,7 @@ c     xfem crack for layered shells
 c--------------------------------------------------------------------
 c
         IF (NFVNOD>0) THEN
-C traitement equivalent mono
+C Mono Equivalent Treatment
           IF (NSPMD == 1) THEN
             DO I=1,NFVBAG
               DO J=1,FVDATA(I)%NNS_ANIM
@@ -1327,7 +1329,7 @@ C-----------------------------------------------
      .              NODGLOB)
 C
 
-C pour la version spmd il faut mettre a jour XNORM
+C For the SPMD version you have to update XNORM
 
         IF (NSPMD>1) THEN
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -1365,7 +1367,7 @@ c     xfem crack for layered shells
      .         NODGLOBXFE,INDX_CRK,ITAB    )
         ENDIF
 c--------------------------------------------------------------------
-C traitement mono equivalent
+C Mono Equivalent Treatment
         IF (NSPMD == 1) THEN
           II=0
           IF (IFVANI==1) THEN
@@ -1389,7 +1391,7 @@ C
                     INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
                     INOD(4)=INOD(3)
                     II=II+1
-C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
+C number of distinct shell nodes (after merging in FVMESH)
                     NND=1
                     IF (INOD(2)/=INOD(1)) NND=NND+1
                     IF (INOD(3)/=INOD(1).AND.
@@ -1502,7 +1504,7 @@ C-----------------------------------------------
           ENDIF
         ENDIF
 
-C  a faire sur tous les procs en spmd
+C  to be done on all processors in spmd
 
         NESCT1=0
         DO ISECT=1,NSECT
@@ -1560,7 +1562,7 @@ cc         CALL WRITE_I_C(IAD_PLY  ,NPLYPART)
 c------------------------------------------------------------------
 C     xfem crack for layered shells
 c------------------------------------------------------------------
-          IF (ANIM_CRK > 0) THEN    ! adresses de parts xfem par layer
+          IF (ANIM_CRK > 0) THEN    ! xfem part addresses by layer
             IF(NSPMD==1)THEN
               DO ILAY = 1,NXLAYMAX
                 ILEV = ILAY*NXEL
@@ -2595,6 +2597,49 @@ C all NPTT for PID51
             IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 9',21)
             IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 10',22)
 
+            IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+            IDX1 = IDX0+10+1              ! VEL-Z 0:10
+            IDX2 = IDX1+10+1              ! VEL   0:10
+
+            IDX = IDX0-1
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude',18)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 1',22) !phase 1 (multimat)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 2',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 3',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 4',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 5',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 6',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 7',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 8',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 9',22)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Magnitude - 10',23)
+
+            IDX = IDX1-1
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y',10)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 1',14) !phase 1 (multimat)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 2',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 3',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 4',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 5',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 6',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 7',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 8',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 9',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Y - 10',15)
+
+            IDX = IDX2-1
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z',10)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 1',14) !phase 1 (multimat)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 2',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 3',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 4',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 5',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 6',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 7',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 8',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 9',14)
+            IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Velocity Z - 10',15)
+
             !---NEXT ANIM
             !IDX=IDX+1
 
@@ -2620,9 +2665,23 @@ C-----------------------------------------------
             WA4(N) = ZERO
           ENDDO
           IF(I<3.OR.I==12)THEN
-            DO N=1,NUMNOD
-              WA4(N)=ANIN(N+K)
-            ENDDO
+! really unsure of this part of the code
+            IF(I == 1) THEN 
+              WA4(1:NUMNOD)=OUTPUT%DATA%SCAL_DT(1:NUMNOD)         
+            ENDIF
+            IF(I == 2) then 
+                WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DMAS(1:NUMNOD)
+            ENDIF
+            IF(I == 12) then 
+              WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DINER(1:NUMNOD) 
+            ENDIF
+            !IF(K == 3*NUMNOD) WA(1:NUMNOD) = OUTPUT%SCAL_SPRING(1:NUMNOD)
+ !          IF(I == 12) then 
+ !            WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DAMA2(1:NUMNOD)
+ !          ENDIF
+!           DO N=1,NUMNOD
+!             WA4(N)=ANIN(N+K)
+!           ENDDO
             K = K + NUMNOD
           ELSEIF(I>=3.AND.I<=11 .OR. I==30) THEN
             IF(I == 6 .AND. (GLOB_THERM%ITHERM_FE  > 0  )) THEN
@@ -2733,10 +2792,10 @@ C
           ELSEIF(I==31)THEN
             !Averaged external pressure (PEXT)
             IF(N2D == 0)THEN
-              IF(ANIM_HAS_NODA_PEXT == 1)THEN
+              IF(OUTPUT%DATA%ANIM_HAS_NODA_PEXT == 1)THEN
                 DO N=1,NUMNOD
-                  IF(NODA_SURF(N) > ZERO)THEN
-                    WA4(N) = NODA_PEXT(N) / NODA_SURF(N)
+                  IF(OUTPUT%DATA%NODA_SURF(N) > ZERO)THEN
+                    WA4(N) = OUTPUT%DATA%NODA_PEXT(N) / OUTPUT%DATA%NODA_SURF(N)
                   ENDIF
                 ENDDO
               ENDIF
@@ -3137,7 +3196,10 @@ c----------------------------------------
           R4 = ZERO
           IF(NCUTS>0) THEN
             IF (I<3.OR.I==12) THEN
-              CALL CUTFUNC(ANIN(K+1),ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              ! really not sure, ask Sebastien
+              IF(I ==1) CALL CUTFUNC(OUTPUT%DATA%SCAL_DT,ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              IF(I ==2) CALL CUTFUNC(OUTPUT%DATA%SCAL_DMAS,ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              IF(I ==12) CALL CUTFUNC(OUTPUT%DATA%SCAL_DINER,ICBUF(MIC2),CBUF(MAC2),NODCUT)
             ELSE
               DO N=1,NODCUT
                 CALL WRITE_R_C(R4,1)
@@ -3178,7 +3240,7 @@ C-----------------------------------------------
         NDMA2= NUMNOD*(MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
      .                +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .                +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
-C traitement equivalent monoproc
+C Monoproc Equivalent Treatment
         IF (NSPMD == 1 .AND. NFVTR>0) THEN
           ALLOCATE(FVMASS(NFVTR),FVPRES(NFVTR), FVQX(NFVTR),
      .             FVQY(NFVTR), FVQZ(NFVTR), FVRHO(NFVTR),
@@ -3264,7 +3326,7 @@ C
      .                       FVRHO,   FVENER, FVCSON, FVGAMA, FVVISU,
      .                       FVEL2FA)
         ENDIF
-C  en spmd localement NBF = 0 mais pas la somme sur pi !
+C  In SPMD locally NBF = 0 but not the sum on PI!
         DO I = 1,MX_ANI
           IFUNC = I
           IF(ANIM_CE(I)==1)THEN
@@ -3273,7 +3335,7 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
               CALL DFUNCC(ELBUF_TAB ,WAFT        ,IFUNC         ,IPARG,GEO    ,
      .                    IXQ       ,IXC         ,IXTG          ,MAS          ,PM         ,
      .                    EL2FA     ,NBF         ,IAD           ,GLOB_THERM%ITHERM        ,
-     .                    NBF_L     ,EANI        ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                    NBF_L     ,EANI        ,OUTPUT%DATA%SCAL_SPRING ,NBPART       ,IADG       ,
      .                    IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                    NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
@@ -3291,7 +3353,7 @@ C ply information
               IF (ANIM_PLY > 0)THEN
                 CALL DFUNCC_PLY(ELBUF_TAB, WAFT_PLY, IFUNC, IPARG, GEO,
      .                           IXC ,  IXTG    , MAS,   PM,    EL2FA_PLY,
-     .                           NBF_PXFEM,IAD  , PLYNUMC,EANI,ANIN(NDMA2+1),
+     .                           NBF_PXFEM,IAD  , PLYNUMC,EANI,OUTPUT%DATA%SCAL_SPRING,
      .                           NPLYPART,IAD_PLYG,IPM  ,IGEO , THKE,
      .                           ERR_THK_SH4, ERR_THK_SH3,MAT_PARAM,
      .                           NBF_PXFEMG ,X , STACK )
@@ -3300,7 +3362,7 @@ C ply information
                 CALL DFUNCC_CRK(
      .              ELBUF_TAB   ,LEN_CRKX   ,IFUNC      ,IPARG,GEO          ,
      .              IXC         ,IXTG       ,MAS        ,PM   ,EL2FA_CRK    ,
-     .              NBF_CRKXFEM ,IAD        ,NBF_CRKXFEM,EANI ,ANIN(NDMA2+1),
+     .              NBF_CRKXFEM ,IAD        ,NBF_CRKXFEM,EANI ,OUTPUT%DATA%SCAL_SPRING,
      .              NCRKPART    ,IAD_CRKG   ,IPM        ,IGEO ,THKE         ,
      .              ERR_THK_SH4 ,ERR_THK_SH3,XFEM_TAB   ,IEL_CRK   ,INDX_CRK,
      .              NBF_CRKXFEMG,EL2FA      ,CRKEDGE    )
@@ -3539,7 +3601,7 @@ C     ENDIF
 cc            CALL VELVEC(VFLU,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),
 c     .                  NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,ANIM_V(10),
 c     .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,VFLU_ALE)
-C avoir pour anim ply en spmd
+C Have SPMD Anim Ply
           CALL VELVEC3(VFLU,BID_TEMP,VFLU_ALE,ICBUF(MIC2),CBUF(MAC2),
      .               NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,NFNOD_PXFEM,
      .               NFNOD_PXFEMG,NFNOD_CRKXFEMG)
@@ -3648,7 +3710,7 @@ c       Cluster forces
         ENDIF
 c
         IF (ANIM_V(20) == 1) THEN
-c       Cluster moments
+c       Motor cluster
           CALL VELVECC(MCLUSTER,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .                 NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
      .                 NFNOD_PXFEMG,NFNOD_CRKXFEMG)
@@ -3704,8 +3766,8 @@ c       interface 22, centroid rho.vel
 C-----------------------------------------------
 C   2D TENSOR TEXT
 C-----------------------------------------------
-C  en spmd localement NBF = 0 mais pas la somme sur p0 !
-C  sur p0 nbf global
+C  In SPMD locally NBF = 0 but not the sum on P0!
+C  on proc 0 global nbf
         IF (ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)THEN
           IF(ANIM_CT(1)==1) CALL ANI_TXT('Stress (membrane)',17)
           IF(ANIM_CT(2)==1) CALL ANI_TXT('Stress (moment/t^2)',19)
@@ -3968,7 +4030,7 @@ C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
         IF(ANIM_M==1)THEN
-C traitement equivalent monoproc
+C Monoproc Equivalent Treatment
           IF(NSPMD == 1) THEN
             DO I=1,NBF
               R4 = MAS(I)
@@ -4000,7 +4062,7 @@ C xfem crack for layered shells ---
               CALL WRITE_R_C(R4,1)
             ENDDO
           ENDIF
-C rajouter la masse s'il le faut
+C add the mass if needed
           IF(ISPMD == 0 .AND. ANIM_PLY > 0 ) THEN
             R4 = ZERO
             DO I=1,NBF_PXFEMG
@@ -4039,7 +4101,7 @@ C
               WA4(M)=WA4(M)+(RBY(15,N)-MS(M))* WEIGHT_MD(M)
             ENDIF
           ENDDO
-C traitement equivalent mono
+C Mono Equivalent Treatment
           IF (NSPMD == 1) THEN
             DO K=1,NUMNOD
               R4 = WA4(K)
@@ -4093,7 +4155,7 @@ C xfem crack for layered shells ---
 C-----------------------------------------------
 C   NODAL and ELEMENT NUMBERING
 C-----------------------------------------------
-C traitement equivalent monoproc
+C Monoproc Equivalent Treatment
         IF (NSPMD == 1) THEN
           CALL WRITE_I_C(ITAB,NUMNOD)
           IF (NUMELIG3D>0) THEN
@@ -4120,7 +4182,7 @@ c         SZNNSPH = NNSPH
             CALL WRITE_I_C(0,1)
           ENDDO
         ENDIF
-C IDMAX a revoir pour VMBAG
+C Idmax to review for vmbag
 C  ----
         IF(ANIM_PLY > 0) THEN
           IF (NSPMD == 1) THEN
@@ -4186,7 +4248,7 @@ C xfem crack for layerd shells +++
           ALLOCATE(ITAB_CRK(0))
         ENDIF
 C xfem crack for layerd shells ---
-C  Traitment equivalent monoproc
+C  MONOPRIX Equivalent Treatment
         IF (NSPMD == 1 .AND. NFVNOD>0) THEN
           DO I=1,NFVBAG
             IF (FVDATA(I)%NPOLH_ANIM>0) THEN
@@ -4311,7 +4373,7 @@ c xfem crack for layered shells +++
             ENDIF
           ENDIF
 C xfem crack for layered shells ---
-C traitement equivalent monoproc
+C Monoproc Equivalent Treatment
           IF (NSPMD == 1.AND.NFVTR>0) THEN
             II=NSUBS
      .          +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
@@ -4421,7 +4483,7 @@ C-----------------------------------------------
         SHFTSPH = SHFTSPH + SPHSHIFT
         SHFT16 = NUMNODG+NODCUT+NSECT+NRWALL+NNWL+NNSRG+NNSMD+NNSPHG
         SHFT16 = SHFT16 + NUM16SHIFT
-C  index debut de zone des noeuds sur tetras SPH.
+C  start index of node zone on SPH tetras
         INSPH=NUMNOD+NODCUT+NSECT+NRWALL+NNWL+NNSRG+NNSMD
 
         CALL PARSORS(IAD  ,IPARG     ,IXS    ,MATER,IPARTS,
@@ -4782,11 +4844,11 @@ C-----------------------------------------------
             CALL DFUNCS(
      1                ELBUF_TAB ,WAFT      ,IFUNC       ,IPARG       ,GEO          ,
      2                IXS       ,MAS       ,PM          ,EL2FA       ,NNN          ,
-     3                IPM       ,IGEO      ,NBPART      ,EANI        ,ANIN(NDMA2+1),
+     3                IPM       ,IGEO      ,NBPART      ,EANI        ,OUTPUT%DATA%SCAL_SPRING,
      4                IADG      ,SPBUF     ,IPART       ,IPARTSP     ,ISPH3D       ,
      5                X         ,V         ,W           ,ALE_CONNECTIVITY,
      6                NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,BUFMAT       ,
-     7                FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
+     7                OUTPUT%DATA%FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
           ENDIF
         ENDDO
 C-----------------------------------------------
@@ -5003,7 +5065,7 @@ C-----------------------------------------------
           CALL WRITE_I_C(NBPART+NRBODY+NRBE2T+NRBE3T,1)
           CALL WRITE_I_C(NFE_ANI,1)
           CALL WRITE_I_C(NFT_ANI,1)
-C FLAG POUR SKEW
+C flag for skew
           CALL WRITE_I_C(1,1)
         ENDIF
 
@@ -5017,7 +5079,7 @@ C-----------------------------------------------
      .               NFACPTX,IXEDGE,NODGLOB,NB1D  ,NANIM1D_L,
      .               IPART  ,IGEO  ,IADG_TPR,SIADG)
         IF(NRBODY>0) THEN
-C test equivalent monoproc
+C Equivalent monoproc test
           IF (NSPMD > 1) THEN
             SBUFSPM=0
             SBUFRECVM=0
@@ -5087,7 +5149,7 @@ C-----------------------------------------------
           ENDDO
           CALL WRITE_I_C(BUFFERP,NBPART)
         ENDIF
-C  il faut un gather de toutes les tailles de RB sur le P0
+C  a gather of all RB sizes is needed on proc 0
         DO I=1,NRBODY
           NERBT(I)=0
         ENDDO
@@ -5270,7 +5332,7 @@ C-----------------------------------------------
             CALL DFUNCF(ELBUF_TAB    ,WAFT   ,IFUNC  ,IPARG    ,GEO  ,
      .                  IXT          ,IXP    ,IXR    ,MAS      ,PM   ,
      .                  EL2FA        ,NB1D   ,IAD    ,NBPART   ,EANI ,
-     .                  ANIN(NDMA2+1),IADG   ,XFUNC1 ,NANIM1D_L,IGEO )
+     .                  OUTPUT%DATA%SCAL_SPRING,IADG   ,XFUNC1 ,NANIM1D_L,IGEO )
             IF (ISPMD==0) THEN
               R4 = 0.
               DO J=1,NERBY+NERBE2+NERBE3
@@ -5794,7 +5856,7 @@ C #PARTS FILLES
                 N3=N3+1
               ENDIF
             ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C cuts in the global subset
             N1=N1+NCUTS
 C PARTS FILLES 2D
             CALL WRITE_I_C(N1,1)
@@ -5802,7 +5864,7 @@ C PARTS FILLES 2D
               IF(MATER(K)>0.AND.MATER(K)<=M01)
      .           CALL WRITE_I_C(MATER(K)-1,1)
             ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C cuts in the global subset
             DO J=1,NCUTS
               CALL WRITE_I_C(M1-NRWALL-NSECT-NSURG-NSMAD-NPLYPARTW
      .                            -NCRKPARTW-J,1)
@@ -6205,7 +6267,7 @@ C #PARTS FILLES
                 N3=N3+1
               ENDIF
             ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C cuts in the global subset
             N1=N1+NCUTS
 C PARTS FILLES 2D
             CALL WRITE_I_C(N1,1)
@@ -6214,7 +6276,7 @@ C PARTS FILLES 2D
               IF(MATER(K)>0.AND.MATER(K)<=M01)
      .           CALL WRITE_I_C(MATER(K)-1,1)
             ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C cuts in the global subset
             DO J=1,NCUTS
               CALL WRITE_I_C(M1-NRWALL-NSECT-NSURG-NSMAD-NPLYPARTW-
      .                       NCRKPARTW-J,1)
@@ -6306,7 +6368,7 @@ C
 C=======================================================================
         IF(ISPH3D==1.OR.NUMSPH_T+MAXPJET==0) GOTO 700
 C-----------------------------------------------
-C   prepare sorties SUBSET : PART FILLES meshless
+C   PREPARE Subset outings: Part girls meshless
 C-----------------------------------------------
         IF (ISPMD==0) THEN
           DO I=1,NPART

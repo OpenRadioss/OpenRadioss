@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -114,19 +114,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer ::  i,updat2,                  &
-            ncyred, n,ndex,ndel_ply,ndex0
+          integer ::  i, ncyred, n,ndex,ndel_ply,ndex0
           integer , dimension(nel) :: index,iad,ipos,ilen,index0
-          real(kind=WP)                                                             &
-            :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,                     &
-            yt0, slimt2, yc0, sc0, d,                    &
-            slims, invd, slimc2, alpha, beta, dfailt, dfailc,       &
-            g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,  &
-            dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,    &
-            yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,  &
+          real(kind=WP) :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,        &
+            yt0, slimt2, yc0, sc0, d,                                           &
+            slims, invd, slimc2, alpha, beta, dfailt, dfailc,                   &
+            g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,          &
+            dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,                    &
+            yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,    &
             scale,dam,ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
 
-          real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx
+          real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx,xt_0
 !!======================================================================
           e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
           e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
@@ -179,10 +177,10 @@
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(1)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt)
-            xt(1:nel)= yfac_xt*xt(1:nel)
+            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt_0)
+            xt_0(1:nel)= yfac_xt*xt_0(1:nel)
           else
-            xt(1:nel) = xt0
+            xt_0(1:nel) = xt0
           endif
           ! xc
           if(ifunc(2) /= 0) then
@@ -252,9 +250,10 @@
             do n=1,ndex0
               i=index0(n)
               ! Update compressive strength if damage in matrix is complete
+              xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xt(i) = fbrt*xt_0(i)
               endif
               ! computing ne stress
               d = (one - nu12*nu21)
@@ -319,9 +318,10 @@
             do n=1,ndex0
               i=index0(n)
               !  ! Update compressive strength if damage in matrix is complete
+              xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
-                xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xc(i) = ycfac*yc(i) !
+                xt(i) = fbrt*xt_0(i)
               endif
               eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 )
               eps_ef = sqrt(eps_ef)
@@ -378,7 +378,7 @@
 #include "vectorize.inc"
           do n=1,ndex
             i= index(n)
-            deint = half*(depsxx(i)*(signxx(i) + sigoxx(i))  +                                     &
+            deint = half*(depsxx(i)*(signxx(i) + sigoxx(i))  +                        &
               depsyy(i)*(signyy(i) + sigoyy(i))) +                                    &
               depsxy(i)*(signxy(i) + sigoxy(i))
             eint = uvar(i,2) + deint
@@ -397,32 +397,22 @@
             limit_sig=  zero
             if(check(i) >= zero) then ! loading
               ! dir 11
-              if(dmg(i,2) == one  .and. signxx(i) >= slimt1*xt(i) ) then
+              if(dmg(i,2) == one  .and. signxx(i) >= slimt1*xt(i) ) then !dir 11 (tension)
                 limit_sig = slimt1*xt(i)
                 signxx(i) = limit_sig
-                signyy(i) = sigoyy(i)
-                signxy(i) = sigoxy(i)
-              elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then
+                signyy(i) = slimt1*sigoyy(i)
+                signxy(i) = slimt1*sigoxy(i)
+              elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then ! dir 11 (compression)
                 signxx(i) = - slimc1*xc(i)
-                signyy(i) = sigoyy(i)
-                signxy(i) = sigoxy(i)
-              endif
-              ! dir 22
-              if(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then
+              elseif(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then ! dir 22 ! Tension
                 signyy(i) = slimt2*yt(i)
-                signxx(i) = sigoxx(i)
-                signxy(i) = sigoxy(i)
-              elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then
+                signxy(i) = slimt2*sigoxy(i)
+              elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then ! dir 22 ! Compression
                 signyy(i) = - slimc2*yc(i)
-                signxx(i) = sigoxx(i)
-                signxy(i) = sigoxy(i)
-              endif
-
-              if(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then
+                signxy(i) = slimc2*sigoxy(i)
+              elseif(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then  ! shear
                 limit_sig = slims*sc(i)
                 signxy(i) = sign(limit_sig, signxy(i))
-                signxx(i) = sigoxx(i)
-                signyy(i) = sigoyy(i)
               endif
             else ! unloading check < 0
               ! dir 11
@@ -432,16 +422,13 @@
               elseif(dmg(i,3) == one .or. sigoxx(i) == -slimc1*xc(i) )then
                 limit_sig= - slimc1*xc(i)
                 signxx(i)= max(signxx(i),limit_sig)
-              endif
-              ! dir 22
-              if(dmg(i,4) == one .or. sigoyy(i) == slimt2*yt(i)) then
+              elseif(dmg(i,4) == one .or. sigoyy(i) == slimt2*yt(i)) then
                 limit_sig = slimt2*yt(i)
                 signyy(i) = min(signyy(i),limit_sig)
               elseif(dmg(i,5) == one .or. sigoyy(i) == -slimc2*yc(i)) then
                 limit_sig= - slimc2*yc(i)
                 signyy(i)= max(signyy(i),limit_sig)
-              endif
-              if(dmg(i,6) ==one .or. abs(sigoxy(i)) == slims*sc(i)) then
+              elseif(dmg(i,6) ==one .or. abs(sigoxy(i)) == slims*sc(i)) then
                 limit_sig = slims*sc(i)
                 if(signxy(i) >= zero) then
                   signxy(i) = min(limit_sig, signxy(i))

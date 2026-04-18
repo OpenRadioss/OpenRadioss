@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,6 @@ C     REAL
       my_real
      .   OFF, VALUE
       INTEGER I, NG, NEL, N, MT,IALEL,NN1,NN2,IPRT
-      REAL R4
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
       NN1 = 1
@@ -83,7 +82,7 @@ C-----------------------------------------------
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )            
         IF (ITY == 51) THEN
 C-----------------------------------------------
-C          PARTICULES SPH.
+C          SPH PARTICLES.
 C-----------------------------------------------
            LFT=1
            LLT=NEL
@@ -105,7 +104,7 @@ C-----------------------------------------------
            ENDDO
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES GROUPES
+C       end of loop over groups
 C-----------------------------------------------
  490  CONTINUE
 C-----------------------------------------------

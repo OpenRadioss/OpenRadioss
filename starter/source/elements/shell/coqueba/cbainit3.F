@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,6 +95,7 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -306,7 +307,7 @@ C------------
      .            PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,
      .            IDRAPE  ,DRAPEG%INDX)
 C-----------------------------------------------
-      IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23 .OR. MTN == 91) NPT = 0
+      IF (MTN == 1 .OR. MTN == 91 .AND. NPT/=1) NPT = 0
 C---------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
      .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -366,7 +367,7 @@ c
      .                 X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                 Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
-     .                 NPT_ALL,IDRAPE ,SCDRAPE , DRAPEG%INDX)
+     .                 NPT_ALL,IDRAPE ,SCDRAPE , DRAPEG%INDX,LTITR )
 c
           IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
             IF (MPT>0) 
@@ -385,6 +386,11 @@ c
      6          GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
+           IF (MPT == 0) THEN
+             DO I=LFT,LLT
+               GBUF%FORPG_G(PTF+I+JJ(1:5))=GBUF%FORPG(PTF+I+JJ(1:5))
+             END DO
+           END IF 
            IF (ITHKSHEL == 2) THEN
              DO I=LFT,LLT
                GBUF%STRA(I+JJ(1:8))=GBUF%STRA(I+JJ(1:8))+
@@ -447,7 +453,7 @@ c
 C-----------------------------------------------------------------------
 C     CALCUL DES DEFORMATIONS INITIALES (MEMBRANE)
 c-----------------------------------------------------------------------
-      IF (IHBE > 20 .AND. IHBE < 29) THEN   !   1 Gauss point
+      IF (IHBE > 20 .AND. IHBE < 29) THEN   !   1 Gauss Point
 c
         IR  = 1
         IS  = 1
@@ -536,6 +542,11 @@ c---
      6         GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
+           IF (MPT == 0) THEN
+             DO I=LFT,LLT
+               GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
+             END DO
+           END IF 
 C--------to fill GBUF%STRPG     
          IF (ITHKSHEL == 2.AND.GBUF%G_STRPG>GBUF%G_STRA) 
      1     CALL CSTRAINI4(LFT   ,LLT    ,NFT    ,NEL    ,NUMSHEL,
@@ -665,7 +676,7 @@ C to be checked for IGTYP = 51
 c
       ENDIF  ! IHBE
 C-------------------------------------------
-c     CALCUL DES DT ELEMENTAIRES
+c     calculation of elementary dt
 C-------------------------------------------
          IF (IGTYP /= 1  .AND. IGTYP /= 7  .AND.
      .       IGTYP /= 9  .AND. IGTYP /= 10 .AND.

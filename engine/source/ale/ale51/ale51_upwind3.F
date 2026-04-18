@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,15 +24,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_upwind3          ../engine/source/ale/ale51/ale51_upwind3.F
 !||--- called by ------------------------------------------------------
 !||    afluxt                 ../engine/source/ale/ale51/afluxt.F
-!||    ale51_finish           ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_init             ../engine/source/ale/ale51/ale51_init.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE ALE51_UPWIND3(PM     ,IXS  ,FLUX ,FLU1 ,ALE_CONNECT,
      .                         ITRIMAT,DDVOL,QMV  ,IFLG ,
-     .                         NV46)
+     .                         NV46,s_flux,s_qmv,
+     .                         nb_element_with_bc,list_element_with_bc)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -46,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,144 +66,146 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
+      integer, intent(in) :: nb_element_with_bc !< number of element with boundary conditions
+      integer, dimension(nb_element_with_bc), intent(in) :: list_element_with_bc !< list of element with boundary conditions
       INTEGER IXS(NIXS,NUMELS), ITRIMAT,IFLG,NV46
-      my_real PM(NPROPM,NUMMAT), FLUX(NV46,*), FLU1(*),DDVOL(*)
-      my_real,TARGET :: QMV(12,*)
+      my_real PM(NPROPM,NUMMAT), FLUX(s_flux,NV46), FLU1(s_flux),DDVOL(*)
+      my_real,TARGET :: QMV(s_qmv,2*NV46)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,MAT(MVSIZ),IAD2
-      my_real REDUC, UPWL(NV46,MVSIZ),FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
-      my_real, TARGET :: QMVL(7:12,MVSIZ)
+      integer :: ijk
+      my_real REDUC, UPWL(mvsiz,NV46),FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
+      my_real, TARGET :: QMVL(MVSIZ,7:12)
       my_real, DIMENSION(:) ,POINTER :: pQMV7,pQMV8,pQMV9,pQMV10,pQMV11,pQMV12
+      integer :: mat_id
+      logical :: only_one_mat
       LOGICAL :: debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
       DO I=LFT,LLT
-        FLUX1(I) = FLUX(1,I)
-        FLUX2(I) = FLUX(2,I)
-        FLUX3(I) = FLUX(3,I)
-        FLUX4(I) = FLUX(4,I)
+        FLUX1(I) = FLUX(NFT+I,1)
+        FLUX2(I) = FLUX(NFT+I,2)
+        FLUX3(I) = FLUX(NFT+I,3)
+        FLUX4(I) = FLUX(NFT+I,4)
       ENDDO
       IF(NV46==6)THEN
       DO I=LFT,LLT
-        FLUX5(I) = FLUX(5,I)
-        FLUX6(I) = FLUX(6,I)
+        FLUX5(I) = FLUX(NFT+I,5)
+        FLUX6(I) = FLUX(NFT+I,6)
       ENDDO      
       ENDIF
 C-----------------------------------------------
-      DO I=LFT,LLT
+      only_one_mat = .true.
+      II=1+NFT
+      MAT(1)=IXS(1,II)
+      mat_id = MAT(1)
+      DO I=LFT+1,LLT
         II=I+NFT
         MAT(I)=IXS(1,II)
+        if(mat_id/=mat(i)) only_one_mat = .false.
       ENDDO
 C-----------------------------------------------
 C     UPWIND
 C-----------------------------------------------
-      DO J=1,NV46
-        DO I=LFT,LLT
-          UPWL(J,I)=PM(16,MAT(I))
-        ENDDO
-      ENDDO
+      if(only_one_mat) then
+        do j=1,nv46
+          do i=lft,llt
+            upwl(i,j) = pm(16,mat_id)
+          enddo
+        enddo
+      else       
+        do j=1,nv46
+#include "vectorize.inc"
+          do i=lft,llt
+            upwl(i,j) = pm(16,mat(i))
+          enddo
+        enddo
+      endif
       !======================================================!
       !  BOUNDARY FACE : no volume flux by default           !
       !    slip wall bc                                      !
       !======================================================!
-      DO I=LFT,LLT
-       IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
-       REDUC=PM(92,MAT(I))
-       !---face1---!       
-       II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II == 0)THEN
-        FLUX1(I)=FLUX1(I)*REDUC
-       ENDIF
-       !---face2---!
-       II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II == 0)THEN
-        FLUX2(I)=FLUX2(I)*REDUC
-       ENDIF
-       !---face3---!
-       II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II == 0)THEN
-        FLUX3(I)=FLUX3(I)*REDUC
-       ENDIF
-       !---face4---!
-       II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II == 0)THEN
-        FLUX4(I)=FLUX4(I)*REDUC
-       ENDIF
-       IF(NV46==6)THEN
-         !---face5---!
-         II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-         IF(II == 0)THEN
-          FLUX5(I)=FLUX5(I)*REDUC
-         ENDIF
-         !---face6---!
-         II=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-         IF(II == 0)THEN
-          FLUX6(I)=FLUX6(I)*REDUC
-         ENDIF
-       ENDIF
-       ! IF(NV46==6)THEN
-      ENDDO
+      do ijk=1,nb_element_with_bc
+        i = list_element_with_bc(ijk) ! get the index of the element with boundary condition
+        iad2 = ale_connect%ee_connect%iad_connect(i+nft)
+        reduc = pm(92,mat(i))
+        do j=1,nv46
+          ii = ale_connect%ee_connect%connected(iad2+j-1) ! get the neighbor element id
+          if(ii==0) then
+            if(j==1) flux1(i) = flux1(i)*reduc
+            if(j==2) flux2(i) = flux2(i)*reduc
+            if(j==3) flux3(i) = flux3(i)*reduc
+            if(j==4) flux4(i) = flux4(i)*reduc
+            if(j==5) flux5(i) = flux5(i)*reduc
+            if(j==6) flux6(i) = flux6(i)*reduc
+          endif
+        enddo
+      enddo
       
       DO I=LFT,LLT
-        FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
+        FLUX(NFT+I,1) = FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2) = FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3) = FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4) = FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
       ENDDO  
       IF(NV46==6)THEN
       DO I=LFT,LLT
-        FLUX(5,I) = FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I) = FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        FLUX(NFT+I,5) = FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6) = FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
       ENDDO            
       ENDIF    
       
       IF(IFLG == 1)THEN
-        pQMV7  => QMV(07,LFT:LLT)
-        pQMV8  => QMV(08,LFT:LLT)
-        pQMV9  => QMV(09,LFT:LLT)
-        pQMV10 => QMV(10,LFT:LLT)
-        pQMV11 => QMV(11,LFT:LLT)
-        pQMV12 => QMV(12,LFT:LLT)                                        
+        pQMV7  => QMV(NFT+LFT:NFT+LLT,7)
+        pQMV8  => QMV(NFT+LFT:NFT+LLT,8)
+        pQMV9  => QMV(NFT+LFT:NFT+LLT,9)
+        pQMV10 => QMV(NFT+LFT:NFT+LLT,10)
+        pQMV11 => QMV(NFT+LFT:NFT+LLT,11)
+        pQMV12 => QMV(NFT+LFT:NFT+LLT,12)                                        
       ELSE
-        pQMV7  => QMVL(07,LFT:LLT)
-        pQMV8  => QMVL(08,LFT:LLT)
-        pQMV9  => QMVL(09,LFT:LLT)
-        pQMV10 => QMVL(10,LFT:LLT)
-        pQMV11 => QMVL(11,LFT:LLT)
-        pQMV12 => QMVL(12,LFT:LLT)      
+        pQMV7  => QMVL(LFT:LLT,7)
+        pQMV8  => QMVL(LFT:LLT,8)
+        pQMV9  => QMVL(LFT:LLT,9)
+        pQMV10 => QMVL(LFT:LLT,10)
+        pQMV11 => QMVL(LFT:LLT,11)
+        pQMV12 => QMVL(LFT:LLT,12)      
       ENDIF           
       !MOMENTUM ADVECTION NEEDED FOR AMOMT3.F
 
       IF(NV46==6)THEN
         DO I=LFT,LLT
-          pQMV7(I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-          pQMV8(I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-          pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-          pQMV11(I) = FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-          pQMV12(I) = FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))                    
-          FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I) +pQMV11(I) + pQMV12(I)
+          pQMV7(I)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+          pQMV8(I)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+          pQMV9(I)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+          pQMV10(I) = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+          pQMV11(I) = FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+          pQMV12(I) = FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))                    
+          FLU1(NFT+I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I) +pQMV11(I) + pQMV12(I)
         ENDDO           
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
+            DDVOL(I)=HALF*( FLU1(NFT+I)+ FLUX(NFT+I,1)+FLUX(NFT+I,2)+FLUX(NFT+I,3)+
+     .                                   FLUX(NFT+I,4)+FLUX(NFT+I,5)+FLUX(NFT+I,6) )
           ENDDO
         ENDIF                
       ELSE
         DO I=LFT,LLT
-          pQMV7(I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-          pQMV8(I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-          pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))                
-          FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I)
+          pQMV7(I)  = FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+          pQMV8(I)  = FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+          pQMV9(I)  = FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+          pQMV10(I) = FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))                
+          FLU1(NFT+I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I)
         ENDDO        
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
-            DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
+            DDVOL(I)=HALF*( FLU1(NFT+I)+ FLUX(NFT+I,1)+FLUX(NFT+I,2)+
+     .                                   FLUX(NFT+I,3)+FLUX(NFT+I,4) )
           ENDDO
         ENDIF        
       ENDIF
@@ -229,8 +233,8 @@ C-----------------------------------------------
           !if (tag22(i)==zero)print *,"       UNCUT"!cycle
           print *,                    "      brique    =", ixs(11,nft+i)
           print *,                    "      itrimat   =", itrimat
-          write (*,FMT='(A,6E26.14)')"       Flux(1:6) =", FLUX(1:6,I)
-          write (*,FMT='(A,1E26.14)')"       Flu1      =", FLU1(I)
+          write (*,FMT='(A,6E26.14)')"       Flux(1:6) =", FLUX(NFT+I,1:6)
+          write (*,FMT='(A,1E26.14)')"       Flu1      =", FLU1(NFT+I)
           print *, "      ------------------------"          
         enddo
 !#!include "lockoff.inc"       

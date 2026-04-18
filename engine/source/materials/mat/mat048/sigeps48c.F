@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -139,7 +139,7 @@ C-----------------------------------------------
       my_real
      . UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
 C-------------------------
-C    variables non utilisees (Fonctions utilisateur)
+C    Variables not used (user functions)
 C-------------------------
       INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
       my_real
@@ -152,15 +152,15 @@ C-----------------------------------------------
      .        SVM(MVSIZ),DR(MVSIZ),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HS(MVSIZ),
-     .        EPSM(MVSIZ),
-     .        YLO(MVSIZ),EPSGM(MVSIZ),
+     .        
+     .        YLO(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ)
       my_real
      .        R,UMR,NUX,A,B,C,S11,S22,S12,P,P2,DEZZ,SIGZ,S1,S2,S3,
      .        VM2,EPST,NNU2,F,DF,Q2,YLD_I,SIGPXX,E1,A11,A21,G1,G31,
      .        NNU11,NU11,NU21,NU31,NU41,NU51,NU61,SIGPYY,SIGPXY,SIGM1,
      .        EPSM1,EPSR11,EPSR21,YD1,HC1,CN1,C11,C21,CM1,C31,CL1,
-     .        FISOKIN1,EPSGM1,EPS01,PA,PB,PC,PDA,PDB,YY,
+     .        FISOKIN1,EPS01,PA,PB,PC,PDA,PDB,YY,
      .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY, ALPHA
 C
       DATA NMAX/3/
@@ -315,7 +315,7 @@ C
       ENDIF
 C
 C-------------------------
-C      PROJECTION IFLAG = 0  (projection radiale)
+C      PROJECTION IFLAG = 0  (radial projection)
 C-------------------------
 C
       IF(IFLAG(1)==0) THEN
@@ -345,7 +345,7 @@ C-------------------------
 C
        ELSEIF(IFLAG(1)==1)THEN
 C
-C---     CRITERE DE VON MISES
+C---     von mises criterion
 C
          DO I=1,NEL0
            S1=SIGNXX(I)+SIGNYY(I)
@@ -425,10 +425,10 @@ C
 C-------------------------
 C      PROJECTION IFLAG = 2
 C-------------------------
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
 C
        ELSEIF(IFLAG(1)==2)THEN
 C

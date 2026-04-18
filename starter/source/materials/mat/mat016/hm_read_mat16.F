@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,11 +73,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAW,J
+      INTEGER ILAW
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, C0, C, S, GAM0, A, AW,
      .   PMIN, E0, CC, EPS0, CM, TMELT, TMAX, GAM0M, AM, GAME, GE, DS,
-     .   TM0, VJ, VB, UNIT, E0H, AY, THET, G, RHO, ALPHA, R, XM, RP3,
+     .   TM0, VJ, VB, UNIT, E0H, AY, THET, G, ALPHA, R, XM, RP3,
      .   GP, DSP, ALPHAP, RP, PCC, E00, APY, XJ, X, ZJ, E0J, XP, TMJ,
      .   XLAMJ, D1, D2, D3, E, G0AX, P1J, C1, C2, C3,EPS0_UNIT,ENER_UNIT,DS_UNIT,
      .   FAC_M_bb,FAC_L_bb,FAC_T_bb,RHO0, RHOR
@@ -190,7 +190,7 @@ C--------------------------------------
       IF (GAME == ZERO) GAME = TWO_THIRD
       IF (THET == ZERO) THET = ONE
 !
-!!!      UNIT = ONE * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 en SI)
+!!!      UNIT = ONE * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 in SI)
       UNIT = ONE * (FAC_T_bb * FAC_T_bb)/(FAC_M_bb*FAC_L_bb**2)
       IF (DS == ZERO)   DS = NINEP637EM5 * (FAC_T_bb * FAC_T_bb)/(FAC_L_bb * FAC_L_bb)
       IF (VB == ZERO)   VB=HALF/RHOR
@@ -311,7 +311,7 @@ C--------------------
      .               C1=TITR)
       ENDIF
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1    
       MTAG%G_TEMP  = 1    

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_c_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -60,14 +60,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),IEL_CRK(*),INDX_CRK(*),
-     .        NBF_L,NBPART, IAD_CRKG(NSPMD,*),
+     .        NBF_L, IAD_CRKG(NSPMD,*),
      .        IPART(LIPART1,*),IPARTC(*),IPARTTG(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL), TARGET :: XFEM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NG,NEL,NFT,ITY,LFT,LLT,N,ILEV,MLW,N_FA,IXFEM,NI,NLAY,
-     .        ILAY,IXEL,CRKS,NEL_CRK,RBUF,ELCRK
+     .        ILAY,IXEL,CRKS,NEL_CRK,RBUF
       INTEGER IE(NCRKPART),NELCRK(NCRKPART)
       INTEGER,DIMENSION(:),ALLOCATABLE::IOFFBUF
 

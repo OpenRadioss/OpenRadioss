@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,8 +40,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I6MAIN(IPARI,X     ,A   ,
+      SUBROUTINE I6MAIN(OUTPUT,IPARI,X     ,A   ,
      2                  ICODT,NPC   ,TF     ,V     ,FSAV,
      3                  DT2T ,NELTST,ITYPTST,FSKYI ,ISKY,
      4                  FCONT,MS,INTBUF_TAB,H3D_DATA)
@@ -49,6 +50,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
+      USE OUTPUT_MOD
       USE H3D_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST
       INTEGER IPARI(*), ICODT(*), NPC(*), ISKY(*)
 C     REAL
@@ -76,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), KFI, JFI, 
+      INTEGER   
      .   INACTI,NOINT, NGROUS, NGROUM, NG, IGIMP,INTY,IFRICF,IFRICV,
      .   IDAMPV,IDAMPF
       INTEGER LOLD(MVSIZ)
@@ -140,7 +143,7 @@ c
 c
       CALL I6INI3(INTBUF_TAB%FS,INTBUF_TAB%FM,NSN,NMN)
 c
-c---  Loop over secnd group
+c---  Loop over second group
 c
       DO NG=1,NGROUS
         NFT=(NG-1)*NVSIZ
@@ -250,7 +253,7 @@ c
 
       ENDDO
 c------------------
-C      INVERSION DES FM (PASSAGE SECND/MAIN)
+C      INVERSION DES FM (PASSAGE SECOND/MAIN)
 c
        FMX=-FMX
        FMY=-FMY
@@ -366,7 +369,7 @@ c
      E   NFT)
       ENDDO
 C-----------
-      CALL I6ASS3(
+      CALL I6ASS3(output,
      1     A     ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,      
      2  INTBUF_TAB%FM  ,NPC         ,TF         ,ANSMX         ,     
      3  FMX         ,FMY         ,FMZ         ,INTBUF_TAB%VARIABLES(4),      

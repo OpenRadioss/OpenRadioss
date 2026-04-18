@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,10 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_get_penis20   ../engine/source/mpi/interfaces/send_cand.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
-       SUBROUTINE I20BUCE_CRIT(
+       SUBROUTINE I20BUCE_CRIT(OUTPUT  ,
      1       ITASK   ,X       ,V       ,MS      ,
      2       NTY     ,NIN     ,INACTI  ,NSN     ,
      3       NMN     ,NSV     ,MSR     ,XSAV    ,
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD 
-      USE ANIM_MOD 
+      USE OUTPUT_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER NSN,NMN,ITASK,NSV(NSN),MSR(NMN), NIN ,NTY ,INACTI,
      .        NLINSA,NLINMA,NLN,NLG(NLN),NRTM
       INTEGER NSNE,NMNE,NSVE(NSNE),MSRE(NMNE),IXLINS(2,*),IKINE(NUMNOD)
@@ -86,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMNF,NSNL,NMNL,I, II, N,NLNF,NLNL,IL,IG,NRTMF,NRTML
+      INTEGER NSNF,NMNF,NSNL,NMNL,I, II,NLNF,NLNL,IL,IG,NRTMF,NRTML
       INTEGER NSNEF,NMNEF,NSNEL,NMNEL,NLINSAF,NLINSAL,NLINMAF,NLINMAL
       INTEGER IRBY
       my_real 
@@ -95,7 +96,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculate criterion to know if we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30
@@ -158,7 +159,7 @@ C=======================================================================
           IRBY = IKINE(IG) - (IKINE(IG)/2)*2
           IF(MS(IG) > ZERO .and. IRBY /= 1)THEN
 
-c essai viscosite critique
+c Critical viscosite test
 c            AAA = DT12/(TWO*MS(IG))
             AAA = DT12/(AMASS*MS(IG))
 c           delta A parith on
@@ -298,7 +299,7 @@ c           delta A parith on
       END IF
 
       IF(ANIM_V(15)+OUTP_V(15)+H3D_DATA%N_VECT_DXANC >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         DO I=NLNF,NLNL
           IG=NLG(I)
@@ -311,16 +312,16 @@ C=======================================================================
 C     maj pene a verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C=======================================================================
       IF(INACTI==5.OR.INACTI==6)THEN
-        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! a tt=0. les frontieres ne sont que partiellement baties
+        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! at tt=0, boundaries are only partially built
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
           CALL SPMD_GET_PENIS20(NSV,IXLINS,PENIS,PENISE,PENIA,NIN)
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE
         ENDIF
-c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I)+... /= ZERO)NACTI=NACTI+1
+c To be done here or in i20buce_cript if (Penia (5, i)+... /= zero) nacti = nacti+1
         DO I=NLNF,NLNL
           PENIA(4,I) = MIN(PENIA(4,I),PENIA(5,I))
           PENIA(5,I) = ZERO
@@ -349,17 +350,17 @@ C     maj pene edges   !!!!!  deplace
 C=======================================================================
 c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
-cC  maj PENIS sur partie non locale
+cc'Maj penis on non -local part
 cC
 c        IF(NSPMD > 1) THEN
 cC
-cC Partie non parallele smt
+cit is not parallel SMT
 cC
 c!$OMP SINGLE
 c
 c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
-cC Fin Partie non parallele smt
+cIt's not parallel part SMT
 c!$OMP END SINGLE
 c
 c        END IF
@@ -368,7 +369,7 @@ C=======================================================================
 C     maj pene edges  fin !!!!!  deplace
 C=======================================================================
 C=======================================================================
-C     CALCUL CRITERE TRI
+C     CALCULATION CRITERE TRI
 C=======================================================================
 #include "vectorize.inc"
       DO I=NSNF,NSNL
@@ -412,7 +413,7 @@ C
             VMSR(6)=MIN(VMSR(6),VA(3,IL))
           ENDIF
       END DO
-C dist calcule une fois pour toutes les interfaces dans SMP_CRIT (ci-dessous) ou SPMD_CRIT
+C dist calculated once for all interfaces in SMP_CRIT (below) or SPMD_CRIT
 C
 C     EDGES
 C
@@ -491,7 +492,7 @@ C=======================================================================
 C     STIF
 C=======================================================================
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NLNF,NLNL
           STFA(I)=MAX(STFA(I),ZERO)
         ENDDO
@@ -505,17 +506,17 @@ C     maj pene edges   !!!!!  deplace
 C=======================================================================
 c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
-cC  maj PENIS sur partie non locale
+cc'Maj penis on non -local part
 cC
 c        IF(NSPMD > 1) THEN
 cC
-cC Partie non parallele smt
+cit is not parallel SMT
 cC
 c!$OMP SINGLE
 c
 c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
-cC Fin Partie non parallele smt
+cIt's not parallel part SMT
 c!$OMP END SINGLE
 c
 c        END IF
@@ -532,7 +533,7 @@ C=======================================================================
 C     maj pene edges  fin !!!!!  deplace
 C=======================================================================
 C
-C sur les noeuds frontieres en SPMD, suffit d'initialiser ALPHAKFI a ONE ds i20main_tri/i20xsinir
+C On the boundary nodes in SPMD, just initialize alphakfi to one ds i20main_tri/i20xinirir
       DO I=NLNF,NLNL
         ALPHAK(1,I)=MAX(ALPHAK(1,I),ALPHAK(3,I))
         ALPHAK(1,I)=MIN(ALPHAK(1,I),ABS(ALPHAK(2,I)))

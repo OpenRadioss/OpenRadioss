@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,11 +81,11 @@
             mu_max = matparam%eos%uparam(1)
             rho_tmd = rho0*(mu_max + one)
             is_compaction = .true.
-          elseif(ieos == 20)then ! /EOS/COMPACTION2
+          else if(ieos == 20)then ! /EOS/COMPACTION2
             mu_max = matparam%eos%uparam(4)
             rho_tmd = rho0*(mu_max + one)
             is_compaction = .true.
-          elseif(ieos == 21)then ! /EOS/COMPACTION_TAB
+          else if(ieos == 21)then ! /EOS/COMPACTION_TAB
             rho_tmd = matparam%eos%uparam(1)
             is_compaction = .true.
           end if
@@ -109,13 +109,13 @@
             do i = 1,npt
               if (ndim == 1) then
                 shear_max = max(shear_max, table_mat(1)%y1d(i))
-              elseif (ndim == 2) then
+              else if (ndim == 2) then
                 do j = 1,ndim
                   shear_max = max(shear_max,table_mat(1)%y2d(i,j))
-                enddo
-              endif
-            enddo
-          endif
+                end do
+              end if
+            end do
+          end if
 
           nu = matparam%nu
           young_max =  two*shear_max*(one+nu)
@@ -123,11 +123,11 @@
 
           !< Update material parameters (if max are needed instead of initial values)
           !----------------------------
-          matparam%shear = shear_max
-          matparam%young = young_max
-          matparam%bulk = bulk_max
-          pm(20) = young_max
-          pm(24) = young_max
+          !matparam%shear = shear_max
+          !matparam%young = young_max
+          !matparam%bulk = bulk_max
+          pm(20) = matparam%young ! young_max
+          pm(24) = matparam%young ! young_max
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine law133_upd

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -145,7 +145,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ICOR
+      INTEGER I
 C     REAL
       my_real
      .   DVC(MVSIZ),DVCA(MVSIZ),DT1D2,TOL,DT1D
@@ -222,14 +222,14 @@ C
         DVCA(1:NEL) =(DXX(1:NEL)+DYY(1:NEL)+DZZ(1:NEL))*DT1
       ENDIF
 C-------------Constant stress traitement------
-C-------------R--direction------
+C------------ r- Direction -------
       IF (ICR==1) THEN
        DO I=1,NEL
         DXX(I)= DXX(I)-DSR(I)*DTI
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSR(I)
        ENDDO
       ENDIF 
-C--------------S--direction--
+C------------ S- Direction--
       IF (ICS==1) THEN
        DO I=1,NEL
         DYY(I)= DYY(I)-DSS(I)*DTI
@@ -243,7 +243,7 @@ C--------------T--direction
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DST(I)
        ENDDO
       ENDIF 
-C-------------Volume traitement------
+C----------- Volume treatment ------
       DO I=1,NEL
         DVP=DVCA(I)-DVC(I)
         DV =DVP*OFF(I)
@@ -335,7 +335,5 @@ C
         WXX(1:NEL)=DT1D2*(DZY(1:NEL)-DYZ(1:NEL))
       ENDIF
 C
- 2000 FORMAT(/' ZERO OR NEGATIVE SUB-VOLUME : DELETE 3D-ELEMENT NB',
-     .          I8/)
       RETURN
       END

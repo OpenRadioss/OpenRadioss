@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    remesh_mod         ../engine/share/modules/remesh_mod.F
 !||====================================================================
@@ -36,6 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,8 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4
       INTEGER,DIMENSION(:),ALLOCATABLE :: LKINNOD
       my_real
      .        A1,A2,A3,A4,AC
@@ -174,6 +176,7 @@ C
 !||    sms_pcg        ../engine/source/ams/sms_pcg.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
@@ -184,6 +187,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -205,8 +209,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J
       INTEGER,DIMENSION(:),ALLOCATABLE :: LKINNOD
 
       my_real
@@ -339,6 +343,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_barrier     ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE SMS_ADMESH_2(A    ,DIAG_SMS, IXC, IXTG,SH4TREE  ,
@@ -347,6 +352,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -368,8 +374,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K,NA,NB
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,NA,NB
       INTEGER LL, SH4FT, SH4LT, SH3FT, SH3LT
 C-----------------------------------------------
 C

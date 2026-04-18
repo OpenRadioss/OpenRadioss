@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DSECCNT(NESCT,NERWL,NESBW,NSTRF,
      2                   RWBUF,NPRW,NNWL,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, K, K1, N, NSEG, N1, N2, N3, N4,NSEGC, NSEGTG,
-     .    ITYP, KK,ITMP, K0, K5, K9
-      my_real
-     .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
-     .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC
+      INTEGER J, I, K, N, N1, N2, N3, N4, NSEGC, NSEGTG, 
+     . ITYP, KK, K0, K5, K9
       INTEGER NSEGS, POWER2(8),IPACK,
      .         II(8), N5, N6, N7, N8, K3
       DATA POWER2/1,2,4,8,16,32,64,128/

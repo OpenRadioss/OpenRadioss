@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,14 +89,14 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
-      INTEGER I,II,J,K,KFP,NPRONY,NORDER,IFORM
+      INTEGER I, II, J, KFP, NPRONY, NORDER, IFORM
       my_real TENSIONCUT,AMAX,GVMAX,GMAX,FFAC,TRACE,RBULK,DPDMU,
-     .  AA,CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
+     . CC,FAC,INVE,ETV,RV_PUI,AMIN,NU_1
       my_real, DIMENSION(3)   :: LAM_AL,FFT
       my_real, DIMENSION(10)  :: AL,MU
       my_real, DIMENSION(100) :: GI,TAUX
       my_real, DIMENSION(NEL) :: SUMDWDL,RV,J2THIRD,P,DWDRV,ETI,GTMAX 
-      my_real, DIMENSION(3,3) :: A
+ 
       my_real, DIMENSION(NEL,3) :: T1,SIGPRV,EV,EVM,DWDL,CII
       my_real, DIMENSION(NEL,6) :: DOTB,SVISC,C0,C1
       my_real, DIMENSION(NEL,3,3) :: F,LL,BB,LB,BLT
@@ -240,7 +240,7 @@ c
 c--- avoid buckling
       P_FAC(1:NEL) = ONE
       IF (RBULK > 24*GMAX) THEN
-        NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
+        NU_1 = FORTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
         DO I=1,NEL
           AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
           IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))

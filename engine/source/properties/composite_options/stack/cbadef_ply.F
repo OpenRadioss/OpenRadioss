@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  VXYZ,VETA,VKSI,BM,BC,TC,DT1C,
      2                  EXX, EYY , EYZ, EZX)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C       CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
+C       CALCULATION OF GENERALIZED STRAINS AT GAUSS POINTS AND [B]
 C       ENTREES :  NEL,NG,VQN,VXYZ,VASM,VASTN
 C       SORTIES : VDEF,BM (MEMBRANE),BMF(COUPLAGE MEM-FLEXION),BF (FLEXION),BC(C.T)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -58,15 +58,10 @@ C      PARAMETER (NPG = 4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K,NPLAT0
+      INTEGER I, J, EP, IUN, NPLAT0
       MY_REAL 
-     .   THK,DETJ,DET,
-     .   TFN(3,2),BCX,BCY,
-     .   V1(2),V2(2),RV1,RV2,
-     .   C1,C2,VT1,VT2,BC1,BC2,VB1,
-     .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(2,2)
-      MY_REAL 
-     .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2
+     .   BCX,BCY,
+     .   C1,C2,VT1,VT2
 c       PARAMETER (PG=.577350269189626)
 c       PARAMETER (PG1=-.577350269189626)
 C--------------------------
@@ -199,7 +194,7 @@ C---------DEF MEMBRANE------
             EXX(EP,J)= EXX(EP,J)+ C1*VT1
             EYY(EP,J)= EYY(EP,J)+ C2*VT2
 C---------DEF DE FLEXION ASSOCIEE AUX U,V,W ([BMF]=2H[B0]+[B01])------
-C----------SEULEMENT LA PARTIE DE [B01]---------
+C----------ONLY THE [B01] PART---------
 c         VDEF(6,EP)= VDEF(6,EP)+ BC1*VT1
 c         VDEF(7,EP)= VDEF(7,EP)+ BC2*VT2
 c         VDEF(8,EP)= VDEF(8,EP)+ BC1*VT2+BC2*VT1

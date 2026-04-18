@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,9 +82,9 @@ C     REAL
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ),OFF_L(MVSIZ)
 C-----------------------------------------------
-      FLAG = IPARG(80) ! Flag pour sorties additionnelles
+      FLAG = IPARG(80) ! Flag for additional outputs
 C-----------------------------------------------
-C     CALCUL BILAN SORTIES DEF 
+C     CALCULATION BILAN SORTIES DEF 
 C-----------------------------------------------
       DO I=LFT,LLT
         VXA(I) = ZERO
@@ -129,7 +129,7 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C     CALCUL BILAN SORTIES ADDITIONNELLES 
+C     CALCULATION BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
       IF(FLAG==1) THEN
         DO I=LFT,LLT

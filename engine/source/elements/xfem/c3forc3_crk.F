@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod        ../engine/share/modules/drape_mod.F
 !||    dt_mod           ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod     ../common_source/modules/failwave_mod.F
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -91,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      P   INDX_DRAPE,  IGRE,        DT,          NCYCLE ,
      R   SNPC,        STF,         GLOB_THERM,  IDEL7NOK,
-     Q   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     Q   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1 )
 C-----------------------------------------------
       USE TIMER_MOD
       USE TABLE_MOD
@@ -105,6 +106,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -169,20 +171,23 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      integer, intent(in) :: LIPART1
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     indx utilise localement contrairement aux coques 4n 
+c     Indx uses locally unlike 4N shells 
       INTEGER 
-     .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
-     .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
-     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,IDRAPE,ACTIFXFEM,
+     .   I,J1,J2,IR,IS,IT,IGTYP,IXFEM2,IREP,IMAT,
+     .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,
+     .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR,ACTIFXFEM,
      .   SEDRAPE, NUMEL_DRAPE
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE(MVSIZ)
       my_real STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),
-     .   X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
-     .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
+     .     
+     .     
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ),
      .   KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),
      .   PX1(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),
@@ -228,6 +233,7 @@ C---
 C
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
       my_real,
      .  DIMENSION(:) ,POINTER  ::  OFFG,THKG,STRAG,FORG,MOMG,
@@ -240,7 +246,7 @@ C
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
 C---------------------------
-c     Attention : Coque3N + ISMSTR=10 pas compatible avec XFEM !!!
+c     CAUTION: shell3N + ISMSTR = 10 Pas compatible with XFEM !!!
 C=======================================================================
       BID    = ZERO
       IUN  = 1  
@@ -394,7 +400,7 @@ C----------use always old local sys
      .                 E1X      ,E1Y     ,E1Z     ,E2X      ,               
      .                 E2Y      ,E2Z     ,E3X     ,E3Y      ,E3Z     )
         ELSE
-C         bug : ismstr=3 non supporte pour coques 3N
+C         Bug: ISMSTR = 3 not supported for 3n shells
           CALL C3PXPY3(JFT       ,JLT     ,PM      ,STI     ,STIR,
      2                 SMSTRG    ,PX1     ,PY1     ,PY2     ,MAT ,
      3                 SSP       ,NEL     )
@@ -478,12 +484,13 @@ C--------------------------
      R   INDX_DRAPE , THKE    ,SEDRAPE   ,NUMEL_DRAPE,     DT  ,
      Q   NCYCLE     ,SNPC      ,  STF    ,NXLAYMAX   ,IDEL7NOK ,
      S   USERL_AVAIL, MAXFUNC,      NPTTOT,BUFMAT     ,SDIR_A   ,
-     T   SDIR_B     ,GBUF%FOR_G)
+     T   SDIR_B     ,GBUF%FOR_G,SSP_EQ,
+     X    IPART     ,LIPART1 ,IPARTTG   )
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C       PAS DE TEMPS
+C       TIME STEP
 C--------------------------
         IF (ISMSTR /= 3) CALL C3DT3(
      1          JFT      ,JLT       ,PM      ,OFF    ,DT2T    ,
@@ -493,10 +500,10 @@ C--------------------------
      5          SHF      ,IGTYP     ,IGMAT   ,G     ,A11      ,
      6          A11R     ,GBUF%G_DT ,GBUF%DT ,ALDT  ,THK0     ,
      7          AREA     ,NGL       ,IMAT    ,MTN   ,NEL      ,
-     8          ZOFFSET)
+     8          ZOFFSET  ,SSP_EQ   )
 
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
 c        IFLAG = MOD(NCYCLE,NCPRI)
         IF (IPRI>0)
@@ -528,7 +535,7 @@ C----------------------------
      6                  OFF       ,VOL0 ,NEL  )
         ENDIF
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
         IF (JTHE > 0) THEN
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN

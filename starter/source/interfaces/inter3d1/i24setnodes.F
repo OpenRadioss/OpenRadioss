@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,7 +90,7 @@ C domain than MAIN surface
           I24MAXNSNE = MAX(I24MAXNSNE,NSNE)
           IF (IEDGE4 > 0 ) THEN
             IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
-C             In Type24 INTERCEP(2 gives Edge MPI Domain
+C             In Type24 INTERCEP(2) gives Edge MPI Domain
               ALLOCATE(INTERCEP(2,NI)%P(NRTSE))
             ENDIF    
 C 

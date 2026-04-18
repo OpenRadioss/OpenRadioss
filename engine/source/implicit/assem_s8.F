@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    assem_s8    ../engine/source/implicit/assem_s8.F
+!||    assem_s8      ../engine/source/implicit/assem_s8.F
 !||--- called by ------------------------------------------------------
-!||    s8cke3      ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8ske3      ../engine/source/elements/solid/solide8s/s8ske3.F
-!||    s8zke3      ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8ske3        ../engine/source/elements/solid/solide8s/s8ske3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
 !||--- calls      -----------------------------------------------------
-!||    assem_kii   ../engine/source/implicit/imp_glob_k.F
-!||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+!||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+!||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ASSEM_S8(
      1                   IXS   ,NEL   ,IDDL  ,NDOF  ,K_DIAG,
@@ -40,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   K45   ,K46   ,K47   ,K48   ,K55   ,
      8                   K56   ,K57   ,K58   ,K66   ,K67   ,
      9                   K68   ,K77   ,K78   ,K88   ,OFF   )
+      use element_mod , only : nixs
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

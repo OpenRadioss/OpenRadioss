@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,8 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
-     .        PARENT,LEVEL,TH_PART,L_SUB,ERR,ITITLE(LTITR),IVARTH,THIAD
+      INTEGER J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
+     .        PARENT,LEVEL,L_SUB,ERR,ITITLE(LTITR),IVARTH,THIAD
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISUBSET
 C-----------------------------------------------
@@ -96,13 +96,13 @@ C-----------------------------------------------
           L_SUB = L_SUB+1
 !!        ISUBSET(L_SUB+1) = TITR
 !!          L_SUB = L_SUB+1
-! NOMBRE DE SUBSETS FILS
+! NUMBER OF CHILD SUBSETS
         DO J=1,NCHILD
           ICHILD = SUBSET(ISU)%CHILD(J)
           ISUBSET(L_SUB+1) = ICHILD
           L_SUB = L_SUB+1
         ENDDO
-! NOMBRE DE PARTS FILLES
+! NUMBER OF CHILD PARTS
         DO J=1,NBPART
           IPART = SUBSET(ISU)%PART(J)
           ISUBSET(L_SUB+1) = IPART

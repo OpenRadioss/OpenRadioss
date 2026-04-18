@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C     REAL
 C                                                                     12
       my_real
@@ -62,9 +62,7 @@ C                                                                     12
      .   C17 , C28 ,
      .   RX , RY , RZ ,
      .   TX , TY , TZ ,
-     .   DET,C1,C2, sign,
-     .   SX , SY , SZ ,
-     .   RSX , RSY , RSZ
+     .   DET,C1,C2
 C-----------------------------------------------
       X17=X7-X1
       X28=X8-X2

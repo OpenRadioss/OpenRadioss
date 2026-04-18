@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rmass    ../starter/source/elements/spring/rmass.F
+!||    rmass         ../starter/source/elements/spring/rmass.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RMASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS  )
+      use element_mod , only : nixr
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, IP,I1,I2,ILENG
+      INTEGER :: I, IP,I1,I2
       my_real :: XX,YY,ZZ,XY,YZ,ZX
       my_real :: XI
 C---------------------------------------------------------------------
@@ -67,7 +69,7 @@ C
        ENDDO
       END IF
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT
@@ -111,16 +113,18 @@ C----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    r23mass   ../starter/source/elements/spring/rmass.F
+!||    r23mass       ../starter/source/elements/spring/rmass.F
 !||--- called by ------------------------------------------------------
-!||    inivoid   ../starter/source/elements/initia/inivoid.F
-!||    rinit3    ../starter/source/elements/spring/rinit3.F
+!||    inivoid       ../starter/source/elements/initia/inivoid.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R23MASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS , MASS ,UINER,MTYP)
+      use element_mod , only : nixr
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -142,7 +146,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IP,I1,I2,ILENG
+      INTEGER I, IP,I1,I2
       my_real :: XX,YY,ZZ,XY,YZ,ZX
       my_real :: XI
 C---------------------------------------------------------------------
@@ -159,7 +163,7 @@ C
        ENDDO
       END IF
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT

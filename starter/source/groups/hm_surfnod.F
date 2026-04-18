@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,IE,JREC,K,ISU,JJ,LL,N,KK,NENTITY
+      INTEGER K, ISU, JJ, LL, N, KK, NENTITY
       LOGICAL IS_AVAILABLE
 C=======================================================================
       IS_AVAILABLE = .FALSE.
@@ -77,7 +77,7 @@ C=======================================================================
             DO LL=1,IGRSURF(ISU)%NSEG
               DO K=1,4
                 N=IGRSURF(ISU)%NODES(LL,K)
-C                 tag les noeuds DU SEGMENT 
+C                 tag the NODES OF THE SEGMENT
                 IF (N /= 0) TAGBUF(N)=1
               ENDDO
             ENDDO

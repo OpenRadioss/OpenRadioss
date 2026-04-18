@@ -10,6 +10,8 @@
          -arch=linux64_ifort -mpi=ompi   (MPI executable / Intel OneAPI Legacy / Linux X86-64 / OpenMPI)         
          -arch=linuxa64                  (SMP executable / Armflang compiler / Linux ARM64)
          -arch=linuxa64 -mpi=ompi        (OpenMPI executable / Armflang compiler / Linux ARM64)
+         -arch=linux64_nvidia            (SMP executable / NVIDIA nvfortran compiler / Linux X86-64)
+         -arch=linux64_nvidia -mpi=ompi  (OpenMPI executable / NVIDIA nvfortran compiler / Linux X86-64)
          -arch=win64                     (SMP executable / Intel OneAPI ifx / Windows X86-64)
          -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI ifx / Windows X86-64)
          -arch=win64_ifort               (SMP executable / Intel OneAPI Legacy / Windows X86-64)

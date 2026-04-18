@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                 ../starter/share/message_module/message_mod.F
 !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_STIFFENED_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_STIFFENED_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,9 +60,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT, IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  GAMMA, P0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,PSTAR,RHOI,RHOR,MU0,PP,DF,SSP0,G0,DPDMU
+      my_real  GAMMA, P0, E0, PSH, RHO0, PSTAR, RHOI, RHOR, MU0, PP, DF, SSP0, G0, DPDMU
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -86,13 +88,13 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('P_star', PSTAR, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
-
-      RHOR = PM(1)
-      RHOI = PM(89)
-
-      IF(RHO0 > ZERO) THEN
+!-------------------------------------------------------------------------------
+      RHOR = MAT_PARAM%RHO
+      RHOI = MAT_PARAM%RHO0
+      IF (RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
+        PM(1)= RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -103,19 +105,28 @@ C-----------------------------------------------
         E0 = ZERO ! error managed below
       ENDIf
       
-      !ERREURS :
+      !ERRORS :
       ! GAMMA <=0
       
       IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,C1='/EOS/STIFF-GAS',C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
 
-      
-      PM(34)=GAMMA
-      PM(32)=P0
+      PM(32)=(GAMMA-ONE)*E0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
       PM(23)=E0
-      PM(35)=PSTAR
+
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC   = 0
+      MAT_PARAM%EOS%NTABLE  = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = PSTAR
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
       
       !P0
       IF(RHOI == ZERO)THEN
@@ -136,9 +147,12 @@ C-----------------------------------------------
 
       PP = -GAMMA*PSTAR-PSH + (GAMMA-ONE)*(ONE+MU0)*E0
       PM(31)=P0-PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
       PM(104)=P0-PSH
-      
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER OLDNSNR,NODFI,NNP,LSKYFI,
-     .        NOD, LOC_PROC, I, N, NN, P, IDEB, J, K,
+     .         LOC_PROC, I, N, NN, P, IDEB, J, K,
      .        IERROR1,IERROR2,IERROR3,IERROR4,IERROR5,IERROR6,IERROR7,
      .        IERROR8,IERROR9,IERROR0,IERROR11,IERROR12,IERROR13,
      .        IERROR14,IERROR15,IERROR16,IERROR17,
@@ -82,13 +82,13 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
-C Test succes du tri ?
+C test success of the sorting?
 C
       NODFI = 0
       LSKYFI= 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         NODFI = 0
         DO I = 1, I_STOK
@@ -102,7 +102,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0
@@ -188,7 +188,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
         IDEB = 0
         NN = 0
@@ -1474,11 +1474,11 @@ C fin /DT/INTER/AMS
          ENDIF
         END IF
         LSKYFI = NN*MULTIMAX
-C   nsnr nouveau utile pour inacti
+C   NSNR New useful for inactive
         NSNR = NN
       ENDIF
 C
-C Deallocation de XREM
+C deallocation of XREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(IR4R8==1)THEN
@@ -1587,7 +1587,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression
+C Output Pressure conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -1609,7 +1609,7 @@ C
         END IF            
       END IF
 C
-C allocations additionnelles pour interface type20
+C additional allocations for interface type20
 C
       IF(ITY==20) THEN
         IF(ASSOCIATED(ALPHAKFI(NIN)%P)) DEALLOCATE(ALPHAKFI(NIN)%P)    
@@ -1633,7 +1633,7 @@ C
 C
       DAANCFI(NIN)%P(1:3,1:NODFI)=ZERO
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_N(I)
@@ -1692,7 +1692,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER OLDNRTSR,SEGFI,NODFI,NNP,LSKYFI,
-     .        NOD, LOC_PROC, I, J, K, N, NN, P, IDEB, N1, N2,
+     .         LOC_PROC, I, J, K, N, NN, P, IDEB, N1, N2,
      .        IERROR1,IERROR2,IERROR3,IERROR4,IERROR5,IERROR6,IERROR7,
      .        IERROR8,IERROR9,IERROR0,IERROR11,IERROR12,IERROR13,
      .        INDEX(NRTSR)
@@ -1714,13 +1714,13 @@ C-----------------------------------------------
       IERROR12=0
       IERROR13=0
 C
-C Test succes du tri ?
+C test success of the sorting?
 C
       SEGFI = 0
       LSKYFI= 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         SEGFI = 0
         DO I = 1, I_STOK
@@ -1733,10 +1733,10 @@ C
             ENDIF
           ENDIF
         ENDDO
-C non optimal car noeuds dupliques potentiellement
+C not optimal because duplicate nodes potentially
         NODFI = 2*SEGFI
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IF(ASSOCIATED(NSVFIE(NIN)%P)) DEALLOCATE(NSVFIE(NIN)%P)
         ALLOCATE(NSVFIE(NIN)%P(SEGFI),STAT=IERROR1)
@@ -1796,7 +1796,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
 C
         IDEB = 0
@@ -2576,14 +2576,14 @@ C fin /DT/INTER/AMS
           NSNFIE(NIN)%P(P) = NN-NNP
          END IF
         ENDDO
-C   facteur 2 car 2 noeuds par segment => pris en compte au niveau
-C   de la 1ere dimension allouee
+C   factor 2 because 2 nodes by segment => taken into account at the level
+C   of the first allocated dimension
         LSKYFI = NN*MULTIMAX
-C   nrtsr nouveau utile pour inacti et noeuds encrage
+C   new nrtsr useful for inacti and anchoring nodes
         NRTSR = NN
       ENDIF
 C
-C Deallocation de XREM
+C deallocation of XREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(IR4R8==1)THEN
@@ -2630,7 +2630,7 @@ C
         IF(LSKYFI>0) THEN
           ALLOCATE(ISKYFIE(NIN)%P(LSKYFI),STAT=IERROR1)
           IF(KDTINT==0) THEN
-C facteur 2 pour stocker les 2 noeuds
+C factor 2 to store the 2 nodes
             ALLOCATE(FSKYFIE(NIN)%P(8,LSKYFI),STAT=IERROR2)
           ELSE
             ALLOCATE(FSKYFIE(NIN)%P(10,LSKYFI),STAT=IERROR2)
@@ -2638,7 +2638,7 @@ C facteur 2 pour stocker les 2 noeuds
         ENDIF
       ENDIF
 C
-C allocations specifiques interface type20
+C specific allocations for interface type20
 C
       IF(ASSOCIATED(DAANC6FIE(NIN)%P)) DEALLOCATE(DAANC6FIE(NIN)%P)    
       ALLOCATE(DAANC6FIE(NIN)%P(3,6,NODFI),STAT=IERROR1)
@@ -2671,7 +2671,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_S(I)
@@ -2721,27 +2721,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER RESULT, NIN, NMES, I_STOK, INACTI, NMESR,
+      INTEGER RESULT, NIN, NMES, I_STOK, NMESR,
      .        CAND_N(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER OLDNRTSR,ELEMFI,NNP,LSKYFI,
-     .        NOD, LOC_PROC, I, N, NN, P, IDEB, N1, N2,
-     .        IERROR1,IERROR2,IERROR3,IERROR4,IERROR5,IERROR6,IERROR7,
-     .        IERROR8,
+     .         LOC_PROC, I, N, NN, P, IDEB,
+     .        IERROR1,IERROR2,IERROR3,IERROR4,IERROR5,IERROR6,
+     .        
      .        INDEX(NMESR)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
-C Test succes du tri ?
+C test success of the sorting?
 C
       ELEMFI = 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         DO I = 1, I_STOK
           N = CAND_N(I)
@@ -2754,7 +2754,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IF(ASSOCIATED(NSVFI(NIN)%P)) DEALLOCATE(NSVFI(NIN)%P)
         ALLOCATE(NSVFI(NIN)%P(ELEMFI),STAT=IERROR1)
@@ -2774,7 +2774,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
         IDEB = 0
         NN = 0
@@ -2911,11 +2911,11 @@ C
         ENDDO
 C facteur 16 ?
         LSKYFI = NN*MULTIMAX
-C   nmesr inutile ici
+C   nmesr useless here
         NMESR = NN
       ENDIF
 C
-C Deallocation de XREM
+C deallocation of XREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
 C
@@ -3021,7 +3021,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_N(I)

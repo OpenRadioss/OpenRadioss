@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -249,7 +249,7 @@ C-----------------------------------------------
 !
 !        IGROUP_L(L_GROUP+1) = ID
           L_GROUP = L_GROUP+1
-!        IGROUP_L(L_GROUP+1) = NNOD_LOC(IGU)
+!        Igroup_l (l_group+1) = nnod_loc (igu)
           L_GROUP = L_GROUP+1
 !        IGROUP_L(L_GROUP+1) = GRTYPE
           L_GROUP = L_GROUP+1

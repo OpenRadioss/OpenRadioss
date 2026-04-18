@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,13 +19,10 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #include "GlobalModelSDI.h"
 #include <buildmapping.h>
-
-
-
 #include <boost/algorithm/string.hpp>
 #include <stdio.h>
 #include <string.h>
@@ -33,7 +30,6 @@
 #include <radiossblk.h>
 #include <dynamain.h>
 #include <dyna2rad/dyna2rad.h>
-#include <starter_lic.h>
 #include <map>
 #include <dll_settings.h>
 #include <sdiSelectionObserver.h>
@@ -87,7 +83,8 @@ CDECL int cfgreader_inc(char *modelfilename, int *nbDynaIncludes,char *globalPat
     {
         ModelViewEdit *pModelViewSDI = NULL;
         pModelViewSDI = RadiossblkReadModelSDI(modelfilename);
-        RadiossblkApplyOffsets(pModelViewSDI);
+        //RadiossblkApplyOffsets(pModelViewSDI);
+        
         GlobalModelSDISetModel(pModelViewSDI);
         g_pModelViewSDI = pModelViewSDI;
 
@@ -196,17 +193,7 @@ void CDECL cpp_build_model_(char *name, int *size, int *res)
     for(i=0;i<*size;i++)  cname[i] = name[i];
     cname[*size]='\0'; 
 
-#ifdef RD_COM
-
-    ret_val = create_radflex_process();
-#endif
-
     *res = cfgreader(cname);
-
-#ifdef RD_COM
-
-    ret_val = starter_lic_checkout(cname,IS_RD_MODEL);
-#endif
 }
 
 void CDECL CPP_BUILD_MODEL(char *name, int *size, int *res)
@@ -240,17 +227,7 @@ void CDECL cpp_build_model_inc_(char *name, int *size, int *res, int *nbDynaIncl
 #endif
     globalPath[*SGLOBAL_PATH]='\0'; 
 
-#ifdef RD_COM
-
-    ret_val = create_radflex_process();
-#endif
-
     *res = cfgreader_inc(cname,nbDynaIncludes,globalPath,&globalPath_len);
-
-#ifdef RD_COM
-
-    ret_val = starter_lic_checkout(cname,IS_RD_MODEL);
-#endif
 }
 
 void CDECL CPP_BUILD_MODEL_INC(char *name, int *size, int *res, int *nbDynaIncludes, char *GLOBAL_PATH, int *SGLOBAL_PATH)

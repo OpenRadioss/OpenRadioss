@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,J3,N,IREEL
+      INTEGER I, J, J1, J2, J3, IREEL
       CHARACTER CFAC*20, CUNIT
 C=======================================================================
       IREEL = 0
@@ -90,8 +90,8 @@ C        Read, skip trailing spaces
            CUNIT=FIELD(J3:J3)
            CFAC(1:2)=FIELD(J1:J2)
          ELSE          
-           J1 = -HUGE(J1)
-           J2 = -HUGE(J2)
+           J1 = 1
+           J2 = J3
            CUNIT=''
            CFAC(1:2)=''
            IERR1=0

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                         KNOD2ELQ  ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
      6                         LCFIELD   )
 C-------------------------------------
-C     LECTURE STRUCTURE RIGIDES 
+C     READING STRUCTURE RIGIDES 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -407,7 +407,7 @@ C
         WRITE(IOUT,1202) (ITAB(LPBY(I+K)),I=1,NSL)
         K=K+NSL
 C-------------------------------
-C VITESSE FIXE SUR main EN ROT
+C VELOCITY FIXE SUR main EN ROT
 C-------------------------------
         DO J=1,NFXVEL
           IF(IABS(IBFV(1,J)) == NPBY(1,NRB).AND.
@@ -458,8 +458,8 @@ C-------------------------------------
       CALL NEWDBL(NPBY(1,1),NNPBY,NRBYKIN,ITAB,442,ANINFO_BLIND_1,
      .            NOM_OPT)
 C------------------------------------
-C     tag des noeuds SECONDARYs rby avec gravite ou load/centri
-C     pour calcul du travail des forces externes
+C     Tagging of the secondary nodes of RBY with gravity or load/centroid
+C     For calculating the work of external forces
 C-------------------------------------
       DO I=1,NUMNOD
         ITAG(I)=0
@@ -563,7 +563,7 @@ C
      3                    KNOD2ELTG,NOD2ELS ,NOD2ELC,NOD2ELTG,IXQ     ,
      4                    IQUAOFF  ,KNOD2ELQ,NOD2ELQ,LSUBMODEL)
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -574,6 +574,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixc,nixtg,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -651,12 +652,12 @@ C
         IF (IOPT == 1) THEN
           IRBYON=2
         ELSE
-C par defaut rbody desactive
+C By default, RBODY is deactivated
           IRBYON=1
         END IF
-C si sensor rbody active
+C if sensor rbody active
         IF(ISENS/=0) IRBYON=0
-C si Imls utilisee rbody active temporairement
+C if Imls used rbody temporarily active
         IF(NDSOLV == 1) IRBYON=0
         IF(IRBYON>=1)THEN
 C
@@ -721,7 +722,7 @@ C
                 END DO
 C
               END DO
-C reinit a 0 sur la partie concernee
+C Reinitialize to 0 on the concerned part
               DO I=1,NSN
                 ITAG(IGRNOD(IG)%ENTITY(I))=0
               END DO
@@ -755,8 +756,9 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixc,nixtg,nixq,nixt,nixp,nixr
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -801,7 +803,7 @@ C
       IRBYON = 1
 C
       CALL MY_ALLOC(ITAG,NUMNOD) 
-C init initiale sur numnod
+C Initial initialization on NUMNOD
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO
@@ -835,7 +837,7 @@ C
             END IF
           END DO
 C
-C reinit a 0 sur la partie concernee uniquement
+C Reinitialize to 0 only on the concerned part
           DO I=1,NSN
             ITAG(IGRNOD(IG)%ENTITY(I))=0
           END DO
@@ -853,7 +855,7 @@ C     IF COND
 C-----------------------
 C     1. ELEMENTS SOLIDES
 C-----------------------
-         IF(ITY == 1.AND.MLW/=0)THEN        ! loi0, pas de off
+         IF(ITY == 1.AND.MLW/=0)THEN        ! Law 0, no offset
            IOK = 0
            DO I=1,NEL
              II=I+NFT
@@ -865,7 +867,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -878,7 +880,7 @@ C----------------------------------------
 C-----------------------
 C     2. ELEMENTS QUADS
 C-----------------------
-         ELSEIF(ITY == 2.AND.MLW/=0)THEN        ! loi0, pas de off
+         ELSEIF(ITY == 2.AND.MLW/=0)THEN        ! Law 0, no offset
            IOK = 0
            DO I=1,NEL
              II=I+NFT
@@ -890,7 +892,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -903,7 +905,7 @@ C----------------------------------------
 C-----------------------
 C     3. ELEMENTS COQUES
 C-----------------------
-         ELSEIF(ITY == 3.AND.MLW/=0)THEN       ! loi0, pas de off
+         ELSEIF(ITY == 3.AND.MLW/=0)THEN       ! Law 0, no offset
            IOK = 0
            DO I=1,NEL
              II=I+NFT
@@ -917,7 +919,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -942,9 +944,9 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
-C Incompatible avec option de gap dans propriete de truss
+C Incompatible with gap option in truss property
 C        IGOF = 1
 C        DO I = 1,NEL
 C         IF(ELBUF(IAD + I)/=ZERO) IGOF=0
@@ -965,7 +967,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -990,7 +992,7 @@ C             spring is active
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -1002,7 +1004,7 @@ C----------------------------------------
 C-----------------------
 C     7. ELEMENTS COQUES 3N
 C-----------------------
-         ELSEIF(ITY == 7.AND.MLW/=0)THEN       ! loi0, pas de off
+         ELSEIF(ITY == 7.AND.MLW/=0)THEN       ! Law 0, no offset
            ISHFT=16
            IOK = 0
            DO I=1,NEL
@@ -1015,7 +1017,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1

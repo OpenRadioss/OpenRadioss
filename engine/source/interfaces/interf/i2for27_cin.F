@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IX1,IX2,IX3,IX4
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI,FS(3),SP,SM,TP,TM,
+     .   H(4), SS, ST, XMSI,FS(3),SP,SM,TP,TM,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS(3),XM(3),
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),
@@ -258,7 +258,7 @@ C---- update main forces (moment balance) - local coordinates RX
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
               MZS = MXI*E3X + MYI*E3Y + MZI*E3Z
               
-C--           moment balance + moment transfer
+C- Balance time + Transfer moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -268,7 +268,7 @@ C--           moment balance + moment transfer
               MYS = ZERO
               MZS = ZERO
 
-C--           moment balance
+C- Balance moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -520,7 +520,7 @@ C---- update main forces (moment balance)
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
               MZS = MXI*E3X + MYI*E3Y + MZI*E3Z
               
-C--           moment balance + moment transfer
+C- Balance time + Transfer moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -530,7 +530,7 @@ C--           moment balance + moment transfer
               MYS = ZERO
               MZS = ZERO
 
-C--           moment balance
+C- Balance moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,

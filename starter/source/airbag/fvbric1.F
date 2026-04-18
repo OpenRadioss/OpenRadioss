@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -339,7 +340,7 @@ C
         ENDDO
       ENDIF
 C
-C Verification de l'orientation des briques totalement internes
+C Verification of the orientation of totally internal bricks
 C
       IF (INFO==0) THEN
          DO I=1,NB_NODE
@@ -347,7 +348,7 @@ C
          ENDDO
 C
          DO I=1,NBRIC
-CFA Une brique appuye sur l'airbag a des faces internes
+CA brick pressed against the airbag has internal faces
             II=TBRIC(1,I)
             NTYPE=TBRIC(2,I)
             NFAC=NFACE(NTYPE)
@@ -360,7 +361,7 @@ C
                      KK=FAC4(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC4(1,J),II)
                   N2=IXS(1+FAC4(2,J),II)
                   N3=IXS(1+FAC4(3,J),II)
@@ -371,7 +372,7 @@ C Normale a la facette solide
                      KK=FAC6(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC6(1,J),II)
                   N2=IXS(1+FAC6(2,J),II)
                   N3=IXS(1+FAC6(3,J),II)
@@ -386,7 +387,7 @@ C Normale a la facette solide
                      KK=FAC5(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC5(1,J),II)
                   N2=IXS(1+FAC5(2,J),II)
                   N3=IXS(1+FAC5(3,J),II)
@@ -401,7 +402,7 @@ C Normale a la facette solide
                      KK=FAC8(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC8(1,J),II)
                   N2=IXS(1+FAC8(2,J),II)
                   N3=IXS(1+FAC8(3,J),II)
@@ -438,7 +439,7 @@ C
                      ENDDO
                   ENDIF
                   IF (NALL==0) CYCLE
-C Normale a la facette du voisin
+C Normal to the neighbor facet
                   IF (NTYPE2==2) THEN
                      NN1=IXS(1+FAC4(1,K),TBRIC(1,NV))
                      NN2=IXS(1+FAC4(2,K),TBRIC(1,NV))
@@ -511,7 +512,7 @@ C
          ENDDO
       ENDIF
 C
-C Ajout des triangles airbag et interne non appuye sur une brique
+C Addition of airbag triangles and internal triangles not pressed against a brick
 C
       DO I=1,NELT
          IF (TAGELS(I)==0) NELA=NELA+1
@@ -521,7 +522,7 @@ C
         WRITE(IOUT,'(/5X,A,I10/)') 'NUMBER OF AIRBAG TRIANGLES NOT CONNECTED TO A SOLID ELEMENT . .=',NELA
       ENDIF    
 C
-C Noeuds auxiliaires
+C Auxiliary nodes
 C
       DO I=1,NB_NODE
          ITAG(I)=0

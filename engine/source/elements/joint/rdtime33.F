@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rdtime33   ../engine/source/elements/joint/rdtime33.F
+!||    rdtime33      ../engine/source/elements/joint/rdtime33.F
 !||--- called by ------------------------------------------------------
-!||    rgjoint    ../engine/source/elements/joint/rgjoint.F
+!||    rgjoint       ../engine/source/elements/joint/rgjoint.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RDTIME33(
      1   JFT,     JLT,     DT2T,    NELTST,
@@ -34,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   YMOM,    ZMOM,    ROT1,    ROT2,
      7   MSRT,    DMELRT,  NUVAR,   UVAR,
      8   JNTYP,   JSMS)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,8 +66,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
-     .   DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
+      my_real 
+     .   DT(JLT-JFT+1), DTA, DTB, MX2,
      .   MS, IN   
 C=======================================================================
 C     nodal time step
@@ -77,7 +80,7 @@ C
         STI(2,I) = STI(1,I) 
         STIR(2,I) = STIR(1,I)
 
-C-------- Masse harmonique --------------
+C-------- Harmonic mass --------------
         MS = (UVAR(34,I)*UVAR(35,I))/MAX(EM20,UVAR(34,I)+UVAR(35,I))
         IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
 

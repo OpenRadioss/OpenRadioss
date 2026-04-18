@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,NNOD,N1,N2,N3,N4,L_NLOC
       my_real 
-     . DX, DY, DZ, L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,
+     .    L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,
      . B1,B2,B3,B4,ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF
       my_real, DIMENSION(NEL) :: 
      . F1,F2,F3,F4,LC
@@ -77,8 +77,6 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4
       my_real, POINTER, DIMENSION(:) :: 
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 c-----------------------------------------------------------------------
 c     VAR_REG :  variable a regulariser (local cumulated plastic strain)
 c     NTVAR  =  NT * VAR_REG

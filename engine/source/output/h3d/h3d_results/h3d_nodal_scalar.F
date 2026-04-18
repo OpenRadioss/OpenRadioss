@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,17 +38,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    anim_monvol_mod        ../engine/source/output/anim/generate/monvol_anim.F90
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
-!||    outputs_mod            ../common_source/modules/outputs_mod.F
 !||====================================================================
-      SUBROUTINE H3D_NODAL_SCALAR(
+      SUBROUTINE H3D_NODAL_SCALAR( OUTPUT,
      .                  ELBUF_TAB          ,NODAL_SCALAR ,IFUNC           ,IPARG                  ,GEO     ,
-     .                  MASS               ,PM           ,ANIN            ,ITAB                   ,NODE_ID ,
+     .                  MASS               ,PM           ,ITAB                   ,NODE_ID ,
      .                  INFO1              ,INFO2        ,IS_WRITTEN_NODE ,H3D_PART               ,IPARTC  ,
      .                  IPARTTG            ,IXC          ,IXTG            ,TEMP                   ,IFLOW   ,
      .                  RFLOW              ,IXS          ,IXQ             ,NV46                   ,MONVOL  ,
@@ -72,13 +72,13 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE H3D_MOD 
       USE ALE_CONNECTIVITY_MOD
-      USE OUTPUTS_MOD
       USE GROUPDEF_MOD , only: GROUP_
       USE FVBAG_MOD , only : FVBAG_DATA
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
-      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE OUTPUT_MOD
       USE ANIM_MONVOL_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,12 +96,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: AIRBAGS_TOTAL_FVM_IN_H3D,ISPMD, AIRBAGS_NODE_ID_SHIFT
       INTEGER, INTENT(IN) :: ITHERM_FE
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
      .   NODAL_SCALAR(NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
-     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
+     .   PM(NPROPM,NUMMAT),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
      .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),RBY(NRBY,*),PSKIDS(NINTERSKID,*)
       my_real,INTENT(INOUT) :: NODAL_SCALAR_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
@@ -119,8 +120,9 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
       INTEGER , INTENT(IN) :: INTERFRIC
-      my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
-     .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+      my_real  , INTENT(IN) :: CSEFRIC(OUTPUT%DATA%NINEFRIC,OUTPUT%DATA%S_EFRICINT),
+     . CSEFRICG(OUTPUT%DATA%S_EFRIC),
+     . CSEFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP,OUTPUT%DATA%S_EFRICINTG) ,CSEFRICG_STAMP(OUTPUT%DATA%S_EFRICG)
       INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER, INTENT(IN) :: NFVBAG
       TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P(NFVBAG)
@@ -147,6 +149,7 @@ C
       VALUE(1:NUMNOD) = ZERO
       VALUE_NUMNOD_REAL(1:NUMNOD) = ZERO
       VALUE_NUMNOD(1:NUMNOD) = ZERO
+      IS_WRITTEN_VALUE(1:NUMNOD) = -HUGE(I)
 c
       VALUE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = ZERO
       VALUE_NUMNOD_REAL_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D) = ZERO
@@ -226,16 +229,16 @@ c
       ENDIF
 C
 C--------------------------------------------------
-      IF(KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
-C--------------------------------------------------
-        !IF(KEYWORD == 'DT') K = 0
-        IF(KEYWORD == 'DMASS') K = MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) * NUMNOD
-        IF(KEYWORD == 'DINER') K =(MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) +
-     .                            MIN(1,ANIM_N(2)+H3D_DATA%N_SCAL_DMAS) ) * NUMNOD
+      IF(KEYWORD == 'DMASS') THEN 
+        VALUE(1:NUMNOD) = OUTPUT%DATA%SCAL_DMAS(1:NUMNOD)
         DO I=1,NUMNOD
-         VALUE(I) = ANIN(I+K)       
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
+      ELSE IF(KEYWORD == 'DINER')THEN 
+        VALUE(1:NUMNOD) = OUTPUT%DATA%SCAL_DINER(1:NUMNOD)
+        DO I=1,NUMNOD
+         IS_WRITTEN_VALUE(I) = 1
+        ENDDO 
       ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC<3.OR.IFUNC==12)THEN
         DO I=1,NUMNOD
          VALUE(I) = MS(I)       
@@ -276,7 +279,7 @@ c
            IFUNC = 0 !not 
            K = 0    
            DO I=1,NUMNOD
-             VALUE(I) = ANIN(I+K)       
+             VALUE(I) = OUTPUT%DATA%SCAL_DT(I)       
              IS_WRITTEN_VALUE(I) = 1
            ENDDO                  
          ENDIF
@@ -361,10 +364,10 @@ c
          ! Nodal External Pressure (Elements to Nodes -> Averaged)
          IF (KEYWORD == 'PEXT')THEN
            VALUE(1:NUMNOD) = ZERO
-           IF(H3D_HAS_NODA_PEXT == 1) THEN
+           IF(OUTPUT%DATA%H3D_HAS_NODA_PEXT == 1) THEN
              DO I=1,NUMNOD
-               IF(NODA_SURF(I) > ZERO)THEN
-                 VALUE_NUMNOD_REAL(I)=NODA_PEXT(I)/NODA_SURF(I)
+               IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                 VALUE_NUMNOD_REAL(I)=OUTPUT%DATA%NODA_PEXT(I)/OUTPUT%DATA%NODA_SURF(I)
                ENDIF
                IS_WRITTEN_NODE(I) = 1
              ENDDO
@@ -467,7 +470,7 @@ C--------------------------------------------------
       ELSEIF(KEYWORD == 'CSE_FRIC')THEN
 C--------------------------------------------------
         IF(INTERFRIC > 0) THEN
-          IF(INTERFRIC <= NINEFRIC ) THEN
+          IF(INTERFRIC <= OUTPUT%DATA%NINEFRIC ) THEN
              DO I=1,NUMNOD
                 VALUE(I)=CSEFRIC(INTERFRIC,I)     
                 IS_WRITTEN_VALUE(I) = 1
@@ -475,7 +478,7 @@ C--------------------------------------------------
           ELSE
              DO I=1,NUMNOD
                 K=NODGLOB(I)
-                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-NINEFRIC,K)     
+                VALUE(I)=CSEFRIC_STAMP(INTERFRIC-OUTPUT%DATA%NINEFRIC,K)     
                 IS_WRITTEN_VALUE(I) = 1
              ENDDO
           ENDIF 

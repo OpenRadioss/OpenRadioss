@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                 ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
@@ -45,10 +46,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixr
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+C-----------------------------------------------      
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s

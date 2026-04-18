@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,11 +72,10 @@ C-----------------------------------------------
      .         ILENG,FTAB_ID,IFRIC
 C     REAL
       my_real
-     .  A, B, D, E, F, DN, DX, FRIC, LSCALE, FSCALE, RSCALE, PUN, GF3,
+     .  A, B, D, E, F, DN, DX, FRIC, LSCALE, PUN, GF3,
      .  YSCALEF,XSCALEF,FMAX,FMIN
       my_real
      .   A_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT,RUP_UNIT,XSCALE_UNIT,FMIN_UNIT
-      CHARACTER(LEN=NCHARTITLE) :: SLASH
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 c

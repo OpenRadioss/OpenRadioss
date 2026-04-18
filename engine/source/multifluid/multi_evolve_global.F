@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_timeevolution   ../engine/source/multifluid/multi_timeevolution.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
@@ -37,6 +38,7 @@ C-----------------------------------------------
       USE INITBUF_MOD      
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,8 +66,8 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: II, I, J, ITY, NEL, NFT, ISOLNOD
-      INTEGER :: IPLA, NODEID, NVERTEX
-      my_real :: RHO, ETOT, VEL2, VOL, SUMFLUX(5)
+      INTEGER ::  NODEID, NVERTEX
+      my_real ::  VEL2, VOL, SUMFLUX(5)
       my_real :: VII(5), GRAVII(3), PRES, VX, VY, VZ, WEXT
       INTEGER :: NB_FACE, NB_NODE, NODE_LIST(8)
       INTEGER, DIMENSION(:, :), POINTER :: IX

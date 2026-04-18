@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -39,7 +39,7 @@ int coupling_adapter_configure(void* adapter, const char* filename);
 void coupling_adapter_set_nodes(void* adapter, const int* nodeIds, int numNodes);
 
 // Initialization
-int coupling_adapter_initialize(void* adapter, const double* coordinates, 
+int coupling_adapter_initialize(void* adapter, const double* coordinates,int n2d, 
                                int totalNodes, int mpiRank, int mpiSize);
 
 // Data exchange
@@ -64,6 +64,7 @@ int coupling_adapter_get_num_coupling_nodes(void* adapter);
 int coupling_adapter_get_group_node_id(void* adapter);
 int coupling_adapter_get_surface_id(void* adapter);
 int coupling_adapter_get_communicator(void* adapter);
+void coupling_adapter_get_coupled_data(void* adapter, int* rd, int* wd);
 
 
 #ifdef __cplusplus

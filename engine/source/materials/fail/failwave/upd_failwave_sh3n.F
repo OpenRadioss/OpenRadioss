@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c3forc3             ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    cdkforc3            ../engine/source/elements/sh3n/coquedk/cdkforc3.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||====================================================================
       SUBROUTINE SET_FAILWAVE_SH3N(FAILWAVE    ,FWAVE_EL  ,DADV     ,
@@ -34,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FAILWAVE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +57,7 @@ C-----------------------------------------------
 CC-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,N1,N2,N3,FOUND,LEVEL,IDN,NINDX,NFAIL,FNOD1,FNOD2,
+      INTEGER I,II,K,N1,N2,N3,FOUND,LEVEL,NINDX,NFAIL,FNOD1,FNOD2,
      .   KNEXT,KPREV,NCURR
       INTEGER ,DIMENSION(NEL) :: INDX
       INTEGER ,DIMENSION(3)   :: NDL,NDR,NOD_ID,NOD_NN

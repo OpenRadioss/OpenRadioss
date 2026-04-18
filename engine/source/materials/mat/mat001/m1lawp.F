@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,11 +56,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   YM(NEL),SHF(NEL),B1(NEL),B2(NEL),B3(NEL),
-     .   DEGMB(NEL), DEGFX(NEL), 
+     .    
      .   SH(NEL), YMA2(NEL), SH10(NEL),
      .   SH20(NEL), SH0(NEL), SH1(NEL), SH2(NEL),
      .   DMPM(NEL),DMPF(NEL),RHO(NEL),G(NEL)
@@ -89,7 +89,7 @@ C
       ENDDO
 C-----------------------------
 C
-C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
+C     TRANSVERSE SHEAR CALCULATED WITH K1=12EI/L**2 K2=5/6GA
 C
       DO I=1,NEL
         SH(I)=FIVE_OVER_6*G(I)*A1(I)

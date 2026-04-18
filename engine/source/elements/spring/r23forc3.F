@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r23law114          ../engine/source/elements/spring/r23law114.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
@@ -62,6 +63,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

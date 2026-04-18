@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,11 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg          ../engine/source/output/message/message.F
 !||    arret           ../engine/source/system/arret.F
-!||    close_c         ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c       ../common_source/tools/input_output/write_routtines.c
-!||    open_c          ../common_source/tools/input_output/write_routtines.c
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    close_c         ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c       ../common_source/tools/input_output/write_routines.c
+!||    open_c          ../common_source/tools/input_output/write_routines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
+!||    read_r_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
+      INTEGER  I, N, KR1,KR2,KR3,K0,KR0,
      .        IR1, IR2, IFRL1, IFRL2, FOUND, NR, L, NSECR, ID_SEC,
-     .        TYPE, IFILNAM(2148), LROOTLEN, LREC, NNOD,IR, NNODR,KR11,KR12,
-     .        KR21,KR22,NBINTER,IEXTRA
+     .        TYPE, IFILNAM(2148), LROOTLEN, NNOD,IR, NNODR,
+     .        IEXTRA
       my_real TT1, TT2, TT3
       CHARACTER FILNAM*12,LCHRUN*2
       LOGICAL FEXIST
@@ -73,7 +73,7 @@ C-----------------------------------------------
       CHARACTER(len=2048) :: TMP_NAME
 
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C read file in the order of the sections read from the file
 C  TTT = TT ou TT + DT2
 C-----------------------------------------------
 
@@ -200,7 +200,7 @@ C-----------------------------------------------
               CALL ARRET(2)
             END IF
             IF(FOUND==0.OR.NSTRF(K0)<100)THEN
-C skip deplacements et forces
+C skip displacements and forces
               IF(TYPE>=1)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
@@ -212,7 +212,7 @@ C skip deplacements et forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==100)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
@@ -229,7 +229,7 @@ C lecture deplacements
                   SECBUF(KR1+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=100 et type_old<1
+C compatibility issue type_new>=100 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
 C skip forces
@@ -238,7 +238,7 @@ C skip forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==101)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
@@ -255,10 +255,10 @@ C lecture deplacements
                   SECBUF(KR1+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<1
+C compatibility issue type_new>=101 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
-C lecture forces
+C reading forces
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
                   SECBUF(KR2+6*I-6)=R4
@@ -274,7 +274,7 @@ C lecture forces
                   SECBUF(KR2+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<2
+C compatibility issue type_new>=101 and type_old<2
               ENDIF
             ELSEIF(NSTRF(K0)>=102)THEN
 C a faire

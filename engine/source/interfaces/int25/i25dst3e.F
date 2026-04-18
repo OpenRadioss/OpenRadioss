@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25dst3e   ../engine/source/interfaces/int25/i25dst3e.F
 !||--- called by ------------------------------------------------------
 !||    i25mainf   ../engine/source/interfaces/int25/i25mainf.F
+!||--- uses       -----------------------------------------------------
+!||    tri7box    ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25DST3E(
      1   JLT    ,CAND_S,CAND_M,H1S   ,H2S   ,
@@ -40,10 +42,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   FY     ,FZ    ,LEDGE ,IRECT ,CAND_P ,
      E   IAM    ,JAM    ,IBM    ,JBM    ,IAS    ,
      F   JAS    ,IBS    ,JBS    ,ITAB   ,EDGE_ID,
-     G   DGAPLOADPMAX)
+     G   DGAPLOADPMAX,PENE_OLD_E,STIF_OLD_E,SIZ,TYPEDGS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      USE TRI7BOX
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -74,14 +77,17 @@ C-----------------------------------------------
      .     GAPVE(*), EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*), 
      .     CAND_P(*)
       my_real  , INTENT(IN) :: DGAPLOADPMAX
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
+      INTEGER  , INTENT(IN) :: TYPEDGS(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, SOL_EDGE, SH_EDGE, K
+      INTEGER I, SOL_EDGE, SH_EDGE
       my_real
      .     PENE2(MVSIZ),
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
      .     DET,GAP2,P1,P2,NN(MVSIZ)
       INTEGER NTRIA(3,4)
       DATA NTRIA/1,2,4,2,4,1,0,0,0,4,1,2/
@@ -172,7 +178,7 @@ C
        H2S(I) = ONE -H1S(I)
        H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) = H1S(I)*XXS1(I) + H2S(I)*XXS2(I)
      .       - H1M(I)*XXM1(I) - H2M(I)*XXM2(I)
@@ -185,7 +191,6 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
        GAP2 = (GAPVE(I)+DGAPLOADPMAX)*(GAPVE(I)+DGAPLOADPMAX)
        PENE2(I) = GAP2 - NN(I)
        PENE2(I) = MAX(ZERO,PENE2(I)) 
-
       ENDDO
 C
       SOL_EDGE =IEDGE/10 ! solids
@@ -205,11 +210,11 @@ C                                |
 C                                  |      
 
           P1=ZERO
-          IF(IBM(I)==0)
+          IF(IBM(I)==0.AND.IABS(LEDGE(7,CAND_M(I)))/=3)
      .      P1=-(NX(I)*EX(I)+NY(I)*EY(I)+NZ(I)*EZ(I)) ! (n(M),SM) > 45 degrees
 
           P2=ZERO
-          IF(IBS(I)==0)
+          IF(IBS(I)==0.AND.TYPEDGS(I)/=3)
      .      P2=  NX(I)*FX(I)+NY(I)*FY(I)+NZ(I)*FZ(I)  ! (n(S),MS) > 45 degrees
 
           NN(I)=SQRT(NN(I))
@@ -221,7 +226,11 @@ C
 C---------------------------------------
 C
       DO I=1,JLT
-        IF(PENE2(I)==ZERO) CAND_P(INDEX(I))=ZERO ! Reset CAND_P
+        IF(PENE2(I)==ZERO) THEN
+          CAND_P(INDEX(I))=ZERO ! Reset CAND_P
+          PENE_OLD_E(INDEX(I))=ZERO
+          STIF_OLD_E(INDEX(I))=STIF(I)
+        ENDIF
       ENDDO
 C
           DO I=1,JLT

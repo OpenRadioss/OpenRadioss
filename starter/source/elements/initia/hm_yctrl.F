@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,6 @@ C-----------------------------------------------
       INTEGER  ID_ELEM,NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,
      .      NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,IE,KTRIELC,
      .      KTRIELTG,NELT,NB_INISPHCEL
-      my_real THK
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSR,WORK,ITRI,
      .                                      INDEX
 C-----------------------------------------------
@@ -336,7 +336,7 @@ C------------------------------------
         IF ( NB_INISHE > 0 ) THEN
         
           IF (KTRIELC == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELC
           ITRI(IE) = IXC(NIXC,IE)
               END DO
@@ -459,8 +459,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                         PTSHEL(IE) = NUMSHEL 
                     ENDIF ! IE > 0   
 C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1             
-                    NVSH_STRA = MAX(NVSH_STRA,2*MAX(1,NPG)*7)
-!!                    NVSH_STRA = MAX(NVSH_STRA,NIP*MAX(1,NPG)*7)
+                    NVSH_STRA = MAX(NVSH_STRA,2+2*MAX(1,NPG)*7) ! QEPH used 1 and NVSHELL-1 is used 
                   ENDDO ! DO J=1,NB_ELEMENTS
 !
                 ELSEIF ( .NOT. GLOB ) THEN
@@ -656,7 +655,7 @@ C------------------------------------
         IF ( NB_INISH3 > 0 ) THEN
          !!
           IF (KTRIELTG==0) THEN
-C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C         sorting elements of D00 by ascending id (sorted only once)
           DO IE = 1, NUMELTG
             ITRI(IE) = IXTG(NIXTG,IE)
           END DO
@@ -778,7 +777,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
                     IF (NIP==0) NIP=2
 C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1             
-                    NVSH_STRA = MAX(NVSH_STRA,2*MAX(1,NPG)*7)
+                    NVSH_STRA = MAX(NVSH_STRA,1+2*MAX(1,NPG)*7)
 !!                    NVSH_STRA = MAX(NVSH_STRA,NIP*MAX(1,NPG)*7)
                   ENDDO ! DO J=1,NB_ELEMENTS
 !
@@ -1199,11 +1198,5 @@ C------------------------------------
 !---
       ENDIF ! IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5)
 !
-      RETURN
- 399  CONTINUE
-       CALL ANCMSG(MSGID=557,
-     .             MSGTYPE=MSGERROR,
-     .             ANMODE=ANINFO_BLIND_1)
-       
       RETURN
       END

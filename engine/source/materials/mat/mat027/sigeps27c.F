@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -115,7 +115,7 @@ C------------------------------------------
      4             DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      5             NEL    ,EPSD   ,ASRATE )
 C---------------------------------
-C      RETOUR DANS LE REPERE LOCAL
+C      return to the local frame
 C---------------------------------
       CALL UROTO_SIG(JFT,JLT,SIG,DIRDMG,NEL)
 !

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_gather_int    ../engine/source/mpi/generic/spmd_gather_int.F
 !||    spmd_gatherv_int   ../engine/source/mpi/generic/spmd_gatherv_int.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    state_mod          ../common_source/modules/state_mod.F
 !||====================================================================
@@ -40,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDPRT,K_STAT,J,IP
+      INTEGER I,IDPRT,J,IP
       INTEGER N ,NELC , NELTG , NELCG , NELTGG , 
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX,
      .   MY_SIZEC ,MY_SIZETG ,IERR ,
@@ -72,8 +74,6 @@ C
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NELIDC ,NELIDTG,
      .        CLEFC ,CLEFTG ,INDXC ,INDXTG ,IDWARN ,NELIDCG ,
      .        NELIDTGG 
-      my_real
-     .   T0,DT0
 C-----------------------------------------------
       ALLOCATE( DYNAIN_DATA%IPART_DYNAIN(NPART))
       DYNAIN_DATA%IPART_DYNAIN(1:NPART) = 0 

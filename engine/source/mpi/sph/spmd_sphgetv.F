@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,9 +62,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
+      INTEGER P, NN, N, IDEB, LOC_PROC,
      .        IERROR, ICELL, INOD,
-     .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
+     .         
      .        STATUS(MPI_STATUS_SIZE),MSGOFF,MSGOFF2
        my_real, DIMENSION(:,:), ALLOCATABLE :: BUFS, BUFR
 
@@ -84,7 +84,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi flag cellules actives
+C FLAG sending active cells
 C      
 !   -------------------------
 !   compute the displacement, number of element
@@ -120,7 +120,7 @@ C
      .          REQUEST_ISPHR,SPMD_COMM_WORLD,NSPMD)
 !   -------------------------
 
-C Envoi V, M, RHO sur cellules actives
+C Shipping V, M, RHO on active cells
 C
 
 !   -------------------------

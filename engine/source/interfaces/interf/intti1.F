@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,8 +42,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
 !||====================================================================
-      SUBROUTINE INTTI1(
+      SUBROUTINE INTTI1(NODES,
      1   IPARI    ,X        ,V        ,A       ,
      2   VR       ,AR       ,WA       ,MS      ,IN       ,WEIGHT  ,
      3   STIFN    ,STIFR    ,KHIE     ,ITAB    ,FR_I2M   ,IAD_I2M ,
@@ -61,6 +62,7 @@ C-----------------------------------------------
       USE H3D_MOD
       use glob_therm_mod
       USE MY_ALLOC_MOD
+      USE NODAL_ARRAYS_MOD, ONLY : nodal_arrays_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(nodal_arrays_) :: nodes
       INTEGER IPARI(NPARI,*), WEIGHT(*), FR_I2M(*), IAD_I2M(*),
      .        ITAB(*),KHIE,ADDCNI2(*),PROCNI2(*),IADI2(*),IGEO(*),
      .        FR_NBCCI2(2,*),NPF(*),IAD_ELEM(2,*),FR_ELEM(*),
@@ -100,8 +103,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NTY, JI, JB, NMN, NINT, LWA, I2OK,K,ITIED,
-     .        LCOMI2M, I0, NIR, SIZE, LENS, LENR, I, J, ILEV,
+      INTEGER N, NTY, JI, JB, NMN, NINT, I2OK,
+     .        LCOMI2M, I0, NIR, LENS, LENR, I, J, ILEV,
      .         K10, K11, K12, NSN, KSN,I25PENA,
      .        I2SIZETH,INTTH2, SIZE_INER_POFF,II
       INTEGER,DIMENSION(:), ALLOCATABLE   :: TAGNOD
@@ -157,7 +160,7 @@ C-- For parithoff inertia of main and secondary node must be saved
 C
       ENDIF
 C
-C      Calcul flag de rupture pour interface type 2 user
+C      rupture flag calculation for interface type 2 user
        DO N=1,NINTER                                    
          NTY  = IPARI(7,N)                               
          ILEV = IPARI(20,N)
@@ -173,7 +176,7 @@ C      Calcul flag de rupture pour interface type 2 user
          ENDIF                                           
        ENDDO                                            
 C
-C   correction pb poff si main dans plusieurs interfaces type2
+C   POF PUFF PB CORRECTION SI MAN IN PROWS TYPE2 Interfaces
       IF (IPARIT == 0) THEN                     
         IF (NHIN2 == 0) THEN                                  
           DO N=1,NINTER                                       
@@ -309,7 +312,7 @@ C---
       ENDIF                                                           
 C------------------------------------------------------------
       IF (I2OK == 1) THEN
-C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds main
+C spmd version with more than one proc: sum a and ar on main nodes
         IF (IPARIT == 0.AND.NSPMD > 1) THEN
           IF(NHIN2 == 0) THEN
             LCOMI2M = IAD_I2M(NSPMD+1)
@@ -357,9 +360,9 @@ C         version spmd p/on
 C
 C Routine assemblage parith/ON
 C
-C Rare case where type2 interfaces are defined with no more active secnd nodes
+C Rare case where type2 interfaces are defined with no more active second nodes
         IF(I2NSNT > 0)
-     *    CALL ASSPARI2(
+     *    CALL ASSPARI2(nodes%NUMNOD0,
      1       A    ,AR    ,STIFN ,STIFR  ,MS               ,
      2       IN   ,FSKYI2,I2SIZE,ADDCNI2,ADDCNI2(NUMNOD+2),
      3       FTHESKYI2, FTHE ,CONDNSKYI2,CONDN,GLOB_THERM)

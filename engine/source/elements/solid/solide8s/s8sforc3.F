@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    forint                 ../engine/source/elements/forint.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../engine/source/output/message/message.F
 !||    basis8                 ../engine/source/elements/solid/solide8/basis8.F
 !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
 !||    degenes8               ../engine/source/elements/solid/solide/degenes8.F
@@ -66,18 +65,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE S8SFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS     ,X       ,
-     2                    A        ,V      ,MS      ,W       ,FLUX    ,
+     2                    A        ,V      ,MS      ,W       ,
      3                    FLU1     ,VEUL   ,FV      ,ALE_CONNECT   ,IPARG   ,
      4                    TF       ,NPF    ,BUFMAT  ,PARTSAV ,NLOC_DMG,
      5                    DT2T     ,NELTST ,ITYPTST ,STIFN   ,FSKY    ,
@@ -109,6 +110,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       USE SENSOR_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -150,7 +152,7 @@ C-----------------------------------------------
      .    IOUTPRT
 C          
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
-     .        ICSIG, NVC   ,ITASK, ISTRAIN,  IEXPAN,NG,H3D_STRAIN
+     . NVC ,ITASK, ISTRAIN, IEXPAN,NG,H3D_STRAIN
 
       DOUBLE PRECISION
      .        XDP(3,*)
@@ -159,7 +161,7 @@ C
 C
       my_real
      .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
-     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
+     .   FLU1(*), VEUL(*), FV(*), TF(*), 
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),BUFMAT(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .   F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
@@ -183,9 +185,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, I, 
-     .     ILAY,IP,IR,IS,IT,MPT,NPTR,NPTS,NPTT,ICR,ICS,ICT,j
-      INTEGER IBID,IBIDV(1), MX, IFVM22
+      INTEGER NF1, IFLAG, I, 
+     . ILAY,IP,IR,IS,IT,NPTR,NPTS,NPTT,j
+      INTEGER IBID, IBIDV(1), IFVM22
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
@@ -203,26 +205,25 @@ C-----------------------------------------------
      . AJP4(MVSIZ,8) , AJP5(MVSIZ,8) , AJP6(MVSIZ,8) ,
      . AJP7(MVSIZ,8) , AJP8(MVSIZ,8) , AJP9(MVSIZ,8) ,
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
-     . E0(MVSIZ),C1,FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
+     . FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
 C-----
-C   Variables utilisees en argument par les materiaux.
+C   variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   CONDE(MVSIZ), CONDEN(MVSIZ),DIVDE(MVSIZ)
-C   Variables utilisees en argument par les materiaux si SPH uniquement.
+C   Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS, N,ITET
+      INTEGER IOFFS
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
       INTEGER SZ_R1_FREE
 C-----
-C   Variables utilisees dans les routines solides uniquement (en arguments).
+C   variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
-     .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
-     .        MAT(MVSIZ)
+     .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
      
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -250,14 +251,14 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .  PXC1(MVSIZ),PXC2(MVSIZ),PXC3(MVSIZ),PXC4(MVSIZ),
      .  PYC1(MVSIZ),PYC2(MVSIZ),PYC3(MVSIZ),PYC4(MVSIZ),
      .  PZC1(MVSIZ),PZC2(MVSIZ),PZC3(MVSIZ),PZC4(MVSIZ),
-     .  VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
-     .  VDX5(MVSIZ),VDX6(MVSIZ),VDX7(MVSIZ),VDX8(MVSIZ),
-     .  VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
-     .  VDY5(MVSIZ),VDY6(MVSIZ),VDY7(MVSIZ),VDY8(MVSIZ),
-     .  VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
-     .  VDZ5(MVSIZ),VDZ6(MVSIZ),VDZ7(MVSIZ),VDZ8(MVSIZ),
+     .
+     .
+     .
+     .
+     .
+     .
      .  VGXA(MVSIZ),VGYA(MVSIZ),VGZA(MVSIZ), VGA2(MVSIZ),
-     .   HX(MVSIZ,4), HY(MVSIZ,4),  HZ(MVSIZ,4),OFFG0(MVSIZ),
+     . HX(MVSIZ,4), HY(MVSIZ,4), HZ(MVSIZ,4),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ)
@@ -272,10 +273,10 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
       my_real
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),PP(MVSIZ),BID(MVSIZ)
       my_real
-     .   SIGY(MVSIZ), ET(MVSIZ), NU(MVSIZ),NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . SIGY(MVSIZ), ET(MVSIZ), NU(MVSIZ),
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
       my_real
-     .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
+     .
      .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
       INTEGER NNPT,IDEG(MVSIZ)
       PARAMETER (NNPT = 8)
@@ -283,9 +284,9 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .    MFXX(MVSIZ,NNPT),MFXY(MVSIZ,NNPT),MFYX(MVSIZ,NNPT),
      .    MFYY(MVSIZ,NNPT),MFYZ(MVSIZ,NNPT),MFZY(MVSIZ,NNPT),
      .    MFZZ(MVSIZ,NNPT),MFZX(MVSIZ,NNPT),MFXZ(MVSIZ,NNPT),
-     .    BXX(MVSIZ,NNPT),BYY(MVSIZ,NNPT),BZZ(MVSIZ,NNPT),
-     .    BXY(MVSIZ,NNPT),BYZ(MVSIZ,NNPT),BXZ(MVSIZ,NNPT),
-     .    NI(8),DETF0(MVSIZ),JFAC(MVSIZ,NNPT)
+     .
+     .
+     . JFAC(MVSIZ,NNPT)
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -310,20 +311,20 @@ c-----------------------------------------------------
      .   BZZ1(MVSIZ),BZZ2(MVSIZ),BZZ3(MVSIZ),BZZ4(MVSIZ),
      .   BZZ5(MVSIZ),BZZ6(MVSIZ),BZZ7(MVSIZ),BZZ8(MVSIZ)
 C
-      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,iel,ipr
+      INTEGER NNEGA, INDEX(MVSIZ), ISELECT
       my_real
-     .   PXY1(MVSIZ),PXY2(MVSIZ),PXY3(MVSIZ),PXY4(MVSIZ),
-     .   PXY5(MVSIZ),PXY6(MVSIZ),PXY7(MVSIZ),PXY8(MVSIZ),
-     .   PYX1(MVSIZ),PYX2(MVSIZ),PYX3(MVSIZ),PYX4(MVSIZ),
-     .   PYX5(MVSIZ),PYX6(MVSIZ),PYX7(MVSIZ),PYX8(MVSIZ),
-     .   PXZ1(MVSIZ),PXZ2(MVSIZ),PXZ3(MVSIZ),PXZ4(MVSIZ),
-     .   PXZ5(MVSIZ),PXZ6(MVSIZ),PXZ7(MVSIZ),PXZ8(MVSIZ),
-     .   PZX1(MVSIZ),PZX2(MVSIZ),PZX3(MVSIZ),PZX4(MVSIZ),
-     .   PZX5(MVSIZ),PZX6(MVSIZ),PZX7(MVSIZ),PZX8(MVSIZ),
-     .   PYZ1(MVSIZ),PYZ2(MVSIZ),PYZ3(MVSIZ),PYZ4(MVSIZ),
-     .   PYZ5(MVSIZ),PYZ6(MVSIZ),PYZ7(MVSIZ),PYZ8(MVSIZ),
-     .   PZY1(MVSIZ),PZY2(MVSIZ),PZY3(MVSIZ),PZY4(MVSIZ),
-     .   PZY5(MVSIZ),PZY6(MVSIZ),PZY7(MVSIZ),PZY8(MVSIZ),
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
      . AJI1(MVSIZ,NNPT) , AJI2(MVSIZ,NNPT) , AJI3(MVSIZ,NNPT) ,
      . AJI4(MVSIZ,NNPT) , AJI5(MVSIZ,NNPT) , AJI6(MVSIZ,NNPT) ,
      . AJI7(MVSIZ,NNPT) , AJI8(MVSIZ,NNPT) , AJI9(MVSIZ,NNPT),
@@ -333,18 +334,18 @@ C
      .  PY5(MVSIZ,NNPT),PY6(MVSIZ,NNPT),PY7(MVSIZ,NNPT),PY8(MVSIZ,NNPT),
      .  PZ1(MVSIZ,NNPT),PZ2(MVSIZ,NNPT),PZ3(MVSIZ,NNPT),PZ4(MVSIZ,NNPT),
      .  PZ5(MVSIZ,NNPT),PZ6(MVSIZ,NNPT),PZ7(MVSIZ,NNPT),PZ8(MVSIZ,NNPT),
-     .   P0XY1(MVSIZ,2),P0XY2(MVSIZ,2),P0XY3(MVSIZ,2),P0XY4(MVSIZ,2),
-     .   P0XY5(MVSIZ,2),P0XY6(MVSIZ,2),P0XY7(MVSIZ,2),P0XY8(MVSIZ,2),
-     .   P0YX1(MVSIZ,2),P0YX2(MVSIZ,2),P0YX3(MVSIZ,2),P0YX4(MVSIZ,2),
-     .   P0YX5(MVSIZ,2),P0YX6(MVSIZ,2),P0YX7(MVSIZ,2),P0YX8(MVSIZ,2),
-     .   P0XZ1(MVSIZ,2),P0XZ2(MVSIZ,2),P0XZ3(MVSIZ,2),P0XZ4(MVSIZ,2),
-     .   P0XZ5(MVSIZ,2),P0XZ6(MVSIZ,2),P0XZ7(MVSIZ,2),P0XZ8(MVSIZ,2),
-     .   P0ZX1(MVSIZ,2),P0ZX2(MVSIZ,2),P0ZX3(MVSIZ,2),P0ZX4(MVSIZ,2),
-     .   P0ZX5(MVSIZ,2),P0ZX6(MVSIZ,2),P0ZX7(MVSIZ,2),P0ZX8(MVSIZ,2),
-     .   P0YZ1(MVSIZ,2),P0YZ2(MVSIZ,2),P0YZ3(MVSIZ,2),P0YZ4(MVSIZ,2),
-     .   P0YZ5(MVSIZ,2),P0YZ6(MVSIZ,2),P0YZ7(MVSIZ,2),P0YZ8(MVSIZ,2),
-     .   P0ZY1(MVSIZ,2),P0ZY2(MVSIZ,2),P0ZY3(MVSIZ,2),P0ZY4(MVSIZ,2),
-     .   P0ZY5(MVSIZ,2),P0ZY6(MVSIZ,2),P0ZY7(MVSIZ,2),P0ZY8(MVSIZ,2),
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
+     .
      .   PX1H1(MVSIZ), PX1H2(MVSIZ), PX1H3(MVSIZ), PX1H4(MVSIZ),  
      .   PX2H1(MVSIZ), PX2H2(MVSIZ), PX2H3(MVSIZ), PX2H4(MVSIZ),  
      .   PX3H1(MVSIZ), PX3H2(MVSIZ), PX3H3(MVSIZ), PX3H4(MVSIZ),  
@@ -353,9 +354,9 @@ C
      .   BB(6,24,MVSIZ),AMU(MVSIZ)
       DOUBLE PRECISION
      .   VOLP(MVSIZ,NNPT)
-C----- Variables utilisees pour le calcul de puissance iteree
+C----- Variables used for iterative power calculation
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for the non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT
@@ -440,8 +441,9 @@ C
 C
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD
-      my_real, 
-     .  DIMENSION(:), POINTER :: BPRELD
+      my_real, DIMENSION(:), POINTER :: BPRELD
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array       
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -562,7 +564,7 @@ C
      4   AJP9(1,IP),AJI1(1,IP),AJI2(1,IP),AJI3(1,IP),
      5   AJI4(1,IP),AJI5(1,IP),AJI6(1,IP),AJI7(1,IP),
      6   AJI8(1,IP),AJI9(1,IP),NNEGA,     INDEX,
-     7   IP,        NEL)
+     7   IP    ,NEL       ,MSTOP )
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
@@ -605,12 +607,12 @@ C
          ENDDO  ! IT=1,NPTT
         ENDDO   ! IS=1,NPTS
        ENDDO    ! IR=1,NPTR
-       IF (INEG_V ==0) THEN
-C---     /NEGAVOL/STOP       
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
-           MSTOP = 1
-       END IF !(INEG_V /=0) THEN
       END IF
+      IF (INEG_V ==2) THEN
+        DO I=LFT,LLT
+          IF (GBUF%OFF(I)==ZERO) OFFG(I)=ZERO
+        ENDDO
+      END IF 
 C --------------------------
 C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C  --- ! Total strain option doesn't change the Ref CONF.
@@ -815,11 +817,12 @@ c
           DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+SDV(1:NEL)   
           CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLP(1,IP), LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C                                       
 C-----------------------------
 C      EXTRACT STRESSES + SMALL STRAIN
@@ -1010,7 +1013,7 @@ C-----------------------------
        END IF
 
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

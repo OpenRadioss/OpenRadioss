@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I25TRC_EDG(
      1      NEDGE,I_STOK,CAND_S,CAND_M,
      2      CAND_P,CAND_A,NIN,NEDGE_L,IFQ,
-     3      CAND_FX ,CAND_FY,CAND_FZ,IFPEN)
+     3      CAND_FX ,CAND_FY,CAND_FZ,IFPEN,
+     4      PENE_OLD_E,STIF_OLD_E,SIZ)
 C-----------------------------------------------
       USE TRI7BOX
 C-----------------------------------------------
@@ -42,10 +43,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "assert.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_S CAND_M CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on N of CAND_S CAND_M CAND_F
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -53,10 +54,12 @@ C-----------------------------------------------
       INTEGER :: CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       my_real
      .        CAND_P(*),CAND_FX(*) ,CAND_FY(*) ,CAND_FZ(*)
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,E,CAND_T,
+      INTEGER I,N,NN,K,E,CAND_T,
      .        IGET(I_STOK),IPUT(I_STOK)
       my_real
      .        CAND_TF
@@ -90,8 +93,7 @@ C       ENDIF
       ENDDO
 
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NEDGE+3] : OCCURENCE DES NOEUDS [1:NEDGE+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NEDGE+3] : occurrence DES NODES [1:NEDGE+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_S(I) + 2
@@ -99,8 +101,7 @@ C=======================================================================
       ENDDO
       
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NEDGE+2] : ADRESSE DES NOEUDS [1:NEDGE+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NEDGE+2] : ADDRESS DES NODES [1:NEDGE+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
@@ -108,9 +109,9 @@ C=======================================================================
         CAND_A(N) = CAND_A(N) + CAND_A(N-1)
       ENDDO
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NEDGE+1] : ADRESSE DES NOEUDS [1:NEDGE+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NEDGE+1] : ADDRESS DES NODES [1:NEDGE+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_S(I) + 1
@@ -124,7 +125,7 @@ C=======================================================================
       ENDDO
 C=======================================================================
 C     TRI DE CAND_S CAND_M CAND_P
-C     SUR N CROISSANT
+C     on increasing N
 C     PERMUTATION 1 PASSE
 C============================================= 
         DO K=1,I_STOK
@@ -158,6 +159,14 @@ C
           CAND_T    = IFPEN(K)
           IFPEN(K) = IFPEN(I)
           IFPEN(I) = CAND_T
+C
+          CAND_TF   = PENE_OLD_E(K)
+          PENE_OLD_E(K) = PENE_OLD_E(I)
+          PENE_OLD_E(I) = CAND_TF
+C
+          CAND_TF   = STIF_OLD_E(K)
+          STIF_OLD_E(K) = STIF_OLD_E(I)
+          STIF_OLD_E(I) = CAND_TF
 C 
           IPUT(I) = IPUT(K)
           ASSERT(IPUT(I) > 0)
@@ -166,7 +175,7 @@ C
 
         ENDDO
 C=======================================================================
-C     CAND_A[NEDGE+1] : ADRESSE DE NEDGE+1 
+C     CAND_A[NEDGE+1] : ADDRESS DE NEDGE+1 
 C=======================================================================
       I_STOK = CAND_A(NEDGE+1) - 1
       CAND_A(NEDGE+2) = CAND_A(NEDGE+1)

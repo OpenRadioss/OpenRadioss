@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod           ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    stack_mod           ../engine/share/modules/stack_mod.F
 !||    state_mod           ../common_source/modules/state_mod.F
@@ -53,6 +54,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD     
       USE STATE_MOD 
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMMAT
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), 
@@ -87,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
-     .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,
+     .   LLT,ITY,MLW,IHBE, ID, IPRT,IR,IS,IT,
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
      .   IGTYP,NPT_ALL,IL,KK(12),LARGE,IREP,IPID,IVISC,
      .   IMAT,IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
@@ -309,7 +311,7 @@ C-------------------------------------------------------
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
-            WA(JJ) = NPG  ! Gauss points
+            WA(JJ) = NPG  ! Gauss Points
             JJ = JJ + 1
             WA(JJ) = ONE  ! LARGE
 

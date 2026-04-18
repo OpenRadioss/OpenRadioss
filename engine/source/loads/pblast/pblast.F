@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,15 +32,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod              ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                   ../engine/share/modules/h3d_mod.F
+!||    output_mod                ../common_source/modules/output/output_mod.F90
 !||    pblast_mod                ../common_source/modules/loads/pblast_mod.F90
 !||    th_surf_mod               ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-      SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   , X        ,
+      SUBROUTINE PBLAST_LOAD_COMPUTATION (output, PBLAST,ILOADP  ,FAC   ,A  , V   , X        ,
      1                        IADC    ,FSKY    ,LLOADP   ,FEXT  ,NODA_SURF, NODA_PEXT,
      2                        ITAB    ,H3D_DATA,TH_SURF  ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      use output_mod
       USE H3D_MOD 
       USE PBLAST_MOD
       USE GROUPDEF_MOD  
@@ -62,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(PBLAST_),INTENT(INOUT) :: PBLAST
       INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
       INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
@@ -129,7 +132,7 @@ C-----------------------------------------------
            SELECT CASE(ABAC_ID)
              CASE(1)
                !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
-               CALL PBLAST_1(PBLAST,
+               CALL PBLAST_1(OUTPUT, PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
@@ -137,14 +140,14 @@ C-----------------------------------------------
      
              CASE(2)
                !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
-               CALL PBLAST_2(PBLAST,
+               CALL PBLAST_2(OUTPUT, PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
-               CALL PBLAST_3(PBLAST,
+               CALL PBLAST_3(OUTPUT, PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,NODA_SURF, NODA_PEXT,
      3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,

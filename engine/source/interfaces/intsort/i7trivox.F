@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C     XMAX         largest existing abscissa         I
 C     XMAX         largest existing ordinate         I
 C     XMAX         largest existing coordinate       I
 C     I_STOK       storage level of candidate
-C                                impact couples      I/O
+C                                I/O impact couples
 C     CAND_N       node result boxes
 C     CAND_E       element result box addresses
 C                  MULNSN = MULTIMP*NSN MAX SIZE ALLOWED NOW FOR
@@ -129,19 +129,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
+      INTEGER I,J,
+     .        NN,NE,K,L,J_STOK,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        OLDNUM(ISZNSNR), NSNF, NSNL,DELNOD,M
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGREMNODE
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
+     .   XS,YS,ZS,SX,SY,SZ,S2,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2
 c temporary
       INTEGER  LAST_NOD(NSN+NSNR)
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
+      INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
@@ -149,7 +149,7 @@ c temporary
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
       INTEGER CPT_VOX0
       LOGICAL TEST_V0
-      INTEGER FIRST,NEW,LAST,IERROR
+      INTEGER FIRST,LAST,IERROR
       LOGICAL DBG_type18_fvm
       SAVE IIX,IIY,IIZ
 C-----------------------------------------------
@@ -243,7 +243,7 @@ C=======================================================================
             ENDIF
           ENDIF
           IF(FIRST == 0)THEN
-            !empty cell
+            !Empty Cell
             VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
             NEXT_NOD(I)                 = 0 ! last one
             LAST_NOD(I)                 = 0 ! no last
@@ -294,7 +294,7 @@ C=======================================================================
           ENDIF
 
           IF(FIRST == 0)THEN
-            ! empty cell
+            ! Empty Cell
             VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
             NEXT_NOD(NSN+J)     = 0 ! last one
             LAST_NOD(NSN+J)     = 0 ! no last

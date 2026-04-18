@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,15 +64,15 @@ C-----------------------------------------------
       INTEGER MAXA 
       PARAMETER (MAXA=20)
 
-      INTEGER I,IDUM,ITER,ICOUNT,J,K,IRET ,ISTART, NPSAVED, 
+      INTEGER I,ITER,J,IRET ,ISTART, NPSAVED, 
      .        IVALID,ICOMP, MMAX,MINITER_LM, MAXITER_LM,
      .        CNT_HIT_EPS_LM,LMT_HIT_EPS_LM, LMSTOP,IFUNCS,
      .        NGUESS,NMUALS,LOOP_ISTART ,ICHECK_GUESS,
      .        JCHECK, IFIT_SUCCESS,IEND_FINDING,IEND_ITER,
      .        MU_INCR_GUESS,IRND1,ISWITCH
       INTEGER NONZERO(MAXA)
-      my_real GAMMA,ERRNOW,GASDEV,ERRPRE,ERRMIN, ERRMAX, 
-     .        ERRAVE, ERRAVE_MIN,YOGD,XOGD,EPS_LM,MAX_ABS_YI,
+      my_real GAMMA,ERRNOW,ERRPRE, 
+     .        ERRAVE, ERRAVE_MIN,YOGD,EPS_LM,MAX_ABS_YI,
      .        SMALL_FAC_ABS_YI, SMALL_ABS_YI,SPREADY,GAMMA_STOP,
      .        ERR
       my_real A(MAXA),COVAR(MAXA,MAXA),ALPHA(MAXA,MAXA),
@@ -164,7 +164,7 @@ C=======================================================================
         IEND_ITER = 0
         ATRY(1:MAXA) = ZERO ! Initialization of ATRY
         DO WHILE ( ISTART < NSTART  )     !!! 111 continue
-      !!       get one guess point A0(1:NMUAL)  
+      !!Get One Guess Point A0 (1: Nmual)  
           CALL LAW69_GUESS1(
      $            LAWID, NMUAL, ICHECK_GUESS, MU_INCR_GUESS,IRND1,
      $            A0, NONZERO, MCOF_MIN, MCOF_MAX, NGUESS)

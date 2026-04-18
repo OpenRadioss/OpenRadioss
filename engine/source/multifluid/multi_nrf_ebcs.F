@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,14 +29,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_submatlaw       ../engine/source/multifluid/multi_submatlaw.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_submatlaw_mod   ../engine/source/multifluid/multi_submatlaw.F
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                          FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .                          EBCS,NPF,TF,FSAVSURF,TIMESTEP,MATPARAM)
+     .                          EBCS,NPF,TF,FSAVSURF,TIMESTEP,MATPARAM,OUTPUT,PRED)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -45,6 +47,8 @@ C-----------------------------------------------
       USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
+      USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,18 +83,20 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF), TIMESTEP
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM !material data structure
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      LOGICAL,INTENT(IN) :: PRED
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IELEM, ELEMID, NODE_ID
-      INTEGER :: KFACE, NB_NOD_FOUND, KNOD, KK, JJ
-      my_real :: X1(3), X2(3), X3(3), X4(3), P, NORMVEL, VX, VY, VZ, SSP, SURF, NX, NY, NZ
-      my_real :: RHO, SSTAR, PSTAR, PFAC, SL, SR, WFAC(3), VII(5),  VEL2, NORMALW
-      my_real :: FII(5), FJJ(5), VIISTAR(5),  FIISTAR(5), FJJSTAR(5), PP(5)
-      INTEGER :: NODE1, NODE2, IMAT, NBMAT
+      INTEGER :: IELEM, ELEMID
+      INTEGER :: KFACE
+      my_real ::     SURF, NX, NY, NZ
+      my_real ::  SSTAR, PSTAR, SL, SR, WFAC(3), VII(5), NORMALW
+      my_real :: FII(5), VIISTAR(5),  FIISTAR(5), PP(5)
+      INTEGER ::   IMAT, NBMAT
       INTEGER :: MATLAW(MULTI_FVM%NBMAT), LOCAL_MATID(MULTI_FVM%NBMAT)
       my_real :: PHASE_RHOII(MULTI_FVM%NBMAT), PHASE_PRESII(MULTI_FVM%NBMAT), 
-     .           PHASE_EINTII(MULTI_FVM%NBMAT), PHASE_SSPII(MULTI_FVM%NBMAT),
+     .           PHASE_EINTII(MULTI_FVM%NBMAT),
      .           PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT),
      .           PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT),
      .           PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
@@ -102,11 +108,17 @@ C-----------------------------------------------
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
       my_real :: ABURN(1)
+      my_real :: M_IN, M_OUT, E_IN, E_OUT
 C-----------------------------------------------
 C     B o d y
 C-----------------------------------------------
       NVARTMP_EOS = 128
       VARTMP_EOS(1,:) = 1
+
+      M_IN = ZERO
+      M_OUT = ZERO
+      E_IN = ZERO
+      E_OUT = ZERO
 
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
@@ -224,7 +236,7 @@ C     VE formulation
             EBCS%vold(IELEM) = Vnew
             
             IF(MACH >= ONE .AND. Vnew > ZERO)THEN
-              !vitesse sortante supersonique : etat = etat voisin
+              !outgoing supersonic velocity: State = Neighboring State
               PP = Pvois
             ELSE
               RHOC2 = RHOJJ*SSPII*SSPII 
@@ -446,13 +458,31 @@ C     Submaterial fluxes
 C     
          ENDIF
 
-         ! /TH/SURF (massflow,velocity,pressure,acceleration)
-          FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! += rho.S.un
-          FSAVSURF(3,ID_SURF) = FSAVSURF(3,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) / VII(1)   ! += S.un
-          FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
-          FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! m <- m+dm (cumulative value)
+         IF(.NOT. PRED)THEN
+           !muscl 'off', or muscl 'on' after 2nd step of prediction/correction
 
+           ! /TH/SURF (massflow,velocity,pressure,acceleration)
+            FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! += rho.S.un
+            FSAVSURF(3,ID_SURF) = FSAVSURF(3,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) / VII(1)   ! += S.un
+            FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
+            FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! m <- m+dm (cumulative value)
+
+            ! FLUX > 0 if flow is exiting (OUTWARD NORMAL)
+            M_IN = M_IN   - TIMESTEP * Min(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+            M_OUT = M_OUT - TIMESTEP * Max(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+            E_IN = E_IN   - TIMESTEP * Min(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+            E_OUT = E_OUT - TIMESTEP * Max(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+         ENDIF
       ENDDO !next IELEM
+
+      IF(.NOT. PRED)THEN
+!$OMP CRITICAL
+        OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + M_IN
+        OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + M_OUT
+        OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + E_IN
+        OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + E_OUT
+!$OMP END CRITICAL
+      ENDIF
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 
 C-----------------------------------------------

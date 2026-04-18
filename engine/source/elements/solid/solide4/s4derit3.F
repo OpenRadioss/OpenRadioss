@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
-     .   A1, A2, A3, A4, D, AREAMX2,
+     .       D,
      .   PXX, PYY, PZZ, PXY, PYZ, PXZ, GFAC, AA, BB, P, LD
 C-----------------------------------------------
 C
@@ -160,7 +160,16 @@ C
         END DO
 
 
-       ELSEIF(IFORMDT==1)THEN
+       ELSEIF(IFORMDT==0)THEN
+         DO I=1,NEL
+             D = PX1(I)*PX1(I)+PY1(I)*PY1(I)+PZ1(I)*PZ1(I)
+     .       + PX2(I)*PX2(I)+PY2(I)*PY2(I)+PZ2(I)*PZ2(I)
+     .       + PX3(I)*PX3(I)+PY3(I)*PY3(I)+PZ3(I)*PZ3(I)
+     .       + PX4(I)*PX4(I)+PY4(I)*PY4(I)+PZ4(I)*PZ4(I)
+           DELTAX(I) = ONE / SQRT(D)
+         END DO
+
+      ELSEIF(IFORMDT==1)THEN
 
          GFAC=PM(105,MXT(1))
          LD  =TWO*SQRT(MAX(ONE-GFAC,ZERO))+ONE
@@ -205,6 +214,4 @@ C
 C
       RETURN
 C
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
       END      

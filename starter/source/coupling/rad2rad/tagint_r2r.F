@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER G1,G2,TAG,TYPE2,VAL,I,
-     .     GRS,GRM,ID_INTER,COMPT,PASSE,NBTOT,FLAG,IGRPP_R2R(2,*)
+     .     GRS,GRM,ID_INTER,COMPT,PASSE,FLAG,IGRPP_R2R(2,*)
 C-----------------------------------------------
         TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
         TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J,TAG2,NF1,NF2,NF1T,NF2T,W
+        INTEGER J, TAG2, W
         INTEGER N_SURFP,N_SURFT,N_NP,N_NT,N_NS
         INTEGER N_SURFP2,N_SURFT2,I1,I2,N_GRBP,N_GRBT
         INTEGER N_LINP,N_LINT,N_LINP2,N_LINT2
@@ -85,7 +85,7 @@ C=======================================================================
         TAG2 = 1
 
 C--------------------------------------------------------------------C
-C------------FLAG = 0 --> surface / nodes interfaces ----------------C
+C----------- Flag = 0-> surface / nodes interfaces ----------------
 C--------------------------------------------------------------------C
 
         IF (FLAG==0) THEN
@@ -152,7 +152,7 @@ C-->  detection of splitted interfaces for printout of warnings <---
           ENDIF
 
 C--------------------------------------------------------------------C
-C------------FLAG = 1 --> surface / surface interfaces --------------C
+C----------- FLAG = 1-> surface / surface interfaces --------------- C
 C--------------------------------------------------------------------C
 
         ELSEIF (FLAG==1) THEN

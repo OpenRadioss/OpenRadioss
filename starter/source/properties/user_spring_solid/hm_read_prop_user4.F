@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_PROP_USER4(IOUT  ,NUVAR ,PARGEO ,UNITAB ,LSUBMODEL)
+      SUBROUTINE HM_READ_PROP_USER4(IOUT  ,NUVAR ,UNITAB ,LSUBMODEL)
 C-----------------------------------------------
 C     This routine may be used for user defined rupture property 
 C     for interface type 2
@@ -89,8 +89,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IOUT
       INTEGER NUVAR
-      my_real   
-     .        PARGEO(*)
 
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL

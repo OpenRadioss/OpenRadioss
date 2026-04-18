@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                  ../engine/share/resol/initbuf.F
 !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
@@ -61,6 +62,7 @@ C-----------------------------------------------
         USE ALE_CONNECTIVITY_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE MATPARAM_DEF_MOD
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +107,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         my_real, DIMENSION(1) :: SCALAR_RESULTS
-        INTEGER II,NG
+        INTEGER NG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

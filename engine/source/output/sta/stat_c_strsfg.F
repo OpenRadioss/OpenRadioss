@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod           ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||    stack_mod           ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -53,6 +54,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -322,8 +324,8 @@ c
                     WA(JJ) = ZERO              
                   ENDIF                        
                 ELSE  ! NPG > 1
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IS=1,NPTS 
+                    DO IR=1,NPTR                                                         
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
@@ -516,7 +518,7 @@ c
             ENDIF
 C
             IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
 c------- end loop over 4 node shell elements
@@ -540,7 +542,7 @@ c-----------------------------------------------------------------------
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -549,9 +551,9 @@ c-------------------------------------
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELC_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXC(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 
           IOFF = NINT(WAP0(J + 1))
@@ -646,6 +648,7 @@ c
                   CALL TAB_STRS_TXT50(WAP0(1),9,J,SIZP0,3)
                   CALL TAB_STRS_TXT50(WAP0(10),4,J,SIZP0,4)
                 ENDIF
+                J = J + 13
               ENDDO
             ELSE
               DO IT=1,NPT
@@ -840,10 +843,8 @@ c
                     WA(JJ) = ZERO              
                   ENDIF                        
               ELSE                                              
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
-                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
-                      IPG = NPTR*(IS-1) + IR
+                  DO IPG=1,NPG                                     
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPG,1,1)
                       K = (IPG-1)*NEL*5
 C                      
                       TENS(1:5) = GBUF%FORPG(K+KK(1:5)+I)
@@ -855,7 +856,7 @@ C
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-                  WA(JJ) = LBUF%PLA(I)
+                        WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                        
@@ -867,7 +868,6 @@ c
                        JJ = JJ + 1                                      
                        WA(JJ) = TENS(J)             
                       END DO
-                    ENDDO                                                               
                   ENDDO
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ELSE ! MPT > 0
@@ -915,7 +915,7 @@ c
             ENDIF  !  IF (MPT == 0)
 C
             IE=IE+1
-C         pointeur de fin de zone
+C         end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
          
@@ -937,7 +937,7 @@ c-----------------------------------------------------------------------
           PTWA_P0(N)=PTWA(N)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -946,9 +946,9 @@ C       construit les pointeurs dans le tableau global WAP0
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXTG(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 C
           IOFF = NINT(WAP0(J + 1))
@@ -1045,6 +1045,7 @@ C
                   CALL TAB_STRS_TXT50(WAP0(1),9,J,SIZP0,3)
                   CALL TAB_STRS_TXT50(WAP0(10),4,J,SIZP0,4)
                 ENDIF
+                J = J + 13
               ENDDO
             ELSE
               DO IT=1,NPT
@@ -1097,7 +1098,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J
+ 
       my_real
      .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3 
@@ -1181,7 +1182,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .   S1, S2, S3, S4, S5
 C-----------------------------------------------
@@ -1220,7 +1221,7 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real 
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
 C--convention input MOM : mxx,myy,mxy,0,0,0; output mxx,myy,mzz,mxy,myz,mzx

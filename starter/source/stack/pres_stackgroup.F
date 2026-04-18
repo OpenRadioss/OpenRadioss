@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,7 @@ C-----------------------------------------------
      
       INTEGER , DIMENSION(NUMGEO+NUMPLY)  :: IPIDPLY,IDGR4N,IDGR3N
      
-      INTEGER :: NBFI,IPPID, NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3
+      INTEGER NGL, IPID_1, NSHQ4, NSHT3
      
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
       INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX
@@ -399,7 +400,7 @@ C !GR  T3
               ENDDO
              ENDIF  ! ID > 0           
 11      CONTINUE        
-C   compteur by element    
+C   counter by element    
            IWORK_T(1:NUMELC + NUMELTG)%IDSTACK = 0
             DO I= 1,NPLY
               J   = IDGR4N(I)
@@ -422,7 +423,7 @@ C element type Q4
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                       ELSE
-C  message d'erreur      
+C  error message      
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -455,7 +456,7 @@ C element type T3
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                       ELSE
-C  message d'erreur
+C  error message
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -527,7 +528,7 @@ C element type Q4
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                           IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
-C  message d'erreur      
+C  error message      
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -567,7 +568,7 @@ C element type T3
                            IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                            IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
-C  message d'erreur
+C  error message
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,

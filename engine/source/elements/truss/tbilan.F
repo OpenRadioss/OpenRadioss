@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,12 +75,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, M, J, FLAG
+      INTEGER I, M, FLAG
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ), 
      .   EI(MVSIZ), EK(MVSIZ), XM(MVSIZ),
      .   YM(MVSIZ), ZM(MVSIZ), 
-     .   RBIDON(1),OFF(MVSIZ),RHO(MVSIZ),
+     .   OFF(MVSIZ),RHO(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ) ,
      .   REI(MVSIZ), REK(MVSIZ), INEL,

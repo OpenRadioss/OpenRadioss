@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@
 !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
 !||====================================================================
       module newman_raju_mod
+      implicit none
       contains
 ! ========================================================================================
 ! \brief calculates geometry correction factor according to NewmanRaju 1981 for /fail/alter

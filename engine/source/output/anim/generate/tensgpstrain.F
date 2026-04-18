@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szstraingps        ../engine/source/elements/solid/solidez/szstraingps.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    outmax_mod         ../common_source/modules/outmax_mod.F
@@ -47,6 +48,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE OUTMAX_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,38 +74,38 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real GAMA(6),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .     
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       my_real,ALLOCATABLE,DIMENSION(:,:) :: EVAR
-      INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP
+      INTEGER I,II, NG, NEL,KCVT,
+     .         N, J, MLW,  
+     .        
+     . NN1,K,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
+     .        ICSIG,IVISC,JJ(6),IP
       INTEGER MLW2,NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
-     .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
-     .  RBID(6,MVSIZ),
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
-     .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
-     .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
+     .  
+     .  
+     .       
+     .      
+     .        
+     .      
+     .       
+     .     
+     .   
+     .   
+     .   
+     .   
+     .   
+     .     STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
       INTEGER 
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ITSH
@@ -598,6 +600,7 @@ C-----------------------------------------------
 !||    szstraingps           ../engine/source/elements/solid/solidez/szstraingps.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -610,6 +613,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -632,38 +636,38 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real GAMA(6),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .     
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       my_real,ALLOCATABLE,DIMENSION(:,:) :: EVAR
-      INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP,ITSH
+      INTEGER I,II, NG, NEL,KCVT,
+     .         N, J, MLW,  
+     .        
+     . NN1,K,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
+     .        ICSIG,IVISC,JJ(6),IP,ITSH
       INTEGER MLW2,NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
-     .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
-     .  RBID(6,MVSIZ),
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
-     .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
-     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
-     .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
+     .  
+     .  
+     .       
+     .      
+     .        
+     .      
+     .       
+     .     
+     .   
+     .   
+     .   
+     .   
+     .   
+     .     STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
       INTEGER 
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ISKIN(MVSIZ)

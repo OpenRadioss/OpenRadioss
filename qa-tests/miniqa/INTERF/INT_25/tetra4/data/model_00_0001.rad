@@ -1,0 +1,10 @@
+# Copyright (C) 2026 Altair Engineering Inc. ("Holder")
+# Model is licensed by Holder under CC BY-NC 4.0
+# (https://creativecommons.org/licenses/by-nc/4.0/legalcode).
+#RADIOSS ENGINE
+#
+/RUN/model_00/1/
+ 5
+#
+/PRINT/-1000
+#

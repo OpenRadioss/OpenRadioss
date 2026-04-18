@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,DGR1,DGR,ISKEW
+      INTEGER J, DGR1, DGR, ISKEW
 !
       MY_REAL  XG,YG,ZG,S_A,S_B,S_C
       LOGICAL :: lFOUND
@@ -90,7 +90,7 @@ C=======================================================================
       CALL HM_GET_INTV('Skew_ID' ,ISKEW,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('n' ,DGR1,IS_AVAILABLE,LSUBMODEL)
 
-      CLAUSE%ELLIPSE_ID_MADYMO=ISKEW ! No de l'entite qui impose le mvt de la surface.
+      CLAUSE%ELLIPSE_ID_MADYMO=ISKEW ! Entity number imposing surface movement.
       !                                --> No systeme Radioss ou MaDyMO.
       !skew:temporary storage of user id
       !get internal id from user id

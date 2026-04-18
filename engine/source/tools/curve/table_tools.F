@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N
+      INTEGER  N
 C--------------------------------------
       DO N=1,NTABLE
         TABLE(N)%NOTABLE  = 0
@@ -60,7 +60,7 @@ C--------------------------------------
 !||--- called by ------------------------------------------------------
 !||    wrrestp        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    table_mod      ../engine/share/modules/table_mod.F
 !||====================================================================
@@ -154,7 +154,7 @@ C--------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    ancmsg         ../engine/source/output/message/message.F
 !||    arret          ../engine/source/system/arret.F
-!||    read_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||    table_mod      ../engine/share/modules/table_mod.F
@@ -241,7 +241,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N, K, STAT, i
+      INTEGER LEN, N, K
 C--------------------------------------
       DO N=1,NTABLE
         DO K=1,TABLE(N)%NDIM
@@ -292,7 +292,7 @@ C-----------------------------------------------
       INTEGER NXK(4),IPOS(4)
       INTEGER IB(2,2,2,2)
       my_real 
-     .       DX1,DX2,R(4),UNR(4)
+     .       DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
       IF( SIZE(XX) < NDIM )THEN
@@ -438,7 +438,7 @@ C-----------------------------------------------
       INTEGER NXK(4),IPOS(4)
       INTEGER IB(2,2,2,2)
       my_real 
-     .       DX1,DX2,R(4),UNR(4)
+     .       DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
       IF( XXDIM < NDIM )THEN
@@ -908,9 +908,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
       INTEGER NDIM, K, NXK, I, IPOS, IB(2,2,2,2), 
-     .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+     .        IM,IL,M,L,N1
       my_real 
-     .       DX1,DX,R(2),UNR(2)
+     .       DX,R(2),UNR(2)
 C-----------------------------------------------
       R(1:2) = HUGE(R(1))
       NDIM=TABLE%NDIM

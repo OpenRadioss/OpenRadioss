@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB      ,IGRNOD ,
      .                           PM         ,IPM       ,X      ,UNITAB,
-     .                           LSUBMODEL  ,DETONATORS)
+     .                           LSUBMODEL  ,DETONATORS,XFRAME ,IFRAME)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,13 +77,15 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)                :: LSUBMODEL(NSUBMOD)
       TYPE(DETONATORS_STRUCT_),TARGET,INTENT(INOUT) :: DETONATORS
       TYPE (GROUP_),DIMENSION(NGRNOD),INTENT(IN)    :: IGRNOD
+      my_real,INTENT(IN)                            :: XFRAME(NXFRAME,NUMFRAM+1)
+      INTEGER,INTENT(IN)                            :: IFRAME(LISKN,NUMFRAM+1)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER              :: ID,K
+      INTEGER              :: K
       INTEGER              :: IUNIT, UID
       INTEGER              :: IFLAGUNIT
-      INTEGER              :: DET_ID,STAT
+      INTEGER              :: DET_ID
       CHARACTER*40         :: MESS
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       INTEGER              :: NDET,NDFS
@@ -129,7 +131,7 @@ C-----------------------------------------------
       CALL PRELECDET(IGRNOD, LSUBMODEL, DETONATORS)
 
       ! --- READING ALL DETONATOR TYPES
-      CALL READ_DFS_DETPOINT(DETONATORS,X,IPM,PM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
+      CALL READ_DFS_DETPOINT(DETONATORS,X,IPM,PM,ITABM1,UNITAB,LSUBMODEL,IGRNOD,XFRAME,IFRAME)
       CALL READ_DFS_DETLINE(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL)
       CALL READ_DFS_WAVE_SHAPER(DETONATORS,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,ITAB)
       CALL READ_DFS_DETPLAN(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL)

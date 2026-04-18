@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,13 +88,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,N1,N2,NOD,NUM0,ILAGMUL,IUN,JPART,NNOD,NOFRAME,INOD,NOSKEW,
-     .   SENS_ID,PART_ID,OPTID,UID,FCT1_ID,FCT2_ID,ILAGM,GRNOD_ID,IGS,LEN,
-     .   LAGMUL,IDIS,ICOOR,DISTRIBUTION,SKEW_ID
-      INTEGER ,DIMENSION(NUMNOD)   :: NOD1,NOD2,NWORK 
+      INTEGER J,NOD,NUM0,ILAGMUL,IUN,NNOD,NOFRAME,INOD,NOSKEW,
+     .   SENS_ID,OPTID,UID,FCT1_ID,ILAGM,GRNOD_ID,IGS,LEN,
+     .   IDIS,ICOOR,SKEW_ID
+      INTEGER ,DIMENSION(NUMNOD)   :: NWORK 
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
-      my_real :: XSCALE,YSCALE,FSCAL_T,FSCAL_V,T0,DMIN,DIST,
-     .   XI,YI,ZI,XF,YF,ZF,TSTART,TSTOP
+      my_real :: XSCALE,YSCALE,FSCAL_T,FSCAL_V,
+     .   TSTART,TSTOP
       CHARACTER(LEN=NCHARKEY)    :: KEY
       CHARACTER(LEN=NCHARFIELD)  :: XYZ
       CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS

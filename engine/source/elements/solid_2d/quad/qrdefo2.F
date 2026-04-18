@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,9 +77,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   VY13(MVSIZ), VY24(MVSIZ), VZ13(MVSIZ),VZ24(MVSIZ),
-     .   YM1(MVSIZ), YM2(MVSIZ), YM3(MVSIZ), YM4(MVSIZ),
-     .   ZM1(MVSIZ), ZM2(MVSIZ), ZM3(MVSIZ), ZM4(MVSIZ),
-     .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ), ZAVG(MVSIZ),
+     .      
+     .      
+     .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ),
      .   VYG(MVSIZ),VY,VZ,Y,Z
 C-----------------------------------------------
 C
@@ -185,11 +185,11 @@ C     correction due to rotation of the skew:
         EZZ(I)  = EZZ(I)
      .     -0.5*DT1*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
         ETT(I)  = ETT(I)
-C   pas de rotation => pas de terme    .     -0.5*DT1*ETT(I)*ETT(I)
+C   No rotation => no term.-0.5*dt1*ett (i)*ett (i)
         WYZ(I)= ZERO
       ENDDO
 C---------------------------------------
-C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
+C     LOCAL REFERENCE FRAME POUR MATERIAUX NON ISOTROPES
 C---------------------------------------
       DO 90 I=1,NEL
       RX(I)=ONE

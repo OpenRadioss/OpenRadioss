@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,11 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    build_msg                    ../common_source/tools/memory/my_alloc.F90
 !||    cdk6bc3                      ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
 !||    check_message_definition     ../common_source/modules/check_mod.F
-!||    checksum_option_outfile      ../common_source/modules/output/checksum_mod.F90
-!||    close_c                      ../common_source/tools/input_output/write_routtines.c
+!||    close_c                      ../common_source/tools/input_output/write_routines.c
 !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
 !||    coqini                       ../engine/source/elements/shell/coqini.F
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    fvdeal                       ../engine/source/airbag/fvdeal.F
 !||    get_file_name_info           ../engine/source/system/get_file_name_info.F
 !||    hist1                        ../engine/source/output/th/hist1.F
@@ -46,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inipar                       ../engine/source/mpi/init/inipar.F
 !||    iniresa                      ../engine/source/output/restart/rdresa.F
 !||    init_dyn_lib_struc           ../engine/share/modules/dynlib_mod.F
+!||    init_h3d_engine              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_th0                     ../engine/source/output/th/init_th0.F
 !||    initime                      ../engine/source/system/timer_mod.F90
 !||    lecinp                       ../engine/source/input/lecinp.F
@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_getpid                    ../engine/source/system/pid.c
 !||    names_and_title_init         ../common_source/modules/names_and_titles_mod.F
 !||    omp_get_thread_num           ../engine/source/engine/openmp_stub.F90
-!||    open_c                       ../common_source/tools/input_output/write_routtines.c
+!||    open_c                       ../common_source/tools/input_output/write_routines.c
 !||    open_f_scratch_file          ../engine/source/system/open_tempfile.F
 !||    printcenter                  ../engine/source/engine/radioss_title.F
 !||    printcpu                     ../engine/source/system/timer.F
@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss_title                ../engine/source/engine/radioss_title.F
 !||    rdresa                       ../engine/source/output/restart/rdresa.F
 !||    rdresb                       ../engine/source/output/restart/rdresb.F
-!||    read_c_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_c_c                     ../common_source/tools/input_output/write_routines.c
 !||    resol_head                   ../engine/source/engine/resol_head.F
 !||    restalloc                    ../engine/source/output/restart/arralloc.F
 !||    setignorecore                ../engine/source/system/traceback_handler.c
@@ -89,6 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod                 ../common_source/modules/ale/alemuscl_mod.F
+!||    anim_mod                     ../common_source/modules/output/anim_mod.F90
 !||    check_mod                    ../common_source/modules/check_mod.F
 !||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
@@ -104,6 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    group_mod                    ../engine/share/modules/group_mod.F
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
+!||    init_h3d_engine_mod          ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    inoutfile_mod                ../common_source/modules/inoutfile_mod.F
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
 !||    intstamp_glob_mod            ../engine/share/modules/intstamp_glob_mod.F
@@ -124,9 +126,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad2r_mod                    ../engine/share/modules/rad2r.F
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                      ../engine/share/modules/restart_mod.F
+!||    rwall_mod                    ../common_source/modules/constraints/rwall_mod.F90
 !||    scratchfile_mod              ../engine/share/modules/scratchfiles_mod.F
 !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                     ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod                     ../common_source/modules/skew_mod.F90
 !||    soltosph_mod                 ../engine/share/modules/soltosph_mod.F
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
@@ -196,6 +200,10 @@ C-----------------------------------------------
       use checksum_output_option_mod
       use file_descriptor_mod,only : fd_bin_th,fd_bin_rd_rst,fd_bin_wr_rst           ! Contains the file descriptors for all files / same as unit_c.inc
       use coupling_adapter_mod
+      USE ANIM_MOD
+      use rwall_mod
+      use sfem_mod
+      use init_h3d_engine_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -232,6 +240,7 @@ C-----------------------------------------------
 #include      "scr_fac_c.inc"
 #include      "chara_c.inc"
 #include      "task_c.inc"
+#include      "spmd_c.inc"
 #include      "warn_c.inc"
 #include      "parit_c.inc"
 #include      "titr_c.inc"
@@ -264,7 +273,7 @@ C-----------------------------------------------
      .        RADIOSSV,RADFLEXV,RDFLEXCOMP,ABFV,ABFCOMP,IFILABF,
      .        NB_OF_FILES,N_FAIL,IP,IRUNN_BIS,IFILTITL
       INTEGER OMP_GET_THREAD_NUM,LONG,LONG_TMP,
-     .        LENV,FVERS,LFNAME,NB_INDEX_ABF
+     .        LENV,FVERS,LFNAME,NB_INDEX_ABF,NINTERSKID
       CHARACTER FILNAM*100, CHRUNM1*2, INPUTNAM*100,
      .          CHR_OLD*2,FNAME*2048,IOFF1*3,IOFF2*3,IOFF3*3
       CHARACTER*2048 INAME
@@ -345,12 +354,14 @@ C MDS Table
       TYPE(t_segvar) :: SEGVAR
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
+      TYPE(UNIT_TYPE_) :: UNITAB !<Units Conversion
       TYPE(connectivity_) :: element 
       TYPE(nodal_arrays_), target :: nodes 
       TYPE(timer_) :: TIMERS
       TYPE(rbe3_) :: rbe3
       TYPE(coupling_type) :: coupling
+      TYPE(rwall_) :: rwall
+      TYPE(sfem_)  :: sfem
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -364,6 +375,7 @@ C------------------------------------------------
 C     Init Timer (from beginning of radioss2 (reading timer)
 C------------------------------------------------    
       ISTDO=6
+      coupling%active = .false.
       CALL INI_MSG()
       CALL BUILD_MSG()
     
@@ -591,7 +603,7 @@ c
         IF(OUTFILE_BOOL) BOOL_C = 1
 
         CALL LF_CONVERT_C_FLAT(GOT_INPUT,ROOTN,LENROOTN,FNAME,LFNAME,
-     .                         INAME, IERR,1024,LEN_TMP_NAME,TMP_NAME,
+     .                         INAME, IERR,65536,LEN_TMP_NAME,TMP_NAME,
      .                         LEN_TMP_NAME2,TMP_NAME2)
 
         IF (IERR == 0) THEN
@@ -855,11 +867,11 @@ C------------------------------------------------------------------
 C------------------------------------------------
 C     .rst file reading 1
 C------------------------------------------------
-      CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
+      CALL RDRESA(output,ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
-     .            RBE3)
+     .            RBE3,RWALL,SFEM)
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -904,7 +916,7 @@ C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
 C end init rdresa after call xtime0
-      CALL INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      CALL INIRESA(OUTPUT,H3D_DATA,PINCH_DATA,GLOB_THERM)
       CALL TRACE_OUT(17)
 
 
@@ -961,14 +973,14 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
-     *               GLOB_THERM,RBE3)
+      CALL RESTALLOC(OUTPUT,ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+     *               GLOB_THERM,RBE3,RWALL,SFEM)
 
       ! Initialization
       IGEO = 0
       IPM = 0
 
-      ! IAF,AF : Fluid, noise
+      ! IAF, AF: Fluid, Noise
       IF(IFIF>0)ALLOCATE (IAF(IFIF),STAT=IADIF)
       IF(MFIF>0)ALLOCATE (AF(MFIF),STAT=IADRF)
       IF(IADRF/=0.OR.IADIF/=0)THEN
@@ -1049,9 +1061,11 @@ C
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
      .            FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
-     .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3)
+     .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3     ,
+     .            RWALL          ,SFEM      )
       ! Close restart file
        CALL CLOSE_C
+ 
        ! --------------------------------------------------------------------------------------------
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -1096,11 +1110,11 @@ C--------------------------------------------
          IF (MLN==20) ILAW20=1 
       ENDDO
       !----------------------------------!
-      !  Updating contour output request !
+      !  Updating output output Request!
       !  according multimaterial law type!
       !  and usage                       !
       !----------------------------------!      
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !Removing /ANIM/ELEM/VFRAC if no multimaterial law
       IF(MMALE==0)THEN  
         DO I=283,286
@@ -1164,7 +1178,7 @@ C--------------------------------------------
       
       NN_ANI = NN_ANI + OUTPUT%CHECKSUM%CHECKSUM_COUNT   
 
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
       IF(MMALE==1)THEN     
           IF(N2D==0)THEN 
@@ -1466,17 +1480,17 @@ C------------------------------------------------
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
-     9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
+     9              WA  ,CRFLSW  ,XCUT  ,DAMPR  ,
      A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
      D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTERFACES%INTBUF_TAB,
      E              IPM   ,H3D_DATA, MULTI_FVM,
-     F              IGRPART,TAG_SKINS6,ICFIELD,LCFIELD,NODES%TAG_S_RBY,
-     G              MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,
-     H              MDS_NDEPSVAR,STACK,IBCL,ILOADP,LLOADP,SENSORS,
-     I              DYNAIN_DATA,DT ,LOADS ,OUTPUT,NAMES_AND_TITLES,
-     J              MAT_ELEM%MAT_PARAM,GLOB_THERM,PBLAST)
+     F              IGRPART,ICFIELD,LCFIELD,NODES%TAG_S_RBY,
+     G              MDS_NMAT,
+     H              SENSORS,MAT_ELEM,
+     I              DYNAIN_DATA,DT ,OUTPUT,NAMES_AND_TITLES,
+     J              GLOB_THERM)
 C------------------------------------------------
 C Close & Delete scratch file
       CLOSE (UNIT=IIN)
@@ -1494,6 +1508,19 @@ C------------------------------------------------
      *       MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
       ENDIF
 #endif
+C------------------------------------------------
+C     H3D initialization
+C------------------------------------------------
+      CALL INIT_H3D_ENGINE(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
+     .                     MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
+     .                     MAT_ELEM%ELBUF,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_ELEM%MAT_PARAM,PBLAST,
+     .                     IGRPART,NPC,TF,SNPC,STF,SENSORS,SENSORS%SENSOR_TAB,PSKIDS,
+     .                     NINTSKIDOLD,NINTERSKID,NINTSTAMP,NUMNOD,NUMNODG,NINTER,NUMSPHG,
+     .                     NPROPG,NPROPGI,NPROPMI,LIPART1,NPARI,NPARG,
+     .                     NGROUP,NUMELS,SIBCL,NLOADP,SIZLOADP,SLLOADP,NGRPART,SENSORS%NSENSOR,
+     .                     ISPMD,IOUT,MCHECK,
+     .                     NUMELCG,NUMELTGG,NUMELSG,NUMELTRG,NUMELPG,NUMELRG,
+     .                     NUMELQG,NUMSKING,NUMGEO,NUMMAT,NUMPLY)
 
 C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)
@@ -1560,7 +1587,7 @@ C
           IF (IABFPIPE < 0) THEN
             SELECT CASE (IABFPIPE)
                CASE (-1)
-C---        Error: abf pas trouve
+C--- error: abf not find
                   CALL ANCMSG(MSGID=150,ANMODE=ANINFO)
                CASE (-2)
                   CALL ANCMSG(MSGID=151,ANMODE=ANINFO,I1=ABFCOMP)
@@ -2186,10 +2213,6 @@ C---------------------------------------------------------------------
          ITASK=0
          IRUNN_BIS = IRUNN
 
-         IF (ISPMD==0)THEN
-            CALL checksum_option_outfile(OUTPUT%checksum)
-         ENDIF
-
          CALL RESOL_HEAD(ELEMENT, NODES, ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,
      .                   STACK        ,IRUNN_BIS       , TIMERS,
@@ -2201,7 +2224,7 @@ C---------------------------------------------------------------------
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
      .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST,
-     .                   RBE3, coupling)
+     .                   RBE3, coupling,RWALL     ,SFEM)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

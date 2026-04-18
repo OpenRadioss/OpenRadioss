@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -103,13 +103,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_N_B,
-     .   I, K11_T, IP0, IP1, IP2, IP3, JLT , NFT, J17_T,
-     .   I_SK_OLD, I_STOK1, ITIED,
-     .   ADD1, ILD, NOINT, MULTIMP, ITYP, NCONT, NCONTACT,
+     .     IP0, IP1 ,
+     .   I_SK_OLD, ITIED,
+     .    ILD, NOINT, MULTIMP, NCONT, NCONTACT,
      .   IBID,I_MEM,CAND_N_OLD
 C     REAL
       my_real
-     .    GAP, MAXBOX, MINBOX, TZINF,DIST1,
+     .    GAP, MAXBOX, MINBOX, TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX
       INTEGER :: NMN, NSN,NRTM,NTY
       logical :: need_computation
@@ -155,7 +155,7 @@ C
       BMINMA(5)=EP30
       BMINMA(6)=EP30
 C -------------------------------------------------------------
-C     TRI SUR N DES ANCIENS CANDIDATS 
+C     sort on N of old candidates
 C -------------------------------------------------------------
 C
       CALL MY_BARRIER
@@ -169,9 +169,9 @@ C
         INTBUF_TAB%I_STOK(1)=I_SK_OLD
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
-C sauvegarde de XSAV (tableau BUFIN(JD(19)))
+C Backup of XSAV (BUFIN Table (JD (19)))
       CALL I10XSAVE(
      1       X     ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN   ,NMN   ,
      2       ITASK ,INTBUF_TAB%XSAV,XMINL        ,YMINL ,ZMINL ,
@@ -185,7 +185,7 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
       BMINMA(6) = MIN(BMINMA(6),ZMINL)
 #include "lockoff.inc"
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier ii_stok and result
       CALL MY_BARRIER
 C -------------------------------------------------------------
       IF(ITASK==0)THEN
@@ -204,7 +204,7 @@ C
         BMINMA(5)=BMINMA(5)-TZINF
         BMINMA(6)=BMINMA(6)-TZINF
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C recovery of remote nodes nsnr stored in xrem
 C
         NSNR = 0
         IF(NSPMD>1) THEN
@@ -214,7 +214,7 @@ C
      3      IRCVFROM     ,IAD_ELEM,FR_ELEM      ,NSNR   ,IPARI(21),
      4      INTBUF_TAB%GAP_S,NSNFIOLD,NODNX_SMS    ,ITAB   ,ITIED)
 C
-C renumerotation locale des anciens candidats
+C Local renumeration of former candidates
 C
 
             CALL SPMD_RNUMCD10(
@@ -225,11 +225,11 @@ C
 C
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   CONTINUE
-C eshift : decalage sur cand_e
+C eshift: offset on cand_e
       ILD = 0
       NB_N_B = 1
 C
-C Barrier comm spmd_tri10box + BMINMA + Retour I10BUCE
+C Barrier Commp SPMD_TRI10BOX + BMINMA + return i10buce
 C      
  50   CALL MY_BARRIER
 C
@@ -275,7 +275,7 @@ C
       INTBUF_TAB%VARIABLES(9) = MIN(MAXBOX,INTBUF_TAB%VARIABLES(9))
       INTBUF_TAB%VARIABLES(12)= MIN(MINBOX,INTBUF_TAB%VARIABLES(12))
       INTBUF_TAB%VARIABLES(8)  = MIN(TZINF,INTBUF_TAB%VARIABLES(8))
-C     TZINF mis a jour a ce niveau
+C     Tzinf updated at this level
       INTBUF_TAB%VARIABLES(5)  = INTBUF_TAB%VARIABLES(8)-GAP
       RESULT        = RESULT + ILD           
 #include "lockoff.inc"
@@ -295,7 +295,7 @@ C--------------------------------------------------------------
         TZINF  = INTBUF_TAB%VARIABLES(8)         
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for identification in boundary part
       IF(NSPMD>1)THEN
 
 C mono tache
@@ -311,7 +311,7 @@ c     2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID)
         CALL SPMD_TRI10GAT(
      1    RESULT   ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID,H3D_DATA)
-C sauvegarde des candidats additionnels dans IPARI(24)
+C save additional candidates in ipari(24)
         IPARI(24) = NSNR
         IF (NUM_IMP>0) 
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )

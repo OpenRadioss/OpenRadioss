@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    check_ale_comm   ../engine/source/ale/check_ale_comm.F
 !||--- called by ------------------------------------------------------
-!||    resol            ../engine/source/engine/resol.F
+!||    init_ale         ../engine/source/ale/init_ale.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90

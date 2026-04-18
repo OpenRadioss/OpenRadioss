@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||    rgjoint       ../engine/source/elements/joint/rgjoint.F
 !||--- called by ------------------------------------------------------
-!||    rforc3       ../engine/source/elements/spring/rforc3.F
+!||    rforc3        ../engine/source/elements/spring/rforc3.F
 !||--- calls      -----------------------------------------------------
-!||    ranim33      ../engine/source/elements/joint/ranim33.F
-!||    rbilan33     ../engine/source/elements/joint/rbilan33.F
-!||    rcum33       ../engine/source/elements/joint/rcum33.F
-!||    rcum33p      ../engine/source/elements/joint/rcum33p.F
-!||    rdtime33     ../engine/source/elements/joint/rdtime33.F
-!||    rskew33      ../engine/source/elements/joint/rskew33.F
-!||    ruser33      ../engine/source/elements/joint/ruser33.F
+!||    ranim33       ../engine/source/elements/joint/ranim33.F
+!||    rbilan33      ../engine/source/elements/joint/rbilan33.F
+!||    rcum33        ../engine/source/elements/joint/rcum33.F
+!||    rcum33p       ../engine/source/elements/joint/rcum33p.F
+!||    rdtime33      ../engine/source/elements/joint/rdtime33.F
+!||    rskew33       ../engine/source/elements/joint/rskew33.F
+!||    ruser33       ../engine/source/elements/joint/ruser33.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod      ../engine/share/modules/h3d_mod.F
-!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    h3d_mod       ../engine/share/modules/h3d_mod.F
+!||    sensor_mod    ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE RGJOINT(
      1   JFT,       JLT,       IPARTR,    NEL,
@@ -60,6 +61,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

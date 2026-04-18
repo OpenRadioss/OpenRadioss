@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    icinv3    ../starter/source/interfaces/inter3d1/icinv3.F
+!||    icinv3        ../starter/source/interfaces/inter3d1/icinv3.F
 !||--- called by ------------------------------------------------------
-!||    i12chk3   ../starter/source/interfaces/inter3d1/i12chk3.F
+!||    i12chk3       ../starter/source/interfaces/inter3d1/i12chk3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ICINV3(IXS,IXC,IXTG,IADD,INVC)
+      use element_mod , only :nixs,nixc,nixtg
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

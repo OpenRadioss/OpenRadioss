@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ, R, V1, V2, V3, VV1, VV2,
+     .   XWL, YWL, ZWL,XN,YN,ZN,DX,DY,DZ, R, V1, V2, V3, VV1, VV2,
      .   VV3, VV
       REAL R4
 C-----------------------------------------------

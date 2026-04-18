@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,28 +65,27 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,KCST,N0,
-     .        IMAT1,IPROP1,IUTYP1,
-     .        IMAT2,IPROP2,IUTYP2
+     . IMAT1,IPROP1,
+     . IMAT2,IPROP2
       INTEGER J,N,NINDX,NMAX,INDEX(MVSIZ),IFUNC
       MY_REAL 
      .        FAC,RHO,AREA,IXX,IYY,IZZ,IMYZ,YOUNG,G,
      .        AREA1,IXX1,IYY1,IZZ1,RHO1,YOUNG1,G1,
-     .        AREA2,IXX2,IYY2,IZZ2,RHO2,YOUNG2,G2,
-     .        K11,K22,K26,K33,K35,K44,K55,K5B,K66,K6C
+     .        AREA2,IXX2,IYY2,IZZ2,RHO2,YOUNG2,G2
       MY_REAL R_Y1,R_Y2,R_Z1,R_Z2,R_Y,R_Z,R_X,FACX,FACY,FACZ,
      .        AY1,AY2,AZ1,AZ2,AY,AZ,BY1,BY2,BZ1,BZ2,BY,BZ,G3,
      .        CX1,CX2,CX,AREA_Y(MVSIZ),AREA_Z(MVSIZ),
      .        YLD(MVSIZ),DRE,DRG,DPLA_I,DPLA_J(MVSIZ),DFE,DFG,
-     .        ERR,F,DF,YLD_I,C1,FN,FM,DFN,DFM,Y1,Y2,
+     . ERR,F,DF,YLD_I,C1,FN,FM,Y1,Y2,
      .        PNX,PNX2,PNY,PNY2,PNZ,PNZ2,PMX,PMX2,PMY,PMY2,PMZ,PMZ2,
-     .        NX2,NY2,NZ2,MX2,MY2,MZ2,TEMPY,TEMPZ,XL3,KTRAN,KROT,
+     . NX2,NY2,NZ2,MX2,MY2,MZ2,TEMPY,TEMPZ,KTRAN,KROT,
      .        NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),YOUNGM(MVSIZ),GM(MVSIZ),
      .        MX(MVSIZ),MY(MVSIZ),MZ(MVSIZ),SVM(MVSIZ),H(MVSIZ),
      .        EPSVXX(MVSIZ),EPSVXY(MVSIZ),EPSVXZ(MVSIZ),
      .        EPSCBX(MVSIZ),EPSCBY(MVSIZ),EPSCBZ(MVSIZ),
      .        SIGNXX(MVSIZ),SIGNXY(MVSIZ),SIGNXZ(MVSIZ),
-     .        MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNZZ(MVSIZ),FXAP,
-     .        GAMA(MVSIZ),GAMAC(MVSIZ),XL2(MVSIZ),DEVOL,FXAV,
+     . MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNZZ(MVSIZ),
+     . GAMA(MVSIZ),GAMAC(MVSIZ),XL2(MVSIZ),DEVOL,
      .        PC1,DC1,PR1,PS1,DC2,PR2,PS2,DC,PR,PS,UEQ,DTEMP,
      .        SIG01,SIG02, SIG0,HPLA,H1,H2,M1,M2,M,DSIGY,CC1,
      .        FAC1,FAC2
@@ -177,7 +176,7 @@ C
       DO I=1,NEL
         YOUNGM(I)  = YOUNG*(1-UVAR(N0+4,I))
         GM(I)      = G*(1-UVAR(N0+4,I))
-C== ON CALCULE D'ABORD LES VITESSES DES DEFORMATIONS GENERALISEES ====
+C== WE FIRST CALCULATE THE VELOCITIES OF GENERALIZED DEFORMATIONS ====
         DTEMP = ONE/MAX(XL(I),EM20)
         EPSVXX(I) = VX(I)*DTEMP
         EPSVXY(I) = -HALF*(RZ1(I) + RZ2(I))
@@ -264,7 +263,7 @@ C
           DPLA_J(I)=(SVM(I)-YLD(I))/(G3+H(I))
         ENDDO
 C
-C ATTENTION, LA VERSION DU MODELE DE RESSORT (Q.ZENG/A.COMBESCURE/C.BENOIT)
+C WARNING, THE VERSION OF THE SPRING MODEL (Q.ZENG/A.COMBESCURE/C.BENOIT)
 C NE CONSIDERE PAS D'ERREUR CUMULEE SUR PLUSIEURS ELEMENTS...
 C
 C --> EXISTE VERSION AVEC TEST MULTI-ELEMENTS (ERR_MULTI/RUSER29.F)
@@ -391,27 +390,6 @@ C
         YMOM(I) = MOMNYY(I)*OFF(I)/FACY
         ZMOM(I) = MOMNZZ(I)*OFF(I)/FACZ
       ENDDO
-C---
- 1110 FORMAT(
-     & 5X,'N. . . . . . . =',I5/,
-     & 5X,'ERR. . . . . . =',E12.4/,
-     & 5X,'DPPLAS . . . . =',E12.4/,
-     & 5X,'F PLAS . . . . =',E12.4/,
-     & 5X,'DF PLAS. . . . =',E12.4///)
- 1120 FORMAT(
-     & 5X,'MODULE YOUNG . . . . . ..=',E12.4/,
-     & 5X,'PPLAS CUMULEE. . . . . . =',E12.4/,
-     & 5X,'PPLAS TORSION . . . .  . =',E12.4/,
-     & 5X,'PPLAS FLEXION. . . . . . =',E12.4/,
-     & 5X,'ENDOMMAGEMENT . . . . .  =',E12.4///)
- 1130 FORMAT(
-     & 5X,'PPLAS CUMULEE. . . . . . =',E12.4/,
-     & 5X,'DEVOL . . . .  . =',E12.4/,
-     & 5X,'PS . . . . . ..=',E12.4/,
-     & 5X,'PR . . . . .  =',E12.4///)
- 1140 FORMAT(
-     & 3X,E16.10,
-     & 3X,F14.4)
 C---
       RETURN
       END

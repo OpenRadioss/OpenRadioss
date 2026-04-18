@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,8 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    arret          ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ANI_FASOLFR1(IXS ,IXC     ,IXTG    ,FASTAG, ISOLNOD)
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -252,7 +254,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN == 4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF
@@ -279,7 +281,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF
@@ -305,7 +307,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF

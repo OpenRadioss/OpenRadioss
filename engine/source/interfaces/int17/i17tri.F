@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i17cut         ../engine/source/interfaces/int17/i17tri.F
 !||    i17sto         ../engine/source/interfaces/int17/i17tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I17TRI(
@@ -44,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +62,7 @@ ctmp+1
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     PARAMETER (I_ADD_MAX = 1001) declare dans I17BUCE
+C     Parameter (i_add_max = 1001) declare in i17buce
       INTEGER I_ADD_MAX, NMESR, NIN,
      .        MAXSIZ,NB_N_B,I_STOK_GLOB,NME,NMES ,ITASK,NOINT ,MX_CAND,
      .        IXS(NIXS,*),IXS16(8,*),
@@ -74,15 +76,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT,NE 
+      INTEGER I,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT 
       INTEGER ADD(2,I_ADD_MAX) ,PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        BPE(MAXSIZ/3), PE(MAXSIZ), BPN(MAXSIZS/3), PN(MAXSIZS)
-C en toute rigueur MAXSIZ = NME et MAXSIZS = NMES+NMESR
+C in all rigor maxsiz = nme and maxsizs = nmes+nmesr
       my_real
      .        XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
 C------------------------------------
 C---------------------------------
-C     Init des boite main
+C     init of main boxes
 C---------------------------------
 C
       NB_EC = NME
@@ -91,7 +93,7 @@ C
         BPE(L) = I
       ENDDO
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+Cinitialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -122,7 +124,7 @@ C
         ENDIF
       ENDDO
 C
-C Prise en compte candidats non locaux en SPMD
+C Non -local candidate account in SPMD
 C
       DO I = NMES+1, NMES+NMESR
         NB_NC = NB_NC + 1
@@ -130,11 +132,11 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C     Boucle sur les boites
+C     loop over boxes
 C-----------------------------------------------
       DO WHILE (CONT==1)
 C-----------------------------------------------
-C       Decoupage de l'espace en 2 suivant X Y ou Z
+C       Decouption of space by 2 following x y or z
 C-----------------------------------------------
         CALL I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
@@ -146,11 +148,11 @@ C-----------------------------------------------
      7      MX_CAND    ,EMINXS  ,MAXSIZS  ,NMES     ,NIN      )
       ENDDO
 C-----------------------------------------------
-C       test de fin ou d'erreur
+C       end or error test
 C-----------------------------------------------
 C     CONT = 0  ==> FIN
 C     CONT = -1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     CONT = -2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     CONT = -2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     CONT = -3 ==> TROP NIVEAUX PILE 
       IF(CONT==0)THEN
         IF(I_STOK/=0)CALL I17STO(
@@ -172,13 +174,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    i17cut    ../engine/source/interfaces/int17/i17tri.F
+!||    i17cut        ../engine/source/interfaces/int17/i17tri.F
 !||--- called by ------------------------------------------------------
-!||    i17tri    ../engine/source/interfaces/int17/i17tri.F
+!||    i17tri        ../engine/source/interfaces/int17/i17tri.F
 !||--- calls      -----------------------------------------------------
-!||    i17sto    ../engine/source/interfaces/int17/i17tri.F
+!||    i17sto        ../engine/source/interfaces/int17/i17tri.F
 !||--- uses       -----------------------------------------------------
-!||    tri7box   ../engine/share/modules/tri7box.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    tri7box       ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
@@ -192,6 +195,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -205,49 +209,47 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   Routine Role:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   classifies the bpe elts and bpn nodes into two zones
+C   > or < to a boundary determined here and outputs everything
+C   in bpe, hpe, and bpn, hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     BPE          TABLEAU DES FACETTES A TRIER      E/S
-C                  ET DU RESULTAT COTE MAX            
-C     PE           TABLEAU DES FACETTES              S
+C     BPE          ARRAY OF FACETTES TO SORT      E/S
+C                  and of the result on the max side
+C     PE           ARRAY OF FACETTES              S
 C                  RESULTAT COTE MIN
-C     BPN          TABLEAU DES NOEUDS A TRIER        E/S
-C                  ET DU RESULTAT COTE MAX            
-C     PN           TABLEAU DES NOEUDS                S
+C     BPN          SORTED NODES ARRAY        E/S
+C                  and of the result on the max side
+C     PN           NODES ARRAY S
 C                  RESULTAT COTE MIN
-C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
-C          1.......ADRESSES NOEUDS
-C          2.......ADRESSES ELEMENTS
-C     ZYZM(6,*)     TABLEAU DES XYZMIN               E/S 
+C     ADD(2,*)     ARRAY OF ADRESSES              E/S 
+C          1.......ADRESSES NODES C          2.......ADRESSES ELEMENTS
+C     ZYZM(6,*)     ARRAY OF XYZMIN               E/S 
 C          1.......XMIN BOITE
 C          2.......YMIN BOITE
 C          3.......ZMIN BOITE
 C          4.......XMAX BOITE
 C          5.......YMAX BOITE
 C          6.......ZMAX BOITE
-C     EMINX(6,*)   TABLEAU DES COORD ELEM MIN/MAX    E
+C     EMINX(6,*)   ARRAY OF COORD ELEM MIN/MAX    E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        E/S
-C     NB_EC        NOMBRE D'ELTS CANDIDATS           E/S
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
-C     NSV          NOS SYSTEMES DES NOEUDS           E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
+C     NB_NC        NUMBER OF CANDIDATE NODES        E/S
+C     NB_EC        NUMBER OF CANDIDATE ELEMENTS           E/S
+C     i_add position in the i/o address table
+C     NSV          NOS SYSTEMES DES NODES E
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
-C     I_STOK       niveau de stockage des couples
-C                                candidats impact    E/S
-C     CAND_N       boites resultats noeuds
-C     CAND_E       adresses des boites resultat elements
-C                  COUPLES NOEUDS,ELT CANDIDATS
+C     i_stok storage level of pairs
+C                                CANDIDATES impact    E/S
+C     CAND_N       boites resultats nodes C     CAND_E       adresses des boites resultat elements
+C                  COUPLES NODES,ELT CANDIDATES
 C     MINBOX       TAILLE MIN BUCKET
 C
 C-----------------------------------------------
@@ -266,23 +268,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,
-     .        NES,NE,LE,LES,K,L,NCAND_PROV,N16,N20,LESL
+     .        NES,NE,LE,LES,L,NCAND_PROV,LESL
 C     REAL
       my_real
-     .   DX,DY,DZ,DSUP,SEUIL,XX,YY,ZZ
+     .   DX,DY,DZ,DSUP,SEUIL
 C
 C-----------------------------------------------------------
 C
 C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
+C                    BOITE NE CONTENANT QU'ONE NODE C                    No More Available Memory
 C
-C-------------------TEST SUR MEMOIRE DEPASSEE------------
+Cmemory exceeded test
 C
       IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS MAINS BOITES TROP PETITES
+C       no more space in the main elements stack, boxes too small
         CONT = -1
 ctmp+++
 c       WRITE(istdo,*)'MAXSIZ = ',MAXSIZ
@@ -292,12 +293,12 @@ ctmp---
         RETURN
       ENDIF
       IF(ADD(1,I_ADD)+NB_NC>MAXSIZS) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS SECONDS BOITES TROP PETITES
+C       no more space in the secondary elements stack, boxes too small
         CONT = -1
         RETURN
       ENDIF
 C
-C--------------------TEST SUR BOITE VIDES-------------- 
+Cempty box test
 C
       IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
@@ -306,9 +307,9 @@ C
         DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
         DSUP= MAX(DX,DY,DZ)
 C
-C-------------------TEST SUR FIN DE BRANCHE ------------
-C      1.1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C          VIRER LES INUTILES
+Cend of branch test
+C      1.1- storage of candidate node(s) and corresponding elts
+C          remove the useless ones
 C
 C       NCAND_PROV=NB_EC*NB_NC
 C   NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
@@ -320,7 +321,7 @@ C
         ENDIF
 C
         IF(DSUP<MINBOX.OR.NB_NC<=NB_N_B.OR.NCAND_PROV<=128)THEN
-C   necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
+C   necessary qd nb_nc <= nb_n_b or dsup <minbox and nb_ec+nb_nc> 128
             NCAND_PROV = NB_EC*NB_NC
             DO L=1,NCAND_PROV
               I = 1+(L-1)/NB_NC
@@ -345,7 +346,7 @@ C   necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
      2               CONT  ,MX_CAND    )
                   IF(CONT==-2)RETURN
                 ENDIF
-              ELSE       ! partie complementaire SPMD
+              ELSE       ! SPMD complementary part
                 LESL = LES-NMES
                 IF(XREM(4,LESL)>EMINX(1,LE)-TZINF.AND.
      .             XREM(5,LESL)>EMINX(2,LE)-TZINF.AND.
@@ -368,7 +369,7 @@ C-----------------------------------------------------------
 C-----------------------------------------------------------
 C
 C
-C    2- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    2- sorting phase on the median according to the largest direction
 C                    
 C                   
 C-----------------------------------------------------------
@@ -395,21 +396,21 @@ C
             LES = BPN(I)
             IF(LES<=NMES)THEN
               IF(EMINXS(DIR,LES)<SEUIL) THEN
-C               ON STOCKE DANS LA PILE PN
+C               stored in the pn stack
                 NB_NCN1 = NB_NCN1 + 1
                 ADDNN = ADDNN + 1
                 PN(ADDNN) = LES
               ENDIF
             END IF
            ENDDO
-           IF(NSPMD>1)THEN           ! partie complementaire SPMD
+           IF(NSPMD>1)THEN           ! SPMD complementary part
 #include "vectorize.inc"
              DO I=1,NB_NC
                LES = BPN(I)
                IF(LES>NMES)THEN
                  LESL = LES-NMES
                  IF(XREM(DIR,LESL)<SEUIL) THEN
-C                  ON STOCKE DANS LA PILE PN
+C                  stored in the pn stack
                    NB_NCN1 = NB_NCN1 + 1
                    ADDNN = ADDNN + 1
                    PN(ADDNN) = LES
@@ -429,7 +430,7 @@ C               ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
               ENDIF
             ENDIF
            ENDDO
-           IF(NSPMD>1)THEN           ! partie complementaire SPMD
+           IF(NSPMD>1)THEN           ! SPMD complementary part
 #include "vectorize.inc"
              DO I=1,NB_NC
                LES = BPN(I)
@@ -449,7 +450,7 @@ C
           NB_ECN= 0
           ADDNE= ADD(2,I_ADD)
           IF(NB_NCN1==0) THEN
-C pas d'elements seconds dans la deuxieme boite
+C no secondary elements in the second box
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
@@ -460,12 +461,12 @@ C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
             ENDIF
            ENDDO
           ELSEIF(NB_NCN==0) THEN
-C pas d'elements seconds dans la premiere boite
+C no secondary elements in the first box
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
             IF(EMINX(DIR,LE)-TZINF<SEUIL) THEN
-C             ON STOCKE DANS LA PILE PE
+C             stored in the pe stack
               ADDNE = ADDNE + 1
               PE(ADDNE) = LE
             ENDIF
@@ -475,7 +476,7 @@ C             ON STOCKE DANS LA PILE PE
            DO I=1,NB_EC
             LE = BPE(I)
             IF(EMINX(DIR,LE)-TZINF<SEUIL) THEN
-C             ON STOCKE DANS LA PILE PE
+C             stored in the pe stack
               ADDNE = ADDNE + 1
               PE(ADDNE) = LE
             ENDIF
@@ -491,7 +492,7 @@ C    2.4- REMPLIR LES TABLEAUX D'ADRESSES
 C
           ADD(1,I_ADD+1) = ADDNN
           ADD(2,I_ADD+1) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
+Cfill the min of the next box and the max of the current one
           XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
           XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
           XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -503,7 +504,7 @@ C-----on remplit les min de la boite suivante et les max de la courante
 C
           NB_NC = NB_NCN
           NB_EC = NB_ECN
-C     on incremente le niveau de descente avant de sortir
+C     increment the descent level before exiting
           I_ADD = I_ADD + 1
           IF(I_ADD+1>=I_ADD_MAX) THEN
             CONT = -3
@@ -530,7 +531,7 @@ C=======================================================================
         ENDIF
       ENDIF
 C-------------------------------------------------------------------------
-C     TEST FIN DU TRI
+C     end of sorting test
 C-------------------------------------------------------------------------
       IF (I_ADD==1) THEN
         CONT = 0
@@ -538,19 +539,18 @@ C-------------------------------------------------------------------------
       ENDIF
 C-----------------------------------------------------------
 C
-C    3- FIN DE BRANCHE ou BOITE VIDE
+C    3- end of branch or empty box
 C                    
 C-----------------------------------------------------------
 C-------------------------------------------------------------------------
-C       on decremente le niveau de descente avant de recommencer
+C       decrement the descent level before restarting
 C-------------------------------------------------------------------------
       I_ADD = I_ADD - 1
 C-------------------------------------------------------------------------
-C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C         need to copy the bottom of the stacks into the corresponding bottom_of_stack
+C         before descending into the neighboring branch
 C-------------------------------------------------------------------------
-C     3.1- PILE DES NOEUDS
-C
+C     3.1- PILE DES NODES C
       NB_NC = ADD(1,I_ADD+1) - ADD(1,I_ADD)
       DO I=1,NB_NC
         BPN(I) = PN(ADD(1,I_ADD)+I)
@@ -598,7 +598,7 @@ C-----------------------------------------------
       INTEGER I,J_STOK_GLOB
       INTEGER LE,LES,NEXT,IC,J
 C-----------------------------------------------
-C     Recherche de doublons
+C     duplicate search
       J=0
 
 #include "lockon.inc"
@@ -618,7 +618,7 @@ C     Recherche de doublons
               RETURN
             ENDIF
             ADCHAINE(LES)   = MX_AD
-            CHAINE(1,MX_AD) = LE
+            chaine(1,mx_ad) = le
             CHAINE(2,MX_AD) = 0
             goto 200
         ENDIF
@@ -637,7 +637,7 @@ C     Recherche de doublons
               RETURN
             ENDIF
             CHAINE(2,IC)    = MX_AD
-            CHAINE(1,MX_AD) = LE
+            chaine(1,mx_ad) = le
             CHAINE(2,MX_AD) = 0
  200    continue
       ENDDO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20forc3         ../engine/source/elements/solid/solide20/s20forc3.F
 !||    s4forc3          ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3         ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8sforc3         ../engine/source/elements/solid/solide8s/s8sforc3.F
@@ -50,7 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   DVOL,      NGL,       MAT,       OFF,
      4   IS_MAT_BCS,TAG22,     VOLDP,     VOL0DP,
      5   AMU,       OFFG,      NEL,       MTN,
-     6   JALE,      ISMSTR,    JEUL,      JLAG)
+     6   JALE,      ISMSTR,    JEUL,      JLAG,
+     7   s_flux,nv46,offset)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,16 +88,20 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER, INTENT(IN) :: JEUL
       INTEGER, INTENT(IN) :: JLAG
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      INTEGER, INTENT(IN) :: offset !< offset for flux array
       INTEGER NGL(*), MAT(*), IS_MAT_BCS, IB,NIN,MCELL
       
-      my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
+      my_real PM(NPROPM,NUMMAT),VOLO(*), RHON(*),EINT(*),FLUX(s_flux,nv46), FLU1(*),
      .        VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),AMU(*) ,OFFG(*)
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION VOLDP(*),VOL0DP(*),DVDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: RHO0,DVV, E0,VAVG,RV,RVP,RHON_OLD(MVSIZ),DDVOL,RHOREF
-      INTEGER :: I, J,COUNT,LIST(MVSIZ),II, MX
+      my_real :: RHO0,DVV, E0,VAVG,RHON_OLD(MVSIZ),DDVOL,RHOREF
+      INTEGER :: I,COUNT,LIST(MVSIZ),II, MX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -149,15 +155,17 @@ C--- due to /INIBRI/EREF
             ENDIF
           ENDIF
         ELSEIF(JALE/=0)THEN                                                                                              
-          DO I=1,NEL                                                                                                     
-           RHON(I)    = RHON(I)/VOLN(I)                                                                                    
-           DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
-           VOLO(I)    = VOLN(I)                                                                                            
+          DO I=1,NEL
+            ii = i + offset
+            RHON(I)    = RHON(I)/VOLN(I)                                                                                    
+            DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)+FLUX(ii,5)+FLUX(ii,6))   
+            VOLO(I)    = VOLN(I)                                                                                            
          ENDDO                                                                                                             
         ELSEIF(JEUL/=0)THEN                                                                                              
-         DO I=1,NEL                                                                                                      
+         DO I=1,NEL        
+          ii = i + offset                                                                                              
           RHON(I)     = RHON(I)/VOLN(I)                                                                                    
-          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
+          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(ii,1)+FLUX(ii,2)+FLUX(ii,3)+FLUX(ii,4)+FLUX(ii,5)+FLUX(ii,6))                   
          ENDDO                                                                                                             
         ENDIF!(JLAG/=0) 
         

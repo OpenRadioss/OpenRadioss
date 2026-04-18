@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m10law      ../engine/source/materials/mat/mat010/m10law.F
+!||    m10law   ../engine/source/materials/mat/mat010/m10law.F
 !||--- called by ------------------------------------------------------
-!||    mmain       ../engine/source/materials/mat_share/mmain.F90
-!||--- uses       -----------------------------------------------------
-!||    debug_mod   ../engine/share/modules/debug_mod.F
+!||    mmain    ../engine/source/materials/mat_share/mmain.F90
 !||====================================================================
       SUBROUTINE M10LAW(PM      ,OFF     ,SIG    ,EINT    ,RHO       ,
      2                  EPSQ    ,EPXE    ,VOL    ,MAT     ,SSP       ,
@@ -55,7 +53,7 @@ C AJ2   : 2ND INVARIANT FROM DEVIATORIC TENSOR
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-              use debug_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NEL
       INTEGER,INTENT(IN) :: MAT(NEL)
-      my_real PM(NPROPM,*), SIG(NEL,6), MU_OLD(NEL), EPXE(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
+      my_real PM(NPROPM,*), SIG(NEL,6), EPXE(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
       my_real,INTENT(INOUT) :: PNEW(NEL)
       my_real,INTENT(INOUT) :: PSH(NEL)
       my_real,INTENT(IN) :: OFF(NEL)
@@ -88,19 +86,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real T1(NEL), T2(NEL), T3(NEL), T4(NEL),
-     .        T5(NEL), T6(NEL), POLD(NEL), P(NEL), PNE1(NEL),
-     .        G(NEL), BULK(NEL), A0(NEL), A1(NEL),
+     .        T5(NEL), T6(NEL), POLD(NEL),
+     .        G(NEL), A0(NEL), A1(NEL),
      .        A2(NEL), AMX(NEL), AJ2(NEL), G0(NEL), GG(NEL),
      .        MU2(NEL), SVRT(NEL), RATIO(NEL),
      .        YIELD2(NEL), G43(NEL),
      .        RHO0(NEL),PTOT,PSTAR(NEL),
-     .        G43_1,C0_1,C1_1,C2_1,C3_1,
-     .        BULK_1,BULK2_1,MU_MAX_1,PSH_1,
+     .        G43_1,
+     .        PSH_1,
      .        PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
      .        RHO0_1,PFRAC
-
-       integer nc
-       nc = nc_debug
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

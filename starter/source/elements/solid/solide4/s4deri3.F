@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -262,7 +262,7 @@ C
           VEUL(12,I)= PZ4(I)
           VEUL(13,I)= DELTAX(I)
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     calculation of the normal to each face
 C------------------------------------------
           VEUL(14,I) = ZERO
           VEUL(15,I) = HALF*B1(I)

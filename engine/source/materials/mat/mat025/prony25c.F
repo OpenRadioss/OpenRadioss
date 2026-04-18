@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C
       INTEGER NEL ,NPRONY,IGTYP
       my_real
-     .   TIME,TIMESTEP,KV,GV(NPRONY),BETA(NPRONY),
+     .   TIMESTEP,KV,GV(NPRONY),BETA(NPRONY),
      .   RHO0(*),EPSPXX(*),EPSPYY(*),
      .   EPSPXY(*),EPSPYZ(*),EPSPZX(*),SIGV(NEL,5),DIR(NEL,2)
 C-----------------------------------------------
@@ -101,9 +101,9 @@ C-----------------------------------------------
       INTEGER
      . I,J,II,LL
       my_real 
-     .  CC,G1,DAV,EPXX(MVSIZ),EPYY(MVSIZ),EPZZ(MVSIZ),SVXX,
-     .  SVYY,SVZZ,P(MVSIZ),
-     .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),H0(6),EPSPZZ(MVSIZ),
+     .  G1,DAV,EPXX(MVSIZ),EPYY(MVSIZ),EPZZ(MVSIZ),
+     .  P(MVSIZ),
+     .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),EPSPZZ(MVSIZ),
      .  H(MVSIZ,6,NPRONY),S(MVSIZ,6),A1(MVSIZ),A2(MVSIZ),FAC,H01,H02,H03,H04,
      .  H05,H06
 C-----------------------------------------------
@@ -144,10 +144,10 @@ C
        ENDDO
 C                
        DO I=  1,NEL
-C spherique part
+C SPHERIC PART
           DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
           P(I) = -THREE*KV*DAV
-c deviatorique part           
+c Deviatori parties           
           EPXX(I) = EPSPXX(I) - DAV
           EPYY(I) = EPSPYY(I) - DAV
           EPZZ(I) = EPSPZZ(I) - DAV
@@ -222,7 +222,7 @@ C
           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + G1/RHO0(I))
         ENDDO        
 
-C transformation dans le rep re d'orthotropie
+C transformation in the orthotropy reference frame
         LL = 1
         CALL ROTO_SIG(LL,NEL,SIGV, DIR,NEL)
 C

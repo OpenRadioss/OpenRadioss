@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -153,7 +153,7 @@ C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D
       DOUBLE PRECISION 
-     .   DVP,DV,DV1
+     .   DV,DV1
 C                                                                     12
 C-----------------------------------------------
       TOL = ONE-EM20
@@ -311,7 +311,7 @@ C------force ICP>0 -->I_sh=0 or check   !!!!
         DVC(I) =(DXX(I)+DYY(I)+DZZ(I)-DVC(I))*DT1
        ENDDO
       END IF !(ISMSTR==12) THEN
-C-------------Volume traitement------
+C----------- Volume treatment ------
       IF (ICP==2.AND.I_SH<=1) THEN
        DO I=1,NEL
         DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1

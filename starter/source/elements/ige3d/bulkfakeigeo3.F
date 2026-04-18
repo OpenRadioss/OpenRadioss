@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,12 +55,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NG, IEL, ITEL, NUMFAKECP,
-     .        OFFSET_IGBUFSSG, OFFSET_NUMFAKENOD, ITSURF
-C     REAL
-      my_real
-     .   AV1,CV1, VOL(NUMELIG3D), 
-     .   VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)
+      INTEGER :: J, K, N, NG, IEL, ITEL, NUMFAKECP, ITSURF
+      my_real :: AV1,CV1, VOL(NUMELIG3D), VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
 C-----------------------------------------------------------------------
 C 
@@ -79,7 +75,7 @@ c
       BNIGE = 0
 c
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface isogeometrique
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on an isogeometric surface
           DO J=1,IGRSURF(ITSURF)%NSEG_IGE
             IEL=IGRSURF(ITSURF)%ELEM_IGE(J)
             AV1 = VOL(IEL)/56
@@ -98,11 +94,11 @@ c
         STIFINT(NUMNOD+N)=STIFINT(NUMNOD+N)+BNIGE(N)*(2.*VNIGE(N))**THIRD
       ENDDO
 
-CC NB : on peut repartir le volume differemment selon si les points sont dans les coins, au milieu
-cC      ou sur une arrete, avec PX,PY,PZ on peut retrouver la place de chacun
-Cc pour les elements 20 neouds, il y a 3/192 * vol aux coins et 14/192 * vol aux points milieux
+Cnote: the volume can be distributed differently depending on whether the points are at the corners, in the middle
+Cor on an edge, with px, py, pz you can find the place of each one
+CThis is for 20-node elements, there are 3/192 * volume at corners and 14/192 * volume at the mid-nodes
 C
-CC  NB: il me semble que numfakenodigeo est trop grand ici et donc les tableaux sont trop grands et se terminent par 0
+Cnote: it seems that numfakenodigeo is too large here and so the arrays are too large and end with 0
 
       RETURN
       END

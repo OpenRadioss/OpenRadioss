@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,12 +90,12 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,II,NORDRE,NPRONY,ITYPE,IVISC
+      INTEGER    I,J,K,II,NORDRE,NPRONY,IVISC
       my_real
      .   MU(100),AL(100),TAUX(100), GAMA(100),GAMAINF,NU,
      .   GMAX,S(MVSIZ,3),SD(MVSIZ,3),
@@ -103,16 +103,16 @@ C----------------------------------------------------------------
      .   EV(MVSIZ,3),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3),
      .   RV(MVSIZ),P(MVSIZ),RBULK,
      .   EVV(MVSIZ,3),SSP(MVSIZ,3),FAC, BETA(100),
-     .   DTINV,VISC,FAC1,
-     .   E1,E2,E3,E4,E5,E6,EPSP, VM,DAV,VISC1,SIGXX(MVSIZ),
-     .   SIGYY(MVSIZ),SIGZZ(MVSIZ),SIGXY(MVSIZ),SIGZX(MVSIZ),
-     .   SIGYZ(MVSIZ),DVISC,A11,A12,A13,A22,A21,A23,
+     .   FAC1,
+     .    
+     .   
+     .   DVISC,A11,A12,A13,A22,A21,A23,
      .   A31,A32,A33,SDG0(MVSIZ,6),SDG(MVSIZ,6),HG(MVSIZ,6),HG0(6),H(MVSIZ,3,100)
      
       my_real
-     .   A(3,3),DPRA(3,3),EIGEN(3),AMAX,ETI(MVSIZ),EFAC,RV_PUI,RV_PUI_TAB(MVSIZ),
-     .   CJ(MVSIZ),LAM_AL(3),RVL,LAMIN,CIMAX(MVSIZ),GVIS,CMAX,CMAX0,
-     .   D11,D12,D13,D21,D22,D23,D31,D32,D33,MU2
+     .   AMAX,ETI(MVSIZ),EFAC,RV_PUI_TAB(MVSIZ),
+     .   CJ(MVSIZ),LAM_AL(3),RVL,CIMAX(MVSIZ),GVIS,CMAX,CMAX0,
+     .   D11,D22,D33,MU2
       my_real ,DIMENSION(NEL,3) :: AI,BI
 C----------------------------------------------------------------
 
@@ -143,7 +143,7 @@ C       GMAX = GMAX + AL(I)*MU(I)
 !!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2 
 C   +1
        GMAX = TWO*GMAX      
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL
@@ -235,7 +235,7 @@ C----  RV = RHO0/RHO = RELATIVE VOLUME = DET A (A = GRADIENT OF DEFORMATION)
 C----THERM STRESS COMPUTATION-----
       IF(IEXPAN > 0.AND.(ISMSTR==10.OR.ISMSTR==11.OR.ISMSTR==12)) RV(1:NEL)= RV(1:NEL)-EPSTH3(1:NEL)
 C
-C calcul de la pression
+C calculation of pressure
       P(1:NEL) = ZERO     
       DO II = 1,NORDRE
         FAC = TWO*MU(II)/(AL(II))
@@ -290,7 +290,7 @@ CCC devaitoric piola kirchoff stress 2nd espece SD
       DO I=1,NEL
        ! sd = rv**(dtier) * sd
        ! sd = pui * sd
-       ! if rv > 0 --> pui = exp(dtier * ln(rv))
+       ! If RV> 0 -> PUI = Exp (DTIER * LN (RV))
        ! else pui = 0
          IF(RV(I)>ZERO) THEN
             RV_PUI_TAB(I) =  EXP( TWO_THIRD*LOG(RV(I)) )
@@ -314,7 +314,7 @@ c        GMAX = TWO*GMAX
         SDG0(1:NEL,1:6) = UVAR(1:NEL,1:6)
         DO I=1,NEL 
 C 
-C compute SD ---> glabal repere
+C compute SD ---> global frame
 C
            SDG(I,1)   =  DIRPRV(I,1,1)*DIRPRV(I,1,1)*SD(I,1)
      .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SD(I,2)
@@ -379,7 +379,7 @@ C
      .              + DIRPRV(I,3,2)*HG(I,3)
              A33 =    DIRPRV(I,1,3)*HG(I,6) + DIRPRV(I,2,3)*HG(I,5)
      .              + DIRPRV(I,3,3)*HG(I,3)
-C H dans la direction H               
+C H in the H direction
              H(I,1,II) = DIRPRV(I,1,1)*A11  + DIRPRV(I,2,1)*A21
      .                                      + DIRPRV(I,3,1)*A31 
              H(I,2,II) = DIRPRV(I,1,2)*A12  + DIRPRV(I,2,2)*A22
@@ -389,7 +389,7 @@ C H dans la direction H
            ENDDO
            DO J=1,3
             DO I=1,NEL 
-C calcul de la partie deviatorique        
+C calculation of the deviatoric part
              FAC = THIRD*(H(I,1,II)*EC(I,1) + H(I,2,II)*EC(I,2) 
      .                                      + H(I,3,II)*EC(I,3))
               HD(I,J,II) = H(I,J,II) - FAC/MAX(EM20,EC(I,J))
@@ -397,11 +397,11 @@ C calcul de la partie deviatorique
            ENDDO
         ENDDO            
       ENDIF  
-C calcul du tenseur de piola kirchoff   
+C calculation of the piola-kirchoff tensor
       IF(IVISC == 1) THEN ! viscosity is deviatoric
          DO I =1,NEL                                               
             ! FAC= GAMAINF*RV(I)**(-TWO_THIRD) = GAMAINF * PUI        
-            ! if rv > 0 --> pui = exp(-dtier * ln(rv))             
+            ! If RV> 0-> Pui = Exp (-dtier * Ln (RV))             
             ! else pui = 0                                         
             IF(RV(I)>ZERO) THEN                                    
                RV_PUI_TAB(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )                 
@@ -504,7 +504,7 @@ C TRANSFORM PRINCIPAL PIOLA KIRCHOFF STRESSES TO GLOBAL DIRECTIONS
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*S(I,2)
 C
-C calcul des contraintes visqueuse ----
+C calculation of viscous stresses ----
 C     
 * SET SOUND SPEED
         SOUNDSP(I)=SQRT(CIMAX(I)/RHO(I))

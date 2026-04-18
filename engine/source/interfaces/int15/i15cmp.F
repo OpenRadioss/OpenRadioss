@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod     ../engine/share/message_module/message_mod.F
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I15CMP(OUTPUT,IPARI,INTBUF_TAB,IGRSURF,BUFSF,
      2            A, X, V, WA, FSAV,
@@ -89,25 +90,25 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,N,K,NRTS,NSN,INOD
-      INTEGER I,NDEB,NREST, NSC, NTC, NNC, MAXFCT
+      INTEGER NOINT,NRTS,NSN,INOD
+      INTEGER I,NDEB, NSC, NTC, NNC, MAXFCT
       INTEGER KSC, KTC, KNC, KMARQND, KWNF, KWTF, KWNS, KWLENG
 C-----------------------------------------------
 C     REAL
       my_real
-     .  STFAC, FRIC, STF,
+     .  STFAC, FRIC,
      .  XP1(3,MVSIZ) ,XP2(3,MVSIZ) ,XP3(3,MVSIZ) , XP4(3,MVSIZ),
      .  GX(3,MVSIZ)  ,XTK(4,MVSIZ) ,YTK(4,MVSIZ) ,ZTK(4,MVSIZ) ,
      .  NTX(4,MVSIZ) ,NTY(4,MVSIZ) ,NTZ(4,MVSIZ) ,
      .  ANS(4,MVSIZ) ,DEPTH(4,MVSIZ),
      .  XI(4,MVSIZ)  ,YI(4,MVSIZ)  ,ZI(4,MVSIZ)  ,
      .  NXI(4,MVSIZ) ,NYI(4,MVSIZ) ,NZI(4,MVSIZ) ,
-     .  DE, ANSMX, FTOT,
+     .  DE, ANSMX,
      .  FNORMX,FNORMY,FNORMZ,FTANGX,FTANGY,FTANGZ
 C-----------------------------------------------
         NOINT=IPARI(15)
 C-----------------------------------------------
-C       Vecteurs de travail (nbre maximum de facettes).
+C       working vectors (maximum number of facets)
         MAXFCT=6*NUMELS+NUMELC+NUMELTG
         KSC    =1
         KTC    =MAXFCT +KSC
@@ -116,7 +117,7 @@ C       Vecteurs de travail (nbre maximum de facettes).
         KWNF   =KMARQND+NUMNOD
         KWTF   =KWNF   +3*NUMNOD
         KWNS   =KWTF   +3*NUMNOD
-C       Longueur totale des vecteurs de travail.
+C       total length of the working vectors
         KWLENG=KWNS+NUMNOD-1
         IF (KWLENG>LENWA) THEN
           CALL ANCMSG(MSGID=83,ANMODE=ANINFO)
@@ -206,7 +207,7 @@ C-----------------------------------------------
        NDEB=NDEB+MVSIZ
        IF (NDEB<NTC) GOTO 20
 C------
-C      MARQUE LES NOEUDS / F<>0.
+C      MARQUE LES NODES / F<>0.
 C------
        CALL I15MARQ(INTBUF_TAB%IRECTS,NSC,WA(KSC),NTC,WA(KTC),
      2      INTBUF_TAB%IMPACT,NSN,INTBUF_TAB%NSV,WA(KMARQND),NNC,
@@ -222,6 +223,5 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTBUF_TAB%VARIABLES(9)=DE
 C-----------------------------------------------
-9999  CONTINUE
       RETURN
       END

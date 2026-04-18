@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K,N1,N2,NN,N
+      INTEGER I,N1,N2,NN,N
       INTEGER IP,IBID,NPE
       INTEGER IPERM1(10),IPERM2(10)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/

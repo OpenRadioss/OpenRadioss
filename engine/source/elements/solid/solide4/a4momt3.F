@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -116,11 +116,11 @@ C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------      
       
-      ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
+      ! calculation of transport force at the center
       ! STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
       IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)THEN
         IF(MTN==11.AND.ALE%UPWIND%UPWM>1)THEN
-          ! VDX,VDY,VDZ EST CALCULE DANS M11VS3
+          ! vdx, vdy, vdz are calculated in m11vs3
           DO I=1,NEL
              R(I,1)=RX(I)
              R(I,2)=RY(I)
@@ -194,7 +194,7 @@ C-----------------------------------------------
 
       ELSE ! IF(ALE%UPWIND%UPWM<2 .OR.MTN==11)
 
-      ! SUPG OU TG
+      ! supg or tg
       ! TRANSPORTATION FORCE
       !  <PHI,UJ*DUI/DXJ> EVALUATED AT NODES 
 

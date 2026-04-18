@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,7 +73,7 @@ C-----------------------------------------------
         LLT=NEL                                                         
 C-----------------------------------------------                        
         IF(ITY==51)THEN                                               
-C          PARTICULES SPH.                                              
+C          SPH PARTICLES                                              
 C-----------------------------------------------                        
            GBUF => ELBUF_TAB(NG)%GBUF                                                      
            IALEL=IPARG(7,NG)+IPARG(11,NG)                               
@@ -93,7 +93,7 @@ C-----------------------------------------------
            ENDDO                                                        
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES GROUPES                                   
+C       END OF LOOP ON GROUPS
 C-----------------------------------------------                        
  490  CONTINUE                                                          
 C-----------------------------------------------                        

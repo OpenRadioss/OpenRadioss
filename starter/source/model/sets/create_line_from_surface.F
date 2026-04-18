@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    create_line_from_surface_ext_all   ../starter/source/model/sets/create_line_from_ext_surface_ext_all.F
 !||--- uses       -----------------------------------------------------
+!||    surf_mod                           ../starter/share/modules1/surf_mod.F
 !||====================================================================
       SUBROUTINE CREATE_LINE_FROM_SURFACE(CLAUSE     ,KEYSET,OPT_A,OPT_E,DELBUF,
      .                                    GO_IN_ARRAY)
@@ -38,6 +39,7 @@ C-----------------------------------------------
       USE SETDEF_MOD
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      USE SURF_MOD , ONLY : EXT_SURF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,14 +60,17 @@ C=======================================================================
 
 
 !------------------
-      IEXT = 1  ! par default (external surface)
+!------------------
+      ! IEXT = 1 --> (OPT_E = 0 and OPT_A = 0) ! by default
+      ! IEXT = 2 --> (OPT_E = 1)  --> external surfaces only + only edges from shell external surfaces
+      ! IEXT = 3 --> (OPT_A = 1)  --> ALL (external + internal surfaces)
+      IEXT = EXT_SURF  ! by default ( = 1)
+      IF ( OPT_E == 1 ) IEXT = 2 ! external surfaces only + only edges from shell external surfaces
       IF ( OPT_A == 1 .OR. KEYSET == 'ALL' .OR. 
      .                     KEYSET == 'BOX' .OR.
-     .                     KEYSET == 'BOX2')  IEXT = 2 ! all surfaces (internal + external)
+     .                     KEYSET == 'BOX2')  IEXT = 3 ! all surfaces (internal + external)
 !------------------
-
-      CALL CREATE_LINE_FROM_SURFACE_EXT_ALL(CLAUSE ,IEXT ,OPT_E,DELBUF,GO_IN_ARRAY)
-
+      CALL CREATE_LINE_FROM_SURFACE_EXT_ALL(CLAUSE ,IEXT ,DELBUF,GO_IN_ARRAY)
 C-----------
       RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C            EN SORTIE    
 C    IRBY    Rigid node 
-C    SLN     secnd node number by rigid material
+C    SLN     second node number by rigid material
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,21 +44,21 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IRBY(*),SLN(*),NRSLN,NRB,NUMEL,NER
-      INTEGER  RBYID,IRIG_NODE(*),CONNEC(NUMEL,*)
+      INTEGER  IRIG_NODE(*),CONNEC(NUMEL,*)
       my_real
      .    STIFN(*),STIFR(*),RMSTIFN(*), RMSTIFR(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JJ,NR,NR1,NR0,KK,NRC,IR,N,NREST,IE,
+      INTEGER I,J,II,NR,NR1,NR0,KK,IR,N,NREST,IE,
      .        NER1,NER0,IEL
 C     REAL
 
        INTEGER, DIMENSION(:), ALLOCATABLE :: 
-     .                             IRN,INDX,INDX0,ITAG,IRE,
+     .                             IRN,INDX,INDX0,ITAG,
      .                             INDXE, INDXE0, ITAGE
 C
-C  construction des materiaux rigides
+C  construction of rigid materials
 C
       ALLOCATE (IRN(NUMNOD))  
       IRN = 0
@@ -71,7 +71,7 @@ C
          ENDIF
       ENDDO 
 C     
-C  allocation de tableau de travail
+C  allocation of work array
 C 
       ALLOCATE (INDX(NR),INDX0(NR),ITAG(NUMNOD))
       ALLOCATE (INDXE(NER),INDXE0(NER),ITAGE(NER)) 
@@ -141,7 +141,7 @@ c      NRC = NR1
                 ENDDO
               ENDDO
               IF(NR1 > 0) THEN
-C nbre d'element restant  
+C remaining number of elements  
                  NER0 = 0
                  DO IE = 1, NER1
                    IEL = INDXE(IE) 
@@ -154,7 +154,7 @@ C nbre d'element restant
                  DO I=1,NER0
                     INDXE(I)  = INDXE0(I)
                 ENDDO
-C noeud restant
+C node restant
                  NREST = NREST - NR1 
               ELSE
                NRB = NRB  + 1 
@@ -166,7 +166,7 @@ C noeud restant
                     INDXE0(NER0) = IEL
                   ENDIF
                 ENDDO    
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                NER1 = NER0
                DO I=1,NER1
                  INDXE(I) = INDXE0(I)
@@ -189,7 +189,7 @@ C
               ENDIF          
           ELSE 
                NRB = NRB + 1
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                 NER0 = 0
                 DO IE =1 , NER1
                   IEL = INDXE(IE)
@@ -198,7 +198,7 @@ C creation d'un autre corps rigid
                     INDXE0(NER0) = IEL
                   ENDIF
                 ENDDO    
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                NER1 = NER0
                DO I=1,NER1
                  INDXE(I) = INDXE0(I)
@@ -220,7 +220,7 @@ C
              ENDIF
            ENDDO 
 C
-C   creation des corps rigide
+C   creation of rigid bodies
 C
       KK = 0
       DO IR =1,NRB

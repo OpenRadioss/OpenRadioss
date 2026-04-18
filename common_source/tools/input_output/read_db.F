@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radiarrest             ../engine/source/output/restart/rdresb.F
 !||    rdresb                 ../engine/source/output/restart/rdresb.F
 !||    read_ale_grid          ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf           ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall          ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_cluster           ../engine/source/output/cluster/read_cluster.F
 !||    read_data_nrf          ../common_source/modules/boundary_conditions/ebcs_mod.F90
@@ -68,6 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_nloc_struct       ../engine/source/output/restart/read_nloc_struct.F
 !||    read_pcyl              ../engine/source/output/restart/read_pcyl.F
 !||    read_rrbe3pen          ../engine/source/output/restart/restart_rbe3pen.F90
+!||    read_rrwallpen         ../engine/source/output/restart/restart_rwallpen.F90
 !||    read_sensors           ../engine/source/output/restart/read_sensors.F
 !||    read_thermparam        ../engine/source/output/restart/read_thermparam.F90
 !||    read_units             ../common_source/comm/write_units.F
@@ -82,10 +84,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    userwi_read            ../engine/source/user_interface/userwindow_interface_routines.F
 !||    wigerest               ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_db_c              ../common_source/tools/input_output/write_routtines.c
+!||    read_db_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE READ_DB(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,7 +115,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             CALL READ_DB_C(R4,1000)
@@ -131,7 +133,7 @@ C fortran real : 64 bits C double : 64 bits
             ENDDO
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             CALL READ_DB_C(R8,1000)
             DO J = 1, 1000
@@ -171,7 +173,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE READ_DB_ARRAY(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,7 +201,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             CALL READ_DB_ARRAY_C(R4,1000)
@@ -217,7 +219,7 @@ C fortran real : 64 bits C double : 64 bits
             ENDDO
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             CALL READ_DB_ARRAY_C(R8,1000)
             DO J = 1, 1000
@@ -245,10 +247,10 @@ C
 !||    rdresb            ../engine/source/output/restart/rdresb.F
 !||    read_sensors      ../engine/source/output/restart/read_sensors.F
 !||--- calls      -----------------------------------------------------
-!||    read_db_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_db_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE READ_DPDB(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -268,7 +270,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
         K=0
         N1=N/1000
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
         DO I = 1, N1
           CALL READ_DB_C(R8,1000)
           DO J = 1, 1000

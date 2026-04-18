@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
 C   READ MAT LAW77 WITH HM READER
-C   this law is Ale law for air and foam is in lagrangian and is not activated thru ale option. 
+C   this law is Ale law for air and foam is in lagrangian and is not activated through ale option. 
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -89,10 +89,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,ILAW,NRATEN,NRATEP,LFUNC,IUNLOAD,IFUNCR,IFUNCK,
-     .       IFLAG,NPAR_FOAM,ICLOS,INCGAS
-      my_real :: E,NU,G,RHOA,RHO0,RHOR,VISC,VISCV,EXPO,HYS,FRAC,
-     .    FCUT, A1,A2,E0,EMAX,EPSMAX,P0,AA,BB,KK,TAUX,BULK,EINT0,
+      INTEGER :: I,J,ILAW,NRATEN,NRATEP,IUNLOAD,IFUNCR,IFUNCK,
+     .       NPAR_FOAM,ICLOS,INCGAS
+      my_real :: NU,G,RHOA,RHO0,RHOR,EXPO,HYS,FRAC,
+     .    FCUT, A1,E0,EMAX,EPSMAX,P0,AA,BB,KK,TAUX,BULK,EINT0,
      .    GAMMA,PEXT,FP_INI,RHOEXT,EINT_EXT,FSCAL_UNIT
       INTEGER ,DIMENSION(15) :: FLOAD,FUNLOAD
       my_real ,DIMENSION(30) :: RATE,YFAC,RLOAD,SLOAD,RUNLOAD,SUNLOAD
@@ -291,7 +291,7 @@ c----------------
       ENDIF
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       ! Properties compatibility  
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_BRICK_ISOTROPIC")
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------
@@ -360,7 +360,7 @@ c-----------------------------------------------------------------------
      & 5X,'DENSITY. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PEXT. . . . . . . .. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR CLOSED FOAM . . . . . . . . . . . .=',I10/
-     & 5X,'INCOMNIG GAS FLAG. . . . . . . . . . . . . .=',I10/ )
+     & 5X,'INCOMING GAS FLAG. . . . . . . . . . . . . .=',I10/ )
  3000 FORMAT(
      & 5X,'  DARCY PARAMETERS ',/,
      & 5X,'  -----------------',/)  

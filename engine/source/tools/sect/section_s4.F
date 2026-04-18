@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    section_skew       ../engine/source/tools/sect/section_skew.F
 !||    section_skewp      ../engine/source/tools/sect/section_skewp.F
 !||    sum_6_float_sect   ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SECTION_S4 (LFT,LLT,NFT,NSEG,N1,
      2                       N2,N3,NSTRF,X,V,FSAV,
@@ -35,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                       FZ,TYPE,NSINT,IFRAM,NNOD,NOD,MS,
      6                       IXS10,ISOLNOD,XSEC,FBSAV6,
      7                       IPARSENS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,28 +68,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JJJ(MVSIZ), UNPACK(0:511,10),
-     .   NSA, J, I, K, I1, I2, IPACK, N,POWER2(14),IPERM(4),II,JJ
+     . NSA, J, I, K, I1, IPACK, N,POWER2(14),IPERM(4),II
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16),
-     .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
+     . MSX, MSY, MSZ,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
-     .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
+     . XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
      .   FSTY, FSTZ, DMX, DMY, DMZ
-      my_real
-     .   MSXPHI, MSYPHI, MSZPHI, FSXPHI,
-     .   FSYPHI, FSZPHI, FNPHI, FSNXPHI, FSNYPHI, FSNZPHI, FSTXPHI,
-     .   FSTYPHI, FSTZPHI, DMXPHI, DMYPHI, DMZPHI
-      my_real
-     .   XX1PHI,XX3PHI,XX4PHI,XX5PHI,XX6PHI
-      my_real
-     .   YY1PHI,YY3PHI,YY4PHI,YY5PHI,YY6PHI
-      my_real
-     .  ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
-      my_real
-     .  AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real
-     .  AL4,AL5,AL6
       DATA POWER2/1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192/
       DATA IPERM/1,3,6,5/
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT

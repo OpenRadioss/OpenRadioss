@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    forani2   ../engine/source/output/anim/generate/forani2.F
+!||    forani2      ../engine/source/output/anim/generate/forani2.F
 !||--- called by ------------------------------------------------------
-!||    resol     ../engine/source/engine/resol.F
+!||    resol        ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod   ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE FORANI2(FANI,A,NFIA,NFEA,NODFT,NODLT,H3D_DATA)
+      SUBROUTINE FORANI2(OUTPUT,A,NODFT,NODLT,H3D_DATA)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -38,7 +39,7 @@ C   When FORANI3 is called, A is containing:(FEXT+FINT+FGRAV)/m
 C
 C                        forani1       forani2                   forani3
 C       FANI(:,N+NFIA) =   -FEXT  +(FEXT+FINT)                               = FINT
-C       FANI(:,N+NFEA) =   +FEXT  -(FEXT+FINT)  + [(FEXT+FINT+FRAV)/m]*m     = FEXT+FGRAV
+C       FANI(:,N+NFEA) =   +FEXT  -(FEXT+FINT)  + [(FEXT+FINT+FGRAV)/m]*m    = FEXT+FGRAV
 C-----------------------------------------------
 C
 C  ANIM_V(5)            : /ANIM/VECT/FINT
@@ -53,6 +54,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,13 +69,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NFIA,NFEA,NODFT,NODLT
-      my_real A(3,*),FANI(3,*)
+      TYPE(OUTPUT_) :: OUTPUT
+      INTEGER NODFT,NODLT
+      my_real A(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,K
+      INTEGER N
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -82,18 +85,18 @@ C-----------------------------------------------
       !if FINT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          FANI(1,N+NFIA)=FANI(1,N+NFIA) + A(1,N)
-          FANI(2,N+NFIA)=FANI(2,N+NFIA) + A(2,N)
-          FANI(3,N+NFIA)=FANI(3,N+NFIA) + A(3,N)
+          OUTPUT%DATA%VECT_FINT(1,N)=OUTPUT%DATA%VECT_FINT(1,N) + A(1,N)
+          OUTPUT%DATA%VECT_FINT(2,N)=OUTPUT%DATA%VECT_FINT(2,N) + A(2,N)
+          OUTPUT%DATA%VECT_FINT(3,N)=OUTPUT%DATA%VECT_FINT(3,N) + A(3,N)
         ENDDO
       ENDIF
       IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
       !if FEXT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          FANI(1,N+NFEA)=FANI(1,N+NFEA) - A(1,N)
-          FANI(2,N+NFEA)=FANI(2,N+NFEA) - A(2,N)
-          FANI(3,N+NFEA)=FANI(3,N+NFEA) - A(3,N)
+          OUTPUT%DATA%VECT_FEXT(1,N)=OUTPUT%DATA%VECT_FEXT(1,N) - A(1,N)
+          OUTPUT%DATA%VECT_FEXT(2,N)=OUTPUT%DATA%VECT_FEXT(2,N) - A(2,N)
+          OUTPUT%DATA%VECT_FEXT(3,N)=OUTPUT%DATA%VECT_FEXT(3,N) - A(3,N)
         ENDDO
       ENDIF
 C-----------------------------------------------

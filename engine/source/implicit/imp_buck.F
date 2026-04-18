@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,12 +50,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    zeror                  ../engine/source/system/zero.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    cluster_mod            ../engine/share/modules/cluster_mod.F
 !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod              ../engine/share/modules/drape_mod.F
 !||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
@@ -121,10 +121,10 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
       USE MATPARAM_DEF_MOD
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixc,nixt,nixtg,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -328,7 +328,7 @@ C
        CALL ZEROR(V,NUMNOD)
        CALL ZEROR(A,NUMNOD)
       ENDIF
-C Calcul de la matrice de rigidite geometrique
+C calculation of the geometric stiffness matrix
       ALLOCATE(DIAG_KG(NDDL0), LT_KG(NNZK0))
        DIAG_KG=ZERO
        LT_KG  =ZERO
@@ -511,7 +511,7 @@ C
          WRITE(6,*) "/IMPL/GRAPH is deprecated"
          CALL ARRET(5)
       ENDIF
-C Calcul des charges critiques et des modes de flambement
+C calculation of critical loads and buckling modes
       NM=BINCV
       NMMAX=BMAXNCV
       MAXITR=BNITER
@@ -535,7 +535,7 @@ C
        ALLOCATE(VECT(LDV,MAXNCV), EIG(MAXNCV,2))
 C
 c       IF (BISOLV==1.AND.NSPMD==1) THEN
-cC Resolution BCS (mono)
+cc'esolution bcs (mono)
 c         WRITE(6,*) "BCS Solver not available" 
 c         CALL FLUSH(6)
 c         CALL ARRET(5)
@@ -682,7 +682,7 @@ C
          WRITE(6,*) "/IMPL/GRAPH is deprecated"
          CALL ARRET(5)
       ENDIF
-C Sortie des charges critiques dans le listing pour les solveur 1 et 2
+C output of critical loads in the listing for solvers 1 and 2
       IF ((NSPMD==1.OR.ISPMD==0).AND.BISOLV==1) THEN
          WRITE(IOUT,'(A6,1PG11.4,A35,I10)')
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK
@@ -693,7 +693,7 @@ C Sortie des charges critiques dans le listing pour les solveur 1 et 2
          ENDDO
          WRITE(IOUT,*)
       ENDIF
-C Sortie des modes de flambement sur l'ANIM et/ou sur OUTP
+C output of buckling modes on ANIM and/or OUTP
       CMAX=ZERO
       DO I=1,NUMNOD
          X0(1,I)=X(1,I)
@@ -851,7 +851,7 @@ C
             X(3,J)=X0(3,J)+SCALE*D(3,J)
          ENDDO
 C
-         IF (DTANIM>ZERO) THEN
+         IF (OUTPUT%DTANIM>ZERO) THEN
             IANIM=IANIM+1
             TT=EIG(I,1)
             CALL GENANI(
@@ -861,7 +861,7 @@ C
      4             SN4        ,IPARG     ,PM         ,GEO         ,MS        ,
      5             SN5        ,CONT      ,SN6        ,ICUT        ,SKEW      ,
      6             XCUT       ,FINT      ,ITAB       ,SN7         ,FEXT      ,
-     7             FOPT       ,ANIN      ,LPBY       ,NPBY        ,NSTRF     ,
+     7             FOPT       ,LPBY       ,NPBY        ,NSTRF     ,
      8             RWBUF      ,NPRW      ,TANI       ,ELBUF_TAB   ,MATPARAM_TAB,
      A             DD_IAD     ,WEIGHT    ,EANI       ,IPART       ,CLUSTER   ,
      B             IPART(K1)  ,IPART(K2) ,IPART(K3)  ,IPART(K4)   ,IPART(K5) ,
@@ -907,7 +907,7 @@ C
      2             IXS   ,IXQ       ,IXC    ,IXT   ,IXP   ,
      3             IXR   ,IXTG      ,IPARG  ,PM    ,IGEO  ,
      4             MS    ,CONT      ,ITAB   ,PARTSAV,FINT ,
-     5             FEXT  ,TANI      ,EANI   ,ANIN  ,IPART ,
+     5             FEXT  ,TANI      ,EANI   ,IPART ,
      6             VR    ,ELBUF_TAB ,DD_IAD,WEIGHT,
      7             IPM       ,KXSP   ,SPBUF ,NODGLOB,LENG ,
      8             FOPT  ,NOM_OPT   ,NPBY   ,FNCONT   ,FTCONT    ,
@@ -951,7 +951,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, INDCOL(N), J, JJ, IAD
-C 1ER PASSAGE : CALCUL DES INDICES DANS COLPTR
+C 1ST PASSAGE: CALCULATION OF INDICES IN COLPTR
       DO I=1,N
          INDCOL(I)=0
       ENDDO
@@ -968,7 +968,7 @@ C 1ER PASSAGE : CALCUL DES INDICES DANS COLPTR
          COLPTR(I+1)=COLPTR(I)+INDCOL(I)
          INDCOL(I)=COLPTR(I)-1
       ENDDO
-C 2EME PASSAGE : REMPLISSAGE DE ROWIND, VALUE_OP ET VALUE_K
+C 2ND PASSAGE: FILLING OF ROWIND, VALUE_OP AND VALUE_K
       DO I=1,N
          INDCOL(I)=INDCOL(I)+1
          IAD=INDCOL(I)

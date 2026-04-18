@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C   |============================================================
 C   |  CBABE3                          /coqueba/cbabe3.F
 C   |------------------------------------------------------------
-C   |-- appelee par -----------
+C   |-- called by -----------
 C   |         CBAKE3                         /coqueba/cbake3.F
 C   |============================================================
 !||====================================================================
@@ -59,13 +59,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER PT,PT00,PT0,I,J,EP,NG1,K
+      INTEGER I,EP
       MY_REAL 
-     .   VPG(2,NPG),THK(MVSIZ),DETJ,DET,
-     .   TFN(3,2),BCX,BCY,V1(2),V2(2),C1,C2,BC1,BC2,VB1,
-     .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(MVSIZ,2,2),V11(4)
+     .   VPG(2,NPG),THK(MVSIZ),
+     .   TFN(3,2),V1(2),V2(2),C1,C2,BC1,BC2,
+     .   TBI(2,2),TBC(MVSIZ,2,2),V11(4)
       MY_REAL 
-     .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2,
+     .   A_1,C11,C12,C21,C22,BETA1,KSI1,BETA2,KSI2,
      .   BMT(8),BCT(12),BXY(3),BYX(3)
       MY_REAL 
      .   PG1,PG
@@ -177,7 +177,7 @@ C
        DO I=NPLAT+1,JLT 
         EP=IPLAT(I)
 C---------------------------------------------------
-C  CALCUL DE [FN] 
+C  calculation of [fn]
 C---------------------------------------------------
           TFN(1,1)=VKSI(1,NG)*VQN(EP,7,1)+VKSI(2,NG)*VQN(EP,7,2)
      1            +VKSI(3,NG)*VQN(EP,7,3)+VKSI(4,NG)*VQN(EP,7,4)
@@ -615,7 +615,7 @@ C--------TERMES <ASI>-------
           BC(I,28)=V11(4)*VASTN(EP,15)
           BC(I,30)=V11(4)*VASTN(EP,16)
        ENDDO 
-C--------pour rigidite en rzz-------
+C--------for rzz stiffness-------
        IF (ISROT==0) THEN
 #include "vectorize.inc"
        DO I=NPLAT+1,JLT 
@@ -655,7 +655,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J,EP
+        INTEGER I ,EP
 #include "vectorize.inc"
        DO EP=NPLAT+1,JLT 
         I=IPLAT(EP)
@@ -695,7 +695,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,EP,NPG
+      INTEGER I,J,NPG
       PARAMETER (NPG = 4)
       my_real
      .   VPG(2,NPG),PG,PG1

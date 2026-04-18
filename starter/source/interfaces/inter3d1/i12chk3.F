@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------
 C     CHECK ELEMENT FOR TYPE 12
 C------------------------------------
@@ -126,7 +127,7 @@ C-----------------------------------------------
       END IF !(ITIED/=3)
       
       !------------------------------------------------------------------------!
-      !     LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT         !
+      ! !     THE GLOBAL NODE IS REPLACED BY THE LOCAL NODE IN IRECT         !
       !------------------------------------------------------------------------!
       DO I=1,NRT
         DO J=1,4
@@ -136,7 +137,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO
       !------------------------------------------------------------------------!
-      !     COMPTAGE DU NOMBRE DE FACETTES CONNECTEES PAR NOEUD (SECONDARY ONLY!)  !
+      ! !     COUNTING THE NUMBER OF FACETS CONNECTED BY NODE (SECONDARY ONLY!)  !
       !------------------------------------------------------------------------!
       IF(NINT>0)THEN
          DO  I=1,NSN

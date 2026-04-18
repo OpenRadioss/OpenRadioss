@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PID(*),IGEO(NPROPGI,*),IREP,NGL(*),NSIGI,NSIGS,
-     .        IXS(NIXS,*),ILAY,IPID,ORTHOGLOB(*),PT(*),NEL
+     .        IXS(NIXS,*),ILAY,ORTHOGLOB(*),PT(*),NEL
       my_real GEO(NPROPG,*),SKEW(LSKEW,*),GAMA(NEL,6),ANGLE(*),
      .        RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
      .        E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
@@ -71,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IG,IGTYP,ISK,IPNUM,ISKV,IIS,II,J,JJ,N,IFLAGINI,INIORTH(MVSIZ)
+      INTEGER I, IG, IGTYP, IPNUM, ISKV, IIS, II, JJ, IFLAGINI, INIORTH(MVSIZ)
       my_real
      .   VX,VY,VZ,VR,VS,VN,V,PHI,CP,SP,CPN,SPN,
      .   S,D1,D2,U1X,U1Y,U2X,U2Y,DET,W1X,W2X,W1Y,W2Y
@@ -103,8 +104,8 @@ C---- tag elm /w /INIBRI/ORTHO
         ENDDO
       ENDIF
 C---
-C     Repere orthotrope pour thick shells-------
-C     Stockage de Transpose(G) p.r.a. corotationel systems comme les coques
+C     Orthotropic frame for thick shells-------
+C     Transpose storage (G) P.R.A.Corotationeel Systems like the shells
 C     GAMA(1)= sina , GAMA(2) = cosa, only first 2 are useful --
 C---
 C------------HA8: variable thickness direction ---------
@@ -216,7 +217,7 @@ C------Uij-->gij; Wij->[g]-1-----
         DO I=LFT,LLT
           IG = PID(I)
           IPNUM = IGEO(2,IG)
-C----par rapport a HA8, permitation si s16----
+C----compared to HA8, permutation if s16----
           SELECT CASE (IPNUM)
           CASE (1)
            U1X = RX(I)*E2X(I)+RY(I)*E2Y(I)+RZ(I)*E2Z(I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -100,11 +100,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), JFI, KFI, MULTIMP,
-     .        I, ILD, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT,
+      INTEGER   MULTIMP,
+     .        I, ILD, I_SK_OLD, 
+     .         NB_N_B, NOINT,
      .        NCONT, NCONTACT,I_MEM,CAND_N_OLD,
-     .        LOC_PROC, KD11_T,I_SK_NEW,NFT,JLT,J,I_STOK,IADFIN,IFORM
+     .        LOC_PROC,I_SK_NEW,NFT,JLT,I_STOK,IFORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: OLDINBUF1, OLDINBUF2
 C     REAL
       my_real
@@ -157,11 +157,15 @@ C
       BMINMA(4)=EP30
       BMINMA(5)=EP30
       BMINMA(6)=EP30
-C pas de modification de INACTI : donc pas de comm
+C no modification of INACTI: so no comm
 C
       CALL MY_BARRIER
       IF (ITASK == 0) THEN
         IF(IFORM == 2)THEN
+          IF(SIZE(INTBUF_TAB%ADCCM) < NRTM) THEN
+            DEALLOCATE(INTBUF_TAB%ADCCM)
+            ALLOCATE (INTBUF_TAB%ADCCM(NRTM))
+          ENDIF
           DO I=1,NRTM
             INTBUF_TAB%ADCCM(I) = 0
           ENDDO
@@ -196,9 +200,9 @@ C
 C BARRIER BMINMA
       CALL MY_BARRIER
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
-C sauvegarde de XSAV (tableau BUFIN(JD(19)))
+C Backup of XSAV (BUFIN Table (JD (19)))
       CALL I10XSAVE(
      1       X     ,INTBUF_TAB%NSV ,INTBUF_TAB%MSR,NSN   ,NMN   ,
      2       ITASK ,INTBUF_TAB%XSAV,XMINL         ,YMINL ,ZMINL ,
@@ -212,10 +216,10 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
       BMINMA(6) = MIN(BMINMA(6),ZMINL)
 #include "lockoff.inc"
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
       CALL MY_BARRIER
 C -------------------------------------------------------------
-C a conserver pour cas inacti est modifie sur p0
+C to keep for case where inacti is modified on p0
       INACTI=IPARI(22,NIN)
       IF(ITASK==0)THEN
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
@@ -250,7 +254,6 @@ C
         CALL MY_BARRIER
 
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
-
         CALL SPMD_TRI11VOX0(
      1      X        ,BMINMA  ,IPARI(21,NIN),NRTM_T  , INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF    ,INTBUF_TAB%IRECTM(1+2*ESHIFT),GAP,INTBUF_TAB%GAP_M(1+ESHIFT),
@@ -260,7 +263,7 @@ C
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
         IF(ITASK==0)THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C recovery of remote nodes NSNR stored in XREM
 C    
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
           CALL SPMD_TRI11VOX(
@@ -276,7 +279,7 @@ C
 
 c 300      continue
 C
-C renumerotation locale des anciens candidats
+C Local renumeration of former candidates
 C
           IF(IFORM == 2) THEN
             CALL SPMD_RNUMCD11(
@@ -314,7 +317,7 @@ C -------------------------------------------------------------
       ILD = 0
       NB_N_B = 1
 C
-C Barrier comm spmd_tri11box + BMINMA + Retour I7BUCE
+C Barrier Commp SPMD_TRI11BOX + BMINMA + RETURN I7BUCE
 C      
  50   CALL MY_BARRIER
       !IF(NRTM_T/=0.OR.ITASK==0)
@@ -421,7 +424,7 @@ C
      2    IPARI(22,NIN),NRTSR,MULTIMP          ,IPARI(21,NIN),IPARI(47,NIN),
      2    IPARI(36,NIN),IPARI(72,NIN),NODADT_THERM)
 
-C sauvegarde des candidats additionnels dans IPARI(24)
+C save additional candidates in IPARI(24)
         IPARI(24,NIN) = NRTSR
 C
         IF (IMONM > 0) CALL STOPTIME(TIMERS,26)

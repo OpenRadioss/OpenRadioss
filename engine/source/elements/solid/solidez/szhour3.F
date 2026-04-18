@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -111,9 +111,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K,IET, MT,IPLAST
+      INTEGER I, MX, J,IET, MT,IPLAST
       my_real
-     .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),DEINT(MVSIZ),
+     .   CAQ(MVSIZ), FCL(MVSIZ),DEINT(MVSIZ),
      .   H11(MVSIZ), H22(MVSIZ), H33(MVSIZ),
      .   H12(MVSIZ), H13(MVSIZ), H23(MVSIZ),
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
@@ -129,14 +129,14 @@ C-----------------------------------------------
      .   G_3DT(MVSIZ),NU,GG(MVSIZ),DE,DS,DSIG(6),
      .   SM1(MVSIZ),SM2(MVSIZ),SMO1(MVSIZ),SMO2(MVSIZ),SMO,
      .   JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),NFHOUR(MVSIZ,3,4),
-     .   DFHOUR(MVSIZ,3,4),FHOURT(3,4),DT05,RHO0,ETMAX,
-     .   NU1(MVSIZ),NU2(MVSIZ),NU3(MVSIZ),NU4(MVSIZ),NEP,E0(MVSIZ),
+     .   DFHOUR(MVSIZ,3,4),FHOURT(3,4),DT05,RHO0,
+     .   NU1(MVSIZ),NU2(MVSIZ),NU3(MVSIZ),NU4(MVSIZ),E0(MVSIZ),
      .   E_R,E_S,E_T,FAC,FAC1,FAC2,COEFH,HQ13P,HQ13N,HQ24P,HQ24N,FF,
-     .   SIG0V(MVSIZ,6),DAMA_G(MVSIZ,6),G0,C1
+     .   DAMA_G(MVSIZ,6),G0,C1
 C-----------------------------------------------
        IET =IINT
        COEFH = ZEP9999   
-C---- attention : r->eta; s->zeta; t->ksi------------
+C---- note: r->eta; s->zeta; t->ksi------------
 
 C +++ MAT Visco-----
 !      DO I=1,NEL
@@ -262,7 +262,7 @@ C------ w/ Prony, use Icpre=0 anyway
         NU3(I) =ZEP444
         NU4(I) =ZERO
        ENDDO
-      ELSEIF(ICP==2.AND.IPLAST>0)THEN
+      ELSEIF(ICP==2.AND.IPLAST>0.AND.MTN/=104)THEN
        DO I=1,NEL
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2=ONE-DEFP(I)/FAC1

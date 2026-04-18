@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J10(10)
-      INTEGER I,J,K,ID,NNOD,NL,IGS,KK,JJ,NENTITY,UID,NN
+      INTEGER I, ID, NNOD, IGS, KK, JJ, NENTITY, UID, NN
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
       CHARACTER MESS*40
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C    IGRNOD(IGS)%ID : GROUP identifier
 C    IGRNOD(IGS)%TITLE : GROUP title
 C    IGRNOD(IGS)%NENTITY : Entities (nodes) number of the GROUP
-C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NODES, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
 !!                   GRTYPE --- > OBSOLETE
 C    IGRNOD(IGS)%SORTED  : FLAG for sorted/unsorted nodes
@@ -100,7 +100,7 @@ C    IGRNOD(IGS)%R2R_SHARE ! shared on boundary subdomain
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
 C=======================================================================
-C groupes de noeuds(type NODE,NODENS) + init IGRNOD(IGS)%ID
+C nodes groups (type node, nodens) + INIT igrnod (IGS)%ID
 C=======================================================================
       IGS=0
       TITR1='NODENS GROUP'
@@ -133,7 +133,7 @@ C
         !-----------------------------------------------------------------
         ! GRNOD from NODENS        
         IF(KEY(1:6) == 'NODENS') THEN
-!         groupe de noeuds (non sorted)
+!         group of nodes (no sorted)
           CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
           DO KK = 1,NENTITY
             CALL HM_GET_INT_ARRAY_INDEX ('ids',JJ  ,KK,IS_AVAILABLE,LSUBMODEL)

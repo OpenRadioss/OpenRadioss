@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,9 +77,9 @@
                 tagnod(nod) = 1
                 ind = ind+1
                 clause_node(ind) = nod
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine tag_node_from_part_sphcel

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -831,7 +831,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----longueur de ELBUF,BUFMAT--------
+C----length of ELBUF,BUFMAT--------
       L1=SELBUF
       L2=SBUFMAT
       L3=SFSAV
@@ -989,7 +989,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  L2,L3,L4,L5,L6
-C----longueur de ELBUF,BUFMAT--------
+C----length of ELBUF,BUFMAT--------
       L1=SELBUF
       L2=SBUFMAT
       L3=SFSAV
@@ -1097,7 +1097,7 @@ C------for int24 + Istif=6
      .                     ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
      .                     IRLEN20E,ISLEN20E,NEWFRONT)
           END IF 
-C------------BUF_C->BUF--------------------------------
+C------------ BUF_C-> BUF --------------------------------------------------------------------------
       ELSEIF (IFLAG==2) THEN
             CALL COPY_ELBUF(ELBUF_IMP,ELBUF_TAB,IPARG,NGROUP)
             CALL CP_REAL(LI1,ELBUF_C,ELBUF)

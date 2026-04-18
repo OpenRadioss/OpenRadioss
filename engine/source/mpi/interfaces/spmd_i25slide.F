@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -375,26 +375,24 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NSNR_OLD,NSNR_NEW,NODFI,NNP,LSKYFI,
-     .        NOD, LOC_PROC, I, N, NN, P, IDEB, J, K,L,JJ, I_STOK, IX, II
+      INTEGER NSNR_OLD,NSNR_NEW,NODFI,LSKYFI,
+     .        LOC_PROC, I, N, NN, P, IDEB, J, K,L,JJ, IX
       INTEGER NSNR_TOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX ! renumbering cand_n
-      INTEGER  NN2,RSHIFT,ISHIFT, IOLDNSNFI, ND, JDEB, Q
+      INTEGER  RSHIFT,ISHIFT, JDEB
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAUX,IAUX_LOCAL,IAUX_REV,IAUX_K,IAUX_L
       INTEGER IDEB_NEW  ! shift for resulting *FI 
       INTEGER IDEB_OLD  ! shift for old *FI
       INTEGER IDEB_SLID ! shift for new sliding nodes
       INTEGER PNEW,POLD,ID_OLD,ID_NEW 
-      INTEGER SNEW,SOLD,PMAIN,NB_SLID_TOT
-      my_real,
-     .    DIMENSION(:), ALLOCATABLE :: PENEFI_OLD, STIFFI_OLD
-      INTEGER MARGIN,N_NEW_SECND,UID
+      INTEGER NB_SLID_TOT
+      INTEGER UID
       TYPE(I25_TMP_STRUCT) :: TMP
       TYPE(int_pointer) , DIMENSION(NSPMD) :: INDX_FOR_P,UID_FOR_P
       INTEGER, ALLOCATABLE, DIMENSION(:) :: PERMUTATIONS, PROC_ORIG
       INTEGER SINDEX(NSPMD), SIZE_PERM_MAX, PROC_FROM
       INTEGER WORK(70000)
-      INTEGER PLOCAL, NBLOCAL, PM, KK, KM, KI, LL, SIZREMNORFI, SIZ, NE
+      INTEGER PLOCAL, NBLOCAL, KK, KM, KI, LL, SIZREMNORFI, SIZ, NE
       INTEGER, DIMENSION(:), ALLOCATABLE :: REMNOR_FI_TMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -404,10 +402,10 @@ C-----------------------------------------------
       LSKYFI= 0
       NB_SLID_TOT = 0
       NSNR_TOT = 0
-C Reperage des candidats
+C locating candidates
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
       DO P = 1,NSPMD
          NODFI =  NODFI + NSNFI(NIN)%P(P) + NB_SLID(P)
@@ -427,7 +425,7 @@ C
       CALL REALLOCATE_FI1(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2,ISTIF_MSDT,IFSUB_CAREA)
       NSNFI(NIN)%P(1:NSPMD) = TMP%NSNFI%P(1:NSPMD)
 C
-C Compactage des candidats
+C compacting candidates
 C
       IDEB = 0
       IDEB_NEW = 0  
@@ -474,7 +472,7 @@ C
       ENDIF
       DO P = 1, NSPMD
       ! Pour l'instant on garde l'iteration P = LOC_PROC
-      ! voir avec  ce qu'il faut faire dans ce cas
+      ! see with what to do in this case
         NN = 0
         NSNR_OLD = NSNFI(NIN)%P(P)
         NSNR_NEW = SINDEX(P) ! NSNR from XREM, we don't know yet if they are already known
@@ -591,7 +589,7 @@ C ========================================================
 
 
 
-          ! NN = Taille de XREM + Taille ancien FI - noeuds communs
+          ! Nn = size of xrem + old size fi - common nodes
           NN = NSNFI(NIN)%P(P)
           NSNFI(NIN)%P(P) = NN - NBLOCAL
 
@@ -668,7 +666,7 @@ C  symmetric plane
 
 C
 C specific cases ../..
-          IF(IGAP==1 .OR. IGAP==2)THEN
+          IF(IGAP==1 .OR. IGAP==2 .OR. IGAP==5)THEN
             NBLOCAL = 0
             DO J=1,NN
               I = IAUX(J)
@@ -880,7 +878,7 @@ C         IF(ITYP==25)THEN
                  PENE_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+5,L)
                  STIF_OLDFI(NIN)%P(2,K)     = XREM(RSHIFT+6,L)
                  PENE_OLDFI(NIN)%P(3,K)     = XREM(RSHIFT+7,L)
-                 PENE_OLDFI(NIN)%P(3,K)     = XREM(RSHIFT+8,L)
+                 PENE_OLDFI(NIN)%P(4,K)     = XREM(RSHIFT+8,L)
                  PENE_OLDFI(NIN)%P(5,K)     = XREM(RSHIFT+9,L)
                ELSEIF(I == 0) THEN
                  K = IAUX_K(J) 
@@ -932,7 +930,7 @@ C         IF(ITYP==25)THEN
             ISHIFT = ISHIFT + 5
  
             IF (ILEV==2) THEN  
-C          NBINFLFI local ne semble pas toujours alloue 
+C          Local nbinflfi does not always seem allocated 
                NBLOCAL = 0
                DO J = 1, NN
                  I = IAUX(J)
@@ -1091,7 +1089,7 @@ C ================================================================
 
 
 C
-C Deallocation de XREM IREM
+C Deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -1600,7 +1598,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression/ friction energy
+C Output Pressure/ Friction Energy conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)

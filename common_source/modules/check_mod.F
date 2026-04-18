@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       if /RFILE/OFF or if -norst cdl are used, then no restart files
 !       are written durint the run, even at the end of the engine
 !       RESTART_FILE = 0 --> no restart files
-!       RESTART_FILE = 1 (default value) --> restart files are written
+!       Restart_file = 1 (Default Value) -> Restart Files Are Written
 !       starter :
 !       ----------
 !       if /CHECK/RFILE/OFF is used or if -check=norst cdl is used, then

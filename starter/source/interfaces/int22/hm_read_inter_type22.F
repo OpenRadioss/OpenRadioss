@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -125,7 +125,7 @@ C
          ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
        ENDIF                                   
                                                
-       !common value : IOUTP22                 
+       !Common Value: ioutp22                 
        IF(IOUTP22==0)THEN                    
          IOUTP22=1                             
        ELSEIF(IOUTP22/=1)THEN                
@@ -222,9 +222,9 @@ C
         !IGR3SHN flag
         !
         !     IGRN(1,I) : IDENTIFICATEUR DE GROUP
-        !     IGRN(2,I) : NOMBRE DE NOEUDS
-        !     IGRN(3,I) : ADRESSE DES NOEUDS DANS IBUFSSG
-        !     IGRN(4,I) : TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
+        !     IGRN(2,I) : NUMBER OF NODES
+        ! IGRN(3,I) : ADDRESS OF NODES IN IBUFSSG
+        !     IGRN(4,I) : TYPE (0 FOR NODES, 1 BRIC, 2 QUAD, 3 SHELL, 
         !                         4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
         !        
         LOGI_I22GRSH3N = .FALSE.

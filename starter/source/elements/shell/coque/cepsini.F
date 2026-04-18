@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD            
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -649,7 +650,7 @@ C
         EPST(5,I)= GSTR(I,5)*HALF
       ENDDO
 C-------------------------------------------------
-C     ROTATIONS DANS LE REPERE D ORTHOTROPIE EPST
+C     rotations in the orthotropy frame epst
 C-------------------------------------------------
       CALL ROTO(JFT,JLT,EPST,5,DIR,NEL)
 C-------------------------------------------------
@@ -665,7 +666,7 @@ C-----------------------------
        FOR(I,2)=A12(I)*EPST(1,I)+A22(I)*EPST(2,I)
        FOR(I,3)=G12(I)*EPST(3,I)*TWO
 C-----------------------------
-C     CONTRAINTES reduites en compression
+C     Reduced compression constraints
 C-----------------------------
        S  = HALF*(FOR(I,1)+FOR(I,2))
        D  = HALF*(FOR(I,1)-FOR(I,2))
@@ -698,7 +699,7 @@ C-----------------------------------------------------------
         ENDIF
       ENDDO
 C--------------------------------
-C     RETOUR DANS LE REPERE COQUE
+C     return to shell reference frame
 C--------------------------------
       CALL UROTO(JFT,JLT,FOR,5,DIR,NEL)
 C
@@ -826,6 +827,7 @@ C
 !||====================================================================
       SUBROUTINE CEPSCHK(JFT,JLT,NFT,PM,GEO,IXC,GSTR,THK,NEL,CPT_ELTENS)
       USE MESSAGE_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

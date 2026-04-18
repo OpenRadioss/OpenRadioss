@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -135,18 +135,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  
-     .     II,I,J,K,I1,J1,J2,IFLAG,ILOAD(NEL,3),ILOADE(NEL),
+     .     II,I,K,IFLAG,ILOAD(NEL,3),ILOADE(NEL),
      .     IDAM,INDX_L(NEL),INDX_UNL(NEL),NE_L,NE_UNL
       my_real
-     . E0,AA,EPSMAX,G,NU,SHAPE,HYS,EMAX,
-     . YFAC,YFACJ1,YFACJ2,RATEJ1,RATEJ2, EPSE,EP1,
+     . E0,AA,G,NU,SHAPE,HYS,EMAX,
+     . YFAC, EPSE,EP1,
      . EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,
-     . ERT22,ERT23,ERT31,ERT32,ERT33,SJ1,SJ2,FAC,T1,T2,T3,
-     . DAM,EPE,EMIN,E_MIN(NEL),E1,E2,TMP,QUASI_EINT
+     . ERT22,ERT23,ERT31,ERT32,ERT33,T1,T2,T3,
+     . DAM,EPE,EMIN,E_MIN(NEL)
       my_real
      .  AV(6,NEL), EVV(3,NEL),EV(NEL,3),STRAIN(NEL,3),
      .  STRAINRATE(NEL,3),S(NEL,3),SQSTAT(NEL,3),DF(3),
-     .  DIRPRV(3,3,NEL),EPSP(3),ECURENT(NEL),E(NEL),DEINT,
+     .  DIRPRV(3,3,NEL),EPSP(3),ECURENT(NEL),E(NEL),
      .  RATEEPS
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
@@ -271,7 +271,7 @@ C
 
 !!        EPSD(I) = RATEEPS
       ENDDO
-C sous groupe  
+C under group  
          INDX_L(1:NEL) = 0
          INDX_UNL(1:NEL) = 0
          NE_L  = 0

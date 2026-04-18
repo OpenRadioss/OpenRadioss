@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    xyznod_ply             ../engine/source/output/anim/generate/xyznod_ply.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
@@ -58,7 +58,6 @@ C-----------------------------------------------
       INTEGER IPLY,IDPLY
       my_real
      .   X(3,*),ZI_PLY(NPLYXFE,*)
-      REAL R4
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -86,7 +85,7 @@ C
         PLYSIZ  = PLYNOD (IPLY)%PLYNUMNODS
         ALLOCATE(WRTBUF(3,PLYSIZG(IPLY)))
 
-C Les plynods du proc 0
+C The plynods of proc 0
         DO ND=1,PLYSIZ
              I = PLYNOD(IPLY)%NODES(ND)
              N = NOD_PXFEM(I)
@@ -106,7 +105,7 @@ C Les plynods du proc 0
              VAL = X(3,I)+ZI_PLY(N,IPLY)*VN + PLY(IPLY)%U(3,N)
              WRTBUF(3,EMPL)= VAL
         END DO
-C Les plynods des autres procs
+C The plynods of other procs
            DO P=2,NSPMD
              IF (PLYIADNOD(IPLY,P)>0)THEN
               ALLOCATE(IRECBUF(PLYIADNOD(IPLY,P)))

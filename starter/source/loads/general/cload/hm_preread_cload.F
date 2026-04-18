@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,8 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NLD,IGU,IGS,ISU,ISS,NN,ID,UID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I, IGU, IGS, NN, ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -96,7 +95,7 @@ C--------------------------------------------------
         CALL HM_GET_INTV  ('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
         IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
-C-----------Multidomaines -> on decompte les noeuds communs, on ne les compte qu'une foi---
+Cmultidomains -> shared nodes are counted only once
         IF (NSUBDOM>0) THEN
             IF (IDDOM>0) NN = NN-IGRNOD(IGS)%R2R_SHARE
             NNCL(I)=NN 

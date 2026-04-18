@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,11 +19,14 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef MV_MESSSAGES_H
 #define MV_MESSSAGES_H
 
 #include <HCDI/hcdi.h>
+
+#include <string>
+
 /** @name Messages strings */
 /*@{*/
 
@@ -278,8 +281,21 @@ typedef enum MvMsgType_s MvMsgType_e;
 extern "C" {
 #endif
 
+class HC_DATA_DLL_API MvMsgArray_t {
+public:
+    MvMsgArray_t(int increm=50);
+    ~MvMsgArray_t();
+public:
+    inline int          getNbMsg()    const { return myNbMsg; }
+    const char* operator[](int ind) const;
+    void setMsg(int ind,const std::string &msg);
+private:
+    int    myNbMsg,myRealSize,myIncrement;
+    char **myStrArray;
+};
+
 /** Gets the array containing the messages (for a given library) */
-HC_DATA_DLL_API const char **MV_get_msg_array(MvMsgType_e type);
+HC_DATA_DLL_API const MvMsgArray_t& MV_get_msg_array(MvMsgType_e type);
 
 /** Gets the number of messages (of a given library) */
 int          MV_get_nb_msg(MvMsgType_e type);

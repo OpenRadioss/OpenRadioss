@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,6 +86,7 @@ C-----------------------------------------------
         IF(IFORM == 12)THEN
           CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, II, MAT_PARAM, MLAW_TAG)
           PM(38,II) = UPARAM(42)
+          IF(PM(38,II)==ZERO)PM(38,II)=-1E20
         ENDIF
       ENDDO
 C-----------------------------------------------

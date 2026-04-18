@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qrota_group            ../engine/source/output/anim/generate/qrota_group.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    stack_mod              ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -46,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,31 +81,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   A1,A2,A3,THK,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   SY,SZ,TY,TZ,SUMA,R11,R12,R13,R21,R22,
-     .   R23,R31,R32,R33,S1,S2,S4,T1,T2,T3,T4,CT,CS,
-     .   G22,G23,G32,G33,T22,T23,T32,T33
-      my_real
-     .   SIGE(MVSIZ,5)
-      my_real
      .   EVAR(6,MVSIZ), GAMA(6,MVSIZ)
-      REAL R4(18)
-      INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,
-     .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
-     .        IPID,I1,I2,NS1,NS2,ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,IREP,BUF,NPG,K,ISROT,NUVARV,IVISC,
-     .        IPMAT,IGTYP,MATLY,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,
-     .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,
-     .        IPLY,IUVAR,IAD,JALE,JTURB,JCVT,NC1,NC2,NC3,NC4,ISORTH
-      INTEGER PID(MVSIZ),MAT(MVSIZ),IOK_PART(MVSIZ),JJ(6),IS_WRITTEN_TENSOR(MVSIZ)
+ 
+      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, 
+     .        N,LLT,MLW,ISTRAIN,IR,IS,IT,NPTR,NPTS,
+     .        NN3,
+     .        ISROT,IVISC,
+     .        IGTYP,ISUBSTACK,
+     .        NPTT,ILAY,
+     .        IUVAR,IAD,JALE,JTURB,JCVT,ISORTH
+      INTEGER IOK_PART(MVSIZ), JJ(6), IS_WRITTEN_TENSOR(MVSIZ)
 C
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-C
-      my_real,
-     .   DIMENSION(:), POINTER :: DIR_A
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
 C-----------------------------------------------      
@@ -190,9 +181,9 @@ C-----------------------------------------------
             IF (KEYWORD == 'TENS/STRESS') THEN
 C-----------------------------------------------
 C---------------------------------------------
-C     EN 2D LES CONTRAINTES SONT :
+C     in 2d the stresses are:
 C     1=YY 2=ZZ 3=TT 4=YZ 5=0 6=0
-C     EN CONTRADICTION AVEC X=T
+C     IN CONTRADICTION WITH X=T
 C---------------------------------------------
 c ILAYER=NULL IR=NULL IS=NULL IT=NULL
               IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN

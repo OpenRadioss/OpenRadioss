@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   VISCMAX, THK,     PLA,     UVAR,
      E   OFF,     NGL,     IPM,     MAT,
      F   ETSE,    GS,      VOL,     YLD,
-     G   TEMPEL,  DIE,     COEF,    INLOC,
+     G   TEMPEL,  DIE,     INLOC,
      H   DPLANL,  JTHE,    LOFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*),VOL(NEL0),TEMPEL(NEL0),
-     .   DIE(NEL0),COEF(NEL0),DPLANL(NEL0)
+     .   DIE(NEL0),DPLANL(NEL0)
       my_real, DIMENSION(NEL0), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
@@ -156,7 +156,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,
+      INTEGER I,J,N,NINDX,
      .        NMAX,INDEX(MVSIZ), 
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
@@ -164,17 +164,17 @@ C-----------------------------------------------
       my_real
      .        E,A1,A2,G,G3,
      .        AA(MVSIZ),BB(MVSIZ),PP(MVSIZ),QQ(MVSIZ),H(MVSIZ),
-     .        EPSMAX(MVSIZ),CC(MVSIZ),DD(MVSIZ),
-     .        CN, CM(MVSIZ), K1(MVSIZ),
+     .        
+     .        CN,
      .        V0, TEMP(MVSIZ),VMC,FAC,
      .        VOL0,DVM, VM(MVSIZ),NU,
      .        NNU2,NU1,NU2,NU3,NU4, 
      .        NU5,NU6,SVM(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ), Y1(MVSIZ),Y2(MVSIZ)
       my_real
-     .        DPLA(MVSIZ),UMR, R, CP, EPS0(MVSIZ),DEZZ,S1, S2,
+     .        DPLA(MVSIZ),UMR, R, CP,DEZZ,S1, S2,
      .        S3, DPLA_J(MVSIZ), YLD_I,DR(MVSIZ), P2,Q2,NNU1,
-     .        S11,S22,PLA_I,
+     .        S11,S22,
      .        S12, VM2, A, B, C, SIGZ, F, DF, P,MD,
      .        CD,YFAC(2),
      .        HL
@@ -201,6 +201,7 @@ C
          CP  = UPARAM(11)
          YFAC(1) = UPARAM(13)
          YFAC(2) = UPARAM(14) 
+         HL  = UPARAM(15)
          G3  = THREE*G
          NNU1 = NU / (ONE - NU)
          NNU2    = NNU1*NNU1
@@ -212,26 +213,9 @@ C
          NU6 = HALF - NNU2 + HALF*NNU1
          DO I=1,NEL0
            TEMP(I)  = UPARAM(12)
-C latent heat            
-           HL  = UPARAM(15)
-           COEF(I)  = ONE
-C
          ENDDO
-C
-       IF (ISIGI==0) THEN
-       IF(TIME==0.0)THEN
-         DO I=1,NEL0
-           UVAR(I,1)=ZERO
-           UVAR(I,2)=ZERO
-           UVAR(I,3) = ZERO  
-           UVAR(I,4) = ZERO
-           UVAR(I,5) = ZERO
-           UVAR(I,6) = ZERO
-         ENDDO
-       ENDIF
-       ENDIF
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  Calculation of temperature. (conduction or adiabatic)
 C--------------------    
         IF(JTHE > 0 ) THEN
          DO I=1,NEL0     
@@ -241,9 +225,7 @@ C--------------------
           DO I=1,NEL0
             VOL0 = VOL(I) * RHO0(I)
             VM(I) = UVAR(I,2)      
-            TEMP(I) = TEMP(I) 
-     .                       + COEF(I)*CP*(EINT(I,1)+ EINT(I,2))/VOL0
-     .                       + CP*VM(I)*HL/VOL0
+            TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2) + VM(I)*HL) * CP / VOL0
           ENDDO
         ENDIF
 C
@@ -282,7 +264,7 @@ C Yld stress
            FAC   = VM(I)/VMC
            YLD(I) = Y1(I)    + FAC*(Y2(I)-Y1(I))
            YLD(I) = MAX(YLD(I),EM20)
-C ecrouissage 
+C collapse 
            DYDX1(I)=DYDX1(I)*YFAC(1)
            DYDX2(I)=DYDX2(I)*YFAC(2)
            H(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
@@ -293,7 +275,7 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1)==0)THEN
-C projection radiale 
+C radial projection 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -317,7 +299,7 @@ cc           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
          ENDDO
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     VON MISES CRITERION
 C-------------------------  
          DO  I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -398,10 +380,10 @@ C------------------------------------------
          ENDIF
 C------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections   
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the coefficient of reduction of the criterion is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P
@@ -448,7 +430,7 @@ C calcul de l'effet martensite ----
          
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
          VM(I) = MIN(VM(I), ONE)
-C la chaleur latente dans le terme source.
+C the latent heat in the source term.
          IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL       
          UVAR(I,2) = VM(I)
          UVAR(I,5) = TEMP(I)

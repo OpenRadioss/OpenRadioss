@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,10 +35,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on n of cand_n cand_e cand_f
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,
+      INTEGER I,N,NN,K,
      .        IGET(I_STOK), IPUT(I_STOK)
 C=======================================================================
 C
@@ -57,7 +57,7 @@ C
         CAND_A(N) = 0
       ENDDO
 C=======================================================================
-C     LES NOEUDS DELETES DEVIENNENT NSN+1 
+C     LES NODES DELETES DEVIENNENT NSN+1 
 C=======================================================================
       IF(NUM_IMP>0)THEN
         DO I=1,I_STOK
@@ -80,16 +80,14 @@ C=======================================================================
       ENDDO
       ENDIF !IF(NUM_IMP>0)
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NSN+3] : occurrence DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
       ENDDO
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NSN+2] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
@@ -97,9 +95,9 @@ C=======================================================================
         CAND_A(N) = CAND_A(N) + CAND_A(N-1)
       ENDDO
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NSN+1] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 1
@@ -110,7 +108,7 @@ C=======================================================================
       ENDDO
 C=======================================================================
 C     TRI DE CAND_N CAND_E CAND_F
-C     SUR N CROISSANT
+C     on increasing n
 C     PERMUTATION 1 PASSE
 C=======================================================================
       DO N=1,NUM_IMP
@@ -158,7 +156,7 @@ C
         IGET(IPUT(I)) = I
       ENDDO
 C=======================================================================
-C     CAND_A[NSN+1] : ADRESSE DE NSN+1 
+C     CAND_A[NSN+1] : ADDRESS DE NSN+1 
 C=======================================================================
       I_STOK = CAND_A(NSN+1) - 1
       CAND_A(NSN+2) = CAND_A(NSN+1)

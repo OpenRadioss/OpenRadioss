@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CDK6COOR3(ELBUF_STR,JFT,JLT,MAT,PID,
      .                    NGL,X,V,R,IXTG,OFFG,OFF,
@@ -45,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE ELBUFDEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,19 +85,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3, NC4(MVSIZ), NC5(MVSIZ), NC6(MVSIZ),
-     .        I,II(13), J,I1, I2, I3, N ,SVS,JVS(MVSIZ),EP, MAT_1
+     .        I,II(13),I1 ,SVS,JVS(MVSIZ),EP, MAT_1
 C     REAL
       my_real
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
-     .   VLX1(MVSIZ), VLX2(MVSIZ), VLX3(MVSIZ),
-     .   VLY1(MVSIZ), VLY2(MVSIZ), VLY3(MVSIZ), 
+     .     
+     .      
      .   VX4(MVSIZ), VY4(MVSIZ), VZ4(MVSIZ),
      .   VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ),
      .   VX6(MVSIZ), VY6(MVSIZ), VZ6(MVSIZ),
-     .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RY1(MVSIZ),
-     .   RY2(MVSIZ), RY3(MVSIZ), RZ1(MVSIZ), RZ2(MVSIZ),RZ3(MVSIZ),
+     .      
+     .      
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ), 
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),Y5(MVSIZ),Y6(MVSIZ),
      .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ), 
@@ -142,7 +144,7 @@ C----------------------------
        VZ3(I)=V(3,NC3)
       ENDDO 
 C----------------------------
-C     vectoriser elements avec ou sans voisins
+C     vectorize elements with or without neighbors
 C-----------------------------------------------
       NVS=JFT-1
       SVS= NVS
@@ -397,9 +399,24 @@ C---------node 6---
       ENDDO
       DO EP=NVS+1,JLT
        I =IVS(EP)
-       IF (NC4(I) <= 0) N4Z(I)=ONE
-       IF (NC5(I) <= 0) N5Z(I)=ONE
-       IF (NC6(I) <= 0) N6Z(I)=ONE
+       IF (NC4(I) <= 0) THEN 
+         N4X(I)=ZERO
+         N4Y(I)=ZERO
+         N4Z(I)=ONE
+         AREA4(I)=ONE/SQRT(AREA2(I))
+       END IF
+       IF (NC5(I) <= 0) THEN 
+         N5X(I)=ZERO
+         N5Y(I)=ZERO
+         N5Z(I)=ONE
+         AREA5(I)=ONE/SQRT(AREA2(I))
+       END IF
+       IF (NC6(I) <= 0) THEN 
+         N6X(I)=ZERO
+         N6Y(I)=ZERO
+         N6Z(I)=ONE
+         AREA6(I)=ONE/SQRT(AREA2(I))
+       END IF
       ENDDO
       DO I=JFT,JLT
         VLZ(I,4)=N4X(I)*VX4(I)+N4Y(I)*VY4(I)+N4Z(I)*VZ4(I)

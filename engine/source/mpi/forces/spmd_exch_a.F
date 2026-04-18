@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,IADMSPH,
+     .        SIZ,J,L,NB_NOD,IADMSPH,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
@@ -175,7 +175,7 @@ C preparation envoi  partie fixe (elem) a proc I
               L = L + SIZE
             END DO
           ENDIF
-C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
+C 2D case the mass is recalculated at each cycle, it must be accumulated
         ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
           IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
@@ -267,7 +267,7 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
           ENDIF
         ENDIF
 C
-C -- plus la thermique
+C -- more the thermal
 C
       ELSE
          IF (N2D==0.AND.IFSUBM==0) THEN
@@ -318,7 +318,7 @@ C
               END DO
             ENDIF
           ENDIF
-C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
+C 2D case the mass is recalculated at each cycle, it must be accumulated
         ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
           IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
@@ -447,8 +447,8 @@ C --- /CONT/MAX output
           END DO
        ENDIF
 C
-C --- /PCONT/MAX output
-      IF(H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX output or /PCONT
+      IF(LENC>=6) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -470,7 +470,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -504,7 +504,7 @@ C
       END IF
 C
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -628,7 +628,7 @@ C cas 2D
               ENDIF
             ENDIF
 C
-C ----plus la thermique
+C ----more the thermal
 C
          ELSE
           IF (N2D==0.AND.IFSUBM==0) THEN
@@ -823,8 +823,8 @@ C --- /CONT/MAX output
           END DO
        ENDIF
 C
-C --- /PCONT/MAX output
-      IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX or /PCONT output
+      IF(LENC>=6) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)

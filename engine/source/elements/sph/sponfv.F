@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,20 +69,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE,
      .        II,IPT,JJ,NPF,IFVITS,
-     .        NS,N,INOD,IACTIVE,
+     .        NS,N,INOD,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
-     .        NVOIS,IJ,NP,K,JMPOSE2,NN
+     .        NP,K,JMPOSE2,NN
       my_real
      .       WFEXTT,T05,
      .       PENTV,VX,VY,VZ,VN,VT,UX,UY,UZ,UN1,NX,NY,NZ,
      .       PS,
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,DTINV,
      .       DI,RHOI,DJ,RHOJ,DIJ,
-     .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
+     .       VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       WGHT,WGRAD(3),WGRDX,WGRDY,WGRDZ,
-     .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,DT1D2,
-     .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
+     .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
+     .       
      .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP
      
       LOGICAL lBOOL
@@ -163,7 +163,7 @@ C------
       ENDDO
 
 C-----------------------------------------------
-C Comm D et A sur cellules remotes
+C Comm D and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
           ALLOCATE(SPH_WORK%ASPHR(3,NSPHR))
@@ -189,7 +189,7 @@ C-------------------------------------------
           YI=X(2,INOD)
           ZI=X(3,INOD)
 C-------
-C         plus proche voisin en amont de l'outlet => IPPV.
+C         closer neighbor upstream of the outlet => IPPV.
           IPPV=0
           DMIN=1.E+20
           DO  K=1,KXSP(4,N)  
@@ -235,7 +235,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
            ENDIF
           ENDDO
 C-------
-C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
+C         Calculated Grad.V in IPPV (approximation SPH corrected upstream of IPPV).
           IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             XP=X(1,IPPV)
@@ -254,7 +254,7 @@ C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
           DO J=1,KXSP(4,NP)
            JNOD=IXSP(J,NP)
 
-c partie JNOD > 0
+c Jnod part> 0
            IF(JNOD>0)THEN          ! particule locale
              M=NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
@@ -401,8 +401,8 @@ C------
            ENDIF
           ENDDO
 C------           
-          ELSEIF(IPPV<0)THEN! fin traitement IPPV > 0
-c traitement IPPV negatif on utilise infos recuperres ds routine comm  
+          ELSEIF(IPPV<0)THEN! End IPPV treatment> 0
+c NEGATIF IPPV Treatment We use information in Routine Comm Routine  
            DXX = DSPHR(1,-IPPV)
            DXY = DSPHR(2,-IPPV)
            DXZ = DSPHR(3,-IPPV)
@@ -420,7 +420,7 @@ c traitement IPPV negatif on utilise infos recuperres ds routine comm
            ZP=XSPHR(5,-IPPV)               
 c          ELSE ! cas IPPV=0 error
 c            print*,'IPPV nul ERROR'
-          ENDIF! fin traitement IPPV < 0
+          ENDIF! End treatment IPPV <0
 
           VX=VX+(DXX*(XI-XP)+DXY*(YI-YP)+DXZ*(ZI-ZP))
           VY=VY+(DYX*(XI-XP)+DYY*(YI-YP)+DYZ*(ZI-ZP))
@@ -429,7 +429,7 @@ c            print*,'IPPV nul ERROR'
           PS=VX*VNORMAL(1,N)+VY*VNORMAL(2,N)+VZ*VNORMAL(3,N)
 
           IF(PS<0.)THEN
-C          impose une vitesse sortante uniquement.
+C          requires outgoing velocity only.
            VX=VX-PS*VNORMAL(1,N)
            VY=VY-PS*VNORMAL(2,N)
            VZ=VZ-PS*VNORMAL(3,N)

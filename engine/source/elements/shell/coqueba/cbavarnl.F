@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
       SUBROUTINE CBAVARNL(JFT      ,JLT      ,NG       ,IXC      ,NLOC_DMG ,
@@ -34,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      
       USE NLOCAL_REG_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,11 +61,11 @@ C-----------------------------------------------
       MY_REAL, 
      .   DIMENSION(:), POINTER :: DNL 
 C--------------------------
-C     INITIALISATION
+C     INITIALIZATION
 C-------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
 C---------------------------------------------------------------------------------------------------------------
-C --- Non-local variable VARNL in Gauss point NG
+C --- Non-local variable varnl in Gauss point ng
 C    
 C --- Position of the Gauss point
        KSI = VPG(1,NG)

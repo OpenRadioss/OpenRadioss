@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NTY
-      INTEGER K10,K11,K12,K13,K14,ILEV,II,J,NMN,NSN,NRTS,NRTM,
+      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,
      .        NLINS,NLINM,IWOUT
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGHIER
       INTEGER ID
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       ALLOCATE(TAGHIER(NUMNOD))
       TAGHIER(1:NUMNOD) = 0
+C
       DO N=1,NINTER
          NTY =I PARI(7,N)
          IF (NTY == 2) THEN
@@ -82,13 +83,14 @@ C
           ENDDO
          ENDIF
       ENDDO
+C
       DO N=1,NINTER
         NTY = IPARI(7,N)
         ID  = NOM_OPT(1,N)
         CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
         IF (NTY == 2) THEN
           ILEV = IPARI(20,N)
-          IF (ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) THEN
+          IF (ILEV /= 25 .OR. ILEV /= 26) THEN
             NMN  = IPARI(6,N)
             DO II=1,NMN        
               J=INTBUF_TAB(N)%MSR(II)

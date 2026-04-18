@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,23 +23,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ale51_antidiff3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 !||--- called by ------------------------------------------------------
-!||    afluxt                  ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22            ../engine/source/ale/ale51/afluxt_int22.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT, IXS  ,
      .                                 NV46   , ELBUF_TAB,
-     .                                 ITASK  , VFRAC)
+     .                                 ITASK  , VFRAC,s_flux,nb_int22,int22,i22len,brick_list)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
-      USE I22BUFBRIC_MOD 
       USE I22TRI_MOD   
+      use i22tri_mod , only : brick_entity
       USE ALE_MOD   
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
@@ -66,10 +67,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: int22 !< number of /TYPE22 interfaces
+      integer, intent(in) :: i22len !< buffer size for intersected bricks
+      integer, intent(in) :: nb_int22 !< number of candidates for the interface 22
       INTEGER IXS(NIXS,*),NV46,ITRIMAT,ITASK
       my_real
-     .    FLUX(NV46,*),VFRAC(*)
-      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB     
+     .    FLUX(s_flux,NV46),VFRAC(*)
+      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      type(brick_entity), dimension(int22,i22len), intent(inout) :: brick_list !< interface 22 data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -96,9 +102,9 @@ C-----------------------------------------------
       ENDIF
 
       NIN = 1
-      NBF = 1+ITASK*NB/NTHREAD
-      NBL = (ITASK+1)*NB/NTHREAD
-      NBL = MIN(NBL,NB)
+      NBF = 1+ITASK*nb_int22/NTHREAD
+      NBL = (ITASK+1)*nb_int22/NTHREAD
+      NBL = MIN(NBL,nb_int22)
 
 
       !INTERFACE 22 ONLY - OUTPUT---------------!
@@ -177,13 +183,13 @@ C-----------------------------------------------
           UALPHI   = ZERO 
           PHI0     = ZERO              
           !-----------------------------------------------
-          !       face voisine du voisin  
-          !       et flux total sortant 
+          ! neighboring face of the neighbor
+          ! and total outgoing flux
           !-----------------------------------------------
           DO K=1,NV46
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
             DO IADJ=1,NADJ 
-              tmpFLUX(K,IADJ) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_UpwFLUX(IADJ)
+              tmpFLUX(K,IADJ) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%adjacent_upwflux_mat(IADJ,itrimat)
               IF(tmpFLUX(K,IADJ)>ZERO)THEN
                 IEV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,1)
                 IBV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,4)
@@ -200,21 +206,21 @@ C-----------------------------------------------
                   ENDIF
                 ENDIF
                 FF(K,IADJ)= ALPHv(K,IADJ) * tmpFLUX(K,IADJ)
-                !flux sortant estime
+                !outgoing flow
                 ALPHI  = ALPHI  + FF(K,IADJ)
-                !flux sortant initial
+                !initial outgoing flow
                 PHI0 = PHI0 + tmpFLUX(K,IADJ) 
               ENDIF
             ENDDO!next IADJ
           ENDDO!next K
-          !vide sortant estime
+          !Empty outgoing esteem
           UALPHI = PHI0 - ALPHI 
           !-----------------------------------------------
-          !       flux sortant par face
+          ! outgoing flux by face
           !-----------------------------------------------
           IF(ALPHI>AV0.AND.AV0>ZERO)THEN
             !-----------------------------------------------
-            !         flux sortant > volume non vide
+            !         Outgoing flow> Non -empty volume
             !-----------------------------------------------
             AAA = AV0 / ALPHI
             DO K=1,NV46
@@ -227,7 +233,7 @@ C-----------------------------------------------
             ENDDO!next K  
           ELSEIF(UALPHI>UAV0.AND.UAV0>ZERO)THEN
             !-----------------------------------------------
-            !        vide sortant > vide disponible
+            !        Outgoing empty> Available empty
             !-----------------------------------------------
             AAA = UAV0/UALPHI
             DO K=1,NV46
@@ -240,7 +246,7 @@ C-----------------------------------------------
             ENDDO!next K
           ENDIF
           !-----------------------------------------------
-          !         flux sortant 
+          !         output 
           !-----------------------------------------------
           DO K=1,NV46
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
@@ -264,7 +270,8 @@ C-----------------------------------------------
                    print *,                    "      FACE         =", K
                    print *,                    "      ALPH         =", ALPH                   
                    print *,                    "      ALPHv        =", ALPHv(K,IADJ)                   
-                   write (*,FMT='(A,6E26.14)')"       WAS  Flux(J) =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_upwFLUX(IADJ)
+                   write (*,FMT='(A,6E26.14)')"       WAS  Flux(J) =", 
+     .                     BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%adjacent_upwflux_mat(IADJ,itrimat)
                    write (*,FMT='(A,6E26.14)')"       IS  Flux(J)  =", FF(K,IADJ)             
                    print *, "      ------------------------"               
                  endif
@@ -272,12 +279,12 @@ C-----------------------------------------------
                 !-----------------------------------------!                
                 
                 !flux is here updated
-                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_UpwFLUX(IADJ) = FF(K,IADJ)                
+                BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%adjacent_upwflux_mat(IADJ,itrimat) = FF(K,IADJ)                
                 
                 !adjacent flux is also updated to be consistent and conservative
                 IF(ICELLv>0)THEN
-                  !recherche du flux voisin 
-                  !OPTIM PLUS TARD : si deja calcule dans sinit, stocker pour economiser acces memoires
+                  !search for neighboring flux
+                  !Optim later: if already calculated in Sinit, store to save Accesses Memoires
                   IF(IBv>0)THEN
                     !--IN CUT CELL BUFFER
                     NADJv = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%NAdjCell
@@ -285,12 +292,12 @@ C-----------------------------------------------
                       IF(BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%Adjacent_Cell(IADjv)==ICELL)EXIT
                       !(IB,ICELL,IADjv) <---bijected to---> (IBv,ICELLv,IADJ)
                     ENDDO
-                    debug_tmp = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%Adjacent_UpwFLUX(IADJv)
-                    BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%Adjacent_UpwFLUX(IADJv) = -FF(K,IADJ)
+                    debug_tmp = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%adjacent_upwflux_mat(IADJv,itrimat)
+                    BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%adjacent_upwflux_mat(IADJv,itrimat) = -FF(K,IADJ)
                   ELSE
                     !--NOT IN CUT CELL BUFFER
-                    debug_tmp = FLUX(IFV,IEV)                  
-                    FLUX(IFV,IEV) = -FF(K,IADJ)
+                    debug_tmp = FLUX(IEV,IFV)                  
+                    FLUX(IEV,IFV) = -FF(K,IADJ)
                   ENDIF
                   
                   !INTERFACE 22 ONLY------------------------!

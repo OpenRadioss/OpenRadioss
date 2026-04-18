@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -141,13 +141,13 @@ C Print Nb Errors
 C-----------------------------------------------
       WRITE(ISTDO,'(5X,I10,1X,A)') IERR,TITRE(7)(41:60)
       WRITE(IOUT ,'(5X,I10,1X,A)') IERR,TITRE(7)(41:60)
-c      CALL ANCHECK(90)
+C      CALL ANCHECK(90)
 C-----------------------------------------------
 C Print Nb Warnings
 C-----------------------------------------------
       WRITE(ISTDO,'(5X,I10,1X,A//)') IWARN,TITRE(8)(41:60)
       WRITE(IOUT ,'(5X,I10,1X,A//)') IWARN,TITRE(8)(41:60)
-c      CALL ANCHECK(91)
+C      CALL ANCHECK(91)
 C
 C-----------------------------------------------
 C Print CHECK L00
@@ -235,25 +235,33 @@ c
       END
 
 !||====================================================================
-!||    f_anend                       ../starter/source/output/analyse/analyse_arret.F
+!||    analyse_arret_mod   ../starter/source/output/analyse/analyse_arret.F
 !||--- called by ------------------------------------------------------
-!||    starter0                      ../starter/source/starter/starter0.F
-!||--- calls      -----------------------------------------------------
-!||    anfile                        ../starter/source/output/analyse/analyse_arret.F
-!||    anprint                       ../starter/source/output/analyse/analyse_arret.F
-!||    my_exit                       ../starter/source/output/analyse/analyse.c
-!||    st_checksum_file_print        ../starter/source/output/checksum/checksum_option.F90
-!||--- uses       -----------------------------------------------------
-!||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90
-!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||    starter0            ../starter/source/starter/starter0.F
 !||====================================================================
-      SUBROUTINE F_ANEND(FILENAME,LEN_FILENAME,ROOTNAME,ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
+      module analyse_arret_mod
+      contains
+!||====================================================================
+!||    f_anend                         ../starter/source/output/analyse/analyse_arret.F
+!||--- called by ------------------------------------------------------
+!||    starter0                        ../starter/source/starter/starter0.F
+!||--- calls      -----------------------------------------------------
+!||    anfile                          ../starter/source/output/analyse/analyse_arret.F
+!||    anprint                         ../starter/source/output/analyse/analyse_arret.F
+!||    my_exit                         ../starter/source/output/analyse/analyse.c
+!||    st_checksum_file_print          ../starter/source/output/checksum/checksum_option.F90
+!||--- uses       -----------------------------------------------------
+!||    checksum_starter_option_mod     ../starter/source/output/checksum/checksum_option.F90
+!||    message_mod                     ../starter/share/message_module/message_mod.F
+!||====================================================================
+      SUBROUTINE F_ANEND(OUTPUT,NAMES_AND_TITLES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE checksum_starter_option_mod
       USE output_mod
+      USE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -267,29 +275,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: ROOTLEN
-      INTEGER,INTENT(IN) :: LEN_FILENAME
-      CHARACTER(LEN=ROOTLEN),INTENT(IN)  :: ROOTNAME
-      CHARACTER(LEN=LEN_FILENAME),INTENT(IN),TARGET  :: FILENAME
-      CHARACTER(LEN=8),INTENT(IN) :: ENDDATE
-      CHARACTER(LEN=10),INTENT(IN) :: ENDTIME
+      TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IEX
       LOGICAL :: FILE_EXIST
-      CHARACTER(LEN=4)::CHRUN
-      INTEGER IZIP
+      INTEGER :: IZIP
+      INTEGER :: LEN_FILENAME
+      INTEGER ROOTLEN
+      INTEGER :: LEN_TMP_NAME
+      CHARACTER(len=2048),TARGET :: TMP_NAME
 C
       CALL ANPRINT()
 C
-      CALL ANFILE()  ! Closes *000.out file
       IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
-         IZIP=0
-         CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(FILENAME),LEN_FILENAME,IZIP )
-         CALL st_checksum_file_print(output,rootname,ROOTLEN,ENDDATE,ENDTIME)
+         CALL st_checksum_file_print(output)
       ENDIF
+      CALL ANFILE()  ! Closes *000.out File
+
+      IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
+         IZIP=0 ! outfiles are not zipped
+         LEN_FILENAME = LEN_TRIM(OUTPUT%out_filename)
+         TMP_NAME = TRIM(OUTPUT%out_filename)
+         CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(TMP_NAME),LEN_FILENAME,IZIP )
+         CALL checksum_option_checksum_file(OUTPUT%checksum,NAMES_AND_TITLES%rootname,LEN_TRIM(NAMES_AND_TITLES%rootname),
+     *                                      NAMES_AND_TITLES%chrun)
+      ENDIF
+
+
 C
 #ifdef DNC
       CALL starter_lic_release();
@@ -311,3 +326,5 @@ c
 c
       CALL MY_EXIT(IEX)
       END
+
+      end module analyse_arret_mod

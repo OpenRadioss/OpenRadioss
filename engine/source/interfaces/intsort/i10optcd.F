@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -135,7 +135,7 @@ C
        NLT = NLS
        NLS=0
         DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize the generated code (IA64)
          IS = LISTI(LS)
          I=JS+IS
          L  = CAND_E(I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,10 +78,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    s10get_x0_mod          ../engine/source/elements/solid/solide10/s10get_x0.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
@@ -91,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S10FORC3(TIMERS, OUTPUT, 
      1   ELBUF_TAB,       NG,         PM,         GEO,
      2   IXS,             X,          A,          V,
-     3   MS,              W,          FLUX,       FLU1,
+     3   MS,              W,          FLU1,
      4   VEUL,            FV,         ALE_CONNECT,IPARG,
      5   TF,              NPF,        BUFMAT,     PARTSAV,
      6   NLOC_DMG,        DT2T,       NELTST,     ITYPTST,
@@ -109,7 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   SNPC,            STF,        SBUFMAT,    SVIS,
      J   NSVOIS,          IDTMINS,    IDEL7NG,    MAXFUNC,
      V   USERL_AVAIL,     GLOB_THERM, impl_s,     idyna  ,
-     W   S_SFEM_NODVAR)
+     W   S_SFEM_NODVAR,  ITAG_NSFEM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +128,7 @@ C-----------------------------------------------
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
       USE S10GET_X0_MOD, ONLY : S10GET_X0
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -173,11 +176,12 @@ C-----------------------------------------------
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(NPROPGI,*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
+      INTEGER, DIMENSION(NUMNOD), INTENT(IN)    :: ITAG_NSFEM
       DOUBLE PRECISION  XDP(3,*)
       
       my_real DT2T
       my_real PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*),
-     .        FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*),
+     .        FLU1(*), VEUL(*), FV(*), TF(*),
      .        BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .        AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
       my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
@@ -195,10 +199,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,LCO,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
-      INTEGER IBID,IBIDON(1),NNEGA,INDEX(MVSIZ),ITET,iel,ISM12_11
+      INTEGER I,J,IP,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
+      INTEGER IBID,IBIDON(1),ITET,ISM12_11,IOFFG,ISUM
 C-----
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),ITAG10(MVSIZ)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,DELTAX2(MVSIZ),
@@ -223,13 +227,13 @@ C-----
 C     void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
 C For solid elements
       INTEGER NC(MVSIZ,10),ICP,MX,IPLAW1
 
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
-     .  WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
+     .    
      .  XX0(MVSIZ,10), YY0(MVSIZ,10), ZZ0(MVSIZ,10),VOLDP(MVSIZ,5)
 
       my_real
@@ -241,7 +245,7 @@ C For solid elements
      .  DXY(MVSIZ),DYX(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),
      .  STIG(MVSIZ),  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ),
-     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ),SUM,RHO0_1,CNS2
+     .  DIE(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),SUM,RHO0_1,CNS2
       my_real NXT4(MVSIZ,4,4)
       my_real, DIMENSION(MVSIZ) ::
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
@@ -251,17 +255,20 @@ C
      .    MFXX(MVSIZ,5),MFXY(MVSIZ,5),MFYX(MVSIZ,5),
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
-     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
+     .    NU(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
      .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6),
      .    FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),OFFG(MVSIZ),FQMAX
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,II(6),ISCTL,ISTAB(MVSIZ)
+      INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ)
       INTEGER SZ_IX
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
       my_real, dimension(mvsiz) :: fheat
+      
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array      
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -395,6 +402,7 @@ C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
+      
        CALL SGCOOR10(
      1   XX,        YY,        ZZ,        X,
      2   XDP,       XX0,       YY0,       ZZ0,
@@ -432,9 +440,11 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
         DO IP=1,NPT
          LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
          CALL S10PIJTO3(PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),LBUF%PIJ,LLT)
+    
         ENDDO
        END IF !(ISMSTR ==  11) THEN
        DO IP=1,NPT
+
         CALL S10DEFOT3(
      1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX0,
      2   VY0,       VZ0,       MFXX(1,IP),MFXY(1,IP),
@@ -488,6 +498,10 @@ C--- for /CST avoid multi-printout----
         ENDDO
        END IF 
       END IF 
+      IOFFG = 0
+      DO I=LFT,LLT
+       IF (GBUF%OFF(I)==ZERO) IOFFG=1
+      ENDDO
 C --------------------------
 C  --- UPDATE REF. CONFIGURATION 
 C --------------------------
@@ -524,8 +538,22 @@ C-----------------------------
       IF(ICP >0 .AND. ISMSTR/=10) THEN
          DO I=LFT,LLT
           IF(GBUF%OFF(I) == ZERO) CYCLE
-          SUM=SFEM_NODVAR(NC(I,1))+SFEM_NODVAR(NC(I,2))+SFEM_NODVAR(NC(I,3))+SFEM_NODVAR(NC(I,4))
-          JACGM(I)=FOURTH*SUM
+          ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
+     .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
+          IF (ISUM < 4) CYCLE
+          SUM=SFEM_NODVAR(NC(I,1))*ITAG_NSFEM(NC(I,1))+
+     .        SFEM_NODVAR(NC(I,2))*ITAG_NSFEM(NC(I,2))+
+     .        SFEM_NODVAR(NC(I,3))*ITAG_NSFEM(NC(I,3))+
+     .        SFEM_NODVAR(NC(I,4))*ITAG_NSFEM(NC(I,4))
+          JACGM(I)=SUM/ISUM
+         ENDDO
+      ELSEIF(ICP >0 .AND. ISMSTR==10) THEN
+         DO I=LFT,LLT
+          ITAG10(I) = 1
+          IF(GBUF%OFF(I) == ZERO) ITAG10(I)=0
+          ISUM = ITAG_NSFEM(NC(I,1)) + ITAG_NSFEM(NC(I,2)) +
+     .           ITAG_NSFEM(NC(I,3)) + ITAG_NSFEM(NC(I,4))
+          IF (ISUM < 4) ITAG10(I)=0
          ENDDO
       ENDIF
 C-----------------------------
@@ -539,6 +567,11 @@ C-----------------------------
          IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
         ENDDO
        END IF
+       IF (IOFFG ==1) THEN
+         DO I=LFT,LLT
+           IF (GBUF%OFF(I)==ZERO) OFF(I)=ZERO
+         ENDDO
+       END IF 
 C
         CALL S10DEFO3(
      1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX,
@@ -558,7 +591,7 @@ C
            IF (ISMSTR==10) THEN
              DO I=LFT,LLT
                IF(GBUF%OFF(I) == ZERO) CYCLE
-               JACGM(I)=SFEM_NODVAR(NC(I,IP))
+               JACGM(I)=SFEM_NODVAR(NC(I,IP))*ITAG10(I)
              ENDDO
            END IF
            CALL S10_ICP(
@@ -573,11 +606,12 @@ C
         IF (IPLAW1>0) CALL S10DIVDE12(DVM ,DIVDE ,FACP,GBUF%OFF,NEL)
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 c
        IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
           CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
@@ -625,7 +659,8 @@ C------------------------------------------------------
 C
       IF(IBOLTP /= 0) CALL BOLTST(
      .                IP,        BPRELD,    LBUF%SIG,TT,        
-     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                IPARG(67,NG),IPARG(68,NG))
 C
         CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,

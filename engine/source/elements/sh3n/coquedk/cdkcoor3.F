@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CDKCOOR3(ELBUF_STR,
      .                    JFT,JLT,MAT,PID,NGL,X,V,R,IXTG,OFFG,OFF,
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE ELBUFDEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NC1, NC2, NC3,I, J,I1, I2, I3, N, NLYMAX,II(4),IBID,MAT_1
+      INTEGER NC1, NC2, NC3,I,I1,II(4),IBID,MAT_1
       my_real
      .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ2(MVSIZ), VZ3(MVSIZ),
@@ -86,7 +88,7 @@ C-----------------------------------------------
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), Y1(MVSIZ),
      .   Y2(MVSIZ), Y3(MVSIZ), Z1(MVSIZ), Z2(MVSIZ),
      .   Z3(MVSIZ), RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
-     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),DET(MVSIZ),
+     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   VX1, VY1,VZ1,OFF_L,DT05,EXZ,EYZ,DDRX,DDRY,V21X,V31X,
      .   DDRZ1,DDRZ2
 C-----------------------------------------------

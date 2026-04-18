@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C
       DATA JPERM/2,3,4,1/
 C-----------------------------------------------------------------
-C     LONGUEUR MINI DES COTES DE SEGMENT (CALCUL DU GAP MAX)
+C     MINIMUM LENGTH OF SEGMENT SIDES (CALCULATION OF MAX GAP)
 C-----------------------------------------------------------------
       DO JJ=1,4
         N1=IRECT(JJ,I)

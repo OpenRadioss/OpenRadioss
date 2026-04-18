@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFUNC
       INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC
 c
-      my_real TIME,TIMESTEP,UPARAM(*),ALDT(NEL),
+      my_real TIME,UPARAM(*),ALDT(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .   PLAS(NEL),DPLA(NEL),EPSP(NEL),TSTAR(NEL)     
@@ -77,11 +77,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,J2,IDEL,IDEV,IADBUF,NINDX,NRATE,IFUN_EL,IFUN_TEMP,SFLAG
+      INTEGER I,J,J1,J2,IDEL,IDEV,NINDX,NRATE,IFUN_EL,IFUN_TEMP,SFLAG
       INTEGER, DIMENSION(NEL) ::  INDX
 C
       my_real :: DCRIT,DD,DN,SC_TEMP,SC_EL,EL_REF,DP,P,SIGM,SVM,
-     .   SXX,SYY,SZZ,EF1,EF2,DF,FAC,LAMBDA,ETA,YY
+     .   SXX,SYY,SZZ,EF1,EF2,DF,FAC,LAMBDA
       my_real, DIMENSION(NEL)   :: EPSF
       my_real, DIMENSION(NFUNC) :: YFAC,RATE
 C=======================================================================
@@ -139,7 +139,7 @@ c---- Scale functions
       DO I=1,NEL
         IFUN_EL   = IFUNC(2)
         IFUN_TEMP = IFUNC(3)
-c----   element length scale function
+c---- Length Scale Function element
         IF (IFUN_EL > 0) THEN
           LAMBDA = ALDT(I) / EL_REF                     
           FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)  

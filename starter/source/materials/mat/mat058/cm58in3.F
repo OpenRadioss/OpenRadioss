@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,8 +54,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,DET,W1X,W2X,W1Y,W2Y,
-     .   PHI,CSP,SNP,TANA,R1,R2,S1,S2,G0,AA,BB,SUMA,V1,V2,V3,WR,WS
+     .   
+     .   TANA,R1,R2,S1,S2,G0,AA,BB,SUMA,V1,V2,V3,WR,WS
       my_real , DIMENSION(NEL) :: E11,E12,E13,E21,E22,E23
 C======================================================================|
 C---  isoparametric (material) axes        

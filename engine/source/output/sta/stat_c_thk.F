@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    strs_txt50         ../engine/source/output/sta/sta_txt.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE STAT_C_THK(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXC ,
      2                      IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
@@ -37,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -67,10 +69,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, J, JJ, WRTLEN, RES, LEN, K, IOFF
-      INTEGER NG, NEL, NFT, IAD, ITY, LFT,
-     .        LLT, MLW, ISTRAIN, IHBE, ISH3N, IPRT
-      INTEGER ID,IEXPAN,ISROT,ITHK
+      INTEGER I, N, J, JJ, LEN, K, IOFF
+      INTEGER NG, NEL, NFT, ITY, LFT,
+     .        LLT, MLW, IPRT
+      INTEGER ID,ITHK
       double precision   
      .   THK
       CHARACTER*100 LINE

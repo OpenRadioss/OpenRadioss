@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
@@ -35,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   AJ9,     AJI1,    AJI2,    AJI3,
      5   AJI4,    AJI5,    AJI6,    AJI7,
      6   AJI8,    AJI9,    NNEGA,   INDEX,
-     7   IPT,     NEL)
+     7   IPT,     NEL ,   MSTOP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER NNEGA,INDEX(*),IPT
+      INTEGER, INTENT(INOUT) :: MSTOP
 C     REAL
       my_real
      .   OFFG(*),WI,
@@ -74,7 +77,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR
+      INTEGER NGL(*), I ,ICOR
 C     REAL
 C                                                                     12
       my_real
@@ -118,13 +121,37 @@ C
         ENDIF
       ENDDO
       IF (ICOR>0.AND.INCONV==1) THEN
-       DO I=1,NEL
-        IF (OFFG(I) /= TWO .AND.OFFG(I) /= ZERO ) THEN
-         NNEGA=NNEGA+1
-         INDEX(NNEGA)=I
-         OFFG(I) = TWO
-        END IF
-       ENDDO
+        IF (INEG_V==0) THEN   ! /NEGVOL/STOP
+            DO I=1,NEL
+              IF(VOL(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                VOL(I)=ONE
+                OFFG(I)=ZERO
+#include "lockon.inc"
+                CALL ANCMSG(MSGID=320,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+           END DO
+           MSTOP = 1
+        ELSE IF (INEG_V==2) THEN  !deletion
+            DO I=1,NEL
+             IF(VOL(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              VOL(I)=ONE
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=319,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+              IDEL7NOK = 1
+             END IF
+            END DO
+        ELSE ! switch to small strain
+          DO I=1,NEL
+           IF (OFFG(I) /= TWO .AND.OFFG(I) /= ZERO ) THEN
+            NNEGA=NNEGA+1
+            INDEX(NNEGA)=I
+            OFFG(I) = TWO
+           END IF
+          ENDDO
+        END IF !(INEG_V==2) 
       END IF
 C
       IF (ICOR>0.AND.IMPL_S>0) THEN
@@ -164,8 +191,6 @@ C
       ENDDO
 C
       RETURN
- 2000 FORMAT(/' ZERO OR NEGATIVE SUB-VOLUME : DELETE 3D-ELEMENT NB',
-     .          I10/)
  2001 FORMAT(/' ZERO OR NEGATIVE SOLID SUB-VOLUME : ELEMENT NB:',
      .          I10/)
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C     This suroutine display polyhedra volume (old & new)
+C     This subroutine display polyhedra volume (old & new)
 C   using free node as marker (inter22 only, see input card for grnod_id)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -73,15 +73,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                            :: IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,K1,K,
-     .                                      IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
-     .                                      IALEL,NNOD,IPOS,IV,NGv,J1,J2,IBV, MLW,NumNodCell,
-     .                                      NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL,NCELL,
-     .                                      IPHASE,NODE_ID,INEW
-      TYPE(G_BUFEL_)  ,POINTER           :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
-      my_real                            :: P,VF,D,V
-      INTEGER,DIMENSION(:,:), POINTER    :: pAdjBRICK      
+      INTEGER                            :: I, ITYP, NEL, 
+     . NNO_L_LJJ,
+     . IALEL,NNOD, MLW,
+     . NG, NBF, NBL, IB, ICELL, NIN,NCELL,
+     . NODE_ID,INEW
+      TYPE(G_BUFEL_)  ,POINTER           :: GBUF
+ 
+ 
+ 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

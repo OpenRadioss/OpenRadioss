@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,8 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NTY , NN0, NSN, ILAGM, NRTS,NRTM, NMN, NAD, IGN
-      INTEGER ID
+      INTEGER :: I, N, NTY , NN0, NSN, ILAGM, NRTM, NMN, IGN, ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       DO N=1,NINTER

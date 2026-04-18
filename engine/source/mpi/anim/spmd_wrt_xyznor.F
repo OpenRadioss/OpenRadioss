@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    xyznor                ../engine/source/output/anim/generate/xyznor.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   XNORM(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*),NODGLOB(*),NUM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       DATA MSGOFF/7030/
       DATA MSGOFF2/7031/
        
-C   Tableau utilise par proc 0
+C   Table used by Pro 0
        my_real
      . S3000,S,XN1,XN2,XN3,IXNN
 C-----------------------------------------------
@@ -98,9 +98,9 @@ C-----------------------------------------------
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   maximum number of nodes
 
         MSGTYP = MSGOFF2 
         CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

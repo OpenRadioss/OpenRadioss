@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    seg_intersect       ../engine/source/materials/fail/failwave/seg_intersect.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||====================================================================
       SUBROUTINE SET_FAILWAVE_NOD3(FAILWAVE   ,FWAVE_EL ,NGL      ,
@@ -37,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FAILWAVE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,8 +65,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,N1,N2,N3,INTERSECTION,INT1,INT2,INT3,INT4,INT5,INT6,
-     .   LEVEL,NEWCRK1,NEWCRK2,
-     .        NCURR,MAXLEV,FOUND_EXISTING,IDEBUG
+     .   NEWCRK1,NEWCRK2,
+     .        NCURR,MAXLEV,IDEBUG
       INTEGER ,DIMENSION(NEL) :: INDX1,INDX2
       INTEGER ,DIMENSION(3)   :: IDF1,IDF2,NOD_ID,NOD_NN
 C
@@ -102,13 +104,13 @@ c---------------
           NEWCRK1 = 0
           NEWCRK2 = 0
           DO I=1,NEL
-            IF (FWAVE_EL(I) == -1) THEN        ! DIR 1 vient de cracker
+            IF (FWAVE_EL(I) == -1) THEN        ! Dir 1 comes from Cracker
               NEWCRK1 = NEWCRK1 + 1
               INDX1(NEWCRK1) = I
-            ELSEIF (FWAVE_EL(I) == -2) THEN    ! DIR 2 vient de cracker
+            ELSEIF (FWAVE_EL(I) == -2) THEN    ! Dir 2 comes from Cracker
               NEWCRK2 = NEWCRK2 + 1
               INDX2(NEWCRK2) = I
-            ELSEIF (FWAVE_EL(I) == -3) THEN    ! deux directions viennent de cracker
+            ELSEIF (FWAVE_EL(I) == -3) THEN    ! Two directions have just cracker
               NEWCRK1 = NEWCRK1 + 1
               NEWCRK2 = NEWCRK2 + 1
               INDX1(NEWCRK1) = I

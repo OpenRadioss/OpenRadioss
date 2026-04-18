@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    transk         ../engine/source/elements/solid/solide8s/transk.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8SKE3(
      1   PM,       GEO,      IXS,      X,
@@ -47,7 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD    
+      use element_mod , only : nixs        
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,42 +92,29 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO,NF1,IFLAG,NB3S,I,J,IKSUP,IKORTH,IADBUF,IPREDU,
-     .  IR, IS, IT,IL,IP,ICR,ICS,ICT,ICPG,NPTR,NPTS,NPTT,NLAY,NPPT,
-     .  IAD0,PID  , L, M, N,IJ,JJ,K
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IDEG(MVSIZ)
+      INTEGER NF1, I, J, IKORTH, 
+     . IR, IS, IT,IL,IP,ICPG,NPTR,NPTS,NPTT,NLAY,
+     . IAD0,PID ,IJ,JJ,K
+      INTEGER MXT(MVSIZ), NGL(MVSIZ), NGEO(MVSIZ)
       my_real
-     . VOLN(MVSIZ), DELTAX(MVSIZ),
-     . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
-     . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
-     . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
-     . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) , 
-     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ) 
+     . VOLN(MVSIZ)
 C----------------
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
-     .   OFF(MVSIZ) , RHOO(MVSIZ),
+     . OFF(MVSIZ) ,
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ), R
+     . Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
 c
       my_real
-!     .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
-!     .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-!     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   G1X(MVSIZ),G2X(MVSIZ),G3X(MVSIZ),
-     .   G1Y(MVSIZ),G2Y(MVSIZ),G3Y(MVSIZ),
-     .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
-      my_real
-     .   BID,WI,SMAX(MVSIZ),VOLG(MVSIZ),PP(MVSIZ),USB(MVSIZ),!NU(MVSIZ),
-     .   VOLM(MVSIZ),SIGM(MVSIZ),NU1(MVSIZ),GAMA(MVSIZ,6)
+     . WI,!NU(MVSIZ),
+     . VOLM(MVSIZ),GAMA(MVSIZ,6)
       DOUBLE PRECISION
-     .   KL(24,24,NEL),KTEMP(24,24),KS(24,24,NEL),  TRM(NEL,24,24),
+     . KL(24,24,NEL),KS(24,24,NEL), TRM(NEL,24,24),
      .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),
      .   DN_R(8),DN_S(8),DN_T(8),INVJ(9,MVSIZ),
      .   V1(MVSIZ,9), V2(MVSIZ,9), V3(MVSIZ,9), V4(MVSIZ,9),
@@ -193,9 +182,8 @@ c
      9 0.613371432700590,0.836031107326636,0.968160239507626/
 
        my_real
-     .      HH(2,MVSIZ),FAC(MVSIZ),C1,E0(MVSIZ),DD(9,MVSIZ),!GG(MVSIZ),
-     .      DM(9,MVSIZ),GM(9,MVSIZ),DGM(9,MVSIZ),DG(9,MVSIZ),
-     .      G33(9,MVSIZ),HH1(2,MVSIZ),LAMDA,NU,GG
+     . HH(2,MVSIZ),C1,!GG(MVSIZ),
+     . LAMDA,NU,GG
        my_real
      .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
      .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 

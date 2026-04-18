@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -87,7 +87,7 @@ c         update node system number after renumbering for sensors using nodes
             END IF
             LTEMP(1) = N1
             LTEMP(2) = N2
-          ELSE IF (TYP == 15) THEN  ! /sens/dist_surf
+          ELSE IF (TYP == 15) THEN  ! /Sens/dist_surf
             LTEMP(1) = NODLOCAL(SENSOR%IPARAM(1))
             IF (SENSOR%IPARAM(2) == 0) THEN
               LTEMP(3) = NODLOCAL(SENSOR%IPARAM(3))

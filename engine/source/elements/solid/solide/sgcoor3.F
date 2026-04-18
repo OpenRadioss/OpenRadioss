@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sgcoor3    ../engine/source/elements/solid/solide/sgcoor3.F
+!||    sgcoor3       ../engine/source/elements/solid/solide/sgcoor3.F
 !||--- called by ------------------------------------------------------
-!||    s4forc3    ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+!||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s6zforc3      ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SGCOOR3(
      1   TIME,    NPE,     X,       IXS,
@@ -35,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   VY0,     VZ0,     SAV,     D,
      4   OFF,     OFF0,    NEL,     XDP,
      5   MTN,     ISMSTR)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +64,7 @@ C     REAL
      .  X(3,*),TIME,D(3,*),OFF(*),OFF0(*),
      .  VX0(MVSIZ,NPE),VY0(MVSIZ,NPE),VZ0(MVSIZ,NPE)
       DOUBLE PRECISION 
-     .   X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE),
+     .  X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE),
      .  SAV(NEL,3*(NPE-1)),XDP(3,*),XD,YD,ZD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,6 +82,15 @@ C
         NC(I,3)=IXS(7,I)
         NC(I,4)=IXS(6,I)
        ENDDO
+      ELSEIF (NPE==6) THEN
+       DO I=1,NEL
+        NC(I,1)=IXS(2,I)
+        NC(I,2)=IXS(3,I)
+        NC(I,3)=IXS(4,I)
+        NC(I,4)=IXS(6,I)
+        NC(I,5)=IXS(7,I)
+        NC(I,6)=IXS(8,I)
+       ENDDO   
       ELSE
        DO N=1,NPE
         DO I=1,NEL
@@ -94,9 +107,10 @@ C----------------------------
        DO I=1,NEL
         X0(I,N)=SAV(I,N)
         Y0(I,N)=SAV(I,N2)
-        Z0(I,N)=SAV(I,N3)
+        Z0(I,N)=SAV(I,N3)       
        ENDDO
       ENDDO 
+      
 C--------ISMSTR == 12 diff format of SAV 
       IF (ISMSTR == 12.AND.IDTMIN(1)==3 .AND.MTN==1) THEN
          DO N=1,NPE1
@@ -128,8 +142,9 @@ C----------------------------
       ELSE      
       DO N=1,NPE1
        DO I=1,NEL
+        
         N2 = NC(I,N)
-        N3 = NC(I,NPE)
+        N3 = NC(I,NPE)    
         VX0(I,N)=X(1,N2)-X(1,N3)-X0(I,N)
         VY0(I,N)=X(2,N2)-X(2,N3)-Y0(I,N)
         VZ0(I,N)=X(3,N2)-X(3,N3)-Z0(I,N)
@@ -146,7 +161,7 @@ C
        VZ0(I,NPE)=ZERO
       ENDDO
 C      
-      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
+      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN   
         DO I=1,NEL
          OFF0(I)=OFF(I)
         ENDDO

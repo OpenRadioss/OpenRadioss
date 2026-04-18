@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C remplit le tableau segvar avec les valeurs des variables de  l ments voisins
-C sert pour les interfaces et pour les ebc
+C fills the segvar array with the values of the neighboring element variables
+C used for interfaces and for ebc
 !||====================================================================
 !||    seggetv                ../engine/source/interfaces/interf/seggetv.F
 !||--- called by ------------------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, IV, KVAR, KK, JCODV(ALE%GLOBAL%LCONV),CODTOT, SEGAD, IAD2, LGTH
+      INTEGER NG, I, J, IV, KVAR, KK, JCODV(ALE%GLOBAL%LCONV),CODTOT, IAD2, LGTH
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
 C=======================================================================
@@ -130,7 +130,6 @@ c
 
              ENDIF
            ENDDO
-   50    CONTINUE
          ENDDO
   100  CONTINUE
 c

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -117,7 +117,7 @@ C
           DVC(I) = ZERO
         ENDDO
       END IF
-C   +++ -----partie non constante------
+C   +++ ---- Non-constant part ------
       DO I=1,NEL
         DXX(I)=DCXX(I)+ZI*DHXX(I)
         DYY(I)=DCYY(I)+ZI*DHYY(I)

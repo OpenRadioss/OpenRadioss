@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,11 +47,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_mod                           ../common_source/modules/ale/alefvm_mod.F
 !||    ebcs_mod                             ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod                         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                          ../engine/share/resol/initbuf.F
 !||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod                          ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod                        ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_muscl_fluxes_computation_mod   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+!||    output_mod                           ../common_source/modules/output/output_mod.F90
 !||    th_surf_mod                          ../common_source/modules/interfaces/th_surf_mod.F
 !||    timer_mod                            ../engine/source/system/timer_mod.F90
 !||====================================================================
@@ -62,7 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
      .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF,MATPARAM,
-     .     WFEXT)
+     .     WFEXT, OUTPUT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -77,6 +79,8 @@ C-----------------------------------------------
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE MULTI_MUSCL_FLUXES_COMPUTATION_MOD , ONLY : MULTI_MUSCL_FLUXES_COMPUTATION
+      USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +129,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF)
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -139,7 +144,7 @@ C-----------------------------------------------
       my_real :: VOLNEW(MVSIZ)
       TYPE(G_BUFEL_), POINTER :: GBUF
 C     ------------------------- 
-C     Deplacement des noeuds
+C     Movement of nodes
 C     -------------------------  
       IF (IALE /= 0 .AND. .NOT. PRED) THEN     ! IF CORRECTION : maillage en configuration tn+1/2 pour les flux a tn+1/2
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
@@ -230,7 +235,7 @@ C     ==============================
       ENDIF
       CALL MY_BARRIER    
 
-C     Gradient communication
+C     Communication gradient
       IF (NSPMD > 1 .AND. MULTI_FVM%MUSCL > 0) THEN
 !$OMP SINGLE
          CALL STARTIME(TIMERS,TIMER_SPMDCFD)
@@ -295,11 +300,11 @@ C---------------------
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
      .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,
-     .        NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM)
+     .        NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM, OUTPUT, PRED)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 
-C     Deplacement des noeuds
+C     Movement of nodes
 C     -------------------------  
       IF (IALE /= 0 .AND. .NOT. PRED) THEN    ! IF CORRECTION : maillage en configuration tn+1 pour les volumes
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD

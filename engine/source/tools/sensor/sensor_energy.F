@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,12 +67,11 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,ICONST,
+      INTEGER :: J,IPART,ISUBS,NBR_GROUP,NP,ITSK,IFLAG,ICONST,
      .           NI,NK,ICRIT,ICRIT1,ICRIT2,ISELECT
-      my_real :: TMIN,TDELAY,TSTART,TSTOPS,IEMIN,TCRIT,
+      my_real :: TMIN,TDELAY,TSTART,IEMIN,TCRIT,
      .   EINT,EKIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
-     .   AVG_EI,AVG_EK,ALPHAI,ALPHAK,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+     .   AVG_EI,AVG_EK,ALPHAI,ALPHAK
 c----------------------------------------------------------
 c    SENSOR%VAR(1)   = TCRIT1 
 c    SENSOR%VAR(2)   = TSTART1
@@ -302,9 +301,9 @@ c-----------------------------------------------------------------------
 1200  FORMAT('      TARGET MAX INTERNAL ENERGY = ',1PE12.5,/
      .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 1300  FORMAT('      TARGET MIN KINETIC ENERGY = ',1PE12.5,/
-     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+     .       '      CURRENT KINETIC ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 1400  FORMAT('      TARGET MAX KINETIC ENERGY = ',1PE12.5,/
-     .       '      CURRENT INTERNAL ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
+     .       '      CURRENT KINETIC ENERGY AFTER TMIN and TDELAY = ',1PE12.5)
 2100  FORMAT('      CONSTANT INT ENERGY = ',1PE12.5,', MEAN = ',1PE12.5)           
 2200  FORMAT('      CONSTANT KIN ENERGY = ',1PE12.5,', MEAN = ',1PE12.5)           
 c----------------------------------------------------------

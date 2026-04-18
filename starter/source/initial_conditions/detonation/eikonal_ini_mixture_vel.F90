@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_init_mixture_vel_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -116,9 +117,9 @@
               end do
               if(mix_detvel > zero) mix_detvel = one/mix_detvel
               vel(ii) = mix_detvel
-            enddo
+            end do
 
-          elseif (multimat_id == 51)then
+          else if (multimat_id == 51)then
             ! --- MATERIAL LAW 51 ---!
             isubmat = 1 ; iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas
             isubmat = 2 ; iu(2)=m51_n0phas+(isubmat-1)*m51_nvphas
@@ -164,8 +165,8 @@
               if(mix_detvel > zero) mix_detvel = one/mix_detvel
               vel(ii) = mix_detvel
 
-            enddo
-          endif
+            end do
+          end if
 
         end subroutine eikonal_init_mixture_vel
 ! ----------------------------------------------------------------------------------------------------------------------

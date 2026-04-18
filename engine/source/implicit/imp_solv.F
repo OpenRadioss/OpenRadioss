@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -123,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    dsgraph_mod        ../engine/share/modules/dsgraph_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
@@ -134,6 +135,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    interfaces_mod     ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||    skew_mod           ../common_source/modules/skew_mod.F90
@@ -141,7 +144,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE IMP_SOLV(TIMERS,PYTHON,
+      SUBROUTINE IMP_SOLV(OUTPUT, TIMERS,PYTHON,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -173,6 +176,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE OUTPUT_MOD
         USE TIMER_MOD
         USE DSGRAPH_MOD
         USE IMP_LINTF
@@ -193,6 +197,8 @@ C-----------------------------------------------
         USE SKEW_MOD
         use glob_therm_mod
         use python_funct_mod, only: python_
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+        use precision_mod, only : WP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -219,6 +225,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE (OUTPUT_) , INTENT(INOUT) :: OUTPUT
         TYPE(TIMER_) :: TIMERS
         TYPE(PYTHON_) :: PYTHON
         INTEGER ,INTENT(IN) :: NSENSOR
@@ -294,9 +301,9 @@ C
         DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 C
 C---D_IMP: dUn+1,i,DD : ddU,i+1
-C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
+C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:for line-search]
 C---R_IMP[10: BFAC,DTFAC,11:U2,12:RFAC,13:|FEXT|;14,16:new line-search;17:actual R02;18:GAP;19:TSTART;
-C---R_IMP[21:rel res disp.,22:rel res force,23:rel res energy,24:cumul arc length]
+C---R_IMP[21:rel res disp.,22:relative residual \1,23:relative residual \1,24:cumulative arc length]
 C---------20-25:libre
 C---I_IMP[1:IT(TOTAL),2:ITC,3:IT0(IT_OLD),4:IWAIT,5:IDIV,6:NDDLI0,7:1ercontact(used only w/ IREFI=4),
 C---8:num. of diverging, 9:ICONT_OLD 10:Isign (Riks);11: Ichang(solver);12: IDIV_OLD;13: NDDLI(SMP) or NDDLI_G(SPMD)
@@ -330,7 +337,8 @@ C
      .                                        IKINW,W_DDL,IKUDN,NDOFI,IDDLI,IKUD
         my_real, DIMENSION(:) ,POINTER     :: DIAG_K,LT_K,DIAG_M,LT_M,LB,
      .                                        LB0,BKUD,D_IMP,ELBUF_C,BUFMAT_C,
-     .                                        DR_IMP,X_C,DD,DDR,X_A,R_IMP
+     .                                        DR_IMP,X_C,DD,DDR,R_IMP
+        real(kind=WP), dimension(:,:), pointer :: x_a
         my_real, DIMENSION(:) ,POINTER     :: FEXT,DG,DGR,DG0,DGR0,BUFIN_C,AC,ACR
 c sb
         character*1 anew_stif
@@ -512,7 +520,7 @@ C----------use reduced Dn_1 instead of resolution:
           ENDIF
           CALL ZEROR_HP(D_IMP,NUMNOD)
           IF (IRODDL/=0) CALL ZEROR_HP(DR_IMP,NUMNOD)
-C         permet aussi de faire linear avec 'initial state'
+C         also allows linear with 'initial state'
           CALL ZEROR_HP(AC,NUMNOD)
           IF (IRODDL/=0) CALL ZEROR_HP(ACR,NUMNOD)
 C
@@ -610,8 +618,8 @@ C-------------dU_d---------------------------------
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
           IF (IMON>0) CALL STOPTIME(TIMERS,4)
         ENDIF
-C-------------RGWAL0_IMP peut suivre-ISETK=1, mais il faut changer-FV_IMP1
-C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
+C------------- rgwal0_imp can follow-aSetk = 1, but you have to change-fv_imp1
+C-------------(IKC(I)=4->IMCONV=1 to avoid rebound-------
         NT_RW=0
         IF (NRWALL>0) THEN
           IF (IMON>0) CALL STARTIME(TIMERS,4)
@@ -625,7 +633,7 @@ C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
           ENDIF
 
           IF (ISMDISP > 0 .AND. ILINE == 0) THEN
-            CALL RGWAL0_IMP(
+            CALL RGWAL0_IMP( 
      1       X_A         ,D_IMP    ,V               ,RWBUF            ,LPRW    ,
      2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL          ,
      3       FOPT        ,RWSAV    ,WEIGHT          ,FSAVD(1,NINTER+1),
@@ -644,7 +652,7 @@ C
             CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
           ENDIF
           IF (IMON>0) CALL STOPTIME(TIMERS,4)
-        ENDIF
+        ENDIF 
 C
         IFDIS=NT_RW+NFXV_G
         IF(IFDIS>0.AND.IMCONV==1) THEN
@@ -698,7 +706,7 @@ C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
 C----------------------------------
-C       MATRICE DE RIGIDITE
+C       STIFFNESS MATRIX
 C----------------------------------
         IF (ISETK ==1 ) THEN
           IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(TIMERS,31)
@@ -732,7 +740,7 @@ C
           LI14 = LI13+LSIZE(14)
           LI15 = LI14+LSIZE(15)
           LIF = LI15+LSIZE(16)
-C---------attention si rigid body reactive(deactive) pendant un restart il faut relancer aussi dim
+C--------- Caution if Rigid Body Reactive (deactive) during a restart it is necessary to revive also DIM
           IF (ILINE/=1) THEN
             NTMP=0
             IF (I_IMP(11)==1) THEN
@@ -1128,7 +1136,7 @@ C             R_IMP(13) = SQRT(R2)
      4                  IRBE2  ,LRBE2   ,V      ,VR     ,NDDL0  ,
      5                  FR_ELEM,IAD_ELEM,MS     ,IN     )
         END IF
-C-------------LB,A,AR devient Fext-Fint---------------------
+C------------- LB, A, AR becomes fext-fint ---------------------------------------------------------
 
         CALL UPD_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1              RBY   ,X     ,SKEWS%SKEW   ,LPBY   ,NPBY   ,
@@ -1414,7 +1422,7 @@ c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
 c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB)
 c         END IF
           IF (ILINTF>0.AND.NCYCLE<ILINTF) THEN
-            CALL IMP_INTTD0(TIMERS,
+            CALL IMP_INTTD0(OUTPUT,TIMERS,
      1         IPARI ,INTBUF_TAB    ,X_A     ,D       ,
      2         MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
      3         IMSCH ,I2MSCH ,ISIZXV,ILENXV  ,IGRBRIC ,
@@ -1431,7 +1439,7 @@ c         END IF
 
             TT=MAX(ZERO,TT-DT2)
             ISETK =0
-C-------save Fint par AC,ACR---------
+C------- Save FIN by AC, ACR ----------
           ELSE
             IF (ILINTF>0) THEN
               NT_IMP1 = 0
@@ -1456,7 +1464,7 @@ C-------------------------
 C        IF (GAP<ZERO) GOTO 300
           IF (R_IMP(18)<ZERO.OR.IMCONV==-2) GOTO 300
           IF (IMCONV==1) THEN
-C--------valeur au debut d'increament--sauf diverge----
+C-------- value at the beginning of Increament-Sauf diverges -----
 citask0          IF (ITASK == 0) THEN
             IF(NCY_MAX>0.AND.NCYCLE>NCY_MAX) CALL IMP_STOP(-3)
             IF (INCONV==1) THEN
@@ -1474,7 +1482,7 @@ citask0          IF (ITASK == 0) THEN
               R_IMP(1) = MIN(R_IMP(1),RF_MAX*RF_MAX)
               IF (INCONV==1) I_IMP(12)=1
             END IF
-C--------case of converge with 0 iteration-------
+C--------case of converge with 0 iterations-------
             IF (ISMDISP>0) THEN
               CALL CP_REAL_HP(NNDL,X_A,X_C)
             ELSE
@@ -3046,7 +3054,6 @@ C------------------------------------------
  1000   FORMAT(' ND. =',I8,5X,'WITH POSSIBLE FREE CONNECTION CHECKED',/)
  1001   FORMAT(' NODE NUM. =',I10,5X,'TRA_DIR = ',1A,5X,'VAL.= ',G14.7)
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
- 1003   FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
 !||====================================================================
 !||    imp_chkm           ../engine/source/implicit/imp_solv.F
@@ -3097,6 +3104,7 @@ C------------------------------------------
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    dsgraph_mod        ../engine/share/modules/dsgraph_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    imp_worki          ../engine/share/modules/impbufdef_mod.F
@@ -3146,6 +3154,7 @@ C-----------------------------------------------
         USE TH_SURF_MOD , ONLY : TH_SURF_
         USE SKEW_MOD , ONLY : SKEW_
         USE GROUPDEF_MOD
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3438,7 +3447,7 @@ C----------------------------------
 
 
 C----------------------------------
-C       MATRICE DE RIGIDITE
+C       STIFFNESS MATRIX
 C----------------------------------
         IF (ISETK==1) THEN
           IF (ISPMD==0) THEN
@@ -4215,7 +4224,7 @@ C
           ELSEIF (NTY>0) THEN
             IWAR = IWAR +1
             ICOMP = ICOMP + 1
-C---------------- espere que ca ne arrive pas le contraire -----
+C---------------- hopes that the opposite does not happen -----
             IF (IV<=NUMNOD) THEN
               IV = IV + 1
               VI(1,IV) = NTY
@@ -4669,14 +4678,16 @@ C endif MUMPS defined
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE IMP_FOUT(
-     1          FANI     ,A        ,AR       ,NFIA      ,NFEA       ,
+     1          OUTPUT     ,A        ,AR       ,NFIA      ,NFEA       ,
      2          NODFT    ,NODLT    ,H3D_DATA ,IMPBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
         USE IMPBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -4690,10 +4701,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NFEA,NODFT,NODLT
 C     REAL
         my_real
-     .     A(3,*)    ,AR(3,*)    ,FANI(3,*)
+     .     A(3,*)    ,AR(3,*)  
         TYPE(H3D_DATABASE) :: H3D_DATA
         TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
 C-----------------------------------------------
@@ -4701,7 +4713,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER N,I,J,K,ND
         INTEGER, DIMENSION(:) ,POINTER     :: IDDL,NDOF,IKC
-C-------------mis  zero Fint des noeuds dependants------------
+C-------------mis  zero Fint des nodes dependants------------
         IDDL => IMPBUF_TAB%IDDL
         NDOF => IMPBUF_TAB%NDOF
         IKC => IMPBUF_TAB%IKC
@@ -4709,12 +4721,12 @@ C-------------mis  zero Fint des noeuds dependants------------
           DO I = NODFT,NODLT
             DO J=1,MIN(3,NDOF(I))
               ND = IDDL(I)+J
-              IF (IKC(ND)/=0) FANI(J,I+NFIA)= ZERO
+              IF (IKC(ND)/=0) OUTPUT%DATA%VECT_FINT(j,i)= ZERO
             ENDDO
             IF (NDOF(I)==0) THEN
-              FANI(1,I+NFIA)= ZERO
-              FANI(2,I+NFIA)= ZERO
-              FANI(3,I+NFIA)= ZERO
+              OUTPUT%DATA%VECT_FINT(1,I)= ZERO
+              OUTPUT%DATA%VECT_FINT(2,I)= ZERO
+              OUTPUT%DATA%VECT_FINT(3,I)= ZERO
             ENDIF
           ENDDO
         ENDIF
@@ -4722,19 +4734,21 @@ C
         RETURN
       END
 !||====================================================================
-!||    imp_fanii   ../engine/source/implicit/imp_solv.F
+!||    imp_fanii    ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
-!||    resol       ../engine/source/engine/resol.F
+!||    resol        ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod     ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE IMP_FANII(
-     1          FANI     ,FINT     ,NFIA      ,NODFT    ,NODLT    ,
+     1          OUTPUT,FINT     ,NFIA      ,NODFT    ,NODLT    ,
      2          H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4747,10 +4761,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NODFT,NODLT
 C     REAL
         my_real
-     .     FINT(3,*)    ,FANI(3,*)
+     .     FINT(3,*)  
         TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4760,28 +4775,30 @@ C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFIA)= FINT(1,N)
-            FANI(2,N+NFIA)= FINT(2,N)
-            FANI(3,N+NFIA)= FINT(3,N)
+            OUTPUT%DATA%VECT_FINT(1,N)= FINT(1,N)
+            OUTPUT%DATA%VECT_FINT(2,N)= FINT(2,N)
+            OUTPUT%DATA%VECT_FINT(3,N)= FINT(3,N)
           ENDDO
         ENDIF
 C
         RETURN
       END
 !||====================================================================
-!||    imp_fanie   ../engine/source/implicit/imp_solv.F
+!||    imp_fanie    ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
-!||    resol       ../engine/source/engine/resol.F
+!||    resol        ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod     ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE IMP_FANIE(
-     1          FANI   ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
+     1          OUTPUT  ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
      2          H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4794,10 +4811,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NFEA,NODFT,NODLT
 C     REAL
         my_real
-     .     FEXT(3,*)    ,FANI(3,*)
+     .     FEXT(3,*) 
         TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4807,17 +4825,17 @@ C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFIA)= -FEXT(1,N)
-            FANI(2,N+NFIA)= -FEXT(2,N)
-            FANI(3,N+NFIA)= -FEXT(3,N)
+            OUTPUT%DATA%VECT_FINT(1,N)= -FEXT(1,N)
+            OUTPUT%DATA%VECT_FINT(2,N)= -FEXT(2,N)
+            OUTPUT%DATA%VECT_FINT(3,N)= -FEXT(3,N)
           ENDDO
         ENDIF
         IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFEA)= FEXT(1,N)
-            FANI(2,N+NFEA)= FEXT(2,N)
-            FANI(3,N+NFEA)= FEXT(3,N)
+            OUTPUT%DATA%VECT_FEXT(1,N)= FEXT(1,N)
+            OUTPUT%DATA%VECT_FEXT(2,N)= FEXT(2,N)
+            OUTPUT%DATA%VECT_FEXT(3,N)= FEXT(3,N)
           ENDDO
         ENDIF
         RETURN
@@ -4998,7 +5016,7 @@ C---------------lin_solv--------
           IF(ALLOCATED(IE_BC4)) DEALLOCATE(IE_BC4)
           IF(ALLOCATED(IE_BC3)) DEALLOCATE(IE_BC3)
         END IF
-C------    faire---
+C------    to perform---
 c      IF (NINTER>0) THEN
 c       IF(ALLOCATED(INTBUF_TAB_CP)) DEALLOCATE(INTBUF_TAB_CP)
 c       IF(ALLOCATED(INTBUF_TAB_IMP)) DEALLOCATE(INTBUF_TAB_IMP)
@@ -5973,7 +5991,7 @@ C     REAL
      .    U(*),F(*),D(3,*),DR(3,*),FEXT(3,*),MEXT(3,*),FINT(3,*),
      .    R01 ,MINT(3,*),VQ(3,3),R_IMP(*),DD(3,*),DDR(3,*)
 C-----------------------------------------------
-c FUNCTION: print-out solver info such as maximum residual, relative residuals, line-search coeff, tolerance
+c FUNCTION: print-out solver info such as maximum residual, relative residuals, line-search coefficient, tolerance
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6391,7 +6409,7 @@ C-----------------------------------------------
      .     ,'Diverged step','Diverged step','Diverged step'
      .     ,'Diverged step','Diverged step','Diverged step'
         WRITE(ISOLTPL,1003)
-        WRITE(ISOLTPL,1004) 2,2,2,'Cumulative iterations','Line search coeff'
+        WRITE(ISOLTPL,1004) 2,2,2,'Cumulative iterations','Line search coefficient'
         WRITE(ISOLTPL,1002) 'On',1,50,1,3,50,1,'Line search coefficient',1
      .     ,'Line search coefficient','Line search coefficient','Line search coefficient'
      .     ,'Line search coefficient','Line search coefficient','Line search coefficient'
@@ -6913,7 +6931,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     Initialisation des variables pour // SMP
+C     Initialization of variables for // SMP
 C
         ITSK = OMP_GET_THREAD_NUM()
         N1FTSK = 1+ITSK*N1/ NTHREAD
@@ -7121,7 +7139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C-----Calcul NCONT0, Communication is necessary
+C-----Calculation NCONT0, Communication is necessary
         IF (TT == ZERO.AND.INCONV==1) THEN
           DO N = 1,NINTER
             ITY   =IPARI(7,N)
@@ -7261,7 +7279,7 @@ C-------int2,RBE3,rby speciale (Fext seulement)----------
      1                     NDOF  ,IDDL   ,B    )
           ENDDO
         ENDIF
-C-------int2,rby speciale (elems deleted)----------
+C-------int2,rby speciale (elements deleted)----------
         DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,AC    ,ACR  ,
@@ -7464,6 +7482,7 @@ C------------------------------------------
 !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPBRM_PRE(ITAB ,
@@ -7474,6 +7493,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE ELBUFDEF_MOD
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7537,8 +7557,8 @@ C----- put N1,N2,N3 (sys_id) in E_REF(1:3),  E_REF(4)=E_REF(3)
             END DO
           END DO
           IF (ILSKEW >0)  LSKEW_G=1
-C----  end routine
-          RETURN
+C--- ending routine
+        RETURN
         END IF
         NBC = 0
         DO I =1,NUMNOD
@@ -7718,7 +7738,7 @@ C
      +                            E_REF,XMIN,YMIN,ZMIN,DMIN)
               END IF
             END DO !IG = 1, NGROUC
-C-------to get unique ref-element
+C------- To get unique ref-element
             IF (NSPMD>1) THEN
               XMING = XMIN
               CALL SPMD_MIN_S(XMING)
@@ -7743,9 +7763,12 @@ C
 !||    spb_refsh4id   ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7841,9 +7864,12 @@ C
 !||    spb_refsh3id   ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7951,6 +7977,7 @@ C
 !||    transvl2g      ../engine/source/implicit/imp_solv.F
 !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_RM_RIG(
@@ -7961,6 +7988,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8166,6 +8194,7 @@ C------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    spmd_min_s     ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_IEREF_BC(
@@ -8175,6 +8204,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8333,7 +8363,7 @@ C     REAL
         my_real
      .     XS,YS,ZS
 C------------------------------------
-C     MATRICE DE JACOBIEN [C]
+C     JACOBIAN MATRIX [C]
 C------------------------------------
         NIR=N_SEG
         DO J=1,NIR
@@ -8349,7 +8379,7 @@ C        NJ=IRECT(J)
         ENDIF
         FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       AVERAGE ROTATION SPEED OF THE MAIN SEGMENT
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -8418,13 +8448,14 @@ C
         RETURN
       END
 !||====================================================================
-!||    spb_ieref3   ../engine/source/implicit/imp_solv.F
+!||    spb_ieref3    ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
-!||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+!||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_min_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_min_s    ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
-!||    imp_spbrm    ../engine/share/modules/impbufdef_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    imp_spbrm     ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_IEREF3(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,
@@ -8433,6 +8464,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8746,7 +8778,7 @@ C-------itet=2 (not dumped [M]), should not mix w/ other elements
      .                MS  ,TOL ,KE   )
         END IF !(NS10E==0) THEN
         CALL JACOBIEN(KE,ND,EW,EV,TOL1,LAMDA)
-C---Node:N direction:J
+C--- Node: N'Direction: J
         ID = 0
         DO K=1,ND
           IF (EW(K)>=LAMDA) ID = K

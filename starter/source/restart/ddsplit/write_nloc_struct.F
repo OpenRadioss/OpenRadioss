@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,9 +58,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILOC,NNOD,NNOD_L,NG,NL,NN, LNLOC_L,ND,NP,NM,N1,
-     .        N2,NNO,CC,CC_L,NUMG,NUML,PROC_L,K,SHFT,TESTVAL,
-     .        L_NLOC,NDDMAX_L,OFF,LENBIS,LCNENL_L,MATSIZE
+      INTEGER I,ILOC,NNOD,NNOD_L,NG,NL,NN, LNLOC_L,ND,NP,N1,
+     .        N2,CC,CC_L,NUMG,NUML,PROC_L,K,SHFT,TESTVAL,
+     .        L_NLOC,NDDMAX_L,LCNENL_L,MATSIZE
       INTEGER, DIMENSION(:),ALLOCATABLE  :: INDX_L, NDDL, IDXI_L
       INTEGER, DIMENSION(:),ALLOCATABLE  :: POSI
       my_real, DIMENSION(NLOC_DMG%L_NLOC) :: MASS,UNL,MASS0
@@ -173,14 +174,15 @@ c
               PROC_L = CEP(NUMG)+1                                !   Processor of the element
               CC_L   = CC_L + 1                                   !   Local element counter
               PROCNE_L(CC_L) = PROC_L                             !   Processor on which the element is located                                           
-              IF (PROC==PROC_L) THEN                            !   If the current proc equals the processor of the element, filling the IADX table
-                IF (NUMG<=NUMELS) THEN                          !     If the element is solid
+              IF (PROC==PROC_L) THEN                              !   If the current proc equals the processor of the element, filling the IADX table
+                IF (NUMG<=NUMELS) THEN                            !     If the element is solid
                   DO K = 1,8                                      !       Loop over the nodes of the brick
                     SHFT    = ISHFT(1,K-1)                        !         Shift
                     TESTVAL = IAND(SOLTAG(NUMG),SHFT)             !         Testval
-                    IF (IXS(K+1,NUMG)==NG.AND.TESTVAL==0) THEN  !         Filling IADS
+                    IF (IXS(K+1,NUMG)==NG.AND.TESTVAL==0) THEN    !         Filling IADS
                       IADS(K,NUML) = CC_L
                       SOLTAG(NUMG) = SOLTAG(NUMG)+SHFT
+                      GOTO 100
                     ENDIF
                   ENDDO
                 ELSEIF (NUMG<=NUMELS+NUMELQ) THEN 
@@ -188,15 +190,16 @@ c
                   WRITE(*,*) "Error in non-local decomp"   
                   WRITE(*,*) "Quad element error"
                   STOP 
-                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN                  !   If the element is a shell
-                  NUMG = NUMG - (NUMELS+NUMELQ)                             !     Offset on NUMG
-                  DO K=1,4                                                  !     Loop over the nodes of the shell
-                    SHFT    = ISHFT(1,K-1)                                  !       Shift
-                    TESTVAL = IAND(SHTAG(NUMG),SHFT)                        !       Testval
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN           !   If the element is a shell
+                  NUMG = NUMG - (NUMELS+NUMELQ)                    !     Offset on NUMG
+                  DO K=1,4                                         !     Loop over the nodes of the shell
+                    SHFT    = ISHFT(1,K-1)                         !       Shift
+                    TESTVAL = IAND(SHTAG(NUMG),SHFT)               !       Testval
                     ! Filling IADC
                     IF (IXC(K+1,NUMG)==NG.AND.TESTVAL==0) THEN
                       IADC(K,NUML) = CC_L
                       SHTAG(NUMG)  = SHTAG(NUMG)+SHFT
+                      GOTO 100
                     ENDIF
                   ENDDO
                 ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
@@ -223,6 +226,7 @@ c
                     IF (IXTG(K+1,NUMG)==NG.AND.TESTVAL==0) THEN           !       Filling IADTG 
                       IADTG(K,NUML) = CC_L
                       TGTAG(NUMG)   = TGTAG(NUMG)+SHFT
+                      GOTO 100
                     ENDIF
                   ENDDO
                 ELSE
@@ -231,6 +235,7 @@ c
                   STOP
                 ENDIF
               ENDIF
+100           CONTINUE
             ENDDO
           ENDDO
         ENDIF
@@ -263,11 +268,11 @@ c
 c
         CALL WRITE_DB(NLOC_DMG%SSPNL,MATSIZE)        ! SSPNL
 c   
-        CALL WRITE_I_C(INDX_L,NNOD_L)               ! INDX_L(NNOD_L)
+        CALL WRITE_I_C(INDX_L,NNOD_L)               ! Indx_l (nnod_l)
 c  
         CALL WRITE_I_C(POSI,NNOD_L+1)               ! POSI(NNOD_L+1)
 c        
-        CALL WRITE_I_C(IDXI_L,NUMNOD_L)             ! IDXI_L(NUMNOD_L)
+        CALL WRITE_I_C(IDXI_L,NUMNOD_L)             ! Idxi_l (Numnod_L)
 c
         ! If PARITH/ON
         IF (IPARI0 == 1) THEN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,11 +47,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
@@ -69,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   IFAILURE,    MTN,         IGTYP,       NPT,
      B   JSMS,        MSSA,        DMELS,       KXIG3D,
      C   IXIG3D,      KNOT,        NCTRL,       WIGE,
-     D   FLUX,        FLU1,        DT2T,        NELTST,
+     D   FLU1,        DT2T,        NELTST,
      E   ITYPTST,     OFFSET,      TABLE,       IEXPAN,
      F   ALE_CONNECT, FV,          ITASK,       IOUTPRT,
      G   PX,          PY,          PZ,          KNOTLOCPC,
@@ -96,6 +98,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       USE SENSOR_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -144,7 +147,7 @@ C-----------------------------------------------
      .        NCTRL,NG,NELTST,ITYPTST,OFFSET,IEXPAN,ITASK,H3D_STRAIN
       INTEGER IXS(NIXS,*), IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
-     .        KXIG3D(NIXIG3D,*),IXIG3D(*),FLUX(6,*),FLU1(*),
+     .        KXIG3D(NIXIG3D,*),IXIG3D(*),FLU1(*),
      .        IOUTPRT,PX,PY,PZ,GRTH(*),IGRTH(*)
       my_real
      .  PM(NPROPM,*), GEO(NPROPG,*),X(3,*),A(3,*),V(3,*),MS(*),W(*),
@@ -165,29 +168,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NF1,IFLAG,IG,IGT,NUPARAM,
-     .   NUVAR,NUVARP,IMAT,IPID,N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
+      INTEGER I, J, NF1, IFLAG, NUPARAM, 
+     . NUVAR,IMAT,N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
      .   IDX(MVSIZ),IDY(MVSIZ),IDZ(MVSIZ),IFUNC(MAXFUNC),NFUNC,IADBUF,
-     .   IBID,ISTRAIN,IBIDV(1),IP,ILAY,IERROR,IAD_KNOT,IDFRSTLOCKNT, IDPC,
+     . IBID,ISTRAIN,IBIDV(1),ILAY,IERROR,IAD_KNOT,IDFRSTLOCKNT,
      .   IDX2(MVSIZ),IDY2(MVSIZ),IDZ2(MVSIZ)
 C-----
-      INTEGER SID(MVSIZ),IPROP,NC(MVSIZ,8),
-     .   MAT(MVSIZ)
+      INTEGER IPROP
       my_real
-     . MX(NEL,NCTRL),MY(NEL,NCTRL) , MZ(NEL,NCTRL),
-     .   STI(MVSIZ),STIN(MVSIZ),STIR(MVSIZ), VISCM(MVSIZ) ,VISCR(MVSIZ),RHO0(MVSIZ)
+     .
+     . STI(MVSIZ) ,RHO0(MVSIZ)
       my_real
-     .   OFF(MVSIZ) , RHOO(MVSIZ),FR_W_E(MVSIZ),
+     . OFF(MVSIZ) ,
      .   XX(NCTRL,NEL),YY(NCTRL,NEL),ZZ(NCTRL,NEL), 
      .   DX(NCTRL,NEL),DY(NCTRL,NEL),DZ(NCTRL,NEL), 
-     .   UX(NCTRL,NEL),UY(NCTRL,NEL),UZ(NCTRL,NEL),
+     .
      .   VX(NCTRL,NEL),VY(NCTRL,NEL),VZ(NCTRL,NEL),
-     .   VRX(NCTRL,NEL),VRY(NCTRL,NEL),VRZ(NCTRL,NEL),
-     .   DTE(MVSIZ)  ,WW(NCTRL,NEL),RBID, ZR, ZS, ZT
+     .
+     . WW(NCTRL,NEL),RBID, ZR, ZS, ZT
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF    
+ 
       my_real,
      .   DIMENSION(:),POINTER :: UVAR
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -197,16 +199,16 @@ C-----
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
-     . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
-     . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
+     .
+     .
+     .
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
      . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ),
      . WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),
      . MUVOID(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . SIGY(MVSIZ),ET(MVSIZ),R1_FREE(MVSIZ),
-     . R3_FREE(MVSIZ),R4_FREE(MVSIZ),DEFP(MVSIZ),
+     . R3_FREE(MVSIZ),DEFP(MVSIZ),
      . MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      . MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      . MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),
@@ -218,7 +220,7 @@ C
      .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ), 
      .   DYZ(MVSIZ), DZX(MVSIZ), DZY(MVSIZ),DIVDE(MVSIZ)
 
-      INTEGER ITEL, ITNCTRL, K, N, JJ, INCTRL, L, IFACE
+      INTEGER ITEL, ITNCTRL, K, N, INCTRL
       my_real,
      .  DIMENSION(NCTRL) :: R 
       my_real,
@@ -232,18 +234,20 @@ C
       my_real
      . DETJAC, PGAUSS, VOLG(MVSIZ)
       my_real
-     .   DD,BtDBAloc(3*NCTRL,MVSIZ),
+     . BtDBAloc(3*NCTRL,MVSIZ),
      .   BA(6,MVSIZ),DBA(6,MVSIZ), Aloc(3*NCTRL,MVSIZ),
      .   MASS(NCTRL,MVSIZ),MMUNK(MVSIZ),KNOTLOCX(PX+1,NCTRL,MVSIZ),
      .   KNOTLOCY(PY+1,NCTRL,MVSIZ),KNOTLOCZ(PZ+1,NCTRL,MVSIZ),
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
       my_real
-     .   AIRENURBS(3), AFACE(6,MVSIZ), TC, LC, 
+     . AIRENURBS(3), AFACE(6,MVSIZ), TC,
      .   VMIN(MVSIZ), SMAX(MVSIZ), SUMV,AMU(MVSIZ)
       my_real VARNL(NEL)
       my_real,
      .   ALLOCATABLE, DIMENSION(:,:) :: VGAUSS
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array
       INTEGER SZ_IX
 C----------------------------------------------------------
       DOUBLE PRECISION
@@ -401,10 +405,10 @@ C-----------AMU for SP is not really implemented
          LBUF%VOL0DP(LFT:LLT) = LBUF%VOL(LFT:LLT)
         ENDDO
        ENDDO
-       ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+       ENDDO ! END OF LOOP OVER INTEGRATION POINTS
       END IF
 C------------------------------------------------------
-C     INITIALISATION DES VARIABLES
+C     INITIALIZATION OF VARIABLES
 C------------------------------------------------------
 
       DELTAX=EP20
@@ -441,7 +445,7 @@ C------------------------------------------------------
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(I,J,K)
 
 C------------------------------------------------------
-C     CALCUL DES FONCTIONS DE FORME ET DES DERIVEES
+C     CALCULATION OF SHAPE FUNCTIONS AND DERIVATIVES
 C------------------------------------------------------
 
          DO ITEL=LFT,LLT
@@ -474,7 +478,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
           ENDIF
 
 C------------------------------------------------------
-C     ASSEMBLAGE DE LA MATRICE MATB, MATN, MATDET
+C     ASSEMBLY OF THE MATB, MATN, MATDET MATRIX
 C------------------------------------------------------
          
           CALL IG3DDERISHAP(
@@ -496,7 +500,7 @@ C------------------------------------------------------
      6   BA,      Aloc,    NEL)
  
 C------------------------------------------------------
-C     ROTATION DE CORPS RIGIDE DES CONTRAINTES PASSEES 
+C     RIGID BODY ROTATION OF PAST STRESSES
 C------------------------------------------------------
 
          CALL SROTA3(
@@ -506,25 +510,26 @@ C------------------------------------------------------
      4   IPARG(9,NG))
 
 C------------------------------------------------------
-C     CALCUL DE LA MASSE VOLUMIQUE COURANTE
+C     CALCULATION OF CURRENT DENSITY
 C------------------------------------------------------
          VOLDP(LFT:LLT) = VOLN(LFT:LLT)
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
 
          CALL SRHO3(
      1   PM,          LBUF%VOL,    LBUF%RHO,    LBUF%EINT,
-     2   DIVDE,       FLUX(1,NF1), FLU1(NF1),   VOLN,
+     2   DIVDE,      fake_array, FLU1(NF1),   VOLN,
      3   DVOL,        NGL,         MXT,         OFF,
      4   IPARG(64,NG),GBUF%TAG22,  VOLDP,       LBUF%VOL0DP,
      5   AMU,         GBUF%OFF,    NEL,         MTN,
-     6   JALE,        ISMSTR,      JEUL,        JLAG)
+     6   JALE,        ISMSTR,      JEUL,        JLAG,
+     7   fake_size,fake_size,0)
 
 c      CALL SMALL3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,
 c     .            WZZ,DXX,DYY,DZZ,GBUF%RHO,RHO0,
 c     .            DVOL,VOLN)
 
 C------------------------------------------------------
-C     CALCUL DES CONTRAINTES 
+C     CALCULATION OF STRESSES
 C------------------------------------------------------
 
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
@@ -585,7 +590,7 @@ C------------------------------------------------------
 
            ENDDO
          ENDDO
-       ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+       ENDDO ! END OF LOOP OVER INTEGRATION POINTS
 
 C-----------------------------
 C     SMALL STRAIN 
@@ -613,10 +618,10 @@ c
 
         ENDDO
        ENDDO
-      ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+      ENDDO ! END OF LOOP OVER INTEGRATION POINTS
 c
 C------------------------------------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C------------------------------------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0)THEN
@@ -640,7 +645,7 @@ C--------------------------------------------
 
 
 C------------------------------------------------------
-C     PAS DE TEMPS ELEMENTAIRE : PULSATION PROPRE PAR ELEMENT
+C     ELEMENT TIME STEP : NATURAL FREQUENCY PER ELEMENT
 C------------------------------------------------------
 
       IF(IDTMIN(101)==1)THEN
@@ -660,7 +665,7 @@ C------------------------------------------------------
        ENDDO
 
 C------------------------------------------------------
-C     CALCUL DES AIRES DES FACES DES ELEMENTS
+C     CALCULATION OF ELEMENT FACE AREAS
 C------------------------------------------------------
 
       ELSEIF(IDTMIN(101)==2)THEN

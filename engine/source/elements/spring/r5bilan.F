@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
 !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE R5BILAN(
@@ -40,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +81,7 @@ C-----------------------------------------------
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
      .   V1(MVSIZ,3),V2(MVSIZ,3),
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
-     .   IN2,EI(MVSIZ),REK(MVSIZ),
+     .   IN2,REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ), XMAS2(MVSIZ),
      .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),

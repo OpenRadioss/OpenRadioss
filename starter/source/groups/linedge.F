@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,11 +47,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,J2
-      INTEGER IW1(4*NSEG0),IW2(4*NSEG0),IW5(4*NSEG0),IW6(4*NSEG0),
-     .        INDEX(8*NSEG0),IWORK(70000), IPERM(4)
+      INTEGER I,K,J1,J2,IPERM(4)
+C     INTEGER IW1(4*NSEG0),IW2(4*NSEG0),IW5(4*NSEG0),IW6(4*NSEG0),
+C    .        INDEX(8*NSEG0),IWORK(70000), IPERM(4)
+      integer, dimension(:), allocatable :: IW1,IW2,IW5,IW6,INDEX,IWORK
       DATA IPERM /2,3,4,1/
 C=======================================================================
+      ALLOCATE(IW1(4*NSEG0), IW2(4*NSEG0), IW5(4*NSEG0),IW6(4*NSEG0), INDEX(8*NSEG0))
+      ALLOCATE(IWORK(70000))
       K=0
       IW1 = 0
       IW2 = 0
@@ -84,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (KEY(1:4) == 'SURF') THEN
 C-----------------------------------------------
-C SUPPRESSION DES SEGMENTS DOUBLES
+C REMOVAL OF DOUBLE SEGMENTS
 C-----------------------------------------------
         NSEG=1
         IF (FLAG == 0) THEN
@@ -110,7 +113,7 @@ C-----------------------------------------------
         ENDIF ! IF (FLAG == 0)
       ELSEIF (KEY(1:4) == 'EDGE') THEN
 C-----------------------------------------------
-C SUPPRESSION DES SEGMENTS INTERNES (SAUF BORDS)
+C REMOVAL OF INTERNAL SEGMENTS (EXCEPT BORDERS)
 C-----------------------------------------------
         NSEG=0
         IF (FLAG == 0) THEN
@@ -158,5 +161,7 @@ C
 C-----------
       ENDIF
 C-----------
+      DEALLOCATE(IW1 ,IW2, IW5,IW6, INDEX,IWORK)
+
       RETURN
       END

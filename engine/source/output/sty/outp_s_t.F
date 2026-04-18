@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NBB(20),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, IADD, N,ISOLNOD,MLW,
+      INTEGER I, J, RESP0, WRTLEN, RES
+      INTEGER NG, NEL, 
      .        II,JJ,JJ_OLD, NGF, NGL, NN, LEN,FWAP0,LENWAP0,
      .        COMPTEUR,L,K,KK(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
@@ -189,6 +189,7 @@ c-----------
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE OUTP_S_TT(NBX   ,KEY ,TEXT,ELBUF_TAB,IPARG,
@@ -197,7 +198,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD 
+      use element_mod , only : nixs       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -223,7 +225,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,JJ,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,
+      INTEGER I, J, K, JJ, NLAY, NPTR, NPTS, NPTT, IL, IR, IS, IT, IPT, 
      .        NG, NEL, IADD, MLW,JJ_OLD, NGF, NGL, NN, LEN, ICAS_OLD,
      .        ISOLNOD,KHBE,ITENS,TSHELL,COMPTEUR,L,KK(6)
       my_real
@@ -595,7 +597,7 @@ C
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
         COMPTEUR = JJ                         
-       ENDDO         ! nn=1,nspgroup
+       ENDDO         ! nn = 1, nspgroup
 !     ++++++++++
        IF( NSPMD>1 ) THEN
         CALL SPMD_RGATHER9_1COMM(WA,JJ,JJ_LOC,WAP0_LOC,SIZP0,ADRESS)
@@ -622,12 +624,12 @@ C
         JJ_OLD = COMPTEUR+1
 c--------------------------------
         IF (JJ_OLD > 1) THEN
-C       ICAS_OLD sert a connaitre le "type" du dernier groupe traite
-C       on ajoute un commentaire de format a chaque changement
+C       Icas_old is used to know the "type" of the last group deals
+C       a format comment is added at each change
          ICAS_OLD = 0
          J = 1
          DO WHILE (J < JJ_OLD)
-C         valeur absolue deja stockee dans WA
+C         Absolute value already stores in wa
           IF (ITENS == 2) THEN
            NLAY = NINT(WAP0(J))
            NPTR = NINT(WAP0(J+1))
@@ -662,7 +664,7 @@ c
               ENDIF ! ICAS_OLD
               IF (OUTYY_FMT == 2) THEN
                 WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C               ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                   J = J + 6
@@ -671,7 +673,7 @@ C               ecriture sur 2 lignes cf smp !
                 ENDDO
               ELSE
                 WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C               ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                   J = J + 6
@@ -699,7 +701,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(3I8)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -708,7 +710,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(3I10)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -720,7 +722,7 @@ C              ecriture sur 2 lignes cf smp !
 c          solid properties
            ELSEIF (ISOLNOD == 8 .AND. NPT == 8 .AND.
      .         KHBE /= 14 .AND. KHBE /= 15 .AND. KHBE/=17) THEN
-C            test cas precedent et ecriture format si besoin
+C            Precedent case test and format writing if necessary
              IF (ICAS_OLD /= 4) THEN
                ICAS_OLD = 4
                IF (OUTYY_FMT == 2) THEN
@@ -743,7 +745,7 @@ C            test cas precedent et ecriture format si besoin
                WRITE(IUGEO,'(2I8)')NPT,ISOLNOD 
                WRITE(IUGEO,'(1P2E12.5)')(WAP0(J-1+K),K=1,2)
                J=J+2
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -754,7 +756,7 @@ C              ecriture sur 2 lignes cf smp !
                WRITE(IUGEO,'(2I10)')NPT,ISOLNOD 
                WRITE(IUGEO,'(1P2E20.13)')(WAP0(J-1+K),K=1,2)
                J=J+2
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -785,7 +787,7 @@ c
 c
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -794,7 +796,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -822,7 +824,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(5I8)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -831,7 +833,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(5I10)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -877,7 +879,7 @@ c
                  WRITE(IUGEO,'(1P1E20.13)')WAP0(J)
                  J = J + 1
                ENDIF
-C           le test remis coherent par rapport a SMP
+C           the test made consistent with respect to SMP
 c
            ELSEIF (ISOLNOD == 10) THEN
              IF(ICAS_OLD /= 7) THEN
@@ -898,7 +900,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(2I8)')NPT,ISOLNOD
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -907,7 +909,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(2I10)')NPT,ISOLNOD
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -934,7 +936,7 @@ C              ecriture sur 2 lignes cf smp !
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(3I8)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -943,7 +945,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(3I10)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines for SMP compatibility
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -999,7 +1001,7 @@ c
 c-------------------------------
          ENDDO  ! WHILE (J < JJ_OLD)
        ENDIF    ! jj_old>1
-      ENDDO     ! nn=1,nspgroup
+      ENDDO     ! nn = 1, nspgroup
       ENDIF     ! ispmd==0
 C-----------              
       RETURN
@@ -1035,7 +1037,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL,ITY,NRL,KHBE,MLW,NPT,ISOLNOD,NGF,NN,NEL,
+      INTEGER NGL, ITY, KHBE, MLW, NPT, ISOLNOD, NGF, NN, NEL, 
      .        NG,NLAY,NPTR,NPTS,NPTT,NPTG,JJ,
      .        SZP0(3*NSPGROUP+3)
 C=======================================================================

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,12 +73,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   AFILTR,Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
      .   Xscale_TANG,Yscale_TANG
       my_real
-     .   DPDT,DLAM,DDEP,DEPXX,DEPYY,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,LDAV,
-     .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DENOM,DFDSIG2,DPDT_NL,DEPSDT,
+     .   DLAM,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,LDAV,
+     .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DFDSIG2,DEPSDT,
      .   DPHI,DTINV
       my_real, DIMENSION(NEL) ::
-     .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGVM,YLD,HARDP,PHI,DEZZ,YLD0,DYLD0DEPSD,
-     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,TEST,DPXX,DPYY,DPXY,
+     .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGVM,YLD,HARDP,PHI,YLD0,DYLD0DEPSD,
+     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,DPXX,DPYY,DPXY,
      .   DPZZ,DPYZ,DPZX,DSIGXX,DSIGYY,DSIGZZ,DSIGXY,DSIGYZ,DSIGZX,PHI0
 c
       !=======================================================================
@@ -115,7 +115,7 @@ c
         Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
         TANG(1:NEL)  = ZERO
       ELSE
-        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        TANG(1:NEL)  = UPARAM(21) ! Constant Tangent Modulus
         DTANGDEPSD(1:NEL) = ZERO
       ENDIF
       DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep

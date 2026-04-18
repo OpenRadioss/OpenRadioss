@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_reals
@@ -87,7 +87,7 @@
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
-          real, dimension(buf_count,1), intent(inout) :: buf
+          real, dimension(1,buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
 #ifdef MPI
           integer :: ierr
@@ -96,7 +96,7 @@
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_reals2D
@@ -126,7 +126,7 @@
             call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_ints
@@ -155,7 +155,7 @@
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_doubles
@@ -175,7 +175,7 @@
           implicit none
 #include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
-          double precision, dimension(buf_count,1), intent(inout) :: buf
+          double precision, dimension(1,buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
           integer :: ierr
 #ifdef MPI
@@ -184,7 +184,7 @@
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_doubles2D
@@ -213,7 +213,7 @@
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_real
@@ -242,7 +242,7 @@
             call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_int
@@ -270,7 +270,7 @@
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_recv_double

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -106,7 +106,7 @@ C
             RWSAV(K+3) = ZERO
             GOTO 20
           ENDIF
-C---      test pour noeuds penetres
+C--- test for penetrated nodes
           IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 20
           NIMPACT = NIMPACT+1
@@ -130,7 +130,7 @@ C---      test pour noeuds penetres
           ZC=UZ-ZWL
           DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
           IF(DP>ZERO) GOTO 21
-C---      test pour noeuds penetres
+C--- test for penetrated nodes
           IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 21
           NIMPACT = NIMPACT+1
@@ -177,8 +177,8 @@ C-----------------------------------------------
 
 C     REAL
       my_real
-     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ,
-     .   DV, DA, DVT, FN, MSW,
+     .   XWL, YWL, ZWL, VXW, VYW, VZW,
+     .     FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT, FXN, FYN, FZN
 C-----------------------------------------------
@@ -355,12 +355,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1,IFQ, J, K, M1, M2, M3, M
+      INTEGER I, N, N3, N2, N1,IFQ, J, M1, M2, M3
 
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   DV, DA, DVT, MSW, FNXN, FNYN, FNZN
+     .   DV, DA
 C-----------------------------------------------
 C
 C     fixed wall only.
@@ -561,12 +561,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1,IFQ, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1,IFQ, J, M1, M2, M3
 
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ,
      .   WFEXTT,
-     .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN, MSW,
+     .       FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------
@@ -610,7 +610,7 @@ C
           F6(J) = ZERO
           F7(J) = ZERO
 C
-C 1er impact (WFEXT avec decalage 1/2 cycle)
+C 1st impact (wfext with 1/2 cycle decal)
 c        N3=3*N
 c        N2=N3-1
 c        N1=N2-1
@@ -643,7 +643,7 @@ C
           VX=V(N1)+HALF*A(N1)*DT12
           VY=V(N2)+HALF*A(N2)*DT12
           VZ=V(N3)+HALF*A(N3)*DT12
-C 1er impact (WFEXT avec decalage 1/2 cycle)
+C 1st impact (wfext with 1/2 cycle decal)
 c       WFEXTT = WFEXTT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C
           FXT=WEIGHT(N)*FREA(1,N)-FXN

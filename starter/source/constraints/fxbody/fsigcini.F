@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,19 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fsigcini   ../starter/source/constraints/fxbody/fsigcini.F
+!||    fsigcini      ../starter/source/constraints/fxbody/fsigcini.F
 !||--- called by ------------------------------------------------------
-!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- calls      -----------------------------------------------------
-!||    ccoefi     ../starter/source/constraints/fxbody/fsigcini.F
-!||    ccurvi     ../starter/source/constraints/fxbody/fsigcini.F
-!||    cdefli     ../starter/source/constraints/fxbody/fsigcini.F
-!||    ceveci     ../starter/source/elements/shell/coque/ceveci.F
-!||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
-!||    cpxpyi     ../starter/source/elements/shell/coque/cepsini.F
+!||    ccoefi        ../starter/source/constraints/fxbody/fsigcini.F
+!||    ccurvi        ../starter/source/constraints/fxbody/fsigcini.F
+!||    cdefli        ../starter/source/constraints/fxbody/fsigcini.F
+!||    ceveci        ../starter/source/elements/shell/coque/ceveci.F
+!||    cm1inif       ../starter/source/elements/shell/coque/cm1inif.F
+!||    cpxpyi        ../starter/source/elements/shell/coque/cepsini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FSIGCINI(FXBELM, IPARG , X     , PM, IXC , 
-     .                    GEO   , FXBMOD, FXBSIG, R , NELC) 
+     .                    GEO   , FXBMOD, FXBSIG, R , NELC)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +61,6 @@ C-----------------------------------------------
       INTEGER IG,OFFSET,FIRST,LAST,NFT,I,NG,IEL,
      .        N1,N2,N3,N4,ISM,ITHK,NPT,NFS
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
-      INTEGER II,J
       my_real
      .   D11, D12, D13, D21, D22, D23, D31, D32, D33, D41, D42, D43,
      .   DR11, DR12, DR13, DR21, DR22, DR23, DR31, DR32, DR33,

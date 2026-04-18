@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,
      3       XMAX  ,YMAX ,ZMAX  ,C_MAX ,CURV_MAX,
      4       ICURV ,IRECT,NRTM_T)
-C sauvegarde des XSAV et calcul borne domaine
+C saving xsav and computing the domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,14 +53,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
-      my_real
-     .        XXX, YYY, ZZZ 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Description : Calcul des dimensions du domaine lagrangien du domaine local.
-C Chaque Thread calcul ses dimensions, on en d duit la dimension du domaine dans i22main_tri.
+C description: calculation of the dimensions of the lagrangian domain of the local domain.
+C Each thread calculates its dimensions, we dive the dimension of the domain in i22main_tri.
 
 
       NSNF=1+ITASK*NSN/NTHREAD

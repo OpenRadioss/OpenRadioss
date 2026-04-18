@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    parsor      ../starter/source/output/anim/parsor.F
+!||    parsor        ../starter/source/output/anim/parsor.F
 !||--- called by ------------------------------------------------------
-!||    dd_ani      ../starter/source/output/anim/dd_ani.F
+!||    dd_ani        ../starter/source/output/anim/dd_ani.F
 !||--- calls      -----------------------------------------------------
-!||    facnor      ../starter/source/output/anim/facnor.F
-!||    facnor2     ../starter/source/output/anim/facnor.F
+!||    facnor        ../starter/source/output/anim/facnor.F
+!||    facnor2       ../starter/source/output/anim/facnor.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PARSOR(X    ,D    ,XNORM ,IADD ,CDG  ,
      .                  BUFEL,IPARG,IXS   ,IXQ  ,IXC  ,
      .                  IXTG ,IXT  ,IXP   ,IXR  ,INVERT,
      .                  KXSP ,IXSP  )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +61,7 @@ C     REAL
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, N1, N2,
      .        IPID, NEL, IAD, NPAR, NFT, IMID,IALEL, MTN
-      INTEGER ANIM_K, PROC, P, jj
+      INTEGER PROC, P, jj
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------
@@ -88,7 +90,7 @@ C
         P     =IPARG(32,NG)+1
         LFT=1
         LLT=NEL
-C  test si proc doit traiter ce groupe
+C  test if proc must process this group
         IF (P/=PROC) GOTO 790
 C-----------------------------------------------
 C       SOLID 8N
@@ -285,11 +287,11 @@ C-----------------------------------------------
 C       SPH Particules
 C-----------------------------------------------
         ELSEIF(ITY==51)THEN
-C idem poutre pour visualisation domdec SPH
+C Ditto beam for visualization of Domdec Sph
           DO I=LFT,LLT
              N = I + NFT
              N1 = KXSP(3,N)
-C on prend les 12 premieres cellules voisines
+C We take the first 12 neighboring cells
              DO JJ = 1,MIN(12,KXSP(4,N))
                N2 = IXSP(JJ,N) 
                IF(N1<N2)THEN

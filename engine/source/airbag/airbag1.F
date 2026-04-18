@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -277,7 +277,7 @@ C
        ENDDO
 
 C---------------------
-C      contribution du GAZ A L'INITIAL...
+C      Gas contribution to the initial ...
 C---------------------
        DGMOUT=RVOLU(24)*DT1
        CPAI   =RVOLU(7)
@@ -295,7 +295,7 @@ C
        AMTOT=AMTOT-DGMOUT
        RVOLU(11)=GMI
 C---------------------
-C      variation de TEMPERATURE et PRESSION
+C      variation of TEMPERATURE and PRESSURE
 C---------------------
        GMI =RVOLU(11)
        CPAI=RVOLU(7)
@@ -317,7 +317,7 @@ C---------------------
        TBAG  = MAX(TBAG,ZERO)
        P=RNM*TBAG/VOL
 C---------------------
-C      GAMA DU MELANGE (inclus caracteristiques du gaz a l'initial).
+C      Gama of the Melange (included characteristics of the gas at the initial).
 C---------------------
        CPI=CPAI+CPBI*TBAG+CPCI*TBAG*TBAG
        CVI=CPI-RMWI

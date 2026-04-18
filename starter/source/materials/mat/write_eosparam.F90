@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,7 +51,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
+        INTEGER :: I,IAD,NFIX
         INTEGER ,DIMENSION(NCHARTITLE) :: NAME
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
         real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
@@ -59,6 +59,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+
         !INTEGER parameter
         NFIX = 6
         ALLOCATE (IBUF(NFIX + 1))
@@ -75,11 +77,13 @@
         IAD = IAD+1
         IBUF(IAD) = EOS%ISFLUID
         IAD = IAD+1
+        IBUF(IAD) = EOS%EOSTYPE
+        IAD = IAD+1
         CALL WRITE_I_C(IBUF,NFIX+1)
         DEALLOCATE(IBUF)
 
         !REAL parameter
-        NFIX = 2
+        NFIX = 6
         ALLOCATE (RBUF(NFIX))
         ALLOCATE(IBUF(1))
         IBUF(1)=NFIX
@@ -88,6 +92,14 @@
         IAD = IAD+1
         RBUF(IAD) = EOS%CP
         IAD = IAD+1
+        RBUF(IAD) = EOS%PSH
+        IAD = IAD+1
+        RBUF(IAD) = EOS%E0
+        IAD = IAD+1
+        RBUF(IAD) = EOS%P0
+        IAD = IAD+1
+        RBUF(IAD) = EOS%PMIN
+        IAD = IAD+1                        
         CALL WRITE_I_C(IBUF,1)
         CALL WRITE_DB(RBUF,NFIX)
         DEALLOCATE(RBUF)

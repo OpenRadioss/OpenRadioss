@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,6 @@ C-----------------------------------------------
      .      ISOLNOD,ISOLID,IFRAM,IORTH,IREP,IGTYP,ISH3N,NDIR,NLAYERS,
      .      UID,SUB_ID,NLAY,NPTR,NPTS,NPTT,IFAIL,IRUPT_TYP,NVAR_RUPT,
      .      ILAY,IMAT,NPT_MAX,NUBEAM0,NVSH_STRA,ISMSTR
-      INTEGER IGBR, JGBR, IOK
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARKEY) :: KEY2, KEY3
 C=======================================================================
@@ -93,7 +92,7 @@ C=======================================================================
 !
       IF (ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
 C
-C      FICHIER Y000, Block CONTROL
+C      Y000 FILE, Block CONTROL
 C
        REWIND(IIN5)
 C
@@ -176,7 +175,7 @@ C
           NU = (NUVAR - ND)/6
           IF(ND/=0) NU = NU +1
           IF(NUVAR < 6) NU = 1 
-C --- coque standard.
+C --- standard shell.
            DO J1 = 1,NU * MAX(1,NIP)*MAX(1,NPG)
  406       READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
             IF(LINE(1:1)=='#')GOTO 406
@@ -185,7 +184,7 @@ C --- coque standard.
           GO TO 405
  449  CONTINUE
 C-----------------------------------------------------------------
-C      FICHIER Ynnn
+C      Ynnn FILE
 C      stress/full
 C      NIP + THK + ENER + STRESS + EPS PLASTIC
 C-----------------------------------------------------------------

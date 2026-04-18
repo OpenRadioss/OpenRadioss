@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    strs_txt50          ../engine/source/output/sta/sta_txt.F
 !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -42,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD         
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
@@ -71,20 +73,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
-      INTEGER I,N,J,K,L,II,JJ,ID,IE,LEN,NG,NEL,NFT,ITY,LFT,LLT,NPT,
+      INTEGER I, N, J, K, L, II, JJ, ID, IE, LEN, NG, NEL, NFT, ITY, LFT, LLT, 
      .   MLW,IGTYP,IPRT0,IPRT,IVAR,IMAT,
      .   NPG,IPG,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,IC,IFAIL,NV,
      .   NFAIL,NVAR_RUPT,NPTG,IRUPT,IRUPT_TYPE,ISUBSTACK
-      INTEGER MAT(MVSIZ), PID(MVSIZ)
+ 
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   
      .    THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF 
+ 
       TYPE(BUF_FAIL_),POINTER :: FBUF  
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX
@@ -197,7 +199,7 @@ c
             ENDDO      ! IL = 1,NLAY
 c                                                          
             IE=IE+1
-C       pointeur de fin de zone
+C       end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO        ! I=LFT,LLT
 c--------------
@@ -218,7 +220,7 @@ c
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -229,9 +231,9 @@ c
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELC_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXC(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IPRT  = NINT(WAP0(J + 2))
           IF (IPRT /= IPRT0) THEN 
@@ -430,7 +432,7 @@ c
             ENDDO      ! IL = 1,NLAY
 c                                                          
             IE=IE+1
-C       pointeur de fin de zone
+C       end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO        ! I=LFT,LLT
 c--------------
@@ -451,7 +453,7 @@ c
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -462,9 +464,9 @@ c
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXTG(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IPRT = NINT(WAP0(J + 2))
           IF (IPRT /= IPRT0) THEN 

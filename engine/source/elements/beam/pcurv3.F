@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,13 +65,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, IRX, IR1Y, IR1Z,
-     .   IR2Y, IR2Z, IRY, IRZ, J
+     .   IR2Y, IR2Z, IRY, IRZ
       my_real
      .   RXAV(MVSIZ), RYAV(MVSIZ), RZAV(MVSIZ),EXX00(MVSIZ), EXY00(MVSIZ), 
      .   EXZ00(MVSIZ), EXY0(MVSIZ), EXZ0(MVSIZ),RZ10(MVSIZ),
-     .   RY10(MVSIZ), RZ20(MVSIZ), RY20(MVSIZ), EXX00PHI,EXY00PHI, 
-     .   EXZ00PHI, EXY0PHI, EXZ0PHI, RX10PHI, RY10PHI, RZ10PHI, 
-     .   RX20PHI, RY20PHI, RZ20PHI,OFF_L,DT05   
+     .   RY10(MVSIZ), RZ20(MVSIZ), RY20(MVSIZ), 
+     .        
+     .     OFF_L,DT05   
 C-----------------------------------------------
       DO I=1,NEL
         RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
@@ -110,7 +110,7 @@ C
         RZ2(I)=RZ2(I)+RXAV(I)*(RY20(I)+EXZ(I))
       ENDDO
 C---------------------------------------------------
-C     LIBERATION DES ROTATIONS
+C     RELEASE OF ROTATIONS
 C---------------------------------------------------
       DO I=1,NEL
         IG=PID(I)

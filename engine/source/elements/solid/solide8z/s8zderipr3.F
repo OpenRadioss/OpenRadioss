@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8zderipr3    ../engine/source/elements/solid/solide8z/s8zderipr3.F
 !||--- called by ------------------------------------------------------
 !||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg        ../engine/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
@@ -37,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   JAC6,    JACI1,   JACI2,   JACI3,
      8   JACI4,   JACI5,   JACI6,   JACI7,
      9   JACI8,   JACI9,   NNEGA,   INDEX,
-     A   IPT,     NEL)
+     A   IPT,     NEL  ,   MSTOP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER NNEGA,INDEX(*),IPT
+      INTEGER, INTENT(INOUT) :: MSTOP
 C     REAL
       my_real
      .   OFFG(*),KSI,ETA,ZETA,WI,
@@ -79,7 +82,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR
+      INTEGER NGL(*), I ,ICOR
 C     REAL
 C                                                                     12
       my_real
@@ -135,13 +138,37 @@ C
         ENDIF
       ENDDO
       IF (ICOR>0.AND.INCONV==1) THEN
-       DO I=1,NEL
-       IF (OFFG(I) /= TWO.AND.OFFG(I) /= ZERO ) THEN
-         NNEGA=NNEGA+1
-        INDEX(NNEGA)=I
-        OFFG(I) = TWO
-       END IF
-       ENDDO
+        IF (INEG_V==0) THEN   ! /NEGVOL/STOP
+            DO I=1,NEL
+              IF(VOL(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+                VOL(I)=ONE
+                OFFG(I)=ZERO
+#include "lockon.inc"
+                CALL ANCMSG(MSGID=320,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+           END DO
+           MSTOP = 1
+        ELSE IF (INEG_V==2) THEN  !deletion
+            DO I=1,NEL
+             IF(VOL(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              VOL(I)=ONE
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=319,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+              IDEL7NOK = 1
+             END IF
+            END DO
+        ELSE ! switch to small strain
+          DO I=1,NEL
+          IF (OFFG(I) /= TWO.AND.OFFG(I) /= ZERO ) THEN
+            NNEGA=NNEGA+1
+           INDEX(NNEGA)=I
+           OFFG(I) = TWO
+          END IF
+          ENDDO
+        END IF !(INEG_V==2) 
       END IF
 C
       IF (ICOR>0.AND.IMPL_S>0) THEN

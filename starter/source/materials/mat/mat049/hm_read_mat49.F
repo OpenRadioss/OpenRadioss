@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,15 +83,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT
-      INTEGER JTHE, IFLAGR
+      INTEGER IEOS, COUNT
       my_real
      .    YOUNG,NU,SIG0,CB,CN,SIGM,EPSM,T0,TMELT,PMIN,
      .    SPH,CB1,CB2,CH,CF,G0,BULK,
-     .    FAC_L,FAC_T,FAC_M,FAC_C,
-     .   BID2 ,BID3 ,BID4 ,BID5 ,
-     .   BID2_,BID3_,BID4_,BID5_,
-     .   C0,C1,C2,C3,C4,C5,E0,PSH,RHO0,RHOR
+     .    
+     .   
+     .   
+     .   PSH,RHO0,RHOR
       CHARACTER*32 :: MTL_MSG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -235,11 +234,6 @@ C--------------------------------
      & 5X,'H COEFFICIENT . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'F COEFFICIENT . . . . . . . . . . . . .=',1PG20.13//)
 C-----------
- 2000 FORMAT(
-     & 5X,'  POLYNOMIAL EOS                       ',/,
-     & 5X,'  --------------                       ',/,   
-     & 5X,'    INPUT 100 IS OBSOLETE              ',/,         
-     & 5X,'    IT CAN BE REPLACED BY /EOS CARD    ',/)
  2001 FORMAT(/
      & 5X,A,/,
      & 5X,'   MATERIAL NUMBER . . . . . . . . . . . .=',I10/,

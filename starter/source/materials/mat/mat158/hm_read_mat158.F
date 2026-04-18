@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,ISENS
+      INTEGER :: ILAW,ISENS
       my_real :: RHO0,KFLEX,KFLEX1,KFLEX2,EMBC,EMBT,ZEROSTRESS,
      .           LC0,LT0,DC0,DT0,HC0,HT0,STRESS_UNIT
       my_real ,DIMENSION(5) ::  YFAC

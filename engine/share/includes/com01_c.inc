@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ C.../COM01/
      .               NCYCLE, IRUN,   IGER,    LBUFEL, IRODDL, 
      .               IEULER, IHSH,    ITESTV, ITURB,
      .               ILAG,   ISECUT, IDAMP,   IRXDP,  NMULT,
-     .               INTEG8, ISIGI,  NSPMD,   LENWA,  ISGIFL,
+     .               INTEG8, ISIGI,  NSPMD,   LENWA,
      .               NNODS,  NCNOIS, LCNE0,   IPARI0,
      .               IMAXIMP,NNOISER,NSPGROUP,IRESMD, IFRWV,
      .               INTBAG ,ICLOSE ,LICBAG  ,LRCBAG,LIBAGJET,
@@ -44,7 +44,7 @@ C.../COM01/
      .               NCYCLE, IRUN,   IGER,    LBUFEL, IRODDL, 
      .               IEULER, IHSH,    ITESTV, ITURB,
      .               ILAG,   ISECUT, IDAMP,   IRXDP,  NMULT,
-     .               INTEG8, ISIGI,  NSPMD,   LENWA,  ISGIFL,
+     .               INTEG8, ISIGI,  NSPMD,   LENWA,
      .               NNODS,  NCNOIS, LCNE0,   IPARI0,
      .               IMAXIMP,NNOISER,NSPGROUP,IRESMD, IFRWV,
      .               INTBAG ,ICLOSE ,LICBAG  ,LRCBAG,LIBAGJET,

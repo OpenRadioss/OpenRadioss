@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,7 +73,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4
+      INTEGER I ,J , L, NN, IG, IX,  NI
       my_real
      .        XN
 C-----------------------------------------------
@@ -275,7 +275,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, NOR, II(4)
+      INTEGER I ,J , K, L, NN, IG, IX,  NI, NOR, II(4)
       my_real
      .        XN
 C-----------------------------------------------
@@ -511,7 +511,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, NOR, II(4), ISH
+      INTEGER I ,J , L, NN, IG, IX,  NI, ISH
       my_real
      .        XN
 C-----------------------------------------------
@@ -851,7 +851,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , L, NN, IG, JFT, IX,  NI, I1, I2, I3, I4, IT
+      INTEGER I ,J , L, NN, IG, IX,  NI, IT
       my_real
      .        XN,DTS,STIF_MSDT(MVSIZ)
 C-----------------------------------------------
@@ -861,7 +861,7 @@ C-----------------------------------------------
            IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
-C---------------voir quand KINET(IG) est utilise  
+C-------------- see when Kinet (IG) is used  
              KINI(I) = KINET(IG)
              XI(I) = X(1,IG)
              YI(I) = X(2,IG)
@@ -1130,7 +1130,7 @@ C----------
         LC(I)  =LCM(IT,INDEX(I))
       ENDDO
 
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)

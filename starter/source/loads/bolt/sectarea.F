@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,8 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sectarea          ../starter/source/loads/bolt/sectarea.F
 !||--- called by ------------------------------------------------------
 !||    hm_read_preload   ../starter/source/loads/general/preload/hm_read_preload.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
-      SUBROUTINE SECTAREA(IXS,IXS10,X,IBUF,NELE,ISOLNOD,AREA,ITAB)  
+      SUBROUTINE SECTAREA(IXS,IXS10,X,IBUF,NELE,ISOLNOD,AREA,ITAB)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------     
-      INTEGER IE,II,I,J,IN1,IN2,IN3,IJ,I10
+      INTEGER IE, II, I, J, IN1, IN2, IN3, I10
       INTEGER NODE(10)
       my_real
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3
@@ -58,7 +60,7 @@ C=======================================================================
         II=IBUF(1,IE)
         NODE(1:10) = 0
         IF(II<=NUMELS8)THEN
-         IF(ISOLNOD(II) == 4) THEN     ! Cas du tetra4
+         IF(ISOLNOD(II) == 4) THEN     ! Case of tetra4
            DO I=0,6,2
             IF(BTEST(IBUF(2,IE),I)) THEN
               J=J+1

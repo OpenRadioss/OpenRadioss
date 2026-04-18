@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,8 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_dcod_function    ../starter/source/interfaces/reader/inter_dcod_function.F
 !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
 !||    ngr2usr                ../starter/source/system/nintrr.F
+!||    ngr2usrnn              ../starter/source/system/ngr2usrnn.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    ngr2usrnn_mod          ../starter/source/system/ngr2usrnn.F90
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_INTER_TYPE25(
@@ -44,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3        SENSORS     ,NOM_OPT         ,UNITAB    ,LSUBMODEL  ,TITR       ,
      4        NOM_OPTFRIC ,INTBUF_FRIC_TAB ,NPC       ,NPC1       ,TF         ,
      5        PARAMETERS  ,NPARI           ,NPARIR    ,SNPC       ,SNPC1      ,
-     6        NPTS        ,ITHERM_FE       ,INTHEAT   )
+     6        NPTS        ,ITHERM_FE       ,INTHEAT   ,IGRSLIN    )
 C============================================================================
 C     
 C-----------------------------------------------
@@ -59,6 +61,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE PARAMETERS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      USE NGR2USRNN_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,6 +93,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (PARAMETERS_) ,INTENT(INOUT):: PARAMETERS
+      TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -98,16 +102,17 @@ C-----------------------------------------------
       INTEGER I,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP,INACTI,
      .    IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,ILEV,
      .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,ISYM,IEDGE,NOD1,
-     .    IDEL25,KK,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
+     .    IDEL25,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
      .    IREM25I2,IPRINT,INTFRIC,MULTIMPE,IASSIGN,ISHARP,   
      .    ITHK,NOTUSED,INTTH,IFORM,IKTHE,FCOND,IFRICTH,NPREF,
-     .    IPSTIF
+     .    IPSTIF,IS3,ISU3,ISU4,NUM
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
      .    GAPSCALE,STMIN,STMAX,EDG_ANGL,VISC,VISCF,PERCENT_SIZE,
      .    GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,SIGMAXADH,VISCADHFACT,
      .    VISCFLUID,PMAX,KTHE,TINT,XTHE,FRAD,DRAD,FHEATS,
-     .    FHEATM,DCOND,XTHE_UNIT,TPFIT,STFACM,DTSTIF
+     .    FHEATM,DCOND,XTHE_UNIT,TPFIT,STFACM,DTSTIF,THK_S,THK_M,
+     .    THK_S_SCALE,THK_M_SCALE
       CHARACTER(LEN=NCHARKEY) ::  KEY1
       CHARACTER(LEN=NCHARFIELD) ::BCFLAG
 !
@@ -176,7 +181,6 @@ C
       C5=ZERO
       C6=ZERO
 
-      GAPSCALE = ZERO
       PERCENT_SIZE = ZERO
       EDG_ANGL = ZERO
       GAPMAX_S = ZERO
@@ -196,6 +200,10 @@ C
       DCOND = ZERO
       STFACM= ZERO
       DTSTIF= ZERO
+      THK_S = ZERO
+      THK_M = ZERO
+      THK_S_SCALE = ZERO
+      THK_M_SCALE = ZERO
 C
       IASSIGN = 1
 C
@@ -306,6 +314,12 @@ C
          CALL HM_GET_FLOATV('D_COND',DCOND,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 C
+      IF(IGAP == 5 ) THEN
+         CALL HM_GET_FLOATV('THICK_S',THK_S,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+         CALL HM_GET_FLOATV('THICK_M',THK_M,IS_AVAILABLE,LSUBMODEL,UNITAB)
+         CALL HM_GET_FLOATV('THICK_S_SCALE',THK_S_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+         CALL HM_GET_FLOATV('THICK_M_SCALE',THK_M_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ENDIF
 C--------------------------------------------------
 C DEFAULT VALUES DEFINITION 
 C--------------------------------------------------
@@ -359,6 +373,9 @@ C
 C....* Card1 :flags  *.............
 C
         IF(IGAP==2) THEN
+           FLAGREMNOD = 2
+        ENDIF
+        IF(IGAP==5) THEN
            FLAGREMNOD = 2
         ENDIF
         IF (FLAGREMNOD == 0) FLAGREMNOD = 1
@@ -418,7 +435,9 @@ C            3 : ISU1=0,ISU2>0;IS3>0
         END IF
 
         ISYM = 1
-
+        IS3 = 0
+        ISU3 = ISU1
+        ISU4 = ISU2
         SELECT CASE (ILEV)
           CASE(1)          
             INGR2USR => IGRSURF(1:NSURF)%ID
@@ -426,6 +445,23 @@ C            3 : ISU1=0,ISU2>0;IS3>0
             ISU2=ISU1
             IS1=-1
             IS2=-3
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
+              IF (ISU3==0) THEN
+                 IS1=-1
+                 IS2=-3
+              ELSE
+                 IS1=-6
+                 IS2=-5
+              END IF
+            ELSE
+              ISU3 = 0
+              ISU4 = 0     
+            ENDIF
+
+
           CASE(2)
 C----------------if we copy int7--
             IS1 = 0
@@ -444,18 +480,46 @@ C----------------if we copy int7--
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
             IS1=-1
             IS2=-1
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU3=NGR2USRNN(ISU3,INGR2USR,NSLIN)
+              IF (ISU3==0) THEN
+                 IS1=-1
+              ELSE
+                 IS1=-6
+              END IF
+            ELSE
+              ISU3 = 0
+            ENDIF
+
+            IF(NSLIN >0.AND.IEDGE >0) THEN
+              INGR2USR => IGRSLIN(1:NSLIN)%ID
+              ISU4=NGR2USRNN(ISU4,INGR2USR,NSLIN)
+              IF (ISU4==0) THEN
+                 IS2=-1
+              ELSE
+                 IS2=-6
+              END IF
+            ELSE
+              ISU4 = 0
+            ENDIF
+ 
           CASE(3)
             INGR2USR => IGRSURF(1:NSURF)%ID
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
            IS1=-2
            IS2=-1
+           ISU3 = 0
+           ISU4 = 0
         END SELECT
         INGR2USR => IGRNOD(1:NGRNOD)%ID
         IF(NOD1 /= 0) NOD1=NGR2USR(NOD1,INGR2USR,NGRNOD)
-
         IPARI(13)=IS1*10+IS2
         IPARI(45)=ISU1
         IPARI(46)=ISU2
+        IPARI(102)=ISU3
+        IPARI(103)=ISU4
 
         IPARI(26)=NOD1
         IPARI(43)=ISYM
@@ -609,7 +673,7 @@ C------------remove BUMULT
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
-C bmult augmente pour les tres gros modeles et interface 7 ou 20
+C bmult increases for very large models and interface 7 or 20
 
             IF(NUMNOD > 2500000) THEN
               BUMULT = BMUL0*TWO
@@ -709,8 +773,8 @@ C-----
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
         FRIGAP(10)=FLOAT(0)
 
-C       POUR STOCKER LE FLAG D'INACTIVATION DES PENE INITIALES
-C       (0 = RIEN , 1 = NOEUDS , 2 = FACETTES )
+C       TO STORE THE FLAG FOR DEACTIVATION OF INITIAL PENETRATIONS
+C       (0 = NOTHING , 1 = NODES , 2 = FACETS )
         MULTIMP = 4
         IPARI(23)=MULTIMP
 
@@ -791,6 +855,12 @@ C
              ENDIF
         ENDIF
 
+        IF(IGAP == 5)THEN
+           IF(THK_S_SCALE == ZERO)   THK_S_SCALE = ONE
+           IF(THK_M_SCALE == ZERO)   THK_M_SCALE = ONE
+        ENDIF
+
+
         FRIGAP(20)  = KTHE
         FRIGAP(21 ) = FHEATS
         FRIGAP(22 ) = TINT
@@ -803,6 +873,26 @@ C
         IPARI(93)   = FCOND
         FRIGAP(34)  = DCOND
         IPARI(50)   = IFRICTH
+        FRIGAP(49)  = THK_S
+        FRIGAP(50 ) = THK_M
+        FRIGAP(51 ) = THK_S_SCALE
+        FRIGAP(52 ) = THK_M_SCALE
+        IF(IGAP == 5.AND.THK_S == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='SECONDARY')
+        ENDIF
+        IF(IGAP == 5.AND.THK_M == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='MAIN')
+        ENDIF
 
 C
 C------------------------------------------------------------
@@ -929,7 +1019,9 @@ C Interface Adhesion
            WRITE(IOUT,2103) IKTHE,XTHE,KTHE,TINT,FRAD,DRAD,FHEATS,FHEATM,IFORM,FCOND,DCOND
          END IF
        END IF
-
+       IF(IGAP == 5 )THEN
+           WRITE(IOUT,5051) THK_S,THK_S_SCALE,THK_M,THK_M_SCALE
+       ENDIF
 C--------------------------------------------------------------
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -942,7 +1034,9 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'     
+      ELSEIF(IS1==6 )THEN
+        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS AND LINES'     
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -955,10 +1049,11 @@ C--------------------------------------------------------------
       ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
+      ELSEIF(IS2==5 )THEN
+        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS AND LINES'     
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 
@@ -997,10 +1092,7 @@ C------------
      .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
      .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
      .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
+
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
@@ -1086,6 +1178,13 @@ C
      .       '    INTERFACE FLUID VISCOSITY . . . . . . . ',1PG20.13/,
      .       '    MAXIMUM ADHESIVE FORCE PER UNIT AREA. . ',1PG20.13/,
      .       '    TANGENTIAL VISCOUS FORCE SCALE FACTOR . ',1PG20.13/)  
+C
+ 5051 FORMAT(/
+     .       '    CONSTANT CONTACT THICKNESS              ' /,
+     .       '    SECONDARY CONTACT THICKNESS . . . . . . ',1PG20.13/,
+     .       '    SECONDARY CONTACT THICKNESS SCALE . . . ',1PG20.13/,
+     .       '    MAIN CONTACT THICKNESS  . . . . . . . . ',1PG20.13/,
+     .       '    MAIN CONTACT THICKNESS SCALE  . . . . . ',1PG20.13/)  
 C
  2102   FORMAT(//
      .      '    Thermal interface                          ' //,

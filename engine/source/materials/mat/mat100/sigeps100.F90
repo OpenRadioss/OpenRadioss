@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps100_mod
+      implicit none
       contains
 !! \brief Compute the stress and plasticity for a material model 100 for Brick elements
 !||====================================================================
@@ -134,42 +135,40 @@
           integer , intent(in) :: nfunc
           integer , intent(in) :: ifunc(nfunc)
           real(kind=WP) , intent(in) :: tf(stf)
-          real(kind=WP) :: fint2v
           real(kind=WP) :: finter,fintte
           external finter,fintte
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer    :: i,j,kk,ll,n,flagbb,direct,iter,niter,tab,tabn,shift,nindx
-          integer  :: n_network, flag_he, flag_mul, flag_t,nhyper,nplas,iform,&
-          &flag_pl,net,exppl, nvisc(10),&
+          integer    :: i,n,tab,tabn,shift
+          integer  :: n_network, flag_he, flag_mul,nplas,iform,&
+          &flag_pl,exppl, nvisc(10),&
           &flag_visc(10),&
           &ipos1(nel),ilen1(nel),iad1(nel),&
           &ipos2(nel),ilen2(nel),iad2(nel)
 
-          real(kind=WP) :: et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
-          &maxl,stiff0,dsig,deps,coef1,coef2,coef3,coef4,coef5,coef6,&
-          &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0,ff, epshat,&
-          &temp1,facpl,hh,r3r3,&
-!
+          real(kind=WP) :: g,rbulk, factor,ff,                                       &
+          &stiff0,dsig,deps,&
+          &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0, epshat,            &
+          &temp1,facpl,r3r3,&
           &bi1(nel),bi2(nel),jdet(nel),gammaold(nel),stiff(nel),&
           &traceb(nel),&
-          &sb1(nel), sb2(nel),sb3(nel),sb4(nel), sb5(nel),sb6(nel),ww(nel),&
+          &sb1(nel), sb2(nel),sb3(nel),sb4(nel), sb5(nel),sb6(nel),              &
           &sa1(nel), sa2(nel),sa3(nel),sa4(nel), sa5(nel),sa6(nel),tanorm(nel),&
-          &tbnorm(nel),dgamma(nel),pla(nel),yld(nel), tauy(nel),&
+          &tbnorm(nel),dgamma(nel),pla(nel), tauy(nel),&
           &tracea(nel),plap(nel),dpla(nel),munh(nel),dnh(nel),dydx1(nel),dydx2(nel),&
           &r1x(nel),r1y(nel),r1z(nel),r2x(nel),r2y(nel),r2z(nel),r3x(nel),r3y(nel),r3z(nel),&
-          &f(nel,3,3),ft(nel,3,3),fe(nel,3,3),fp(nel,3,3),&
+          &f(nel,3,3),fe(nel,3,3),fp(nel,3,3),&
           &fft(nel,3,3),invfpo(nel,3,3),matb(nel,3,3),fpo(nel,3,3),&
-          &sig(nel,3,3),sigb(nel,3,3),siga(nel,3,3),sn(nel,3,3),&
+          &sigb(nel,3,3),siga(nel,3,3),sn(nel,3,3),&
           &fth(nel,3,3), ftot(nel,3,3),fmec(nel,3,3),invfth(nel,3,3),&
           &fftn(nel,3,3),fpeq(nel,3,3),fpeqo(nel,3,3),s(nel,3,3),fedp(nel,3,3),&
-          &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),invfe(nel,3,3)
+          &dfp(nel,3,3),lb(nel,3,3),invfe(nel,3,3)
           !
           real(kind=WP) :: a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
           &b0(10),expn(10),tauref(10)
           !
-          real(kind=WP) :: c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
+          real(kind=WP) :: c1,c2,c3,c4,c5,mu,d,beta,scale1,scale2
           real(kind=WP) :: coefr,betaf ,coefm
 !----------------------------------------------------------------
 !     material model : prf : parallel rheological framework
@@ -195,7 +194,7 @@
             coefr = uparamf(1)
             betaf = uparamf(2)
             coefm = uparamf(3)
-          endif
+          end if
 
           flag_pl    =  uparam(5)
           nplas      =  0
@@ -217,7 +216,7 @@
             d2     = uparam(tab + 11)
             d3     = uparam(tab + 12)
             tab = tab + 12
-          elseif (flag_he == 2) then
+          else if (flag_he == 2) then
             c1   =    uparam(tab + 1)
             c2   =    uparam(tab + 2)
             c3   =    uparam(tab + 3)
@@ -227,7 +226,7 @@
             d    =    uparam(tab + 7) !=1/d
             beta =    uparam(tab + 8)
             tab = tab + 10
-          elseif (flag_he == 13) then
+          else if (flag_he == 13) then
 
             scale1   =    uparam(tab + 1)
             scale2   =    uparam(tab + 2)
@@ -243,7 +242,7 @@
               ipos2(i) = nint(uvar(i, tabn +2))
               iad2(i)  = npf(ifunc(2)) / 2 + 1
               ilen2(i) = npf(ifunc(2)+1) / 2 - iad2(i) - ipos2(i)
-            enddo
+            end do
             call vinter(tf,iad1,ipos1,ilen1,nel,tempel,dydx1,munh)
             call vinter(tf,iad2,ipos2,ilen2,nel,tempel,dydx2,dnh)
 
@@ -252,9 +251,9 @@
               uvar(i, tabn +2) = ipos2(i)
               munh(i) = munh(i) * scale1
               dnh(i)  = dnh(i) * scale2
-            enddo
+            end do
             tabn = tabn + 2
-          endif
+          end if
 
           if (flag_pl == 1) then
             nplas = 5
@@ -263,7 +262,7 @@
             tauy0   = uparam(tab + 3)
             exppl   = nint(uparam(tab + 4) )
             facpl   = uparam(tab + 5)
-          endif
+          end if
 
 
           !viscous parameters
@@ -281,24 +280,24 @@
               ksi(n)    = uparam(tab + 7)
               tauref(n) = uparam(tab + 8)
               tab = tab + 3 + nvisc(n)
-            elseif (flag_visc(n) == 2)then
+            else if (flag_visc(n) == 2)then
               a10(n)    = uparam(tab + 4)
               a1(n)     = a10(n)*timestep
               b0(n)     = uparam(tab + 5)
               expn(n)   = uparam(tab + 6)
               tab = tab + 3 + nvisc(n)
-            elseif (flag_visc(n) == 3)then
+            else if (flag_visc(n) == 3)then
               a10(n)    = uparam(tab + 4)
               a1(n)     = a10(n)*timestep
               expn(n)   = uparam(tab + 5)
               expm(n)   = uparam(tab + 6)
               tab = tab + 3 + nvisc(n)
-            endif
-          enddo
+            end if
+          end do
           if (flag_he /= 13) then
             g    =  uparam(tab + 1 ) !idem starter stockage at the end
             rbulk=  uparam(tab + 2 )
-          endif
+          end if
           stiff0 = four_over_3*g + rbulk
 
           if(time == zero)then
@@ -308,9 +307,9 @@
                 uvar(i,tabn+5) = one
                 uvar(i,tabn+6) = one
                 uvar(i,tabn+7) = one
-              enddo
+              end do
               tabn = tabn+ 4 + 9
-            endif
+            end if
             do n = 1, n_network
 
               !------------------------
@@ -319,37 +318,37 @@
                   uvar(i,tabn+1) = one
                   uvar(i,tabn+2) = one
                   uvar(i,tabn+3) = one
-                enddo
+                end do
                 shift = 9 +1  +1
                 ! 9 = nombre de termes dans matrices fp
                 !+1 = dgamma
                 !+1 = tbnorm
-              elseif (flag_visc(n) == 2 ) then !sinh
+              else if (flag_visc(n) == 2 ) then !sinh
                 do  i = 1, nel
                   uvar(i,tabn+1) = one
                   uvar(i,tabn+2) = one
                   uvar(i,tabn+3) = one
-                enddo
+                end do
                 shift = 9 +1  +1
                 ! 9 = nombre de termes dans matrices fp
                 !+1 = dgamma
                 !+1 = tbnorm
-              elseif (flag_visc(n) == 3 ) then !power
+              else if (flag_visc(n) == 3 ) then !power
                 do  i = 1, nel
                   uvar(i,tabn+1) = one
                   uvar(i,tabn+2) = one
                   uvar(i,tabn+3) = one
                   uvar(i,tabn+10)= em20 !equivalent strain old
-                enddo
+                end do
                 shift = 10 +1 +1
                 ! 9 = nombre de termes dans matrices fp
                 !+1 = gamma
                 !+1 = dgamma
                 !+1 = tbnorm
-              endif
+              end if
               tabn = tabn + shift
-            enddo
-          endif
+            end do
+          end if
 
 
           tabn = 0
@@ -372,9 +371,9 @@
                 r3x (i) = r3x(i)/r3r3
                 r3y (i) = r3y(i)/r3r3
                 r3z (i) = r3z(i)/r3r3
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 
 
 
@@ -401,7 +400,7 @@
               ftot(i,2,1)  = mfyx(i)
               ftot(i,3,2)  = mfzy(i)
               ftot(i,1,3)  = mfxz(i)
-            enddo
+            end do
             call kmatinv3 (fth , invfth, nel) ! inverse (fth)
             call prodmat  (ftot , invfth, fmec, nel) ! fmec = ftot * invfth
 
@@ -415,7 +414,7 @@
               f(i,2,1)  = fmec(i,2,1)
               f(i,3,2)  = fmec(i,3,2)
               f(i,1,3)  = fmec(i,1,3)
-            enddo
+            end do
           else
             do i=1,nel
               f(i,1,1)  = one+mfxx(i) !fmec
@@ -427,9 +426,9 @@
               f(i,2,1)  = mfyx(i)
               f(i,3,2)  = mfzy(i)
               f(i,1,3)  = mfxz(i)
-            enddo
+            end do
 
-          endif
+          end if
 !
 !
 
@@ -445,17 +444,17 @@
               fpeqo(i,2,1)  = uvar(i,tabn+11)
               fpeqo(i,3,2)  = uvar(i,tabn+12)
               fpeqo(i,1,3)  = uvar(i,tabn+13)
-            enddo
+            end do
             if (jcvt >0 ) then ! corotational => need to rotate new fp to the global frame
               call rottoloc (nel,fpeqo,&
               &r1x, r1y, r1z, r2x, r2y, r2z, r3x, r3y, r3z)
-            endif
+            end if
             ! f^e = f * inv fpeqo then f^ef^e^t = b trial when having plasiticity in equilibrium network
             call calcmatb (nel, f, fpeqo, fft)!
           else
             !  f^ef^e^t = b trial considering trial f = f^e
             call prodaat(f ,  fft, nel) ! b = f * ft
-          endif
+          end if
 
 
 
@@ -469,19 +468,19 @@
             &c03 ,d1 ,d2  ,  d3, siga ,&
             &bi1,bi2,jdet ,flag_mul,&
             &nvarf,coefr, betaf,coefm  ,uvarf,rbulk,iform)
-          elseif (flag_he == 2) then
+          else if (flag_he == 2) then
             call sigaboyce(&
             &nel , fft ,c1,c2  ,c3,&
             &c4  ,c5   ,mu,beta,d ,&
             &siga ,bi1  , jdet ,flag_mul,&
             &nvarf,coefr, betaf,coefm  ,uvarf  )
-          elseif (flag_he == 13) then
+          else if (flag_he == 13) then
             call neo_hook_t(&
             &nel , fft , siga ,&
             &bi1,jdet ,flag_mul,munh,dnh,&
             &nvarf,coefr, betaf,coefm  ,uvarf)
 
-          endif ! flag_he
+          end if ! flag_he
 
           !========================================
           !equilibrium networks: compute plasticity
@@ -498,7 +497,7 @@
               sa6(i) =  siga(i,3,1)
               tanorm(i)   = sqrt( (max(em20,sa1(i)**2+sa2(i)**2+sa3(i)**2&
               &+     two*(sa4(i)**2+sa5(i)**2+sa6(i)**2 )) ) ) ! norm!
-            enddo
+            end do
 !
             do i=1,nel
               pla (i)   = uvar(i,tabn+4)
@@ -528,7 +527,7 @@
               s(i,2,1) = s(i,1,2)
               s(i,3,2) = s(i,2,3)
               s(i,1,3) = s(i,3,1)
-            enddo ! j=1,nindx
+            end do ! j=1,nindx
             call prodmat(s  ,fpeqo,  fpeq, nel) ! f_n+1 = (i + dt *dp)* f_n
             call calcmatb (nel, f, fpeq, fftn) ! b = f * ft
             !update stress
@@ -539,24 +538,24 @@
               &c03 ,d1 ,d2  ,  d3, siga ,&
               &bi1,bi2,jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf,rbulk,iform)
-            elseif (flag_he == 2) then
+            else if (flag_he == 2) then
               call sigaboyce(&
               &nel , fftn ,c1,c2  ,c3,&
               &c4  ,c5   ,mu,beta,d ,&
               &siga ,bi1  , jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf  )
-            elseif (flag_he == 13) then
+            else if (flag_he == 13) then
               call neo_hook_t(&
               &nel , fft , siga ,&
               &bi1,jdet ,flag_mul,munh,dnh,&
               &nvarf,coefr, betaf,coefm  ,uvarf)
 
-            endif ! flag_he
+            end if ! flag_he
             if (jcvt >0 ) then ! corotational => need to rotate new fp to the global frame
               call rottoglob (nel,fpeq,&
               &r1x, r1y, r1z, r2x, r2y, r2z, r3x, r3y, r3z)
 
-            endif
+            end if
             do i=1,nel
               tauy(i)  = tauy0 * (ff +(one - ff)*exp(-pla(i)/epshat))
               !tauy(i)  = hh *(one - uvar(i,1)/tauy0)*plap(i)*timestep + uvar(i,1)
@@ -571,9 +570,9 @@
               uvar(i,tabn +11)   =   fpeq(i,2,1)
               uvar(i,tabn +12)   =   fpeq(i,3,2)
               uvar(i,tabn +13)   =   fpeq(i,1,3)
-            enddo
+            end do
             tabn = tabn + 13
-          endif! if (flag_pl == 1)
+          end if! if (flag_pl == 1)
 
           !====================================
           !secondary networks: compute stresses
@@ -587,7 +586,7 @@
             signxy(i) = siga(i,1,2)
             signyz(i) = siga(i,2,3)
             signzx(i) = siga(i,3,1)
-          enddo
+          end do
           !------------------------
           !start loop over networks
           !------------------------
@@ -611,11 +610,11 @@
               fpo(i,3,2)  = uvar(i,tabn+8)
               fpo(i,1,3)  = uvar(i,tabn+9)
 !
-            enddo
+            end do
             if (jcvt >0 ) then ! corotational => need to rotate new fp to the global frame
               call rottoloc (nel,fpo,&
               &r1x, r1y, r1z, r2x, r2y, r2z, r3x, r3y, r3z)
-            endif
+            end if
             !fe ={f}{fp_old}^(-1) then  matb = fe fe^(t) (elastic part)
             !call calcmatb (nel, f, fpo, matb)
             call kmatinv3 (fpo , invfpo, nel)      !invfpo = inverse (fp)
@@ -635,20 +634,20 @@
               &bi1,bi2,jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf,rbulk,iform)
 
-            elseif (flag_he == 2) then !arruda boyce
+            else if (flag_he == 2) then !arruda boyce
               call sigaboyce(&
               &nel , matb ,c1,c2  ,c3,&
               &c4  ,c5   ,mu,beta,d ,&
               &sigb,bi1  ,jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf)
-            elseif (flag_he == 13) then !thermal neo hook
+            else if (flag_he == 13) then !thermal neo hook
               call neo_hook_t(&
               &nel , fft , sigb ,&
               &bi1,jdet ,flag_mul,munh,dnh,&
               &nvarf,coefr, betaf,coefm  ,uvarf)
 
 
-            endif ! flag_he
+            end if ! flag_he
 
             do i=1,nel  !     scale trial cauchy stress in chain b
               sigb(i,1,1) = stiffn(n) *  sigb(i,1,1)
@@ -657,7 +656,7 @@
               sigb(i,1,2) = stiffn(n) *  sigb(i,1,2)
               sigb(i,2,3) = stiffn(n) *  sigb(i,2,3)
               sigb(i,3,1) = stiffn(n) *  sigb(i,3,1)
-            enddo
+            end do
 
             !compute eeffective creep strain rate
             !------------------------------------
@@ -673,7 +672,7 @@
               !nomr of stress secondary network n
               tbnorm(i)   = sqrt (max(em20,sb1(i)**2+sb2(i)**2+sb3(i)**2&
               &+     two*(sb4(i)**2+sb5(i)**2+sb6(i)**2 ))  ) ! norm!
-            enddo
+            end do
 
             !------------------------------------
             !compute eeffective creep strain rate
@@ -684,29 +683,29 @@
               do i=1,nel
                 uvar(i,tabn+10) =   dgamma(i)
                 uvar(i,tabn+11) =   tbnorm(i)
-              enddo
+              end do
               shift = 9  +1 +1
 
-            elseif (flag_visc(n) == 2 )then !hyperbolic sine
+            else if (flag_visc(n) == 2 )then !hyperbolic sine
               call viscsinh ( nel, tbnorm,  a1(n),b0(n),&
               &expn(n) , dgamma )
               do i=1,nel
                 uvar(i,tabn+10) =   dgamma(i)
                 uvar(i,tabn+11) =   tbnorm(i)
-              enddo
+              end do
               shift = 9  + 1 +1
-            elseif (flag_visc(n) == 3 )then ! power law
+            else if (flag_visc(n) == 3 )then ! power law
               do i=1,nel
                 gammaold(i) =  uvar(i,tabn+10)
-              enddo
+              end do
               call viscpower ( nel, tbnorm,  a1(n),expm(n) ,expn(n),gammaold, dgamma )
               do i=1,nel
                 uvar(i,tabn+10) =   gammaold(i) +  dgamma(i)
                 uvar(i,tabn+11) =   dgamma(i)
                 uvar(i,tabn+12) =   tbnorm(i)
-              enddo
+              end do
               shift = 10  +1 +1
-            endif
+            end if
             !------------------------------------
 
             do i=1,nel
@@ -720,7 +719,7 @@
               lb(i,2,1) = lb(i,1,2)
               lb(i,3,2) = lb(i,2,3)
               lb(i,1,3) = lb(i,3,1)
-            enddo
+            end do
             !------------------------------------
             !solve f_n+1 viscous :
             !------------------------------------
@@ -740,7 +739,7 @@
               sn(i,2,1) = dfp(i,2,1)!+ half * dfp2(i,2,1)
               sn(i,3,2) = dfp(i,3,2)!+ half * dfp2(i,3,2)
               sn(i,1,3) = dfp(i,1,3)!+ half * dfp2(i,1,3)
-            enddo
+            end do
 
             call prodmat(sn ,fpo,  fp, nel)  !fp_n+1 = (i + dt *dfp)* fp_n
             call calcmatb (nel, f, fp, matb) !fe ={f}{fp}^(-1) then  matb = fe fe^(t)
@@ -752,27 +751,27 @@
               &c03 ,d1 ,d2  ,  d3, sigb ,&
               &bi1,bi2,jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf,rbulk,iform)
-            elseif (flag_he == 2) then
+            else if (flag_he == 2) then
               call sigaboyce(&
               &nel , matb ,c1,c2  ,c3,&
               &c4  ,c5   ,mu,beta,d ,&
               &sigb,bi1  ,jdet ,flag_mul,&
               &nvarf,coefr, betaf,coefm  ,uvarf)
 
-            elseif (flag_he == 13) then
+            else if (flag_he == 13) then
               call neo_hook_t(&
               &nel , fft , sigb ,&
               &bi1,jdet ,flag_mul,munh,dnh,&
               &nvarf,coefr, betaf,coefm  ,uvarf)
 
 
-            endif ! flag_he
+            end if ! flag_he
 
             if (jcvt >0 ) then ! corotational => need to rotate new fp to the global frame
               call rottoglob (nel,fp,&
               &r1x, r1y, r1z, r2x, r2y, r2z, r3x, r3y, r3z)
 
-            endif
+            end if
 
             do i=1,nel
               sigb(i,1,1) = stiffn(n) *  sigb(i,1,1)
@@ -790,7 +789,7 @@
               uvar(i,tabn+7)   =   fp(i,2,1)
               uvar(i,tabn+8)   =   fp(i,3,2)
               uvar(i,tabn+9)   =   fp(i,1,3)
-            enddo
+            end do
 
             !--------------------
             !update total stress
@@ -802,10 +801,10 @@
               signxy(i) = signxy(i) + sigb(i,1,2)
               signyz(i) = signyz(i) + sigb(i,2,3)
               signzx(i) = signzx(i) + sigb(i,3,1)
-            enddo
+            end do
             tabn = tabn + shift
 
-          enddo! n = 1, n_network
+          end do! n = 1, n_network
           !***************************************************************
           !***************************************************************
 
@@ -822,17 +821,17 @@
               stiff(i)= stiff0
             else
               stiff(i)= max(stiff0 ,dsig /max(em20,deps))
-            endif
+            end if
 !
             soundsp(i)=sqrt(stiff(i)/rho(i))
 
             viscmax(i) = zero
-          enddo
+          end do
           if (impl_s > 0 .or. ihet > 1) then
             do i=1,nel
               et(i)= max(one,stiff(i))
-            enddo
-          endif
+            end do
+          end if
 !-----------
           return
         end subroutine sigeps100

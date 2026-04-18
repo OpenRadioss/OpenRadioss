@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -369,6 +369,8 @@ C
 C---------------Affectation of new shell property--------------C
             IPARTL(6,K)= NUM
             IPARTL(2,K)= NUMGEO
+C---------------IGEO(125) used to keep track of multidomiasn void property        
+            IGEO_TEMP(125,NUMGEO)=1
 
 C---------------Reallocation and filling of IGEO and GEO------C
 

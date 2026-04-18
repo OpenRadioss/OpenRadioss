@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,8 +78,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID,IGFLU
-      INTEGER JTHE,STAT,CODCONV,CODREZO,IEXPAN
+      INTEGER uID1, uID2, MID1, MID2, ILAW1, ILAW2, JTUR, IMAT, IGFLU
+      INTEGER JTHE, CODCONV, CODREZO, IEXPAN
       INTEGER,EXTERNAL :: NINTRI   
       CHARACTER*5 CHAR_PROP,CHAR_MAT   
 C-----------------------------------------------
@@ -93,8 +93,8 @@ C-----------------------------------------------
         !################################################################!
         !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
         !################################################################!  
-        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler
+        ! Jale_from_mat = pm (72) 0: Lagrange 1: Ale 2: Euler 
+        ! Jale_from_prop = igeo (62) 0: Lagrange 1: Ale 2: Euler
         
         !/ALE/MAT or /EULER/MAT
         JALE_FROM_MAT = 0
@@ -186,8 +186,8 @@ C-----------------------------------------------
         !################################################################!
         !  /HEAT/MAT : thermal global flag  ITHEM & ITHERM_FE            !
         !################################################################!  
-        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler 
+        ! Jale_from_mat = pm (72) 0: Lagrange 1: Ale 2: Euler 
+        ! Jale_from_prop = igeo (62) 0: Lagrange 1: Ale 2: Euler 
         ! ITHERM : 1 => there are elements which require temperature at centroids
         ! ITHERM_FE : 1 => there are elements which require for temperature at nodes
         JTHE = 0
@@ -280,7 +280,7 @@ C-----------------------------------------------
         CODCONV=0  !convection : local flags related to current material law (CODV are global values)
         CODREZO=0  !rezoning   : local flags
       
-        !default convection
+        !Default convection
         IF(JALE_FROM_PROP /= 0 .OR. JALE_FROM_MAT /= 0)THEN
           IF(ILAW==1 .OR.
      .       ILAW==2 .OR.

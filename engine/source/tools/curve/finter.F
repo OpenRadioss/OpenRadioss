@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,16 +33,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    daasolv                      ../engine/source/fluid/daasolv.F
 !||    daasolvp                     ../engine/source/fluid/daasolvp.F
 !||    dam_fld_sol                  ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
-!||    ebcs11                       ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant            ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    fail_biquad_b                ../engine/source/materials/fail/biquad/fail_biquad_b.F
 !||    fail_biquad_c                ../engine/source/materials/fail/biquad/fail_biquad_c.F
 !||    fail_biquad_ib               ../engine/source/materials/fail/biquad/fail_biquad_ib.F
 !||    fail_biquad_s                ../engine/source/materials/fail/biquad/fail_biquad_s.F
 !||    fail_connect                 ../engine/source/materials/fail/connect/fail_connect.F
-!||    fail_energy_b                ../engine/source/materials/fail/energy/fail_energy_b.F
-!||    fail_energy_c                ../engine/source/materials/fail/energy/fail_energy_c.F
-!||    fail_energy_ib               ../engine/source/materials/fail/energy/fail_energy_ib.F
-!||    fail_energy_s                ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_fabric_c                ../engine/source/materials/fail/fabric/fail_fabric_c.F
 !||    fail_fld_c                   ../engine/source/materials/fail/fld/fail_fld_c.F
 !||    fail_fld_tsh                 ../engine/source/materials/fail/fld/fail_fld_tsh.F
@@ -54,8 +50,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_nxt_c                   ../engine/source/materials/fail/nxt/fail_nxt_c.F
 !||    fail_orthbiquad_c            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthbiquad_s            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
-!||    fail_orthstrain              ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-!||    fail_orthstrain_c            ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    fail_sahraei_s               ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_snconnect               ../engine/source/materials/fail/snconnect/fail_snconnect.F
 !||    fail_syazwan_c               ../engine/source/materials/fail/syazwan/fail_syazwan_c.F
@@ -100,6 +94,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    incpflow                     ../engine/source/fluid/incpflow.F
 !||    lag_fxv                      ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                     ../engine/source/tools/lagmul/lag_fxv.F
+!||    lech3d                       ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||    lectur                       ../engine/source/input/lectur.F
 !||    load_pressure                ../engine/source/loads/general/load_pressure/load_pressure.F
 !||    m11law                       ../engine/source/materials/mat/mat011/m11law.F
 !||    m21law                       ../engine/source/materials/mat/mat021/m21law.F
@@ -113,7 +109,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps100                    ../engine/source/materials/mat/mat100/sigeps100.F90
 !||    sigeps101                    ../engine/source/materials/mat/mat101/sigeps101.F
 !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
-!||    sigeps106                    ../engine/source/materials/mat/mat106/sigeps106.F
 !||    sigeps111                    ../engine/source/materials/mat/mat111/sigeps111.F
 !||    sigeps117                    ../engine/source/materials/mat/mat117/sigeps117.F
 !||    sigeps187                    ../engine/source/materials/mat/mat187/sigeps187.F
@@ -135,7 +130,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps44t                    ../engine/source/materials/mat/mat044/sigeps44t.F
 !||    sigeps45                     ../engine/source/materials/mat/mat045/sigeps45.F
 !||    sigeps45c                    ../engine/source/materials/mat/mat045/sigeps45c.F
-!||    sigeps48                     ../engine/source/materials/mat/mat048/sigeps48.F
 !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
 !||    sigeps52c                    ../engine/source/materials/mat/mat052/sigeps52c.F
@@ -170,12 +164,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps83                     ../engine/source/materials/mat/mat083/sigeps83.F
 !||    sigeps85c_void               ../engine/source/materials/mat/mat085/sigeps85c_void.F
 !||    sigeps86c                    ../engine/source/materials/mat/mat086/sigeps86c.F
-!||    sigeps88                     ../engine/source/materials/mat/mat088/sigeps88.F
-!||    sigeps88c                    ../engine/source/materials/mat/mat088/sigeps88c.F
 !||    sigeps92                     ../engine/source/materials/mat/mat092/sigeps92.F
 !||    sigeps94                     ../engine/source/materials/mat/mat094/sigeps94.F
 !||    sigeps95                     ../engine/source/materials/mat/mat095/sigeps95.F
 !||    sms_gravit                   ../engine/source/ams/sms_gravit.F
+!||    sortie_main                  ../engine/source/output/sortie_main.F
 !||    thermexpc                    ../engine/source/materials/mat_share/thermexpc.F
 !||====================================================================
         my_real FUNCTION FINTER(IFUNC,XX,NPF,TF,DERI)
@@ -186,7 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       FINTER organization :
 !               two cases :
 !                    - constant function --> direct interpolation
-!                    - non-constant function :
+!                    - Non-confunction:
 !                        (1): if the number of point in the function is < MIN_GAP, then
 !                             the interpolation is computed 
 !                        (2): if the number of point in the function is > MIN_GAP, then
@@ -231,7 +224,7 @@ C-----------------------------------------------
         DX2 = TF(NPF(IFUNC)) - XX
         !       -----------------------------
         IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
-        !       constant function
+        !       Constant Function
                 FINTER = TF(NPF(IFUNC)+1)
                 RETURN
         ELSE

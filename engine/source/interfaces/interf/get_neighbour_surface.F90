@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    resol                       ../engine/source/engine/resol.F
 !||====================================================================
       module get_neighbour_surface_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -65,7 +66,7 @@
 !||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod                  ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F90
 !||    spmd_arrays_mod                   ../common_source/modules/interfaces/spmd_arrays_mod.F
 !||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_update_frontier_int25_mod    ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
@@ -78,7 +79,8 @@
           elem_state,ipari,intlist,nodes, &
           newfront,ixs,ixc,ixtg,  &
           iad_elem,x,         &
-          intbuf_tab,spmd_arrays,shoot_struct  )
+          intbuf_tab,spmd_arrays,shoot_struct, &
+          need_comm  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -105,6 +107,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(nspmd), intent(in) :: need_comm !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: nspmd !< number of mpi processors
           integer, intent(in) :: ninter25 !< total number of interface /TYPE25
@@ -212,11 +215,11 @@
             s_buffer(i)%size_my_real_array_1d = 13*shoot_struct%max_surf_nb
             r_buffer(i)%size_my_real_array_1d = 0
             call alloc_my_real_1d_array(s_buffer(i))
-          enddo
+          end do
           do i=1,nspmd
             s_buffer_2(i)%size_my_real_array_1d = 0
             r_buffer_2(i)%size_my_real_array_1d = 0
-          enddo
+          end do
           ! mpi buffer s_buffer / r_buffer :
           ! for each new segment and for the 4 edges of the segment :
           ! [1] : global segment id
@@ -243,7 +246,7 @@
           r_buffer_size(1:2,1:nspmd) = 0 ! size of R buffer
           s_buffer_2_size(1:3,1:nspmd) = 0 ! size of S buffer
           r_buffer_2_size(1:3,1:nspmd) = 0 ! size of R buffer
-          my_address_proc(1:nspmd) = 0 ! adress for the mpi buffer
+          my_address_proc(1:nspmd) = 0 ! address for the mpi buffer
           number_inter = shoot_struct%shift_interface(ninter+1,2)
           ! --------------------------
 
@@ -260,13 +263,13 @@
               intbuf_tab(nin)%evoisin(4*(segment_id-1)+ijk) = 0
               intbuf_tab(nin)%proc_mvoisin(4*(segment_id-1)+ijk) = 0
               intbuf_tab(nin)%mvoisin(4*(segment_id-1)+ijk) = 0
-            enddo
+            end do
             ! segment/surface orientation
             call get_segment_orientation( segment_id,s_elem_state,nixs,nixc,nixtg, &
               numels,numelc,numeltrg,numnod, &
               elem_state,ixs,ixc,ixtg,x, &
               intbuf_tab(nin),shoot_struct )
-          enddo
+          end do
 
           ! --------------------------
           ! loop over all segment/surface without neighbours
@@ -292,8 +295,8 @@
                   do iedge=1,edge_number
                     if(itria==0.or.iedge/=3) then
                       if (intbuf_tab(nin)%mvoisin(4*(segment_id-1)+iedge)==0) mvoisin_change = 1
-                    endif
-                  enddo
+                    end if
+                  end do
                   if(mvoisin_change==1) THEN
 
 
@@ -337,7 +340,7 @@
                               result_intersect_0,nb_result_intersect_0 )
                           else
                             nb_result_intersect_0 = 0
-                          endif
+                          end if
                           ! end : intersection of segment
                           ! ---------------
 
@@ -365,7 +368,7 @@
                               intbuf_tab(nin),numnod,x )
                             ! compute the tangent vector to the segment around the edge "n_segment_id"
                             call get_convexity_normals( node_id_1,node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
-                          enddo
+                          end do
                           ! ---------------
 
 
@@ -388,11 +391,11 @@
                             call intersect_2_sorted_sets( intersect_3,nb_proc_1, &
                               intersect_4,nb_proc_2, &
                               result_intersect_2,nb_result_intersect_2 )
-                          elseif(nb_proc_2<1.or.nb_proc_1<1) then
+                          else if(nb_proc_2<1.or.nb_proc_1<1) then
                             ! this case is not possible, i hope i'm not here :)
                           else
                             nb_result_intersect_2 = 0
-                          endif
+                          end if
 
                           ! -----------
                           ! loop over the proc with "node_id_1" and "node_id_2"
@@ -410,7 +413,7 @@
                               call alloc_my_real_1d_array(s_buffer(proc_id))
                               s_buffer(proc_id)%my_real_array_1d(1:old_size) = my_real_tmp_array(1:old_size)
                               deallocate( my_real_tmp_array )
-                            endif
+                            end if
                             ! -----------
 
                             ! -----------
@@ -447,13 +450,13 @@
                             do ijk=1,my_reduced_nb
                               my_integer = -intbuf_tab(nin)%mseglo(my_reduced_list(ijk,1))
                               s_buffer(proc_id)%my_real_array_1d(my_offset+ijk) = transfer(my_integer,my_real_variable)
-                            enddo
+                            end do
                             my_offset = my_offset+my_reduced_nb
 
                             do ijk=1,my_reduced_nb
                               my_integer = my_reduced_list(ijk,1)
                               s_buffer(proc_id)%my_real_array_1d(my_offset+ijk) = transfer(my_integer,my_real_variable)
-                            enddo
+                            end do
                             my_offset = my_offset+my_reduced_nb
 
                             s_buffer(proc_id)%my_real_array_1d(my_offset+1) = normal(1) ! new segment normal (x)
@@ -465,26 +468,26 @@
                               s_buffer(proc_id)%my_real_array_1d(my_offset+2) = n_normal(2,ijk) ! neighbour segment normal (y)
                               s_buffer(proc_id)%my_real_array_1d(my_offset+3) = n_normal(3,ijk) ! neighbour segment normal (z)
                               my_offset = my_offset + 3
-                            enddo
+                            end do
 
                             do ijk=1,my_reduced_nb
                               my_integer = n_iedge(ijk)
                               s_buffer(proc_id)%my_real_array_1d(my_offset+ijk) = transfer(my_integer,my_real_variable) ! edge id
-                            enddo
+                            end do
                             my_offset = my_offset + my_reduced_nb
                             do ijk=1,nb_result_intersect_2
                               my_integer = result_intersect_2(ijk) ! processor id
                               s_buffer(proc_id)%my_real_array_1d(my_offset+ijk) = transfer(my_integer,my_real_variable)
-                            enddo
+                            end do
                             my_offset = my_offset + nb_result_intersect_2
 
                             do ijk=1,my_reduced_nb
                               do kji=1,4
                                 my_integer = my_reduced_neighbour(ijk,kji)
                                 s_buffer(proc_id)%my_real_array_1d(my_offset+kji) = transfer(my_integer,my_real_variable) ! boolean
-                              enddo
+                              end do
                               my_offset = my_offset + 4
-                            enddo
+                            end do
 
                             s_buffer(proc_id)%my_real_array_1d(my_offset+1) = v_convexity(1) ! new segment normal (x)
                             s_buffer(proc_id)%my_real_array_1d(my_offset+2) = v_convexity(2) ! new segment normal (y)
@@ -495,32 +498,32 @@
                               s_buffer(proc_id)%my_real_array_1d(my_offset+2) = n_vconvexity(2,ijk) ! neighbour segment normal (y)
                               s_buffer(proc_id)%my_real_array_1d(my_offset+3) = n_vconvexity(3,ijk) ! neighbour segment normal (z)
                               my_offset = my_offset + 3
-                            enddo
+                            end do
 
                             my_address_proc(proc_id) = my_offset ! address for the next new segment
 
                             s_buffer_size(1,proc_id) = my_offset ! size of mpi buffer (send)
                             s_buffer_size(2,proc_id) = s_buffer_size(2,proc_id) + 1 ! number of segment
-                          enddo
+                          end do
                           deallocate( n_normal )
                           deallocate( n_iedge )
                           deallocate( my_reduced_list )
                           deallocate( my_reduced_neighbour )
                           deallocate( n_vconvexity )
                           ! -----------
-                        endif
-                      endif
-                    enddo
+                        end if
+                      end if
+                    end do
                     ! end : loop over the edge
                     ! ------------------------
-                  endif
-                endif
-              enddo
+                  end if
+                end if
+              end do
               ! end : loop over the new active segment/surface
               ! --------------------------
-            endif
+            end if
 
-          ENDDO
+          END DO
 
 !          endif
           ! --------------------------
@@ -534,13 +537,13 @@
             s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
             iad_elem,nodes,x, &
             s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
-            intbuf_tab,shoot_struct)
+            intbuf_tab,shoot_struct,need_comm)
           ! --------------------------
 
           ! --------------------------
           ! everybody (local proc + remote proc) : criteria computation + choose a neighbour
           call update_neighbour_segment( ispmd,nspmd,ninter,r_buffer_size,r_buffer_2_size,  &
-            r_buffer,r_buffer_2,intbuf_tab,shoot_struct)
+            r_buffer,r_buffer_2,intbuf_tab,shoot_struct,npari,ipari)
           ! --------------------------
 
           ! --------------------------
@@ -567,14 +570,14 @@
             call dealloc_my_real_1d_array(s_buffer(i))
             if(r_buffer(i)%size_my_real_array_1d>0) then
               call dealloc_my_real_1d_array(r_buffer(i))
-            endif
+            end if
             if(s_buffer_2(i)%size_my_real_array_1d>0) then
               call dealloc_my_real_1d_array(s_buffer_2(i))
-            endif
+            end if
             if(r_buffer_2(i)%size_my_real_array_1d>0) then
               call dealloc_my_real_1d_array(r_buffer_2(i))
-            endif
-          enddo
+            end if
+          end do
           deallocate( s_buffer )
           deallocate( r_buffer )
           deallocate( s_buffer_2 )

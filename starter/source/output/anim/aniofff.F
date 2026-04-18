@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,14 +47,14 @@ c-----------------------------------------------
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),                      
-     .        NBPART,IOFFX1(*)                                                 
+     .        IOFFX1(*)                                                 
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT,                      
-     .        N, J, LLT, N1,N2,N3,N4,N_FA,MLW,                                         
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NBF2,RBUF                                   
+      INTEGER I, NG, NEL, NFT, ITY, LFT,                      
+     .         LLT,N_FA,MLW,                                         
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8                                   
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1                                                           

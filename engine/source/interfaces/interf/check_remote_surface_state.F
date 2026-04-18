@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||    check_remote_surface_state     ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||--- called by ------------------------------------------------------
-!||    resol                        ../engine/source/engine/resol.F
+!||    resol                          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    alloc_2d_array               ../common_source/modules/array_mod.F
-!||    dealloc_2d_array             ../common_source/modules/array_mod.F
-!||    surface_deactivation         ../engine/source/interfaces/interf/surface_deactivation.F
+!||    alloc_2d_array                 ../common_source/modules/array_mod.F
+!||    dealloc_2d_array               ../common_source/modules/array_mod.F
+!||    remove_neighbour_segment       ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||    surface_deactivation           ../engine/source/interfaces/interf/surface_deactivation.F
 !||--- uses       -----------------------------------------------------
-!||    array_mod                    ../common_source/modules/array_mod.F
-!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
-!||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
+!||    array_mod                      ../common_source/modules/array_mod.F
+!||    intbufdef_mod                  ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    remove_neighbour_segment_mod   ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||    shooting_node_mod              ../engine/share/modules/shooting_node_mod.F90
+!||    spmd_comm_world_mod            ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
         SUBROUTINE CHECK_REMOTE_SURFACE_STATE( SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,IAD_ELEM,SHOOT_STRUCT )
@@ -44,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE INTBUFDEF_MOD
         USE SHOOTING_NODE_MOD
         USE ARRAY_MOD
+        use remove_neighbour_segment_mod , only : remove_neighbour_segment
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +88,7 @@ C-----------------------------------------------
         TYPE(array_type), DIMENSION(:), ALLOCATABLE :: S_BUFFER
         TYPE(array_type), DIMENSION(:), ALLOCATABLE :: R_BUFFER
         
-        INTEGER :: GLOCAL_SURFACE_ID ! global surface id
+        INTEGER :: GLOBAL_SURFACE_ID ! global surface id
         INTEGER :: PROC_ID,REMOTE_PROC ! processor id and remote processor id
         INTEGER :: NB_PROC ! number of processor
         INTEGER :: FRONTIER_ELM ! number of frontier elements between 2 processors
@@ -137,13 +140,19 @@ C-----------------------------------------------
             ! *----*----*----*
             
             IF(ITY==25) THEN 
-                GLOCAL_SURFACE_ID = K
+                GLOBAL_SURFACE_ID = K
             ELSEIF(ITY==24) THEN
-                GLOCAL_SURFACE_ID = INTBUF_TAB(NIN)%MSEGLO(K)
+                GLOBAL_SURFACE_ID = INTBUF_TAB(NIN)%MSEGLO(K)
             ENDIF
-            IF(ITY==24.OR.ITY==25) THEN
-                CALL SURFACE_DEACTIVATION(ITY,NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN)
-            ENDIF
+            ! --------------
+            ! for interface type 24 : classical searching
+            ! for interface type 25 : hash table gives a direct access to the mvoisin array
+            if(ity==24) then
+                call surface_deactivation(ity,nrtm,global_surface_id,intbuf_tab(nin)%mseglo,intbuf_tab(nin)%mvoisin)
+            elseif(ity==25) then
+              call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+            endif
+            ! --------------
 
             IF(NSPMD>1) THEN            
             ! --------------
@@ -254,10 +263,14 @@ C-----------------------------------------------
                 IDEL = IPARI(17,NIN) ! get the kind of idel (1 or 2)
                 NRTM = IPARI(4,NIN)     ! get the number of surfaces of the interface NIN
                 ! --------------
-                GLOCAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,J) ! get the global deleted surface id
-                IF(ITY==24.OR.ITY==25) THEN
-                    CALL SURFACE_DEACTIVATION(ITY,NRTM,GLOCAL_SURFACE_ID,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%MVOISIN) 
-                ENDIF
+                ! for interface type 24 : classical searching
+                ! for interface type 25 : hash table gives a direct access to the mvoisin array
+                GLOBAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,J) ! get the global deleted surface id
+                if(ity==24)then
+                  call surface_deactivation(ity,nrtm,global_surface_id,intbuf_tab(nin)%mseglo,intbuf_tab(nin)%mvoisin)
+                elseif(ity==25) then
+                  call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+                endif
                 ! --------------
             ENDDO
             CALL DEALLOC_2D_ARRAY(R_BUFFER(PROC_ID)) 

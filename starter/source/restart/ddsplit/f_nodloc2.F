@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,15 +22,17 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    f_nodloc2   ../starter/source/restart/ddsplit/f_nodloc2.F
+!||    f_nodloc2     ../starter/source/restart/ddsplit/f_nodloc2.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
      2                     IPARG,IXS   ,IXQ,IXC    ,IXTG    ,
      3                     IXT  ,IXP   ,IXR,GEO    ,NUMNOD_L)
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +77,7 @@ C
           NFT = IPARG(3,NG)
           ITY = IPARG(5,NG)
           IF(ITY==1) THEN
-C solide (reste a faire solide 10, 16, 20)
+C solid (remains to be solid 10, 16, 20)
             DO I = 1, NEL
               IE = I+NFT
               DO K = 1, 8
@@ -183,7 +185,7 @@ C triangles
               END DO
             END DO
           ELSEIF(ITY==50)THEN
-C ur  a faire
+C ur to do
           END IF
         END IF
       END DO

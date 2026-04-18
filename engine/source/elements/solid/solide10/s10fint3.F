@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C     REAL
       my_real
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
-     .   FINT, QVIS_LOC, VOL_LOC
+     .    QVIS_LOC, VOL_LOC
 C-----------------------------------------------
       DO I=1,NEL
        QVIS_LOC = QVIS(I)

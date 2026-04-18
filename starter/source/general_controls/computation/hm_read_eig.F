@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE,N, IG, IGU1, IGU2, NNI, ID,  NM,M, SUB_INDEX
+      INTEGER I, IE, IG, IGU1, IGU2, NNI, ID, SUB_INDEX
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY)::KEY
       CHARACTER :: MESS*40
@@ -546,10 +546,6 @@ C-----------------------
      .            C2=NWLINE)
       RETURN
 C      
-2000  FORMAT(/
-     .       /
-     . '      EIGEN AND STATIC MODES COMPUTATION '/
-     . '      ---------------------------------- '/)
 2100  FORMAT( /5X,'EIGENPROBLEM ID ',I10,1X,A
      .       /10X,'TYPE             ',A33
      .       /10X,'NUMBER OF EIGENMODES                    ',I10

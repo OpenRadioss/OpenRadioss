@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C    10 -> 12:  INERTIES PRINCIPALES RBODY
 C          13:  INERTIE MAIN INITIALE SPHERIQUE 
 C          14:  MASSE RBODY
 C          15:  MASSE MAIN INITIALE
-C    17 -> 20:  INERTIES DANS LE REPERE GLOBALE
+C    17 -> 20:  INERTIAS IN THE GLOBAL FRAME OF REFERENCE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,10 +83,10 @@ C
         ID=NOM_OPT(1,NRBYKIN+NR)
         CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1,NRBYKIN+NR),LTITR)
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     CORRECTION OF MASS AND
+C     CENTER OF GRAVITY OF THE HAND
 C---------------------------------
-C-----CDG DES NOEUDS SECONDS
+C-----CGS OF SECONDARY NODES
          MASRB=ZERO
          XG(1)=ZERO
          XG(2)= ZERO
@@ -121,7 +121,7 @@ C
              RBYM(1 + J,NR) = XG(J) 
            ENDDO   
 C--------------------------------------
-C      L'INERTIE DU MAIN
+C      THE INERTIA OF THE HAND
 C--------------------------------------
           DO I=1,NSL
                N=LSN(I + KK)
@@ -142,7 +142,7 @@ C--------------------------------------
                RBY(9) = RBY(9) + IN(N)+(XX+YY)*MS(N)               
           ENDDO
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity with a main node for estimation of DT.
 C
       DO I=1,NSL
         N = LSN(I + KK)
@@ -151,7 +151,7 @@ C
         RBYM(28,NR) = RBYM(28,NR) + (STIFR(I + KK) + DD*STIFN(I + KK))
       END DO        
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     COMPUTATION OF THE PRINCIPAL INERTIA FRAME
 C----------------------------------------------------------------
           CALL INEPRI(RBY(10),RBY)
 c          IF(ISPH == 1)THEN
@@ -267,7 +267,6 @@ C
      .       /10X,'NEW MASS             ',1G14.7)
 c     .       /10X,'NEW INERTIA xx yy zz ',3G14.7
 c     .       /10X,'NEW INERTIA xy yz zx ',3G14.7)
-1200  FORMAT(10X,'PRINCIPAL INERTIE ',1P3G14.7)
 1300  FORMAT(10X,'SECONDARY NODES ')
 1400  FORMAT(10X,10I10)
       END

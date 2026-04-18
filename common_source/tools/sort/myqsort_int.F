@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    find_surface_inter         ../engine/source/interfaces/interf/find_surface_inter.F
 !||    get_segment_orientation    ../engine/source/interfaces/interf/get_segment_orientation.F90
 !||    init_nodal_state           ../engine/source/interfaces/interf/init_nodal_state.F
-!||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    nloc_dmg_init              ../starter/source/materials/fail/nloc_dmg_init.F
 !||    select_s2s                 ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||    spmd_cell_size_exchange    ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
@@ -44,21 +43,19 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER N,ERROR,PERM(N)
-        INTEGER :: A(N)
+        INTEGER,INTENT(IN) :: N           !< list size
+        INTEGER,INTENT(INOUT) :: ERROR    !< error code: 0 if no error, -1 if N < 1
+        INTEGER,INTENT(OUT) :: PERM(N)  !< permutations indexes of the sorted list
+        INTEGER,INTENT(OUT) :: A(N)     !< integer list to be sorted
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: STACKLEN
         INTEGER :: TRESHOLD
+        PARAMETER( STACKLEN = 128, TRESHOLD =  9 ) !the max STACKLEN <= 1 + 2 x log2 (N+1)/(TRESHOLD + 2)
         INTEGER :: DONE
-C the max STACKLEN <= 1 + 2 x log2 (N+1)/(TRESHOLD + 2)
-        PARAMETER( STACKLEN = 128 ,
-     .             TRESHOLD   =  9 )
-C
         INTEGER :: I
         INTEGER :: IPLUS1
         INTEGER :: J
@@ -70,12 +67,10 @@ C
         INTEGER :: RLEN
         INTEGER :: TOP
         INTEGER :: STACK(STACKLEN)
-C     REAL ou REAL*8
-        my_real
-     .          RK, RV
-C
+        my_real :: RK, RV
+
         ERROR = 0
-C
+
         IF  (N < 1)  THEN
           ERROR = -1
           RETURN
@@ -89,7 +84,7 @@ C
         DO  I = 1, N
           PERM(I) = I
         ENDDO
-C
+
         TOP = 1
         LEFT = 1
         RIGHT = N
@@ -99,13 +94,12 @@ C
           DONE = 0
         ENDIF
 
-c     QUICKSORT
-c
+        ! QUICKSORT
         DO WHILE (DONE /= 1)
           RK = A((LEFT+RIGHT)/2)
           A((LEFT+RIGHT)/2) = A(LEFT)
           A(LEFT) = RK
-C
+
           K = PERM((LEFT+RIGHT)/2)
           PERM((LEFT+RIGHT)/2) = PERM(LEFT)
           PERM(LEFT) = K
@@ -157,15 +151,15 @@ C
               PERM(J) = K
             ENDIF
           ENDDO
-C
+
           RK = A(LEFT)
           A(LEFT) = A(J)
           A(J) = RK
-C
+
           K = PERM(LEFT)
           PERM(LEFT) = PERM(J)
           PERM(J) = K
-C
+
           LLEN = J-LEFT
           RLEN = RIGHT - I + 1
 
@@ -196,9 +190,8 @@ C
             TOP = TOP + 2
           ENDIF
         END DO
-c
-c     INSERTION SORT
-c
+
+        ! INSERTION SORT
         I = N - 1
         IPLUS1 = N
         DO WHILE (I > 0)
@@ -217,13 +210,11 @@ c
             A(JMINUS1) = RK
             PERM(JMINUS1) = K
           ENDIF
-C
+
           IPLUS1 = I
           I = I - 1
         ENDDO
-c
+
         RETURN
-c
-c     -------------------
-c
+C-----------------------------------------------
       end

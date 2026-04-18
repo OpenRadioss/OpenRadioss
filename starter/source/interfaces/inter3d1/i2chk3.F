@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,9 +45,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      use element_mod , only :nixs,nixc,nixtg
 C---------------------------------------------------------------------
 C     CHECK ELEMENT FOR TYPE 2 (ISEARCH=2)
-C     LE NOEUD GLOBAL N'EST PAS REMPLACE PAR LE NOEUD LOCAL DANS IRECT
+C     THE GLOBAL NODE IS NOT REPLACED BY THE LOCAL NODE IN IRECT
 C---------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,7 +75,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, INRT, NELS, NELC, NELTG, L, JJ, NN
+      INTEGER I, INRT, NELS, NELC, NELTG
       my_real AREA
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    resol                   ../engine/source/engine/resol.F
 !||====================================================================
       module damping_funct_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -65,7 +66,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: nd,itype,id,id_func
+          integer :: nd,itype,id_func
           real(kind=WP) :: alpha,fact,get_u_func,dxdy
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
@@ -85,7 +86,7 @@
                 fact = get_u_func(id_func,tt,dxdy)
               else
                 fact = one
-              endif
+              end if
               alpha = fact*dampr(16,nd)
               dampr(3,nd) = alpha*dampr(32,nd)
               dampr(5,nd) = alpha*dampr(33,nd)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    timer_mod             ../engine/source/system/timer_mod.F90
+!||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25MAIN_FREE(TIMERS,
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE INTBUFDEF_MOD   
       USE TRI7BOX
+      USE TRI25EBOX , ONLY : NEDGE_REMOTE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,8 +73,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NIN, NRTM, IEDGE, NEDGE
 C     REAL
-      my_real
-     .   STARTT, STOPT
 C-----------------------------------------------
       DO N = 1,NINTER25
         NIN = INTLIST25(N)
@@ -105,6 +105,7 @@ C
 !$OMP SINGLE
       DO N = 1,NINTER25
        NIN = INTLIST25(N)
+       NEDGE_REMOTE = IPARI(69,NIN)
        IF(IPARI(MACRO_IEDGE,NIN) > 0) THEN
 C
 C        Also needed in SMP for resetting STFE !

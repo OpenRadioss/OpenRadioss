@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,12 +49,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IC,IK,N,NS,MSL,MSL2,M,IFX,IFR,NFIX,NFRE
+      INTEGER I, J, N, NS, MSL, MSL2, IFX, IFR, NFIX, NFRE
       my_real XX,YY,ZZ,XY,YZ,XZ,IXX,IYY,IZZ,IXY,IXZ,IYZ,
      .        JXX,JYY,JZZ,JXY,JXZ,JYZ,JXY2,JXZ2,JYZ2,DET,
-     .        B1,B2,B3,C1,C2,C3,VX1,VX2,VX3,WA1,WA2,WA3,MMAS,USDT,DDT,
-     .        VI(3),VG(3),AG(3),XM(3),VTM(3),VRM(3),ATM(3),ARM(3),
-     .        XROT(9),IPR(3)
+     . B1,B2,B3,C1,C2,C3,VX1,VX2,VX3,MMAS,USDT,DDT,
+     . VG(3),AG(3),XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|
       MSL = NPBYL(2,NN)
       MSL2= MSL*2 
@@ -187,7 +186,7 @@ C
         ARM(3)= AG(1)*C2 + AG(2)*C1 + AG(3)*B3        
 C-----------------------------        
         IF (NFRE==0) THEN
-C---      Total condensation => direct solution + decondensation
+C--- Total condensation => Direct solution + decondensation
           USDT = ONE / DT12
           DDT  = HALF * DT12
           DO J=1,3
@@ -307,7 +306,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JF,IC,IK,IR,IFX,IFR,N,NS,NFIX,NFRE,MSL,TNSL
+      INTEGER I, J, K, IC, IK, IR, IFX, N, NS, NFIX, NFRE, MSL, TNSL
       my_real 
      .  XX,YY,ZZ,VX1,VX2,VX3,USDT,DDT,XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|
@@ -382,11 +381,11 @@ c
             VX1 = VRM(2)*ZZ - VRM(3)*YY
             VX2 = VRM(3)*XX - VRM(1)*ZZ
             VX3 = VRM(1)*YY - VRM(2)*XX
-c             pas de second ordre
+c             no second order
 c            A(1,NS) = ATM(1) + USDT*(VTM(1) + VX1 - V(1,NS))
 c            A(2,NS) = ATM(2) + USDT*(VTM(2) + VX2 - V(2,NS))
 c            A(3,NS) = ATM(3) + USDT*(VTM(3) + VX3 - V(3,NS))
-c             calcul du second ordre
+c             second order calculation
             A(1,NS) = ATM(1) + USDT*
      .                (VTM(1)-V(1,NS)+VX1+DDT*(VRM(2)*VX3-VRM(3)*VX2))
             A(2,NS) = ATM(2) + USDT*

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,10 +62,10 @@ C----------------------------------------------------------------
       INTEGER    I
 
       my_real     
-     .   LPCHAIN(NEL), TRACE(NEL),TRACEB(NEL),J2THIRD(NEL),
-     .   SB1(NEL), SB2(NEL),SB3(NEL),TBNORM(NEL),DGAMMA(NEL),I1(NEL),
-     .   AA,BB,CC,TRB2,TRB22,INVJ(NEL), 
-     .   JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
+     .    J2THIRD(NEL),
+     .    I1(NEL),
+     .   AA,INVJ(NEL), 
+     .   ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL)  , DPHIDJ(NEL) 
 C----------------------------------------------------------------
       ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR

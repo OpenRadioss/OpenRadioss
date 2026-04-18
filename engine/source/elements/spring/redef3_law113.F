@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,26 +80,26 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ) :: JPOS , JLEN,JAD,JPOS2, 
      .                             JLEN2,JPOS3, JLEN3,JAD2,
-     .                             IC1, JLEN4,IC2,IC0,
+     .                              IC2,
      .                             J2POS,J2LEN,
-     .                             J2AD,JPOS4, J3POS, J3LEN,J3AD
+     .                             J2AD, J3POS, J3LEN,J3AD
      
        INTEGER 
-     . JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP1,NP2,
-     . I, J, II, INTERP, K, FUNC,FUND,J1,J2FUNC,J3FUNC,J2K
-c     REAL ou REAL*8
-      my_real, DIMENSION(MVSIZ) ::   DDX,FOLD, GX, DXELA, DYD,
+     . JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP2,
+     . I, II, INTERP, K,FUND,J2FUNC,J3FUNC,J2K
+c     REAL or REAL*8
+      my_real, DIMENSION(MVSIZ) ::   DDX,FOLD, GX, DXELA,
      .                               XX, XX2, XX3, YY, YY2, YY3,DYDX,
      .                               DYDX2, DYDX3, DYDXV, DPERM,FMAX,
-     .                               DVXS,GF3,DYDXV2,FMIN,GX2,FY0,
-     .                               XFY0,YCUT,XCUT,XN3FY0,
-     .                               UL,FYIELD,DPL,YY22,XFYN1,AN3Y0,DDPX,
-     .                               XFYN33,XFYN11,DPX3,DPX22,XX22,
-     .                               EDECAL2,EDECAL3,ECROU,KX2,DKDX2,
+     .                               DVXS,GF3,DYDXV2,FMIN,GX2,
+     .                               XN3FY0,
+     .                               AN3Y0,
+     .                               
+     .                               KX2,DKDX2,
      .                               TMP1, TMP2
       my_real 
      . DVV, DFAC, DT11, DAMP, DAMM,B1,XI1,XI2,YI1,YI2 ,
-     . S1,S2,T1C,T2C,X1,X2,Y1,Y2
+     . X1,X2,Y1,Y2
        INTEGER :: PYID
        LOGICAL :: ANY_PYTHON_FUNCTION
 C=======================================================================
@@ -155,7 +155,7 @@ C
       DO I=1,NEL
        IF(IFUNC(I)==0)THEN  ! ifunc =IGEO(101)-FCT_id1
          JECROU(-1) = JECROU(-1) + 1
-c modif pour vectorisation
+c modification for vectorization
        ELSEIF(IECROU(I)==0)THEN
          JECROU(0) = JECROU(0) + 1
          INTERP = 1
@@ -336,7 +336,7 @@ C-------------------------------------
 
       IF(JECROU(6)== NEL)THEN
         DO I=1,NEL                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
+          FUND = IFUNC2(I)     ! N3 unload curve
           IF(JLEN2(I) < 0) CYCLE !if JLEN2(I) < 0, FUNC2 is a python function
           NP2  = (NPF(FUND+1)-NPF(FUND))/2 
           AN3Y0(I)= ZERO 
@@ -348,11 +348,11 @@ C-------------------------------------
              Y2=TF(NPF(FUND)+K1+3) 
              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
                 AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !N3 abscissa
                 EXIT     
              ENDIF 
            ENDDO 
-           IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
+           IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterior to the points of the input)
              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
@@ -385,7 +385,7 @@ C
              Y2=TF(NPF(FUND)+K1+3) 
              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN              
                 AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !N3 abscissa
                 EXIT     
              ENDIF 
            ENDDO 

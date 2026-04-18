@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,6 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20forc3              ../engine/source/elements/solid/solide20/s20forc3.F
 !||    s4forc3               ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3              ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3              ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3              ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3              ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8sforc3              ../engine/source/elements/solid/solide8s/s8sforc3.F
@@ -92,16 +93,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         
         CONTAINS        
           
-C INITIALISATION : CALL DT%INIT_IDEL_BRICK()
+C INITIALIZATION : CALL DT%INIT_IDEL_BRICK()
 !||====================================================================
 !||    init_idel_brick   ../engine/source/modules/dt_mod.F
 !||--- called by ------------------------------------------------------
 !||    freform           ../engine/source/input/freform.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod      ../common_source/modules/constant_mod.F
 !||====================================================================
           SUBROUTINE INIT_IDEL_BRICK(THIS)
+            use constant_mod, only: ZERO
             IMPLICIT NONE
-#include    "constant.inc" 
-           
             TYPE (DT_), INTENT(INOUT) :: THIS
 
             THIS%IDEL_BRICK = 0

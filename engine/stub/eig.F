@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -192,7 +192,7 @@ C-----------------------------------------------
      .        SCALE(EIGIPM(5)+NMS+6), CMAX, DMAX, KSI, ORIG(3),
      .        RX, RY, RZ, VV(6), FACIT2(4,EIGIPM(10)), CUTFREQ, RBID,
      .        RRBID(1)
-C ON PASSE LES GROS TABLEAUX EN ALLOCATABLE (A CAUSE DES RISQUES DE LIMITE
+C WE PASS LARGE ARRAYS AS ALLOCATABLE (BECAUSE OF STACK LIMIT RISKS)
 C DE STACK)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ROWIND, JDIK2, JDIK_IB
       my_real, DIMENSION(:), ALLOCATABLE ::

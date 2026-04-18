@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    ngr2usrn               ../starter/source/system/nintrr.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
@@ -63,13 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NLD,IGU,IGS,ISU,ISS,NN,ID,UID
-      INTEGER IFIX_TMP
+      INTEGER I, J, NLD, ISU, ISS, NN, ID
       CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  NGR2USRN
       LOGICAL IS_AVAILABLE
 C=======================================================================
 C     Pressions PLOAD
@@ -106,7 +103,7 @@ C--------------------------------------------------
             ENDIF                             
           ENDDO 
         ENDIF
-C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
+Cmultidomains -> shared segments are counted only once
         IF (NSUBDOM>0) THEN
             IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS) 
             NNCL(NCONLD+I)=NN 

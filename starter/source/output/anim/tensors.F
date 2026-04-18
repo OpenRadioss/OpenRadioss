@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs    
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -126,7 +127,7 @@ C             STRESS TENSOR IN GLOBAL SYSTEM
               DO I=LFT,LLT                                               
                 N = I + NFT                                              
                 IF(EL2FA(NN2+N)/=0)THEN                                
-C                 pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                 For jhbe = 14, average values is in rep.Corota.
                   IF (KCVT==2.AND.JHBE/=14) THEN
                     GAMA(1)=GBUF%GAMA(JJ(1) + I)
                     GAMA(2)=GBUF%GAMA(JJ(2) + I)

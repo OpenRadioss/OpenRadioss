@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -103,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGTYP, I, NUVAR ,VP,NINDX,IGEO(NPROPGI,*),NVARTMP,
+      INTEGER IGTYP, I, NUVAR,NINDX,IGEO(NPROPGI,*),NVARTMP,
      .        MX,IOFF_DUCT(MVSIZ),ISRATE,NUVARV,NVAR_DAMP,IMAT,
      .        FLAG_INCR
       my_real 
@@ -116,19 +116,18 @@ C-----------------------------------------------
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
      .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
-     .   YOUNG, VISC, VOL2, DTINV,ASRATE,SH_OFFSET
+     .   VISC, VOL2, DTINV,ASRATE
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
-     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
+     .   ETSE(MVSIZ)  ,EPSPL(MVSIZ)
       my_real, DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(:) ,POINTER :: UVARV
       my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      type(matparam_struct_) , pointer :: matparam
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------
@@ -137,8 +136,9 @@ C
 C
       IMAT = ELBUF_STR%BUFLY(1)%IMAT
 C     for user material laws : pid(i)=pid(1)
-      IGTYP  = IGEO(11,PID(1))
-      IF(MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
+      IGTYP = IGEO(11,PID(1))
+      IMAT  = ELBUF_STR%BUFLY(1)%IMAT
+      IF (MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
         NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
         UVAR  =>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
       ENDIF
@@ -319,11 +319,10 @@ C-------------------------------------------
      4                 DEPBXY  ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      5                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      6                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
-     7                 MOMNYY  ,MOMNXY  )
+     7                 MOMNYY  ,MOMNXY  ,ZSHIFT  )
       ELSEIF (MTN == 2) THEN
-        VP = IPM(255,MX)
-        CALL SIGEPS02G(ELBUF_STR,
-     1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
+        CALL SIGEPS02G(ELBUF_STR,mat_elem%mat_param(imat),
+     1                 JFT     ,JLT     ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
      3                 G       ,A1      ,A2      ,VOL0    ,NU      ,
      4                 THK0    ,GS      ,EPSPL   ,IOFC    ,KFTS    ,
@@ -334,7 +333,7 @@ C-------------------------------------------
      9                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      A                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      B                 MOMNYY  ,MOMNXY  ,ETSE    ,EXZ     ,EYZ     ,
-     C                 NEL    ,IOFF_DUCT,VP      , NUVAR  ,UVAR )
+     C                 NEL    ,IOFF_DUCT,NUVAR  ,UVAR )
       ELSEIF (MTN == 22) THEN
         CALL SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,
@@ -503,7 +502,7 @@ C-----------------------
         ENDDO
       ENDIF ! IF (IGTYP /= 1)
 C-----------------------
-C      FORCES ET MOMENTS
+C      forces and moments
 C-----------------------
       DO I=JFT,JLT
         FOR_G(I,1) = SIGNXX(I)+SIGVXX(I)
@@ -523,23 +522,14 @@ C----------------------
         THK(I) = MAX(THKN(I),EM30)
       ENDDO
 C-----------------------------------------------
-C     FACTEURS POUR COQUES B.L. (Zeng&Combescure)
+C     FACTORS FOR B.L. SHELLS (Zeng&Combescure)
 C-----------------------------------------------
       DO I=JFT,JLT
         ZCFAC(I,1) = ETSE(I)
         ZCFAC(I,2) = ZCFAC(I,1)
       ENDDO
 C---------------------------
-C     offset
-C---------------------------
-      IF (ZSHIFT /= ZERO) THEN
-        DO I=JFT,JLT                                                   
-          SH_OFFSET = ZSHIFT*THK(I)
-          MOM(I,1:3) = MOM(I,1:3) + FOR(I,1:3) *SH_OFFSET*SH_OFFSET      
-        ENDDO
-      ENDIF
-C---------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------
       IF (DM > ZERO) THEN
         DO I=JFT,JLT                                                   
@@ -572,8 +562,8 @@ C
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
-C     INDX utilise dans IELOF
+C     Ductile rupture test
+C     INDX used in IELOF
 C----------------------------
       NINDX=0
       DO I=JFT,JLT

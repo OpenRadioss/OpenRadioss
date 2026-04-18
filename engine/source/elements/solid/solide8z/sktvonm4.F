@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ c        print *,ST(1,I),ST(2,I),ST(3,I)
 C-----------GT->u-------- 
       DO I=LFT,LLT
 c .....(R(I) is the alpha parameter of the radial return ..
-c         print *,'[Ce]='
+c         print *,'[ce]='
 c         print *,DD(1,1,I),DD(1,2,I),GT(1,1,I)
        IF (R(I)/=ONE) THEN
         DO J=1,3

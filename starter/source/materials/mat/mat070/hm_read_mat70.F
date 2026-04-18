@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -100,10 +100,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,IETANG,NL,ISORT
+      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,NL,ISORT
       integer :: i1,i2,sizeh,ierror,ifun
-      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,
-     .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
+      my_real NU,G,C1,EXPO,HYS,
+     .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,AA
       INTEGER ,DIMENSION(MAXFUNC) :: FID,PERM
       my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,YFAC_UNIT,SCALE,EPSP,RTMP,YTMP
       double precision :: h1,h2
@@ -190,7 +190,7 @@ c---------------------------------------------------------------------------
           h2 = hash(i)
           i1 = perml(i-1)
           i2 = perml(i)
-          if (h1 == h2) then  ! skip double function line
+          if (h1 == h2) then  ! Double Function Line skip
             call ancmsg(MSGID=3101, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=mat_id,C1=titr, I2=ifunc(i1))
           else

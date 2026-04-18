@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K1, NL, NS1, NS2
+      INTEGER I, K1, NL
 C
       K1 = 1
       DO 200 I=1,NLASER
@@ -78,17 +78,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IL, NG, II, NEXT
+      INTEGER IL, II, NEXT
 C--------------------------------------------------
-C RECHERCHE DE L'ELEMENT ET AFFECTATION A P0
+C search for the element and assignment to p0
 C--------------------------------------------------
       DO IL=1,NL+1
         NEXT = LAS(1,IL)
         DO II = 1, NUMELQ
           IF(IXQ(7,II)==NEXT) THEN
-C           LAS(1,IL) = NG
+C           Las (1, it) = ng
 C           LAS(2,IL) = I
-C  46d11 on force les elements laser sur p0
+C  46d11 laser elements are forced on p0
             CEP(II) = 0
             GOTO 180
           ENDIF
@@ -160,7 +160,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IL, NG, NN, NG_L
 C--------------------------------------------------
-C Renumerotation locale du no de groupe pour proc0
+C local renumbering of group number for proc0
 C--------------------------------------------------
       DO IL=1,NL+1
        NG = LAS(1,IL)

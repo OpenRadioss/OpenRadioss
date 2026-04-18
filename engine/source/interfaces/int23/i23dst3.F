@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
      .     GAPV(MVSIZ), PENE(MVSIZ), CAND_P(*),
      .     NX(MVSIZ),  NY(MVSIZ),  NZ(MVSIZ),
-     .     XG(MVSIZ),  YG(MVSIZ),  ZG(MVSIZ),
+     .         
      .     VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ),
      .     FTXSAV(*),  FTYSAV(*),  FTZSAV(*),
      .     FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ), 
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, II, INPROJ(4,MVSIZ)
+      INTEGER I, J, INPROJ(4,MVSIZ)
       my_real
      .     LB1(MVSIZ), LC1(MVSIZ), P1(MVSIZ), 
      .     LB2(MVSIZ), LC2(MVSIZ), P2(MVSIZ), 
@@ -106,28 +106,28 @@ C-----------------------------------------------
      .     N13(MVSIZ), N23(MVSIZ), N33(MVSIZ),
      .     N14(MVSIZ), N24(MVSIZ), N34(MVSIZ),
      .     NVERS(4,MVSIZ), FIRSTIMP(4,MVSIZ),
-     .     XN1(MVSIZ),YN1(MVSIZ),ZN1(MVSIZ),
-     .     XN2(MVSIZ),YN2(MVSIZ),ZN2(MVSIZ),
-     .     XN3(MVSIZ),YN3(MVSIZ),ZN3(MVSIZ),
-     .     XN4(MVSIZ),YN4(MVSIZ),ZN4(MVSIZ),
-     .     SSC(MVSIZ),TTC(MVSIZ),
-     .     A12(MVSIZ),A23(MVSIZ),A34(MVSIZ),A41(MVSIZ),
-     .     B12(MVSIZ),B23(MVSIZ),B34(MVSIZ),B41(MVSIZ),
-     .     AB1(MVSIZ),AB2(MVSIZ),
+     .     
+     .     
+     .     
+     .     
+     .     
+     .     
+     .     
+     .     
      .     N1(MVSIZ),N2(MVSIZ),N3(MVSIZ),
-     .     XX1(MVSIZ),XX2(MVSIZ),XX3(MVSIZ),XX4(MVSIZ),
-     .     YY1(MVSIZ),YY2(MVSIZ),YY3(MVSIZ),YY4(MVSIZ),
-     .     ZZ1(MVSIZ),ZZ2(MVSIZ),ZZ3(MVSIZ),ZZ4(MVSIZ),
-     .     AREA(MVSIZ),ALP(MVSIZ),VAR
+     .     
+     .     
+     .     
+     .     AREA(MVSIZ)
       my_real
-     .     S2,NN,PS,
+     .     S2,NN,
      .     X12,X23,X34,X41,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,SZ1,SZ2,SZ3,SZ4,SZ0,
-     .     GAP2(MVSIZ), AAA, SIDE, DIST,
+     .     GAP2(MVSIZ), AAA, SIDE,
      .     LL, H
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED PACKETS
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -286,7 +286,7 @@ C
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
         LA = ONE - LB1(I) - LC1(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         INPROJ(1,I)=0
@@ -315,7 +315,7 @@ C
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
         LA = ONE - LB2(I) - LC2(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         INPROJ(2,I)=0
@@ -344,7 +344,7 @@ C
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
         LA = ONE - LB3(I) - LC3(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         INPROJ(3,I)=0
@@ -373,7 +373,7 @@ C
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
         LA = ONE - LB4(I) - LC4(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         INPROJ(4,I)=0
@@ -574,8 +574,8 @@ C             SIDE   = -SIDE
          END IF
 C---------------------
 C
-C attention a la traversee de la coque => 1E20..., 
-C prendre normale = normale au triangle
+C attention to the crossing of the shell => 1E20...,
+C Take normal = normal at triangle
          NN=ONE/
      .      MAX(EM20,SQRT(N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)))
          N1(I)=N1(I)*NN
@@ -634,7 +634,7 @@ C---------------------------------
         VXM(I)=ZERO
         VYM(I)=ZERO
         VZM(I)=ZERO
-C utile que si IFPEN/=0
+C useful only if ifpen/= 0
         IF(PENE(I)/=0)THEN
           VXM(I)=H1(I)*V(1,IX1(I))+H2(I)*V(1,IX2(I))+
      .           H3(I)*V(1,IX3(I))+H4(I)*V(1,IX4(I))

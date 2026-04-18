@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
+!||    shrink_array_mod   ../common_source/tools/memory/shrink_array.F90
 !||--- called by ------------------------------------------------------
-!||    inint3                ../starter/source/interfaces/inter3d1/inint3.F
-!||--- calls      -----------------------------------------------------
-!||    build_error_message   ../common_source/tools/memory/extend_array.F90
+!||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
 !||====================================================================
       module shrink_array_mod
         implicit none
         integer, parameter :: len_error_message = 100
-        private :: build_error_message
         private :: shrink_array_integer_1d
         private :: shrink_array_real_1d
         private :: shrink_array_double_1d
@@ -46,30 +43,6 @@
 
       contains
 
-! ======================================================================================================================
-!                                                     TOOLS
-! ======================================================================================================================
-!||====================================================================
-!||    build_error_message   ../common_source/tools/memory/extend_array.F90
-!||--- called by ------------------------------------------------------
-!||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
-!||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
-!||====================================================================
-        function build_error_message(str) result(error_message)
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                     Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-          character(len=*), intent(in) :: str
-          character(len=len_error_message) :: error_message
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                      Body
-! ----------------------------------------------------------------------------------------------------------------------
-          if(len_trim(str) > len_error_message) then
-            error_message = str(1:len_error_message)
-          else
-            error_message = adjustl(str) // repeat(" ", len_error_message - len_trim(str))
-          end if
-        end function build_error_message
 
 !||====================================================================
 !||    check_error_and_write         ../common_source/tools/memory/my_alloc.F90
@@ -149,10 +122,10 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (stat /= 0) then
-            write(6, "(a,i10,a)") 'Error in memory allocation'
+            write(6, "(a,i10,a)") "Error in memory allocation"
             if(present(msg)) then
               write(6, "(a)") msg
-            endif
+            end if
             call arret(2)
           end if
         end subroutine check_error_and_write
@@ -186,7 +159,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
 
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
@@ -196,7 +169,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -204,7 +177,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_integer_1d
 
 !||====================================================================
@@ -234,7 +207,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
 
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
@@ -244,7 +217,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -252,7 +225,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_real_1d
 !||====================================================================
 !||    shrink_array_double_1d   ../common_source/tools/memory/shrink_array.F90
@@ -281,7 +254,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
@@ -290,7 +263,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -298,6 +271,6 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_double_1d
       end module shrink_array_mod

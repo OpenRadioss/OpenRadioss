@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II, N,IAD,NES,JG,DELTA_PMAX_GAP_NODE_L
+      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II,IAD,NES,JG,DELTA_PMAX_GAP_NODE_L
       my_real
      .  XSLV(18),XMSR(12), VSLV(6), VMSR(6),DELTA_PMAX_GAP_L,PMAX_GAP_L,
      .  EDGE_L2_OLD,EDGE_L2_NEW,AAA,DELTA_L
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of criterion to know if we should sort or not
 C
 C
       DELTA_PMAX_GAP_L = ZERO
@@ -135,7 +135,7 @@ C
             EDGE_L2_NEW = ZERO
             EDGE_L2_OLD = ZERO
             IF(IEDGE/=0)THEN
-c             compute secnd edge half size
+c             compute second edge half size
               IAD = ISEADD(I)
               NES = ISEDGE(IAD)
               IF(NES/=0)THEN
@@ -234,7 +234,7 @@ C
             EDGE_L2_NEW = ZERO
             EDGE_L2_OLD = ZERO
             IF(IEDGE/=0)THEN
-c             compute secnd edge half size
+c             compute second edge half size
               IAD = ISEADD(I)
               NES = ISEDGE(IAD)
               IF(NES/=0)THEN
@@ -324,10 +324,10 @@ c            XMSR(12)=MIN(XMSR(12),X(3,J)-XSAV(3,J)-GAPN_M(I))
           ENDIF
         ENDDO
       ENDIF       
-C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
+C distance calculated once for all interfaces in COMCRIT (below)
 C
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO

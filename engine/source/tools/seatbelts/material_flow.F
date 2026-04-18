@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,10 +91,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NODE1,NODE2,NODE3,ANCHOR_NODE,FUNC,ISENS,FLAG_SENSOR_LOCK
+      INTEGER I,J,FLAG_SENSOR_LOCK
       INTEGER FLAG,NEW_NODE2,NEW_NODE1,FORCE_TENS_TYP,FLAG_NO_COUNT_PULL
-      my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
-      my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
+      my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DT11,FB
+      my_real TENS,XSCAL,NORM,PRES,VREL,VEC1(3)
       my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,FB2,ANGLE
       my_real DDX,DDX2,F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
       my_real OMEGA,EPS1,EPS2,EPSN,FACT
@@ -898,7 +898,7 @@ C-----------------------------------------------
 C
 C      Computation of Dl0 for locked retractor
 C
-C--    equation 1 -> l0 > lmin
+C-Equation 1 -> L0> LMIN
       IF (L0 > EM05) THEN
        AA = ALPHA
        BB = ALPHA*L0+BETA+XK*L/L0-FB
@@ -918,7 +918,7 @@ C--      computation will be done by equation 2
        ENDIF
 C
        IF (L0 +  DELTA_LO < LMIN) THEN
-C--      equation 2 -> l0 < lmin
+C-Equation 2 -> L0 <LMIN
          BETA = BETA -FB + XK*(L-L0)/MAX(LMIN,L0)
          LMIN = MAX(LMIN,L0)
          BB = ALPHA*LMIN + XK

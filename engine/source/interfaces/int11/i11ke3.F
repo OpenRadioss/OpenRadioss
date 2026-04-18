@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .        IADK(*) ,JDIK(*),LREM,ITAB(*)
 C     REAL
-      my_real DT2T,
+      my_real 
      .   X(*), A(3,*), V(3,*),MS(*),
      .   K_DIAG(*),K_LT(*),GAP_IMP
 
@@ -72,8 +72,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,IDESAC, IGSTI, IBID
+      INTEGER NOINT, I_STOK,JLT , NFT, IGAP, 
+     .        IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real
@@ -115,7 +115,7 @@ C
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       KMIN =INTBUF_TAB%VARIABLES(17)
       KMAX =INTBUF_TAB%VARIABLES(18)
-C------pour evider la desactivation des noeuds secnds------
+Cto avoid deactivation of secondary nodes
       GAP_IMP=MIN(GAP_IMP,ZEP9*GAPMIN)
       IDESAC = 0
 C
@@ -228,8 +228,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
-     .        INACTI, NRTS,NTY,L
+      INTEGER  I_STOK, JLT_NEW, JLT , NFT, 
+     .         NRTS,NTY,L
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real
@@ -337,8 +337,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,LREM,IDESAC,NB_LOC, IGSTI, IBID
+      INTEGER NOINT,I, I_STOK,JLT , NFT, JLT_NEW, IGAP, 
+     .        I_STOK_LOC,DEBUT,NB_LOC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        CS_LOC(MVSIZ),CM_LOC(MVSIZ),INDEX2(LINDMAX)
 C     REAL
@@ -382,7 +382,7 @@ C
       KMAX =INTBUF_TAB%VARIABLES(18)
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
-C decoupage statique
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -393,7 +393,7 @@ C decoupage statique
         I_STOK = 0
 C
         NUM_IMP = 0
-C recalcul du istok
+C recalculation of istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
@@ -405,7 +405,7 @@ C inbuf == cand_S
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
           CALL I11CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,CM_LOC,
      2         CS_LOC)
@@ -489,15 +489,15 @@ C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IUPD
 C     REAL
-      my_real DT2T,
+      my_real 
      .   X(*), A(3,*),V(3,*),D(3,*),MS(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
-     .        I_STOK_LOC,DEBUT,LREM,IDESAC, IGSTI, IBID
+      INTEGER  I_STOK,JLT , NFT, IGAP, 
+     .        IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real

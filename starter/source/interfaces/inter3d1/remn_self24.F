@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,21 +77,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,NTY,FLAGREMNODE,I,NI
-      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,LREMNORMAX,K,
-     .        NLINS,NLINM,IWOUT,INCOM,NM,N2,IFLAG,NRE,ip,IACT,
-     .        IF7,IF24,IF25,NN2,NNOD,M1,M2,M3,M4,NNREM,IBIT,NEW,
-     .        KI,KL,JJ,IEDGE,NEDGE,NREMOV1(NINTER),NS,MAXNM
+      INTEGER II,J,NSN,NRTM,
+     .        IFLAG,
+     .        NNOD,NNREM,
+     .        KI,KL,JJ,NREMOV1(NINTER),NS,MAXNM
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD,TAGNOD
       INTEGER ID,NC(20),NMC(4)
       CHARACTER(LEN=NCHARTITLE) :: TITR
 
 
-      INTEGER :: III,JJJ,NNOD_2,NOINT,E_ID,IADA
-      INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
+      INTEGER :: JJJ,NOINT,E_ID,IADA
+      INTEGER :: FIRST,LAST,NNREM_SAVE
       INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
-      INTEGER :: SIZE_INSERTED_NODE,OLDSIZE,MAX_INSERTED_NODE
+      INTEGER :: SIZE_INSERTED_NODE,MAX_INSERTED_NODE
       INTEGER, DIMENSION(:), ALLOCATABLE :: NBR_INSERT_II,ADRESS_II
-      INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_SAVE,INSERTED_NODE,REMNODE,TMP
+      INTEGER, DIMENSION(:), ALLOCATABLE :: KREMNODE_SAVE,INSERTED_NODE,REMNODE
       my_real
      .   AREA
 !       -------------------------------

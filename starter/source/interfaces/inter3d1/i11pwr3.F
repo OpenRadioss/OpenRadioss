@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
-      my_real PENE(MVSIZ), PENEOLD, S2, D, PPLUS
+      my_real PENE(MVSIZ), S2, PPLUS
 C-----------------------------------------------
 C
       JWARN = 0
@@ -96,15 +96,15 @@ C
             IF(INACTI/=6)THEN
               PENE(I) = PENE(I) + EM8*PENE(I)
               IF(INACTI==1) THEN
-C               DESACTIVATION DES NOEUDS
+C               Deactivation of nodes
                 WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'
                 STFS(CAND_S(I)) = ZERO
               ELSE IF(INACTI==2) THEN
-C               DESACTIVATION DES ELEMENTS
+C               Deactivation of elements
                 WRITE(IOUT,'(A)')'MAIN STIFFNESS IS SET TO ZERO'
                 STFM(CAND_M(I)) = ZERO
               ELSE IF(INACTI==5) THEN
-C               REDUCTION DU GAP 
+C               Gap reduction
                 IF(PENE(I)>=GAPV(I)*ZEP995)THEN
                   WRITE(IOUT,'(A)')' *** PENETRATION > GAP - 0.5% !! '
                   WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'

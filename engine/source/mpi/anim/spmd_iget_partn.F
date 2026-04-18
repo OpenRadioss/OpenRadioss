@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,13 +41,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    parsorf               ../engine/source/output/anim/generate/parsorf.F
 !||    parsors               ../engine/source/output/anim/generate/parsors.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c             ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c             ../common_source/tools/input_output/write_routines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_IGET_PARTN(SIZE,NBF_L,NP,NBPART,IADG,SRBUF,IFLAG)
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa array according to the parts (IADG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,16 +73,19 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD),I
+      INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-      INTEGER, DIMENSION(:),ALLOCATABLE :: RBUF,NPT
+      INTEGER, DIMENSION(:),ALLOCATABLE :: RBUF
       DATA MSGOFF/7029/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+C     Bug here: The actual recieve buffer size is not the same 
+C     as the size written. Removing the initialization to -HUGE(IERROR)
+C     will cause valgrind errors about uninitialized memory.
       ALLOCATE(RBUF(SRBUF+1))
-      ALLOCATE(NPT(NBF_L))
+      RBUF(1:SRBUF) = -HUGE(IERROR)
 
       IF (ISPMD/=0) THEN
         MSGTYP= MSGOFF
@@ -130,7 +133,6 @@ C
       ENDIF
 C
       DEALLOCATE(RBUF)
-      DEALLOCATE(NPT)
 #endif
       RETURN
       END

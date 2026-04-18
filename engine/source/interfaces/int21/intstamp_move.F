@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER NN, IRB, MAIN, J, INTDAMP, MSR, MSRR, IROT
 C     REAL
       my_real
-     .   DW, ALPHA, MASS, VIS, STF, STR, INM, VX, VY, VZ,
+     .   DW, ALPHA, MASS, VIS, STF, STR, INM,
      .   FVX, FVY, FVZ
 C-----------------------------------------------
       DO NN=1,NINTSTAMP

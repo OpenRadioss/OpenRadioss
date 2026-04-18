@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, N
+      INTEGER :: N
 C--------------------------------------
       DO N=1,NTABLE
         TABLE(N)%NOTABLE  = 0
@@ -178,10 +178,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK(4), I, IPOS(4), IB(2,2,2,2), 
-     .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-      my_real 
-     .       DX1,DX2,R(4),UNR(4)
+      INTEGER :: NDIM, K, NXK(4), I, IPOS(4), IB(2,2,2,2), IP,IN,IM,IL,P,N,M,L,N1,N12,N123
+      my_real :: DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
       IF( SIZE(XX) < NDIM )THEN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -369,8 +369,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,NX,NY,NZ,GAP2
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,H1S,H2S,H1M,H2M,NX,NY,NZ,GAP2
 C-----------------------------------------------
 C
 C      COMPTUTATION OF PENE*PENE FOR PENETRATION CHECK
@@ -407,7 +407,7 @@ C
        H2S = ONE - H1S
        H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX =  H1S*X(1,N1) + H2S*X(1,N2)
      .      - H1M*X(1,M1) - H2M*X(1,M2)

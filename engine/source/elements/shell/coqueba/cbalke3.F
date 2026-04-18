@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,11 +83,11 @@ C-----------------------------------------------
      .    FXX(MVSIZ),FYY(MVSIZ),DM5(MVSIZ),DM6(MVSIZ),DF5(MVSIZ),
      .    FXY(MVSIZ),FXY2(MVSIZ),KM12,KM21,
      .    DF6(MVSIZ),DM5_2(MVSIZ),DM6_2(MVSIZ),DF5_2(MVSIZ),
-     .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),FAC2Z,CBR1(4,MVSIZ),
-     .    CBR2(4,MVSIZ),CBR3(4,MVSIZ),BB0(2,2,MVSIZ),T0IJ(2,2,MVSIZ),
+     .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),
+     .    BB0(2,2,MVSIZ),T0IJ(2,2,MVSIZ),
      .    T1IJ(2,2,MVSIZ)
        DATA IN/2,1/
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
        DO M=JFT,JLT 
         EP=IPLAT(M)
@@ -303,7 +303,7 @@ C
        ENDDO
        ENDDO
       END IF
-C ----ajoute termes sup. due au orthotrope-----
+C ---- Add terms sup.due to orthotropic -----
        IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
@@ -869,7 +869,7 @@ C
      2                BBC(2,1,4,EP)*DC(2,2,EP)*BBC(2,J1,3,EP)
         ENDDO
        ENDDO
-C------ Mzz  pour tous----x:1,3,5,7;y:2,4,6,8---
+C------ Mzz for all ---- x: 1.3,5,7; Y: 2.4,6,8 ---
       IF (IDRIL==0) THEN
         DO EP=JFT,JLT
           M11(3,3,EP)=M11(3,3,EP)+DHZ(EP)
@@ -1065,7 +1065,7 @@ C---+----1----+----2----+shear contribution-+----5----+----6----+----7----+----8
        ENDDO
        ENDDO
 C
-C---+----1----+----2----+couplage part--[MF](3x2)[FM](2x3)-6----+----7----+----8
+C---+---- 1 ----+---- 2 ----+Part coupling-[MF] (3x2) [FM] (2x3) -6 ----+---- 7 ----+---- 8
        DO I=1,3
        DO J=1,2
         J1=J+3
@@ -1799,14 +1799,14 @@ C-----------------------------------------------
      .    T11(3,3,MVSIZ),T12(3,3,MVSIZ),T13(3,3,MVSIZ),T14(3,3,MVSIZ),
      .    T22(3,3,MVSIZ),T23(3,3,MVSIZ),T24(3,3,MVSIZ),T33(3,3,MVSIZ),
      .    T44(3,3,MVSIZ),T34(3,3,MVSIZ),
-     .    BB(2,4,MVSIZ),GM(MVSIZ),BMRZ1(MVSIZ,4,4),BMRZ2(MVSIZ,4,4),
+     .    BB(2,4,MVSIZ),BMRZ1(MVSIZ,4,4),BMRZ2(MVSIZ,4,4),
      .    BMRZ3(MVSIZ,4,4),DHZ(MVSIZ),
      .    DM(3,3,MVSIZ),DPRZ(4,MVSIZ),PX(4,MVSIZ),PY(4,MVSIZ),
-     .    C1,C2,CBRX(4,MVSIZ),CBRY(4,MVSIZ),CBRZ(4,MVSIZ),FRZV(MVSIZ)
+     .    C2,CBRX(4,MVSIZ),CBRY(4,MVSIZ),CBRZ(4,MVSIZ),FRZV(MVSIZ)
       my_real
      .   PRX(4,MVSIZ),PRY(4,MVSIZ),PRXY(4,MVSIZ),PRZ(4,MVSIZ),
      .   DMF(3,3,MVSIZ),CBR1(4,MVSIZ),CBR2(4,MVSIZ),CBR3(4,MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
         NF =NPLAT+1
 #include "vectorize.inc"
        DO M=JFT,JLT

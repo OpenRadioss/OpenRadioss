@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sforc3           ../engine/source/elements/solid/solide/sforc3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
@@ -50,6 +51,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD 
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,8 +74,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND,NBCUT,K
-      my_real :: VAR, AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
+      INTEGER :: I, IB, NCELL, MCELL, NIN , NSecnds,NBCUT,K
+      my_real ::  AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
       TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain 
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -98,7 +100,7 @@ C-----------------------------------------------
            ENDIF
           
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-           !           CHARACTERISTIC LENGTH           !
+           !           Characteristic Length!
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
            NSecnds     = BRICK_LIST(NIN,IB)%SecndList%Num
            VOLsecnds   = SUM(BRICK_LIST(NIN,IB)%SecndList%VOL(1:NSecnds))

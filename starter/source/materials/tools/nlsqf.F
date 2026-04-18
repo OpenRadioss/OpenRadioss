@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ C IDEBUG=1 -> output debug information into .out file
 C IOCSV=1 -> output fitting to curv.csv
 #define IOCSV 0
 !>    @param[in]   IFUNCS     SUBROUTINE handle/ID for evaluation : 1=OGDEN0/OGDEN1
-!>    @param[out]  A          updated coeeficients
+!>    @param[out]  A          updated coefficients
 !>    @param[out]  IRET       return code 
 !>                            0 : optimization succeeded;
 !>                            1 : optimization failed;
@@ -47,7 +47,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
+C   C o m m o n   B l o c  s
 C-----------------------------------------------
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -579,12 +579,12 @@ C-----------------------------------------------
       INTEGER LAWID, NPT, MA, ICHECK, NSTART
       INTEGER , INTENT(IN) :: IS_ENCRYPTED
       my_real ERRTOL
-      INTEGER I,NONZERO(MAXA),IDUM,ITER,ICOUNT,J,K,NMUAL  
-      my_real GAMMA,ERRNOW,GASDEV,ERRPRE,
+      INTEGER I,NONZERO(MAXA),ITER,J,NMUAL  
+      my_real GAMMA,ERRNOW,ERRPRE,
      .        STRETCH(NPT),MUAL(10)
       my_real A(MAXA),COVAR(MAXA,MAXA),ALPHA(MAXA,MAXA),Y(NPT)
       my_real MCOF_MIN(MAXA), MCOF_MAX(MAXA)
-      my_real YOGD,XOGD
+      my_real YOGD
 
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -612,7 +612,7 @@ C-----------------------------------------------
 
       INTEGER NGUESS
       my_real A0(MAXA)
-      my_real ERRMIN, ERRMAX, ERRAVE, ERRAVE_MIN, ERR
+      my_real  ERRAVE, ERRAVE_MIN, ERR
 
       INTEGER ISTART, NPSAVED, IVALID,ICOMP, MMAX
       PARAMETER (MMAX =20)
@@ -652,6 +652,7 @@ c     the combinations
       INTEGER IRND1
 ! ------------------------------------------------------------------------------       
       ALLOCATE (SIG(1:NPT))
+      ERRAVE_MIN = ZERO
 !
       !
       IF ( MAXA < MA ) THEN
@@ -755,7 +756,7 @@ c     initialize random number generator in LAW69_GUESS1
       IRND1 = 205
       ATRY(1:MMAX) = ZERO ! Initialization of ATRY
       DO 111 WHILE ( ISTART < NSTART )
-c       get one guess point A0(1:NMUAL)        
+c       Get One Guess Point A0 (1: Nmual)        
         CALL LAW69_GUESS1(
      $       LAWID, NMUAL, ICHECK_GUESS, MU_INCR_GUESS,IRND1,
      $       A0, NONZERO, MCOF_MIN, MCOF_MAX, NGUESS)
@@ -1282,7 +1283,7 @@ C       CHECK IF SUM(MU_I * ALPHA_I) > 0.0
 
        INTEGER I
 
-       my_real AVE_SLOPE, mu_max, dx,DY
+       my_real AVE_SLOPE, mu_max, dx
 
        AVE_SLOPE = ZERO
        DO I = 1, NPT

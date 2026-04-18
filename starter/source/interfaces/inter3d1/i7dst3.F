@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG
+      INTEGER I
 C     REAL
       my_real
      .     AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ),
@@ -84,7 +84,7 @@ C     REAL
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .     S2,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
@@ -218,7 +218,7 @@ C
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
         LA = ONE - LB1(I) - LC1(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -242,7 +242,7 @@ C
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
         LA = ONE - LB2(I) - LC2(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -266,7 +266,7 @@ C
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
         LA = ONE - LB3(I) - LC3(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -290,7 +290,7 @@ C
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
         LA = ONE - LB4(I) - LC4(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.

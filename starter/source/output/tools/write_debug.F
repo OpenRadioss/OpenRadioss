@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,7 +40,7 @@ C This allows to use the option -flush_rst_to_txt at the starter
       INTEGER :: A(N),N
       CHARACTER(len=*) ::  SA
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER :: I,IT,J
+      INTEGER :: I,J
       INTEGER :: NT
 #if defined(_OPENMP)
        INTEGER OMP_GET_THREAD_NUM

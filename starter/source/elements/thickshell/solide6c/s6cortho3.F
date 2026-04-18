@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6cortho3   ../starter/source/elements/thickshell/solide6c/s6cortho3.F
 !||--- called by ------------------------------------------------------
 !||    s6ccoor3    ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+!||    s6zcoor3    ../starter/source/elements/solid/solide6z/s6zcoor3.F90
 !||====================================================================
       SUBROUTINE S6CORTHO3(
      .   X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,

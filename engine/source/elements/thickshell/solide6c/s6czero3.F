@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6czero3   ../engine/source/elements/thickshell/solide6c/s6czero3.F
 !||--- called by ------------------------------------------------------
 !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       SUBROUTINE S6CZERO3(
      1   FX1,     FY1,     FZ1,     FX2,
@@ -32,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   FX5,     FY5,     FZ5,     FX6,
      5   FY6,     FZ6,     SIGM,    EINTM,
      6   RHOM,    QM,      EPLASM,  EPSDM,
-     7   G_PLA,   G_EPSD,  NEL)
+     7   G_PLA,   G_EPSD,  NEL, NLAY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  G_PLA,G_EPSD,NEL
+      INTEGER  G_PLA,G_EPSD,NEL,NLAY
 C     REAL
       my_real
      .   FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*), 
@@ -55,26 +56,28 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
 C=======================================================================
-      DO I=1,NEL
-        SIGM(I,1) = ZERO  
-        SIGM(I,2) = ZERO  
-        SIGM(I,3) = ZERO  
-        SIGM(I,4) = ZERO  
-        SIGM(I,5) = ZERO  
-        SIGM(I,6) = ZERO  
-        RHOM(I)   = ZERO  
-        EINTM(I)  = ZERO  
-        QM(I)     = ZERO    
-      ENDDO
-      IF (G_EPSD > 0) THEN
+      IF (NLAY > 1) THEN 
         DO I=1,NEL
-          EPSDM(I) = ZERO
+          SIGM(I,1) = ZERO  
+          SIGM(I,2) = ZERO  
+          SIGM(I,3) = ZERO  
+          SIGM(I,4) = ZERO  
+          SIGM(I,5) = ZERO  
+          SIGM(I,6) = ZERO  
+          RHOM(I)   = ZERO  
+          EINTM(I)  = ZERO  
+          QM(I)     = ZERO    
         ENDDO
-      ENDIF
-      IF (G_PLA > 0) THEN
-        DO I=1,NEL
-          EPLASM(I)  = ZERO
-        ENDDO
+        IF (G_EPSD > 0) THEN
+          DO I=1,NEL
+            EPSDM(I) = ZERO
+          ENDDO
+        ENDIF
+        IF (G_PLA > 0) THEN
+          DO I=1,NEL
+            EPLASM(I)  = ZERO
+          ENDDO
+        ENDIF
       ENDIF
       DO I=1,NEL
        FX1(I)=ZERO

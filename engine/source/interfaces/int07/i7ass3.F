@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -88,7 +88,7 @@ C-----------------------------------------------
 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),ITAB(*), ISKY(*), NSTRF(*),
-     .        NISUB,ISKYI_SMS(*), NSMS(*),
+     .        ISKYI_SMS(*), NSMS(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),NIGE(*)
       INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
@@ -115,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,JG,K0,NBINTER,K1S,J,IG,IBCM,IBCS,TAGIGEO
+      INTEGER I,K,JG,K0,NBINTER,K1S,J,TAGIGEO
       my_real
      .   DTI
 C-------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ C
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FCONT(1,JG)=FCONT(1,JG)- FXI(I)
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
               FCONT(3,JG)=FCONT(3,JG)- FZI(I)
@@ -268,8 +268,8 @@ C-----------------------------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C pay attention to the signs for the accumulation of forces
+C To make it conform with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -292,7 +292,7 @@ C a rendre conforme avec CFORC3
                     ENDIF
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF(SECFCUM(4,JG,I)==1.)THEN
                         SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                         SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -1185,7 +1185,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL
+      INTEGER I, IG, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1201,7 +1201,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote   {Local/remote impact pre-calculation}
+C Precalcul impact local / remote   {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0
@@ -1516,7 +1516,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL
+      INTEGER I, IG, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1532,7 +1532,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote  {Local/remote impact pre-calculation}
+C Precalcul impact local / remote  {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0
@@ -1628,7 +1628,7 @@ Cs
             ISKYFI(NIN)%P(NISKYFIL) = IG
           ENDIF
         ENDDO
-C + la thermique {+ the thermal}
+C + thermal
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT
@@ -1851,8 +1851,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, JS, IPID, IAD_KNOT, NKNOT1,
      .        NKNOT2, NKNOT3, IDX, IDY, IDZ, N1, N2, N3,
-     .        NCTRL, IERROR, IG, NUMCP(64), K, IDX2, IDY2, IDZ2,
-     .        IDFRSTLOCKNT,IDPC,PX,PY,PZ, J1
+     .        NCTRL, IG, NUMCP(64), K, IDX2, IDY2, IDZ2,
+     .        IDFRSTLOCKNT,PX,PY,PZ, J1
       my_real
      .   ZR,ZS,ZT
       my_real

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -93,11 +93,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
+     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,ID,
      .   NLY
       INTEGER     IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
+     .    CVIS,QA,QB,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -142,7 +142,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('vdef_max',VDEFMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('ASP_max',ASPMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('COL_min',ASPTET,IS_AVAILABLE,LSUBMODEL,UNITAB)
-C-------for lecture check 
+C-------for reading check 
 c         WRITE(IOUT,2100)IG,IHBE,ISMSTR,IPLAST,IINT,ICPRE,ICSTR,CVIS,QA,QB,
 c     .                   DTMIN,ISTRAIN,NPTR,NPTS,NPTT
 C-----------------------

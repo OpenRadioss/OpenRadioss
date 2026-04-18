@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE SPLIT_CFD_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,7 +124,7 @@ C
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
-C   voir autres types solides
+C   See other solid types
          ISOLNOD = IPARG(28,NG)
          IF(ITY==1) THEN
            DO I = 1, NEL
@@ -178,6 +179,12 @@ C   2D
                            TAGE_L(PROC2+1,IE_LOC)=1
                         END IF
                      ENDIF
+                  ELSEIF(PROC/=0.AND.IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                    IF(TAGS(1,-IV)==0)THEN
+                      NSEGFL_L = NSEGFL_L + 1
+                      TAGS(1,-IV) = 1
+                    ENDIF
                   ENDIF
                ENDDO
             ENDDO
@@ -201,8 +208,14 @@ C     2D Triangulaire
                         IF(TAGE_L(PROC2 + 1, IE_LOC) == 0)THEN
                            NESVOIS = NESVOIS + 1
                            TAGE_L(PROC2 + 1, IE_LOC) = 1
-                        ENDIF                       
+                        ENDIF
                     ENDIF
+                 ELSEIF(PROC/=0.AND.IV<0)THEN
+C IV < 0 : SEGMENT INT12
+                   IF(TAGS(1,-IV)==0)THEN
+                     NSEGFL_L = NSEGFL_L + 1
+                     TAGS(1,-IV) = 1
+                   ENDIF
                  ENDIF
               ENDDO
            ENDDO
@@ -213,9 +226,9 @@ C
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
          P = IPARG(32,NG)+1
-C   voir autres types solides
+C   See other solid types
          ISOLNOD = IPARG(28,NG)
-         IF(ITY==1) THEN
+         IF(ITY==1 .OR. ITY==2 .OR. (ITY==7 .AND. N2D>0)) THEN
            DO I = 1, NEL
              IE = I+NFT
 C   IVOIS
@@ -237,7 +250,7 @@ C IV < 0 : SEGMENT INT12
       ENDDO
 C
 C
-C Traitement supplementaire Couplage Fluide/Structure
+C Additional treatment Fluid coupling/structure
 !     because it increases cpu time
       DO I = 1, NUMELS
         IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)

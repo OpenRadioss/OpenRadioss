@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srcoork      ../engine/source/elements/solid/solide8z/srcoork.F
+!||    srcoork       ../engine/source/elements/solid/solide8z/srcoork.F
 !||--- called by ------------------------------------------------------
-!||    s8cke3       ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8zke3       ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
 !||--- calls      -----------------------------------------------------
-!||    scortho3     ../engine/source/elements/thickshell/solidec/scortho3.F
-!||    sorthdir17   ../engine/source/elements/solid/solide8z/sorthdir17.F
-!||    sorthdir3    ../engine/source/elements/solid/solide/sorthdir3.F
-!||    sortho3      ../engine/source/elements/solid/solide/sortho3.F
-!||    srepisot3    ../engine/source/elements/solid/solide/srepisot3.F
+!||    scortho3      ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    sorthdir17    ../engine/source/elements/solid/solide8z/sorthdir17.F
+!||    sorthdir3     ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sortho3       ../engine/source/elements/solid/solide/sortho3.F
+!||    srepisot3     ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SRCOORK(
      1   X,       IXS,     X1,      X2,
@@ -57,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M   K88,     KHBE,    GAMA0,   GAMA,
      N   NEL,     ISMSTR,  JHBE,    JCVT,
      O   IREP,    IGTYP,   ISORTH)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,13 +109,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, MXT_1
 C     REAL
-      my_real
-     .   G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
-     .   G21(MVSIZ),G22(MVSIZ),G23(MVSIZ),
-     .   G31(MVSIZ),G32(MVSIZ),G33(MVSIZ),
-     .   T11(MVSIZ),T12(MVSIZ),T13(MVSIZ),
-     .   T21(MVSIZ),T22(MVSIZ),T23(MVSIZ),
-     .   T31(MVSIZ),T32(MVSIZ),T33(MVSIZ)
       my_real
      .   XL,YL,ZL
       my_real
@@ -165,7 +161,7 @@ C----------------------------
         Z8(I)=X(3,NC8(I))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISOT3(
      1   X1,      X2,      X3,      X4,
@@ -231,7 +227,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
@@ -313,7 +309,7 @@ C     X=RX' <=> X'=t(R)X chgt de base.
         X8(I)=XL
         Y8(I)=YL
         Z8(I)=ZL
-C       SAV dans rep. local.
+C       sav in local frame
 C       SAV(I,1)=X1(I)-X8(I)
 C       SAV(I,2)=Y1(I)-Y8(I)
 C       SAV(I,3)=Z1(I)-Z8(I)
@@ -474,7 +470,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         ENDIF !IF (JCVT==0)
         DO I=1,NEL
         IF(OFFG(I)<=ONE)THEN
-C       SAV dans rep. local.
+C       sav in local frame
         SAV(I,1)=X1(I)-X8(I)
         SAV(I,2)=Y1(I)-Y8(I)
         SAV(I,3)=Z1(I)-Z8(I)

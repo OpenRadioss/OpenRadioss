@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sortho3    ../engine/source/elements/solid/solide/sortho3.F
+!||    sortho3     ../engine/source/elements/solid/solide/sortho3.F
 !||--- called by ------------------------------------------------------
-!||    pre_heph   ../engine/source/output/anim/generate/tensor6.F
-!||    sr8coor3   ../engine/source/elements/solid/solide8/sr8coor3.F
-!||    srcoor3    ../engine/source/elements/solid/solide/srcoor3.F
-!||    srcoork    ../engine/source/elements/solid/solide8z/srcoork.F
-!||    srep2glo   ../engine/source/elements/sph/srep2glo.F
+!||    pre_heph    ../engine/source/output/anim/generate/tensor6.F
+!||    s6zrcoor3   ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    sr8coor3    ../engine/source/elements/solid/solide8/sr8coor3.F
+!||    srcoor3     ../engine/source/elements/solid/solide/srcoor3.F
+!||    srcoork     ../engine/source/elements/solid/solide8z/srcoork.F
+!||    srep2glo    ../engine/source/elements/sph/srep2glo.F
 !||====================================================================
       SUBROUTINE SORTHO3(
      1   RX,      RY,      RZ,      SX,
@@ -125,7 +126,7 @@ c
 c
  100  CONTINUE
       IF (N < NITER) GOTO 111
-c     norme et orthogonalisation
+c     norm and orthogonalization
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 200 I=1,NEL
       e1x(I) = Ux(I)

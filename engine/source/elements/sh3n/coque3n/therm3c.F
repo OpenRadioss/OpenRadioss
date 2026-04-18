@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,10 +25,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE THERM3C(NEL   ,PM    ,THK   ,IXTG   , 
      2                   PX1   ,PY1   ,PY2   ,AREA   ,DT     ,
      3                   TEMPNC,TEMPEL,DHEAT ,FPHI   ,THEACCFACT)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C  calculates nodal thermic force from heat energy increment
 C-----------------------------------------------
@@ -60,7 +63,7 @@ C-----------------------------------------------
         CB = PM(76)
 !
         DO I=1,NEL
-cc          ! element form functions
+c!!Formo functions
 cc          PX1(I) = HALF*(X(2,IXTG(3,I)) - X(2,IXTG(4,I)))/AREA(I)
 cc          PX2(I) = HALF*(X(2,IXTG(4,I)) - X(2,IXTG(2,I)))/AREA(I)
 cc          PY1(I) = HALF*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)

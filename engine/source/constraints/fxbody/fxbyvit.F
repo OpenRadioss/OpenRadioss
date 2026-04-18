@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,9 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fxbodvp2       ../engine/source/constraints/fxbody/fxbodvp.F
 !||    spmd_fxb_cin   ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE FXBYVIT(FXBIPM, FXBNOD, FXBMOD  , FXBGLM , FXBLM ,
+      SUBROUTINE FXBYVIT(OUTPUT,FXBIPM, FXBNOD, FXBMOD  , FXBGLM , FXBLM ,
      .                   FXBMVN, FXBMCD, FXBSE   , FXBSV  , FXBVIT,
      .                   FXBACC, FXBRPM, V       , VR     , A     ,
      .                   AR    , MS    , IN      , WEIGHT , FSAV  ,
@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), WEIGHT(*), IAD_ELEM(2,*),
      .        FR_ELEM(*)
       my_real
@@ -69,14 +70,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFX,ANOD,AMOD,ACP,AGLM,ALM,AVAR,ARPM,NME,NMOD,AMCD,
-     .        ASE,NSN,IDMAST,M,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
+     . ASE,NSN,IDMAST,ISH,DMT,LMOD,ITN,NCYCLP1,N2,NN2,
      .        NSNT,IBLO,IFILE,NSNI,IRCM,PMAIN
-      my_real
-     .        TT2
 C
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0
-      IF(TT<TANIM) ITN=1
+      IF(TT<OUTPUT%TANIM) ITN=1
       NCYCLP1=NCYCLE+1
       IF((NCYCLP1/NCRST)*NCRST==NCYCLP1.OR.MREST/=0) ITN=0
       DO NFX=1,NFXBODY

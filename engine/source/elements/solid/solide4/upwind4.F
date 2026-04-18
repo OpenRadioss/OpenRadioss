@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,8 +59,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .  FAC,PE,D1,D2,D3,DIST,CH1,CH2,
-     .  DV(MVSIZ),V(MVSIZ)
+     .  FAC,PE,D1,D2,D3,CH1,CH2,
+     .  V(MVSIZ)
       INTEGER I
 C-----------------------------------------------
 C   S o u r c e   C o d e

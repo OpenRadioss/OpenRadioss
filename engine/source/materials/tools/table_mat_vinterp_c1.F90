@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@
 !||    table_mat_vinterp_c1_mod   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||====================================================================
       module table_mat_vinterp_c1_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                      procedures
@@ -82,6 +83,7 @@
           real(kind=WP), dimension(nel,4) :: fac
           real(kind=WP), dimension(2,2,2) :: h1,h2,dydx_smooth
           real(kind=WP), dimension(nel)   :: dxx,xs1,xs2
+          real(kind=WP) :: ksi
           logical :: do_extrapolation
 ! ----------------------------------------------------------------------------------------------------------------------
 !   source lines
@@ -89,11 +91,11 @@
           do_extrapolation = .true.
           if (present(opt_extrapolate)) then
             do_extrapolation = opt_extrapolate
-          endif
+          end if
 
           ndim = table%ndim
           if (size(xx,2) < ndim ) then
-            call ancmsg(msgid=36,anmode=aninfo,c1='table interpolation')
+            call ancmsg(msgid=36,anmode=aninfo,c1="table interpolation",msgtype=msgerror)
             call arret(2)
           end if
 
@@ -115,8 +117,8 @@
               else
                 nindx_2 = nindx_2 + 1
                 indx_2(nindx_2) = i
-              endif
-            enddo
+              end if
+            end do
 
             do j=1,nindx_1
               i = indx_1(j)
@@ -129,9 +131,9 @@
                   need_to_compute = .false.
                 else
                   m=m-1
-                endif
-              enddo
-            enddo
+                end if
+              end do
+            end do
 
             do j=1,nindx_2
               i = indx_2(j)
@@ -144,10 +146,10 @@
                   need_to_compute = .false.
                 else
                   m=m+1
-                endif
-              enddo
-            enddo
-          enddo ! k=1,ndim
+                end if
+              end do
+            end do
+          end do ! k=1,ndim
 
           do k=1,ndim
 #include "vectorize.inc"
@@ -158,6 +160,8 @@
           end do
 
           if(.not. do_extrapolation)then
+            ! The function is not extrapolated outside its definition interval
+            !   fac \in [0,1]
             do k=1,ndim
 #include "vectorize.inc"
               do i=1,nel
@@ -165,7 +169,7 @@
                 fac(i,k) = min(one,max(fac(i,k),zero))
               end do
             end do
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           select case(ndim)
 
@@ -488,12 +492,15 @@
               xs2(i)  = (table%x(1)%values(i3) + table%x(1)%values(i2)) * half
               dxx(i)  = xs2(i) - xx(i,1)
 
+              ksi = one
               if (ipos(i,1) == 1) then                  ! first point
                 if (dxx(i) <= zero) then
                   dx = table%x(1)%values(i4) - table%x(1)%values(i3)
                   xs1(i)  = (table%x(1)%values(i4) + table%x(1)%values(i3)) * half
                   h1(1,1,1) = (table%y1d(i4) - table%y1d(i3)) / dx
                   alpha   = dxx(i) / (xs2(i) - xs1(i))
+                elseif(.not. do_extrapolation)then
+                  ksi = zero ! When the function is not extrapolated and is held constant below its domain of definition, its derivative is zero in that region.
                 end if
               else if (ipos(i,1) == ldim(1) - 1) then    ! last point
                 if (dxx(i) > zero) then
@@ -501,6 +508,8 @@
                   xs1(i)  = (table%x(1)%values(i2) + table%x(1)%values(i1)) * half
                   h1(1,1,1) = (table%y1d(i2) - table%y1d(i1)) / dx
                   alpha   = dxx(i) / (xs2(i) - xs1(i))
+                elseif(.not. do_extrapolation)then
+                  ksi = zero ! When the function is not extrapolated and is held constant over its domain of definition, its derivative is zero in that region.
                 end if
               else
                 if (dxx(i) > zero) then
@@ -515,7 +524,7 @@
                 alpha   = dxx(i) / (xs2(i) - xs1(i))
               end if
               dydx_smooth(1,1,1) = alpha * h1(1,1,1) + (one-alpha) * h2(1,1,1)
-              dydx(i) = dydx_smooth(1,1,1)
+              dydx(i) = ksi*dydx_smooth(1,1,1)
             end do
 
           end select

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD    
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,8 +82,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ID, NGAU, NOD, ISK, UID, IFLAGUNIT, IG, L,NBGAUGE_SPH,NBGAUGE_POINT
-      INTEGER N,NS,NG,OFFS
+      INTEGER I, J, NGAU, NOD, NBGAUGE_SPH, NBGAUGE_POINT
+      INTEGER NS, NG
       my_real FF,BID,DIST,Xgauge,Ygauge,Zgauge
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -92,7 +93,7 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
 C-----------------------------------------------
 C---------------------------------------------
-C     LECTURE DES PARAMETRES DE GAUGES
+C     READING DES PARAMETRES DE GAUGES
 C-----------------------------------------------
 c     LGAUGE(3,*)
 c 1:  -Isolid                              -(NUMELS_G+1) if SPH gauge
@@ -109,7 +110,7 @@ c 6:                                       XSAV (SPH sorting)
 c 7:                                       YSAV (SPH sorting)
 c 8:                                       ZSAV (SPH sorting)
 c 9:                                       FF (sph only)
-c 10:                                      intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:                                      intantaneous PA
 c 12:                                      intantaneous Rho
 c 13:                                      intantaneous E
@@ -147,7 +148,7 @@ C-----------------------------------------------------------------
        CALL HM_OPTION_START('/GAUGE/SPH')       
        DO I=1,NBGAUGE_SPH
         NG=NG+1
-        !---Multidomaines --> on ignore les sections non tagees----
+        !--- Multidomatic-> We do not know the non-tagged sections ----
         IF(NSUBDOM > 0) THEN
           IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF
@@ -207,7 +208,7 @@ C-----------------------------------------------------------------
             NOM_OPT(1,I)=NGAU
             CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
             NG=NG+1
-            !Multidomaines --> on ignore les sections non tagees----
+            !Multidomatic-> We do not know the non-tagged sections ----
             IF(NSUBDOM > 0) THEN
               IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
             ENDIF
@@ -244,7 +245,7 @@ C-----------------------------------------------
 
         IF (KEY == 'SPH' .OR. KEY == 'POINT') CYCLE
         NG=NG+1
-        !Multidomaines --> on ignore les sections non tagees----
+        !Multidomatic-> We do not know the non-tagged sections ----
         IF(NSUBDOM > 0) THEN
           IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF

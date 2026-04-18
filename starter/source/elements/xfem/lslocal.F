@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -416,7 +417,7 @@ C-----------------------------------------------
       INTEGER I
       my_real S1,S2,SUMA
       my_real, DIMENSION(MVSIZ) :: X21,Y21,Z21,X31,Y31,Z31,X41,Y41,Z41,
-     .   X42,Y42,Z42,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM
+     .   X42,Y42,Z42,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z
 C=======================================================================
       DO I=LFT,LLT
         X21(I) = X2(I)-X1(I)
@@ -605,11 +606,13 @@ C-----------
       END
 c
 !||====================================================================
-!||    elcut4n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut4n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT4N(IEL   ,IXC ,XNOD, EDGEC, FAC , IED)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -639,11 +642,13 @@ C---
       RETURN
       END
 !||====================================================================
-!||    elcut3n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut3n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT3N(IEL   ,IXTG ,XNOD, EDGETG, FAC , IED)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

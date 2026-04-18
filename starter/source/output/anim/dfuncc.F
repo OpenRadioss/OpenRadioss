@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -61,14 +62,14 @@ C-----------------------------------------------
 C     REAL                                                    
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE         
+     .    P, VONM2, S1, S2, S12, S3, VALUE         
       INTEGER I,II(6), NG, NEL, N, MLW, IUS,MT,IALEL,             
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,              
-     .        OFFSET,IGTYP,JJ                    
+     .        NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,              
+     .        OFFSET                    
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       REAL R4
 C-----------------------------------------------                        
-C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)      
+C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
       NN1 = 1                                                           
       NN3 = 1                                                           
       NN4 = NN3 + NUMELQ                                                
@@ -213,7 +214,7 @@ C
           CONTINUE                                                        
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET                                    
+C       END OF LOOP ON OFFSETS
 C-----------------------------------------------                        
        END DO                                                           
  900  CONTINUE                                                          

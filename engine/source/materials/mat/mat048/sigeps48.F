@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
 !||    mulaw8     ../engine/source/materials/mat_share/mulaw8.F90
-!||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
 !||====================================================================
       SUBROUTINE SIGEPS48(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
@@ -125,16 +123,16 @@ C-----------------------------------------------
       my_real
      . UVAR(NEL,NUVAR), OFF(NEL)
 C-------------------------
-C    variables non utilisees (fonctions utilisateur)
+C    Variables not used (user functions)
 C-------------------------
       INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
       my_real
-     . FINTER,TF(*)
+     . TF(*)
 C      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IADBUF,ICC(MVSIZ),MX
+      INTEGER I,IADBUF,MX
       my_real 
      .        E,NU,P,DAV,VM,R,DPLA,EPST,E1,E2,E3,E4,E5,E6,C,CD,D,
      .        Y,YP,E42,E52,E62,EPST2,PA,PB,PC,PDA,PDB,YY,

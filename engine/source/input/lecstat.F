@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDPRT,K_STAT,J,IP,IPID,IGTYP,
+      INTEGER I,IDPRT,J,IP,IPID,
      .        IFAIL,NLAY,FAIL_ID,MAT_ID,IL,IMAT,
      .        NFAIL,NG,ITY,NFT,IPRT
       INTEGER MAT_CHECKED(NUMMAT)
@@ -117,7 +117,7 @@ C-----------------------------------------------
               ENDIF ! IF (ITY == 1 .or. ITY == 3 .or. ITY == 7)
             ENDDO ! DO NG=1,NGROUP
 C---
-          ENDIF ! IF ( part de coque & STAT_C(8) = 1) THEN
+          ENDIF ! If (shell share & stat_c (8) = 1) then
         END DO ! DO I=1,NSTATPRT
       ELSEIF (NSTATALL /= 0) THEN
         DO J=1,NPART

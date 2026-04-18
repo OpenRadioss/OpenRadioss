@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,16 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, J, K,EP,I_INF,I_SUP,IPLY,NPLAT0
+      INTEGER J, K, EP, NPLAT0
       my_real 
-     .     MM(3,4),FL(3,4),ML(2,4),C1,Z1,
-     .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
-     .     F1, F2,F3,FAC,FAC1,FAC2,FAC3,FL1,FL2,
-     .     FL3,E33,G,NU  
-      my_real
-     .   ML11(MVSIZ),ML12(MVSIZ),ML13(MVSIZ) ,ML14(MVSIZ),ML21(MVSIZ),         
-     .   ML22(MVSIZ),ML23(MVSIZ),ML24(MVSIZ) ,ML31(MVSIZ),ML32(MVSIZ),         
-     .   ML33(MVSIZ),ML34(MVSIZ)
+     .     FL(3,4),C1,Z1,
+     .     AR(3),ALR(3),
+     .     F1, F2,F3,FL1,FL2,
+     .     FL3
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 !!        NPLAT0  = JLT
         NPLAT0 = NPLAT
@@ -210,7 +206,7 @@ C        I=3
        ENDDO
       ENDDO
 C
-C     Projection des forces d'interpli
+C     Interpli's projection
        DO J = 1 , NPT 
 #include "vectorize.inc"
         DO EP=JFT,JLT  
@@ -219,7 +215,7 @@ C     Projection des forces d'interpli
          FL1 = VFI(K,1,J)
          FL2 = VFI(K,2,J)
          FL3 = VFI(K,3,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -234,7 +230,7 @@ CNode 2 -ply
          FL1 = VFI(K,4,J)
          FL2 = VFI(K,5,J)
          FL3 = VFI(K,6,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -248,7 +244,7 @@ CC
          FL1 = VFI(K,7,J)
          FL2 = VFI(K,8,J)
          FL3 = VFI(K,9,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -263,7 +259,7 @@ CNode 4 -ply
          FL1 = VFI(K,10,J)
          FL2 = VFI(K,11,J)
          FL3 = VFI(K,12,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2

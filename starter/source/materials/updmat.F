@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    eosfun_usr2sys         ../starter/source/materials/tools/eosfun_usr2sys.F90
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    law02_upd              ../starter/source/materials/mat/mat002/law02_upd.F90
 !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law100_upd_nht         ../starter/source/materials/mat/mat100/law100_upd.F
 !||    law104_upd             ../starter/source/materials/mat/mat104/law104_upd.F
@@ -38,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law114_upd             ../starter/source/materials/mat/mat114/law114_upd.F
 !||    law119_upd             ../starter/source/materials/mat/mat119/law119_upd.F
 !||    law120_upd             ../starter/source/materials/mat/mat120/law120_upd.F
+!||    law123_upd             ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_upd             ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd             ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law158_upd             ../starter/source/materials/mat/mat158/law158_upd.F
@@ -50,11 +52,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law62_upd              ../starter/source/materials/mat/mat062/law62_upd.F
 !||    law69_upd              ../starter/source/materials/mat/mat069/law69_upd.F
 !||    law70_upd              ../starter/source/materials/mat/mat070/law70_upd.F
-!||    law76_upd              ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd              ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law81_upd              ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd              ../starter/source/materials/mat/mat087/law87_upd.F90
-!||    law88_upd              ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd              ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
 !||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
@@ -62,6 +62,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
 !||    eosfun_usr2sys_mod     ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||    law02_upd_mod          ../starter/source/materials/mat/mat002/law02_upd.F90
+!||    law123_upd_mod         ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_upd_mod         ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd_mod         ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law163_upd_mod         ../starter/source/materials/mat/mat163/law163_upd.F90
@@ -84,9 +86,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
+      USE LAW02_UPD_MOD  , ONLY : LAW02_UPD
       USE LAW19_UPD_MOD  , ONLY : LAW19_UPD
       USE LAW81_UPD_MOD  , ONLY : LAW81_UPD
       USE LAW87_UPD_MOD  , ONLY : LAW87_UPD
+      USE LAW123_UPD_MOD , ONLY : LAW123_UPD
       USE LAW129_UPD_MOD , ONLY : LAW129_UPD
       USE LAW133_UPD_MOD , ONLY : LAW133_UPD
       USE LAW163_UPD_MOD , ONLY : LAW163_UPD
@@ -196,7 +200,7 @@ C
         ENDIF
 
 c
-        IF (ILAW < 29.and.ILAW/=19.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
+        IF (ILAW/=2.and.ILAW < 29.and.ILAW/=19.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
      .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
      .      ILAW==78 ) CYCLE
 c
@@ -245,6 +249,9 @@ c
 c-----------------------------------------------------------------------
         SELECT CASE (ILAW)
 c-------------------------
+          CASE (2) 
+            CALL LAW02_UPD(MAT_PARAM(IMAT))
+c-------------------------
           CASE (19) 
             CALL LAW19_UPD(MAT_PARAM(IMAT),SENSORS)
 c-------------------------
@@ -277,13 +284,7 @@ c------------------
 c------------------
             CALL LAW70_UPD(MAT_PARAM(IMAT)    ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
-     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT))       
-c------------------
-          CASE (76) 
-            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
-     .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
-     .                     IFUNC  ,NPC     ,PLD      )       
-c
+     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT),MAT_PARAM(IMAT)%YOUNG0)       
 c------------------
           CASE (77) 
             CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
@@ -301,18 +302,12 @@ c------------------
             IF (FLAG_FIT == 1) THEN 
               CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     )
             ENDIF
-c-------------------------
-          CASE (88) 
-c
-            CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
-     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT),
-     .                     NFUNCT )
 c------------------
           CASE (90) 
 c
             CALL LAW90_UPD(IOUT,TITR,MAT_ID   ,UPARAM,
      .                     IPM(1,IMAT),FUNC_ID,NPC,PLD,PM(1,IMAT),
-     .                     NFUNCT)
+     .                     NFUNCT,MAT_PARAM(IMAT)%YOUNG0)
 c------------------
           CASE (92) ! Arruda-Boyce hyperelastic law
 c------------------
@@ -394,7 +389,10 @@ c------------------
      .                      UPARAM,PM(1,IMAT),TITR    ,MAT_ID )          
 c------------------
           CASE (120)    ! TAPO material for adhesives
-            CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
+            CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)   
+c------------------
+          CASE (123)
+            CALL LAW123_UPD(MAT_PARAM(IMAT))       
 c------------------
           CASE (129)    
             CALL LAW129_UPD(MAT_PARAM(IMAT),SENSORS)          
@@ -412,12 +410,14 @@ c------------------
           CASE (163)
             CALL LAW163_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)
 c------------------
-          CASE (190) !PAth dependent foam (dubois)
+          CASE (190) !Path DEPENDE FAAM (DUBOIS)
             CALL LAW190_UPD(MAT_PARAM(IMAT) ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
      .                      NPROPM, NTABLE)
 c------------------
 c
         END SELECT ! (ILAW)  
+        PM(107,IMAT) = TWO*MAX(PM(32,IMAT),PM(100,IMAT)) ! used for contact stif of Icontrol>0
+        IF (ILAW==62) PM(107,IMAT) = HUNDRED*PM(107,IMAT)
 c------------------
       ENDDO        ! IMAT=1,NUMMAT
 c-----------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c_fvbag     ../starter/source/airbag/c_fvbag.F
+!||    c_fvbag       ../starter/source/airbag/c_fvbag.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
 !||--- uses       -----------------------------------------------------
-!||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+!||    fvbag_mod     ../starter/share/modules1/fvbag_mod.F
 !||====================================================================
       SUBROUTINE C_FVBAG(
      .    MONVOL,   NODLOCAL,  IXS     , PROC, NB_NODE, FVMAIN)
@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,7 +104,7 @@ C
             NTGI=MONVOL(K1-1+69)
             KI1 =K2+MONVOL(K1-1+31)
             KIA1=K2+MONVOL(K1-1+20)-1
-C Noeuds de l'enveloppe
+C Nod
             ALLOCATE(IBUF(NN+NNI), IBUFA(NNA))
             DO J=1,NN+NNI
                IBUF(J)=MONVOL(KI1-1+J)
@@ -111,7 +112,7 @@ C Noeuds de l'enveloppe
             DO J=1,NNA
                IBUFA(J)=MONVOL(KIA1-1+J)
             ENDDO
-C Identification du PMAIN
+C Identification of PMAIN
             NMAX=0
             PMAIN=1
             DO P=1,NSPMD
@@ -153,7 +154,7 @@ C Identification du PMAIN
               PMAIN = FVMAIN(IFV)
             ENDIF 
             FVSPMD(IFV)%PMAIN=PMAIN
-C Noeuds locaux
+C Local nodes
             NN_L=0
             DO J=1,NN
                JJ=IBUF(J)
@@ -194,7 +195,7 @@ C Noeuds locaux
                ENDIF
             ENDDO
             DEALLOCATE(IBUF, IBUFA)
-C Solides additionnels
+C Additional solids
             FVSPMD(IFV)%NSA=NBA
             FVSPMD(IFV)%NNSA=0
             FVSPMD(IFV)%NNSA_L=0

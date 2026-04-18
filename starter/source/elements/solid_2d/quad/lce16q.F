@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,19 +26,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
-!||    usr2sys        ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE LCE16Q3(IXQ    ,ISEL  ,PM     ,IPOINT ,ITAB ,ITABM1,
      .                   ICODE  ,IPARTQ,IGRQUAD,IPM    ,IGEO )
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS 2D
-C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
-C     LECTURE FORMAT IDENTIQUE AUX COQUES
+C     READING 2D ELEMENTS
+C     NODE NUMBERING VERSION FREE/MARS 90/DIM
+C     READING FORMAT IDENTICAL TO SHELLS
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,20 +63,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, ICODT, I1, I2, INEW
+      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW
       INTEGER IC,IC1,IC2,IC3,IC4,MID,PID
       CHARACTER MESS*40, MESS2*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'2D SOLID ELEMENTS DEFINITION            '/
       DATA MESS2/'2D SOLID ELEMENTS SELECTION FOR TH PLOT '/
 C
 C----------------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C      LOI 17 SI LA BCS EST  011  OU 111
+C      LAW 17 IF BCS IS  011  OR 111
       DO I=1,NUMELQ
           MT=IXQ(1,I)
           MLAW=NINT(PM(19,MT))
@@ -94,7 +93,7 @@ C      LOI 17 SI LA BCS EST  011  OU 111
           ENDDO
       ENDDO
 C----------------------------------------------------
-C     CLASSEMENT DES ELEMENTS PAR LOI DE MATERIAU
+C     CLASSIFICATION OF ELEMENTS BY MATERIAL LAW
 C----------------------------------------------------
       CALL REORDR(IXQ   ,NIXQ   ,NUMELQ ,PM     ,IPOINT ,
      .            IPARTQ,NGRQUAD,IGRQUAD,NUMMAT)

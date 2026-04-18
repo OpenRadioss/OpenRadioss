@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    delnumbs    ../starter/source/output/anim/delnumbs.F
+!||    delnumbs      ../starter/source/output/anim/delnumbs.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DELNUMBS(IPARG,IXS  ,EL2FA,NBF  ,INUM ,                              
-     .                    KXSP ,ISPH3D)                                         
+     .                    KXSP ,ISPH3D)
+      use element_mod , only : nixs
 C===============================================                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -45,7 +47,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),                                           
      .        IXS(NIXS,*),EL2FA(*),INUM(*),                             
      .        NBF,KXSP(NISP,*)                                    
-      INTEGER ISPH3D ,NG, ITY, LFT, LLT, N, I, J, NEL, IAD, NFT,                
+      INTEGER ISPH3D ,NG, ITY, LFT, LLT, N, I, NEL, IAD, NFT,                
      .        NN1,NN2,NN3,ISOLNOD         
 C=======================================================================                       
       NN1 = 1                                                           
@@ -61,7 +63,7 @@ C
         LFT=1                                                           
         LLT=NEL                                                         
 C-----------------------------------------------                        
-C       SOLIDES 16N                                                     
+C       16-NODE SOLID ELEMENTS                                                     
 C-----------------------------------------------                        
         IF(ITY==1.AND.ISOLNOD==16)THEN                              
           DO I=LFT,LLT                                                  
@@ -74,7 +76,7 @@ C-----------------------------------------------
            ENDIF                                                        
           ENDDO                                                         
 C-----------------------------------------------                        
-C       AUTRES SOLIDES                                                  
+C       OTHER SOLID ELEMENTS                                                  
 C-----------------------------------------------                        
         ELSEIF(ITY==1)THEN                                            
           DO I=LFT,LLT                                                  

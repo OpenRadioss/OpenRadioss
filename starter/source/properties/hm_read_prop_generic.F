@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -98,11 +98,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISKW,IADFUN,IADMAT,IADPID,IADTAB
-      INTEGER I, ILAW,NPG,JCVT,NUVAR(2)
-      my_real PARGEO(100),STIF,TTHICK
+      INTEGER I, NPG, JCVT, NUVAR(2)
+      my_real PARGEO(100), STIF
       my_real QA,QB
       CHARACTER FILNAM*512,CLAW*4
-      INTEGER LEN_FILNAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
 c------------------------------
@@ -167,7 +166,7 @@ C     rupture property for interface type 2
 C          ( not a true user property )
 C--------------------------------------------------
           IGTYP=37
-          CALL HM_READ_PROP_USER4(IOUT  ,NUVAR ,PARGEO ,UNITAB ,LSUBMODEL)
+          CALL HM_READ_PROP_USER4(IOUT  ,NUVAR ,UNITAB ,LSUBMODEL)
 
              
         CASE ('TYPE43','CONNECT')
@@ -180,7 +179,7 @@ C--------------------------------------------------
           IGTYP=44
           CALL HM_READ_PROP44(IOUT  ,IG   ,NUVAR ,PARGEO,
      .                        UNITAB,ISKN  ,IGEO ,TITR  ,IGTYP ,
-     .                        PROP_TAG,LSUBMODEL ,SUB_INDEX,IUNIT)
+     .                        PROP_TAG,LSUBMODEL ,SUB_INDEX)
 
         CASE ('TYPE45','KJOINT2')              
           IGTYP     =45
@@ -190,7 +189,7 @@ C--------------------------------------------------
         CASE ('TYPE46','SPR_MUSCLE')              
           IGTYP     =46
           CALL HM_READ_PROP46(IOUT , NUVAR ,PARGEO,UNITAB,IGTYP,
-     .                        IG,PROP_TAG,TITR,LSUBMODEL,IUNIT)
+     .                        IG,PROP_TAG,LSUBMODEL,IUNIT)
 
         CASE ('TYPE29','TYPE30','TYPE31',
      .        'USER1' ,'USER2' ,'USER3')

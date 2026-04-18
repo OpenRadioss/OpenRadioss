@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,6 @@ C-----------------------------------------------
       my_real, DIMENSION(2) :: XX
 
 
-      INTEGER :: i
 c-----------------------------------------------
 c     1) find intersection point P between plane surface A-B-C and line N1-N2
 c     2) calculate radial coordinates of each segment node in cylindrical

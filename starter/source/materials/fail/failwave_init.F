@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE FAILWAVE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFAILWAVE,NG,NEL,NFT,ITY,IGTYP,IFRW,INOD,NNOD,NDDL,SIZE,MAXLEV
+      INTEGER I, J, IFAILWAVE, NG, NEL, NFT, ITY, IGTYP, IFRW, INOD, NNOD, NDDL, SIZE
       INTEGER ,DIMENSION(:), ALLOCATABLE :: TAGNOD,INDX,IDXI
 C=======================================================================
 

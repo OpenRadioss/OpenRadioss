@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r23coor3    ../engine/source/elements/spring/r23coor3.F
+!||    r23coor3      ../engine/source/elements/spring/r23coor3.F
 !||--- called by ------------------------------------------------------
-!||    r23law108   ../engine/source/elements/spring/r23law108.F
-!||    r23law113   ../engine/source/elements/spring/r23law113.F
-!||    r23law114   ../engine/source/elements/spring/r23law114.F
+!||    r23law108     ../engine/source/elements/spring/r23law108.F
+!||    r23law113     ../engine/source/elements/spring/r23law113.F
+!||    r23law114     ../engine/source/elements/spring/r23law114.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R23COOR3(
      1   X,       VR,      IXR,     XDP,
@@ -34,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   Z2,      PID,     MAT,     RX1,
      5   RY1,     RZ1,     RX2,     RY2,
      6   RZ2,     NC1,     NC2,     NEL)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +63,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C-----------------------------------------------
       DO I=1,NEL
         NGL(I)=IXR(6,I)

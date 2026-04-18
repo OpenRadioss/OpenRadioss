@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C calcul des forces sur un groupe d'elements multi-purpose.
+C calculation of forces on a group of multi-purpose elements
 !||====================================================================
 !||    xforc3          ../engine/source/elements/xelem/xforc3.F
 !||--- called by ------------------------------------------------------
@@ -87,10 +87,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .     DT1U,
-     .     DTE, DTC, XKM, XCM, XKR, XCR, XM, XINE, EUSR
-      INTEGER I, J, K, IPROP, IMAT, ISENS, NX,
-     .   NB1, NB2, NB3, NB4, NB5, NBFI, UID,
-     .   IGTYP,NUVAR,NUVARN,NUPARAM,
+     .     DTE, EUSR
+      INTEGER I, J, K, IPROP, IMAT, NX,
+     .         UID,
+     .   IGTYP,NUVAR,NUVARN,
      .   NISKYL,KEUSR,
      .   UIX(MAXNX),KVAR,KVARN
        my_real
@@ -232,7 +232,7 @@ C         NSTRAND ELEMENTS.
      6         NUVAR  ,GBUF%VAR(KVAR) ,NUVARN ,GBUF%VARN(KVARN) ,DT1U , DTE)
         ENDIF ! IF (IGTYP == 28)
 C-------
-C       CALCUL DE DT ELEMENTAIRE.
+C       calculation of elementary dt
         IF (GBUF%OFF(I) /= ZERO) THEN
           IF (DTE < DT2T) THEN
            DT2T=DTE

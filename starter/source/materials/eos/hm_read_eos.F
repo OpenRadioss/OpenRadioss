@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_compaction2_mod      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_mod       ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction_tab_mod   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
+!||    hm_read_eos_exponential_mod      ../starter/source/materials/eos/hm_read_eos_exponential.F90
 !||    message_mod                      ../starter/share/message_module/message_mod.F
 !||    submodel_mod                     ../starter/share/modules1/submodel_mod.F
 !||    table_mod                        ../starter/share/modules1/table_mod.F
@@ -75,10 +76,12 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE HM_READ_EOS_EXPONENTIAL_MOD , ONLY : HM_READ_EOS_EXPONENTIAL
       USE HM_READ_EOS_COMPACTION_MOD , ONLY : HM_READ_EOS_COMPACTION
       USE HM_READ_EOS_COMPACTION2_MOD , ONLY : HM_READ_EOS_COMPACTION2
       USE HM_READ_EOS_COMPACTION_TAB_MOD , ONLY : HM_READ_EOS_COMPACTION_TAB
       USE TABLE_MOD , ONLY : TTABLE
+      !USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +105,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: TF(NPTS)
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(SBUFMAT),INTENT(INOUT) :: BUFMAT
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,TARGET, INTENT(INOUT) :: MAT_PARAM
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
       TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD)  ,INTENT(IN)    :: LSUBMODEL
       TYPE(TTABLE) ,DIMENSION(NTABLE) ,INTENT(IN) :: TABLE
@@ -114,6 +117,7 @@ C-----------------------------------------------
       CHARACTER KEY2*32, EOS_key*32
       LOGICAL IS_AVAILABLE
       INTEGER ISFLUID
+      TYPE(EOS_PARAM_),POINTER :: EOS_STRUCT
 c--------------------------------------------------
 c     Routine reading EOS models :
       !------------------------------------!                
@@ -192,100 +196,101 @@ c
         MAT_PARAM(IMAT)%EOS%NFUNC = 0
         MAT_PARAM(IMAT)%EOS%NTABLE = 0
         MAT_PARAM(IMAT)%EOS%ISFLUID = 0
+        EOS_STRUCT => MAT_PARAM(IMAT)%EOS
         ISFLUID = 0
 
         WRITE(IOUT,1000) TRIM(TITR),EOS_uid
+        EOS_STRUCT%TITLE = EOS_KEY
         ! READ EOS
         SELECT CASE (EOS_key)
 c---
           CASE ('POLYNOMIAL')
             IEOS = 1     
-            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,ISFLUID)
+            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,ISFLUID,MAT_PARAM(IMAT))
 c---
           CASE ('GRUNEISEN')
             IEOS = 2                          
-            CALL HM_READ_EOS_GRUNEISEN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_GRUNEISEN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
 c---
           CASE ('TILLOTSON')
             IEOS = 3  
-            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,EOS_TAG,IEOS)
+            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,MAT_PARAM(IMAT))
 c---
           CASE ('PUFF')
             IEOS = 4  
-            CALL HM_READ_EOS_PUFF(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_PUFF(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
 c---
           CASE ('SESAME')
             IEOS = 5                          
-            CALL HM_READ_EOS_SESAME(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,IMID,TITR,BUFMAT,BUFLEN,IADBUF)
+            CALL HM_READ_EOS_SESAME(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,IMID,TITR,BUFMAT,BUFLEN,IADBUF,MAT_PARAM(IMAT))
 c---
           CASE ('NOBLE-ABEL','NA')
             IEOS = 6  
-            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('IDEAL-GAS','IDEAL-GAS-VE')
             IEOS = 7      
-            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
+            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid, MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('MURNAGHAN')
             IEOS = 8                          
-            CALL HM_READ_EOS_MURNAGHAN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_MURNAGHAN(NPROPM, IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid, MAT_PARAM(IMAT))
 c---
           CASE ('OSBORNE')
             IEOS = 9                          
-            CALL HM_READ_EOS_OSBORNE(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_OSBORNE(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
 c---
           CASE ('STIFF-GAS','SG')
             IEOS = 10                          
-            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('LSZK')
             IEOS = 11                          
-            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('POWDER-BURN')
             IEOS = 12
-            CALL HM_READ_EOS_POWDERBURN(IOUT,PM(1,IMAT),IPM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid, MAT_PARAM(IMAT),
+            CALL HM_READ_EOS_POWDERBURN(IOUT,PM(1,IMAT),IPM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid, MAT_PARAM(IMAT)%EOS,
      .                                  NPROPM, NPROPMI, MLAW_TAG(IMAT), EOS_TAG, IEOS  )
 c---
           CASE ('COMPACTION')
             IEOS = 13                          
-            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                  MAT_PARAM(IMAT)%EOS )
+            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,EOS_STRUCT)
 c---
           CASE ('NASG')
             IEOS = 14                          
-            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('IDEAL-GAS-VT')
             IEOS = 16     
-            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
             ISFLUID = 1
 c---
           CASE ('TABULATED')
             IEOS = 17     
-            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid, EOS_STRUCT)
 c---
           CASE ('LINEAR')
             IEOS = 18                          
-            CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid)
+            CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,EOS_uid,MAT_PARAM(IMAT))
 c---
           CASE ('EXPONENTIAL')
             IEOS = 19
-            CALL HM_READ_EOS_EXPONENTIAL(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,NPROPM)
+            CALL HM_READ_EOS_EXPONENTIAL(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,NPROPM, EOS_STRUCT)
 c---
           CASE ('COMPACTION2')
             IEOS = 20
             CALL HM_READ_EOS_COMPACTION2(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                   MAT_PARAM(IMAT)%EOS, IUNIT, NFUNCT, NPC, TF ,SNPC , NPTS)
+     .                                    EOS_STRUCT, NFUNCT, NPC, TF ,SNPC , NPTS, MAT_PARAM(IMAT)%REZON)
           CASE ('COMPACTION_TAB')
             IEOS = 21
             CALL HM_READ_EOS_COMPACTION_TAB(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                   MAT_PARAM(IMAT)%EOS, NTABLE, TABLE, MAT_PARAM(IMAT)%REZON)
+     .                                    EOS_STRUCT, NTABLE, TABLE, MAT_PARAM(IMAT)%REZON)
 c---
           CASE DEFAULT
             IEOS = -1 
@@ -295,6 +300,7 @@ c---
 
         IPM(4,IMAT) = IEOS
         MAT_PARAM(IMAT)%IEOS = IEOS
+        MAT_PARAM(IMAT)%EOS%EOSTYPE = IEOS
         MAT_PARAM(IMAT)%EOS%ISFLUID = ISFLUID
 c--------------------------------------------------
       ENDDO      !  HM_NEOS

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -144,7 +144,7 @@ C=======================================================================
 !               QUAD
       IF (NUMELQ > 0) THEN
         SIZE = 0
-        DO ID=1,CLAUSE%NB_QUAD
+        DO ID=1,CLAUSE%NB_PART
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTQ(IP)
           EL_LAST  = INV_GROUP%INDPARTQ(IP+1)
@@ -154,7 +154,7 @@ C=======================================================================
         ALLOCATE( CLAUSE%QUAD(SIZE) )
 !
         IND = 0
-        DO ID=1,CLAUSE%NB_QUAD
+        DO ID=1,CLAUSE%NB_PART
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTQ(IP)
           EL_LAST  = INV_GROUP%INDPARTQ(IP+1)-1

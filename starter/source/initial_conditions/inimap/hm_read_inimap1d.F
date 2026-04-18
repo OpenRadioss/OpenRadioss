@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,10 +89,10 @@ C-----------------------------------------------
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARLINE) :: KEY2
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER :: II, JJ, IFUNC1, IFUNC2, IFUNC3, IFUNC4, LNODID1, LNODID2, KK, ID, UID, J
+      INTEGER :: II, JJ, IFUNC1, IFUNC2, IFUNC3, LNODID1, LNODID2, KK, ID, UID, J
       DATA MESS/'INFILE'/
-      INTEGER :: GRBRICID_LOC, GRQUADID_LOC, GRSH3NID_LOC, IAD1, IAD2
-      my_real :: X0, Y0, Z0, X1, Y1, Z1, NORM, FAC1, FAC2, FAC_VEL, DUMMY
+      INTEGER :: GRBRICID_LOC, GRQUADID_LOC, GRSH3NID_LOC
+      my_real :: X0, Y0, Z0, X1, Y1, Z1, NORM, FAC1, FAC2, FAC_VEL
       INTEGER :: SIZE, LL
       LOGICAL :: FOUND
       CHARACTER(LEN=NCHARLINE) :: FILENAME

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -60,7 +61,7 @@ C     REAL
       my_real                                                           
      .   OFF,A0,THK0,RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,VALUE                       
       INTEGER I, NG, NEL, NFT, ITY, LFT, IALEL,MT,LLT, 
-     .        N,N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
+     .        N,N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,                 
      .        NFT_FA,N_FA                        
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

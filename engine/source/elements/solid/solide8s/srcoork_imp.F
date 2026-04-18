@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
 !||--- calls      -----------------------------------------------------
 !||    crtrans_imp    ../engine/source/elements/solid/solide8s/crtrans_imp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8SCOORK_IMP(X,IXS,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
@@ -38,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88,KHBE,GAMA0 ,GAMA,
-     .   NEL,TRM,KL)      !
+     .   NEL,TRM,KL)     
+      use element_mod , only : nixs !
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

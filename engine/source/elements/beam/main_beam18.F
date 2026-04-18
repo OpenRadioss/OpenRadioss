@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,9 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT   ,
      9                  NUMGEO  ,IOUT    ,ISTDO   ,NPROPMI ,NPROPM   ,
      A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,ISIGI    ,
-     B                  IMCONV  ,ISMSTR  ,MAT_PARAM ,
-     C                  NTABLE ,TABLE    )
-
+     B                  IMCONV  ,ISMSTR  ,MAT_PARAM ,NTABLE,TABLE    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,7 +72,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISIGI
       INTEGER ,INTENT(IN) :: IMCONV
       INTEGER ,INTENT(IN) :: ISMSTR
-      INTEGER,INTENT(IN) :: NTABLE
+      INTEGER ,INTENT(IN) :: NTABLE
       TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA    
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: PID
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL
@@ -103,9 +101,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
-      my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
-     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ,
+      INTEGER :: I,J,IPT,IPID,IPLA,ISRATE,IPY,IPZ,IPA,II(3)
+      my_real :: ASRATE,EPSDI,FACT,AREA,
+     .           DAMAGE_LOC,DFXX,DFXY,DFXZ,
      .           SIGNXX,SIGNXY,SIGNXZ,SIGOXX,SIGOXY,SIGOXZ
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA,SIGY,VM,VM0
@@ -186,12 +184,11 @@ c---------------------------
 c     material models
 c---------------------------
       IF (MTN == 2) THEN
-        CALL M2LAWPI(ELBUF_STR,
-     1               1      ,NEL    ,NPT    ,PM     ,GEO     ,
-     2               EINT   ,OFF    ,IMAT    ,
-     3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ     ,
-     4               KXX    ,KYY    ,KZZ    ,AL     ,NEL     ,
-     5               IPM    ,ASRATE ,DTIME  ,NUMMAT ,SIGY)
+        CALL M2LAWPI(ELBUF_STR,MAT_PARAM,
+     1               NEL    ,NPT    ,GEO    ,EINT   ,OFF    ,
+     3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ    ,
+     4               KXX    ,KYY    ,KZZ    ,AL     ,ASRATE ,
+     5               DTIME  ,JTHE   ,TEMPEL ,SIGY   )
 c
       ELSE
 c     
@@ -226,10 +223,10 @@ c---------------------------
       IF (IFAIL > 0) THEN
 c
         CALL FAIL_BEAM18(
-     .              ELBUF_STR,MAT_PARAM%FAIL(1),NUMMAT  ,NUMGEO  ,
-     .              NPROPM   ,NPROPG  ,SNPC    ,STF     ,
-     .              NEL      ,NPT     ,IMAT    ,IPID    ,JTHE    ,
-     .              TEMPEL   ,NGL     ,PM      ,GEO     ,
+     .              ELBUF_STR,MAT_PARAM%FAIL(1),MAT_PARAM,NUMGEO ,
+     .              NPROPG   ,SNPC    ,STF     ,
+     .              NEL      ,NPT     ,IPID    ,JTHE    ,
+     .              TEMPEL   ,NGL     ,GEO     ,
      .              OFF      ,EPSD    ,NPF     ,TF      ,
      .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
@@ -259,7 +256,7 @@ c------------------------------------
          ENDDO
       ELSE     
 C-----------------------
-C      FORCES ET MOMENTS
+C      FORCES AND MOMENTS
 C-----------------------
         DO IPT = 1,NPT        
          DO I=1,NEL

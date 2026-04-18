@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,9 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    alew6                  ../engine/source/ale/grid/alew6.F
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -98,9 +101,12 @@ C     Face 6
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
 !||--- calls      -----------------------------------------------------
 !||    geom                   ../engine/source/ale/alemuscl/geom.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -122,7 +128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
+      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4
       my_real
      .     X1(3), X2(3), X3(3), X4(3), VOL
       my_real 
@@ -183,9 +189,12 @@ C     Face 4
 !||--- called by ------------------------------------------------------
 !||    alew6                  ../engine/source/ale/grid/alew6.F
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -241,9 +250,12 @@ C     Face 4
 !||    centroid2t             ../engine/source/multifluid/centroid.F
 !||--- called by ------------------------------------------------------
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -265,9 +277,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
+      INTEGER :: I, II, NODE1, NODE2, NODE3
       my_real
-     .     X1(3), X2(3), X3(3), X4(3), X5(3), X6(3), X7(3), X8(3)
+     .     X1(3), X2(3), X3(3)
       DO II = 1, NEL
          I = II + NFT
 C     Nodes of the element locally stored in NODE* for memory access

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,8 +66,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IMATLY,JFLAG,FAIL
-      INTEGER ICC(MVSIZ),IFLAG(MVSIZ),FAIL_OLD(MVSIZ)
+      INTEGER I, IMATLY
+      INTEGER ICC(MVSIZ)
       my_real
      .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),
@@ -78,16 +78,10 @@ C-----------------------------------------------
      .   T2(MVSIZ), T3(MVSIZ),LAMDA(MVSIZ), COEF(MVSIZ), 
      .   A11(MVSIZ), A12(MVSIZ), A22(MVSIZ),
      .   SO1(MVSIZ), SO2(MVSIZ), SO3(MVSIZ),WPLAMX(MVSIZ),
-     .   EPS1T1(MVSIZ), EPS2T1(MVSIZ), SIGRST1(MVSIZ),
-     .   EPS1T2(MVSIZ), EPS2T2(MVSIZ), SIGRST2(MVSIZ),
-     .   EPS1C1(MVSIZ), EPS2C1(MVSIZ), SIGRSC1(MVSIZ),
-     .   EPS1C2(MVSIZ), EPS2C2(MVSIZ), SIGRSC2(MVSIZ),
-     .   EPS1T12(MVSIZ), EPS2T12(MVSIZ), SIGRST12(MVSIZ), 
      .   CC(MVSIZ),EPDR(MVSIZ), FYLD(MVSIZ),
      .   F1(MVSIZ), F2(MVSIZ), F12(MVSIZ), F11(MVSIZ), F22(MVSIZ), 
-     .   F33(MVSIZ),WPLAREF(MVSIZ),BETA(MVSIZ),SOFT(3),
-     .   SCALE, CNN, SCALE1, SCALE2, DAM1, DAM2,SIGYT1,SIGYT2,SIGYC1,
-     .   SIGYC2,SIGYT12,ALPHA,STRP12,COEFA,COEFB,DELTA
+     . F33(MVSIZ),WPLAREF(MVSIZ),BETA(MVSIZ),
+     . SCALE, CNN, SCALE1, SCALE2
 C=======================================================================       
       DO I=1,NEL
         DE(I)     =PM(44,IMATLY)
@@ -116,7 +110,7 @@ C=======================================================================
         IF (TT == ZERO) DAMT(I,2)=ONE
       ENDDO
 C-------------------------------------------------------------------
-C     REDUCTION DE SIG SUR CRITERE WPLA_OLD >= WPLAMX
+C     reduction of sig based on the criterion wpla_old >= wplamx
 C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C     DEFORMATIONS ELASTIQUES
@@ -161,7 +155,7 @@ C
         A12(I) = NU21(I)*A11(I)*SCALE1
       ENDDO
 C-----------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C-----------------------------
       DO I=1,NEL
         T1(I)   = A11(I)*S1(I)+A12(I)*S2(I)

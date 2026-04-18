@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -223,7 +223,7 @@ C------last step-------
         DLA_RIKS = FACT*DT2
        ENDIF
       ENDIF
-C----------reput old dt du to fix_p ------
+C--------- Old DT MADE OF TO FIX_P -------
       IFIX0 = IDTFIX
       IF (IFIX0>0) THEN
        IDTFIX = 0
@@ -267,7 +267,6 @@ C---------------------------
  1003 FORMAT(5X,'--NEXT TIMESTEP IS DETERMINED BY INPUT FIX POINT--')
  1004 FORMAT(5X,'--RESET TIMESTEP DUE TO INPUT FIX POINT--')
  1005 FORMAT(5X,'--TIMESTEP IS ADJUSTED BY RIKS METHOD TO:',E11.4/)
- 1006 FORMAT(5X,'--TERMINAL LOADING TIME BY RIKS METHOD IS:',E11.4/)
       RETURN
       END
 !||====================================================================

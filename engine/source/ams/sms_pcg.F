@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,6 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float        ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||    sms_pcg_proj       ../engine/share/modules/sms_mod.F
@@ -97,6 +98,7 @@ C-----------------------------------------------
         USE SENSOR_MOD
         USE SMS_PCG_PROJ
         USE ams_work_mod
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -169,7 +171,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IT, TOTIT, NLIM, N, L, K, LLT, IDOWN, J, IFLAG, IACT,
+        INTEGER I, IT, TOTIT, NLIM, N, L, K, LLT, IDOWN, IFLAG, IACT, 
      .          NCPRIA, M, MSR, IAD, NSN, KI, NRBDIM
         my_real
      .     ALPHA, BETA, TOLN,
@@ -198,7 +200,7 @@ C------X(I)=ZERO--------
 C
 C warning : PREC_SMS == DIAG_SMS at THIS STAGE
 C
-C comment faire rbody secnd de rbe (cf diag) ?
+C How to make RBE RBED RBODY (Cf DIAG)?
         IF(NRBE2+R2SIZE+NRBE3/=0)THEN
           DO N=NODFT1_SMS,NODLT1_SMS
             I=INDX1_SMS(N)
@@ -799,7 +801,7 @@ C
             G0_SMS  =G6SMS(1)+G6SMS(2)+G6SMS(3)+
      .               G6SMS(4)+G6SMS(5)+G6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0) CALL STARTIME(TIMERS,63)
             RBUF(1)=RES0_SMS
@@ -1102,7 +1104,7 @@ C
             S_SMS=S6SMS(1)+S6SMS(2)+S6SMS(3)+
      .            S6SMS(4)+S6SMS(5)+S6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0.AND.ITASK==0)CALL STARTIME(TIMERS,63)
             CALL SPMD_GLOB_DSUM9(S_SMS,1)
@@ -1270,7 +1272,7 @@ C
             G1_SMS =G6SMS(1)+G6SMS(2)+G6SMS(3)+
      .              G6SMS(4)+G6SMS(5)+G6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0) CALL STARTIME(TIMERS,63)
             RBUF(1)=RES1_SMS
@@ -1742,7 +1744,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,I3,I2,I1,K3,K2,K1,N, LOC_PROC, M, KK,
      .          KMV,KMV3,KMV2,KMV1
-        INTEGER SIZE, LENR, JAD, DIR, L, LLT,
+        INTEGER SIZE, LENR, L, 
      .          IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .          REQ_R(NSPMD),REQ_S(NSPMD)
         my_real
@@ -1763,7 +1765,7 @@ C
 C
             CALL MY_BARRIER
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
 C
               SIZE = 3
               IF(IMONM>0) CALL STARTIME(TIMERS,65)
@@ -1893,7 +1895,7 @@ c           W(K1) = W(K1) +L_K*V(I1)
 C
           IF(NSPMD>1) THEN
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
               IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
               SIZE = 3
@@ -1962,7 +1964,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2101,7 +2103,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2224,7 +2226,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2265,7 +2267,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0)THEN   ! comm sur 1er thread
+          IF(ITASK==0)THEN   ! communication on the first thread
             IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
             IF(NSPMD > 1)THEN
@@ -2560,7 +2562,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,N, LOC_PROC, M, KK, KMV
-        INTEGER SIZE, LENR, JAD, DIR, L, LLT
+        INTEGER SIZE, LENR, L
         my_real
      .     L_K
 C-----------------------------
@@ -2607,7 +2609,7 @@ C
 C
             CALL MY_BARRIER
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
 C
               SIZE = 1
               IF(IMONM>0) CALL STARTIME(TIMERS,65)
@@ -2733,7 +2735,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0)THEN   ! comm sur 1er thread
+          IF(ITASK==0)THEN   ! communication on the first thread
 C
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

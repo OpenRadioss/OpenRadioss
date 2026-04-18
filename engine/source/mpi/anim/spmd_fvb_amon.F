@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER K1, KK1, KIBALE, KRBALE, IFV, N, ITYP, PMAIN, NN, NTG,
-     .        ITAG, MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
+     .         MSGOFF, LEN, IERR, STAT(MPI_STATUS_SIZE), IAD,
      .        I,MSGTAG
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RBUF
@@ -99,7 +99,7 @@ C
                   VOLMON(IAD+I-1)=RBUF(6*NN+I)
                ENDDO
             ELSEIF (ISPMD==PMAIN-1) THEN
-C Proc main envoie
+C main price sends
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN
                   RBUF(I)=VOLMON(IAD+I-1)

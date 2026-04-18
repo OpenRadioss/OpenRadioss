@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,14 +64,14 @@ C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM,H2(4),
+     .   H(4), SS, ST, XMSI, FS(3),SP,SM,TP,TM,H2(4),
      .   FX(4),FY(4),FZ(4)
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-C   sauvegarde de la masse initiale
+C   spmd pre-processing on main nodes + saving the mass
+C   saving the initial mass
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -338,14 +338,14 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),
-     .   XMSJ,SS,ST,XMSI,FS(3),SP,SM,TP,TM,H2(4),
+     .   SS,ST,XMSI,FS(3),SP,SM,TP,TM,H2(4),
      .   FX(4),FY(4),FZ(4) 
 C=======================================================================
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-C   sauvegarde de la masse initiale
+C   spmd pre-processing on main nodes + saving the mass
+C   saving the initial mass
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -542,13 +542,13 @@ C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM, H2(4),
+     .   H(4), SS, ST, XMSI, FS(3),SP,SM,TP,TM, H2(4),
      .   FX(4),FY(4),FZ(4) 
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
+C   spmd pre-processing on main nodes + saving the mass
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -738,15 +738,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   H(4), SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H2(4)
 C-----------------------------------------------
-C     NMAS(II) initialise a MS(J) dans resol_init
+C     NMAS(II) initialise a MS(J) in resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
@@ -1039,7 +1039,7 @@ C
 C
       ENDIF
 C
-C Traitement specifique pour ADI
+C specific processing for adi
 C
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
@@ -1082,10 +1082,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   H(4), SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,STF,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H2(4)
 C-----------------------------------------------
@@ -1321,17 +1321,17 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),XM(4),YM(4),ZM(4),
-     .   XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM,FACM,
+     .    XMSI, FS(3),SP,SM,TP,TM,FACM,
      .   MOMS(3),DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,S,T,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
       NIR=4
 C
-C Traitement specifique pour DMAS
+C specific processing for dmas
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
         DO II=1,NMN
@@ -1341,13 +1341,13 @@ C
       ENDIF
 
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS SECONDS
-C     TRANSMIS AUX NOEUDS MAINS SOUS
-C     FORME DE FORCES
+C     forces and moments of secondary nodes
+C     TRANSMIS AUX NODES MAINS SOUS
+C     force shape
 C
-C     MASSES ET INERTIES DES NOEUDS SECONDS
-C     TRANSMISES AUX NOEUDS MAINS SOUS
-C     FORME DE MASSES
+C     masses and inertias of secondary nodes
+C     TRANSMISES AUX NODES MAINS SOUS
+C     mass shape
 C------------------------------
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -1382,7 +1382,7 @@ C
             ENDIF
             FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation velocity of the main segment
 C----------------------------------------------------
             X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
             Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1449,7 +1449,7 @@ C
             FY0=FS(2)*FACM
             FZ0=FS(3)*FACM
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAINS
+C     FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
             DO JJ=1,NIR
               J=IRECT(JJ,L)
@@ -1471,7 +1471,7 @@ C
             MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAINS
+C     MASSES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
             IF(ILEV==1)THEN
               XMSI=MAX(FACM*XMSI,MR)
@@ -1622,7 +1622,7 @@ C
           FY0=FS(2)*FOURTH
           FZ0=FS(3)*FOURTH
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAINS
+C     FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
           FX(1) = FX0 + A2*Z1 - A3*Y1
           FY(1) = FY0 + A3*X1 - A1*Z1
@@ -1659,7 +1659,7 @@ C
           MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAINS
+C     MASSES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
           IF(ILEV==1)THEN
             XMSI=FOURTH*XMSI+MR
@@ -1704,7 +1704,7 @@ C----
       ENDIF
 C
 C
-C Traitement specifique pour ADM
+C specific processing for adm
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
 #include "vectorize.inc"

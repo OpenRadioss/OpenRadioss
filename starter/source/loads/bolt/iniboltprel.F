@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,6 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
 !      USE R2R_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +105,7 @@ c
 c
       DO IPL = 1,NUMPRELOAD
         NE = IPRELOAD(3,IPL)  
-C       No systeme dans le D00, de l'elt:
+C       No system in the D00, of the element:
         IE=UEL2SYS(NE,KSYSUSRS,NUMELS)
         IF(IE/=0)THEN
           VPRELOAD(1,IE) = PRELOAD(1,IPL)
@@ -116,7 +117,7 @@ C       No systeme dans le D00, de l'elt:
           VPRELOAD(7,IE) = IPRELOAD(2,IPL)
         ENDIF
       ENDDO 
-!::: Creer l'equivalent de ptsol pour le BPREL
+!Create the equivalent of ptsol for BPREL
       DO IE=1,NUMELS
         NE = IXS(NIXS,IE)
         J=UEL2SYS(NE,KSYSUSRS,NUMELS)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -105,15 +105,15 @@ C     REAL
      .   STIF(MVSIZ) ,GAPV(MVSIZ),
      .   VXM, VYM, VZM,
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .   LB(MVSIZ), LC(MVSIZ), LS, ASI(MVSIZ), BSI(MVSIZ),
+     .   LB(MVSIZ), LC(MVSIZ), ASI(MVSIZ), BSI(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
      .   PENRAD(*),H1(MVSIZ), H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),
      .   DIST(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, IG,JFT, IX,  NI,
-     .        N1, N2, N3, N4,I1,I2,I3,I4,ND,NG
+      INTEGER I ,J  , L, IG,  NI,
+     .           I1,I2,I3,I4,ND,NG
       my_real
      .   XT1(MVSIZ), XT2(MVSIZ), XT3(MVSIZ),
      .   YT1(MVSIZ), YT2(MVSIZ), YT3(MVSIZ),
@@ -510,7 +510,7 @@ C
 C
       DO I=1,JLT
 
-C3 pas la meme distance que dans i21dst3 : DIST <= Pi(I)
+Cnot the same distance as in i21dst3: DIST <= Pi(I)
 c       LB(I) = MIN(ONE,MAX(LB(I),ZERO))
 c       LC(I) = MIN(ONE,MAX(LC(I),ZERO))
 c       LA(I) = MIN(ONE,MAX(LA(I),ZERO))
@@ -559,7 +559,7 @@ C Out of the gap (Gap < dist < Dradiation)
         ENDDO
       END IF
 C
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)

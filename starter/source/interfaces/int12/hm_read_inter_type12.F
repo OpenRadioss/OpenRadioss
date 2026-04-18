@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,22 +73,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP,IS1, IS2,IGSTI,ILEV,ITIED,HIERA,
+      INTEGER J, NTYP,IS1, IS2,IGSTI,ILEV,ITIED,HIERA,
      .   BCOPT,ISKEW,ICENTER
       my_real
      .   FRIC,GAP,STARTT,STOPT,BID,XC,YC,ZC,XR,YR,ZR,TETA,
      .   XT,YT,ZT
       CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,SUR2USR,NGR2USR
+      INTEGER USR2SYS,NGR2USR
 C-----------------------------------------------
 C=======================================================================
 C     READING ALE INTERFACE /INTER/TYPE12
@@ -197,7 +194,7 @@ C------------------------------------------------------------
       FRIGAP(1)=ITIED+0.1
       FRIGAP(2)=GAP
 
-C FRIGAP 5->14 EST MIS A JOUR DANS IN12R
+C FRIGAP 5->14 IS UPDATED IN IN12R
       IF(ITIED==2) THEN
         FRIGAP(4)=TETA
         FRIGAP(5)=XT
@@ -290,7 +287,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

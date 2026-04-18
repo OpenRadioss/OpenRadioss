@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                                KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                                IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     .                                X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     .                                X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD,SET_DELETE,SET_INTERSECT
       use surface_type_mod , only : surface_type
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,7 +97,7 @@ C-----------------------------------------------
      .        IXP(NIXP,*),IXR(NIXR,*),
      .        SH4TREE(*),SH3TREE(*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        KNOD2ELQ(*),NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),NOD2ELQ(*),
-     .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
+     .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*),IPARTQ(NUMELQ)
       my_real
      .    X(3,*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
@@ -106,7 +107,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODES
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF
-      INTEGER NEW_SIZE,NS,ND_SIZE,OPERATOR
+      INTEGER NEW_SIZE, NS
       logical :: empty_condition
 C-----------------------------------------------
 C     NODES 
@@ -832,7 +833,7 @@ C-----------------------------------------------
      .                     KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                     IPART     ,SET      ,OPT_A     ,OPT_O     ,IXQ       ,
      .                     KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                     .TRUE.   )
+     .                     .TRUE.   ,IPARTQ    ,OPT_E     )
 
         !--- void calling UNION_SURFACE with non allocated arrays
         IF(.NOT. ALLOCATED(SET%SURF_NODES))ALLOCATE(SET%SURF_NODES(1,4))
@@ -906,8 +907,9 @@ C-----------------------------------------------
         
 
         ! Line from SURFACE
-        CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF    ,
-     .                               .TRUE.)
+        IF(KEYSET =='PART'.OR.KEYSET =='SOLID'.OR.KEYSET =='SHELL'.OR.KEYSET =='SH3N'.OR.
+     .     KEYSET =='ALL' .OR.KEYSET =='SUBS' .OR.KEYSET =='SUBM' .OR.KEYSET =='BOX')
+     .      CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF,.TRUE.)
 
         IF(.NOT. ALLOCATED(SET%LINE_NODES))ALLOCATE(SET%LINE_NODES(1,2))
         IF(.NOT. ALLOCATED(SET%LINE_ELTYP))ALLOCATE(SET%LINE_ELTYP(1))

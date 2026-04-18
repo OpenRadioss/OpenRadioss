@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,8 +69,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, N, MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,NBIRECV, II, JJ, NI,INC,
+      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, N, MSGOFF,
+     .        SIZ,J,L,NB_NOD,NBIRECV, II, NI,INC,
      .        NIN, NLN, LL,IL,IG,
      .        IAD_RECV(NSPMD+1),DEBUT(NSPMD),
      .        STATUS(MPI_STATUS_SIZE),RSTATUS(MPI_STATUS_SIZE,NSPMD),
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C LEN20 = 1 + 18 + 2  ! (1 : longueur ; 18 : daanc6 et 2 : alphak)
+C Len20 = 1 + 18 + 2!(1: length; 18: DAANC6 and 2: Alphak)
 C SIZE = LEN20*NBINT20
 C
       LOC_PROC = ISPMD + 1
@@ -202,12 +202,12 @@ C ALPHAK(3)
               INTBUF_TAB(NIN)%ALPHAK((II-1)*3+3)=MIN(INTBUF_TAB(NIN)%ALPHAK((II-1)*3+3),
      .                                       RBUF(L+2))
               CALL GETDPDAANC(DAANC6L,RBUF(L+3),IRESP,INC)
-C             L  = L + 18 car variable en double precision
+C             the =+ 18 because variable in double precision
               CALL ADDDP(INTBUF_TAB(NIN)%DAANC6(1+(II-1)*3*6*2),DAANC6L,18)
               ENDIF
               L = L + LEN20
             END DO
-C Repositionne IAD_RECV pour l'interface suivante
+C Reposition IAD_RECV for the following interface
             IAD_RECV(P)=L
         END DO
           END IF

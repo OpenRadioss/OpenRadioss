@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IXQ     ,NPC     ,IKINE   ,IGRNOD  ,
      .                  MFI     ,IMERGE  ,UNITAB  ,
      .                  IKINE1LAG,IDDLEVEL,LSUBMODEL,RTRANS,NOM_OPT ,
-     .                  ITAGND ) 
+     .                  ITAGND  ,LNSPEN  ) 
 C-------------------------------------
 C     LECTURE MUR RIGIDE
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +84,7 @@ C     REAL
      .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
      .   RTRANS(NTRANSF,*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER, INTENT (INOUT) :: LNSPEN 
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -90,7 +92,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: IKINE1
       INTEGER K,I,NCHPLAN,NCHCYL,NCHSPHER,NCHPARAL,
-     .   OFFS,NCHLAGM,NCHTHERM
+     .   OFFS,NCHLAGM,NCHTHERM,N,NSL,IPEN
       my_real
      .   BID
       CHARACTER MESS*40
@@ -184,9 +186,14 @@ C     /RWALL/THERM
       ENDIF
 C
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NRWALL,MESS,0,BID)
+      DO N=1,NRWALL
+        NSL =  NPRW(N)
+        IPEN = NPRW(N+8*NRWALL)
+        IF (IPEN > 0) LNSPEN = LNSPEN + NSL + 1 ! stif+leng_m
+      END DO
       DEALLOCATE(IKINE1)
       RETURN
  1000 FORMAT(

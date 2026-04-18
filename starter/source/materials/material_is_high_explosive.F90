@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    read_dfs_detpoint                ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
 !||====================================================================
       module material_is_high_explosive_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -65,7 +66,7 @@
 
           if(mlw == 5 .or. mlw == 97 .or. mlw == 51)then !jwl and jwlb
             material_is_high_explosive = .true.
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end function material_is_high_explosive

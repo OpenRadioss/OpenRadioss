@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_B(*),KINET(*),KINI(*),
-     .        JLT,IDT, NOINT,IGAP ,NSN, ITY, NIN, IGSTI,
+     .        JLT,IGAP ,NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH, CAND__E(*), CAND__B(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
@@ -91,11 +91,11 @@ C-----------------------------------------------
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   GAPV(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .   KMIN, KMAX, GAPMAX, GAPMIN,SCUT
+     .   KMIN, KMAX, GAPMAX, GAPMIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, EI, NN, IG,JFT, IX,  BI, NI
+      INTEGER I   , EI, IX,  BI, NI
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------  
@@ -108,7 +108,7 @@ C      IRECT_L( 9:12, :)                         : Y-coordinates
 C      IRECT_L(13:16, :)                         : Z-coordinates
 C      IRECT_L(17:19, :)                         : Minimum X,Y,Z
 C      IRECT_L(20:22, :)                         : Maximum X,Y,Z
-C      IRECT_L(23   , :)                         : Stiffness
+C      Irect_l (23, :): Stiffness
 C      IRECT_L(24:26, :)                         : Lagrangian Velocity (mean)
 C      IRECT_L(    :,1+4*ESHIFT:4*ESHIFT+NRTM_T) : element data on current Thread
 C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data

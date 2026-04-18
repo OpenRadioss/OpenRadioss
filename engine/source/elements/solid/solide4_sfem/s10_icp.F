@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K
+      INTEGER I
       my_real
      .   JAC(MVSIZ),FAC,BASE,JFAC
 
@@ -74,7 +74,7 @@ C----------------------------
      2   DYX,     DYY,     DYZ,     DZX,
      3   DZY,     DZZ,     NEL)
           DO I=1,NEL
-           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+           IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE.OR.JACG(I)==ZERO) CYCLE
            FAC=TWO_THIRD*NU(I)
            BASE = JACG(I)/MAX(EM20,JAC(I))
            JFAC =EXP(FAC*LOG(MAX(EM20,BASE)))

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE NOD2EL_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M,N,NUMNOD1,NM,FLAG,N_DEST,N_DEST_DEST,NN1,NN2,CUR_ID,GR_IDS,ALL_VS_ALL,
-     .        NM_L,ISS
+      INTEGER I,J,K,N,NUMNOD1,NM,FLAG,N_DEST,N_DEST_DEST,NN1,NN2,CUR_ID,GR_IDS,ALL_VS_ALL,NM_L,ISS
 C
       INTEGER, DIMENSION(:),ALLOCATABLE :: IMERGE0,IADMERGE2TMP,LIST1,LIST2,LIST1_INV,LIST2_INV
       INTEGER, DIMENSION(:),ALLOCATABLE :: LIST1_IDMERGE,LIST2_IDMERGE,LIST1_NBMERGE,LIST2_NBMERGE
@@ -160,7 +160,7 @@ C--           coding of idmerge in case of several merge
 C
 C---- bluid list of destination - filled merge by merge
       IF (ALL_VS_ALL == 1) THEN
-C--   all nodes are destination 
+C- All nodes are destination 
         DO I=1,NUMNOD
           LIST2(I) = I
           LIST2_INV(I) = I
@@ -235,7 +235,7 @@ C
 C
 C---      Check of elements
             FLAG = 0 
-C------------------------>   cas des coques  <-----------------------C        
+C------------------------>   case of shells  <-----------------------c
           DO J = KNOD2ELC(N)+1,KNOD2ELC(N+1)
             DO K=2,5             
               IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1        
@@ -247,7 +247,7 @@ C------------------------>   cas des coques triagnles <--------------C
               IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1        
             ENDDO
           ENDDO
-C------------------------>   cas des solides <-----------------------C
+C------------------------>   case of solids <-----------------------c
           DO J = KNOD2ELS(N)+1,KNOD2ELS(N+1)     
             CUR_ID = NOD2ELS(J)
             DO K=2,9
@@ -284,7 +284,7 @@ C------------------------>   cas des elements 1D <-------------------C
               ENDDO
             ENDIF
           ENDDO
-C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
+C------------------------>   case of inverse 1d elements (for 3rd node) <---c
           DO J = KNOD2EL1D(N_DEST)+1,KNOD2EL1D(N_DEST+1)
             CUR_ID = NOD2EL1D(J)
               IF (CUR_ID <= NUMELT) THEN
@@ -301,7 +301,7 @@ C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
               ENDDO
             ENDIF
           ENDDO
-C------------------------>   cas des quad  <-----------------------C        
+C------------------------>   case of quads  <-----------------------c
           DO J = KNOD2ELQ(N)+1,KNOD2ELQ(N+1)
             DO K=2,5             
               IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1        

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,10 +147,10 @@ C     REAL
      .             5,15,16,
      .             12,15,16/
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF THE STIFFNESSES OF THE SEGMENTS
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, THE STIFFNESS OF THE SHELL IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 C      NRT->NRT0
 C---  MVOISN is used temporarily for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
@@ -168,7 +169,7 @@ C-----NRTT:NRTM
 C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before symetrization (symetrization in i24surfi)
       NRTT =NRT+NRT_SH
 C------------------------------------
-C     GAP NOEUDS SECONDS
+C     GAP NODES SECONDS
 C------------------------------------
       ALLOCATE(TAGB(NUMNOD))
       DO I=1,NUMNOD
@@ -286,7 +287,7 @@ C
         GAPS1=MAX(GAPS1,GAP_S(I))
         GAPS_MN=MIN(GAPS_MN,GAP_S(I))
       ENDDO
-C calcul du surface second. ---
+C calculation of the second surface. ---
       IF(INTTH > 0 ) THEN
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
@@ -383,7 +384,7 @@ C overwrite
         END IF
       END IF
 
-C -----Friction model  SECONDARY nodes parts------
+C ---- FRUCTION Model Secondary Nodes Parts ------
 C-----------if node connects to both shell and solid -> takes shell    
 
       IF(INTFRIC > 0) THEN
@@ -506,7 +507,7 @@ C IELENRTS tab : Element number for each SECONDARY segment
              ENDDO
           ENDIF
 
-C ADRECTS tab : Adress of each SECONDARY node in element connectivity for PARITH/ON computation
+C ADRECTS tab : address of each SECONDARY node in element connectivity for PARITH/ON computation
           ADRECTS (1:4,1:NRT) = 0
           DO I=1,NRT
             IE = IELNRTS(I)
@@ -716,7 +717,7 @@ C FACNRTS tab : Facet number in element connectuvty for each SECONDARY segment f
                 ENDDO
 
             ELSEIF(IE <= NUMELS8+NUMELS10+NUMELS20 ) THEN
-!          Not available yet
+!          Not Available Yet
             ENDIF
 
            ENDIF ! IE >0
@@ -823,16 +824,16 @@ C------recalculate GAP_MIN,MAX
         WRITE(IOUT,1500)GAPMN,GAPMX
       END IF
       END IF!(IPRI>=1) THEN
-C SUP DES GAPS VARIABLES
+C REMOVAL OF VARIABLE GAPS
       GAP = GAPS1+GAPS2
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODE STIFFNESS MULTIPLIER
 C---------------------------------------------
       DO 610 L=1,NSN
          STFN(L) = ONE
  610  CONTINUE
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to use during the retri criterion
 C
       BGAPSMX = ZERO
       GAPINF=EP30
@@ -953,10 +954,12 @@ C-------shell elements
 !||    i24sti3       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||    i25sti3       ../starter/source/interfaces/inter3d1/i25sti3.F
 !||    remn_self24   ../starter/source/interfaces/inter3d1/remn_self24.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
      .                  IXS16,IXS20 ,NNOD    )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1110,6 +1113,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
+       use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1735,7 +1739,7 @@ C------------------------------------
 C
        IF(NELS+NELC+NELTG==0)THEN
 
-C      en SPMD il faut un element associe a l'arrete sinon erreur
+C      In SPMD you need an element associated with the edge otherwise error
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -1787,7 +1791,7 @@ C
      .             I2=NINV)
 C         
 C      IF (IPRI>=5.AND.NREV>0) WRITE (IOUT,1400) NREV,NOINT
-C----due to Cycle       ------- 
+C---- due to cycle ------- 
       DO I=1+NSHIFT,NRT+NSHIFT
        GAP_M(I)=MIN(GAP_M(I),GAPMAX_M)
       END DO
@@ -1826,7 +1830,7 @@ C=======================================================================
       ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
         IS = 0
         LL = 0
@@ -1853,7 +1857,7 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
+c       removal of duplicate lines
 c---------------------------------------
         I1M = LINEIX(1,INDEX(1))
         I2M = LINEIX(2,INDEX(1))
@@ -1863,13 +1867,13 @@ c---------------------------------------
           I1 = LINEIX(1,INDEX(L))
           I2 = LINEIX(2,INDEX(L))
           IF(I1M == I2M)THEN
-c triangle on ne fait rien
+c triangle we do nothing
             BOLD=1
           ELSEIF(BOLD == 0)THEN
-c idem precedent on ne fait rien
+c ditto previous we do nothing
             BOLD=1
           ELSEIF(I2 == I2M .and. I1 == I1M)THEN
-c idem suivant pas de bord
+c idem according to pas de bord
             BORD=0
             BOLD=0
           ELSE
@@ -1883,7 +1887,7 @@ c idem suivant pas de bord
         ENDDO
 
         IF(BORD==1)THEN
-c         derniere arrete est un bord
+c         last edge is a border
           TAGB(I1) = 1
           TAGB(I2) = 1
         ENDIF
@@ -2056,6 +2060,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      J IPARTT,IPARTP,IPARTR,IGEO  )
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2217,15 +2222,17 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    inelts_np     ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- called by ------------------------------------------------------
-!||    i24gapm     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24gapm       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INELTS_NP(X        ,IRECT ,IXS   ,NREV ,NEL       ,
      .                     I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                     SURF_ELEM)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2260,7 +2267,7 @@ C---Remove print-out in 0.out file (could be too much)
 C
       NEL=SURF_ELEM(I)
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     VERIFICATION OF THE ORIENTATION OF THE SEGMENTS
 C-----------------------------------------------
        XS1=0.
        YS1=0.
@@ -2304,11 +2311,13 @@ C
        RETURN
       END
 !||====================================================================
-!||    insolbox   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    insolbox      ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOLBOX(X    ,S_TYPE  ,S_EL   ,NOINT ,IXS   ,
      .                   IXS10 ,IXS16   ,IXS20  ,NS    ,GAP   ,
      .                   IPART_E,IPART_NS,IPEN0 ,INS     )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

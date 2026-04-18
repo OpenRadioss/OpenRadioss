@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,II
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE, II
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -92,10 +92,10 @@ C-----------------------------------------------
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),NORMINV,
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ),FAC10
+     . FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
+     . D1,D2,D3,D4,KN(4,MVSIZ),Q(3,3,MVSIZ),FAC10
       my_real
-     .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
+     . Q11,Q12,Q13,Q22,Q23,Q33,H00,
      .   KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
        FRIC =ONE
@@ -185,9 +185,9 @@ C-------------------------------------------
        II = INDEX(I)
        IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
-C       1ER IMPACT ou PAS d'IMPACT
+C       1st  or no impact
 C------------------------------------
-C   c'est fait dans i10for3.F        CAND_F(4,II) = H1(I)
+C   It's done in i10for3.f cand_f (4, II) = H1 (i)
 C          CAND_F(5,II) = H2(I)
 C          CAND_F(6,II) = H3(I)
        ELSE
@@ -277,7 +277,7 @@ C
  100  CONTINUE
 C
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
       DO I=1,JLT
         IF (ABS(VT1(I))>ZERO.OR.ABS(VT2(I))>ZERO) THEN
          Q(1,1,I)=T1X(I)
@@ -357,7 +357,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    ----with friction ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -408,7 +408,7 @@ C
          IF(NSVG(I)<0) THEN
             NN=-NSVG(I)
             NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+C---------for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -433,7 +433,7 @@ C---------pour diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+C---------temporarily for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -476,7 +476,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, INACTI,NIN
+      INTEGER JLT, NIN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ)
       my_real
@@ -490,17 +490,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
+      INTEGER I, ISF, NI
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
      .   DNI(MVSIZ),D1T(MVSIZ),D2T(MVSIZ), DTI1(MVSIZ), 
-     .   DTI2(MVSIZ),S2,FACN(MVSIZ),FACF, FACT(MVSIZ),FAC10
+     . DTI2(MVSIZ),FACN(MVSIZ),FACF, FACT(MVSIZ),FAC10
       my_real
-     .   FX,FY,FZ,FN,FT1,FT2,FNI,FTI1,FTI2,VTX,VTY,VTZ,VT,
-     .   T2X(MVSIZ), T2Y(MVSIZ), T2Z(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2
-
+     . FX,FY,FZ,FN,FT1,FT2,FNI,FTI1,FTI2,
+     .   T2X(MVSIZ), T2Y(MVSIZ), T2Z(MVSIZ)
 C-----------------------------------------------
 C
       FAC10 = TEN
@@ -554,7 +552,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FRIC
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*N1(I)
@@ -578,7 +576,7 @@ C--------partie NML-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         FX=FNI*N1(I)
@@ -657,13 +655,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, II , K0,NBINTER,K1S,K,J,NN,JG
-      INTEGER JJ,KK,IN,IE,NSUB,IBID,NI,NS
+      INTEGER I, IG, II, NN
+      INTEGER NS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
-     .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
-     .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
-     .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
+     .
+     .
+     .
      .   FT1(MVSIZ), FT2(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), 
@@ -671,10 +669,10 @@ C-----------------------------------------------
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
-     .   S2,D1,D2,D3,D4,A1,A2,A3,A4,LA1,LA2,LA3,LA4,H0,
-     .   NORMINV,BID,GAP2,PENE2,FAC,FX,FY,FZ
+     . D1,D2,D3,D4,LA1,LA2,LA3,LA4,H0,
+     . NORMINV,GAP2,PENE2,FAC,FX,FY,FZ
       my_real
      .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ) 
@@ -692,7 +690,7 @@ C
         IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED GROUPS
 C--------------------------------------------------------
        DO I=1,JLT
         D1 = SQRT(P1(I))
@@ -767,7 +765,7 @@ C
        II = INDEX(I)
        IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
-C       1ER IMPACT ou PAS d'IMPACT
+C       1st  or no impact
 C------------------------------------
        ELSE
 C------------------------------------
@@ -878,7 +876,7 @@ C--------main part-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
        DO I=1,JLT
          IG=NSVG(I)
          IF(IG>0)THEN

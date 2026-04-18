@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .               YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4   ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES CANDIDATS AUTOIMPACTES S1 OU S2
+C removal of self-ed candidates s1 or s2
 C-----------------------------------------------
        IF(ISYM==1)THEN
          DO I=1,J_STOK
@@ -116,7 +116,7 @@ C-----------------------------------------------
          ENDDO
        ENDIF
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0)THEN
             DO I=1,J_STOK
@@ -124,7 +124,7 @@ C-----------------------------------------------
                 N  = PROV_N(I)
                 NE = PROV_E(I)+ESHIFT
                 IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
                  N = OLDNUM(N-NSN)+NSN
                   IF(N==NSN) N = NSN+NSNROLD+1
                 END IF
@@ -241,11 +241,11 @@ C-----------------------------------------------
         CALL I20PEN3_EDGE(J_STOK ,PROV_S,PROV_M,TZINF ,XA    ,
      .               IXLINS,IXLINM,PENE  ,NLINSA ,NIN   )
 C-----------------------------------------------
-C il faut un lock sur toute la boucle (modification de chaine)
+C need a lock on the entire loop (chain modification)
 #include "lockon.inc"
         K_STOK = 0
 C-----------------------------------------------
-C elimination des couples deja trouves dans 1 boite precedente
+C elimination of pairs already found in 1 previous box
 C-----------------------------------------------
         I_STOK = II_STOKE
         IAD0 = 0
@@ -337,10 +337,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,N1,N2,M1,M2,NI,L
+      INTEGER I,N1,N2,M1,M2,NI,L
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XXA,XXB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
      .     XX,YY,ZZ,ALS,ALM,DET,
      .     GAP2, X11, X12, X13, X21, X22, X23,
      .     XMAX1,YMAX1,ZMAX1,XMAX2,YMAX2,ZMAX2,
@@ -399,7 +399,7 @@ C
           M1=IXLINM(1,CAND_E(I))
           M2=IXLINM(2,CAND_E(I))
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -420,7 +420,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance^2
 
           XS12 = X21-X11
           YS12 = X22-X12
@@ -462,7 +462,7 @@ C
           ALM = MIN(ONE,ALM)
           ALM = MAX(ZERO,ALM)
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*X11 + (ONE-ALS)*X21
      .        - ALM*XA(1,M1) - (ONE-ALM)*XA(1,M2)
@@ -479,21 +479,14 @@ C
 C===============================================================================
 
 !||====================================================================
-!||    bitget          ../engine/source/interfaces/intsort/i20sto.F
+!||    bitget     ../engine/source/interfaces/intsort/i20sto.F
 !||--- called by ------------------------------------------------------
-!||    i11for3         ../engine/source/interfaces/int11/i11for3.F
-!||    i20dst3         ../engine/source/interfaces/int20/i20dst3.F
-!||    i20sto          ../engine/source/interfaces/intsort/i20sto.F
-!||    i24dst3e        ../engine/source/interfaces/int24/i24dst3e.F
-!||    i24edgt         ../engine/source/interfaces/intsort/i24sto.F
-!||    i24for3         ../engine/source/interfaces/int24/i24for3.F
-!||    i24s1s2         ../engine/source/interfaces/intsort/i24sto.F
-!||    i25for3         ../engine/source/interfaces/int25/i25for3.F
-!||    i25for3_e2s     ../engine/source/interfaces/int25/i25for3_e2s.F
-!||    i25for3e        ../engine/source/interfaces/int25/i25for3e.F
-!||    i25s1s2         ../engine/source/interfaces/intsort/i25sto.F
-!||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
-!||    i7for3          ../engine/source/interfaces/int07/i7for3.F
+!||    i20dst3    ../engine/source/interfaces/int20/i20dst3.F
+!||    i20sto     ../engine/source/interfaces/intsort/i20sto.F
+!||    i24dst3e   ../engine/source/interfaces/int24/i24dst3e.F
+!||    i24edgt    ../engine/source/interfaces/intsort/i24sto.F
+!||    i24for3    ../engine/source/interfaces/int24/i24for3.F
+!||    i24s1s2    ../engine/source/interfaces/intsort/i24sto.F
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,8 @@
 !||    sh_offset_jonct_chk   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
 !||====================================================================
       module same_shellori_mod
+
+      implicit none
 
       contains
 ! ======================================================================================================================
@@ -71,8 +73,8 @@
                 ivm = 1
               else
                 ivm = -1
-              endif
-            endif
+              end if
+            end if
           end do
           do i=1,4
             im1=ixn(i)
@@ -82,8 +84,8 @@
                 ivn = 1
               else
                 ivn = -1
-              endif
-            endif
+              end if
+            end if
           end do
           isame = -ivm*ivn
 !

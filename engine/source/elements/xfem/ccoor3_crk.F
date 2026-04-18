@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3_crk      ../engine/source/elements/xfem/cforc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CCOOR3_CRK(JFT  ,JLT  ,NFT  ,IXC    ,NGL     ,
      2                      PID  ,MAT  ,ILEV ,IEL_CRK,IADC_CRK,
@@ -37,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                      Z4   )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_sz_r2r                  ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    kinset                     ../starter/source/constraints/general/kinset.F
-!||    nodgrnr5                   ../starter/source/starter/freform.F
 !||    prerbe3fr                  ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    usr2sys                    ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -47,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                         IGRNOD ,ISKN   ,LXINTD ,IKINE  ,IDDLEVEL,
      .                         NOM_OPT,ITAGND ,GRNOD_UID,UNITAB,LSUBMODEL )
 C-------------------------------------
-C     LECTURE STRUCTURE RIGIDES 
+C     READING STRUCTURE RIGIDES 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -91,23 +90,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM, NI, NI_OK,
-     .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,IMODIF,
+      INTEGER I, N, K, NSL, NUSER,  NM, NI, NI_OK,
+     .        ISK, INGU, IGM, J, IAD,NS,NN,J6(6),JJ,II,
+     .        IC,IC1,IC2,IROT,ISKS,IADS,IMODIF,
      .        IDIR,NRB,ID,UID,SUB_INDEX,IFORM
       my_real W
       INTEGER, DIMENSION(:),ALLOCATABLE   :: IKINE1
       INTEGER, DIMENSION(:),ALLOCATABLE   :: ISKEW0
       my_real, DIMENSION(:,:),ALLOCATABLE :: WI
       CHARACTER(LEN=NCHARTITLE) ::  TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARFIELD) :: STRING
-      CHARACTER :: CODE*7,MESS*40
+      CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR5
+      INTEGER USR2SYS
 C
       DATA MESS/'INTERPOLATION CONSTRAINT BODY  '/
 C-----------------------------------------------
@@ -120,7 +118,7 @@ C     IRBE3(6,I) : IROT        =0 no rotational dependent
 C     IRBE3(7,I) : SENSOR NUMBER - not used yet
 C     IRBE3(8,I) : Imodif ! 4 : switch to penalty formulation (for testing)
 C     IRBE3(9,I) :  if penalty formulation : 0=kinematic, 1=penalty
-C     IRBE3(10,I) :  Numero interne du IRBE3 (necessaire pour Modif/SPMD)
+C     IRBE3(10,I) :  Internal number of IRBE3 (necessary for Modif/SPMD)
 C=======================================================================
 ! complete case of switching to penalty formulation; free nodes w/ spc?
 ! 1) hierachy level>1
@@ -385,7 +383,8 @@ C
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
-     .                    MS     ,IN     ,NOM_OPT)
+     .                    MS     ,IN    ,NOM_OPT,STIFN  ,STIFR ,
+     .                   ICODE  ,ITAB )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------   
@@ -409,6 +408,10 @@ C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*), LRBE3(*)
       my_real
      .     SKEW(LSKEW,*), FRBE3(*),X(3,*),MS(*),IN(*)
+      my_real , DIMENSION(NUMNOD), INTENT(IN  ) ::STIFN 
+      my_real , DIMENSION(NUMNOD), INTENT(IN  ) ::STIFR 
+      INTEGER , DIMENSION(NUMNOD), INTENT(IN  ) ::ICODE 
+      INTEGER , DIMENSION(NUMNOD), INTENT(IN  ) ::ITAB 
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   F u n c t i o n
@@ -418,12 +421,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,ICR,
-     .        J, P,IAD,NS,NN,J6(6),JJ,II,IADS,IERR1,NP,IC,ICT
+      INTEGER I, NM, NMT,M,IROT,IMO,ICR,
+     .        J, P,IAD,NS,IADS,IERR1,IC,ICT
       INTEGER ID,IPEN
       CHARACTER(LEN=NCHARTITLE)::TITR
 C
-      my_real W,WMIN,IN_T
+      my_real WMIN,IN_T
 C-----------------------------------------------
 C     FRBE3(1-3,I) : tw(i)
 C     FRBE3(4-6,I) : rw(i)
@@ -444,8 +447,19 @@ C----- re-ordering by hierrrchy (only 1 level)
         
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+! Switch to penalty if /BCS of NS
+        IF (ICODE(NS)>0 .AND. IPEN==0) THEN 
+          IRBE3(9,I) = 1 ! add message
+          CALL ANCMSG(MSGID=3115,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=ITAB(NS))
+        END IF
 C------ check if solid node for all independent
-        IF (IN(NS)>EM20.AND.IPEN==0) IPEN = 2 ! will be switch to pen if arm>0       
+! will be switch to pen if arm>0 
+        IF (IN(NS)>EM10.AND.MIN(STIFN(NS),STIFR(NS))>EM10.AND.IPEN==0) IPEN = 2 
         IF (IROT>0) THEN
           IN_T = ZERO
           DO J=1,NM
@@ -561,7 +575,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,KDIAG
+      INTEGER I, J, K,KG,NSNGLR,IELSUB,KDIAG
 C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
@@ -1341,14 +1355,15 @@ C
       RETURN
       END
 !||====================================================================
-!||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    invert                               ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||--- called by ------------------------------------------------------
-!||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
-!||    law87_upd                     ../starter/source/materials/mat/mat087/law87_upd.F90
-!||    mass_fluid_qd                 ../starter/source/fluid/mass-fluid_qd.F
-!||    mass_fluid_tg                 ../starter/source/fluid/mass-fluid_tg.F
-!||    rbe3chk                       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-!||    rbe3cl                        ../starter/source/constraints/general/kinchk.F
+!||    damping_range_compute_param          ../starter/source/general_controls/damping/damping_range_compute_param.F90
+!||    hm_read_yield_criterion_barlat2000   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
+!||    law87_upd                            ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    mass_fluid_qd                        ../starter/source/fluid/mass-fluid_qd.F
+!||    mass_fluid_tg                        ../starter/source/fluid/mass-fluid_tg.F
+!||    rbe3chk                              ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+!||    rbe3cl                               ../starter/source/constraints/general/kinchk.F
 !||====================================================================
        SUBROUTINE INVERT(MATRIX, INVERSE, N, ERRORFLAG)
 C-----------------------------------------------
@@ -1364,7 +1379,7 @@ c       !DECLARATIONS
      *     , INTENT(OUT), DIMENSION(N,N) :: INVERSE !INVERTED MATRIX
 
         LOGICAL :: FLAG = .TRUE.
-        INTEGER :: I, J, K, L
+        INTEGER :: I, J, K
       my_real
      *     :: M
       my_real
@@ -1460,7 +1475,7 @@ C----------------------------
 c       !DECLARATIONS
       INTEGER N
       my_real
-     .        R(N),RMAX
+     .        R(N)
       CHARACTER TITLE*(*)
 C----------------------------
       INTEGER I
@@ -1512,7 +1527,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IC,ICT,ICR
+      INTEGER J,IC,ICT,ICR
 C======================================================================|
         IC=IRBE3(4,N)
         ICT=IC/512
@@ -1603,7 +1618,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II,M2,III,IPEN
+      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,IAD,II,M2,III,IPEN
 C
       INTEGER ID, INDEX(NRBE3),NZ,IAD1,IADS,
      .        LCOPY(SLRBE3),ICOPY(NRBE3L,NRBE3)

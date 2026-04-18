@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,7 @@ C            SSPMD_AGET_SECT                 /spe/spmd_anim.F
 !||    dxwals           ../engine/source/output/anim/generate/dxwals.F
 !||    spmd_aget_sect   ../engine/source/mpi/anim/spmd_aget_sect.F
 !||    spmd_agetmsr     ../engine/source/mpi/anim/spmd_agetmsr.F
-!||    write_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,
@@ -60,15 +60,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, K, K0, K1, N, NSEG, N1, N2, N3, N4,MSR, ITYP
+      INTEGER I, K, K1, N, N1, N2, N3, N4,MSR, ITYP
       my_real
      .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC, AL4,XWL,YWL,ZWL,
-     .   PMAIN,LOC_PROC
+     .   LOC_PROC
 
       my_real
      .   XSEC(3,3,NSECT)
-      REAL R4,SBUF(3*NSECT)
+      REAL R4
 CC-----------------------------------------------
       LOC_PROC=ISPMD+1
       K1=1
@@ -164,7 +164,7 @@ C
             YWL=RWBUF(5,N)
             ZWL=RWBUF(6,N)
           ELSE
-C verifier que ce noeud est sur proc0 !
+C check that this node is on proc0!
             XWL=X(1,MSR)
             YWL=X(2,MSR)
             ZWL=X(3,MSR)

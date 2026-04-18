@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -129,7 +129,7 @@ C     REAL
      .     GF3(MVSIZ),HX(MVSIZ), HY(MVSIZ), HZ(MVSIZ),
      .     X0_INI(MVSIZ),Y0_INI(MVSIZ),Z0_INI(MVSIZ)
       my_real
-     .     SX,SY,SZ,XX,YY,ZZ,XKA,YKA,ZKA,AA,BB,CC,X21PHI,Y21PHI,Z21PHI,
+     .     SX,SY,SZ,XX,YY,ZZ,XKA,YKA,ZKA,
      .     ASRATE,DLIM,NOT_USED,NOT_USED2(2)
       DOUBLE PRECISION X21DP(MVSIZ),Y21DP(MVSIZ),Z21DP(MVSIZ),
      .                 X0DP(MVSIZ),Y0DP(MVSIZ),Z0DP(MVSIZ)

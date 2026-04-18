@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10), 
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
      .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
-     .   A4,B4,A4M1,B4M1,AA,DET6(6,MVSIZ),VOLDP(MVSIZ)
+     .   A4,B4,A4M1,B4M1,DET6(6,MVSIZ),VOLDP(MVSIZ)
       my_real
      .   VOLG(MVSIZ),ALPH,BETA,W
 C----------------------------

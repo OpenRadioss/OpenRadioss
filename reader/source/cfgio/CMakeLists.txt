@@ -1,20 +1,19 @@
 # CMake project file for CMake
 
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.15)
 project (cfgio) 
 enable_language (CXX)
 
 set (library_name "cfgio_${arch}" )
 
-#Include the CMake configuration file
-include ( CMake_arch/CMake_${arch}.cmake )
-
-
 #set source directory
 set (source_directory ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
+#Include the CMake configuration file
+include ( CMake_arch/CMake_${arch}.cmake )
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
 
 # Add includes for project
 include ( ${open_reader_root_dir}/CMake_arch/CMake_includes.cmake )

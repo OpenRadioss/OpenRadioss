@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -212,7 +212,7 @@ c
           I = INDX(J)
           EM(I)      = FINTERFLD(EMIN(I),LENF,XF)
           DAM(I)     = EMAJ(I) / EM(I)
-          DFMAX(I,2) = DAM(I)
+          DFMAX(I,2) = MAX(DAM(I),ZERO)
           DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
@@ -234,7 +234,7 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = EMAJ(I) / EM(I)
-            DFMAX(I,2) = DAM(I)
+            DFMAX(I,2) = MAX(DAM(I),ZERO)
             DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO    
         ! -> Non-linear path formulation
@@ -253,7 +253,7 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = MAX(PLA(I) / EM(I),DAM(I))
-            DFMAX(I,2) = DAM(I)
+            DFMAX(I,2) = MAX(DAM(I),ZERO)
             DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO             
         ENDIF

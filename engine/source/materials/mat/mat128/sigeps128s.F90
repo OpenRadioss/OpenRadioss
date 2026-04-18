@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,18 +45,18 @@
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
         subroutine sigeps128s(mat_param  ,                                       &
-          nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,timestep ,         &
-          depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
-          sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
-          signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
-          sighl    ,yld      ,et       ,pla      ,dpla     ,epsd     ,         &
-          soundsp  ,off      ,l_sigb   ,sigb     )
+            nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,timestep ,         &
+            depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
+            sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
+            signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
+            sighl    ,yld      ,et       ,pla      ,dpla     ,epsd     ,         &
+            soundsp  ,off      ,l_sigb   ,sigb     )
 !
 ! ======================================================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependency for solids
 
 ! ======================================================================================================================
-!                                                        Modules
+!                 Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use matparam_def_mod
           use constant_mod ,only : pi,zero,one,half,third,two_third,two,three,four
@@ -68,7 +68,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments
+!                 Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                           !< element group size
           integer ,intent(in) :: nuvar                         !< number of state variables
@@ -81,12 +81,12 @@
           real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxy !< deformation increment component
           real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyz !< deformation increment component
           real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszx !< deformation increment component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxx !< input  stress component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyy !< input  stress component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozz !< input  stress component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxy !< input  stress component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyz !< input  stress component
-          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozx !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigoxx !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigoyy !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigozz !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigoxy !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigoyz !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: sigozx !< input  stress component
           real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
           real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
           real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzz !< output stress component
@@ -106,28 +106,27 @@
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
           type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables
+!               Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ii,iter,niter,nindx,ifunc,ndim
+          integer :: i,ii,iter,niter,nindx,ndim
           integer ,dimension(nel) :: indx
-          real(kind=WP) :: dlam,ddep,sig_dfdsig,dsig_dlam,dpdt,seq
-          real(kind=WP) :: normxx,normyy,normzz,normxy,normyz,normzx
-          real(kind=WP) :: dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam
-          real(kind=WP) :: dsigbxy_dlam,dsigbyz_dlam,dsigbzx_dlam
-          real(kind=WP) :: cc,cp,asrate,fisokin,beta,dtime
+          real(kind=WP) :: ddep,sig_dfdsig,dsig_dlam,dpdt,seq
+          real(kind=WP) :: cc,cp,asrate,fisokin,hkin,dtime
           real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
           real(kind=WP) :: ff,gg,hh,ll,mm,nn
           real(kind=WP) :: sigy,young,shear,bulk,nu,rho0
           real(kind=WP) :: cii,cij
+          real(kind=WP) ,dimension(nel)   :: dlam
           real(kind=WP) ,dimension(nel)   :: cowp              !< Cowper-Symonds strain rate factor
-          real(kind=WP) ,dimension(nel)   :: h,h0,hk           !< hardening tangent stiffness
+          real(kind=WP) ,dimension(nel)   :: h                 !< hardening tangent stiffness
           real(kind=WP) ,dimension(nel)   :: phi               !< plastic yield criterion
-          real(kind=WP) ,dimension(nel)   :: yld0              !< initial yield stress
+          real(kind=WP) ,dimension(nel)   :: yld0,h0           !< initial yield stress and stiffness
           real(kind=WP) ,dimension(nel)   :: dphi_dlam,dpla_dlam
           real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
+          real(kind=WP) ,dimension(nel)   :: normxx,normyy,normzz,normxy,normyz,normzx
           real(kind=WP) ,dimension(nel,1) :: xvec1
           real(kind=WP) ,dimension(nel,2) :: xvec2
-! ======================================================================================================================
+!==================================================================================================
           niter  = 3   ! max number of newton iterations
           dtime  = max(timestep, em20)
           young  = mat_param%young
@@ -155,48 +154,45 @@
           nn     = mat_param%uparam(17)
           asrate = min(one,mat_param%uparam(18)*dtime)
           fisokin = mat_param%uparam(19)
-          beta    = one - fisokin
-
+!          
           cij  = three*bulk*nu/(one+nu)
           cii  = cij + two*shear
-          ndim = 0
-          if (mat_param%ntable == 1) ndim = mat_param%table(1)%ndim
+          if (mat_param%ntable == 1) then
+            ndim = mat_param%table(1)%ndim
+          else
+            ndim = 0
+          end if
 !
-          et(1:nel)   = one
           dpla(1:nel) = zero
+          et(1:nel)   = one
+          cowp(1:nel) = one
+          yld0(1:nel) = sigy
           epsd(1:nel) = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
           soundsp(1:nel) = sqrt((bulk + four_over_3*shear) / rho0)     ! sound-speed
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------
           ! element deletion condition
           do i=1,nel
             if (off(i) < one)  off(i) = four_over_5*off(i)
             if (off(i) < em01) off(i) = zero
           enddo
-          !< Backstress tensor computation
-          if (fisokin > zero) then
-            !< Add the kinematic hardening contribution to stress tensor
-            signxx(1:nel) = signxx(1:nel) - sigb(1:nel,1)
-            signyy(1:nel) = signyy(1:nel) - sigb(1:nel,2)
-            signzz(1:nel) = signzz(1:nel) - sigb(1:nel,3)
-            signxy(1:nel) = signxy(1:nel) - sigb(1:nel,4)
-            signyz(1:nel) = signyz(1:nel) - sigb(1:nel,5)
-            signzx(1:nel) = signzx(1:nel) - sigb(1:nel,6)
-!
-            if (mat_param%ntable == 0) then     ! analytical yield formulation
-              yld0(1:nel) = sigy
-              h0(1:nel)   = qr1*cr1 + qr2*cr2 + qx1*cx1 + qx2*cx2
-            else
-              if (ndim == 1) then
-                yld0(1:nel) = sigy
-              else if (ndim == 2) then
-                xvec2(1:nel,1) = zero
-                xvec2(1:nel,2) = epsd(1:nel)
-                call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld0,h0)
-              end if
+          if (mat_param%ntable == 0) then
+            if (cc > zero) then         ! Cowper-Simonds strain rate factor
+              cowp(1:nel) = one + (epsd(1:nel)/cc)**cp
             end if
-          endif
-! ----------------------------------------------------------------------------------------------------------------------
-          !< trial stress tensor
+          end if
+!------------------------------------------
+          if (fisokin > zero) then
+            ! compute initial yield stress for kinematic hardening
+            if (mat_param%ntable == 0) then     ! analytical hardening equation
+              yld0(1:nel) = sigy * cowp(1:nel)
+            else if (ndim == 2) then            ! tabulated hardening curve with strain rate
+              xvec2(1:nel,1) = zero
+              xvec2(1:nel,2) = epsd(1:nel)
+              call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld0,h0)
+            end if
+          end if           
+! --------------------------------------------------------------------------------------------
+          !< elastic trial stress tensor
           do i=1,nel
             signxx(i) = sigoxx(i) + cii*depsxx(i) + cij*depsyy(i) + cij*depszz(i)
             signyy(i) = sigoyy(i) + cij*depsxx(i) + cii*depsyy(i) + cij*depszz(i)
@@ -204,35 +200,34 @@
             signxy(i) = sigoxy(i) + shear*depsxy(i)
             signyz(i) = sigoyz(i) + shear*depsyz(i)
             signzx(i) = sigozx(i) + shear*depszx(i)
-!
-            ! hill equivalent stress
-            sighl(i) = ff*(signyy(i) - signzz(i))**2 + gg*(signzz(i) - signxx(i))**2   &
-              + hh*(signxx(i) - signyy(i))**2 + two*ll*signyz(i)**2             &
-              + two*mm*signzx(i)**2 + two*nn*signxy(i)**2
-            sighl(i) = sqrt(max(zero,sighl(i)))
           enddo
-! ----------------------------------------------------------------------------------------------------------------------
-          ! computing yield stress
+!------------------------------------------
+!         kinematic hardening 
+!------------------------------------------
+          if (fisokin > zero) then    !< Remove backstress from stress tensor
+            signxx(1:nel) = signxx(1:nel) - sigb(1:nel,1)
+            signyy(1:nel) = signyy(1:nel) - sigb(1:nel,2)
+            signzz(1:nel) = signzz(1:nel) - sigb(1:nel,3)
+            signxy(1:nel) = signxy(1:nel) - sigb(1:nel,4)
+            signyz(1:nel) = signyz(1:nel) - sigb(1:nel,5)
+            signzx(1:nel) = signzx(1:nel) - sigb(1:nel,6)
+          end if
+! -------------------------------------------------------------------------------
+          ! compute current yield stress
 !
           if (mat_param%ntable == 0) then     ! analytical yield formulation
-            if (cc > zero)  then
-              cowp(1:nel) = (epsd(1:nel)/cc)**cp
-            else
-              cowp(1:nel) = zero
-            end if
             do i = 1,nel
               yld(i) = sigy                                                   &
-                + qr1*(one - exp(-cr1*pla(i)))                           &
-                + qr2*(one - exp(-cr2*pla(i)))                           &
-                + qx1*(one - exp(-cx1*pla(i)))                           &
-                + qx2*(one - exp(-cx2*pla(i)))
+                     + qr1*(one - exp(-cr1*pla(i)))                           &
+                     + qr2*(one - exp(-cr2*pla(i)))                           &
+                     + qx1*(one - exp(-cx1*pla(i)))                           &
+                     + qx2*(one - exp(-cx2*pla(i)))
               h(i)   = qr1*cr1*exp(-cr1*pla(i)) + qr2*cr2*exp(-cr2*pla(i))    &
-                + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
-              hk(i)  = fisokin * h(i)  * (one + cowp(i))
-              h(i)   = beta * h(i) * (one + cowp(i))
-              yld(i) = beta * yld(i) + fisokin*sigy + sigy*cowp(i)
+                     + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
+              h(i)   = h(i)   * cowp(i)
+              yld(i) = yld(i) * cowp(i)
             enddo
-          else                               ! tabulated yield function
+          else                     ! tabulated yield function, includes strain rate
             if (ndim == 1) then
               xvec1(1:nel,1) = pla(1:nel)
               call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec1,yld,h)
@@ -241,14 +236,23 @@
               xvec2(1:nel,2) = epsd(1:nel)
               call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld,h)
             end if
-            hk (1:nel) = fisokin * h(1:nel)
-            h  (1:nel) = beta * h(1:nel)
-            yld(1:nel) = beta * yld(1:nel) + fisokin*yld0(1:nel)
           endif
 !
-          !====================================================================
-          ! check yield criterion for all elements
-          !====================================================================
+          h(1:nel)  = max(zero, h(1:nel))
+          if (fisokin > zero) then
+            yld(1:nel) = (one - fisokin)*yld(1:nel) + fisokin*yld0(1:nel)
+          endif
+! --------------------------------------------------------------------------------------------------
+          ! - check yield criterion for all elements
+! --------------------------------------------------------------------------------------------------
+          ! equivalent Hill stress
+          do i=1,nel
+            sighl(i) = ff*(signyy(i) - signzz(i))**2                                &
+                     + gg*(signzz(i) - signxx(i))**2                                &
+                     + hh*(signxx(i) - signyy(i))**2                                &
+                     + two*(ll*signyz(i)**2 + mm*signzx(i)**2 + nn*signxy(i)**2)
+            sighl(i) = sqrt(max(zero,sighl(i)))
+          enddo
 !
           phi(1:nel) = sighl(1:nel) - yld(1:nel)
 !
@@ -271,138 +275,59 @@
               ! loop over yielding elements
               do ii=1,nindx
                 i = indx(ii)
-!
-                ! note     : in this part, the purpose is to compute for each iteration
-                ! a plastic multiplier allowing to update internal variables to satisfy
-                ! the consistency condition using the backward euler implicit method
-                ! with a newton-raphson iterative procedure
-                ! its expression at each iteration is : dlambda = - phi/dphi_dlambda
-                ! -> phi          : current value of yield function (known)
-                ! -> dphi_dlambda : derivative of phi with respect to dlambda by taking
-                !                   into account of internal variables kinetic :
-                !                   plasticity, temperature and damage (to compute)
-!
-                !<  computation of dphi/dsig = normal to the yield surface
+                ! phi                         : current value of yield function (known)
+                ! norm_ij = dphi/dsig         : normal to the yield surface
+                ! dphi_dlambda                : derivative of phi with respect to dlambda
+                ! dlambda = -phi/dphi_dlambda : plastic multiplier increment (Newton)
                 !-------------------------------------------------------------
                 seq = max(sighl(i),em20)
-                normxx = (gg*(signxx(i)-signzz(i)) + hh*(signxx(i)-signyy(i))) / seq
-                normyy = (ff*(signyy(i)-signzz(i)) + hh*(signyy(i)-signxx(i))) / seq
-                normzz = (ff*(signzz(i)-signyy(i)) + gg*(signzz(i)-signxx(i))) / seq
-                normxy = two*nn*signxy(i) / seq
-                normyz = two*ll*signyz(i) / seq
-                normzx = two*mm*signzx(i) / seq
+                normxx(i) = (gg*(signxx(i)-signzz(i)) + hh*(signxx(i)-signyy(i))) / seq
+                normyy(i) = (hh*(signyy(i)-signxx(i)) + ff*(signyy(i)-signzz(i))) / seq
+                normzz(i) = (ff*(signzz(i)-signyy(i)) + gg*(signzz(i)-signxx(i))) / seq
+                normxy(i) = two*nn*signxy(i) / seq
+                normyz(i) = two*ll*signyz(i) / seq
+                normzx(i) = two*mm*signzx(i) / seq
 !
-                !< computation of dphi/dlambda  for Newton iterations over lambda
-                !---------------------------------------------------------
-!
-                !< derivative of phi with respect to stress increments :
-                !< dsig/dlam = dphi/dsig : dsig/dlam = Normal : dsig/dlam
+                !< dsig/dlam = (dphi/dsig : dsig/dlam) = (Normal : dsig/dlam)
                 !   --------------------------------------------------------
-                dsig_dlam = normxx * (cii * normxx + cij * normyy + cij * normzz )      &
-                  + normyy * (cij * normxx + cii * normyy + cij * normzz )      &
-                  + normzz * (cij * normxx + cij * normyy + cii * normzz )      &
-                  + normxy * normxy * shear                                     &
-                  + normyz * normyz * shear                                     &
-                  + normzx * normzx * shear
+                dsig_dlam = normxx(i) * (cii*normxx(i) + cij*normyy(i) + cij*normzz(i))    &
+                          + normyy(i) * (cij*normxx(i) + cii*normyy(i) + cij*normzz(i))    & 
+                          + normzz(i) * (cij*normxx(i) + cij*normyy(i) + cii*normzz(i))    & 
+                          + normxy(i) * normxy(i) * shear                                  & 
+                          + normyz(i) * normyz(i) * shear                                  & 
+                          + normzx(i) * normzx(i) * shear                                       
 !
                 !<  derivative of dpla over lambda, dpla = lam * dphi/dsig
-                !<  calculated from plastic work equivalence : yld*dpla = sig:depsd
                 !<  dpla/dlam = (sig : dphi/dsig) / yld
-                sig_dfdsig = signxx(i)*normxx + signyy(i)*normyy + signzz(i)*normzz   &
-                  + signxy(i)*normxy + signyz(i)*normyz + signzx(i)*normzx
+                sig_dfdsig   = signxx(i)*normxx(i) + signyy(i)*normyy(i) + signzz(i)*normzz(i) &
+                             + signxy(i)*normxy(i) + signyz(i)*normyz(i) + signzx(i)*normzx(i)
                 dpla_dlam(i) = sig_dfdsig / max(yld(i),em20)
 !
                 ! derivative of phi with respect to dlam
-                dphi_dlam(i) = - dsig_dlam - h(i)*dpla_dlam(i)
-!
-                !< correction for kinematic hardening
-                !< derivative of backstress increment over lambda
-                if (fisokin > zero) then
-                  dsigbxx_dlam = two_third*hk(i)*(normxx*two + normyy + normzz)
-                  dsigbyy_dlam = two_third*hk(i)*(normyy*two + normxx + normzz)
-                  dsigbzz_dlam = two_third*hk(i)*(normzz*two + normxx + normyy)
-                  dsigbxy_dlam = two_third*hk(i)*normxy
-                  dsigbyz_dlam = two_third*hk(i)*normyz
-                  dsigbzx_dlam = two_third*hk(i)*normzx
-                  dphi_dlam(i) = dphi_dlam(i)                                            &
-                    - normxx*dsigbxx_dlam - normyy*dsigbyy_dlam - normzz*dsigbzz_dlam   &
-                    - normxy*dsigbxy_dlam - normyz*dsigbyz_dlam - normzx*dsigbzx_dlam
-                endif
+                dphi_dlam(i) = -dsig_dlam - h(i)*(one-fisokin)*dpla_dlam(i)
                 dphi_dlam(i) = sign(max(abs(dphi_dlam(i)),em20) ,dphi_dlam(i))
 !
-                !< plastic multiplier increment and plastic strain increment
-                dlam = -phi(i) / dphi_dlam(i)
-                ddep    = dlam*dpla_dlam(i)
+                !< plastic multiplier and plastic strain increment
+                dlam(i) = -phi(i) / dphi_dlam(i)
+                ddep    = dlam(i)*dpla_dlam(i)
                 dpla(i) = max(zero, dpla(i) + ddep)
                 pla(i)  = pla(i) + ddep
-                !< plastic strain tensor
-                dpxx(i) = dlam * normxx
-                dpyy(i) = dlam * normyy
-                dpzz(i) = dlam * normzz
-                dpxy(i) = dlam * normxy
-                dpyz(i) = dlam * normyz
-                dpzx(i) = dlam * normzx
+              end do   ! ii = 1,nindx
 !
-                !< Update of the backstress tensor (if kinematic hardening)
-                if (fisokin > zero) then
-                  !< Remove old backstress
-                  signxx(i) = signxx(i) + sigb(i,1)
-                  signyy(i) = signyy(i) + sigb(i,2)
-                  signzz(i) = signzz(i) + sigb(i,3)
-                  signxy(i) = signxy(i) + sigb(i,4)
-                  signyz(i) = signyz(i) + sigb(i,5)
-                  signzx(i) = signzx(i) + sigb(i,6)
-                end if
-                !< elasto-plastic stresses update
-                signxx(i) = signxx(i) - (cii*dpxx(i) + cij*dpyy(i) + cij*dpzz(i))
-                signyy(i) = signyy(i) - (cij*dpxx(i) + cii*dpyy(i) + cij*dpzz(i))
-                signzz(i) = signzz(i) - (cij*dpxx(i) + cij*dpyy(i) + cii*dpzz(i))
-                signxy(i) = signxy(i) - dpxy(i)*shear
-                signyz(i) = signyz(i) - dpyz(i)*shear
-                signzx(i) = signzx(i) - dpzx(i)*shear
+              !< update yield stress with current plastic strain
 !
-                if (fisokin > zero) then
-                  !< backstress tensor evolution
-                  sigb(i,1) = sigb(i,1) + dsigbxx_dlam*dlam
-                  sigb(i,2) = sigb(i,2) + dsigbyy_dlam*dlam
-                  sigb(i,3) = sigb(i,3) + dsigbzz_dlam*dlam
-                  sigb(i,4) = sigb(i,4) + dsigbxy_dlam*dlam
-                  sigb(i,5) = sigb(i,5) + dsigbyz_dlam*dlam
-                  sigb(i,6) = sigb(i,6) + dsigbzx_dlam*dlam
-                  !< Add the new backstress contribution
-                  signxx(i) = signxx(i) - sigb(i,1)
-                  signyy(i) = signyy(i) - sigb(i,2)
-                  signzz(i) = signzz(i) - sigb(i,3)
-                  signxy(i) = signxy(i) - sigb(i,4)
-                  signyz(i) = signyz(i) - sigb(i,5)
-                  signzx(i) = signzx(i) - sigb(i,6)
-                endif
-!
-                ! update hill equivalent stress
-                sighl(i) = ff*(signyy(i) - signzz(i))**2 + gg*(signzz(i) - signxx(i))**2   &
-                  + hh*(signxx(i) - signyy(i))**2 + two*ll*signyz(i)**2             &
-                  + two*mm*signzx(i)**2 + two*nn*signxy(i)**2
-                sighl(i) = sqrt(max(sighl(i),zero))
-!
-                if (mat_param%ntable == 0) then    ! analytical yield formulation
+              if (mat_param%ntable == 0) then    ! analytical hardening equation
+                do ii=1,nindx
+                  i = indx(ii)
                   yld(i) = sigy                                                            &
-                    + qr1*(one - exp(-cr1*pla(i))) + qr2*(one - exp(-cr2*pla(i)))     &
-                    + qx1*(one - exp(-cx1*pla(i))) + qx2*(one - exp(-cx2*pla(i)))
-                  h(i)   = qr1*cr1*exp(-cr1*pla(i)) + qr2*cr2*exp(-cr2*pla(i))    &
-                    + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
-                  hk(i)  = fisokin * h(i)  * (one + cowp(i))
-                  h(i)   = beta * h(i) * (one + cowp(i))
-                  yld(i) = beta * yld(i) + fisokin*sigy + sigy*cowp(i)
-!
-                  ! update yield criterion
-                  phi(i) = sighl(i) - yld(i)
-                endif
-!
-              enddo
-              ! end of the loop over the yielding elements
-!
-              ! case of tabulated yield stress definition
-              if (mat_param%ntable == 1) then
+                         + qr1*(one - exp(-cr1*pla(i))) + qr2*(one - exp(-cr2*pla(i)))     &
+                         + qx1*(one - exp(-cx1*pla(i))) + qx2*(one - exp(-cx2*pla(i)))
+                  h(i)   = qr1*cr1*exp(-cr1*pla(i)) + qr2*cr2*exp(-cr2*pla(i))             &
+                         + qx1*cx1*exp(-cx1*pla(i)) + qx2*cx2*exp(-cx2*pla(i))
+                  h(i)   = h(i)   * cowp(i)
+                  yld(i) = yld(i) * cowp(i)
+                end do   ! ii = 1,nindx
+              else                               ! tabulated yield with strain rate
                 if (ndim == 1) then
                   xvec1(1:nel,1) = pla(1:nel)
                   call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec1,yld,h)
@@ -411,33 +336,79 @@
                   xvec2(1:nel,2) = epsd(1:nel)
                   call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld,h)
                 end if
-                hk(1:nel)  = fisokin * h(1:nel)
-                h (1:nel)  = beta * h(1:nel)
-                yld(1:nel) = beta * yld(1:nel) + fisokin*yld0(1:nel)
+              end if
+              if (fisokin > 0) then
+                yld(1:nel) = (one - fisokin)*yld(1:nel) + fisokin*yld0(1:nel)
+              end if
 !
-                phi(1:nel) = sighl(1:nel) - yld(1:nel)
-              endif
+              ! update stresses and yield criterion
 !
-            enddo   ! end of the loop over the iterations
-          endif     ! nindx
-          !===================================================================
-          ! - end of plastic correction with cutting plane algorithm
-          !===================================================================
+              do ii=1,nindx
+                i = indx(ii)
+                !< tensor of plastic strain increment
+                dpxx(i) = dlam(i) * normxx(i)
+                dpyy(i) = dlam(i) * normyy(i)
+                dpzz(i) = dlam(i) * normzz(i)
+                dpxy(i) = dlam(i) * normxy(i)
+                dpyz(i) = dlam(i) * normyz(i)
+                dpzx(i) = dlam(i) * normzx(i)
+                !< elasto-plastic stresses update
+                signxx(i) = signxx(i) - (cii*dpxx(i) + cij*dpyy(i) + cij*dpzz(i))
+                signyy(i) = signyy(i) - (cij*dpxx(i) + cii*dpyy(i) + cij*dpzz(i))
+                signzz(i) = signzz(i) - (cij*dpxx(i) + cij*dpyy(i) + cii*dpzz(i))
+                signxy(i) = signxy(i) - dpxy(i)*shear
+                signyz(i) = signyz(i) - dpyz(i)*shear
+                signzx(i) = signzx(i) - dpzx(i)*shear
 !
-          ! tangent stiffness coefficient for hourglass
-          do ii = 1,nindx
-            i = indx(ii)
-            et(i) = (h(i) + hk(i)) / (h(i) + hk(i) + young)
-          end do
+                ! update hill equivalent stress
+                sighl(i) = ff*(signyy(i) - signzz(i))**2                                &
+                         + gg*(signzz(i) - signxx(i))**2                                &
+                         + hh*(signxx(i) - signyy(i))**2                                &
+                         + two*(ll*signyz(i)**2 + mm*signzx(i)**2 + nn*signxy(i)**2)
+                sighl(i) = sqrt(max(sighl(i),zero))
 !
+                ! update yield criterion
+                phi(i) = sighl(i) - yld(i)
+                et(i)  = h(i) / (h(i) + young) ! tangent stiffness coefficient for hourglass
+!
+              enddo  ! end of the loop over the yielding elements
+!
+              if (fisokin > 0) then   !< incremental backstress update
+                do ii=1,nindx
+                  i = indx(ii)
+                  hkin = h(i) * two_third*fisokin
+                  sigb(i,1) = sigb(i,1) + hkin * dpxx(i)
+                  sigb(i,2) = sigb(i,2) + hkin * dpyy(i)
+                  sigb(i,3) = sigb(i,3) + hkin * dpzz(i)
+                  sigb(i,4) = sigb(i,4) + hkin * dpxy(i)
+                  sigb(i,5) = sigb(i,5) + hkin * dpyz(i)
+                  sigb(i,6) = sigb(i,6) + hkin * dpzx(i)
+                enddo  ! end of the loop over the yielding elements
+              end if
+            enddo    ! end of the loop over the iterations
+          endif      ! nindx > 0
+!===================================================================
+!         end of plastic correction with cutting plane algorithm
+!===================================================================
+!
+          !< Add backstress to elasto-plastic stress after projection (if kinematic hardening)
+          if (fisokin > zero) then
+            signxx(1:nel) = signxx(1:nel) + sigb(1:nel,1)
+            signyy(1:nel) = signyy(1:nel) + sigb(1:nel,2)
+            signzz(1:nel) = signzz(1:nel) + sigb(1:nel,3)
+            signxy(1:nel) = signxy(1:nel) + sigb(1:nel,4)
+            signyz(1:nel) = signyz(1:nel) + sigb(1:nel,5)
+            signzx(1:nel) = signzx(1:nel) + sigb(1:nel,6)
+          end if
+ !
           ! plastic strain-rate filtering
           do i=1,nel
             dpdt    = dpla(i) / dtime
             epsd(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
             uvar(i,1) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
           enddo
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------------
           return
         end subroutine sigeps128s
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------------
       end module sigeps128s_mod

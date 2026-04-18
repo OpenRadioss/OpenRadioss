@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,18 +72,23 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, EJ, ES,
-     .         IE, JE, SOL_EDGE, SH_EDGE
+      INTEGER I , EJ, ES,
+     .           SOL_EDGE, SH_EDGE
       INTEGER IAM(MVSIZ),JAM(4,MVSIZ),IAS(MVSIZ),JAS(MVSIZ)
       my_real
-     .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)
+     .        GAPE_M(MVSIZ), GAPE_S(MVSIZ)
 C-----------------------------------------------
       DO I=1,JLT
         IF(CAND_S(I)<=NRTS) THEN
 
           ES    =CAND_S(I)
-          IAS(I)=LEDGE(1,ES)
-          JAS(I)=LEDGE(2,ES)
+          IF(ES /=0) THEN
+            IAS(I)=LEDGE(1,ES)
+            JAS(I)=LEDGE(2,ES)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+          ENDIF
           N1(I)=LEDGE(5,ES)
           N2(I)=LEDGE(6,ES)
 
@@ -132,9 +137,15 @@ C
       END DO
 C
       DO I=1,JLT
-        FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
-        FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
-        FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
+        IF(IAS(I) /=0) THEN
+           FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
+           FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
+           FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
+        ELSE
+           FX(I) = 0
+           FY(I) = 0
+           FZ(I) = 0
+        ENDIF
       END DO
 C
       RETURN

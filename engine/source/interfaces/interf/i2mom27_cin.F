@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,15 +62,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, K, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   H(4), SS, ST, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H2(4)
 C=======================================================================
-C     MINER(II) initialise a MS(J) dans resol_init
+C     MINER(II) initialise a MS(J) in resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)

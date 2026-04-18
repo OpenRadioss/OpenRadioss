@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_IGLOB_PARTN(IAD,NBPART,IADG,SBUF)
-C iglob_part reconstruit sur p0 un tableau global de part 
+C iglob_part reconstructs on p0 a global array of part
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,K,N,NB_TMP
+      INTEGER MSGOFF,MSGTYP,K,N,NB_TMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: RECBUF
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 

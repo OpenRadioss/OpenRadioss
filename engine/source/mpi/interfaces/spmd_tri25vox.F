@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -115,9 +115,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
+      INTEGER MSGTYP, I, NOD, LOC_PROC, P, IDEB, 
+     . J, L, LEN, NB,
+     . IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
@@ -130,8 +130,7 @@ C-----------------------------------------------
      .        REQ_SD4(NSPMD),REQ_RD4(NSPMD),
      .        REQ_SD5(NSPMD),REQ_RD5(NSPMD),
      .        LEN2, RSHIFT, ISHIFT, ND, JDEB, Q, NBB,
-     .        NB_EDGE, IDEB_EDGE,
-     .        ISIZ_EDGE
+     .        NB_EDGE, IDEB_EDGE
 
       my_real:: XMINS,YMINS,ZMINS
       my_real:: XMAXS,YMAXS,ZMAXS
@@ -170,8 +169,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
       NBX = LRVOXEL
@@ -191,7 +190,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting from i7buce bminma
 C
       NEDGE_REMOTE = 0
       DO P = 1, NSPMD
@@ -209,7 +208,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -228,7 +227,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception voxel + boites min-max
+C   Voxel reception + min-max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -251,11 +250,11 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending xrem
 C
 C computation of real and integer sending buffers sizes
 c general case
-      RSIZ = 8    
+      RSIZ = 9    
       ISIZ = 6
 
       IF(.TRUE.) THEN
@@ -334,16 +333,16 @@ C-----for   NBINFLG
         ALLOCATE(INDEX_EDGE(NEDGE),STAT=IERROR)
         INDEX_EDGE(1:NEDGE) = 0 
       END IF
-      
+    
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
-C Traitement special sur d.d. ne consever que les noeuds internes
+C special processing on d.d. keep only the internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only the non-boundary nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -394,7 +393,7 @@ C ==================== Secnd nodes =============================
           NBOX(1,P) = NB
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C reset of weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 
@@ -422,6 +421,8 @@ C            First segment is local
 C            First segment is on the other side of the boundary
              STF = ONE
              IF(MVOISIN(LEDGE(4,I),LEDGE(3,I)) == 0) STF = 0
+           ELSEIF(IABS(LEDGE(7,I))==3)THEN
+             STF = STFE(I)
            ELSE ! 
              
              ! ISPMD owns a boundary edge, but the local segment is deleted
@@ -431,16 +432,15 @@ C            First segment is on the other side of the boundary
            DEBUG_E2E(LEDGE(8,I) == D_ES,STF)
            DEBUG_E2E(LEDGE(8,I) == D_ES,LEDGE(7,I))
 
-
            IF( STF > ZERO .AND. LEDGE(7,I) >= 0)  THEN
 C
-C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
+C            GAPE useless here (Redundant with BGAPEMAX on main side) !
              XMINS = MIN(X(1,N1),X(1,N2))!- GAPE(I)      
              YMINS = MIN(X(2,N1),X(2,N2))!- GAPE(I)      
              ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)      
              XMAXS = MAX(X(1,N1),X(1,N2))!+ GAPE(I)      
              YMAXS = MAX(X(2,N1),X(2,N2))!+ GAPE(I)      
-             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)      
+             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)   
 
              DEBUG_E2E(LEDGE(8,I) == D_ES, XMINS)
              DEBUG_E2E(LEDGE(8,I) == D_ES, YMINS)
@@ -488,7 +488,7 @@ C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
           ENDIF ! IEDGE
 
           NBOX(2,P) = NB_EDGE
-C         WRITE(6,*) ISPMD,"sends ",NB_EDGE,"to,",P-1
+c         WRITE(6,*) ISPMD,"sends ",NB_EDGE,"to,",P-1
           IF(ITYP==25)THEN
             JDEB = 0
             DO Q=1,P-1
@@ -608,29 +608,55 @@ C TO DO: single precision
                IM  = LEDGE(10,I)
                I1  = LEDGE(11,I)
                I2  = LEDGE(12,I)
-               NN1 = ADMSR(JE,IE)
-               NN2 = ADMSR(MOD(JE,4)+1,IE)
-
-
-               RBUF_EDGE(P)%p(L2:L2+2) = EDG_BISECTOR(1:3,JE,IE)
-
+               IF(IE/=0) THEN
+                  NN1 = ADMSR(JE,IE)
+                  NN2 = ADMSR(MOD(JE,4)+1,IE)
+               ELSE
+                  NN1 = 0
+                  NN2 = 0               
+               ENDIF
+               IF(IE/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = EDG_BISECTOR(1:3,JE,IE)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
                L2 = E_VTX_BIS + L
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I1)
+               IF(I1/=0) THEN
+                 RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I1)
+               ELSE
+                 RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I1/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I1)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I2/=0) THEN
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
+               L2 = L2 + 3
+               IF(I2/=0)THEN              
+                  RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
 
                L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I1)
-
+               IF(NN1/=0) THEN               
+                  RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN1)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF         
                L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,1,I2)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = VTX_BISECTOR(1:3,2,I2)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN1)
-
-               L2 = L2 + 3
-               RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN2)
+               IF(NN2/=0) THEN              
+                  RBUF_EDGE(P)%p(L2:L2+2) = E2S_NOD_NORMAL(1:3,NN2)
+               ELSE
+                  RBUF_EDGE(P)%p(L2:L2+2) = ZERO
+               ENDIF
 
                IF(ISTIF_MSDT > 0) RBUF_EDGE(P)%p(E_STIFE_MSDT_FI+ L) = STIFMSDT_EDG(I) 
               
@@ -698,7 +724,7 @@ C  symmetric plane
 
 c specific cases
 c IGAP=1 or IGAP=2               
-            IF(IGAP==1 .OR. IGAP==2)THEN
+            IF(IGAP==1 .OR. IGAP==2.OR. IGAP==5)THEN
                L = 0        
                IGAPXREMP = RSHIFT       
 #include      "vectorize.inc"          
@@ -820,54 +846,7 @@ C -- IDTMINS_INT /= 0
               END DO
               ISHIFT = ISHIFT + 1             
             ENDIF
-             
-c INT24
-            IF(ITYP==24)THEN
-
-              L = 0
-              I24XREMP = RSHIFT
-#include      "vectorize.inc"
-              DO J = 1, NB
-                I = INDEX(J)
-                RBUF(P)%p(L+RSHIFT)    =I24_TIME_S(I)
-                RBUF(P)%p(L+RSHIFT+1)  =I24_FRFI(1,I)
-                RBUF(P)%p(L+RSHIFT+2)  =I24_FRFI(2,I)
-                RBUF(P)%p(L+RSHIFT+3)  =I24_FRFI(3,I)
-                RBUF(P)%p(L+RSHIFT+4)  =I24_PENE_OLD(1,I)
-                RBUF(P)%p(L+RSHIFT+5)  =I24_STIF_OLD(1,I) 
-                RBUF(P)%p(L+RSHIFT+6)  =I24_PENE_OLD(3,I)
-                RBUF(P)%p(L+RSHIFT+7)  =I24_PENE_OLD(5,I)
-                L = L + RSIZ
-              END DO          
-              RSHIFT = RSHIFT + 8  
-                
-              L2 = 0      
-              I24IREMP = ISHIFT 
-#include      "vectorize.inc"
-              DO J = 1, NB
-                I = INDEX(J)
-C               IRTLM(2,NSN) in TYPE24
-                IBUF(P)%p(L2+ISHIFT)  =IRTLM(2*(I-1)+1)
-                IBUF(P)%p(L2+ISHIFT+1)=IRTLM(2*(I-1)+2)
-                IBUF(P)%p(L2+ISHIFT+2)=I24_ICONT_I(I)
-                L2 = L2 + ISIZ
-              END DO          
-              ISHIFT = ISHIFT + 3
-C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used, 
-C----change the shift value when new table was added like I24_ICONT_I           
-              IF (ILEV==2) THEN  
-                L2 = 0                
-#include      "vectorize.inc"       
-                DO J = 1, NB
-                  I = INDEX(J)
-                  IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
-                  L2 = L2 + ISIZ
-                END DO        
-              END IF
-              ISHIFT = ISHIFT + 1
-
-            END IF !(ITYP==24)                
-             
+                                      
 c INT25
             IF(ITYP==25)THEN
               L = 0
@@ -889,7 +868,7 @@ c INT25
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
-C               IRTLM(3,NSN) en TYPE25 / IRTLM(3,-) inutile ici 
+C               IRTLM(3,NSN) in TYPE25 / IRTLM(3,-) useless here 
                 IBUF(P)%p(L2+ISHIFT)  =IRTLM(4*(I-1)+1)
                 IBUF(P)%p(L2+ISHIFT+1)=IRTLM(4*(I-1)+2)
 C
@@ -974,7 +953,7 @@ C
         DEALLOCATE(INDEX_EDGE) 
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of xrem data
 C
       NEDGE_REMOTE = 0
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN

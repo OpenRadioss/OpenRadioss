@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@
 !||    ddsplit                        ../starter/source/restart/ddsplit/ddsplit.F
 !||    dyna_ina                       ../engine/source/implicit/imp_dyna.F
 !||    dyna_wex                       ../engine/source/implicit/imp_dyna.F
-!||    ebcs11                         ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant              ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                      ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    execargcheck                   ../engine/source/engine/execargcheck.F
 !||    finter_mixed_mod               ../engine/source/tools/finter_mixed.F90
@@ -77,8 +77,10 @@
 !||    monvol0                        ../engine/source/airbag/monvol0.F
 !||    nbfunct                        ../starter/source/tools/curve/nbfunc.F
 !||    pfluid                         ../engine/source/loads/general/pfluid/pfluid.F
+!||    preload_solid_ini              ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    python_call_funct_cload_dp     ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_call_funct_cload_sp     ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_dummy_active_node       ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
 !||    python_register                ../engine/source/tools/curve/python_register.F90
 !||    python_share_memory            ../engine/source/coupling/python/python_share_memory.F90
@@ -106,6 +108,7 @@
 !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
 !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    resol                          ../engine/source/engine/resol.F
+!||    resol_alloc_python             ../engine/source/engine/resol_alloc.F90
 !||    resol_head                     ../engine/source/engine/resol_head.F
 !||    rforc3                         ../engine/source/elements/spring/rforc3.F
 !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F
@@ -128,7 +131,7 @@
 !||    python_element_mod             ../common_source/modules/python_element_mod.F90
 !||====================================================================
       module python_funct_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         use precision_mod, only : WP
         use python_element_mod
         implicit none
@@ -143,7 +146,7 @@
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
         interface
           subroutine python_initialize(ok) bind(c, name="cpp_python_initialize")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(inout) :: ok  !< error code
           end subroutine python_initialize
           subroutine python_finalize() bind(c, name="cpp_python_finalize")
@@ -155,15 +158,15 @@
 
           ! add a function to the python dictionary
           subroutine python_register_function(name, code, num_lines) bind(c, name="cpp_python_register_function")
-            use iso_c_binding
-            character(kind=c_char), dimension(*) :: name !< intent out: extracted from the code
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name !< intent out: extracted from the code
             integer(kind=c_int), value :: num_lines
-            character(kind=c_char), dimension(500,*) :: code
+            character(kind=c_char), dimension(500,*), intent(in) :: code
           end subroutine python_register_function
           ! call a function from the python dictionary
           subroutine python_call_function(name, num_args, args, num_return, return_values) &
             bind(c, name="cpp_python_call_function")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name !< intent in
             integer(kind=c_int), value :: num_args
             integer(kind=c_int), value :: num_return
@@ -171,7 +174,7 @@
             real(kind = c_double), intent(out) :: return_values(num_return)
           end subroutine python_call_function
           subroutine python_sample_function(name, X, Y, N) bind(c, name="cpp_python_sample_function")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name
             integer(kind=c_int), value, intent(in) :: N !< sample size
             real(kind=c_double), dimension(N), intent(inout) :: X
@@ -181,20 +184,20 @@
           ! a subroutine that checks if the function works, and returns a nonzero error code if it does not
           subroutine python_call_function_with_state(name, return_value) &
             bind(c, name="cpp_python_call_function_with_state") ! def: my_sensor(state_dictionary):
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name !< intent in
             real(kind = c_double), intent(out) :: return_value
           end subroutine python_call_function_with_state
 
           ! a subroutine that check if the function works, and return an nonzero error code if it does not
           subroutine python_check_function(name, error) bind(c, name="cpp_python_check_function")
-            use iso_c_binding
-            character(kind=c_char), dimension(*) :: name
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name
             integer(kind=c_int), intent(out) :: error
           end subroutine python_check_function
 
           subroutine python_update_time(time,dt) bind(c, name="cpp_python_update_time")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
 #ifdef MYREAL8
             real(kind = c_double), value, intent(in) :: time
             real(kind = c_double), value, intent(in) :: dt
@@ -206,7 +209,7 @@
 
           !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, real(kind=WP) *values)
           subroutine python_set_node_values(numnod, name_len, name, val) bind(c, name="cpp_python_update_nodal_entity")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: numnod
             integer(kind=c_int), value, intent(in) :: name_len
             character(kind=c_char), dimension(name_len), intent(in) :: name
@@ -217,33 +220,33 @@
 #endif
           end subroutine python_set_node_values
           subroutine python_update_active_node_values(name_len, name, val) bind(c, name="cpp_python_update_active_node")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: name_len
             character(kind=c_char), dimension(name_len), intent(in) :: name
             real(kind=c_double), dimension(3), intent(in) :: val
           end subroutine python_update_active_node_values
           ! call python_set_node_ids(n,nodes%itab(n))
           subroutine python_set_active_node_ids(id, uid) bind(c, name="cpp_python_update_active_node_ids")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: id
             integer(kind=c_int), value,  intent(in) :: uid
           end subroutine python_set_active_node_ids
 
 
           subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(out) :: number_of_nodes
           end subroutine python_get_number_of_nodes
 
           subroutine python_get_nodes(nodes_global_ids) &
             bind(c, name="cpp_python_get_nodes")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
           end subroutine python_get_nodes
 
           subroutine python_update_sensors(types, uids, statuses, results, nsensor) &
             bind(c, name="cpp_python_update_sensors")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(in) :: types(*)
             integer(kind=c_int), intent(in) :: uids(*)
             integer(kind=c_int), intent(in) :: statuses(*)
@@ -255,7 +258,7 @@
           !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
           subroutine python_create_node_mapping(itab, num_nodes) &
             bind(c, name="cpp_python_create_node_mapping")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(in) :: num_nodes
             integer(kind=c_int), intent(in) :: itab(*)
           end subroutine python_create_node_mapping
@@ -263,37 +266,50 @@
 
           subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
             bind(c, name="cpp_python_add_ints_to_dict")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
-            integer(kind=c_int), value, intent(in) :: nvalues
+            integer(kind=c_int), value, intent(in) :: nvalues, len_name
             character(kind=c_char), dimension(len_name), intent(in) :: name
             type(c_ptr), value , intent(in) :: values
           end subroutine python_add_ints_to_dict
 
           subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
             bind(c, name="cpp_python_add_doubles_to_dict")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
-            integer(kind=c_int), value, intent(in) :: nvalues
+            integer(kind=c_int), value, intent(in) :: nvalues, len_name
             character(kind=c_char), dimension(len_name), intent(in) :: name
             type(c_ptr), value :: values
           end subroutine python_add_doubles_to_dict
 
           function python_create_context() bind(c, name="cpp_python_create_context")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr) :: python_create_context
           end function python_create_context
 
           subroutine python_free_context(context) bind(c, name="cpp_python_free_context")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
           end subroutine python_free_context
 
           !/             void cpp_python_sync(void* pcontext, int num_args)
           subroutine python_sync(pcontext) bind(c, name="cpp_python_sync")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: pcontext
           end subroutine python_sync
+
+
+          function python_begin_allow_threads() bind(c, name="py_begin_allow_threads")
+            use , intrinsic :: iso_c_binding
+            type(c_ptr) :: python_begin_allow_threads
+          end function python_begin_allow_threads
+
+
+          ! Interface for py_end_allow_threads
+          subroutine python_end_allow_threads(saved_state) bind(c, name="py_end_allow_threads")
+            use , intrinsic :: iso_c_binding
+            type(c_ptr), value :: saved_state
+          end subroutine python_end_allow_threads
 
         end interface
         interface python_call_funct1D
@@ -330,6 +346,7 @@
           integer :: nb_sensors = 0!< the number of python sensors
           type(python_element) :: elements !< element quantities requested from Python code
           type(c_ptr) :: context
+          type(c_ptr) :: saved_state !< saved state for releasing GIL
         end type python_
 ! ----------------------------------------------------------------------------------------------------------------------
 
@@ -377,7 +394,7 @@
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(python_function), intent(in) :: src !< the source python function
-          type(python_function), intent(out) :: dest !< the destination python function
+          type(python_function), intent(inout) :: dest !< the destination python function
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -422,6 +439,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,pos,len_name,len_code, ierr,elsize
+          integer :: name_ints, code_ints
+          character(kind=c_char), allocatable :: padded(:)
+          integer :: padded_len
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -429,8 +449,10 @@
 ! compute the size of the buffer
           do i = 1, python%nb_functs
             buffer_size = buffer_size + 6! 5 integers: len_name, len_code, num_lines, num_args, num_return
-            buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
-          enddo
+          ! buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
+            buffer_size = buffer_size + (python%functs(i)%len_name + 3) / 4  ! integers needed
+            buffer_size = buffer_size + (python%functs(i)%len_code + 3) / 4
+          end do
           elsize = 0
           !elsize = element_get_size(python%elements%global)
           buffer_size = buffer_size + elsize
@@ -453,16 +475,30 @@
               buffer(pos+3) = python%functs(i)%num_args
               buffer(pos+4) = python%functs(i)%num_return
               buffer(pos+5) = python%functs(i)%user_id
+              name_ints = (python%functs(i)%len_name + 3) / 4
+              code_ints = (python%functs(i)%len_code + 3) / 4
               pos = pos + 6
 ! transfer the name to the buffer, using the transfer function
               len_name=python%functs(i)%len_name
+              padded_len = ((len_name + 3) / 4) * 4  ! Round up to multiple of 4
+              if(allocated(padded)) deallocate(padded)
+              allocate(padded(padded_len))
+              padded = c_null_char  ! Initialize padding to zeros
+              padded(1:len_name) = python%functs(i)%name(1:len_name)
+              buffer(pos:pos+name_ints-1) = transfer(padded, buffer(pos:pos+name_ints-1))
+              pos = pos + name_ints                         
+
               len_code = python%functs(i)%len_code
-              buffer(pos:pos+len_name-1) = transfer(python%functs(i)%name, buffer(pos:pos+len_name-1))
-              pos = pos + python%functs(i)%len_name
-              buffer(pos:pos+len_code-1) = transfer(python%functs(i)%code, buffer(pos:pos+len_code-1))
-              pos = pos + python%functs(i)%len_code
-            enddo
-          endif
+              if(allocated(padded)) deallocate(padded)
+              padded_len = ((len_code + 3) / 4) * 4
+              allocate(padded(padded_len))
+              padded = c_null_char
+              padded(1:len_code) = python%functs(i)%code(1:len_code)
+! transfer the code to the buffer, using the transfer function
+              buffer(pos:pos+code_ints-1) = transfer(padded, buffer(pos:pos+code_ints-1))
+              pos = pos + code_ints
+            end do
+          end if
 !         call element_serialize(python%elements%global,buffer(pos:pos+elsize-1),elsize)
         end subroutine python_serialize
 
@@ -488,6 +524,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,pos,ierr
+          integer :: name_ints, code_ints
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -506,19 +543,21 @@
               python%functs(i)%num_return = buffer(pos+4)
               python%functs(i)%user_id = buffer(pos+5)
               pos = pos + 6
+              name_ints = (python%functs(i)%len_name + 3) / 4
+              code_ints = (python%functs(i)%len_code + 3) / 4
               allocate(python%functs(i)%name(python%functs(i)%len_name),stat = ierr)
               if(ierr == 0) then
-                python%functs(i)%name=transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
-                pos = pos + python%functs(i)%len_name
-              endif
+                python%functs(i)%name=transfer(buffer(pos:pos+name_ints-1), python%functs(i)%name)
+                pos = pos + name_ints
+              end if
               allocate(python%functs(i)%code(python%functs(i)%len_code),stat = ierr)
               if(ierr == 0) then
-                python%functs(i)%code = transfer(buffer(pos:pos+python%functs(i)%len_code-1), python%functs(i)%code)
-                pos = pos + python%functs(i)%len_code
-              endif
-            enddo
+                python%functs(i)%code = transfer(buffer(pos:pos+code_ints-1), python%functs(i)%code)
+                pos = pos + code_ints
+              end if
+            end do
 !           call element_deserialize(python%elements%global,buffer(pos:))
-          endif
+          end if
 
         end subroutine python_deserialize
 
@@ -539,7 +578,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(python_function),                     intent(out) :: funct !< the Fortran structure that holds the python function
+          type(python_function),                   intent(inout) :: funct !< the Fortran structure that holds the python function
           integer,                                    intent(in) :: len_code !< the length of the code
           integer,                                    intent(in) :: num_lines !< the number of lines of the code
           character(kind=c_char,len=len_code),        intent(in) :: code !< the code of the python function from the input file
@@ -560,7 +599,7 @@
             do i = 1, len_trim(name)
               funct%name(i) = name(i:i)
             end do
-          endif
+          end if
           allocate(funct%code(len_code))
           do i = 1, len_code
             funct%code(i) = code(i:i)
@@ -639,14 +678,14 @@
 !||--- called by ------------------------------------------------------
 !||    python_call_funct_cload_dp         ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_call_funct_cload_sp         ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_dummy_active_node           ../engine/source/loads/general/python_call_funct_cload.F90
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_set_active_node_values(name_len, name, val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -829,7 +868,7 @@
               x = x - fx / dfx
             else
               x = x - fx / epsilon
-            endif
+            end if
 
             ! Check if the solution converged
             if (abs(x - x_prev) < tol_x_val) then
@@ -851,13 +890,12 @@
 !||--- called by ------------------------------------------------------
 !||    python_update_nodal_entities   ../common_source/modules/python_mod.F90
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_update_nodal_entity(numnod, name, name_len, val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -898,7 +936,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding, only : c_double
+          use, intrinsic :: iso_c_binding, only : c_double
           use nodal_arrays_mod, only : nodal_arrays_
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -940,10 +978,9 @@
 !||    python_deserialize     ../common_source/modules/python_mod.F90
 !||    python_funct_init      ../common_source/modules/python_mod.F90
 !||    python_serialize       ../common_source/modules/python_mod.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_funct_test()
-          use iso_c_binding , only: c_null_char,c_char
+          use, intrinsic :: iso_c_binding , only: c_null_char,c_char
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -992,13 +1029,12 @@
 !||--- called by ------------------------------------------------------
 !||    python_share_memory       ../engine/source/coupling/python/python_share_memory.F90
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_expose_ints(py, name, name_len, val, len_val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1028,13 +1064,12 @@
 !||--- called by ------------------------------------------------------
 !||    python_share_memory          ../engine/source/coupling/python/python_share_memory.F90
 !||--- calls      -----------------------------------------------------
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_expose_doubles(py, name, name_len, val, len_val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1058,5 +1093,26 @@
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_add_doubles_to_dict(py%context, temp_name, name_len, val, len_val)
         end subroutine python_expose_doubles
+!||====================================================================
+!||    python_begin_openmp   ../common_source/modules/python_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||====================================================================
+        subroutine python_begin_openmp(python)
+          type(python_), intent(inout) :: python
+          if(python%nb_functs == 0) return
+          python%saved_state = python_begin_allow_threads()
+        end subroutine python_begin_openmp
+!||====================================================================
+!||    python_end_openmp          ../common_source/modules/python_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
+        subroutine python_end_openmp(python)
+          type(python_), intent(inout) :: python
+          if(python%nb_functs == 0) return
+          call python_end_allow_threads(python%saved_state)
+        end subroutine python_end_openmp
 
       end module python_funct_mod

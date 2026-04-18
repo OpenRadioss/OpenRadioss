@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE MANCTR(SENSORS ,H3D_DATA)
+      SUBROUTINE MANCTR(OUTPUT,SENSORS ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE H3D_MOD         
       USE INOUTFILE_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
@@ -76,9 +77,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
-     .   MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0,SENS_ID
-      my_real TMPMAN(50), TMAN,TMAN_LOC
+      INTEGER MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY, WMCHECK0, 
+     .   MSG_R2R,ICTLSTOP0, MH3D0,SENS_ID
+      my_real TMPMAN(50), TMAN
       CHARACTER FILNAM*100, KEY2*80, FMT*80, KEY0(NKEY)*5,REC*1
       CHARACTER(LEN=NCHARLINE100)::CARTE
       INTEGER :: LEN_TMP_NAME
@@ -124,7 +125,7 @@ C-----------------------------
          IF (TT > SENSORS%SENSOR_TAB(SENSORS%ANIM_ID)%TSTART) THEN
 C          ACTIVATION
            SENSORS%ANIM_ID = -SENSORS%ANIM_ID
-           TANIMSENS = TT + SENSORS%ANIM_DT
+           OUTPUT%TANIMSENS = TT + SENSORS%ANIM_DT
            MANIM=4
            MDESS=MDESS+MANIM
          ENDIF
@@ -132,9 +133,9 @@ C          ACTIVATION
          IF (TT < SENSORS%SENSOR_TAB(-SENSORS%ANIM_ID)%TSTART) THEN
 C          DEACTIVATION
            SENSORS%ANIM_ID = -SENSORS%ANIM_ID
-         ELSEIF (TT > TANIMSENS) THEN
+         ELSEIF (TT > OUTPUT%TANIMSENS) THEN
 C          ACTIF
-           TANIMSENS = TANIMSENS + SENSORS%ANIM_DT
+           OUTPUT%TANIMSENS = OUTPUT%TANIMSENS + SENSORS%ANIM_DT
            MANIM=4
            MDESS=MDESS+MANIM
            RETURN
@@ -324,23 +325,23 @@ C
       ENDIF
 C
 C---------------------------------
-C     TRAITEMENT MULTIDOMAINES
+C     MULTI-DOMAIN TREATMENT
 C---------------------------------
        
        IF (IRAD2R==1) THEN
          IF (ISPMD==0) THEN
-C *** traitement flag mstop ***       
+C *** FLAG MSTOP treatment ***       
              MSTOP = R2R_MSTOP
            R2R_MSTOP = MSTOP0
              MSTOP0 = MSTOP         
              IF (R2R_MFILR == 1) THEN      
-C *** stockage des flags pour envoi     rad2rad ***
+C *** storage of flags for sending rad2rad ***
              TMAN_R2R = TMAN             
              R2R_CTR(1) = MREST0
              R2R_CTR(2) = MANIM0
              R2R_CTR(3) = WMCHECK0     
              ELSEIF (R2R_MFILR == 2) THEN
-C *** on applique les flags recus de rad2rad ***
+C *** applying the flags received from rad2rad ***
              MFILR = 1
                R2R_MFILR = 0
              TMAN = TMAN_R2R

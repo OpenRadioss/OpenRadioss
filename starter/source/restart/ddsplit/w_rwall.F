@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSL, I, K, KK, N, NN, N1, N2, N3, N4, IE, NE, ITY, ILW,
+      INTEGER NSL, K, KK, N, NN, N2, N3, N4, IE, NE, ITY,
      .        ILP, NSL_L, NE_L, IR, MSR
       INTEGER, DIMENSION(:),ALLOCATABLE :: LPRW_L, NPRW_L
 C
@@ -77,7 +77,7 @@ C
             IF(NLOCAL(MSR,PROC+1)==1) THEN
               NPRW_L(N3) = NODLOCAL(MSR)
             ELSE
-C noeud non present sur le proc, MSR a 0 pour eviter les comms.
+C node not present on the proc, MSR set to 0 to avoid comms.
               NPRW_L(N3) = 0
             ENDIF
           ENDIF

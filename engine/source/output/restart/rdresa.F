@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,9 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../engine/source/output/message/message.F
 !||    arret                  ../engine/source/system/arret.F
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
 !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
@@ -39,18 +39,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
 !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
+!||    rwall_mod              ../common_source/modules/constraints/rwall_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
+!||    sfem_mod               ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod               ../common_source/modules/skew_mod.F90
 !||    state_mod              ../common_source/modules/state_mod.F
 !||====================================================================
-      SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
+      SUBROUTINE RDRESA(OUTPUT,ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
-     .                  RBE3)
+     .                  RBE3,RWALL,SFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +72,9 @@ C-----------------------------------------------
       use glob_therm_mod               !< Global parameters and flags for thermal analysis
       use PBLAST_MOD                   !< PBLAST parameters
       use RBE3_MOD                     !< RBE3 type
+      use RWALL_MOD                    !< RWALL type
+      use output_mod
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER ITSTV1, LHEADER, LVARINT, LVARREA, PRADIOS,
      .        PRESFIL
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -101,6 +108,8 @@ C-----------------------------------------------
       type (glob_therm_)    ,intent(inout)   :: glob_therm
       TYPE (PBLAST_)        ,INTENT(INOUT)   :: PBLAST
       TYPE (RBE3_)          ,INTENT(INOUT)   :: RBE3
+      TYPE (RWALL_)         ,INTENT(INOUT)   :: RWALL
+      TYPE (SFEM_)          ,INTENT(INOUT)   :: SFEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -178,9 +187,9 @@ C----------------------------
 C     Read integer variables
 C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
-      CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      CALL RDCOMI(output,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM,SKEWS,
-     .            GLOB_THERM,PBLAST,RBE3 )
+     .            GLOB_THERM,PBLAST,RBE3 ,RWALL,SFEM)
 
 C
       IF(ANIM_PLY > 0 .AND.IPLYXFEM == 0) THEN
@@ -197,18 +206,21 @@ C
       END
 
 !||====================================================================
-!||    iniresa          ../engine/source/output/restart/rdresa.F
+!||    iniresa                ../engine/source/output/restart/rdresa.F
 !||--- called by ------------------------------------------------------
-!||    radioss2         ../engine/source/engine/radioss2.F
+!||    radioss2               ../engine/source/engine/radioss2.F
+!||--- calls      -----------------------------------------------------
+!||    allocate_output_data   ../common_source/modules/output/output_mod.F90
 !||--- uses       -----------------------------------------------------
-!||    ale_mod          ../common_source/modules/ale/ale_mod.F
-!||    aleanim_mod      ../engine/share/modules/aleanim_mod.F
-!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    h3d_mod          ../engine/share/modules/h3d_mod.F
-!||    message_mod      ../engine/share/message_module/message_mod.F
-!||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+!||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    aleanim_mod            ../common_source/modules/aleanim_mod.F
+!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    h3d_mod                ../engine/share/modules/h3d_mod.F
+!||    message_mod            ../engine/share/message_module/message_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
 !||====================================================================
-      SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      SUBROUTINE INIRESA(OUTPUT, H3D_DATA,PINCH_DATA,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -218,6 +230,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE ALEANIM_MOD
       USE glob_therm_mod
+      use output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -253,6 +266,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
       type (glob_therm_)    ,intent(inout)   :: GLOB_THERM
@@ -356,7 +370,7 @@ C
           SDMSPH = 0
         END IF
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
-C LCNE0 = NISKY0+voisins (pre calcule dans starter)
+C Lcne0 = nisky0+neighbors (pre calculated in Starter)
         LSKY = LCNE0
         SFSKY = 8*LCNE0
 C pxfem
@@ -375,7 +389,7 @@ C FSKY DMASS
         ELSE
            SFSKYD = 0
         ENDIF
-C   PROBINT egalement initialisee dans STARTER (lectur)
+C   Also initialized in Starter (Lectur)
         PROBINT=0.5
 
         LSKYI = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)
@@ -391,19 +405,19 @@ C  INDEX VECTOR
         SPROCNE  = LCNE0
         SPROCNE_PXFE  = LCNEPXFEM
         SPROCNE_CRKXFE  = LCNECRKXFEM
-C  si I2NSNT>0 (tableau addresse connectivite interface type 2)
+C  If I2S> 0 (Type 2 Connectivitis Interface Connectivitis Interface)
         IF (I2NSNT>0) THEN
            SADDCNI2 = NUMNOD+1
-C Rajout numnod pour index machine vectorielle
+C Add numnod for vector machine index
            IF(IVECTOR==1) SADDCNI2 = SADDCNI2 + NUMNOD
         ELSE
            SADDCNI2 = 0
         ENDIF
-C  LCNI2 tableau de connectivite
+C  LCNI2 connectivity array
         SPROCNI2 = LCNI2
         SIADSDP  = NSPMD+1
         SIADRCP  = NSPMD+1
-C IADS (correspond bien au NISKY0 : connections locales)
+C IADS (corresponds well to nisky0: local connections)
 C IADWAL : NSKYRW0
 C IADRBK : NSKYRBK0
 C IADI2  : NSKYI2
@@ -438,7 +452,6 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -512,39 +525,66 @@ C---------------------------------------------------------
 C     ANIMATION (vectors for CONTACT,INTERNAL FORCES, EXTERNAL FORCES)
 C     CUTS NOISE 
 C---------------------------------------------------------
-      SFANI = 3*NUMNOD*(
-     .                MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
-     .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
-     .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
-     .          + 6*(NSECT+NRBODY+NRWALL)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
-     .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
+!     SFANI = 3*NUMNOD*(
+!    .                MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
+!    .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
+!    .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
+!    .          + 6*(NSECT+NRBODY+NRWALL)
+!    .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
+!    .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
+!    .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
+      OUTPUT%DATA%S_FOPT = (NSECT + NRBODY + NRWALL)
+      allocate(OUTPUT%DATA%FOPT(6,NSECT + NRBODY + NRWALL+1))
+
+      OUTPUT%DATA%S_VECT_CONT =(MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT))
+      OUTPUT%DATA%S_VECT_FINT = (MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT))
+      OUTPUT%DATA%S_VECT_FEXT = (MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT))
+      OUTPUT%DATA%S_VECT_PCONT = (MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT))
+      OUTPUT%DATA%S_VECT_PCONT_2 =(MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT))
+
+      OUTPUT%DATA%S_VECT_CONT2 = (MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2))
+      OUTPUT%DATA%S_VECT_PCONT2 =(MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2))
+      OUTPUT%DATA%S_VECT_PCONT2_2 =(MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2))
+
 
       SXCUT = 7*NCUTS
-      SANIN = NUMNOD*( 
-     .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
-     .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
-     .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
-     .              + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) + 2*NUMNOD*MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
+!     SANIN = NUMNOD*( 
+!    .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
+!    .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
+!    .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+!    .              + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) 
+!    .              + 2*NUMNOD*MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
+      OUTPUT%DATA%S_SCAL_DT = (MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT))
+      OUTPUT%DATA%S_SCAL_DMAS = (MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS))
+      OUTPUT%DATA%S_SCAL_DINER = (MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+      OUTPUT%DATA%S_SCAL_DAMA2 = 2*(MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2))
+      OUTPUT%DATA%S_SCAL_SPRING = MAX(1,NUMELR)*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
+      SANIN = MAX(1,NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)))
+      CALl ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
       STANI = 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
+
+
 C
       SSECFCUM = 7*NUMNOD*NSECT*ISECUT
 C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
       !/H3D/ELEM/VORT,X,Y,Z
-      FANI_CELL%IS_VORT_X_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Y_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Z_REQUESTED = .FALSE.
-      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)FANI_CELL%IS_VORT_X_REQUESTED=.TRUE.
-      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)FANI_CELL%IS_VORT_Y_REQUESTED=.TRUE.
-      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)FANI_CELL%IS_VORT_Z_REQUESTED=.TRUE.
+      output%data%fani_cell%is_vort_x_requested = .FALSE.
+      output%data%fani_cell%is_vort_y_requested = .FALSE.
+      output%data%fani_cell%is_vort_z_requested = .FALSE.
+      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)
+     .  output%data%fani_cell%is_vort_x_requested=.TRUE.
+      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)
+     .  output%data%fani_cell%is_vort_y_requested=.TRUE.
+      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)
+     .  output%data%fani_cell%is_vort_z_requested=.TRUE.
 
       ! /H3D/ELEM/VECT/CONT
       ! INTER18 REACTION FORCES ON CELL CENTROIDS
-      FANI_CELL%IS_F18_FVM_REQUESTED = .FALSE.
-      IF(H3D_DATA%N_VECT_CONT == 1)FANI_CELL%IS_F18_FVM_REQUESTED = .TRUE.
+      output%data%fani_cell%is_f18_fvm_requested = .FALSE.
+      IF(H3D_DATA%N_VECT_CONT == 1)
+     .  output%data%fani_cell%is_f18_fvm_requested = .TRUE.
 
       M16STAK = 0
       IF(NUMELS16/=0)THEN
@@ -558,7 +598,7 @@ C
         M16STAK = MAX(M16STAK,(10*NIPMAX+15*NPE+3*NIPMAX*NPE)*MVSIZ)
       ENDIF
       NPSAV = NPSAV_OLD
-C     NPSAV remis a la bonne valeur dans rdresb
+C     NPSAV reset to the correct value in rdresb
       IF(NUMELS8A>0)THEN
         NIPMAX = 729
         M16STAK = MAX(M16STAK,12*NIPMAX*MVSIZ)
@@ -566,10 +606,10 @@ C     NPSAV remis a la bonne valeur dans rdresb
       SW16 = M16STAK * NTHREAD
       SICUT= 44*NCUTS     
 C---------------------------------------------------------
-C     tableaux spmd additionnels alloues dans ma en v40
+C     Additional SPMD arrays allocated in my in V40
 C---------------------------------------------------------
 C---------------------------------------------------------
-C     tableaux spmd additionnels alloues dans am en v40
+C     Additional SPMD arrays allocated in AM in V40
 C---------------------------------------------------------
       SDRETRIO = 5*NINTER
       SLBVRS = 21*NIBVEL

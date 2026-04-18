@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,8 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,J,II,IUS,IPT,ILAY,CPT_CS_DATA,INTER_ID
-        CHARACTER MES*80,CHINFO*10
+        INTEGER I, INTER_ID
 C-----------------------------------------------
         DO I=1,H3D_DATA%N_OUTP_H3D
           IF(H3D_DATA%OUTPUT_LIST(I)%OK == 1 )  THEN

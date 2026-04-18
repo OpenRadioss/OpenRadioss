@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -70,7 +71,7 @@ C     REAL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       REAL R4                                                           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)      
+C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
 C-----------------------------------------------                        
       NN1 = 1                                                           
       NN2 = 1                                                           
@@ -205,7 +206,7 @@ C-----------------------------------------------
 C                                                                       
           ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET                                    
+C       END OF LOOP ON OFFSETS
 C-----------------------------------------------                        
        ENDDO                                                            
  900  CONTINUE                                                          

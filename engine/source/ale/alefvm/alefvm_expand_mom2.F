@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_scheme        ../engine/source/ale/alefvm/alefvm_scheme.F
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod           ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALEFVM_EXPAND_MOM2 ( IXS, MOM, NEL )
 C-----------------------------------------------
@@ -41,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,9 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, K, NF_BORDER, NF_INTERNAL, ICF(4,6)
+      INTEGER :: I, II, K, ICF(4, 6)
       INTEGER :: IN(8)
-      my_real :: Qnode(3,8,MVSIZ),Qface(3,6,MVSIZ)
 
       DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 C-----------------------------------------------

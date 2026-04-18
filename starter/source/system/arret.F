@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initia                  ../starter/source/elements/initia/initia.F
 !||    law111_upd              ../starter/source/materials/mat/mat111/law111_upd.F
 !||    law69_upd               ../starter/source/materials/mat/mat069/law69_upd.F
-!||    law88_upd               ../starter/source/materials/mat/mat088/law88_upd.F
 !||    lecstack_ply            ../starter/source/properties/composite_options/stack/lecstack_ply.F
 !||    lectur                  ../starter/source/starter/lectur.F
 !||    m20dcod                 ../starter/source/system/fsdcod.F
@@ -71,9 +70,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sptri                   ../starter/source/elements/sph/sptri.F
 !||    t3grtails               ../starter/source/elements/solid_2d/tria/t3grtails.F
 !||    table_interp            ../starter/source/tools/curve/table_tools.F
+!||    table_mat_vinterp_c1    ../starter/source/materials/tools/table_mat_vinterp_c1.F90
 !||    table_vinterp           ../starter/source/tools/curve/table_tools.F
 !||    tribox3                 ../starter/stub/fvmbags_stub.F
 !||    tritri3                 ../starter/stub/fvmbags_stub.F
+!||    ush_init                ../starter/source/elements/elbuf_init/ush_init.F90
 !||    w_bufbric_22            ../starter/source/interfaces/inter3d1/w_bufbric_22.F
 !||    w_front                 ../starter/source/restart/ddsplit/w_front.F
 !||    w_intbuf_size           ../starter/source/restart/ddsplit/inter_tools.F
@@ -108,7 +109,7 @@ C-----------------------------------------------
 #endif
       N=NN
       !-------------------------!
-      !     ARRET DU CALCUL     !
+      !   STOPPING COMPUTATION  !
       !-------------------------!
       IF(N==2 .OR. N==3) THEN
         WRITE(ISTDO,1000)

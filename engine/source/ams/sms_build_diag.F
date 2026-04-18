@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,21 +102,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KN, IKN, JJ, KK, II, IJ, N, M, IX, KMV
-      INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4)
-      INTEGER MSR, NSN, KI, KJ, KL, NSR, LOC_PROC, NN, MAIN
+      INTEGER I, J, K, IJ, N, M, KMV
+      INTEGER ILOC4(4)
+      INTEGER NSN, LOC_PROC
       INTEGER K1, IC, ISMS,ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
      .        N2, N3, N4, N5, N6, N7
-      INTEGER SIZE, LENR, IAD, L, LLT, KAD, JI, 
-     .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS,
-     .        NINDXT
+      INTEGER SIZE, LENR, 
+     .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: NOD2ADD
       INTEGER,DIMENSION(:),ALLOCATABLE :: KADI_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: NADI_SMS
-      my_real
-     .        MELE4, MELE12, XN, LTIJ, MSLV,
-     .        IXX, IYY, IZZ, XX, YY, ZZ, MAS,
-     .        VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ
       DATA ILOC4/2,4,6,8/
 C-----------------------------------------------
       CALL MY_ALLOC(NOD2ADD,NUMNOD)
@@ -134,7 +129,7 @@ C
 C 
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! comm on 1st thread
           DO K=1,FR_RMS(NSPMD+1)-1
             I=LIST_RMS(K)
             IF(I==0)CYCLE
@@ -430,7 +425,7 @@ C
       IF(IDTMINS/=0)THEN
         IF(IPARIT==0.OR.DEBUG(9)==0)THEN
           DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
            DIAG_SMS(I)= ZERO
            DO IJ=JAD_SMS(I),JAD_SMS(I+1)-1
              DIAG_SMS(I)=DIAG_SMS(I)-LT_SMS(IJ)
@@ -438,7 +433,7 @@ C reset du passe
           END DO
         ELSE
           DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
            DIAG_SMS(I)= ZERO
           END DO
 C
@@ -460,7 +455,7 @@ C
 C
 C      /DT/INTER/AMS
        DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
         DIAG_SMS(I)= ZERO
        END DO
       END IF
@@ -483,7 +478,7 @@ C
 C 
           CALL MY_BARRIER()
 C
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
 
             LOC_PROC = ISPMD+1
             M = 1
@@ -515,7 +510,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C
@@ -563,7 +558,7 @@ C
             MV(KMV)=MSKYI_SMS(K)
           END DO
 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             CALL SPMD_MIJ_SMS(
      1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2       MSKYI_FI_SMS)
@@ -611,7 +606,7 @@ C
 C 
           CALL MY_BARRIER()
 C 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C
@@ -666,7 +661,7 @@ C
             MV(KMV)=MSKYI_SMS(K)
           END DO
 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             CALL SPMD_MIJ_SMS(
      1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2       MSKYI_FI_SMS)
@@ -705,7 +700,7 @@ C
 C 
           CALL MY_BARRIER()
 C 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C

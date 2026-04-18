@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,8 +92,8 @@ C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPT,NPTI,IGTYP,IPID,PID,ISK,IPANG,IPPHI,
-     . IIGEO,IADR,IPTHK,IPPOS,IPDIR,IMAT_LY,ILAW_LY,IPPID,IPMAT,ILAY,
-     . DEF_ORTH(MVSIZ),N1,N2,IRP,POS,NOD,IL,IT,NSLICE,IPT_ALL,NPTT,
+     . IPTHK,IPPOS,IPDIR,ILAW_LY,
+     . DEF_ORTH(MVSIZ),N1,N2,IRP,NOD,IL,IT,NSLICE,IPT_ALL,NPTT,
      . IE, IP,IPID_PLY,N3,N4
       my_real V(MVSIZ),E11,E12,E13,NE1,VX0,VY0,VZ0,
      .        XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ)

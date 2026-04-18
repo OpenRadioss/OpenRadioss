@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -157,41 +157,41 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1(MVSIZ),J2(MVSIZ),N,NINDX,NMAX,IADBUF,NFUNC,
+      INTEGER I, J, J1(MVSIZ), J2(MVSIZ), N, NINDX, NMAX, IADBUF, NFUNC, 
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        IAD3(MVSIZ),IPOS3(MVSIZ),ILEN3(MVSIZ),
      .        IAD4(MVSIZ),IPOS4(MVSIZ),ILEN4(MVSIZ),
-     .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(MVSIZ,100),NRATEM,
-     .        NRATE1,IFUNC1(100),IADBUFV(MVSIZ),NFUNCV(MVSIZ),
-     .        NFUNCM, J3(MVSIZ), J4(MVSIZ), NN, INDEX1,MOPTE,MEINF,MCE,IFUNCE
+     . JJ(MVSIZ),INDEX(MVSIZ),
+     . NRATE1,IFUNC1(100),
+     . J3(MVSIZ), J4(MVSIZ),IFUNCE
       my_real 
      .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,4),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
-     .        YFAC(MVSIZ,4),NNU1(MVSIZ),NU1(MVSIZ),
-     .        NU2(MVSIZ),NU3(MVSIZ),NU4(MVSIZ),NU5(MVSIZ),NU6(MVSIZ),
+     . YFAC(MVSIZ,4),
+     .
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
-     .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),SVMO(MVSIZ),H(MVSIZ),
-     .        EPSMAX(MVSIZ),EPSR1(MVSIZ),EPSR2(MVSIZ),FISOKIN(MVSIZ),
+     . PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),
+     .
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
-     .        HK(MVSIZ),NU(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
-     .        DYDX3(MVSIZ),DYDX4(MVSIZ),EINF(MVSIZ),
-     .        CE(MVSIZ),ESCALE(MVSIZ),E0(MVSIZ),DYDXE(MVSIZ)
+     . HK(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
+     . DYDX3(MVSIZ),DYDX4(MVSIZ),
+     . ESCALE(MVSIZ),DYDXE(MVSIZ)
       my_real
-     .        R,UMR,A,B,C,AMU,S11,S22,S12,P,P2,FAC,DEZZ,
-     .        SIGZ,S1,S2,S3,DPLA,VM2,EPST,NNU2,CE1, EINF1,
-     .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
+     . R,UMR,A,B,C,S11,S22,S12,P,P2,FAC,DEZZ,
+     . SIGZ,S1,S2,S3,VM2,EPST,NNU2,CE1, EINF1,
+     . F,DF,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
      .        ALPHA,
      .        E1,A11,A21,G1,G31,NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
      .        EPSMAX1,EPSR11,EPSR21,FISOKIN1,
      .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX, X(MVSIZ)
       my_real
-     .        ME, MA1, MA2, MG, MNU,
-     .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN, 
+     .
+     .
      .        Y11(MVSIZ), Y22(MVSIZ), Y33(MVSIZ), Y44(MVSIZ), Y(MVSIZ),YP(MVSIZ),
      .        X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ)
-      INTEGER JST(MVSIZ+1), IC, MNRATE, OPTE1,OPTE(MVSIZ)
+      INTEGER OPTE1
 C
       DATA NMAX/3/
 C-----------------------------------------------
@@ -588,7 +588,7 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1)==0)THEN
-C projection radiale 
+C radial projection 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -612,7 +612,7 @@ C projection radiale
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -693,10 +693,10 @@ C------------------------------------------
          ENDIF
 C-------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P
@@ -802,8 +802,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   Q, D, R, S, SP, C2, DM, SM, C1, C6, C4, C3, C3D, C5,
-     .   A1, A0, A2, T, Y11
+     .   Q, D, R, S, SP, C2, DM, SM, C1, C6, C4, C3, C3D, C5
 C
       Q = X-X1
       D = X2-X1

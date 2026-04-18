@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -221,12 +221,12 @@ c SLPRTSPH_L is already set to SLPRTSPH
          LPRTSPH_L((IPRT-1)*2+2+2)=SUIVSPH_L
         ENDDO
 
-c on passe IBUFSSG_IO en local
+c we pass ibufssg_io locally
         DO I = 1, SIBUFSSG_IO   
           IBUFSSG_IO_L(I) = NODLOCAL(IBUFSSG_IO(I))
         ENDDO    
 
-c on passe ISPHIO en local pour les outlet definies par noeuds
+c ISPHIO is set locally for outlets defined by nodes
         DO I = 1, NSPHIO
           DO N=1,NISPHIO
             ISPHIO_L(NISPHIO*(I-1)+N) = ISPHIO(NISPHIO*(I-1)+N)

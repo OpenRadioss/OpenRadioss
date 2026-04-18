@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    czforc3            ../engine/source/elements/shell/coquez/czforc3.F
 !||--- calls      -----------------------------------------------------
 !||    double_flot_ieee   ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3F(JFT   ,JLT  ,I8F   ,I8M   ,NVC    ,
      2                  OFFG   ,OFF  ,STI   ,STIR  ,I8STIFN,
@@ -38,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  M14    ,M21  ,M22   ,M23   ,M24    ,
      8                  M31    ,M32  ,M33   ,M34   ,EINT   ,
      9                  PARTSAV,MAT  ,IPARTC,NODADT_THERM)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,10 +82,10 @@ C-----------------------------------------------
      .  I8M21(3,MVSIZ), I8M22(3,MVSIZ), I8M23(3,MVSIZ), I8M24(3,MVSIZ),
      .  I8M31(3,MVSIZ), I8M32(3,MVSIZ), I8M33(3,MVSIZ), I8M34(3,MVSIZ)
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,N,MX,MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, N
       my_real OFF_L
 C=======================================================================
-C cumul de l'energie des elements deletes AU moment du delete
+C cumulative energy of deleted elements at the moment of deletion
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<1.)OFFG(I) = OFF(I)
@@ -501,9 +504,11 @@ C
       END
 C
 !||====================================================================
-!||    cupdt3   ../engine/source/elements/shell/coque/cupdt3.F
+!||    cupdt3        ../engine/source/elements/shell/coque/cupdt3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3(JFT  ,JLT  ,F      ,M    ,NVC  ,
      2                  OFFG ,OFF  ,STI    ,STIR ,STIFN,
@@ -515,6 +520,7 @@ C
      8                  M31  ,M32  ,M33    ,M34  ,EINT ,
      9                  PARTSAV,MAT,IPARTC ,JTHE  ,THEM   ,
      A                  FTHE ,CONDN,CONDE,NODADT_THERM)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -549,12 +555,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,MX, MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I
       my_real
-     .   OFF_L,CF(MVSIZ)
+     .   OFF_L
 C=======================================================================
 C
-C cumul de l'energie des elements deletes AU moment du delete
+C cumulative energy of deleted elements at the moment of deletion
       OFF_L = ZERO
       DO I=JFT,JLT
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)
@@ -951,9 +957,11 @@ C
       END
 C
 !||====================================================================
-!||    cupdt3p   ../engine/source/elements/shell/coque/cupdt3.F
+!||    cupdt3p       ../engine/source/elements/shell/coque/cupdt3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3P(JFT  ,JLT    ,OFFG   ,OFF   ,STI  ,
      2                   STIR ,FSKY   ,FSKYV  ,IADC  ,IXC  ,
@@ -965,6 +973,7 @@ C
      8                   EINT ,PARTSAV,MAT    ,IPARTC,PM   ,
      9                   AREA ,THK    ,JTHE   ,THEM,FTHESKY,
      A                   CONDNSKY,CONDE,NODADT_THERM)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1002,10 +1011,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K, J,MX,MT
+      INTEGER I, K
       my_real OFF_L
 C=======================================================================
-C cumul de l'energie des elements deletes AU moment du delete
+C cumulative energy of deleted elements at the moment of deletion
       OFF_L = ZERO
       DO I=JFT,JLT
         IF (OFF(I) < ONE) OFFG(I) = OFF(I)

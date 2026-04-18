@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD          
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -142,7 +143,7 @@ C---------------------------------------
       ENDDO
 
       !------------------------------------------
-      !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
+      ! multimaterials filling percentage
       !------------------------------------------
       CALL BIMAT2(GBUF%VOL, LBUF%FRAC, FILL(1,1), LBUF%VOL, LBUF%OFF, IXQ(1,NF1))
       !----------------------------------------
@@ -156,15 +157,15 @@ C---------------------------------------
      .            MAT    ,IPM    ,NSIGS  ,NUMQUAD   ,PTQUAD ,
      .            IP     ,NGL    ,NPF    ,TF        ,BUFMAT ,
      .            GBUF   ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX,TEMPEL )
+     .            FACLOAD, DELTAX,TEMPEL ,MAT_PARAM )
       !----------------------------------------
-      !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+      ! initialization of thermal and turbulence
       !----------------------------------------
       IF(JTHE/=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
       IF(JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
-      !     INITIALISATION DE LA MATRICE DE MASSE
+      ! initialization of the mass matrix
       !------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV, 
@@ -183,7 +184,7 @@ C---------------------------------------
         MAT(I)=MAT_PARAM(IABS(IXQ(1,NFT+I)))%MULTIMAT%MID(JMULT)
       ENDDO
       !------------------------------------------
-      !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
+      ! multimaterials filling percentage
       !------------------------------------------
       CALL BIMAT2( GBUF%VOL, LBUF%FRAC, FILL(1,2), LBUF%VOL, LBUF%OFF, IXQ(1,NF1) )
       !----------------------------------------
@@ -197,15 +198,15 @@ C---------------------------------------
      .            MAT    , IPM               ,NSIGS     ,NUMQUAD   ,PTQUAD ,
      .            IP     , NGL               ,NPF       ,TF        ,BUFMAT ,
      .            GBUF   , LBUF              ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX,TEMPEL )
+     .            FACLOAD, DELTAX,TEMPEL     ,MAT_PARAM )
       !----------------------------------------
-      !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+      ! initialization of thermal and turbulence
       !----------------------------------------
       IF (JTHE/=0) CALL ATHERI(MAT,PM, LBUF%TEMP)
       IF (JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
-      !     INITIALISATION DE LA MATRICE DE MASSE
+      ! initialization of the mass matrix
       !------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2B(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,

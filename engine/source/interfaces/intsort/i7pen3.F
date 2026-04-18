@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,I3N
+      INTEGER I,I3N
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ), GAP2(MVSIZ),
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
@@ -76,11 +76,11 @@ C-----------------------------------------------
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     DTI, S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .      S2,D1,D2,D3,D4,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
-     .     LA, HLA, AAA, ZONEINF, ZONEINF2
+     .     LA, HLA, AAA, ZONEINF
 C-----------------------------------------------
 c GAPV(I)=GAP+CURV_MAX(CAND_E(I))
       DO I = 1, JLT
@@ -99,7 +99,7 @@ C  0 QUAD, 1 TRI ,2 MIXTE
         I3N=2
       ENDIF
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE QUADRANGLE
+C  only for quadrangle packet
 C--------------------------------------------------------
       IF(I3N==0) THEN
        DO I=1,JLT
@@ -108,7 +108,7 @@ C--------------------------------------------------------
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       ELSEIF(I3N==2) THEN
        DO I=1,JLT
@@ -124,7 +124,7 @@ C--------------------------------------------------------
        ENDDO
       ENDIF
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle packet
 C--------------------------------------------------------
       IF(I3N==1) THEN
        DO I=1,JLT
@@ -206,13 +206,13 @@ C
        NZ1(I) = ZI(I)-(Z3(I) + LB1(I)*Z01(I) + LC1(I)*Z02(I))
        P1(I) = NX1(I)*NX1(I) + NY1(I)*NY1(I) +NZ1(I)*NZ1(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        PENE(I) = MAX(ZERO, GAP2(I) - P1(I))
 C
       ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed or quadrangle packets
 C--------------------------------------------------------
       ELSE
 C
@@ -447,7 +447,7 @@ C
         P4(I) = NX4(I)*NX4(I) + NY4(I)*NY4(I) +NZ4(I)*NZ4(I)
         D4 = MAX(ZERO, GAP2(I) - P4(I))
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
         PENE(I) = MAX(D1,D2,D3,D4)
 C

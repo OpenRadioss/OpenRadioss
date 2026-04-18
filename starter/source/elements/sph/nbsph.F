@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
       USE MESSAGE_MOD
 C----------------------------------------------------------
-C     Format par BLOCS.
+C     block format
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C
       CALL HM_OPTION_COUNT('/SPH/INOUT',NSPHIO)
 c
 c NSPHRES (number of SPH reserve for inlet) for each proc
-c in order to assure an suffisant number of reserve for inlet in SPMD
+c in order to assure a sufficient number of reserve for inlet in SPMD
       NSPHRES = NSPHRES*MAX(1,NSPMD)
 
       IF (NBPARTINLET > 0 .AND. NSPHRES == 0) THEN

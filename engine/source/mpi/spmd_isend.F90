@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_reals
@@ -94,7 +94,7 @@
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_ints
@@ -124,7 +124,7 @@
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_doubles
@@ -154,7 +154,7 @@
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_double
@@ -184,7 +184,7 @@
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_int
@@ -214,7 +214,7 @@
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_real

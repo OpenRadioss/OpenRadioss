@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,10 +57,10 @@ C
             VELTMP2(4,J) = ZERO
          ENDDO        
          DO J = 1, NPLYMAX
-C deplacement
+C displacement
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
-C vitesse
+C velocity
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
 cc            CALL WRITE_DB(VELTMP2,4*NNODPXFE_L)

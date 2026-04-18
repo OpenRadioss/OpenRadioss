@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,23 +21,32 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_biquad_c   ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_c           ../engine/source/materials/fail/biquad/fail_biquad_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
+!||    finter                  ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      SUBROUTINE FAIL_BIQUAD_C(
+      SUBROUTINE FAIL_BIQUAD_C(FAIL ,
      1           NEL      ,NUVAR    ,
-     2           TIME     ,UPARAM   ,NGL      ,IPT      ,NPTOT    ,
+     2           TIME     ,NGL      ,IPT      ,NPTOT    ,
      3           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4           DPLA     ,UVAR     ,UEL1     ,
      5           OFF      ,OFFL     ,DFMAX    ,TDEL     ,NFUNC    ,
      6           IFUNC    ,NPF      ,TF       ,ALDT     ,FOFF     ,
      7           IPG      ,DMG_FLAG ,DMGSCL   )
 C-----------------------------------------------
-C    Biquadratic failure model
+C    Biquadratic failure model for shells
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +92,9 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUVAR,IPT,NPTOT,NFUNC,IPG
       INTEGER NGL(NEL),IFUNC(NFUNC)
-      my_real TIME,UPARAM(*),DPLA(NEL),UEL1(NEL),ALDT(NEL)
+      my_real TIME,DPLA(NEL),UEL1(NEL),ALDT(NEL)
       INTEGER, INTENT(INOUT) :: DMG_FLAG
+      type (fail_param_) ,target ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -110,80 +120,95 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       my_real hydros, vmises, triaxs,REF_EL_LEN
-       INTEGER I,J,L,NINDX1,NINDX2,FLAG_PERTURB,SEL
-       INTEGER FAIL_COUNT,IT,ICOUP
+       my_real pressure, svm, triax,REF_EL_LEN
+       INTEGER I,J,NINDX1,NINDX2,FLAG_PERTURB,SFLAG
+       INTEGER IREG
+       INTEGER ICOUP
        INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
-
+       INTEGER, DIMENSION(NEL,1) :: IPOS
+       my_real  ,DIMENSION(NEL)   :: REG_FAC,regf_eta,DERI
+       my_real  ,DIMENSION(NEL,1) :: ETA
        my_real  X_1(3) , X_2(3),c3,DYDX,DC(NEL)
        my_real  EPS_FAIL, EPS_FAIL2, DAMAGE, INST, DCRIT, EXP
-       my_real  P1X,P1Y,S1X,S1Y,S2Y, A1, A2, B1, B2, C1, C2,FAC,LAMBDA
+       my_real  P1X,P1Y,S1X,S1Y,S2Y, A1, A2, B1, B2, C1, C2,LAMBDA
 C-----------------------------------------------
 c! UVAR1 = damage due to instability (triax between 1/3 and 2/3)
 c! UVAR2 = actual integration point ON or OFF
 c! UVAR3-8 = perturbated parameter
-c! UVAR3 (if perturbation is not used) or UVAR9 (if used) = initial element length and then scale factor
+c! UVAR3 (if perturbation is not used) or UVAR9 (if used) = element length scale factor
 C-----------------------------------------------
-       X_1(1)       = UPARAM(1)
-       X_1(2)       = UPARAM(2)
-       X_1(3)       = UPARAM(3)
-       X_2(1)       = UPARAM(4)
-       X_2(2)       = UPARAM(5)
-       X_2(3)       = UPARAM(6)
-       FLAG_PERTURB = UPARAM(8)
-       c3           = UPARAM(9)
-       L            = INT(UPARAM(10)+0.0001)
-       SEL          = INT(UPARAM(11)+0.0001)
-       INST         = UPARAM(12)
-       REF_EL_LEN   = UPARAM(13)
+       IREG    = FAIL%IPARAM(1)
+       SFLAG   = FAIL%IPARAM(3)
+       ICOUP   = FAIL%IPARAM(4)
+!
+       X_1(1)       = FAIL%UPARAM(1)
+       X_1(2)       = FAIL%UPARAM(2)
+       X_1(3)       = FAIL%UPARAM(3)
+       X_2(1)       = FAIL%UPARAM(4)
+       X_2(2)       = FAIL%UPARAM(5)
+       X_2(3)       = FAIL%UPARAM(6)
+       FLAG_PERTURB = NINT(FAIL%UPARAM(8))
+       c3           = FAIL%UPARAM(9)
+       INST         = FAIL%UPARAM(12)
+       REF_EL_LEN   = FAIL%UPARAM(13)
        NINDX1       = 0  
        NINDX2       = 0
        EPS_FAIL     = ZERO
        EPS_FAIL2    = ZERO
-       ICOUP        = NINT(UPARAM(14))
-       DCRIT        = UPARAM(15)
-       EXP          = UPARAM(16)
-C
-C!  Initialization
-       IF (NFUNC > 0) THEN 
+       DCRIT        = FAIL%UPARAM(15)
+       EXP          = FAIL%UPARAM(16)
+!---------------------------------------------------------------------------
+!      Element size scale factor on failure plastic strain
+!---------------------------------------------------------------------------
+       IF (IREG > 0) THEN 
          IF (NUVAR == 3) THEN 
            IF (UVAR(1,3)==ZERO) THEN 
              DO I=1,NEL
-               UVAR(I,3) = ALDT(I) 
-               LAMBDA = UVAR(I,3) / REF_EL_LEN
-               FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
-               UVAR(I,3) = FAC
+               LAMBDA    = ALDT(I) / REF_EL_LEN
+               UVAR(I,3) = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
              ENDDO
            ENDIF
+           REG_FAC(1:NEL) = UVAR(1:NEL,3)
          ELSEIF (NUVAR == 9) THEN 
            IF (UVAR(1,9)==ZERO) THEN 
              DO I=1,NEL
-               UVAR(I,9) = ALDT(I) 
-               LAMBDA = UVAR(I,9) / REF_EL_LEN
-               FAC = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
-               UVAR(I,9) = FAC
+               LAMBDA    = ALDT(I) / REF_EL_LEN
+               UVAR(I,9) = FINTER(IFUNC(1),LAMBDA,NPF,TF,DYDX) 
              ENDDO
            ENDIF
+           REG_FAC(1:NEL) = UVAR(1:NEL,9)
          ENDIF
        ENDIF
-C-----------------------------------------------
+       ! calculate triaxiality
+         do i=1,nel
+           pressure = (signxx(I)+ signyy(I)) * third
+           svm      = sqrt((signxx(I)**2)+(signyy(I)**2)-(signxx(I)*signyy(I))+(THREE*SIGNXY(I)**2))
+           triax    = pressure / max(em20,svm)
+           eta(i,1) = triax
+         end do
+!
+       IF (IREG > 1) THEN
+         ! calculate scaling factor on failure limits depending on triaxiality
+         ipos(1:nel,1) = 1
+         call table_mat_vinterp(fail%table4d(1),nel,nel,ipos,eta,regf_eta,deri)
+         reg_fac(1:nel) = (one - regf_eta(1:nel)) + regf_eta(1:nel)*reg_fac(1:nel)
+       END IF
+!---------------------------------------------------------------------------
        IF(FLAG_PERTURB == 0) THEN
          DO I =1,NEL
            IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1 ) THEN
-             hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
-             vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
-             triaxs = hydros / MAX(EM20,vmises)
+             triax = eta(i,1)
              DAMAGE = UVAR(I,1)
-             IF (triaxs <= THIRD) THEN     ! triax < 1/3
-               EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
-               IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+             IF (triax <= THIRD) THEN     ! triax < 1/3
+               EPS_FAIL =   X_1(1) +  X_1(2) * triax + X_1(3) * triax**2
+               IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
              ELSE                          ! triax > 1/3
-              SELECT CASE (SEL)
+              SELECT CASE (SFLAG)
                CASE(1)
-                 EPS_FAIL   =   X_2(1) +  X_2(2) * triaxs + X_2(3) * triaxs**2
-                 IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                 EPS_FAIL   =   X_2(1) +  X_2(2) * triax + X_2(3) * triax**2
+                 IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                CASE(2)
-                 IF (triaxs <= ONE/SQR3) THEN                     ! triax < 0.57735
+                 IF (triax <= ONE/SQR3) THEN                     ! triax < 0.57735
                    P1X      = THIRD
                    P1Y      = X_1(1) + X_1(2) * P1X + X_1(3) * P1X**2
                    S1X      = ONE/SQR3
@@ -191,8 +216,8 @@ C-----------------------------------------------
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                  ELSE                                             ! triax > 0.57735
                    P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
@@ -201,11 +226,11 @@ C-----------------------------------------------
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                  ENDIF
                CASE(3)
-                 IF (triaxs <= ONE/SQR3) THEN                       ! triax < 0.57735
+                 IF (triax <= ONE/SQR3) THEN                       ! triax < 0.57735
                    P1X      = THIRD
                    P1Y      = X_1(1) + X_1(2) * P1X + X_1(3) * P1X**2
                    S1X      = ONE/SQR3
@@ -217,10 +242,10 @@ C-----------------------------------------------
                    B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-                   EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2   ! INSTABILITY
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
+                   EPS_FAIL2 = C2 + B2 * triax + A2 * triax**2   ! INSTABILITY
+                   IF (IREG > 0) EPS_FAIL2 = EPS_FAIL2 * REG_FAC(I)
                  ELSE                          ! triax > 0.57735
                    P1X      = TWO * THIRD
                    P1Y      = X_2(1) + X_2(2) * P1X + X_2(3) * P1X**2
@@ -233,10 +258,10 @@ C-----------------------------------------------
                    B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,3)
-                   EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2   ! INSTABILITY
-                   IF ((NUVAR == 3).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,3)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
+                   EPS_FAIL2 = C2 + B2 * triax + A2 * triax**2   ! INSTABILITY
+                   IF (IREG > 0) EPS_FAIL2 = EPS_FAIL2 * REG_FAC(I)
                  ENDIF
                  IF (EPS_FAIL2> ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
@@ -278,20 +303,18 @@ C-----------------------------------------------
        ELSEIF(FLAG_PERTURB == 1) THEN
          DO I =1,NEL
            IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1 ) THEN
-           hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
-           vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
-           triaxs = hydros / MAX(EM20,vmises)
-           DAMAGE = UVAR(I,1)
-             IF (triaxs <= THIRD) THEN
-             EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triaxs + UVAR(I,5) * triaxs**2
-             IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+             triax  = eta(i,1)
+             DAMAGE = UVAR(I,1)
+             IF (triax <= THIRD) THEN
+               EPS_FAIL =   UVAR(I,3) +  UVAR(I,4) * triax + UVAR(I,5) * triax**2
+               IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
              ELSE           ! triax > 1/3
-             SELECT CASE (SEL)
+             SELECT CASE (SFLAG)
                CASE(1)
-              EPS_FAIL =   UVAR(I,6) +  UVAR(I,7) * triaxs + UVAR(I,8) * triaxs**2
-                IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                EPS_FAIL = UVAR(I,6) +  UVAR(I,7) * triax + UVAR(I,8) * triax**2
+                IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                CASE(2)
-                 IF (triaxs <= ONE/SQR3) THEN
+                 IF (triax <= ONE/SQR3) THEN
                    P1X      = THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
                    S1X      = ONE/SQR3
@@ -299,8 +322,8 @@ C-----------------------------------------------
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                  ELSE 
                    P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
@@ -309,11 +332,11 @@ C-----------------------------------------------
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
                    C1       = A1 * S1X**2 + S1Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
                  ENDIF
                CASE(3)
-                 IF (triaxs <= ONE/SQR3) THEN
+                 IF (triax <= ONE/SQR3) THEN
                    P1X      = THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
                    S1X      = ONE/SQR3
@@ -325,10 +348,10 @@ C-----------------------------------------------
                    B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
-                   EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
+                   EPS_FAIL = C1 + B1 * triax + A1 * triax**2
+                   IF (IREG > 0) EPS_FAIL = EPS_FAIL * REG_FAC(I)
+                   EPS_FAIL2 = C2 + B2 * triax + A2 * triax**2
+                   IF (IREG > 0) EPS_FAIL2 = EPS_FAIL2 * REG_FAC(I)
                  ELSE 
                    P1X      = TWO * THIRD
                    P1Y      = UVAR(I,3) + UVAR(I,4) * P1X + UVAR(I,5) * P1X**2
@@ -341,12 +364,12 @@ C-----------------------------------------------
                    B2       = -TWO * A2 * S1X
                    C1       = A1 * S1X**2 + S1Y 
                    C2       = A2 * S1X**2 + S2Y 
-                   EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL = EPS_FAIL * UVAR(I,9)
-                   EPS_FAIL2 = C2 + B2 * triaxs + A2 * triaxs**2
-                   IF ((NUVAR == 9).AND.(NFUNC > 0)) EPS_FAIL2 = EPS_FAIL2 * UVAR(I,9)
+                   EPS_FAIL =  C1 + B1 * triax + A1 * triax**2
+                   EPS_FAIL2 = C2 + B2 * triax + A2 * triax**2
+                   IF (IREG > 0) EPS_FAIL  = EPS_FAIL  * REG_FAC(I)
+                   IF (IREG > 0) EPS_FAIL2 = EPS_FAIL2 * REG_FAC(I)
                  ENDIF
-                 IF (EPS_FAIL2> ZERO) THEN
+                 IF (EPS_FAIL2 > ZERO) THEN
                    DAMAGE = DAMAGE + DPLA(I)/EPS_FAIL2
                    DAMAGE = MIN(ONE,DAMAGE)
                    UVAR(I,1) = DAMAGE

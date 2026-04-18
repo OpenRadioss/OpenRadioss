@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,8 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SIZ_ECRAN, SIZ_DETCORD
-      INTEGER I,J,K,ID,USER_ID,INTERNAL_ID,NN,STAT
+      INTEGER K, ID, USER_ID, INTERNAL_ID
       INTEGER NNOD_DETCORD, NNOD_WAV_SHA,NUM
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
       CHARACTER(LEN=NCHARTITLE) :: TITR

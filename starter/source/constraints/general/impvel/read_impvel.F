@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ,NN,IVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,SENS_ID,
+      INTEGER J,JJ,NN,IVEL,IDIS,INOD,NODID,NOSKEW,NOFRAME,SENS_ID,
      .   OPTID,SYS_TYPE,UID,FCT_ID,SKEW_ID,FRAME_ID,GRN,IGS,LEN,
      .   ILAGM,FGEO,ICOOR,IUNIT,FLAGUNIT,SUBID,NOSUB,NN_FM(3)
       INTEGER ,DIMENSION(NFXVEL)   :: NODENUM
@@ -265,7 +265,7 @@ c--------------------------------------------------
           IBFVEL(3 ,INUM) = FCT_ID
           IBFVEL(4 ,INUM) = SENS_ID
           IBFVEL(5 ,INUM) = 0
-          IBFVEL(6 ,INUM) = 0  ! init dans lecrby (si vitesse de rotation sur main)
+          IBFVEL(6 ,INUM) = 0  ! initialization in lecrby (if rotation velocity on main)
           IBFVEL(7 ,INUM) = IDIS
           IBFVEL(8 ,INUM) = ILAGM
           IBFVEL(9 ,INUM) = NOFRAME
@@ -374,13 +374,6 @@ c--------------------------------------------------
      .'            START_TIME                 STOP_TIME',
      .'         COORDINATE SYSTEM')
 c--------------------------------------------------
- 2000 FORMAT(//
-     .'     IMPOSED VELOCITIES BY LAGRANGE MULTIPLIERS  '/
-     .'     ------------------------------------------  '/
-     .'         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE',
-     .'       SENSOR            FSCALE                ASCALE',
-     .'            START_TIME                 STOP_TIME',
-     .'         COORDINATE SYSTEM')
  3000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,
      .       2X,1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13,16X,I10)
  4000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,

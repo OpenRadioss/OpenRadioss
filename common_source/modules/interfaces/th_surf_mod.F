@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,8 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemain                   ../engine/source/ale/alemain.F
 !||    dyna_ina                  ../engine/source/implicit/imp_dyna.F
 !||    dyna_wex                  ../engine/source/implicit/imp_dyna.F
-!||    ebcs10                    ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                    ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs10_nrf                ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant         ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs12_cyclic             ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
+!||    ebcs8_inlet               ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_main                 ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    force                     ../engine/source/loads/general/force.F90
 !||    force_imp                 ../engine/source/loads/general/force_imp.F
@@ -41,7 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_ebcs                ../engine/source/multifluid/multi_ebcs.F
 !||    multi_inlet_ebcs          ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_nrf_ebcs            ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propellant_ebcs     ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution       ../engine/source/multifluid/multi_timeevolution.F
 !||    pblast_1                  ../engine/source/loads/pblast/pblast_1.F
 !||    pblast_2                  ../engine/source/loads/pblast/pblast_2.F
@@ -108,7 +109,7 @@ C---------------------------------------------
 !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
 !||    wrrestp                ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE THSURF_WRITE_RESTART(TH_SURF,IFLAG)
 
@@ -167,7 +168,7 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    rdresb                ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||====================================================================

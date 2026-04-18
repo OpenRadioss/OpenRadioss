@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DT1LAW(PM,GEO,PID, MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEM. DES LOIS 1,2,22
+C     CALCULATION OF DT ELEM. OF LAWS 1,2,22
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,14 +68,14 @@ C=======================================================================
       END DO
       
 C-----------------------------
-C     CALCUL DE VITESSE DU SON
+C     CALCULATION OF SOUND VELOCITY
 C-----------------------------
       DO I=LFT,LLT
          SSP(I)=SQRT((FOUR_OVER_3*G(I)+C1(I))/RHO0(I))
       END DO
       
 C----------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY DT
 C----------------------------------
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,7 +56,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR, MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,
+     .        SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
@@ -86,7 +86,7 @@ C-----------------------------------------------
       IAD_SEND(1) = 1
 C
       DO I=1,NSPMD
-C preparation envoi  partie fixe (elem) a proc I
+C Prepare to send fixed part (elem) to proc I
 #include  "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
@@ -103,7 +103,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -118,7 +118,7 @@ C
 C decompactage
 C
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)

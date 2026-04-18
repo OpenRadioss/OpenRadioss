@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r8sumg3        ../engine/source/elements/spring/r8sumg3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R8KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                 GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,
@@ -44,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,12 +82,12 @@ C-----------------------------------------------
      .    R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .    R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),AL0(MVSIZ),AL(3,MVSIZ)
       INTEGER  PID(MVSIZ),NGL(MVSIZ)
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB9, NB10,
-     .   NB11, NB2A, NB2B, NB4A, NB4B, NB5A, NB5B, NB6A, NB6B, NB7A,
-     .   NB7B, NB8A, NB8B, NB9A, NB9B, NB10A, NB10B, NB11A, NB11B,
-     .   NB12, NB12A, NB12B, NB13, NB13A, NB13B, NB14, NEL3, NEL4,
-     .   NB15, NB15A, NB15B, NB15C, NB15D, NB15E, NB15F, NB16,
-     .   NB8C, NB8D,NBFI,IGTYP,I0,I,II(3)
+      INTEGER         
+     .            
+     .       
+     .           
+     .          
+     .    I,II(3)
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
@@ -114,7 +116,7 @@ C
      6             GBUF%POSX,GBUF%POSY,GBUF%POSZ,GBUF%POSXX,GBUF%POSYY,
      7             GBUF%POSZZ,IGEO  )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R8SUMG3 (JFT    ,JLT     ,KX      ,KY     ,KZ     ,
      2              MX     ,MY      ,MZ      ,R11    ,R12    ,
@@ -173,7 +175,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .   SCAL,ALX,ALY,ALZ,SX,SY,SZ,S1,S2
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -118,7 +118,7 @@
           do n=1,nrwall
             allocate( constraint_struct%rwall%spmd(n)%m_proc_list(nspmd) )
             constraint_struct%rwall%spmd(n)%m_proc_list(1:nspmd) = 0
-          enddo
+          end do
           ! ------------
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@
           ! ------------
           do n=1,nrwall
             deallocate( constraint_struct%rwall%spmd(n)%m_proc_list )
-          enddo
+          end do
           ! ------------
           deallocate( constraint_struct%rwall%spmd )
 

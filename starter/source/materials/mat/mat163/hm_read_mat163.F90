@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,7 +90,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: tab_id,ncycle,nrs,ierr
+          integer :: tab_id,ncycle,nrs
           real(kind=WP) :: rho0,shear,young,nu,bulk,tsc,damp,srclmt,lam,cii,cij,       &
             x1scale,x2scale,x3scale,x4scale,x2vect(1),x3vect(1),x4vect(1),       &
             fscale(1)
@@ -104,31 +104,31 @@
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Density
-          call hm_get_floatv('MAT_RHO'      ,rho0   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"      ,rho0   ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< 1st line of material card
-          call hm_get_floatv('MAT_E'       ,young  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_NU'      ,nu     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSDYNA_TSC'  ,tsc    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_DAMP',damp   ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('LSD_NCYCLE'  ,ncycle ,is_available, lsubmodel)
+          call hm_get_floatv("MAT_E"       ,young  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_NU"      ,nu     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSDYNA_TSC"  ,tsc    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_DAMP",damp   ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LSD_NCYCLE"  ,ncycle ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< 2nd line of material card
-          call hm_get_intv  ('LSD_TID'   ,tab_id   ,is_available, lsubmodel)
-          call hm_get_floatv('EPSD_REF'  ,x2vect(1),is_available, lsubmodel, unitab)
-          call hm_get_floatv('FSCALE'    ,fscale(1),is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_SRCLMT',srclmt   ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('NRSFlag'   ,nrs      ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_TID"   ,tab_id   ,is_available, lsubmodel)
+          call hm_get_floatv("EPSD_REF"  ,x2vect(1),is_available, lsubmodel, unitab)
+          call hm_get_floatv("FSCALE"    ,fscale(1),is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_SRCLMT",srclmt   ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("NRSFlag"   ,nrs      ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           !< Reference strain rate
           if (x2vect(1) == zero) then
-            call hm_get_floatv_dim('EPSD_REF',x2vect(1),is_available,lsubmodel,unitab)
-          endif
+            call hm_get_floatv_dim("EPSD_REF",x2vect(1),is_available,lsubmodel,unitab)
+          end if
           !< Scale factor
           if (fscale(1) == zero) then
-            call hm_get_floatv_dim('FSCALE',fscale(1),is_available,lsubmodel,unitab)
-          endif
+            call hm_get_floatv_dim("FSCALE",fscale(1),is_available,lsubmodel,unitab)
+          end if
           !< Shear modulus
           shear = young/(two*(one+nu))
           bulk  = young/(three*(one - two*nu))
@@ -186,7 +186,7 @@
           x4vect(1) = zero
           call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
             x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-            ntable   ,table    ,ierr     )
+            ntable   ,table    ,ilaw     )
 !
           !< PARMAT table
           parmat(1)  = bulk
@@ -222,41 +222,41 @@
           write(iout,1001) trim(titr),mat_id,ilaw
           write(iout,1000)
           if (is_encrypted)then
-            write(iout,'(5X,A,//)') 'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1002) rho0
             write(iout,1003) young,nu
             write(iout,1004) tsc,damp,ncycle,tab_id,x2vect(1),fscale(1),srclmt,nrs
-          endif
+          end if
 !
 1000      format(/                                                                 &
-            5X,'-------------------------------------------------------',/          &
-            5X,'           MATERIAL MODEL: CRUSHABLE FOAM              ',/,         &
-            5X,'-------------------------------------------------------',/)
+            5X,"-------------------------------------------------------",/          &
+            5X,"           MATERIAL MODEL: CRUSHABLE FOAM              ",/,         &
+            5X,"-------------------------------------------------------",/)
 1001      format(/                                                                 &
             5X,A,/,                                                                 &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=',I10/,      &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=",I10/,      &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=",I10/)
 1002      format(/                                                                 &
-            5X,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
+            5X,"INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=",1PG20.13/)
 1003      format(/                                                                 &
-            5X,'ELASTIC PARAMETERS:                                    ',/,         &
-            5X,'-------------------                                    ',/,         &
-            5X,'YOUNG MODULUS (E). . . . . . . . . . . . . . . . . . .=',1PG20.13/  &
-            5X,'POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=',1PG20.13/)
+            5X,"ELASTIC PARAMETERS:                                    ",/,         &
+            5X,"-------------------                                    ",/,         &
+            5X,"YOUNG MODULUS (E). . . . . . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/)
 1004      format(/                                                                 &
-            5X,'PLASTIC PARAMETERS:                                    ',/,         &
-            5X,'-------------------                                    ',/,         &
-            5X,'TENSILE STRESS CUTOFF (TSC). . . . . . . . . . . . . .=',1PG20.13/  &
-            5X,'DAMPING PARAMETER (DAMP) . . . . . . . . . . . . . . .=',1PG20.13/  &
-            5X,'NUMBER OF CYCLES (NCYCLE). . . . . . . . . . . . . . .=',I10/       &
-            5X,'YIELD STRESS TABLE ID. . . . . . . . . . . . . . . . .=',I10/       &
-            5X,'REFERENCE STRAIN RATE (EPSD_REF) . . . . . . . . . . .=',1PG20.13/  &
-            5X,'SCALE FACTOR (FSCALE). . . . . . . . . . . . . . . . .=',1PG20.13/  &
-            5X,'STRAIN RATE CHANGE LIMIT (SRCLMT). . . . . . . . . . .=',1PG20.13/  &
-            5X,'STRAIN RATE FLAG (NRS) . . . . . . . . . . . . . . . .=',I10/       &
-            5X,'  = 0: TRUE STRAIN RATE                                ',/          &
-            5X,'  = 1: ENGINEERING STRAIN RATE                         ',/)
+            5X,"PLASTIC PARAMETERS:                                    ",/,         &
+            5X,"-------------------                                    ",/,         &
+            5X,"TENSILE STRESS CUTOFF (TSC). . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"DAMPING PARAMETER (DAMP) . . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"NUMBER OF CYCLES (NCYCLE). . . . . . . . . . . . . . .=",I10/       &
+            5X,"YIELD STRESS TABLE ID. . . . . . . . . . . . . . . . .=",I10/       &
+            5X,"REFERENCE STRAIN RATE (EPSD_REF) . . . . . . . . . . .=",1PG20.13/  &
+            5X,"SCALE FACTOR (FSCALE). . . . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"STRAIN RATE CHANGE LIMIT (SRCLMT). . . . . . . . . . .=",1PG20.13/  &
+            5X,"STRAIN RATE FLAG (NRS) . . . . . . . . . . . . . . . .=",I10/       &
+            5X,"  = 0: TRUE STRAIN RATE                                ",/          &
+            5X,"  = 1: ENGINEERING STRAIN RATE                         ",/)
 !
         end subroutine hm_read_mat163
       end module hm_read_mat163_mod

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    gfhour_or    ../engine/source/elements/solid/solidez/gfhour_or.F
+!||    gfhour_or     ../engine/source/elements/solid/solidez/gfhour_or.F
 !||--- called by ------------------------------------------------------
-!||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+!||    s6zhour3_or   ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
+!||    szhour3_or    ../engine/source/elements/solid/solidez/szhour3_or.F
 !||====================================================================
       SUBROUTINE GFHOUR_OR(LFT,LLT,
      .   FHOUR,JR0,JS0,JT0,FCL,
@@ -59,13 +60,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K
+      INTEGER I, J,K
       my_real
-     .   T13,T22,T31,T32,SXY,SYZ,SXZ,SYX,SZY,SZX,
+     .   T31,SXY,SYZ,SXZ,SYX,SZY,SZX,
      .   S1211,S1222,S1311,S1333,S2322,S2333,
      .   T1211,T1222,T1311,T1333,T2322,T2333,T12,T23
       my_real
-     .   FHOURT(3,4),NUCC(MVSIZ,3,3),R1,R2,R3
+     .   FHOURT(3,4),NUCC(MVSIZ,3,3)
 C-----------------------------------------------
        DO J=1,3
        DO K=J,3

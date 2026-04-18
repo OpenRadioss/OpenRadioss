@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret           ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRKLEN3N_ADV(
      .           NEL       ,NFT      ,ILAY     ,NLAY     ,IXTG      ,
@@ -40,6 +41,7 @@ c-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,16 +63,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IR,p1,p2,NEWCRK,IED,IED1,IED2,FAC,OK,ICRK,
+      INTEGER I,K,IR,p1,p2,NEWCRK,IED,IED1,IED2,FAC,OK,ICRK,
      . NOD1,NOD2,ELCRK,ELCRKTG,IEDGE,ICUT
-      INTEGER JCT(NEL),EDGEL(3,NEL),ELTIP(NEL),TIP(NEL)
-      INTEGER DD(3),D(6),ISIGN(3),N(3),IENR(3),NN(3),INV(2)
+      INTEGER JCT(NEL),EDGEL(3,NEL),TIP(NEL)
+      INTEGER DD(3),D(6),INV(2)
 C----------
       my_real, DIMENSION(NEL)   ::  XL1,YL1
       my_real, DIMENSION(2,NEL) ::  XIN,YIN
       my_real, DIMENSION(3,NEL) ::  XXL,YYL,LEN
-      my_real BETA0(3,NEL),XN(3),YN(3),ZN(3),XMI(2),YMI(2)
-      my_real BETA,XINT,YINT,BMIN,BMAX,X10,Y10,Z10,X20,Y20,Z20,
+      my_real BETA0(3,NEL)
+      my_real BETA,XINT,YINT,BMIN,BMAX,X10,Y10,X20,Y20,
      .   M12,MM,CROSS1,CROSS12,XINT0,YINT0,DIR11,DIR22
 c
       DATA d/1,2,2,3,1,3/
@@ -80,13 +82,13 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == 5) THEN       ! avancement de fissure
+        IF (ELCRKINI(ILAY,I) == 5) THEN       ! crack propagation
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
-          ELCRKINI(ILAY,I) = 2                ! reset pour l avancement
-        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN  ! initialisation de fissure
+          ELCRKINI(ILAY,I) = 2                ! reset for propagation
+        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN  ! crack initialization
           CRKLEN(I) = ALDT(I)
-          ELCRKINI(ILAY,I) = -1               ! reset pour initialisation
+          ELCRKINI(ILAY,I) = -1               ! reset for initialization
         ENDIF
       ENDDO
       IF (NEWCRK == 0) RETURN

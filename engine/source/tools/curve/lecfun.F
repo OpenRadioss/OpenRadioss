@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -121,7 +121,7 @@ C
         OK=0
         DO L=1,NFUNCT
 C
-C par construction TABLE(L) == Function no L
+C By Table Construction (L) == Function no L
          LL=TABLE(L)%NOTABLE
          IF(LL==LLNEW)THEN
           OK=1
@@ -166,7 +166,6 @@ C
 C
 2000  FORMAT(' NEW LOAD CURVES'  //
      .  '  NUMBER OF NEW LOAD CURVES. . . . . . =' ,I10 /)
-2100  FORMAT(' ** ERROR: LOAD CURVE NUMBER' )
 2200  FORMAT(///' LOAD FUNCTION NUMBER. . . . . =',I10/
      .          ' NUMBER OF TIME POINTS . . . . =',I8//
      .          ' TIME            VALUE          '   /)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    failwave_mod    ../common_source/modules/failwave_mod.F
 !||====================================================================

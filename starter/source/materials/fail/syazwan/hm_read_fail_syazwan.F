@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,8 +73,8 @@ C-----------------------------------------------
       my_real C1,C2,C3,C4,C5,C6
       my_real DAM_SF,MAX_DAM,N_VAL,SOFTEXP
       my_real REF_LEN,REF_SIZ_UNIT,REG_SCALE
-      my_real EPS_BICOMP,EPS_COMP,EPS_CISAIL,EPS_TENS,
-     .        EPS_PLANE,EPS_BITRAC,EPFMIN,EPF_COMP,
+      my_real 
+     .        EPFMIN,EPF_COMP,
      .        EPF_SHEAR,EPF_TENS,EPF_PLSTRN,EPF_BIAX
       my_real TRIAX,LODEP,COS3THETA,EPSFAIL
       DOUBLE PRECISION :: EPF(6),MAT(6,6)

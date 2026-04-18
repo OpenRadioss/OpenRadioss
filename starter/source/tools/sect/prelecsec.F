@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,11 +80,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,IBID,ISAV,IGU,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,
-     .   NNOD,NBINTER,NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NFRAM,
-     .   ID,UID,L,ISTYP,
-     .   FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
-     .   COMPT,NG
+      INTEGER :: I,ISAV,IGU,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,
+     .           NNOD,NBINTER,NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NFRAM,
+     .           ID,UID,L,ISTYP,
+     .           FLAG_R2R,N1,N2,N3,NSEG0,NSEG,
+     .           COMPT,NG
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY) :: KEY2
       CHARACTER MESS*40
@@ -166,7 +166,7 @@ C----------tag section s skew nodes---------------
             IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
         ELSEIF (FLAG_R2R == 2) THEN     
 C----------set section position  wrt multidomain interface
-C----------element groups
+C--------- Group element
            NSEG  = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
            NSEGC = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,9)
            NSEG0 = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,8)

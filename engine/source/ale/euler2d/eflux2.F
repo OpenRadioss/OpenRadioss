@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,13 +28,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    amulf2                 ../engine/source/ale/bimat/amulf2.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE EFLUX2(PM,IXQ,V,X,
-     .                  FLUX,FLU1,FILL,DFILL,VOL,ALE_CONNECT,ALPH)
+     .                  FLUX,FLU1,FILL,DFILL,VOL,ALE_CONNECT,ALPH,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,8 +55,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXQ(NIXQ,NUMELQ)
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), X(3,NUMNOD), FLUX(4,*), FLU1(*), FILL(*), DFILL(*), VOL(*), ALPH(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), X(3,NUMNOD), FLUX(s_flux,4), FLU1(*), FILL(*), DFILL(*), VOL(*), ALPH(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,7 +71,7 @@ C-----------------------------------------------
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
      .   VZ4(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ),
      .   VDY3(MVSIZ), VDY4(MVSIZ), VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), UPW(MVSIZ),
-     .   REDUC,UPWL(4,MVSIZ)
+     .   REDUC,UPWL(MVSIZ,4)
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------     
@@ -160,10 +163,10 @@ C     SPECIFIC CASE LAW51
 C-----------------------------------------------
       IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
-          FLUX(1,I)=FLUX1(I)
-          FLUX(2,I)=FLUX2(I)
-          FLUX(3,I)=FLUX3(I)
-          FLUX(4,I)=FLUX4(I)
+          FLUX(I+nft,1)=FLUX1(I)
+          FLUX(I+nft,2)=FLUX2(I)
+          FLUX(I+nft,3)=FLUX3(I)
+          FLUX(I+nft,4)=FLUX4(I)
         ENDDO
         RETURN
       ENDIF
@@ -172,7 +175,7 @@ C     UPWIND
 C-----------------------------------------------
       DO J=1,4
         DO I=LFT,LLT
-          UPWL(J,I) = PM(16,MAT(I))
+          UPWL(I,J) = PM(16,MAT(I))
         ENDDO
       ENDDO
       
@@ -214,17 +217,17 @@ C-----------------------------------------------
         ENDDO
         CALL AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPH,
      .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
-     .     NC1, NC2, NC3, NC4)
+     .     NC1, NC2, NC3, NC4,s_flux)
       ELSE
        DO I=LFT,LLT
-         FLUX(1,I)= FLUX1(I) - UPWL(1,I) * ABS(FLUX1(I))
-         FLUX(2,I)= FLUX2(I) - UPWL(2,I) * ABS(FLUX2(I))
-         FLUX(3,I)= FLUX3(I) - UPWL(3,I) * ABS(FLUX3(I))
-         FLUX(4,I)= FLUX4(I) - UPWL(4,I) * ABS(FLUX4(I))
-         FLU1(I)  = FLUX1(I) + UPWL(1,I) * ABS(FLUX1(I))
-     .            + FLUX2(I) + UPWL(2,I) * ABS(FLUX2(I))
-     .            + FLUX3(I) + UPWL(3,I) * ABS(FLUX3(I))
-     .            + FLUX4(I) + UPWL(4,I) * ABS(FLUX4(I))
+         FLUX(nft+I,1)= FLUX1(I) - UPWL(I,1) * ABS(FLUX1(I))
+         FLUX(nft+I,2)= FLUX2(I) - UPWL(I,2) * ABS(FLUX2(I))
+         FLUX(nft+I,3)= FLUX3(I) - UPWL(I,3) * ABS(FLUX3(I))
+         FLUX(nft+I,4)= FLUX4(I) - UPWL(I,4) * ABS(FLUX4(I))
+         FLU1(I)  = FLUX1(I) + UPWL(I,1) * ABS(FLUX1(I))
+     .            + FLUX2(I) + UPWL(I,2) * ABS(FLUX2(I))
+     .            + FLUX3(I) + UPWL(I,3) * ABS(FLUX3(I))
+     .            + FLUX4(I) + UPWL(I,4) * ABS(FLUX4(I))
        ENDDO
       ENDIF
 

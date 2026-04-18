@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||--- uses       -----------------------------------------------------
+!||    law92_nlsqf_mod          ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================
@@ -36,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE LAW92_NLSQF_MOD
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -60,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC
-      my_real E,NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
+      INTEGER K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC
+      my_real NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
      .   LAM,BETA,LAM_MAX,LAM_MIN,SCALEFAC,AMULA(2)
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH!      
       LOGICAL  IS_ENCRYPTED         

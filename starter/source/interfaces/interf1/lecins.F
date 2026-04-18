@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE I2_SURFI_MOD ,         ONLY : I2_SURFI
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +116,8 @@ C-----------------------------------------------
      .   ISU1,ISU2,NRTM0,NRTM_SH,
      .   NRTS_NEW, NRTM_NEW,IBID,INTTH,
      .   NRTM_IGE,NRTM_FE,NRTS_IGE,NRTS_FE,
-     .   NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,INTNITSCHE,IAD_IGE,GRBRIC_ID,NIN25
+     .   NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,INTNITSCHE,
+     .   IAD_IGE,GRBRIC_ID,NIN25,NEDGE_L,NMN_1D
 
       INTEGER :: STAT
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET ::  NTAG_TARGET
@@ -157,6 +159,8 @@ C
         INTTH  = IPARI(47,NI)
         INTNITSCHE  = IPARI(86,NI)
         GRBRIC_ID   = IPARI(83,NI) !int18
+        NEDGE_L = IPARI(101,NI) 
+        NMN_1D = IPARI(104,NI) 
         IRM    = 0
         IRS    = 0
 C- deactivated interfaces
@@ -192,7 +196,7 @@ C-------------------------------------------
           INTBUF_TAB(NI)%VARIABLES(J) = FRIGAP(J,NI)
         ENDDO
 C-----
-C      LECTURE DES RENSEIGNEMENTS SURFACE SECOND/MAIN
+C      READING SURFACE INFORMATION SECONDARY/MAIN
 C-----
 C      1) SURFACE SECONDARY
 C
@@ -522,7 +526,7 @@ C-------
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           CALL I20SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF  ,
      2      IGRSLIN      ,INTBUF_TAB(NI)%IRECTM,FRIGAP(1,NI) ,
@@ -588,7 +592,7 @@ C-------
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           CALL I24SURFI(
      1      IALLO                  , IPARI(1,NI)            ,IGRNOD                   ,IGRSURF              ,
      2      INTBUF_TAB(NI)%IRECTM  ,FRIGAP(1,NI)            ,
@@ -615,9 +619,9 @@ C-------
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           IF(ILEV==2)THEN
-C           necessaire au 2eme passage (cf IDDLEVEL)
+C           necessary in the 2nd passage (see iddlevel)
             INTBUF_TAB(NI)%NBINFLG(1:INTBUF_TAB(NI)%S_NBINFLG)=0
             INTBUF_TAB(NI)%MBINFLG(1:INTBUF_TAB(NI)%S_MBINFLG)=0
           END IF
@@ -633,7 +637,9 @@ C           necessaire au 2eme passage (cf IDDLEVEL)
      7      NOD2ELTG               ,KNOD2ELS               ,NOD2ELS                  ,IXS                    ,
      8      IXS10                  ,IXS16                  ,IXS20                    ,INTBUF_TAB(NI)%IRTSE   ,
      9      INTBUF_TAB(NI)%IS2SE   ,INTBUF_TAB(NI)%IS2PT   ,INTBUF_TAB(NI)%IS2ID     ,INTERFACES%PARAMETERS  ,
-     A      NIN25                  ,FLAG_ELEM_INTER25      )
+     A      NIN25                  ,FLAG_ELEM_INTER25      ,IGRSLIN                  ,
+     B      INTBUF_TAB(NI)%LEDGE   ,INTBUF_TAB(NI)%EBINFLG ,IPARI(68,NI)             ,IPARI(104,NI)          ,
+     C      INTBUF_TAB(NI)%MSR_1D  )
 C------initialization of doubler M_seg pour shells ---> move inside I24SURFI
         ENDIF
 C

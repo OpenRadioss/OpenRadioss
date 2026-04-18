@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,9 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    szsvm     ../engine/source/elements/solid/solidez/szsvm.F
+!||    szsvm      ../engine/source/elements/solid/solidez/szsvm.F
 !||--- called by ------------------------------------------------------
-!||    szhour3   ../engine/source/elements/solid/solidez/szhour3.F
+!||    s6zhour3   ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    szhour3    ../engine/source/elements/solid/solidez/szhour3.F
 !||====================================================================
       SUBROUTINE SZSVM(
      1   JR0,     JS0,     JT0,     FHOUR,
@@ -48,12 +49,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  J,K,IKT
+      INTEGER I,IKT
       my_real
      .   S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SS1,SS2,SS3,SS4,ST1,ST2,ST3,ST4,SVMR,SVMS,SVMT,
-     .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,
-     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0    
+     .   SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,
+     .   RS,ST,RT,VT2(4),MAX0,MIN0    
 C         coef= (3*8*0.75)^2 coef1 =1/0.75
           COEF= THREEHUNDRED24
           COEF1= ONEP333

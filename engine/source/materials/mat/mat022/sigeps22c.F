@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,IPLA,NEL,NPT,NPTT,IMAT,IPT
+      INTEGER JFT,JLT,IPLA,NEL,NPTT,IMAT,IPT
       INTEGER IOFF_DUCT(MVSIZ),INLOC
 C     REAL
       my_real
@@ -67,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ),I,ILAYER,ICC_1,J
+      INTEGER ICC(MVSIZ),I,ICC_1
 C     REAL
       my_real
      .   A1(MVSIZ),YLD(MVSIZ),
@@ -130,13 +130,13 @@ C-----------------------------------------------------------
           ENDDO
         ENDIF
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     Ductile rupture test
 C----------------------------
         DO I=JFT,JLT
           IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
             IF (OFF(I) == ONE .and. EPCHK(I) >= EPMX) THEN
               OFF(I)= FOUR_OVER_5
-              IOFF_DUCT(I) = 1    ! start de la rupture
+              IOFF_DUCT(I) = 1    ! start of the rupture
             ELSE IF (OFF(I) < ONE ) THEN
               OFF(I) = OFF(I)*FOUR_OVER_5
             ENDIF

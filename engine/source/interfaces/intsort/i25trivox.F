@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,39 +66,38 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   classify nodes into boxes
+C   search for concerned boxes for each facet
+C   search for candidates
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
+C     IRECT(4,*)   ARRAY OF CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NSV          NOS SYSTEMES DES NOEUDS           E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
-C     I_STOK       niveau de stockage des couples
-C                                candidats impact    E/S
-C     CAND_N       boites resultats noeuds
-C     CAND_E       adresses des boites resultat elements
-C                  MULNSN = MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
+C     NSV          NOS SYSTEMES DES NODES E
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
+C     i_stok       storage level of pairs
+C                                CANDIDATES impact    E/S
+C     CAND_N       boites resultats nodes C     CAND_E       adresses des boites resultat elements
+C                  mulnsn = multimp*nsn max size now allowed for the
+C                  COUPLES NODES,ELT CANDIDATES
+C     NOINT        INTERFACE USER NUMBER
 C
-C     PROV_N       CAND_N provisoire (variable static dans i7tri)
-C     PROV_E       CAND_E provisoire (variable static dans i7tri)
+C     Prov_n Provisional Cand_n (static variable in i7tri)
+C     PROV_E       CAND_E provisoire (variable static in i7tri)
 
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
-C                  la boite
-C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
-C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
-C                  utilise uniquement pour aller directement du premier
-C                       noeud au dernier
+C     voxel(ix,iy,iz) contains the local number of the first node of
+C                  the box
+C     Next_nod (i) Next node in the same box (if /= 0)
+C     Last_nod (i) Last node in the same box (if /= 0)
+C                  used only to go directly from the first
+C                       node at the last
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -117,39 +116,46 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,J_STOK,II,JJ,
+      INTEGER I,J,
+     .        NN,NE,K,L,J_STOK,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
-     .        NSNF, NSNL,M,NS1,NS2,NSE,NS,ip,DELNOD
+     .        NSNF, NSNL,M,DELNOD
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
+     .   XS,YS,ZS,SX,SY,SZ,S2,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2
 c 
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
+      INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: LAST_NOD
+      INTEGER,  DIMENSION(:),ALLOCATABLE,save :: LAST_NOD
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
-      INTEGER FIRST,NEW,LAST
+      INTEGER FIRST,LAST
       SAVE IIX,IIY,IIZ
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG
+
+      integer :: node_id
+      integer, dimension(:), allocatable, save :: local_nb_cand
+      integer, dimension(:), allocatable :: local_cand
 C-----------------------------------------------
       CALL MY_ALLOC(TAG,NUMNOD)
-      CALL MY_ALLOC(LAST_NOD,NSN+NSNR)
+      
       IF(ITASK == 0)THEN
         ALLOCATE(NEXT_NOD(NSN+NSNR))
         ALLOCATE(IIX(NSN+NSNR))
         ALLOCATE(IIY(NSN+NSNR))
         ALLOCATE(IIZ(NSN+NSNR))
+        allocate(local_nb_cand(nthread))
+        allocate(last_nod(nsn+nsnr))
       END IF
+      allocate(local_cand(nsn))
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C initial construction phase of bpe and bpn moved from i7buce => i7tri
 C
       XMIN = XYZM(1)
       YMIN = XYZM(2)
@@ -158,7 +164,7 @@ C
       YMAX = XYZM(5)
       ZMAX = XYZM(6)
 
-c     dev future: xminb plus grand que xmin...
+c     Dev Future: xminb larger than Xmin ...
       XMINB = XMIN
       YMINB = YMIN
       ZMINB = ZMIN
@@ -166,93 +172,97 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C=======================================================================
-C 1   mise des noeuds dans les boites
-C=======================================================================
-      IF(ITASK == 0)THEN
-        DO I=1,NSN
-          IIX(I)=0
-          IIY(I)=0
-          IIZ(I)=0
-          IF(STFN(I) <= ZERO)CYCLE
-          J=NSV(I)
-C Optimisation // recherche les noeuds compris dans xmin xmax des
-C elements du processeur
-          IF(X(1,J) < XMIN)  CYCLE
-          IF(X(1,J) > XMAX)  CYCLE
-          IF(X(2,J) < YMIN)  CYCLE
-          IF(X(2,J) > YMAX)  CYCLE
-          IF(X(3,J) < ZMIN)  CYCLE
-          IF(X(3,J) > ZMAX)  CYCLE
+      local_nb_cand(itask+1) = 0
+!$omp do schedule(guided)      
+      do i=1,nsn
+        iix(i) = 0
+        iiy(i) = 0
+        iiz(i) = 0
+        if(stfn(i) <= zero) cycle
+        node_id = nsv(i)
+        if(x(1,node_id)<xmin) cycle
+        if(x(1,node_id)>xmax) cycle
+        if(x(2,node_id)<ymin) cycle
+        if(x(2,node_id)>ymax) cycle
+        if(x(3,node_id)<zmin) cycle
+        if(x(3,node_id)>zmax) cycle
+        local_nb_cand(itask+1) = local_nb_cand(itask+1) + 1
+        local_cand(local_nb_cand(itask+1)) = i
+        iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
+        iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
+        iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
 
-          IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
-          IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
-          IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
-
-          IIX(I)=MAX(1,2+MIN(NBX,IIX(I)))
-          IIY(I)=MAX(1,2+MIN(NBY,IIY(I)))
-          IIZ(I)=MAX(1,2+MIN(NBZ,IIZ(I)))
-
-          FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
-          IF(FIRST == 0)THEN
-c         empty cell
-            VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-            NEXT_NOD(I)                 = 0 ! last one
-            LAST_NOD(I)                 = 0 ! no last
-          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+        iix(i) = max(1,2+min(nbx,iix(i)))
+        iiy(i) = max(1,2+min(nby,iiy(i)))
+        iiz(i) = max(1,2+min(nbz,iiz(i)))
+      enddo
+!$omp end do
+      call my_barrier( )     
+!$omp single
+      do i=1,nsn
+        if(iix(i)==0) cycle
+        first = voxel(iix(i),iiy(i),iiz(i))
+        if(first==0)then
+c         Empty Cell
+          voxel(iix(i),iiy(i),iiz(i)) = i ! first
+          next_nod(i)                 = 0 ! last one
+          last_nod(i)                 = 0 ! no last
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            NEXT_NOD(FIRST) = I ! next
-            LAST_NOD(FIRST) = I ! last
-            NEXT_NOD(I)     = 0 ! last one
-          ELSE
-c
+          next_nod(first) = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        else
 c         jump to the last node of the cell
-            LAST = LAST_NOD(FIRST) ! last node in this voxel
-            NEXT_NOD(LAST)  = I ! next
-            LAST_NOD(FIRST) = I ! last
-            NEXT_NOD(I)     = 0 ! last one
-          ENDIF
-        ENDDO
-C=======================================================================
-C 2   mise des noeuds dans les boites
-C     candidats non locaux en SPMD
-C=======================================================================
-        DO J = 1, NSNR
-          IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
-          IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
-          IIZ(NSN+J)=INT(NBZ*(XREM(3,J)-ZMINB)/(ZMAXB-ZMINB))
-          IIX(NSN+J)=MAX(1,2+MIN(NBX,IIX(NSN+J)))
-          IIY(NSN+J)=MAX(1,2+MIN(NBY,IIY(NSN+J)))
-          IIZ(NSN+J)=MAX(1,2+MIN(NBZ,IIZ(NSN+J)))
+          last = last_nod(first) ! last node in this voxel
+          next_nod(last)  = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        endif
+      enddo
+!$omp end single no wait      
 
-          FIRST = VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))
-          IF(FIRST == 0)THEN
-c         empty cell
-            VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
-            NEXT_NOD(NSN+J)     = 0 ! last one
-            LAST_NOD(NSN+J)     = 0 ! no last
-          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+!$omp do schedule(guided)
+      do i=1,nsnr
+        iix(nsn+i) = int(nbx*(xrem(1,i)-xminb)/(xmaxb-xminb))
+        iiy(nsn+i) = int(nby*(xrem(2,i)-yminb)/(ymaxb-yminb))
+        iiz(nsn+i) = int(nbz*(xrem(3,i)-zminb)/(zmaxb-zminb))
+        iix(nsn+i) = max(1,2+min(nbx,iix(nsn+i)))
+        iiy(nsn+i) = max(1,2+min(nby,iiy(nsn+i)))
+        iiz(nsn+i) = max(1,2+min(nbz,iiz(nsn+i)))
+      enddo
+!$omp end do
+
+      call my_barrier( )
+
+!$omp single
+      do j = 1, nsnr
+        first = voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j))
+        if(first==0)then
+c         Empty Cell
+          voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j)) = nsn+j ! first
+          next_nod(nsn+j)     = 0 ! last one
+          last_nod(nsn+j)     = 0 ! no last
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            NEXT_NOD(FIRST) = NSN+J  ! next
-            LAST_NOD(FIRST) = NSN+J  ! last
-            NEXT_NOD(NSN+J)  = 0     ! last one
-          ELSE
-c
+          next_nod(first) = nsn+j  ! next
+          last_nod(first) = nsn+j  ! last
+          next_nod(nsn+j)  = 0     ! last one
+        else
 c         jump to the last node of the cell
-            LAST = LAST_NOD(FIRST)  ! last node in this voxel
-            NEXT_NOD(LAST)  = NSN+J ! next
-            LAST_NOD(FIRST) = NSN+J ! last
-            NEXT_NOD(NSN+J)     = 0 ! last one
-          ENDIF
-        ENDDO
-      END IF
-C Barrier to wait task0 treatment
-      CALL MY_BARRIER
+          last = last_nod(first)  ! last node in this voxel
+          next_nod(last)  = nsn+j ! next
+          last_nod(first) = nsn+j ! last
+          next_nod(nsn+j)     = 0 ! last one
+        endif
+      enddo
+!$omp end single      
+
 C=======================================================================
-C 3   recherche des boites concernant chaque facette
-C     et creation des candidats
+C 3 Searching boxes concerning each facet
+C     and creation of candidates
 C=======================================================================
       J_STOK = 0
 C
@@ -274,8 +284,8 @@ c
      +
 
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
           M1 = IRECT(1,NE)
           M2 = IRECT(2,NE)
@@ -304,14 +314,14 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
           ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
 
-c        calcul de la surface (pour elimination future de candidats)
+c        surface calculation (for future elimination of candidates)
 
           SX = (YY3-YY1)*(ZZ4-ZZ2) - (ZZ3-ZZ1)*(YY4-YY2)
           SY = (ZZ3-ZZ1)*(XX4-XX2) - (XX3-XX1)*(ZZ4-ZZ2)
           SZ = (XX3-XX1)*(YY4-YY2) - (YY3-YY1)*(XX4-XX2)
           S2 = SX*SX + SY*SY + SZ*SZ
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
           IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
           IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -330,9 +340,9 @@ c        indice des voxels occupes par la facette
           IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
           DO IZ = IZ1,IZ2
             DO IY = IY1,IY2
@@ -397,9 +407,9 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                   IF(ZS<=ZMINE-AAA)GOTO 200
                   IF(ZS>=ZMAXE+AAA)GOTO 200
 
-c    sousestimation de la distance**2 pour elimination de candidats
+c    underestimation of distance**2 for candidate elimination
 
-cc             nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
                   D1X = XS - XX1
                   D1Y = YS - YY1
@@ -464,8 +474,8 @@ c
      +
 
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
           M1 = IRECT(1,NE)
           M2 = IRECT(2,NE)
@@ -494,14 +504,14 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
           ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
 
-c        calcul de la surface (pour elimination future de candidats)
+c        surface calculation (for future elimination of candidates)
 
           SX = (YY3-YY1)*(ZZ4-ZZ2) - (ZZ3-ZZ1)*(YY4-YY2)
           SY = (ZZ3-ZZ1)*(XX4-XX2) - (XX3-XX1)*(ZZ4-ZZ2)
           SZ = (XX3-XX1)*(YY4-YY2) - (YY3-YY1)*(XX4-XX2)
           S2 = SX*SX + SY*SY + SZ*SZ
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
           IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
           IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -520,9 +530,9 @@ c        indice des voxels occupes par la facette
           IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
           DO IZ = IZ1,IZ2
             DO IY = IY1,IY2
@@ -574,9 +584,9 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                   IF(ZS<=ZMINE-AAA)GOTO 300
                   IF(ZS>=ZMAXE+AAA)GOTO 300
 
-c    sousestimation de la distance**2 pour elimination de candidats
+c    underestimation of distance**2 for candidate elimination
 
-cc             nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
                   D1X = XS - XX1
                   D1Y = YS - YY1
@@ -628,7 +638,7 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
         ENDDO
       END IF !FLAGREMNODE
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     end of sorting
 C-------------------------------------------------------------------------
       IF(J_STOK/=0)CALL I25STO(
      1              J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
@@ -640,7 +650,7 @@ C-------------------------------------------------------------------------
      7              DRAD  ,DGAPLOAD)
 
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites
+C 4   reset nodes to zero in boxes
 C=======================================================================
   100 CONTINUE
 
@@ -655,8 +665,8 @@ C Barrier to avoid reinitialization before end of sorting
         ENDIF
       ENDDO
 C=======================================================================
-C 5   remise a zero des noeuds dans les boites
-C     candidats non locaux en SPMD
+C 5   reset nodes to zero in boxes
+C     non -local candidates in SPMD
 C=======================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD
       NSNL = (ITASK+1)*NSNR / NTHREAD
@@ -671,10 +681,11 @@ C
         DEALLOCATE(IIX)
         DEALLOCATE(IIY)
         DEALLOCATE(IIZ)
+        deallocate(local_nb_cand)
+        deallocate(last_nod)
       ENDIF
 
       DEALLOCATE(TAG)
-      DEALLOCATE(LAST_NOD)
       RETURN
       END
 

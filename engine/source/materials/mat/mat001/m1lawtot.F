@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nsvis_stab18     ../engine/source/elements/solid/solide8e/nsvis_stab18.F
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M1LAWTOT(
      1   PM,      OFF,     SIG,     EINT,
@@ -58,11 +59,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   ISELECT, IPM,     RHOREF,  RHOSP,
      H   SIGL,    ITY,     ISMSTR,  JTUR,
      I   JTHE,    JCVT,    JSPH,    JSMS,
-     J   NPG ,    glob_therm)
+     J   NPG ,    glob_therm,NUMGEO,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +90,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JCVT
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: JSMS,NPG
+      INTEGER,INTENT(IN) :: NUMGEO
 C
       INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL,ISELECT
       INTEGER MAT(*),NGL(*),IPM(NPROPMI,*)
@@ -107,21 +110,22 @@ C
      .   MFYZ(*)  ,MFZX(*)  ,MFZY(*)  ,MFZZ(*)  ,OFFG0(*) ,VOL_AVG(*),
      .   EPSTH(*),DTEL(*),ETOTSH(NEL,6), RHOREF(*), RHOSP(*),AMU(*)
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM,IPRES,ISTAB
+      INTEGER I, MX, J,NLAR,INDEX(MVSIZ),NSM,IPRES,ISTAB
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
      .   C1(MVSIZ), 
      .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
-     .    DF,DAV,EKK, DPDM, P,
+     .    DAV,EKK, P,
      .    E1, E2, E3, E4, E5, E6, EINC,
-     .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
+     .    BID1, BID2, BID3, DTA,FACQ0,
      .    RHO0_1,C1_1,G2_11,
-     .    SV(3),P3,P2,NU_1,
+     .    P2,NU_1,
      .    EPSTH11(MVSIZ),SIGTMP(MVSIZ,6),FACG,FF,FRHO
 C-----------------------------------------------
       FACQ0 = ONE
@@ -434,7 +438,7 @@ C
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,

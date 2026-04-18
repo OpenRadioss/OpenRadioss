@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law81_upd                 ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd                 ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    lossfun_98                ../starter/source/materials/mat/mat098/lossfun_98.F
+!||    m36init                   ../starter/source/materials/mat/mat036/m36init.F90
 !||    m38init                   ../starter/source/materials/mat/mat038/m38init.F
 !||    m75init                   ../starter/source/materials/mat/mat075/m75init.F
 !||    m77init                   ../starter/source/materials/mat/mat077/m77init.F
@@ -47,13 +48,13 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER IFUNC,NPF(*),I
-      my_real TF(*),ABC,DERI,XX,DX1,DX2
+      my_real TF(*), DERI, XX, DX1, DX2
 
       FINTER = 0
 C
       DX2 = TF(NPF(IFUNC)) - XX
 C
-C     constant function
+C     Constant Function
       IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
         FINTER = TF(NPF(IFUNC)+1)
         RETURN

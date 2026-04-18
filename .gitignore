@@ -27,6 +27,7 @@ engine/extlib/lapack*
 engine/extlib/scalap*
 engine/extlib/v2*
 engine/extlib/v3*
+engine/extlib/GraphBLAS/
 .vscode/settings.json
 *.sif
 extlib/**
@@ -36,3 +37,4 @@ extlib.zip
 *.cpp.json
 *.c.json
 .devcontainer/**
+.idea/

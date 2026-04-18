@@ -357,3 +357,9 @@ Only one %s card is allowed
 /MESSAGE/200042/DESCRIPTION
 %s (id: %u, name: %s), Curve LCSS is defined in the material but is not existing in the model.
 #------------------------------------------------------------------------------
+
+/MESSAGE/200043/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200043/DESCRIPTION
+%s , Only total number of integration points = 1 is supported for *INITIAL_STRAIN_SOLID.
+#------------------------------------------------------------------------------

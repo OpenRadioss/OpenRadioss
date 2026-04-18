@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real
-     .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL)
+     .    UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -126,10 +126,10 @@ C
        ENDDO
 C                
        DO I=1,NEL 
-C spherique part
+C SPHERIC PART
            DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
            P = -THREE*KV*DAV
-c deviatorique part           
+c Deviatori parties           
           EPXX = EPSPXX(I) - DAV
           EPYY = EPSPYY(I) - DAV
           EPZZ = EPSPZZ(I) - DAV          

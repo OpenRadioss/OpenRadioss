@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -211,11 +211,6 @@ C
 C
  2000  FORMAT(' RAYLEIGH DAMPING'  /
      .  '  NUMBER OF NEW DAMPING PARAMETERS. . . . . . =' ,I8 /)
- 2050  FORMAT(' ** ERROR:  INPUT ERROR IN OPTION DAMP',/
-     .'    WRONG NUMBER OF DAMPING PARAMETERS FOR /DAMP/ID NUMBER:',
-     .   I10/)
- 2100  FORMAT(' ** ERROR:  INPUT ERROR IN OPTION DAMP',/
-     .        '    /DAMP/ID NUMBER:',I10,' NOT FOUND'/)
  2200  FORMAT('DAMPING ID . . . . . . . . . . . . .',I10
      .        /5X,'ALPHA. . . . . . . . . . . . . .',1PG20.13
      .        /5X,'BETA . . . . . . . . . . . . . .',1PG20.13

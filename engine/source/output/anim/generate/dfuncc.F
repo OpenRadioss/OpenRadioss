@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,11 +30,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_schlieren             ../engine/source/output/anim/generate/output_schlieren.F
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                  ../engine/share/resol/initbuf.F
 !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
@@ -64,6 +65,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MY_ALLOC_MOD
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,24 +107,23 @@ C-----------------------------------------------
      .   SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),
      .   A002(MVSIZ),VALUES(MVSIZ)
       my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,VALUE,VALUE1,VALUE2,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
+     .   P,VONM2,S1,S2,S12,S3,VALUE,VALUE1,VALUE2,DMGMX,FAC,
+     .   DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
      .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
      .   Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,VAR,RINDX,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,A01,A02,A03,A12,A,
-     .   M,FF,GG,NN,
-     .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR,NINTY
-      INTEGER I,IDX,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,PTF,PTM,PTS,NFAIL,
-     .        N,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
+     .   VG(5),VLY(5),VE(5),DMGMX_LY,EVAR_TMP,
+     .   VEL(0:3),VFRAC(MVSIZ,21),PHI,ERR
+      INTEGER I,IDX,I1,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
+     .        IR,IS,IT,IL,MLW, NUVAR,IUS,NFAIL,
+     .        N,K,K2,JTURB,MT,IALEL,NNI,
+     .        NN1,NN3,NN4,NN5,NN6,NN9,BUF,NVARF,
+     .        OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
+     .        ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IFRAM_OLD,
-     .        JJ(6),NPGT,IADBUF,NUPARAM,IMAT,NS,NRATE,EXPA,IVISC,IU(4),NFRAC
+     .        JJ(6),NPGT,IADBUF,NUPARAM,IMAT,NS,IVISC,IU(4),NFRAC
       INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,NPT_ALL,IPLY,ITRIMAT,IPOS,
+     .        NPT_ALL,IPLY,ITRIMAT,IPOS,
      .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH,
      .        IMAT_TILLOTSON, NTILLOTSON,NVAREOS,IEOS,IDRAPE,IVAR
       REAL,DIMENSION(:),ALLOCATABLE:: WAL
@@ -149,9 +150,9 @@ C-----------------------------------------------
       my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
       my_real :: RHO0g !< global initial mass density (mixture)
       LOGICAL detected
+      INTEGER :: IDX0,IDX1,IDX2
 C-----------------------------------------------
       CALL MY_ALLOC(WAL,NBF_L)
-      NINTY = 90.
       NN1  = 1
       NN3  = 1
       NN4  = NN3 + NUMELQ
@@ -159,6 +160,9 @@ C-----------------------------------------------
       NN6  = NN5 + NUMELTG
       NN9  = NN6 
       ISH_EINT = 13242 + 4*MX_PLY_ANIM + 2
+      IDX0 = 15921 + 4*MX_PLY_ANIM  ! VEL-Y 0:10
+      IDX1 = IDX0+10+1              ! VEL-Z 0:10
+      IDX2 = IDX1+10+1              ! VEL   0:10
       
       !-------------------------------------------------------!
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
@@ -225,11 +229,11 @@ C
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%EPSQ(I)
                 ENDDO
-              ELSEIF (MLW == 24) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 24) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%VK(I)
                 ENDDO
-              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%RK(I)
                 ENDDO
@@ -396,7 +400,7 @@ c----           USER VARIABLES from 6 to 60
               IMAT = IXQ(1,NFT+1)                        
               IADBUF = IPM(7,IMAT)                       
               NUPARAM= IPM(9,IMAT)                       
-              UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+              uparam => bufmat(iadbuf:iadbuf+nuparam-1) 
               ISUBMAT = (IFUNC-10247)
               ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
              IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
@@ -868,7 +872,7 @@ c------------------------------------ Color Function
                 IMAT = IXQ(1,NFT+1)                        
                 IADBUF = IPM(7,IMAT)                       
                 NUPARAM= IPM(9,IMAT)                       
-                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+                uparam => bufmat(iadbuf:iadbuf+nuparam-1) 
                 !bijective order           !indexes                  
                 ISUBMAT = UPARAM(276+1);   IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
                 ISUBMAT = UPARAM(276+2);   IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
@@ -988,7 +992,7 @@ c------------------------------------ Tillotson Region id
                 ENDIF
               ENDIF
 
-c------------------------------------ Volumetric Strain (VSTRAIN)
+c------------------------------------ Volumetric Strain (GLOBAL VSTRAIN)
             elseif(IFUNC == 15899 + 4*MX_PLY_ANIM .and. N2D > 0) then
 !--------------------------------------------------
               DO I=LFT,LLT
@@ -1024,7 +1028,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                   !multimaterial 51 (staggered scheme)
                   iadbuf = ipm(7,imat)
                   nuparam= ipm(9,imat)
-                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                   ipos = 1
                   !bijective order           !indexes
@@ -1065,7 +1069,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                   !multimaterial 37 (staggered scheme)
                   iadbuf = ipm(7,imat)
                   nuparam= ipm(9,imat)
-                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                   rho0i(1) = uparam(11)
                   rho0i(2) = uparam(12)
@@ -1113,7 +1117,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                 end if
 
               enddo
-c------------------------------------ Volumetric Strain (VSTRAIN)
+c------------------------------------ Volumetric Strain (submaterial VSTRAIN)
             elseif(   IFUNC >= 15899 + 4*MX_PLY_ANIM +1
      .          .and. IFUNC <= 15899 + 4*MX_PLY_ANIM +10
      .          .and. N2D > 0) then
@@ -1148,7 +1152,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       !multimaterial 51 (staggered scheme)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       mid = MAT_PARAM(mt)%multimat%mid(ilay)
                       rho0i(ilay) = pm(89,mid)
@@ -1168,7 +1172,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       !multimaterial 37 (staggered scheme)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       rho0i(ilay) = uparam(10+ilay)
                       Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
@@ -1191,12 +1195,51 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       FUNC(EL2FA(NN3+NFT+I)) = ZERO
                     end if
                 enddo
-
-              end if
-
+            end if
 
 
-c------------------------------------ 
+c------------------------------------ 2D velocity VEL-GLOBAL
+          elseif( IFUNC >= IDX0 .AND. IFUNC <= IDX0+10) then
+            ILAY = IFUNC - IDX0
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(1) = MULTI_FVM%VEL(1, I + NFT)
+                VEL(2) = MULTI_FVM%VEL(2, I + NFT)
+                VEL(3) = MULTI_FVM%VEL(3, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------ 2D velocity VEL-Y
+          elseif( IFUNC >= IDX1 .AND. IFUNC <= IDX1+10) then
+            ILAY = IFUNC - IDX1
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(2) = MULTI_FVM%VEL(2, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = VEL(2)
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------ 2D velocity VEL-Z
+          elseif( IFUNC >= IDX2 .AND. IFUNC <= IDX2+10) then
+            ILAY = IFUNC - IDX2
+            IF(MLW == 151 .AND. ILAY == 0)THEN
+              DO I=LFT,LLT
+                VEL(3) = MULTI_FVM%VEL(3, I + NFT)
+                FUNC(EL2FA(NN3+NFT+I)) = VEL(3)
+              ENDDO
+            ELSE
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+            ENDIF
+c------------------------------------
             ELSE                                                      
               DO  I=LFT,LLT                                           
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO                         
@@ -1629,7 +1672,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                    
                         IF (ISHFRAM == 0 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -1653,7 +1696,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -1696,9 +1739,9 @@ C
                         ENDIF                                       
 C
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                         !!EVAR(I) = (HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                       ENDDO                                
@@ -1740,7 +1783,7 @@ C
                           SZ = E2Z                                                
                         ENDIF                                    
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -1764,7 +1807,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -1807,9 +1850,9 @@ C
                         ENDIF                                       
 C
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                         !!EVAR(I) = (HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
                       ENDDO    
@@ -1890,9 +1933,9 @@ C
                           DIR1_2 = LBUF_DIR%DIRA(I+NEL)          
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO          
                       ENDDO                                                  
                      ELSE  ! IDRAPE                    
@@ -1961,9 +2004,9 @@ C
                           DIR1_2 = BUFLY%DIRA(I+NEL)          
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO          
                       ENDDO  
                      ENDIF ! IDRAPE                                                    
@@ -3182,7 +3225,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                                     
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -3206,7 +3249,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -3249,9 +3292,9 @@ C
                         ENDIF                                       
 c
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                       ENDDO                                                       
                     ENDIF  ! MLW                            
@@ -3295,7 +3338,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                                     
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -3319,7 +3362,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -3362,9 +3405,9 @@ C
                         ENDIF                                       
 c
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO
                       ENDDO                                                       
                     ENDIF  ! MLW                                                  
@@ -3443,9 +3486,9 @@ C
                           DIR1_2 = LBUF_DIR%DIRA(I+NEL)                        
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO     
                       ENDDO                                                     
                     ENDIF                                                        
@@ -3517,9 +3560,9 @@ C
                           DIR1_2 = BUFLY%DIRA(I+NEL)                        
                         ENDIF                                         
                         PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)  
-                        ERR = (ABS(PHI) - NINTY)/NINTY
+                        ERR = (ABS(PHI) - NINETY)/NINETY
                         EVAR(I) = PHI
-                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINTY,PHI)
+                        IF(ABS(ERR) < EM02) EVAR(I) = SIGN(NINETY,PHI)
                         IF(ABS(EVAR(I)) < ONE) EVAR(I) = ZERO     
                       ENDDO                                                     
                     ENDIF                                                       
@@ -5069,7 +5112,7 @@ C-------------------------------------
               ENDIF
 C-------------------
             ELSEIF (IFUNC == 3 .AND. MLW /= 151) THEN
-C             energie specifique
+C             Specific energy
 C-------------------
               IF (ITY == 3) THEN
                 DO I=LFT,LLT
@@ -5155,14 +5198,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,IREP
+ 
       my_real
      .   RX , RY , RZ, SX , SY , SZ,
      .   E1X, E1Y, E1Z,E2X, E2Y, E2Z,E3X, E3Y, E3Z
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       MY_REAL
      .   C1,C2,CC,DET
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

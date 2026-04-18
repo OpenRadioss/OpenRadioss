@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,26 +57,26 @@ C-----------------------------------------------
 C   PRE_SEARCH = 0 -> full search of neigbours 
 C   PRE_SEARCH = 1 -> pre-search of neigbours for computation of max interparticle dist 
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   CLASSIFIES NODES INTO BOXES
+C   SEARCHES FOR EACH FACETTE OF CONCERNED BOXES
+C   CANDIDATE SEARCH
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     X(3,*)       COORDONNEES NODALES               E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
-C                  la boite
-C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
-C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
-C                  utilise uniquement pour aller directement du premier
-C                       noeud au dernier
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
+C     VOXEL(ix,iy,iz) contains the local number of the first node of
+C                  the box
+C     Next_nod (i) Next node in the same box (if /= 0)
+C     Last_nod (i) Last node in the same box (if /= 0)
+C                  used only to go directly from the first
+C                       node at the last
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -93,24 +93,24 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,II,JJ,JS,NS,N,
-     .        NSNF, NSNL,NVOIS, IG, IL,NVOIMAX
+      INTEGER I,J,
+     .        NN,NE,JJ,JS,NS,
+     .         NVOIS,NVOIMAX
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
+     .   XS,YS,ZS,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
-c provisoire
+c provisional
       INTEGER  LAST_NOD(NSN)
-      INTEGER  IX,IY,IZ,NEXT,
+      INTEGER  IX,IY,IZ,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
-     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,BBB,
+     .   AAA,BBB,
      .   AAA2,MIN_DIST
-      INTEGER FIRST,NEW,LAST
+      INTEGER FIRST,LAST
       INTEGER IPART_I,IPART_JS
       SAVE IIX,IIY,IIZ,DISTMAX
 C-----------------------------------------------
@@ -122,7 +122,7 @@ C      IF(ITASK == 0)THEN
 C      END IF
 C Barrier to wait init voxel and allocation NEX_NOD
 C      CALL MY_BARRIER
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C Initial phase of BPE and BPN construction moved from I7BUCE => I7TRI
 C
       ALPHA_MARGE = SQRT(ONE +SPASORT)
 
@@ -133,7 +133,7 @@ C
       YMIN = BMINMA(5)
       ZMIN = BMINMA(6)
 
-c     dev future: xminb plus grand que xmin...
+c     Dev Future: xminb larger than Xmin ...
       XMINB = XMIN
       YMINB = YMIN
       ZMINB = ZMIN
@@ -142,7 +142,7 @@ c     dev future: xminb plus grand que xmin...
       ZMAXB = ZMAX
 
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing nodes in boxes
 C=======================================================================
 C     IF(ITASK == 0)THEN
 
@@ -157,8 +157,8 @@ C     IF(ITASK == 0)THEN
         NN = KXSP(3,J)
 
         DISTMAX = MAX(DISTMAX,SPBUF(1,J))
-C Optimisation // recherche les noeuds compris dans xmin xmax des
-C elements du processeur
+C Optimization // searches for nodes within xmin xmax of
+C processor elements
         IF(X(1,NN) < XMIN)  CYCLE
         IF(X(1,NN) > XMAX)  CYCLE
         IF(X(2,NN) < YMIN)  CYCLE
@@ -176,7 +176,7 @@ C elements du processeur
 
         FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(FIRST == 0)THEN
-c         empty cell
+c         Empty Cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
           NEXT_NOD(I)                 = 0 ! last one
           LAST_NOD(I)                 = 0 ! no last
@@ -199,12 +199,12 @@ C     END IF
 C Barrier to wait task0 treatment
 C     CALL MY_BARRIER
 C=======================================================================
-C 3   recherche des boites concernant chaque facette
-C     et creation des candidats
+C 3 Searching boxes concerning each facet
+C     and creation of candidates
 C=======================================================================
       NVOIMAX = 0
       DO NE = NSPHACTF,NSPHACTL
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
 c        IF(STF(NE) == ZERO)CYCLE
 
         J=NLIST(NE)
@@ -216,7 +216,7 @@ c
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = (SPBUF(1,J)+DISTMAX)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))
@@ -235,9 +235,9 @@ c        indice des voxels occupes par la facette
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
         DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
@@ -270,7 +270,7 @@ cc             nnpelem = nnpelem + 1
                 IF(ZS<=X(3,NN)-BBB)GOTO 200
                 IF(ZS>=X(3,NN)+BBB)GOTO 200
 
-cc             nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
                 D1X = XS - X(1,NN)
                 D1Y = YS - X(2,NN)
@@ -316,10 +316,10 @@ cc        Pre-search - computation of max interpaticle distance per part (maximu
       ENDDO
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     END OF SORTING
 C-------------------------------------------------------------------------
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites
+C reset nodes in the boxes to zero
 C=======================================================================
   100 CONTINUE
 

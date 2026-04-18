@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,33 +21,42 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    debug_mod                ../engine/share/modules/debug_mod.F
+!||    debug_mod                             ../engine/share/modules/debug_mod.F
 !||--- called by ------------------------------------------------------
-!||    i24ass2                  ../engine/source/interfaces/int24/i24for3.F
-!||    i24cor3                  ../engine/source/interfaces/int24/i24cor3.F
-!||    i24ispt2_ini_opttri      ../engine/source/interfaces/int24/i24cor3.F
-!||    i24optcd                 ../engine/source/interfaces/intsort/i24optcd.F
-!||    i25cor3_e2s              ../engine/source/interfaces/int25/i25cor3_e2s.F
-!||    i25free_bound            ../engine/source/interfaces/int25/i25free_bound.F
-!||    i25normp                 ../engine/source/interfaces/int25/i25norm.F
-!||    i25optcd_e2s             ../engine/source/interfaces/intsort/i25optcd_e2s.F
-!||    i25trivox_edg            ../engine/source/interfaces/intsort/i25trivox_edg.F
-!||    m10law                   ../engine/source/materials/mat/mat010/m10law.F
-!||    prepare_debug            ../engine/share/modules/debug_mod.F
-!||    resol                    ../engine/source/engine/resol.F
-!||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-!||    spmd_collect_nlocal      ../engine/source/mpi/output/spmd_collect_nlocal.F
-!||    spmd_fiadd25e_poff       ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
-!||    spmd_fiadd25e_pon        ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
-!||    update_failwave          ../engine/source/materials/fail/failwave/update_failwave.F
+!||    aconve                                ../engine/source/ale/aconve.F90
+!||    ale51_antidiff3                       ../engine/source/ale/ale51/ale51_antidiff3.F
+!||    ebcs8_inlet                           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    get_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    i24ass2                               ../engine/source/interfaces/int24/i24for3.F
+!||    i24cor3                               ../engine/source/interfaces/int24/i24cor3.F
+!||    i24ispt2_ini_opttri                   ../engine/source/interfaces/int24/i24cor3.F
+!||    i24optcd                              ../engine/source/interfaces/intsort/i24optcd.F
+!||    i25cor3_e2s                           ../engine/source/interfaces/int25/i25cor3_e2s.F
+!||    i25free_bound                         ../engine/source/interfaces/int25/i25free_bound.F
+!||    i25normp                              ../engine/source/interfaces/int25/i25norm.F
+!||    i25optcd_e2s                          ../engine/source/interfaces/intsort/i25optcd_e2s.F
+!||    i25trivox_edg                         ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||    prepare_debug                         ../engine/share/modules/debug_mod.F
+!||    remove_neighbour_segment              ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||    resol                                 ../engine/source/engine/resol.F
+!||    spmd_collect_multi_fvm                ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+!||    spmd_collect_nlocal                   ../engine/source/mpi/output/spmd_collect_nlocal.F
+!||    spmd_exch_n_neighbor_2d               ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_exch_n_neighbor_3d               ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
+!||    spmd_fiadd25e_poff                    ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+!||    spmd_fiadd25e_pon                     ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+!||    update_failwave                       ../engine/source/materials/fail/failwave/update_failwave.F
+!||    update_slipring                       ../engine/source/tools/seatbelts/update_slipring.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       MODULE DEBUG_MOD
 
         USE ISO_C_BINDING
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG !< User Node Identifiers
-        INTEGER :: NC_DEBUG                             !< Engine Cycle number
-!       double precision, DIMENSION(:),ALLOCATABLE :: DETACH_SHELL
+        INTEGER :: NCYCLE_DEBUG                         !< Engine Cycle number
+        integer :: nspmd_debug !< number of processors
+        integer :: ispmd_debug !< processor id
+!       Double precision, dimension (:), allocatable:: detach_shell
 
 
         CONTAINS
@@ -216,26 +225,30 @@ C     (s2 << 16) | s1
 
 
 !||====================================================================
-!||    prepare_debug   ../engine/share/modules/debug_mod.F
+!||    prepare_debug        ../engine/share/modules/debug_mod.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol_alloc_phase1   ../engine/source/engine/resol_alloc.F90
 !||--- uses       -----------------------------------------------------
-!||    debug_mod       ../engine/share/modules/debug_mod.F
+!||    debug_mod            ../engine/share/modules/debug_mod.F
 !||====================================================================
-      SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD)
+      SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD,ispmd,nspmd)
         USE DEBUG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-            INTEGER, INTENT(IN) :: NUMNOD
-            INTEGER, DIMENSION(:), INTENT(IN) :: ITAB(NUMNOD)
+       INTEGER, INTENT(IN) :: NUMNOD
+       integer, intent(in) :: ispmd !< processor id
+       integer, intent(in) :: nspmd !< number of processors
+       INTEGER, DIMENSION(:), INTENT(IN) :: ITAB(NUMNOD)
 C-----------------------------------------------
        ALLOCATE (ITAB_DEBUG(NUMNOD))
        ITAB_DEBUG(1:NUMNOD)=ITAB(1:NUMNOD)
 C-----------------------------------------------
-       NC_DEBUG = 0 ! updated in resol loop
+       NCYCLE_DEBUG = 0 ! updated in resol loop
+       ispmd_debug = ispmd
+       nspmd_debug = nspmd
 C-----------------------------------------------
       END
       

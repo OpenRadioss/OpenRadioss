@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,6 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,7 @@ C SHELL 4-NODES
 C
         NUMSHEL0 = NUMSHEL
         IF(NUMSHEL>0)THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
           
           DO ISYS = 1, NUMSHEL
             ITRI(ISYS) =ID_SIGSH(ISYS)
@@ -139,7 +140,7 @@ C        checking INISHE : search for multiply define
         ENDIF
 C
         IF(NUMSHEL>0)THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
          
           DO ISYS = 1,NUMSHEL 
               ITRI(ISYS) = ID_SIGSH(ISYS)
@@ -151,7 +152,7 @@ C        tri des elts du Y000 par ID croissant
             KSYSUSR(NUMSHEL+J)=ISYS
           END DO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
           DO I=1,NUMELC
             ISYS=UEL2SYS(IXC(NIXC,I),KSYSUSR,NUMSHEL)
             PTSHEL(I) =ISYS
@@ -161,7 +162,7 @@ C
 C SHELL 3-NODES
 C
         IF(NUMSH3N>0)THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
           DO ISYS = 1, NUMSH3N
             II= NUMSHEL0 + ISYS
             ITRI(ISYS) = ID_SIGSH(II)
@@ -214,7 +215,7 @@ C
         END IF
 C
         IF (NUMSH3N > 0) THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
           DO ISYS = 1, NUMSH3N
             II = ISYS + NUMSHEL0
             ITRI(ISYS) = ID_SIGSH(II)
@@ -228,7 +229,7 @@ C
             KSYSUSR(NUMSH3N + J) = ISYS
           END DO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
           DO I=1,NUMELTG
             ISYS = UEL2SYS(IXTG(NIXTG,I),KSYSUSR,NUMSH3N)
             PTSH3N(I) =  ISYS 
@@ -239,7 +240,7 @@ C BRICK
 C
         IF(NUMSOL>0)THEN
 C
-C        tri des elts de SIGI par ID croissant
+C        sorting elements of SIGI by ascending id
           DO ISYS = 1, NUMSOL
             ITRI(ISYS) = ID_SOLID_SIGI(ISYS)
           END DO
@@ -322,7 +323,7 @@ C        checking (search for multiply define) and compacting INISOL
 C
         IF(NUMSOL>0)THEN
 C
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
           DO ISYS = 1, NUMSOL
             ITRI(ISYS) = ID_SOLID_SIGI(ISYS)
           END DO
@@ -333,7 +334,7 @@ C        tri des elts du Y000 par ID croissant
             KSYSUSR(NUMSOL+J)=ISYS
           END DO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
           DO I=1,NUMELS
             ISYS=UEL2SYS(IXS(NIXS,I),KSYSUSR,NUMSOL)
             PTSOL(I) =ISYS
@@ -344,7 +345,7 @@ C QUAD 2D
 C
         IF(NUMQUAD>0)THEN
 C
-C        tri des elts de SIGI par ID croissant
+C        sorting elements of SIGI by ascending id
           DO ISYS = 1, NUMQUAD
             ITRI(ISYS) = ID_QUAD_SIGI(ISYS)
           END DO
@@ -409,7 +410,7 @@ C        checking (search for multiply define) and compacting INIQUA
 C
         IF(NUMQUAD>0)THEN
 C
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
           DO ISYS = 1, NUMQUAD
             ITRI(ISYS) = ID_QUAD_SIGI(ISYS)
           END DO
@@ -420,7 +421,7 @@ C        tri des elts du Y000 par ID croissant
             KSYSUSR(NUMQUAD+J)=ISYS
           END DO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
           DO I=1,NUMELQ
             ISYS=UEL2SYS(IXQ(NIXQ,I),KSYSUSR,NUMQUAD)
             PTQUAD(I) =ISYS
@@ -525,7 +526,7 @@ C
       IF (NUMSPRI > 0) THEN
 C
         INISPRI = 1
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMSPRI
           ITRI(ISYS) =ID_SIGSPRI(ISYS)
         ENDDO
@@ -576,7 +577,7 @@ C        checking INISPRI : search for multiply define
       ENDIF ! IF (NUMSPRI > 0)
 C
       IF (NUMSPRI > 0) THEN
-C       tri des elts du Y000 par ID croissant
+C       sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMSPRI
           ITRI(ISYS) = ID_SIGSPRI(ISYS)
         ENDDO
@@ -587,7 +588,7 @@ C       tri des elts du Y000 par ID croissant
           KSYSUSR(NUMSPRI+J)=ISYS
         ENDDO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
         DO I=1,NUMELR
           ISYS=UEL2SYS(IXR(NIXR,I),KSYSUSR,NUMSPRI)
           PTSPRI(I) =ISYS
@@ -597,7 +598,7 @@ C
 C  BEAM
 C
       IF (NUMBEAM > 0) THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMBEAM
           ITRI(ISYS) =ID_SIGBEAM(ISYS)
         ENDDO
@@ -648,7 +649,7 @@ C        checking INIBEAM : search for multiply define
       ENDIF ! IF (NUMBEAM > 0)
 C
       IF (NUMBEAM > 0) THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMBEAM
           ITRI(ISYS) = ID_SIGBEAM(ISYS)
         ENDDO
@@ -659,7 +660,7 @@ C        tri des elts du Y000 par ID croissant
           KSYSUSR(NUMBEAM+J)=ISYS
         ENDDO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
         DO I=1,NUMELP
           ISYS=UEL2SYS(IXP(NIXP,I),KSYSUSR,NUMBEAM)
           PTBEAM(I) =ISYS
@@ -669,7 +670,7 @@ C
 C TRUSS
 C
       IF (NUMTRUS > 0) THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMTRUS
           ITRI(ISYS) =ID_SIGTRUSS(ISYS)
         ENDDO
@@ -720,7 +721,7 @@ C        checking INITRUSS : search for multiply define
       ENDIF ! IF (NUMTRUS > 0)
 C
       IF (NUMTRUS > 0) THEN
-C        tri des elts du Y000 par ID croissant
+C        sorting elements of Y000 by ascending id
         DO ISYS = 1, NUMTRUS
           ITRI(ISYS) = ID_SIGTRUSS(ISYS)
         ENDDO
@@ -731,7 +732,7 @@ C        tri des elts du Y000 par ID croissant
           KSYSUSR(NUMTRUS+J)=ISYS
         ENDDO
 C
-C        Nos systeme dans le Y000, des elts du D00
+C        our system in Y000, elements of D00
         DO I=1,NUMELT
           ISYS=UEL2SYS(IXT(NIXT,I),KSYSUSR,NUMTRUS)
           PTTRUSS(I) =ISYS

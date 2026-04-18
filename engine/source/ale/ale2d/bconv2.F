@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    bconv2                 ../engine/source/ale/ale2d/bconv2.F
 !||--- called by ------------------------------------------------------
-!||    aconve                 ../engine/source/ale/aconve.F
+!||    aconve                 ../engine/source/ale/aconve.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
       SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 , ALE_CONNECT ,
-     .                  BHOLE ,NM   )
+     .                  BHOLE ,NM    ,s_flux,offset,nv46,nel,nft)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,22 +42,28 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: offset !< offset for FLUX & QMV arrays      
+      integer, intent(in) :: nv46 !< secondimension of FLUX array
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group       
       INTEGER BHOLE(NMULT,*) ,NM
-      my_real VTOT(*), PHI(*), FLUX(4,*), FLU1(*)
+      my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
+      integer :: ie_2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        DO I=LFT,LLT
+        DO I=1,nel
           IE =NFT+I
+          ie_2 = ie + offset
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
           IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
           IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
@@ -85,7 +91,8 @@ C-----------------------------------------------
           ENDIF
           VTOT(I) = VTOT(I) + HALF * DT1 *(
      .                                     - PHI(IE)*FLU1(I)
-     .                                     - PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
+     .                                     - PHI(IV1)*FLUX(ie_2,1)-PHI(IV2)*FLUX(ie_2,2)
+     .                                     - PHI(IV3)*FLUX(ie_2,3)-PHI(IV4)*FLUX(ie_2,4)
      .                                    )
       ENDDO
 C-----------------------------------------------

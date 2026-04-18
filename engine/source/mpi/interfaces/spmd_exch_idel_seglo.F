@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -126,7 +126,7 @@ C-----------------------------------------------
            ENDIF           ! IF(I/=LOC_PROC) THEN
          ENDDO
 C
-C Test reception envoi BUFR
+C Test Reception Bufr
 C
       DO I = 1, NSPMD
         IF(I/=LOC_PROC) THEN

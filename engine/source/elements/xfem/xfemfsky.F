@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3_crk      ../engine/source/elements/xfem/cforc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3_CRK(
      .           JFT     ,JLT     ,NFT   ,IXC    ,OFF     ,IADC    ,
@@ -38,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           ILAY    ,CRKSKY  )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADC(4,*),IADC_CRK(4,*),IXC(NIXC,*),IEL_CRK(*),
      .  ELCUTC(2,*),INOD_CRK(*),IPARTC(*)
-      INTEGER JFT,JLT,NFT,IXFEM,ILEV,ILAY
+      INTEGER JFT,JLT,NFT,ILEV,ILAY
       my_real
      .  FSKY(8,LSKY),OFF(*),OFFG(*),
      .  F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
@@ -265,6 +267,7 @@ C-----------
 !||    czforc3_crk     ../engine/source/elements/xfem/czforc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDTN3_CRK(
      .          JFT   ,JLT  ,NFT  ,IXC   ,OFF     ,IADC   ,
@@ -277,6 +280,7 @@ C-----------
      .          IPARTC,ILAY    ,CRKSKY   )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -292,7 +296,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IADC(4,*),IADC_CRK(4,*),IXC(NIXC,*),
      . IEL_CRK(*),ILEV,ELCUTC(2,*),INOD_CRK(*),IPARTC(*),
-     . IXFEM,ILAY
+     . ILAY
       my_real
      .  FSKY(8,LSKY),OFF(*),
      .  F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
@@ -504,6 +508,7 @@ C-------------
 !||    c3forc3_crk     ../engine/source/elements/xfem/c3forc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3UPDT3_CRK(
      .          JFT  ,JLT  ,NFT  ,IXTG  ,OFF     ,IADC   ,
@@ -515,6 +520,7 @@ C-------------
      .          ILEV ,ILAY ,OFFG ,CRKSKY)
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -528,7 +534,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IADC(3,*),IAD_CRKTG(3,*),IXTG(NIXTG,*),
-     . IEL_CRKTG(*),ILEV,ELCUTC(2,*),IXFEM,ILAY
+     . IEL_CRKTG(*),ILEV,ELCUTC(2,*),ILAY
 C     REAL
       my_real
      .  FSKY(8,LSKY),OFF(*),OFFG(*),
@@ -542,7 +548,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,KK,ELCUT,ELCRK,ELCRKTG,ENR,IOFF
-      INTEGER IAD(3),IADXFE(3),UNENR0(3,JLT)
+ 
       my_real OFF_L,AREAP
 C=======================================================================
       IOFF=0

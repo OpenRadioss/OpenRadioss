@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_group_str            ../engine/source/output/restart/w_group_str.F
 !||--- calls      -----------------------------------------------------
 !||    fretitl                ../engine/source/input/freform.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,NENTITY,GRTYPE,SORTED,GRPGRP,LEVEL,
+      INTEGER J,ID,IGU,NENTITY,GRTYPE,SORTED,GRPGRP,LEVEL,
      .        ERR,R2R_ALL,R2R_SHARE,ENTITY,ITITLE(LTITR),L_GROUP
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  IGROUP

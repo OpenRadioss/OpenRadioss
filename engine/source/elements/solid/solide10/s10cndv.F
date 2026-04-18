@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,6 @@ C======================================================================|
          END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
- 1005 FORMAT(3X,1PE10.3)
       END
 !||====================================================================
 !||    s10mvnd       ../engine/source/elements/solid/solide10/s10cndv.F

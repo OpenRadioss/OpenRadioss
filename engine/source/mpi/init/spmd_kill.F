@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+!       USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -48,11 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INFO,LOC_PROC,I,IERROR
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      CALL MPI_ABORT(SPMD_COMM_WORLD,ICODE,IERROR)
+      CALL MPI_ABORT(MPI_COMM_WORLD,ICODE,IERROR)
       CALL MY_EXIT(ICODE)
 
       RETURN

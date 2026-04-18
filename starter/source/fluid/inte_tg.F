@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25),  R2, 
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
@@ -90,9 +90,9 @@ C
      .            .17561526,.17561526,
      .           -.14957004/
 C
-C DISTANCE A LA SOURCE
+C DISTANCE TO THE SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
@@ -156,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25),  R2, 
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
@@ -202,9 +202,9 @@ C
      .            .17561526,.17561526,
      .           -.14957004/
 C
-C DISTANCE A LA SOURCE
+C DISTANCE TO THE SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_ALL_DMIN(V,LEN)
-C min tableau V de taille LEN de type my_real
-C resultat dans VTMP de taille LEN
+C min table V of size LEN of type my_real
+C result in VTMP of size LEN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE), I, IERROR
+      INTEGER I, IERROR
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_DSUM(V,LEN,VTMP)
-C gather tableau V de taille LEN de type my_real
+C gather table V of size LEN of type my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,8 +107,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER I
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -134,7 +134,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_DPSUM(V,LEN,VTMP)
-C gather tableau V de taille LEN de type my_dp
+C gather table V of size LEN of type my_dp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,8 +158,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER I
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -208,8 +208,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER I
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -237,8 +237,8 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_PART_COM(TAG,MAIN,ICOMV)
-C rempli sur pmain le tableau ICOMV suivant la valeur de TAG locale
-C ie sur main : ICOMV(P) = "TAG sur p"
+C fills on pmain the table ICOMV according to the value of local TAG
+C ie on main : ICOMV(P) = "TAG on p"
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -299,7 +299,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_FSUM9(V,LEN)
-C gather tableau V de taille LEN de type real
+C gather table V of size LEN of type real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -324,8 +324,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR
       REAL, DIMENSION(:),ALLOCATABLE :: VTMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -377,7 +376,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_DSUM9(V,LEN)
-C gather tableau V de taille LEN de type my_real
+C gather table V of size LEN of type my_real
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -401,8 +400,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
@@ -434,7 +432,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_DPSUM9(V,LEN)
-C gather tableau V de taille LEN de type double precision
+C Gather Table V of Double precision type size
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -458,8 +456,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR
       DOUBLE PRECISION
      .        VTMP(LEN)
 C-----------------------------------------------
@@ -505,7 +502,7 @@ C
 !||    lecnoise                          ../engine/source/general_controls/computation/lecnoise.F
 !||    lectur                            ../engine/source/input/lectur.F
 !||    pnoise                            ../engine/source/general_controls/computation/pnoise.F
-!||    printime                          ../engine/source/system/timer.F
+!||    printime                          ../engine/source/system/printime.F
 !||    rbyonf                            ../engine/source/constraints/general/rbody/rbyonf.F
 !||    rbypid                            ../engine/source/constraints/general/rbody/rbypid.F
 !||    resol                             ../engine/source/engine/resol.F
@@ -520,7 +517,7 @@ C
 !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_ISUM9(V,LEN)
-C gather tableau V de taille LEN de type integer
+C gather table V of size LEN of type integer
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -542,8 +539,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,IERROR,
-     .        VTMP(LEN),STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR, 
+     . VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -569,7 +566,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_MIN(V,LEN)
-C gather tableau V de taille LEN de type reel
+C gather table V of size LEN of type reel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -593,8 +590,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -619,7 +615,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_MAX(V,LEN)
-C gather tableau V de taille LEN de type reel
+C gather table V of size LEN of type reel
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -644,8 +640,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
 
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,IERROR,
-     .        STATUS(MPI_STATUS_SIZE)
+      INTEGER I, IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NI, N1, N2, K, IE, JE, JL, I1, I2, I3, I4, NLS, NLT, LIST(MVSIZ)
+      INTEGER I, NI, N1, N2, K, IE, JE, I1, I2, I3, I4, NLS, NLT, LIST(MVSIZ)
       my_real
      .     XXS1(MVSIZ) ,XXS2(MVSIZ) ,YYS1(MVSIZ) ,YYS2(MVSIZ) ,ZZS1(MVSIZ) ,ZZS2(MVSIZ) ,
      .     XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,XX4,YY4,ZZ4,
@@ -87,7 +87,7 @@ CDIR$ NOFUSION
         IE = CAND_M(I)
         IF(CAND_S(I) <= NEDGE) THEN
           JE = CAND_S(I)
-          GAPV(I)=GAPE(JE) ! Peut etre considere comme nul pour l instant
+          GAPV(I)=GAPE(JE) ! Maybe consider void for the moment
 C
           IF(IGAP == 3)
      .       GAPV(I)=MIN(GAP_M_L(IE)+GAP_E_L(JE),GAPV(I)) ! under-estimated ...
@@ -96,7 +96,7 @@ C
 C
           IF(IGAP == 3) 
      .      GAPV(I)=MIN(GAP_M_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
-C verifier si E_GAPL  est bien ce qu'on veut ici 
+C Check if e_gapl is what we want here 
         ENDIF
         GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
       ENDDO

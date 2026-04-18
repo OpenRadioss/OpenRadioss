@@ -20,19 +20,20 @@ jobs:
     # DEV ONLY # runs-on: ["dev_update_headers"]
     runs-on: ["update_headers"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
     steps:
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
           # Use a PAT else the push won't trigger the next workflow
           token: ${{ env.GIT_PUSH_SERVBOT_PAT }}
 

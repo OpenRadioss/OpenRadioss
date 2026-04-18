@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -468,12 +468,12 @@ C
 !||--- calls      -----------------------------------------------------
 !||    ibcoff             ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    parameters_mod     ../common_source/modules/interfaces/parameters_mod.F
 !||====================================================================
-      SUBROUTINE SPMD_FIADD_POFF(
+      SUBROUTINE SPMD_FIADD_POFF(OUTPUT,
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
@@ -486,7 +486,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -507,6 +507,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,
      .        NSV(*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),LOADPINTER(*),
@@ -582,7 +583,7 @@ C     following i7for3 & i10for3 process on secondary nodes
 C     
          IF (INCONV == 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .           ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .           ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .           (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .          .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C     Anim FCONT
@@ -671,10 +672,10 @@ C
 !||--- called by ------------------------------------------------------
 !||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD11_POFF(
+      SUBROUTINE SPMD_FIADD11_POFF(OUTPUT,
      1       NB    ,LEN     ,BUFR   ,IRECTS ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
@@ -684,7 +685,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -704,6 +705,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT,INTTH,
      .        IRECTS(2,*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,*),
@@ -837,7 +839,7 @@ C continue i11for3 processing on secondary node
 C
       IF(INCONV == 1) THEN
        IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -976,10 +978,11 @@ C
 !||--- called by ------------------------------------------------------
 !||    spmd_i7fcom_poff    ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD17_POFF(
+      SUBROUTINE SPMD_FIADD17_POFF(OUTPUT,
      1       NB    ,LEN   ,BUFR   ,NELEMS ,A     ,
      2       STIFN ,FCONT ,IXS    ,IXS16  ,FROTS ,
      3       H3D_DATA)
@@ -987,7 +990,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1003,6 +1007,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, NN,
      .        NELEMS(*), IXS(NIXS,*)  ,IXS16(8,*)
       my_real
@@ -1111,7 +1116,7 @@ C
 C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1197,10 +1202,10 @@ C
 !||    getdpdaanc          ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD20_POFF(
+      SUBROUTINE SPMD_FIADD20_POFF(OUTPUT,
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
@@ -1210,7 +1215,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1230,6 +1235,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,
      .        NSV(*), ICODT(*), NSTRF(*), NLG(*),
      .        ICONTACT(*), IADM,INTTH
@@ -1390,7 +1396,7 @@ C
 C following i7for3 & i10for3 process on secondary nodes
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .    .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1467,10 +1473,10 @@ C
 !||--- calls      -----------------------------------------------------
 !||    getdpdaanc           ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD20E_POFF(
+      SUBROUTINE SPMD_FIADD20E_POFF(OUTPUT,
      1       NB    ,LEN     ,BUFR   ,IXLINS ,A       ,
      2       STIFN ,VISCN   ,IBC    ,ISECIN ,NOINT   ,
      3       IBAG  ,ICODT   ,SECFCUM,NSTRF  ,ICONTACT,
@@ -1479,7 +1485,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1499,6 +1505,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout)  :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT,
      .        IXLINS(2,*), ICODT(*), NSTRF(*),
      .        ICONTACT(*), NLG(*)
@@ -1649,7 +1656,7 @@ C
 C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .    .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1778,12 +1785,12 @@ C
 !||    arret             ../engine/source/system/arret.F
 !||    ibcoff            ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod          ../common_source/modules/output/anim_mod.F
 !||    h3d_mod           ../engine/share/modules/h3d_mod.F
 !||    message_mod       ../engine/share/message_module/message_mod.F
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    parameters_mod    ../common_source/modules/interfaces/parameters_mod.F
 !||====================================================================
-      SUBROUTINE SPMD_FIADD_PON(
+      SUBROUTINE SPMD_FIADD_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,
      3       ICODT  ,SECFCUM,NSTRF  ,ICONTACT,FCONT,
@@ -1795,7 +1802,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE PARAMETERS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1816,6 +1823,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,NIN,
      .        NSV(*), ISKY(*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),LOADPINTER(*),
@@ -1889,7 +1897,7 @@ C
 C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -1991,11 +1999,11 @@ C
 !||    arret               ../engine/source/system/arret.F
 !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD20F_PON(
+      SUBROUTINE SPMD_FIADD20F_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,
      3       ICODT  ,SECFCUM,NSTRF  ,ICONTACT,FCONT,
@@ -2006,7 +2014,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2026,6 +2034,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,
      .        NSV(*), ISKY(*), ICODT(*), NSTRF(*), NLG(*),
      .        ICONTACT(*), IADM,INTTH
@@ -2106,7 +2115,7 @@ C
 C continue i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2184,11 +2193,11 @@ C
 !||    ancmsg             ../engine/source/output/message/message.F
 !||    arret              ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD11_PON(
+      SUBROUTINE SPMD_FIADD11_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR  ,IRECTS  ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN,NOINT   ,IBAG ,
      3       ICODT  ,SECFCUM,NSTRF ,ICONTACT,FCONT,
@@ -2200,7 +2209,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2220,6 +2229,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(output_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT,INTTH,NIN,
      .        IRECTS(2,*), ISKY(*), ICODT(*), NSTRF(*),
      .        ICONTACT(*), 
@@ -2382,7 +2392,7 @@ C
 C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2524,11 +2534,11 @@ C
 !||    ancmsg               ../engine/source/output/message/message.F
 !||    arret                ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD20FE_PON(
+      SUBROUTINE SPMD_FIADD20FE_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR  ,IRECTS  ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN,NOINT   ,IBAG ,
      3       ICODT  ,SECFCUM,NSTRF ,ICONTACT,FCONT,
@@ -2538,7 +2548,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2558,6 +2568,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT,
      .        IRECTS(2,*), ISKY(*), ICODT(*), NSTRF(*),
      .        ICONTACT(*),NLG(*)
@@ -2621,7 +2632,7 @@ C
 C continue i11for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2745,17 +2756,19 @@ C
 !||--- called by ------------------------------------------------------
 !||    spmd_i7fcom_pon    ../engine/source/mpi/forces/spmd_i7fcom_pon.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD17_PON(
+      SUBROUTINE SPMD_FIADD17_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR  ,NELEMS ,FSKYI ,
      2       ISKY   ,FCONT  ,IXS   ,IXS16  ,H3D_DATA  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2773,6 +2786,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NB, LEN, 
      .        NELEMS(*), ISKY(*), IXS(NIXS,*), IXS16(8,*)
       my_real BUFR(LEN,*),
@@ -2808,7 +2822,7 @@ C
 C following i11for3 process on secondary nodes
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -2912,7 +2926,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
-      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      LOGICAL, DIMENSION(NSPMD), INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
       INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -2922,7 +2936,7 @@ C-----------------------------------------------
       INTEGER I, J, K, NSN, NMN, ITYP, IERROR, IERROR1, KK, NIN, P,
      .        SCPMAX1,ISD,IRC,MY_RANK,LAST, IGE, IGN, NME, NMES,INTTH,
      .        NRTM, NRTS, NLINM, NLINS,NSNE, NMNE,N,M,
-     .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT
+     .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT,NEDGE_1D
       INTEGER,DIMENSION(:), ALLOCATABLE:: INDX
       INTEGER,DIMENSION(:), ALLOCATABLE:: PPAR
       INTEGER,DIMENSION(:), ALLOCATABLE:: INDP
@@ -3038,7 +3052,7 @@ C
                 ELSEIF(ITYP==20)THEN
                   LINDIDEL = LINDIDEL+NRTM
                   LBUFIDEL = LBUFIDEL+4*NRTM+4
-C partie edge
+C Edge part
                   NLINS  = IPARI(51,I)                                   
                   NLINM  = IPARI(52,I)                                   
                   LINDIDEL = LINDIDEL+NLINM+NLINS
@@ -3056,19 +3070,19 @@ C
      .          ITYP==11.OR.ITYP==23.OR.ITYP==24.OR.
      .          ITYP==25) THEN
               NSN = IPARI(5,I)
-              NMN = IPARI(6,I)               
-              IF(NSN/=0) THEN
-                ISENDTO(I,ISPMD+1)=NSN
+              NMN = IPARI(6,I)       
+              NEDGE_1D = IPARI(101,I)                           
+              IF(NSN+NEDGE_1D/=0) THEN
+                ISENDTO(I,ISPMD+1)=NSN +NEDGE_1D
                 ISENDTO(I,NSPMD+1)=ISENDTO(I,NSPMD+1)+1
-                ISENDTO(NINTER+1,ISPMD+1)=ISENDTO(NINTER+1,ISPMD+1)+NSN
+                ISENDTO(NINTER+1,ISPMD+1)=ISENDTO(NINTER+1,ISPMD+1)+NSN +NEDGE_1D
               ENDIF
-              IF(NMN/=0) THEN
-                IRCVFROM(I,ISPMD+1) = NMN
+              IF(NMN+NEDGE_1D/=0) THEN
+                IRCVFROM(I,ISPMD+1) = NMN +NEDGE_1D
                 IRCVFROM(I,NSPMD+1)=IRCVFROM(I,NSPMD+1)+1
                 IRCVFROM(NINTER+1,ISPMD+1)=IRCVFROM(NINTER+1,ISPMD+1)
-     +                                    +NMN
+     +                                    +NMN +NEDGE_1D
               ENDIF
-
 
             ELSEIF(ITYP==17)THEN
               IF(IPARI(33,I)==0)THEN
@@ -3093,7 +3107,7 @@ C
             ELSEIF(ITYP==20)THEN
               NSN  = IPARI(5,I)
               NMN = IPARI(6,I)  
-C partie edge rajoutee             
+C Edge part added             
               NSNE   = IPARI(55,I)                                   
               NMNE   = IPARI(56,I)                                   
               IF(NSN+NSNE/=0) THEN
@@ -3196,17 +3210,17 @@ C
               IRECVF = LAST
             END IF
           END IF
-          IF(MY_RANK==NSPMD)THEN         ! DERNIER PROC DU RING
+          IF(MY_RANK==NSPMD)THEN         ! LAST PROC OF THE RING
             IF(IRECVF/=0) ISENDT = -1      ! -1 : ENVOI A TS LE MONDE (SI COMM NECESSAIRE)
-          ELSE ! PROCESSEUR DANS LE RING
+          ELSE ! PROCESSOR IN THE RING
             ISENDT = INDP(MY_RANK+1)
           END IF
           IF(NSPMD>1) THEN
-            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO DU DERNIER PROCESSEUR DS LE RING (OU 0 SI PAS DE RING NECESSAIRE) 
+            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO OF THE LAST PROCESSOR IN THE RING (OR 0 IF NO RING NECESSARY)
           END IF
         END IF
 C
-C longueur comm routine SPMD_SD_XV
+C length com routine SPMD_SD_XV
 C
         ISIZXV = 0
         DO I = 1, NSPMD
@@ -3219,7 +3233,7 @@ C comm w
 
         IF(IDTMIN(11)==3.OR.IDTMIN(10)==3) ILENXV = ILENXV + 2
 C
-C longueur comm routine EXCH_A_INT2_PON
+C length com routine exch_a_int2_pon
 C
         IF(IRODDL==0) THEN
           I2SIZE = 5
@@ -3227,7 +3241,7 @@ C
           I2SIZE = 10
         ENDIF
 C
-C longueur comm routine I7XVCOM et I7FCOM
+C Comm routine length i7 xcom and i7 xcom
 C
         ISLEN7 = 0
         IRLEN7 = 0
@@ -3253,7 +3267,7 @@ C
           NIN = INTLIST(I)
           ITYP = IPARI(7,NIN)
           INTTH = IPARI(47,NIN)
-C type 7 ou 10
+C type 7 or 10
           IF(ITYP==7 .OR.ITYP==10.OR.
      .       ITYP==23.OR.ITYP==22.OR.ITYP==24.OR.
      .       ITYP==25)THEN
@@ -3358,7 +3372,7 @@ C
       CALL SPMD_SPLIT_COMM(
      .  IRCVFROM(NINTER+1,ISPMD+1)+ISENDTO(NINTER+1,ISPMD+1),COMM_CONT)
 
-      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM,
+      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( INTBUF_TAB, NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM,
      .                                          NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 
 !     Create CJOINT communicator
@@ -3383,8 +3397,8 @@ C
 !||    ancmsg                       ../engine/source/output/message/message.F
 !||    arret                        ../engine/source/system/arret.F
 !||    read_db                      ../common_source/tools/input_output/read_db.F
-!||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                     ../common_source/tools/input_output/write_routines.c
+!||    read_r_c                     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
@@ -3442,7 +3456,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG==1) THEN
-C init Pointeur + lecture partie entiere
+C Init Pointer + Reading Wait
        IF(NINTER/=0) THEN
         IERROR = 0
         ALLOCATE(NSVFI(NINTER),STAT=IERROR1)
@@ -3950,7 +3964,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C allocation et lecture strutures interfaces sur fichier restart (partie entiere)
+C Allocation and reading Strings Interfaces on Restart file (integer part)
 C
         NBINTC = 0
         DO I =1, NINTER
@@ -4448,7 +4462,7 @@ C fin type11
                END IF
 C fin type 17
               END IF
-C cas LENR = 0, on a pas besoin de tableau ISKYFI et FSKYFI
+C Lenr case = 0, we don't need an iskyfi and fskyfi table
             ELSE
               NLSKYFI(I) = 0
             ENDIF
@@ -4591,7 +4605,7 @@ C
                   CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                   CALL ARRET(2)
                 END IF
-C cas LENR = 0, on a pas besoin de tableau ISKYFI et FSKYFI
+C Lenr case = 0, we don't need an iskyfi and fskyfi table
               ELSE
                 NLSKYFIE(I) = 0
               END IF
@@ -4609,7 +4623,6 @@ C cas LENR = 0, on a pas besoin de tableau ISKYFI et FSKYFI
 
                 CALL READ_I_C(NSNSIE(I)%P(1),NSPMD)
                 CALL READ_I_C(NSNFIE(I)%P(1),NSPMD)
-
                 LENS_EDGE = 0
                 LENR_EDGE = 0
                 DO P = 1, NSPMD
@@ -4647,8 +4660,11 @@ C
                 ENDIF
                 IF(LENR_EDGE>0) THEN
                   ALLOCATE(NSVFIE(I)%P(LENR_EDGE)) 
+
                   ALLOCATE(ITAFIE(I)%P(LENR_EDGE*2))
+
                   ALLOCATE(LEDGE_FIE(I)%P(E_LEDGE_SIZE,LENR_EDGE)) 
+
                   ALLOCATE(XFIE(I)%P(3,LENR_EDGE*2)) 
                   ALLOCATE(VFIE(I)%P(3,LENR_EDGE*2)) 
                   ALLOCATE(MSFIE(I)%P(LENR_EDGE*2)) 
@@ -4669,7 +4685,7 @@ C
                   CALL READ_I_C(LEDGE_FIE(I)%P,E_LEDGE_SIZE*LENR_EDGE)
                   IPARI(69,I) = LENR_EDGE
                   IF(INTFRIC > 0) THEN
-                     ALLOCATE(IPARTFRIC_FIE(I)%P(LENR),STAT=IERROR1)
+                     ALLOCATE(IPARTFRIC_FIE(I)%P(LENR_EDGE),STAT=IERROR1)
                      CALL READ_I_C(IPARTFRIC_FIE(I)%P,LENR_EDGE)
                   ENDIF
                   IF(IPARI(97,I) > 0) THEN
@@ -4684,7 +4700,7 @@ C
 C
 C
             IF(IPARI(36,I)>0.AND.IPARI(7,I)/=17) THEN
-C structure output sous interfaces
+C Output structure under interfaces
               IERROR = 0
               ALLOCATE(NISUBSFI(I)%P(NSPMD),STAT=IERROR1)
               IERROR = IERROR + IERROR1
@@ -4723,7 +4739,7 @@ C structure output sous interfaces
                 CALL ARRET(2)
               END IF               
 C =================== EDGES TO EDGE
-C structure output sous interfaces
+C Output structure under interfaces
               IF(IPARI(7,I) == 25 .AND. IPARI(58,I) > 0) THEN
                 IERROR = 0
                 ALLOCATE(NISUBSFIE(I)%P(NSPMD),STAT=IERROR1)
@@ -4863,12 +4879,12 @@ C
            ENDIF
           ENDIF
         ENDDO
-C allocation buffer echanges => remplace par alloc dynamique ds les echanges
+C Buffer Allocation Exchanges => replaced by Dynamic Alloc in the exchanges
        ENDIF
 C
        
       ELSE
-C iflag = 2 lecture partie reelle
+C Iflag = 2 Reading part Reel
        IF(NINTER/=0) THEN
         DO I =1, NINTER
           ITYP = IPARI(7,I)
@@ -4940,9 +4956,9 @@ C
               END IF
             END IF
           END IF
-C Int 20 specifique
+C Int 20 Specifique
           IF(ITYP==20)THEN
-C rajout ancrage
+C Addition anchoring
             IF(LENR>0) THEN
               CALL READ_DB(DAANC6FI(I)%P(1,1,1),3*6*LENR)
               CALL READ_DB(DXANCFI(I)%P(1,1),3*LENR)
@@ -4957,7 +4973,7 @@ C rajout ancrage
                 CALL READ_DB(DIAG_SMSFI(I)%P(1),LENR)
               ENDIF 
             END IF
-C rajout partie edge
+C Edge part addition
             LENR = 0
             DO P = 1, NSPMD
               LENR = LENR + NSNFIE(I)%P(P)
@@ -5105,8 +5121,8 @@ C
 !||    wrrestp                      ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db                     ../common_source/tools/input_output/write_db.F
-!||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
@@ -5161,11 +5177,11 @@ C-----------------------------------------------
 C Global init of variable
       IEDGE4=0
 C
-C Sauvegarde Structure interfaces sur restart
+C Building Structure Interfaces on Restart
 C
       IF(IFLAG==1) THEN
         IF(NINTER/=0) THEN
-C ecriture strutures interfaces sur fichier restart (partie entiere)
+C Writing Structures Interfaces on Restart file (integer part)
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IF(ITYP==7.OR.
@@ -5385,7 +5401,7 @@ C
                   END IF
                 END IF
 C =================== EDGES TO EDGE
-C structure output sous interfaces
+C Output structure under interfaces
                 IF(IPARI(7,I) == 25 .AND. IPARI(58,I) > 0) THEN
                   CALL WRITE_I_C(NISUBSFIE(I)%P(1),NSPMD)
                   LENI = 0
@@ -5443,7 +5459,7 @@ C
       ELSE ! WRITE REAL
 
         IF(NINTER/=0) THEN
-C ecriture strutures interfaces sur fichier restart (partie reelle)
+C Writing Structures Interfaces on Restart file (real part)
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IGAP = IPARI(21,I)
@@ -5537,9 +5553,9 @@ C
                 END IF
               END IF
             END IF
-C type20 specifique
+C SPECIFIC TYPE20
             IF(ITYP==20)THEN
-C rajout ancrage
+C Addition anchoring
               IF(LENR>0) THEN
                 CALL WRITE_DB(DAANC6FI(I)%P(1,1,1),3*6*LENR)
                 CALL WRITE_DB(DXANCFI(I)%P(1,1),3*LENR)
@@ -5686,7 +5702,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5758,7 +5774,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5920,7 +5936,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6095,7 +6111,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6308,7 +6324,7 @@ C      IDEB = 0
       DO P = 1, NSPMD
         NB = NSNFI(P)
         ISIZENV(1,P) = ISIZENV(1,P) + NB*LENI20
-C envoi tjrs mais peut etre optimise
+C always send but maybe optimistic
 C        DO N = 1, NB
 C          IF(NSVFI(IDEB+N)<0) THEN
 C            ISIZENV(P) = ISIZENV(P) + LENI20
@@ -6347,7 +6363,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6556,7 +6572,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6777,7 +6793,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -7089,8 +7105,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18
       IF(IRESP==0) THEN
         DO I = 1,INC
@@ -7376,8 +7392,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18*(1+IRESP)
       DO I = 1,INC
         DAANC6(I) = BUF(I)
@@ -7414,8 +7430,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18*(1+IRESP)
       DO I = 1,INC
         BUF(I) = DAANC6(I)

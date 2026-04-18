@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,15 +61,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,II, I_REL, IRUPT,NINDXF
+      INTEGER :: I,II, IRUPT,NINDXF
       INTEGER ,DIMENSION(NEL)  :: INDXF
-      my_real :: RHO0,  DM,   DAM,  STF,  ET2,DTB,
+      my_real ::   DM,   DAM,  STF,DTB,
      .   E_ELAS_N,DTINV , T_N,T_S,
      .   EXP_G   ,     EXP_BK,   DELTA0S_CST, DELTA0N_CST, 
      .   GIC     ,     GIIC  ,  E_ELAS_S,  UND_CST,  UTD_CST,GAMA
 c
       my_real, DIMENSION(NEL) :: EPSM,DELTA0M,  BETA,
-     .   ETHA,DELTAFMAX,EPST,FAC1, FAC2,FAC3,EPSMMAX ,EPSN ,
+     .   DELTAFMAX,EPST,FAC1, FAC2,FAC3,EPSMMAX ,EPSN ,
      .   DELTA0N,DELTA0S,UND,UTD,DYDX1,DYDX2,LENGTH,TMAX_N,TMAX_S
 c-----------------------------------------------
 c     UVAR(1)  =  

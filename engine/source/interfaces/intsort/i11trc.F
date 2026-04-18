@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,10 +41,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on N of CAND_N CAND_E CAND_F
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,K,IADFIN,IAD,IAD0,J,II,SLVE,NN
+      INTEGER I,IADFIN,IAD,IAD0,J,II,SLVE,NN
 C-----------------------------------------------
 C=======================================================================
 C

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,13 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM ,SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID_OLD,PID_OLD,MLN_OLD,RECHERCHE,TELT_PRO,
-     .            TABMP_L,MAT_PARAM)
+     .            TABMP_L,MAT_PARAM,numelc,iworksh,elm_group)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
       USE DDWEIGHTS_MOD
       USE MID_PID_MOD
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,12 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  OFF,NUMELTG,TABMP_L,
+      INTEGER  OFF,TABMP_L,
      .  NUMMAT,NUMGEO, IXTG(NIXTG,*),IGEO(NPROPGI,*),
      .  IPM(NPROPMI,*)
+      integer, intent(in) :: numelc !< number of shell elements
+      integer, intent(in) :: numeltg ! number of shell3n elements
       INTEGER, INTENT(IN) :: SIZE_IRUP
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
 
@@ -72,23 +75,25 @@ C     REAL OU REAL*8
       INTEGER, DIMENSION(2,*), INTENT(IN) :: POIN_PART_TRI
       TYPE(MID_PID_TYPE), DIMENSION(*), INTENT(INOUT) :: MID_PID_TRI
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
+      integer, dimension(numeltg,2), intent(in) :: elm_group !< group id & number of element in the group for each element
 C-----------------------------------------------
-      INTEGER  NPN, MID, PID, JHBE, IGT, MLN,
-     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
-     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,
-     .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
-     .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
-     .    I_PRO,ISOL2,MUID_OLD,PUID_OLD,
-     .    TEST,NFUNC1,NFUNC2,NFAIL,IRUP2,II,IRUP_TAB(SIZE_IRUP),
+      INTEGER  NPN, MID, PID, MLN,
+     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, I, J,
+     .    NFUNC,IFLAG,
+     .    
+     .    
+     .    
+     .    NFAIL,IRUP2,II,IRUP_TAB(SIZE_IRUP),
      .    INDI,IAD,INDI2,MULT
       INTEGER :: INDI3,COST_CHECK,POIN_PART,POIN_MID,POIN_PID
       INTEGER :: FLAG_NICE_NEWTON,FLAG_GURSON,FLAG_NON_LOCAL
       INTEGER :: SPECIAL_OPTION,SPE_I_1,SPE_I_2,SPE_I_3
      
       REAL
-     .   WTYPE(9),FWIHBE,FAC8,
-     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
-     .   BATOZMULT,TMAT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
+     .   WTYPE(9),
+     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,
+     .   BATOZMULT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
      .   WD_LOCAL,MULT_SPE,VISC_PRONY
       
       my_real
@@ -143,6 +148,7 @@ C-----------------------------------------------
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
         NPT = MAX(ABS(NPN),1)
+        if(iworksh(2,numelc+i)>0) npt = iworksh(2,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
         FLAG_NON_LOCAL = 0  
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
@@ -154,6 +160,7 @@ C-----------------------------------------------
           IRUP_TAB(J) = MAT_PARAM(MID)%FAIL(J)%IRUPT
          ENDDO
         ENDIF
+        telt = 0.
         TIMMAT = 0.
         TRUP = 0.
         TMATADD = 0.
@@ -185,7 +192,7 @@ C-----------------------------------------------
            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
            ENDIF
-C loi 36+86 en fonction des fct
+C Law 36+86 Depending on the FCT
         ELSEIF (MLN==36.OR.(MLN==86).AND.(ABS(NPN)>0)) THEN
           NFUNC = NINT(PM(40,MID))
           IF (NFUNC<=2) THEN
@@ -346,7 +353,6 @@ C loi 36+86 en fonction des fct
                 TABMAT(J) = TRITNL(MIN(MLN,MAXLAW),J,INDI) + TMATADD
               ENDDO
               ! *******--------*******
-              NPT = ABS(NPN)
               CALL INTERLAGRAN(TABMAT,TABX,3,NPT,TIMMAT)
 !              ----------------
 !               Failure 
@@ -369,7 +375,7 @@ C loi 36+86 en fonction des fct
               TIMMAT =  TRITNL(MIN(MLN,MAXLAW),0,INDI)  + TMATADD
               ! *******--------*******
 !             ----------------
-!             Failure incompatible N=0
+!             Incompatible failure n = 0
               IF(NFAIL/=0) THEN
                TRUP = 0.
               ENDIF          !   <--- fin NFAIL/=0
@@ -386,7 +392,12 @@ C loi 36+86 en fonction des fct
         ! --------------------
         IF(RECHERCHE==0) THEN
          IF((WD_LOCAL==0.).AND.(MLN/=0))THEN
-          POIDS = (TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + VISC_PRONY) * INVTREF
+          telt = telt + timmat + trup + mult_spe*nlocal_option(spe_i_3) + visc_prony
+
+          if(elm_group(i,2)>0.and.elm_group(i,2)<80) then
+            telt = telt * (18.248*(elm_group(i,2))**(-0.625))
+          endif          
+          POIDS = telt * INVTREF
           WD(I+OFF) = POIDS
 
           POIN_PART = IPARTG(I)
@@ -399,7 +410,7 @@ C loi 36+86 en fonction des fct
           WD(I+OFF) = 0.0001
          END IF
         ELSE
-         TELT_PRO = TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+         TELT_PRO = TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + visc_prony
         ENDIF
         ! --------------------
       ENDDO

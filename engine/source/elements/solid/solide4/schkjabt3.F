@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    schkjabt3     ../engine/source/elements/solid/solide4/schkjabt3.F
 !||--- called by ------------------------------------------------------
 !||    s4deri3       ../engine/source/elements/solid/solide4/s4deri3.F
+!||    s6zderi3      ../engine/source/elements/solid/solide6z/s6zderi3.F90
 !||    s8ederic3     ../engine/source/elements/solid/solide8e/s8ederic3.F
 !||    s8zderic3     ../engine/source/elements/solid/solide8z/s8zderic3.F
 !||    sderi3        ../engine/source/elements/solid/solide/sderi3.F
@@ -68,7 +69,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J ,ICOR
+      INTEGER I ,ICOR
 C-----------------------------------------------
       NNEGA = 0
       IF(JLAG/=0)THEN
@@ -87,30 +88,52 @@ C--- case total strain switched to small due to nega_v before
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
 C
-          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
+          ELSEIF(DET(I)<=ZERO)THEN
             ICOR = 1
           ENDIF
         ENDDO
         IF (ICOR>0.AND.INCONV==1) THEN
-         DO I=1,NEL
-          IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
-            NNEGA=NNEGA+1
-            INDEX(NNEGA)=I
-#include "lockon.inc"
-           IF(ISMSTR<10) THEN
-              CALL ANCMSG(MSGID=259,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             ELSE
-              CALL ANCMSG(MSGID=261,ANMODE=ANINFO,
-     .                    I1=NGL(I))
-             END IF
-#include "lockoff.inc"
-          ENDIF
           IF (INEG_V==0) THEN
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=280,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+             END IF
+            END DO
            MSTOP = 1
-          ENDIF
-         ENDDO
+          ELSE IF (INEG_V==2) THEN  !deletion
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+              DET(I)=ONE
+              OFF(I)=ZERO
+              OFFG(I)=ZERO
+#include "lockon.inc"
+              CALL ANCMSG(MSGID=318,ANMODE=ANINFO,I1=NGL(I))
+#include "lockoff.inc"
+              IDEL7NOK = 1
+             END IF
+            END DO
+          ELSE ! switch to small strain
+            DO I=1,NEL
+             IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
+               NNEGA=NNEGA+1
+               INDEX(NNEGA)=I
+#include "lockon.inc"
+              IF(ISMSTR<10) THEN
+                 CALL ANCMSG(MSGID=259,ANMODE=ANINFO,
+     .                       I1=NGL(I))
+              ELSE
+                 CALL ANCMSG(MSGID=261,ANMODE=ANINFO,
+     .                       I1=NGL(I))
+              END IF
+#include "lockoff.inc"
+             END IF
+            END DO
+          END IF
         END IF !(ICOR>0.AND.IMCONV==1) THEN
       ELSE
       IF(IDTMIN(1)==1)THEN
@@ -188,10 +211,5 @@ C
       END IF!(JLAG/=0)THEN
       RETURN
 C
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
- 3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
- 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' TOTAL STRAIN ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
       END

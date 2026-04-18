@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C     Global buffer
       GBUF => ELBUF_TAB(NG)%GBUF
 C     Material buffer
       MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-C     EOS parameters, common
+C     EOS Parameters, Common
       P0 = BUFMAT(9)
       PSH= BUFMAT(16)
 C     EOS parameters mat 1: 

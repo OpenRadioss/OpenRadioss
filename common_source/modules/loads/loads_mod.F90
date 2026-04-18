@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,7 @@
 !||    hm_read_cload               ../starter/source/loads/general/cload/hm_read_cload.F
 !||    hm_read_pcyl                ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
 !||    hm_read_pload               ../starter/source/loads/general/pload/hm_read_pload.F
+!||    init_h3d_engine             ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    lech3d                      ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
 !||    lectur                      ../engine/source/input/lectur.F
 !||    prelech3d                   ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
@@ -69,12 +70,14 @@
         use domdec_load_mod
         use inivel_mod
 !-----------------------------------------------------------------------
+        implicit none
+
         type loads_
           integer :: nload_cyl
           integer :: nload_cload                                          !< nb of concentrated loads
           integer :: nload_pload                                          !< nb of pressure loads
-          integer :: ninivelt                                             !< nb of inivel (/inivel) w/ t_start
-          integer :: ninivelt_g                                           !< max nb of inivel (each domain) w/ t_start
+          integer :: ninivelt                                             !< nb of inivel (/inivel) with t_start
+          integer :: ninivelt_g                                           !< max nb of inivel (each domain) with t_start
           type (press_cyl_) ,dimension(:) ,allocatable   :: load_cyl
           type (domdec_load_), dimension(:), allocatable :: cyl_restart
           type (inivel_), dimension(:), allocatable      :: inivelt

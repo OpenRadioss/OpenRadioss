@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
 c=======================================================================
-C     INIT DES PARAMETRES DE SENSOR
+C     initialization of sensor parameters
 C---------------------------------------------
       NSENSOR    =  SENSORS%NSENSOR
       SENSOR_TAB => SENSORS%SENSOR_TAB(1:NSENSOR)
@@ -81,7 +82,7 @@ c
 c
         IF (SENS_TYPE == 3) THEN
 C-------------------------------------
-C         SENSOR de SENSOR
+C         sensor of sensor
 C-------------------------------------
           DO I=1,NSENSOR
             IF (SENSOR_TAB(K)%IPARAM(1) == SENSOR_TAB(I)%SENS_ID) IS1=I

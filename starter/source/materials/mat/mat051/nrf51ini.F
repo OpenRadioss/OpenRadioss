@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -476,8 +476,9 @@ C=======================================================================
             IMAT   = IX(1,I)
             MLN    = IPM(2,IMAT)
             IADBUF = IPM(7,IMAT)
+            NUPARAM = IPM(9,IMAT)
             IF(MLN/=51)CYCLE
-            UPRM => BUFMAT(IADBUF:IADBUF+275)
+            UPRM => BUFMAT(IADBUF:IADBUF+NUPARAM-1)
             TMP  = UPRM(31)
             IFORM = NINT(TMP)
             IF(IFORM>1)CYCLE
@@ -516,7 +517,7 @@ C=======================================================================
        ! Tcp : characteric time      !
        !-----------------------------!       
        M51_TCP_REF    = M51_LC0MAX/TWO/M51_SSP0MAX/LOG(TWO)
-       !Si Tcp=0 alors calcul automatique
+       !If TCP = 0 then automatic calculation
        IF(UPARAM(70)==ZERO)THEN
          UPARAM(70) = M51_TCP_REF
          lSET = 1

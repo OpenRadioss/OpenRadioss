@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,14 +69,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS ,IPPID, IPID,
-     .  IPANG,MAT_LY(MVSIZ),IT,ITL,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
-     .  IPID_LY,IPT_ALL,MAT_LAY,NSLICE,IPOS,IE,IP
+      INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS ,IPPID,
+     .  IPANG,MAT_LY(MVSIZ),IT,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
+     .  IPT_ALL,NSLICE,IPOS,IE,IP
       PARAMETER (MAX_NPTT = 100)
       my_real
      .   THK_IT(MAX_NPTT*NLAY,MVSIZ),ZSHIFT,THK_NPTT,
-     .   THKL,POS_NPTT,POS_0,THICKT,THINNING,THK_LY(MVSIZ),
-     .   THKLY,RATIO_THKLY(MVSIZ,NPT)
+     .   POS_0,THICKT,THINNING,THK_LY(MVSIZ),
+     .   THKLY,RATIO_THKLY(MVSIZ,NPT),RATIO_SLICE,POS_LY
 C
       TYPE (DRAPE_PLY_)             , POINTER   :: DRAPE_PLY
 C-----------------------------------------------
@@ -243,14 +243,64 @@ c         stack addresses
           IPOS = IGEO(99,PID(1))
           ZSHIFT  = GEO(199,PID(1))                
           THICKT  = STACK%GEO(1,ISUBSTACK)
+          IINT = IGEO(47,PID(1))
           IF(IPOS == 2 )ZSHIFT = ZSHIFT /MAX(THICKT,EM20)
           IF(IDRAPE == 0) THEN
+            IF(IPOS == 1) THEN
+              IF(IINT == 1) THEN 
+                DO ILAY=1,NLAY
+                   NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+                  !! layer of stack infos:
+                   DO I=JFT,JLT
+                      MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
+                      THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                   
+                      RATIO_THKLY(I,ILAY) = THK_LY(I) 
+                      POS_LY  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio   
+                      RATIO_SLICE =   THK_LY(I)/NPTT    
+                      ZSHIFT = POS_LY- HALF*THK_LY(I)                                                                
+                      JMLY = (ILAY-1)*JLT + I                                                                 
+                      DO IT=1,NPTT                                                                                
+                          IPT = IPT_ALL + IT                                                                       
+                          THK_IT(IPT,I) = RATIO_SLICE ! uniform distribution of NPTT through layer             
+                          IF (IPT  == 1)  THEN                                                                     
+                             POSLY(I,IPT) =  ZSHIFT + HALF*RATIO_SLICE ! integr. point "IT" position ratio        
+                          ELSE                                                                                    
+                             POSLY(I,IPT) = POSLY(I,IPT - 1)  + RATIO_SLICE        ! integr. point "IT" position ratio                                            
+                           ENDIF ! IF (ILAY == 1)                                               
+                       ENDDO                                                          
+                       MATLY(JMLY) = MAT_LY(I)    ! layer defined                                                                                   
+                     ENDDO ! DO I=JFT,JLT
+                    IPT_ALL = IPT_ALL + NPTT
+                  ENDDO  !  DO ILAY=1,NLAY
+              ELSEIF(IINT == 2) THEN
+                DO ILAY=1,NLAY
+                   NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
+                  !! layer of stack infos:
+                   DO I=JFT,JLT
+                      MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
+                      THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                   
+                      RATIO_THKLY(I,ILAY) = THK_LY(I) 
+                      POS_LY  = STACK%GEO(IPPOS  + ILAY,ISUBSTACK)  ! layer position ratio   
+                      ZSHIFT = POS_LY- HALF*THK_LY(I)                                                                
+                      JMLY = (ILAY-1)*JLT + I                                                                 
+                      DO IT=1,NPTT                                                                                
+                          IPT = IPT_ALL + IT                                                                       
+                          THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)                                       
+                          IF (IPT  == 1) THEN                                                                   
+                             POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio      
+                          ELSE                                                                                  
+                              POSLY(I,IPT) = POSLY(I,IPT - 1)           ! integr. point "IT" position ratio           
+     .                                 + HALF*(THK_IT(IPT,I) + THK_IT(IPT-1,I))                               
+                          ENDIF !                                                                                 
+                      ENDDO                                                          
+                       MATLY(JMLY) = MAT_LY(I)    ! layer defined                                                                                   
+                     ENDDO ! DO I=JFT,JLT
+                    IPT_ALL = IPT_ALL + NPTT
+                  ENDDO  !  DO ILAY=1,NLAY
+              ENDIF  ! IINT
+            ELSE ! IPOS /= 1
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
-                IPID = STACK%IGEO(IPPID,ISUBSTACK)
-                IINT = IGEO(47,IPID)
-                MAT_LY  = ELBUF_STR%BUFLY(ILAY)%IMAT
               !! layer of stack infos:
                  IF(IINT == 1) THEN 
                   DO I=JFT,JLT
@@ -273,8 +323,7 @@ c         stack addresses
                 ELSEIF(IINT == 2) THEN
                    DO I=JFT,JLT
                     MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material
-                    THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                  
-                    MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
+                    THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio                 
                     RATIO_THKLY(I,ILAY) = THK_LY(I)                                                           
                     JMLY = (ILAY-1)*JLT + I                                                                   
                     DO IT=1,NPTT                                                                              
@@ -292,13 +341,10 @@ c         stack addresses
                 ENDIF  !!int 
                 IPT_ALL = IPT_ALL + NPTT
               ENDDO  !  DO ILAY=1,NLAY
+            ENDIF ! IPOS
            ELSE ! idrape > 0
               DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
-                IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (igtyp = 19)
-                IPID = STACK%IGEO(IPPID,ISUBSTACK)
-                IINT = IGEO(47,IPID)
-                MAT_LY  = ELBUF_STR%BUFLY(ILAY)%IMAT
               !! layer of stack infos:
                  IF(IINT == 1) THEN 
                   DO I=JFT,JLT
@@ -384,7 +430,7 @@ c         stack addresses
                            MATLY(JMLY) = MAT_LY(I)    ! layer defined                 
                        ENDDO  
                     ELSE ! IE > 0
-                !!calcul automatique de position des NPTT dans les couches --- 
+                !automatic calculation of nptt positions in the layers
                         IP = DRAPE(IE)%INDX_PLY(ILAY)
                         IF(IP > 0) THEN
                            DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)

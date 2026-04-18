@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -66,6 +67,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixtg,nixp,nixr
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -319,7 +321,7 @@ C               CALL SUKE3(
                       IAD2 = LBUFEL - 21 * NEL + 1
                   ENDIF
                   IF(JHBE==24)THEN
-C---------------ca ne riske pas de entrer ici pour l'instant
+C------------- It is not likely to enter here for the moment
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
 C     1                   K11   ,K12   ,K13    ,K14    ,K15   ,
@@ -745,7 +747,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -841,7 +843,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -981,7 +983,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -1065,7 +1067,7 @@ C-----------------------------------------------
       INTEGER I,J,K,EP,ID,JD,JDL,L,JJ,NN(MVSIZ),NELD
       my_real
      .   KIJD(ND,ND,MVSIZ),OFFD(MVSIZ)
-C---- s'il y a des elms degeneres--------------
+C---- if there is des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
           IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -1095,7 +1097,7 @@ C----6---------------------------------------------------------------7---------8
                   IF (I==ID) THEN
                       DO K=1,ND
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 100
@@ -1135,7 +1137,7 @@ c#include "lockoff.inc"
                   IF (I==ID) THEN
                       DO K=1,ND
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 300
@@ -1269,7 +1271,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -1300,9 +1302,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 !||====================================================================
-!||    impksout   ../engine/source/implicit/imp_glob_k.F
+!||    impksout      ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    writeks    ../engine/source/implicit/imp_glob_k.F
+!||    writeks       ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE IMPKSOUT( IXS,NFT,NEL,IUGEO,
      1                   K11   ,K12   ,K13    ,K14    ,K15   ,
@@ -1313,6 +1317,7 @@ C----6---------------------------------------------------------------7---------8
      6                   K48   ,K55   ,K56    ,K57    ,K58   ,
      7                   K66   ,K67   ,K68    ,K77    ,K78   ,
      8                   K88   )
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1383,7 +1388,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writeks    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1423,15 +1428,18 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
-!||    impkcout   ../engine/source/implicit/imp_glob_k.F
+!||    impkcout      ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    writekc    ../engine/source/implicit/imp_glob_k.F
+!||    writekc       ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE IMPKCOUT( IXC,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
      2                    KE23   ,KE24   ,KE33   ,KE34   ,KE44 )
+      use element_mod , only : nixc
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1471,7 +1479,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writekc    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1511,7 +1519,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    impkpout   ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -1548,7 +1556,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writekp    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1588,7 +1596,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    impkiout   ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -1625,7 +1633,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writeki    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1665,7 +1673,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    kelamda    ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -2601,7 +2609,7 @@ C-----------------------------------------------
 C----6---used only for shell due to npt=1 -> NDOF=3-------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2678,7 +2686,7 @@ C-----------------------------------------------
       INTEGER I,J,K,EP,ID,JD,JDL,L,JJ,NN(MVSIZ),NELD,N,N1,N2
       my_real
      .   KIJD(ND,ND,MVSIZ),OFFD(MVSIZ)
-C---- s'il y a des elms degeneres--------------
+C---- if there is des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
           IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2697,7 +2705,7 @@ C---- s'il y a des elms degeneres--------------
      . CALL ASSEMC_KII(NN    ,NELD  ,IDDL  ,IADK  ,K_DIAG,
      .                 K_LT  ,KIJD  ,ND    ,OFFD  ,NDOF  )
 C----6---------------------------------------------------------------7---------8
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       IF (IKPAT==0) THEN
           DO EP = 1,NEL
@@ -2712,7 +2720,7 @@ C   lock par element trop penalisant pour perf
                   IF (I==ID) THEN
                       DO K=1,NDOF(N1)
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 100
@@ -2754,7 +2762,7 @@ c#include "lockoff.inc"
                   IF (I==ID) THEN
                       DO K=1,NDOF(N1)
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 300
@@ -2851,6 +2859,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    drape_mod            ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
 !||    stack_mod            ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -2871,6 +2880,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3057,6 +3067,7 @@ C----6---------------------------------------------------------------7---------8
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -3078,6 +3089,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3133,7 +3145,7 @@ C-----------------------------------------------
       my_real
      .   OFF(MVSIZ)
 C----6---------------------------------------------------------------7-2
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUP
@@ -3304,7 +3316,7 @@ C----6---------------------------------------------------------------7---------8
 C               CALL SUKE3(
               ELSEIF(NPT==1)THEN
                   IF(JHBE==24)THEN
-C---------------ca ne riske pas de entrer ici pour l'instant
+C------------- It is not likely to enter here for the moment
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
 C     1                   K11   ,K12   ,K13    ,K14    ,K15   ,

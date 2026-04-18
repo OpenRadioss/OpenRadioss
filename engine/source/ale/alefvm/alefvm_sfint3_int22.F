@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier            ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod            ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod        ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
@@ -47,6 +48,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +97,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
 c      0. Domaine d'integration : supercell = main u (U secnd)
-c      1. Calcul de Pf
+c      1. Calculation of Pf
 c      2. Calcul de Ff(1:3) = -Pf.S.n
 c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
 
@@ -269,7 +271,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           !---Face-0                                                                                                               
           !----------------------------------- 
           
-          !non ne pas sommer sur les plans de coupes il ne sont pas forcemment tous voisins :
+          !no, do not sum over the cutting planes, they are not necessarily all neighbors:
           !example : inter22/1D_EXPANSION/9ELEMS/LAW51/PerfectGas/EULER/SMALL_MAIN/0.FVM/MAT51
           !print *, "pause" ; pause
           

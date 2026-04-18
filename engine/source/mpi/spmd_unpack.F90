@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -116,8 +116,8 @@
           integer, intent(in), optional :: comm
           integer, dimension(insize), intent(in) :: inbuf
           double precision, dimension(outcount), intent(out) :: outbuf
-#ifdef MPI
           integer :: ierr, tag
+#ifdef MPI
           tag = 0  ! Default tag for unpack operations
           call spmd_in(tag)
           if( present(comm) ) then

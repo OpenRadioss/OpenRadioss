@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
 !||====================================================================
       module i24intarea_fic_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -39,6 +40,7 @@
 !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine i24intarea_fic(irtse, nsne, is2se, is2pt, ns, nrtse, numnod, arean, arean_fic)
 
@@ -46,12 +48,11 @@
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
           use constant_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,8 +63,8 @@
           integer,                                   intent(in) :: is2se(2,nsne )
           integer,                                   intent(in) :: is2pt(nsne )
           integer,                                   intent(in) :: irtse(5,nrtse )
-          my_real,                                   intent(in) :: arean(numnod) ! nodal areas
-          my_real,                                   intent(inout) :: arean_fic  ! nodal area of fictif node
+          real(kind=WP),                                   intent(in) :: arean(numnod) ! nodal areas
+          real(kind=WP),                                   intent(inout) :: arean_fic  ! nodal area of fictif node
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

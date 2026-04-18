@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cmain3pinch           ../engine/source/elements/shell/coqueba/cmain3pinch.F
 !||    contrl                ../starter/source/starter/contrl.F
 !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
-!||    deplapinch            ../engine/source/assembly/deplapinch.F
+!||    deplapinch            ../engine/source/assembly/displpinch.F
 !||    force                 ../engine/source/loads/general/force.F90
 !||    force_imp             ../engine/source/loads/general/force_imp.F
 !||    forcepinch            ../engine/source/loads/general/forcepinch.F
@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortie_main           ../engine/source/output/sortie_main.F
 !||    thcoq                 ../engine/source/output/th/thcoq.F
 !||    thnod                 ../engine/source/output/th/thnod.F
-!||    vitessepinch          ../engine/source/assembly/vitessepinch.F
+!||    velocitypinch         ../engine/source/assembly/velocitypinch.F
 !||    wrcomi                ../engine/source/output/restart/wrcomm.F
 !||    wrcomip               ../starter/source/restart/ddsplit/wrcommp.F
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F
@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         TYPE PINCH
           INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD
 c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH
-C       [PM] future : mapping of NUMNOD to NUMPINCH
+C       [PM] future : mapping of NUMNOD to NPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH

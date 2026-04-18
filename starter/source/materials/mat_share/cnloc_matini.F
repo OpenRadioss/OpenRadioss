@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C
       ! Material properties and parameters
       IADBUF  = MAX(1,IPM(7,IMAT))
       NUPARAM = IPM(9,IMAT) 
-      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM)       
+      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM-1)
 C
       DO K=1,5
         IJ(K) = NEL*(K-1)

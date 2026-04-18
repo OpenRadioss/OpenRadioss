@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps51_mod
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -37,18 +38,18 @@
 !||--- calls      -----------------------------------------------------
 !||    compute_bfrac                    ../engine/source/materials/mat/mat051/compute_bfrac.F
 !||    dprag51                          ../engine/source/materials/mat/mat051/dprag51.F
+!||    eosmain51                        ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    finter                           ../engine/source/tools/curve/finter.F
 !||    granular51                       ../engine/source/materials/mat/mat051/granular51.F90
 !||    jcook51                          ../engine/source/materials/mat/mat051/jcook51.F90
 !||    jwl51                            ../engine/source/materials/mat/mat051/jwl51.F
 !||    jwlun51                          ../engine/source/materials/mat/mat051/jwl51.F
-!||    poly51                           ../engine/source/materials/mat/mat051/polynomial51.F
-!||    polyun51                         ../engine/source/materials/mat/mat051/polynomial51.F
 !||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    constant_mod                     ../common_source/modules/constant_mod.F
 !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    eosmain51_mod                    ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    granular51_mod                   ../engine/source/materials/mat/mat051/granular51.F90
 !||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -59,7 +60,7 @@
 !||    prop_param_mod                   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
 !||====================================================================
-        subroutine sigeps51( &
+        subroutine sigeps51( snpf, stf, &
           nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,tburn  , &
           npf    ,tf          ,time    ,timestep,uparam   ,numel  , &
           rho    ,volume       ,eint   ,vel_o   ,wfext    , &
@@ -72,7 +73,7 @@
           w      ,x           ,ix      ,n48     ,nix      ,jthe   , &
           geo    ,pid         ,ilay    ,ng      ,elbuf_tab,pm     , &
           iparg  ,ale_connect ,bufvois ,ipm     ,bufmat   ,stifn  , &
-          vd2    ,vdx         ,vdy     ,vdz     , &
+          vd2    ,vdx         ,vdy     ,vdz     ,sbufmat  , &
           qvis   ,ddvol       ,qqold   ,nv46    ,numgeo   ,n2d    ,&
           numnod ,ngroup      ,nummat  ,matparam,nvartmp  ,vartmp)
 ! ======================================================================================================================
@@ -84,13 +85,15 @@
           use ale_connectivity_mod , only : t_ale_connectivity
           use multimat_param_mod , only : m51_n0phas, m51_nvphas
           use sigeps51_boundary_material_mod , only : sigeps51_boundary_material
-          use constant_mod , only : zero,one,em03,em12,em13,em14,ep10,ep20,em06,em10,em20,em4,half,third,three,two, three100
+          use constant_mod , only : zero,one,em03,em12,em13,em14,ep10,ep20,em06,em10,em20,em4,half,third,three,two
+          use constant_mod , only : two_third, three100, ep03, fifteen
           use prop_param_mod , only : n_var_ipm, n_var_pm, n_var_geo, n_var_iparg
           use i22bufbric_mod , only : ninter22
           use precision_mod , only : WP
           use granular51_mod , only : granular51
           use jcook51_mod , only : jcook51
           use matparam_def_mod , only : matparam_struct_
+          use eosmain51_mod , only : eosmain51
 !---------+---------+---+---+--------------------------------------------
 ! VAR     | SIZE    |TYP| RW| DEFINITION
 !---------+---------+---+---+--------------------------------------------
@@ -160,6 +163,12 @@
 !          UVAR(21+ IAD) = E0 = rho0.e0 (/= rho.e(t) at t=0 in UVAR 8) due to inigrav
 !          UVAR(22+ IAD) = SSP0
 !          UVAR(23+ IAD) = AV0
+!          UVAR(24+ IAD) = VAREOS1
+!          UVAR(25+ IAD) = VAREOS2
+!          UVAR(26+ IAD) = VAREOS3
+!          UVAR(27+ IAD) = VAREOS4
+!          UVAR(28+ IAD) = VAREOS5
+!          UVAR(29+ IAD) = VAREOS6
 ! ======================================================================================================================
 !                                                   Implicit none
 ! ======================================================================================================================
@@ -174,16 +183,18 @@
           integer,intent(in) :: nummat,numnod,ngroup !< array size
           integer,intent(in) :: numgeo !< array size
           integer,intent(in) :: n2d !< flag for 2d / 3d analysis
+          integer,intent(in) :: sbufmat
           integer,intent(in) :: nel, nuparam, nuvar,nft,n48,nix,jthe,numel, &
             ix(nix,numel), pid(nel), ilay, ng,iparg(n_var_iparg,ngroup), &
             ipm(n_var_ipm,nummat),nv46
-          real(kind=WP),intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat), &
+          real(kind=WP),intent(inout) :: uparam(nuparam)
+          real(kind=WP),intent(in) :: time,timestep,pm(n_var_pm,nummat), &
             volume(nel),bufvois(*),ddvol(nel),qqold(nel), &
             epspxx(nel),epspyy(nel),epspzz(nel), &
             epspxy(nel),epspyz(nel),epspzx(nel), &
             depsxx(nel),depsyy(nel),depszz(nel), &
             depsxy(nel),depsyz(nel),depszx(nel), &
-            w(3,numnod),x(3,numnod),geo(n_var_geo,numgeo), bufmat(*), &
+            w(3,numnod),x(3,numnod),geo(n_var_geo,numgeo), bufmat(sbufmat), &
             vd2(nel)
 
           real(kind=WP),intent(inout) :: sigoxx(nel),sigoyy(nel),sigozz(nel),sigoxy(nel),sigoyz(nel),sigozx(nel)
@@ -197,17 +208,22 @@
             sigvxx(nel),sigvyy(nel),sigvzz(nel), &
             sigvxy(nel),sigvyz(nel),sigvzx(nel), &
             viscmax(nel)
-          real(kind=WP),intent(inout) :: uvar(nel,nuvar),qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
+          real(kind=WP),intent(inout),target :: uvar(nel,nuvar)
+          real(kind=WP),intent(inout) :: qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
           real(kind=WP),intent(in) :: off(nel)
           real(kind=WP),intent(inout) :: tburn(nel)
           type(matparam_struct_),intent(in),dimension(nummat) :: matparam
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
+
+          !EOSPOLYNO CALL
+          INTEGER :: IMID, ISUBMAT, SUBMID
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
-          integer :: npf(*), nfunc, ifunc(nfunc)
-          real(kind=WP) :: finter ,tf(*)
+          integer, intent(in) :: snpf, stf
+          integer :: npf(snpf), nfunc, ifunc(nfunc)
+          real(kind=WP) :: finter ,tf(stf)
           external finter
 !        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 !        Y       : y = f(x)
@@ -227,26 +243,28 @@
             GG1(NEL),GG2(NEL),GG3(NEL), &
             C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53, &
             AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4, &
-            RHO0E1,RHO0E2,RHO0E3,RHO1OLD,RHO2OLD,RHO3OLD,RHO4OLD, &
+            RHO1OLD,RHO2OLD,RHO3OLD,RHO4OLD, &
             MAS1,MAS2,MAS3,MAS4,EINT1,EINT2,EINT3,EINT4, &
-            E1_INF, E2_INF, E3_INF, E4_INF, &
-            DPDV1,DPDV2,DPDV3,DPDV4, &
+            ESPE1, ESPE2, ESPE3, &
             P1,P2,P3,P4,P1I,P2I,P3I,P4I,VQ0,VQ1,VQ2,VQ3,VQ4, &
             Q0, Q1,Q2,Q3,Q4,Q1OLD,Q2OLD,Q3OLD,Q4OLD,SSP1,SSP2,SSP3,SSP4, &
             MU1,MU2,MU3,MU4, &
             MU1P1, MU2P1, MU3P1, MU4P1, &
-            DVDP1,DVDP2,DVDP3,DVDP4,DDVOL1,DDVOL2,DDVOL3,DDVOL4, &
+            DDVOL1,DDVOL2,DDVOL3,DDVOL4, &
+            DVOL1,DVOL2,DVOL3,DVOL4,&
+            DPDMU1,DPDMU2,DPDMU3,&
+            DF1,DF2,DF3,&
+            SPH1,SPH2,SPH3,SPH4, &
+            DPDE1,DPDE2,DPDE3,DPDE4,&
             V10,V20,V30,V40,V1,V2,V3,V4,V1OLD,V2OLD,V3OLD,V4OLD, &
             V1I,V2I,V3I,V4I,E01,E02,E03,E04,PM1,PM2,PM3,PM4, &
-            ECOLD1,ECOLD2,ECOLD3,ECOLD4,SPH1,SPH2,SPH3,SPH4, &
-            T10,T20,T30,T40,H1,H2,H3,H4,TEMP1,TEMP2,TEMP3,TEMP4, &
+            T10,T20,T30,T40,TEMP1,TEMP2,TEMP3,TEMP4, &
+            TMAX, &
             XL,QAL,QBL,Q,POLD,QOLD,MASS, &
             VISA1,VISB1,AA,DD,QA,QB,UNDT, &
             VOLD,DVOL, &
             C01,C02,C03,C04,EDIF1,EDIF2,EDIF3,EDIF4, &
-            DE(NEL), &
-            AAA, &
-            ECOLD,T
+            DE(NEL),DENOM
           real(kind=WP) :: DEPS(6,nel),EPD(nel), &
             P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
             SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
@@ -263,18 +281,24 @@
             RHOOLD, SSP1_INI, SSP2_INI, SSP3_INI, SSP4_INI, VFRAC(nel)
           real(kind=WP) :: VISC1, VISC2, VISC3,VISC4
           INTEGER :: CONT
+          INTEGER :: IBIJ(4)  !  UPARAM(277:280) is legacy order,  IBIJ is inverse application : is user order
           INTEGER :: IFLG,IEXP, IOPT
           INTEGER :: IPLA, IPLA1, IPLA2, IPLA3 !< plasticity flags
           INTEGER ::  K1,K2,K3,K4,ML,IFORM
           INTEGER :: IX1,IX2,IX3,IX4
           INTEGER :: IBUG_ID(2)
+          INTEGER :: MLN
           TYPE(G_BUFEL_)  ,POINTER :: GBUF
           TYPE(L_BUFEL_)  ,POINTER :: LBUF
           TYPE(BUF_LAY_)  ,POINTER :: BUFLY
-
+          real(kind=WP),DIMENSION(:),POINTER :: VAREOS1,VAREOS2,VAREOS3 ! pointers to UVAR
+          real(kind=WP) :: VAREOS1_TMP(6),VAREOS2_TMP(6),VAREOS3_TMP(6) ! temp array (user variable must be updated once the equilibrium is found)
 ! ======================================================================================================================
 !                                                   Body
 ! ======================================================================================================================
+          VAREOS1_TMP = 0.0_WP
+          VAREOS2_TMP = 0.0_WP
+          VAREOS3_TMP = 0.0_WP
           IFORM = HUGE(IFORM)
           IX1 = HUGE(IX1)
           IX2 = HUGE(IX2)
@@ -282,6 +306,7 @@
           IX4 = HUGE(IX4)
           ML = HUGE(ML)
           P = 0
+          TMAX = FIFTEEN * EP03
           IF(TIMESTEP > ZERO)THEN
             UNDT = ONE/TIMESTEP
           ELSE
@@ -426,10 +451,10 @@
           PM3    = UPARAM(41)
           PM4    = UPARAM(56)
 
-          E1_INF = UPARAM(57) !E1_INF (t=0) Eint1_INF (t>0)
-          E2_INF = UPARAM(58) !E2_INF (t=0) Eint2_INF (t>0)
-          E3_INF = UPARAM(59) !E3_INF (t=0) Eint3_INF (t>0)
-          E4_INF = UPARAM(60) !E4_INF (t=0) Eint4_INF (t>0)
+          IBIJ(1) = UPARAM(57)
+          IBIJ(2) = UPARAM(58)
+          IBIJ(3) = UPARAM(59)
+          IBIJ(4) = UPARAM(60)
 
           SPH1   = UPARAM(112)
           SPH2   = UPARAM(162)
@@ -449,31 +474,44 @@
 !===========================================================================!
 !CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC!
 
-          IF (TIME  ==  ZERO) THEN
+          IF (TIME == ZERO) THEN
+
+            ! user order from legacy order [1:4] -> [1:4]
+            IBIJ(1:4) = 0
+            DO I=1,4 ; IF(UPARAM(276+I)==1) THEN ; IBIJ(1) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==2) THEN ; IBIJ(2) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==3) THEN ; IBIJ(3) = I ; EXIT; END IF; ENDDO
+            DO I=1,4 ; IF(UPARAM(276+I)==4) THEN ; IBIJ(4) = I ; EXIT; END IF; ENDDO
+            UPARAM(57:60) = IBIJ(1:4)
+
             DO I = 1, NEL
               KK = M51_N0PHAS + 0 * M51_NVPHAS
               V1OLD = AV1(I) * VOLUME(I)
               UVAR(I, 11 + KK) = V1OLD
-              UVAR(I, 9 + KK) = V1OLD * UVAR(I, 20 + KK)
-              UVAR(I, 8 + KK) = V1OLD * UVAR(I, 21 + KK)
+              UVAR(I, 9  + KK) = V1OLD * UVAR(I, 20 + KK)
+              UVAR(I, 8  + KK) = V1OLD * UVAR(I, 21 + KK)
+              !UVAR(I, 24 + KK : 29 + KK) = ZERO
 
               KK = M51_N0PHAS + 1 * M51_NVPHAS
               V2OLD = AV2(I) * VOLUME(I)
               UVAR(I, 11 + KK) = V2OLD
-              UVAR(I, 9 + KK) = V2OLD * UVAR(I, 20 + KK)
-              UVAR(I, 8 + KK) = V2OLD * UVAR(I, 21 + KK)
+              UVAR(I, 9  + KK) = V2OLD * UVAR(I, 20 + KK)
+              UVAR(I, 8  + KK) = V2OLD * UVAR(I, 21 + KK)
+              !UVAR(I, 24 + KK : 29 + KK) = ZERO
 
               KK = M51_N0PHAS + 2 * M51_NVPHAS
               V3OLD = AV3(I) * VOLUME(I)
               UVAR(I, 11 + KK) = V3OLD
-              UVAR(I, 9 + KK) = V3OLD * UVAR(I, 20 + KK)
-              UVAR(I, 8 + KK) = V3OLD * UVAR(I, 21 + KK)
+              UVAR(I, 9  + KK) = V3OLD * UVAR(I, 20 + KK)
+              UVAR(I, 8  + KK) = V3OLD * UVAR(I, 21 + KK)
+              !UVAR(I, 24 + KK : 29 + KK) = ZERO
 
               KK = M51_N0PHAS + 3 * M51_NVPHAS
               V4OLD = AV4(I) * VOLUME(I)
               UVAR(I, 11 + KK) = V4OLD
-              UVAR(I, 9 + KK) = V4OLD * UVAR(I, 20 + KK)
-              UVAR(I, 8 + KK) = V4OLD * UVAR(I, 21 + KK)
+              UVAR(I, 9  + KK) = V4OLD * UVAR(I, 20 + KK)
+              UVAR(I, 8  + KK) = V4OLD * UVAR(I, 21 + KK)
+              UVAR(I, 24 + KK : 29 + KK) = ZERO
             ENDDO
           ENDIF
 
@@ -484,67 +522,22 @@
           DO I=1,NEL
             !---submaterial_1---!
             KK = M51_N0PHAS + 0*M51_NVPHAS
-            EINT1   = UVAR(I,8 +KK)
-            V1OLD   = UVAR(I,11+KK)
-            RHO1OLD = UVAR(I,12+KK)
-            ECOLD = -T10 * SPH1
-            MU1 = (RHO1OLD/RHO10 - ONE)
-            H1 = SPH1*V1OLD*(ONE+MU1)
-            IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-            ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
-            TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
-            UVAR(I,16+KK) = TEMP1
             P1OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_2---!
             KK = M51_N0PHAS + 1*M51_NVPHAS
-            EINT2   = UVAR(I,8 +KK)
-            V2OLD   = UVAR(I,11+KK)
-            RHO2OLD = UVAR(I,12+KK)
-            ECOLD = -T20 * SPH2
-            MU2 = (RHO2OLD/RHO20 - ONE)
-            H2 = SPH2*V2OLD*(ONE+MU2)
-            IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-            ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
-            TEMP2 = (EINT2 - ECOLD2)/MAX(EM20,H2)
-            UVAR(I,16+KK) = TEMP2
             P2OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_3---!
             KK = M51_N0PHAS + 2*M51_NVPHAS
-            EINT3   = UVAR(I,8 +KK)
-            V3OLD   = UVAR(I,11+KK)
-            RHO3OLD = UVAR(I,12+KK)
-            ECOLD = -T30 * SPH3
-            MU3 = (RHO3OLD/RHO30 - ONE)
-            H3 = SPH3*V3OLD*(ONE+MU3)
-            IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-            ECOLD3 = ECOLD*V3OLD*(ONE+MU3)
-            TEMP3 = (EINT3 - ECOLD3)/MAX(EM20,H3)
-            UVAR(I,16+KK) = TEMP3
             P3OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_4---!
             IF(IEXP == 1)THEN
               KK = M51_N0PHAS + 3*M51_NVPHAS
-              EINT4   = UVAR(I,8 +KK)
-              V4OLD   = UVAR(I,11+KK)
-              RHO4OLD = UVAR(I,12+KK)
-              ECOLD = -T40 * SPH4
-              MU4 = (RHO4OLD/RHO40 - ONE)
-              H4 = SPH4*V4OLD*(ONE+MU4)
-              ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
-              TEMP4 = (EINT4 - ECOLD4)/MAX(EM20,H4)
               P4OLD(I) = UVAR(I,18+KK)
             ELSE
-              V4OLD    = ZERO
-              EINT4    = ZERO
-              RHO4OLD  = EM20
-              MU4      = ZERO
-              TEMP4    = ZERO
               P4OLD(I) = ZERO
-              ECOLD4   = ZERO
-              H4       = ZERO
             ENDIF
           ENDDO
 
@@ -772,6 +765,7 @@
 
             !inter22
             IF(VOLUME(I) == ZERO)CYCLE
+            IMID = IX(1,I+NFT)
 
             !===================================
             ! material 1 : THERMODYNAMICAL STATE
@@ -789,13 +783,8 @@
             EDIF1   = UVAR(I,17+KK)   ! chaleur diffusee
             P1OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ1(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD = -T10 * SPH1
             MU1 = (RHO1OLD/RHO10 - ONE)
-            H1 = SPH1*V1OLD*(ONE+MU1)
-            IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-            ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
-            TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
-
+            VAREOS1(1:6) => UVAR(I,KK+24:KK+29) ! extra eos variables for material 1
 
             !===================================
             ! material 2 : THERMODYNAMICAL STATE
@@ -813,13 +802,8 @@
             EDIF2   = UVAR(I,17+KK)   ! chaleur diffusee
             P2OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ2(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD = -T20 * SPH2
             MU2 = (RHO2OLD/RHO20 - ONE)
-            H2 = SPH2*V2OLD*(ONE+MU2)
-            IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-            ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
-            TEMP2 = (EINT2 - ECOLD2)/MAX(H2,EM20)
-
+            VAREOS2(1:6) => UVAR(I,KK+24:KK+29) ! extra eos variables for material 2
 
             !===================================
             ! material 3 : THERMODYNAMICAL STATE
@@ -837,12 +821,8 @@
             EDIF3   = UVAR(I,17+KK)   ! chaleur diffusee
             P3OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ3(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD   = -T30 * SPH3
             MU3     = (RHO3OLD/RHO30 - ONE)
-            H3      = SPH3*V3OLD*(ONE+MU3)
-            IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-            ECOLD3  = ECOLD*V3OLD*(ONE+MU3)
-            TEMP3   = (EINT3 - ECOLD3)/MAX(H3,EM20)
+            VAREOS3(1:6) => UVAR(I,KK+24:KK+29) ! extra eos variables for material 3
 
             !===================================
             ! H.Explosive : THERMODYNAMICAL STATE
@@ -858,8 +838,6 @@
               TEMP4   = ZERO
               EDIF4   = ZERO
               MU4     = ZERO
-              H4      = ZERO
-              ECOLD4  = ZERO
               TEMP4   = ZERO
               P4OLD(I)= ZERO
             ELSE
@@ -874,13 +852,8 @@
               TEMP4   = UVAR(I,16+KK)
               EDIF4   = UVAR(I,17+KK)   ! chaleur diffusee
               P4OLD(I)= UVAR(I,KK + 18) ! Pressure
-              ECOLD = -T40 * SPH4
               MU4 = (RHO4OLD/RHO40 - ONE)
-              H4 = SPH4*V4OLD*(ONE+MU4)
-              ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
-              TEMP4 = (EINT4 - ECOLD4)/MAX(H4,EM20)
               BFRAC(I) = GBUF%BFRAC(I)
-
             ENDIF
 
             !===================================
@@ -895,34 +868,25 @@
             !     --> Energy should here corrected with TdH
             !                    (dE = dW+dQ = -PdV+TdH)
             !=======================================================================
-            IF(JTHE == 1)THEN
-              IF(V1OLD+V2OLD+V3OLD > EM03)THEN
-                ! heat in
-                T = ( EINT1 - ECOLD1 + EINT2 - ECOLD2 + EINT3 - ECOLD3 + UVAR(I,2)) / (H1 + H2 + H3)
-                !--------material_1---------!
-                AAA   = (T-TEMP1)*H1        ! 'TdH'
-                EDIF1   = EDIF1 + AAA       ! -> Heat 'Q'
-                EINT1   = EINT1 + AAA       ! -> E(k)=E(k)+ TdH
-                !--------material_2---------!
-                AAA   = (T-TEMP2)*H2
-                EDIF2   = EDIF2 + AAA
-                EINT2   = EINT2 + AAA
-                !--------material_3---------!
-                AAA   = (T-TEMP3)*H3
-                EDIF3   = EDIF3 + AAA
-                EINT3   = EINT3 + AAA
-                !--------output-------------!
-                !================================================!
-                !Internal Energy is here bounded (Inferior limit)!
-                !for stability reasons                           !
-                !================================================!
-                EINT1=max(EINT1,MAS1/MAX(RHO10,EM20)*E1_INF)
-                EINT2=max(EINT2,MAS2/MAX(RHO20,EM20)*E2_INF)
-                EINT3=max(EINT3,MAS3/MAX(RHO30,EM20)*E3_INF)
-                EINT4=max(EINT4,MAS4/MAX(RHO40,EM20)*E4_INF)
-              END IF
-              ECOLD4 = ZERO
-            END IF
+            ! IF(JTHE == 1)THEN
+            !   IF(V1OLD+V2OLD+V3OLD > EM03)THEN
+            !     ! heat in
+            !     T = ( EINT1 - ECOLD1 + EINT2 - ECOLD2 + EINT3 - ECOLD3 + UVAR(I,2)) / (H1 + H2 + H3)
+            !     !--------material_1---------!
+            !     AAA   = (T-TEMP1)*H1        ! 'TdH'
+            !     EDIF1   = EDIF1 + AAA       ! -> Heat 'Q'
+            !     EINT1   = EINT1 + AAA       ! -> E(k)=E(k)+ TdH
+            !     !--------material_2---------!
+            !     AAA   = (T-TEMP2)*H2
+            !     EDIF2   = EDIF2 + AAA
+            !     EINT2   = EINT2 + AAA
+            !     !--------material_3---------!
+            !     AAA   = (T-TEMP3)*H3
+            !     EDIF3   = EDIF3 + AAA
+            !     EINT3   = EINT3 + AAA
+            !   END IF
+            !   ECOLD4 = ZERO
+            ! END IF
             IF (TIME  ==  ZERO) THEN
               EINT(I)= EINT1 + EINT2 + EINT3 + EINT4
             ENDIF
@@ -944,21 +908,12 @@
             QA   = GEO(14,PID(I)) !1.225D00
             QB   = GEO(15,PID(I)) !0.06D00
             XL   = VOLUME(I)**THIRD
-            QAL  = (QA*XL)**2
+            QAL  = (QA*XL)*(QA*XL)
             QBL  = QB*XL
 
             VQ0  = RHO(I)*QAL*MAX(ZERO,DD)
             VQ0  = VQ0 + (RHO1OLD*SSP1*V1OLD+RHO2OLD*SSP2*V2OLD+RHO3OLD*SSP3*V3OLD+RHO4OLD*SSP4*V4OLD)*QBL/(V1OLD+V2OLD+V3OLD+V4OLD)
-            VQ1  = VQ0
-            VQ2  = VQ0
-            VQ3  = VQ0
-            VQ4  = VQ0
-
             Q0   = VQ0*MAX(ZERO,DD)
-            Q1   = Q0
-            Q2   = Q0
-            Q3   = Q0
-            Q4   = Q0
 
             XL1  = V1OLD**THIRD
             XL2  = V2OLD**THIRD
@@ -1022,7 +977,6 @@
             IF (MAS1 / MASS  >  TOL51 .AND. MAS1/RHO10/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 1
               V10 = MAS1 / RHO10
-              RHO0E1 = EINT1/V10
               ALPHA1OLD = V1OLD / VOLD
               !   PRINT*, "ALPHA1OLD",ALPHA1OLD
               !ENDIF
@@ -1037,7 +991,6 @@
             IF (MAS2 / MASS  >  TOL51 .AND. MAS2/RHO20/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 2
               V20 = MAS2 / RHO20
-              RHO0E2 = EINT2/V20
               ALPHA2OLD = V2OLD / VOLD
               !   PRINT*, "ALPHA2OLD",ALPHA2OLD
               !ENDIF
@@ -1053,7 +1006,6 @@
             IF (MAS3 / MASS  >  TOL51 .AND. MAS3/RHO30/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 4
               V30 = MAS3 / RHO30
-              RHO0E3 = EINT3/V30
               ALPHA3OLD = V3OLD / VOLD
               !   PRINT*, "ALPHA3OLD",ALPHA3OLD
               !ENDIF
@@ -1113,18 +1065,18 @@
             !=======================================================================
             IF(SUBMAT_CODE == 1 .OR. SUBMAT_CODE == 2 .OR. SUBMAT_CODE == 4 .OR. SUBMAT_CODE == 8) THEN
 
-              P1    = ZERO
-              P2    = ZERO
-              P3    = ZERO
-              P4    = ZERO
-              Q1    = ZERO
-              Q2    = ZERO
-              Q3    = ZERO
-              Q4    = ZERO
-              V1    = ZERO
-              V2    = ZERO
-              V3    = ZERO
-              V4    = ZERO
+              P1 = P1OLD(I)
+              P2 = P2OLD(I)
+              P3 = P3OLD(I)
+              P4 = P4OLD(I)
+              Q1 = ZERO
+              Q2 = ZERO
+              Q3 = ZERO
+              Q4 = ZERO
+              V1 = ZERO
+              V2 = ZERO
+              V3 = ZERO
+              V4 = ZERO
 
               !==========================================
               ! The only material is MAT1 (sol, liq, gas)
@@ -1132,16 +1084,24 @@
               IF(SUBMAT_CODE == 1)THEN
                 !EINT1 = EINT1  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
                 EINT1 = EINT1  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
-                RHO0E1 = EINT1/V10
                 V1 = VOLUME(I)
                 RHO1 = MASS / V1
-                CALL POLYUN51 ( &
-                  C01,C11,C21,C31,C41,C51,GG1(I), &
-                  VOLUME(I),DVOL,V1OLD, &
-                  RHO(I),MAS1 ,RHO10,DD,MU1,MU1P1, &
-                  POLD,PEXT,P1,PM1,Q1, &
-                  RHO0E1,EINT1 ,VISCMAX(I),XL ,SSP1, &
-                  QA,QB)
+                MU1 = RHO(I)/RHO10 - ONE
+                DVOL = VOLUME(I)-V1OLD
+                DF1 = RHO10 / RHO(I)
+                ESPE1 = EINT1 / V10
+
+                ISUBMAT = IBIJ(1) !user order, not legacy order
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
+                  temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP1 = SQRT((ABS(DPDMU1) + TWO_THIRD*GG1(I))/RHO10)
+                VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP1)
+                Q1 = VISCMAX(I)*MAX(ZERO,DD)
                 EINT(I) = EINT1
                 SOUNDSP(I) = SSP1
                 P = P1
@@ -1149,24 +1109,30 @@
                 V1 = VOLUME(I)
                 RHO1 = RHO(I)
 
-
                 !==========================================
                 ! The only material is MAT2 (sol, liq, gas)
                 !==========================================
               ELSEIF(SUBMAT_CODE == 2)THEN
                 !EINT2 = EINT2  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
                 EINT2 = EINT2  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
-                RHO0E2 = EINT2/V20
                 V2 = VOLUME(I)
                 RHO2 = MASS / V2
-                CALL POLYUN51 ( &
-                  C02,C12,C22,C32,C42,C52,GG2(I), &
-                  VOLUME(I),DVOL,V2OLD, &
-                  RHO(I),MAS2 ,RHO20,DD,MU2,MU2P1, &
-                  POLD,PEXT,P2,PM2,Q2, &
-                  RHO0E2,EINT2 ,VISCMAX(I),XL ,SSP2, &
-                  QA,QB)
+                MU2 = RHO(I)/RHO20 - ONE
+                DVOL = VOLUME(I)-V2OLD
+                DF2 = RHO20 / RHO(I)
+                ESPE2 = EINT2 / V20
 
+                ISUBMAT = IBIJ(2) !user order, not legacy order
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
+                  temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP2 = SQRT((ABS(DPDMU2) + TWO_THIRD*GG2(I))/RHO20)
+                VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP2)
+                Q2 = VISCMAX(I)*MAX(ZERO,DD)
                 EINT(I) = EINT2
                 SOUNDSP(I) = SSP2
                 P = P2
@@ -1180,16 +1146,24 @@
               ELSEIF(SUBMAT_CODE == 4)THEN
                 !EINT3 = EINT3  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
                 EINT3 = EINT3  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
-                RHO0E3 = EINT3/V30
                 V3 = VOLUME(I)
                 RHO3 = MASS / V3
-                CALL POLYUN51 ( &
-                  C03,C13,C23,C33,C43,C53,GG3(I),&
-                  VOLUME(I),DVOL,V3OLD,&
-                  RHO(I),MAS3 ,RHO30,DD,MU3,MU3P1,&
-                  POLD,PEXT,P3,PM3,Q3,&
-                  RHO0E3,EINT3,VISCMAX(I),XL ,SSP3,&
-                  QA,QB)
+                MU3 = RHO(I)/RHO30 - ONE
+                DVOL = VOLUME(I)-V3OLD
+                DF3 = RHO30 / RHO(I)
+                ESPE3 = EINT3 / V30
+
+                ISUBMAT = IBIJ(3) !user order, not legacy order
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
+                  temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3 ,&
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP3 = SQRT((ABS(DPDMU3) + TWO_THIRD*GG3(I))/RHO30)
+                VISCMAX(I) = RHO(I)*(QAL*MAX(ZERO,DD) + QBL*SSP3)
+                Q3 = VISCMAX(I)*MAX(ZERO,DD)
                 EINT(I) = EINT3
                 SOUNDSP(I) = SSP3
                 P = P3
@@ -1214,13 +1188,17 @@
                   Q4,PEXT,P4,PM4,&
                   RHO(I),RHO40,MAS4,&
                   SSP4,&
-                  QA,QB,BFRAC(I))
+                  QA,QB,BFRAC(I),DPDE4)
 
                 SOUNDSP(I) = SSP4
                 P = P4
                 Q = Q4
                 V4 = VOLUME(I)
                 RHO4 = RHO(I)
+                DVOL4 = DVOL
+                TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
+                TEMP4 = MAX(TEMP4, ZERO)
+                TEMP4 = MIN(TEMP4, TMAX)
 
               ENDIF
 
@@ -1267,18 +1245,18 @@
               !---------------------------------------------------
               !     COMPUTE MASS DENSITIES FOR EACH FLUID
               !---------------------------------------------------
-              P1    = ZERO
-              P2    = ZERO
-              P3    = ZERO
-              P4    = ZERO
-              DVDP1 = ZERO
-              DVDP2 = ZERO
-              DVDP3 = ZERO
-              DVDP4 = ZERO
-              V1I   = V1
-              V2I   = V2
-              V3I   = V3
-              V4I   = V4
+              P1 = P1OLD(I)
+              P2 = P2OLD(I)
+              P3 = P3OLD(I)
+              P4 = P4OLD(I)
+              DVOL1 = ZERO
+              DVOL2 = ZERO
+              DVOL3 = ZERO
+              DVOL4 = ZERO
+              V1I = V1
+              V2I = V2
+              V3I = V3
+              V4I = V4
               IF (V1  >  ZERO) RHO1 = MAS1 / V1
               IF (V2  >  ZERO) RHO2 = MAS2 / V2
               IF (V3  >  ZERO) RHO3 = MAS3 / V3
@@ -1290,26 +1268,56 @@
 
               ! MAT1
               IF (V1  >  ZERO) THEN
-                CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
-                  V10,V1,V1I,MU1,MU1P1,EINT1, &
-                  PEXT,P1,PM1,P1I, &
-                  RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
+                MU1 = RHO1/RHO10 - ONE
+                DVOL = V1-V1I
+                DF1 = RHO10/RHO1
+                ESPE1 = EINT1 / V10
+                ISUBMAT = IBIJ(1) !user order, not legacy order
+                VAREOS1_TMP(1:6) = VAREOS1(1:6)
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm1, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
+                  temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1, &
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
               ENDIF
 
               ! MAT2
               IF (V2  >  ZERO) THEN
-                CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
-                  V20,V2,V2I,MU2,MU2P1,EINT2, &
-                  PEXT,P2,PM2,P2I, &
-                  RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
+                MU2 = RHO2/RHO20 - ONE
+                DVOL = V2-V2I
+                DF2 = RHO20/RHO2
+                ESPE2 = EINT2 / V20
+                ISUBMAT = IBIJ(2) !user order, not legacy order
+                VAREOS2_TMP(1:6) = VAREOS2(1:6)
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm2, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
+                  temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
               ENDIF
 
               ! MAT3
               IF (V3  >  ZERO) THEN
-                CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
-                  V30,V3,V3I,MU3,MU3P1,EINT3, &
-                  PEXT,P3,PM3,P3I, &
-                  RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
+                MU3 = RHO3/RHO30 - ONE
+                DVOL = V3-V3I
+                DF3 = RHO30/RHO3
+                ESPE3 = EINT3 / V30
+                ISUBMAT = IBIJ(3) !user order, not legacy order
+                VAREOS3_TMP(1:6) = VAREOS3(1:6)
+                SUBMID = matparam(imid)%multimat%mid(isubmat)
+                MLN = 0
+                if(submid > 0) MLN = matparam(submid)%ilaw
+                call eosmain51(pm3, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
+                  temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
+                  time, timestep, npf   ,tf   ,snpf ,stf , mln)
+
+                SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
               ENDIF
 
               ! MAT4 : High Explosive
@@ -1321,9 +1329,9 @@
 
                 CALL JWL51 (UPARAM, &
                   V4,V4I,MU4,MU4P1,EINT4, &
-                  P4OLD(I),PEXT,P4,PM4, &
-                  RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4, &
-                  BFRAC(I),V40, 0)
+                  PEXT,P4,PM4, &
+                  RHO4,RHO40,MAS4,SSP4, &
+                  BFRAC(I),V40, DPDE4)
               ENDIF
 
               !---------------------------------------------------
@@ -1457,28 +1465,55 @@
                 !       material 1 - Polynomial EOS
                 !===========================================
                 IF (V1  >  ZERO) THEN
-                  CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
-                    V10,V1,V1I,MU1,MU1P1,EINT1, &
-                    PEXT,P1,PM5,P1I, &
-                    RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
+                  MU1 = RHO1/RHO10 - ONE
+                  DVOL = V1-V1I
+                  DF1 = RHO10 / RHO1
+                  ESPE1 = EINT1 / V10
+                  ISUBMAT = IBIJ(1)
+                  VAREOS1(1:6) = VAREOS1_TMP(1:6)
+                  SUBMID = matparam(imid)%multimat%mid(isubmat)
+                  MLN = 0
+                  if(submid > 0) MLN = matparam(submid)%ilaw
+                  call eosmain51(pm5, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
+                    temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1 ,&
+                    time, timestep, npf   ,tf   ,snpf ,stf , mln)
+                    SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
                 ENDIF
                 !===========================================
                 !       material 2 - Polynomial EOS
                 !===========================================
                 IF (V2  >  ZERO) THEN
-                  CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
-                    V20,V2,V2I,MU2,MU2P1,EINT2, &
-                    PEXT,P2,PM5,P2I, &
-                    RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
+                  MU2 = RHO2/RHO20 - ONE
+                  DVOL = V2-V2I
+                  DF2 = RHO20 / RHO2
+                  ESPE2 = EINT2 / V20
+                  ISUBMAT = IBIJ(2)
+                  VAREOS2(1:6) = VAREOS2_TMP(1:6)
+                  SUBMID = matparam(imid)%multimat%mid(isubmat)
+                  MLN = 0
+                  if(submid > 0) MLN = matparam(submid)%ilaw
+                  call eosmain51(pm5, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
+                    temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
+                    time, timestep, npf   ,tf   ,snpf ,stf , mln )
+                    SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
                 ENDIF
                 !===========================================
                 !       material 3 - Polynomial EOS
                 !===========================================
                 IF (V3  >  ZERO) THEN
-                  CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
-                    V30,V3,V3I,MU3,MU3P1,EINT3, &
-                    PEXT,P3,PM5,P3I, &
-                    RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
+                  MU3 = RHO3/RHO30 - ONE
+                  DVOL = V3-V3I
+                  DF3 = RHO30 / RHO3
+                  ESPE3 = EINT3 / V30
+                  ISUBMAT = IBIJ(3)
+                  VAREOS3(1:6) = VAREOS3_TMP(1:6)
+                  SUBMID = matparam(imid)%multimat%mid(isubmat)
+                  MLN = 0
+                  if(submid > 0) MLN = matparam(submid)%ilaw
+                  call eosmain51(pm5, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
+                    temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
+                    time, timestep, npf   ,tf   ,snpf ,stf , mln)
+                    SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
                 ENDIF
                 !===========================================
                 !       material 4 - Polynomial EOS
@@ -1486,9 +1521,9 @@
                 IF (V4  >  ZERO)THEN
                   CALL JWL51 (UPARAM, &
                     V4,V4I,MU4,MU4P1,EINT4,&
-                    P4OLD(I),PEXT,P4,PM5,&
-                    RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4,&
-                    BFRAC(I),V40, 0)
+                    PEXT,P4,PM5,&
+                    RHO4,RHO40,MAS4,SSP4,&
+                    BFRAC(I),V40, DPDE4)
                 ENDIF
 
                 !!! Check convergence
@@ -1498,11 +1533,18 @@
                 IF (V3  >  ZERO) ERROR = ERROR + ABS(DV3) / V3
                 IF (V4  >  ZERO) ERROR = ERROR + ABS(DV4) / V4
 
+                !print *, "  ------------->  iter, p1,p2= ", ITER,P1,P2
+
                 IF (ERROR  <  TOL) THEN
                   CONT = 0
                 ENDIF
 
               ENDDO
+
+              DVOL1=ZERO
+              DVOL2=ZERO
+              DVOL3=ZERO
+              DVOL4=ZERO
 
               !---------------------------------------------------
               !     CONVERGENCE TEST
@@ -1573,7 +1615,7 @@
             !---------------------------------------------------------------------------------------------!
             !ENERGY INTEGRATION WITH PRESSURE CONTRIBUTION IS DONE AT ENT OF MULAW SUBROUTINE             !
             !---------------------------------------------------------------------------------------------!
-            !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
+            !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Warning: Q is removed here because stored in Svis for mulaw and sfint
 
             !---------------------------!
             !   TOTAL STRESS TENSOR     !
@@ -1633,9 +1675,6 @@
               UVAR(I,18+KK) =   P1
               UVAR(I,14+KK) = SSP1
               UVAR(I,15+KK) = PLAS1(I)     ! Eps plastique
-              ECOLD         = -T10 * SPH1
-              IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-              TEMP1         = (EINT1/V1/MU1P1 - ECOLD) / SPH1
               UVAR(I,16+KK) = TEMP1
               UVAR(I,8+KK)  = EINT1 / V1 ! energie IN rho e OUT
               UVAR(I,9+KK)  = RHO1       ! masse IN rho OUT
@@ -1677,9 +1716,6 @@
               UVAR(I,18+KK) = P2
               UVAR(I,14+KK) = SSP2
               UVAR(I,15+KK) = PLAS2(I)   ! Eps plastique
-              ECOLD         = -T20 * SPH2
-              IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-              TEMP2         = (EINT2/V2/(MU2P1) - ECOLD) / SPH2
               UVAR(I,16+KK) = TEMP2
               UVAR(I,8+KK)  = EINT2 / V2
               UVAR(I,9+KK)  = RHO2
@@ -1721,9 +1757,6 @@
               UVAR(I,18+KK) =   P3
               UVAR(I,14+KK) = SSP3
               UVAR(I,15+KK) = PLAS3(I)   ! Eps plastique
-              ECOLD         = -T30 * SPH3
-              IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-              TEMP3         = (EINT3/V3/MU3P1 - ECOLD) / SPH3
               UVAR(I,16+KK) = TEMP3
               UVAR(I,8+KK)  = EINT3 / V3
               UVAR(I,9+KK)  = RHO3
@@ -1765,6 +1798,7 @@
                 UVAR(I,18+KK) = P4
                 UVAR(I,14+KK) = SSP4
                 UVAR(I,15+KK) = ZERO      ! Eps plastique
+                UVAR(I,16+KK) = TEMP4
                 UVAR(I,8+KK)  = EINT4 / V4 ! energie IN rho e OUT
                 UVAR(I,9+KK)  = RHO4       ! masse IN rho OUT
                 UVAR(I,10+KK) = Q4
@@ -1802,12 +1836,11 @@
             !===================================================
             !               UVAR(I,2)    : TEMP
             !===================================================
-            H1 = SPH1*V1*(MU1P1)
-            H2 = SPH2*V2*(MU2P1)
-            H3 = SPH3*V3*(MU3P1)
-            H4 = SPH4*V4*(MU4P1)
             ! temperature out ! chaleur     in
-            UVAR(I,2) = (TEMP1*H1 + TEMP2*H2 + TEMP3*H3 + TEMP4*H4)  / (H1 + H2 + H3 + H4)
+            DENOM = (SPH1*V1+SPH2*V2+SPH3*V3+SPH4*V4)
+            IF(DENOM /= ZERO)THEN
+              UVAR(I,2) = (SPH1*V1*TEMP1+SPH2*V2*TEMP2+SPH3*V3*TEMP3+SPH4*V4*TEMP4) / DENOM
+            END IF
             IF(BUFLY%L_TEMP>0)LBUF%TEMP(I) = UVAR(I,2)
             !===================================================
             !               UVAR(I,3) : BFRAC
@@ -1827,7 +1860,7 @@
             ENDIF
 
             IF(JTHE == 1 ) THEN
-              GBUF%TEMP(I) = THREE100 + EM03
+              GBUF%TEMP(I) = UVAR(I,2)
             ELSE
               GBUF%TEMP(I) = UVAR(I,2)
             ENDIF

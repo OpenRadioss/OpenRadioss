@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,8 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                  ../common_source/modules/aleanim_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    initbuf_mod                  ../engine/share/resol/initbuf.F
 !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
@@ -62,6 +63,7 @@ C-----------------------------------------------
         USE ALEANIM_MOD , ONLY : FANI_CELL_
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE MATPARAM_DEF_MOD
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,13 +24,15 @@
 !||    python_share_memory_mod   ../engine/source/coupling/python/python_share_memory.F90
 !||--- called by ------------------------------------------------------
 !||    resol                     ../engine/source/engine/resol.F
+!||    resol_alloc_python        ../engine/source/engine/resol_alloc.F90
 !||====================================================================
       module python_share_memory_mod
+        implicit none
       contains
 !||====================================================================
 !||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90
 !||--- called by ------------------------------------------------------
-!||    resol                   ../engine/source/engine/resol.F
+!||    resol_alloc_python      ../engine/source/engine/resol_alloc.F90
 !||--- calls      -----------------------------------------------------
 !||    python_expose_doubles   ../common_source/modules/python_mod.F90
 !||    python_expose_ints      ../common_source/modules/python_mod.F90
@@ -50,7 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding, only : c_char, c_null_char, c_loc
+          use, intrinsic :: iso_c_binding, only : c_char, c_null_char, c_loc
           use nodal_arrays_mod
           use python_funct_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,10 +103,10 @@
             if (allocated(nodes%IKINE))   call python_expose_ints(py, "IKINE", 5, c_loc(nodes%IKINE),    size(nodes%IKINE))
             if (allocated(nodes%MAIN_PROC)) then
               call python_expose_ints(py, "MAIN_PROC", 9, c_loc(nodes%MAIN_PROC),size(nodes%MAIN_PROC))
-            endif
+            end if
             if (allocated(nodes%WEIGHT)) then
               call python_expose_ints(py, "WEIGHT", 6, c_loc(nodes%WEIGHT),   size(nodes%WEIGHT))
-            endif
+            end if
             if (allocated(nodes%A))       call python_expose_doubles(py, "A", 1, c_loc(nodes%A),     3*numnod)
             if (allocated(nodes%AR))      call python_expose_doubles(py, "AR", 2, c_loc(nodes%AR),    3*numnod)
             if (allocated(nodes%V))       call python_expose_doubles(py, "V", 1, c_loc(nodes%V),     3*numnod)
@@ -120,7 +122,7 @@
             if (allocated(nodes%MCP))     call python_expose_doubles(py, "MCP", 3, c_loc(nodes%MCP),   size(nodes%MCP))
             if (allocated(nodes%VISCN))   call python_expose_doubles(py, "VISCN", 5, c_loc(nodes%VISCN), size(nodes%VISCN))
             if (allocated(nodes%TEMP))    call python_expose_doubles(py, "TEMP", 4, c_loc(nodes%TEMP),  size(nodes%TEMP))
-          endif
+          end if
 
           if(numelc > 0)  call python_expose_ints(py, "IXC", 3, c_loc(ixc), numelc*nixc)
           if(numels > 0)  call python_expose_ints(py, "IXS", 3, c_loc(ixs), numels*nixs)

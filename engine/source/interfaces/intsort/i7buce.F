@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   X        ,IRECT   ,NSV          ,INACTI      ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN          ,CAND_E      ,CAND_N  ,
      3   GAP      ,NOINT   ,II_STOK      ,NCONTACT    ,BMINMA  ,
-     4   TZINF    ,MAXBOX  ,MINBOX       ,MWAG        ,CURV_MAX,
+     4   TZINF    ,MAXBOX  ,MINBOX       ,CAND_A        ,CURV_MAX,
      5   NB_N_B   ,ESHIFT  ,ILD          ,IFQ         ,IFPEN   ,
      8   STFN     ,NIN     ,STF          ,IGAP        ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM        ,NSNROLD     ,GAP_M   ,
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
-      INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
+      INTEGER NMN, NRTM, NSN, NOINT, INACTI, IFQ, NIN, NSNR, NSNROLD
+      INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
@@ -84,13 +84,10 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX,I_ADD
       PARAMETER (I_ADD_MAX = 1001) 
       INTEGER ADD(2,I_ADD_MAX)
-
-      INTEGER I, J, IP0, IP1,
-     .        LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER ISZNSNR
 C     REAL
       my_real
-     .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
+     . XYZM(6,I_ADD_MAX-1), MARGE
 C-----------------------------------------------
 C     PROV
 C-----------------------------------------------
@@ -98,8 +95,8 @@ cc      INTEGER INIVOXEL, VOXEL(LVOXEL),NBX,NBY,NBZ
 c      INTEGER INIVOXEL, VOXEL(1),NBX,NBY,NBZ
 cc      SAVE INIVOXEL, VOXEL
 cc      DATA INIVOXEL /1/
-      INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
+ 
+ 
       INTEGER MAXSIZ                 
 
 
@@ -115,19 +112,17 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
 C 
-      IP0 = 1
-      IP1 = IP0 + NSN + NSNROLD + 3
 C
 C-----INITIALISATION 
 
@@ -140,7 +135,7 @@ C
       XYZM(4,I_ADD) = BMINMA(1)
       XYZM(5,I_ADD) = BMINMA(2)
       XYZM(6,I_ADD) = BMINMA(3)
-C boite de tri
+C sorting box
       I_MEM = 0
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
@@ -157,7 +152,7 @@ C
      3      I_ADD ,NSV    ,MAXSIZ ,II_STOK  ,CAND_N   ,
      4      CAND_E,NCONTACT,NOINT  ,TZINF    ,MAXBOX   ,
      5      MINBOX,I_MEM  ,NB_N_B ,I_ADD_MAX,ESHIFT   ,
-     6      INACTI,IFQ    ,MWAG(IP0), CAND_P   ,IFPEN    ,
+     6      INACTI,IFQ    ,CAND_A, CAND_P   ,IFPEN    ,
      7      NRTM  ,NSNROLD,IGAP   ,GAP      ,GAP_S    ,
      8      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
      9      NIN    ,GAP_S_L,GAP_M_L,INTTH, DRAD  ,ITIED    ,
@@ -166,11 +161,10 @@ C
      
      
 
- 234  CONTINUE
 c     WRITE(6,*) "IMEM=",I_MEM 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF (I_MEM /= 0) RETURN
 
@@ -195,7 +189,7 @@ C
      1   X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N  ,
      3   GAP      ,NOINT   ,II_STOK ,NCONTACT ,BMINMA  ,
-     4   TZINF    ,MAXBOX  ,MINBOX  ,MWAG     ,CURV_MAX,
+     4   TZINF    ,MAXBOX  ,MINBOX  ,CAND_A     ,CURV_MAX,
      5   NB_N_B   ,ESHIFT  ,ILD     ,IFQ      ,IFPEN   ,
      8   STFN     ,NIN     ,STF     ,IGAP     ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM   ,NSNROLD  ,GAP_M   ,
@@ -223,10 +217,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN,NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR, NSNROLD
+      INTEGER NMN, NSN, NOINT, INACTI, IFQ, NIN, NSNR, NSNROLD
       INTEGER, INTENT(in) :: NRTM !< number of segments per threads
       INTEGER, INTENT(in) :: TOTAL_NB_NRTM !< total number of segments
-      INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
+      INTEGER IRECT(4,*),NSV(*),CAND_A(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
@@ -247,9 +241,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1,
-     .        LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER I, 
+     . ISZNSNR
 C     REAL
       my_real
      .        XYZM(6,2), MARGE, AAA
@@ -267,19 +260,17 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
 C 
-      IP0 = 1
-      IP1 = IP0 + NSN + NSNROLD + 3
 C
 C-----INITIALISATION 
 
@@ -291,7 +282,7 @@ C
       XYZM(4,1) = BMINMA(1)
       XYZM(5,1) = BMINMA(2)
       XYZM(6,1) = BMINMA(3)
-C boite de tri
+C sorting box
       XYZM(1,2) = BMINMA(10)
       XYZM(2,2) = BMINMA(11)
       XYZM(3,2) = BMINMA(12)
@@ -307,9 +298,9 @@ C
         ISZNSNR = 0
       END IF
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C     start of the sorting phase
 C
-      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)  ! il s agit bien de la marge
+      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)  ! it is indeed the margin
 
 c      AAA = SQRT(NMN /
 c     .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
@@ -372,8 +363,8 @@ C
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of VOXEL
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -384,7 +375,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      3   NSV     ,II_STOK  ,CAND_N   ,ESHIFT   ,CAND_E  ,
      4   NCONTACT,NOINT    ,TZINF    ,GAP_S_L  ,GAP_M_L ,
      5   VOXEL1  ,NBX      ,NBY      ,NBZ      ,INTTH   ,
-     6   INACTI  ,IFQ      ,MWAG(IP0),CAND_P   ,IFPEN   ,
+     6   INACTI  ,IFQ      ,CAND_A,CAND_P   ,IFPEN   ,
      7   NRTM    ,NSNROLD  ,IGAP     ,GAP      ,GAP_S   ,
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
@@ -392,11 +383,10 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
      C   TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
  
- 234  CONTINUE
 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF (I_MEM ==2) RETURN
       IF(I_MEM==1)THEN
@@ -420,7 +410,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         ENDIF
         RETURN
         TZINF = THREE_OVER_4*TZINF
-C taille de boite non diminuee
+C unconassed gearbox size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=MAX(GAP+DGAPLOAD,DRAD)  ) THEN

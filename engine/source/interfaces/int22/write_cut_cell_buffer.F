@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -179,7 +179,7 @@ C-----------------------------------------------
         WRITE(unit=IUNIT,  fmt='(A,01I10)    ')"   ", pPLANE%NP
         ENDDO
         
-        !SECND CELL LIST
+        !Second Cell List
         pSECND => BRICK_LIST(NIN,IB)%SecndList        
         WRITE(unit=IUNIT,  fmt='(A,01F20.14)' )"   ", pSECND%VOL_Unmerged         
         WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSECND%Num                 

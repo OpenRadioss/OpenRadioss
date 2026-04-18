@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +28,9 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SUMAX(V,LEN1,LEN)
-C gather tableau V de taille LEN de type my_real
-C max des valeurs absolues sur LEN1
-C somme des valeurs sur LEN2 = LEN - LEN1
+C gather table V of size LEN of type my_real
+C max of absolute values over LEN1
+C sum of values over LEN2 = LEN - LEN1
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

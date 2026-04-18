@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5      GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR,
      6      EDG_BISECTOR,VTX_BISECTOR,CAND_P, PROV_IDS,
      7      IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN,
-     8      DGAPLOAD)
+     8      DGAPLOAD,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: PROV_IDS(2,NVSIZ)
-      INTEGER I_MEM, IGAP0, NEDGE, NIN, ITAB(*), INACTI,IFQ
-      INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
+      INTEGER I_MEM, IGAP0, NEDGE, ITAB(*), INACTI, IFQ
+      INTEGER J_STOK, MULNSN, NOINT, IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,*),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,
      .        CAND_A(*),IFPEN(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ)
@@ -77,11 +77,13 @@ C     REAL
      .   MARGE,X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), 
      .   CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*),CAND_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      INTEGER , INTENT(IN) ::SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E2S(4,SIZ_E2S/4),STIF_OLD_E2S(4,SIZ_E2S/4) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,EJ
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
+      INTEGER I, J, K_STOK, I_STOK, N, NE
+ 
 C     REAL
       my_real
      .   PENE(MVSIZ)
@@ -92,7 +94,7 @@ C-----------------------------------------------
      .                  PENE  ,ADMSR     ,EDG_BISECTOR ,VTX_BISECTOR,ITAB,
      .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD)
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
 C     IF(INACTI==5)THEN
         DO I=1,J_STOK
@@ -103,14 +105,14 @@ C         DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, PENE(I))
             NE = PROV_M(I)
 
 C           IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
 C              N = OLDNUM(N-NEDGE)+NEDGE
 C              IF(N==NEDGE) N = NEDGE+NEDGEROLD+1
 C           END IF
 
 C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)
             IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
 C             DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, OLDNUM_EDGE(N-NEDGE))
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
 C             DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)
@@ -163,6 +165,8 @@ C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, I_STOK)
             CAND_S(I_STOK) = PROV_S(I)
             CAND_M(I_STOK) = PROV_M(I)
             CAND_P(1:4,I_STOK) = ZERO
+            PENE_OLD_E2S(1:4,I_STOK) = ZERO
+            STIF_OLD_E2S(1:4,I_STOK) = ZERO
             IF(IFQ > 0) THEN
                CAND_FX(1:4,I_STOK) = ZERO
                CAND_FY(1:4,I_STOK) = ZERO

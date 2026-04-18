@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,7 +52,7 @@ C-----------------------------------------------
       my_real, POINTER, DIMENSION(:) :: 
      .   DNL,UNL,VNL
 C-----------------------------------------------
-c     calcul increment et nouvelle valeur de la variable non locale
+c     calculation of increment and new value of the non-local variable
 C=======================================================================
       ! Recovering increments, cumulated and velocities
       DNL => NLOC_DMG%DNL(1:NLOC_DMG%L_NLOC)

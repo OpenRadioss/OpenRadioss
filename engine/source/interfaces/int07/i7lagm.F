@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
+      INTEGER N_MUL_MX,ITASK,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),IADLL(*),COMNTAG(*)
 C     REAL
       my_real
@@ -87,10 +87,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
-     .        I16,IAD,LL
+      INTEGER I,
+     .        IAD,LL
       my_real
-     .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
+     .   AA
       INTEGER IG 
       my_real
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),
@@ -127,17 +127,17 @@ C        [L][M]-1[L]t la : HLA(N_MULT)
 C        [L] ao - b      : B(N_MULT)
 C        [M]-1[L]t la    : LTLA(NUMNOD)
 C
-C        N_MULT : nombre de contact 
-C        NK : nombre de noeud pour un contact (8+1,16+1,8+8,16+16)
+C        N_MULT : number of contacts
+C        NK: Number of node for contact (8+1.16+1.8+8.16+16)
 C
-C        IC : numero du contact (1,N_MULT)
-C        IK : numero de noeud local a un contact (1,NK)
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,N_MULT)
+C        IK : local node number for a contact (1,NK)
+C        I  : global node number (1,NUMNOD)
 C
 C        IADLL(N_MULT)        : IAD = IADLL(IC)
 C        LLL(N_MULT*(17,51))  : I  = LLL(IAD+1,2...IADNEXT-1)
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi)
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai)

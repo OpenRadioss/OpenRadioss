@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,13 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    initbuf_mod                      ../engine/share/resol/initbuf.F
 !||--- called by ------------------------------------------------------
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
 !||    aflux0                           ../engine/source/ale/aflux0.F
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
 !||    agauge                           ../engine/source/ale/agauge.F
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
@@ -38,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemain                          ../engine/source/ale/alemain.F
 !||    anim_nodal_p_elems               ../engine/source/output/anim/generate/anim_nodal_p_elems.F
 !||    anim_nodal_ssp_elems             ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    cutfunce                         ../engine/source/tools/sect/cutfunce.F
 !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
@@ -87,6 +86,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_glob_k                       ../engine/source/implicit/imp_glob_k.F
 !||    imp_glob_k0                      ../engine/source/implicit/imp_glob_k.F
 !||    imp_glob_khp                     ../engine/source/implicit/imp_glob_k.F
+!||    init_ale_aconve                  ../engine/source/ale/init_ale_aconve.F90
+!||    init_ale_arezon                  ../engine/source/ale/init_ale_arezon.F90
+!||    init_ale_boundary_condition      ../engine/source/ale/init_ale_boundary_condition.F90
 !||    laser2                           ../engine/source/loads/laser/laser2.F
 !||    laser3                           ../engine/source/loads/laser/laser2.F
 !||    lech3d                           ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
@@ -162,19 +164,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    initbuf                          ../engine/share/resol/initbuf.F
 !||--- called by ------------------------------------------------------
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
 !||    aflux0                           ../engine/source/ale/aflux0.F
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
 !||    agauge                           ../engine/source/ale/agauge.F
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
 !||    alefvm_main                      ../engine/source/ale/alefvm/alefvm_main.F
 !||    alemain                          ../engine/source/ale/alemain.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    cutfunce                         ../engine/source/tools/sect/cutfunce.F
 !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
@@ -211,6 +212,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i9grd3                           ../engine/source/interfaces/int09/i9grd3.F
 !||    imp_glob_k                       ../engine/source/implicit/imp_glob_k.F
 !||    imp_glob_k0                      ../engine/source/implicit/imp_glob_k.F
+!||    init_ale_aconve                  ../engine/source/ale/init_ale_aconve.F90
+!||    init_ale_arezon                  ../engine/source/ale/init_ale_arezon.F90
+!||    init_ale_boundary_condition      ../engine/source/ale/init_ale_boundary_condition.F90
 !||    laser2                           ../engine/source/loads/laser/laser2.F
 !||    laser3                           ../engine/source/loads/laser/laser2.F
 !||    lech3d                           ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
@@ -275,10 +279,10 @@ C-----------------------------------------------
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
 C-----------------------------------------------
-C    Comment : Initialisation des variables de vect01_c.inc
-C              dans les boucles sur les groupes.
-C              Necessaire pour routines telles que sbufad qui dimensionnent
-C              le buffeur elementaire.
+C    Comment: Initialization of vect01_c.inc variables
+C              in the loops over groups.
+C              Necessary for routines such as sbufad which dimension
+C              the elementary buffer.
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -295,7 +299,7 @@ C=======================================================================
          JEUL    = IPARG(11,NG) 
       ELSEIF (MTN == 151 .AND. ITY == 7) THEN
          JEUL    = IPARG(11,NG) 
-      ELSE             ! attention dkt9_s3 utilise ce flag
+      ELSE             ! Attention dkt9_s3 uses this flag
          JEUL    = 0
       END IF 
 

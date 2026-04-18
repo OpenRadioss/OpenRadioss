@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,13 +80,13 @@ C-----------------------------------------------
       INTEGER NGL(NEL),ELCRKINI(NXLAYMAX,*),NOFF(NEL)
       my_real 
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),NPTTF(NEL),
-     .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),SIGNXY(NEL),SIGNYZ(NEL),
+     . SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),
      .   SIGNZX(NEL),TENS(NEL,5),DFMAX(NEL),TDEL(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real UVAR(NEL,NUVAR), OFF(NEL),OFFL(NEL)
-      my_real, DIMENSION(:) ,POINTER  :: SIGSAV
+ 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -475,10 +475,6 @@ c---  Maximum Damage storing for output : 0 < DFMAX < 1
         DFMAX(I) = MIN(ONE, MAX(DFMAX(I),UVAR(I,1)/TBK))
       ENDDO
 C-----------------------------------------------
- 2000 FORMAT(1X,'FOR SHELL ELEMENT',I10,1X,'LAYER',I3,':',/
-     .       1X, 'STRESS TENSOR SET TO ZERO (TBUTCHER)')
- 2100 FORMAT(1X,'FOR SHELL ELEMENT',I10,1X,'LAYER',I3,':',/,
-     .       1X, 'STRESS TENSOR SET TO ZERO (TBUTCHER)',1X,'AT TIME :',1PE20.13)
 c---  multilayer xfem
  3000 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT',I10,1X,'LAYER',I3)
  3100 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT',I10,1X,'LAYER',I3,/

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -115,9 +115,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))
           INTEGER                              :: NAdjCell                !Number of adjacent cell for a given cell 1:9 and a given face 1:6  (%NAdjCell(9,6) )
           INTEGER                              :: Adjacent_Cell(5)        !index3: IADJ (adjacent cell id 1:%NAdjCell)
-          my_real                              :: Adjacent_FLUX(5)        !1 adjacent cell = 1 flux (plus pratique pour maillage non conforme)
+          my_real                              :: Adjacent_FLUX(5)        !1 adjacent cell = 1 flow (more practical for non -compliant mesh)
           my_real                              :: Adjacent_upwFLUX(5)
-          my_real                              :: Center(3)               !Centroides des facettes de polyedres
+          my_real                              :: Adjacent_upwFLUX_mat(5,0:4)          
+          my_real                              :: Center(3)               !Centroids of the Polyedres facets
           my_real                              :: Surf                    !face0=intersection surface
           my_real                              :: Vel(3)                  !velocity on polyhedra faces. Face 0 is for further implementation for porosity. Computed in i22subvol to take into account lagrangian vel.
           my_real                              :: F_FACE(3)               !FVM force on faces (and also velocity storage)
@@ -129,7 +130,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))
           INTEGER                              :: NAdjCell                !Number of adjacent cell for a given cell 1:9 and a given face 1:6  (%NAdjCell(9,6) )
           !INTEGER                              :: Adjacent_Cell(5)       !index3: IADJ (adjacent cell id 1:%NAdjCell)
-          !my_real                              :: Adjacent_FLUX(5)       !1 adjacent cell = 1 flux (plus pratique pour maillage non conforme)
+          !my_real                              :: Adjacent_FLUX(5)       !1 adjacent cell = 1 flux (more practical for non-conformal mesh)
           !my_real                              :: Adjacent_upwFLUX(5)
           my_real                              :: Center(3)               !polyhedra Centroid
           my_real                              :: Surf                    !face0=intersection surface
@@ -157,12 +158,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER                              :: WhereIsMain(4)          !locate main cell to link with index1 : ICELL,  index2: (1)face, (2):icellm, (3):IDm, (4):IBm !(%WhereIsMain(9,4))
           INTEGER                              :: ID_FREE_NODE            !post-treatment  (!ID_FREE_NODE(9) )
           my_real                              :: Adjacent_FLU1           ! Adjacent_FLU1(9)
+          my_real                              :: Adjacent_FLU1_mat(0:4)           ! Adjacent_FLU1(9)
           my_real                              :: DDVOL                   !d/dT (DELTA V)
-          my_real                              :: DDVOL_upw
+          my_real                              :: DDVOL_upw(0:4)
           my_real                              :: PHI                     !data for convection (mass or energy)
+          my_real, dimension(:), allocatable   :: PHI_                    !data for convection (mass or energy)
           my_real                              :: DPHI                    !convected increment (mass or energy)
-          my_real                              :: VFRACm(4)               !main cell VFRAC
-          my_real                              :: Vnew                    !subvolumes (if exists)
+          my_real                              :: VFRACm(0:4)               !main cell VFRAC
+          my_real                              :: Vnew                    !subvolumes (If existing)
           my_real                              :: Vold
           my_real                              :: OLD_Vnew
           my_real                              :: CellCenter(3)           !centroid of control volume

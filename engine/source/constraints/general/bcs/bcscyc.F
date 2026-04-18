@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,9 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ISK,IAD,NN,N1,N2,ID
-      my_real
-     .   AX, AY, AZ
+      INTEGER I, ISK, IAD, NN, ID
 C-----------------------------------------------
 C---Check Ncycle=0 V(,N1)=V(,N2) in c.s.
       IF (NCYCLE==0) THEN
@@ -108,7 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,N1(NBCY_N),N2(NBCY_N)
+      INTEGER I, N1(NBCY_N), N2(NBCY_N)
 C
       my_real
      .   CCOS1(NBCY_N),CSIN1(NBCY_N),CCOS2(NBCY_N),CSIN2(NBCY_N),
@@ -154,7 +152,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
+      INTEGER I
 C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL,R2,CR(NBCY),CZ(NBCY)
@@ -206,7 +204,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
+      INTEGER I
 C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL

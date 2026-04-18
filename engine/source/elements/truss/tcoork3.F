@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    tcoork3   ../engine/source/elements/truss/tcoork3.F
+!||    tcoork3       ../engine/source/elements/truss/tcoork3.F
 !||--- called by ------------------------------------------------------
-!||    tke3      ../engine/source/elements/truss/tke3.F
+!||    tke3          ../engine/source/elements/truss/tke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE TCOORK3(JFT    ,JLT    ,X      ,NCC   ,MAT    ,
      1                   NGL    ,AL     ,R11    ,R21   ,R31    ,
      2                   OFFG   ,OFF    )
+      use element_mod , only : nixt
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ)
+      INTEGER I,NC1(MVSIZ),NC2(MVSIZ)
       my_real
      .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  
      .   Z1(MVSIZ), Z2(MVSIZ), NORM

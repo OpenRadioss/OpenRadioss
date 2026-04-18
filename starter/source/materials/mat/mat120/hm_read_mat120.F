@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,YTAB_ID,ISRATE,IFORM,ITRX,IDAM,NDIM_YLD
+      INTEGER :: ILAW,YTAB_ID,ISRATE,IFORM,ITRX,IDAM
       my_real :: RHO0,RHOR,E,NU,Y0,Q,B,H,G,BULK,C11,C12,EPSPMIN,EPSPMAX,SSP,
      .           FCUT,A1F,A2F,A1H,A2H,AS,CC,D1C,D2C,D1F,D2F,D_TRX,D_JC,EXP_N,
      .           XSCALE,YSCALE,YSCALE_UNIT,UNIT_L,XSCALE_UNIT,THICK
@@ -227,7 +227,7 @@ c
       UPARAM(32) = C11            
       UPARAM(33) = C12            
 c
-      UPARAM(34) = THICK ! For connect element  (type43)
+      UPARAM(34) = THICK ! For Connect Element (Type43)
       ITABLE(1)  = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
 c------------------
       PM(1)  = RHOR

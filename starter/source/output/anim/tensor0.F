@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
       REAL R4(18),WA(6*NBF)                                                      
-      INTEGER I,II(6),J,N,  NG, NEL, IPT, MT1, MLW,NN1,IPRT,JJ
+      INTEGER I, II(6), J, N, NG, NEL, MT1, MLW, NN1, IPRT
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C=======================================================================
@@ -135,7 +135,6 @@ C-----------------------------------------------
         ELSE                                                            
         ENDIF                                                           
  490   CONTINUE                                                         
- 500  CONTINUE                                                          
 C-----------------------------------------------                        
       DO N=1,NBF                                                        
         R4(1) = TENS(1,N)                                               

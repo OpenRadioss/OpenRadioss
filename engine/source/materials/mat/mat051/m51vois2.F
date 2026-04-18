@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
 !||====================================================================
       SUBROUTINE M51VOIS2(PM     ,IPARG  ,IXQ    ,ALE_CONNECT ,ELBUF_TAB,V     ,
@@ -41,6 +42,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS, M51_IFLG6_SIZE
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,7 +126,7 @@ C-----------------------------------------------
             ML     = ITMP
           ENDIF
         ENDIF
-       IF(ML == 51 .AND. IFORM <= 1)  EXIT                             ! si materiau voisin est loi 51 Iform=1 ou 10 alors on a trouve
+       IF(ML == 51 .AND. IFORM <= 1)  EXIT                             ! If the neighboring material is law 51 iForm = 1 or 10 then we found
        ENDDO
 
        IF(ML == 51 .AND. IFORM<=1)THEN
@@ -161,7 +163,7 @@ C-----------------------------------------------
          IF(VN(I) >= ZERO)VEL(I)=ZERO
 
         IF(IVOI <= NUMELQ)THEN
-          !element du processeur
+          !processor element
             DO N=1,NGROUP
                KTY = IPARG(5,N)
                KLT = IPARG(2,N)

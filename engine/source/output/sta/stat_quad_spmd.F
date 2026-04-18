@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE STAT_QUAD_SPMD(ITAB,IPART,IGEO,IXQ,IPARTQ,
@@ -37,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,14 +58,13 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*), IXQ(NIXQ,*),
      .        IPARTQ(*), IPART_STATE(*),
      .        NODTAG(*), STAT_INDXQ(*),
-     .        IPARG(NPARG,*),LENGQ,IDEL
+     . IPARG(NPARG,*),LENGQ
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, STAT_NUMELQ_1
-      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER WORK(70000)
+      INTEGER I, N, JJ, IPRT
+      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD
       INTEGER,DIMENSION(:),ALLOCATABLE::IADD
       INTEGER,DIMENSION(:,:),ALLOCATABLE::IADG
       INTEGER,DIMENSION(:),ALLOCATABLE::NP

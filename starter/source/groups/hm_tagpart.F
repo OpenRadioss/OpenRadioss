@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
-      INTEGER J,NSEG,J10(10),IGS,JREC,IADV,ISU,K,L,IPP,NUMA,KK,JJ,NENTITY
+      INTEGER J10(10), ISU, K, L, IPP, NUMA, KK, JJ, NENTITY
       CHARACTER MOT*4
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
@@ -87,7 +87,7 @@ C=======================================================================
       NENTITY = 0
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
-C groupes de SUBSETS
+C Subset Groups
 C-------------------------
            CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
            DO KK=1,NENTITY                                                              
@@ -98,14 +98,14 @@ C-------------------------
                    IF (JJ == SUBSET(K)%ID) THEN                                         
                      ISU=K                                                              
                      DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
+                       !tag the parts
                        BUFFTMP(SUBSET(ISU)%TPART(L)) = 1                                
                      ENDDO                                                              
                      EXIT                                                               
                    ELSEIF (JJ == -SUBSET(K)%ID) THEN                                    
                      ISU=K                                                              
                      DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
+                       !tag the parts
                        BUFFTMP(SUBSET(ISU)%TPART(L)) = -1                               
                      ENDDO                                                              
                      EXIT                                                               
@@ -127,7 +127,7 @@ C-------------------------
                                               
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
 C-------------------------
-C groupes de PART,MAT,PROP
+C Part groups, mat, prop
 C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
@@ -153,11 +153,11 @@ C-------------------------
 C-------------------------------------------------------------------------------------------------------------        
                             IF(JJ == NUMA)THEN
                               ISU=K
-C                             !tag les parts
+C                             !tag the parts
                               BUFFTMP(ISU)=1
                             ELSEIF(-JJ == NUMA)THEN
                               ISU=K
-C                             !tag les parts 
+C                             !tag the parts
                               BUFFTMP(ISU)=-1
                             ENDIF
                           ENDDO

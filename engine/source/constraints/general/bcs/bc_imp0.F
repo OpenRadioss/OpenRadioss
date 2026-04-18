@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C   ------- only BC dans system global sont traites---------
+C   Only BC in global system are processed
 !||====================================================================
 !||    bc_imp0      ../engine/source/constraints/general/bcs/bc_imp0.F
 !||--- called by ------------------------------------------------------
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ISK,  ICT,ICR,J,K,NFIX,ND
+      INTEGER I, ISK,  ICT,ICR,K,ND
 C----------------BC-------------------------
 Ccw   FIX X-DOF FOR 2D CASE
       IF (N2D/=0) THEN
@@ -283,7 +283,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L,KC
+      INTEGER J,KC
       my_real
      .   EJ(3)
 C----------------BC-------------------------
@@ -356,7 +356,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real
      .   EJ1,EJ2,EJ3
 C-----------------------------------------------
@@ -505,8 +504,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,K,L,J1,K1,L1,ID,SHF,JFT,KFT,LFT,NL,NJ,
-     .        IT(6),KK
+      INTEGER I,J,ND,K,L,J1,K1,L1,ID,SHF,JFT,KFT,LFT,NL,NJ
       my_real
      .   KDD(6,6),KII(6,6)
 C-----------------------------------------------
@@ -735,9 +733,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L
+      INTEGER J,K,J1
       my_real
-     .   EJ(3),EJ1(3),MAX_E,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C----------------BC-------negative ICT only possible with 2 dirs------------------
          IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
@@ -853,7 +851,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ND,K,L
+      INTEGER K,L
 C-----------------------------------------------
       K = J + 1
       L = J + 2
@@ -882,7 +880,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,L
+      INTEGER K
       my_real
      .   S
 C-----------------------------------------------
@@ -928,7 +926,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L
+      INTEGER J
       my_real
      .   EJ(3)
 C----------------BC-------------------------
@@ -988,7 +986,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,L,J1,K1,L1,K2,K3,II,ISK,ICT
+      INTEGER J,N,II,ISK,ICT
       my_real
      .   EJ(3)
 C-----------------------------------------------
@@ -1079,7 +1077,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,K,L,J1,K1,L1
+      INTEGER ND,K,L,J1,K1,L1
 C-----------------------------------------------
       IF (IR==0) THEN
        ND = 3
@@ -1280,7 +1278,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L
+      INTEGER J
       my_real
      .   EJ(3)
 C----------------BC-------------------------
@@ -1429,7 +1427,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L
+      INTEGER J
       my_real
      .   EJ(3)
 C----------------BC-------------------------
@@ -1511,7 +1509,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,IER1,IR,IAD,NN,ND,KC
+      INTEGER I,J,N,IR,IAD,NN,ND,KC
 C
       my_real
      .  EJ(3)
@@ -1820,10 +1818,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      *   AMTX(9), COPY(9)
-      INTEGER IDMTX,JDMTX,KDMTX,NZERO
-      INTEGER I, J, IND, IHIGH, NMTX, IEQ, ID(3)
+      INTEGER IDMTX,JDMTX,NZERO
+      INTEGER I, J, IND, NMTX, IEQ, ID(3)
       my_real
-     *   EIGVEC(9), EIGVAL(3), HIGH,NOM
+     *   EIGVEC(9), EIGVAL(3), HIGH
 C
 C     INITIALIZE GRID MATRIX DATA TO ZERO
 C
@@ -2129,12 +2127,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSPCLI,NSPCT,NSPCTI,I,J,K,N,
+      INTEGER NSPCT,NSPCTI,I,J,K,
      .        ID(3),IK,IDK,IER1,IER2,IERR,NSPC,IR,NDOFT,J1,NSPCR,
      .        NSPCN,IKC3
 C
       my_real
-     *       KII(3,3),KDD(6,6),SMLEIG,KDIV3,RS
+     *       KII(3,3),KDD(6,6),SMLEIG,KDIV3
       INTEGER, DIMENSION(:),ALLOCATABLE :: ILT,ILR
       my_real, DIMENSION(:,:),ALLOCATABLE ::
      .                                     SKEWT,SKEWR
@@ -2385,9 +2383,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L,ND
+      INTEGER J,K,J1
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
@@ -2433,9 +2431,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,J1,L
+      INTEGER J,K,J1
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
@@ -2479,9 +2477,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,L,J,J1
+      INTEGER K,J,J1
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
@@ -2524,9 +2522,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ND,K,L,J1,K1,L1,J
+      INTEGER K,J1,J
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
@@ -2572,9 +2570,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,J,J1
+      INTEGER K,J,J1
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB
+     .   EJ(3),EJ1(3),EA,EB
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
@@ -2625,9 +2623,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,K,L,J1,ID,IDM
+      INTEGER I,J,ND,K,J1,ID,IDM
       my_real
-     .   EJ(3),EJ1(3),S,EA,EB,KDD(6,6)
+     .   EJ(3),EJ1(3),EA,EB,KDD(6,6)
 C-----------------------------------------------
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)

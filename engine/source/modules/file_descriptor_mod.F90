@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,19 +27,24 @@
 !||--- called by ------------------------------------------------------
 !||    arret                           ../engine/source/system/arret.F
 !||    checksum_option_checksum_file   ../common_source/modules/output/checksum_mod.F90
-!||    checksum_option_outfile         ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_out_file        ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_read           ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_write          ../common_source/modules/output/checksum_mod.F90
 !||    mulawc                          ../engine/source/materials/mat_share/mulawc.F90
 !||    pblast_alloc_error              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__air_burst    ../common_source/modules/loads/pblast_mod.F90
 !||    radioss2                        ../engine/source/engine/radioss2.F
+!||    sigeps106                       ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                      ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps88                        ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                       ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F
 !||====================================================================
       module file_descriptor_mod
 
         ! Fortran file descriptor / same as units_c.inc
         ! --------------------------
+      implicit none
         integer, parameter :: iuhis=1
         integer, parameter :: istdo=6
         integer, parameter :: iout=7

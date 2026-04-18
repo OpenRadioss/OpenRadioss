@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -164,27 +164,27 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NINDX,NMAX,IRATE,NCC,NCT,NFUNC,
-     .        J1,J2,NPRONY,IADBUF,
+     .        J1,J2,IADBUF,
      .        IAD1(NEL),IPOS1(NEL),ILEN1(NEL),
      .        IAD2(NEL),IPOS2(NEL),ILEN2(NEL),
      .        INDEX(NEL),JJC(NEL),JJT(NEL),IFUNC(MFUNC)
       my_real EC, E1T,A11T,A21T,G1T,
-     .        YFACC,YFACT,CP,EDP,FISOKIN,
-     .        NU,PC,PT,RPCT, EPSPO,NNU11,EPSP0,G31,DSXX,DSYY,DSXY,
-     .        DEXX,DEYY,DEXY,SIGPXX,SIGPYY,SIGPXY,KV,VP,SIGY,
+     .        CP,FISOKIN,
+     .        NU,PC,PT,RPCT,NNU11,EPSP0,DSXX,DSYY,DSXY,
+     .        DEXX,DEYY,DEXY,SIGPXX,SIGPYY,SIGPXY,VP,SIGY,
      .        FAC,EPD,NU31,R,UMR,DEZZ,S2,S3,NU11,S1,NU21,
      .        NU110,NU210,P2,Q2,F,DF,A,YLD_I,YRATE,HKIN,ALPHA,
      .        DTINV
       my_real 
-     .        RATE0(MFUNC),GV(100),BETA(100),YFAC(MFUNC)
+     .        RATE0(MFUNC),YFAC(MFUNC)
       my_real ,DIMENSION(NEL)  :: 
-     .        E, A11 , A21, G,G3,C1, SIGEXX ,SIGEYY ,SIGEXY ,  
+     .        E, A11 , A21, G,G3, SIGEXX ,SIGEYY ,SIGEXY ,  
      .        DYDX1 ,DYDX2 ,SVM ,
      .        YC ,YT ,P ,H ,
-     .        HK ,NNU1 ,HI ,DPLA_J ,
+     .        HK  ,HI ,DPLA_J ,
      .        AA ,BB ,DR ,PP ,QQ ,
      .        SVM2 ,YLD2 ,Y1 ,
-     .        Y2 ,HT ,RATE ,HC ,EPSPZZ 
+     .        Y2 ,HT ,RATE ,HC  
  
       DATA NMAX/3/
 C-----------------------------------------------
@@ -238,7 +238,7 @@ C
         ENDIF
        ENDIF
 C------------------------------------------
-c      estimation if compression mode
+c      IF ESTIMATE MODE Compression
 C------------------------------------------
       DO I=1,NEL        
          SIGNXX(I)=SIGOXX(I) - UVAR(I,2)  + A11T*DEPSXX(I)+A21T*DEPSYY(I)
@@ -275,7 +275,7 @@ C   estiamte stress
 C------------------------------------------
        DO I=1,NEL 
 C
-C  en cas d'   crouissage cinematique
+C  In case of cinematic crumbling
 C       
        
          SIGNXX(I)=SIGOXX(I) - UVAR(I,2)  + A11(I)*DEPSXX(I)+A21(I)*DEPSYY(I)
@@ -572,7 +572,7 @@ C     PROJECTION
 C-------------------
        IF(IFLAG(1) == 0)THEN
          NU31 = ONE-NNU11
-C projection radiale 
+C radial projection 
          DO I=1,NEL
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -596,7 +596,7 @@ C projection radiale
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL
            H(I) = MAX(ZERO,H(I))
@@ -700,7 +700,7 @@ C------------------------------------------
 C-------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL
            H(I) = MAX(ZERO,H(I))
@@ -728,7 +728,7 @@ C-------------------------
 C
          IF(NINDX/=0) THEN
 C-------------
-C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
+C   normal projection to the criterion with approximate calculation of the normal + radial return
 C-------------
           NU31 = ONE-NNU11
           DO J=1,NINDX

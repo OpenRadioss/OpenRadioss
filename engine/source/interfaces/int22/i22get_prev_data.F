@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    i22buce            ../engine/source/interfaces/intsort/i22buce.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -47,7 +48,7 @@ C  consistent data if brick is sill there
 C  Example :
 C    * nodes which were main
 C    * old volume
-C    * list of previous secnds (for merge/demerge)
+C    * list of previous seconds (for merge/demerge)
 C    * IIAD22 is also reset for all brick in
 C      previous buffer
 C-----------------------------------------------
@@ -57,6 +58,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE I22EDGE_MOD  
       USE REALLOC_MOD     
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,9 +193,9 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO J=1,9;BRICK_LIST(NIN,1:NBOLD(NIN))%POLY(J)%Vnew = -EP30;ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX)>0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB)                             !must be allocated in resol at the same time as brick_list
+          IF(TAG_INDEX(IDX)>0)THEN                          !the brick bufbbric(idx) is always in the buffer
+            IDX = TAG_INDEX(IDX)                               !position in the new buffer
             BRICK_LIST(NIN,IDX)%POLY(1:9)%OLD_Vnew = R9(1:9,IB)
           ENDIF
         ENDDO!next IB
@@ -234,7 +236,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO!next IB
         !---OldMainStrongNode----!
         DO IB=1,NBOLD(NIN)
-          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !sauvegarder avant de faire la modification ci-dessous
+          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !save before making the modification below
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 

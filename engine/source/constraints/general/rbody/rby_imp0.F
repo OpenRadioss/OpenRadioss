@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -178,19 +178,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF,IR
+      INTEGER M, NSN, I, N, J,NI,NJ,J1,
+     .        K,ID,ND,IMD,NIDOF,IR
 C     REAL
       my_real
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6),BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF (M<0) RETURN
        NSN  =NBY(2)
        IMD = IDDL(M)+1
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -229,8 +229,8 @@ C-------  Update ---
          J1=J1+NS(I)
         ENDIF
        ENDDO
-C-------fin -boucle secnd nodes--
-C--------due au coupled block KIJ--
+C-------end of secondary nodes loop--
+C--------due to coupled block KIJ--
        DO I=1,NSC
         NI =ISI(1,I)
         NJ =ISI(2,I)
@@ -656,7 +656,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDL
 C     REAL
       my_real
      .    XS,YS,ZS, K(6),KII(6)
@@ -722,18 +721,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF
+      INTEGER M, NSN, I, N, J1,
+     .        K,ID,ND
 C     REAL
       my_real
      .   XS,YS,ZS,BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF ((M<0).OR.NDOF(M)==0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -784,7 +783,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MI,MJ
+      INTEGER I, MI
 C     REAL
       my_real
      .   B(3)
@@ -835,18 +834,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
-      INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
-     .        K,L,ID,JD,ND,IMD,NIDOF
+      INTEGER M, NSN, I, N, J1,
+     .        K,ID,ND
 C     REAL
       my_real
      .   XS,YS,ZS,BD(6),AC(3,*) ,ACR(3,*)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF (M<0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -906,10 +905,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,ID,NL,NI,NJ,NDOFI,ND,IR,IDM
+      INTEGER I, J, K,NDOFI,ND
       my_real KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
         I=NS
         NDOFI = 3

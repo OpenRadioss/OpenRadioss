@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s10coor3   ../engine/source/elements/solid/solide10/s10coor3.F
+!||    s10coor3      ../engine/source/elements/solid/solide10/s10coor3.F
 !||--- called by ------------------------------------------------------
-!||    s10forc3   ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s10forc3      ../engine/source/elements/solid/solide10/s10forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S10COOR3(
      1   X,       IXS,     IXS10,   V,
@@ -40,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   NEL,     CONDEG,  G_EPSD,  JALE,
      D   ISMSTR,  JEUL,    JLAG,    ISRAT,
      E   ISROT)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -334,7 +337,7 @@ c --------------will be done in resol
 c              XX(I,N) = D(1,NC(I,N)) + HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = D(2,NC(I,N)) + HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = D(3,NC(I,N)) + HALF*(ZZ(I,N1)+ZZ(I,N2))
-c             en entr   X est faux, il manque 1/2(V1+V2)*dt
+c             In Entr X is false, it lacks 1/2 (V1+V2)*Dt
 c              X(1,NC(I,N)) = XX(I,N)
 c              X(2,NC(I,N)) = YY(I,N)
 c              X(3,NC(I,N)) = ZZ(I,N)

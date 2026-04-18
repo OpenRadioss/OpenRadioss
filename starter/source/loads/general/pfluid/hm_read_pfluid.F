@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -201,7 +201,7 @@ C-----------
         CALL HM_GET_INTV('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)                       
         CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)                     
         !-----------  
-        !get face nodes N1,N2,N3,N4                                                               
+        !Get Face Nodes N1, N2, N3, N4                                                               
         IS=0                                                                         
         DO J=1,NSURF                                                                 
           IF (ISU  == IGRSURF(J)%ID) IS=J                                            

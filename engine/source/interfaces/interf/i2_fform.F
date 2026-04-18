@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIR,I
+      INTEGER NIR
       my_real
      .  S,T,LS1,LS2,LT1,LT2,LS,LT
       my_real
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .  SLM,SLP,TLM,TLP,SHM,SHP,THM,THP,SM2,SP2,TM2,TP2,SRM,SRP,TRM,TRP,
+     .  SLM,SLP,TLM,TLP,SM2,SP2,TM2,TP2,
      .  SRPM,SRPP,TRPM,TRPP,S2,S3,T2,T3
 C-----------------------------------------------
 C     Form functions based on Adini Clough Melosh rectangular element
@@ -69,12 +69,12 @@ C
       SP2 = SLP*SLP                                                    
       TM2 = TLM*TLM                                                    
       TP2 = TLP*TLP                                                    
-C---- fonctions de forme lineaires
+Clinear shape functions
       H(1)  = SLM*TLM                                                    
       H(2)  = SLP*TLM                                                    
       H(3)  = SLP*TLP                                                    
       H(4)  = SLM*TLP                                                    
-C---- fonctions de forme bicubiques (Adini, Clough)
+C--- Bicubic form functions (Adini, Cloud)
 c     u       = sum( HH(i)*u(i) + HRS(i) *theta_s(i)  + HRT(i) *theta_t(i))     
 c     theta_s = sum(HPS(i)*u(i) + HPRS(i)*theta_s(i)) + HXS(i) *theta_t(i))    
 c     theta_t = sum(HPT(i)*u(i) + HXT(i) *theta_s(i)) + HPRT(i)*theta_t(i))    

@@ -1,0 +1,156 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    restart_rwallpen_mod   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb                 ../engine/source/output/restart/rdresb.F
+!||    wrrestp                ../engine/source/output/restart/wrrestp.F
+!||====================================================================
+      module restart_rwallpen_mod
+        implicit none
+      contains
+! ----------------------------------------------------------------------------------------------------------------------
+        !! \brief get the number of penalty formulation of rwall
+!||====================================================================
+!||    get_nrwallpen_l   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb            ../engine/source/output/restart/rdresb.F
+!||====================================================================
+        subroutine get_nrwallpen_l(nrwall,nrwalll,irwall,nrwallpen,nrwallpen_l)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer , intent(in  )                              :: nrwall       !< number of rwall
+          integer , intent(in  )                              :: nrwalll      !< 2nd dimension irwall
+          integer , dimension(nrwall,nrwalll),   intent(in  ) :: irwall       !< rwall data array
+          integer , intent(inout)                             :: nrwallpen    !< number of penalty formulations for rwall
+          integer , intent(inout)                             :: nrwallpen_l  !< number secondary nodes for rwall penalty
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer  :: i,ipen,nsn
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+          nrwallpen = 0
+          nrwallpen_l = 0
+          do i =1,nrwall
+            nsn  = irwall(i,1)
+            ipen = irwall(i,9)
+            if (ipen >0) then
+              nrwallpen = nrwallpen + min(1,nsn)
+              nrwallpen_l = nrwallpen_l + nsn
+            end if
+          end do
+        end subroutine get_nrwallpen_l
+! ----------------------------------------------------------------------------------------------------------------------
+        !! \brief read internal arrays used for rwall penalty
+!||====================================================================
+!||    read_rrwallpen       ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    rdresb               ../engine/source/output/restart/rdresb.F
+!||--- calls      -----------------------------------------------------
+!||    allocate_rwall_pen   ../common_source/modules/constraints/rwall_mod.F90
+!||    read_db              ../common_source/tools/input_output/read_db.F
+!||--- uses       -----------------------------------------------------
+!||    rwall_mod            ../common_source/modules/constraints/rwall_mod.F90
+!||====================================================================
+        subroutine read_rrwallpen(nrwallpen,rwallpen,nrwallpen_l)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use rwall_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer , intent(in)            :: nrwallpen    !< number of rwall penalty
+          integer , intent(in)            :: nrwallpen_l  !< number of secondary nodes
+          TYPE (rwall_pen), INTENT(INOUT) :: rwallpen     !< rwallpen data array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+          call allocate_rwall_pen(rwallpen,nrwallpen)
+          call read_db ( rwallpen%leng_m,nrwallpen)
+          call read_db ( rwallpen%stif,nrwallpen_l)
+          call read_db ( rwallpen%ft,3*nrwallpen_l)
+!
+        end subroutine read_rrwallpen
+! ----------------------------------------------------------------------------------------------------------------------
+        !! \brief write internal arrays used for rwall penalty
+!||====================================================================
+!||    write_rrwallpen   ../engine/source/output/restart/restart_rwallpen.F90
+!||--- called by ------------------------------------------------------
+!||    wrrestp           ../engine/source/output/restart/wrrestp.F
+!||--- calls      -----------------------------------------------------
+!||    write_db          ../common_source/tools/input_output/write_db.F
+!||--- uses       -----------------------------------------------------
+!||    rwall_mod         ../common_source/modules/constraints/rwall_mod.F90
+!||====================================================================
+        subroutine write_rrwallpen(nrwallpen,rwallpen,nrwallpen_l)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use rwall_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer  ,  INTENT(IN)        :: nrwallpen    !< number of rwall penalty
+          integer  ,  INTENT(IN)        :: nrwallpen_l  !< number of secondary nodes
+          TYPE (rwall_pen),  INTENT(IN) :: rwallpen     !< rwall%pen data array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+          call write_db ( rwallpen%leng_m,nrwallpen)
+          call write_db ( rwallpen%stif,nrwallpen_l)
+          call write_db ( rwallpen%ft,3*nrwallpen_l)
+!
+        end subroutine write_rrwallpen
+! ----------------------------------------------------------------------------------------------------------------------
+      end module restart_rwallpen_mod

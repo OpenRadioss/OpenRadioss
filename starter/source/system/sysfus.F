@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,15 +25,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    fsdcod                         ../starter/source/system/fsdcod.F
 !||    hm_lecgrn                      ../starter/source/groups/hm_lecgrn.F
-!||    hm_prelce16s                   ../starter/source/elements/reader/hm_read_solid.F
 !||    hm_prelecgrns                  ../starter/source/groups/hm_prelecgrns.F
+!||    hm_preread_skw                 ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_admas                  ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_link               ../starter/source/constraints/ale/hm_read_ale_link_vel.F
-!||    hm_read_alebcs                 ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                    ../starter/source/constraints/general/bcs/hm_read_bcs.F
 !||    hm_read_beam                   ../starter/source/elements/reader/hm_read_beam.F
 !||    hm_read_convec                 ../starter/source/loads/thermic/hm_read_convec.F
 !||    hm_read_cyljoint               ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+!||    hm_read_ebcs_cyclic            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_eig                    ../starter/source/general_controls/computation/hm_read_eig.F
 !||    hm_read_eref                   ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_frm                    ../starter/source/tools/skew/hm_read_frm.F
@@ -41,19 +41,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_gauge                  ../starter/source/output/gauge/hm_read_gauge.F
 !||    hm_read_gjoint                 ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_grav                   ../starter/source/loads/general/grav/hm_read_grav.F
-!||    hm_read_impflux                ../starter/source/constraints/thermic/hm_read_impflux.F
 !||    hm_read_inicrack               ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
 !||    hm_read_inimap1d               ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
 !||    hm_read_inimap2d               ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
 !||    hm_read_initemp                ../starter/source/initial_conditions/thermic/hm_read_initemp.F
 !||    hm_read_inivel                 ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 !||    hm_read_inject1                ../starter/source/properties/injector/hm_read_inject1.F
-!||    hm_read_inject2                ../starter/source/properties/injector/hm_read_inject2.F
-!||    hm_read_inter_lagdt_type07     ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_type12           ../starter/source/interfaces/int12/hm_read_inter_type12.F
 !||    hm_read_interfaces             ../starter/source/interfaces/reader/hm_read_interfaces.F
 !||    hm_read_lines                  ../starter/source/groups/hm_read_lines.F
-!||    hm_read_link                   ../starter/source/constraints/rigidlink/hm_read_rlink.F
 !||    hm_read_merge                  ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    hm_read_monvol_type11          ../starter/source/airbag/hm_read_monvol_type11.F
 !||    hm_read_monvol_type4           ../starter/source/airbag/hm_read_monvol_type4.F
@@ -66,7 +62,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
 !||    hm_read_pload                  ../starter/source/loads/general/pload/hm_read_pload.F
 !||    hm_read_prop15                 ../starter/source/properties/solid/hm_read_prop15.F
-!||    hm_read_properties             ../starter/source/properties/hm_read_properties.F
 !||    hm_read_quad                   ../starter/source/elements/reader/hm_read_quad.F
 !||    hm_read_radiation              ../starter/source/loads/thermic/hm_read_radiation.F
 !||    hm_read_rbe2                   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
@@ -80,8 +75,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_rwall_paral            ../starter/source/constraints/general/rwall/hm_read_rwall_paral.F
 !||    hm_read_rwall_plane            ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
 !||    hm_read_rwall_spher            ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
-!||    hm_read_rwall_therm            ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
-!||    hm_read_sensors                ../starter/source/tools/sensor/hm_read_sensors.F
 !||    hm_read_sh3n                   ../starter/source/elements/reader/hm_read_sh3n.F
 !||    hm_read_shell                  ../starter/source/elements/reader/hm_read_shell.F
 !||    hm_read_skw                    ../starter/source/tools/skew/hm_read_skw.F
@@ -93,7 +86,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_surf                   ../starter/source/groups/hm_read_surf.F
 !||    hm_read_thgrne                 ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_thgrou                 ../starter/source/output/th/hm_read_thgrou.F
-!||    hm_read_thgrsurf               ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_read_tria                   ../starter/source/elements/reader/hm_read_tria.F
 !||    hm_read_truss                  ../starter/source/elements/reader/hm_read_truss.F
 !||    hm_read_xref                   ../starter/source/loads/reference_state/xref/hm_read_xref.F
@@ -103,18 +95,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i24surf_pxfem                  ../starter/source/interfaces/inter3d1/inintr2.F
 !||    ini_fxbody                     ../starter/source/constraints/fxbody/ini_fxbody.F
 !||    init_monvol                    ../starter/source/airbag/init_monvol.F
-!||    inslin                         ../starter/source/interfaces/interf1/inslin.F
-!||    insurf                         ../starter/source/interfaces/interf1/insurf.F
-!||    insurfigeo                     ../starter/source/interfaces/interf1/insurfigeo.F
-!||    lce16q3                        ../starter/source/elements/solid_2d/quad/lce16q.F
-!||    lce16s3                        ../starter/source/elements/reader/hm_read_solid.F
 !||    lec_inimap2d_file              ../starter/source/initial_conditions/inimap/lec_inimap2d_file.F
 !||    lecacc                         ../starter/source/tools/accele/lecacc.F
 !||    lecig3d                        ../starter/source/elements/ige3d/lecig3d.F
 !||    lecrefsta                      ../starter/source/loads/reference_state/refsta/lecrefsta.F
 !||    lecsec42                       ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt                    ../starter/source/tools/sect/lecsec4bolt.F
-!||    lecstack_ply                   ../starter/source/properties/composite_options/stack/lecstack_ply.F
 !||    lecstamp                       ../starter/source/interfaces/interf1/lecstamp.F
 !||    nbadigemesh                    ../starter/source/elements/ige3d/nbadigemesh.F
 !||    nbadmesh                       ../starter/source/model/remesh/nbadmesh.F
@@ -201,7 +187,7 @@ C-----------------------------------------------
         ENDIF
         IF(HAS_SEARCH_FAILED) THEN
           IF ((NSUBDOM>0).AND.(FLG_SPLIT==1)) THEN
-C-----  -------Multidomaines -> On check dans la liste des noeuds suprimes-----
+C-----  -------Multidomains -> We check in the list of deleted nodes-----
             NN=R2R_SYS(IU,ITABM1,MESS)
             IF (NN==0) THEN
               CALL ANCMSG(MSGID=895,
@@ -222,7 +208,7 @@ C-----  ------------------------------------------------------
           RETURN
         ENDIF
         IF((IU-ITABM1(J))==0)THEN
-C       >CAS IU=TABM FIN DE LA RECHERCHE
+C       >CASE IU=TABM END OF RESEARCH
            USR2SYS=ITABM1(J+NUMNOD)
            RETURN
         ELSE IF (IU-ITABM1(J)<0) THEN
@@ -240,7 +226,6 @@ C
 !||====================================================================
 !||    usrtos                ../starter/source/system/sysfus.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_initemp       ../starter/source/initial_conditions/thermic/hm_read_initemp.F
 !||    hm_read_node          ../starter/source/elements/reader/hm_read_node.F
 !||    inivel                ../starter/source/initial_conditions/general/inivel/inivel.F
 !||    lecsubmod             ../starter/source/model/submodel/lecsubmod.F
@@ -289,7 +274,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          USRTOS=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -348,7 +333,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          ITABM1_SEARCH=J
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -447,19 +432,18 @@ C     >CASE IU>TABM
       END
 C
 !||====================================================================
-!||    ulist2s            ../starter/source/system/sysfus.F
+!||    ulist2s          ../starter/source/system/sysfus.F
 !||--- called by ------------------------------------------------------
-!||    hm_lecgrn          ../starter/source/groups/hm_lecgrn.F
-!||    hm_read_thgrne     ../starter/source/output/th/hm_read_thgrne.F
-!||    hm_read_thgrou     ../starter/source/output/th/hm_read_thgrou.F
-!||    hm_read_thgrsurf   ../starter/source/output/th/hm_read_thgrsurf.F
-!||    hm_thgrki_vent     ../starter/source/output/th/hm_thgrki_vent.F
-!||    thprin             ../starter/source/output/th/thprin.F
-!||    thprin_sub         ../starter/source/output/th/thprin.F
+!||    hm_lecgrn        ../starter/source/groups/hm_lecgrn.F
+!||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
+!||    hm_read_thgrou   ../starter/source/output/th/hm_read_thgrou.F
+!||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
+!||    thprin           ../starter/source/output/th/thprin.F
+!||    thprin_sub       ../starter/source/output/th/thprin.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg             ../starter/source/output/message/message.F
+!||    ancmsg           ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod        ../starter/share/message_module/message_mod.F
+!||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
       INTEGER FUNCTION ULIST2S(LIST,NLIST,ITABM1,MESS,INDEX,ID)
 C-----------------------------------------------
@@ -586,7 +570,7 @@ C
 !||    udoubl2               ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -594,7 +578,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -636,7 +620,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLEX(NLIST,ILIST,IXX,KXX)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -644,7 +628,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,IXX(*),N,KXX(ILIST,*),
      .    IAD,nnod
 
@@ -698,7 +682,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -755,7 +739,7 @@ C
 !||    newdbl2         ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE NEWDBL(LIST,ILIST,NLIST,TAB,ERRID,STATUS,NOM_OPT)
-C      TEST LES N0 DOUBLES SUR DES LISTES D'ID de noeuds ou elt ou ...
+C      TEST FOR DUPLICATE NODES IN LISTS OF NODE OR ELEMENT IDs, ETC.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -810,7 +794,7 @@ C
      .                   NOM_OPT)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -877,6 +861,7 @@ C
 !||    hm_read_truss        ../starter/source/elements/reader/hm_read_truss.F
 !||    lecacc               ../starter/source/tools/accele/lecacc.F
 !||    lecstack_ply         ../starter/source/properties/composite_options/stack/lecstack_ply.F
+!||    read_monvol          ../starter/source/airbag/read_monvol.F
 !||--- calls      -----------------------------------------------------
 !||    vdoubl2              ../starter/source/system/sysfus.F
 !||====================================================================
@@ -986,7 +971,7 @@ C-----------------------
 !||    udoubl2_wo_title   ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_WO_TITLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -994,7 +979,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -1041,7 +1026,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2_WO_TITLE(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1097,7 +1082,7 @@ C-----------------------
 !||    udoubl3         ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE3(LIST,ILIST,NLIST,MESS,MESS2,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1105,7 +1090,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -1152,7 +1137,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL3(INDEX,NLIST,MESS,MESS2,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1217,7 +1202,7 @@ C-----------------------
 !||    udoubl2_igr        ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_IGR(LIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1225,7 +1210,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
      .    RLIST(NLIST)     
@@ -1267,7 +1252,7 @@ C
 !||    udoubl2_set   ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_SET(LIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1275,7 +1260,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
      .    RLIST(NLIST)     
@@ -1322,7 +1307,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2_IGR(INDEX,NLIST,MESS,LIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1380,7 +1365,7 @@ C-----------------------
 !||====================================================================
       SUBROUTINE UDOUBL2_SET(INDEX,NLIST,MESS,LIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

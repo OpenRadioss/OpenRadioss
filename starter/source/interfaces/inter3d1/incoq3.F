@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,11 +37,13 @@ C
 !||    i7sti3               ../starter/source/interfaces/inter3d1/i7sti3.F
 !||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
 !||    r2r_count            ../starter/source/coupling/rad2rad/r2r_count.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INCOQ3(IRECT ,IXC ,IXTG ,NINT ,NEL      ,
      .                  NELTG ,IS  ,GEO  ,PM   ,KNOD2ELC ,
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,
      .              IGEO ,PM_STACK , IWORKSH )
+      use element_mod , only :nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,10 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fredec_8key_i          ../engine/source/input/fredec_8key_i.F
 !||    wriusc2                ../engine/source/input/wriusc2.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    stack_mod              ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, L, KCUR, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,
+      INTEGER I, NBC, L, KCUR, J, 
      .        NH3D,IREC,NBSENS
-      CHARACTER  TITLE*72,TITLE2*80,LINE*120
+      CHARACTER LINE*120
       CHARACTER(LEN=NCHARKEY)::KEY2
       CHARACTER(LEN=NCHARKEY)::KEY3
       CHARACTER(LEN=NCHARKEY)::KEY4
@@ -84,7 +84,6 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARKEY)::KEYTMP
       CHARACTER(LEN=NCHARLINE100)::CARTE
 C
-      my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------=
@@ -98,6 +97,8 @@ c
       H3D_DATA%COMP_LEVEL = 7
       H3D_DATA%N_SENS_H3D = 0
       H3D_DATA%LIGHT = 0
+      H3D_DATA%NB_H3D_FRAME = 0
+      H3D_DATA%DTH3D_FCT_ID = 0
 c
       IREC = IKAD(KCUR)
       DO L=1,NH3D
@@ -108,12 +109,32 @@ c
         IF(KEY2=='DT   ')THEN
           H3D_DATA%TH3D = ZERO
           CALL WRIUSC2(IREC,1,KEY0(KCUR))
-         READ(IUSC2,*,ERR=310,END=320)H3D_DATA%TH3D0,H3D_DATA%DTH3D0,H3D_DATA%TH3D_STOP0
+         READ(IUSC2,*,ERR=310,END=320)H3D_DATA%TH3D0,H3D_DATA%DTH3D0,H3D_DATA%TH3D_STOP0,H3D_DATA%NB_H3D_FRAME,H3D_DATA%DTH3D_FCT_ID
          GOTO 320
  310     READ(IUSC2,*,ERR=320,END=320)H3D_DATA%TH3D0
  320     CONTINUE
 !
-         IF (H3D_DATA%DTH3D0 <= ZERO) THEN
+c           DO I=1,NBC
+c             READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
+c             CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
+c             READ(IUSC2,*,ERR=9990,END=9990) TIME_I,NB_FRAME_I,TILTLE_I
+c             NFRAME=NFRAME+1
+c             TIME_H3D_TAB( NFRAME) = TIME_I
+c             NB_H3D_FRAME_TAB(NFRAME)=NB_FRAME_I
+c             TITLE_H3D_TAB(NFRAME)=TILTLE_I
+c           ENDDO
+!
+
+         IF (H3D_DATA%TH3D_STOP0 < ZERO) THEN
+            CALL ANCMSG(MSGID=304,ANMODE=ANINFO,c1='H3D',c2='H3D')
+            CALL ARRET(0)
+         ELSEIF (H3D_DATA%TH3D_STOP0 == ZERO)THEN
+            H3D_DATA%TH3D_STOP0 = EP20
+         ELSE
+           H3D_DATA%TH3D_STOP0 = MAX(H3D_DATA%TH3D_STOP0, MAX(ZERO,H3D_DATA%TH3D0))
+         ENDIF  
+!
+         IF (H3D_DATA%DTH3D0 <= ZERO.AND.H3D_DATA%DTH3D_FCT_ID==0.AND.H3D_DATA%NB_H3D_FRAME==0 )THEN
            CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='H3D',c2='H3D')
            CALL ARRET(0)
          ENDIF

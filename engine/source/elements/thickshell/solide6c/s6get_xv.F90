@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,8 +24,10 @@
 !||    s6get_xv_mod   ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6get_xv_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief get x,v in global(basic) coordinate system for penta6 element
@@ -34,6 +36,7 @@
 !||    s6get_xv        ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- uses       -----------------------------------------------------
 !||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
@@ -86,49 +89,49 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           if (ismstr == 1.or.ismstr >= 11) then
-#ifdef MYREAL8
-            do i=1,nel
-              x1(i)=x(1,nc1(i))
-              y1(i)=x(2,nc1(i))
-              z1(i)=x(3,nc1(i))
-              x2(i)=x(1,nc2(i))
-              y2(i)=x(2,nc2(i))
-              z2(i)=x(3,nc2(i))
-              x3(i)=x(1,nc3(i))
-              y3(i)=x(2,nc3(i))
-              z3(i)=x(3,nc3(i))
-              x4(i)=x(1,nc4(i))
-              y4(i)=x(2,nc4(i))
-              z4(i)=x(3,nc4(i))
-              x5(i)=x(1,nc5(i))
-              y5(i)=x(2,nc5(i))
-              z5(i)=x(3,nc5(i))
-              x6(i)=x(1,nc6(i))
-              y6(i)=x(2,nc6(i))
-              z6(i)=x(3,nc6(i))
-            enddo
-#else
-            do i=1,nel
-              x1(i)=xdp(1,nc1(i))
-              y1(i)=xdp(2,nc1(i))
-              z1(i)=xdp(3,nc1(i))
-              x2(i)=xdp(1,nc2(i))
-              y2(i)=xdp(2,nc2(i))
-              z2(i)=xdp(3,nc2(i))
-              x3(i)=xdp(1,nc3(i))
-              y3(i)=xdp(2,nc3(i))
-              z3(i)=xdp(3,nc3(i))
-              x4(i)=xdp(1,nc4(i))
-              y4(i)=xdp(2,nc4(i))
-              z4(i)=xdp(3,nc4(i))
-              x5(i)=xdp(1,nc5(i))
-              y5(i)=xdp(2,nc5(i))
-              z5(i)=xdp(3,nc5(i))
-              x6(i)=xdp(1,nc6(i))
-              y6(i)=xdp(2,nc6(i))
-              z6(i)=xdp(3,nc6(i))
-            enddo
-#endif
+            if(WP == 8) then
+              do i=1,nel
+                x1(i)=x(1,nc1(i))
+                y1(i)=x(2,nc1(i))
+                z1(i)=x(3,nc1(i))
+                x2(i)=x(1,nc2(i))
+                y2(i)=x(2,nc2(i))
+                z2(i)=x(3,nc2(i))
+                x3(i)=x(1,nc3(i))
+                y3(i)=x(2,nc3(i))
+                z3(i)=x(3,nc3(i))
+                x4(i)=x(1,nc4(i))
+                y4(i)=x(2,nc4(i))
+                z4(i)=x(3,nc4(i))
+                x5(i)=x(1,nc5(i))
+                y5(i)=x(2,nc5(i))
+                z5(i)=x(3,nc5(i))
+                x6(i)=x(1,nc6(i))
+                y6(i)=x(2,nc6(i))
+                z6(i)=x(3,nc6(i))
+              end do
+            else
+              do i=1,nel
+                x1(i)=xdp(1,nc1(i))
+                y1(i)=xdp(2,nc1(i))
+                z1(i)=xdp(3,nc1(i))
+                x2(i)=xdp(1,nc2(i))
+                y2(i)=xdp(2,nc2(i))
+                z2(i)=xdp(3,nc2(i))
+                x3(i)=xdp(1,nc3(i))
+                y3(i)=xdp(2,nc3(i))
+                z3(i)=xdp(3,nc3(i))
+                x4(i)=xdp(1,nc4(i))
+                y4(i)=xdp(2,nc4(i))
+                z4(i)=xdp(3,nc4(i))
+                x5(i)=xdp(1,nc5(i))
+                y5(i)=xdp(2,nc5(i))
+                z5(i)=xdp(3,nc5(i))
+                x6(i)=xdp(1,nc6(i))
+                y6(i)=xdp(2,nc6(i))
+                z6(i)=xdp(3,nc6(i))
+              end do
+            end if
           end if! (ismstr == 1.or.ismstr >= 11)
           do i=1,nel
             vx1(i)=v(1,nc1(i))
@@ -149,7 +152,7 @@
             vx6(i)=v(1,nc6(i))
             vy6(i)=v(2,nc6(i))
             vz6(i)=v(3,nc6(i))
-          enddo
+          end do
 !
         end subroutine s6get_xv
 !-------------------

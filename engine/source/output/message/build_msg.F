@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100) LINE,KEY,KEYST
-      INTEGER I,J,ID,ITYPE,INDX,SBUFMSG,ISTYPE
+      CHARACTER(LEN=NCHARLINE100) LINE,KEY
+      INTEGER I,ID,ITYPE,SBUFMSG
 C predim
       SMESSAGES=1
       DO I=1,100
@@ -73,7 +73,7 @@ C fill MESSAGES
       SBUFMSG=0
       ITYPE=0
       DO I=1,SMESSAGESFILE
-C remplir MESSAGES     
+C fill messages     
         LINE=MESSAGESFILE(I)
         IF (LINE(1:9)=='/MESSAGE/') THEN
           IF (ID>0.AND.ID<=SMESSAGESMAX.AND.ITYPE/=0) THEN

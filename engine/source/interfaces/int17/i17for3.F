@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier          ../engine/source/system/machine.F
 !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    icontact_mod        ../engine/share/modules/icontact_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||    tri7box             ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I17FOR3(
+      SUBROUTINE I17FOR3(OUTPUT,
      1   X      ,V       ,CANDN    ,CANDE        ,I_STOK  ,
      2   IXS    ,IXS16   ,EMINXM   ,NELES        ,NELEM   ,
      3   ITASK  ,A       ,ITIED    ,NINT         ,EMINXS  ,
@@ -53,7 +54,8 @@ C-----------------------------------------------
       USE ICONTACT_MOD
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER I_STOK,ITASK,ITIED,NINT,NME,NSE,NISKYFI,LSKYI17,NOINT,
      .  CANDN(*),CANDE(*), ISKY(*),
      .  IXS(NIXS,*),IXS16(8,*),NELES(*)  ,NELEM(*) 
@@ -87,15 +90,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
-     .        I16,LES,IES,IIIS(MVSIZ,16),LEL(MVSIZ),LESL(MVSIZ),
+      INTEGER I,K,IE,IC,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
+     .        LES,IES,IIIS(MVSIZ,16),LEL(MVSIZ),LESL(MVSIZ),
      .        IE_MIN,IES_MIN, IERR1, IERR2
       my_real
      .   XX(MVSIZ,17),YY(MVSIZ,17),ZZ(MVSIZ,17),
      .   XXS(MVSIZ,16),YYS(MVSIZ,16),ZZS(MVSIZ,16),
      .   VIT_MIN
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates
 C-----------------------------------------------------------------------
       VIT_MIN = ZERO
       IE_MIN  = 99999999
@@ -135,7 +138,7 @@ C-----------------------------------------------------------------------
         IF(LES<=NSE)THEN      ! candidat interne en SPMD
          IES = NELES(LES)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
          IF(LE >0.AND.LES>0.AND.
      .           EMINXS(4,LES)>EMINXM(1,LE).AND.
@@ -170,10 +173,10 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
             ZZS(LLT,K)=X(3,I)
           ENDDO
          END IF
-        ELSE        !    complement frontiere SPMD
+        ELSE        !    Complement SPMD front
          IES = LES-NSE
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
          IF(LE >0.AND.LES>0.AND.
      .           EMINXFI(NINT)%P(4,IES)>EMINXM(1,LE).AND.
@@ -205,7 +208,7 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
             XX(LLT,K)=X(1,I)
             YY(LLT,K)=X(2,I)
             ZZ(LLT,K)=X(3,I)
-            I = IIIS(LLT,K)                ! I indique le no de noeud de 1 a 16
+            I = IIIS(LLT,K)                ! I indicates the node number from 1 to 16
             XXS(LLT,K)=XFI17(NINT)%P(1,I,IES)
             YYS(LLT,K)=XFI17(NINT)%P(2,I,IES)
             ZZS(LLT,K)=XFI17(NINT)%P(3,I,IES)
@@ -213,10 +216,10 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
          END IF
         END IF
 C-----------------------------------------------------------------------
-C     calcul de  F par paquet de mvsiz   
+C     calculation of F by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
-            CALL I17LLL_PENA(
+            CALL I17LLL_PENA(OUTPUT,
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
      3       A       ,X         ,ITIED     ,NINT      ,
@@ -229,9 +232,9 @@ C-----------------------------------------------------------------------
           ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  F pour dernier paquet   
+C     calculation of F for last packet
 C-----------------------------------------------------------------------        
-      IF(LLT/=0) CALL I17LLL_PENA(
+      IF(LLT/=0) CALL I17LLL_PENA(OUTPUT,
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
      3       A       ,X         ,ITIED     ,NINT      ,
@@ -274,10 +277,10 @@ C
 !||    i17rst         ../engine/source/interfaces/int17/i17lagm.F
 !||    i17vit_pena    ../engine/source/interfaces/int17/i17for3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I17LLL_PENA(
+      SUBROUTINE I17LLL_PENA( OUTPUT,
      .         LLT     ,V      ,STIFN   ,XX        ,FRIC   ,
      2         YY      ,ZZ     ,III     ,FSKYI     ,ISKY   ,
      3         A       ,X      ,ITIED   ,NINT      ,
@@ -289,7 +292,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -302,6 +305,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER LLT,ITIED,NINT ,IE_MIN,IES_MIN,NISKYFI,NOINT 
       INTEGER ITASK,
      .        III(MVSIZ,17),IIIS(MVSIZ,16),LE(*) ,LES(*), ISKY(*)
@@ -316,10 +320,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,ICON,
+      INTEGER I,J,
      +        ICONT(MVSIZ,4)
-      my_real
-     .   VX,VY,VZ,VN,AA,VV,PENE
       my_real
      .   R_CM(MVSIZ),T_CM(MVSIZ),S_CM(MVSIZ),SI_S(MVSIZ,8),
      .   RI_S(MVSIZ,8),TI_S(MVSIZ,8),
@@ -329,12 +331,12 @@ C-----------------------------------------------
      .   R_1M(MVSIZ) ,R_2M(MVSIZ) ,T_1M(MVSIZ) ,T_2M(MVSIZ),
      .   R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
      .   R_CS(MVSIZ) ,S_CS(MVSIZ) ,T_CS(MVSIZ) ,VIT(MVSIZ),
-     .   R_S(MVSIZ) ,T_S(MVSIZ)   ,AREA(MVSIZ) ,AREA_TOT(MVSIZ),
+     .   AREA(MVSIZ) ,AREA_TOT(MVSIZ),
      .   AREA_EL(MVSIZ)        
 C-----------------------------------------------
-C      calcul de r,s,t
+C      calculation de r,s,t
 C-----------------------------------------------
-C      noeud centrale face 1 2 3 4
+C      central node face 1 2 3 4
 C-----------------------------------------------
       DO I=1,LLT
         XX(I,17) = HALF *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
@@ -347,7 +349,7 @@ C-----------------------------------------------
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
 C-----------------------------------------------
-C      noeud centrale face 5 6 7 8
+C      Central node face 5 6 7 8
 C-----------------------------------------------
       DO I=1,LLT
         XX(I,17) = HALF *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
@@ -408,8 +410,8 @@ C
         ENDIF
       ENDDO
 C-----------------------------------------------
-C      calcul de SI_S=s(relatif element main) 
-c      des 8 noeuds de la face de l'element second
+C      calculation de SI_S=s(relatif element main) 
+c      the 8 nodes of the face of the second element
 C-----------------------------------------------
       DO J=1,8
         DO I=1,LLT
@@ -421,19 +423,19 @@ C-----------------------------------------------
      2              XX    ,YY    ,ZZ    )
       ENDDO
 C-----------------------------------------------
-C      calcul du point de distance min
+C      calculation of the minimum distance point
 C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
 c                                                                                                                                                                           
-c   il est possible de calculer la surface effective 
-c   de contact pour ponderer la force
-c   => pas de discontinuit    si contact sur 2 elements
+c   it is possible to calculate the effective surface
+c   of contact to weight the force
+c   => no discontinuity if contact on 2 elements
 c
-c   a faire dans I17MINI
+c   to be done in I17MINI
 c
-c   possible aussi de calculer la pression de Hertz
+c   possible also to calculate Hertz pressure
 c                                                                                                                                                                           
-      CALL I17MINI_PENA(
+      CALL I17MINI_PENA( OUTPUT,
      1             LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
      2             TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX     ,
      3             YY    ,ZZ    ,R_CM  ,S_CM  ,T_CM  ,NX     ,
@@ -441,7 +443,7 @@ c
      5             R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M   ,
      6             T_3M  ,T_4M  ,ICONT ,AREA  ,AREA_TOT,AREA_EL)
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote main
+C      Choice Facing 1 2 3 4 Face 5 6 7 8 main side
 C-----------------------------------------------
       DO I=1,LLT
         IF(S_CM(I)<=0.)THEN
@@ -468,9 +470,9 @@ C         face 5 6 7 8
      3             ICONT(1,1),R_CM   ,T_CM   ,R_CS   ,T_CS   ,S_CM   ,
      4             LES       )
 C-----------------------------------------------------------------------
-C     calcul du contact
+C     contact calculation
 C-----------------------------------------------------------------------
-      CALL I17LLL4_PENA(
+      CALL I17LLL4_PENA(output,
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
      4      NX        ,NY        ,NZ      ,VIT     ,LE      ,LES     ,
@@ -491,14 +493,17 @@ C-----------------------------------------------------------------------
 !||    i17norm          ../engine/source/interfaces/int17/i17lagm.F
 !||    i17racine_pena   ../engine/source/interfaces/int17/i17for3.F
 !||    i17surf          ../engine/source/interfaces/int17/i17for3.F
+!||--- uses       -----------------------------------------------------
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I17MINI_PENA(
+      SUBROUTINE I17MINI_PENA(output,
      1                   LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S  ,
      2                   TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX    ,
      3                   YY    ,ZZ    ,R_CM  ,S_CM  ,T_CM  ,NX    ,
      4                   NY    ,NZ    ,R_1S  ,R_2S  ,T_1S  ,T_2S  ,
      5                   R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M  ,
      6                   T_3M  ,T_4M  ,ICONT ,AREA,AREA_TOT,AREA_EL)
+       USE output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -510,6 +515,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER LLT,
      +        ICONT(MVSIZ,4)
 C     REAL
@@ -534,8 +540,8 @@ C-----------------------------------------------
      +        C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),AZERO(MVSIZ),
      +        F1,F2,F3,F4,F5,F6,F7,F8,
      +        BB1,BB2,BB3,
-     +        CC1,CC2,CC3,DD1,DD2,DD3,DD,D,
-     +        A0,AB,BA,A4R,B4T,A5T,B5R,EPS,
+     +        CC1,CC2,CC3,DD1,DD2,DD3,D,
+     +        A0,AB,BA,A4R,B4T,A5T,B5R,
      +        XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,AAA,UNPEPS,
      +        P,RM,TM,SM,PP,RR,TT,AA,RT(9),AS(9)
       DATA RT/-1.,-0.75,-0.5,-0.25,0.0,0.25,0.5,0.75,1./
@@ -663,7 +669,7 @@ C                            \                   O
 C                             \                 / \
 C                              \               /   \
 C      :::: Area                \             /     v  
-C      :::: commune              \           /      ts
+C      ::: commune \ / ts
 C      :::: main   Sec            \         /    
 C                                  \second/
 C                                   \     /
@@ -770,7 +776,7 @@ c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de 4 points de l'iso S_M = +- 1
+C     calculation of 4 points of the iso S_M = +- 1
 C 
 C          second.           main
 C     1: <R_1S , T_CS>    <R_1M , T_1M>
@@ -778,11 +784,11 @@ C     2: <R_2S , T_CS>    <R_2M , T_2M>
 C     3: <R_CS , T_1S>    <R_3M , T_3M>
 C     4: <R_CS , T_2S>    <R_4M , T_4M> 
 C
-C     on borne r et t a +- 1 sur l'element second. :
+C     We limit R and you +- 1 on the second element.::
 C                -1 < R_1S < 1  et -1 < R_2S < 1 
 C                -1 < T_1S < 1  et -1 < T_2S < 1 
 c
-C     on borne r et t a +- 1 sur l'element main :
+C     We limit R and you +- 1 on the main element:
 C                -1 < R_M < 1   et -1 < T_M < 1 
 C-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,SI_S,R_CS,T_CS,
@@ -810,13 +816,13 @@ C  f = C1 + C2 t + C3 t^2
 C
       CALL I17RACINE_PENA(LLT,C3,C2,C1,T_1S,T_2S)
 C-----------------------------------------------
-C     calcul de la surface totale second
+C     calculation of the total surface of the second
 C-----------------------------------------------
       CALL I17SURF(LLT   ,R_1S  ,R_2S  ,R_CS  ,R_CS    ,
      2             T_CS  ,T_CS  ,T_1S  ,T_2S  ,AREA_TOT,
      3             XXS   ,YYS   ,ZZS   ,AZERO )
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface de l'second
+c      bound total surface     the surface of the second
 c-----------------------------------------------------------------------
       DO I=1,LLT
           XA = XXS(I,7)-XXS(I,5)
@@ -835,8 +841,7 @@ c          AAA = PI*FOURTH*ABS(XC*NX(I) + YC*NY(I) + ZC*NZ(I))
 c          IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AAA
       ENDDO
 c-----------------------------------------------------------------------
-c      decoupe de l'second 9x9
-c      calcul surface commune
+c      split of the second 9x9
 c-----------------------------------------------------------------------
       UNPEPS = ONE+EM02
       DO I=1,LLT
@@ -890,7 +895,7 @@ c-----------------------------------------------------------------------
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface du main
+c      bound total surface     the surface of the main
 c-----------------------------------------------------------------------
       DO I=1,LLT
         IF(S_CM(I) < ZERO)THEN
@@ -919,7 +924,7 @@ c         main 5678
         IF(AREA_TOT(I) == ZERO)AREA_TOT(I) = AREA_EL(I)
       ENDDO
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
+C          calculation de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
 C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
@@ -984,7 +989,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     +        A1,A2,A3,A4,A5,A6,A7,A8,R2,T2,FF5,FF6,FF7,FF8
+     +        A1,A2,A3,A4,A5,A6,A7,A8,FF5,FF6,FF7,FF8
 C
         FF5 = F(I,5) + F(I,5)
         FF6 = F(I,6) + F(I,6)
@@ -1040,10 +1045,10 @@ C-----------------------------------------------
       my_real
      +   CC(MVSIZ),R1(MVSIZ),R2(MVSIZ),RS1,RS2,UNPEPS
 c-----------------------------------------------------------------------
-c  1: borne r(ou s au 2eme appel) a +-1 sur le main
+c  1: bound r (or s on the 2nd call) at +-1 on the main
 c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
-c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
+c  1.1: bound <r1,t> and <r,t1> at +-1 on the main
 c-----------------------------------------------------------------------
         UNPEPS = ONE + EM4
         DO I=1,LLT
@@ -1081,7 +1086,7 @@ c
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
-C pas de recouvrement main/second
+C No main/second cover
                 ICONT(I)=0
             ENDIF
           ENDIF
@@ -1097,11 +1102,11 @@ c
       SUBROUTINE I17RACINE_PENA(LLT,A,B,C,R1,R2)
 C-----------------------------------------------
 C
-C    calcul des racines r1,r2 bornees a +- 1
+C    calculation des racines r1,r2 bornees a +- 1
 C
 C    de  a x^2 + b x + c = 0
 C 
-C    la routine retourne -1,+1 s'il n'y a pas de racines
+C    The routine returns -1,+1 if there are no roots
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1143,7 +1148,7 @@ C
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne r (ou t) a +-1 sur l'second
+c      bound r (or t) at +-1 on the second
 c-----------------------------------------------------------------------
       RETURN
       END
@@ -1177,14 +1182,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K
       my_real
-     .  U_M_R,U_P_R,U_M_S,U_P_S,U_M_T,U_P_T,
-     .  UMS_UMT,UMS_UPT,UPS_UMT,UPS_UPT,
-     .  UMR_UMS,UMR_UPS,UPR_UMS,UPR_UPS,
-     .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
-     .  A,B,R05,S05,T05,R,T,NI(8),
-     .  X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,PIS4
+     .  U_M_R,U_P_R,U_M_T,U_P_T,
+     .  A,B,R05,T05,R,T,NI(8),
+     .  X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3
 C-----------------------------------------------------------------------
-C     calcul de la surface
+C     calculation of the surface
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
@@ -1218,7 +1220,7 @@ C
         Z2 = ZERO
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X1 = X1-NI(K)*XX(I,K)
             Y1 = Y1-NI(K)*YY(I,K)
@@ -1264,7 +1266,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X1 = X1+NI(K)*XX(I,K)
             Y1 = Y1+NI(K)*YY(I,K)
@@ -1310,7 +1312,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X2 = X2-NI(K)*XX(I,K)
             Y2 = Y2-NI(K)*YY(I,K)
@@ -1356,7 +1358,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X2 = X2+NI(K)*XX(I,K)
             Y2 = Y2+NI(K)*YY(I,K)
@@ -1378,7 +1380,7 @@ c         main 5678
           ENDDO
         ENDIF
 C------------------------------------
-C       Surface de l'ellipse
+C       surface of the ellipse
 C------------------------------------
         X3 = Y1*Z2 - Z1*Y2
         Y3 = Z1*X2 - X1*Z2
@@ -1429,29 +1431,29 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IES,IIS
+      INTEGER I,IK,IES,IIS
       my_real
-     .   VX,VY,VZ,VN,AA
+     .   VX,VY,VZ,VN
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du main (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the main (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RM ,TM ,NI_M )
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'second (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the second (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RS ,TS ,NI_S )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [L]
 C-----------------------------------------------
       DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(ICONT(I,1) /= 0)THEN
           VX = ZERO
           VY = ZERO
           VZ = ZERO
-          IF(LES(I)>0)THEN      ! test pour SPMD
+          IF(LES(I)>0)THEN      ! test for SPMD
            DO IK=1,8
             VX = VX - (V(1,III(I,IK)))*NI_M(I,IK)
             VY = VY - (V(2,III(I,IK)))*NI_M(I,IK)
@@ -1460,7 +1462,7 @@ C-----------------------------------------------
             VY = VY + (V(2,IIIS(I,IK)))*NI_S(I,IK)
             VZ = VZ + (V(3,IIIS(I,IK)))*NI_S(I,IK)
            ENDDO
-          ELSE  ! partie complementaire SPMD
+          ELSE  ! SPMD complementary part
            IES = ABS(LES(I))   ! no local
            DO IK=1,8
             VX = VX - V(1,III(I,IK))*NI_M(I,IK)
@@ -1489,13 +1491,13 @@ C
 !||    ancmsg         ../engine/source/output/message/message.F
 !||    arret          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    icontact_mod   ../engine/share/modules/icontact_mod.F
 !||    message_mod    ../engine/share/message_module/message_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||    tri7box        ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I17LLL4_PENA(
+      SUBROUTINE I17LLL4_PENA(OUTPUT,
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
      4      NX        ,NY        ,NZ      ,VIT     ,LE      ,LES     ,
@@ -1511,7 +1513,7 @@ C-----------------------------------------------
       USE ICONTACT_MOD
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1534,6 +1536,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER LLT,ITIED,NINT,NISKYFI,NOINT   
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),ICONT(MVSIZ), ISKY(*),
      .        LE(*) ,LES(*)
@@ -1552,10 +1555,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN,LEM,J1,J2,NISKYL,IES,IIS,
+      INTEGER I,IK,LEM,J1,J2,NISKYL,IES,IIS,
      .        NISKYFIL
       my_real
-     .   VX,VY,VZ,VN,AA,SURF,EP2,XE,YE,ZE,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,
+     .   VX,VY,VZ,VN,AA,XE,YE,ZE,
      .   F,STIF,PENE,SIGTMX,SIGTMY,SIGTMZ,SIGTSX,SIGTSY,SIGTSZ,BB,
      .   FX,FY,FZ,FFX,FFY,FFZ,FF,FF2,MUF2,HTSQRTPI,MAS4,EP,VIS,
      .   RHOM,RHOS,STIFV,DT1INV,FFVX,FFVY,FFVZ,FFTX,FFTY,FFTZ,MUF,
@@ -1564,29 +1567,29 @@ C-----------------------------------------------
 c-----------------------------------------------------------------------
 cfrottement
 c-----------------------------------------------------------------------
-c0- formulation classique
+c0- Classic formulation
 c
 c Ki = 8/3 E* (pi/A)^1/2  Ai/pi
 c
 c Fti = min[(Fti + Ki * Vti * dt) , mu*Fni]
 c
-c => limitation en cas de roulement glissement ou roulement adh   rence:
-c    si Fti est m   moris   e sur l'   l   ment main ou second, Fti est perdue
-c    quand on passe d'un    l   ment sur son voisin
+c => Limitation in the event of a shift or Adh rence rolling:
+c    if Fti is stored on the main or second element, Fti is lost
+c    When you go from a lint to your neighbor
 c
-c1- on consid   re une facette main contact   e par plusieurs seconds
+c1- We consider a main-to-contact side by several seconds
 c
 c
 c Fti = min[(Sigt*Ai + Ki * Vti * dt) , mu*Fni]
 c
 c Sigt = Somme(Fti)/Somme(Ai)
 c 
-c ou (estimation de A en i):  Sigt = Somme(Fti/A)
+c or (estimate of a in i): sigt = sum (fti/a)
 c
-c    * Sigt vecteur contrainte de frottement
+c    * Sigt Friction constrained vector
 c
 c
-c2- sym   trie main second
+c2- SYM TRIE Second
 c
 c Fti = min[((SigtM+SigtS)*Ai/2 + Ki * Vti * dt) , mu*Fni]
 c
@@ -1614,17 +1617,17 @@ C-----------------------------------------------
         LEM = LE(I)
         IF(ICONT(I)/=0 )THEN
 c---------------------------------------------
-c       contact de Hertz
+c       hertz contact
 c---------------------------------------------
 c
 c ellipse de contact 2a x 2b   => surface A = a b pi
 c r: rayon    quivalent de l'ellipse    r^2 = a b
-c rayon de courbure  1/R = 1/R1 + 1/R2 + 1/R3 + 1/R4 
+c Ray of curvature 1/R = 1/R1 + 1/R2 + 1/R3 + 1/R4 
 c k1 = (1-v1^2)/E1       k2 = (1-v2^2)/E2     k = k1+k2 = 1/E*
 c kk1 = (1-v1^2)/piE1    kk2 = (1-v2^2)/piE2    kk = kk1+kk2 
 c E* = 1/(k1+k2)
 c F: force
-c pm: pression max au centre de l'ellipse)
+c PM: maximum pressure in the center of the ellipse)
 c d: penetration max
 c------------------------------------------
 cd'apres http://fr.wikibooks.org/wiki/Tribologie_-_Contacts_localis%C3%A9s
@@ -1635,7 +1638,7 @@ c p(x,y) = pm [1 - x^2/a^2 - y^2/b^2]^1/3   (2)
 c
 c       sur la fronti   re p=0 => x^2/a^2 + y^2/b^2 = 1
 c
-cd'apres http://barreau.matthieu.free.fr/cours/Liaison-pivot/pages/roulements-1.html
+cAccording to http://barreau.matthieu.free.fr/cours/liaison-pivot/pages/roulements-1.html
 c
 c
 c F = pm^3 pi^3 R^2 k^2 / 6   (4)
@@ -1664,9 +1667,9 @@ c   K = 8 r/ (3 k)              (11)
 c-------------------------------------------
 c---------------------------------------------
 c       contact multiple (i=1,n)
-c       si on connait la courbure
+c       If we know the curvature
 c---------------------------------------------
-c   pour chaque contact on evalue ri^2 , Ri et di
+c   For each contact we evaluate ri^2, ri and di
 c
 c   Rmax = ri^2 / 2 di                    
 c   Ki = 4/3 E* (2/ (Ri di))^1/2 ri^2     
@@ -1679,15 +1682,15 @@ c   Kmin = 8/3 E* (Ai/pi)^1/2
 c   Fi   = max(Ki,Kmin) di
 c---------------------------------------------
 c       contact multiple (i=1,n)
-c       si on connait la surface totale
+c       If we know the total surface
 c---------------------------------------------
-c   A: surface totale du contact (estimee) 
+c   A: Total contact surface (esteem) 
 c
 c   Ri = A / 2pi di
 c   Ki = 8/3 E* (pi/A)^1/2  Ai/pi
 c   Fi = Ki di
 C-----------------------------------------------
-C          epaisseur main
+C          main thickness
 C-----------------------------------------------
           XE = ZERO
           YE = ZERO
@@ -1712,7 +1715,7 @@ C-----------------------------------------------
             stop 111
           endif
 C-----------------------------------------------
-C          vitesse relative second/main
+C          Second/main relative velocity
 C-----------------------------------------------
           VX = ZERO
           VY = ZERO
@@ -1735,7 +1738,7 @@ C
            SIGTSX = FROTS(5,LES(I))
            SIGTSY = FROTS(6,LES(I))
            SIGTSZ = FROTS(7,LES(I))
-          ELSE  ! partie complementaire SPMD
+          ELSE  ! SPMD complementary part
            IES = ABS(LES(I))   ! no local
            DO IK=1,8
             IIS = IIIS(I,IK)
@@ -1766,7 +1769,7 @@ c         HTSQRTPI = EIGHT / (THREE*SQRT(PI))
      .         ((KM(1,LEM)+KS1)*SQRT(AREA_TOT(I)))
           F  = STIF*PENE
 C-----------------------------------------------
-C          Viscosite critique
+C          Critical viscositis
 C-----------------------------------------------
           RHOM = KM(2,LEM)
           RHOS = KS2
@@ -1782,15 +1785,15 @@ C-----------------------------------------------
           FY = NY(I) * F
           FZ = NZ(I) * F
 C-----------------------------------------------
-C          vitesse tangente 
+C          velocity tangente 
 C-----------------------------------------------
 c          VX = VX - VN*NX(I)
 c          VY = VY - VN*NY(I)
 c          VZ = VZ - VN*NZ(I)
 C-----------------------------------------------
 C       frottement
-C         calcul avec vitesse totale 
-C         et projection de la force 
+C         calculation with total velocity
+C         and projection of the force
 C-----------------------------------------------          
           AA = HALF*AREA(I)
           BB = STIF*DT1
@@ -1815,7 +1818,7 @@ C-----------------------------------------------
           FFTY = FFY + FFVY
           FFTZ = FFZ + FFVZ
 C-----------------------------------------------
-C         frottement de Coulomb (penalite viscoelastique)
+C         Coulomb friction (viscoelastic penalty)
 C-----------------------------------------------
           FF2 = FFTX*FFTX
      .        + FFTY*FFTY
@@ -1823,8 +1826,8 @@ C-----------------------------------------------
           MUF  = FRIC(1)*MAX(ZERO,F)
           MUF2 = MUF*MUF
           IF(FF2 > MUF2)THEN
-c reduction de la contrainte visqueuse 
-c puis de la contrainte elastique (si necessaire)
+c reduction of viscous stress
+c then of elastic stress (if necessary)
             AA = MUF/SQRT(FF2)
             FFTX = FFTX*AA
             FFTY = FFTY*AA
@@ -1857,7 +1860,7 @@ c puis de la contrainte elastique (si necessaire)
               FSKYI17(NSKYI17,3) = FFZ
               FSKYI17(NSKYI17,4) = AREA(I)
             END IF
-          ELSE      ! partie complementaire SPMD
+          ELSE      ! SPMD complementary part
             IF(IPARIT == 0)THEN
               FROTSFI(NINT)%P(1,IES) = FROTSFI(NINT)%P(1,IES) + FFX
               FROTSFI(NINT)%P(2,IES) = FROTSFI(NINT)%P(2,IES) + FFY
@@ -1936,7 +1939,7 @@ C-----------------------------------------------
            ENDIF
 C
            IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8
@@ -1952,7 +1955,7 @@ C
             ENDDO
 #include "lockoff.inc"
            ENDIF
-          ELSE     ! cas complementaire uniquement en SPMD
+          ELSE     ! Complementary case only in SPMD
            IF(IPARIT == 0)THEN
 #include "lockon.inc"
             DO IK=1,8
@@ -2010,7 +2013,7 @@ C
            ENDIF
 C
            IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8
@@ -2136,7 +2139,7 @@ C
             FROTS(4,N)= FROTS(4,N)+ FSKYI17(K,4)
           ENDDO
         ELSEIF(IDIFF>=20)THEN
-C qsort necessaire si > 20
+C Qsort required if> 20
           JJ1 = ADSKYI(NN)
           JJ2 = ADSKYI(N)-1
           CALL ASS2SORT(FSKYI17,JJ1,JJ2,FSKYIT,4)

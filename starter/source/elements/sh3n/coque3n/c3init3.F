@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,12 +52,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fretitl2                  ../starter/source/starter/freform.F
 !||    initemp_shell             ../starter/source/materials/therm/initemp_shell.F90
 !||    law158_init               ../starter/source/materials/mat/mat158/law158_init.F
+!||    law42c_ini                ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    layini1                   ../starter/source/elements/shell/coqueba/layini1.F
 !||    thickini                  ../starter/source/elements/shell/coqueba/thickini.F
 !||--- uses       -----------------------------------------------------
 !||    drape_mod                 ../starter/share/modules1/drape_mod.F
 !||    fractal_dmg_init_mod      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
 !||    initemp_shell_mod         ../starter/source/materials/therm/initemp_shell.F90
+!||    law42c_ini_mod            ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    message_mod               ../starter/share/message_module/message_mod.F
 !||    stack_mod                 ../starter/share/modules1/stack_mod.F
 !||====================================================================
@@ -93,6 +95,8 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixtg
+      use law42c_ini_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,11 +119,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C      V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDDIM,OFFSET,NEL,ITHK,ISIGSH,NSIGSH,IUSER,
+      INTEGER OFFSET,NEL,ITHK,ISIGSH,NSIGSH,IUSER,
      .  CPT_ELTENS,ISUBSTACK,IYLDINI,ISH3N,NG,IDRAPE
       INTEGER IXTG(NIXTG,*),IPART(*),IGEO(NPROPGI,*),IPM(NPROPMI,*),
      .  IPARG(*),NSHNOD(*), PTSH3N(*),NPF(*),
-     .  SH3TREE(*),ITAGE(*),ITAGN(*),IXFEM,IAD0,SH3TRIM(*),
+     .  SH3TREE(*),ITAGE(*),ITAGN(*),IXFEM,SH3TRIM(*),
      .  IGEO_STACK(*),PERTURB(NPERTURB)
       INTEGER ,INTENT(IN) :: IDDLEVEL
 C     REAL
@@ -375,7 +379,7 @@ c
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
-     .                NPT_ALL    ,IDRAPE)
+     .                NPT_ALL    ,IDRAPE,LTITR,NIXTG     ,IXTG(1,NFT+1) )
 C            
       ELSEIF (MTN == 27) THEN
         CALL CM27IN3(ELBUF_STR,
@@ -404,7 +408,7 @@ c
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
-     .                NPT_ALL    ,IDRAPE)
+     .                NPT_ALL    ,IDRAPE,LTITR ,NIXTG     ,IXTG(1,NFT+1) )
       ENDIF
 c
       IF ((MTN == 58 .or. MTN == 158) .AND. 
@@ -489,8 +493,23 @@ c
           ENDDO ! DO IL = 1,NLAY
         ENDIF   
       ENDIF ! IF (MTN == 58) THEN
+      IF (MTN == 42 .OR. MTN == 69 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO IL = 1,NLAY
+            NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+            ILAW  = ELBUF_STR%BUFLY(IL)%ILAW
+            NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+!
+            IF (ILAW == 42 .OR. MTN == 69) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                CALL law42c_ini(NUVAR,UVAR,LLT)
+              ENDDO
+            ENDIF ! IF (ILAW == 42) THEN
+          ENDDO ! DO IL = 1,NLAY      
+      ENDIF
 C-----------------------------------------------------------------------
-C     CALCUL DES CONTRAINTES INITIALES
+C     CALCULATION OF INITIAL STRESSES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ISIGSH /= 0 .OR. ITHKSHEL == 2) THEN
 C to be checked for IGTYP = 51
@@ -517,6 +536,11 @@ C to be checked for IGTYP = 51
      6       E2X     ,E3X      ,E1Y      ,E2Y       ,E3Y       ,
      7       E1Z     ,E2Z      ,E3Z      ,ISIGSH    ,DIR_A     ,
      8       DIR_B   ,POSLY    ,IGTYP    )
+           IF (MPT == 0) THEN
+             DO I=LFT,LLT
+               GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
+             END DO
+           END IF 
       ELSEIF ( ITHKSHEL == 1 ) THEN
         CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSH3N,NUMELTG,
      2                GBUF%THK,THK   ,IXTG   ,NIXTG ,NSIGSH ,
@@ -606,7 +630,7 @@ C-------------------------------------------
      4                NLAY   )
        ENDIF
 C-------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY TIMESTEPS
 C-------------------------------------------
 c         IGTYP=GEO(12,IXTG(5,I+NFT))
          IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.
@@ -669,6 +693,7 @@ C
       SUBROUTINE C3EPSCHK(JFT,JLT,NFT,PM,GEO,IXTG,GSTR,THK,
      .            NEL,CPT_ELTENS)
       USE MESSAGE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -723,10 +748,12 @@ c-----------
 !||    c3eps11_ini   ../starter/source/elements/sh3n/coque3n/c3init3.F
 !||--- called by ------------------------------------------------------
 !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C3EPS11_INI(
      1           JFT    ,JLT   ,IXTG  ,X      ,X2S     ,
      2           X3S    ,Y3S   )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -744,12 +771,12 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NIT, NT, I1, I2, I3, I4
+      INTEGER I
       my_real
      .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) , 
      .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) , 
      .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) 
-      my_real SUM,S1,S2
+      my_real SUM
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),

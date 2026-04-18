@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i6ass3     ../engine/source/interfaces/inter3d/i6ass3.F
+!||    i6ass3       ../engine/source/interfaces/inter3d/i6ass3.F
 !||--- called by ------------------------------------------------------
-!||    i6main     ../engine/source/interfaces/inter3d/i6main.F
+!||    i6main       ../engine/source/interfaces/inter3d/i6main.F
 !||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
+!||    finter       ../engine/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I6ASS3(E       ,MSR     ,NSV     ,ES      ,
+      SUBROUTINE I6ASS3(OUTPUT  ,E       ,MSR     ,NSV     ,ES      ,
      2                  EM      ,NPC     ,TF      ,ANSMX   ,
      3                  FMX     ,FMY     ,FMZ     ,XMAS    ,
      4                  IFUNC   ,V       ,NOINT   ,NSN     ,
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER NELTST,ITYPTST, IFUNC,IFUN2, NOINT, NSN, NMN,HFLAG,ICOR
       INTEGER MSR(*), NSV(*), NPC(*), ISKY(*)
 C     REAL
@@ -75,10 +76,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPOINT, IL, IG, IG3, IG2, IG1, IL3, IL2, IL1, NISKYL
+      INTEGER  IL, IG, IG3, IG2, IG1, IL3, IL2, IL1, NISKYL
 C     REAL
       my_real
-     .   VSMAX, VMMAX, VMAX, FT,FU,FF, XK, DTMI, FAC, FACDT, DX, FINTER
+     .   VSMAX, VMMAX, VMAX, FT,FU, XK, DTMI, FAC, FACDT, DX, FINTER
       EXTERNAL FINTER
 C=======================================================================
       IF (TT == ZERO) THEN
@@ -253,7 +254,7 @@ C
         ENDIF
 C-------  parith      
         IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.                      
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.                     
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.                     
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN                   
 #include "lockon.inc"                                         
            DO IL=1,NSN                                        

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -149,11 +149,12 @@ c     insolv=1 =>  (elast) Newton modified
 c     insolv=2,3 =>  BFGS
 c     insolv=4,5 =>  elastoplastic
 C------------------------------------------
+      FR = 0 ! was not always initialized before use
 C------------------------------------------
 C------------------------------------------
-C     [K]:matrice de rigidite [M]:matrice de preconditionnement
+C     [K]:stiffness matrix [M]:preconditioning matrix
 c        F_DDL=1+ITASK*NDDL/NTHREAD
-c        L_DDL=(ITASK+1)*NDDL/NTHREAD
+c        L_ddl = (itask+1)*nddl/nthread
 C
       TOL =L_TOL
       NL_TOL=N_TOL
@@ -357,7 +358,7 @@ citask0       IF (ITASK == 0) THEN
          ENDIF
                CALL IMP_STOP(-1)
         ENDIF
-C--------pour idtc>=2-----
+C--------for idtc>=2-----
         U02=U2
         IF(INPRINT/=0)THEN
          RU=SQRT(U2)
@@ -939,7 +940,7 @@ C----------diverge---------------------------
        S=MAX(EM01,S)
 C       IDIV=IDIV+1
       ELSE
-C------extrapolation-------
+C----- extrapolation --------
        IF (S>MAX(S1,S0).OR.S<MIN(S1,S0)) THEN
         S=MIN(THREE_HALF*S1,S)
         S=MIN(FIVE,S)

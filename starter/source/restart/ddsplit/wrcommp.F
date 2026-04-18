@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,DYNAIN_DATA,
      5   NUMSH4N_L,NUMSH3N_L,INTER_PARAMETERS,SENSORS,NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
-     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST)
+     7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST,NE_SFEM_L,
+     8   NGUIDED_CABLE,N_GUIDED_CABLE_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,6 +93,8 @@ C-----------------------------------------------
       use glob_therm_mod
       USE PBLAST_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -139,9 +142,10 @@ C-----------------------------------------------
      .        LENISLIN_L,NE_NERVOIS_L, NE_NESVOIS_L, NE_NSVOIS_L, NE_NQVOIS_L, NE_NTGVOIS_L,NBCSCYC_L,LLBCSCYC_L,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,N_SEATBELT_L,N_SEATBELT_2D_L,
      .        NUMSH4N_L,NUMSH3N_L,NLOAD_CYL,NDAMP_VREL_L,NINIVELT_L
-      INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L
+      INTEGER, INTENT(IN) :: NCLOAD_L,NPLOAD_L,NE_SFEM_L
       INTEGER, INTENT(IN) :: LWAMP_L     !< Size of Engine work array (WA)
       INTEGER, INTENT(IN) :: LWANMP_L    !< Size of Engine work array (WA)
+      INTEGER, INTENT(IN) :: NGUIDED_CABLE, N_GUIDED_CABLE_L
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
@@ -183,7 +187,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
          INTEGER IVAR, I
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES POUR ECRITURE SUR RFILE.
+C     preparation of integer variables for writing to RFILE
 C=======================================================================
 C-----
       DO IVAR=1,LMXVINT
@@ -214,7 +218,7 @@ C-----
       TABVINT(22) =ISIGI
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA_L
-      TABVINT(25) =ISGIFL
+      TABVINT(25) = ANALY_TEMP
       TABVINT(26) = TH_HAS_NODA_PEXT
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS
@@ -226,8 +230,8 @@ C-----
       TABVINT(34) =IRESMD
       TABVINT(35) =IFRWV
 C
-C -------- Tailles des tableaux entiers --------
-C taille locale inutile
+C -------- sizes of integer arrays --------
+C Useless local size
       TABVINT(36) = 0
       TABVINT(37) = NUMNOD_L
       TABVINT(38) = 0 ! no longer used
@@ -280,8 +284,8 @@ C taille locale inutile
       END IF
       TABVINT(74) = NUMSPH_L*NSPCOND
       TABVINT(75) = NISPCOND*NSPCOND
-C 3 tableau pour inlet outlet passe en mono domaine
-c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
+C 3 Table for inlet outlet goes to Mono Domaine
+c If case inl outl we pass lprsph_l and longfsph_l in local paintings
       TABVINT(76) = SISPHIO
       IF(NSPHIO>0)THEN
         TABVINT(77) = SLPRTSPH_L
@@ -414,7 +418,7 @@ c SNBRCVOIS
       ENDIF
 C
 
-C -------- Tailles des tableaux flottants --------
+C -------- sizes of floating-point arrays --------
       TABVINT(162) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
@@ -467,7 +471,7 @@ C
       ELSE
         TABVINT(184) = IEULER*(NUMELS_L*LVEUL+NUMELQ_L*10)
       ENDIF
-C 3 tableaux multi mat spmd mono
+C 3 SPMD Mono multi matte tables
       TABVINT(185) = SFILL
       TABVINT(186) = SDFILL
       TABVINT(187) = SALPH
@@ -505,9 +509,9 @@ C 3 tableaux multi mat spmd mono
       TABVINT(197) = 0
       TABVINT(198) = 0
       TABVINT(199) = 0
-C tableaux utilises en mono domaine pour inlet/outlet
+C Tables used in mono domain for inlet/outlet
       TABVINT(200) = SVSPHIO
-c si cas Inl Outl on passe SSPHVELN en tableau local
+c If case inl outl we pass ssphveln in local board
       IF(NSPHIO>0)THEN
         TABVINT(201) = SSPHVELN_L
       ELSE
@@ -520,7 +524,7 @@ c si cas Inl Outl on passe SSPHVELN en tableau local
       ENDIF
       TABVINT(203)  = LFACCLD*NCONLD_L
       TABVINT(204)  = LFXVELR*NFXVEL_L
-      TABVINT(205)  = NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB)
+      TABVINT(205)  = NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB+NGUIDED_CABLE)
 
       IF(ISIGI==2.OR.ISIGI==4) THEN
          TABVINT(206)= 3*NUMNOD_L
@@ -571,7 +575,7 @@ C      TABVINT(235)=M07
 C      TABVINT(236)=M08
 C      TABVINT(237)=M09
 C
-C Taille dernier = taille locale du proc
+C Last size = local proc size
 C
 C-----
       TABVINT(238)=NUMMAT
@@ -772,7 +776,7 @@ C
       LVARINT=493
       
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
       !OUTP_V, ...OUTP_RT,ANIM_V,...,ANIM_FT
       DO I=1,19
@@ -790,7 +794,7 @@ C
       
       LVARINT=493+19+8+1      
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRBYLAG
@@ -826,7 +830,7 @@ C
       TABVINT(LVARINT)=NUMELS8A
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NUMELTG6_L
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
       DO I=1,58                          
         TABVINT(LVARINT+I)=0             
       ENDDO                              
@@ -974,7 +978,7 @@ c
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IROOTYY
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= 0
@@ -989,7 +993,7 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= 0
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= TRIMAT
@@ -1007,7 +1011,7 @@ C
       TABVINT(LVARINT)= NBI18_L
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSKYI18_L
-C partie commun spmd cfd
+C common part SPMD CFD
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSVOIS_L
       LVARINT=LVARINT+1
@@ -1030,6 +1034,8 @@ C partie commun spmd cfd
       TABVINT(LVARINT)= NUMPOR_L
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= ALE%GLOBAL%ICAA
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)= ALE%GLOBAL%HLLC_LOWMACH
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= ISPHBUC
       LVARINT=LVARINT+1
@@ -1294,10 +1300,10 @@ C Madymo Restart Array is missing
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHPART
 C
-C ecriture sur restart de tableaux de masse elementaires
+C writing of elementary mass arrays to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IREST_MSELT
-C ecriture sur restart nthread
+C writing nthread to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHREAD
 C   ----for output of rotational dof -----
@@ -1580,7 +1586,7 @@ C Stack info
 C
 C ITETRA=3
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=ISFEM  
+      TABVINT(LVARINT)=ISFEM  + NE_SFEM_L
 C /LOAD/PBLAST
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F
@@ -1589,7 +1595,7 @@ C /LOAD/PBLAST
 C /LOAD/PCYL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOAD_CYL           
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
 C     IDTMIN(51)
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=0
@@ -1633,10 +1639,10 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRTMX25_L
 C
-C drape option
+C Drape option
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NDRAPE
-C Element activation
+C activation element
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LRACTIV
 C PLY_INFO -> animation file
@@ -1740,7 +1746,7 @@ C Friction interface
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LENISLIN_L
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
 !     IDTS6, IDT1SOL, IDT1TET10, IDT1SH <=> CHKPT
       LVARINT=LVARINT+1
@@ -1752,7 +1758,7 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = 0
 C
-C-----  fin chk pt restart
+C-----  end chk pt restart
 C
 !     H3D -> number of skid lines    
       LVARINT=LVARINT+1
@@ -1856,9 +1862,13 @@ C-----Seatbelts - slipring / retractors
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_RETRACTOR_L
       LVARINT=LVARINT+1
+      TABVINT(LVARINT)=N_GUIDED_CABLE_L
+      LVARINT=LVARINT+1
       TABVINT(LVARINT)=NSLIPRING
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_ANCHOR_REMOTE_L
       LVARINT=LVARINT+1

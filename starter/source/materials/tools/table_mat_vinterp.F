@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    s6zinit3                     ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
+!||    sigeps88                     ../starter/source/materials/mat/mat088/sigeps88.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
@@ -39,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
+!||    sigeps88                     ../starter/source/materials/mat/mat088/sigeps88.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)

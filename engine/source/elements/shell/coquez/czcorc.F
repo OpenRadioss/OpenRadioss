@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    czcorp5x       ../engine/source/elements/shell/coquez/czcorc.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORC1(NUMNOD ,NUMELC ,ELBUF_STR,
      1                   JFT    ,JLT    ,X      ,V      ,VR     ,
@@ -62,6 +63,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE ELBUFDEF_MOD
+        use element_mod , only : nixc
 C-----------------------------------------------
 #include      "implicit_f.inc"
 c-----------------------------------------------
@@ -111,17 +113,17 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
-        INTEGER NNOD,I,J,K,L,II(6)
+        INTEGER NNOD,I,J,K,II(6)
         PARAMETER (NNOD = 4)
         my_real
-     .     LXYZ0(3),DETA,DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
+     .     LXYZ0(3),DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .     SX(MVSIZ),SY(MVSIZ),SSZ(MVSIZ),
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
+     .     VG13(3),VG24(3),VGHI(3),
      .     TOL,X13_2(MVSIZ),Y13_2(MVSIZ),X24_2(MVSIZ),Y24_2(MVSIZ),
-     .     A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     VLXYZ(3,NNOD),AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
-     .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),DIZ1(6),
-     .     ALR(3),ALD(NNOD),DBAD(3),BTB_C,
+     .     C1,C2,S1,
+     .     XX,YY,ZZ,
+     .     
+     .     
      .     HS(MVSIZ),FACI,FAC1,FAC2,LM(MVSIZ),FACDT,
      .     DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2
         my_real :: OFF_LOC
@@ -646,7 +648,9 @@ C
         RETURN
       END
 !||====================================================================
-!||    czcorp4v   ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorp4v      ../engine/source/elements/shell/coquez/czcorc.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP4V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -656,6 +660,7 @@ C
      7                    Z1     ,DI     ,DB     ,CORELV ,RLZ    ,
      8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
      9                    L13    ,L24    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -680,14 +685,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real
      .     DETA,
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
-     .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),
+     .     RRXYZ(3,NNOD),
+     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
+     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,
+     .     D(6),
      .     ALR(3),ALD(NNOD),DBAD(3),BTB_C
 C-----------------------------------------------
         DO I=JFT,JLT
@@ -857,7 +862,9 @@ C
         RETURN
       END
 !||====================================================================
-!||    czcorp4   ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorp4       ../engine/source/elements/shell/coquez/czcorc.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP4(JFT    ,JLT    ,VR      ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -867,6 +874,7 @@ C
      7                    Z1     ,DI     ,DB     ,COREL  ,RLZ    ,
      8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
      9                    L13    ,L24    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -891,14 +899,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real
      .     DETA,
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
-     .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),
+     .     RRXYZ(3,NNOD),
+     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
+     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,
+     .     D(6),
      .     ALR(3),ALD(NNOD),DBAD(3),BTB_C
 C----------------------------------
         DO I=JFT,JLT
@@ -1079,7 +1087,9 @@ C
         RETURN
       END
 !||====================================================================
-!||    czcorp4x   ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorp4x      ../engine/source/elements/shell/coquez/czcorc.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP4X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -1091,6 +1101,7 @@ C
      9                    L13    ,L24    ,VRX1   ,VRX2   ,VRX3   ,
      A                    VRX4   ,VRY1   ,VRY2   ,VRY3   ,VRY4   ,
      B                    VRZ1   ,VRZ2   ,VRZ3   ,VRZ4   )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1118,14 +1129,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real
      .     DETA,
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
-     .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),
+     .     RRXYZ(3,NNOD),
+     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
+     .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,
+     .     D(6),
      .     ALR(3),ALD(NNOD),DBAD(3),BTB_C
 C----------------------------------
         DO I=JFT,JLT
@@ -1308,9 +1319,11 @@ C
         RETURN
       END
 !||====================================================================
-!||    czcorp5v   ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorp5v      ../engine/source/elements/shell/coquez/czcorc.F
 !||--- calls      -----------------------------------------------------
-!||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
+!||    a3invdp       ../engine/source/elements/shell/coquez/czcorc.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP5V(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -1320,6 +1333,7 @@ C
      7                    Z1     ,DI     ,DB     ,CORELV ,RLZ    ,
      8                    LL     ,X13_2  ,Y13_2  ,X24_2  ,Y24_2  ,
      9                    L13    ,L24    ,IDRIL  ,DIZ    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1346,15 +1360,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real
      .     DETA,
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
+     .     RRXYZ(3,NNOD),
+     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
      .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
      .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),DIZ1(6),DIZ2(6),
-     .     ALR(3),ALD(NNOD),DBAD(3),BTB_C,ALRZ
+     .     ALR(3),ALD(NNOD),DBAD(3),ALRZ
 C-----------------------------------------------
         DO I=JFT,JLT
           Z2(I)=Z1(I)*Z1(I)
@@ -1630,11 +1644,13 @@ C
         RETURN
       END
 !||====================================================================
-!||    czcorp5x   ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorp5x      ../engine/source/elements/shell/coquez/czcorc.F
 !||--- called by ------------------------------------------------------
-!||    czcorc1    ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorc1       ../engine/source/elements/shell/coquez/czcorc.F
 !||--- calls      -----------------------------------------------------
-!||    a3invdp    ../engine/source/elements/shell/coquez/czcorc.F
+!||    a3invdp       ../engine/source/elements/shell/coquez/czcorc.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP5X(JFT    ,JLT    ,VR     ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -1646,6 +1662,7 @@ C
      9                    L13    ,L24    ,VRX1   ,VRX2   ,VRX3   ,
      A                    VRX4   ,VRY1   ,VRY2   ,VRY3   ,VRY4   ,
      B                    VRZ1   ,VRZ2   ,VRZ3   ,VRZ4   )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1660,7 +1677,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         LOGICAL PLAT(*)
-        INTEGER IXC(NIXC,*),JFT,JLT,IDRIL,NPT
+        INTEGER IXC(NIXC,*),JFT,JLT,NPT
         my_real
      .     VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .     MX23(*),MY13(*),MY23(*),MY34(*),
@@ -1675,15 +1692,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real
      .     DETA,
-     .     VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
+     .     RRXYZ(3,NNOD),
+     .     Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
      .     AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
      .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),DIZ2(6),
-     .     ALR(3),ALD(NNOD),DBAD(3),BTB_C
+     .     ALR(3),ALD(NNOD),DBAD(3)
 C=======================================================================
         DO I=JFT,JLT
           Z2(I)=Z1(I)*Z1(I)
@@ -1923,6 +1940,7 @@ C
 !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORCT(ELBUF_STR,
      1                   JFT    ,JLT    ,X      ,V      ,VR     ,
@@ -1936,6 +1954,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE ELBUFDEF_MOD
+        use element_mod , only : nixc
 C-----------------------------------------------
 #include      "implicit_f.inc"
 c-----------------------------------------------
@@ -1948,7 +1967,7 @@ c-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-        INTEGER IXC(NIXC,*),JFT,JLT,IREP,NPT,ISMSTR,IDRIL,NEL
+        INTEGER IXC(NIXC,*),JFT,JLT,NPT,ISMSTR,IDRIL,NEL
         my_real
      .     PM(NPROPM,*), X(3,*), V(3,*), VR(3,*),RLXYZ(MVSIZ,4),
      .     V13(MVSIZ,2),V24(MVSIZ,2),OFFG(*),DR(3,*),
@@ -1962,22 +1981,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L,II(9),IFPROJ
+        INTEGER NNOD,I,K,II(9)
         INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
         PARAMETER (NNOD = 4)
         my_real
-     .     LXYZ0(3),DETA,DETA1(MVSIZ),ALRZ,COREL(MVSIZ,2,4),
-     .     DI(MVSIZ,6),DB(MVSIZ,3,4),L13(MVSIZ),L24(MVSIZ),
-     .     RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
-     .     TOL,Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     VLXYZ(3,NNOD),AR(3),AD(NNOD),BTB(6),XX,YY,ZZ,XY,XZ,YZ,
-     .     ABC,XXYZ2,YYXZ2,ZZXY2,D(6),DIZ1(6),DIZ(3),
-     .     ALR(3),ALD(NNOD),DBAD(3),BTB_C,LM(MVSIZ),
-     .     FACDT,LL(MVSIZ),AXYZ(MVSIZ,3,NNOD),
-     .     VHI(MVSIZ,3),V13X,V24X,VHIX,DDRZ1,DDRZ2
+     .     LXYZ0(3),DETA1(MVSIZ),COREL(MVSIZ,2,4),
+     .     L13(MVSIZ),L24(MVSIZ),
+     .     RRXYZ(3,NNOD),
+     .     TOL,Z2(MVSIZ),A_4,S1,
+     .     
+     .     
+     .     LM(MVSIZ),
+     .     AXYZ(MVSIZ,3,NNOD),
+     .     VHI(MVSIZ,3)
         my_real
      .     XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
-     .     YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),OFF_L,
+     .     YL3(MVSIZ),YL4(MVSIZ),OFF_L,
      .     X13(MVSIZ),X24(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
      .     X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .     Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),
@@ -2256,6 +2275,7 @@ C
 !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORCHT(ELBUF_STR,
      1                   JFT    ,JLT    ,X      ,V      ,VR     ,
@@ -2266,6 +2286,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE ELBUFDEF_MOD
+        use element_mod , only : nixc
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 c-----------------------------------------------
@@ -2288,19 +2309,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L,II(9),IFPROJ
+        INTEGER I,K
         my_real
-     .     LXYZ0(3),DETA,DETA1(MVSIZ),ALRZ,COREL(MVSIZ,2,4),
+     .     LXYZ0(3),DETA1(MVSIZ),COREL(MVSIZ,2,4),
      .     L13(MVSIZ),L24(MVSIZ),
-     .     VG13(3),VG24(3),VGHI(3),
-     .     TOL,Z2(MVSIZ),A_2,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .     XX,YY,ZZ,XY,XZ,YZ,LM(MVSIZ),
+     .     
+     .     TOL,Z2(MVSIZ),
+     .     LM(MVSIZ),
      .     MY13(MVSIZ),MX13(MVSIZ),
      .     V13(MVSIZ,2),V24(MVSIZ,2),AREA(MVSIZ),AREA_I(MVSIZ),
-     .     VHI(MVSIZ,3),V13X,V24X,VHIX,BXV2,BYV1,TOLH
+     .     VHI(MVSIZ,3),BXV2,BYV1,TOLH
         my_real
      .     XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
-     .     YL3(MVSIZ),YL4(MVSIZ),Z1(MVSIZ),OFF_L,
+     .     YL3(MVSIZ),YL4(MVSIZ),Z1(MVSIZ),
      .     X13(MVSIZ),X24(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
      .     X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .     Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),

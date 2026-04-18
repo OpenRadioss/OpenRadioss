@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C     REAL
       my_real
      .   DT1D2
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,CCC,
+     .   AAA,BBB,CCC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C-----------------------------------------------
       DO I=1,NEL

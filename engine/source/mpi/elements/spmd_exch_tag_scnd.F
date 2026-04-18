@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,10 +54,10 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
-     .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,
+      INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,
+     .        MSGOFF,SIZ,IERROR,
      .        STATUS(MPI_STATUS_SIZE),
-     .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
+     .        REQ_S(NSPMD),REQ_R(NSPMD)
       DATA MSGOFF/1179/
       INTEGER
      .        SBUF(LCOMM),RBUF(LCOMM)

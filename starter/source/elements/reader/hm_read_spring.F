@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg            ../starter/source/output/message/message.F
 !||    anodset           ../starter/source/output/analyse/analyse_node.c
-!||    nintrn            ../starter/source/system/nintrn.F
 !||    usr2sys           ../starter/source/system/sysfus.F
 !||    vdouble           ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -62,9 +61,10 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixr
 C----------------------------------------------------------
-C     LECTURE ELEMENT RESSORT
-C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
+C     READING ELEMENT RESSORT
+C     VERSION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
 C----------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,8 +101,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2,PID,N,ID,IDS,J,IPID,JC,STAT,IMID,IGTYP,MID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I, I1, I2,PID,N,IDS,J,IPID,STAT,IMID,IGTYP,MID
       INTEGER FLAG_KJ(NUMELR),IKJ_TMP(3,NUMELR),NUMEL_KJ,CPT,
      .        INDEX_PART
       CHARACTER MESS*40, MESS2*40, CHAR_MAT*11, CHAR_SKEW*11
@@ -112,7 +111,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN
       INTEGER USR2SYS
       DATA MESS /'3D SPRING ELEMENTS DEFINITION           '/
       DATA MESS2/'3D SPRING ELEMENTS SELECTION FOR TH PLOT'/
@@ -187,7 +185,7 @@ c
              IXR(4,I)=USR2SYS(IXR(4,I),ITABM1,MESS,IXR(NIXR,I))
              CALL ANODSET(IXR(4,I), CHECK_USED)
           ENDIF
-C         Noeuds additionels pour joints    
+C         Additional nodes for joints
             IF (FLAG_KJ(I)>0) THEN
             DO J=1,3
              IF(IXR_KJ(J,I)/=0) THEN
@@ -219,7 +217,7 @@ C-----------
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT) 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0
@@ -279,7 +277,7 @@ C
 C
  200  CONTINUE
 C--------------------------------------------------
-C Reorganisation du tableau additionel pour kjoints
+C Reorganization of the additional table for kjoints
 C--------------------------------------------------
 
       IF (NUMEL_KJ>0) THEN
@@ -308,7 +306,5 @@ C----
      +        ' ---------------'/
      + '    LOC-EL     GLO-EL       GEOM      NODE1      NODE2'
      + '    (NODE3)                                    (MAT_ID)     (SKEW)')
-  310 FORMAT(' SPRING ELEMENT TH SELECTION'/
-     +       ' ---------------------------'/) 
       RETURN
       END

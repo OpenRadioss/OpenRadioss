@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reorder_i      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMS1(
      1    IGEO      ,ELBUF     ,IPARG     ,IXS       ,IXQ       ,
@@ -37,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD          
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg  
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -324,6 +326,7 @@ C------version \\-----
 !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMS3(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -333,7 +336,8 @@ C------version \\-----
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -619,6 +623,7 @@ C
 !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMS2(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -629,7 +634,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD        
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg    
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -956,6 +962,7 @@ C------version \\-----
 !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -966,7 +973,8 @@ C------version \\-----
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD      
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg      
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1305,6 +1313,7 @@ C------version \\-----
 !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMSP(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -1314,7 +1323,8 @@ C------version \\-----
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg            
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1607,6 +1617,7 @@ C
 !||    dim_elems3     ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
@@ -1617,7 +1628,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg          
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1733,7 +1745,7 @@ C----- rbe2 main------
       ENDDO
 C-----will be stored in ICOKM(NKMAX,*)    
       NKINM=NKINE
-C-----pour IND_GLOB_K, passer NKINM par include ou module, modifier dans IND_KINE_    
+C-----for IND_GLOB_K, pass NKINM via include or module, modify in IND_KINE_-----
 C      K=0
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -1888,7 +1900,7 @@ C
         ENDIF
        ENDDO
       END IF !(NSPMD > 1 .AND.NINTER > 0) THEN
-C-----if m is secnd of rb
+C-----if m is second of rb
       NSRB2=0
       DO N=1,NRBE2
        M=IRBE2(3,N)
@@ -1938,7 +1950,7 @@ C-----------------------------------------------
       INTEGER NMN,J,K
       INTEGER I,N,M,L,NS,ID,NM,NSN,IAD,ILEV,NDOFM,IROT,IC
 C-----------------------------------------------
-C------interface 2---au cas surface main est deactive----------- 
+C------ interface 2 --- In case main surface is deactivated ------------ 
       DO I=1,NINT2
        N=IINT2(I)
        NSN = IPARI(5,N)
@@ -2133,9 +2145,9 @@ C-----------------------------------------------
       INTEGER NKS,NKM
       INTEGER NSN,NMN,I,J,K,N,M,EP,L,NI,NJ,K12,ID,NS,NK,NM,NNOD,N1,L1,NL1,NL,J1,NM1,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,NKE,IAD,IC
-C     NROW(NUMNOD) :nombre of connected nodes (non sym)
-C     NROWI(NKINE) :INDICE LOCALE <=NNMAX (NROW peut eventuellement depasse NNMAX)
-C     INLOC(NUMNOD) :indice locale des "kinematic nodes"
+C     NROW(NUMNOD) :number of connected nodes (non sym)
+C     Nrow (Kine): Local index <= nnmax (Nrow can possibly exceed nnmax)
+C     INLOC (NUMNOD): Local index of "Kinematic Nodes"
 C-----------------------------------------------
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -2201,7 +2213,7 @@ C-----with Kij block-(i,j have the same M)-----
         ENDIF
        ENDDO 
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       IF (NINT2>1) THEN
        DO J=1,NINT2
         N=IINT2(J)
@@ -2219,7 +2231,7 @@ C+++couplage entre int2----
           NI=INTBUF_TAB(N)%NSV(I)
           IF (NDOF(NI)>0) THEN
            NKE=INLOC(NI) 
-C------cherche-secnd pairs-entre int2---
+C------search for second pairs-entre int2---
            DO I1=1,NSN1
             NJ=INTBUF_TAB(N1)%NSV(I1)
             IF (NDOF(NJ)>0.AND.
@@ -2290,7 +2302,7 @@ C+++++++Knsns -> Kmns
           ENDIF 
          ENDIF 
        ENDDO 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+1
       ENDDO
 C------RBE3-------------- 
@@ -2381,7 +2393,7 @@ C----- rigid body ------
          END IF !IF (NDOF(NS)>0)
        ENDDO 
        ENDIF 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+NSN
       ENDDO
 C
@@ -2444,7 +2456,7 @@ C-----------------------------------------------
      .        K14,KFI,ID,NS,NK,NM,NNOD,N1,L1,NL1,NL,J1,NM1,N2,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,IAD,IC
 C     NROWI(NKINE) :INDICE LOCALE <=NNMAX 
-C     INLOC(NUMNOD) :indice locale des "kinematic nodes"
+C     INLOC (NUMNOD): Local index of "Kinematic Nodes"
 C-----------------------------------------------
 C------interface 2-------------- 
       NSS2=0
@@ -2633,7 +2645,7 @@ C-----due to change of RBE2- (M used ICOKM now) --
          ENDDO
         ENDIF 
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       NMIJ2=0
 C
       NSS=0
@@ -2667,7 +2679,7 @@ C
            ENDIF         
           ENDIF
          ENDDO 
-C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body second nodes with Kij block-(i,j have the same M)-----
          DO N1=J+1,NSN
            NJ=LPBY(K+N1)
           IF (NKS > INK) THEN         
@@ -2686,7 +2698,7 @@ C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
        ENDDO 
        ENDIF 
       ENDDO
-C+++couplage entre rigid bodies----
+C+++ Coupling between Rigid Bodies ----
       NMIJ=0
       IF (NRBYAC>1) THEN
        DO J=1,NRBYAC
@@ -2709,7 +2721,7 @@ C+++couplage entre rigid bodies----
              NKS=INLOC(NI) 
              IF (NKS > INK) THEN         
               IF (INTAB(NROWI(NKS),ICOK(1,NKS),M)) THEN
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -2720,7 +2732,7 @@ C------cherche-secnd pairs----
               ENDIF
              ELSE
               IF (INTAB(NROWI(NKS),ICOKM(1,NKS),M)) THEN
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -2864,7 +2876,7 @@ C------IRTL(NSN)--main el number---
           ENDIF 
          ENDDO
          NS=NS+NSS2(ID)
-C-----with Kij block-(i,j secnd)-----
+C-----with Kij block-(i,j second)-----
          DO N1=I+1,NSN
           NJ=INTBUF_TAB(N)%NSV(N1)
           L1=INTBUF_TAB(N)%IRTLM(N1)
@@ -2898,7 +2910,7 @@ C-----with Kij block-(i,j secnd)-----
        K=K+NSN
        NK=NK+2*NSC2(J)
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       NMC2=0
 C-----RBE2------
       K=0
@@ -3045,7 +3057,7 @@ C-----active rigid body main nodes------
            ENDIF 
           ENDDO 
           NS=NS+NSS(ID)
-C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body second nodes with Kij block-(i,j have the same M)-----
           DO N1=I+1,NSN
            NJ=LPBY(K1+N1)
            IF (NKE <= INK) THEN         
@@ -3072,7 +3084,7 @@ C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
        K=K+NSN
        NK=NK+2*NSC(J)
       ENDDO
-C+++couplage entre rigid bodies----
+C+++ Coupling between Rigid Bodies ----
       NMC=0
       IF (NRBYAC>1) THEN
        DO J=1,NRBYAC
@@ -3099,7 +3111,7 @@ C
              IF (NKE <= INK) THEN         
               IF (INTAB(NROWK(NKE),ICOK(1,NKE),M)) THEN
               NJ=0
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -3117,7 +3129,7 @@ C------cherche-secnd pairs----
              ELSE
               IF (INTAB(NROWK(NKE),ICOKM(1,NKE-INK),M)) THEN
               NJ=0
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -3164,6 +3176,7 @@ C------computation for NNMAX,NKMAX------
 !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
       SUBROUTINE DIM_KINMAX(
@@ -3182,6 +3195,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE INTBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3220,7 +3234,7 @@ C-----------------------------------------------
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
-c-----2. prepare icol for secnd nodes using ikine;
+c-----2. prepare icol for second nodes using ikine;
       CALL DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
@@ -3251,7 +3265,7 @@ C----- pass for IND_GLOB_K, including RBE2 main
        NK=INLOC(N)
        IF (NK > 0) NROW(N) = MAX(NROW(N),NROWI(NK))
       ENDDO
-c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
+c-----3. calculation NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -3300,7 +3314,7 @@ c
      1    NNMAX     ,NKMAX     ,NROWI     ,ICOK(L2)  ,ICOK(L1)  ,
      2    INLOC     ,LNK       ,FR_ELEM   ,IAD_ELEM  )
       ENDIF 
-c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
+c-----3. calculation NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -3351,6 +3365,7 @@ C------estimation for NNMAX,NKMAX,NNZK, prepare data for IND_GLOB_K
 !||    spmd_ndof       ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
@@ -3373,6 +3388,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3422,9 +3438,9 @@ C  ICOL(NKMAX,NRBYAC) for main nodes
 C  ICOL(NNMAX,NKINE-NRBYAC) for kine. nodes
 C  ICOL(NNMAX,NNSIZ) for other nodes
 C  NROW(NUMNOD) number of connected nodes use the mem. of iddl
-C----pour spmd on ne distinque plus nodes kine ---------------------------------------
+C---- For SPMD we no longer distinguish node Kine ------------------------------------------------------------------------------
 C   et INLOC(NUMNOD) : local(pi) numnod in order of IDDL
-C   actuel order : nodes fontieres avec pj(j<i); nodes; nodes fontieres avec pj(j>i)
+C   Current order: fountry nodes with pj (j <i);nodes;fountry nodes with pj (j> i)
 c-----1. calcule NNMAX,NDOF;
       DO N =1,NUMNOD
        IDDL(N)=0
@@ -3504,11 +3520,11 @@ C
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
      9    IAD_ELEM  ,SH4TREE   ,SH3TREE   ,IRBE3     ,LRBE3     ,
      A    NSS3      ,IRBE2     ,LRBE2     ,NSB2      ,ELBUF_TAB )
-c-----4. calcul NNZK,;
+c-----4. calculation NNZK,;
       IF (IRODDL==0) THEN
        NDOFJ=3
       ELSE
-C-------cela sur-dimensioner kij en cas du model mix (solide +coque) mais pas trop grace
+C------ This over-dimensioner Kij in case of the Mix Model (solid +shell) but not too thanks
        NDOFJ=6
       ENDIF
       NNZK = 0
@@ -3538,7 +3554,7 @@ c           NNZK = NNZK+NDOFJ*IDDL(N)
        DO N =1,NUMNOD
         IDDL(N)=0
        ENDDO
-C------d'abord frontieres avec precedent procs j<i
+C------d'abord frontieres with precedent procs j<i
        DO IP =1,ISPMD
         DO M=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N=FR_ELEM(M)
@@ -3549,7 +3565,7 @@ C------d'abord frontieres avec precedent procs j<i
          ENDIF
         ENDDO
        ENDDO
-C------frontieres avec procs derierre a la fin j>i
+C------boundaries with procs behind at the end j>i------
        DO IP =ISPMD+2,NSPMD
         DO M=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N=FR_ELEM(M)
@@ -3571,7 +3587,7 @@ C------frontieres avec procs derierre a la fin j>i
         ENDIF
        ENDDO
       ELSE
-C---------set INLOC; pour kine. nodes---
+C--------- Set INLOC;For Kine.Nodes ---
        DO N =1,NUMNOD
         IDDL(N)=INLOC(N)
        ENDDO
@@ -3599,7 +3615,7 @@ C---------set INLOC; pour kine. nodes---
         ENDDO
        ENDIF 
       ENDIF 
-c-----4. calcul IDDL,;
+c-----4. calculation IDDL,;
       NDDL =0
       DO J=1,NUMNOD
        N=INLOC(J)
@@ -3651,7 +3667,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NL,NJ,NDOFI
-c----- calcul IADK,JDIK,NNZK-----
+c----- calculation IADK,JDIK,NNZK-----
           NDOFI = NDOF(N)
           DO K=1,NDOFI
 C-------termes knn-------
@@ -3712,6 +3728,7 @@ C   --------- stockage M.C.R.S + SYM- -----
 !||    zero_ikin2g     ../engine/source/mpi/implicit/imp_fri.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
       SUBROUTINE IND_GLOB_K(NPBY,LPBY,
@@ -3733,6 +3750,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD   
       USE INTBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3767,11 +3785,11 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
-C     stockage creux : diagonale + trangle en lignes: IKPAT=0:triang_sup IKPAT=1: inf
+C     Hollow storage: Diagonal + Trangle in lines: Ikpat = 0: Triang_sup Ikpat = 1: Inf
 C        [K](id,jd)     -> DIAG(ND)+LT(IK)(exclue diag)
 C        id = 1..nddl        : ID = IADK(ID)...IADK(ID+1)-1
 C        jd = 1..NNZK        : JD = JDIK(IK)
-C        NDOF(NUMNOD)        : nombre de ddl
+C        NDOF(NUMNOD)        : number de ddl
 C     DIAG(NDDL)
 C     IADK(NDDL+1)
 C     JDIK(NNZK)
@@ -3784,12 +3802,12 @@ C-----------------------------------------------
       INTEGER IAD_M(NSPMD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: FR_M
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ICOKFR
-C     m:main,s:secnd NSS(NRBYAC):nombre de j: Kjm= sum(KjsCsm)
-C     NSC(NRBYAC):nombre de "secnd line": ISIJ(2,NSC,NRBYAC)--
+C     M: Main, S: send nss (nrbyac): number of J: kjm = sum (kjscsm)
+C     NSC (NRBYAC): Number of "send lines": ISIJ (2, NSC, NRBYAC)-
 C     nrowk(NKINE), icok size: NNMAX*(NKINE-NRBYAC)+NKMAX*NRBYAC:icok,icokm
-C------eventuellment actualiser NDOF due au OFF d'element-
-C-----1. calcul IADK,JDIK,par each NNSIZ using INLOC.
-C-----IRK=0, calcul des tableux kinematiques est dispense-----
+C-----
+C-----1. calculation IADK,JDIK,par each NNSIZ using INLOC.
+C-----IRK=0, calculation of kinematic tables is skipped-----
       IF (NSPMD>1) THEN
        DO N = 1 , NUMNOD
          ILOC(N)=0
@@ -4175,7 +4193,7 @@ C---main nodes of rbodies first----
  100  IADK(NDDL+1) = LENK+1
         IF (LENK>NNZK.OR.NL/=(NDDL+1)) 
      .    WRITE(*,*)'--MEMERY PROBLEM 2--:',LENK,NL,NNZK,NDDL+1
-C---remet positive----
+C--- Postive put back ----
       NNZK = LENK
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -4391,7 +4409,7 @@ C
       ENDDO
       N = II
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I
@@ -4456,7 +4474,7 @@ C
       ENDDO
       N = II
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I
@@ -4750,7 +4768,7 @@ C
         IDDL(N)=0
        ENDIF
       ENDDO
-C-----couplage avec cond. kine ------
+C-----coupling with kinematic conditions ------
       N_IMPM=N_IMP
       CALL DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
@@ -4793,7 +4811,7 @@ C-------termes kn,nj-------
       ENDDO
       NNZK = NNZK/2+1
 c      write(*,*)'int NNMAX,NKMAX,N_IMP=',NNMAX,NKMAX,N_IMP
-c-----3. calcul NDDL,IDDL;
+c-----3. calculation NDDL,IDDL;
       CALL NDDL_LOC(NDDL,IDDL,ILOCI,N_IMP,NDOF1)
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -4858,7 +4876,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
-C     [K] pour interfaces : diagonale + trangle sup en lignes:
+C     [K] For interfaces: diagonal + trangle sup in lines:
 C        [K](id,jd)     -> DIAG(NDDL)+LT(IK)(exclue diag)
 C        id = 1..nddl        : ID = IADI(ID)...IADI(ID+1)-1
 C        jd = 1..NNZI        : JD = JDII(IK)
@@ -4874,7 +4892,7 @@ C-----------------------------------------------
      .        NTY,NL,NJ,NIN,LENK,IAD,ILOC(N_IMPN+N_IMPM),
      .        NSN,NRTS
 C-----------------------------------------------
-C------ILOCI est ILOC dans IND_GLOB_K -------------- 
+C------ILOCI is ILOC in IND_GLOB_K --------------
 C
       IKP=IKPAT
       NDOFI=3
@@ -5081,7 +5099,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5145,7 +5163,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5198,7 +5216,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5283,7 +5301,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IF (ILOC(N1)==0) THEN
@@ -5343,7 +5361,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5394,7 +5412,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5478,7 +5496,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,IRTLM(4),NEI
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5551,7 +5569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5612,7 +5630,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -6092,7 +6110,7 @@ C
          ENDIF
         ENDDO
       ENDDO
-C-----main nodes traitement spec.------
+C---- Main node treatment spect .------
       DO J=1,NRBYAC
        IF (IA(J)==1) THEN
         N=IRBYAC(J)
@@ -6430,7 +6448,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6494,7 +6512,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6548,7 +6566,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6651,7 +6669,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,NSN
       INTEGER I,J,K,L,NDOFI,N,IAD,N_IMP,NRTS,IDEL(NT_IMP),NEW_IAD
-C--------ramener NDOF des secnds remotes-----------------------------------
+C--------ramener NDOF des seconds remotes-----------------------------------
       IF (NSPMD>1) THEN
       ENDIF 
 C
@@ -6758,7 +6776,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -6802,7 +6820,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6844,7 +6862,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IDEL_INT(I) = NDOF(N1)
@@ -6917,7 +6935,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,K,ICOL(NDDL),L_NZ,NRI,JD
-C----6--------opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(chaque isetk)
+C---- 6 ------- OPT.Consider-Creer from nodal arrays-, IADM, JDIM+UPD_ (Each ISETK)
       L_NZ = 0
       IADM(L_NZ+1) = L_NZ+1
       DO I = 1,NDDL
@@ -6962,7 +6980,7 @@ C-----------------------------------------------
       INTEGER I,J,II,IT,IMIN
 C
       IF (N==0) RETURN
-C-----en ordre croisante-----
+C----- In increasing order -----
       DO I =1,N
        IMIN=IC(I)
        II=I
@@ -7123,7 +7141,7 @@ C-----------L->K^2----------
         ENDDO 
         IADL(I+1) = L_NZ+1
        ENDDO
-C-----------K0-> K^2-complet---------
+C-----------K0-> K^2-complete---------
        DEALLOCATE(JDIK0)
        ALLOCATE(JDIK0(2*L_NZ))
        DO I = 1, NDDL
@@ -7202,7 +7220,7 @@ C-----------------------------------------------
       INTEGER  I,J,K,ICOL(NDDL),ICRI(NDDL),L_NZ,NRI,JD,NR0
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADK0,JDIK0
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADL,JDIL
-C----6--opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(chaque isetk)
+C---- 6--Opt.Consider-Creer from nodal arrays-, IADM, JDIM+UPD_ (Each ISETK)
       L_NZ = 2*(IADK(NDDL+1)-IADK(1))
 C       
       ALLOCATE(IADK0(NDDL+1),JDIK0(L_NZ))
@@ -7343,7 +7361,7 @@ C
         ALLOCATE(IADL(NDDL+1),JDIL(L_NZ))
         CALL CP_INT(NDDL+1,IADM,IADL)
         CALL CP_INT(L_NZ,JDIM,JDIL)
-C-----------K0-> K^2-complet---------
+C-----------K0-> K^2-complete---------
         DEALLOCATE(JDIK0)
         ALLOCATE(JDIK0(2*L_NZ))
         DO I = 1, NDDL
@@ -7815,7 +7833,7 @@ C
        IDIC(I)=IDDL(IC(I))
       ENDDO
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I

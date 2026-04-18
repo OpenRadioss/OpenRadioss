@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -140,7 +140,7 @@ c
       CALL READ_BOX_BOX(IBOX     ,IAD      ,NBOX_BOX  ,LSUBMODEL)
 c
 c--------------------------------------------------
-c     Recherche des ID doubles
+c     Search for double IDs
 c
       CALL MY_ALLOC (IBOXTMP  ,NBOX )
       IBOXTMP(1:NBOX) = IBOX(1:NBOX)%ID

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      IBFV,    IECRAN,  ILAS,     LACCELM, 
      .      NNLINK,  LNLINK,  IPARG,   DD_IAD,  IGRV, 
      .      IEXLNK,  IBVEL,    LBVEL,   IACTIV,  IBMPC, 
-     .      KINET,   IPARI,   NPRW,    LPRW,    
+     .      IPARI,   NPRW,    LPRW,    
      .      ICONX,   LGAUGE,
      .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD,  MADFAIL, 
      .      NPBY,    NPBYL,   LPBY,     LPBYL,   LRIVET,  NSTRF,
@@ -127,8 +127,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      RIVET,   SECBUF,  VOLMON,  LAMBDA,  WA,      FV, 
      .      PARTSAV,
      .      UWA,     VAL2,    PHI,
-     .      R,       ESTIF,   CRFLSW,  FLSW,    FANI,
-     .      XCUT,    ANIN,    TANI,    SECFCUM, WASPH, 
+     .      R,       ESTIF,   CRFLSW,  FLSW,    
+     .      XCUT,     TANI,    SECFCUM, WASPH, 
      .      W16,     DRETRIO, LBVRS,   PV,      RCONX  , RCONTACT,
      .      ACONTACT,PCONTACT,
      .      FACTIV,           RBYM,
@@ -167,7 +167,7 @@ C     SH4TREE(KSHTREE,NUMELC), SH3TREE(KSHTREE,NUMELTG)
 C     1: father
 C     2: 1st son (2nd son = 1st + 1, 3rd son = 1st + 2, 4th son = 1st + 3)
 C     3:   = LEVEL SI ACTIVE
-C         = -(LEVEL+1) SINON
+C         = -(level+1) otherwise
 C     4: group Number
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: SH4TREE,SH3TREE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER DIM,ITASK,WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
+      INTEGER DIM,WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
       INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL)
       INTEGER ,INTENT(IN) :: FR_DAMP_VREL(NSPMD+2,NDAMP_VREL),IPARIT,ISPMD
       my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
@@ -72,12 +72,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE,ITYPE
+      INTEGER I,N,ND,IGR,ISK,FL_VREL,ID_RBY,FL_FREQ_RANGE,ITYPE
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
-      my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
+      my_real :: DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
      .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3),
-     .           DAM(3),DARM(3),DFM,GET_U_FUNC
+     .           GET_U_FUNC
       EXTERNAL GET_U_FUNC      
 C-----------------------------------------------
 C     C = a M + b K
@@ -193,7 +193,7 @@ C
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
                             NEED_COMPUTE = .TRUE.
                             IF (DAMPR(19,ND)/=0) THEN
                                 IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
@@ -415,7 +415,7 @@ C-------------------------------------------------
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
                             NEED_COMPUTE = .TRUE.
                             IF (DAMPR(19,ND)/=0) THEN
                                 IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
@@ -581,7 +581,7 @@ C-------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 351
@@ -603,7 +603,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 451
             ENDIF
@@ -624,7 +624,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 551
               I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1
@@ -680,7 +680,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)    
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 751
@@ -703,7 +703,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN   
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 851       
             ENDIF
@@ -725,7 +725,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 951
               I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1      
@@ -810,7 +810,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER DIM,ITASK,WEIGHT(*),TAGSLV_RBY(*)
+      INTEGER DIM,WEIGHT(*),TAGSLV_RBY(*)
       my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(4,*), DAMP(DIM,*)
       DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
@@ -819,7 +819,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ND,IGR
-      my_real BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,DA,DW,OMEGA
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
@@ -909,7 +909,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N
-      my_real BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,DA,DW,OMEGA
 C-----------------------------------------------
 C
 C     C = a M + b K
@@ -917,7 +917,7 @@ C
 C
 C     Fint(1)  = Fint0(0) + K v(1/2) dt1 + C v(1)
 C     Fint0(1) = Fint0(0) + K v(1/2) dt1
-C     Fint(1)  = Fint0(1) + C v(1)
+C     Fint (1) = fint0 (1) + c'v (1)
 C     Fint(1)  = Fint0(1) + [a M + b K] v(1)
 C
 C     a0(1) = a0(0) - K/M v(1/2) dt1

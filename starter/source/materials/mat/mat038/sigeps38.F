@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -370,7 +370,7 @@ C ROTATE STORED VALUES IN GLOBAL DIRECTIONS INTO NEW PRINCIPAL DIRECTIONS
                 UVAR(I,N+3*(M-1)) = SN(N,N)
               ENDDO
             ENDDO
-C           pour la partie decay et hysteresis
+C           for the decay and hysteresis part
             IF (BETA>TINY) THEN
             DO M=1,2
               DO  N=1,3

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
 !||====================================================================
       module rbe3f_pen_mod
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty force, stiffness update
@@ -38,19 +39,19 @@
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine rbe3f_pen(                                           &
-          ns      ,nmt0        ,numnod     ,nmt         ,         &
-          nml     ,iml         ,ilsk       ,iadmp       ,         &
-          a       ,ar          ,am         ,arm         ,         &
+        subroutine rbe3f_pen(                                     &
+          ns      ,numnod      ,dt1         ,iroddl     ,         &
+          nml     ,iml         ,ilsk        ,in         ,         &
+          a       ,ar          ,am          ,arm        ,         &
           stifn   ,stifr       ,stifnm      ,stifrm     ,         &
           v       ,vr          ,frbe3       ,x          ,         &
           lskew   ,numskw      ,skew        ,rrbe3pen_f ,         &
-          rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi ,rrbe3pen_m ,         &
-          dt1     ,in          ,iroddl      )
+          rrbe3pen_stf,rrbe3pen_fac,rrbe3pen_vi ,rrbe3pen_m,      &
+          icoline )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em20,third,fourth,ten,em6,em12
+          use constant_mod,          only : half,one,two,zero,zep05,em20,third,fourth,ten,em6,em12
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -62,15 +63,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                :: ns              !< reference node id
           integer, intent(in)                                :: numnod          !< number of nodes
-          integer, intent(in)                                :: nmt             !< dimension of master AM,ARM
-          integer, intent(in)                                :: nmt0            !< dimension of total master nodes
           integer, intent(in)                                :: nml             !< number of independent nodes
-          integer, intent(in)                                :: lskew           !< 1er dimension of skew
+          integer, intent(in)                                :: lskew           !< first dimension of skew
           integer, intent(in)                                :: numskw          !< number of skew
           integer, intent(in)                                :: iroddl          !< rotational dof flag
+          integer, intent(inout)                             :: icoline         !< flag for colinear case
           integer, dimension(nml),     intent(in   )         :: iml             !< independent node list
           integer, dimension(nml),     intent(in   )         :: ilsk            !< local skew id of independent node
-          integer, dimension(nmt0),    intent(in   )         :: iadmp           !< maping to local ind nodes
           real(kind=WP), dimension(3,numnod),intent(in   )         :: x               !< coordinates
           real(kind=WP), dimension(3,numnod),intent(in   )         :: v               !< velocity
           real(kind=WP), dimension(3,numnod),intent(in   )         :: vr              !< rotational velocity
@@ -83,24 +82,24 @@
           real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_m      !< moment
           real(kind=WP), dimension(3,numnod),intent(inout)         :: a               !< nodal internal force
           real(kind=WP), dimension(3,numnod),intent(inout)         :: ar              !< rotational internal force
-          real(kind=WP), dimension(3,nmt),   intent(inout)         :: am              !< local nodal internal force of ind
-          real(kind=WP), dimension(3,nmt),   intent(inout)         :: arm             !< local internal moment of ind
+          real(kind=WP), dimension(3,nml),   intent(inout)         :: am              !< local nodal internal force of ind
+          real(kind=WP), dimension(3,nml),   intent(inout)         :: arm             !< local internal moment of ind
           real(kind=WP), dimension(numnod),  intent(inout)         :: stifn           !< nodal stifness
           real(kind=WP), dimension(numnod),  intent(inout)         :: stifr           !< nodal rotational stifness
-          real(kind=WP), dimension(nmt),     intent(inout)         :: stifnm          !< local stifness of ind
-          real(kind=WP), dimension(nmt),     intent(inout)         :: stifrm          !< local rotational stifness of ind
+          real(kind=WP), dimension(nml),     intent(inout)         :: stifnm          !< local stifness of ind
+          real(kind=WP), dimension(nml),     intent(inout)         :: stifrm          !< local rotational stifness of ind
           real(kind=WP), dimension(lskew,numskw),intent(in)        :: skew            !< local skew
           real(kind=WP), dimension(numnod),  intent(in   )         :: in              !< nodal inertia
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,icoline,iel,el(3,3,nml)
-          real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
+          integer :: i,k,m,iel,el(3,3,nml)
+          real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,          &
             for,mom,drot,rR,rn,vl,vrl,gminvmR,                    &
             frefb,mrefb,mrefr,mrefbr,mref0,fn,vrg,vrt
           real(kind=WP) :: wi(nml),rndotrn,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2
+          real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref
           real(kind=WP) :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
           double precision :: disdp(3)
 ! ======================================================================================================================
@@ -118,7 +117,7 @@
             m = iml(i)
             xbar(1:3) = xbar(1:3)+wi(i)*x(1:3,m)
             vts(1:3)  = vts(1:3)+wi(i)*v(1:3,m)
-          enddo
+          end do
 !
           disdp(1:3)= x(1:3,ns) - xbar(1:3)
           rR(1:3)   = disdp(1:3)
@@ -157,7 +156,7 @@
             dwrv(3) = wi(i)*(rn(1)*vl(2)-rn(2)*vl(1))
             wrv(1:3) = wrv(1:3)+dwrv(1:3)
 !
-          enddo
+          end do
           icoline = 0
           det =                                                          &
             (gamma(1)*(gamma(5)*gamma(9)-gamma(6)*gamma(8))-       &
@@ -206,18 +205,18 @@
                   el(i,1,k) = skew(i,iel)
                   el(i,2,k) = skew(i+3,iel)
                   el(i,3,k) = skew(i+6,iel)
-                enddo
+                end do
               else
                 do i = 1, 3
                   el(i,i,k) = one
-                enddo
-              endif
+                end do
+              end if
               vrl(1:3) = el(1:3,1,k)*vr(1,m)+el(1:3,2,k)*vr(2,m)+el(1:3,3,k)*vr(3,m)
               vrl(1:3) = wri(1:3,k)*vrl(1:3)
               vrg(1:3) = el(1,1:3,k)*vrl(1)+el(2,1:3,k)*vrl(2)+el(3,1:3,k)*vrl(3)
               omgRb(1:3)  = omgRb(1:3)+vrg(1:3)
-            enddo
-          endif
+            end do
+          end if
 ! incre. force,moment
 !          disp(1:3) = disdp(1:3) - rrbe3pen_d(1:3)
 !          lms2=disdp(1)*disdp(1)+disdp(2)*disdp(2)+disdp(3)*disdp(3)
@@ -234,11 +233,12 @@
           fac_ref = fac_vi*rrbe3pen_fac
           stifn(ns) = stifn(ns)+fac_ref*rrbe3pen_stf(1)
           if (iroddl>0) then
-            if (in(ns)>zero) then
+            if (in(ns)>zero.and.rrbe3pen_stf(2)>em20) then
               drot(1:3) = (vr(1:3,ns)-omgRb(1:3))*dt1
               mom(1:3) = rrbe3pen_m(1:3)+ rrbe3pen_stf(2)*drot(1:3)
               rrbe3pen_m(1:3) = mom(1:3)
-              stifr(ns) = stifr(ns)+rrbe3pen_stf(2)
+              facr = max(one,half*rrbe3pen_fac)
+              stifr(ns) = stifr(ns)+facr*rrbe3pen_stf(2)
               ar(1:3,ns) = ar(1:3,ns) - mom(1:3) ! a(1:3,ns) will be updated at the end
             end if
           end if
@@ -251,21 +251,20 @@
           stfr = rrbe3pen_stf(2)     ! only stifnr will be condensed to idep for time step concern
           if (icoline>0) then
             do i=1,nml
-              k = iadmp(i)
               wmax=max(wri(1,i),wri(2,i),wri(3,i))
               facn = wi(i)*wi(i)
               facr  = wmax*wmax
-              stifnm(k) = stifnm(k) + stfn*facn
-              stifrm(k) = stifrm(k) + stfr*facr
+              stifnm(i) = stifnm(i) + stfn*facn
+              stifrm(i) = stifrm(i) + stfr*facr
 !
               fn(1:3) = wi(i)*frefb(1:3)
               for(1:3) = for(1:3) + fn(1:3)
-              am(1:3,k) = am(1:3,k) + fn(1:3)
+              am(1:3,i) = am(1:3,i) + fn(1:3)
 !
               mrefr(1:3) = mrefb(1)*el(1,1:3,i)+mrefb(2)*el(2,1:3,i)+mrefb(3)*el(3,1:3,i)
               mrefr(1:3) = wri(1:3,i)*mrefr(1:3)
               mref0(1:3) = mrefr(1)*el(1:3,1,i)+mrefr(2)*el(1:3,2,i)+mrefr(3)*el(1:3,3,i)
-              arm(1:3,k) = arm(1:3,k) + mref0(1:3)
+              arm(1:3,i) = arm(1:3,i) + mref0(1:3)
             end do
           else
 !
@@ -277,7 +276,6 @@
             gminvmR(3) = gminv(3)*mrefbr(1)+gminv(6)*mrefbr(2)+ gminv(9)*mrefbr(3)
             do i=1,nml
               m = iml(i)
-              k = iadmp(i)
               disdp(1:3)= x(1:3,m) - xbar(1:3)
               rn(1:3) = disdp(1:3)
 !   matrix S(rn) for each master node
@@ -309,7 +307,7 @@
                 aar(1,1)*aar(1,1)+aar(2,1)*aar(2,1)+aar(3,1)*aar(3,1),       &
                 aar(1,2)*aar(1,2)+aar(2,2)*aar(2,2)+aar(3,2)*aar(3,2),       &
                 aar(1,3)*aar(1,3)+aar(2,3)*aar(2,3)+aar(3,3)*aar(3,3))
-              stifnm(k) = stifnm(k) + stfn*facn+stfr*facr
+              stifnm(i) = stifnm(i) + stfn*facn+stfr*facr
 !
               tmrn(1) = gminvmR(2)*rn(3)-gminvmR(3)*rn(2)
               tmrn(2) = gminvmR(3)*rn(1)-gminvmR(1)*rn(3)
@@ -317,10 +315,10 @@
               fn(1:3) = wi(i)*(frefb(1:3)+tmrn(1:3))
 !
               for(1:3) = for(1:3) + fn(1:3)
-              am(1:3,k) = am(1:3,k) + fn(1:3)
+              am(1:3,i) = am(1:3,i) + fn(1:3)
             end do
 !
-          endif !if (icoline>0) then
+          end if !if (icoline>0) then
 !
           a(1:3,ns) = a(1:3,ns) - for(1:3)
 !

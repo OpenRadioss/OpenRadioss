@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C-----------------------------------------------
      .   GAM,RHO10,RHO20,P0,VFRAC1,VFRAC2,UVAR1,A1,R1,VISA1,VISB1,VISA2,VISB2,
      .   B1,B2,MAS1,MAS2,SSP1,SSP2,VIS(MVSIZ),A
      
-      INTEGER ISOLVER
+      INTEGER ISOLVER,NUPARAM
 
      
 c-----------------------------------------------
@@ -75,7 +75,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       IADBUF   = IPM(7,MAT(1))
-      UPARAM   =>BUFMAT(IADBUF:IADBUF+17)
+      NUPARAM  = IPM(9,MAT(1))
+      UPARAM   =>BUFMAT(IADBUF:IADBUF+NUPARAM-1)
       ISOLVER  = UPARAM(17)
       A1       = UPARAM(10) !mfrac_liq
       RHO10    = UPARAM(11)

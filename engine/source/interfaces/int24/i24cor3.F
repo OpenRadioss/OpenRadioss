@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -143,7 +143,7 @@ C
            IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
-C---------------voir KINET(IG) est initi   quand    
+C-------------- see Kinet (IG) is initial when    
             IF (IG <= NUMNOD) THEN         
              KINI(I) = KINET(IG)
              XI(I) = X(1,IG)
@@ -635,7 +635,7 @@ C----------
         ENDDO
       ENDIF
          
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)
@@ -670,7 +670,7 @@ C
          ENDDO
        ENDIF
 C
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTNITSCHE > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)
@@ -690,7 +690,7 @@ C----Friction model : secnd part IDs---------
 C
       IF(NINLOADP > 0) THEN
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
         DO I=1,JLT 
@@ -742,7 +742,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER ITAG(NRTSE),IE1,IE2
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
@@ -827,7 +827,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER IE1,IE2
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
@@ -905,7 +905,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER IE1,IE2
       INTEGER I ,J  ,IL, L, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,ip,SN
@@ -978,9 +978,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,L, NN, IG,JFT, IX,  NI
       my_real
-     .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB
+     .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB,R_MIN
 C-----------------------------------------------
 C--- fixing min(stif) with Inacti=-1
+      R_MIN = ONE
       IF (INACTI==-1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
@@ -993,6 +994,7 @@ C--- fixing min(stif) with Inacti=-1
           END IF
           STIF(I) = MIN(STIF_S,STF(L))
           STIF_R(I) = STIF(I)/MAX(STIF_S,STF(L))
+          R_MIN = MIN(R_MIN,STIF_R(I))
           IF(IGSTI==2) STIF(I) = HALF*(STIF_S+STF(L)) !option Inacti=-2
          ENDDO
       ELSEIF (IGSTI==-1)THEN
@@ -1013,14 +1015,12 @@ C--- fixing min(stif) with Inacti=-1
          FA = MIN(ONE,THREE*TNCY)
          FAB= MAX(ZERO,THREE*TNCY-ONE)
          FB = MAX(ZERO,THREE*TNCY-TWO)
-         F_PFIT = EM04*(FA+FAB)+FB
-         DO I=1,JLT
-           IF (STIF_R(I)>ZEP05) THEN
-             STIF(I)=TWENTY*F_PFIT*STIF(I)
-           ELSE
-             STIF(I)=F_PFIT*STIF(I)
-           END IF
-         ENDDO
+         IF (IGSTI==2.AND.R_MIN>ZEP05) THEN
+           F_PFIT = EM04*FA+EM02*FAB+FB
+         ELSE
+           F_PFIT = EM04*(FA+FAB)+FB
+         END IF
+         STIF(1:JLT)=F_PFIT*STIF(1:JLT)
          IF (FB >ZERO.AND.IGSTI/=2) THEN 
            DO I=1,JLT
              IF (STIF_R(I)<ZEP05) IKNON(I) = 1 

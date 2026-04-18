@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,12 +37,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                          KNOD2ELTG ,NOD2ELTG ,NSEG      ,IEXT      ,IPARTC    ,
      .                          IPARTS    ,IPARTG   ,CLAUSE    ,BUFTMPSURF,IAD_SURF  ,
      .                          OPT_O     ,IPART    ,KNOD2ELQ  ,NOD2ELQ   ,X         ,
-     .                          IXQ       ,KEYSET)
+     .                          IXQ       ,KEYSET   ,IPARTQ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
      .        KNOD2ELC(*),NOD2ELC(*),KNOD2ELTG(*),NOD2ELTG(*),
      .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTG(*),
      .        BUFTMPSURF(*),IPARTS(*),SH4TREE(*),SH3TREE(*),
-     .        IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
+     .        IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*),IPARTQ(NUMELQ)
       INTEGER IEXT,NSEG,IAD_SURF,OPT_O
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
       my_real X(3,*)
@@ -77,7 +78,7 @@ C=======================================================================
      .                            IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
      .                            KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
      .                            NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
-     .                            IAD_SURF ,KEYSET)
+     .                            IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
 !
 !     ---  shell + sh3n ---
 !
@@ -105,7 +106,7 @@ C=======================================================================
 !
       IF ( CLAUSE%NB_QUAD > 0 ) CALL QUAD_SURFACE_BUFFER(
      .                           IXQ     ,IAD_SURF ,BUFTMPSURF ,NSEG  ,KNOD2ELQ ,
-     .                           NOD2ELQ ,IEXT     ,X          ,CLAUSE)
+     .                           NOD2ELQ ,IEXT     ,X          ,CLAUSE,IPARTQ)
 !---
       RETURN
       END

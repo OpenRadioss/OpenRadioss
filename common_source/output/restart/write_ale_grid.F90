@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module write_ale_grid_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -76,7 +77,7 @@
             rtmp(10:15) = ale%grid%flow_tracking_data%beta0(1:6)
             rtmp(16) = ale%grid%flow_tracking_data%ms_elem_mean_0
             call write_db(rtmp,16)
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,17 +26,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genstat                         ../engine/source/output/sta/genstat.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                          ../engine/source/output/message/message.F
-!||    close_c                         ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c                       ../common_source/tools/input_output/write_routtines.c
-!||    open_c                          ../common_source/tools/input_output/write_routtines.c
+!||    close_c                         ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c                       ../common_source/tools/input_output/write_routines.c
+!||    open_c                          ../common_source/tools/input_output/write_routines.c
 !||    quicksort                       ../common_source/tools/sort/quicksort.F
 !||    quicksort_i2                    ../common_source/tools/sort/quicksort.F
 !||    spmd_state_inimap2d_exch_data   ../engine/source/output/sta/spmd_state_inimap2d_exch_data.F
 !||    spmd_state_inimap_exch_siz      ../engine/source/output/sta/spmd_state_inimap_exch_siz.F
 !||    write_db                        ../common_source/tools/input_output/write_db.F
-!||    write_i_c                       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                     ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod                   ../common_source/modules/inoutfile_mod.F
 !||    matparam_def_mod                ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod                     ../engine/share/message_module/message_mod.F
@@ -67,6 +68,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,9 +101,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ,J, IPRT0, IPRT, K, STAT_NUMELS_1, KK, INOD
-      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF,NPT
-      INTEGER NUM_CENTROIDS, MLW,IFORM,NBMAT,NB2,ISUBMAT,NNOD,NNOD2
+      INTEGER I, N, JJ, J, IPRT, K, KK, INOD
+      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, NPT
+      INTEGER NUM_CENTROIDS, MLW, NBMAT, NB2, ISUBMAT, NNOD
       INTEGER NUVAR
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       my_real MIN_X,MIN_Y,MIN_Z,MAX_X,MAX_Y,MAX_Z,P0(3),P0_INF(3),P0_SUP(3),LENGTH
@@ -112,7 +114,7 @@ C-----------------------------------------------
       my_real DOTPROD,TOL,XYZ(3),VEL(3),DIST,VECT(3)
       CHARACTER FILNAM*2048, SHORTNAME*128, CHSTAT*4
       INTEGER XMIN_CELL_ID,YMIN_CELL_ID,ZMIN_CELL_ID,XMAX_CELL_ID,YMAX_CELL_ID,ZMAX_CELL_ID
-      INTEGER IS_ITY_1, IS_ITY_2, IS_ITY_7, LAST_CELL,FIRST_CELL,IMAT,NPAR,IADBUF
+      INTEGER IS_ITY_1, IS_ITY_2, IS_ITY_7, IMAT, NPAR, IADBUF
       INTEGER, POINTER,DIMENSION(:) :: IPART_PTR
       my_real, POINTER,DIMENSION(:) :: UPARAM
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
@@ -198,8 +200,8 @@ C-----------------------------------------------
               NUM_CENTROIDS = NUM_CENTROIDS +1                                                                                
               DO K=1,NPT                                                                                                      
                 IF(IS_ITY_1==1)INOD=IXS(1+K,N)                                                                                
-                IF(IS_ITY_2==1)INOD=IXQ(1+K,N)  !faire passer IX (pointeur, en argument) et NIX => routine generique   
-                IF(IS_ITY_7==1)INOD=IXTG(1+K,N)  !faire passer IX (pointeur, en argument) et NIX => routine generique                          
+                IF(IS_ITY_2==1)INOD=IXQ(1+K,N)  !pass IX (pointer, argument) and nix => generic routine   
+                IF(IS_ITY_7==1)INOD=IXTG(1+K,N)  !pass IX (pointer, argument) and nix => generic routine                          
                 IF(IS_ITY_1==1)NODTAG(IXS(1+K,N)) = 1
                 IF(IS_ITY_2==1)NODTAG(IXQ(1+K,N)) = 1
                 IF(IS_ITY_7==1)NODTAG(IXTG(1+K,N)) = 1                                                                       
@@ -420,7 +422,7 @@ C-----------------------------------------------
               IADBUF = IPM(7,IMAT)                                                                                              
               NPAR = IPM(9,IMAT)                                                                                                
               NUVAR = IPM(8,IMAT)                                                                                               
-              UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
+              UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
               KK = M51_N0PHAS + (UPARAM(276+ISUBMAT)-1)*M51_NVPHAS !bug in SP 
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
@@ -565,7 +567,7 @@ C-----------------------------------------------
         CALL QUICKSORT(WORK(:,5), IDX, 1, NPTS_TOT) 
         
         
-        !---remove duplicates (possible common nodes on adjacent domains)
+        !--- Remove duplicates (possible Common Nodes on Adjacent Domains)
         ! STAGGERED SCHEME ONLY
         !
         IF(MLW /= 151)THEN

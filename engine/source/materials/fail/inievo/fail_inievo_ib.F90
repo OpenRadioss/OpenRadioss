@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
 !||====================================================================
       module fail_inievo_ib_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   inievo failure criteria for type18 beam elements
@@ -45,8 +46,8 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||====================================================================
-        subroutine fail_inievo_ib (                                               &
-          nel     ,nuparam  ,nuvar    ,                                  &
+        subroutine fail_inievo_ib (                                      &
+          nel     ,nuparam  ,nuvar    ,nvartmp ,vartmp     ,             &
           table   ,ntablf   ,itablf   ,time    ,uparam     ,             &
           ngl     ,aldt     ,dpla     ,epsp    ,uvar       ,             &
           signxx  ,signxy   ,signzx   ,                                  &
@@ -74,6 +75,8 @@
           integer                     ,intent(in)     :: nel      ! size of element group
           integer                     ,intent(in)     :: nuparam  ! size of parameter array
           integer                     ,intent(in)     :: nuvar    ! size of user variable array
+          integer                     ,intent(in)     :: nvartmp  ! 
+          integer, dimension(nel,nvartmp), intent(inout)   :: vartmp
           type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
           integer                     ,intent(in)     :: ntablf   ! number of table functions
           integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
@@ -103,9 +106,8 @@
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i, j, nindx, failip, ninievo, ilen
+          integer :: i, j, k, l, nindx, failip, ninievo, ilen
           integer, dimension(nel) :: indx, nrot
-          integer, dimension(nel, 2) :: ipos
 
           integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp, tab_id, &
             tab_el, fcrit
@@ -113,7 +115,7 @@
           real(kind=WP), dimension(:), allocatable :: sr_ref, fscale, ini_p1, el_ref, elscal, disp, &
             ener, alpha2
 
-          real(kind=WP) :: lambda, fac, df, sxx, syy, szz, plas_disp, r_inter, yld0, center, &
+          real(kind=WP) ::  sxx, syy, szz, plas_disp, r_inter, yld0, center, &
             devsp1, devsp2, radius, sigp1, sigp2
           real(kind=WP), dimension(nel) :: l0, triax, epsf, depsf, sizefac, epsmod, p, svm, &
             dmgmax, dmgmul, maxshear, sigpmaj, alpha, dsize
@@ -128,7 +130,7 @@
           !c! user variable # 2,              positive stress triaxiality bounded plastic strain
           !c! user variable # 3+(j-1)*3,      damage initiation variable
           !c! user variable # 4+(j-1)*3,      damage evolution variable
-          !c! user variable # 5,              pla ou sigy
+          !c! user variable # 5,              pla or sigy
 !c===============================================================================================
           !step1: recovering failure criterion parameters and initiation
           !=======================================================================
@@ -171,7 +173,7 @@
             disp(j)    = uparam(17 + 14*(j-1)) !plastic displacement at failure.
             alpha2(j)  = uparam(18 + 14*(j-1)) !exponential shape parameter (not applicable for exponential energy- based evolution).
             ener(j)    = uparam(19 + 14*(j-1)) !fracture energy.
-          enddo
+          end do
 !c
           ! element characteristic length computation
           !  -> initial values
@@ -180,8 +182,8 @@
             if (ilen == 1) then  !for beam, it can only be 1
               uvar(1:nel,1) = aldt(1:nel)
               ! -> geometric formulation, not possible for beam
-            endif
-          endif
+            end if
+          end if
 
           l0(1:nel) = uvar(1:nel,1)
           ! positive stress triaxiality bounded plastic strain
@@ -197,8 +199,8 @@
               dmgini(i,j) = uvar(i,3+(j-1)*3)
               ! evolution damage
               dmgevo(i,j) = uvar(i,4+(j-1)*3)
-            enddo
-          enddo
+            end do
+          end do
           ! criterion number leading to element deletion
           fcrit(1:nel) = 0
           !====================================================================
@@ -233,7 +235,7 @@
             sigtens(i,3,2) = 0.
             sigtens(i,1,3) = signzx(i)
 !c
-          enddo
+          end do
 !c
           ! compute principal stresses
           call jacobiew_v(nel,3,sigtens,sig_pr,vect_pr,nrot)
@@ -245,17 +247,17 @@
               r_inter     = sig_pr(i,1)
               sig_pr(i,1) = sig_pr(i,2)
               sig_pr(i,2) = r_inter
-            endif
+            end if
             if (sig_pr(i,2) < sig_pr(i,3)) then
               r_inter     = sig_pr(i,2)
               sig_pr(i,2) = sig_pr(i,3)
               sig_pr(i,3) = r_inter
-            endif
+            end if
             if (sig_pr(i,1) < sig_pr(i,2)) then
               r_inter     = sig_pr(i,1)
               sig_pr(i,1) = sig_pr(i,2)
               sig_pr(i,2) = r_inter
-            endif
+            end if
             sigpmaj(i)  = sig_pr(i,1)
 
             maxshear(i) = (sig_pr(i,1)-sig_pr(i,3))*half
@@ -269,7 +271,7 @@
             devsp2 = sigp2  - third*(sigp1+sigp2)
             alpha(i) = devsp2/sign(max(abs(devsp1),em20),devsp1)
 !c
-          enddo
+          end do
 !c
           !====================================================================
           ! - compute damage initiation and evolution
@@ -284,7 +286,7 @@
              case(2)
               do i = 1,nel
                 xvec(i,1) = (svm(i) + ini_p1(j)*p(i))/max(maxshear(i),em08)
-              enddo
+              end do
               ! msfld / fld
              case(3,4)
               xvec(1:nel,1) = alpha(1:nel)
@@ -292,11 +294,11 @@
              case(5)
               do i = 1,nel
                 xvec(i,1) = (svm(i) + ini_p1(j)*p(i))/max(sigpmaj(i),em08)
-              enddo
+              end do
             end select
             xvec(1:nel,2)   = epsp(1:nel)/sr_ref(j)
-            ipos(1:nel,1:2) = 1
-            call table_vinterp(table(tab_id(j)),nel,nel,ipos,xvec,epsf,depsf)
+            k = j*2 - 1
+            call table_vinterp(table(tab_id(j)),nel,nel,vartmp(1:nel,k:k+1),xvec,epsf,depsf)
 
             epsf(1:nel) = epsf(1:nel)*fscale(j)
 !c
@@ -309,19 +311,19 @@
                case(2)
                 do i = 1,nel
                   xvec(i,2) = (svm(i) + ini_p1(j)*p(i))/max(maxshear(i),em08)
-                enddo
+                end do
                case(3,4)
                 xvec(1:nel,2) = alpha(1:nel)
                case(5)
                 do i = 1,nel
                   xvec(i,2) = (svm(i) + ini_p1(j)*p(i))/max(sigpmaj(i),em08)
-                enddo
+                end do
               end select
-              ipos(1:nel,1:2) = 1
-              call table_vinterp(table(tab_el(j)),nel,nel,ipos,xvec,sizefac,dsize)
+              l = k + ninievo*2
+              call table_vinterp(table(tab_el(j)),nel,nel,vartmp(1:nel,l:l+1),xvec,sizefac,dsize)
               sizefac(1:nel) = sizefac(1:nel)*elscal(j)
               epsf(1:nel) = epsf(1:nel)*sizefac(1:nel)
-            endif
+            end if
 !c
             ! update damage initiation
             select case (initype(j))
@@ -330,40 +332,40 @@
                 if ((dpla(i) > zero).and.(dmgini(i,j)<one).and.(foff(i) == one)) then
                   dmgini(i,j) = dmgini(i,j) + dpla(i)/max(epsf(i),em20)
                   dmgini(i,j) = min(dmgini(i,j),one)
-                endif
-              enddo
+                end if
+              end do
              case(3)
               if (nint(ini_p1(j))>0) then
                 do i = 1,nel
                   if (((epsmod(i)-uvar(i,2)) > zero).and.(dmgini(i,j)<one).and.(foff(i) == one)) then
                     dmgini(i,j) = dmgini(i,j) + (epsmod(i)-uvar(i,2))/max(epsf(i),em20)
                     dmgini(i,j) = min(dmgini(i,j),one)
-                  endif
-                enddo
+                  end if
+                end do
               else
                 do i = 1,nel
                   if (((epsmod(i)-uvar(i,2)) > zero).and.(dmgini(i,j)<one).and.(foff(i) == one)) then
                     dmgini(i,j) = max(dmgini(i,j),epsmod(i)/max(epsf(i),em20))
                     dmgini(i,j) = min(dmgini(i,j),one)
-                  endif
-                enddo
-              endif
+                  end if
+                end do
+              end if
              case(4)
               if (nint(ini_p1(j))>0) then
                 do i = 1,nel
                   if ((dpla(i) > zero).and.(dmgini(i,j)<one).and.(foff(i) == one)) then
                     dmgini(i,j) = dmgini(i,j) + dpla(i)/max(epsf(i),em20)
                     dmgini(i,j) = min(dmgini(i,j),one)
-                  endif
-                enddo
+                  end if
+                end do
               else
                 do i = 1,nel
                   if ((dpla(i) > zero).and.(dmgini(i,j)<one).and.(foff(i) == one)) then
                     dmgini(i,j) = max(dmgini(i,j),pla(i)/max(epsf(i),em20))
                     dmgini(i,j) = min(dmgini(i,j),one)
-                  endif
-                enddo
-              endif
+                  end if
+                end do
+              end if
             end select
 !c
             ! update damage evolution
@@ -379,8 +381,8 @@
                     dmgevo(i,j) = dmgevo(i,j) + l0(i)*dpla(i)/disp(j)
                     dmgevo(i,j) = min(one,dmgevo(i,j))
                     if (dmgevo(i,j) >= one) fcrit(i) = j
-                  endif
-                enddo
+                  end if
+                end do
                 ! exponential shape
                case(2)
                 do i = 1,nel
@@ -394,8 +396,8 @@
                     if (dmgevo(i,j) > 0.999d0) dmgevo(i,j) = one
                     dmgevo(i,j) = min(one,dmgevo(i,j))
                     if (dmgevo(i,j) >= one) fcrit(i) = j
-                  endif
-                enddo
+                  end if
+                end do
               end select
               ! fracture energy failure
              case(2)
@@ -410,8 +412,8 @@
                     dmgevo(i,j) = dmgevo(i,j) + dpla(i)*l0(i)*yld0/(two*ener(j))
                     dmgevo(i,j) = min(one,dmgevo(i,j))
                     if (dmgevo(i,j) >= one) fcrit(i) = j
-                  endif
-                enddo
+                  end if
+                end do
                 ! exponential shape
                case(2)
                 do i = 1,nel
@@ -422,8 +424,8 @@
                     if (dmgevo(i,j) > 0.999d0) dmgevo(i,j) = one
                     dmgevo(i,j) = min(one,dmgevo(i,j))
                     if (dmgevo(i,j) >= one) fcrit(i) = j
-                  endif
-                enddo
+                  end if
+                end do
               end select
               ! failure criterion approach
              case default
@@ -433,10 +435,10 @@
                   dmgevo(i,j) = dmgini(i,j)
                   dmgevo(i,j) = min(one,dmgevo(i,j))
                   if (dmgevo(i,j) >= one) fcrit(i) = j
-                endif
-              enddo
+                end if
+              end do
             end select
-          enddo
+          end do
 !c
           !====================================================================
           ! - compute global damage variable and damage scaling
@@ -450,14 +452,14 @@
              case(1)
               do i = 1,nel
                 dmgmax(i) = max(dmgmax(i),dmgevo(i,j))
-              enddo
+              end do
               ! multiplicative damage
              case(2)
               do i = 1,nel
                 dmgmul(i) = dmgmul(i)*(one-dmgevo(i,j))
-              enddo
+              end do
             end select
-          enddo
+          end do
 
           dmgmul(1:nel) = one - dmgmul(1:nel)
           nindx = 0
@@ -474,10 +476,10 @@
                 if (nint(uelr(i)) >= failip) then
                   off(i)    = zero
                   tdele(i)  = time
-                endif
-              endif
-            endif
-          enddo
+                end if
+              end if
+            end if
+          end do
 !c
           !====================================================================
           ! - update the damage scaling factor
@@ -488,7 +490,7 @@
             signxx(i) = signxx(i)*dmg_scale(i)
             signxy(i) = signxy(i)*dmg_scale(i)
             signzx(i) = signzx(i)*dmg_scale(i)
-          enddo
+          end do
 !c
           !====================================================================
           ! - update the user variable
@@ -505,8 +507,8 @@
               uvar(i,3+(j-1)*3) = dmgini(i,j)
               ! evolution damage
               uvar(i,4+(j-1)*3) = dmgevo(i,j)
-            enddo
-          enddo
+            end do
+          end do
 !c
           !====================================================================
           ! - printout data about failed elements
@@ -519,7 +521,7 @@
               if (off(i) == zero) then
                 write(iout, 2000) ngl(i),time
                 write(istdo,2000) ngl(i),time
-              endif
+              end if
             end do
           end if
 !c
@@ -544,11 +546,11 @@
           if (allocated(dmgevo))  deallocate(dmgevo)
           if (allocated(fcrit))   deallocate(fcrit)
 !c-----------------------------------------------------------------------
-1000      format(1x,'FOR BEAM ELEMENT NUMBER ',i10, &
-            ' FAILURE (INIEVO) WITH CRITERION NUMBER ',i3, &
-            ' at gauss point ',i5,' at time :',1pe12.4)
-2000      format(1x,'-- RUPTURE OF BEAM ELEMENT :',i10,  &
-            ' AT TIME :',1pe12.4)
+1000      format(1x,"FOR BEAM ELEMENT NUMBER ",i10, &
+            " FAILURE (INIEVO) WITH CRITERION NUMBER ",i3, &
+            " at gauss point ",i5," at time :",1pe12.4)
+2000      format(1x,"-- RUPTURE OF BEAM ELEMENT :",i10,  &
+            " AT TIME :",1pe12.4)
 
           return
 

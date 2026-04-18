@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,9 +64,9 @@ C-----------------------------------------------
             L_SURF = L_SURF+1
 !        IGRSURF_L(L_SURF+1) = TYPE
             L_SURF = L_SURF+1
-!        IGRSURF_L(L_SURF+1) = ID_MADYMO
+!        Igrsurf_l (l_surf+1) = id_madymo
             L_SURF = L_SURF+1
-!        IGRSURF_L(L_SURF+1) = IAD_BUFR
+!        Igrsurf_l (l_surf+1) = iAd_bufr
             L_SURF = L_SURF+1
 !        IGRSURF_L(L_SURF+1) = NB_MADYMO
             L_SURF = L_SURF+1

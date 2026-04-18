@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    h3d_gather_id_val_test   ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
 !||====================================================================
       module h3d_gather_id_val_mod
+      implicit none
       contains
 !||====================================================================
 !||    h3d_gather_id_val        ../engine/source/output/h3d/spmd/h3d_gather_id_val.F90
@@ -55,12 +56,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: send_size            !< number of elements to send
           integer, intent (in),dimension(send_size)        :: isend_buffer         !< integer buffer to send
-          real, intent (in),dimension(send_size)           :: isend_buffer_real    !< float buffer to send
+          real(kind=4), intent (in),dimension(send_size)   :: isend_buffer_real    !< float buffer to send
           integer , intent (in   )                         :: recv_size            !< total size of elements to receive
           integer, intent (inout  ),dimension(recv_size)   :: irecv_buffer         !< integer buffer to receive
-          real, intent (inout  ),dimension(recv_size)      :: irec_buffer_real     !< float buffer to receive
+          real(kind=4), intent (inout  ),dimension(recv_size) :: irec_buffer_real  !< float buffer to receive
           integer, intent(inout)                           :: shell_stacksize_p0   !< Size of stack after gather
-          integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to recieve from each mpi domain
+          integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to receive from each mpi domain
           integer, intent (in   ),dimension(nspmd+1)       :: p0_offsets           !< offset to apply on integer buffer
           integer, intent (in   )                          :: nspmd                !< number of spmd domain
           integer, intent (in   )                          :: ispmd                !< spmd rank id
@@ -72,7 +73,7 @@
           integer :: integer_size                         !< Size of integer in bytes
           integer :: real_size                            !< Size of real in bytes
           integer :: buffer_size                          !< Size of the buffer in bytes
-          character, dimension(:),allocatable :: buffer   !< recieve buffer for packed data
+          character, dimension(:),allocatable :: buffer   !< receive buffer for packed data
           integer :: iad_recv(nspmd+1)
 
           integer :: i
@@ -81,9 +82,8 @@
           integer :: rec_dim
           integer :: msgtag
           integer :: pos
-          integer :: ierror,msgoff,                     &
+          integer :: ierror,                     &
             status(mpi_status_size)
-          data msgoff/231/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@
             buffer_size = 0
             do i=1,nspmd
               buffer_size = max(buffer_size, p0_sizes(i) )
-            enddo
+            end do
 
             if (buffer_size > 0) then
               buffer_size = (buffer_size+10)*integer_size+(buffer_size+10)*real_size
@@ -106,7 +106,7 @@
               iad_recv(1) = 1
               do i=1,nspmd
                 iad_recv(i+1) = iad_recv(i) + p0_sizes(i)
-              enddo
+              end do
               do i=2,nspmd
                 if (p0_sizes(i) > 0) then
                   l = iad_recv(i)
@@ -121,10 +121,10 @@
                   &       p0_sizes(i) , MPI_REAL, SPMD_COMM_WORLD, ierror)
                   do k=1,p0_sizes(i)
                     irecv_buffer(l+k-1) = irecv_buffer(l+k-1) + p0_offsets(i)
-                  enddo
+                  end do
                   shell_stacksize_p0 = shell_stacksize_p0 + p0_sizes(i)
                 end if
-              enddo
+              end do
             end if
           else
             ! Other processes will send their data to domain 0
@@ -137,11 +137,11 @@
               call mpi_pack(isend_buffer_real, send_size, MPI_REAL, buffer, buffer_size, pos, SPMD_COMM_WORLD, ierror)
               call MPI_Send(buffer, buffer_size, MPI_PACKED, 0, msgtag, SPMD_COMM_WORLD, ierror)
             end if
-          endif
+          end if
 
           if (allocated(buffer))then
             deallocate(buffer)
-          endif
+          end if
 #endif
         end subroutine h3d_gather_id_val
 
@@ -161,9 +161,9 @@
         implicit none
 #include "mpif.h"
         integer,dimension(10) :: isend
-        real,dimension(10) :: isend_real
+        real(kind=4),dimension(10) :: isend_real
         integer,dimension(:),allocatable :: irecv_buffer
-        real,dimension(:),allocatable :: irec_buffer_real
+        real(kind=4),dimension(:),allocatable :: irec_buffer_real
         integer,dimension(:),allocatable :: p0_sizes
         integer,dimension(:),allocatable :: p0_offsets
         integer,dimension(:),allocatable :: it_spmd
@@ -193,7 +193,7 @@
               p0_sizes(i) = 10
             else
               p0_sizes(i) = 0
-            endif
+            end if
             recv_size = recv_size + p0_sizes(i)
             p0_offsets(1) = 0
           end do
@@ -205,7 +205,7 @@
         else
           allocate(p0_sizes(1))
           allocate(p0_offsets(1))
-        endif
+        end if
 
 
         do i=1,send_size
@@ -219,11 +219,11 @@
 
 
         if (rank == 0) then
-          print *, 'Rank 0 received:'
+          print *, "Rank 0 received:"
           print *, irecv_buffer
-          print*,'flt'
+          print*,"flt"
           print *, irec_buffer_real
-        endif
+        end if
         call mpi_barrier(MPI_COMM_WORLD,ierr)
         call mpi_finalize(ierr)
 

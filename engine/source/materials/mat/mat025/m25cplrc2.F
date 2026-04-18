@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -151,7 +151,7 @@ C
          A12(I) = NU21(I)*A11(I)*SCALE
       ENDDO
 C-------------------------------------------------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C-----------------------------
       DO I=JFT,JLT
       T1(I)   =A11(I)*S1(I)+A12(I)*S2(I)
@@ -282,7 +282,7 @@ C------for QEPH
           END IF
       END DO 
 C-------------------------------------------------------------------
-C     RETOUR DANS LE REPERE COQUE
+C     return to shell reference frame
 C-----------------------------
 !! temporary replaced by (the same) ROTO_SIG() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified

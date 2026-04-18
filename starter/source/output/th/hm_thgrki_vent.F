@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -151,7 +151,7 @@ C-----------------------------------------------
         CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE) 
         IF (NSUBDOM>0) THEN
-C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
+C-----------> Multidomatic-we jump if the entity no longer exists ----------------------- 
           IF(R2R_EXIST(ITYP,N)==0) CYCLE
 C---------------------------------------------------------------------- 
         ENDIF 
@@ -232,7 +232,7 @@ C
           CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,KK,40,IS_AVAILABLE) 
           IF(N/=0)THEN
                IF (NSUBDOM>0) THEN
-C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
+C-----------> Multidomatic-we jump if the entity no longer exists ----------------------- 
                  IF(R2R_EXIST(ITYP,N)==0) CYCLE
                ENDIF
 C---------------------------------------------------------------------- 

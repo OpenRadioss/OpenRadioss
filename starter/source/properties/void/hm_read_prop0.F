@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,7 +81,7 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP, K, N, IHBE, ISMSTR, ISORTH, ISHEAR
+      INTEGER IHBE, ISMSTR, ISORTH, ISHEAR
       my_real
      .   PUN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -100,7 +100,7 @@ C
       IF(ISMSTR==3.AND.IGTYP/=6.AND.IGTYP/=14)THEN
         GEO(5)=EP06
       ENDIF
-C  double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12, I) = Igtyp after tests
       IGEO( 1)=IG
       IGEO(10)=IHBE
       IGEO(11)=IGTYP

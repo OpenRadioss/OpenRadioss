@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NNOD_S, NNOD_S_L, TYP_S, NSINT_S,
-     .        N, IP, J, K0, K2, KR_L, KR, K
+     .        N, J, K0, K2, KR_L, KR, K
       my_real
      .        SECBUF_L(LSECBUF_L)
 C
@@ -77,7 +77,7 @@ C
         NNOD_S = NSTRF(K0+6)
         NSINT_S = NSTRF(K0+14)
         K2=K0+30+NSINT_S
-C noeuds locaux
+C Local nodes
         NNOD_S_L = 0
         DO J = 1, NNOD_S
           K = NSTRF(K2 + J -1)

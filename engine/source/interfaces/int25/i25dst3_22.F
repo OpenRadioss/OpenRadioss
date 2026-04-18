@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER JLT, NIN, NSN, INACTI,
      .        CAND_N(*),CAND_E(*),NSVG(MVSIZ), ISHEL(MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
+     .        MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -96,9 +96,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, IT, I1, I2, ITRIA(2,4),
-     .        N4N, MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
-      INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
+      INTEGER I, L, N, IT, I1, I2, ITRIA(2,4),
+     .         MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
+      INTEGER  INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
      .        INTERSECA, INTERSECB, IKEEP,
      .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),  
      .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ), ICONT_R(MVSIZ)
@@ -116,7 +116,7 @@ C-----------------------------------------------
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP21,GAP22,GAP23,GAP24,
      .     XP, YP, ZP,
-     .     DX, DY, DZ, LX, LD, LAX, LBX, LCX, DMIN, PMIN,
+     .     DX, DY, DZ, LX, LD, LAX, LBX, LCX, DMIN,
      .     DD(MVSIZ,4), 
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     LAP1,LAP2,LAP3,LAP4,
@@ -126,12 +126,12 @@ C-----------------------------------------------
      .     PENA(MVSIZ,4), PENB(MVSIZ,4), BB(MVSIZ,4), 
      .     SX1,SX2,SX3,SX4,SY1,SY2,SY3,SY4,SZ1,SZ2,SZ3,SZ4,
      .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
-     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),HH,
+     .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),
      .     LB(MVSIZ,4), LC(MVSIZ,4), 
      .     SIDA(MVSIZ,4), SIDB(MVSIZ,4), 
      .     X12, Y12, Z12, 
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ, 
-     .     DIST(MVSIZ),LL,NN,PN,
+     .     LL,NN,PN,
      .     V12,V23,V34,V41,
      .     NX1, NX2, NX3, NX4,
      .     NY1, NY2, NY3, NY4,
@@ -139,8 +139,11 @@ C-----------------------------------------------
      .     SOX125,SOX235,SOX345,SOX415,
      .     SOY125,SOY235,SOY345,SOY415,
      .     SOZ125,SOZ235,SOZ345,SOZ415,
-     .     N1X,N1Y,N1Z,N1N,
-     .     N2X,N2Y,N2Z,N2N,EPS02,TOLE
+     .     
+     .     EPS02,TOLE,
+     .     XX1,YY1 ,ZZ1,XX2,YY2,ZZ2,
+     .     XX3 ,YY3,ZZ3,XX4,YY4,
+     .     ZZ4 ,XX5,YY5,ZZ5
       DATA ITRIA/1,2,2,3,3,4,4,1/,
      .     ITPERM/1,4,3,2/
       LOGICAL :: ANY_TRIANGLE
@@ -204,7 +207,7 @@ C--------------------------------------------------------
 C
 C--------------------------------------------------------
 C
-C normales aux triangles (recalculees ici pour pas les stocker).
+C normals to triangles (recomputed here to avoid storing them)
       DO I=1,JLT
 C
 C      IF(STIF(I) == ZERO)CYCLE
@@ -241,15 +244,131 @@ C
 C
        DO I=1,JLT
 C   attention triangles 
+
+         IF(ISHEL(I)/=0.AND.INACTI==0)THEN
+           NX1 = XN(I,1)
+           NY1 = YN(I,1)
+           NZ1 = ZN(I,1)
+           AAA = GAPS(I)+GAP_NM(1,I)
+           AAA = AAA/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+           NX1 = NX1 * AAA
+           NY1 = NY1 * AAA
+           NZ1 = NZ1 * AAA
+
+           NX2 = XN(I,2)
+           NY2 = YN(I,2)
+           NZ2 = ZN(I,2)
+           AAA = GAPS(I)+GAP_NM(2,I)
+           AAA = AAA/MAX(EM30,SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2))
+           NX2 = NX2 * AAA
+           NY2 = NY2 * AAA
+           NZ2 = NZ2 * AAA
+
+           IF(IX3(I)/=IX4(I))THEN
+             NX3 = XN(I,3)
+             NY3 = YN(I,3)
+             NZ3 = ZN(I,3)
+             AAA = GAPS(I)+GAP_NM(3,I)
+             AAA = AAA/MAX(EM30,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
+             NX3 = NX3 * AAA
+             NY3 = NY3 * AAA
+             NZ3 = NZ3 * AAA
+
+             NX4 = XN(I,4)
+             NY4 = YN(I,4)
+             NZ4 = ZN(I,4)
+             AAA = GAPS(I)+GAP_NM(4,I)
+             AAA = AAA/MAX(EM30,SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4))
+             NX4 = NX4 * AAA
+             NY4 = NY4 * AAA
+             NZ4 = NZ4 * AAA
+
+             XX1 = XX(I,1) + NX1
+             YY1 = YY(I,1) + NY1
+             ZZ1 = ZZ(I,1) + NZ1
+
+             XX2 = XX(I,2) + NX2
+             YY2 = YY(I,2) + NY2
+             ZZ2 = ZZ(I,2) + NZ2
+
+             XX3 = XX(I,3) + NX3
+             YY3 = YY(I,3) + NY3
+             ZZ3 = ZZ(I,3) + NZ3
+
+             XX4 = XX(I,4) + NX4
+             YY4 = YY(I,4) + NY4
+             ZZ4 = ZZ(I,4) + NZ4
+
+             XX5 = FOURTH*(XX1+XX2+XX3+XX4)
+             YY5 = FOURTH*(YY1+YY2+YY3+YY4)
+             ZZ5 = FOURTH*(ZZ1+ZZ2+ZZ3+ZZ4)
+
+           ELSE
+             NX3 = XN(I,3)
+             NY3 = YN(I,3)
+             NZ3 = ZN(I,3)
+             AAA = GAPS(I)+GAP_NM(3,I)
+             AAA = AAA/MAX(EM30,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
+             NX3 = NX3 * AAA
+             NY3 = NY3 * AAA
+             NZ3 = NZ3 * AAA
+
+             NX4 = XN(I,4)
+             NY4 = YN(I,4)
+             NZ4 = ZN(I,4)
+
+             XX1 = XX(I,1) + NX1
+             YY1 = YY(I,1) + NY1
+             ZZ1 = ZZ(I,1) + NZ1
+
+             XX2 = XX(I,2) + NX2
+             YY2 = YY(I,2) + NY2
+             ZZ2 = ZZ(I,2) + NZ2
+
+             XX3 = XX(I,3) + NX3
+             YY3 = YY(I,3) + NY3
+             ZZ3 = ZZ(I,3) + NZ3
+
+
+
+             XX4 =  XX3
+             YY4 =  YY3
+             ZZ4 =  ZZ3
+
+             XX5 =  XX3
+             YY5 =  YY3
+             ZZ5 =  ZZ3
+           ENDIF
+         ELSE
+             XX1 = XX(I,1) 
+             YY1 = YY(I,1) 
+             ZZ1 = ZZ(I,1) 
+
+             XX2 = XX(I,2) 
+             YY2 = YY(I,2) 
+             ZZ2 = ZZ(I,2) 
+
+             XX3 = XX(I,3) 
+             YY3 = YY(I,3) 
+             ZZ3 = ZZ(I,3) 
+
+             XX4 = XX(I,4) 
+             YY4 = YY(I,4) 
+             ZZ4 = ZZ(I,4) 
+
+           XX5 = XX(I,5)
+           YY5 = YY(I,5)
+           ZZ5 = ZZ(I,5)
+         ENDIF
   
-         XI5 = XX(I,5) - XI(I)
-         YI5 = YY(I,5) - YI(I)
-         ZI5 = ZZ(I,5) - ZI(I)
+         XI5 = XX5 - XI(I)
+         YI5 = YY5 - YI(I)
+         ZI5 = ZZ5 - ZI(I)
 
          V12  = XN(I,1)*XI5 + YN(I,1)*YI5 + ZN(I,1)*ZI5 
          V23  = XN(I,2)*XI5 + YN(I,2)*YI5 + ZN(I,2)*ZI5
          V34  = XN(I,3)*XI5 + YN(I,3)*YI5 + ZN(I,3)*ZI5 
-         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5      
+         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5   
          
          IF(ISHEL(I)==0)THEN
            IF(V12 < ZERO .and. V23 < ZERO .and. 
@@ -258,27 +377,26 @@ C            INTERSECTION IMPOSSIBLE
              CYCLE
            ENDIF
          END IF
-
 C        POSSIBLE INTERSECTION
 
 C--------------------------------------------------------
 C  OLD COORDINATES
 C--------------------------------------------------------
-         XO1 = XX(I,1) - DT1*VX1(I)    
-         YO1 = YY(I,1) - DT1*VY1(I)    
-         ZO1 = ZZ(I,1) - DT1*VZ1(I) 
+         XO1 = XX1 - DT1*VX1(I)    
+         YO1 = YY1 - DT1*VY1(I)    
+         ZO1 = ZZ1 - DT1*VZ1(I) 
 C           
-         XO2 = XX(I,2) - DT1*VX2(I)     
-         YO2 = YY(I,2) - DT1*VY2(I)     
-         ZO2 = ZZ(I,2) - DT1*VZ2(I)     
+         XO2 = XX2 - DT1*VX2(I)     
+         YO2 = YY2 - DT1*VY2(I)     
+         ZO2 = ZZ2 - DT1*VZ2(I)     
 c         
-         XO3 = XX(I,3) - DT1*VX3(I)   
-         YO3 = YY(I,3) - DT1*VY3(I)   
-         ZO3 = ZZ(I,3) - DT1*VZ3(I)
+         XO3 = XX3 - DT1*VX3(I)   
+         YO3 = YY3 - DT1*VY3(I)   
+         ZO3 = ZZ3 - DT1*VZ3(I)
 C        
-         XO4 = XX(I,4) - DT1*VX4(I) 
-         YO4 = YY(I,4) - DT1*VY4(I) 
-         ZO4 = ZZ(I,4) - DT1*VZ4(I)
+         XO4 = XX4 - DT1*VX4(I) 
+         YO4 = YY4 - DT1*VY4(I) 
+         ZO4 = ZZ4 - DT1*VZ4(I)
 
          XOI = XI(I) - DT1*VXI(I)
          YOI = YI(I) - DT1*VYI(I)
@@ -361,7 +479,6 @@ c        (intersection time can be different for each sub-triangle)
            ELSE
               IF(ICONT_I_FI(NIN)%P(N-NSN) < 0) IKEEP = 0
            ENDIF
-
            IF(IKEEP == 1.AND.INTERSECA == 0)THEN ! IF contact in the same side : intersection is missed and have to be checked
               CALL INTERSECV0_25(
      1                      IX3(I)  ,IX4(I) , INTERSECA,
@@ -383,10 +500,10 @@ c        (intersection time can be different for each sub-triangle)
            CALL INTERSECB_25(
      1                      IX3(I)      ,IX4(I),INTERSECA,INTERSECB,
      1                      V12     ,V23    ,V34    ,V41   ,
-     2                      VO12    ,VO23   ,VO34   ,VO41  ,XX(I,1),
-     3                      YY(I,1) ,ZZ(I,1),XX(I,2),YY(I,2),ZZ(I,2),
-     4                      XX(I,3) ,YY(I,3),ZZ(I,3),XX(I,4),YY(I,4),
-     5                      ZZ(I,4) ,XX(I,5),YY(I,5),ZZ(I,5),
+     2                      VO12    ,VO23   ,VO34   ,VO41  ,XX1,
+     3                      YY1 ,ZZ1,XX2,YY2,ZZ2,
+     4                      XX3 ,YY3,ZZ3,XX4,YY4,
+     5                      ZZ4 ,XX5,YY5,ZZ5,
      6                      VXI(I)  ,VYI(I) ,VZI(I) ,XO1   ,XO2    ,
      7                      XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8                      YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
@@ -504,7 +621,7 @@ C
       END DO
 C--------------------------------------------------------
       DO I=1,JLT
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,1) < -EM03 .OR. LC(I,1) < -EM03 .OR.
      .      LB(I,1)+LC(I,1) > ONE+EM03) THEN
            FARA(I,1)=1
@@ -532,7 +649,7 @@ C       Projection en dehors du triangle
          LCP(I,1) = ZERO
          LBP(I,1) = AL(I,1)
         ENDIF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,2) < -EM03 .OR. LC(I,2) < -EM03 .OR.
      .      LB(I,2)+LC(I,2) > ONE+EM03) THEN
            FARA(I,2)=1
@@ -560,7 +677,7 @@ C       Projection en dehors du triangle
          LCP(I,2) = ZERO
          LBP(I,2) = AL(I,2)
         END IF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,3) < -EM03 .OR. LC(I,3) < -EM03 .OR.
      .      LB(I,3)+LC(I,3) > ONE+EM03) THEN
            FARA(I,3)=1
@@ -588,7 +705,7 @@ C       Projection en dehors du triangle
          LCP(I,3) = ZERO
          LBP(I,3) = AL(I,3)
         ENDIF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,4) < -EM03 .OR. LC(I,4) < -EM03 .OR.
      .      LB(I,4)+LC(I,4) > ONE+EM03) THEN
            FARA(I,4)=1
@@ -620,6 +737,16 @@ C       Projection en dehors du triangle
 
 
         DO I = 1,JLT
+
+          IKEEP = 1
+          IF(ISHEL(I) > 0)THEN
+            N = CAND_N(I)
+            IF((INTERSECTA(I)  == 0.AND.INTERSECTB(I)==0) .AND.N <= NSN)THEN
+               IF (ICONT_I(N) < 0 ) IKEEP = 0
+            ELSEIF(INTERSECTA(I)  == 0.AND.INTERSECTB(I)==0) THEN
+               IF (ICONT_I_FI(NIN)%P(N-NSN) < 0 ) IKEEP = 0
+            ENDIF
+          ENDIF
 
           LAP1 = ONE-LBP(I,1)-LCP(I,1)
           XP  =LAP1*XX(I,5)+LBP(I,1)*XX(I,1) + LCP(I,1)*XX(I,2)
@@ -679,41 +806,40 @@ C
           BB(I,4) =((XX(I,5)-XI(I))*XN(I,4)+(YY(I,5)-YI(I))*YN(I,4)+(ZZ(I,5)-ZI(I))*ZN(I,4))
 C
           IF(DD(I,1) <= GAP21) THEN 
-            IF(BB(I,1) <= ZERO .AND. INTERSECTA(I) /= 1)THEN
+            IF(BB(I,1) <= ZERO .AND. INTERSECTA(I) /= 1.AND.IKEEP==1)THEN
               INGAPA(I,1)=1
             END IF
-            IF(BB(I,1) >= ZERO .AND. INTERSECTB(I) /= 1)THEN
+            IF(BB(I,1) >= ZERO .AND. INTERSECTB(I) /= 1.AND.IKEEP==1)THEN
               INGAPB(I,1)=1
             END IF
           ENDIF
           IF(DD(I,2) <= GAP22) THEN
-            IF(BB(I,2) <= ZERO .AND. INTERSECTA(I) /= 1)THEN
+            IF(BB(I,2) <= ZERO .AND. INTERSECTA(I) /= 1.AND.IKEEP==1)THEN
               INGAPA(I,2)=1
             END IF
-            IF(BB(I,2) >= ZERO .AND. INTERSECTB(I) /= 1)THEN
+            IF(BB(I,2) >= ZERO .AND. INTERSECTB(I) /= 1.AND.IKEEP==1)THEN
               INGAPB(I,2)=1
             END IF
           ENDIF
           IF(DD(I,3) <= GAP23) THEN
-            IF(BB(I,3) <= ZERO .AND. INTERSECTA(I) /= 1)THEN
+            IF(BB(I,3) <= ZERO .AND. INTERSECTA(I) /= 1.AND.IKEEP==1)THEN
               INGAPA(I,3)=1
             END IF
-            IF(BB(I,3) >= ZERO .AND. INTERSECTB(I) /= 1)THEN
+            IF(BB(I,3) >= ZERO .AND. INTERSECTB(I) /= 1.AND.IKEEP==1)THEN
               INGAPB(I,3)=1
             END IF
           ENDIF
           IF(DD(I,4) <= GAP24) THEN
-            IF(BB(I,4) <= ZERO .AND. INTERSECTA(I) /= 1)THEN
+            IF(BB(I,4) <= ZERO .AND. INTERSECTA(I) /= 1.AND.IKEEP==1)THEN
               INGAPA(I,4)=1
             END IF
-            IF(BB(I,4) >= ZERO .AND. INTERSECTB(I) /= 1)THEN
+            IF(BB(I,4) >= ZERO .AND. INTERSECTB(I) /= 1.AND.IKEEP==1)THEN
               INGAPB(I,4)=1
           END IF
           END IF
-
         END DO
 C--------------------------------------------------------
-C     La determination du sous-triangle tq son cone contient le nd ne necessite pas FAR !
+C     Determination of the TQ sub-triangle its cone contains the ND does not require Far!
 C--------------------------------------------------------
       SUBTRIA(1:JLT)=0
       SUBTRIB(1:JLT)=0
@@ -732,11 +858,11 @@ C
               LCX = LC(I,IT)
               LAX = ONE-LB(I,IT)-LC(I,IT)
 C
-C             Privilegier secteur dans lequel on se trouve.
+C             Privilegier sector in which we are.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
-                ! point le plus proche dans le secteur angulaire == centre
+                ! closest point in the angular sector == center
                 LX  = MAX(ZERO,DD(I,IT)-BB(I,IT)*BB(I,IT))
               END IF
 
@@ -766,12 +892,11 @@ C
               SUBTRIB(I)= 1
             END IF
           END IF
-
         END IF
 C
       END DO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -880,7 +1005,7 @@ C
 C
 C         Cone
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -964,7 +1089,7 @@ C
 C
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
 C
-C            INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C            ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISA(I,1) /= 0 )THEN
 C
@@ -987,7 +1112,7 @@ C
 
             IF( MVOISA(I,2) /= 0 )THEN
             
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,3)-XX(I,2)
               Y12=YY(I,3)-YY(I,2)
@@ -1007,7 +1132,7 @@ C
             END IF
 
             IF( MVOISA(I,4) /= 0 )THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,1)-XX(I,3)
               Y12=YY(I,1)-YY(I,3)
@@ -1033,7 +1158,7 @@ C
 C
       ENDDO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -1131,7 +1256,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -1215,7 +1340,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C           INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C           ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISB(I,1) /= 0 )THEN
 C          
@@ -1435,17 +1560,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          INTERSECA = 0
 
@@ -1801,20 +1926,21 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          INTERSECA = 0
          INTERSECB = 0
+
 
          IF(VO12 * V12 <= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
@@ -1888,9 +2014,9 @@ C------------------------------------------------
      .        LA0 >= ZEROM .and. LA0 <= UNP)THEN
              IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
                INTERSECA = 1
-             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR. 
-                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
-                  ! (VO12 == ZERO .AND. V12 < ZERO)
+             ELSE !((VO12 > ZERO .AND. V12 < ZERO)  .OR. 
+     .             ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
+     .              !(VO12 == ZERO .AND. V12 < ZERO)) THEN
                INTERSECB = 1
              END IF
            ENDIF
@@ -1901,9 +2027,9 @@ C----------loose tolerance for tria
      .        LA0 >= ZEROMT .AND. LA0 <= UNPT)THEN
              IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
                INTERSECA = 1
-             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR. 
-                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
-                  ! (VO12 == ZERO .AND. V12 < ZERO)
+             ELSE  !((VO12 > ZERO .AND. V12 < ZERO)  .OR. 
+     .              !(VO12 > ZERO .AND. V12 == ZERO) .OR. 
+     .              !(VO12 == ZERO .AND. V12 < ZERO)) THEN
                INTERSECB = 1
              ENDIF
            ENDIF
@@ -1981,9 +2107,9 @@ C----------loose tolerance for tria
      .          LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO23 <= ZERO .AND. V23 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO23 > ZERO .AND. V23 < ZERO)  .OR. 
-                    ! (VO23 > ZERO .AND. V23 == ZERO) .OR. 
-                    ! (VO23 == ZERO .AND. V23 < ZERO)
+               ELSE !((VO23 > ZERO .AND. V23 < ZERO)  .OR. 
+     .              !(VO23 > ZERO .AND. V23 == ZERO) .OR. 
+     .              !(VO23 == ZERO .AND. V23 < ZERO)) THEN
                  INTERSECB = 1
                END IF
              ENDIF
@@ -2059,9 +2185,9 @@ C----------loose tolerance for tria
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO34 <= ZERO .AND. V34 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO34 > ZERO .AND. V34 < ZERO)  .OR. 
-                    ! (VO34 > ZERO .AND. V34 == ZERO) .OR. 
-                    ! (VO34 == ZERO .AND. V34 < ZERO)
+               ELSE !((VO34 > ZERO .AND. V34 < ZERO)  .OR. 
+     .              !(VO34 > ZERO .AND. V34 == ZERO) .OR. 
+     .              !(VO34 == ZERO .AND. V34 < ZERO)) THEN
                  INTERSECB = 1
                END IF
             ENDIF
@@ -2138,9 +2264,9 @@ C----------loose tolerance for tria
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO41 <= ZERO .AND. V41 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO41 > ZERO .AND. V41 < ZERO)  .OR. 
-                    ! (VO41 > ZERO .AND. V41 == ZERO) .OR. 
-                    ! (VO41 == ZERO .AND. V41 < ZERO)
+               ELSE !((VO41 > ZERO .AND. V41 < ZERO)  .OR. 
+     .              !(VO41 > ZERO .AND. V41 == ZERO) .OR. 
+     .              !(VO41 == ZERO .AND. V41 < ZERO)) THEN
                  INTERSECB = 1
                END IF
             ENDIF
@@ -2196,17 +2322,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
+     .         
+     .         
+     .         
      .     XS, YS, ZS,
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,S2
 C------------------------------------------------
          IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
            IF(ABS(VO12) < EM20)THEN
@@ -2589,17 +2715,17 @@ C-----------------------------------------------
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
-     .     XIA,  XIB,  XIC,
-     .     YIA,  YIB,  YIC,
-     .     ZIA,  ZIB,  ZIC,
-     .     XS,YS,ZS,
+     .         
+     .         
+     .         
+     .     
      .     XM1, XM2, XM3, XM4, XM5, 
      .     YM1, YM2, YM3, YM4, YM5, 
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
-     .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
-     .     SY,SY1,SY2,SY3,SY4,SY5,SY0,
-     .     SZ,SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,ADT,S2
+     .     SX1,SX2,SX3,SX4,SX5,SX0,
+     .     SY1,SY2,SY3,SY4,SY5,SY0,
+     .     SZ1,SZ2,SZ3,SZ4,SZ5,SZ0,AAA,ADT,S2
 C------------------------------------------------
 C---------------- cas V>0 V_old>0
          IF(VO12 > ZERO .and. V12 >= ZERO )THEN
@@ -2921,7 +3047,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IT, I, J, L, N, MGLOB
+      INTEGER IT, I, J
 C--------------------------------------------------------
 C      Back to global arrays
 C--------------------------------------------------------

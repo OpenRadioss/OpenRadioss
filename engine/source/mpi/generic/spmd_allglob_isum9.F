@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_ALLGLOB_ISUM9(V,LEN)
-C gather tableau V de taille LEN de type integer et broadcast sur tous les processeurs
+C gather table V of size LEN of type integer and broadcast on all processors
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,I,K,ATID,ATAG,ALEN,IERROR,
-     .        VTMP(LEN),STATUS(MPI_STATUS_SIZE)
+      INTEGER I,IERROR,
+     .        VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

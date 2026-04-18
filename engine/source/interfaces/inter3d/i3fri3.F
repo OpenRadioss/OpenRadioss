@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i3fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+!||    i3fri3       ../engine/source/interfaces/inter3d/i3fri3.F
 !||--- called by ------------------------------------------------------
-!||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+!||    intvo3       ../engine/source/interfaces/inter3d/intvo3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I3FRI3(LFT   ,LLT   ,NFT   ,
+      SUBROUTINE I3FRI3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,
      3                  IRTL  ,NTY   ,CST   ,IRTLO ,FRIC0 ,
      4                  FRIC  ,IMAST ,FSAV  ,FSKYI ,ISKY  ,
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER NTY, IMAST,LFT, LLT, NFT
       my_real
      .   FRIC
@@ -285,8 +286,7 @@ C
           E(J2)=E(J2)+FY4(I)
           E(J3)=E(J3)+FZ4(I)
 C---------------------------------
-C     FRICTION SECND
-C---------------------------------
+C     FRICTION SECOND C---------------------------------
           IG=NSV(IL)
           I3=3*IG
           I2=I3-1
@@ -381,7 +381,7 @@ C
       ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
@@ -408,14 +408,14 @@ C
       END
 C  054 +++
 !||====================================================================
-!||    i5fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+!||    i5fri3       ../engine/source/interfaces/inter3d/i3fri3.F
 !||--- called by ------------------------------------------------------
-!||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+!||    intvo3       ../engine/source/interfaces/inter3d/intvo3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I5FRI3(LFT   ,LLT   ,NFT   ,IPARI ,
+      SUBROUTINE I5FRI3(OUTPUT,LFT   ,LLT   ,NFT   ,IPARI ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,
      3                  IRTL  ,NTY   ,CST   ,IRTLO ,FRIC0 ,
      4                  FRIC  ,IMAST ,FSAV  ,FSKYI ,ISKY  ,
@@ -429,7 +429,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -454,6 +454,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER IPARI(*), NTY, IMAST, LFT, LLT, NFT
       my_real FRIC
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*), IRTLO(*), ISKY(*)
@@ -479,7 +480,7 @@ C-----------------------------------------------
      .   SS0, TT0, XC, ECONVT, ALPHA, ALPHI,
      .   YC, ZC, XC0, YC0, ZC0, SP, SM, TP, TM, ANSX, ANSY, ANSZ, FMAX,
      .   STF, FTI, FN, TN1, TN2, TN3, TN, DTM, XMU, VX,VY,VZ,VV,V2,P,
-     .   VV1,VV2,V21,DMU,AA
+     .   VV1,VV2,DMU,AA
       INTEGER IRTLO_I(MVSIZ)
       my_real FRIC0_I(3,MVSIZ)
 C-----------------------------------------------
@@ -562,7 +563,7 @@ C
         FXI(I)=FXI(I) + ANSX*STF
         FYI(I)=FYI(I) + ANSY*STF
         FZI(I)=FZI(I) + ANSZ*STF
-C----        Filtrage du frottement
+Cfriction filtering
         IF (CODVERS>=44) THEN
           IFQ = IPARI(31)
           IF (IFQ>0) THEN
@@ -786,8 +787,7 @@ C
           E(J2)=E(J2)+FY4(I)
           E(J3)=E(J3)+FZ4(I)
 C---------------------------------
-C     FRICTION SECND
-C---------------------------------
+C     FRICTION SECOND C---------------------------------
           IG=NSV(IL)
           I3=3*IG
           I2=I3-1
@@ -893,7 +893,7 @@ C------for implicit run---restore previous values-
       ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0 .AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
@@ -917,7 +917,7 @@ C
       ENDIF
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,LLT

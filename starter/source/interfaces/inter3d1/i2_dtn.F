@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -286,7 +286,7 @@ C
         FACT = ONE
         IF (IRODDL==1) THEN
         IF (IN(J1)>ZERO.AND.IN(J2)>ZERO.AND.IN(J3)>ZERO.AND.IN(J4)>ZERO) THEN
-C--       Inertie transmise sous forme d'inertie
+C- inertia transmitted in the form of inertia
           FACT = ZERO
         ENDIF
         ENDIF
@@ -527,7 +527,7 @@ C------------------------------------------------
 
 C------------------------------------------------
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
           STR = ZERO
 c         update main forces (moment balance)  

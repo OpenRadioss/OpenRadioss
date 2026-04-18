@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  NEL         ,SKEW     ,MSQ          ,IPART      ,IPARTQ,
      5                  IPM         ,NSIGS    ,WMA          ,PTQUAD     ,BUFMAT,
      6                  NPF         ,TF       ,IPARGG       ,ILOADP     ,FACLOAD,
-     7                  PARTSAV     ,V        )
+     7                  PARTSAV     ,V        ,MAT_PARAM    ,STIFN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,8 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +89,10 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
+      my_real,DIMENSION(NUMNOD), INTENT(INOUT) :: STIFN
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C FUNCTION:
 C ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
@@ -127,7 +131,7 @@ C-----------------------------------------------
      +        BID(1),DTX(MVSIZ),
      +        SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ),
      .        E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ)
-      my_real WI,KSI,ETA,FV
+      my_real WI,KSI,ETA,FV,STI,MAS
       my_real DELTAX(MVSIZ),Y234(MVSIZ),Y124(MVSIZ)
       my_real :: TEMPEL(NEL)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
@@ -269,7 +273,7 @@ C
      .            MAT       ,IPM      ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP        ,NGL      ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF      ,LBUF     ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD   ,DELTAX   ,TEMPEL  )
+     .            FACLOAD   ,DELTAX   ,TEMPEL     ,MAT_PARAM )
 
 C     ENTER THE INTEGRATION POINTS LOOP -->
       NPTR = 2
@@ -297,25 +301,25 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP      ,NGL     ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD, DELTAX  ,TEMPEL  )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
 C
         ENDDO
       ENDDO
 C     EXIT THE INTEGRATION POINTS LOOP <--
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+C     initialization of thermal and turbulence
 C----------------------------------------
       IF(JTHE/=0)CALL ATHERI(MAT ,PM  ,LBUF%TEMP)
       IF(JTUR/=0)CALL ATURI2(IPARGG   ,LBUF%RHO,PM,IXQ,X,
      .                         LBUF%RK  ,LBUF%RE, AREA)
 C------------------------------------------
-C     INITIALISATION DE LA MATRICE DE MASSE
+C     initialization of the mass matrix
 C------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,GBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,
      .     IX1, IX2, IX3, IX4,X ,V)
 C-------------------------------------------
-C      CALCUL DES DT ELEMENTAIRES
+C      calculation of elementary timesteps (dt)
 C-------------------------------------------
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA, 
@@ -335,6 +339,15 @@ C-------------------------------------------
           ENDIF
         ENDIF
        DTELEM(NFT+I)=DTX(I)
+!        MSQ(NFT+I) = FOURTH * PM(89,MAT(I))*AREA(I) ! nodal mass (engine)
+        STI = HALF * PM(89,MAT(I))*GBUF%VOL(I) / MAX(EM20,DTX(I)*DTX(I))
+        MAS = PM(89,MAT(I))*AREA(I)
+        IP = IPARTQ(NFT+I)
+        PARTSAV(2,IP)=PARTSAV(2,IP) + MAS ! PARTSAV(2,IP) used for total nodal mass (engine initia_mass_ratio) 
+        STIFN(IX1(I))=STIFN(IX1(I))+STI
+        STIFN(IX2(I))=STIFN(IX2(I))+STI
+        STIFN(IX3(I))=STIFN(IX3(I))+STI
+        STIFN(IX4(I))=STIFN(IX4(I))+STI
   10   CONTINUE
 C
       RETURN

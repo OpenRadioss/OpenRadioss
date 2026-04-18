@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i17tri         ../engine/source/interfaces/int17/i17tri.F
 !||    my_barrier     ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    icontact_mod   ../engine/share/modules/icontact_mod.F
 !||====================================================================
        SUBROUTINE I17BUCE_PENA(
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ICONTACT_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
+      INTEGER NME, NMES, NOINT,ITASK,MX_CAND,
      .        ESH_T, I_STOK_GLOB, NIN, NMESR, NB_N_B 
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*)
@@ -70,8 +72,8 @@ C-----------------------------------------------
 C
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I, J, K, L, CONT,I_STOK   ,
-     .        IP0, IP1, IP2, IP21, IP22, IP31, MAXSIZ,
+      INTEGER     CONT   ,
+     .              MAXSIZ,
      .        NMES_F,NMES_L, MAXSIZS, I_ADD
       INTEGER IERR1,IERR2
       my_real
@@ -80,19 +82,19 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+Csorting elements and nodes by boxes
 C
 C-----------------------------------------------
-C     nouvelle phase de tri
+C     new sorting phase
 C-----------------------------------------------
       CONT = 1
 C-----------------------------------------------
-C     Boucle sur les retris
+C     loop over re-sorts
 C-----------------------------------------------
       DO WHILE (CONT/=0)
 C -------------------------------------------------------------
-C      CALCUL DES BORNES DU DOMAINE
-C      avant I17TRI pour detection candidats remote et allocation en SPMD
+C      calculation of domain bounds
+C      Before I17tri for Remote and SPMD Allowance Candidates Detection
 C -------------------------------------------------------------
 C   
         I_ADD = 1
@@ -102,8 +104,8 @@ C
         XYZM(4,I_ADD) = BMINMA(4)
         XYZM(5,I_ADD) = BMINMA(5)
         XYZM(6,I_ADD) = BMINMA(6)
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, restart the sorting
+C by incrementing NB_N_B (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
@@ -111,14 +113,14 @@ C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
         MAXSIZ = 3*(NME+100) 
         MAXSIZS = 3*(NMES+NMESR+100) 
-C      Allocation directement dans i17tri pour tenir compte de NMESR
+C      allocation directly in i17tri to account for NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
 C      IP21= IP2+MAXSIZ
 C      IP22= IP21+NMES+100
 C      IP31= IP22+MAXSIZS
 C -------------------------------------------------------------
-C  Allocation tableau chaine apres calculs SPMD elt remote
+C  Table allowance chain after calculations SPMD ELT Remote
 C -------------------------------------------------------------
         IF(ITASK == 0)THEN
           ALLOCATE (ADCHAINE(NMES+NMESR),STAT=IERR1)
@@ -170,6 +172,7 @@ C
 !||    my_barrier      ../engine/source/system/machine.F
 !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    icontact_mod    ../engine/share/modules/icontact_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||====================================================================
@@ -186,6 +189,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ICONTACT_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -201,7 +205,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
+      INTEGER NME, NMES, NOINT,ITASK,MX_CAND,
      .        ESH_T, I_STOK_GLOB, NIN, NMESR 
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*),
@@ -218,8 +222,8 @@ C-----------------------------------------------
 C
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I, J, K, L, CONT,NB_N_B,I_STOK   ,
-     .        IP0, IP1, IP2, IP21, IP22, IP31, MAXSIZ,
+      INTEGER I, J, K, L, CONT,NB_N_B   ,
+     .              MAXSIZ,
      .        NMES_F,NMES_L, MAXSIZS, I_ADD
       INTEGER IERR1,IERR2
       my_real
@@ -228,7 +232,7 @@ C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-c fait dans ICOMCRIT
+c done in ICOMCRIT
 c      IF (DEBUG(3)>=1) THEN
 c#include "lockon.inc"
 c          WRITE(ISTDO,*)'** NEW SORT FOR INTERFACE NUMBER ',NOINT,
@@ -270,19 +274,19 @@ C-----------------------------------------------
 C Fin initialisation
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+Csorting elements and nodes by boxes
 C
 C-----------------------------------------------
-C     nouvelle phase de tri
+C     new sorting phase
 C-----------------------------------------------
       CONT = 1
 C-----------------------------------------------
-C     Boucle sur les retris
+C     loop over re-sorts
 C-----------------------------------------------
       DO WHILE (CONT/=0)
 C -------------------------------------------------------------
-C      CALCUL DES BORNES DU DOMAINE
-C      avant I17TRI pour detection candidats remote et allocation en SPMD
+C      calculation of domain bounds
+C      Before I17tri for Remote and SPMD Allowance Candidates Detection
 C -------------------------------------------------------------
         XMIN = EP30
         YMIN = EP30
@@ -325,14 +329,14 @@ C
         NMESR = 0
         IF(NSPMD>1)THEN
 C
-C recuperation des noeuds remote NMESR stockes dans XREM
+C retrieval of remote NMESR nodes stored in XREM
 C
           CALL SPMD_TRI17BOX(NELES   ,NMES    ,X       ,VCOM ,FROTS  ,
      2                       KS      ,XYZM    ,WEIGHT  ,NIN  ,ISENDTO,
      3                       IRCVFROM,NMESR   ,IXS     ,IXS16,EMINXS )
         END IF
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, restart the sorting
+C by incrementing NB_N_B (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
@@ -340,14 +344,14 @@ C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
         MAXSIZ = 3*(NME+100) 
         MAXSIZS = 3*(NMES+NMESR+100) 
-C      Allocation directement dans i17tri pour tenir compte de NMESR
+C      allocation directly in i17tri to account for NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
 C      IP21= IP2+MAXSIZ
 C      IP22= IP21+NMES+100
 C      IP31= IP22+MAXSIZS
 C -------------------------------------------------------------
-C  Allocation tableau chaine apres calculs SPMD elt remote
+C  Table allowance chain after calculations SPMD ELT Remote
 C -------------------------------------------------------------
         IF(ITASK == 0)THEN
           ALLOCATE (ADCHAINE(NMES+NMESR),STAT=IERR1)

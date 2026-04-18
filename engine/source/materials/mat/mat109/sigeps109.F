@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,10 +91,10 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDEX
 c
       my_real  :: YOUNG,BULK,LAME,G,G2,G3,NU,TREF,TINI,ETA,LDAV,CP,
-     .   XRATE,XSCALE,YSCALE,DTINV,J2,Q2,DPHI_DLAM,R,DLAMIN,ALPHA,ALPHI
+     .   XRATE,XSCALE,YSCALE,DTINV,J2,DPHI_DLAM,ALPHA,ALPHI
       my_real  :: ASRATE,DDEP,DFDSIG2,SIG_DFDSIG
 c
-      my_real, DIMENSION(NEL) ::SVM,SVMT,YLD,YLD_TREF,YLD_TEMP,
+      my_real, DIMENSION(NEL) ::SVM,YLD,YLD_TREF,YLD_TEMP,
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGM,
      .   FACT_ETA,DYDX,HARDP,HARDR,YLD_I,HARDP_I,HARDR_I,DXDYV,DLAM,PHI,
      .   FTHERM,TFAC,PLA0,NORMXX,NORMYY,NORMZZ,NORMXY,
@@ -135,8 +135,6 @@ C=======================================================================
       DTINV  = ONE / MAX(EM20, TIMESTEP)
       ALPHA  = ASRATE*TIMESTEP
       ALPHI  = ONE-ALPHA
-      !< No temperature calculation inside material
-      IF (JTHE /= 0) ETA = ZERO 
 !
       !< Recovering tables and functions
       FUNC_YLD  = ITABLE(1)
@@ -158,44 +156,38 @@ C=======================================================================
         HARDP(I) = ZERO   !< Hardening modulus initialization
       ENDDO
 !      
-      !< Temperature & thermal softening factor initialization
-      IF (JTHE == 0) THEN
-        !< Temperature initialization
-        IF (TIME == ZERO) TEMP(1:NEL) = TINI
-        !< Thermal softening factor initialization
-        IF (ETA > ZERO) THEN
-          !< Taylor-Quinney factor
-          IF (FUNC_ETA > 0) THEN
-            IF (INLOC == 0) THEN 
-              XVEC_ETA(1:NEL,1) = EPSD(1:NEL) * XRATE 
-            ELSE
-              XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
-            ENDIF
-            IPOS_ETA(1:NEL,1) = 1
-            IF (NDIM_ETA > 1) THEN
-              XVEC_ETA(1:NEL,2) = TEMP(1:NEL)
-              IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
-            END IF
-            IF (NDIM_ETA > 2) THEN
-              IF (INLOC == 0) THEN 
-                XVEC_ETA(1:NEL,3) = PLA(1:NEL)
-              ELSE
-                XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
-              ENDIF
-              IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
-            END IF
-            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,
-     .                         FACT_ETA,DXDYV)          
-            IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
-            IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
-            DO I=1,NEL
-              FTHERM(I) = MIN(ETA*FACT_ETA(I), ONE)
-            END DO
-          ELSE
-            FTHERM(1:NEL) = MIN(ETA, ONE)
-          END IF 
+      !< Temperature initialization
+      IF ((JTHE == 0).AND.(TIME == ZERO)) TEMP(1:NEL) = TINI
+      !< Taylor-Quinney factor
+      IF (FUNC_ETA > 0) THEN
+        IF (INLOC == 0) THEN 
+          XVEC_ETA(1:NEL,1) = EPSD(1:NEL) * XRATE 
+        ELSE
+          XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
+        ENDIF
+        IPOS_ETA(1:NEL,1) = 1
+        IF (NDIM_ETA > 1) THEN
+          XVEC_ETA(1:NEL,2) = TEMP(1:NEL)
+          IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
         END IF
-      ENDIF
+        IF (NDIM_ETA > 2) THEN
+          IF (INLOC == 0) THEN 
+            XVEC_ETA(1:NEL,3) = PLA(1:NEL)
+          ELSE
+            XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
+          ENDIF
+          IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
+        END IF
+        CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,
+     .                       FACT_ETA,DXDYV)          
+        IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
+        IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
+        DO I=1,NEL
+          FTHERM(I) = MIN(ETA*FACT_ETA(I), ONE)
+        END DO
+      ELSE
+        FTHERM(1:NEL) = MIN(ETA, ONE)
+      ENDIF       
 !      
       !=========================================================================
       ! - COMPUTATION OF TRIAL VALUES
@@ -322,7 +314,7 @@ C=======================================================================
 !
             !   c) Assemble the derivation of the yield function w.r.t. lambda
             !   ----------------------------------------------------------------
-            DPHI_DLAM = - DFDSIG2 + HARDP(I)*DPLA_DLAM(I)
+            DPHI_DLAM = - DFDSIG2 - HARDP(I)*DPLA_DLAM(I)
             DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20),DPHI_DLAM)  
 !
             !< 3 - Computation of the plastic multiplier
@@ -415,7 +407,7 @@ c
         ENDDO  
 !
         ! Update the temperature or heat energy due to plastic work
-        IF (ETA > ZERO .AND. INLOC == 0) THEN 
+        IF (INLOC == 0) THEN 
           IF (JTHE /= 0 .AND. JLAG /= 0) THEN
             DO II = 1, NINDX 
               I = INDEX(II)
@@ -433,12 +425,11 @@ c
 !
       !< Non-local thickness variation and temperature update
       !-------------------------------------------------------------------------
-      IF (INLOC > 0 .AND. ETA > ZERO) THEN 
+      IF (INLOC > 0) THEN 
         IF (JTHE /= 0 .AND. JLAG /= 0) THEN
           DO I = 1, NEL
             IF (OFF(I) == ONE) THEN 
-              FHEAT(I) = FHEAT(I) + 
-     .               FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)*VOLUME(I)
+              FHEAT(I) = FHEAT(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)*VOLUME(I)
             ENDIF
           ENDDO
         ELSE IF (CP > ZERO) THEN

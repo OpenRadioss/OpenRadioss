@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    admregul       ../engine/source/model/remesh/admregul.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMMAP4(N      ,IXC    ,X      ,IPARG  ,ELBUF_TAB,
@@ -37,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,7 +170,7 @@ c----
         IF (JHBE == 11) THEN    ! Batoz
 c----
           GBUFT%THK(I1) = GBUFS%THK(I) !thk  
-c         ener totale approximation
+C         ener totale approximation
           GBUFT%EINT(I1)      = GBUFS%EINT(I)*S2WAKE(IB)/STOT  
           GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT  
 c
@@ -188,7 +190,7 @@ c
             GBUFT%TEMP(I1)=GBUFS%TEMP(I)
           END IF
 c
-c         pla                                                    
+C         pla                                                    
 c
           IF (GBUFT%G_PLA > 0) THEN                               
             DO IL=1,NLAY                                          
@@ -203,7 +205,7 @@ c
             END DO                                                 
           ENDIF                                                   
 c
-c         Stress
+C         Stress
 c
           DO IL=1,NLAY                                         
            DO IR=1,NPTR                                         
@@ -221,7 +223,7 @@ c
            END DO                                                
           END DO                                                
 c
-c         Uvar                                               
+C         Uvar                                               
 c
           IF (MLW>=28 .AND. MLW/=32) THEN                             
             DO IL=1,NLAY                                                  
@@ -259,7 +261,7 @@ c
               GBUFT%MOMPG(QTM+KK1(3)+I1)=GBUFS%MOMPG(PTM+KK(3)+I)
             ENDDO
           ENDDO
-c         end Batoz
+C         end Batoz
 c----
         ELSE   !Q4 & QEPH
 c----
@@ -295,7 +297,7 @@ c
      .              + ST(1)*QPG(2,IB)+SK(1)*QPG(1,IB)
               GBUFT%FOR(KK1(2)+I1) = GBUFT%FOR(KK1(2)+I1)  
      .              + ST(2)*QPG(2,IB)+SK(2)*QPG(1,IB)
-c             GBUFT%FOR(KK1(3)+I1) = GBUFT%FOR(KK1(3)+I1)  
+C             GBUFT%FOR(KK1(3)+I1) = GBUFT%FOR(KK1(3)+I1)  
               GBUFT%FOR(KK1(4)+I1) = GBUFT%FOR(KK1(4)+I1)  
      .              + SHT(2)*QPG(2,IB)+SHK(2)*QPG(1,IB)
               GBUFT%FOR(KK1(5)+I1) = GBUFT%FOR(KK1(5)+I1)  
@@ -305,7 +307,7 @@ c             GBUFT%FOR(KK1(3)+I1) = GBUFT%FOR(KK1(3)+I1)
      .              + MT(1)*QPG(2,IB)+MK(1)*QPG(1,IB)
               GBUFT%MOM(KK1(2)+I1) = GBUFT%MOM(KK1(2)+I1)
      .              + MT(2)*QPG(2,IB)+MK(2)*QPG(1,IB)
-c             GBUFT%MOM(KK1(3)+I1) = GBUFT%MOM(KK1(3)+I1)
+C             GBUFT%MOM(KK1(3)+I1) = GBUFT%MOM(KK1(3)+I1)
             ELSE
               CONTINUE
             END IF
@@ -319,7 +321,7 @@ c
               GBUFT%HOURG(KK1(K)+I1) = GBUFS%HOURG(KK(K)+I)
             END DO
           END IF
-c         ener totale approximation
+C         ener totale approximation
           GBUFT%EINT(I1)     = GBUFS%EINT(I)*S2WAKE(IB)/STOT  
           GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT  
 c
@@ -337,7 +339,7 @@ c
             END DO                                             
           END IF                                               
 c
-c         Stress
+C         Stress
 c
           DO IL=1,NLAY                                              
             DO IT=1,NPTT
@@ -372,7 +374,7 @@ C               LBUFT%SIG(KK1(3)+I1) = LBUFT%SIG(KK1(3)+I1)
             END DO         
           END IF
 c
-c         pla                                                    
+C         pla                                                    
 c
           IF (GBUFT%G_PLA > 0) THEN                               
             DO IL=1,NLAY                                          
@@ -401,7 +403,7 @@ C
         END IF
       END DO   !  IB=1,4
 c---------------------------------------------
-c     reset source element variables
+C     Reset Source Variable elements
 c---------------------------------------------
       GBUFS%OFF(I)    =-ABS(GBUFS%OFF(I))
 !
@@ -435,7 +437,7 @@ c
         END DO                                                        
       END DO                                                          
 c
-c     sig moyen
+C     sig moyen
 !      IF (NLAY > 1) THEN
 !        DO IL=1,NLAY
 !          BUFLY => ELBUF_TAB(NG)%BUFLY(IL)

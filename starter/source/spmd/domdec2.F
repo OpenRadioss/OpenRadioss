@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   IPARG  ,CEL    ,IXS    ,IXS10 ,IXS20 ,
      4   IXS16  ,IXQ    ,IXC    ,IXT   ,IXP   ,
      5   IXR    ,IXTG   ,IXTG6 ,T_MONVOL,
-     6   IGRSURF,ADSKY  ,LCNE   ,GEO   ,
+     6   IGRSURF,ADDCNE ,LCNE   ,GEO   ,
      7   NPRW   ,LPRW   ,LCNI2  ,ADSKYI2,CEPI2,
      8   CELI2  ,I2NSNT ,ISKN   ,ISKWP,NSKWP  ,
      9   ISENSP ,NSENSP ,IACCP  ,NACCP  ,
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE LOADS_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +102,7 @@ C-----------------------------------------------
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),IB(NIBCLD,*),
      .        I2NSNT,ISKN(LISKN,*),ISKWP(*),NSKWP(*),
-     .        ADSKY(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
+     .        ADDCNE(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
      .        ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        LACCELM(3,*),IBCV(NICONV, *),IRBE3(NRBE3L,*), LRBE3(*),
      .        FRONT_RM(NRBYM,NSPMD), IRBYM(NIRBYM,*) ,LCRBYM(*), CEP(LEN_CEP),
@@ -184,7 +185,7 @@ C-----------------------------------------------------
                 ENDDO
                 ! -------------
                 IF(SENSORS%SENSOR_TAB(ISENS)%IPARAM(2)==0) THEN
-                    ! plane nodes : %IPARAM(3:5)
+                    ! Nodes: %iParam (3: 5)
                     DO I=1,3
                         N1 = SENSORS%SENSOR_TAB(ISENS)%IPARAM(3+I-1)
                         DO P=1,NSPMD
@@ -300,7 +301,7 @@ C-----------------------------------------------------
       ENDDO
 C
 C-----------------------------------------------------
-C Traitement special pressure loads + forces concentrees
+C Special treatment pressure loads + concentrated forces
 C-----------------------------------------------------
       DO N = 1, NCONLD
        N1 = IB(1,N)
@@ -620,7 +621,7 @@ C-----------------------------------------------------
       ENDDO
 C
 C-----------------------------------------------------
-C Traitement supplementaire rivets
+C Rivets additional treatment
 C-----------------------------------------------------
       DO P = 1, NSPMD
         DO J=1,NRIVET
@@ -635,7 +636,7 @@ C-----------------------------------------------------
 
 C
 C-----------------------------------------------------
-C Traitement supplementaire RBE2
+C Additional RBE2 treatment
 C-----------------------------------------------------
       IF (NRBE2>0.AND.NSPMD>1) THEN
         DO N = 1, NRBE2
@@ -659,7 +660,7 @@ C-----------------------------------------------------
             ENDIF
           ENDDO
         ENDDO
-C   traitement noeuds non connectes
+C   treatment of unconnected nodes
         DO N = 1, NRBE2
           NSN = IRBE2(5,N)
           M   = IRBE2(3,N)
@@ -742,14 +743,14 @@ C-----------------------------------------------------
                 IF (NLOCAL(K,P)==0) THEN
                   GO TO 201
                 ENDIF
-C pas d'optimisation possible
+C No optimization possible
                 DO J=1,NIR
                   KK = LRBE3(IAD+J)
                   IF (NLOCAL(KK,P)==0) THEN
                     CALL IFRONTPLUS(KK,P)
                   ENDIF
                 ENDDO
-C optimisation possible
+C possible optimization
  201            CONTINUE
               ENDDO
         ENDDO
@@ -758,18 +759,18 @@ C optimisation possible
 
 C
 C-----------------------------------------------------
-C Traitement supplementaire rigid bodies
+C Rigid bodies additional treatment
 C-----------------------------------------------------
       IF (NRBYKIN>0.AND.NSPMD>1) THEN
 C--------------------------------------------------------------
-C Dans le cas de noeuds SECONDARYs de Rigid bodies non connectees
-C on les affecte sur le PMAIN
+C In case of SECONDARY nodes of unconnected Rigid bodies
+C assign them to PMAIN
 C--------------------------------------------------------------
         K=0
         DO N = 1, NRBYKIN
           NSN = NPBY(2,N)
           M   = NPBY(1,N)
-C Recherche du 1er  proc qui a le noeud main
+C Search for the 1st proc that has the main node
           DO P=1,NSPMD
             IF (NLOCAL(M,P)/=0) GOTO 86
           ENDDO
@@ -809,7 +810,7 @@ C--------------------------------------------------------------
           ENDDO
           K = K + NSN
         ENDDO
-C   traitement noeuds non connectes
+C   treatment of unconnected nodes
         K=0
         DO N = 1, NRBYKIN
           NSN = NPBY(2,N)
@@ -842,7 +843,7 @@ C
             ELSE
               CALL IFRONTPLUS(M,IPMAX)
             ENDIF
-C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
+C case at least one main connected but no SECONDARY node connected
           ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
@@ -866,7 +867,7 @@ C
 C
 
 C-----------------------------------------------------
-C Traitement supplementaire RBM : Idem RB
+C RBM supplementary treatment: Ditto RB
 C-----------------------------------------------------
       IF(NFXVEL > 0 .AND. NSPMD > 1)THEN
 
@@ -927,7 +928,7 @@ C-----------------------------------------------------
           ENDDO
           K = K + NSN
         ENDDO
-C   traitement noeuds non connectes
+C   treatment of unconnected nodes
         K=0
         DO N = 1, NIBVEL
           NSN = IBVEL(3,N)
@@ -1002,7 +1003,7 @@ C-----------------------------------------------------
           ENDDO
           K = K + NSN
         ENDDO
-C traitement cdg  non connectes
+C Non -connect CDG treatment
         K=0
         DO N = 1, NRBYM
           NSN = IRBYM(2,N)
@@ -1035,7 +1036,7 @@ C
             ELSE
               CALL FRONTPLUS_RM(FRONT_RM(M,IPMAX),1)
             ENDIF
-C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
+C case at least one main connected but no SECONDARY node connected
           ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
@@ -1082,7 +1083,7 @@ C-----------------------------------------------------
         IF (ITE2FRPLUS > 0 ) GOTO 5000
       ENDIF
 C-----------------------------------------------------
-C Traitement supplementaire interface type 2
+C Additional treatment Type 2 interface
 C-----------------------------------------------------
       IF (NINTER>0.AND.NSPMD>1) THEN
         IF (N2D==0) THEN
@@ -1129,7 +1130,7 @@ C
                 IF (NLOCAL(K,P)==0) THEN
                   GO TO 200
                 ENDIF
-C pas d'optimisation possible
+C No optimization possible
                 DO J=1,NIR
                   KK = INTBUF_TAB(N)%IRECTM((L-1)*4+J)
                   IF (NLOCAL(KK,P)==0) THEN
@@ -1137,7 +1138,7 @@ C pas d'optimisation possible
                     INT2FRPLUS=1
                   ENDIF
                 ENDDO
-C optimisation possible
+C possible optimization
  200            CONTINUE
               ENDDO
             ENDDO
@@ -1146,9 +1147,9 @@ C optimisation possible
       ENDIF
       IF (INT2FRPLUS /= 0 .AND. INT2FLAG/=0)GOTO 5000
 C-----------------------------------------------------
-C Traitement special noeuds non encore affectes
+C Special treatment of nodes not yet assigned
 C-----------------------------------------------------
-C mise sur Pi des noeuds non affectes (round robbin)    
+C assigning unassigned nodes to Pi (round robin)    
         IPROC = 1
         DO I = 1,NUMNOD
           SUM = 0
@@ -1175,7 +1176,7 @@ C
         ELSEIF(TYP==1)THEN
         ELSEIF(TYP==2)THEN
 C--------------------------------
-C         CAPTEUR - DEPLACEMENT
+C         SENSOR - DISPLACEMENT
 C--------------------------------
           N1 = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
@@ -1280,7 +1281,7 @@ C
       IF(NJOINT>0) CALL SPLIT_JOINT( )
 
 C-----------------------------------------------------
-C dd_iad => dd_grp : nb de groupes par sous domaine
+C dd_iad => dd_grp : number of groups per subdomain
       NGROU = 0
       DO I = 1, NSPGROUP
         DO P = 1, NSPMD
@@ -1296,7 +1297,7 @@ c            DD_IAD(P,I) = NG
 c          ELSE
 c            DD_IAD(P,I) = 0
 c          ENDIF
-C seule la verification est conservee, le remplacement de dd_iad est fait directement dans les routines xtails
+C only verification is preserved, dd_iad replacement is done directly in xtails routines
           NGROU = NGROU + DD_IAD(P,I)
         ENDDO
       ENDDO
@@ -1312,16 +1313,16 @@ C        IERR = IERR + 1
       ENDIF
 C
 C-----------------------------------------------------
-C Preparation de ADDCNE : Adresse matrice CNE
+C Preparing ADDCNE : CNE matrix address
 C-----------------------------------------------------
       DO N=0,NUMNOD+1
-        ADSKY(N) = 0
+        ADDCNE(N) = 0
       ENDDO
 C
       DO K=2,9
         DO I=1,NUMELS
           N = IXS(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
@@ -1329,7 +1330,7 @@ C
         DO K=1,6
           DO I=1,NUMELS10
             N = IXS10(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1337,7 +1338,7 @@ C
         DO K=1,12
           DO I=1,NUMELS20
             N = IXS20(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1346,7 +1347,7 @@ C
         DO K=1,8
           DO I=1,NUMELS16
             N = IXS16(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1354,7 +1355,7 @@ C
       DO K=2,5
         DO I=1,NUMELQ
           N = IXQ(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
@@ -1362,41 +1363,41 @@ C
       DO K=2,5
         DO I=1,NUMELC
           N = IXC(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
       DO K=2,3
         DO I=1,NUMELT
           N = IXT(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
       DO K=2,3
         DO I=1,NUMELP
           N = IXP(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
-C   traitement a part du 3eme noeud optionnel sauf type 12
+C   separate treatment of 3rd optional node except type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
       DO I=1,NUMELR
         N = IXR(4,I) + 1
         IF(IGEO(11,IXR(1,I))/=12) N = 0
-        ADSKY(N) = ADSKY(N) + 1
+        ADDCNE(N) = ADDCNE(N) + 1
       ENDDO
 C
       DO K=2,4
         DO I=1,NUMELTG
           N = IXTG(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C elem penta6
@@ -1404,13 +1405,13 @@ C elem penta6
         DO K=1,3
           DO I=1,NUMELTG6
             N = IXTG6(K,I)+1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           END DO
         END DO
       END IF
 C
 C--------------------------------------
-C   prise en compte des forces des mv
+C   taking into account mv forces
 C--------------------------------------
       IF (NVOLU>0) THEN
         K3 = 1 + NIMV * NVOLU + NICBAG * NVOLU * NVOLU
@@ -1424,12 +1425,12 @@ C--------------------------------------
             IF (ITY==3) THEN
               DO K = 2,5
                NN = IXC(K,I) + 1
-               ADSKY(NN) = ADSKY(NN) + 1
+               ADDCNE(NN) = ADDCNE(NN) + 1
               ENDDO
             ELSE
               DO K=2,4
                NN = IXTG(K,I) + 1
-               ADSKY(NN) = ADSKY(NN) + 1
+               ADDCNE(NN) = ADDCNE(NN) + 1
               END DO
             ENDIF
           ENDDO
@@ -1437,7 +1438,7 @@ C--------------------------------------
         ENDDO
       ENDIF
 C--------------------------------------
-C prise en compte des forces concentrees + pressure loads
+C taking into account concentrated forces + pressure loads
 C--------------------------------------
       IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
@@ -1446,16 +1447,16 @@ C--------------------------------------
           N3=IB(3,NL)
           N4=IB(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1471,16 +1472,16 @@ C-----------------------------------------------
           N3=IBCV(3,NL)
           N4=IBCV(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1496,15 +1497,15 @@ C-----------------------------------------------
           N3=IBCR(3,NL)
           N4=IBCR(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           NN = N2 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N2D==0)THEN
             NN = N3 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N4/=0) THEN
               NN = N4 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
             ENDIF
           ENDIF
         ENDDO
@@ -1520,16 +1521,16 @@ C-----------------------------------------------
           N3=IBFFLUX(3,NL)
           N4=IBFFLUX(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1546,16 +1547,16 @@ C--------------------------------------
          N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
          N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF             
             ENDIF
           ENDIF
@@ -1581,7 +1582,7 @@ C--------------------------------------
                 ! loop over the 4 nodes of the surfaces
                 DO IJK=1,NUMBER_NODE
                     NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) + 1
-                    ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                    ADDCNE(NODE_ID) = ADDCNE(NODE_ID) + 1
                 ENDDO
             ENDDO
             ! ------------
@@ -1599,7 +1600,7 @@ C--------------------------------------
                 DO K=1,4
                     NODE_ID = LOADS%LOAD_CYL(I)%SEGNOD(J,K) + 1! get the node id + 1 (if the segment is a triangle, NODE_ID(node 4) = 0))
                     NUMBER_PROC = 0
-                    IF(NODE_ID/=0) ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                    IF(NODE_ID/=0) ADDCNE(NODE_ID) = ADDCNE(NODE_ID) + 1
                 ENDDO
             ENDDO
             ! ------------
@@ -1607,17 +1608,17 @@ C--------------------------------------
 !   -------------------------------------
 
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C   CALCULATING SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
-      ADSKY(1) = 1
+      ADDCNE(1) = 1
       DO I=2,NUMNOD+1
-        ADSKY(I)=ADSKY(I)+ADSKY(I-1)
+        ADDCNE(I)=ADDCNE(I)+ADDCNE(I-1)
       ENDDO
 C
-      LCNE = ADSKY(NUMNOD+1)-1
+      LCNE = ADDCNE(NUMNOD+1)-1
 C
 C-----------------------------------------------
-C Remplissage de CEL : connection Element/Local
+C Filling Cel: Element/Local Connection
 C-----------------------------------------------
       OFF = 0
       NIN = 0
@@ -1634,7 +1635,7 @@ C-----------------------------------------------
             NIN = 0
             ITY_OLD = ITY
           ENDIF
-C   SPH non pris en comp
+C   SPH not taken in comp
           IF(ITY/=51) THEN
            IF (P==PROC) THEN
             DO I = 1, NEL
@@ -1647,19 +1648,19 @@ C   SPH non pris en comp
         ENDDO
       ENDDO
 
-c tableau IELS initialise a 0 (pour traitement SPH)
+c IELS array initialized to 0 (for SPH treatment)
       DO PROC = 1,NSPMD
         IELS(PROC) = 0
       ENDDO
 
-c on remplit le tableau CELSPH pour traitement SPH
+c filling CELSPH array for SPH treatment
       DO J = 1, NUMSPH
        P_SPH = CEPSP(J) + 1
        IELS(P_SPH) = IELS(P_SPH) + 1
        CELSPH(J) = IELS(P_SPH)
       ENDDO
 C-----------------------------------------------
-C Ajout pseudo element BCL
+C Adding pseudo element BCL
 C-----------------------------------------------
       IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
@@ -1712,7 +1713,7 @@ C
         OFF = OFF + NCONLD
       ENDIF
 C-----------------------------------------------
-C Ajout pseudo element bc for heat tranfert
+C Adding pseudo element bc for heat transfer
 C-----------------------------------------------
       IF(NUMCONV>0) THEN
         DO NL = 1, NUMCONV
@@ -1764,7 +1765,7 @@ C
         OFF = OFF + NUMCONV
       ENDIF
 C-----------------------------------------------
-C Ajout pseudo element br for radiative heat tranfert
+C Adding pseudo element br for radiative heat transfer
 C-----------------------------------------------
       IF(NUMRADIA>0) THEN
         DO NL = 1, NUMRADIA
@@ -1816,7 +1817,7 @@ C
         OFF = OFF + NUMRADIA
       ENDIF 
 C-----------------------------------------------
-C Ajout pseudo element for imposed heat flux
+C Adding pseudo element for imposed heat flux
 C-----------------------------------------------
       IF(NFXFLUX>0) THEN
         DO NL = 1, NFXFLUX
@@ -1861,7 +1862,7 @@ C
         OFF = OFF + NFXFLUX
       ENDIF
 C-----------------------------------------------
-C Ajout pseudo element pfluid 
+C Adding pseudo element pfluid 
 C-----------------------------------------------
       IF(NLOADP>0) THEN
         NUMLOADP=0
@@ -1921,12 +1922,12 @@ C
         OFF = OFF + NUMLOADP
       ENDIF     
 C
-C Traitement assemblage // int2
+C Assembly treatment // int2
 C
       IF(I2NSNT>0) THEN
 C
 C-----------------------------------------------------
-C Preparation de ADDCNI2 : Adresse matrice CNI2 (connectivite interface type 2)
+C Preparing ADDCNI2 : CNI2 matrix address (type 2 interface connectivity)
 C-----------------------------------------------------
         DO N=0,NUMNOD+1
           ADSKYI2(N) = 0
@@ -1955,7 +1956,7 @@ C
           END IF
         END DO
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C   CALCULATING SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
         ADSKYI2(1) = 1
         DO I=2,NUMNOD+1
@@ -1963,7 +1964,7 @@ C-----------------------------------------------
         ENDDO
         LCNI2 = ADSKYI2(NUMNOD+1)-1
 C-----------------------------------------------
-C Remplissage de CEPI2 : connection Element/Local
+C Fill for CEPI2: Element/Local Connection
 C-----------------------------------------------
         OFF = 0
         DO N = 1, NINTER
@@ -1989,7 +1990,7 @@ C-----------------------------------------------
           END IF
         END DO
 C-----------------------------------------------
-C Remplissage de CEL : connection Element/Local
+C Filling Cel: Element/Local Connection
 C-----------------------------------------------
         DO P = 1, NSPMD
           OFF = 0
@@ -2045,6 +2046,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE LOADS_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2100,7 +2102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       ALLOCATE(ADSKY(0:NUMNOD+1))
       ALLOCATE(ITRI(ILEN))
@@ -2109,12 +2111,12 @@ C-----------------------------------------------
         ADSKY(I) = ADDCNE(I)
       ENDDO
 C
-C tri des elements locaux suivants num user
+C sorting the following local elements Num User
 C
       DO I = 1, NUMELS
         ITRI(I) = IXS(11,I)
       ENDDO
-C rajout condition type element solide
+C Addition Condition Type Solid element
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELS8,1)
       IDEB = NUMELS8+1
       IF(NUMELS10>0)
@@ -2205,7 +2207,7 @@ C
       ENDDO
       OFF = OFF + NUMELQ
 C
-C tri des elements locaux suivants num user
+C sorting the following local elements Num User
 C
       DO I = 1, NUMELC
         ITRI(I) = IXC(7,I)
@@ -2272,7 +2274,7 @@ C
       DO I = 1, NUMELTG
         ITRI(I) = IXTG(6,I)
       ENDDO
-C rajout condition type element triangle
+C Addition Condition Type Element Triangle
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELTG-NUMELTG6,1)
       IDEB = NUMELTG-NUMELTG6+1     
       IF (NUMELTG6/=0)
@@ -2364,7 +2366,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C pseudo element BCL : affectation a un proc
+C Pseudo element BCL: Assignment to a proc
 C-----------------------------------------------
       IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
@@ -2699,7 +2701,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C pseudo element LLOADP : affectation a un proc 
+C Pseudo element LLOADP: Assignment to a proc 
 C-----------------------------------------------
       IF(NLOADP>0) THEN
         DO NL = 1, NLOADP
@@ -2854,14 +2856,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       ALLOCATE(ADSKYI2(0:NUMNOD+1))
       DO I = 0, NUMNOD+1
         ADSKYI2(I) = ADDCNI2(I)
       ENDDO
 C
-C ordre => ordre des elements dans l'interface type 2
+C order => order of elements in type 2 interface
 C
 C
       OFF = 0
@@ -2930,20 +2932,20 @@ C 8 : NUMELR_L
 C 9 : -
 C 10: NUMELTG_L
 C 11: NUMELX_L
-C 12: NBDDPROC :  nb de proc frontiere
-C 13: NBDDBOUN :  nb de noeud frontiere
-C 14: NBDDNOD :   taille des comm en nb de noeuds
-C 15: NBDDNRB :   taille des comm en nb de noeuds main de rby
-C 16: NRBYKIN_L : nombre de rigid body MAIN locaux
-C 17: NUMSPH_L : nombre de particules SPH locales
-C 18: MEMI : taille memoire locale entier MA
-C 19: MEMR : taille memoire locale reel AM
-C 20: NSNT_L : nombre de noeuds SECONDARYs d'interface de contact (7,10,11)
-C 21: NMNT_L : nombre de noeuds MAIN d'interface de contact (7,10,11)
-C 22: NSNT2_L : nombre de noeuds SECONDARYs d'interface type2
-C 23: NMNT2_L : nombre de noeuds MAIN d'interface type2
-C 24: RESTSIZE : Taille du restart en MB
-C 24: NSLARB_L : nombre de noeuds SECONDARY rigid body 
+C 12: NBDDPROC: NB PORC BORD
+C 13: NBDDBOUN :  number of boundary nodes
+C 14: NBDDNOD :   size of comm in number of nodes
+C 15: NBDDNRB :   size of comm in number of main rby nodes
+C 16: NRBYKIN_L : number of local MAIN rigid bodies
+C 17: NUMSPH_L: Number of local sphine particles
+C 18: memi: whole local memory size my
+C 19: Memr: Size Local Real Memory AM
+C 20: NSNT_L: Number of secondary contact interface nodes (7,10,11)
+C 21: NMNT_L: Number of nodes Contact interface (7,10,11)
+C 22: NSNT2_L: Number of secondary interface interface nodes
+C 23: NMNT2_L: Number of Type2 Interface Main Nodes
+C 24: Restaurants: Restart size in MB
+C 24: NSLARB_L : number of SECONDARY rigid body nodes 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3084,15 +3086,9 @@ C
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES + DDSTAT(18,P) * ITOBYTES
         IF( GOT_INSPIRE_ALM == 1)THEN
           WRITE(IOUT,1201)P,
-     .          DDSTAT(19,P)*RTOBYTES/MBYTE,
-     .          DDSTAT(18,P)*ITOBYTES/MBYTE,
-     .          MEMTOTAL/MBYTE,
      .          DDSTAT(25,P)/1024
         ELSE
           WRITE(IOUT,1200)P,
-     .          DDSTAT(19,P)*RTOBYTES/MBYTE,
-     .          DDSTAT(18,P)*ITOBYTES/MBYTE,
-     .          MEMTOTAL/MBYTE,
      .          DDSTAT(25,P)/1024
         ENDIF
 
@@ -3109,7 +3105,7 @@ C
      .'       -------------------------------------------'
            MEMTOTAL=MEMTOTAL+MEMFLOW(1,P)*4+MEMFLOW(2,P)*RTOBYTES
            WRITE(IOUT,1400) MEMFLOW(2,P)*RTOBYTES/1048576,
-     *                      MEMFLOW(1,P)*4/1048576,
+     *                      MEMFLOW(1,P)/1048576*4,
      *                      MEMTOTAL/1048576
         ENDIF
        ENDDO
@@ -3121,14 +3117,10 @@ C
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES+DDSTAT(18,P)*ITOBYTES
 
         IF( GOT_INSPIRE_ALM == 1)THEN
-          WRITE(IOUT,1201)P,DDSTAT(19,P)*RTOBYTES/1048576,
-     .                    DDSTAT(18,P)*4/1048576,
-     .                    MEMTOTAL/1048576,
+          WRITE(IOUT,1201)P,
      .                    DDSTAT(25,P)/1024
         ELSE
-          WRITE(IOUT,1200)P,DDSTAT(19,P)*RTOBYTES/1048576,
-     .                    DDSTAT(18,P)*4/1048576,
-     .                    MEMTOTAL/1048576,
+          WRITE(IOUT,1200)P,
      .                    DDSTAT(25,P)/1024
         ENDIF
 
@@ -3155,34 +3147,12 @@ C
  1200 FORMAT(/,
      . '     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR',I6,/
      . '     --------------------------------------------------------'/
-     . '        MEMORY USED FOR REALS   ',I10,' MB ',/
-     . '        MEMORY USED FOR INTEGERS',I10,' MB ',/
-     . '        TOTAL MEMORY EVALUATION ',I10,' MB ',/
-     . '                                            '/,
      . '        RESTART FILE SIZE',I10,' MB')
  1201 FORMAT(/,
      . '     LOCAL SOLVER STORAGE EVALUATION FOR SPMD PROCESSOR',I6,/
      . '     --------------------------------------------------------'/
-     . '        MEMORY USED FOR REALS   ',I10,' MB ',/
-     . '        MEMORY USED FOR INTEGERS',I10,' MB ',/
-     . '        TOTAL MEMORY EVALUATION ',I10,' MB ',/
-     . '                                            '/,
      . '        RESTART FILE SIZE',I10,' MB')
 
- 1300 FORMAT(
-     . '        NODAL FIELDS. . . . . . ',I10,/
-     . '        CONDENSED DATA. . . . . ',I10)
- 1310 FORMAT(
-     . '        TEMPORARY STORAGE . . . ',I10,' -> CONDENSED PROBLEM')
- 1320 FORMAT(
-     . '        TEMPORARY STORAGE . . . ',I10,' ->  SUP. ELEM: ',I10)
- 1340 FORMAT(
-     . '        NEW TOTAL . . . . . . . ',I10,' MB'/)
- 1350 FORMAT(
-     . '        SUP. ELEM MODES . . . . ',I10,' MB',/
-     . '        CONDENSED MATRICES. . . ',I10,' MB',/
-     . '                                 ---------'/
-     . '        TOTAL . . . . . . . . . ',I10,' MB')
  1400 FORMAT(
      . '        ADD. MEMORY FOR REALS . ',I10,' MB',/
      . '        ADD. MEMORY FOR INTEGERS',I10,' MB',/

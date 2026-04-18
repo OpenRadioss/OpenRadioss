@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   Z1  ,Z2  ,Z3  ,IX1 ,IX2 ,IX3 )
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,7 @@ C-----------------------------------------------
       my_real E3X, E3Y, E3Z, SURF,
      .    XN13, XN23, XN12, X13, Y13, Z13, X12, Y12, Z12
 C=======================================================================
-C     CONNECTIVITES ET MATERIEL                  
+C     CONNECTIVITIES AND MATERIAL
 C--------------------------------------------------
       DO I=LFT,LLT                                                     
         NGL(I)=IXP(6,I)                                                  

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,9 +27,10 @@
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||====================================================================
       module spmd_exch_vnpon_mod
+      implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
+!!\brief This subroutine performs nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
 !=======================================================================================================================
 !||====================================================================
 !||    spmd_exch_vnpon       ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
@@ -37,27 +38,27 @@
 !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||--- calls      -----------------------------------------------------
+!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use spmd_comm_world_mod, only : SPMD_COMM_WORLD
+          use spmd_mod
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "task_c.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                           :: nspmd            !< number of spmd domain
           integer, intent (in   )                           :: lenr             !< toal number of front node
-          integer, intent (in   )                           :: ndim1            !< 1er dim of vn6
+          integer, intent (in   )                           :: ndim1            !< first dimension of vn6
           integer, intent (in   )                           :: ndim2            !< 2nd dim of vn6
           integer, intent (in   ) ,dimension(2,nspmd+1)     :: iad_offset       !< index array for comm
           integer, intent (in   ) ,dimension(lenr)          :: fr_offset        !< front node array
@@ -65,19 +66,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-          integer :: msgtyp,i,nod,loc_proc,ierror,msgoff,                     &
+          integer :: msgtyp,i,nod,                                   &
             siz,j,l,nb_nod,siz6,len,                                 &
-            status(mpi_status_size),                                 &
             iad_send(nspmd+1),                                       &
             iad_recv(nspmd+1),                                       &
             req_r(nspmd),req_s(nspmd)
-          data msgoff/231/
+          integer, parameter :: msgoff = 231
 
           double precision, dimension(:,:),allocatable :: rbuf, sbuf
+          integer :: it_spmd
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+#ifndef MPI
+          return
+#endif
           allocate(rbuf(ndim1,lenr))
           allocate(sbuf(ndim1,lenr))
 
@@ -87,16 +91,17 @@
           iad_recv(1)  = 1
 
           do i=1,nspmd
+            it_spmd = i - 1
             len = iad_offset(1,i+1)-iad_offset(1,i)
             siz = siz6 *  len
             if(siz/=0)then
               msgtyp = msgoff
-              call mpi_irecv(                               &
-                rbuf(1,l),siz,mpi_double_precision,         &
-                it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-                req_r(i),ierror)
+              call spmd_irecv(                               &
+                rbuf(1,l),siz,         &
+                it_spmd,msgtyp,           &
+                req_r(i))
               l = l  + len
-            endif
+            end if
             iad_recv(i+1)  = l
           end do
 
@@ -111,15 +116,16 @@
                 sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
               else
                 sbuf(1:ndim1, l)   =  0.0D0
-              endif
+              end if
               l  = l  + 1
             end do
             iad_send(i+1)  = l
-          enddo
+          end do
 !
-!   echange messages
+!   exchange messages
 !
           do i=1,nspmd
+            it_spmd = i - 1
 ! send
             nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
             if(nb_nod>0)then
@@ -128,39 +134,36 @@
 
               siz = len *  siz6
               l = iad_send(i)
-              call mpi_isend(                               &
-                sbuf(1,l),siz,mpi_double_precision,         &
-                it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
-                req_s(i),ierror)
-            endif
+              call spmd_isend(                               &
+                sbuf(1,l),siz,         &
+                it_spmd,msgtyp,           &
+                req_s(i))
+            end if
 !
-          enddo
+          end do
 !
 ! assemblage
 !
           do i = 1, nspmd
             nb_nod = iad_offset(1,i+1)-iad_offset(1,i)
             if(nb_nod>0)then
-              call mpi_wait(req_r(i),status,ierror)
+              call spmd_wait(req_r(i))
               l  = iad_recv(i)
               do j=iad_offset(1,i),iad_offset(1,i+1)-1
                 nod = fr_offset(j)
                 vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
                 l  = l  + 1
               end do
-            endif
+            end if
           end do
 !
 !   wait for isend
 !
           do i = 1, nspmd
             if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
-              call mpi_wait(req_s(i),status,ierror)
-            endif
-          enddo
-!
-#endif
+              call spmd_wait(req_s(i))
+            end if
+          end do
           return
         end subroutine spmd_exch_vnpon
       end module spmd_exch_vnpon_mod
-!

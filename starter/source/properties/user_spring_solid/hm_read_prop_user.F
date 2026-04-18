@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -167,8 +167,8 @@ c--------------------------------------------------
         PROP_TAG(IGTYP)%G_MOM = 5
         PROP_TAG(IGTYP)%G_SKEW = 6
         PROP_TAG(IGTYP)%G_MASS = 1
-        PROP_TAG(IGTYP)%G_V_REPCVT  = 3 ! -- VITESSES REPERE CONVECTEE (V_REPCVT)
-        PROP_TAG(IGTYP)%G_VR_REPCVT = 3  ! -- VITESSES REPERE CONVECTEE (VR_REPCVT)
+        PROP_TAG(IGTYP)%G_V_REPCVT  = 3 ! -- VELOCITIES convected frameE (V_REPCVT)
+        PROP_TAG(IGTYP)%G_VR_REPCVT = 3  ! -- VELOCITIES convected frameE (VR_REPCVT)
  !
         PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NUVAR(1))
  !

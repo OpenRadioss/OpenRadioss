@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -110,13 +110,13 @@ C
           AFIE(NIN)%P(1,J1+ISHIFT)=AFIE(NIN)%P(1,J1+ISHIFT)+FX1(I)
           AFIE(NIN)%P(2,J1+ISHIFT)=AFIE(NIN)%P(2,J1+ISHIFT)+FY1(I)
           AFIE(NIN)%P(3,J1+ISHIFT)=AFIE(NIN)%P(3,J1+ISHIFT)+FZ1(I)
-          STNFIE(NIN)%P(J1+ISHIFT) = TWO*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS1(I))
+          STNFIE(NIN)%P(J1+ISHIFT) = STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS1(I))
 C
           J1=N2(I)
           AFIE(NIN)%P(1,J1+ISHIFT)=AFIE(NIN)%P(1,J1+ISHIFT)+FX2(I)
           AFIE(NIN)%P(2,J1+ISHIFT)=AFIE(NIN)%P(2,J1+ISHIFT)+FY2(I)
           AFIE(NIN)%P(3,J1+ISHIFT)=AFIE(NIN)%P(3,J1+ISHIFT)+FZ2(I)
-          STNFIE(NIN)%P(J1+ISHIFT) = TWO*STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS2(I))
+          STNFIE(NIN)%P(J1+ISHIFT) = STNFIE(NIN)%P(J1+ISHIFT) + STIF(I)*ABS(HS2(I))
         END IF
       END DO
 C
@@ -326,7 +326,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
+      INTEGER I, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
 C     WRITE(6,*) __FILE__,"[IN] I25ASS2"
 C
       NISKYL1 = 0
@@ -554,7 +554,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
+      INTEGER I, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
 C
       NISKYL1 = 0
       DO I = 1, JLT

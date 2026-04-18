@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,9 +25,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    read_matparam          ../engine/source/output/restart/read_matparam.F
 !||--- calls      -----------------------------------------------------
-!||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_c_c               ../common_source/tools/input_output/write_routines.c
 !||    read_db                ../common_source/tools/input_output/read_db.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
+!||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    fail_param_mod         ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
@@ -49,12 +50,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IAD,NUPARAM,NIPARAM,NFUNC,NUMTABL,NMOD,LENI,LENR
+      INTEGER :: I,J,NUPARAM,NIPARAM,NFUNC,NUMTABL,NMOD,LENI,LENR
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
-      LENI = 9
+      LENI = 11
       ALLOCATE (IBUF(LENI))
       CALL READ_I_C(IBUF,LENI)
 c
@@ -63,10 +64,12 @@ c
       FAIL%NUPARAM = IBUF(3)
       FAIL%NIPARAM = IBUF(4)
       FAIL%NUVAR   = IBUF(5)
-      FAIL%NFUNC   = IBUF(6)
-      FAIL%NTABLE  = IBUF(7)
-      FAIL%NMOD    = IBUF(8)
-      FAIL%FAIL_IP = IBUF(9)
+      FAIL%NVARTMP = IBUF(6)
+      FAIL%NFUNC   = IBUF(7)
+      FAIL%NTABLE  = IBUF(8)
+      FAIL%NTABLE4D= IBUF(9)
+      FAIL%NMOD    = IBUF(10)
+      FAIL%FAIL_IP = IBUF(11)
 c
       DEALLOCATE(IBUF)
 c
@@ -122,6 +125,14 @@ c
       ALLOCATE (FAIL%TABLE(NUMTABL))
       IF (NUMTABL > 0) THEN
         CALL READ_I_C(FAIL%TABLE,NUMTABL)
+      END IF
+c      
+c     read local function tables4d
+c
+      NUMTABL = FAIL%NTABLE4D
+      IF (NUMTABL > 0) THEN
+        ALLOCATE (FAIL%TABLE4D(NUMTABL))
+        CALL READ_MAT_TABLE(FAIL%TABLE4D, NUMTABL)
       END IF
 c-----------
       RETURN

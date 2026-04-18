@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE CZCOORK3(JFT  ,JLT  ,X     ,IXC  ,PM    ,
      1                      OFFG ,AREA ,AREA_I,VQN  ,VQ    ,
@@ -43,6 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 c-----------------------------------------------
@@ -77,16 +79,16 @@ C-----------------------------------------------
       INTEGER NNOD,I,J,K,L,M,II(6),SPLAT,JPLAT(MVSIZ),MAT_1
       PARAMETER (NNOD = 4)
       my_real 
-     .   LXYZ0(3),DETA,DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
+     .   LXYZ0(3),DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),
      .   R33(MVSIZ),XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),SSZ(MVSIZ),
-     .   VCORE(3,NNOD),L13(MVSIZ),L24(MVSIZ),LL(MVSIZ),
+     .   L13(MVSIZ),L24(MVSIZ),LL(MVSIZ),
      .   TOL,X13_2(MVSIZ),Y13_2(MVSIZ),X24_2(MVSIZ),Y24_2(MVSIZ),
-     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .   AR(3),AD(NNOD),BTB(3),XX,YY,ZZ,XY,D(6), 
-     .   ALR(3),ALD(NNOD),DBAD(3),BTB_C,J0,J1,J2
+     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,S1,
+     .    
+     .   J0,J1,J2
       MY_REAL 
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
 C-----------------------------------------------
@@ -198,7 +200,7 @@ C----------------------------
         ENDDO
       ENDIF
 C----------------------------
-C     ORTHOTROPY (plus tard)
+C     Orthotropy (later)
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,

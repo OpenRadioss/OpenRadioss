@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    animx                        ../engine/source/output/anim/generate/animx.F
 !||    arret_message                ../engine/source/system/arret_message.F
 !||    arret_message_slid           ../engine/source/system/arret_message.F
+!||    bcs_nrf                      ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bforc2                       ../engine/source/ale/bimat/bforc2.F
 !||    blero2                       ../engine/source/ale/bimat/blero2.F
 !||    chkv0_cy                     ../engine/source/constraints/general/bcs/bcscyc.F
@@ -173,6 +174,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ind_ktot                     ../engine/source/implicit/ind_glob_k.F
 !||    ini_k0h                      ../engine/source/implicit/imp_solv.F
 !||    ini_kisc                     ../engine/source/implicit/lin_solv.F
+!||    init_h3d_engine              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    inivel_start                 ../engine/source/loads/general/inivel/inivel_start.F90
 !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter_count_node_curv        ../engine/source/interfaces/generic/inter_count_node_curv.F
@@ -237,13 +239,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8ederic3                    ../engine/source/elements/solid/solide8e/s8ederic3.F
 !||    s8edericm3                   ../engine/source/elements/solid/solide8e/s8edericm3.F
 !||    s8ederict3                   ../engine/source/elements/solid/solide8e/s8ederict3.F
-!||    s8eforc3                     ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8sforc3                     ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8ederipr3                   ../engine/source/elements/solid/solide8e/s8ederipr3.F
 !||    s8zderic3                    ../engine/source/elements/solid/solide8z/s8zderic3.F
 !||    s8zdericm3                   ../engine/source/elements/solid/solide8z/s8zdericm3.F
 !||    s8zderict3                   ../engine/source/elements/solid/solide8z/s8zderict3.F
 !||    s8zdericto3                  ../engine/source/elements/solid/solide8z/s8zdericto3.F
-!||    s8zforc3                     ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    s8zderipr3                   ../engine/source/elements/solid/solide8z/s8zderipr3.F
 !||    scderi3                      ../engine/source/elements/thickshell/solidec/scderi3.F
 !||    schkjab3                     ../engine/source/elements/solid/solide/schkjab3.F
 !||    schkjabt3                    ../engine/source/elements/solid/solide4/schkjabt3.F
@@ -273,7 +274,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_fa                 ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_i24                ../engine/source/mpi/interfaces/spmd_exch_i24.F
 !||    spmd_exch_i25                ../engine/source/mpi/interfaces/spmd_exch_i25.F
-!||    spmd_exch_min_max            ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_press              ../engine/source/mpi/interfaces/spmd_exch_press.F
 !||    spmd_exch_smst2              ../engine/source/mpi/ams/spmd_exch_smst2.F
 !||    spmd_exch_sorting_efric      ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
@@ -299,7 +299,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_i7fcom_poff             ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||    spmd_i7fcom_pon              ../engine/source/mpi/forces/spmd_i7fcom_pon.F
 !||    spmd_i7xvcom2                ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-!||    spmd_ifront                  ../engine/source/mpi/interfaces/spmd_ifront.F
 !||    spmd_ifront_stamp            ../engine/source/mpi/interfaces/send_cand.F
 !||    spmd_inisph                  ../engine/source/mpi/sph/spmd_sptool.F
 !||    spmd_initfi                  ../engine/source/mpi/interfaces/spmd_i7tool.F
@@ -353,9 +352,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    user_windows_routine         ../engine/source/user_interface/user_windows.F
 !||    usermat_shell                ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                ../engine/source/materials/mat_share/usermat_solid.F
+!||    ush_force3                   ../engine/source/user_interface/ushforce3.F90
 !||    wciusc2                      ../engine/source/input/wciusc2.F
 !||    wriusc2                      ../engine/source/input/wriusc2.F
-!||    xanim28                      ../engine/source/elements/xelem/xanim28.F
 !||    xforc28                      ../engine/source/elements/xelem/xforc28.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod2                 ../engine/share/message_module/message_mod2.F

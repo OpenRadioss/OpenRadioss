@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
 !||--- called by ------------------------------------------------------
+!||    s6zhour3       ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or    ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    szhour3        ../engine/source/elements/solid/solidez/szhour3.F
 !||    szhour3_or     ../engine/source/elements/solid/solidez/szhour3_or.F
 !||--- calls      -----------------------------------------------------
@@ -62,12 +64,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IAD,J,K,ipr,NBDAMA,ISYM
+      INTEGER I,MX,J,NBDAMA,ISYM
 C     REAL
       my_real
-     .   CC(MVSIZ,3,3),B(MVSIZ,3,3),G33(MVSIZ,3,3)
+     .   CC(MVSIZ,3,3),B(MVSIZ,3,3)
       my_real
-     .   NU,LAMDA,GG,C1,QC(MVSIZ,9),QCG(MVSIZ,9),QG(MVSIZ,9),
+     .   QC(MVSIZ,9),QCG(MVSIZ,9),QG(MVSIZ,9),
      .   QGC(MVSIZ,9),G3(MVSIZ,3),DAM
       my_real
      .   C3(MVSIZ,3),DAMANG(MVSIZ,6)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,8 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod           ../engine/share/modules/h3d_mod.F
 !||    int8_mod          ../common_source/modules/interfaces/int8_mod.F90
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE INTVO8(IPARI,X ,A  ,
+      SUBROUTINE INTVO8(OUTPUT,IPARI,X ,A  ,
      2                  ICODT,FSAV ,V ,MS ,
      3                  FSKYI,ISKY ,FCONT,FNCONT,FTCONT,
      4                  ICONTACT,RCONTACT,
@@ -52,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE OUTPUT_MOD
       USE INTBUFDEF_MOD 
       USE INT8_MOD
       USE H3D_MOD
@@ -69,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IPARI(*), ICODT(*), ISKY(*),
      .        ICONTACT(*) ,NIN
       INTEGER ITAB(*),
@@ -87,7 +90,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,SIZ
+      INTEGER I
       INTEGER, DIMENSION(:,:), ALLOCATABLE  ::
      .  TAB_RMAX_UID
       INTEGER, DIMENSION(:), ALLOCATABLE  ::
@@ -264,7 +267,7 @@ C
         FACE_A(1:NSN) = 0
 
         ! Compact NSV,IRTL,XI,ZI and FACE
-        ! by keeping only secnd nodes that are 
+        ! by keeping only second nodes that are 
         ! active on this SPMD domain
         DO I = 1,NSN
            IF(INTBUF_TAB%ILOCS(I) > -1 .AND.
@@ -330,7 +333,7 @@ C
      8   H2,      H3,      H4,      FACE_A,
      9   ALP,     LFT,     LLT)
 
-        CALL I8FOR3(LFT  ,LLT  ,NFT   ,A   ,
+        CALL I8FOR3(output, LFT  ,LLT  ,NFT   ,A   ,
      2          INTBUF_TAB%MSR,NSV_A,IRTL_A,INTBUF_TAB%STFM,
      .          INTBUF_TAB%NSV,NSV2, INTBUF_TAB%ILOCS, 
      3          INTBUF_TAB%STFNS,IBC     ,ICODT      ,FSAV      ,IGIMP  , 

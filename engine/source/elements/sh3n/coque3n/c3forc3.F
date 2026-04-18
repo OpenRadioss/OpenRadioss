@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,6 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dt_mod              ../engine/source/modules/dt_mod.F
 !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -108,7 +109,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      Q   xdp,         INDX_DRAPE,  IGRE,        JTUR,
      R   DT,          SNPC,        STF,         GLOB_THERM,
-     S   IDEL7NOK,    USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     S   IDEL7NOK,    USERL_AVAIL, MAXFUNC,     SBUFMAT ,
+     T   IPART,       LIPART1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -125,6 +127,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       use dttherm_mod
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,6 +158,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: SNPC        ! size of NPC
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IPRI
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST, OFFSET,
      .        NEL    ,ISTRAIN,ISH3N , ICSEN,
      .        ITHK  ,IOFC   ,IPLA  ,NFT   ,ISMSTR ,NPT,KFTS,IFAILURE,
@@ -192,14 +196,16 @@ C-----------------------------------------------
       TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      INTEGER, INTENT(IN) :: LIPART1
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDX(MVSIZ)  ! local definition contrary to 4-node-shell elems
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
-      INTEGER I,J,IFLAG,NPG,IBID,IDRIL,NG,IR,IS,N1,N2,N3,
+      INTEGER I, J, NPG, IBID, IDRIL, NG, IR, IS, 
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
-     .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE, IDRAPE,NPTT,IT,
+     . IMAT,NPTTOT,IREP,IFRAM_OLD,IFAILWAVE, IDRAPE,NPTT,IT,
      .   ACTIFXFEM ,SEDRAPE,NUMEL_DRAPE
       my_real :: DTIME
       INTEGER SDIR_A    ! Size of DIR_A
@@ -230,7 +236,7 @@ C-----------------------------------------------
      .   VX13(MVSIZ), VX23(MVSIZ),VY12(MVSIZ),
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
-     .   CONDE(MVSIZ),A11R(MVSIZ),FAC1,ALDT(MVSIZ),SSP(MVSIZ)
+     . CONDE(MVSIZ),A11R(MVSIZ),ALDT(MVSIZ),SSP(MVSIZ)
       my_real 
      .   AREAT(MVSIZ),X2T(MVSIZ) ,Y2T(MVSIZ), X3T(MVSIZ),Y3T(MVSIZ),
      .   F_DEF(MVSIZ,8), U21X(MVSIZ),U31X(MVSIZ),U21Y(MVSIZ),U31Y(MVSIZ),
@@ -245,11 +251,12 @@ C-----------------------------------------------
       my_real, dimension(nel)   :: epsd_pg
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
 C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
-      my_real, DIMENSION(:), POINTER :: BPRELD,DNL
+      my_real, DIMENSION(:), POINTER :: DNL
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
@@ -257,9 +264,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,POINTER     :: DIR_A,DIR_B,CRKDIR,CRKLEN,DADV
       TARGET :: DIRA,DIRB
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -541,6 +548,7 @@ c-------------------------------------------
         eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
+      gbuf%epsd(1:nel) = asrate * epsd_pg(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
 !-------------------------------------------------------------------------------
       IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
      .                             TEMP ,TEMPEL )
@@ -576,11 +584,12 @@ C--------------------------
      Q   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT     ,
      R   NCYCLE    ,SNPC     ,STF          ,NXLAYMAX           ,
      S   IDEL7NOK  ,USERL_AVAIL ,MAXFUNC    ,NPTTOT,
-     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G)
+     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G,SSP_EQ ,
+     X    IPART     ,LIPART1  ,IPARTTG   )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       IF (ISMSTR /= 3) CALL C3DT3(
      1        JFT    ,JLT       ,PM      ,OFF    ,DT2T    ,
@@ -590,7 +599,7 @@ C--------------------------
      5        SHF    ,IGTYP     ,IGMAT   ,G      ,A11     ,
      6        A11R   ,GBUF%G_DT ,GBUF%DT ,ALDT   ,THK0    ,
      7        AREA   ,NGL       ,IMAT    ,MTN    ,NEL      , 
-     8        ZOFFSET )
+     8        ZOFFSET,SSP_EQ  )
 c
 C--------keep  GBUF%FOR,GBUF%MOM in new local sys as LBUF%SIG    
       CALL C3SROTO3(JFT    ,JLT    ,ECOS    ,ESIN      ,GBUF%FOR,
@@ -657,9 +666,9 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
       IF (JTHE > 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 
 C-------------------------
 C     ASSEMBLY

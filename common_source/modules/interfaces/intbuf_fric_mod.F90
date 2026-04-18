@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,7 +86,7 @@
 
           integer, dimension(:), allocatable :: tabcoupleparts_fric    ! table of couple of parts
           integer, dimension(:), allocatable :: tabparts_fric          ! table of parts
-          integer, dimension(:), allocatable :: adparts_fric           ! table of adress of couple of parts
+          integer, dimension(:), allocatable :: adparts_fric           ! table of address of couple of parts
           integer, dimension(:), allocatable :: ifricorth              ! table of orthotropic type of couple of parts
           real(kind=WP),dimension(:), allocatable :: tabcoef_fric            ! table of friction coefficients
 
@@ -107,7 +107,7 @@
 !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine intfric_wresti(intbuf_fric_tab,ninterfric)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -204,14 +204,14 @@
               lenc =2
             else
               lenc = 8
-            endif
+            end if
             if(iorth == 0) then
               len    =lenc*(nset+1)
               call write_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
             else
               len    =lenc+2*lenc*nset
               call write_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
-            endif
+            end if
           end do
           return
         end subroutine intfric_wrestr
@@ -229,7 +229,7 @@
 !||--- called by ------------------------------------------------------
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine intfric_rresti(intbuf_fric_tab,ninterfric)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -339,18 +339,18 @@
               lenc =2
             else
               lenc = 8
-            endif
+            end if
 
             if(iorth == 0) then
               len    =lenc*(nset+1)
             else
               len    =lenc+2*lenc*nset
-            endif
+            end if
 
             if(len>0)then
               allocate(intbuf_fric_tab(n)%tabcoef_fric(len))
               call read_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
-            endif
+            end if
 
           end do
           return

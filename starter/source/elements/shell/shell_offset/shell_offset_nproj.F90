@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,13 +27,15 @@
 !||====================================================================
       module sh_offset_nproj_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                      procedures
 ! ======================================================================================================================
 !
 ! ======================================================================================================================
-!!\brief This subroutine do nodal offset projection for shell
+!!\brief This subroutine performs nodal offset projection for shell
 ! ======================================================================================================================
 !||====================================================================
 !||    sh_offset_nproj   ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
@@ -95,7 +97,7 @@
               n = ix_offset(k,i)
               norm_nod(1:3,n) = norm_nod(1:3,n) + t(1:3)
             end do
-          enddo
+          end do
 !
           do n = 1, numnod
             if (itagn(n) == 0) cycle

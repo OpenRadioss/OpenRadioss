@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -88,7 +88,7 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
-          real, dimension(1,buf_count), intent(in) :: buf
+          real, dimension(buf_count,1), intent(in) :: buf
           integer :: ierr
 #ifdef MPI
           call spmd_in(tag)
@@ -259,7 +259,7 @@
 #include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
-          double precision, intent(in) :: buf(1,buf_count)
+          double precision, intent(in) :: buf(buf_count,1)
 #ifdef MPI
           integer :: ierr
           ! the MPI datatype for double precision is MPI_DOUBLE_PRECISION

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_extag     ../engine/source/mpi/fluid/spmd_cfd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE RGWAT3(
@@ -39,7 +40,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD   
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +85,8 @@ c---
      .            2, 5, 9, 6/
        I = 0
 C----------------------
-C     DECOMPTE DES ELEMENTS PAR NOEUD
-C     POUR ENERGIE DE FROTTEMENT
+C     counting elements per node
+C     for friction energy
 C----------------------
       DO 100 IE=1,NE
         II  = NELW(IE)/10
@@ -99,7 +101,7 @@ C----------------------
         IF(NTAG(N4)>0) NTAG(N4) = NTAG(N4) + 1
  100  CONTINUE
 C
-C Comm SPMD NTAG : cumul aux points frontiere + prise en compte tag initial
+C Comm SPMD NTAG: Cumulation at the boundary points + TAG Initial Tag into account
 C
       IF(NSPMD>1)THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -117,7 +119,7 @@ C----------------------
         N4  = IXS(IFACE(4,IFA),II)
         IF(NTAG(N1)+NTAG(N2)+NTAG(N3)+NTAG(N4)>0)THEN
 C---------------------------------
-C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
+C         search for the element in the buffer
 C---------------------------------
           DO 200 NG=II/NVSIZ,NGROUP
             CALL INITBUF(IPARG    ,NG      ,                   
@@ -143,7 +145,7 @@ C
           EE  = ZERO
           PHI = ZERO
 C----------------------
-C     ENERGIE DE FROTTEMENT
+C     friction energy
 C----------------------
           IF(NTAG(N1)>1) EE = EE + E(N1) / (NTAG(N1)-1)
           IF(NTAG(N2)>1) EE = EE + E(N2) / (NTAG(N2)-1)
@@ -169,13 +171,13 @@ C
             Y4=X(2,N4)
             Z4=X(3,N4)
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
             NX=(Y3-Y1)*(Z2-Z4) - (Z3-Z1)*(Y2-Y4)
             NY=(Z3-Z1)*(X2-X4) - (X3-X1)*(Z2-Z4)
             NZ=(X3-X1)*(Y2-Y4) - (Y3-Y1)*(X2-X4)
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 8. )
+C         calculation of the distance between center and surface (*8.)
 C-------------------------------------------------------------
             DX = TWO*(X1 + X2 + X3 + X4)
      .          -X(1,IXS(2,II))-X(1,IXS(3,II))
@@ -197,11 +199,11 @@ C
 C
             DD=DX**2+DY**2+DZ**2
 C---------------------------------
-C         CALCUL DU GRADIENT * SURFACE
+C         calculation of gradient * surface
 C---------------------------------
             GRAD = FOUR*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,DD)
 C---------------------------------
-C         CALCUL DU FLUX
+C         calculation of the flux
 C---------------------------------
             TEMPE=GBUF%TEMP(I)
             MAT  =IXS(1,IE)

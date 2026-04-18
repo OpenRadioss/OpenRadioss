@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,12 +54,13 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXTG(NIXTG,NUMELTG)TABLEAU CONECS+PID+MID+NOS TRIANGLES       E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     PM(NPROPM,NUMMAT)  ARRAY OF MATERIAL PROPERTIES           E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     INUM(9,NUMELTG)     TABLEAU DE TRAVAIL                         E/S
 C     ISEL(NSELTG)        TABLEAU DES TRI CHOISIES POUR TH          E/S
 C     ITR1(NSELTG)        TABLEAU DE TRAVAIL                         E/S
@@ -98,7 +99,7 @@ C-----------------------------------------------
      .    SH3TREE(KSH3TREE,*), NOD2ELTG(*), SH3TRIM(*),
      .    TAGPRT_SMS(*),IWORKSH(3,*)
       INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*), THK(*), RNOISE(NPERTURB,*),
      .    SH3ANG(*)
@@ -117,19 +118,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_DRAPE
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER WORK(70000)
-      INTEGER I, K, MLN, NG, ISSN, NPN, IFIO,NN,ICO,ID,
-     .   MLN0, ISSN0, IC, N, MID, MID0, PID, PID0, ISTR0,
-     .   IHBE, IHBE0, J, MIDN, NSG, NEL, NE1, ITHK,
-     .   ITHK0, IPLA, IPLA0, II1, JJ1, II2, JJ2, II, JJ, 
-     .   L, IGTYP, II3, JJ3,NGROU,NELTG3,
-     .   MSKMLN, MSKNPN, MSKIHB, MSKISN, MODE,ICSEN,IFAIL,NFAIL,
+      INTEGER I, K, MLN, ISSN, NPN,NN,ICO,ID,
+     .     MID, PID,
+     .     J, ITHK,
+     .    IPLA, II1, JJ1, II2, JJ2, II, JJ, 
+     .    IGTYP, II3, JJ3,
+     .   MSKMLN, MSKNPN, MSKISN, MODE,ICSEN,IFAIL,NFAIL,
      .   MSKIST, MSKIPL, MSKITH, MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
-     .   II0,JJ0,ILEV,PRT,IADM,DIR,MSKIRB,IRB, II4, JJ4,
-     .   IRUP,IXFEM,IWARNHB,IPT,IMATLY,IPID,ISH3N,
-     .   INUM_WORKC(3,NUMELTG),II5,JJ5,ISUBSTACK,IIGEO,IADI,IPPID,
-     .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,IP,NSLICE,KK,NPT_DRP,
+     .   II0,JJ0,ILEV,PRT,IADM,MSKIRB,IRB, II4, JJ4,
+     .   IXFEM,IWARNHB,IPT,IMATLY,IPID,ISH3N,
+     .   INUM_WORKC(3,NUMELTG),II5,JJ5,ISUBSTACK,IPPID,
+     .   NB_LAW58,IPMAT,IPERT,STAT,NSLICE,KK,NPT_DRP,
      .   IEL, IEL0
        my_real
      . ANGLE(NUMELTG)
@@ -198,7 +199,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ENDIF 
 C
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORT ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       IF (NPERTURB > 0) THEN
@@ -318,7 +319,7 @@ C
           ITRI(1,I)=0
         ELSE
 C
-C       ILEV doit etre de poids fort sur 1ere clef
+C       ILEV must have a strong weight on the first key
           PRT = IPARTTG(II)
           IADM= IPART(10,PRT)
           IF(IADM==0)THEN
@@ -453,10 +454,10 @@ C
         ISTRAIN = NINT(GEO(11,PID))
         IF(MLN==19.OR.MLN>=25.OR.MLN==15)ISTRAIN = 1
         ISSN = NINT(GEO(3,PID))
-C tri sur elem delete des rigidbody
+C sort on elem deletes rigidbody
 C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
-C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
+C IRB = 1 : inactive elem and optimized for SPMD
+C IRB = 2: Elem inactive but optimized to be active in SPMD
         IRB = ITRIOFF(I)
 C
 C---     Clef2 
@@ -480,8 +481,8 @@ C       IPLA   = MY_SHIFTL(IPLA,0)
 C
         IGTYP  = MY_SHIFTL(IGTYP,9)
         MLN    = MY_SHIFTL(MLN,18)    
-C       attention cle pleine ;
-C       ICO doit rester en poids le plus fort dans cette cle.
+C       Beware full;
+C       ICO must remain the heaviest weight in this key.
         ICO   = MY_SHIFTL(ICO,29) 
         ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO 
 C
@@ -605,13 +606,13 @@ C
       END IF
 
 C     
-C INVERSION DE INDEX (DANS ITR1)
+C INDEX INVERSION (IN ITR1)
 C
       DO I=1,NUMELTG
         ITR1(INDEX(I))=I
       ENDDO      
 
-C RENUMEROTATION DE L'ARBRE
+C renumbering of the tree
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
           IF(SH3TREE(1,I)/=0)
@@ -621,7 +622,7 @@ C RENUMEROTATION DE L'ARBRE
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -631,7 +632,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL3N
+C renumbering for SHELL3N groups
 C
       DO I=1,NGRSH3N
         NN=IGRSH3N(I)%NENTITY
@@ -646,7 +647,7 @@ C
         IF(NOD2ELTG(I) /= 0)NOD2ELTG(I)=ITR1(NOD2ELTG(I))
       END DO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELTG

@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include "dynamain.h"
 DynakeyMessages dynakeymessages;
 
@@ -39,14 +39,16 @@ void DynakeyMessages::ShowMessage(const sdiMessageHandler::Level &level, int cod
         "", "", "", 0);
 }
  
-
+ 
 #include <sdiCFGTypeMapper.h> 
 #include <sdiModelViewPO.h>
+#include <sdiModelViewPOLSDyna.h>
 
 static std::vector<IMECPreObject *> pre_obj_lst[HCDI_OBJ_TYPE_HC_MAX];
 
 #include <MODEL_IO/solverCDR.h>
-
+#include <MODEL_IO/cfgio_model_factory_reader_po_exprtk.h>
+ 
 extern "C" DYNAKEY_DECLS
 sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
 {
@@ -74,14 +76,10 @@ sdi::ModelViewEdit* DynakeyReadModel(const char *filename)
 
     SolverSyntaxInfos syntaxSolverInfos;
     SolverInputInfo solverInf;
-    CommonDataReaderCFG reader("", str_version, "", true);
+    ModelFactoryReaderPOExprTk* model = new ModelFactoryReaderPOExprTk();
+    CommonDataReaderCFG reader(model,"", str_version, "", true);
     reader.ReadModel(filename, pre_obj_lst);
-    const CFGKernel* cfgkernel = MultiCFGKernelMgr::getInstance().GetCurrentCFGKernel();
-    sdi::ModelViewPO* pModelViewSDI =  new sdi::ModelViewPO(
-        //sdi::SDICFGTypeMapper(cfgkernel, "*"),
-        sdi::SDICFGTypeMapper(),
-        pre_obj_lst, HCDI_OBJ_TYPE_HC_MAX, cfgkernel,
-        {"*DEFINE_CURVE"});
+    sdi::ModelViewPO* pModelViewSDI = new sdi::SDIModelViewPOLSDyna(pre_obj_lst);
     pModelViewSDI->ApplyIdOffsets("INCLUDE_TRANSFORM");
 
     return pModelViewSDI;

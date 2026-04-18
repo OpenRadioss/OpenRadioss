@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,8 +58,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I,IP,N,M,J,K
-      INTEGER ITER,NITER,INIT_PITER,NITERX,MAXITER
+      INTEGER NGL(*), I, IP, N, J, K
+      INTEGER NITER, NITERX, MAXITER
       INTEGER NINDX, NINDX2, INDEX(MVSIZ)
       my_real
      .   UL(MVSIZ,10),
@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
       my_real
      .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10), 
-     .   NV(MVSIZ), NVOLD(MVSIZ), LL, BU(MVSIZ,6), NINV(MVSIZ)
+     .   NV(MVSIZ), NVOLD(MVSIZ), BU(MVSIZ,6), NINV(MVSIZ)
       my_real
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
@@ -114,12 +114,12 @@ C            PYZ(I) =PYZ(I) + VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
               ENDDO
               DO N=5,10
           DO I=LFT,LLT
-            PXX(I) =PXX(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PX(I,N,IP)
-            PYY(I) =PYY(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PY(I,N,IP)
-            PZZ(I) =PZZ(I) + TRHEE_OVER_14*VOL(I,IP)*PZ(I,N,IP)*PZ(I,N,IP)
-C            PXY(I) =PXY(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PY(I,N,IP)
-C            PXZ(I) =PXZ(I) + TRHEE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PZ(I,N,IP)
-C            PYZ(I) =PYZ(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
+            PXX(I) =PXX(I) + THREE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PX(I,N,IP)
+            PYY(I) =PYY(I) + THREE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PY(I,N,IP)
+            PZZ(I) =PZZ(I) + THREE_OVER_14*VOL(I,IP)*PZ(I,N,IP)*PZ(I,N,IP)
+C            PXY(I) =PXY(I) + THREE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PY(I,N,IP)
+C            PXZ(I) =PXZ(I) + THREE_OVER_14*VOL(I,IP)*PX(I,N,IP)*PZ(I,N,IP)
+C            PYZ(I) =PYZ(I) + THREE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
           ENDDO
               ENDDO
             ENDDO
@@ -138,22 +138,22 @@ C            PYZ(I) =PYZ(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
 
               DO I=LFT,LLT
           PXX(I)=PX(I,1,IP)*PX(I,1,IP)+PX(I,2,IP)*PX(I,2,IP)+PX(I,3,IP)*PX(I,3,IP)+PX(I,4,IP)*PX(I,4,IP)+
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
      .           PX(I,8,IP)*PX(I,8,IP)+PX(I,9,IP)*PX(I,9,IP)+PX(I,10,IP)*PX(I,10,IP))
           PYY(I)=PY(I,1,IP)*PY(I,1,IP)+PY(I,2,IP)*PY(I,2,IP)+PY(I,3,IP)*PY(I,3,IP)+PY(I,4,IP)*PY(I,4,IP)+
-     .            TRHEE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
+     .            THREE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
      .           PY(I,8,IP)*PY(I,8,IP)+PY(I,9,IP)*PY(I,9,IP)+PY(I,10,IP)*PY(I,10,IP))
           PZZ(I)=PZ(I,1,IP)*PZ(I,1,IP)+PZ(I,2,IP)*PZ(I,2,IP)+PZ(I,3,IP)*PZ(I,3,IP)+PZ(I,4,IP)*PZ(I,4,IP)+
-     .            TRHEE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
      .           PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
           PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
      .           PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
           PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
      .           PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
           PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
-     .            TRHEE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
      .           PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
               ENDDO
 
@@ -175,22 +175,22 @@ C            PYZ(I) =PYZ(I) + TRHEE_OVER_14*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
 
               DO I=LFT,LLT
           PXX(I)=PX(I,1,IP)*PX(I,1,IP)+PX(I,2,IP)*PX(I,2,IP)+PX(I,3,IP)*PX(I,3,IP)+PX(I,4,IP)*PX(I,4,IP)+
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PX(I,5,IP)+PX(I,6,IP)*PX(I,6,IP)+PX(I,7,IP)*PX(I,7,IP)+
      .           PX(I,8,IP)*PX(I,8,IP)+PX(I,9,IP)*PX(I,9,IP)+PX(I,10,IP)*PX(I,10,IP))
           PYY(I)=PY(I,1,IP)*PY(I,1,IP)+PY(I,2,IP)*PY(I,2,IP)+PY(I,3,IP)*PY(I,3,IP)+PY(I,4,IP)*PY(I,4,IP)+
-     .            TRHEE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
+     .            THREE_OVER_14*(PY(I,5,IP)*PY(I,5,IP) +PY(I,6,IP)*PY(I,6,IP)+PY(I,7,IP)*PY(I,7,IP)+
      .           PY(I,8,IP)*PY(I,8,IP)+PY(I,9,IP)*PY(I,9,IP)+PY(I,10,IP)*PY(I,10,IP))
           PZZ(I)=PZ(I,1,IP)*PZ(I,1,IP)+PZ(I,2,IP)*PZ(I,2,IP)+PZ(I,3,IP)*PZ(I,3,IP)+PZ(I,4,IP)*PZ(I,4,IP)+
-     .            TRHEE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PZ(I,5,IP)*PZ(I,5,IP)+PZ(I,6,IP)*PZ(I,6,IP)+PZ(I,7,IP)*PZ(I,7,IP)+
      .           PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
           PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
      .           PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
           PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
-     .            TRHEE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
      .           PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
           PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
-     .            TRHEE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
+     .            THREE_OVER_14*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
      .           PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
               ENDDO
 
@@ -317,9 +317,9 @@ C             Vol_ip * Transpose(Bip).Bip.U
             END DO
             DO N=5,10
               DO J=1,NINDX
-                  VX(J,N)=TRHEE_OVER_14*VX(J,N)
-                  VY(J,N)=TRHEE_OVER_14*VY(J,N)
-                  VZ(J,N)=TRHEE_OVER_14*VZ(J,N)
+                  VX(J,N)=THREE_OVER_14*VX(J,N)
+                  VY(J,N)=THREE_OVER_14*VY(J,N)
+                  VZ(J,N)=THREE_OVER_14*VZ(J,N)
                 NV(J) = NV(J) + VX(J,N)*VX(J,N)+VY(J,N)*VY(J,N)+VZ(J,N)*VZ(J,N)
               END DO
             END DO
@@ -376,7 +376,7 @@ C
 C
           DO I=LFT,LLT
             AA   = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4))
-            BB   = TRHEE_OVER_14*MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
+            BB   = THREE_OVER_14*MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
             D(I) = MAX(D(I),TWO*MAX(AA,BB))
           ENDDO
 C
@@ -937,7 +937,7 @@ C
             BB = MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
             DELTAX2(I) = AA/MAX(AA,BB)
             AA = AA*THIRTY2
-            BB = BB*FOURTY8/SEVEN
+            BB = BB*FORTY8/SEVEN
             DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
           END DO
         ELSEIF (ISROT==2.AND.(IINT==0.OR.IDT1SOL>0)) THEN
@@ -1061,9 +1061,9 @@ C
             A4 = A4X*A4X+A4Y*A4Y+A4Z*A4Z
 
             DELTAX(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
-c minoration deltax car inertie constante avec marge 
-c d'un facteur sqrt(8) sur le cot    AA0 
-c approche a partir du volume initial
+c reduction of deltax because inertia constant with margin
+c by a factor sqrt(8) on the side AA0
+c approximation from the initial volume
             AA0 = ((SIX*SQR2*VOLG(I))**TWO_THIRD) * EIGHT
             AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),
      .          SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I),

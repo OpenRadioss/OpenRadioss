@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, II, L, JJ,KVAR,SEGAD,ADS,ADM,PB,TEST
+      INTEGER NIR, I, II, L, JJ,KVAR,SEGAD,ADS,ADM,PB,TEST
       my_real,DIMENSION(:),POINTER :: ptr
 C-----------------------------------------------
       TEST=0
@@ -113,7 +113,7 @@ C-----------------------------------------------
          
       ENDDO
 
-      !CALCUL PARTICULIER SI IL EXISTE ONE SEGMENT SANS NOEUD SECOND. DETECTE
+      !CALCULATION PARTICULIER SI IL EXISTE ONE SEGMENT SANS NODE SECOND. DETECTE
       PB=0
       DO I=1,NRTM
         IF(MCOUNT(I)==ZERO)PB=1

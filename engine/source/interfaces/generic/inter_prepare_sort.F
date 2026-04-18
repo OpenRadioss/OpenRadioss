@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -114,7 +114,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy & 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM     ! connectivity array iad(P+1)-iad(P) = nb of frontier node on P
-        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! frontier node ID
+        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! Frontier Node ID
 
 
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB   ! interface data
@@ -127,10 +127,10 @@ C-----------------------------------------------
         LOGICAL :: TYPE18
         INTEGER :: KK,N
         INTEGER :: INACTI,NTY
-        INTEGER :: NB_REQUEST_COARSE_CELL   ! number of request for coarse cell comm
+ 
         integer :: mode
-        INTEGER, DIMENSION(NB_INTER_SORTED) :: ARRAY_REQUEST_COARSE_CELL ! array of request
-        INTEGER, DIMENSION(NB_INTER_SORTED) :: LIST_INTER_COARSE_CELL ! list of interface
+ 
+ 
         integer :: nsn, nsnr, nrtm, nmn
         integer :: DUMMY(1)
         my_real :: tzinf,curv        

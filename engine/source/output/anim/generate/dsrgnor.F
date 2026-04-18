@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||====================================================================
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I3000,NXX,NYY,NZZ
+      INTEGER I3000
       INTEGER N,ADRBUF
       INTEGER INOE, I, J, K, DGR
       my_real XG,YG,ZG,A,B,C,ROT(9),
@@ -60,13 +60,12 @@ C-----------------------------------------------
       my_real
      1   NCOR(3,384),
      2   NNOR(3,384),
-     3   XA,XB,XC,LA,LB,LC,
-     4   XL,YL,ZL,E,D,
+     3
+     4 XL,YL,ZL,E,
      5   XLN,YLN,ZLN,NXL,NYL,NZL,NX,NY,NZ,NORMN
       my_real
      1   XX0,YY0,ZZ0,
      2   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)
-      REAL R4
       DATA DX0/ 0., 0., 0., 0., 0., 0./
       DATA DY0/ 1.,-1., 0., 0., 0., 0./
       DATA DZ0/ 0., 0.,-1., 1., 1.,-1./
@@ -84,7 +83,7 @@ C
        IF (IGRSURF(N)%TYPE/=101) GOTO 200
        ADRBUF=IGRSURF(N)%IAD_BUFR
 C-------------------------------------------------------
-c      Parametres de l'ellipsoide.
+c      ellipsoid parameters
 C-------------------------------------------------------
        DGR=BUFSF(ADRBUF+36)
        XG=BUFSF(ADRBUF+4)
@@ -97,7 +96,7 @@ C-------------------------------------------------------
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO
 C-------------------------------------------------------
-C      - Calcul des noeuds sur le cube A,B,C.
+C      compute nodes on the A,B,C cube
 C-------------------------------------------------------
        INOE=0
        DO I = 1,6
@@ -123,7 +122,7 @@ C-------------------------------------------------------
         ENDDO
        ENDDO
 C-------------------------------------------------------
-C      - Calcul de la normale : projection radiale.
+C      compute the normal: radial projection
 C-------------------------------------------------------
        AN=A**DGR
        BN=B**DGR
@@ -162,7 +161,7 @@ C
         NNOR(3,INOE)=THREE1000*NZ        
        END DO
 C-------------------------------------------------------
-C      Ecriture des normales aux noeuds.
+C      Writing normal to nodes.
 C-------------------------------------------------------
        INOE=0
        DO I=1,384

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cdt3         ../engine/source/elements/shell/coque/cdt3.F
+!||    cdt3          ../engine/source/elements/shell/coque/cdt3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CDT3(JFT   ,JLT    ,YM   ,OFF  ,DT2T,
      2                NELTST,ITYPTST,STI  ,STIR ,OFFG,
@@ -33,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                VOL0  ,VOL00  ,RHO  ,ALDT ,ALPE,
      6                INDXOF,NGL    ,ISMSTR,IOFC,MSC ,
      7                DMELC ,JSMS   ,G_DT ,DTEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  J, I, II,IDT
+      INTEGER  J, I, IDT
       my_real
      .   DT(MVSIZ)     
       my_real DIVM,MAS 

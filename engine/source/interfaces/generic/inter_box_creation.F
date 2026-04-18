@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,6 +83,7 @@ C-----------------------------------------------
         IF(DIST_MAX==DZ_BOX) LEADING_DIMENSION = 3
         
         !   compute the number of cell in the leading direction, then compute the number of cell in the other direction
+        !   Possible overflow in sp here
         RATIO = SQRT( NUMNODG / (DX_BOX*DY_BOX+DX_BOX*DZ_BOX+DY_BOX*DZ_BOX))
         IF(LEADING_DIMENSION==1) THEN
             NB_CELL_X = NINT( RATIO * DX_BOX )

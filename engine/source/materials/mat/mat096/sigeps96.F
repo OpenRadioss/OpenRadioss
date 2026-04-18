@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -93,13 +93,13 @@ C-----------------------------------------------
       INTEGER I,ITER,NITER,IVARF,IFUNC_E,IFUNC_YLD
       INTEGER, DIMENSION(NEL) :: IPOS1,ILEN1,IAD1,IPOS2,ILEN2,IAD2
 c
-      my_real TANB,TANP,EINI,KINI,GINI,NU,YXI,KEP,H,HO,HM,RES,DRES,
+      my_real TANB,TANP,EINI,KINI,GINI,NU,YXI,KEP,HO,HM,RES,DRES,
      .  SIGY,SIGA,SIGB,SIGR,RA1,RA2,RB,RC,NA,FAC,Q2,PP1,PP2,PLA2,PLA,DPLA,
-     .  DFDP,DFDC,DGDP,DENOM,LDOT,DWPX2,QX2,DEPSLV,DEPSPV,DEPSPD,
+     .  DFDP,DFDC,DGDP,DENOM,LDOT,DEPSLV,DEPSPV,DEPSPD,
      .  E1,E2,E3,E4,E5,E6,TR,SY1,SY2,SY3,SY4,SY5,SY6,
      .  DFDS1,DFDS2,DFDS3,DFDS4,DFDS5,DFDS6,DEPSP1,DEPSP2,DEPSP3,DEPSP4,
      .  DEPSP5,DEPSP6,DEPSL1,DEPSL2,DEPSL3,DEPSL4,DEPSL5,DEPSL6,EPSP,
-     .  QY,FY,PY,F1,F2,X,X1,X2,DX,ALPHA
+     .  QY,FY,PY,F1,F2,X,X1,X2,ALPHA
       my_real, DIMENSION(NEL) :: K,G,G2,RA,DEPSV,DAV,D1,D2,D3,
      .  DS1,DS2,DS3,DS4,DS5,DS6,DP,DE1,DE2,DE3,DE4,DE5,DE6,DYDX,
      .  FO,PO,SO1,SO2,SO3,SO4,SO5,SO6,S1,S2,S3,S4,S5,S6,P,YLD,
@@ -133,7 +133,7 @@ C=======================================================================
       BIG   = EP20
       TOL   = EM20
 c---------------------     
-      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain  
+      EPSPD => DEFP(1:NEL,1)   ! Von Equivalent Plastic Strain  
       EPSPV => DEFP(1:NEL,2)   ! Volumetric Plastic Strain
 c---------------------     
       EINI = UPARAM(1)
@@ -231,7 +231,7 @@ c
         D1(I)  = DEPSXX(I)-DAV(I)
         D2(I)  = DEPSYY(I)-DAV(I)
         D3(I)  = DEPSZZ(I)-DAV(I)
-c       Increments elastiques pression et deviateur        
+c       Elastic Pressure and Deviation increment
         DP(I) =-K(I)* DEPSV(I)
         DS1(I)= G2(I)* D1(I) 
         DS2(I)= G2(I)* D2(I)
@@ -239,7 +239,7 @@ c       Increments elastiques pression et deviateur
         DS4(I)= G(I) * DEPSXY(I)
         DS5(I)= G(I) * DEPSYZ(I)
         DS6(I)= G(I) * DEPSZX(I)
-c       Valeurs elastiques pression et deviateur   
+c       Elastic values pressure and deviator   
         PO(I)  =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
@@ -255,7 +255,7 @@ c       Valeurs elastiques pression et deviateur
         S5(I) = SO5(I) + DS5(I)
         S6(I) = SO6(I) + DS6(I)
         P(I)  = PO(I)  + DP(I)
-c       Contraintes elastiques
+c       Elastic constraints
         SIGNXX(I) = S1(I) - P(I)
         SIGNYY(I) = S2(I) - P(I)
         SIGNZZ(I) = S3(I) - P(I)
@@ -281,7 +281,7 @@ c------------------------------------------
         F(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
 c------------------------------------------
-c     ITERATION POUR TROUVER LE PT D'INTERSECTION AVEC LE CRITERE
+c     ITERATION TO FIND THE INTERSECTION POINT WITH THE CRITERION
 c------------------------------------------
       DO I=1,NEL
         IF (F(I) > TOL) THEN

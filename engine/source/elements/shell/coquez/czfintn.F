@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,10 +38,10 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -69,16 +69,16 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
         my_real 
-     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SXX,SYY,SVM,SVMN,
+     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SVM,
      .  SS1,SS2,SS3,SC6,SC5,CXX_K,CYY_K,HXX,HYY,SF1,SF2,B13,B24,
      .  CXX,CYY,Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,HXX_K,HYY_K,
      .  BXX,BYY,BXX_K,BYY_K,
-     .  C1M,C2M,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  C1M,C2M,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,
-     .  EMY,ECX,ECY,ESY,COEF1,COEFH,FBEND,FBEND_V,C12,
+     .  EMY,ESY,COEF1,COEFH,FBEND,FBEND_V,C12,
      .  C6(MVSIZ),DGLAS(MVSIZ,12),
      .  ESX(MVSIZ),TESY(MVSIZ),EMX(MVSIZ),DHG(MVSIZ,6),ETMP(MVSIZ,2)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -288,7 +288,7 @@ C      ---------elstic increament----------
         VGLAS(I,8) =VGLAS(I,8) +DGLAS(I,8)
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
-C  -----------/4 par rapport formulation-------    
+C  -----------/4 compared to formulation-------
         VGLAS(I,5) =VGLAS(I,5) +DGLAS(I,5)
         VGLAS(I,6) =VGLAS(I,6) +DGLAS(I,6)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
@@ -523,7 +523,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
+        INTEGER I,MX
         my_real 
      .  C2,HSURA,MX23,MY23,MX34,MY34,
      .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,
@@ -574,12 +574,12 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -601,7 +601,7 @@ C-----------------------------------------------
      .       FAC1(*) ,RHO(*) ,AREA(*), DT1,OFF(*),EINT(JLT,2),AMU(*) ,
      .       EVIS(NPSAV,*),VMZ(MVSIZ,4),
      .       VHGZK(MVSIZ,5),VHGZE(MVSIZ,5),KRZ(*),
-     .       BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
+     .       BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .       GSR(*), A11SR(*), A12SR(*), NUSR(*), SHFSR(*)
          INTEGER KFTS
 C-----------------------------------------------
@@ -609,16 +609,16 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
         my_real 
-     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SXX,SYY,SVM,SVMN,
+     .  STIER,C2,C3,C4,C5,C7,C8,HSURA,SVM,
      .  SS1,SS2,SS3,SC6,SC5,CXX_K,CYY_K,HXX,HYY,SF1,SF2,B13,B24,
      .  CXX,CYY,Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,HXX_K,HYY_K,
      .  BXX,BYY,BXX_K,BYY_K,
-     .  C1M,C2M,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  C1M,C2M,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,COEF1,COEFH,FBEND,FBEND_V,
+     .  EMY,ESY,COEF1,COEFH,FBEND,FBEND_V,
      .  CNNXY,CNNXY_K,CMMXY,CMMXY_K,SSZ1,SSZ2,C3M,ERZ,
      .  C6(MVSIZ), ESX(MVSIZ), TESY(MVSIZ), EMX(MVSIZ),
      .  DGLAS(MVSIZ,18),
@@ -911,7 +911,7 @@ C
         C2=Z1(I)*HSURA
         VF(I,3,1)=VF(I,3,1)+C2*(SSZ1*Y24(I)-SSZ2*X24(I))
         VF(I,3,2)=VF(I,3,2)+C2*(-SSZ1*Y13(I)+SSZ2*X13(I))
-C-----------non const mz----17,18--
+C---------- No Const Mz ---- 17,18--
         C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)
 C
@@ -1024,10 +1024,10 @@ C orthotropic elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1054,15 +1054,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J
+        INTEGER I, J
         my_real 
-     .  STIER,C2,C3,C4,C7,B13,B24,C3M,
+     .  STIER,C2,C3,C4,C7,B13,B24,
      .  Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,
      .  DGLAS(MVSIZ,12),
-     .  C1B,C2B,CMM,CNN,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
-     .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,FBEND,FBEND_V,ERZ,FACM(MVSIZ),FACF(MVSIZ)
+     .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,
+     .  FBEND,FBEND_V,FACM(MVSIZ),FACF(MVSIZ)
         my_real 
      .  C5(MVSIZ),CXX_K(MVSIZ),CYY_K(MVSIZ),HXX(MVSIZ),HYY(MVSIZ),
      .  CXX(MVSIZ),CYY(MVSIZ),HXX_K(MVSIZ),HYY_K(MVSIZ),
@@ -1161,7 +1161,7 @@ cc         A12SR(I)=SQRT(HM(3,I))
 C    VGLAS(1-6)->ETA (x:+ y-); VGLAS(7-12)->KSI  (x:- y+);
 C-----part iso-commun
         DO I=JFT,JLT
-C----- x_ETA, signe +     
+C----- x_eta, sign +     
           DGLAS(I,1) =CM(I,1,1)*CXX(I)-CM(I,1,2)*CYY(I)
 C----- y_ETA, signe -     
           DGLAS(I,2) =CM(I,2,2)*CYY(I)-CM(I,1,2)*CXX(I)
@@ -1169,7 +1169,7 @@ C----- x_ETA, signe+ bending
           DGLAS(I,3) =CF(I,1,1)*BXX(I)-CF(I,1,2)*BYY(I)
 C----- y_ETA, signe - bending    
           DGLAS(I,4) =CF(I,2,2)*BYY(I)-CF(I,1,2)*BXX(I)
-C----- x_Ksi, signe -     
+C----- x_ksi, sign-     
           DGLAS(I,7) =CM(I,1,1)*CXX_K(I)-CM(I,1,2)*CYY_K(I)
 C----- y_Ksi, signe +     
           DGLAS(I,8) =CM(I,2,2)*CYY_K(I)-CM(I,1,2)*CXX_K(I)
@@ -1186,7 +1186,7 @@ C------------
           DGLAS(I,11)=C3*HXX_K(I)*VHG(I,6)
           DGLAS(I,12)=C3*HYY_K(I)*VHG(I,6)
         END DO
-C-----part C(1,3),C(2,3)
+C---- Part C (1,3), C (2,3)
 C-------finally after crash-box tets, constant in-plane shear strain and stress
 C--------- like QBAT is used to avoid instability     
        DO I=JFT,JLT
@@ -1463,12 +1463,12 @@ C orthotropic elasto-plastic hourglass stresses+linear damping with drilling dof
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1491,22 +1491,22 @@ C-----------------------------------------------
      .       FAC1(*) ,RHO(*) ,AREA(*), DT1,OFF(*),EINT(JLT,2),AMU(*) ,
      .       EVIS(NPSAV,*),VMZ(MVSIZ,4),
      .       VHGZK(MVSIZ,5),VHGZE(MVSIZ,5),KRZ(*),
-     .       BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
+     .       BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .       GSR(*), A11SR(*), A12SR(*), NUSR(*), SHFSR(*),
      .       HM(MVSIZ,6),HF(MVSIZ,6),HC(MVSIZ,2),HMFOR(MVSIZ,6)
          INTEGER KFTS
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J
+        INTEGER I, J
         my_real 
      .  STIER,C2,C3,C4,C7,B13,B24,C3M,
      .  Y13S,X13S,Y34S6,Y23S5,X23S5,X34S6,
      .  DGLAS(MVSIZ,18),FACM(MVSIZ),FACF(MVSIZ),
-     .  C1B,C2B,CMM,CNN,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  UNDOUZSR,AUX,
      .  SSV0,SSV1,SSV2,SSV3,SC6_V,SC5_V,CXX_V,CYY_V,CXY_V,CXZ_V,CYZ_V,
      .  HXX_V,HYY_V,HXY_V,SS1_V,SS2_V,SS3_V,SF1_V,SF2_V,HVL,CRZ,
-     .  EMY,ECX,ECY,ESY,FBEND,FBEND_V,ERZ
+     .  FBEND,FBEND_V,ERZ
         my_real 
      .  C5(MVSIZ),CXX_K(MVSIZ),CYY_K(MVSIZ),HXX(MVSIZ),HYY(MVSIZ),
      .  CXX(MVSIZ),CYY(MVSIZ),HXX_K(MVSIZ),HYY_K(MVSIZ),
@@ -1625,7 +1625,7 @@ C-------Modified modulas for damping---
 C    VGLAS(1-6)->ETA (x:+ y-); VGLAS(7-12)->KSI  (x:- y+);
 C-----part iso-commun
         DO I=JFT,JLT
-C----- x_ETA, signe +     
+C----- x_eta, sign +     
           DGLAS(I,1) =CM(I,1,1)*CXX(I)-CM(I,1,2)*CYY(I)
 C----- y_ETA, signe -     
           DGLAS(I,2) =CM(I,2,2)*CYY(I)-CM(I,1,2)*CXX(I)
@@ -1633,7 +1633,7 @@ C----- x_ETA, signe + bending
           DGLAS(I,3) =CF(I,1,1)*BXX(I)-CF(I,1,2)*BYY(I)
 C----- y_ETA, signe - bending    
           DGLAS(I,4) =CF(I,2,2)*BYY(I)-CF(I,1,2)*BXX(I)
-C----- x_Ksi, signe -     
+C----- x_ksi, sign-     
           DGLAS(I,7) =CM(I,1,1)*CXX_K(I)-CM(I,1,2)*CYY_K(I)
 C----- y_Ksi, signe +     
           DGLAS(I,8) =CM(I,2,2)*CYY_K(I)-CM(I,1,2)*CXX_K(I)
@@ -1664,7 +1664,7 @@ C    --------add  srz dof--------
           DGLAS(I,17)=CRZ*VHGZE(I,5)
           DGLAS(I,18)=CRZ*VHGZK(I,5)
         END DO
-C-----part C(1,3),C(2,3)
+C---- Part C (1,3), C (2,3)
        DO I=JFT,JLT
 C    
         DGLAS(I,1) =DGLAS(I,1)-CM(I,1,3)*CMH(I)
@@ -1811,7 +1811,7 @@ C--------
          SC6(I)=SC6(I)*C2
          SS3(I)=SC5(I)+SC6(I)
       END DO !I=JFT,JLT
-C-----------non const mz----17,18--
+C---------- No Const Mz ---- 17,18--
        DO I=JFT,JLT
         C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)
@@ -1932,11 +1932,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J,NPT1
+        INTEGER I,NPT1
         my_real 
-     .  SVM,SVMN,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  SVM,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,
      .  COEF1,COEFH,SIGY0,SXYH,MXYH,SIGYH,FACM,FACF,FACT
 C-----------------------------------------------
        COEFH= ZEP99
@@ -2055,11 +2055,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J,NPT1
+        INTEGER I,NPT1
         my_real 
-     .  SVM,SVMN,C1B,C2B,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
+     .  SVM,CMM,CNN,UFAC,TOL,COEF,EH1,EH2,
      .  CNNX,CNNY,CNNX_K,CNNY_K,CMMX,CMMY,CMMX_K,CMMY_K,SXY0,MXY0,
-     .  SVMC,SIGY2,SVM0,SVMC_K,A_BK,A_B,A_K,UNDOUZSR,AUX,
+     .  SIGY2,
      .  COEF1,COEFH,CNNXY,CNNXY_K,CMMXY,CMMXY_K,FACM,FACF,FACT,SIGY0
 C-----------------------------------------------
        COEFH= ZEP99
@@ -2202,10 +2202,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
+        INTEGER I,MX
         my_real 
-     .  C2,HSURA,MX34,MY34,FV,GV(MVSIZ),
-     .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,HVZ(MVSIZ),
+     .  C2,GV(MVSIZ),
+     .  HVL,
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
      .   GAMAVZ(MVSIZ),PX1(MVSIZ), PX2(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
      .   PX1V, PX2V, PY1V, PY2V, TESY(MVSIZ),HX(MVSIZ),HY(MVSIZ),HXA,HYA,FAC

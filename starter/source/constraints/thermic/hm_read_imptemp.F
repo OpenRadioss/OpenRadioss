@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -143,7 +143,7 @@ C--------------------------------------------------
         NUM = NUM + NN
 C
         DO J=NN,1,-1
-C       !!  IBFV ET NWORK ONT LA MEME ADRESSE
+C       !!  IBFV AND NWORK HAVE THE SAME ADDRESS
 C       !!  IBFV ECRASE PROGRESSIVEMENT NWORK
 C            IBFV(1,I+J)=NWORK(J+5*NUM0)
             NWORK(1+NIFT*(I+J-1))=NWORK(J+NIFT*NUM0)

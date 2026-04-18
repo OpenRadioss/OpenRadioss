@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        CAND_N(*),
      .        CAND_E(*),NSVG(MVSIZ), ETYP(*), ICODT(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4), 
+     . MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4),
      .        IBOUND(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -75,23 +75,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, ITQ, N4N, IKEEP, MGLOB, IB1, IB2, IB3, IBX, IX, IY, IZ
+      INTEGER I, J, K, L, N, N4N, MGLOB, IB1, IB2, IB3, IBX, IX, IY, IZ
       INTEGER I4N(MVSIZ),
      .        INGAP(MVSIZ,4),
      .        IT, JJ, I1, I2, ITRIA(2,4), SUBTRIA(MVSIZ),
-     .        IBC21, IBC22, IBC23, IBCS, ISKS, IBCM(4), ISKM(4), 
+     . IBCS, ISKS, IBCM(4), ISKM(4),
      .        IBCX(MVSIZ), IBCY(MVSIZ), IBCZ(MVSIZ)
       my_real
-     .     XIJ(MVSIZ,4),  XI0V(MVSIZ),  XI5,
-     .     YIJ(MVSIZ,4),  YI0V(MVSIZ),  YI5,
-     .     ZIJ(MVSIZ,4),  ZI0V(MVSIZ),  ZI5,
-     .     X51,  X52,  X53, X54,
-     .     Y51,  Y52,  Y53, Y54,
-     .     Z51,  Z52,  Z53, Z54,
-     .     XO1, XO2, XO3, XO4, XO5, XOI,
-     .     YO1, YO2, YO3, YO4, YO5, YOI,
-     .     ZO1, ZO2, ZO3, ZO4, ZO5, ZOI,
-     .     VO12, VO23, VO34, VO41, PENE
+     . XIJ(MVSIZ,4), XI0V(MVSIZ),
+     . YIJ(MVSIZ,4), YI0V(MVSIZ),
+     . ZIJ(MVSIZ,4), ZI0V(MVSIZ),
+     .
+     .
+     .
+     .
+     .
+     .
+     . PENE
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP2,
      .     XP, YP, ZP,
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     AL(MVSIZ,4)
       my_real
-     .     UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4),
+     . AAA,BB(MVSIZ,4),
      .     SX1,SX2,SX3,SX4,
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
@@ -110,7 +110,6 @@ C-----------------------------------------------
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ,
      .     LL ,NN, PN, LD(MVSIZ), LX, LAX, LBX, LCX,
      .     PREC
-      INTEGER ISHEL(MVSIZ)
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C-----------------------------------------------------------------------
 C
@@ -283,7 +282,7 @@ C
         LBP(I,IT) = LB(I,IT)
         LCP(I,IT) = LC(I,IT)
         LAP       = ONE-LBP(I,IT)-LCP(I,IT)
-C       HLA, HLB, HLC necessaires pour triangle angle obtu
+C       HLA, HLB, HLC required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP<ZERO.AND.
@@ -312,7 +311,7 @@ C       HLA, HLB, HLC necessaires pour triangle angle obtu
 
       END DO
 C--------------------------------------------------------
-C     Verifie si penetre vs gap cylindrique ...
+C     Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -366,7 +365,7 @@ C
          LBP(I,IT) = LB(I,IT)
          LCP(I,IT) = LC(I,IT)
          LAP       = ONE-LBP(I,IT)-LCP(I,IT)
-C        HLA, HLB, HLC necessaires pour triangle angle obtu
+C        HLA, HLB, HLC required for triangle sharp angle
          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
          HLA= LAP*ABS(LAP) * AAA
          IF(LAP<ZERO.AND.
@@ -395,7 +394,7 @@ C        HLA, HLB, HLC necessaires pour triangle angle obtu
 
         END DO
 C--------------------------------------------------------
-C       Verifie si penetre vs gap cylindrique ...
+C       Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
         DO K=1,N4N
@@ -440,11 +439,11 @@ C
               LCX = LC(I,JJ)
               LAX = ONE-LB(I,JJ)-LC(I,JJ)
 C
-C             Privilegier secteur dans lequel on se trouve.
+C             Privilegier sector in which we are.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
-                ! point le plus proche dans le secteur angulaire == centre
+                ! closest point in the angular sector == center
                 LX  = MAX(ZERO,DD(I,JJ)-BB(I,JJ)*BB(I,JJ))
               END IF
 
@@ -533,6 +532,7 @@ C
         IF(STIF(I) <= ZERO)CYCLE
 C
         IT = SUBTRIA(I)
+        IF(IT==0)CYCLE
         IF(PENT(I,IT) == ZERO)CYCLE
 C
         IF((IBCZ(I)==1.AND.ABS(ZN(I,IT)) > PREC).OR.
@@ -551,12 +551,13 @@ C
         IF (STIF(I) <= ZERO)CYCLE
 C
         IT=SUBTRIA(I)
+        IF(IT==0)CYCLE
         IF(PENT(I,IT)==ZERO) CYCLE
 C
         I1=ITRIA(1,IT)
         I2=ITRIA(2,IT)
 C
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
      .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
@@ -613,10 +614,10 @@ C         Cone
 
             IF(INGAP(I,IT)  == 1 .OR.  (KSLIDE(I,I1)/=0.OR.KSLIDE(I,I2)/=0))THEN
 C
-C               INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C               INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C               Glissement => utiliser le cone pour choisir entre les segments voisins
-C                             mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C               sliding => use the cone to choose between neighboring segments
+C                             but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,I2)-XX(I,I1)
               Y12(I)=YY(I,I2)-YY(I,I1)
@@ -706,10 +707,10 @@ C
 
             IF(MVOISN(I,1) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,1)/=0.OR.KSLIDE(I,2)/=0)))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             sliding => use the cone to choose between neighboring segments
+C                           but keep the contact if the node has slipped more than one element (see supersonic)
 C          
               X12(I)=XX(I,2)-XX(I,1)
               Y12(I)=YY(I,2)-YY(I,1)
@@ -730,10 +731,10 @@ C
 
             IF(MVOISN(I,2) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,2)/=0.OR.KSLIDE(I,3)/=0)))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             sliding => use the cone to choose between neighboring segments
+C                           but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,3)-XX(I,2)
               Y12(I)=YY(I,3)-YY(I,2)
@@ -754,10 +755,10 @@ C
 
             IF(MVOISN(I,4) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,3)/=0.OR.KSLIDE(I,1)/=0)))THEN
 C
-C               INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C               INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C               Glissement => utiliser le cone pour choisir entre les segments voisins
-C                             mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C               sliding => use the cone to choose between neighboring segments
+C                             but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,1)-XX(I,3)
               Y12(I)=YY(I,1)-YY(I,3)

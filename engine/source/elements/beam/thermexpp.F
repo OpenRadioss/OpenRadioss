@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,8 +61,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
-      INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
+ 
+      INTEGER I, MX, IPT, IPA, 
      .        IR,IS,ILAYER,II(3)
 C     REAL
       my_real
@@ -74,7 +74,7 @@ C=======================================================================
 !   
    
 C-------------------------------------
-C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
+C     START OF LOOP OVER INTEGRATION POINTS
 C--------------------------------------
 C             
       IPA  = 400  
@@ -95,13 +95,13 @@ C
           ENDDO
         ENDIF        
 C
-C---    Contraintes elastiques
+C--- Elastic constraints
 C
         DO I =1 ,NEL             
           MX = MAT(I)                            
           E    = PM(20,MX)                         
           SIGNXX =  -E*ETH(I)  
-C       FORCES ET MOMENTS
+C       FORCES AND MOMENTS
           APT = GEO(IPA+IPT,PID(I)) 
           DFXX = APT*SIGNXX
           FOR(I,1) = FOR(I,1) + DFXX     
@@ -109,7 +109,7 @@ C
           LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
         ENDDO                                                       
 C-------------------------------------
-C       FIN DE BOUCLE SUR POINT INTEGRATION
+C       END OF LOOP OVER INTEGRATION POINTS
 C-------------------------------------
        ENDDO   
 C-----------
@@ -142,11 +142,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   PM(NPROPM,*), FOR(NEL,3),  EINT(NEL,2), GEO(NPROPG,*),
-     .   OFF(*),AL(MVSIZ),ETH(NEL)
+     . OFF(*),ETH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   YM,A1

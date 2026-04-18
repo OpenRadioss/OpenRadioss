@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r2r_matparam_copy    ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
 !||--- called by ------------------------------------------------------
 !||    lectur               ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R2R_MATPARAM_COPY(MATPARAM_TAB, MATPARAM_INI, NUMMAT0  ,NUMMAT  )
@@ -40,12 +41,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMMAT0,NUMMAT
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT ) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT ),TARGET :: MATPARAM_TAB
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT0) :: MATPARAM_INI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL,IMAT,NBMAT
+      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL,IMAT,NBMAT,MID
 C=======================================================================
 c     Copy matparam from standard materials
 c
@@ -60,6 +61,13 @@ c
         MATPARAM_TAB(I)%NIPARAM            = NIPARAM
         MATPARAM_TAB(I)%NFUNC              = MATPARAM_INI(I)%NFUNC
         MATPARAM_TAB(I)%NTABLE             = MATPARAM_INI(I)%NTABLE
+        IF (MATPARAM_TAB(I)%NTABLE > 0) THEN
+          ALLOCATE(MATPARAM_TAB(I)%TABLE(MATPARAM_TAB(I)%NTABLE))
+          DO J=1,MATPARAM_TAB(I)%NTABLE
+            MATPARAM_TAB(I)%TABLE(J) = MATPARAM_INI(I)%TABLE(J)
+          END DO
+        ENDIF
+
         MATPARAM_TAB(I)%NSUBMAT            = MATPARAM_INI(I)%NSUBMAT
         MATPARAM_TAB(I)%NFAIL              = NFAIL
         MATPARAM_TAB(I)%IVISC              = MATPARAM_INI(I)%IVISC
@@ -84,6 +92,12 @@ c
         MATPARAM_TAB(I)%VISC%NUVAR         = MATPARAM_INI(I)%VISC%NUVAR
         MATPARAM_TAB(I)%VISC%NFUNC         = MATPARAM_INI(I)%VISC%NFUNC
         MATPARAM_TAB(I)%VISC%NTABLE        = MATPARAM_INI(I)%VISC%NTABLE
+        IF (MATPARAM_TAB(I)%VISC%NTABLE > 0) THEN
+          ALLOCATE(MATPARAM_TAB(I)%VISC%TABLE(MATPARAM_TAB(I)%VISC%NTABLE))
+          DO J=1,MATPARAM_TAB(I)%VISC%NTABLE
+            MATPARAM_TAB(I)%VISC%TABLE(J) = MATPARAM_INI(I)%VISC%TABLE(J)
+          END DO
+        ENDIF
 c
         MATPARAM_TAB(I)%PROP_SOLID         = MATPARAM_INI(I)%PROP_SOLID
         MATPARAM_TAB(I)%PROP_SHELL         = MATPARAM_INI(I)%PROP_SHELL
@@ -123,8 +137,10 @@ c
             MATPARAM_TAB(I)%FAIL(IFAIL)%NUPARAM = MATPARAM_INI(I)%FAIL(IFAIL)%NUPARAM
             MATPARAM_TAB(I)%FAIL(IFAIL)%NIPARAM = MATPARAM_INI(I)%FAIL(IFAIL)%NIPARAM
             MATPARAM_TAB(I)%FAIL(IFAIL)%NUVAR   = MATPARAM_INI(I)%FAIL(IFAIL)%NUVAR
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NVARTMP = MATPARAM_INI(I)%FAIL(IFAIL)%NVARTMP
             MATPARAM_TAB(I)%FAIL(IFAIL)%NFUNC   = MATPARAM_INI(I)%FAIL(IFAIL)%NFUNC
             MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE  = MATPARAM_INI(I)%FAIL(IFAIL)%NTABLE
+            MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE4D= MATPARAM_INI(I)%FAIL(IFAIL)%NTABLE4D
             MATPARAM_TAB(I)%FAIL(IFAIL)%NMOD    = MATPARAM_INI(I)%FAIL(IFAIL)%NMOD
             MATPARAM_TAB(I)%FAIL(IFAIL)%FAIL_IP = MATPARAM_INI(I)%FAIL(IFAIL)%FAIL_IP
             MATPARAM_TAB(I)%FAIL(IFAIL)%PTHK    = MATPARAM_INI(I)%FAIL(IFAIL)%PTHK
@@ -144,32 +160,50 @@ c
             DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE
               MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE(J) = MATPARAM_INI(I)%FAIL(IFAIL)%TABLE(J)
             END DO
+            ALLOCATE(MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE4D(MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE4D))
+            DO J=1,MATPARAM_TAB(I)%FAIL(IFAIL)%NTABLE4D
+              MATPARAM_TAB(I)%FAIL(IFAIL)%TABLE4D(J) = MATPARAM_INI(I)%FAIL(IFAIL)%TABLE4D(J)
+            END DO
           END DO  ! NFAIL
         ENDIF
-c
+
+        IF (MATPARAM_INI(I)%IEOS > 0) THEN
+          CALL MATPARAM_INI(I)%EOS%COPYTO(MATPARAM_TAB(I)%EOS)
+        ENDIF
+
         ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%MID(NBMAT))
         ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%VFRAC(NBMAT))
         IF (NBMAT > 0) THEN
+          MATPARAM_TAB(I)%MULTIMAT%NB  = MATPARAM_INI(I)%MULTIMAT%NB
+          MATPARAM_TAB(I)%MULTIMAT%OLD_DATA_FORMAT  = MATPARAM_INI(I)%MULTIMAT%OLD_DATA_FORMAT
           DO IMAT=1,NBMAT
             MATPARAM_TAB(I)%MULTIMAT%MID(IMAT)   = MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
             MATPARAM_TAB(I)%MULTIMAT%VFRAC(IMAT) = MATPARAM_INI(I)%MULTIMAT%VFRAC(IMAT)
+            IF(.NOT.ASSOCIATED(MATPARAM_TAB(I)%MULTIMAT%pEOS))ALLOCATE( MATPARAM_TAB(I)%MULTIMAT%pEOS(NBMAT))
+            IF(MATPARAM_INI(I)%MULTIMAT%OLD_DATA_FORMAT == 1)THEN
+              IF(.NOT. ALLOCATED(MATPARAM_TAB(I)%MULTIMAT%EOS)) ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%EOS(NBMAT))
+              CALL MATPARAM_INI(I)%MULTIMAT%EOS(IMAT)%COPYTO(MATPARAM_TAB(I)%MULTIMAT%EOS(IMAT))
+              MATPARAM_TAB(I)%MULTIMAT%pEOS(IMAT)%EOS => MATPARAM_TAB(I)%MULTIMAT%EOS(IMAT)
+            ELSE
+              MID =  MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
+              !specific case of obsolete matrial boundaries : skip if MID==0
+              IF(MID /= 0)MATPARAM_TAB(I)%MULTIMAT%pEOS(IMAT)%EOS => MATPARAM_TAB(MID)%EOS
+            ENDIF
           END DO  ! IMAT
         ENDIF
 !
-        IF (MATPARAM_TAB(I)%ITHERM > 0 .or. MATPARAM_TAB(I)%IEXPAN > 0) THEN
-          MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
-          MATPARAM_TAB(I)%THERM%tini        = MATPARAM_INI(I)%THERM%tini         
-          MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
-          MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
-          MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
-          MATPARAM_TAB(I)%THERM%as          = MATPARAM_INI(I)%THERM%as         
-          MATPARAM_TAB(I)%THERM%bs          = MATPARAM_INI(I)%THERM%bs         
-          MATPARAM_TAB(I)%THERM%al          = MATPARAM_INI(I)%THERM%al         
-          MATPARAM_TAB(I)%THERM%bl          = MATPARAM_INI(I)%THERM%bl         
-          MATPARAM_TAB(I)%THERM%efrac       = MATPARAM_INI(I)%THERM%efrac      
-          MATPARAM_TAB(I)%THERM%func_thexp  = MATPARAM_INI(I)%THERM%func_thexp 
-          MATPARAM_TAB(I)%THERM%scale_thexp = MATPARAM_INI(I)%THERM%scale_thexp
-        END IF
+        MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
+        MATPARAM_TAB(I)%THERM%tini        = MATPARAM_INI(I)%THERM%tini         
+        MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
+        MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
+        MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
+        MATPARAM_TAB(I)%THERM%as          = MATPARAM_INI(I)%THERM%as         
+        MATPARAM_TAB(I)%THERM%bs          = MATPARAM_INI(I)%THERM%bs         
+        MATPARAM_TAB(I)%THERM%al          = MATPARAM_INI(I)%THERM%al         
+        MATPARAM_TAB(I)%THERM%bl          = MATPARAM_INI(I)%THERM%bl         
+        MATPARAM_TAB(I)%THERM%efrac       = MATPARAM_INI(I)%THERM%efrac      
+        MATPARAM_TAB(I)%THERM%func_thexp  = MATPARAM_INI(I)%THERM%func_thexp 
+        MATPARAM_TAB(I)%THERM%scale_thexp = MATPARAM_INI(I)%THERM%scale_thexp
       ENDDO
 !
         ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure

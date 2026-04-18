@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,20 +40,21 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE CLUSTER_MOD
       USE SEATBELT_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXR(6,NUMELR)     TABLEAU CONECS+PID+NOS RESSORTS            E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
-C     INUM(6,NUMELR)    TABLEAU DE TRAVAIL                         E/S
-C     ISEL(NSELR)       TABLEAU DES RESSORTS CHOISIS POUR TH       E/S
-C     ITR1(NSELR)       TABLEAU DE TRAVAIL                         E/S
-C     EADD(NUMELR)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELR)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(4,NUMELR)    TABLEAU DE TRAVAIL                         E/S
-C     IPARTR(NUMELR)    TABLEAU PART                               E/S
-C     CEP(NUMELR)    TABLEAU PROC                               E/S
-C     XEP(NUMELR)    TABLEAU PROC                               E/S
+C     IXR(6,NUMELR)     CONNECTIVITY+PID+SPRING NUMBERS TABLE      E
+C     geo(npropG,numgeo)table of characteristics of pid
+C     INUM(6,NUMELR)    WORK TABLE                                 E/S
+C     ISEL(NSELR)       TABLE OF SPRINGS CHOSEN FOR TH             E/S
+C     ITR1(NSELR)       WORK TABLE                                 E/S
+C     EADD(NUMELR)      TABLE OF ADDRESSES IN IDAM CHGT DAMIER     S
+C     INDEX(NUMELR)     WORK TABLE                                 E/S
+C     ITRI(4,NUMELR)    WORK TABLE                                 E/S
+C     IPARTR(NUMELR)    PART TABLE                                 E/S
+C     CEP(NUMELR)    PROC TABLE                                 E/S
+C     XEP(NUMELR)    PROC TABLE                                 E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I,J,K,L, NG, ISSN, NPN, NN, N, MID, PID ,IGTYP,
+     .        I,J,K, ISSN, NN, MID, PID ,IGTYP,
      .        II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5,
      .        IFLAG_GTYP,IPRLD,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
@@ -99,7 +100,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   global sorting on all criteria for all elements
 C----------------------------------------------------------
 C
       DO I=1,NUMELR
@@ -180,13 +181,13 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C inversion of index (in itr1)
 C
       DO I=1,NUMELR
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -196,7 +197,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE RESSORTS
+C renumbering for spring groups
 C
       DO I=1,NGRSPRI
         NN=IGRSPRING(I)%NENTITY
@@ -236,7 +237,7 @@ C REORDERING FOR ITAGPRLD_SPRING
         ITAGPRLD_SPRING(I) =INUM(8,INDEX(I))
       ENDDO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         determination of super_groups
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELR

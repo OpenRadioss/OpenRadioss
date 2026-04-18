@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@
 !||    radioss2               ../engine/source/engine/radioss2.F
 !||    resol                  ../engine/source/engine/resol.F
 !||    resol_head             ../engine/source/engine/resol_head.F
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module coupling_adapter_mod
         ! This file contain the generic coupling adapter interface used by CWIPI and preCICE
@@ -48,13 +47,14 @@
         ! Both adapters implement the virtual class in coupling.h
         ! - For preCICE see precice_coupling_adapter.cpp
         ! - For CWIPI see cwipi_coupling_adapter.cpp
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         implicit none
 
         ! Data type constants
         integer, parameter :: coupling_displacements = 1
         integer, parameter :: coupling_forces = 2
         integer, parameter :: coupling_positions = 3
+        integer, parameter :: coupling_temperature = 4
         ! In order to add a new data type, add a new integer here and in the C++ adapter
         ! see enum class DataType in coupling.h and the implementation of the configure method in both cwipi and preCICE adapters
 
@@ -75,130 +75,143 @@
           integer :: surface_id = 0
           integer :: coupler
           character :: filnam*100
+          integer, dimension(:), allocatable :: list_nodes
+          real(c_double), dimension(:,:), allocatable :: values ! buffer
+
         end type coupling_type
 
         ! C interface declarations cooresponding to the file coupling_c_interface./cpp
         interface
-          function coupling_adapter_create() bind(c, name='coupling_adapter_create')
-            use iso_c_binding
+          function coupling_adapter_create() bind(c, name="coupling_adapter_create")
+            use, intrinsic :: iso_c_binding
             type(c_ptr) :: coupling_adapter_create
           end function coupling_adapter_create
-          subroutine coupling_adapter_destroy(adapter) bind(c, name='coupling_adapter_destroy')
-            use iso_c_binding
+          subroutine coupling_adapter_destroy(adapter) bind(c, name="coupling_adapter_destroy")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
           end subroutine coupling_adapter_destroy
-          function coupling_adapter_configure(adapter, filename) bind(c, name='coupling_adapter_configure')
-            use iso_c_binding
+          function coupling_adapter_configure(adapter, filename) bind(c, name="coupling_adapter_configure")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             character(kind=c_char), intent(in) :: filename(*)
             integer(c_int) :: coupling_adapter_configure
           end function coupling_adapter_configure
-          subroutine coupling_adapter_set_nodes(adapter, node_ids, num_nodes) bind(c, name='coupling_adapter_set_nodes')
-            use iso_c_binding
+          subroutine coupling_adapter_set_nodes(adapter, node_ids, num_nodes) bind(c, name="coupling_adapter_set_nodes")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int), intent(in) :: node_ids(*)
             integer(c_int), value :: num_nodes
           end subroutine coupling_adapter_set_nodes
-          function coupling_adapter_initialize(adapter, coordinates, total_nodes, mpi_rank, mpi_size) &
-            bind(c, name='coupling_adapter_initialize')
-            use iso_c_binding
+          function coupling_adapter_initialize(adapter, coordinates, n2d, total_nodes, mpi_rank, mpi_size) &
+            bind(c, name="coupling_adapter_initialize")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: coordinates(*)
+            integer(c_int), value :: n2d ! n2d == 0 for 3D case, n2d == 1 for axisymmetric, n2d == 3 for plane strain (yz plane) 
             integer(c_int), value :: total_nodes, mpi_rank, mpi_size
             integer(c_int) :: coupling_adapter_initialize
           end function coupling_adapter_initialize
           subroutine coupling_adapter_write_data(adapter, values, total_nodes, dt, data_type) &
-            bind(c, name='coupling_adapter_write_data')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_write_data")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: values(*)
             integer(c_int), value :: total_nodes, data_type
             real(c_double), value :: dt
           end subroutine coupling_adapter_write_data
           subroutine coupling_adapter_read_data(adapter, values, total_nodes, dt, data_type, mode) &
-            bind(c, name='coupling_adapter_read_data')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_read_data")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(inout) :: values(*)
             integer(c_int), value :: total_nodes, data_type, mode
             real(c_double), value :: dt
           end subroutine coupling_adapter_read_data
 
-          subroutine coupling_adapter_advance(adapter, dt) bind(c, name='coupling_adapter_advance')
-            use iso_c_binding
+          subroutine coupling_adapter_advance(adapter, dt) bind(c, name="coupling_adapter_advance")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(inout) :: dt
           end subroutine coupling_adapter_advance
-          function coupling_adapter_is_coupling_ongoing(adapter) bind(c, name='coupling_adapter_is_coupling_ongoing')
-            use iso_c_binding
+          function coupling_adapter_is_coupling_ongoing(adapter) bind(c, name="coupling_adapter_is_coupling_ongoing")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_is_coupling_ongoing
           end function coupling_adapter_is_coupling_ongoing
           function coupling_adapter_requires_writing_checkpoint(adapter) &
-            bind(c, name='coupling_adapter_requires_writing_checkpoint')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_requires_writing_checkpoint")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_requires_writing_checkpoint
           end function coupling_adapter_requires_writing_checkpoint
           function coupling_adapter_requires_reading_checkpoint(adapter) &
-            bind(c, name='coupling_adapter_requires_reading_checkpoint')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_requires_reading_checkpoint")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_requires_reading_checkpoint
           end function coupling_adapter_requires_reading_checkpoint
-          subroutine coupling_adapter_finalize(adapter) bind(c, name='coupling_adapter_finalize')
-            use iso_c_binding
+          subroutine coupling_adapter_finalize(adapter) bind(c, name="coupling_adapter_finalize")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
           end subroutine coupling_adapter_finalize
-          function coupling_adapter_is_active(adapter) bind(c, name='coupling_adapter_is_active')
-            use iso_c_binding
+          function coupling_adapter_is_active(adapter) bind(c, name="coupling_adapter_is_active")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_is_active
           end function coupling_adapter_is_active
           function coupling_adapter_get_max_time_step_size(adapter) &
-            bind(c, name='coupling_adapter_get_max_time_step_size')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_max_time_step_size")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double) :: coupling_adapter_get_max_time_step_size
           end function coupling_adapter_get_max_time_step_size
 
           function coupling_adapter_get_num_coupling_nodes(adapter) &
-            bind(c, name='coupling_adapter_get_num_coupling_nodes')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_num_coupling_nodes")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_num_coupling_nodes
           end function coupling_adapter_get_num_coupling_nodes
           !    int coupling_adapter_get_group_node_id(void* adapter);
           function coupling_adapter_get_group_node_id(adapter) &
-            bind(c, name='coupling_adapter_get_group_node_id')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_group_node_id")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_group_node_id
           end function coupling_adapter_get_group_node_id
 
           !int coupling_adapter_get_surface_id(void* adapter) {
           function coupling_adapter_get_surface_id(adapter) &
-            bind(c, name='coupling_adapter_get_surface_id')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_surface_id")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_surface_id
           end function coupling_adapter_get_surface_id
 
           function coupling_get_communicator(adapter) &
-            bind(c, name='coupling_adapter_get_communicator')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_communicator")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_get_communicator
           end function coupling_get_communicator
 
+          subroutine  coupling_adapter_get_coupled_data(adapter, rd, wd) &
+            bind(c, name="coupling_adapter_get_coupled_data")
+            use, intrinsic :: iso_c_binding
+            type(c_ptr), value :: adapter
+            integer(c_int) :: rd(*), wd(*)
+          end subroutine
+
+
           ! Not available in preCICE yet, only cwipi:
           subroutine coupling_adapter_set_mesh(adapter, elem_node_offsets, elem_node_indices, num_elements) &
-            bind(c, name='coupling_adapter_set_mesh')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_set_mesh")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int), intent(in) :: elem_node_offsets(*), elem_node_indices(*)
             integer(c_int), value :: num_elements
           end subroutine coupling_adapter_set_mesh
+
 
         end interface
 
@@ -284,7 +297,7 @@
           integer :: i, result
           if(.not.coupling%active) then
             call coupling_create(coupling)
-          endif
+          end if
           if (.not. c_associated(coupling%adapter_ptr)) return
 
           ! Convert Fortran string to C string
@@ -342,6 +355,8 @@
           end if
 
           coupling%nb_coupling_nodes = igrnod(j)%nentity
+          allocate(coupling%list_nodes(coupling%nb_coupling_nodes))
+          coupling%list_nodes(1:coupling%nb_coupling_nodes) = igrnod(j)%entity(1:coupling%nb_coupling_nodes)
 
           call coupling_adapter_set_nodes(coupling%adapter_ptr, igrnod(j)%entity, coupling%nb_coupling_nodes)
         end subroutine coupling_set_nodes
@@ -413,11 +428,11 @@
             connectIndex(i+1) = connectIndex(i+1) + nb_unique_nodes
             do j = 1, nb_unique_nodes
               if(tmp(j) < 0) then
-                write(6,*) 'Error in surf%nodes', tmp(j)
+                write(6,*) "Error in surf%nodes", tmp(j)
                 cycle
-              endif
+              end if
               if(tmp(j) > nodes%numnod) then
-                write(6,*) 'Error in surf%nodes', tmp(j), nodes%numnod
+                write(6,*) "Error in surf%nodes", tmp(j), nodes%numnod
                 cycle
               end if
               n = tmp(j)
@@ -428,13 +443,16 @@
               end if
               next_node = next_node + 1
               if(next_node /= connectIndex(i) + j ) then
-                write(6,*) 'Error in connectIndex?', connectIndex(i)+j, next_node
+                write(6,*) "Error in connectIndex?", connectIndex(i)+j, next_node
               end if
               connec(next_node) = index(n)
-            enddo
-          enddo
+            end do
+          end do
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
           coupling%nb_coupling_nodes = counter
+          ! Allocate and fill list_nodes with the unique node IDs from the surface
+          allocate(coupling%list_nodes(counter))
+          coupling%list_nodes(1:counter) = node_id(1:counter)
           call coupling_adapter_set_nodes(coupling%adapter_ptr, node_id, counter)
 
         end subroutine coupling_set_mesh
@@ -479,7 +497,7 @@
               coupling%surface_id= i
               call coupling_set_mesh(coupling, surf(i), nodes)
             end if
-          enddo
+          end do
           if(coupling%surface_id == 0) call coupling_set_nodes(coupling, igrnod, ngrnod)
         end subroutine coupling_set_interface
 
@@ -490,23 +508,27 @@
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod      ../common_source/modules/nodal_arrays.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine coupling_initialize(coupling, X, nb_nodes, mpi_rank, mpi_commsize)
+        subroutine coupling_initialize(coupling, nodes, nb_nodes, mpi_rank, mpi_commsize)
           use precision_mod, only: WP
+          use nodal_arrays_mod, only: nodal_arrays_
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(coupling_type), intent(inout) :: coupling
           integer, intent(in) :: nb_nodes, mpi_rank, mpi_commsize
-          real(kind=WP), intent(in) :: X(3, nb_nodes)
+!         real(kind=WP), intent(in) :: X(3, nb_nodes)
+          type(nodal_arrays_), intent(inout) :: nodes
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: result
           real(c_double) :: coordinates(3 * nb_nodes)
           integer :: i, j, k
+          integer :: n2d
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
@@ -516,12 +538,15 @@
           k = 1
           do i = 1, nb_nodes
             do j = 1, 3
-              coordinates(k) = real(X(j, i), c_double)
+              coordinates(k) = real(nodes%X(j, i), c_double)
               k = k + 1
             end do
           end do
+          nodes%X0 = nodes%X
+          n2d = nodes%n2d
 
-          result = coupling_adapter_initialize(coupling%adapter_ptr, coordinates, nb_nodes, mpi_rank, mpi_commsize)
+
+          result = coupling_adapter_initialize(coupling%adapter_ptr, coordinates, n2d, nb_nodes, mpi_rank, mpi_commsize)
 
           if (result == 1) then
             coupling%dt_limit = coupling_adapter_get_max_time_step_size(coupling%adapter_ptr)
@@ -551,8 +576,9 @@
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
-          integer :: i, j, k
+#ifndef MYREAL8
           real(c_double), dimension(:,:), allocatable :: values
+#endif
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
@@ -568,6 +594,46 @@
           deallocate(values)
 #endif
         end subroutine coupling_write
+
+        ! Write scalar data to coupling library (e.g. temperature)
+!||====================================================================
+!||    coupling_write_scalar         ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||====================================================================
+        subroutine coupling_write_scalar(coupling, dt, global_values, nb_nodes, name_id)
+          use precision_mod, only: WP
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling
+          integer, intent(in) :: nb_nodes, name_id
+          real(kind=WP), intent(in) :: global_values(nb_nodes), dt
+!-----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+!-----------------------------------------------------------------------------------------------------------------------
+#ifndef MYREAL8
+          real(c_double), dimension(:), allocatable :: values
+#endif
+!------------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+!------------------------------------------------------------------------------------------------------------------------
+          if (.not. c_associated(coupling%adapter_ptr)) return
+          if (.not. coupling%active) return
+#ifdef MYREAL8
+          call coupling_adapter_write_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id)
+#else
+          allocate(values(nb_nodes))
+          values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
+          call coupling_adapter_write_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id)
+          deallocate(values)
+#endif
+        end subroutine coupling_write_scalar
 
         ! Read data from coupling library
 !||====================================================================
@@ -612,18 +678,63 @@
 
         end subroutine coupling_read
 
+        ! Read scalar data from coupling library (e.g. temperature)
+!||====================================================================
+!||    coupling_read_scalar         ../engine/source/coupling/coupling_adapter.F90
+!||--- called by ------------------------------------------------------
+!||    coupling_sync                ../engine/source/coupling/coupling_adapter.F90
+!||--- calls      -----------------------------------------------------
+!||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||--- uses       -----------------------------------------------------
+!||    precision_mod                ../common_source/modules/precision_mod.F90
+!||====================================================================
+        subroutine coupling_read_scalar(coupling, dt, global_values, nb_nodes, mode, name_id)
+          use precision_mod, only: WP
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(coupling_type), intent(inout) :: coupling
+          integer, intent(in) :: nb_nodes, mode, name_id
+          real(kind=WP), intent(inout) :: global_values(nb_nodes)
+          real(kind=WP), intent(in) :: dt
+!-----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+!-----------------------------------------------------------------------------------------------------------------------
+#ifndef MYREAL8
+          real(c_double), dimension(:), allocatable :: values
+#endif
+!------------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+!------------------------------------------------------------------------------------------------------------------------
+          if (.not. c_associated(coupling%adapter_ptr)) return
+          if (.not. coupling%active) return
+#ifdef MYREAL8
+          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, mode)
+#else
+          allocate(values(nb_nodes))
+          values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
+          call coupling_adapter_read_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id, mode)
+          global_values(1:nb_nodes) = real(values(1:nb_nodes), WP)
+          deallocate(values)
+#endif
+        end subroutine coupling_read_scalar
+
 
 !! \brief main subroutine to create syncrhonization points from resol.F. It does both reading and writing
 !||====================================================================
-!||    coupling_sync                 ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_sync                       ../engine/source/coupling/coupling_adapter.F90
 !||--- called by ------------------------------------------------------
-!||    resol                         ../engine/source/engine/resol.F
+!||    resol                               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    coupling_adapter_read_data    ../engine/source/coupling/coupling_c_interface.cpp
-!||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_get_coupled_data   ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_read_data          ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_adapter_write_data         ../engine/source/coupling/coupling_c_interface.cpp
+!||    coupling_read_scalar                ../engine/source/coupling/coupling_adapter.F90
+!||    coupling_write_scalar               ../engine/source/coupling/coupling_adapter.F90
 !||--- uses       -----------------------------------------------------
-!||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
-!||    precision_mod                 ../common_source/modules/precision_mod.F90
+!||    nodal_arrays_mod                    ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                       ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_sync(coupling, dt, nodes, name_id)
           use precision_mod, only: WP
@@ -639,26 +750,37 @@
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
-          integer :: numnod
-#ifndef MYREAL8
-          real(c_double), dimension(:,:), allocatable :: values
-#endif
+          integer :: numnod,i,j
+          integer :: read_data(4), write_data(4)
 !------------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 !------------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
+          if(.not. allocated(coupling%values)) allocate(coupling%values(3,nodes%numnod))
           numnod = nodes%numnod
+          read_data = 0
+          write_data = 0
+          call coupling_adapter_get_coupled_data(coupling%adapter_ptr,read_data,write_data)
 #ifdef MYREAL8
           if(name_id == coupling_displacements) then
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%D, numnod, &
               real(dt, c_double), coupling_displacements)
             ! Read positions
-            call coupling_adapter_read_data(coupling%adapter_ptr, nodes%D, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
+            if(read_data(coupling_displacements) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+                real(dt, c_double), coupling_displacements, coupling_replace)
+              do i = 1, coupling%nb_coupling_nodes
+                j = coupling%list_nodes(i)
+                !V_{n+1} = V_{n+1} + (D_recv - D_{n+1}) / DT
+                nodes%V(1:3,j) = nodes%V(1:3,j) + (coupling%values(1:3,j) - nodes%D(1:3,j)) / dt
+                nodes%D(1:3, j) = real(coupling%values(1:3, j), WP)
+                nodes%X(1:3, j) = nodes%X0(1:3,j) + nodes%D(1:3,j)
+              end do
+            endif
           else if(name_id == coupling_forces) THEN
             ! Write forces
-            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) - NODES%FORCES(1:3,1:NUMNOD)
+            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) 
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%FORCES, numnod, &
               real(dt, c_double), coupling_forces)
             ! Read forces into nodes%A
@@ -668,39 +790,66 @@
             ! Write positions
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%X, numnod, &
               real(dt, c_double), coupling_positions)
-            call coupling_adapter_read_data(coupling%adapter_ptr, nodes%X, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
+            if(read_data(coupling_positions) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+                real(dt, c_double), coupling_positions, coupling_replace)
+              do i = 1, coupling%nb_coupling_nodes
+                j = coupling%list_nodes(i)
+                !V_{n+1} = V_{n+1} + (X_recv - X_{n+1}) / DT
+                nodes%V(1:3, j) = nodes%V(1:3,j) + (coupling%values(1:3, j) - nodes%X(1:3, j)) / dt
+                nodes%X(1:3, j) = real(coupling%values(1:3, j), WP)
+                nodes%D(1:3, j) = nodes%X(1:3,j) - nodes%X0(1:3,j)
+              end do
+            endif
+          else if(name_id == coupling_temperature) then
+            ! Write temperature (scalar field)
+            if(write_data(coupling_temperature) == 1) then
+              call coupling_adapter_write_data(coupling%adapter_ptr, nodes%TEMP, numnod, &
+                real(dt, c_double), coupling_temperature)
+            endif
+            ! Read temperature (scalar field)
+            if(read_data(coupling_temperature) == 1) then
+              call coupling_adapter_read_data(coupling%adapter_ptr, nodes%TEMP, numnod, &
+                real(dt, c_double), coupling_temperature, coupling_replace)
+            endif
           end if
 #else
-          allocate(values(3, numnod))
           if(name_id == coupling_displacements) then
             ! Write displacements
-            values(1:3,1:numnod) = real(nodes%D(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%D(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_displacements)
-            ! Read positions
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
-              real(dt, c_double), coupling_positions, coupling_replace)
-            nodes%D(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            ! Read displacements 
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
+              real(dt, c_double), coupling_displacements, coupling_replace)
+            nodes%D(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
           else if(name_id == coupling_forces) THEN
             ! Write forces
-            values(1:3,1:numnod) = real(nodes%A(1:3,1:numnod) - nodes%FORCES(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%A(1:3,1:numnod) - nodes%FORCES(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_forces)
             ! Read forces
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_forces, coupling_add)
-            nodes%A(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            nodes%A(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
           else if(name_id == coupling_positions) then
             ! Write positions
-            values(1:3,1:numnod) = real(nodes%X(1:3,1:numnod), c_double)
-            call coupling_adapter_write_data(coupling%adapter_ptr, values, numnod, &
+            coupling%values(1:3,1:numnod) = real(nodes%X(1:3,1:numnod), c_double)
+            call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_positions)
-            call coupling_adapter_read_data(coupling%adapter_ptr, values, numnod, &
+            call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_positions, coupling_replace)
-            nodes%X(1:3,1:numnod) = real(values(1:3,1:numnod), WP)
+            nodes%X(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
+          else if(name_id == coupling_temperature) then
+            ! Write temperature (scalar field)
+            if(write_data(coupling_temperature) == 1) then
+              call coupling_write_scalar(coupling, dt, nodes%TEMP, numnod, coupling_temperature)
+            endif
+            ! Read temperature (scalar field)
+            if(read_data(coupling_temperature) == 1) then
+              call coupling_read_scalar(coupling, dt, nodes%TEMP, numnod, coupling_replace, coupling_temperature)
+            endif
           end if
-          deallocate(values)
 #endif
 
         end subroutine coupling_sync

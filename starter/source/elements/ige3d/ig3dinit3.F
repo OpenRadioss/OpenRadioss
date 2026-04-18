@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   VNIGE    ,BNIGE   ,PTSOL  ,
      .                   BUFMAT   ,NPF     ,TF     ,FAIL_INI,NCTRL,
      .                   MSIG3D   ,KNOT    ,NCTRLMAX,WIGE   ,PX,PY,PZ,
-     .                   KNOTLOCPC,KNOTLOCEL)
+     .                   KNOTLOCPC,KNOTLOCEL,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD      
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,6 +91,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -131,7 +133,7 @@ C-----------------------------------------------
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
       my_real
-     .   TBID(MVSIZ), TBID2(8,MVSIZ)   ! SUREMENT A CHANGER LA FORME ET LE NOM
+     .   TBID(MVSIZ), TBID2(8,MVSIZ)   ! probably need to change the shape and the name
 C-----------------------------------------------    
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -224,7 +226,7 @@ C
       NF1=NFT+1
 C-----------------------------------------------
       DO I=LFT,LLT
-        DO J=1,NCTRL  !  IXI ... certainement en dehors de numnod
+        DO J=1,NCTRL  !  Ixi ... certainly outside Numnod
           XX(J,I)=X(1,IXIG3D(KXIG3D(4,I+NFT)+J-1))
           YY(J,I)=X(2,IXIG3D(KXIG3D(4,I+NFT)+J-1))
           ZZ(J,I)=X(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))
@@ -324,7 +326,7 @@ c     6      PY-1      ,PZ-1          ,1)
           ENDIF
 
 C----------------------------------------
-C     INITIALISATION DES MASSES   
+C     initialization of the masses
 C----------------------------------------
 
           CALL IG3DMASS3(
@@ -345,10 +347,10 @@ C----------------------------------------
      4               IMAT    ,IPM    ,NSIGS     ,NUMSOL ,PTSOL  ,
      5               IBID    ,NGL    ,NPF       ,TF     ,BUFMAT ,
      6               GBUF    ,LBUF   ,MBUF      ,ELBUF_STR,IBID ,
-     7               TBID    ,TBID   ,TBID  )
+     7               TBID    ,TBID   ,TBID      ,MAT_PARAM )
 
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       calculation of the elementary dt
 C------------------------------------------
         CALL DTMAIN(GEO       ,PM        ,IPM         ,IPROP   ,IMAT    ,FV    ,
      .              LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT,
@@ -377,8 +379,8 @@ C------------------------------------------
       ENDIF
 
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         CALL BULKIGE3(GBUF%VOL ,NCTRL     ,IMAT      ,PM     ,

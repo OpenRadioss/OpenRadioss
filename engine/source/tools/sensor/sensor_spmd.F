@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,13 +75,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, TYP, LEN, IN, N5, ISENSUSR, I, LEN1,LOC_PROC,
-     .        ISENST1, ISENST2, KK, N1, N2,M,
+      INTEGER K, TYP, LEN, IN, N5, ISENSUSR, LOC_PROC, 
+     . ISENST1, ISENST2, KK, N1, N2,
      .        IBUF(NSENSOR), ISENST10,ISENST13,J
-      my_real RBUF(NSENSOR*LSENBUF), RXBUF(5,2*NSENSOR)
+      my_real RXBUF(5,2*NSENSOR)
 
       INTEGER :: MY_SIZE
-      CHARACTER(len=4) :: MY_OPERATION
+ 
       REAL(kind=8), DIMENSION(:), ALLOCATABLE :: SBUF_DOUBLE,RBUF_DOUBLE
       INTEGER :: I2,I3,I4,IDX
      
@@ -111,7 +111,7 @@ C
              RXBUF(4,KK) = X(2,N1)
              RXBUF(5,KK) = X(3,N1)
             ELSE
-C stockage directe sur p0
+C direct storage on p0
              XSENS(1,K) = X(1,N1)
              XSENS(2,K) = X(2,N1)
              XSENS(3,K) = X(3,N1)
@@ -127,7 +127,7 @@ C stockage directe sur p0
              RXBUF(4,KK) = X(2,N2)
              RXBUF(5,KK) = X(3,N2)
             ELSE
-C stockage directe sur p0
+C direct storage on p0
              XSENS(4,K) = X(1,N2)
              XSENS(5,K) = X(2,N2)
              XSENS(6,K) = X(3,N2)
@@ -158,7 +158,7 @@ c-------------------------------
                RXBUF(3,KK) = X(1,N1)
                RXBUF(4,KK) = X(2,N1)
                RXBUF(5,KK) = X(3,N1)
-             ELSE    ! stockage directe sur p0
+             ELSE    ! direct storage on p0
                XSENS(1,K) = X(1,N1)
                XSENS(2,K) = X(2,N1)
                XSENS(3,K) = X(3,N1)
@@ -174,7 +174,7 @@ c-------------------------------
                  RXBUF(3,KK) = X(1,N2)
                  RXBUF(4,KK) = X(2,N2)
                  RXBUF(5,KK) = X(3,N2)
-               ELSE                    ! stockage directe sur p0
+               ELSE                    ! direct storage on p0
                  XSENS(4,K) = X(1,N2)
                  XSENS(5,K) = X(2,N2)
                  XSENS(6,K) = X(3,N2)
@@ -187,7 +187,7 @@ c-------------------------------
                  RXBUF(3,KK) = ZERO
                  RXBUF(4,KK) = ZERO
                  RXBUF(5,KK) = ZERO
-               ELSE                    ! stockage directe sur p0
+               ELSE                    ! direct storage on p0
                  XSENS(4,K) = ZERO
                  XSENS(5,K) = ZERO
                  XSENS(6,K) = ZERO
@@ -208,28 +208,28 @@ c-------------
        ENDDO
 c-----------------------------------------------------------------------
        IF (ISENST1 == 1) THEN
-c        Extra communication pour sensor type 1 (accelerometre associe)
+c        Extra communication for sensor type 1 (associated accelerometer)
 C
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
          CALL SPMD_RBCAST(ACCELM,ACCELM,LLACCELM,NACCELM,0,2)
        END IF
 C
        IF (ISENST10 == 1) THEN
-c         Extra communication pour sensor type 1 (gauge associee)
+c         Extra Communication for Sensor Type 1 (Gauge associated)
 C
          CALL SPMD_SD_ACC(GAUGE,IGAUP,NGAUP)
          CALL SPMD_RBCAST(GAUGE,GAUGE,LLGAUGE,NBGAUGE,0,2)
        END IF
 C
        IF (ISENST2 == 1) THEN
-c        Extra communication pour sensor type 2
+c        Extra Communication for Sensor Type 2
 C
          CALL SPMD_SD_SENS(XSENS,RXBUF,NSENSP)
          CALL SPMD_RBCAST(XSENS,XSENS,12,NSENSOR,0,2)
        END IF
 c
        IF (ISENST13 == 1) THEN
-c        Extra communication pour sensor type 13
+c        Extra Communication for Sensor Type 13
 C
          CALL SPMD_SD_SENS(XSENS,RXBUF,NSENSP)
          CALL SPMD_RBCAST(XSENS,XSENS,12,NSENSOR,0,2)

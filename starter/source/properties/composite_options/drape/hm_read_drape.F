@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER MESS*40
       DATA MESS/'DRAPE DEFINITION                        '/
-c      REAL ou REAL*8
+c      REAL or REAL*8
       my_real
      .    BID
 C======================================================================|
@@ -118,6 +118,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,9 +149,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ::I, II,J,JJ,IX,ID,SHELL_ID,SH3N_ID,GRSHEL_ID,GRSH3N_ID,OFFC,
-     . IT1,IT2,IT3,IT4,NEL,IAD,ITY,IDSHEL,IDSH3N,PID,
-     . JPID,IGTYP,IE,IP,IDRP,JDRP,ISH,IGR,JGR,IS,LISTMAX,SLICELISTMAX,
-     . NIS,NO_ISH,NO_ISHEUSED_DRAPE,NUMS,NPT,IPPID,ISL,NPT_DRP,NSLICE,
+     . IT1,IT2,IT3,IT4,NEL,ITY,IDSHEL,IDSH3N,PID,
+     . JPID,IGTYP,IE,IP,IDRP,JDRP,ISH,IGR,JGR,LISTMAX,SLICELISTMAX,
+     . NIS,NO_ISH,NPT,IPPID,ISL,NPT_DRP,NSLICE,
      . SLICELIST,NPT_SLICE,MAT_ID,NO_USED_DRAPE
       INTEGER , DIMENSION(NDRAPE) :: DRP_SHEL, DRP_SH3N,DRAPE_ID
       my_real
@@ -511,7 +512,7 @@ c                      IGEO(1, JPID)       ! ply pid ID
         ! To be checked for sh3n, grsh3n
         !   - double she3n -
         CALL UDOUBLE3(ITMP_SH3N,2,IT2,MESS5,MESS3,0,BID)
-        !   - double grshel -
+        !   - Double GRSHEL -
         CALL UDOUBLE3(ITMP_GRSH3N,2,IT4,MESS5,MESS4,0,BID)
         !-------------------------------------------------------------------------
         ! Filling DRAPE data structure
@@ -1116,7 +1117,7 @@ C---
       ! End reading /DRAPE
       !====================================================================================
 C-------------------------------------
-C Recherche des ID doubles (parmis les options /DRAPE)
+C Search for double IDs (among /DRAPE options)
 C-------------------------------------
       CALL UDOUBLE(DRAPE_ID,1,NDRAPE,MESS,0,BID)
 C---

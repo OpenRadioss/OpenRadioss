@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(*)
-      INTEGER IGTYP,IG,UID,SUB_ID
+      INTEGER IGTYP,IG
       my_real
      .   GEO(*)
       CHARACTER(LEN=NCHARTITLE)::IDTITL
@@ -78,13 +78,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  ISMSTR, NIP, J,
-     .   ISHEAR, IP, ISTRAIN,
-     .   IHBE,IPLAST,ITHK,IBID,IHBEOUTP,K,N,
+      INTEGER   ISMSTR, NIP,
+     .   ISHEAR, ISTRAIN,
+     .   IHBE,IPLAST,ITHK,IHBEOUTP,
      .   NSHELL, NSHSUP, NSHINF,
      .   NSST_D, NSST_DS, NPSH,ISEN,ISORTH,
-     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,I1,I2,IPOS
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,IPOS
+      INTEGER     IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
 
       my_real
@@ -118,7 +118,7 @@ C
        ISHEA_D = 0
        NPTS_D = 0
        ISTRA_D = 1
-C       Double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C       Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(11)=IGTYP
         GEO(12) =IGTYP+PUN
@@ -127,7 +127,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ZERO
 C ISEN USED IN ENGINE call csens3.F routine
         ISEN = 0
@@ -301,7 +301,7 @@ C-------not change default dn of DKT with old define (ishel=12)
 C-----------------------------
 C       IHBE IPLA ISTRAIN
 C-----------------------------
-C       Double stockage temporaire
+C       Temporary double storage
         GEO(171)=IHBE
         IGEO(10)=IHBE
         IF(IHBE==0)THEN
@@ -335,7 +335,7 @@ C       Double stockage temporaire
         END IF
         GEO(199) = ZSHIFT
 C-------------------------------
-C       Double stockage temporaire
+C       Temporary double storage
         IGEO( 5)=NINT(GEO( 3))
         IGEO( 9)=NINT(GEO(39))
 C-----------------------------

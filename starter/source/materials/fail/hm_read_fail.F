@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start              ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_read_fail_alter           ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
 !||    hm_read_fail_biquad          ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
-!||    hm_read_fail_chang           ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
+!||    hm_read_fail_chang           ../starter/source/materials/fail/changchang/hm_read_fail_chang.F90
 !||    hm_read_fail_cockcroft       ../starter/source/materials/fail/cockroft_latham/hm_read_fail_cockcroft.F
 !||    hm_read_fail_composite       ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_connect         ../starter/source/materials/fail/connect/hm_read_fail_connect.F
@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_fld             ../starter/source/materials/fail/fld/hm_read_fail_fld.F
 !||    hm_read_fail_gene1           ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
 !||    hm_read_fail_gurson          ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
-!||    hm_read_fail_hashin          ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
+!||    hm_read_fail_hashin          ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F90
 !||    hm_read_fail_hc_dsse         ../starter/source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
 !||    hm_read_fail_hoffman         ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
 !||    hm_read_fail_inievo          ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fail_orthbiquad      ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
 !||    hm_read_fail_orthenerg       ../starter/source/materials/fail/orthenerg/hm_read_fail_orthenerg.F
 !||    hm_read_fail_orthstrain      ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
-!||    hm_read_fail_puck            ../starter/source/materials/fail/puck/hm_read_fail_puck.F
+!||    hm_read_fail_puck            ../starter/source/materials/fail/puck/hm_read_fail_puck.F90
 !||    hm_read_fail_rtcl            ../starter/source/materials/fail/rtcl/hm_read_fail_rtcl.F
 !||    hm_read_fail_sahraei         ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
 !||    hm_read_fail_snconnect       ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
@@ -78,8 +78,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod                 ../starter/share/modules1/elbuftag_mod.F
 !||    hm_option_read_mod           ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_fail_chang_mod       ../starter/source/materials/fail/changchang/hm_read_fail_chang.F90
 !||    hm_read_fail_composite_mod   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
+!||    hm_read_fail_hashin_mod      ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F90
 !||    hm_read_fail_lemaitre_mod    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
+!||    hm_read_fail_puck_mod        ../starter/source/materials/fail/puck/hm_read_fail_puck.F90
 !||    hm_read_fail_spalling_mod    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fractal_dmg_mod      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    message_mod                  ../starter/share/message_module/message_mod.F
@@ -88,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_FAIL(MAT_PARAM,NUMMAT ,MAXFAIL ,FAIL_TAG ,
      .                        NTABLE   ,TABLE  ,FAILWAVE,NLOC_DMG ,
-     .                        UNITAB  ,LSUBMODEL)
+     .                        UNITAB  ,LSUBMODEL,MLAW_TAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -105,6 +108,10 @@ C-----------------------------------------------
       USE HM_READ_FRACTAL_DMG_MOD
       USE HM_READ_FAIL_LEMAITRE_MOD
       USE HM_READ_FAIL_COMPOSITE_MOD
+      USE ELBUFTAG_MOD
+      USE HM_READ_FAIL_PUCK_MOD
+      USE HM_READ_FAIL_HASHIN_MOD
+      USE HM_READ_FAIL_CHANG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -129,15 +136,16 @@ C-----------------------------------------------
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (MLAW_TAG_), DIMENSION(NUMMAT),INTENT(INOUT)  :: MLAW_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
      .   ILOC,IRUPT,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
-      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM
+      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM,FAIL_ID_ARRAY
       CHARACTER MESS*40
       CHARACTER(LEN = NCHARKEY) :: KEY
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARTITLE) :: TITLE
 C----------------------------------      
       my_real UNITAB_SUB(4)
       CHARACTER(LEN=NCHARLINE) :: IUSER_KEY
@@ -176,12 +184,29 @@ C--------------------------------------------------
 c
       CALL HM_OPTION_START('FAILURE')      
 c
+      !< Check if optional failure ID is not duplicated
+      ALLOCATE (FAIL_ID_ARRAY(HM_NBFAIL))
+      FAIL_ID_ARRAY(:) = 0
+c
       DO IFAIL = 1,HM_NBFAIL
 c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID = FAIL_ID, ! read in optional line if added
      .                          UNIT_ID   = UNIT_ID    ,
      .                          KEYWORD2  = KEY    )
+c
+        !< Save failure ID to check duplication later
+        CALL HM_GET_BOOLV ('ID_CARD_EXIST',IS_ID_LINE,IS_AVAILABLE)
+        IF ( .NOT.  (IS_ID_LINE)) FAIL_ID = 0
+        FAIL_ID_ARRAY(IFAIL) = FAIL_ID
+        DO J = 1,IFAIL-1
+          IF (FAIL_ID_ARRAY(J) == FAIL_ID .AND. FAIL_ID /= 0) THEN
+            CALL ANCMSG(MSGID=3118,
+     .                  ANMODE=ANINFO,
+     .                  MSGTYPE=MSGERROR,
+     .                  I1=FAIL_ID)
+          ENDIF
+        ENDDO
 c
         CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
 c
@@ -259,13 +284,14 @@ c
             MAT_PARAM(IMAT)%NFAIL = MAT_PARAM(IMAT)%NFAIL + 1
             IFL   = MAT_PARAM(IMAT)%NFAIL
             ILAW  = MAT_PARAM(IMAT)%ILAW
+            TITLE = MAT_PARAM(IMAT)%TITLE
 c-------  ----------------------------------------------------------------
 c
             IF (KEY(1:5) == 'JOHNS') THEN
               IRUPT = 1
               CALL HM_READ_FAIL_JOHNSON(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,ILAW   ,IRUPT   ,IXFEM    ,
-     .             MAT_PARAM(IMAT)%TITLE ,LSUBMODEL ,UNITAB )
+     .             MAT_ID   ,FAIL_ID   ,ILAW   ,IRUPT   ,IXFEM    ,
+     .             TITLE    ,LSUBMODEL ,UNITAB )
 c---
 c     
             ELSEIF (KEY(1:5) == 'TBUTC') THEN 
@@ -344,7 +370,8 @@ c
             ELSEIF (KEY(1:6) == 'ENERGY') THEN
               IRUPT = 11
               CALL HM_READ_FAIL_ENERGY(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB)
+     .             TITLE   ,MAT_ID   ,FAIL_ID  ,IRUPT  ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL,UNITAB )
 c
             ELSEIF (KEY(1:11) == 'FRACTAL_DMG') THEN 
               IRUPT = 12                    
@@ -356,23 +383,23 @@ c
             ELSEIF (KEY(1:5) == 'CHANG') THEN
               IRUPT = 13
               CALL HM_READ_FAIL_CHANG(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT    ,MLAW_TAG(IMAT))
 c     
             ELSEIF (KEY(1:6) == 'HASHIN') THEN
               IRUPT = 14
               CALL HM_READ_FAIL_HASHIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IFAILWAVE,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID  ,IRUPT    , LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT     ,MLAW_TAG(IMAT))
 c     
             !!  ELSEIF (KEY(1:6) == '') THEN   
             !!     IRUPT = 15                      ! not used
 c     
             ELSEIF (KEY(1:4) == 'PUCK') THEN
-                 IRUPT = 16 
+              IRUPT = 16 
               CALL HM_READ_FAIL_PUCK(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             FAIL_ID    ,IRUPT      ,LSUBMODEL,UNITAB   ,
+     .             FAIL_TAG(IRUPT),IOUT   ,MLAW_TAG(IMAT))
 c     
             !! ELSEIF (KEY(1:10) == '') THEN
             !!       IRUPT = 17                     ! not used
@@ -408,7 +435,7 @@ c
               IRUPT = 41
               CALL HM_READ_FAIL_TAB2(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,MAT_PARAM(IMAT)%TITLE,
-     .             LSUBMODEL,UNITAB   )
+     .             LSUBMODEL,UNITAB   ,MLAW_TAG(IMAT))
 c     
             ELSEIF (KEY(1:3) == 'TAB') THEN
               IRUPT = 37
@@ -418,9 +445,9 @@ c
 c     
             ELSEIF (KEY(1:10) == 'ORTHSTRAIN') THEN
               IRUPT = 24 
-              CALL HM_READ_FAIL_ORTHSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             FAIL_ID   ,IRUPT    ,LSUBMODEL,UNITAB   ,   
-     .             FAIL_TAG(IRUPT))
+              CALL HM_READ_FAIL_ORTHSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),FAIL_TAG(IRUPT),
+     .             TITLE   ,MAT_ID   ,FAIL_ID   ,IRUPT    ,
+     .             NTABLE  ,TABLE    ,LSUBMODEL ,UNITAB   )
 c     
             ELSEIF (KEY(1:3) == 'NXT') THEN
               IRUPT = 25   
@@ -576,6 +603,7 @@ c
       END DO  ! IFAIL        
 c------------------------------
       DEALLOCATE (FAIL_MAT_NUM)
+      DEALLOCATE (FAIL_ID_ARRAY)
 C-----------       
       RETURN
 C-----------       

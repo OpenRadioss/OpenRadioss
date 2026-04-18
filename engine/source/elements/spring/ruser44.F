@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -149,7 +149,7 @@ C-----------------------------------------------
      .        XLIMG,XLIM,XXLIM,YY1LIM,YY2LIM,ZZ1LIM,ZZ2LIM,
      .        K11,K44,K55,K66,K5B,K6C,LENG2,LENG,ULENG0,R,AX,AY,AZ,
      .        FSCAL_X,FSCAL_RX,FSCAL_RY1,FSCAL_RY2,FSCAL_RZ1,FSCAL_RZ2,
-     .        A,B,D,FF1,FF2,R1,MM,FF,FSCAL_DAMP_X,FSCAL_DAMP_Y,
+     .        FF1,FF2,R1,MM,FF,FSCAL_DAMP_X,FSCAL_DAMP_Y,
      .        FSCAL_DAMP_Z,FSCAL_DAMP_XX,FSCAL_DAMP_YY,
      .        FSCAL_DAMP_ZZ,F_X,F_Y,F_Z,F_XX,F_YY,F_ZZ,ALPHA,NCF,
      .        IDAMPING
@@ -378,7 +378,7 @@ C
         ENDDO
       ENDIF ! IF (IDAMPING > ZERO)
 C--------------------------------
-      IF (ICO == 0) THEN  ! => ELASTO PLASTIQUE - Classique
+      IF (ICO == 0) THEN  ! => Plastic elasto - classic
 C--------------------------------
         DO I=1,NEL
           ID1 = NINT(UVAR(29,I))/2
@@ -607,7 +607,7 @@ C
 !
         ENDDO
 C--------------------------------
-      ELSE    ! => ELASTO PLASTIQUE - Directions couplees
+      ELSE    ! => Plastic elasto - Couplees directions
 C--------------------------------
         DO I=1,NEL
           ID1 = NINT(UVAR(29,I))/2

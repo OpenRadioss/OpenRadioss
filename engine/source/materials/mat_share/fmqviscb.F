@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,13 +75,13 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER
+      INTEGER I,J, MT,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER
       my_real AL(MVSIZ),
      .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),SSP_EQ(MVSIZ),
      .        RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
-     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, 
-     .        TLI, AKK, XMU, TMU, RPR,
-     .        ATU, QAD, QBD, QAAP,DD
+     .        CNS1, CNS2, 
+     .         
+     .          DD
       my_real TIDT,TVOL,TRHO,TAIRE, DTINV
 C-----------------------------------------------
 
@@ -141,7 +141,7 @@ C
         DTX(I) = DELTAX(I) / SSP_EQ(I)      
       ENDDO
 C
-      ! KDTSMSTR==1 en version 5, par defaut.
+      ! Kdtsmstr == 1 in version 5, by default.
       IF(KDTSMSTR==1.AND.ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO 50 I=1,NEL
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
@@ -190,7 +190,7 @@ C         dt2 replaced with dt2t
             TRHO = UVAR(I,1) * TIDT
             TAIRE = AIRE(I) * TIDT
           ENDIF
-C         dt2 remplace par dt2t
+C         dt2 replaced by dt2t
   60    CONTINUE
         IF(ALE_OR_EULER==0)THEN
           DO I=1,NEL
@@ -282,7 +282,7 @@ C
       IF(NODADT==0 .OR. ALE_OR_EULER==1)THEN
        DO 80 I=1,NEL
         IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO) GO TO 80 
-C nelts et itypts remplaces par neltst et itypst
+C nelts and itypts replaced by neltst and itypst
         DT2T    = DTX(I)
         NELTST =NGL(I)
         ITYPTST=ITY

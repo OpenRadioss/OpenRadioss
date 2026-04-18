@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,7 +102,7 @@ C section cut
           IF (TYP_S>=1)THEN
             NNODL_L = NNODL_L + NNOD_S_L
           ENDIF
-C section cut type 1 et superieur sur p0
+C section cut type 1 and above on p0
           IF(PROC==0.AND.TYP_S>=1) THEN
             NNODT_L = NNODT_L + NNOD_S_L
             DO P = 2, NSPMD

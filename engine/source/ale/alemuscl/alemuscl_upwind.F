@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,12 +27,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod           ../common_source/modules/ale/alemuscl_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    segvar_mod             ../engine/share/modules/segvar_mod.F
 !||====================================================================
-      SUBROUTINE ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, X, IXS, FLUX_VOIS,
-     .                           N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
+      SUBROUTINE ALEMUSCL_UPWIND(flux_mat,flux_save,ALE_CONNECT, X, IXS, flux_vois_mat,
+     .                           NV46,trimat, SEGVAR,
+     .                           s_flux,s_flux_vois)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutines performs the following steps:
@@ -47,6 +50,8 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only :nixs
+      use precision_mod , only : WP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,19 +65,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: s_flux_vois !< first dimension of flux_vois_mat
       INTEGER, INTENT(IN) :: NV46
-      my_real, INTENT(OUT) :: FLUX(NV46, *)
+      integer, intent(in) :: trimat !< number of materials
+      real(kind=WP), dimension(s_flux,nv46), intent(in) :: flux_save
+      real(kind=WP), INTENT(OUT) :: flux_mat(s_flux,NV46,trimat)
       my_real, INTENT(IN) :: X(3,NUMNOD)
       INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS)
-      my_real, INTENT(OUT) :: FLUX_VOIS(NUMELS+NSVOIS, NV46)
-      INTEGER, INTENT(OUT) :: N4_VOIS(NUMELS+NSVOIS,8)
-      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
-      INTEGER, INTENT(IN) :: ITRIMAT
+      real(kind=WP), INTENT(OUT) :: flux_vois_mat(s_flux_vois, NV46,trimat)
       TYPE(t_segvar),INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      integer :: itrimat
       INTEGER :: I, II, KK, JJ, IAD2, IAD3
       INTEGER :: NEIGHBOOR_LIST(NV46), FACE_NEIGHBOOR(NV46)
       my_real :: ALPHAK
@@ -83,38 +90,38 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-!!! Once for all, associate node local id to a face number
-!!! Face 1
+      !!! Once for all, associate node local id to a face number
+      !!! Face 1
       FACE_TO_NODE_LOCAL_ID(1, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(1, 2) = 4
       FACE_TO_NODE_LOCAL_ID(1, 3) = 3 ; FACE_TO_NODE_LOCAL_ID(1, 4) = 2
-!!! Face 2
+      !!! Face 2
       FACE_TO_NODE_LOCAL_ID(2, 1) = 3 ; FACE_TO_NODE_LOCAL_ID(2, 2) = 4
       FACE_TO_NODE_LOCAL_ID(2, 3) = 8 ; FACE_TO_NODE_LOCAL_ID(2, 4) = 7
-!!! Face 3
+      !!! Face 3
       FACE_TO_NODE_LOCAL_ID(3, 1) = 5 ; FACE_TO_NODE_LOCAL_ID(3, 2) = 6
       FACE_TO_NODE_LOCAL_ID(3, 3) = 7 ; FACE_TO_NODE_LOCAL_ID(3, 4) = 8
-!!! Face 4
+      !!! Face 4
       FACE_TO_NODE_LOCAL_ID(4, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(4, 2) = 2
       FACE_TO_NODE_LOCAL_ID(4, 3) = 6 ; FACE_TO_NODE_LOCAL_ID(4, 4) = 5
-!!! Face 5
+      !!! Face 5
       FACE_TO_NODE_LOCAL_ID(5, 1) = 2 ; FACE_TO_NODE_LOCAL_ID(5, 2) = 3
       FACE_TO_NODE_LOCAL_ID(5, 3) = 7 ; FACE_TO_NODE_LOCAL_ID(5, 4) = 6
-!!! Face 6
+      !!! Face 6
       FACE_TO_NODE_LOCAL_ID(6, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(6, 2) = 5
       FACE_TO_NODE_LOCAL_ID(6, 3) = 8 ; FACE_TO_NODE_LOCAL_ID(6, 4) = 4
 
-!!! First of all, compute gradient for alpha
+      !!! First of all, compute gradient for alpha
       DO I = LFT, LLT
         II = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-        !!! Element centroid
+        !!!centroid element
         XK = ALEMUSCL_Buffer%ELCENTER(II,1) ; 
         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
         ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
         !!! Neighbors
         DO KK = 1, NV46
           !!! Only for outgoing fluxes
-          IF (FLUX(KK, II) > ZERO) THEN
+          IF (flux_save(II,KK) > ZERO) THEN
             !!! Storing neighbor indexes
             NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
             FACE_NEIGHBOOR(KK) = KK
@@ -168,27 +175,24 @@ C-----------------------------------------------
             ZF = ZF / SURF
 
             !!! Reconstruct second order value for ALPHA(II) on the face
-            ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
-     .           + ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) * (XF - XK)
-     .           + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
-     .           + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
-            !!! Partial volume flux is then computed as:
-            FLUX(KK, II) = ALPHAK * FLUX(KK, II)
+            do itrimat=1,trimat
+              ALPHAK = ALEMUSCL_Buffer%VOLUME_FRACTION(II,ITRIMAT)
+     .             + ALEMUSCL_Buffer%GRAD(II,1,ITRIMAT) * (XF - XK)
+     .             + ALEMUSCL_Buffer%GRAD(II,2,ITRIMAT) * (YF - YK)
+     .             + ALEMUSCL_Buffer%GRAD(II,3,ITRIMAT) * (ZF - ZK)
+              !!! Partial volume flux is then computed as:
+              flux_mat(II,KK,itrimat) = ALPHAK * flux_save(II,KK)
+            enddo
             IF (NEIGHBOOR_LIST(KK) > 0)THEN
               IF (NEIGHBOOR_LIST(KK) <= NUMELS .AND. NEIGHBOOR_LIST(KK) > 0) THEN
-                !!! The opposite of the flux goes to the neighboord
-                FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
+                do itrimat=1,trimat                
+                  !!! The opposite of the flux goes to the neighboord
+                  flux_mat(NEIGHBOOR_LIST(KK),FACE_NEIGHBOOR(KK),itrimat) = -flux_mat(II,KK,itrimat)
+                enddo
               ELSE
-                !!! ALE51_ANTIDIFF3
-                FLUX_VOIS(II, KK) = FLUX(KK, II)
-                N4_VOIS(II, 1) = ITAB(IXS(2, II))
-                N4_VOIS(II, 2) = ITAB(IXS(3, II))
-                N4_VOIS(II, 3) = ITAB(IXS(4, II))
-                N4_VOIS(II, 4) = ITAB(IXS(5, II))
-                N4_VOIS(II, 5) = ITAB(IXS(6, II))
-                N4_VOIS(II, 6) = ITAB(IXS(7, II))
-                N4_VOIS(II, 7) = ITAB(IXS(8, II))
-                N4_VOIS(II, 8) = ITAB(IXS(9, II))
+                do itrimat=1,trimat                 
+                  flux_vois_mat(II, KK,itrimat) = flux_mat(II,KK,itrimat)
+                enddo           
               ENDIF
             ENDIF
           ENDIF  ! (FLUX(KK, II) > ZERO)
@@ -202,10 +206,13 @@ C-----------------------------------------------
         DO I = LFT, LLT
           II = I + NFT
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-          DO KK=1,NV46
-            IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
-              FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)
-            ENDIF
+          DO KK=1,NV46              
+            IF(flux_save(II,KK) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
+              do itrimat=1,trimat              
+                flux_mat(II,KK,itrimat) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*
+     .                                  flux_save(II,KK)
+              enddo
+            endif
           ENDDO
         ENDDO
       ENDIF

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20init3              ../starter/source/elements/solid/solide20/s20init3.F
 !||    s4init3               ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cinit3              ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3              ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3              ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3              ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scinit3               ../starter/source/elements/thickshell/solidec/scinit3.F
@@ -68,9 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,N,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,
-     .        IFLAGINI,JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
-     .        IP,IMAT,IRUP
+      INTEGER I,J,L, II, JJ,IUS,
+     .        JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
+     .        IMAT,IRUP
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX
       TYPE(BUF_FAIL_),POINTER :: FBUF

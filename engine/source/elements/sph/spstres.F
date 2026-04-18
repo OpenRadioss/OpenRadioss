@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -137,7 +137,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, IFLAG, NB3S, I, OFFSET, IPRT,ILAY
+      INTEGER NF1, IFLAG, OFFSET,ILAY
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ), IBIDON(1),IBID
       my_real
@@ -152,19 +152,19 @@ C-----
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ) ,SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . TEMPEL(MVSIZ)
 C-----
-C Variables utilisees en argument par les materiaux.
+C Variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ), BID(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
+C Variables used in argument by materials if SPH only.
       my_real
      .   MUMAX(MVSIZ)
 C-----
-C Variables utilisees (en arguments) dans les routines solides (uniquement).
+C Variables used (as arguments) in solid routines (only).
       INTEGER NC1(MVSIZ),NGEO(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),
-     .   VX1(MVSIZ), VY1(MVSIZ), VZ1(MVSIZ),
+     .     
      .   DXY(MVSIZ),DYX(MVSIZ),
      .   DYZ(MVSIZ),DZY(MVSIZ),
      .   DZX(MVSIZ),DXZ(MVSIZ),DIE(MVSIZ)

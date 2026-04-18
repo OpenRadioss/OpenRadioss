@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,23 +71,21 @@ C-----------------------------------------------
      .        NBX,NBY,NBZ,NE,M1,M2,M3,M4,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
-     .        RATIO, AAA,
+     . AAA,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
 
       INTEGER :: SOL_EDGE,SH_EDGE
-      INTEGER :: IE,N1,N2
       my_real :: DX,DY,DZ
-      INTEGER :: IDS(4)
       INTEGER :: TMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids
@@ -107,17 +105,17 @@ C=======================================================================
       ZMINB = BMINMAL(6)
 
       DO NE=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NE) <= ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
      +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD,DRAD)
 
 
-C verifier avec 
+C verify with
          IF(SOL_EDGE > 0) AAA = MAX(AAA,MARGE+BGAPEMX+DGAPLOAD)
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -157,7 +155,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
            ZMINE=ZMINE-DZ
          ENDIF
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -238,13 +236,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,
-     .        NBX,NBY,NBZ,NE,M1,M2,M3,M4,
+     . NBX,NBY,NBZ,M1,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
-     .        RATIO, AAA,
+     . AAA,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
-     .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
+     . XX1,XX2,YY1,YY2,ZZ1,ZZ2
 
       INTEGER :: SOL_EDGE,SH_EDGE
       INTEGER :: IE,N1,N2
@@ -255,8 +253,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids
@@ -287,12 +285,12 @@ c         IF(STF(M1) == ZERO) CYCLE
 c       ENDIF
 
 C       BGAPEMX already counted in BMINMAL
-        AAA=ZERO + DGAPLOAD
-C       IF(IGAP0==0)THEN
-C         AAA = MARGE+BGAPEMX+GAPE(IE)
-C       ELSE
-C         AAA = MARGE+TWO*BGAPEMX+GAPE(IE)
-C       END IF
+c        AAA=ZERO + DGAPLOAD
+       IF(IGAP0==0.OR.IABS(LEDGE(7,IE)) == 3)THEN
+         AAA = MARGE+BGAPEMX+GAPE(IE)+ DGAPLOAD
+       ELSE
+         AAA = MARGE+TWO*BGAPEMX+GAPE(IE)+ DGAPLOAD
+       END IF
 
         N1 = LEDGE(5,IE)
         N2 = LEDGE(6,IE)
@@ -303,12 +301,21 @@ C       END IF
         YY2=X(2,N2)
         ZZ1=X(3,N1)
         ZZ2=X(3,N2)
-        XMAXE=MAX(XX1,XX2)+GAPE(IE) ! +TZINF
-        XMINE=MIN(XX1,XX2)-GAPE(IE) ! -TZINF
-        YMAXE=MAX(YY1,YY2)+GAPE(IE) ! +TZINF
-        YMINE=MIN(YY1,YY2)-GAPE(IE) ! -TZINF
-        ZMAXE=MAX(ZZ1,ZZ2)+GAPE(IE) ! +TZINF
-        ZMINE=MIN(ZZ1,ZZ2)-GAPE(IE) ! -TZINF
+        IF(IABS(LEDGE(7,IE)) == 3) THEN
+          XMAXE=MAX(XX1,XX2)
+          XMINE=MIN(XX1,XX2)
+          YMAXE=MAX(YY1,YY2)
+          YMINE=MIN(YY1,YY2)
+          ZMAXE=MAX(ZZ1,ZZ2)
+          ZMINE=MIN(ZZ1,ZZ2)
+        ELSE
+          XMAXE=MAX(XX1,XX2)+GAPE(IE) ! +TZINF
+          XMINE=MIN(XX1,XX2)-GAPE(IE) ! -TZINF
+          YMAXE=MAX(YY1,YY2)+GAPE(IE) ! +TZINF
+          YMINE=MIN(YY1,YY2)-GAPE(IE) ! -TZINF
+          ZMAXE=MAX(ZZ1,ZZ2)+GAPE(IE) ! +TZINF
+          ZMINE=MIN(ZZ1,ZZ2)-GAPE(IE) ! -TZINF
+        ENDIF
        !-------------------------------------------!
        !  VOXEL OCCUPIED BY THE EDGE               !
        !-------------------------------------------!

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,7 +86,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE,ITYPE
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
-      INTEGER FUNC_ID,RBODY_ID,IFUN,IGR,GRPART,USR_GRPART
+      INTEGER FUNC_ID, RBODY_ID, IFUN, IGR, GRPART
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
@@ -167,6 +167,8 @@ C--------------------------------------------------
         FL_FREQ_RANGE = 0
         ITYPE = 0
         FACTB = ONE
+        ALPHA = ZERO
+        BETA = ZERO
 C        
         IF(KEY(1:5)=='INTER')THEN
           FLINT = 1
@@ -522,6 +524,7 @@ C
               ALPHA_X = ALPHA
               DAMPR(3,I) = ALPHA_X
               ALPHA = FACTB
+              DAMPR(4,I) = BETA
               DAMPR(5,I) = ALPHA_Y
               DAMPR(7,I) = ALPHA_Z
               DAMPR(9,I)  = ALPHA_XX

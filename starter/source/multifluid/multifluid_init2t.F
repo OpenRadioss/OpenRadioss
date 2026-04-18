@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -181,7 +182,7 @@ C     Material initialization
      .        MAT, IPM, NSIGS, NUMSH3N, PTSH3N,
      .        IP, NGL, NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
-     .        FACLOAD, GBUF%DELTAX,TEMPEL)
+     .        FACLOAD, GBUF%DELTAX,TEMPEL,MAT_PARAM )
      
          VFRAC = MAT_PARAM( IXTG(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104,  MAT_PARAM( IXTG(1,1+NFT) )%MULTIMAT%MID(ILAY)   )

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,6 +60,7 @@ C-----------------------------------------------
         USE SUBMODEL_MOD
         USE ALE_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,13 +107,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,K,J,ADD,IAD,CUR_ID,TPP,CCPL,NF1,NF2,TYP2
-        INTEGER COMPT,NSEG,FSKW,IDOM,NUMNOD_OLD
-        INTEGER ISUR,ISURS,NTOT,NB_NOD_SUB,NB_NOD_CPL,NB_NOD
-        INTEGER MAXN,MAXANUS,SIXSN,ID_INTER,NUL,TAG,COMPTB
+        INTEGER I, K, J, ADD, CUR_ID, CCPL
+        INTEGER COMPT, NSEG, IDOM, NUMNOD_OLD
+        INTEGER NTOT, NB_NOD_SUB, NB_NOD_CPL
+        INTEGER MAXN, MAXANUS, SIXSN, NUL, TAG, COMPTB
         INTEGER COMPT10,COMPT20,COMPT16,COMPT8,J10,J20,J16,JJ
-        INTEGER G1,G2,GRS,GRM,GRS2,LN1,LN2,NI,ID_MON,IAD3,IO_ERR
-        INTEGER LNM,LNS,NEW_ID,SIPART0,SIPARTTH,COMPT_IP,COMPT_IP_TMP,L0
+        INTEGER NEW_ID, SIPART0, SIPARTTH, COMPT_IP, COMPT_IP_TMP, L0
         INTEGER ID_PROP,COEFF,NUMSPHA,NSPHRESN,FIRST_CELL,NOD_ID,PART_RES,INOD
         INTEGER JJB,IUN,NRB,NRBODY_OLD
         CHARACTER TITR*40
@@ -366,7 +366,7 @@ C ---------> counting of springs------------------------------------------------
               NELRN = NELRN+1
             ENDIF
           ENDDO
-C ---------> comptage des beams----------------------------------------------------C
+C ---------> counting of beams----------------------------------------------------C
           DO J=1,NUMELP
             IF (TAG_ELP(J+NPART)/=0) THEN
               NELPN = NELPN+1
@@ -1493,10 +1493,10 @@ C-------------------------------------------------------------------------------
           COMPT = 0
           DO I=1,NBGAUGE
             IF ((TAGGAU(I)>0).AND.(NUMELS>0)) THEN
-C---------------> Cas des GAUGES <--
+C---------------> Case of GAUGES <--
               COMPT = COMPT + 1
             ELSEIF ((TAGGAU(I)<0).AND.(NUMSPH>0)) THEN
-C---------------> Cas des GAUGE/SPH <--
+C---------------> Case of GAUGE/SPH <--
               TAGGAU(I) = ABS(TAGGAU(I))
               COMPT = COMPT + 1
             ELSE

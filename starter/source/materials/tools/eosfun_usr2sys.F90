@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    updmat               ../starter/source/materials/updmat.F
 !||====================================================================
       module EOSFUN_USR2SYS_MOD
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -78,14 +79,14 @@
                   IFUNC(I) = J
                   OK = 1
                   EXIT
-                ENDIF
-              ENDDO
+                END IF
+              END DO
               IF (OK == 0) THEN
                 !eos error with function identifier
                 CALL ANCMSG(MSGID=135,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=EOS_ID,C1=TITR,I2=ID)
-              ENDIF
-            ENDIF
-          ENDDO  ! I=1,NFUNC
+              END IF
+            END IF
+          END DO  ! I=1,NFUNC
 
           RETURN
         END SUBROUTINE EOSFUN_USR2SYS

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -149,7 +149,7 @@ C
           M2=IRECTM(2,CAND_M(I))
 
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -170,7 +170,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance squared
 
           XS12 = X21-X11
           YS12 = X22-X12
@@ -198,7 +198,7 @@ C
           ALM = -(XB + ALS*XSM) / XM2
           ALM=MIN(ONE,MAX(ZERO,ALM))
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*X11 + (ONE-ALS)*X21
      .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)
@@ -313,7 +313,7 @@ C
           M2=IRECTM(2,CAND_M(I))
 
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -334,7 +334,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance squared
 
           XS12 = X21-X11
           YS12 = X22-X12
@@ -362,7 +362,7 @@ C
           ALM = -(XB + ALS*XSM) / XM2
           ALM=MIN(ONE,MAX(ZERO,ALM))
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*X11 + (ONE-ALS)*X21
      .        - ALM*X(1,M1) - (ONE-ALM)*X(1,M2)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_orders      ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
@@ -50,6 +51,7 @@ C-----------------------------------------------
       USE REMESH_MOD
       USE ELBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +117,7 @@ C-----------------------------------------------
           TAGNOD = 0
           NODNORM= ZERO
 c
-c         parcours des feuilles
+C         traversal of the leaves
           LEVEL=LEVELMAX
           DO NN=PSH4KIN(LEVEL)+1,PSH4KIN(LEVEL+1)
             N   =LSH4KIN(NN)
@@ -814,7 +816,7 @@ C
 C
       END IF
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
       IF(IADMESH==1)THEN
         IF(ITASK==0)THEN
           NTMP   =NSH4ACT

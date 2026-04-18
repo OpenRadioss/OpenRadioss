@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg             ../starter/source/output/message/message.F
 !||    fredec0            ../starter/source/starter/freform.F
-!||    nodgrnr5           ../starter/source/starter/freform.F
 !||    udouble            ../starter/source/system/sysfus.F
 !||    usr2sys            ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -46,12 +45,12 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_2I
       USE READER_OLD_MOD , ONLY : KLINE, KCUR, LINE, KIGE3D, KOPTAD, IREC
 C----------------------------------------------------------
-C     LECTURE ELEMENT ISO GEOMETRIQUE
+C     READING ISO GEOMETRIC ELEMENT
 C-----------------------------------------------
 C     KXIG3D(1,*):IMID :   ID DU MATERIAU
-C     KXIG3D(2,*):IPID :   ID DE LA PROPRIETE
-C     KXIG3D(3,*):NNOD :   NOMBRE DE POINTS DE CONTROLE DE L ELEMENT
-C     KXIG3D(4,*):IAD  :   ADRESSE DE LA ZONE DES NOS DE NOEUDS DANS IXIG3D
+C     kxig3d(2,*):ipid: property id
+C     kxig3d(3,*):nnod: number of control points of the element
+C     KXIG3D(4,*):IAD  :   address of the node numbers area in IXIG3D
 C                                     IXIG3D(IAD) A IXIG3D(IAD+NNOD-1)
 C     KXIG3D(5,*):ID   :   ID DE L'ELEMENT.
 C     KXIG3D(6,*):ID   :   index of 1st knot in the Xknot vector corresponding to the element
@@ -87,16 +86,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,ID,IDS,IDEX,IDGU,IGS,NNOD,IAD,
-     .        I1, I2,MID,PID,IDX1,IDY1,IDZ1,NCTRL,NBLINE,
-     .        NRAFX,NRAFY,NRAFZ,NBIG3D_PATCH
-      INTEGER TABIDS(NUMELIG3D0),J10(10)
-      CHARACTER MESS*40
-      my_real BID
+      INTEGER :: I,N,J,ID,IDS,IAD,
+     .           I1, I2,MID,PID,IDX1,IDY1,IDZ1,NCTRL,NBLINE,
+     .           NRAFX,NRAFY,NRAFZ,NBIG3D_PATCH
+      INTEGER :: TABIDS(NUMELIG3D0),J10(10)
+      CHARACTER :: MESS*40
+      my_real :: BID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  NODGRNR5,USR2SYS
+      INTEGER  USR2SYS
 C-----------------------------------------------
       DATA MESS /'ISO-GEOMETRIC ELEMENTS DEFINITION       '/
 C=======================================================================
@@ -112,7 +111,7 @@ c
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
         
-         IF (LINE(1:1) == '/')THEN  ! CHANGEMENT DE PART
+         IF (LINE(1:1) == '/')THEN  ! change of part
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
          ENDIF
@@ -204,7 +203,7 @@ C
 C-----------
       CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate IDs
 C-------------------------------------
       DO I=1,NUMELIG3D0
          TABIDS(I)= KXIG3D(5,I)

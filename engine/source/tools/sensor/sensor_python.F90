@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@
 !||    sensor_init         ../engine/source/tools/sensor/sensor_init.F
 !||====================================================================
       module sensor_python_mod
+        implicit none
       contains
 !||====================================================================
 !||    sensor_python                     ../engine/source/tools/sensor/sensor_python.F90
@@ -37,28 +38,34 @@
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                      ../common_source/modules/constant_mod.F
+!||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||    python_funct_mod                  ../common_source/modules/python_mod.F90
 !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
 !||====================================================================
-        subroutine sensor_python(sensor)
+        subroutine sensor_python(sensor,time)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use python_funct_mod
           use sensor_mod
           use constant_mod
+          use precision_mod, only : wp
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (sensor_str_) :: sensor
+          real(wp), intent(in) :: time
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision :: y
+          integer :: previous_status
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          previous_status = sensor%status
 !$OMP CRITICAL
           call python_call_function_with_state(sensor%python_function%name,y)
 !$OMP END CRITICAL
@@ -66,6 +73,17 @@
             sensor%status = 1
           else if(y < half) then
             sensor%status = 0
+          end if
+
+          if(time == ZERO .and. sensor%status == 1) then
+            sensor%tstart = time 
+          else if(time == ZERO .and. sensor%status == 0) then 
+            sensor%tstart = HUGE(time)
+          else if(previous_status == 0 .and. sensor%status == 1) then
+            sensor%tstart = time 
+            sensor%tstart = sensor%tstart - tiny(sensor%tstart)
+          else if(previous_status == 1 .and. sensor%status == 0) then
+            sensor%tstart= HUGE(time)
           end if
           return
         end subroutine sensor_python

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_mod                         ../engine/share/modules/th_mod.F
 !||    th_surf_mod                    ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-      SUBROUTINE PBLAST_3(PBLAST,
+      SUBROUTINE PBLAST_3(OUTPUT, PBLAST,
      *                    ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,NODA_SURF,NODA_PEXT,
      2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC,
@@ -53,7 +53,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , ONLY : TH_SURF_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
       USE TH_MOD ,ONLY : TH_HAS_NODA_PEXT
-      USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT, ANIM_HAS_NODA_PEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER,INTENT(IN) :: LLOADP(SLLOADP)
       INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
       INTEGER,INTENT(IN) :: IADC(*)
@@ -261,7 +262,7 @@ C-----------------------------------------------
           !3-NODE-SEGMENT
           PBLAST%PBLAST_TAB(IL)%NPt(I) = THREE
           NPT = THREE
-          !Segment centroid
+          !Centroid segment
           Zx = X(1,N1)+X(1,N2)+X(1,N3)
           Zy = X(2,N1)+X(2,N2)+X(2,N3)
           Zz = X(3,N1)+X(3,N2)+X(3,N3)
@@ -278,7 +279,7 @@ C-----------------------------------------------
           !4-NODE-SEGMENT
           PBLAST%PBLAST_TAB(IL)%NPt(I) = FOUR
           NPT = FOUR
-          !Segment centroid
+          !Centroid segment
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
           Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
           Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
@@ -627,7 +628,7 @@ C----- /TH/SURF -------
           ENDIF
         ENDDO
        ENDIF
-      IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
+      IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%H3D_HAS_NODA_PEXT > 0) THEN
         DO I = 1,ISIZ_SEG
           N1 = PBLAST%PBLAST_TAB(IL)%N(1,I)
           N2 = PBLAST%PBLAST_TAB(IL)%N(2,I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NG,MLW,NEL, IG
 C-----------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
@@ -251,8 +251,8 @@ C----6---------------------------------------------------------------7---------8
        END IF
       END DO
 !$OMP END DO
-c      GOTO 100
-c 101  CONTINUE
+C      GOTO 100
+C 101  CONTINUE
 
       RETURN
       END     

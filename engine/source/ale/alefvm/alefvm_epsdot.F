@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALEFVM_EPSDOT (
      1                          IXS,  VOL,
@@ -46,6 +47,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +72,7 @@ C subroutine is unplugged
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*),NV46,IPM(NPROPMI,*),NEL
+      INTEGER :: IXS(NIXS,*),IPM(NPROPMI,*),NEL
       my_real :: VOL(MVSIZ),DXX(MVSIZ),DYY(MVSIZ), DZZ(MVSIZ),X(3,*)
       my_real :: N1X(*), N2X(*),  N3X(*), N4X(*), N5X(*), N6X(*),
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,12 +56,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, NN, JJ3,
-     .   JJ2, JJ1, ISK, LCOD
+     .   JJ2, JJ1
 C     REAL
       my_real
      .   H(4), N1, N2, N3, AA(3), SS, TT, XMSS, FXI, FYI, FZI, FSN,
      .   FXN, FYN, FZN, FXT, FYT, FZT, FST, FAC, FXMI, FYMI, FZMI,
-     .   FSM, FXMN, FYMN, FZMN, FXMT, FYMT, FZMT, FSMT
+     .   FSM, FXMN, FYMN, FZMN, FXMT, FYMT, FZMT
 C-----------------------------------------------
 C
       IF(N2D==0)THEN
@@ -133,8 +133,7 @@ C-------------------------------------
       FYMI=A(JJ1)*XMSS
       FZMI=A(JJ1)*XMSS
 C-------------------------------------
-C     FORCE NORMALE SECND
-C-------------------------------------
+C     FORCE NORMALE SECOND C-------------------------------------
       FSN=(FXI*N1+FYI*N2+FZI*N3)
       FXN=FSN*N1
       FYN=FSN*N2
@@ -147,7 +146,7 @@ C-------------------------------------
       FYMN = FSM*N2
       FZMN = FSM*N3
 C-------------------------------------
-C     SOMME DES FORCES NORMALES
+C     sum of normal forces
 C-------------------------------------
       FN(J1) = FN(J1) + FXN - FXMN
       FN(J2) = FN(J2) + FYN - FYMN
@@ -168,7 +167,7 @@ C-------------------------------------
       FYMT = FYMI - FYMN
       FZMT = FZMI - FZMN
 C-------------------------------------
-C     SOMME DES FORCES DE FRICTION
+C     sum of friction forces
 C-------------------------------------
       FT(J1)=FT(J1) + (FXT - FXMT)*FAC
       FT(J2)=FT(J2) + (FYT - FYMT)*FAC

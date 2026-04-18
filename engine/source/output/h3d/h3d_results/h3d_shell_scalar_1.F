@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                    ../engine/share/resol/initbuf.F
 !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
@@ -67,6 +68,7 @@ C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE MATPARAM_DEF_MOD
         USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,17 +113,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         my_real EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
      .          EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ),
-     .          NINTY,VONM2,S1,S2,S12,DMGMX,A1,A2,A3,A4,DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
+     .          VONM2,S1,S2,S12,DMGMX,A1,A2,A3,A4,DIR1_1,DIR1_2,AA,BB,V1,V2,V3,X21,X32,X34,
      .          X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,Z31,E11,E12,E13,E21,E22,E23,SUM_,AREA,X2L,
      .          E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,S_X,S_Y,S_Z,RHO0(MVSIZ),THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0,
-     .          RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3),MAXDAMINI,
-     .          VOLFRAC,BFRAC
+     .          RINDX,VFRAC(MVSIZ,1:21),TMP(3,3),CUMUL(3),VX,VY,VZ,SURF,NX,NY,NZ,PHI,ERR,PRES(MVSIZ),VEL(0:3),MAXDAMINI
         INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
      .          IR,IS,IT,IL,MLW, NUVAR,NFAIL,
-     .          N,K,K1,K2,JTURB,
+     .          N,K1,K2,JTURB,
      .          OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
      .          ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
-     .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,SUBMATLAW,
+     .          IMAT,IU(4),NFRAC,IPOS,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,
      .          TAG, MLW_LAY
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          IPLY,NLAY_COUNT,
@@ -150,7 +151,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        NINTY = 90.
         CALL INITBUF(IPARG   ,NG      ,
      2                MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,
@@ -1127,11 +1127,12 @@ c
                     IPT =  IABS(NPT)/2 + 1
                   ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                  MAT_ID = MATPARAM(IMAT)%MAT_ID
                   NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
 c
                   IF(KEYWORD == 'USER') USER_OK = 1
                   IF(IDMDS > 0)THEN
-                    IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                    IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                   ENDIF
 c
                   IF(USER_OK == 1)THEN
@@ -1182,10 +1183,11 @@ c
 c
                     IF (ID_PLY  == IPLY ) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
-                        IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                        IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                       ENDIF
 c
                       IF(USER_OK == 1)THEN
@@ -1232,10 +1234,11 @@ c
                     IF (ID_PLY  == IPLY ) THEN
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
-                        IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                        IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                       ENDIF
 c
                       IF(USER_OK == 1)THEN
@@ -1272,10 +1275,11 @@ c ILAYER=IL NPT=IPT
                     NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
                     BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                     IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                    MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                     IF(KEYWORD == 'USER') USER_OK = 1
                     IF(IDMDS > 0)THEN
-                      IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                      IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                     ENDIF
 c
                     IF(USER_OK == 1)THEN
@@ -1295,10 +1299,11 @@ c ILAYER=IL NPT=NULL
               ELSEIF ( ILAY <= NLAY .AND. ILAY > 0 .AND. IUVAR > 0) THEN
                 NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
                 IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                 IF(KEYWORD == 'USER') USER_OK = 1
                 IF(IDMDS > 0)THEN
-                  IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                  IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                 ENDIF
 c
                 IF(USER_OK == 1)THEN
@@ -1468,9 +1473,9 @@ C
                           ENDIF
 c
                           PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                          ERR = (ABS(PHI) - NINTY)/NINTY
+                          ERR = (ABS(PHI) - NINETY)/NINETY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1
                         ENDDO
@@ -1578,9 +1583,9 @@ C
                             DIR1_2 = BUFLY%DIRA(I+NEL)
                           ENDIF
                           PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                          ERR = (ABS(PHI) - NINTY)/NINTY
+                          ERR = (ABS(PHI) - NINETY)/NINETY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1
                         ENDDO
@@ -1660,9 +1665,9 @@ C
                             DIR1_2 = LBUF_DIR%DIRA(I+NEL)
                           ENDIF
                           PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                          ERR = (ABS(PHI) - NINTY)/NINTY
+                          ERR = (ABS(PHI) - NINETY)/NINETY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1
                         ENDDO
@@ -1727,9 +1732,9 @@ C
                             DIR1_2 = BUFLY%DIRA(I+NEL)
                           ENDIF
                           PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                          ERR = (ABS(PHI) - NINTY)/NINTY
+                          ERR = (ABS(PHI) - NINETY)/NINETY
                           VALUE(I) = PHI
-                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                          IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                           IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                           IS_WRITTEN_VALUE(I) = 1
                         ENDDO
@@ -1863,9 +1868,9 @@ C
                               ENDIF
 c
                               PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                              ERR = (ABS(PHI) - NINTY)/NINTY
+                              ERR = (ABS(PHI) - NINETY)/NINETY
                               VALUE(I) = PHI
-                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                               IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                               IS_WRITTEN_VALUE(I) = 1
                             ENDDO
@@ -1975,9 +1980,9 @@ C
                               ENDIF
 c
                               PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                              ERR = (ABS(PHI) - NINTY)/NINTY
+                              ERR = (ABS(PHI) - NINETY)/NINETY
                               VALUE(I) = PHI
-                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                               IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                               IS_WRITTEN_VALUE(I) = 1
                             ENDDO
@@ -2054,9 +2059,9 @@ C
                                 DIR1_2 = LBUF_DIR%DIRA(I+NEL)
                               ENDIF
                               PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                              ERR = (ABS(PHI) - NINTY)/NINTY
+                              ERR = (ABS(PHI) - NINETY)/NINETY
                               VALUE(I) = PHI
-                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                               IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                               IS_WRITTEN_VALUE(I) = 1
                             ENDDO
@@ -2121,9 +2126,9 @@ C
                                 DIR1_2 = BUFLY%DIRA(I+NEL)
                               ENDIF
                               PHI =(HUNDRED80/PI)*ATAN2(DIR1_2,DIR1_1)
-                              ERR = (ABS(PHI) - NINTY)/NINTY
+                              ERR = (ABS(PHI) - NINETY)/NINETY
                               VALUE(I) = PHI
-                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINTY,PHI)
+                              IF(ABS(ERR) < EM02) VALUE(I) = SIGN(NINETY,PHI)
                               IF(ABS(VALUE(I)) < ONE) VALUE(I) = ZERO
                               IS_WRITTEN_VALUE(I) = 1
                             ENDDO
@@ -2455,23 +2460,15 @@ c ILAYER=NULL NPT=NULL
                         ENDDO
                       ENDIF ! igtyp
                     ELSE ! ITY == 7
-                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
-                        NPTT = BUFLY%NPTT
-                        DO IT = 1,NPTT
-                          DO IR =1,NPG
-                            DO  I=1,NEL
-                              VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
-                              IS_WRITTEN_VALUE(I) = 1
-                            ENDDO
+                      NPTT = BUFLY%NPTT
+                      DO IT = 1,NPTT
+                        DO IR =1,NPG
+                          DO  I=1,NEL
+                            VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                            IS_WRITTEN_VALUE(I) = 1
                           ENDDO
                         ENDDO
-                      ELSE
-                        DO I=1,NEL
-                          VALUE(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
-     .                                       BUFLY%LBUF(1,1,1)%PLA(I))
-                          IS_WRITTEN_VALUE(I) = 1
-                        ENDDO
-                      ENDIF ! igtyp
+                      ENDDO
                     ENDIF  ! ity
                   ELSE ! NPG == 1
                     IF(IGTYP == 51 .OR. IGTYP == 52)THEN
@@ -6125,7 +6122,7 @@ C--------------------------------------------------
                 IMAT = IXTG(1,NFT+1)
                 IADBUF = IPM(7,IMAT)
                 NUPARAM= IPM(9,IMAT)
-                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                 !bijective order           !indexes
                 ISUBMAT = UPARAM(276+1);   IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ISUBMAT = UPARAM(276+2);   IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
@@ -6286,7 +6283,7 @@ C--------------------------------------------------
                     imat   = ixtg(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     ipos = 1
                     !bijective order           !indexes
@@ -6329,7 +6326,7 @@ C--------------------------------------------------
                     imat   = ixtg(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     rho0i(1) = uparam(11)
                     rho0i(2) = uparam(12)
@@ -6409,7 +6406,7 @@ C--------------------------------------------------
                       imat = ixtg(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       mid = MATPARAM(mt)%multimat%mid(ilay)
                       rho0i(ilay) = pm(89,mid)
@@ -6431,7 +6428,7 @@ C--------------------------------------------------
                       imat = ixtg(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       rho0i(ilay) = uparam(10+ilay)
                       Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)

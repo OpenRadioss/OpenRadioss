@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf        ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE DMASANIS(ELBUF_TAB,X       ,D       ,GEO     ,IPARG   ,
@@ -37,7 +38,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +72,7 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
-      INTEGER I, NG, NEL, ISS, ISC,
+      INTEGER I, NG, NEL, 
      .        IADD, N, J, MLW, 
      .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
      .        N1,N2,N3,N4,
@@ -173,7 +175,7 @@ C
         ELSE
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
        END DO
  490  CONTINUE

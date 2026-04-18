@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   X11,X22,S12,TMAX,FCUT
       my_real
      .   ASRATE,SXX(NEL),SYY(NEL),SZZ(NEL),
-     .   SXY(NEL),SYZ(NEL),SZX(NEL),FINDEX,RFACTR
+     .   SXY(NEL),SYZ(NEL),SZX(NEL),FINDEX
 C--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

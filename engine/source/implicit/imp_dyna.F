@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -848,7 +848,7 @@ C
       END IF !(IDIV ==0) THEN
 C
        IF (TT==DT2.OR.IMPL_S0==0) THEN
-C---estimation a(t=0)----
+C--- Estimate A (t = 0) ----
         NCL_MAX = 0
         IF (TT==DT2) TT = ZERO
         IF(NCONLD/=0) THEN
@@ -1240,7 +1240,7 @@ C-----------------
       M=NBY(1)
       IF(M<0) RETURN
       NSN=NBY(2)
-C petit traitement pour le spmd ou M est replique sur les processeurs
+C small treatment for spmd where M is replicated on processors
       IF (NSPMD>1) THEN
         AM(1,M)  = AM(1,M)  * WEIGHT(M)
         AM(2,M)  = AM(2,M)  * WEIGHT(M)
@@ -1253,7 +1253,7 @@ C------annule in const-----
       DO I = 1, 25
        RBY(I) = RBY0(I)
       ENDDO
-C CORRECTION DE L'INERTIE DU RIGID BODY POUR DT NODAL
+C CORRECTION OF THE INERTIA OF THE RIGID BODY FOR NODAL DT
       RBY(10) = MAX(RBY(10),IN(M))
       RBY(11) = MAX(RBY(11),IN(M))
       RBY(12) = MAX(RBY(12),IN(M))
@@ -1261,13 +1261,13 @@ C
       ISK =ISKEW(M)
       LCOD=ICODR(M)
       IF(LCOD/=0)THEN
-C       rotation de la matrice d'orientation (directions principales)
+C       rotation of the orientation matrix (principal directions)
         VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
         VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
         VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
         CALL ROTBMR(VI,RBY,DT1)
 C
-C       matrice d'inertie en repere global
+C       matrice d'inertie en frame global
         II1=RBY(10)*RBY(1)
         II2=RBY(10)*RBY(2)
         II3=RBY(10)*RBY(3)
@@ -1287,7 +1287,7 @@ C
         RBY(23)=RBY(3)*II1 + RBY(6)*II4 + RBY(9)*II7
         RBY(24)=RBY(3)*II2 + RBY(6)*II5 + RBY(9)*II8
         RBY(25)=RBY(3)*II3 + RBY(6)*II6 + RBY(9)*II9
-C       ajout des termes [Iglobal] vr ^ vr
+C       Addition of terms [iglobal] vr ^ vr
         WA1=RBY(17)*VR(1,M)+RBY(18)*VR(2,M)+RBY(19)*VR(3,M)
         WA2=RBY(20)*VR(1,M)+RBY(21)*VR(2,M)+RBY(22)*VR(3,M)
         WA3=RBY(23)*VR(1,M)+RBY(24)*VR(2,M)+RBY(25)*VR(3,M)
@@ -1298,16 +1298,16 @@ C
 C
        IF(ISK==1)THEN
 C------------------
-C       REPERE GLOBAL :
-C       Resolution [Iglobal] gama = M, compte-tenu des conditions aux limites
+C       GLOBAL REFERENCE FRAME :
+C       Resolution [iglobal] gama = m, given the limits
 C       Ex : gamaz=0
 C           | Ixx Ixy Ixz | { gamax }   { Mx }
 C           | Iyx Iyy Iyz | { gamay } = { My }
 C           | Izx Izy Izz | {   0   }   { Mz + DMz }  DMz inconnue
-C       equivaut a
+C       Equivaut A
 C           | Ixx Ixy | { gamax }   { Mx }
 C           | Iyx Iyy | { gamay } = { My }
-C           et gamaz=0
+C           and gamaz=0
 C------------------
         IF(LCOD==1)THEN
           DET=ONE/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
@@ -1349,10 +1349,10 @@ C------------------
         ENDIF
        ELSE
 C-------------------
-C       REPERE OBLIQUE
+C       frame OBLIQUE
 C------------------
 C
-C       Passage dans le skew : (vitesse), moments, matrice d'inertie.
+C       Passage into the skew: (velocity), moments, inertia matrix.
 C
 C
         WA1=-DY_AR(1,M)
@@ -1363,17 +1363,17 @@ C
         AM(2,M)=SKEW(4,ISK)*WA1+SKEW(5,ISK)*WA2+SKEW(6,ISK)*WA3
         AM(3,M)=SKEW(7,ISK)*WA1+SKEW(8,ISK)*WA2+SKEW(9,ISK)*WA3
 C
-C       Resolution ds le repere local, compte-tenu des conditions aux limites
+C       Resolution in the local frame, given the limits
 C       Ex : v3+gama3*dt12=0
 C           | IL1 IL2 IL3 | { gama1    }   { M1 }
 C           | IL4 IL5 IL6 | { gama2    } = { M2 }
-C           | IL7 IL8 IL9 | { -v3/dt12 }   { M3 + DM3  }  DM3 inconnue
-C       equivaut a
+C           |IL7 IL8 IL9 |{-v3/dt12} {m3 + dm3} dm3 unknown
+C       Equivaut A
 C           | IL1 IL2 IL3 | { gama1 }   { M1 }          | IL1 IL2 IL3 | { 0 }
 C           | IL4 IL5 IL6 | { gama2 } = { M2 }        + | IL4 IL5 IL6 | { 0 }
 C           | IL7 IL8 IL9 | { 0     }   { M3 + DM3  }   | IL7 IL8 IL9 | { v3/dt12 }
 C
-C       pas de solution => gama3=0, v'3=0 (reimpose dans la condition limite)
+C       no solution => gama3=0, v'3=0 (reimposed in the boundary condition)
 C
 C           | IL1 IL2 IL3 | { gama1 }   { M1 }            | IL1 IL2 IL3 | { gama1 }   { M1 }
 C           | IL4 IL5 IL6 | { gama2 } = { M2 }       <==> | IL4 IL5 IL6 | { gama2 } = { M2 }
@@ -1480,11 +1480,11 @@ C
        WA1=-DY_AR(1,M)
        WA2=-DY_AR(2,M)
        WA3=-DY_AR(3,M)
-C repere globale -> repere d'inertie principale
+C frame globale -> frame d'inertie principale
        AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
        AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
        AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
-C les contributions des vr ne sont ajoutees que sur le processeur main
+C vr contributions are only added on the main processor
        VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
        VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
        VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
@@ -1497,13 +1497,13 @@ C
        AM(2,M) = AM(2,M) - (RBY(12)-RBY(10))*VI(3)*VI(1)*WEIGHT(M)
        AM(3,M) = AM(3,M) - (RBY(10)-RBY(11))*VI(1)*VI(2)*WEIGHT(M)
 C
-C CALCUL D'ONE PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
+C CALCULATION D'ONE PSEUDO MOMENT:
+C IN FACT THE ROTATION ACCELERATION * INERTIA OF THE MAIN NODE (IMIN OF THE RB)
 C--------
         WA1 = AM(1,M)*RBY(10)
         WA2 = AM(2,M)*RBY(11)
         WA3 = AM(3,M)*RBY(12)
-C repere d'inertie principale -> repere globale
+C frame d'inertie principale -> frame globale
        AM(1,M)=RBY(1)*WA1+RBY(4)*WA2+RBY(7)*WA3
        AM(2,M)=RBY(2)*WA1+RBY(5)*WA2+RBY(8)*WA3
        AM(3,M)=RBY(3)*WA1+RBY(6)*WA2+RBY(9)*WA3
@@ -1854,7 +1854,7 @@ C-------int2,RBE3,rby condense----------
           CALL RBY_IMPR1(X, RBY(1,N),LPBY(K1),NPBY(1,N),
      1                   NDOF  ,IDDL   ,W    )
          ENDDO
-C-------int2,rby speciale (elems deleted)----------
+C-------int2,rby speciale (elements deleted)----------
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,DY_DAM ,DY_DAMR,
@@ -2028,7 +2028,7 @@ C-------int2,RBE3,rby condense----------
           CALL RBY_IMPR1(X, RBY(1,N),LPBY(K1),NPBY(1,N),
      1                   NDOF  ,IDDL   ,W    )
          ENDDO
-C-------int2,rby speciale (elems deleted)----------
+C-------int2,rby speciale (elements deleted)----------
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,DY_A ,DY_AR,

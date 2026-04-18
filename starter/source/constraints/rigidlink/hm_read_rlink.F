@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ngr2usr                ../starter/source/system/nintrr.F
 !||    sz_r2r                 ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    udouble                ../starter/source/system/sysfus.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
@@ -91,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS, NGR2USR
+      INTEGER NGR2USR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C
@@ -116,7 +115,7 @@ C
 C
       DO N=1,NLINK
 C
-C      LECTURE DES CARTES D'INPUT
+C      READING DES CARTES D'INPUT
 C
        NLK=NLK+1
 C----------Multidomaines --> on ignore les rlink non tages--------
@@ -152,9 +151,9 @@ C-----------------------------------------------------------------
      .               C1=TITR)
        END IF
 C------------------------------------------------------------------
-C            RECHERCHE DES NOEUDS SECONDARY
+C            SEARCH FOR SECONDARY NODES
 C------------------------------------------------------------------
-C     GROUPE DE NOEUDS
+C     NODE GROUP
 C------------------------------------------------------------------
        NSL = 0
        INGR2USR => IGRNOD(1:NGRNOD)%ID
@@ -228,7 +227,7 @@ C
        K  = K+NSL
       ENDDO
 C-------------------------------------
-C     Recherche des ID doubles
+C     Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NLINK,MESS,0,BID)
       RETURN

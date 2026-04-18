@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -38,7 +38,7 @@ public:
     // Implement abstract interface
     bool configure(const std::string& configFile) override;
     void setNodes(const std::vector<int>& nodeIds) override;
-    bool initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) override;
+    bool initialize(const double* coordinates, int n2d,  int totalNodes, int mpiRank, int mpiSize) override;
     void writeData(const double* values, int totalNodes, double dt, int dataType) override;
     void readData(double* values, int totalNodes, double dt, int dataType) override;
     void advance(double& dt) override;
@@ -75,15 +75,33 @@ private:
     // Helper functions
     void extractNodeData(const double* globalValues, int totalNodes, int dataType);
     void injectNodeData(double* globalValues, int totalNodes, int dataType);
-    
-    // Static helper for bounds checking
-    static constexpr int getDimensions() noexcept { return 3; }
+
     
 private:
     static bool isNodeIdValid(int nodeId, int totalNodes) noexcept {
         const auto idx = nodeId - 1; // Convert to 0-based indexing
         return idx >= 0 && idx < totalNodes;
     }
+public:
+
+    void get_coupled_data(int* rd, int* wd) const { 
+        //rd is the readData_ status (1: active)
+        //wd is the writeData_status
+        // Data types start at index 1 (DISPLACEMENTS), so rd/wd index = i-1
+        for (size_t i = 0; i < static_cast<size_t>(DataType::DATA_COUNT) - 1; ++i) {
+            wd[i] = 0;
+            rd[i] = 0;
+        }
+        for (size_t i = 1; i < static_cast<size_t>(DataType::DATA_COUNT); ++i) {
+          if (readData_[i].isActive) {
+            rd[i-1] = 1;
+          }
+          if(writeData_[i].isActive){
+            wd[i-1] = 1;
+          }
+        }
+    }
+
 };
 
 #endif

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
 !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
       subroutine ns_fvm_diffusion(ale_connect, multi_fvm, time_step, ebcs_tab, 
@@ -41,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE DIFFUSION_MOD
       USE EBCS_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 c-----------------------------------------------
 c   i m p l i c i t   t y p e s
 c-----------------------------------------------

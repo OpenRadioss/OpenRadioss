@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE DE BOXES USER
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER BOXES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IBOX()
+C SEARCH FOR ELEMENTS OF LIST() IN IBOX()
 C  ALGO < NLIST+NBBOX
 C-----------------------
         I=1

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         NINTLAY,NEL,NPT,NG,NGROUP,ITY,
-     .                         IGTYP,NPROPM,NUMMAT,PM )
+     .                         IGTYP,NUMMAT,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
-      USE ELBUFDEF_MOD            
+      USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
       USE CONSTANT_MOD , ONLY : EP21
 C-----------------------------------------------
@@ -46,25 +46,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NPROPM
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER NLAY,NINTLAY,NPTR,NPTS,NPTT,NEL,NPT,NG,NGROUP,ITY,IGTYP
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_TAB
-      my_real :: PM(NPROPM,NUMMAT)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,IMAT,
-     .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
-      my_real :: T_REF   ! reference (initial) temperature
-      TYPE(BUF_MAT_)     , POINTER :: MATBUF
+      INTEGER I,IR,IS,IT,Stat,NPG,ILAYER,IPT,IMAT,LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
-      TYPE(BUF_VISC_)    , POINTER :: VISCBUF
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(L_BUFEL_)     , POINTER :: LBUF
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
-      TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
       Stat = 0
@@ -84,7 +78,7 @@ C=======================================================================
       ENDIF
       IDRAPE = ELBUF_TAB(NG)%IDRAPE
 c-------------------------------------------------
-c     layer buffer allocation
+C     layer buffer allocation
 c-------------------------------------------------
       DO I = 1, NLAY                                                        
         BUFLY => ELBUF_TAB(NG)%BUFLY(I)                                     
@@ -138,7 +132,7 @@ C
       ENDDO                                                                 
 c---
 c-------------------------------------------------
-c     LAYER Local variables per integration point
+C     LAYER Local variables per integration point
 c-------------------------------------------------
           IDRAPE = ELBUF_TAB(NG)%IDRAPE
           DO I = 1, NLAY
@@ -191,7 +185,7 @@ c
              CALL MY_ALLOC(LBUF%WPLA,NEL*BUFLY%L_WPLA)              
                   LBUF%WPLA = ZERO                  
               CALL MY_ALLOC(LBUF%TEMP,NEL*BUFLY%L_TEMP)
-                  LBUF%TEMP = MIN(BUFLY%L_TEMP,1) * PM(79,IMAT) ! reference (initial) temperature
+                  LBUF%TEMP = MIN(BUFLY%L_TEMP,1)*MAT_PARAM(IMAT)%THERM%TINI
               CALL MY_ALLOC(LBUF%TB,NEL*BUFLY%L_TB)                
                   LBUF%TB = -EP21
               CALL MY_ALLOC(LBUF%RK,NEL*BUFLY%L_RK)                
@@ -343,7 +337,7 @@ C
         ENDIF
       ENDDO
 c-------------------------------------------------
-c     Inter layers (ply xfem)
+C     Inter layers (ply xfem)
 c-------------------------------------------------
       DO I = 1, NINTLAY                                                    
         INTLAY => ELBUF_TAB(NG)%INTLAY(I)                                  
@@ -422,7 +416,7 @@ c-------------------------------------------------
         ELBUF_TAB(NG)%GBUF%MAXEPS = ZERO
       CALL MY_ALLOC(GBUF%GAMA_R,NEL*GBUF%G_GAMA_R)                                      
         ELBUF_TAB(NG)%GBUF%GAMA_R = ZERO
-c           Allocate Orthotropic Beta angle (dyna input format)
+C           Allocate Orthotropic Beta angle (dyna input format)
       CALL MY_ALLOC(GBUF%BETAORTH,NEL*GBUF%G_BETAORTH)                                     
         ELBUF_TAB(NG)%GBUF%BETAORTH= ZERO
       CALL MY_ALLOC(GBUF%AMU,NEL*GBUF%G_AMU)                                    
@@ -479,7 +473,7 @@ C
       ENDIF
 c
 c-------------------------------------------------
-c      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
+C      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
       IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones, BEAM3 not included    
         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                   
 c
@@ -556,7 +550,7 @@ c---
         ELBUF_TAB(NG)%GBUF%FILL = ONE    
                                                    
 c---
-c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
+C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
       IF(IGTYP == 3 .and. ITY == 5) THEN 
         ALLOCATE (GBUF%DMGSCL(NEL*GBUF%G_DMGSCL)           ,STAT=Stat)
@@ -646,7 +640,7 @@ C
       ALLOCATE (GBUF%XXOLD_IN_COMP(NEL*GBUF%G_XXOLD_IN_COMP)     ,STAT=Stat)
         GBUF%XXOLD_IN_COMP = ZERO
 c---
-c seatbelt elements
+C seatbelt elements
 c---
       ALLOCATE (GBUF%SLIPRING_ID(NEL*GBUF%G_SLIPRING_ID)             ,STAT=Stat)
         GBUF%SLIPRING_ID = 0

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,13 +67,12 @@ cc     .   DIR_A(*),DIR_B(*),E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,ILAW,NPTT,K,IAD
+      INTEGER I,J,N,ILAW,NPTT,IAD
 C     REAL
       my_real 
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR     
 C=======================================================================
       IDRAPE = ELBUF_STR%IDRAPE

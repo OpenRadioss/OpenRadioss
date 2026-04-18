@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,10 +75,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I, J, L, H, I_STOK_RTLM, I_STOK, JLT , NFT,
+     .        I_STOK_RTLM, I_STOK, JLT , NFT,
      .        INACTI, NADMSR, NB_LOC, DEBUT, IGAP,
-     .        MG, N, NSN, NSNR, IVIS2, ISENS
-      INTEGER  LENT, MAXCC
+     .        NSN, NSNR, IVIS2, ISENS
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ), 
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
@@ -106,7 +105,7 @@ C-----------------------------------------------
 C
         STARTT=INTBUF_TAB%VARIABLES(3)
         STOPT =INTBUF_TAB%VARIABLES(11)
-        IF(STARTT>TT) RETURN ! dont look for sliding
+        IF(STARTT>TT) RETURN ! don't look for sliding
         IF(TT>STOPT)  RETURN
 C
 C       Look if interface is activated 

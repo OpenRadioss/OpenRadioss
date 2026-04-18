@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUMLOC, I, J, K, NA, NB, NC
+      INTEGER NUMLOC, I, NA, NB, NC
       my_real
      .  DRDXI(NCTRL,3),SUMTOT, DETDXDXI, FN(NCTRL), 
      .  DNDXI(NCTRL), FM(NCTRL), DMDXI(NCTRL), FL(NCTRL),
@@ -234,7 +234,7 @@ C COMPUTE DERIVATES OF BASIS FUNCTIONS WITH RESPECT TO PHYSICAL COORDINATES
         ENDDO
       ENDDO
 
-C DETERMINANT DE LA MATRICE AJMAT (QUI REGROUPE DONC LES TWO JACOBIENS)
+C determinant of the ajmat matrix (which therefore groups the two jacobians)
 
       DETJAC=(AJMAT(1,1)*AJMAT(2,2)*AJMAT(3,3))
      .      +(AJMAT(1,2)*AJMAT(2,3)*AJMAT(3,1))

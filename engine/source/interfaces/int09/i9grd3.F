@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf        ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE I9GRD3(IERR  ,AREA  ,TSTIF    ,T      ,VOL     ,
@@ -38,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N1, N2, N3, N4, IE, NG,MAT, IFA
+      INTEGER I, N1, N2, N3, N4, NG,MAT
       my_real
      .  X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
      .  NX, NY, NZ, DX, DY, DZ, NORM, DIST, COND
@@ -69,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IERR = 0
 C---------------------------------
-C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
+C         search for the element in the buffer
 C---------------------------------
           DO 200 NG=II/NVSIZ+1,NGROUP
           CALL INITBUF(IPARG    ,NG      ,                    
@@ -119,14 +121,14 @@ C
             Y4=X(2,N4)
             Z4=X(3,N4)
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
             NX=(Y1-Y3)*(Z2-Z4) - (Z1-Z3)*(Y2-Y4)
             NY=(Z1-Z3)*(X2-X4) - (X1-X3)*(Z2-Z4)
             NZ=(X1-X3)*(Y2-Y4) - (Y1-Y3)*(X2-X4)
             NORM = SQRT(NX**2 + NY**2 + NZ**2)
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 8. )
+C         calculation of the distance between center and surface (*8.)
 C-------------------------------------------------------------
             DX = TWO*(X1 + X2 + X3 + X4)
      .          -X(1,IXS(2))-X(1,IXS(3))
@@ -147,12 +149,12 @@ C
      .          -X(3,IXS(8))-X(3,IXS(9))
 C
 C---------------------------------
-C         CALCUL DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
+C         CALCULATION DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
 C---------------------------------
             DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
             AREA = ONE_OVER_8*NORM
 C---------------------------------
-C         CALCUL DE LA CONDUCTIBILITE
+C         calculation of the conductivity
 C---------------------------------
             T = ELBUF_TAB(NG)%GBUF%TEMP(I)
             MAT  =IXS(1)
@@ -163,7 +165,6 @@ C---------------------------------
             ENDIF
             TSTIF = DIST / COND 
 C
- 600  CONTINUE
 C
       RETURN
       END

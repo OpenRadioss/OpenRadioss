@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixs,nixc,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,7 +114,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: GRAV0,BX,BY,BZ,NX,NY,NZ,DOTPROD,DOTP,RHO0,NGX,NGY,NGZ,ALPHA,INTERP(3),ValA,ValB,NORM
       my_real :: Z(3), DEPTH(MVSIZ), N(3,8),VEC(3), DELTA_P(MVSIZ),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
-      my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC
+      my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC,DEPT
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
       INTEGER :: K,KK,IGRP,ISURF,IGRAV,NPART_IN_GROUP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
       INTEGER :: USERID
@@ -243,10 +244,10 @@ C-----------------------------------------------
             !check if PART must be treated or not
             LIST(1:MVSIZ) = 0
             NEL2 = 0
-            !il peut y avoir plusieurs PARTS par groupe. Tous les elements ont meme mat et meme PROP.
-            ! creation dune list LIST(1:NEL2) c  1:NEL  avec les elements des parts a traiter
+            !There may be several shares per group.All the elements have even mat and even prop.
+            ! Creation of a list list (1: nel 2) c'1: nel with the elements of the shares to be treated
             !===================================================================!
-            !                     SELECTION DES ELEMENTS                        !
+            ! ELEMENT SELECTION
             !===================================================================! 
             IF(IGRP/=0)THEN
               lCYCLE = .TRUE.
@@ -267,12 +268,13 @@ C-----------------------------------------------
                LIST(I) = I !(/1:NEL/) !identite
               ENDDO
             ENDIF
-            ! LIST est la sous liste de 1:NEL des elements dont la PART est a traiter avec INIGRAV
+            ! LIST is the sublist of 1:NEL of elements whose PART is to be processed with INIGRAV
 
             ! This group is going to be treated since PART_ID in GRPART_ID
             !===================================================================!
-            !                     CALCUL DES CENTROIDES                         !
+            ! CENTROID CALCULATION
             !===================================================================! 
+            DEPTH(:) = EP20
             DO KK=1,NEL2
               I = LIST(KK)
               IE                    = I + NFT
@@ -312,7 +314,7 @@ C-----------------------------------------------
               !===================================================================! 
               IF(l_PLANAR_SURF)THEN
               !===================================================================!
-              !                 --- CALCUL DES DISTANCES ---                      !
+              ! --- DISTANCE CALCULATION ---
               !-PLANAR SURFACE :          IGRSURF(ISURF)%TYPE = 200 OR ISURF=0    !
               !===================================================================!               
               !---NORMAL : NX,NY,NZ 
@@ -322,7 +324,7 @@ C-----------------------------------------------
                  INTERP(1)             = Z(1) + ALPHA*NGX
                    INTERP(2)             = Z(2) + ALPHA*NGY
                    INTERP(3)             = Z(3) + ALPHA*NGZ
-                 ! profondeur = <INTERP_P , N>
+                 ! Depth = <perf_P, n>
                  !DEPTH(I) = (INTERP(1)-Z(1))*(INTERP(1)-Z(1))+(INTERP(2)-Z(2))*(INTERP(2)-Z(2))+(INTERP(3)-Z(3))*(INTERP(3)-Z(3))
                  !DEPTH(I) = SQRT(DEPTH(I))
                  DEPTH(KK)= (INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ
@@ -331,7 +333,7 @@ C-----------------------------------------------
                  lFOUND_PROJ=.TRUE.
               ELSEIF(l_USER_SURF) THEN             
               !===================================================================!
-              !                 --- CALCUL DES DISTANCES ---                      !
+              ! --- DISTANCE CALCULATION ---
               !-USER SURFACE :              IGRSURF(ISURF)%TYPE=0 ,   ISURF/=0    !
               !===================================================================!
                  !LOOP ON CELL, THEN LOOP ON FACE :  complexity is O(NCELL*NFACE), can be optimized with space partitioning
@@ -380,8 +382,10 @@ C-----------------------------------------------
                    !CHECK INTERP IS INSIDE FACE, OTHERWISE SKIP IT
                    CALL CHECK_IS_ON_SEGMENT(P(1:3,1:4),B,INTERP,lTRIA,lTEST)
                    IF(.NOT.lTEST)CYCLE
-                   DEPTH(KK)= (INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ
-                   DEPTH(KK) = -DEPTH(KK)
+                   DEPT = -((INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ)
+                   IF(ABS(DEPT) < ABS(DEPTH(KK)))THEN
+                     DEPTH(KK) = DEPT
+                   ENDIF
                    lFOUND_PROJ=.TRUE.                                     
                  ENDDO           
                  IF(lERROR)EXIT
@@ -574,8 +578,8 @@ C using triangulation with midpoint Z(:)
 !                   +
 !                   A =  P(:,3)
 
-!Il s'agit de savoir avec cette fonction s'il est a l'interieur
-! ou a l'exterieur.
+!This function determines if it is inside
+! or outside.
 !  ANCIEN CRITERE
 !                   1 :interieur
 !                   0 :exterieur
@@ -588,8 +592,8 @@ C using triangulation with midpoint Z(:)
 !              |/           \ V=AH
 !             A+
 !
-! NOUVEAU CRITERE (bien meilleure performance CPU) :
-!     Coordonnes de H dans le repere (ZA,ZB) doit etre
+! New criterion (much better CPU performance):
+! Coordinates of H in the (ZA,ZB) frame must be
 !        -TOL < x < 1+ TOL
 !        -TOL < y < 1+ TOL
 
@@ -631,10 +635,13 @@ C-----------------------------------------------
       NTRIA=4
       IF(lTRIA)NTRIA=1
       ISONTRIA(1:4)=0
-        TOLCRIT = EM06
-        TOL = TOLCRIT      
+      TOLCRIT = EM06
+      TOL = TOLCRIT
       IA=0
       IB=1
+      ZH(1) = H(1) - Z(1)
+      ZH(2) = H(2) - Z(2)
+      ZH(3) = H(3) - Z(3)
       
       DO I=1,NTRIA
         IA=IA+1
@@ -651,15 +658,9 @@ C-----------------------------------------------
         NORM_ZA_2 = (ZA(1)*ZA(1)+ZA(2)*ZA(2)+ZA(3)*ZA(3))
         NORM_ZB_2 = (ZB(1)*ZB(1)+ZB(2)*ZB(2)+ZB(3)*ZB(3))
 
-        ZH(1) = H(1) - Z(1)
-        ZH(2) = H(2) - Z(2)
-        ZH(3) = H(3) - Z(3)      
-
         PS1 =  ZA(1)*ZH(1)+ZA(2)*ZH(2)+ZA(3)*ZH(3)
-      
         PS2 =  ZB(1)*ZH(1)+ZB(2)*ZH(2)+ZB(3)*ZH(3)
-
-        PS3 =  ZB(1)*ZH(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
+        PS3 =  ZB(1)*ZA(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
       
         COEF = ONE-PS3*PS3/NORM_ZA_2/NORM_ZB_2
         COEF = ONE / COEF
@@ -683,7 +684,7 @@ C-----------------------------------------------
       
       ENDDO
       
-      lTEST=.FALSE.
-      IF(SUM(ISONTRIA(1:NTRIA))>=1)lTEST=.TRUE.
+      lTEST = .FALSE.
+      IF(SUM(ISONTRIA(1:NTRIA)) >= 1) lTEST = .TRUE.
       
       END SUBROUTINE CHECK_IS_ON_SEGMENT

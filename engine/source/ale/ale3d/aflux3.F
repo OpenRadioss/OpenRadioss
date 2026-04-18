@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    aflux0                 ../engine/source/ale/aflux0.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
-      SUBROUTINE AFLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,NSG, TAG22)
+      SUBROUTINE AFLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,NSG, TAG22,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE I22BUFBRIC_MOD 
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,8 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !<first dimension of FLUX array
       INTEGER IXS(NIXS,NUMELS), NSG
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(s_flux,6), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -92,7 +95,7 @@ C-----------------------------------------------
      .   VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ),
      .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ),
      .   VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
-     .   REDUC,UPWL(6,MVSIZ),
+     .   REDUC,UPWL(MVSIZ,6),
      .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
      .   XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),
      .   XF2(MVSIZ),YF2(MVSIZ),ZF2(MVSIZ),
@@ -270,7 +273,7 @@ C-----------------------------------------------
       !    (If at least there is one domain with closure)    ! 
       !    2S [CF].[n] = 0  => [2S*n] = 0                    !
       !    where                                             !
-      !      C: element centroid                             !
+      !      C: controid element                             !
       !      F: face centroid                                !
       !======================================================!
       IF(ICLOSE == 1) THEN
@@ -287,14 +290,14 @@ C-----------------------------------------------
           XF4(I)=FOURTH*(X1(I)+X2(I)+X6(I)+X5(I))
           XF5(I)=FOURTH*(X2(I)+X3(I)+X7(I)+X6(I))
           XF6(I)=FOURTH*(X1(I)+X4(I)+X8(I)+X5(I))
-            !   Y-Components
+            !   Y-component
           YF1(I)=FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
           YF2(I)=FOURTH*(Y3(I)+Y4(I)+Y8(I)+Y7(I))
           YF3(I)=FOURTH*(Y5(I)+Y6(I)+Y7(I)+Y8(I))
           YF4(I)=FOURTH*(Y1(I)+Y2(I)+Y6(I)+Y5(I))
           YF5(I)=FOURTH*(Y2(I)+Y3(I)+Y7(I)+Y6(I))
           YF6(I)=FOURTH*(Y1(I)+Y4(I)+Y8(I)+Y5(I))
-            !   Z-Components
+            !   Component
           ZF1(I)=FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
           ZF2(I)=FOURTH*(Z3(I)+Z4(I)+Z8(I)+Z7(I))
           ZF3(I)=FOURTH*(Z5(I)+Z6(I)+Z7(I)+Z8(I))
@@ -424,12 +427,12 @@ C-----------------------------------------------
       !======================================================!
       IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
-          FLUX(1,I)=FLUX1(I)
-          FLUX(2,I)=FLUX2(I)
-          FLUX(3,I)=FLUX3(I)
-          FLUX(4,I)=FLUX4(I)
-          FLUX(5,I)=FLUX5(I)
-          FLUX(6,I)=FLUX6(I)
+          FLUX(NFT+I,1)=FLUX1(I)
+          FLUX(NFT+I,2)=FLUX2(I)
+          FLUX(NFT+I,3)=FLUX3(I)
+          FLUX(NFT+I,4)=FLUX4(I)
+          FLUX(NFT+I,5)=FLUX5(I)
+          FLUX(NFT+I,6)=FLUX6(I)
         ENDDO
         RETURN
       ENDIF
@@ -441,22 +444,22 @@ C-----------------------------------------------
       IF (NSG == 1) THEN
          MA = MAT(1)
          DO I=LFT,LLT
-           UPWL(1,I)=PM(16,MA)
-           UPWL(2,I)=PM(16,MA)
-           UPWL(3,I)=PM(16,MA)
-           UPWL(4,I)=PM(16,MA)
-           UPWL(5,I)=PM(16,MA)
-           UPWL(6,I)=PM(16,MA)
+           UPWL(I,1)=PM(16,MA)
+           UPWL(I,2)=PM(16,MA)
+           UPWL(I,3)=PM(16,MA)
+           UPWL(I,4)=PM(16,MA)
+           UPWL(I,5)=PM(16,MA)
+           UPWL(I,6)=PM(16,MA)
          ENDDO
       ELSE
          IF (IVECTOR == 0) THEN
            DO I=LFT,LLT
-             UPWL(1,I)=PM(16,MAT(I))
-             UPWL(2,I)=PM(16,MAT(I))
-             UPWL(3,I)=PM(16,MAT(I))
-             UPWL(4,I)=PM(16,MAT(I))
-             UPWL(5,I)=PM(16,MAT(I))
-             UPWL(6,I)=PM(16,MAT(I))
+             UPWL(I,1)=PM(16,MAT(I))
+             UPWL(I,2)=PM(16,MAT(I))
+             UPWL(I,3)=PM(16,MAT(I))
+             UPWL(I,4)=PM(16,MAT(I))
+             UPWL(I,5)=PM(16,MAT(I))
+             UPWL(I,6)=PM(16,MAT(I))
            ENDDO
          ELSE
            IC=1
@@ -471,12 +474,12 @@ C-----------------------------------------------
            DO II=1,IC
              MA = MAT(II)
              DO I=JST(II),JST(II+1)-1
-               UPWL(1,I)=PM(16,MA)
-               UPWL(2,I)=PM(16,MA)
-               UPWL(3,I)=PM(16,MA)
-               UPWL(4,I)=PM(16,MA)
-               UPWL(5,I)=PM(16,MA)
-               UPWL(6,I)=PM(16,MA)
+               UPWL(I,1)=PM(16,MA)
+               UPWL(I,2)=PM(16,MA)
+               UPWL(I,3)=PM(16,MA)
+               UPWL(I,4)=PM(16,MA)
+               UPWL(I,5)=PM(16,MA)
+               UPWL(I,6)=PM(16,MA)
              ENDDO
            ENDDO
          ENDIF
@@ -530,20 +533,20 @@ C-----------------------------------------------
       !     sgn  : sgn(FLUX_face)                                !
       !==========================================================!
       DO I=LFT,LLT
-        ! 6 fluxes on faces
-        FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
-        FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
-        FLUX(4,I)=FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-        FLUX(5,I)=FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I)=FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        ! 6 flows we faces
+        FLUX(NFT+I,1)=FLUX1(I)-UPWL(I,1)*ABS(FLUX1(I))
+        FLUX(NFT+I,2)=FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3)=FLUX3(I)-UPWL(I,3)*ABS(FLUX3(I))
+        FLUX(NFT+I,4)=FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
+        FLUX(NFT+I,5)=FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6)=FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
         ! One global flux
-        FLU1(I)  =FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
-     .           +FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-     .           +FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-     .           +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-     .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-     .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
+        FLU1(I)  =FLUX1(I)+UPWL(I,1)*ABS(FLUX1(I))
+     .           +FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+     .           +FLUX3(I)+UPWL(I,3)*ABS(FLUX3(I))
+     .           +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+     .           +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+     .           +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
       END DO
 C-----------------------------------------------
       RETURN

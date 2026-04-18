@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    genani      ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DPARRBE2(LRBE2 ,IRBE2)
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER I, N,
      .   NSN, II(2)
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
       IF (NSPMD > 1) GOTO 100
 C
       DO I=1,NRBE2

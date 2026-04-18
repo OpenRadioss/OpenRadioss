@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,11 +51,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK,
+      INTEGER NIN,ITASK,NMN_1D,
      .        IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
 C     REAL
       my_real 
-     .   X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
+     .   X(3,*), V(3,*),DELTA_PMAX_GAP,
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   DELTA_PMAX_DGAP
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -63,14 +63,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   STARTT, STOPT
-      INTEGER :: ISENS, NMN, NSN
+     .    STOPT
+      INTEGER :: ISENS, NMN, NSN, NEDGE_1D,NEDGE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
       NSN   =IPARI(5,NIN)
       NMN   =IPARI(6,NIN)
+      NMN_1D = IPARI(104,NIN)
 C
       ISENS = IPARI(64,NIN)  
       IF(ISENS == 0) THEN
@@ -81,7 +82,8 @@ C
       CALL I25BUCE_CRIT(
      1 X            ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN      ,NMN      ,
      2 ITASK        ,INTBUF_TAB%XSAV,NIN      ,INTBUF_TAB%STFNS,V     ,
-     3 XSLV_L       ,XMSR_L       ,VSLV_L     ,VMSR_L       )
+     3 XSLV_L       ,XMSR_L       ,VSLV_L     ,VMSR_L       ,NMN_1D   ,
+     4 INTBUF_TAB%MSR_1D )
 C
       RETURN
       END

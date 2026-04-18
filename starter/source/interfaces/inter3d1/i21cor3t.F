@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IL, L, NN, IG
+      INTEGER I, L, NN, IG
 C-----------------------------------------------
       IF(IGAP==0)THEN
         DO I=LFT,LLT
@@ -70,7 +70,7 @@ C Depth >= gap
           GAPV(I)=MAX(DEPTH+DGAPLOAD,DRAD)
         END DO
       ELSE
-C ... on pourrait utiliser le fait Depth >= max(gapv) dans le starter ...
+C ... we could use the fact Depth >= max(gapv) in the starter ...
         DO I=LFT,LLT
           GAPV(I)=GAP_S(CAND_N(I))
           GAPV(I)=MIN(GAPV(I),GAPMAX)
@@ -92,7 +92,7 @@ C
 C
         L  = CAND_E(I)
 C
-C   attention nos locaux (1:NMN)
+C   Please note our premises (1: NMN)
         IX1(I)=IRECT(1,L)
         IX2(I)=IRECT(2,L)
         IX3(I)=IRECT(3,L)

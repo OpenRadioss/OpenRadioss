@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,7 +76,7 @@ C
       DATA IPERM3/1,3,6,5,0,0,0,0,0,0/
 C
 C-----------------------------------------------------------------------
-      FAC=TRHEE_OVER_14
+      FAC=THREE_OVER_14
       FACIROT = NINE + THIRD
 
       IF(IREST_MSELT /= 0)THEN
@@ -130,7 +130,7 @@ C         Not yet compatible with IMAS_DS/=0
           MSS(6,I)=AM
           MSS(5,I)=AM
           AAA=STI(I)*TWO/THIRTY2
-          BBB=STI(I)*TWO*SEVEN/FOURTY8
+          BBB=STI(I)*TWO*SEVEN/FORTY8
           STIFN(NC(I,1))=STIFN(NC(I,1))+AAA
           STIFN(NC(I,2))=STIFN(NC(I,2))+AAA
           STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
@@ -219,7 +219,7 @@ C          Not yet compatible with IMAS_DS/=0
            STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
            DO N=5,10
              IF(NC(I,N)/=0)THEN
-               MSSX(N-4,I) = AM*FACIROT !  meme masse que dans le cas standard
+               MSSX(N-4,I) = AM*FACIROT ! same mass as in the standard case
                STIFN(NC(I,N))=STIFN(NC(I,N))+AAA*FACIROT
              ENDIF
            ENDDO
@@ -304,7 +304,7 @@ C
 
       IF(JTHE < 0) THEN
        DO I=LFT,LLT
-        FAC=TRHEE_OVER_14
+        FAC=THREE_OVER_14
         AM = MASSCP(I)*FAC/(FOUR*FAC + SIX)
         BM = MASSCP(I)*ONE/(FOUR*FAC + SIX)
         MCPS(1,I)=AM
@@ -432,9 +432,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  IMAS_DS
-      INTEGER I,J,K,N,IP,I1,I2,I3,I4
+      INTEGER I,J
       my_real
-     .   XX,YY,ZZ,XY,YZ,ZX,P1,P2,P3,P4,S
+     .   S
       my_real
      .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),A4(MVSIZ)
 C=======================================================================

@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #include "GlobalModelSDI.h"
 
@@ -51,7 +51,7 @@ void PrintPreObject(const IMECPreObject *pPreObject, MECDataWriter &datawriter,
         return;
     }
 
-    const fileformat_t *a_format_p =     a_format_p=descr_p->getRadiossFileFormatPtr(FF_D00_20200);
+    const fileformat_t *a_format_p =     a_format_p=descr_p->getRadiossFileFormatPtr(FF_D00_2026);
 
     datawriter.WriteObjectData(a_format_p, *pPreObject, descr_p, &a_model_scanner);
 }
@@ -65,7 +65,7 @@ void PrintEntity(
 
     MECSingleFileWriter filewriter(file, 100);
     MECDataWriter datawriter(&filewriter, 100);
-    datawriter.setFormatId(FF_D00_20200);
+    datawriter.setFormatId(FF_D00_2026);
 
     datawriter.setCompressDouble(1);
     datawriter.setRoundDouble(0);

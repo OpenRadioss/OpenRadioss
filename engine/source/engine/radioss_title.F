@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN,LEN_RAD,LENBT,LENCPUNAM,LENARCHTIT,LBT
+      INTEGER LEN,LENBT,LENCPUNAM,LENARCHTIT,LBT
       CHARACTER RADVERS*68,COPYRIGHTLINE*68,
      *          ARCH_TIT*66
 C-----------------------------------------------
@@ -141,14 +141,14 @@ C Initialisation
 C   Flag = 0 ligne blanche
 
        IF (FLAG==1)THEN
-C   Flag = 1 que des * dans la ligne
+C   Flag = 1 only * characters in the line
          PRINTOUT(1:72)='*'
  
 
        ELSEIF (FLAG==2) THEN
-C   du texte center
+C   centered text
 
-C   Test si sortie n'excede pas 68 cararct  res
+C   Test if output does not exceed 68 CARRCT Res
          IF (ARRLEN>68) THEN
            WRITE(LINOUT,'(A)') "ERROR PRINTOUT FORMAT"
            RETURN

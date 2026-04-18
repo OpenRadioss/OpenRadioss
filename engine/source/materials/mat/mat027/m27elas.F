@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,7 +78,7 @@ C--------------------------------------
 C     ANCIENNES DEFORMATIONS ELASTIQUES
 C     ANCIEN DOMMAGE EFFECTIF:
 C        SIG>0  => DE =1-D
-C        SIG<0  => DE =1
+C        sig<0 => de =1
 C--------------------------------------
 #include "vectorize.inc" 
       DO I=JFT,JLT
@@ -103,7 +103,7 @@ C----------------------------------------
         EEL5(I) = EEL5(I)+DEPSZX(I)
       ENDDO
 C----------------------------------------
-C     NOUVEAU DOMMAGE DES ELEMENTS CASSES
+C     NEW DAMAGE OF BROKEN ELEMENTS
 C----------------------------------------
       DO I=JFT,JLT
         IF (DAMT(I,1) /= ZERO) THEN
@@ -121,7 +121,7 @@ C
         ENDIF
       ENDDO
 C-----------------------------
-C     CONTRAINTES "ELASTIQUES"
+C     "ELASTIC" STRESSES
 C-----------------------------
       DO I=JFT,JLT
         DE1(I) = ONE - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))

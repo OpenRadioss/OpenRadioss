@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JPT,IPT,MX,JJ(6)
+      INTEGER I,J,JPT,IPT,MX,JJ(6)
 C     REAL
       my_real
      .   AMU(MVSIZ), AMU2(MVSIZ), ESPE(MVSIZ),
@@ -87,7 +87,7 @@ C     REAL
      .   C5(MVSIZ), C6(MVSIZ), G(MVSIZ) , POLD(MVSIZ), DPDM(MVSIZ),
      .   A(MVSIZ) , B(MVSIZ) , PC(MVSIZ), PNEW(MVSIZ), DF(MVSIZ),
      .   PSH(MVSIZ),
-     .   DVV     
+     .   DVV
       my_real,
      .  DIMENSION(:), POINTER :: SIGP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -127,7 +127,7 @@ C
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
 C--------------------------------------------------
-C     VITESSE DU SON APPROCHEE COURANTE
+C     VELOCITY DU SON APPROCHEE COURANTE
 C--------------------------------------------------
       DO I=1,NEL
         DPDM(I)=ONEP333*G(I)
@@ -142,7 +142,7 @@ C
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
-C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
+C     volumetric viscosity and time step
 C--------------------------------------------------
       CALL MQVISC8(
      1   PM,      OFF,     RHO,     RK,
@@ -177,7 +177,7 @@ C
         EINT(I)=EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
       ENDDO
 C--------------------------------------------------
-C     CONTRIBUTION VOLUMIQUE AUX POINTS DE GAUSS
+C     VOLUMETRIC CONTRIBUTION AT GAUSS POINTS
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)
@@ -192,7 +192,7 @@ C--------------------------------------------------
           SIGP(JJ(6)+I)= SIGP(JJ(6)+I)       
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTE MOYENNE (OUTPUT)
+C     MEAN STRESS (OUTPUT)
 C--------------------------------------------------
         DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)
@@ -205,8 +205,8 @@ C--------------------------------------------------
       ENDDO ! DO IPT=1,NPT
 C---------------------------------------------
 C
-C  DIVISION PAR LE VOLUME POUR L'ALE <(:o))=
-C  VOL EST LE VOLUME INITIAL EN LAG.
+C  division by volume for ALE <(:o))=
+C  VOL IS THE INITIAL VOLUME IN LAG.
 C
 C---------------------------------------------
       DO I=1,NEL

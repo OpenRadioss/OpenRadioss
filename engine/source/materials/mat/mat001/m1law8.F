@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -129,14 +129,14 @@ C-----------------------
         EINC(I)=ZERO   
       ENDDO
 C------------------------------
-C     DP/DRHO ET VITESSE DU SON
+C     DP/DRHO AND SPEED OF SOUND
 C------------------------------
       DO I=1,NEL
         DPDM(I)=ONEP333*G(I)+C1
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
-C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
+C     volumetric viscosity and timestep
 C--------------------------------------------------
       CALL MQVISC8(
      1   PM,      OFF,     RHO,     VIS,
@@ -155,7 +155,7 @@ C--------------------------------------------------
         PNEW(I)=C1*AMU(I)
       ENDDO
 C--------------------------------------------------
-C     BOUCLE SUR LES POINTS DE GAUSS
+C     loop over gauss points
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)
@@ -171,7 +171,7 @@ C
           SOLD6(I)=SIGP(JJ(6)+I)*DAV
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTES DEVIATORIQUES AUX POINTS DE GAUSS
+C     DEVIATORIC STRESSES AT GAUSS POINTS
 C--------------------------------------------------
         DO I=1,NEL
           DAV=-THIRD*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
@@ -183,7 +183,7 @@ C--------------------------------------------------
           SIGP(JJ(6)+I)=SIGP(JJ(6)+I)    +G1(I)* D6(I,IPT)
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTE AUX POINTS DE GAUSS
+C     STRESS AT GAUSS POINTS
 C--------------------------------------------------
         DO I=1,NEL
           SIGP(JJ(1)+I)=(SIGP(JJ(1)+I)-PNEW(I))*OFF(I)
@@ -206,7 +206,7 @@ C--------------------------------------------------
      +                         D6(I,IPT)*(SOLD6(I)+SIGP(JJ(6)+I)))
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTE MOYENNE (OUTPUT)
+C     MEAN STRESS (OUTPUT)
 C--------------------------------------------------
         DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,7 +77,7 @@ C
             POLY(3,J)=POLYOUT(3,J)
          ENDDO
       ENDDO   
-C Elimination des noeuds doubles
+C Elimination of double nodes
       NN=0
       DO I=1,NVERTS
          X1=POLY(1,I)

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,9 @@
 !||====================================================================
       module inivel_start_mod
 !
+      implicit none
       contains
-        !! \brief apply inivel w/ T_start
+        !! \brief apply inivel with T_start
 !||====================================================================
 !||    inivel_start    ../engine/source/loads/general/inivel/inivel_start.F90
 !||--- called by ------------------------------------------------------
@@ -80,10 +81,10 @@
           integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
           integer , intent(in   )                          :: numskw    !< number of skew
           integer , intent(in   )                          :: numfram   !< number of frame
-          integer , intent(in   )                          :: lskew     !< 1er dimension of skew
-          integer , intent(in   )                          :: nxframe   !< 1er dimension of frame
+          integer , intent(in   )                          :: lskew     !< first dimension of skew
+          integer , intent(in   )                          :: nxframe   !< first dimension of frame
           integer , intent(in   )                          :: numnod    !< number of node
-          integer , intent(in   )                          :: nparg     !< 1er dimension of iparg
+          integer , intent(in   )                          :: nparg     !< first dimension of iparg
           integer , intent(in   )                          :: ngroup    !< number of element group
           integer , intent(in   )                          :: iroddl    !< rotational dof flag
           integer , intent(in   )                          :: iale      !< ale flag
@@ -190,9 +191,9 @@
             if (tstart1<=time) then
               id = inivel_t(n)%id
               if (tstart1==tstart_s) then
-                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1='SENSOR ON')
+                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="SENSOR ON")
               else
-                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1='T_START')
+                call ancmsg(msgid=308,anmode=aninfo,i1=id,c1="T_START")
               end if
               select case (itype)
                case(0,1,2,3)
@@ -244,7 +245,7 @@
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = vl(1:3)
                     wflow(1:3,nosys) = vl(1:3)
-                  endif
+                  end if
                   mas=ms(nosys)*weight(nosys)
                   t_kin=t_kin+( vl(1)*vl(1)+vl(2)*vl(2)+vl(3)*vl(3))*half*mas
                 end do
@@ -255,7 +256,7 @@
                     vr(1:3,nosys) = vl(1:3)
                     mas=in(nosys)*weight(nosys)
                     t_kin=t_kin+( vl(1)*vl(1)+vl(2)*vl(2)+vl(3)*vl(3))*half*mas
-                  endif
+                  end if
                 end do
                case(2)
                 do j=1,igrnod(igrs)%nentity
@@ -264,10 +265,10 @@
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = vl(1:3)
                     wflow(1:3,nosys) = vl(1:3)
-                  endif
+                  end if
                   if (iale == 1) then
                     w(1:3,nosys)=vl(1:3)
-                  endif
+                  end if
                   mas=ms(nosys)*weight(nosys)
                   t_kin=t_kin+( vl(1)*vl(1)+vl(2)*vl(2)+vl(3)*vl(3))*half*mas
                 end do
@@ -278,7 +279,7 @@
                   if(ialelag > 0) then
                     vflow(1:3,nosys) = vl(1:3)
                     wflow(1:3,nosys) = vl(1:3)
-                  endif
+                  end if
                   mas=ms(nosys)*weight(nosys)
                   t_kin=t_kin+( vl(1)*vl(1)+vl(2)*vl(2)+vl(3)*vl(3))*half*mas
                 end do
@@ -313,20 +314,20 @@
                     if(idir==1) then
                       nixj(1)=x(2,nosys)
                       nixj(6)=x(3,nosys)
-                    elseif(idir==2) then
+                    else if(idir==2) then
                       nixj(2)=x(1,nosys)
                       nixj(3)=x(3,nosys)
-                    elseif(idir==3) then
+                    else if(idir==3) then
                       nixj(4)=x(2,nosys)
                       nixj(5)=x(1,nosys)
-                    endif
+                    end if
                     if (iroddl>0) then
                       vr(1:3,nosys)= zero !vra*xframe(k1,ifm)
                       if (idir>0) vr(idir,nosys)= vra
                       mas=in(nosys)*weight(nosys)
                       t_kin=t_kin+vra*vra*half*mas
                     end if
-                  endif
+                  end if
                   v(1,nosys)= vl(1)+vra*(nixj(3)-nixj(4))
                   v(2,nosys)= vl(2)+vra*(nixj(5)-nixj(6))
                   v(3,nosys)= vl(3)+vra*(nixj(1)-nixj(2))

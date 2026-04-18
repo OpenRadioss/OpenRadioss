@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@
 !||    lectur                    ../starter/source/starter/lectur.F
 !||====================================================================
       module brokmann_elem_renum_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief renumber local element numbers in randomd element list after domain decomposition
@@ -118,7 +119,7 @@
 !
             if (idebug == 1) then
               do i=1,nelem
-                write(*,'(A,3I10,F18.6)') 'id,old_n,new_n=',tag_id(i),   &
+                write(*,"(A,3I10,F18.6)") "id,old_n,new_n=",tag_id(i),   &
                   fail_brokmann%brokmann(ifail)%brokmann_elem(i)%elnum,tag_elem(i),&
                   tag_rand(i,1)
               end do

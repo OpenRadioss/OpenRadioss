@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,7 +90,7 @@ c          write(6,*)'ebcvit5 N',N,' RESO',RESO(3,I),'A',A(3,N)
           AX=RESO(1,I)+ALPDT*(A(1,N)-RESO(1,I))
           AY=RESO(2,I)+ALPDT*(A(2,N)-RESO(2,I))
           AZ=RESO(3,I)+ALPDT*(A(3,N)-RESO(3,I))
-C memorisation de la reaction
+C saving of the reaction
           RESO(1,I)=AX
           RESO(2,I)=AY
           RESO(3,I)=AZ

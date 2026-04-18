@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOINT,NI,NTYP
+      INTEGER NOINT,NTYP
       INTEGER IPARI(*)
       my_real
      .   FRIGAP(*)
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .   IS1,IS2,ISU1,ISU2,ISU10,ISU20,MULTIMP,ITIED,UID
+     .   IS1,IS2,ISU1,ISU2,ISU10,ISU20,MULTIMP,ITIED
       my_real
      .   STARTT,BUMULT,STOPT,FRIC,GAP
       LOGICAL IS_AVAILABLE
@@ -169,7 +169,7 @@ C--------------------------------------------------------------
 C--------------------------------------------------------------
 
  1717 FORMAT(//
-     .    '    TYPE==17 SURFACE/SURFACE 16 NODES THICK SHELL' /,
+     .    '    TYPE=17 SURFACE/SURFACE 16 NODES THICK SHELL' /,
      .    '              HERTZ PRESSURE FORMULATION' //,
      .    '    FIRST SOLID ELEMENT GROUP. . . . . . .  . . ',I10/,
      .    '    SECOND SOLID ELEMENT GROUP . . . . . .  . . ',I10/,

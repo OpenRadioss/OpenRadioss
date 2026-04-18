@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C----------------------------------
        DO I=JFT,JLT 
          EP=IPLAT(I)
 C----------------------------------
-C     MATRIX [BCP] FOR TRNASVERSE SHEAR DUE TO PINCHING
+C     MATRIX [BCP] FOR TRANSVERSE SHEAR DUE TO PINCHING
 C----------------------------------
 
 C-------Node 1 contribution

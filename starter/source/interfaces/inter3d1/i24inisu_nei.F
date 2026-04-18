@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -251,7 +251,7 @@ C---------------------
        NE0=NE
        NN0=NN
        IASYM = IABS(IM2SH(ISELF))
-C-------------neighbour segments-----------       
+C------------- Neighbour Segments --------------       
        CALL COMM_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,IASYM )
 C-------------treatment of multi-neighbours (T form,shell) segments->reduce to 1----------
@@ -325,7 +325,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NEW,K,M,LING,NE,NN
       DATA LING/0/
-C----add commun ID--at end--------------------------
+C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
 C----add 0 in IC as convention ----------------------------
         CALL ADD_ID(N,IC,LING)
@@ -377,7 +377,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NEW,K,M,LING,NN0
       DATA LING/0/
-C----add commun ID--at end--------------------------
+C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
 C----add 0 in ICN as convention ----------------------------
         CALL ADD_N_ID(NN,ICN,LING)
@@ -412,6 +412,7 @@ C----6---------------------------------------------------------------7---------8
 !||    i24ini_gap_n   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
 !||--- called by ------------------------------------------------------
 !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24INI_GAP_N(
      1 NRTM  ,IRECT ,IXS   ,GEO   ,IXC   ,IXTG  ,
@@ -419,6 +420,7 @@ C----6---------------------------------------------------------------7---------8
      3 THK   ,THK_PART,NVOISIN ,GAP_N ,GAP_M    ,
      4 NMN   ,MSR   ,GAPN_M,GAP_N0,INTPLY  ,
      5 GAPMAX_M ,IGEO,MSEGTYP)
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -455,7 +457,7 @@ C
        END DO
 C        
 C------------------------------------
-C     GAP NOEUDS IN WA
+C     GAP NODES IN WA
 C------------------------------------
        DO I=1,NUMELC
          MG=IXC(6,I)
@@ -493,7 +495,7 @@ C
          WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
          WA(IXTG(4,I))=MAX(WA(IXTG(4,I)),DX)
        ENDDO
-C--------exclude lines in main surfaces
+C------- Excluded lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=HALF*SQRT(GEO(1,MG))

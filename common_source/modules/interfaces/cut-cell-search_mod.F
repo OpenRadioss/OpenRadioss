@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,15 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22bufbric_mod               ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||--- called by ------------------------------------------------------
 !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
-!||    aconve                       ../engine/source/ale/aconve.F
+!||    aconve                       ../engine/source/ale/aconve.F90
 !||    aflux3                       ../engine/source/ale/ale3d/aflux3.F
 !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-!||    afluxt                       ../engine/source/ale/ale51/afluxt.F
 !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
-!||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-!||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
 !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
-!||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||    alefvm_freset                ../engine/source/ale/alefvm/alefvm_freset.F
 !||    alefvm_gravity_int22         ../engine/source/ale/alefvm/alefvm_gravity_int22.F
 !||    alefvm_scheme                ../engine/source/ale/alefvm/alefvm_scheme.F
@@ -41,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_stress_int22          ../engine/source/ale/alefvm/alefvm_stress_int22.F
 !||    alemuscl_upwind              ../engine/source/ale/alemuscl/alemuscl_upwind.F
 !||    alemuscl_upwind2             ../engine/source/ale/alemuscl/alemuscl_upwind2.F
+!||    alethe                       ../engine/source/ale/alethe.F
 !||    amass3                       ../engine/source/elements/solid/solide/amass3.F
 !||    amass3p                      ../engine/source/elements/solid/solide/amass3p.F
 !||    anim_nodal_p_elems           ../engine/source/output/anim/generate/anim_nodal_p_elems.F
@@ -138,13 +135,12 @@ C
 !||--- called by ------------------------------------------------------
 !||    a22conv3                     ../engine/source/ale/alefvm/cut_cells/a22conv3.F
 !||    aconv3                       ../engine/source/ale/ale3d/aconv3.F
-!||    aconve                       ../engine/source/ale/aconve.F
 !||    aflux0                       ../engine/source/ale/aflux0.F
 !||    aflux3_int22_fvm             ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
-!||    afluxt                       ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22                 ../engine/source/ale/ale51/afluxt_int22.F90
 !||    ale51_antidiff3              ../engine/source/ale/ale51/ale51_antidiff3.F
 !||    ale51_antidiff3_int22        ../engine/source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
-!||    ale51_finish                 ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22           ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_init                   ../engine/source/ale/ale51/ale51_init.F
 !||    ale51_upwind3                ../engine/source/ale/ale51/ale51_upwind3.F
 !||    ale51_upwind3_int22          ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
@@ -154,6 +150,7 @@ C
 !||    alefvm_scheme                ../engine/source/ale/alefvm/alefvm_scheme.F
 !||    alefvm_sfint3                ../engine/source/ale/alefvm/alefvm_sfint3.F
 !||    alefvm_sfint3_int22          ../engine/source/ale/alefvm/alefvm_sfint3_int22.F
+!||    alemain                      ../engine/source/ale/alemain.F
 !||    alemuscl_upwind              ../engine/source/ale/alemuscl/alemuscl_upwind.F
 !||    alemuscl_upwind2             ../engine/source/ale/alemuscl/alemuscl_upwind2.F
 !||    alethe                       ../engine/source/ale/alethe.F
@@ -435,19 +432,19 @@ C-----------------------------------------------
 
 
         INTEGER ::
-     .          MIN_IX, MIN_IY, MIN_IZ,            !indice voxel min utilise
-     .          MAX_IX, MAX_IY, MAX_IZ             !indice voxel max utilise
+     .          MIN_IX, MIN_IY, MIN_IZ,            !voxel min index used
+     .          MAX_IX, MAX_IY, MAX_IZ             !Voxel Max index uses
 
         INTEGER ::
      .          CURRENT_ADD,
-     .          NRTM_T_MAX ! (nombre maximum des valeurs locales)
+     .          NRTM_T_MAX ! (maximum number of local values)
 
         my_real, ALLOCATABLE ::
      .          IRECT_L(:,:)    !IRECT_L <=> IRECT + XREM  (T=thread, L=Localdomain)
         INTEGER ::
      .          NIRECT_L
         INTEGER :: SIZ_IRECT_L
-        PARAMETER (SIZ_IRECT_L = 26)  !longueur buffer (nodes, coordinates, min, max, stif...)
+        PARAMETER (SIZ_IRECT_L = 26)  !Buffer length (nodes, coordinates, min, max, stif ...)
 
         INTEGER, ALLOCATABLE, DIMENSION(:)  ::
      .          NSNR_G

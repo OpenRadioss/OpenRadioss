@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,13 +91,11 @@ C-----------------------------------------------
       CHARACTER(LEN=4096)       :: SCR_FILE_NAME
       CHARACTER(LEN=ncharline)  :: RLINE
       CHARACTER (LEN=4)         :: CWIN
-      CHARACTER(LEN=nchartitle) :: TITLE
-      CHARACTER(LEN=ncharkey)   :: KEY
       LOGICAL                   :: IS_AVAILABLE
       INTEGER ,DIMENSION(100)   :: IUPARAM
-      INTEGER NLINES,I,J,STAT,USERWI_ID
-      INTEGER SCR_FILE_NAME_LEN
-      INTEGER NUVAR,NUVARI
+      INTEGER :: NLINES,J,USERWI_ID
+      INTEGER :: SCR_FILE_NAME_LEN
+      INTEGER :: NUVAR,NUVARI
 !
       CHARACTER OPTION*256
       INTEGER SIZE

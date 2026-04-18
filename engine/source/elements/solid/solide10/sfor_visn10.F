@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,8 +65,8 @@ C-----------------------------------------------
       INTEGER I,J
 C                                                                     12
       my_real
-     .   VRE(10),VXC,VYC,VZC,FX,FY,FZ,FAC,VNJ,VL,TOL_V2,
-     .   VXM,VYM,VZM,V2MAX(MVSIZ),VC2
+     .   FAC,VNJ,VL,TOL_V2,
+     .   V2MAX(MVSIZ),VC2
 C----------------------------
         TOL_V2 = TOL_V*TOL_V
         IFCTL = 0

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      ID,TITR      )
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, IAD, IS, IEL, ICOQ, ISOL,
+      INTEGER I, K, N, IAD, IS, IEL, ICOQ, ISOL,
      .   N1,N2,N3,N4,N5,N6,N7,N8
 C     REAL
       my_real
@@ -64,7 +65,7 @@ C     REAL
      .   X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,I1,I2,I3,AREA0
       my_real
      .   FACE(6)
-      my_real ::  XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
+      my_real ::  XX1(4), XX2(4),XX3(4)
 C=======================================================================
       ICOQ = 1
       ISOL = 1 
@@ -75,7 +76,7 @@ C=======================================================================
         AREA(I) = ZERO
         IS = NSV(I)
         IF (ICOQ == 1) THEN
-C--       Cooques 4n
+C- 4n coats
           DO IAD = KNOD2ELC(IS)+1,KNOD2ELC(IS+1)
             IEL  = NOD2ELC(IAD)
             N1   = IXC(2,IEL)                                            
@@ -108,7 +109,7 @@ C--       Cooques 4n
             EZ  = X13*Y24 - Y13*X24                                      
             AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*FOURTH  
           ENDDO 
-C--       Cooques 3n
+C- 3N coats
           DO IAD = KNOD2ELTG(IS)+1,KNOD2ELTG(IS+1)
             IEL  = NOD2ELTG(IAD)
             N1  = IXTG(2,IEL)                                            

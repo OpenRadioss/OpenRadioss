@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -162,7 +162,7 @@ c--------------------
 C
 C-------------------
 c       DO I=1,NEL
-C---     Module Cisaillement Transverse
+C--- Transverse shear module
 c         SH  = FIVE_OVER_6*G(I)                        
 c         YMA = TWELVE*E(I)/AL(I)**2              
 c         SH1 = YMA*IYY(I)                       
@@ -171,7 +171,7 @@ C        shf = ishear   ( no shear = 1, shear = 0 = default)
 c         SH0 = (ONE - SHF(I))*SH              
 c         GS1 = SH0*SH1/(SH+SH1) + SHF(I)*SH1 
 c         GS2 = SH0*SH2/(SH+SH2) + SHF(I)*SH2 
-C---     Contraintes Elastiques
+C--- Elastic constraints
 C---      CONTRAINTES PLASTIQUEMENT ADMISSIBLES
       DO I=1,NEL                              
         GS = SHFACT*G(I)                         
@@ -282,7 +282,7 @@ ctmp            NINDX = NINDX+1
 ctmp            INDEX(NINDX) = I                                        
 ctmp          ENDIF                                                     
 ctmp        ENDDO                                                       
-ctmpC       def plastiques en contrainte uniaxiale                      
+cTMPC DEF Plastics in uniaxial constraint                      
 ctmp        DO J=1,NINDX                                                
 ctmp          I=INDEX(J)                                                
 ctmp          DPLA_J(I) = (SVM(I)-YLD(I))/(G3(I)+H(I))                  
@@ -311,7 +311,7 @@ ctmp              DPLA_J(I) = ZERO
 ctmp            ENDIF                                                   
 ctmp          ENDDO                                                     
 ctmp        ENDDO                                                       
-ctmpC       Contraintes plastiquement admissibles                       
+cTMPC plastically eligible stresses                       
 ctmp        DO J=1,NINDX                                                
 ctmp          I=INDEX(J)                                                
 ctmp          PLA(I) = PLA(I) + DPLA_I(I)                               
@@ -327,14 +327,15 @@ C---
           IF (PLA(I) > EPSMAX(I) .AND. OFF(I)==ONE) THEN
             OFF(I) = FOUR_OVER_5
 #include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(I),PLA(I),EPSP(I)
+            WRITE(IOUT, 1000) NGL(I),IPT,PLA(I),EPSP(I)
+            WRITE(ISTDO,1000) NGL(I),IPT,PLA(I),EPSP(I)
 #include "lockoff.inc"
           END IF
         ENDDO
       END IF                                         
 c---------------------------------------------------------
- 1000 FORMAT(5X,'FAILURE BEAM ELEMENT NUMBER ',I10,
-     .          ' PLASTIC STRAIN =',1PE16.9,' STRAIN RATE =',1PE16.9)
+ 1000 FORMAT(5X,'FAILURE BEAM ELEMENT NUMBER',I3,',  INTEGRATION POINT NUMBER',I3,
+     .          ',  PLASTIC STRAIN = ',1PE16.9,',  STRAIN RATE = ',1PE16.9)
 c---------------------------------------------------------
       RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -104,7 +104,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX,CHECK
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real :: S1,S2,SS,S12,DYDX1,DYDX2,S2DYDX1,SIGSR,SIG3D
+      my_real :: S1,S2,SS,S12,DYDX1,DYDX2,SIGSR,SIG3D
       my_real ,DIMENSION(NEL)  :: SIG1,SIG2,LAMBDANXT
 C=======================================================================
       DO I=1,NEL

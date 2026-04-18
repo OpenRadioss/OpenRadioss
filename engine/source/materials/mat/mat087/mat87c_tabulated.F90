@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    sigeps87c              ../engine/source/materials/mat/mat087/sigeps87c.F90
 !||====================================================================
       module mat87c_tabulated_mod
+      implicit none
       contains
 !||====================================================================
 !||    mat87c_tabulated        ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
@@ -49,7 +50,7 @@
           soundsp,pla     ,dpla    ,epsd    ,yld      ,                          &
           etse   ,gs      ,israte  ,asrate  ,off      ,                          &
           l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                          &
-          loff   )
+          loff   ,nuvar   ,uvar    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -107,10 +108,12 @@
           real(kind=WP), dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
           real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
           real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for layer deletion status
+          integer, intent(in)                                  :: nuvar    !< Number of user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout)   :: uvar     !< User variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ii,j,k,nindx,indx(nel),iter,iflagsr,ipos(nel,2),ikin
+          integer :: i,ii,j,nindx,indx(nel),iter,iflagsr,ipos(nel,2),ikin
           real(kind=WP) ::                                                               &
             young,nu,a1,a2,g,al1,al2,al3,al4,al5,al6,al7,al8,fisokin,expa,ckh(4),  &
             akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck
@@ -124,7 +127,7 @@
             dphippdsigyy,dphippdsigxy,dseqdphip,dseqdphipp,dseqdsigxx,dseqdsigyy,  &
             dseqdsigxy,normxx,normyy,normxy,dsigxxdlam,dsigyydlam,dsigxydlam,      &
             dphidsig_dsigdlam,dphidpla,sig_dphidsig,dphidlam,dlam,                 &
-            ddep,dpladlam,dphidyld,dphidseq,sig1,sig2,dpdt,alpha,                  &
+            ddep,dpladlam,dphidyld,dphidseq,dpdt,                                  &
             dphidsigb_dsigbdlam,dsigbxxdlam,dsigbyydlam,dsigbxydlam
           real(kind=WP) ::                                                               &
             deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
@@ -172,7 +175,7 @@
             ckh(4) = matparam%uparam(19)
             akh(4) = matparam%uparam(20)
             akck   = akh(1)*ckh(1) + akh(2)*ckh(2) + akh(3)*ckh(3) + akh(4)*ckh(4)
-          endif
+          end if
 !
           !< Total strain-rate computation
           if (iflagsr == 0) then
@@ -181,10 +184,12 @@
                 epsd(i) = half*(abs(epspxx(i)+epspyy(i))                           &
                   + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))     &
                   + epspxy(i)*epspxy(i)))
-              enddo
+              end do
             else
               epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
-            endif
+            end if
+          elseif (iflagsr == 1) then
+            epsd(1:nel) = uvar(1:nel,1)
           endif
 !
           !< Barlat linear projection parameters
@@ -218,7 +223,7 @@
             signxy(i) = sigoxy(i) +     g*depsxy(i)
             signyz(i) = sigoyz(i) + gs(i)*depsyz(i)
             signzx(i) = sigozx(i) + gs(i)*depszx(i)
-          enddo
+          end do
           !< Backstress tensor computation
           if (fisokin > zero) then
             do i=1,nel
@@ -230,13 +235,13 @@
                 sigbxx(i) = sigbxx(i) + sigb(i,3*(j-1) + 1)
                 sigbyy(i) = sigbyy(i) + sigb(i,3*(j-1) + 2)
                 sigbxy(i) = sigbxy(i) + sigb(i,3*(j-1) + 3)
-              enddo
+              end do
               !< Add the kinematic hardening contribution to stress tensor
               signxx(i) = signxx(i) - sigbxx(i)
               signyy(i) = signyy(i) - sigbyy(i)
               signxy(i) = signxy(i) - sigbxy(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !=========================================================================
           !< - COMPUTATION OF TRIAL BARLAT 2000 EQUIVALENT STRESS
@@ -281,10 +286,10 @@
               seq(i) = exp((one/expa)*log(seq(i)))
             else
               seq(i) = zero
-            endif
+            end if
             seq(i) = seq(i)*normsig(i)
 !
-          enddo
+          end do
 !
           !=========================================================================
           !< - YIELD STRESS COMPUTATION
@@ -299,7 +304,7 @@
           else
             yld0(1:nel) = zero
             dyld0dp(1:nel) = zero
-          endif
+          end if
           !< Current yield stress
           xvec(1:nel,1) = pla(1:nel)
           xvec(1:nel,2) = epsd(1:nel)
@@ -320,8 +325,8 @@
             if (phi(i) >= zero .and. off(i) == one) then
               nindx = nindx + 1
               indx(nindx)  = i
-            endif
-          enddo
+            end if
+          end do
 !
           !=========================================================================
           !< - RETURN MAPPING PROCEDURES (PLASTIC CORRECTION)
@@ -339,8 +344,8 @@
                   ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
                 dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +               &
                   ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
-              enddo
-            endif
+              end do
+            end if
 !
             !< Loop over the iterations
             do iter = 1, niter
@@ -483,15 +488,15 @@
                 if (fisokin > zero) then
                   !<  -> Chaboche-Rousselier kinematic hardening
                   if (ikin == 1) then
-                    dsigbxxdlam = fisokin*(akck*normxx - dsigbxxdp(i)*dpladlam)
-                    dsigbyydlam = fisokin*(akck*normyy - dsigbyydp(i)*dpladlam)
+                    dsigbxxdlam = fisokin*(akck*(two*normxx + normyy) - dsigbxxdp(i)*dpladlam)
+                    dsigbyydlam = fisokin*(akck*(two*normyy + normxx) - dsigbyydp(i)*dpladlam)
                     dsigbxydlam = fisokin*(akck*normxy - dsigbxydp(i)*dpladlam)
                     !<  -> Prager kinematic hardening
-                  elseif (ikin == 2) then
+                  else if (ikin == 2) then
                     dsigbxxdlam = two_third*hk(i)*(two*normxx + normyy)
                     dsigbyydlam = two_third*hk(i)*(two*normyy + normxx)
                     dsigbxydlam = two_third*hk(i)*normxy
-                  endif
+                  end if
                   !< Assembling derivative
                   dphidsigb_dsigbdlam = -normxx*dsigbxxdlam -                     &
                     normyy*dsigbyydlam -                     &
@@ -499,7 +504,7 @@
                   !<  -> No kinematic hardening
                 else
                   dphidsigb_dsigbdlam = zero
-                endif
+                end if
 !
                 !< 4 - Derivative of yield criterion w.r.t plastic multiplier
                 !-------------------------------------------------------------------
@@ -548,36 +553,36 @@
                   if (ikin == 1) then
                     ! -> Update the all set of backstresses components
                     sigb(i, 1) = sigb(i, 1) +                                      &
-                      fisokin*(akh(1)*ckh(1)*normxx*dlam  - ckh(1)*sigb(i,1)*ddep)
+                      fisokin*(akh(1)*ckh(1)*(two*normxx + normyy)*dlam  - ckh(1)*sigb(i,1)*ddep)
                     sigb(i, 2) = sigb(i, 2) +                                      &
-                      fisokin*(akh(1)*ckh(1)*normyy*dlam  - ckh(1)*sigb(i,2)*ddep)
+                      fisokin*(akh(1)*ckh(1)*(two*normyy + normxx)*dlam  - ckh(1)*sigb(i,2)*ddep)
                     sigb(i, 3) = sigb(i, 3) +                                      &
                       fisokin*(akh(1)*ckh(1)*normxy*dlam  - ckh(1)*sigb(i,3)*ddep)
                     sigb(i, 4) = sigb(i, 4) +                                      &
-                      fisokin*(akh(2)*ckh(2)*normxx*dlam  - ckh(2)*sigb(i,4)*ddep)
+                      fisokin*(akh(2)*ckh(2)*(two*normxx + normyy)*dlam  - ckh(2)*sigb(i,4)*ddep)
                     sigb(i, 5) = sigb(i, 5) +                                      &
-                      fisokin*(akh(2)*ckh(2)*normyy*dlam  - ckh(2)*sigb(i,5)*ddep)
+                      fisokin*(akh(2)*ckh(2)*(two*normyy + normxx)*dlam  - ckh(2)*sigb(i,5)*ddep)
                     sigb(i, 6) = sigb(i, 6) +                                      &
                       fisokin*(akh(2)*ckh(2)*normxy*dlam  - ckh(2)*sigb(i,6)*ddep)
                     sigb(i, 7) = sigb(i, 7) +                                      &
-                      fisokin*(akh(3)*ckh(3)*normxx*dlam  - ckh(3)*sigb(i,7)*ddep)
+                      fisokin*(akh(3)*ckh(3)*(two*normxx + normyy)*dlam  - ckh(3)*sigb(i,7)*ddep)
                     sigb(i, 8) = sigb(i, 8) +                                      &
-                      fisokin*(akh(3)*ckh(3)*normyy*dlam  - ckh(3)*sigb(i,8)*ddep)
+                      fisokin*(akh(3)*ckh(3)*(two*normyy + normxx)*dlam  - ckh(3)*sigb(i,8)*ddep)
                     sigb(i, 9) = sigb(i, 9) +                                      &
                       fisokin*(akh(3)*ckh(3)*normxy*dlam  - ckh(3)*sigb(i,9)*ddep)
                     sigb(i,10) = sigb(i,10) +                                      &
-                      fisokin*(akh(4)*ckh(4)*normxx*dlam - ckh(4)*sigb(i,10)*ddep)
+                      fisokin*(akh(4)*ckh(4)*(two*normxx + normyy)*dlam - ckh(4)*sigb(i,10)*ddep)
                     sigb(i,11) = sigb(i,11) +                                      &
-                      fisokin*(akh(4)*ckh(4)*normyy*dlam - ckh(4)*sigb(i,11)*ddep)
+                      fisokin*(akh(4)*ckh(4)*(two*normyy + normxx)*dlam - ckh(4)*sigb(i,11)*ddep)
                     sigb(i,12) = sigb(i,12) +                                      &
                       fisokin*(akh(4)*ckh(4)*normxy*dlam - ckh(4)*sigb(i,12)*ddep)
                     !<  -> Prager kinematic hardening
-                  elseif (ikin == 2) then
+                  else if (ikin == 2) then
                     sigb(i, 1) = sigb(i,1) + dsigbxxdlam*dlam
                     sigb(i, 2) = sigb(i,2) + dsigbyydlam*dlam
                     sigb(i, 3) = sigb(i,3) + dsigbxydlam*dlam
-                  endif
-                endif
+                  end if
+                end if
 !
                 !< Norm of the stress tensor
                 normsig(i) = signxx(i)*signxx(i)                                   &
@@ -615,7 +620,7 @@
                   seq(i) = exp((one/expa)*log(seq(i)))
                 else
                   seq(i) = zero
-                endif
+                end if
                 seq(i) = seq(i)*normsig(i)
 !
                 !< Save variables for yield stress in plastic index order
@@ -623,7 +628,7 @@
                 xvec(ii,2) = epsd(i)
                 ipos(ii,1:2) = vartmp(i,1:2)
 !
-              enddo
+              end do
 !
               !< 8 - Update yield stress
               !---------------------------------------------------------------------
@@ -648,9 +653,9 @@
                 !< Compute the new yield function
                 phi(i) = (seq(i)/yld(i))**2 - one
 !
-              enddo
+              end do
               !< End of the loop over yielding elements
-            enddo
+            end do
             !< End of the loop over the iterations
 !
 #include "vectorize.inc"
@@ -659,8 +664,8 @@
               i = indx(ii)
               !< Hourglass stiffness parameter
               etse(i) = (dylddp(i)+hk(i)) / ((dylddp(i)+hk(i)) + young)
-            enddo
-          endif
+            end do
+          end if
           !=======================================================================
           !< - END OF PLASTIC RETURN MAPPING PROCEDURE
           !=======================================================================
@@ -670,8 +675,9 @@
             do i = 1,nel
               dpdt    = dpla(i)/max(timestep,em20)
               epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-            enddo
-          endif
+              uvar(1:nel,1) = epsd(1:nel)
+            end do
+          end if
 !
           !< Non-local thickness variation (if activated)
           if (inloc > 0) then
@@ -757,9 +763,9 @@
                 !< Non-local out-of-plane plastic strain increment
                 deplzz(i) = -dplanl(i)*(yld(i)/max(sig_dphidsig,em20))*            &
                   (normxx + normyy)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !< Remove backstress contribution to the stress tensor
           if (fisokin > zero) then
@@ -768,8 +774,8 @@
               signxx(i) = signxx(i) + sigbxx(i)
               signyy(i) = signyy(i) + sigbyy(i)
               signxy(i) = signxy(i) + sigbxy(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !< Update the user variable, soundspeed and thickness
           do i=1,nel
@@ -781,7 +787,7 @@
             thk(i) = thk(i) + depszz(i)*thkly(i)*off(i)
             !< Update of the soundspeed
             soundsp(i) = sqrt(a1/rho0(i))
-          enddo
+          end do
 !
         end subroutine mat87c_tabulated
       end module mat87c_tabulated_mod

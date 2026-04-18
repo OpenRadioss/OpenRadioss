@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    atherm                 ../engine/source/ale/atherm.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
-      SUBROUTINE AFIMP3(PM ,X, IXS, T,GRAD ,COEF ,ALE_CONNECT ,FV)
+      SUBROUTINE AFIMP3(PM ,X, IXS, T,GRAD ,COEF ,ALE_CONNECT ,FV,s_flux,nv46)
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,8 +57,10 @@ C-----------------------------------------------
 ! X(1:3,1:NUMNOD) : local nodes
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
 !      
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
       INTEGER IXS(NIXS,SIXS/NIXS)
-      my_real PM(NPROPM,NUMMAT), X(3,SX/3), T(*), GRAD(6,*), COEF(*), FV(*)
+      my_real PM(NPROPM,NUMMAT), X(3,SX/3), T(*), GRAD(s_flux,nv46), COEF(*), FV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -148,7 +152,7 @@ C------------------------------------------
         AREA  = HALF * SQRT(N1X**2+N1Y**2+N1Z**2)
         T(II) = (ONE-XF(I))*T(II) + XF(I)*T(JVOIS(I))
      1  - AREA*TFLU(I)*HALF*(COEF(II)+COEF(JVOIS(I))) /
-     2   MAX(EM20,COEF(II)*COEF(JVOIS(I))*GRAD(JFACE(I),I))
+     2   MAX(EM20,COEF(II)*COEF(JVOIS(I))*GRAD(II,JFACE(I)))
       ENDDO
 
       RETURN

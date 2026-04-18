@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,15 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    i11coq     ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11coq        ../starter/source/interfaces/inter3d1/i11coq.F
 !||--- called by ------------------------------------------------------
-!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i25sti_edg    ../starter/source/interfaces/inter3d1/i25sti_edg.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11COQ(IRECT,IXC,IXTG,NINT,NEL,
      .                  NELTG,IS ,GEO,PM,THK,IGEO,
      .                  KNOD2ELC,KNOD2ELTG,NOD2ELC,NOD2ELTG,
      .                  PM_STACK, IWORKSH)
+      use element_mod , only :nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,14 +157,17 @@ C
       END
 C
 !||====================================================================
-!||    i11fil     ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11fil        ../starter/source/interfaces/inter3d1/i11coq.F
 !||--- called by ------------------------------------------------------
-!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i25sti_edg    ../starter/source/interfaces/inter3d1/i25sti_edg.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11FIL(IRECT,IXT,IXP,IXR,NINT,NELT,
      .                  NELP,NELR,NELX,IS,NOD2EL1D,
      .                  KNOD2EL1D,KXX,IXX)
+      use element_mod , only : nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -181,7 +187,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, J, II, K, IAD
+      INTEGER N, J, IAD
 C
       NELP=0
       NELT=0

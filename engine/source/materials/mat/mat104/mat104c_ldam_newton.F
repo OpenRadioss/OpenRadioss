@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,32 +80,33 @@ c
       my_real :: 
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR,HKHI,
-     .   Q1,Q2,ED,AN,EPN,KW,FR,FC,F0,A11,A12,NNU,DTI
+     .   Q1,Q2,ED,AN,KW,FR,FC,F0,A11,A12,NNU,DTI
       my_real ::  
-     .   H,LDAV,TRDFDS,SIGVM,OMEGA,
+     .   TRDFDS,SIGVM,OMEGA,
      .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
       my_real :: 
      .   DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,
-     .   DJ2DSXX,DJ2DSYY,DJ2DSXY,NORMSIG,
-     .   DFDSXX,DFDSYY,DFDSXY,DYLD_DPLA_NL,
+     .   NORMSIG,
+     .   
      .   NORMXX,NORMYY,NORMXY,NORMZZ,
      .   SDPLA,DPHI_DTRSIG,SIG_DFDSIG,DFDSIG2,SDV_DFDSIG,
-     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DF_DFS,DFS_DFT,DPHI_DFT,
+     .   DPHI_DSIG,DPHI_DYLD,DPHI_DFDR,DFS_DFT,
      .   DPHI_DFS,DFN_DLAM,DFSH_DLAM,DFG_DLAM,DFT_DLAM,
-     .   DFN,DFSH,DFG,DFT,DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM
+     .   DYLD_DPLA,DYLD_DTEMP,DTEMP_DLAM
 C
       my_real, DIMENSION(NEL) ::
-     .   DSIGXX,DSIGYY,DSIGXY,TRSIG,TRDEP,
+     .   TRSIG,TRDEP,
      .   SXX,SYY,SXY,SZZ,SIGM,J2,J3,SIGDR,YLD,WEITEMP,
-     .   HARDP,FHARD,FRATE,FTHERM,DTHERM,FDR,PHI0,TRIAX,
+     .   HARDP,FHARD,FRATE,FTHERM,FDR,TRIAX,
      .   FDAM,PHI,FT,FS,FG,FN,FSH,DPLA_DLAM,DPHI_DLAM,DEZZ,ETAT,
-     .   SIGDR2,YLD2I,DPXX,DPYY,DPZZ,DPXY,DLAM_NL
+     .   SIGDR2,YLD2I,DPXX,DPYY,DPZZ,DPXY
      .   
       !=======================================================================
       !     DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW WITH GURSON DAMAGE
       !         USING LOCAL DAMAGE OR NON-LOCAL MICROMORPHIC METHOD
       !=======================================================================
+      !UVAR(1)   EPSD    PLASTIC STRAIN RATE SAVED FOR FILTERING
 c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -177,7 +178,9 @@ c
         HARDP(I) = ZERO       ! Initialization of hardening modulus           
         DEZZ(I)  = ZERO       ! Initialization of the transverse strain
       ENDDO
-c      
+!
+      epsd(1:nel) = uvar(1:nel,1)
+!
       ! Initialization of damage, temperature and self-heating weight factor
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
@@ -630,6 +633,7 @@ c
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)  
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)        
+        UVAR(I,1)  = EPSD(I)
         ! Coefficient for hourglass
         IF (DPLA(I) > ZERO) THEN 
           ET(I) = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)  

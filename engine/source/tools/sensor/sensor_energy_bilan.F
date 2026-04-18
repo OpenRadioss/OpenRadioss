@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sr8bilan              ../engine/source/elements/solid/solide8/sr8bilan.F
 !||    srbilan               ../engine/source/elements/solid/solide/srbilan.F
 !||    tbilan                ../engine/source/elements/truss/tbilan.F
+!||    ush_output            ../engine/source/user_interface/ushforce3.F90
 !||--- calls      -----------------------------------------------------
 !||    sum_6_float           ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
@@ -77,7 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,II,J,IC,NEL,IJK
+      INTEGER I,MX,J,NEL,IJK
       INTEGER :: K,IPART_SENS,LOCAL_INDEX
       my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
       INTEGER :: NGR_SENSOR

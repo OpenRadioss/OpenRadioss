@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
+      INTEGER  :: NRTM, IRECT(4,*), ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
       my_real  :: X(3,*), PM(NPROPM,*)
       INTEGER  :: ID, IMESG
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -80,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IDEB, ILAW, MID, IBRIC, JALE, JEUL, I22LAW06
+      INTEGER I, J, IDEB, ILAW, MID, IBRIC, I22LAW06
       my_real :: AN
       my_real, DIMENSION(MVSIZ) :: XX1,YY1,ZZ1
       my_real, DIMENSION(MVSIZ) :: XX2,YY2,ZZ2
@@ -95,7 +96,7 @@ C     #######################################################
       IDEB=0
       DO WHILE(IDEB<NRTM)
 C
-       !NRTM : nombre de faces mains
+       !NRTM: Number of main faces
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         J=IDEB+I
         IX1(I)=IRECT(1,J)
@@ -117,7 +118,7 @@ C
        ENDDO
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
-        !Calcul du centre de gravit   
+        !calculation of the center of gravity
         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
@@ -137,9 +138,9 @@ C
         ZZ4(I) = Z4(I)-Z0(I)
        ENDDO
 C
-       !Decomposition de la coque en 4 triangles et calculs des aires
-       !Si l'aire de deux tirangles ayant en commun uniquement un sommet
-       ! (A12 et A34 par exemple) est nulle alors A_total=0 => dim=1
+       !decomposition of the shell into 4 triangles and calculation of areas
+       !If the area of two triangles having in common only a summit
+       ! (A12 and A34 for example) is zero then A_total=0 => dim=1
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         XN1(I) = YY1(I)*ZZ2(I) - YY2(I)*ZZ1(I)
         YN1(I) = ZZ1(I)*XX2(I) - ZZ2(I)*XX1(I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,18 +23,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    arezo2_mod   ../engine/source/ale/ale2d/arezo2.F
 !||--- called by ------------------------------------------------------
-!||    arezon       ../engine/source/ale/arezon.F
+!||    aconve       ../engine/source/ale/aconve.F90
+!||    arezon       ../engine/source/ale/arezon.F90
 !||====================================================================
       MODULE AREZO2_MOD
       CONTAINS
 !||====================================================================
 !||    arezo2                 ../engine/source/ale/ale2d/arezo2.F
 !||--- called by ------------------------------------------------------
-!||    arezon                 ../engine/source/ale/arezon.F
+!||    arezon                 ../engine/source/ale/arezon.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||====================================================================
-      SUBROUTINE AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL)
+      SUBROUTINE AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,s_flux,offset,nft,llt,jmult)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,21 +48,27 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real VAR(*), PHI(*), FLUX(4,*), VOL(*)
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: offset !< offset for FLUX array
+      integer, intent(in) :: nft !< address of the first element of the group
+      integer, intent(in) :: llt !< number of element in the group
+      integer, intent(in) :: jmult !< multimaterial flag
+      my_real VAR(*), PHI(*), FLUX(s_flux,4), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
+      integer :: ie_2
       my_real VOLN
 C-----------------------------------------------
       IF (JMULT == 0) THEN
-        DO I=LFT,LLT
+        DO I=1,LLT
          IE =NFT+I
+         IE_2 = offset + nft + i
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
          IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
@@ -72,13 +79,14 @@ C-----------------------------------------------
          IF (IV3 <= 0)IV3=IE
          IF (IV4 <= 0)IV4=IE
          IF (VOL(I) > ZERO) THEN
-           VAR(I)=VAR(I) + HALF*DT1*(PHI(IE)* (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     .                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / VOL(I)
+           VAR(I)=VAR(I) + HALF*DT1*(PHI(IE)* (FLUX(IE_2,1)+FLUX(IE_2,2)+FLUX(IE_2,3)+FLUX(IE_2,4))
+     .                -PHI(IV1)*FLUX(IE_2,1)-PHI(IV2)*FLUX(IE_2,2)-PHI(IV3)*FLUX(IE_2,3)-PHI(IV4)*FLUX(IE_2,4)) / VOL(I)
          ENDIF
         ENDDO    
       ELSE
-        DO I=LFT,LLT
+        DO I=1,LLT
         IE =NFT+I
+        IE_2 = offset + nft + i        
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
         IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
@@ -89,10 +97,10 @@ C-----------------------------------------------
         IF(IV2 <= 0)IV2=IE
         IF(IV3 <= 0)IV3=IE
         IF(IV4 <= 0)IV4=IE
-        VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+        VOLN=VOL(I)-DT1 * (FLUX(IE_2,1)+FLUX(IE_2,2)+FLUX(IE_2,3)+FLUX(IE_2,4))
         IF (VOLN > EM15) THEN
-          VAR(I) = VAR(I) + HALF * DT1 * (PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3                 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
+          VAR(I) = VAR(I) + HALF * DT1 * (PHI(IE)*(FLUX(IE_2,1)+FLUX(IE_2,2)+FLUX(IE_2,3)+FLUX(IE_2,4))
+     3                 -PHI(IV1)*FLUX(IE_2,1)-PHI(IV2)*FLUX(IE_2,2)-PHI(IV3)*FLUX(IE_2,3)-PHI(IV4)*FLUX(IE_2,4)) / MAX(EM15,VOLN)
          ENDIF
         ENDDO
       ENDIF

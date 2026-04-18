@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), IQUADI, IFLAGR(MVSIZ), NBE
+      INTEGER I, MX
       my_real G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,
      .        CB ,CN   ,CB1   ,CB2  ,CH  ,
      .        CF ,EPMX ,SIGMX ,SPH  ,T0  ,

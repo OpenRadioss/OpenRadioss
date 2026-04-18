@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i17sti3   ../starter/source/interfaces/inter3d1/i17sti3.F
+!||    i17sti3       ../starter/source/interfaces/inter3d1/i17sti3.F
 !||--- called by ------------------------------------------------------
-!||    inint3    ../starter/source/interfaces/inter3d1/inint3.F
+!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I17STI3(
      1 IXS       ,PM        ,NME    ,NMES  ,NELM,NELS,
      2 KM        ,KS        )
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

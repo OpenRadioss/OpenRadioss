@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,7 @@ void DummyCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     // Do nothing
 }
 
-bool DummyCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
+bool DummyCouplingAdapter::initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) {
 //    std::cout << "Dummy coupling adapter initialized (no actual coupling)" << std::endl;
     return true;
 }

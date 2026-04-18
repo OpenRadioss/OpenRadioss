@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUMLOC, I, J, K, NA, NB, NC
+      INTEGER NUMLOC, I, NA, NB, NC
       my_real
      .  DRDXI(NCTRL,3),SUMTOT, DETDXDXI, FN(NCTRL), 
      .  DNDXI(NCTRL), FM(NCTRL), DMDXI(NCTRL), FL(NCTRL),
@@ -128,7 +128,7 @@ c       XI(1) = ((KX(IDX2)-KX(IDX))*GAUSSX + (KX(IDX2)+(KX(IDX))))/TWO
 c       XI(2) = ((KY(IDY2)-KY(IDY))*GAUSSY + (KY(IDY2)+(KY(IDY))))/TWO
 c       XI(3) = ((KZ(IDZ2)-KZ(IDZ))*GAUSSZ + (KZ(IDZ2)+(KZ(IDZ))))/TWO
       ELSE
-C SI ON A EN ENTREE DES POINTS DEJA DANS LE REPERE PARAMETRIQUE ON N'A PAS BESOIN DE LES BASCULER DE L'ESPACE PARENT A L'ESPACE PARAMETRIQUE
+C IF WE HAVE POINTS ALREADY IN THE PARAMETRIC FRAME AS INPUT, WE DON'T NEED TO SWITCH THEM FROM PARENT SPACE TO PARAMETRIC SPACE
        XI(1) = GAUSSX
        XI(2) = GAUSSY
        XI(3) = GAUSSZ
@@ -246,7 +246,7 @@ C COMPUTE DERIVATES OF BASIS FUNCTIONS WITH RESPECT TO PHYSICAL COORDINATES
       ENDDO
 
 
-C DETERMINANT DE LA MATRICE AJMAT (QUI REGROUPE DONC LES TWO JACOBIENS)
+C DETERMINANT OF THE AJMAT MATRIX (WHICH GROUPS THE TWO JACOBIANS)
 
       DETJAC=(AJMAT(1,1)*AJMAT(2,2)*AJMAT(3,3))
      .      +(AJMAT(1,2)*AJMAT(2,3)*AJMAT(3,1))

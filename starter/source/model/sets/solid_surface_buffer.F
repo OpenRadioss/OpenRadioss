@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
      .                        KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
      .                        NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
-     .                        IAD_SURF ,KEYSET)
+     .                        IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE SETDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,17 +51,18 @@ C-----------------------------------------------
       INTEGER IEXT,NSEG,IAD_SURF
       INTEGER IXS(NIXS,*),IXS10(6,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        KNOD2ELS(*),NOD2ELS(*),KNOD2ELC(*),NOD2ELC(*),
-     .        KNOD2ELTG(*),NOD2ELTG(*),BUFTMPSURF(*),IPARTS(*)
+     .        KNOD2ELTG(*),NOD2ELTG(*),BUFTMPSURF(*),IPARTS(*),
+     .        IPARTC(*),IPARTG(*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 !
       TYPE (SET_) ::  CLAUSE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
+      INTEGER J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
      .        NI(4),NS(4),MI(4),MS(4),NMIN,MMIN,NF,MF,IPERM,N1,N2,I
       INTEGER FACES(4,6),PWR(7),
-     .        FACES10(3,6),NNS,ISHEL,ISEG,NB_SOLID,IND
+     .        FACES10(3,6),NNS,ISHEL,NB_SOLID,IND
       INTEGER, DIMENSION(:), ALLOCATABLE:: SOLID_TAG,PART_TAG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
       INTEGER, DIMENSION(:), ALLOCATABLE :: FASTAG
@@ -98,7 +100,7 @@ C=======================================================================
 
       FASTAG=0
 C
-      IF (IEXT == 1) THEN
+      IF (IEXT == 1 .OR. IEXT == 2) THEN
 C
         NB_SOLID = CLAUSE%NB_SOLID
         DO IND=1,NB_SOLID
@@ -199,7 +201,7 @@ C
                     END IF
                   END DO
                   IF(MI(1)==NI(1).AND.MI(NF)==NI(2))THEN
-C                    FACTAG(JS) moins face jj
+C                    Factag (JS) Less Face JJ
                      FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                      GO TO 300
                   END IF
@@ -209,7 +211,7 @@ C                    FACTAG(JS) moins face jj
  300        CONTINUE
           END DO
         END DO ! DO IND=1,NB_SOLID
-      END IF ! IF(IEXT==1)THEN
+      END IF ! IF(IEXT==2)THEN
 C-----------
 
 
@@ -268,8 +270,12 @@ C---   find shells SURF/PART/EXT
                 IF (ISHEL == 3)EXIT
                 KS = 0
               ENDDO
-              !print*,'Surf from solid ...',KS,PART_TAG(IPARTG(KS))
-              IF(KS == 0 .OR. ISHEL == 3)THEN
+
+              IF(KS == 0)THEN
+                NSEG = NSEG + 1
+                CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
+     .                         BUFTMPSURF ,IAD_SURF ,1)
+              ELSEIF (PART_TAG(IPARTG(KS)) /= 1)THEN
                 NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
@@ -288,7 +294,11 @@ C---   find shells SURF/PART/EXT
                 IF (ISHEL == 4)EXIT
                 KS = 0
               ENDDO
-              IF(KS == 0 .OR. ISHEL == 4)THEN
+              IF(KS == 0)THEN
+               NSEG = NSEG + 1
+                CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
+     .                         BUFTMPSURF ,IAD_SURF ,1)
+              ELSEIF (PART_TAG(IPARTC(KS)) /= 1 ) THEN
                NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -335,7 +335,7 @@ C----------------------------------------
        WRITE(IOUT,'(40X, 1PG20.13/)') PM(45)
       ENDIF
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
 
       MTAG%G_PLA    = 1    

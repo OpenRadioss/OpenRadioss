@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -110,11 +110,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISYM,I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1,IEDGE,  
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
+      INTEGER ISYM, IP0, IP1, I_SK_OLD,IEDGE,  
+     .         NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
       INTEGER 
      .       ILD, NCONT, NCONTACT,NCONTE,NCONTACTE,
-     .       INACTII,INACIMP,NSNF,NSNL,NLN,CAND_N_OLD,
+     .       INACTII,INACIMP,NLN,CAND_N_OLD,
      .       I_MEM
 C     REAL
       my_real
@@ -202,11 +202,11 @@ C
       BMINMAE(5)=EP30
       BMINMAE(6)=EP30
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS AVEC PENE INITIALE
-C     OU AVEC DU FILTRAGE DE FROTTEMENT
+C     storage of old candidates with initial penetration
+C     or with friction filtering
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 
@@ -247,10 +247,10 @@ ctmp          IF(I_SK_OLD==0)INACTI=0
         INTBUF_TAB%I_STOK(1)=ZERO
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
-C eshift : decalage sur cand_e
-C sauvegarde de XSAV (tableau BUFIN(JD(19)))
+C eshift : offset on cand_e
+C Backup of XSAV (BUFIN Table (JD (19)))
       CALL I20XSAVE(
      1 ITASK      ,INTBUF_TAB%XA,NTY    ,NSN        ,
      2 NMN      ,NSNE   ,NMNE   ,NLN        ,
@@ -272,10 +272,10 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
 #include "lockoff.inc"
 
 C ----------------------------------------------------------
-C     NOEUDS SURFACE
+C     NODES SURFACE
 C ----------------------------------------------------------
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
       CALL MY_BARRIER
       INACTI = IPARI(22,NIN)
       IF(ITASK==0)THEN
@@ -297,7 +297,7 @@ C BARRIER II_STOK et RESULT
         NSNR = 0
         IF(NSPMD>1) THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C retrieval of remote nodes NSNR stored in XREM
 C
        IF(IMONM > 0) CALL STARTIME(TIMERS,25)
        CALL SPMD_TRI20BOX(
@@ -311,7 +311,7 @@ C
      7      NODNX_SMS  ,INTBUF_TAB%NBINFLG,INTBUF_TAB%AVX_ANCR(1),INTBUF_TAB%AVX_ANCR(1+3*NLN) )
          IF(IMONM > 0) CALL STOPTIME(TIMERS,25)
 C
-C renumerotation locale des anciens candidats
+C Local renumeration of former candidates
 C
 
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
@@ -325,11 +325,11 @@ C
 
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   Continue
-C il faut conserver K11 global
+C must conserver K11 global
       ILD = 0
       NB_N_B = 1
 C
-C Barrier comm spmd_tri20box + BMINMA + Retour I20BUCE
+C Barrier Commp SPMD_TRI20Box + Bminma + return i20buce
 C      
  50   CALL MY_BARRIER
 
@@ -402,7 +402,7 @@ C--------------------------------------------------------------
         TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for marking in boundary part
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
@@ -431,7 +431,7 @@ C-----------------------------------------------------------
       IF(NLINMA /= 0.OR.NSPMD>1)THEN
         INTBUF_TAB%I_STOK_E(1) = 0
 C
-C     Fin CALCUL BORNE DOMAINE Edge
+C     Fin CALCULATION BORNE DOMAINE Edge
 C
 #include "lockon.inc"
         BMINMAE(1) = MAX(BMINMAE(1),XMAXEL)
@@ -442,7 +442,7 @@ C
         BMINMAE(6) = MIN(BMINMAE(6),ZMINEL)
 #include "lockoff.inc"
         RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
         CALL MY_BARRIER
         IF(ITASK==0)THEN
           IF(ABS(BMINMAE(6)-BMINMAE(3))>2*EP30.OR.
@@ -461,7 +461,7 @@ C BARRIER II_STOK et RESULT
           BMINMAE(5)=BMINMAE(5)-TZINF
           BMINMAE(6)=BMINMAE(6)-TZINF
 C
-C recuperation des noeuds remote NLINSR stockes dans XREM
+C retrieval of remote nodes NLINSR stored in XREM
 C
           NLINSR = 0
           IF(NSPMD>1) THEN
@@ -483,14 +483,14 @@ C -------------------------------------------------------------
         IF(ITASK==NTHREAD-1)NRTM_T=NLINMA-(NTHREAD-1)*(NLINMA/NTHREAD)
         ILD = 0
 C
-C Barrier comm spmd_tri7box + BMINMA + Retour I7BUCE
+C Barrier Commp SPMD_TRI7BOX + BMINMA + RETURN I7BUCE
 C      
 150     CALL MY_BARRIER
         GAP_SHIFT=ZERO
         IF(IGAP/=0)THEN
           GAP_SHIFT= GAP
           GAP   = GAP   + GAP_SHIFT
-c fait dans le starter          TZINF = TZINF + GAP_SH
+c done in the starter          TZINF = TZINF + GAP_SH
         ENDIF
         IF(NRTM_T/=0)THEN
           CALL I20BUC_EDGE(
@@ -553,7 +553,7 @@ C--------------------------------------------------------------
           GOTO 150
         ENDIF
         IF (NSPMD>1) THEN
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for marking in boundary part
 C mono tache
 !$OMP SINGLE
           IF (IMONM > 0) CALL STARTIME(TIMERS,26)
@@ -702,7 +702,7 @@ C
        NL = (ITASK+1)*NLINSR/ NTHREAD
 
        DO I=NF,NL
-C traiter les 2 noeuds autant de fois qu'ils apparaissent
+C Treat the 2 nodes as many times as they appear
         I1 = 2*I-1
         I2 = 2*I
 C
@@ -936,7 +936,7 @@ C
        NL = (ITASK+1)*NLINSR/ NTHREAD
 
        DO I=NF,NL
-C traiter les 2 noeuds autant de fois qu'ils apparaissent
+C Treat the 2 nodes as many times as they appear
         I1 = 2*I-1
         I2 = 2*I
 C

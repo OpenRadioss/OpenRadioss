@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 IXP   ,IXR   ,IXTG  ,KXX   ,
      .                 KXSP  ,KXIG3D,IGEO  ,NUMEL)
 C
-C     TRI DES DTEL (POUR CHAQUE TYPE D'ELEMENT) ET IMPRESSIONS
+C     SORTING OF DTEL (FOR EACH TYPE OF ELEMENT) AND PRINTING
 C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +72,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
       DATA VINGTR4 /20./
 C=======================================================================
-C     INITIALISATION DES NOS INTERNES DES ELEMENTS AVANT TRI
+C     INITIALIZATION OF INTERNAL NUMBERS OF ELEMENTS BEFORE SORTING
 C
       CALL MY_ALLOC(PERM,NUMEL)
       ! --------------------
@@ -130,7 +131,7 @@ C
       ENDDO
       ! --------------------
 C
-C     TRIS DES ELEMENTS EN FONCTION DU PAS DE TEMPS
+C     SORTING OF ELEMENTS ACCORDING TO THE TIME STEP
 C
       IF (NUMELS>1) THEN
         NUM2 = 1
@@ -177,7 +178,7 @@ C
       DTELEM(NUMEL+1:2*NUMEL) = PERM(1:NUMEL)
 
 C
-C     IMPRESSIONS PAR GROUPES DES ELEMENTS TRIES
+C     PRINTING IN GROUPS OF SORTED ELEMENTS
 C
       IF (NUMELS>0) THEN
         TEMPO = NUMELS*TWOEM2
@@ -372,7 +373,7 @@ C-----------------------------------------------
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
-C     TRI DES DT NODAUX ET IMPRESSIONS
+C     SORTING OF NODAL DT AND PRINTING
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -439,7 +440,6 @@ C
 C
       DTNODA = MIN(DTNODA,DT(1))
 C
-      IF ( N2D/=1) THEN        
         WRITE(IOUT,1000)
         WRITE(IOUT,1001)
         N=PERM(1)
@@ -509,7 +509,6 @@ C
         WRITE(IOUT,2004)
         CALL PLOT_CURVE(DTNODA_STAT, NB_NOD_STAT, NB_OF_COLUM, INPUT_SIZE_X=60, INPUT_SIZE_Y=24, INPUT_CURVE_TYPE = 1,
      .                  INPUT_TXT_X="NODAL TIME STEP",INPUT_TXT_Y="% OF NODES")
-      ENDIF
 C
 
       DEALLOCATE( PERM )

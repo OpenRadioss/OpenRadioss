@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C=======================================================================
 C Structures needed for cracking of layered shell process
 C---------------------------------------------
-        TYPE XFEM_SHELL_      !   (NLEVMAX)  phantom element data structure
+        TYPE XFEM_SHELL_      !   (Nlevmax) Phantom element data structure
           INTEGER  CRKNUMSHELL                                 ! Number of shell elements for each level
           INTEGER  CRKNUMSH3                                   ! Number of SH3N  elements for each level
           INTEGER  CRKNUMSH4                                   ! Number of SH4N  elements for each level

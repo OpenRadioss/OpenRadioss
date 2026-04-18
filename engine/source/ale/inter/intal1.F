@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,8 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE INTAL1(IPARI,X      ,V       ,
+      SUBROUTINE INTAL1(output, IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,
      3                  MS   ,ITAB   ,FSAV    ,INTBUF_TAB      ,
      4                  FCONT,FNCONT ,H3D_DATA )
@@ -41,6 +42,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER,INTENT(INOUT)              :: IPARI(NPARI,NINTER), ISKEW(*), LCOD(*), ITAB(NUMNOD)
       my_real,INTENT(INOUT)              :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), WA(*), MS(*),FSAV(NTHVKI,*)
       TYPE(INTBUF_STRUCT_),INTENT(INOUT) :: INTBUF_TAB(*)
@@ -71,7 +74,7 @@ C-----------------------------------------------
        IF(NTY == 1)THEN
          NMN   =IPARI(6,N)
          NINT=N
-         CALL INTAL2(
+         CALL INTAL2(output,
      1        IPARI(1,N)   ,INTBUF_TAB(N)       ,X           ,V    ,
      2        A            ,ISKEW        ,SKEW  ,LCOD        ,WA   ,
      3        WA(3*NMN+1)  ,MS           ,ITAB  ,FSAV(1,NINT),FCONT,

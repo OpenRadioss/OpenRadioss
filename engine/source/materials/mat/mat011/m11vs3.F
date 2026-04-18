@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE M11VS3(PM    , IPARG, IXS  , ALE_CONNECT  , ELBUF_TAB  , V  ,
      2                  X     , DVP  , VN   , W      , VEL        , VD2,
@@ -42,6 +43,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE ALEFVM_MOD           
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +83,7 @@ C-----------------------------------------------
       my_real
      .   X13, Y13, Z13, X24, Y24, Z24, XN, YN, ZN, FAC, VN1, VN2,
      .   VN3, VN4, VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4,
-     .   VZ1, VZ2, VZ3, VZ4, MassV, Mass    
+     .   VZ1, VZ2, VZ3, VZ4, MassV    
       TYPE(G_BUFEL_)  ,POINTER :: GBUF  
       LOGICAL                  :: bFOUND   
 C-----------------------------------------------

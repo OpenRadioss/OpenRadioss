@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,12 +39,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tensors               ../engine/source/output/anim/generate/tensor6.F
 !||    torseur               ../engine/source/output/anim/generate/torseur.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_R4GET_PARTN(SIZE,NBF_L,NBPART,IADG,WAL,BUF)
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa table according to the parts (IADG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,15 +63,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NBF_L, NBPART, SIZE, IFLAG, IADG(NSPMD,*),BUF
+      INTEGER NBF_L, NBPART, SIZE, IADG(NSPMD,*),BUF
       REAL WAL(*)
       REAL, DIMENSION(:), ALLOCATABLE :: WAR
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
-      REAL AUX
+      INTEGER MSGOFF,MSGTYP,IDEB,K,N,NB_TMP,LEN,IADP(NSPMD)
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DATA MSGOFF/7002/
 C-----------------------------------------------

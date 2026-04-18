@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,11 +40,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: SEND_SIZE,TOTAL_SEND_SIZE
-        INTEGER, INTENT(in) :: REQUEST,COMM
-        INTEGER, INTENT(in) :: RCV_SIZE,TOTAL_RCV_SIZE
-        INTEGER, DIMENSION(TOTAL_SEND_SIZE), INTENT(in) :: SENDBUF
-        INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(out) :: RECVBUF
+        INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_SEND_SIZE
+        INTEGER, INTENT(inout) :: REQUEST
+        INTEGER, INTENT(inout) :: COMM
+        INTEGER, INTENT(inout) :: RCV_SIZE,TOTAL_RCV_SIZE
+        INTEGER, DIMENSION(TOTAL_SEND_SIZE), INTENT(inout) :: SENDBUF
+        INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------

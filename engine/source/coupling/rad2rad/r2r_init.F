@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_link_c          ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    init_link_nl_c       ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    init_link_spmd       ../engine/source/coupling/rad2rad/r2r_init.F
-!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
 !||    openfifo_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    opensem_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    openshm_c            ../engine/source/coupling/rad2rad/rad2rad_c.c
@@ -56,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
 !||    spmd_r2r_sync        ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
 !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
@@ -74,6 +74,7 @@ C-----------------------------------------------
         USE GROUPDEF_MOD
         USE MESSAGE_MOD
         USE NLOCAL_REG_MOD
+        use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,11 +114,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, J, IEX, IDP, IDG, NNG, OFC,NFTC,INFO,TYP,ITSK
-        INTEGER OMP_GET_THREAD_NUM,NUM_SOCK,SIZE_TAG_RBY,LENR,SIZE
-        INTEGER NN,N,SUM,PPID,IDEL_LOC,NSN_GLOB,COMPT
+        INTEGER I, J, IEX, IDP, IDG, NNG, OFC,NFTC,INFO,ITSK
+        INTEGER NUM_SOCK,SIZE_TAG_RBY,LENR,SIZE
+        INTEGER NN,N,PPID,IDEL_LOC,NSN_GLOB,COMPT
         INTEGER, DIMENSION(:), ALLOCATABLE :: NDOF_NL
-        CHARACTER*35 ADDR
+        CHARACTER(len=512) :: ADDR
 C
         INTEGER, DIMENSION(:), POINTER :: GRNOD
         INTEGER, POINTER, DIMENSION(:) :: IDXI,POSI
@@ -541,6 +542,7 @@ C-----------------------------------------------------------------
 !||    spmd_r2r_iget4     ../engine/source/mpi/r2r/spmd_r2r.F
 !||    spmd_r2r_rget3     ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    rad2r_mod          ../engine/share/modules/rad2r.F
 !||====================================================================
       SUBROUTINE INIT_LINK_SPMD(
@@ -551,6 +553,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE RAD2R_MOD
+        use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -909,7 +912,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LRBUF,I,N,J,IDRBY(NNG),IBUF(NGLOB),IBUF2(NGLOB),
+        INTEGER I,N,J,IDRBY(NNG),IBUF(NGLOB),IBUF2(NGLOB),
      .          ID_RB
         my_real
      .          BUFR1(NGLOB),BUFR2(NGLOB),BUFR3(3*NGLOB),BUFR4(9*NGLOB),
@@ -1010,7 +1013,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,N,ID,NOD,W,TAG(NRBODY)
+        INTEGER I,J,N,ID,NOD,TAG(NRBODY)
         my_real RBYL(NRBY),XIIN
 C
 C******************************************************************************C

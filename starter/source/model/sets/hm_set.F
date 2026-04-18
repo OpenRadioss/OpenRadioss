@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE CREATE_PLANE_CLAUSE_MOD
       USE CREATE_NODENS_CLAUSE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGS,I,J,ELTYP_SEG,ELTYP_ALL,SUB_ID
+      INTEGER IGS, I, J, SUB_ID
       INTEGER SET_ID,ISET_TYPE,CLAUSES_MAX,ITMP,ICODE,SETL_SIZE
       INTEGER OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C
       INTEGER , DIMENSION(:), ALLOCATABLE :: SET_LIST,SETL
@@ -199,9 +200,9 @@ C Initialization / SET Dependency build
 C-----------------------------------------------
 
       IDEBUG =  0
-      IF (IDEBUG == 1) THEN
-        print*,'------------- SET NG -------------'
-      ENDIF
+      !IF (IDEBUG == 1) THEN
+      !  print*,'------------- SET NG -------------'
+      !ENDIF
 
 
 C-------------------------------------------
@@ -244,23 +245,25 @@ C-----------------------------------------------
 
         CALL HM_GET_INTV('clausesmax',CLAUSES_MAX,IS_AVAILABLE,LSUBMODEL)
 
-        IF (IDEBUG == 1)THEN
-             print*,'--------------------------------------------'
-             print*,'IGS       =',IGS
-             print*,'MY_SET_ID =',SET_ID
-             print*,'SET_TITLE =',TRIM(SET_TITLE)
-             print*,'      KEY =',KEY(1:LEN_TRIM(KEY))
-             print*,'SET_TYPE  =',SET_TYPE(1:LEN_TRIM(SET_TYPE))
-             print*,'CLAUSE_MAX=',CLAUSES_MAX
-             print*,'SET_ACTIVE=',SET(IGS)%SET_ACTIV
-             print*,' '
-        ENDIF
+        !IF (IDEBUG == 1)THEN
+        !     print*,'--------------------------------------------'
+        !     print*,'IGS       =',IGS
+        !     print*,'MY_SET_ID =',SET_ID
+        !     print*,'SET_TITLE =',TRIM(SET_TITLE)
+        !     print*,'      KEY =',KEY(1:LEN_TRIM(KEY))
+        !     print*,'SET_TYPE  =',SET_TYPE(1:LEN_TRIM(SET_TYPE))
+        !     print*,'CLAUSE_MAX=',CLAUSES_MAX
+        !     print*,'SET_ACTIVE=',SET(IGS)%SET_ACTIV
+        !     print*,' '
+        !ENDIF
 
         DO J=1,CLAUSES_MAX  ! max KEY's of the current /SET
 
            CALL CLAUSE_INIT(CLAUSE)
 
            CALL HM_GET_STRING_INDEX('KEY_type', KEYSET, J, ncharline, IS_AVAILABLE)
+
+           IF(KEYSET(1:LEN_TRIM(KEYSET)) == '') CYCLE
 
            CALL HM_GET_INT_ARRAY_INDEX('opt_D',OPT_D,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_O',OPT_O,J,IS_AVAILABLE,LSUBMODEL)
@@ -290,11 +293,13 @@ C-----------------------------------------------
      *                       CLAUSE_OPERATOR )
 
            !  -----------------------------------------------------
-           IF (IDEBUG == 1)THEN
-                WRITE(6,'(A,I6,A)' ) '      ',J,'    --------'
-                WRITE(6,'(A,A)')  '                ',TRIM(KEYSET)
-                WRITE(6,'(A,I2)') '                OP :',CLAUSE_OPERATOR
-           ENDIF
+           !IF (IDEBUG == 1)THEN
+           !     WRITE(6,'(A,I6,A)' ) '      ',J,'    --------'
+           !     WRITE(6,'(A,A)')  '                ',TRIM(KEYSET)
+           !     WRITE(6,'(A,I2)') '                OP :',CLAUSE_OPERATOR
+           !     WRITE(6,'(A,I2)') '                opt_A:',OPT_A
+           !     WRITE(6,'(A,I2)') '                opt_E:',OPT_E
+           !ENDIF
            !  -----------------------------------------------------
            ! To issue error & Warnings, initialize Clause ID & Title with SET_ID + TITLE
            CLAUSE%SET_ID = SET(IGS)%SET_ID
@@ -325,7 +330,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
 
                   ! Line from 1D_ELEMENT
@@ -338,11 +343,12 @@ C-----------------------------------------------
      .                                          .FALSE.)
 
                   ! Node from ELEMENT
+                  ! 1D - only, otherwise from SURFACE
                   CALL CREATE_NODE_FROM_ELEMENT(
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
               CASE ( 'NODE' )
@@ -375,7 +381,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -386,7 +392,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
 
@@ -410,7 +416,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -421,7 +427,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
 
@@ -446,7 +452,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -457,7 +463,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
 
@@ -481,7 +487,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -492,7 +498,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
 
@@ -515,7 +521,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
               CASE ( 'TRUSS' )
@@ -540,7 +546,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
               CASE ( 'BEAM' )
@@ -565,7 +571,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
               CASE ( 'SPRING' )
                   
@@ -589,7 +595,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
               CASE ('SET')
@@ -611,7 +617,8 @@ C-----------------------------------------------
      *                                    SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      *                                    KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      *                                    IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
+     *                                    NUMELQ    )
 
                   DEALLOCATE(SETL)
 
@@ -637,7 +644,8 @@ C-----------------------------------------------
      *                                    SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      *                                    KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      *                                    IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
+     *                                    NUMELQ    )
 
               CASE ( 'SEG' )
                   
@@ -675,7 +683,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
 
                   ! Line from 1D_ELEMENT
@@ -692,20 +700,20 @@ C-----------------------------------------------
                   CALL CREATE_NODE_ALL_CLAUSE( CLAUSE )
 
 
-                 !IF (IDEBUG == 1)THEN
-           !      print*,'Check_ALL_model'
-           !      print*,'---------------'
-           !      print*,'NUMNOD = ' ,NUMNOD,    'CLAUSE%NB_NODE = '  ,CLAUSE%NB_NODE
-           !      print*,'NPART  = ' ,NPART,     'CLAUSE%NB_PART = '  ,CLAUSE%NB_PART
-           !      print*,'SOLID  = ' ,NUMELS,    'CLAUSE%NB_SOLID = ' ,CLAUSE%NB_SOLID
-           !      print*,'QUAD  = '  ,NUMELQ,    'CLAUSE%NB_QUAD = '  ,CLAUSE%NB_QUAD
-           !      print*,'SHELL  = ' ,NUMELC,    'CLAUSE%NB_SH4N = '  ,CLAUSE%NB_SH4N
-           !      print*,'SH3N  = '  ,NUMELTG,   'CLAUSE%NB_SH3N = '  ,CLAUSE%NB_SH3N
-           !      print*,'TRIA  = '  ,NUMELTRIA, 'CLAUSE%NB_TRIA = '  ,CLAUSE%NB_TRIA
-           !      print*,'TRUSS  = ' ,NUMELT,    'CLAUSE%NB_TRUSS = ' ,CLAUSE%NB_TRUSS
-           !      print*,'BEAM  = '  ,NUMELP,    'CLAUSE%NB_BEAM = '  ,CLAUSE%NB_BEAM
-           !      print*,'SPRING  = ',NUMELR,    'CLAUSE%NB_SPRING = ',CLAUSE%NB_SPRING
-                 !ENDIF
+                ! IF (IDEBUG == 1)THEN
+                ! print*,'Check_ALL_model'
+                ! print*,'---------------'
+                ! print*,'NUMNOD = ' ,NUMNOD,    'CLAUSE%NB_NODE = '  ,CLAUSE%NB_NODE
+                ! print*,'NPART  = ' ,NPART,     'CLAUSE%NB_PART = '  ,CLAUSE%NB_PART
+                ! print*,'SOLID  = ' ,NUMELS,    'CLAUSE%NB_SOLID = ' ,CLAUSE%NB_SOLID
+                ! print*,'QUAD  = '  ,NUMELQ,    'CLAUSE%NB_QUAD = '  ,CLAUSE%NB_QUAD
+                ! print*,'SHELL  = ' ,NUMELC,    'CLAUSE%NB_SH4N = '  ,CLAUSE%NB_SH4N
+                ! print*,'SH3N  = '  ,NUMELTG,   'CLAUSE%NB_SH3N = '  ,CLAUSE%NB_SH3N
+                ! print*,'TRIA  = '  ,NUMELTRIA, 'CLAUSE%NB_TRIA = '  ,CLAUSE%NB_TRIA
+                ! print*,'TRUSS  = ' ,NUMELT,    'CLAUSE%NB_TRUSS = ' ,CLAUSE%NB_TRUSS
+                ! print*,'BEAM  = '  ,NUMELP,    'CLAUSE%NB_BEAM = '  ,CLAUSE%NB_BEAM
+                ! print*,'SPRING  = ',NUMELR,    'CLAUSE%NB_SPRING = ',CLAUSE%NB_SPRING
+                ! ENDIF
 
               CASE ( 'BOX', 'BOX2' )
 
@@ -741,7 +749,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
 
                   ! Line from 1D_ELEMENT
@@ -758,7 +766,7 @@ C-----------------------------------------------
      .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
      .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
      .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO    ,
-     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
 
               CASE ( 'SUBM' )
@@ -782,7 +790,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   ,OPT_E     )
 
 
                   ! Line from 1D_ELEMENT
@@ -794,7 +802,13 @@ C-----------------------------------------------
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
      .                                          .FALSE.)
 
-
+                  ! Node from ELEMENT
+                  ! 1D - only, otherwise from SURFACE
+                  CALL CREATE_NODE_FROM_ELEMENT(
+     .                            IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
+     .                            IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
+     .                            IXX   ,KXX    ,KXSP   ,CLAUSE ,GEO,
+     .                            DUMMY_ARRAY   ,DSZ    ,.FALSE.)
 
               CASE ( 'RBODY' )
 
@@ -810,7 +824,7 @@ C-----------------------------------------------
 
               CASE ( 'ELLIPS' )
                   
-                   ! Hyper-ellipsoid surface definition
+                   ! Hyper-Ellipsoid Surface Definition
                    !-----------------------
                    SET(IGS)%NB_ELLIPSE = 1
                    CALL CREATE_ELLIPSE_CLAUSE(CLAUSE%SET_ID,CLAUSE%TITLE ,SUB_ID   ,SKEW   ,RTRANS,
@@ -820,7 +834,7 @@ C-----------------------------------------------
   
               CASE ( 'PLANE' )
                   
-                   ! PLANE surface definition
+                   ! Plane Surface Definition
                    !-----------------------
                    SET(IGS)%NB_PLANE = 1
                    CALL CREATE_PLANE_CLAUSE(CLAUSE%SET_ID ,CLAUSE%TITLE ,SUB_ID  ,CLAUSE ,LSUBMODEL,
@@ -828,7 +842,7 @@ C-----------------------------------------------
 
               CASE ( 'NODENS' )
                   
-                   ! NODENS -> unsortable node list
+                   ! NODENS -> UNSTABLE NODE LIST
                    !-----------------------
                    CALL CREATE_NODENS_CLAUSE(CLAUSE ,ITABM1 ,J ,IS_AVAILABLE ,LSUBMODEL ,NUMNOD)
 
@@ -851,7 +865,7 @@ C -----------------------------------------------------
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     .                              X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     .                              X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ)
 C -----------------------------------------------------
 !
         ENDDO ! DO J=1,CLAUSES_MAX
@@ -867,7 +881,8 @@ C -----------------------------------------------------
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS ,KNOD2ELC    ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC  ,IPARTG      ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O   ,KNOD2ELQ    ,NOD2ELQ,
-     .                              X         ,KEYSET   ,OPT_E   ,DELBUF      )
+     .                              X         ,KEYSET   ,OPT_E   ,DELBUF      ,IPARTQ ,
+     *                              NUMELQ    )
 
            ENDIF
 
@@ -896,7 +911,7 @@ C -----------------------------------------------------
       !ENDIF
       !  -----------------------------------------------------
 
-      ! Fill Radioss group, lines surfaces
+      ! Fill Radioss Group, surface lines
       !  -----------------------------------------------------
       CALL FILL_IGR(SET,
      .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART     ,IGRBRIC, IGRQUAD ,   

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,13 +77,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, ILENG,NINDX, PID
-      INTEGER NC1(MVSIZ), NC2(MVSIZ),INDX(MVSIZ)
+      INTEGER  INDX(MVSIZ)
 C     REAL
       my_real
      .   DLOLD(MVSIZ),DMN(MVSIZ),DMX(MVSIZ),XL0(MVSIZ),
-     .   DV(MVSIZ),ALPHA(MVSIZ)
+     .   ALPHA(MVSIZ)
       my_real
-     .    DT11, BID, SUM
+     .    DT11, SUM
       DOUBLE PRECISION EXDP(MVSIZ),EYDP(MVSIZ),EZDP(MVSIZ),ALDP(MVSIZ),
      .                 AL0DP(MVSIZ)
 C-----------------------------------------------
@@ -112,13 +112,13 @@ C
       IF (TT == ZERO) THEN
         DO I=1,NEL
           AL0(I)=ALDP(I)                   ! cast double vers My_real
-          AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference entre double et My_real
+          AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference between double and my_real
         ENDDO
       ENDIF
 C
       DO I=1,NEL
         AL0DP(I) = AL0(I)                  ! cast My_real en double
-        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
+        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP must be recalculated as well in order to guarantee the absolute coherence between al0_dp and al_dp   
       ENDDO
 C
       DO I=1,NEL

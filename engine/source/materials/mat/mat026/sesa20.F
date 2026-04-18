@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -110,7 +110,7 @@ C---------------------------------
           Z(I)=EXP(ZL*LOG(TEN)) !TEN**ZL
         ENDIF  
 
-        !(CONDUNCTIVITE MAX POUR CALCUL DE DT)
+        !(maximum conductivity for dt calculation)
         ZZ = MAX(EM10,Z(I))
         DELTAT= THREEP44 * ZEP26 * LOG(ZZ) / ZZ
         IF(DELTAT > ZERO)THEN
@@ -143,7 +143,7 @@ C---------------------------------
       ENDDO
       
       !------------------------------------
-      !     VITESSE DU SON
+      ! velocity of sound
       !------------------------------------
       DO I=1,NEL
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))

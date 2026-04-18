@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,7 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAY,NLAY,IXFEM,IAD
+      INTEGER ILAY,IAD
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(G_BUFEL_)     , POINTER :: GBUF
 C=======================================================================
@@ -439,7 +439,7 @@ c
         IAD = IAD + 1
 c        
 c---
-C  nb of local variable
+C  Number of local variables
         BUFLY%NVAR_LOC = IAD
 c---
         IAD = 0
@@ -468,7 +468,7 @@ c---
         BUFLY%LY_OFF   = 0
         IAD = IAD + 1
 c---
-C  nb of layer variable
+C  Number of layer variables
         BUFLY%NVAR_LAY = IAD
 c---
       ENDDO 

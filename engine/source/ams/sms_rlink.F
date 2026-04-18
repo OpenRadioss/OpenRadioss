@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C
             K = K + NLINK(4*I-3)
           ENDDO
 C
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             FRL(1,N)=ZERO
@@ -101,10 +101,10 @@ C boucle parallele sur les threads SMP
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to optimize if needed
             DO N=1,NRLINK
               IF(TAG_LNK_SMS(N)==0)CYCLE
-C routine de calcul Parith/ON de A rigid link
+C calculation routine Parith/ON of A rigid link
               IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),4*6)
             END DO
@@ -112,8 +112,7 @@ C routine de calcul Parith/ON de A rigid link
 !$OMP END SINGLE
           END IF
 
- 100      CONTINUE
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             IF(TAG_LNK_SMS(N) < 0)CYCLE
@@ -181,7 +180,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, K1, N, ISK, I, IC, IPOL, KIND(NLINK)
+      INTEGER K, N, ISK, I, IC, IPOL, KIND(NLINK)
 C-----------------------------------------------
 C
 C Pre calcul index
@@ -191,7 +190,7 @@ C
             KIND(I) = K
             K = K + NNLINK(1,I)
           ENDDO
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             FRL(1,N)=ZERO
@@ -229,11 +228,11 @@ C boucle parallele sur les threads SMP
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to optimize if needed
 
             DO N=1,NLINK
               IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE
-C routine de calcul Parith/ON de A rigid link
+C calculation routine Parith/ON of A rigid link
               IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),4*6)
             END DO
@@ -241,8 +240,7 @@ C routine de calcul Parith/ON de A rigid link
 !$OMP END SINGLE
           END IF
 
- 100      CONTINUE
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE
@@ -295,7 +293,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, IC, IFLAG, IDOWN, NCNOD, PMAIN, TAG_LNK
+      INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL
       my_real
@@ -304,10 +302,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IJ, N, K
+      INTEGER I, N, K
 C     REAL
       my_real
-     .   MASS, AX, AY, AZ, XNSN,
+     .   MASS, AX, AY, AZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)
 C-----------------------------------------------
       SELECT CASE(IDOWN)
@@ -338,7 +336,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
        CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 4)
@@ -357,7 +355,7 @@ C
        DO I=1,NSN
          N = NOD(I)
 C
-C transmet force dans la dion au nd
+C transmits force in the dion to the nd
          IF(IC==1.OR.IC==3.OR.IC==5.OR.IC==7)THEN
            A(3,N) =AZ
          ENDIF
@@ -399,7 +397,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1), 4)
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
@@ -459,7 +457,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
-      INTEGER NOD(*),WEIGHT(*), ITAB(*), ISK
+      INTEGER NOD(*),WEIGHT(*), ITAB(*)
 C     REAL
       my_real
      .   MS(*), A(3,*),SKEW(*), FRL(4)
@@ -471,7 +469,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
-     .   AAZ, XNSN,
+     .   AAZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)
 C-----------------------------------------------
       SELECT CASE(IDOWN)
@@ -507,7 +505,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
        CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 4)
@@ -528,7 +526,7 @@ C
        DO I=1,NSN
          N = NOD(I)
 C
-C transmet force dans la dion au nd
+C transmits force in the dion to the nd
          DAX  =A(1,N)-AX
          DAY  =A(2,N)-AY
          DAZ  =A(3,N)-AZ
@@ -576,7 +574,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1), 4)
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
@@ -657,8 +655,8 @@ C-----------------------------------------------
       INTEGER IC1, ICC, IC2, IC3, I, N, K
 C     REAL
       my_real
-     .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
-     .   AAZ, RX, RY, RZ, SX, SY, SZ,
+     .   MASS, AX, AY, AZ,
+     .    RX, RY, RZ, SX, SY, SZ,
      .   TX, TY, TZ, OX, OY, OZ, AA, R2, ATR2,RX0, RY0, RZ0, R,
      .   MR2, ATMR2,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN)
@@ -692,7 +690,7 @@ C Init Parith/ON
 c       R2 = ZERO
 c       ATR2 = ZERO
 C-----------------------------------------------------------------------
-C     repere polaire axe S = X(frame) , rayon R , angle T
+C     Polar reference axis s' = x (frame), radius r, angle t
 C-----------------------------------------------------------------------
        DO I=1,NSN
         N = NOD(I)
@@ -712,7 +710,7 @@ C-----------------------------------------------------------------------
         R = RX * RX0 + RY * RY0 + RZ * RZ0
         R = MAX(R,EM20)
 C-----------------------------------------------------------------------
-C       changement de repere global => polaire
+C       Change of overall mark => Polar
 C-----------------------------------------------------------------------
         AX = A(1,N)
         AY = A(2,N)
@@ -731,13 +729,13 @@ c          ATR2 = ATR2 + R*R*A(3,N)
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1),5)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1),5)
 
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass quantity of motion
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO
@@ -753,7 +751,7 @@ C-----------------------------------------------------------------------
           ENDIF
         ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1),5)
         CALL SUM_6_FLOAT(1  ,NSN  ,F4, FRL6(4,1),5)
@@ -778,13 +776,13 @@ C
          DO I=1,NSN
            N = NOD(I)
 C
-C transmet force dans la dion au nd 1
+C transmits force in the dion to nd 1
            A(1,N) =A(1,N)-IC1*(A(1,N)-AX)
            A(2,N) =A(2,N)-IC2*(A(2,N)-AY)
            A(3,N) =A(3,N)-IC3*(A(3,N)-AZ)
          END DO
 C-----------------------------------------------------------------------
-C     repere polaire axe S , rayon R , angle T
+C     Polar reference axis s, radius r, angle t
 C-----------------------------------------------------------------------
          DO I=1,NSN
           N = NOD(I)
@@ -804,7 +802,7 @@ C-----------------------------------------------------------------------
           R = RX * RX0 + RY * RY0 + RZ * RZ0
           R = MAX(R,EM20)
 C-----------------------------------------------------------------------
-C       changement de repere polaire => global
+C       Change of polar frame => global
 C-----------------------------------------------------------------------
           AX = RX * A(1,N) + SX * A(2,N) + TX * A(3,N) * R
           AY = RY * A(1,N) + SY * A(2,N) + TY * A(3,N) * R
@@ -830,7 +828,7 @@ C Redescente
        OY = XFRAME(11)
        OZ = XFRAME(12)
 C-----------------------------------------------------------------------
-C     repere polaire axe S = X(frame) , rayon R , angle T
+C     Polar reference axis s' = x (frame), radius r, angle t
 C-----------------------------------------------------------------------
       IF(IFLAG == 1)THEN
 
@@ -846,7 +844,7 @@ C Init Parith/ON
 c       R2 = ZERO
 c       ATR2 = ZERO
 C-----------------------------------------------------------------------
-C     repere polaire axe S = X(frame) , rayon R , angle T
+C     Polar reference axis s' = x (frame), radius r, angle t
 C-----------------------------------------------------------------------
        DO I=1,NSN
         N = NOD(I)
@@ -866,7 +864,7 @@ C-----------------------------------------------------------------------
         R = RX * RX0 + RY * RY0 + RZ * RZ0
         R = MAX(R,EM20)
 C-----------------------------------------------------------------------
-C       changement de repere global => polaire
+C       Change of overall mark => Polar
 C-----------------------------------------------------------------------
         AX = A(1,N)
         AY = A(2,N)
@@ -885,13 +883,13 @@ c          ATMR2 = ATMR2 + R*R*MS(N)*A(3,N)
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1),5)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1),5)
 
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass quantity of motion
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO
@@ -909,7 +907,7 @@ C-----------------------------------------------------------------------
           ENDIF
         ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1),5)
         CALL SUM_6_FLOAT(1  ,NSN  ,F4, FRL6(4,1),5)
@@ -947,7 +945,7 @@ C-----------------------------------------------------------------------
          A(3,N) =A(3,N)-IC3*(A(3,N)-AZ)
         ENDDO
 C-----------------------------------------------------------------------
-C     repere polaire axe S , rayon R , angle T
+C     Polar reference axis s, radius r, angle t
 C-----------------------------------------------------------------------
        DO I=1,NSN
         N = NOD(I)
@@ -967,7 +965,7 @@ C-----------------------------------------------------------------------
         R = RX * RX0 + RY * RY0 + RZ * RZ0
         R = MAX(R,EM20)
 C-----------------------------------------------------------------------
-C       changement de repere polaire => global
+C       Change of polar frame => global
 C-----------------------------------------------------------------------
         AX = RX * A(1,N) + SX * A(2,N) + TX * A(3,N) * R
         AY = RY * A(1,N) + SY * A(2,N) + TY * A(3,N) * R

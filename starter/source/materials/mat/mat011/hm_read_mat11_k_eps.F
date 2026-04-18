@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -85,12 +85,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFR, IFP , IFE , IFT, IFQ, ITYP, INOD, ICOMP
-      INTEGER ID,JTUR,IFK,IFS
+      INTEGER JTUR, IFK, IFS
       my_real
      .   GAM, VCRT2, GAMRP, GAM1, P0, C1, SSP2, EF,
      .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP, 
      .   T0, DC, ALP0, RHOC,
-     .   TSCAL, TREF,GAMA,RHOR,
+     .   TSCAL,RHOR,
      .   FAC_LENGTH_, FAC_TIME_,
      .   RK0,RE0,CTM,SK,SE,RPR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -320,7 +320,7 @@ c         print *,'dx y z/dt='
 c         print *,DXDT(1),DYDT(1),DZDT(1)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [J]          Inversion of the jacobian
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
@@ -355,8 +355,8 @@ C      ENDIF
 C
       DO I=LFT,LLT
 C-----------------------------------------------------------------------
-C          -1            Inversion du jacobien suite
-C       [J]              et repere local r,s,t
+C          -1 inversion of the Jacobian suite
+C       [J]              and local frame r,s,t
 C-----------------------------------------------------------------------
         D = 1./DET(I)
         DRDX(I)=D*DRDX(I)

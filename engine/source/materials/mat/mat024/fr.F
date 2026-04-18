@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -87,7 +87,7 @@ c
             RF = (-BB+DF)/AA                                                   
             FA(I)=(SQRT(R2)-VK(I)*RF)/FC                                          
 c
-!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CTITERION FOR OUTPUT  
+!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CRITERION FOR OUTPUT  
 !!              SEQ(I) = FA(I)                                               
 !!              ICRIT_OUTP = 1                                                      
 !!            ENDIF ! IF (ICRIT_OUTP == 0)                                          

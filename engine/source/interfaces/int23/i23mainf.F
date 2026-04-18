@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,9 +40,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I23MAINF(TIMERS,
+      SUBROUTINE I23MAINF(OUTPUT,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -56,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE TIMER_MOD
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
@@ -83,12 +85,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(inout) :: TIMERS
-      INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
+      INTEGER NIN, NSTRF(*), NRTMDIM, NEWFRONT, 
      .        NISKYFI
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), ISKYI_SMS(*), NODNX_SMS(*),
-     .        TAGMSR_I21_SMS, NODGLOB(*), NPC(*), MWAG(*)
+     . NODGLOB(*), NPC(*), MWAG(*)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        LINDMAX,DIMFB
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*)
@@ -108,10 +111,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I_STOK, JLT_NEW, JLT , NFT, J,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, 
+     . IBC, NOINT, ISECIN, IBAG,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        INTTH,IFORM, NCAND, IKTHE, IFSTF, H, IERROR
+     . INTTH, IFSTF, H, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), KINI(MVSIZ),
@@ -121,7 +124,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT, 
      .   VISC,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH,
+     . KMIN, KMAX, GAPMAX,
      .   SCAL_T, DERI
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -131,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     REAL
       my_real
-     .   LB(MVSIZ), LC(MVSIZ),
+     .
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -141,14 +144,12 @@ C     REAL
      .   NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
-     .   MXI(MVSIZ), MYI(MVSIZ), MZI(MVSIZ), STRI(MVSIZ),
-     .   PENRAD(MVSIZ), FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
+     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
       my_real
      .    VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ), 
-     .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .    FX, FY, FZ, STF
-      INTEGER ICURV, IP0, IP1, IP2, IS, SFSAVPARIT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGP
+     .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ)
+      INTEGER ICURV, SFSAVPARIT
+ 
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       INTEGER :: NSN                 
       INTEGER :: NMN                
@@ -194,10 +195,10 @@ C
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS 
+C     STORAGE OF OLD CANDIDATES
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C Barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C
@@ -229,7 +230,7 @@ C
       CALL MY_BARRIER
 C
 C----------------------------------------------------
-C decoupage statique
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -297,11 +298,11 @@ C
 c
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
             CALL I23COR3(
      1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STFM,
@@ -341,7 +342,7 @@ C
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT
 C 
-              CALL I23FOR3(
+              CALL I23FOR3(output,
      1  JLT       ,NIN  ,NOINT        ,IBC  ,ICODT        ,
      2  FSAV       ,GAP  ,STIGLO       ,FRIC  ,VISC        ,
      3  INACTI       ,MFROT  ,IFQ        ,IBAG  ,

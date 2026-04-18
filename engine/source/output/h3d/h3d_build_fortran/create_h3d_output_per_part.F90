@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,7 @@
 !||    create_h3d_sph_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
 !||====================================================================
       module create_h3d_output_per_part_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief creation of h3d output per part or set of parts
@@ -106,7 +107,7 @@
           !-----------------------------------------------
           !   L o c a l   V a r i a b l e s
           !-----------------------------------------------
-          integer :: i,j,k,l,m,index
+          integer :: i, j, k, l, index
           !=======================================================================
           !------------------------------------------
 
@@ -116,8 +117,8 @@
               do i=1,npart
                 if(h3d_data%input_list(id_input)%part_list(j) == ipart(4,i)) then
                   h3d_data%output_list(h3d_data%n_outp_h3d)%part(i) = 1
-                endif
-              enddo
+                end if
+              end do
             else
               ! negative value refers to a part group
               l = -h3d_data%input_list(id_input)%part_list(j)  ! get positive index of part group
@@ -126,22 +127,16 @@
                 if(igrpart(i)%id == l) then
                   index = i
                   exit
-                endif
-              enddo
+                end if
+              end do
               if(index > 0) then
                 do i=1,igrpart(index)%nentity
                   k = igrpart(index)%entity(i)  ! get the part id from the group
-                  ! find the part with this id
-                  do m=1,npart
-                    if (ipart(4,m) == k) then
-                      h3d_data%output_list(h3d_data%n_outp_h3d)%part(m) = 1
-                      exit
-                    endif
-                  enddo
-                enddo
-              endif
-            endif
-          enddo
+                  h3d_data%output_list(h3d_data%n_outp_h3d)%part(k) = 1
+                end do
+              end if
+            end if
+          end do
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine create_h3d_output_per_part

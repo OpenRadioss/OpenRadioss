@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
 !||--- called by ------------------------------------------------------
-!||    deplafakeige   ../engine/source/assembly/deplafakeige.F
+!||    deplafakeige   ../engine/source/assembly/displfakeige.F
 !||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
 !||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
 !||--- calls      -----------------------------------------------------
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUMLOC, I, J, K, NA, NB, NC
+      INTEGER NUMLOC, I, J, K
       my_real
      .  SUMTOT, FN(NCTRL), FM(NCTRL), FL(NCTRL),
      .  XI(3)
@@ -115,7 +115,7 @@ c       XI(1) = ((KX(IDX2)-KX(IDX))*GAUSSX + (KX(IDX2)+(KX(IDX))))/TWO
 c       XI(2) = ((KY(IDY2)-KY(IDY))*GAUSSY + (KY(IDY2)+(KY(IDY))))/TWO
 c       XI(3) = ((KZ(IDZ2)-KZ(IDZ))*GAUSSZ + (KZ(IDZ2)+(KZ(IDZ))))/TWO
       ELSE
-C SI ON A EN ENTREE DES POINTS DEJA DANS LE REPERE PARAMETRIQUE ON N'A PAS BESOIN DE LES BASCULER DE L'ESPACE PARENT A L'ESPACE PARAMETRIQUE
+C IF WE HAVE POINTS ALREADY IN THE PARAMETRIC FRAME AS INPUT, WE DON'T NEED TO SWITCH THEM FROM PARENT SPACE TO PARAMETRIC SPACE
        XI(1) = GAUSSX
        XI(2) = GAUSSY
        XI(3) = GAUSSZ

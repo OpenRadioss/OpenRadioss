@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE MAPPING_OPTION_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE READER_OLD_MOD , ONLY : LINE, KLINE
+      use element_mod , only : nixs, nixq, nixc, nixt, nixp, nixr, nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -234,27 +235,27 @@ C-----------------------------------------------
             ENDDO   
           ENDIF                                                                                   
         ELSEIF(KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR. KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN              
-C         line de SUBSET PART MAT OU PROP                                  
+C         line of SUBSET PART MAT OR PROP
           IT2=IT2+1                                                        
           IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
         ELSEIF(KEY(1:3) == 'BOX'.AND.NBBOX == 0 .AND.(KEY2(1:5) /= 'RECTA'.AND.KEY2(1:5) /= 'CYLIN'.AND.KEY2(1:5) /= 'SPHER'))THEN             
-C         line dans un box (old)                                           
+C         line in a box (old)
           lERROR=.TRUE.                           
         ELSEIF(KEY(1:2) == 'GR'.OR.KEY(1:4) == 'WIRE') THEN                
-C         line d'ele 2N dans un group d'elements                           
+C         line of ele 2N in an element group
           IT4=IT4+1                                                        
           IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
         ELSEIF(KEY(1:4) == 'SURF'.OR.KEY(1:4) == 'EDGE') THEN              
-C         line d'ele 2N dans une surface ou son bord                       
+C         line of ele 2N in a surface or its edge
           IT5=IT5+1                                                        
           IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
         ELSEIF(KEY(1:6) == 'SUBMOD') THEN                                  
-C         line de submodel                                                 
+C         line of submodel
           IT6=IT6+1                                                        
           IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
         ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR. KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN               
           !old /grnod/box (not /BOX/BOX)                                    
-          !line dans un box (classical box, parallelepiped (oriented),      
+          !line in a box (classical box, parallelepiped (oriented),
           !          cylindrical, spherical)                                
           lERROR=.TRUE.                             
         ELSEIF(KEY(1:3) == 'BOX' .AND. NBBOX > 0)THEN                      
@@ -275,7 +276,7 @@ C         line de submodel
       ENDDO
 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IF (FLAG == 0) THEN
         DO IGS=1,NSLIN
@@ -382,7 +383,7 @@ C-------------------------
       ENDIF ! IF(IT8 /= 0)
 C---
 C=======================================================================
-C ligne de SUBSETS,PART,MAT,PROP
+C line of subsets, share, mat, prop
 C=======================================================================
       IF(IT2/=0.OR.IT6/=0) THEN
         ALLOCATE( SURF_ELM(NPART) )        
@@ -444,7 +445,7 @@ C=======================================================================
       ENDIF
 
 C=======================================================================
-C ligne de SUBMODELS
+C line of SUBMODELS
 C=======================================================================
       IGS=0
       IF (IT6 > 0)THEN
@@ -493,7 +494,7 @@ C reset BUFTMP to 0 (only where it was set to 1/-1)
         ENDDO
       ENDIF
 C=======================================================================
-C ligne de bord de surface
+C edge line of surface
 C=======================================================================
       IF (IT5 /= 0) THEN
         CALL HM_OPTION_START('/LINE')
@@ -565,7 +566,7 @@ C=======================================================================
         ENDDO
       ENDIF
 C=======================================================================
-C LIGNE FORMEE DE GROUPE DE TRUSS POUTRE RESSORT
+C LINE FORMED OF TRUSS BEAM SPRING GROUP
 C=======================================================================
       IF (IT4 /= 0) THEN
         CALL HM_OPTION_START('/LINE')

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_monvol_type8        ../starter/source/airbag/hm_read_monvol_type8.F
 !||    hm_read_monvol_type9        ../starter/source/airbag/hm_read_monvol_type9.F
 !||    hm_sz_r2r                   ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    vdouble                     ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_read_monvol_type10_mod   ../starter/source/airbag/hm_read_monvol_type10.F
@@ -86,6 +87,7 @@ C-----------------------------------------------
       USE HM_READ_MONVOL_TYPE9_MOD  ,ONLY : HM_READ_MONVOL_TYPE9
       USE HM_READ_MONVOL_TYPE10_MOD ,ONLY : HM_READ_MONVOL_TYPE10
       USE HM_READ_MONVOL_TYPE11_MOD ,ONLY : HM_READ_MONVOL_TYPE11
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,9 +130,16 @@ C-----------------------------------------------
       CHARACTER(len=ncharkey) :: KEY
       CHARACTER(len=nchartitle) :: TITR
       LOGICAL :: FOUND
+      CHARACTER MESS*40
+      my_real :: BID 
+C-----------------------------------------------
+C   D a t a
+C-----------------------------------------------
+      DATA MESS/'MONVOL DEFINITION                '/  
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
+      BID = ZERO
 C     Beginning of MONVOL cards in the IIN file
       WRITE(IOUT, 1000)
       T_MONVOL_METADATA%LCA = 0
@@ -290,6 +299,11 @@ C     Check units
       ENDDO
 
       NVOLU = NVOLU + NMONVOL
+               
+C-------------------------------------
+C     search for duplicate ids
+C-------------------------------------
+      CALL VDOUBLE(NOM_OPT, LNOPT1, NMONVOL, MESS, 0, BID)
 
       RETURN
  1000 FORMAT(

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-      INTEGER JFT,JLT,NPLAT,IPLAT(*),IKGEO,IORTH
+      INTEGER JFT,JLT,NPLAT,IPLAT(*),IORTH
       MY_REAL 
      .   VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HZ(*),
@@ -79,10 +79,10 @@ C-----------------------------------------------
      .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),
      .    BXIBXJ(2,2,MVSIZ),BXIBYJ(2,2,MVSIZ),BYIBXJ(2,2,MVSIZ),
      .    BYIBYJ(2,2,MVSIZ),FAC2Z   
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        NF=NPLAT+1
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)
@@ -682,9 +682,9 @@ C-----------------------------------------------
      .    KZ11(2,2,MVSIZ),KZ12(2,2,MVSIZ),KZ22(2,2,MVSIZ),
      .    DMF(3,3,MVSIZ),PCX1(MVSIZ),PCX2(MVSIZ),PCY1(MVSIZ),
      .    PCY2(MVSIZ),FACZ(MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)

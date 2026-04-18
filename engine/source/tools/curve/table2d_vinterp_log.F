@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  NXK(2), IB(2,2,NEL) 
-      INTEGER :: I,I1,I2,J1,J2,K,N,M,L,IN,IM,IL,N1,IL1,IL2,NDIM
-      my_real :: DX1,DX2,YA1,YA2,YB1,YB2,X1_1,X1_2,X2_1,X2_2,XX2,
+      INTEGER :: I,I1,I2,J1,J2,K,N,M,IM,N1,IL1,IL2,NDIM
+      my_real :: DX2,YA1,YA2,YB1,YB2,X1_1,X1_2,X2_1,X2_2,XX2,
      .           X1,X2,Y1,Y2,R1,R2,UNR1,UNR2
       TYPE(TTABLE_XY)                ,POINTER :: TY
       TYPE(TTABLE_XY), DIMENSION(:)  ,POINTER :: TX

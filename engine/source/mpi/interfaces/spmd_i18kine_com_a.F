@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,16 +70,16 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
-     *        REQ_SI(NSPMD),REQ_RI(NSPMD)
+     *        REQ_SI(NSPMD)
       INTEGER P,LENSD,LENRV,IADS(NSPMD+1),IADR(NSPMD+1),IERROR,
      *        SIZ,LOC_PROC,MSGTYP,MSGOFF,IDEB(NINTER)
       INTEGER NIN,NTY,INACTI
-      INTEGER J,L,NB,NN,K,N,NOD,MODE,LEN,ALEN,ND
+      INTEGER L,NB,NN,K,NOD,ALEN,ND
       my_real ,
      *   DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       DATA MSGOFF/152/
 C-----------------------------------------------
-C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
+C On the 18KINE type, it is necessary to communicate the accelerations of the secondary nodes
 
       LOC_PROC = ISPMD+1
       IADS = 0
@@ -88,7 +88,7 @@ C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
       LENRV = 0
 
       ALEN=3
-C Comptage des tailles de buffer  Receeption et envoi
+C Counting of buffer sizes Reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NIN=1,NINTER
@@ -111,7 +111,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C Preparation of the receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -132,7 +132,7 @@ C Send
            IF((NTY==7.and.IPARI(34,NIN)==-2.and.INACTI==7).OR.
      .       (NTY==22.and.IPARI(34,NIN)==-2.and.INACTI==7))THEN
                NB = NSNSI(NIN)%P(P)
-C Preparation du send
+C Preparation of the send
                DO NN=1,NB
                  ND = NSVSI(NIN)%P(IDEB(NIN)+NN)
                  NOD=INTBUF_TAB(NIN)%NSV(ND)
@@ -190,7 +190,7 @@ C Recieve
           ENDIF
       ENDDO
 
-C Fin du send
+C End of the send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)

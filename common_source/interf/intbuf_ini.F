@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
 !||    intbuf_ini_t8      ../common_source/interf/intbuf_ini.F
 !||    read_db            ../common_source/tools/input_output/read_db.F
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
@@ -62,8 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,N,NI,SIZ,L_INTBUF_SIZE
-        INTEGER VAL_TEST
+        INTEGER N,NI,SIZ,L_INTBUF_SIZE
 C=======================================================================
         ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
         INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0
@@ -324,6 +323,8 @@ C---------will be cleaned after
           INTBUF_TAB(NI)%S_IELEM_M  = INTBUF_SIZE(N)
           N = N+1
           INTBUF_TAB(NI)%S_PROC_MVOISIN  = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_MSR_1D  = INTBUF_SIZE(N)
 
 C=======================================================================
 c READ REAL SIZES
@@ -604,6 +605,14 @@ C-----to be cleaned after
           INTBUF_TAB(NI)%S_GAPMSAV = INTBUF_SIZE(N)
           N = N+1
           INTBUF_TAB(NI)%S_E2S_NOD_NORMAL = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_PENE_OLD_E = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_STIF_OLD_E = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_PENE_OLD_E2S = INTBUF_SIZE(N)
+          N = N+1
+          INTBUF_TAB(NI)%S_STIF_OLD_E2S = INTBUF_SIZE(N)
 
 C=======================================================================
           IF(N /= L_INTBUF_SIZE)THEN
@@ -1321,6 +1330,12 @@ C----------to be cleaned later
           IF(SIZ>0)THEN
             CALL READ_I_C(INTBUF_TAB(NI)%PROC_MVOISIN,SIZ)
           ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_MSR_1D
+          ALLOCATE(INTBUF_TAB(NI)%MSR_1D(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_I_C(INTBUF_TAB(NI)%MSR_1D,SIZ)
+          ENDIF
 C=======================================================================
 c READ REAL ARRAYS
 C=======================================================================
@@ -1433,9 +1448,11 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STFM
-          ALLOCATE(INTBUF_TAB(NI)%STFM(SIZ))
           IF(SIZ>0)THEN
+            ALLOCATE(INTBUF_TAB(NI)%STFM(SIZ))
             CALL READ_DB(INTBUF_TAB(NI)%STFM,SIZ)
+          ELSE
+            ALLOCATE(INTBUF_TAB(NI)%STFM(1))
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STFS
@@ -1540,6 +1557,34 @@ C=======================================================================
             INTBUF_TAB(NI)%CAND_PS(1:SIZ) = ZERO
             SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
             CALL READ_DB(INTBUF_TAB(NI)%CAND_PS,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E
+          ALLOCATE(INTBUF_TAB(NI)%PENE_OLD_E(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E
+          ALLOCATE(INTBUF_TAB(NI)%STIF_OLD_E(SIZ))
+          IF(SIZ>0)THEN
+            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E2S
+          ALLOCATE(INTBUF_TAB(NI)%PENE_OLD_E2S(SIZ))
+          IF(SIZ>0)THEN
+            INTBUF_TAB(NI)%PENE_OLD_E2S(1:SIZ) = ZERO
+            SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E2S,SIZ)
+          ENDIF
+
+          SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E2S
+          ALLOCATE(INTBUF_TAB(NI)%STIF_OLD_E2S(SIZ))
+          IF(SIZ>0)THEN
+            INTBUF_TAB(NI)%STIF_OLD_E2S(1:SIZ) = ZERO
+            SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E2S,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAPE
@@ -2131,7 +2176,7 @@ C-----
 !||--- called by ------------------------------------------------------
 !||    intbuf_ini      ../common_source/interf/intbuf_ini.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    int8_mod        ../common_source/modules/interfaces/int8_mod.F90
 !||====================================================================
@@ -2185,7 +2230,7 @@ C-----------------------------------------------
             T8%BUFFER(P2)%NBSECND_TOT = NBS_INTERF
             T8%BUFFER(P2)%NBMAIN    = NBM_INTERF
 
-            !nb secnds per main
+            !number of seconds per main
 
             IF(NBM_INTERF > 0) THEN
               ALLOCATE(T8%BUFFER(P2)%NBSECND(NBM_INTERF))

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K1, K2, KIBJET, KIBHOL, KIBALE, IADPOLH, IADPOLHO, N,
+      INTEGER K1, K2, KIBJET, KIBHOL, KIBALE, N,
      .        ITYP, NNS, NTG, NBRIC, KI1, KI2, NNFV1, NTRFV1, NPOLY1,
      .        NPOLH1, NNFV0, NTRFV0, NPOLY0, NPOLH0, IFV, IMESH, NSTEP,
      .        ILVOUT, NNA
@@ -180,9 +180,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, N1, N2, N3, NN1, NN2, NN3, J, JJ, K, KK, NNT,
-     .        L, NN, PNTR0(NNTR0), PNTR1(NNTR1), NNT1, NNT0, LL, NNTI,
-     .        INNER, INN(3), NTI, ICUT, NB, NNB, NBI, M, II, I1, I2,
+      INTEGER I, IEL, N1, N2, N3, J, JJ, K, KK, NNT,
+     .        L, NN, PNTR0(NNTR0), PNTR1(NNTR1), NNT1, NNT0, LL,
+     .        NB, NNB, NBI, II, I1, I2,
      .        NNSA
       my_real
      .        KSI, ETA, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
@@ -193,25 +193,24 @@ C-----------------------------------------------
      .        ZZ, BBOX0(6,NPOLH0), BBOX1(6,NPOLH1), CRIT, XMIN1, XMAX1,
      .        YMIN1, YMAX1, ZMIN1, ZMAX1, XMIN0, XMAX0, YMIN0,
      .        YMAX0, ZMIN0, ZMAX0, VOLU0(NPOLH0), DXB, DYB, DZB, VOLB,
-     .        VOL, VOLG, VOLT, RR, MASS0, QX0, QY0, QZ0, ENER0, MASS1,
+     .        VOL, VOLT, RR, MASS0, QX0, QY0, QZ0, ENER0, MASS1,
      .        QX1, QY1, QZ1, ENER1, GAMA, FAC, XXX(3,NNF), XXXA(3,NNA)
-      INTEGER, ALLOCATABLE :: PTRI1(:,:), PTRI0(:,:), TCUT(:), ITAGT(:),
+      INTEGER, ALLOCATABLE :: PTRI1(:,:), PTRI0(:,:),
      .                        BB(:,:), INB(:), INB_TMP(:), LISTB(:)
       my_real
      .       , ALLOCATABLE :: XB(:,:), XXXSA(:,:)
-      CHARACTER NAME*18
 C
       my_real
      .        DLAMCH
       EXTERNAL DLAMCH
 C
 C 0 = Anciens polyhedres
-C 1 = Nouveaux polyhedres
+C 1 = new polyhedres
 C
       NNSA=FVSPMD(IFV)%NNSA
       ALLOCATE(XXXSA(3,NNSA))
       IF (NSPMD == 1) THEN
-C traitement necessaire pour rester p/on
+C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
             I1=FVSPMD(IFV)%IBUF_L(1,I)
             I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -244,12 +243,12 @@ c         ENDDO
      .                      2  )
          IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
-C Critere pour test d'interiorite
+C Crititer for interiority test
       CRIT=TEN
 C---------------------------------------------------
-C Preliminaires
+C Preliminary
 C---------------------------------------------------
-C Coordonnees des noeuds 
+C Coordinates of the nodes
       DO I=1,NNS0
          IF (IFVNOD0(1,I)==1) THEN
             IEL=IFVNOD0(2,I)
@@ -340,7 +339,7 @@ c            ENDIF
          ENDIF
       ENDDO
       DEALLOCATE(XXXSA)
-C Normale et aire des triangles
+C Normal and area of the triangles
       DO I=1,NNTR0
          N1=IFVTRI0(1,I)
          N2=IFVTRI0(2,I)
@@ -410,13 +409,13 @@ C
             NORM1(3,I)=ZERO
          ENDIF
       ENDDO
-C Volume des polyhedres
+C Volume of polyhedra
       DO I=1,NPOLH0
          VOLU0(I)=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedron
          DO J=IFVPADR0(I),IFVPADR0(I+1)-1
             JJ=IFVPOLH0(J)
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR0(JJ), IFVTADR0(JJ+1)-1
                KK=IFVPOLY0(K)
                AREA=TAREA0(KK)
@@ -447,10 +446,10 @@ C Boucle sur les triangles du polygone
 C
       DO I=1,NPOLH1
          VOLU1(I)=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedron
          DO J=IFVPADR1(I),IFVPADR1(I+1)-1
             JJ=IFVPOLH1(J)
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR1(JJ), IFVTADR1(JJ+1)-1
                KK=IFVPOLY1(K)
                AREA=TAREA1(KK)
@@ -478,7 +477,7 @@ C Boucle sur les triangles du polygone
             ENDDO
          ENDDO
       ENDDO   
-C Bounding box pour les polyhedres
+C Bounding box for polyhedra
       DO I=1,NPOLH0
          XMIN=EP30
          XMAX=-EP30
@@ -814,7 +813,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, N1, N2, N3, II
+      INTEGER I, IEL, N1, N2, N3
       my_real
      .        XX, YY, ZZ, ST, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        VX1, VY1, VZ1, VX2, VY2, VZ2, VX3, VY3, VZ3, NX1, NY1,

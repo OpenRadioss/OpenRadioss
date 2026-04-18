@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
 !||====================================================================
       module get_segment_interface_id_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -43,7 +44,7 @@
 !||    constant_mod                             ../common_source/modules/constant_mod.F
 !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
 !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine get_segment_interface_id( ninter,nb_segment,list_segment_id, &
           my_interface_id,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
@@ -108,10 +109,10 @@
                 n_iedge(my_reduced_nb) = iedge
                 do j=1,4
                   if(intbuf_tab(nin)%mvoisin(4*(segment_id-1)+j)/=0) my_reduced_neighbour(my_reduced_nb,j) = 1
-                enddo
-              endif
-            endif
-          enddo
+                end do
+              end if
+            end if
+          end do
           ! -------------------------
 !
           return

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,8 +68,8 @@ C-----------------------------------------------
      .   CC(MVSIZ),EPDR(MVSIZ),SVM(MVSIZ),A(MVSIZ),B(MVSIZ),
      .   DPLA_I(MVSIZ),DPLA_J(MVSIZ),DR(MVSIZ),H(MVSIZ),
      .   NU1(MVSIZ),NU2(MVSIZ),P(MVSIZ),Q(MVSIZ),NU(MVSIZ),
-     .   YOUNG(MVSIZ),G(MVSIZ),ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,
-     .   YLD_I,NNU1,NNU2,NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,
+     .   YOUNG(MVSIZ),G(MVSIZ),F,DF,PLA_I,P2,Q2,R,S1,S2,S3,
+     .   YLD_I,NNU1,NNU2,NU4,NU6,PP,AA,BB,C,S11,
      .   S22,S12,S1S2,S122,UMR,VM2,QQ,SMALL
       my_real, DIMENSION(NEL) :: EPSP
       DATA NMAX/3/
@@ -91,7 +91,7 @@ C
         ETSE(I) = ONE
       ENDDO
 C-----------------------------------
-C     VITESSE DE DEFORMATION & YIELD
+C     strain rate & yield
 C-----------------------------------
       DO I=JFT,JLT
         IF (ISRATE == 0) THEN
@@ -116,11 +116,11 @@ C
         CB(I) = CB(I)*Q(I)
       ENDDO
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
       IF (IPLA == 0) THEN
 C-------------------
-C     CONTRAINTE VM
+C     VM STRESS
 C-------------------
         DO I=JFT,JLT
           SVM(I) = SQRT(SIG(I,1)*SIG(I,1)
@@ -129,7 +129,7 @@ C-------------------
      .           +THREE*SIG(I,3)*SIG(I,3))
         ENDDO
 C
-C projection radiale 
+C radial projection 
 C
 #include "vectorize.inc" 
         DO I=JFT,JLT
@@ -148,7 +148,7 @@ C
 C-------------------------
       ELSEIF (IPLA == 1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
         DO  I=JFT,JLT
           S1 = SIG(I,1) + SIG(I,2)
@@ -170,7 +170,7 @@ C-------------------------
         ENDDO
         IF (NINDX == 0) RETURN
 C---------------------------
-C    DEP EN CONTRAINTE PLANE
+C    DEP IN PLANE STRESS
 C---------------------------
 #include "vectorize.inc" 
         DO  J=1,NINDX
@@ -208,7 +208,7 @@ C
           ENDDO
         ENDDO
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX
@@ -224,7 +224,7 @@ C------------------------------------------
 C-------------------------
       ELSEIF (IPLA == 2) THEN
 C-------------------
-C     CONTRAINTE VM
+C     VM STRESS
 C-------------------
         DO I=JFT,JLT
           PP  = -(SIG(I,1)+SIG(I,2))*THIRD

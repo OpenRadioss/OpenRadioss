@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,10 +36,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        CHARACTER(len=*), INTENT(in) :: MY_OPERATION
-        INTEGER, INTENT(in) :: MY_SIZE,MY_COMM
-        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(out) :: RES
+        CHARACTER(len=*), INTENT(inout) :: MY_OPERATION
+        INTEGER, INTENT(inout) :: MY_SIZE,MY_COMM
+        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(inout) :: VALUE
+        REAL(kind=8), DIMENSION(MY_SIZE), INTENT(inout) :: RES
 
 #ifdef MPI
 C-----------------------------------------------

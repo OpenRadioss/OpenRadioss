@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    usermat_shell          ../engine/source/materials/mat_share/usermat_shell.F
 !||====================================================================
       module fail_composite_c_mod
+      implicit none
       contains
 !||====================================================================
 !||    fail_composite_c   ../engine/source/materials/fail/composite/fail_composite_c.F90
@@ -36,6 +37,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    fail_param_mod     ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine fail_composite_c(                                             &
           nel       ,fail      ,nuvar     ,uvar      ,time      ,ngl       ,  &
@@ -46,12 +48,12 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
+          use precision_mod , only : WP
           use fail_param_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                              Arguments s
@@ -59,28 +61,28 @@
           integer, intent(in)                     :: nel      !< Number of elements
           type(fail_param_), intent(in)           :: fail     !< Failure parameters data structure
           integer, intent(in)                     :: nuvar    !< Number of user variables
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< User variables
-          my_real, intent(in)                     :: time     !< Current time
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< User variables
+          real(kind=WP), intent(in)                     :: time     !< Current time
           integer, dimension(nel), intent(in)     :: ngl      !< Global element numbers
           integer, intent(in)                     :: ipg      !< Gauss point number
           integer, intent(in)                     :: ilay     !< Layer number
           integer, intent(in)                     :: ipt      !< Integration point number
           integer, intent(in)                     :: ply_id   !< Ply ID
           integer, intent(in)                     :: igtyp    !< Property type
-          my_real, dimension(nel), intent(inout)  :: signxx   !< Stress xx
-          my_real, dimension(nel), intent(inout)  :: signyy   !< Stress yy
-          my_real, dimension(nel), intent(inout)  :: signxy   !< Stress xy
+          real(kind=WP), dimension(nel), intent(inout)  :: signxx   !< Stress xx
+          real(kind=WP), dimension(nel), intent(inout)  :: signyy   !< Stress yy
+          real(kind=WP), dimension(nel), intent(inout)  :: signxy   !< Stress xy
           integer, dimension(nel), intent(inout)  :: foff     !< Integration point failure flag
           integer, intent(inout)                  :: dmg_flag !< Damage softening flag
-          my_real, dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
+          real(kind=WP), dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
           integer, intent(in)                     :: lf_dammx !< Flag for damage max value
-          my_real, dimension(nel,lf_dammx), intent(inout) :: dfmax !< Damage variable
-          my_real, dimension(nel), intent(inout)  :: tdel     !< Deletion time
+          real(kind=WP), dimension(nel,lf_dammx), intent(inout) :: dfmax !< Damage variable
+          real(kind=WP), dimension(nel), intent(inout)  :: tdel     !< Deletion time
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,indx(nel),nindx,ifail_sh
-          my_real :: sigt1,sigc1,sigt2,sigc2,sig12,beta,expn,tmax
+          real(kind=WP) :: sigt1,sigc1,sigt2,sigc2,sig12,beta,expn,tmax
 !
           !=========================================================================
           !< Recover failure criterion parameters

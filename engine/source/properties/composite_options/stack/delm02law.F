@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,NGL(*),
+      INTEGER NEL, NUVAR,NGL(*),
      .        IPLY
       my_real 
      .   TIME,TIMESTEP(*),SIGNZZ(*),
@@ -103,7 +103,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),NINDX,
+     .        I,J,INDX(MVSIZ),NINDX,
      .        NINDEX,INDEX(MVSIZ),JST(MVSIZ),IR,JJ
       my_real 
      .   GIC(MVSIZ),GIIC(MVSIZ),K(MVSIZ),ETA(MVSIZ),
@@ -165,7 +165,7 @@ cc
              DELTAF = GIC(I) + (GIIC(I) - GIC(I))*CC2
              DELTAF= TWO*DELTAF/MAX(K(I)*DELTA0, EM20)
 C
-C   compute lambda en fonction de DAm
+C   compute lambda depending on damage
 c             
               LAM = DELTA0*DELTAF
               LAM  = LAM/(DELTAF - DAM*(DELTAF - DELTA0) )

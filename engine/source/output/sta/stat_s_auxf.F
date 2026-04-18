@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tab_strs_txt50      ../engine/source/output/sta/sta_txt.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod         ../engine/share/resol/initbuf.F
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -44,6 +45,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXS(NIXS,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTS(*), IPART_STATE(*), STAT_INDXS(*),IPART(LIPART1,*)
@@ -72,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN,ISOLNOD,IUS,NLAY,NPTR,NPTS,NPTT,NPTG,
-     .        NG, NEL, MLW,ID, IPRT0, IPRT, NPG,IPG,IPT, NUVAR,IE,
+     .        NG, NEL, MLW,ID, IPRT0, IPRT,IPT, NUVAR,IE,
      .        IL,IR,IS,IT,PID,IOFF
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
@@ -173,7 +175,7 @@ c
                ENDDO                                                    
               ENDDO                 
               IE=IE+1                          
-C             pointeur de fin de zone dans WA  
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                      
             ENDDO  !  I=LFT,LLT                                     
           ELSE
@@ -214,7 +216,7 @@ C             pointeur de fin de zone dans WA
                ENDDO                 
               ENDDO                 
               IE=IE+1                          
-C             pointeur de fin de zone dans WA  
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                      
             ENDDO  !  I=LFT,LLT                                     
           ENDIF !  ISOLNOD == 16
@@ -223,7 +225,7 @@ C             pointeur de fin de zone dans WA
  200  CONTINUE
 c------------------------------------------------------------
       IF(NSPMD == 1)THEN
-C       recopies inutiles pour simplification du code.
+C       unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELS
           PTWA_P0(N)=PTWA(N)
@@ -233,7 +235,7 @@ C       recopies inutiles pour simplification du code.
           WAP0(J)=WA(J)
         END DO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELS,PTWA_P0,STAT_NUMELS_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -242,9 +244,9 @@ c------------------------------------------------------------
       IF(ISPMD==0.AND.LEN>0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELS_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXS(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IPRT  = NINT(WAP0(J + 2))
           IOFF    = NINT(WAP0(J + 11)) 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i20box          ../engine/source/interfaces/int16/i16crit.F
 !||    i8box           ../engine/source/interfaces/int16/i16crit.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
        SUBROUTINE I16CRIT(
@@ -39,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       XSLVG )
 C-----------------------------------------------
       USE INTBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, DIMENSION(7) :: XMSRG
       my_real, DIMENSION(7) :: XSLVG
-      INTEGER NSN,NMN,ITASK,NME,
+      INTEGER NSN,ITASK,NME,
      .        NSV(*),NELEM(*),IXS(NIXS,*),IXS16(8,*),IXS20(12,*),
      .        IXS10(6,*)
       my_real
@@ -70,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMEF,NSNL,NMEL,I, J, II, K,I16,I20,LFT16,LLT16,
+      INTEGER NSNF,NMEF,NSNL,NMEL,I, J,I16,I20,LFT16,LLT16,
      .      LFT20,LLT20,LFT8,LLT8,LFT10,LLT10,I8,I10,
      .      INDEX16(MVSIZ),INDEX20(MVSIZ),INDEX8(MVSIZ),INDEX10(MVSIZ)
       my_real
@@ -83,7 +85,7 @@ C-----------------------------------------------
       NMEF = 1 + ITASK*NME / NTHREAD
       NMEL = (ITASK+1)*NME / NTHREAD
 C--------------------------------------------------------------
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- criterion calculation to know if we need to sort or not
 C--------------------------------------------------------------
       XSLV(1) = -EP30
       XSLV(2) = -EP30
@@ -113,7 +115,7 @@ C
             XSLV(6)=MIN(XSLV(6),ZZ-XSAV(3,J))
       END DO
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
       DO I=NMEF,NMEL
             EMINX(1,I) = EP30
@@ -215,14 +217,17 @@ C
       RETURN
       END
 !||====================================================================
-!||    i16box    ../engine/source/interfaces/int16/i16crit.F
+!||    i16box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit       ../engine/source/interfaces/int17/i17crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I16BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS16,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -243,10 +248,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IFACE,IDIR,IPERM(8,2),N16
+      INTEGER I,J,L,NE,IFACE,IDIR,IPERM(8,2),N16
       my_real
      .   AN,AX,BN,BX,CN,CX,DX,DN,D4,D8,X1,X2,X3,X4,
-     .   X9,X10,X11,X12,XC,XX,XN
+     .   X9,X10,X11,X12,XC
       DATA IPERM / 2, 3, 4, 5, 1, 2, 3, 4,
      2             6, 7, 8, 9, 5, 6, 7, 8/
 C
@@ -296,7 +301,7 @@ C      x = N1 x1 + N2 x2 + N3 x3
 C      x = -0.5 (1-r)r x1 + 0.5 (1+r)r x2 + (1-r^2) x3
 C      2 x = (x1 + x2 - 2 x3) r^2 + (x2-x1) r + 2 x3
 C
-C   0) recherche du point xmax
+C   0) Point XMAX
 C
 C      dx/dr = (r - 0.5) x1 + (r + 0.5) x2 - 2 r x3 = 0
 C      r  =  0.5 (x1 - x2) / (x1 + x2 - 2 x3)
@@ -315,7 +320,7 @@ C     solution 0 =>     x < x3 - 0.125 (x1 - x2)^2 / (x1 + x2 - 2 x3)
 C            si x3 -> (x1 + x2)/ 2   x -> infini
 C------------------------------------------------------------
 C
-C   1) recherche du point xmax entre 1 et 2
+C   1) search for the xmax point between 1 and 2
 C
 C si  r > 1        
 C      =>   x  = x2
@@ -338,22 +343,22 @@ C------------------------------------------------------------
 C     solution 1 =>     x < max (x1 , x2 , x3 + 1/4 |x2 - x1|)
 C------------------------------------------------------------
 C
-C   2) recherche de la position de x3 la + defavorable
+C   2) search for the most unfavorable position of x3
 C
 C      x  = x3 - 0.125 (x1 - x2)^2 / (x1 + x2 - 2 x3)
 C      dx/dx3  = 1 - 0.25 (x1 - x2)^2 / (x1 + x2 - 2 x3)^2 = 0
 C      (2 x3 - x1 - x2 )^2  = 0.25 (x2 - x1)^2 
-C      si x2 > x1   et   x3 > (x1 + x2)/2 ou
+C      if x2 > x1 and x3 > (x1 + x2)/2 or
 C      si x2 < x1   et   x3 < (x1 + x2)/2
 C             (2 x3 - x1 - x2 )  = 0.5 (x2 - x1) 
 C             x3  =  (x1 + x2)/2  + (x2 - x1)/4
-C      si x2 > x1   et   x3 < (x1 + x2)/2 ou 
+C      if x2 > x1 and x3 < (x1 + x2)/2 or
 C      si x2 < x1   et   x3 > (x1 + x2)/2
-C             pas de solution
+C             no solution
 C
 C        si   x3 <  (x1 + x2)/2  + (x2 - x1)/4
 C           => x < max (x1 , x2 ) et 
-C           => x > min (x1 , x2 )        => verifie par solution 1 et 2
+C           => x> min (x1, x2) => Verified by solution 1 and 2
 C
 C        si   x3  =  (x1 + x2)/2  + (x2 - x1)/4
 C            x  = x3 + 0.125 (x1 - x2)^2 / (2 x3 - x1 - x2 )
@@ -382,17 +387,17 @@ C     solution 2 =>    x < max (x1 , x2 , x3) + 1/8 |x2 - x1|
 C------------------------------------------------------------
 C     solution 1 :     x < max (x1 , x2 , x3 + 1/4 |x2 - x1|)
 C------------------------------------------------------------
-C     =>     x < min (solution 1,solution 2)
+C     => x <min (solution 1, solution 2)
 C------------------------------------------------------------
 C
-C  3) solution exacte (solution 0 bornee par solution 1)
+C  3) Exact solution (0 terminal solution by solution 1)
 C
 C      solution 0 : 
 C         x  = x3 - 0.125 (x1 - x2)^2 / (x1 + x2 - 2 x3)
 C      solution 1 : 
 C         x < max (x1 , x2 , x3 + 1/4 |x2 - x1|)
 C------------------------------------------------------------
-C     solution 3 =>     x < min (solution 1,solution 0)
+C     Solution 3 => x <min (solution 1, solution 0)
 C------------------------------------------------------------
 C     s = (x1+x2)/2     d = |x2-x1|
 C-------------------------------------------------------------------------
@@ -421,7 +426,7 @@ C
 C      x = N1 x1 + N2 x2 + N3 x3 + N4 x4
 C        + N9 x9 + N10 x10 + N11 x11 + N12 x12
 C
-C   0) recherche du point xmax
+C   0) Point XMAX
 C
 C      dx/dr = -1/4(1-t)(-2r-t) x1
 C              -1/4(1+t)(-2r+t) x2
@@ -440,15 +445,15 @@ C              +1/2(1-r^2) x10
 C              -t(1+r)     x11 
 C              -1/2(1-r^2) x12             = 0
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
       DO IFACE=1,2
 C-----------------------------------------------------------------------
-C       Face 1 2 3 4 ou 5 6 7 8
+C       Face 1 2 3 4 or 5 6 7 8
 C-----------------------------------------------------------------------
         DO IDIR=1,3
 C-----------------------------------------------------------------------
-C         X Y ou Z
+C         x y or z
 C-----------------------------------------------------------------------
           DO L=LFT,LLT
             I = INDEX(L)
@@ -520,14 +525,17 @@ C
       RETURN
       END
 !||====================================================================
-!||    i20box    ../engine/source/interfaces/int16/i16crit.F
+!||    i20box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit       ../engine/source/interfaces/int17/i17crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I20BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS20,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -548,20 +556,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N20
+      INTEGER I,J,L,NE,IDIR,N20
       my_real
      .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
      .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC,XX,XN
+     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
 C-----------------------------------------------------------------------
-C       Face 1 2 3 4 ou 5 6 7 8
+C       Face 1 2 3 4 or 5 6 7 8
 C-----------------------------------------------------------------------
       DO IDIR=1,3
 C-----------------------------------------------------------------------
-C         X Y ou Z
+C         x y or z
 C-----------------------------------------------------------------------
         DO L=LFT,LLT
             I = INDEX(L)
@@ -848,13 +856,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    i10box    ../engine/source/interfaces/int16/i16crit.F
+!||    i10box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I10BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS10,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -875,20 +886,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N10
+      INTEGER I,J,L,NE,IDIR,N10
       my_real
-     .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
+     .   
      .   X1,X2,X3,X4,X5,X6,X7,X8,
-     .   X9,X10,X11,X12,X13,X14,X15,X16,X17,X18,X19,X20,XC,XX,XN
+     .   X9,X10,XC,XX,XN
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
 C-----------------------------------------------------------------------
-C       Face 1 2 3 4 ou 5 6 7 8
+C       Face 1 2 3 4 or 5 6 7 8
 C-----------------------------------------------------------------------
       DO IDIR=1,3
 C-----------------------------------------------------------------------
-C         X Y ou Z
+C         x y or z
 C-----------------------------------------------------------------------
         DO L=LFT,LLT
             I = INDEX(L)
@@ -969,13 +980,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    i8box     ../engine/source/interfaces/int16/i16crit.F
+!||    i8box         ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I8BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -995,19 +1009,19 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NE,IDIR,N10
+      INTEGER I,J,L,NE,IDIR
       my_real
-     .   AN12,AX12,AN34,AX34,AN56,AX56,AN78,AX78,CN,CX,DX,DN,D4,D8,
-     .   X1,X2,X3,X4,X5,X6,X7,X8,XC,XX,XN
+     .   DX,DN,
+     .   X1,X2,X3,X4,X5,X6,X7,X8
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
 C-----------------------------------------------------------------------
-C       Face 1 2 3 4 ou 5 6 7 8
+C       Face 1 2 3 4 or 5 6 7 8
 C-----------------------------------------------------------------------
       DO IDIR=1,3
 C-----------------------------------------------------------------------
-C         X Y ou Z
+C         x y or z
 C-----------------------------------------------------------------------
         DO L=LFT,LLT
             I = INDEX(L)

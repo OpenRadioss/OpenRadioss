@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,20 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    inixfem              ../engine/source/elements/xfem/inixfem.F
+!||    inixfem           ../engine/source/elements/xfem/inixfem.F
 !||--- called by ------------------------------------------------------
-!||    resol                ../engine/source/engine/resol.F
+!||    resol             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    crk_coord_ini        ../engine/source/elements/xfem/crk_coord_ini.F
-!||    enrichc_ini          ../engine/source/elements/xfem/enrichc_ini.F
-!||    enrichtg_ini         ../engine/source/elements/xfem/enrichtg_ini.F
-!||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
-!||    spmd_exch_iedge      ../engine/source/mpi/elements/spmd_xfem.F
-!||    startimeg            ../engine/source/system/timer.F
-!||    stoptimeg            ../engine/source/system/timer.F
+!||    crk_coord_ini     ../engine/source/elements/xfem/crk_coord_ini.F
+!||    enrichc_ini       ../engine/source/elements/xfem/enrichc_ini.F
+!||    enrichtg_ini      ../engine/source/elements/xfem/enrichtg_ini.F
+!||    spmd_exch_iedge   ../engine/source/mpi/elements/spmd_xfem.F
+!||    startimeg         ../engine/source/system/timer.F
+!||    stoptimeg         ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
-!||    crackxfem_mod        ../engine/share/modules/crackxfem_mod.F
-!||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
+!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INIXFEM(ELBUF_TAB,XFEM_TAB ,
      .                   IPARG    ,IXC      ,IXTG     ,NGROUC   ,IGROUC    ,
@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,12 +73,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IG,NG,JFT,JLT,NEL,NF1,IXFEM,NLEV,N,ITG1,ITG2,FLAG,
-     . SIZE,LSDRC,ICUT,IEDGE,ELCRK,ELCRKTG,ELCUT,ILEV,ILAY,NXLAY,PP1
-      INTEGER ITSK,NODFTSK,NODLTSK,OMP_GET_THREAD_NUM
+      INTEGER I,K,IG,NG,JFT,JLT,NEL,IXFEM,N,ITG1,ITG2,FLAG,
+     . SIZE,LSDRC,ICUT,IEDGE,ELCRK,ELCRKTG,ELCUT,ILAY,NXLAY,PP1
+      INTEGER NODFTSK,NODLTSK
       my_real OFF
 C=======================================================================
-      NUMELCRK2 = NUMELCRK    !  pour check si crack avance dans le cycle (anim)
+      NUMELCRK2 = NUMELCRK    ! to check if crack advances in the cycle (animation)
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 C---
@@ -85,7 +86,7 @@ C---
       NODLTSK   = NUMNOD
       CALL CRK_COORD_INI(ADDCNE_CRK,INOD_CRK,NODFTSK,NODLTSK,X,NODLEVXF)
 c
-      ! save nb elements connectes au noeud
+      ! Save nb elements connected to the node
       DO I=NODFTSK,NODLTSK
          N = INOD_CRK(I)
          IF (N > 0) THEN

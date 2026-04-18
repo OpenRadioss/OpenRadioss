@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,7 +80,7 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
-     .   A1, A2, A3, A4, D, AREAMX2, 
+     .       D, 
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
@@ -301,6 +301,4 @@ C
 C
       RETURN
 C
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
       END

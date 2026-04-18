@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -384,7 +384,7 @@ C--------------
 
             FACLOADP( 1,K+NIDXLOAD) = FCY
             FACLOADP( 2,K+NIDXLOAD) = ONE/FCX
-            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
+            !multidomains -> shared segments are counted only once
             IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)
           ENDIF
 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C-----------------------------------------------
 !       - initialize the SBUF buffer with the local SKEW value
 !       - initialize the displacement and the total number of 
 !         received SKEW
-!       - ALLGATHERV comm
+!       - Allgatherv com
 !       - fill the SKEW array with the received RBUFF buffer
 !
 !       proc 1 :
@@ -193,7 +193,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER :: I,K,N,LOC_PROC,j
+        INTEGER :: I,K,N,LOC_PROC
         INTEGER :: IERROR
         INTEGER :: SENDCOUNT,TOTAL_RECV
         INTEGER, DIMENSION(NSPMD) :: RECVCOUNT,DIPSPL

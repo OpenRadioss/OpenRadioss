@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use element_mod , only : nixs, nixq, nixc, nixt, nixp, nixr, nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -144,7 +145,7 @@ C-----------------------------------------------
 C    IGRNOD(IGS)%ID : GROUP identifier
 C    IGRNOD(IGS)%TITLE : GROUP title
 C    IGRNOD(IGS)%NENTITY : Entities (nodes) number of the GROUP
-C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NODES, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
 !!                   GRTYPE --- > OBSOLETE
 C    IGRNOD(IGS)%SORTED  : FLAG for sorted/unsorted nodes
@@ -221,7 +222,7 @@ C
         !-----------------------------------------------------------------
         ! GRNOD from GRNODNS
         IF(KEY(1:7) == 'GRNODNS')THEN
-C          tag des groupes de groupes
+C          tag of groups of groups
            IGRNOD(IGS)%NENTITY=-1
 c          non sorted nodes
              IGRNOD(IGS)%SORTED=1
@@ -266,7 +267,7 @@ c          non sorted nodes
         !-----------------------------------------------------------------
         ! GRNOD from NODE
         ELSEIF(KEY(1:4) == 'NODE' .OR. KEY(1:5) == 'CNODE') THEN
-C         groupe de noeuds
+C         group of nodes
           IT1=IT1+1
           IF (FLAG == 0) THEN
             CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
@@ -321,7 +322,7 @@ c           sorted nodes
         ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR.
      .         KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
 C             old /grnod/box (not /BOX/BOX)
-C             groupe de noeuds dans un box (classical box, parallelepiped,
+C             group of nodes in a box (classical box, parallelepiped,
 C                         cylindrical, spherical)
           IT7=IT7+1
           IF (FLAG == 0) IGRNOD(IGS)%NENTITY=0
@@ -350,7 +351,7 @@ C-------------------------------------
         CALL UDOUBLE_IGR(LIST_IGR,NGRNOD,MESS,0,BID)
       ENDIF
 C=======================================================================
-C Remplacement des n0 de noeuds user par systeme (type NODE)
+C Replacement of user node n0 by system n0 (NODE type)
 C=======================================================================
       IF (IT1 /= 0 .AND. FLAG == 1)THEN
 !
@@ -369,14 +370,14 @@ C=======================================================================
             NTRI=IGRNOD(I)%SORTED
             IF (NNOD > 0 .AND. NTRI == 0)THEN
               IF(NNOD == 1) THEN
-C pas de tri necessaire et dichotomie
+C no sorting necessary and dichotomy
                 NN = IGRNOD(I)%ENTITY(NNOD)
                 IGRNOD(I)%ENTITY(NNOD)=USR2SYS(NN,ITABM1,MESS,ID)
                 IGRNOD(I)%NENTITY=1
-C            ELSEIF(NNOD < 10 ou 100 ...)
-C algo avec tri simplifie et dichotomie, nnod limite a definir
+C            ELSEIF(NNOD < 10 or 100 ...)
+C algo with simplified sort and dichotomy, nnod limit to be defined
               ELSE
-C algo optimise pour groupe de taille non negligeable devant numnod
+C Algo optimized for non -negligeable size group in front of n nod
                 BUFTMP2(1:2*NNOD) = 0
                 NNOD=ULIST2S(IGRNOD(I)%ENTITY,NNOD,ITABM1,MESS,BUFTMP2,ID)
                 IGRNOD(I)%NENTITY=NNOD
@@ -520,7 +521,7 @@ C---
         IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
       ENDIF ! IF(IT8 /= 0)
 C=======================================================================
-C groupes de SUBSETS,PART,MAT,PROP
+C groups of subsets, share, mat, prop
 C=======================================================================
       IGS=0
       IF (IT2 /= 0)THEN
@@ -536,11 +537,11 @@ C
           IGS=IGS+1
           NN = 0
           IF (KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR.KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN
-C             tag les PARTs
+C             tag the PARTs
             BUFTMP = 0
             CALL HM_TAGPART(BUFTMP ,IPART ,KEY  ,IGRNOD(IGS)%ID,TITR  ,TITR1 ,FLAG  ,SUBSET, LSUBMODEL)
 C-------------------------
-C             tag les noeuds
+C             tag the nodes
             CALL TAGNODS(IXS,IXS10,IXS20,IXS16,IPARTS,BUFTMP,IGRNOD(IGS)%ID,TITR)
             CALL TAGNOD(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,BUFTMP,NPART)
             CALL TAGNOD(IXC,NIXC,2,5,NUMELC,IPARTC,BUFTMP,NPART)
@@ -572,7 +573,7 @@ C---
         ENDDO
       ENDIF
 C=======================================================================
-C groupes de SUBMODELS
+C groups of SUBMODELS
 C=======================================================================
       IGS=0
       IF (IT5 > 0)THEN
@@ -601,7 +602,7 @@ c
         ENDDO
       ENDIF
 C=======================================================================
-C groupes de groupes d'elements + surfaces
+C groups of groups of elements + surfaces
 C=======================================================================
       IGS=0
       IF (IT4 /= 0)THEN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       initialization of INV_GROUP structure (number of elm & part)
 !       
 !       INVERTED_GROUP_INIT organization :
-!           2 different modes :
+!           2 different modes:
 !           - MODE = 0 --> first initialization
 !           - MODE = 1 --> recomputation of the inverted connectivity
 !             the size does not change, the structure was already allocated,

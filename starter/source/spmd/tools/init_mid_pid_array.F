@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -328,6 +328,24 @@ C=======================================================================
                                  ENDDO
                             ENDIF
                         ENDDO
+!               
+                        IF(MID_PID_SHELL(MID)%NBR_PID>0) THEN
+                                DO J=1,MID_PID_SHELL(MID)%NBR_PID
+                                 IF(PID==MID_PID_SHELL(MID)%PID1D(J)) THEN
+                                        POIN_PART_SHELL(1,I)=MID
+                                        POIN_PART_SHELL(2,I) = J
+                                 ENDIF                                
+                                ENDDO
+                        ENDIF
+!               
+                        IF(MID_PID_TRI(MID)%NBR_PID>0) THEN
+                                DO J=1,MID_PID_TRI(MID)%NBR_PID
+                                 IF(PID==MID_PID_TRI(MID)%PID1D(J)) THEN
+                                        POIN_PART_TRI(1,I)=MID
+                                        POIN_PART_TRI(2,I) = J
+                                 ENDIF                                
+                                ENDDO
+                        ENDIF
                 ENDIF
            ENDDO
         ENDIF

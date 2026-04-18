@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3DEFO3(JFT,JLT,VL1,VL2,VL3,
      .                   IXTG,ISH3N,PX1  ,PY1    ,PY2   ,
@@ -32,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   VX13 ,VX23  ,VY12  ,
      .                   E1X      ,E1Y      ,E1Z     ,E2X      ,           
      .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      ) 
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NC1, NC2, NC3, I, J
+      INTEGER I
       my_real
      .     VX1(MVSIZ),  VX2(MVSIZ),  VX3(MVSIZ),
      .     VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ),
@@ -166,7 +169,6 @@ c  O   BERZ(J,NEL)    - Eta terms of derivation : A*(-Nx,y+Ny,x -2Ni)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I
       my_real Y2(MVSIZ)
 C=======================================================================
       Y2(JFT:JLT)=ZERO
@@ -296,7 +298,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
       my_real
-     .   A2,BXV2,BYV1,A05,NXY,NYX,
+     . A2,NXY,NYX,
      .   X2L(MVSIZ),X3L(MVSIZ),Y2L(MVSIZ),Y3L(MVSIZ),BM0RZ(MVSIZ,4,2),
      .   BMKRZ(MVSIZ,4,3),BMERZ(MVSIZ,4,3),Y31_2,Y21_2,X31_2,X21_2,
      .   Y21Y31,X21X31,X21Y31,X31Y21,X21Y21,X31Y31
@@ -419,7 +421,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J,K
+        INTEGER I ,J
       my_real
      .   SCAL
 C-------crrection to pass patch test   
@@ -464,7 +466,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NC1, NC2, NC3, I, J
+      INTEGER I
 C     REAL
       my_real
      .   PX2(MVSIZ), PY2(MVSIZ), PX3(MVSIZ), PY3(MVSIZ) ,AREAI

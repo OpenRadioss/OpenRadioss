@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C FOR A GIVEN SECND NODE FIND THE NEAREST MAIN SEGMENT
+C FOR A GIVEN SECOND NODE FIND THE NEAREST MAIN SEGMENT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,11 +89,11 @@ C-----------------------------------------------
         !   lies on segment             is out of segment
         !
         !         I
-        !         +                                    I     <- secnd node
+        !         +                                    I     <- second node
         !        /                                     +
         !      /                                       |
         !    /                                         |
-        !   +--D2-x----+                  +---------+  x     <- main segment
+        !   +-D2-X ----++ --------+ X <-Main segment
         !  MG          K                  MG        K
         !
 
@@ -106,11 +106,11 @@ C-----------------------------------------------
           ! main segment
           C2=X(2,MG)-X(2,K)
           C3=X(3,MG)-X(3,K)
-          !  other node on this segment -> secnd node
+          !  other node on this segment -> second node
           S2=X(2,I)-X(2,K)
           S3=X(3,I)-X(3,K)
           !
-          CS=C2*S2+C3*S3 ! dot product
+          CS=C2*S2+C3*S3 ! Dot Product
           D2=S2*S2+S3*S3 ! distance : lag second node -> fluid node
           IF(CS > ZERO)THEN
            CC=C2*C2+C3*C3 ! lagrange segment : length

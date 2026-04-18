@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
-     .   LEN(MVSIZ),RHO0(MVSIZ),
+     .   RHO0(MVSIZ),
      .   EHOURT,AA
 !       SP issue, need double precision for these variables   
         REAL(kind=8) ::

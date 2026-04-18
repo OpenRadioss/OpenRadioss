@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -101,7 +101,7 @@ C
         DZY(I)=PY1(I)*VZ13(I)+PY2(I)*VZ24(I)
       ENDDO
 C-----------------------------------------------
-C     CALCUL PAR NOEUD DE V MATIERE - V MAILLAGE
+C     CALCULATION PER NODE OF V MATERIAL - V MESH
 C-----------------------------------------------
       DO I=1,NEL
         VDY1(I)=V(2,NC1(I)) - W(2,NC1(I))

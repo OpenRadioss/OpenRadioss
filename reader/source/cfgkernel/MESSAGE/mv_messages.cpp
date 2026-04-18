@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #include <UTILS/win32_utils.h>
 
@@ -43,19 +43,6 @@ static const MvMsgArray_t &loc_get_msg_arrays(MvMsgType_e type);
 
 
 /* --------- Classes declaration --------- */
-
-class MvMsgArray_t {
-public:
-  MvMsgArray_t(int increm=50);
-  ~MvMsgArray_t();
-public:
-  inline int          getNbMsg()    const { return myNbMsg; }
-  inline const char **getStrArray() const { return (const char **)myStrArray; }
-  void setMsg(int ind,const string &msg);
-private:
-  int    myNbMsg,myRealSize,myIncrement;
-  char **myStrArray;
-};
 
 class MvMsgArrayFile_t : public MvParserBase_t {
 public:
@@ -103,8 +90,8 @@ static const MvMsgArray_t &loc_get_msg_arrays(MvMsgType_e type) {
 
 /* --------- public functions implementation --------- */
 
-extern "C" const char **MV_get_msg_array(MvMsgType_e type) {
-  return loc_get_msg_arrays(type).getStrArray();
+extern "C" const MvMsgArray_t& MV_get_msg_array(MvMsgType_e type) {
+  return loc_get_msg_arrays(type);
 }
 
 extern "C" int MV_get_nb_msg(MvMsgType_e type) {
@@ -138,6 +125,12 @@ void MvMsgArray_t::setMsg(int ind,const string &msg) {
   if(ind>=myNbMsg) myNbMsg=ind+1;
 }
 
+static char* empty_string = "";
+const char* MvMsgArray_t::operator[](int ind) const
+{
+    if(ind < 0 || ind >= myNbMsg) return empty_string;
+    return myStrArray[ind];
+}
 
 /* --------- MvMsgArrayFile_t implementation --------- */
 MvMsgArrayFile_t::MvMsgArrayFile_t(const string &fullname, MvMsgArray_t *msg_array_tab) : MvParserBase_t(fullname,false,true) {

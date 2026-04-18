@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NI,NREMNODE,IPARI(*)
+      INTEGER NREMNODE,IPARI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -234,11 +234,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NI,NREMNODE,IPARI(*)
+      INTEGER NREMNODE,IPARI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,OLD_SIZE ,NTY
+      INTEGER I,OLD_SIZE 
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB
@@ -259,7 +259,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%S_REMNODE_EDG = NREMNODE
       ALLOCATE(INTBUF_TAB%REMNODE_EDG(INTBUF_TAB%S_REMNODE_EDG))
       INTBUF_TAB%REMNODE_EDG(1:INTBUF_TAB%S_REMNODE_EDG)=0
-      DO I=1,OLD_SIZE
+      DO I=1,MIN(OLD_SIZE,NREMNODE)
         INTBUF_TAB%REMNODE_EDG(I) = OLD_TAB(I)
       ENDDO   
 C
@@ -327,7 +327,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%S_REMNODE_EDG = NREMNODE
       ALLOCATE(INTBUF_TAB%REMNODE_EDG(INTBUF_TAB%S_REMNODE_EDG))
       INTBUF_TAB%REMNODE_EDG(1:INTBUF_TAB%S_REMNODE_EDG)=0
-      DO I=1,OLD_SIZE
+      DO I=1,MIN(OLD_SIZE,NREMNODE)
         INTBUF_TAB%REMNODE_EDG(I) = OLD_TAB(I)
       ENDDO   
 C
@@ -383,22 +383,22 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%KREMNODE_E2S(1:INTBUF_TAB%S_KREMNODE_E2S)=0
 
       OLD_SIZE = INTBUF_TAB%S_REMNODE_E2S
-      ALLOCATE (OLD_TAB(OLD_SIZE))
-      !save values
-      DO I=1,OLD_SIZE
-        OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
-      ENDDO      
-      DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
-
-      !reallocate with new size and copy saved values
       INTBUF_TAB%S_REMNODE_E2S = NREMNODE
-      ALLOCATE(INTBUF_TAB%REMNODE_E2S(INTBUF_TAB%S_REMNODE_E2S))
-      INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
-      DO I=1,OLD_SIZE
-        INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
-      ENDDO   
-C
-      DEALLOCATE(OLD_TAB)
-C
+      IF(OLD_SIZE < INTBUF_TAB%S_REMNODE_E2S) THEN
+        ALLOCATE (OLD_TAB(OLD_SIZE))
+        !save values
+        DO I=1,OLD_SIZE
+          OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
+        ENDDO      
+        DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
 
+        !reallocate with new size and copy saved values
+        ALLOCATE(INTBUF_TAB%REMNODE_E2S(INTBUF_TAB%S_REMNODE_E2S))
+        INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
+        DO I=1,MIN(OLD_SIZE,NREMNODE)
+          INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
+        ENDDO   
+C
+        DEALLOCATE(OLD_TAB)
+      ENDIF
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER K, K1, N, ISK, I, KIND(NRLINK)
 C-----------------------------------------------
 C
-C Pre calcul index
+C Pre-computation of index
 C
           K = 1
           DO I = 1, NRLINK
@@ -68,7 +68,7 @@ C
 C
           K1=1
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             K1=4*N-3
@@ -91,10 +91,10 @@ C boucle parallele sur les threads SMP
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to be optimized if needed
 
             DO N=1,NRLINK
-C routine de calcul Parith/ON de A AR MS IN rigid link
+C routine for Parith/ON computation of A AR MS IN rigid link
               IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),15*6)
             END DO
@@ -102,7 +102,7 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
 !$OMP END SINGLE
           END IF
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             K1=4*N-3
@@ -168,7 +168,7 @@ C-----------------------------------------------
       INTEGER K, K1, N, ISK, I, IPOL, KIND(NLINK)
 C-----------------------------------------------
 C
-C Pre calcul index
+C Pre-computation of index
 C
           K = 1
           DO I = 1, NLINK
@@ -178,7 +178,7 @@ C
 C
           K1=1
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
 c            K = 1
@@ -211,10 +211,10 @@ c            ENDDO
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to be optimized if needed
 
             DO N=1,NLINK
-C routine de calcul Parith/ON de A AR MS IN rigid link
+C routine for Parith/ON computation of A AR MS IN rigid link
               IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),15*6)
             END DO
@@ -222,7 +222,7 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
 !$OMP END SINGLE
           END IF
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             ISK=NNLINK(5,N)
@@ -389,14 +389,14 @@ c          ATMR2 = ATMR2 + R*R*MS(N)*A(3,N)
 C
        IF(IC/=0)THEN
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 15)
        
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass momentum
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO
@@ -420,7 +420,7 @@ C-----------------------------------------------------------------------
           ENDIF
         ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(4,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(5,1), 15)
@@ -429,11 +429,11 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F5, FRL6(8,1), 15)
        ENDIF
 C-----------------------------------------------------------------------
-C     DDL de rotation
+C     rotational DOF
 C-----------------------------------------------------------------------
        IF(IRODDL/=0.AND.ICR/=0)THEN
 C-----------------------------------------------------------------------
-C       inertie quantite de mouvement
+C       inertia momentum
 C-----------------------------------------------------------------------
 c        AX  =ZERO
 c        AY  =ZERO
@@ -457,7 +457,7 @@ C
         ENDDO
 C
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(9,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(10,1), 15)
@@ -525,7 +525,7 @@ C
          ENDDO
        END IF
 C-----------------------------------------------------------------------
-C     DDL de rotation
+C     rotational DOF
 C-----------------------------------------------------------------------
        IF(IRODDL/=0.AND.ICR/=0)THEN
          IC1=ICR/4

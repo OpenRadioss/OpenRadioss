@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER GRBRIC_ID,IBAG,IDEL7N,IGAP,IGAP0,NTYP,INACTI,
+      INTEGER GRBRIC_ID,IDEL7N,IGAP,IGAP0,NTYP,INACTI,
      .        IDELKEEP,ISU1_user,ISU2_user,ISU3_user,ISTIFF
       my_real GAP,STARTT,STOPT,BUMULT,VISC,FRIC,VREF,SCALE
       CHARACTER(LEN=NCHARTITLE)::MSGTITL
@@ -325,7 +325,7 @@ C------------------------------------------------------------
         !gap output 
         WRITE(IOUT,3014)  
         ! USER          INTERNAL
-        ! IGAP=0,1000 ->  0      (constant gap : defaut = auto)
+        ! IGAP = 0.1000 -> 0 (Constant Gap: DEFAUT = AUTO)
         ! IGAP=1      ->  1      (variable gap)      
         IF(IGAP == 0)THEN                                  
           !CONSTANT GAP  

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    build_cnel   ../starter/source/model/mesh/build_cnel.F
+!||    build_cnel    ../starter/source/model/mesh/build_cnel.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
@@ -33,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   ADDCNEL    ,KXX        ,IXX        ,X        ,LELX     ,
      7   IXIG3D     ,KXIG3D     ,KNOD2ELIG3D,NOD2ELIG3D,KNOD2ELQ,
      8   NOD2ELQ   )
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +64,7 @@ C-----------------------------------------------
       INTEGER I, J, K, N, PX, PY, PZ
 C-----------------------------------------------
 C
-C Pre construction ADDRESSES
+C PRE CONSTRUCTION ADDRESS
 C    
       DO  K=2,9
         DO  I=1,NUMELS
@@ -213,7 +215,7 @@ C-----------------------------------------------
         ADDCNEL(N+1)=ADDCNEL(N)
       END DO
       ADDCNEL(1)=0
-c traitement a part du 3eme noeud optionnel sauf type 12
+c Treatment apart from the 3rd optional node except type 12
 c      DO I=1,NUMELR
 c        N = IXR(4,I)
 c        IF(IGEO(11,IXR(1,I))==12)  ADDCNEL(N) = ADDCNEL(N) + 1
@@ -221,7 +223,7 @@ c      END DO
 C
 C-----------------------------------------------
 C
-C Construction de la matrice Nod -> Solid elt
+C building the matrix Nod -> Solid element
 C
       DO  K=2,9
         DO  I=1,NUMELS
@@ -266,7 +268,7 @@ C
       END DO
       KNOD2ELS(1)=0
 C
-C Construction de la matrice Nod -> Shell elt
+C building the matrix Nod -> Shell element
 C
       DO K=2,5
         DO I=1,NUMELC
@@ -281,7 +283,7 @@ C
       END DO
       KNOD2ELC(1)=0
 C
-C Construction de la matrice Nod -> 3-node Shell elt
+C building the matrix Nod -> 3-node Shell element
 C
       DO K=2,4
         DO I=1,NUMELTG
@@ -373,7 +375,7 @@ C
       KNOD2ELIG3D(1)=0
 
 C------------Quad elements nodes  ----------
-C Construction de la matrice Nod -> Quad elt
+C building the matrix Nod -> Quad element
 C
       DO K=2,5
         DO I=1,NUMELQ
@@ -483,7 +485,7 @@ C
 
         DO N=1,NSN
 C
-C         IRTLM(3,-) <=> n de segment local sur IRTLM(4,-)
+C         IRTLM(3,-) <=> local segment number on IRTLM(4,-)
           K = INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)
           IF(K /= 0)THEN
             INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)=IRTLM_L(K)
@@ -528,7 +530,7 @@ C-----------------------------------------------
       INTEGER NIN, NTY, I, N, I1, I2, I3, I4, NRTM, NADMSR, ISHIFT
 C-----------------------------------------------
 C
-C Pre construction ADDRESSES
+C PRE CONSTRUCTION ADDRESS
 C   
       ADDCSRECT(0) = 0
 
@@ -539,6 +541,7 @@ C
  
         NRTM  =IPARI(4,NIN)
         NADMSR=IPARI(67,NIN)
+       IF(NADMSR >0) THEN
         DO N=1,NRTM
           I1=ISHIFT+INTBUF_TAB(NIN)%ADMSR(4*(N-1)+1)
           I2=ISHIFT+INTBUF_TAB(NIN)%ADMSR(4*(N-1)+2)
@@ -580,6 +583,7 @@ C
         END DO
 C
         ISHIFT=ISHIFT+NADMSR
+        ENDIF
  
       END DO
 C-----------------------------------------------

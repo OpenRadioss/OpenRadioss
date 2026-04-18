@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,9 +36,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   Remise a 0 de IFPEN si le nd n'est plus candidat
+C   Reset IFPEN to 0 if the node is no longer a candidate
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

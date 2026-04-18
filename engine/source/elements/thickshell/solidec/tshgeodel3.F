@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
      .   TET_COLLA(MVSIZ),DEF_V(MVSIZ),APS_R(MVSIZ),
-     .   C_MIN,AL,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
+     .   C_MIN,VDEFMIN,VDEFMAX,ASPMAX,COLMIN,C_MAX,GDEL
 C---------------------------------------------
       VDEFMIN = GEO(190)
       VDEFMAX = GEO(191)

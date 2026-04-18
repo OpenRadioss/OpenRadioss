@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C
       DO I = NSNF, NSNL
 C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NSV(I)) == 0.AND.STFN(I) > ZERO) THEN
-C         STFN(I) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
+C         STFN (i) = Zero => Take into account following APRES AFTER COMM SPMD (CF I7FOR3)
           STFN(I) = -STFN(I)
           NEWFRONT = -1
         ENDIF
@@ -149,7 +149,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds secnds alors stifn = 0. des le cycle courant
+C if tag is zero on secondary nodes then stifn = 0 from the current cycle
         IF (ITAG(NSV(I)) == 0) THEN
           STFN(I) = ZERO
         END IF
@@ -193,7 +193,7 @@ C
       DO I = NSNF, NSNL
 C si tag nul sur noeuds secnds alors stifn = 0.
         IF (ITAG(NLG(NSV(I))) == 0.AND.STFA(NSV(I)) > ZERO) THEN
-C         STFA(NSV(I)) = ZERO => Prise en compte cycle suivant apres comm SPMD (cf i7for3)
+C         STFA (NSV (I)) = Zero => Take into account following afterwards APMD SPMD (see i7for3)
           STFA(NSV(I)) = -STFA(NSV(I))
           NEWFRONT = -1
         ENDIF
@@ -229,7 +229,7 @@ C-----------------------------------------------
 CC-----------------------------------------------
 C
 C ipari(16) : flag parallelisation interfaces sauf type 2
-C ipari(16) : nombre de noeuds secnds locaux int. type 2
+C Ipari (16): Number of local send nodes int.Type 2
 C ipari(17) : flag delete facettes/noeuds int. type7, type2
 C ipari(17) = 0 => ras
 C ipari(17) = 1 => delete facettes+noeuds methode 1 
@@ -251,15 +251,18 @@ C
       END
 C
 !||====================================================================
-!||    chkinit      ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkinit       ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    resol_init   ../engine/source/engine/resol_init.F
+!||    resol_init    ../engine/source/engine/resol_init.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHKINIT(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,
      3   IXR        ,IXTG       ,IXS10    ,IXS20    ,
      4   IXS16      ,IXTG1      ,GEO        ,ADDCNEL  ,CNEL     ,
      5   ADSKY      ,IPARG      )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -286,7 +289,7 @@ C-----------------------------------------------
      .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, NG
 CC-----------------------------------------------
 C
-C Pre construction de ADDCNEL
+C pre-construction of addcnel
 C    
       DO I=0,NUMNOD+1
         ADDCNEL(I) = 0
@@ -354,7 +357,7 @@ C
           ADDCNEL(N) = ADDCNEL(N) + 1
         END DO
       END DO
-C traitement a part du 3eme noeud optionnel sauf type 12
+C Treatment apart from the 3rd optional node except type 12
       DO I=1,NUMELR
         N = IXR(4,I) + 1
         IF(NINT(GEO(12,IXR(1,I))) == 12)  ADDCNEL(N) = ADDCNEL(N) + 1
@@ -379,10 +382,10 @@ C
         ADDCNEL(I) = ADDCNEL(I) + ADDCNEL(I-1)
       END DO
 C
-C Construction de la matrice CNEL
+C construction of the cnel matrix
 C
-C CNEL est contruite de maniere analogue a ce qui est fait dans chkstfn3n (traitement idel)
-C la numerotation dans CNEL est globale de 1 a NUMELS+NUMELQ+...+NUMELR
+C cnel is built in a similar way as in chkstfn3n (idel processing)
+C numbering in cnel is global from 1 to numels+numelq+...+numelr
 C
       ADSKY(0) = 0
       DO I = 1, NUMNOD
@@ -555,11 +558,12 @@ C
 !||    spmd_r2r_tagel       ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
 !||    rad2r_mod            ../engine/share/modules/rad2r.F
 !||    remesh_mod           ../engine/share/modules/remesh_mod.F
-!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
       SUBROUTINE TAGOFF3N(NODES,
      1    GEO     ,IXS   ,IXS10   ,IXS20   ,IXS16  ,IXQ    ,
@@ -579,6 +583,7 @@ C-----------------------------------------------
       USE REMESH_MOD
       USE GROUPDEF_MOD
       USE SHOOTING_NODE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1110,7 +1115,7 @@ C
      .            LOCAL_ELEM_INDEX(1:GLOBAL_NB_ELEM_OFF(ITASK+1))
 
 
-C      CALL MY_BARRIER() => remplace par barriere implicite sur do //
+C      call my_barrier() => replaced by implicit barrier on do //
 C
 C SPMD SPECIFIQUE : ECHANGE ITAG NOEUDS FRONTIERES
 C
@@ -1136,13 +1141,13 @@ C Partie non parallele
 !$OMP SINGLE
       IF (R2R_SIU == 1.AND.IDEL7NOK==1) THEN
 C-----------------------------------------------------------------
-C       Envoi de ITAG et TAGEL pour multidomaines
+C       sending itag and tagel for multidomains
 C-----------------------------------------------------------------
         IF (IDEL7NOK_SAV > 0) THEN
 C       communication partie nodale ITAGq
           CALL SEND_SHMBUF_C(IDEL7NOK,1)
           CALL R2R_EXCH_ITAG(IEXLNK,IGRNOD,ITAG,0)
-C       communication partie elementaire TAGEL
+C       Tagel Element Party Communication
           NTAGEL_R2R_SENDG = NTAGEL_R2R_SEND
           CALL SPMD_ALLGLOB_ISUM9(NTAGEL_R2R_SENDG,1)
           IF (NTAGEL_R2R_SENDG > 0) THEN
@@ -1169,7 +1174,7 @@ C-----------------------------------------------------------------
            CALL GET_IBUF_C(LENR,1)
         ENDIF
 C-----------------------------------------------------------------
-C       Assemblage ITAG pour multidomaines
+C       assembling itag for multidomains
 C-----------------------------------------------------------------
         CALL R2R_EXCH_ITAG(IEXLNK,IGRNOD,ITAG,1)
         IF (SDD_R2R_ELEM > 0) THEN
@@ -1177,7 +1182,7 @@ C-----------------------------------------------------------------
           CALL SPMD_EXCH_R2R_ITAG(ITAG,IAD_ELEM,FR_ELEM,DD_R2R,DD_R2R_ELEM,LENR)
         ENDIF
 C-----------------------------------------------------------------
-C       Reception TAGEL pour multidomaines
+C       receiving tagel for multidomains
 C-----------------------------------------------------------------
         IF (IDEL7NOK_R2R > 0) THEN
           CALL GET_SHMBUF_C(NTAGEL_R2R_RECV,4)
@@ -1216,7 +1221,7 @@ C
               ENDDO
             ENDIF   
           ENDDO
-C       RAZ de IDEL7NOK_R2R et NTAGEL_R2R_RECV
+C       reset of idel7nok_r2r and ntagel_r2r_recv
           IDEL7NOK_R2R = 0
           NTAGEL_R2R_RECV = 0
           CALL SEND_SHMBUF_C(IDEL7NOK_R2R,2)
@@ -1262,6 +1267,7 @@ C
 !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
 !||====================================================================
@@ -1278,6 +1284,7 @@ C-----------------------------------------------
       USE nodal_arrays_mod
       USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD    
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1546,7 +1553,7 @@ C Fin Partie non parallele
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
 C
-C Rajout type20 partie edge
+C Adjet type20 part Edge
 C
          NLINSA =IPARI(53,NG)
          NLINMA =IPARI(54,NG)
@@ -1603,7 +1610,7 @@ C
 C Partie non parallele
 !$OMP SINGLE
            IBUFS(IDBS)=IDEL
-           IBUFS(IDBS+1)=-NTY             ! -20 pour reperage partie edge
+           IBUFS(IDBS+1)=-NTY             ! -20 for the LED PARTING REPORT
            IBUFS(IDBS+2)=NINDEX3(NG)
            IBUFS(IDBS+3)=NINDEX4(NG)
 C Fin Partie non parallele
@@ -1622,7 +1629,7 @@ C------
      .       CALL CHKSLV3B(NMN,INTBUF_TAB(NG)%MSR,INTBUF_TAB(NG)%STFNM,ITAG,ITASK)
            NRTS  =IPARI(3,NG)
            NRTM  =IPARI(4,NG)
-         ELSE   !  interface traitee par p0 uniquement
+         ELSE   !  interface treated by P0 only
            NSN  = 0
            NMN  = 0
            NRTS = 0
@@ -1782,7 +1789,7 @@ C
       IF(NSPMD > 1) THEN
 
 C
-C Traitement supplementaires en SPMD avec un seul point de communication
+C additional processing in spmd with a single communication point
 C
 
 C Partie non parallele
@@ -1799,7 +1806,7 @@ C Partie non parallele
      6         TAGEL  ,IAD_ELEM)
 
 C
-C Finalisation de la partie MAJ STIF
+C finalization of the update stif part
 C
        IF(INT24USE==1.OR.NINTER25/=0)THEN
          ALLOCATE(INDSEGLO_SAV(NINTER+1))
@@ -1871,7 +1878,7 @@ C cote main
 C
         ENDIF
 C
-C Rajout type20 partie edge
+C Adjet type20 part Edge
 C
         IF(NTY == 20.AND.IDEL>=1)THEN
 Cote main
@@ -1898,9 +1905,9 @@ Cote secnd
 C Fin Partie non parallele
 !$OMP END SINGLE
 
-      END IF  ! specifique NSPMD > 1    
+      END IF  ! SPECIFIC NSPMD> 1    
 C
-C barrier et remise a 0 de idel7nok effectuees dans resol
+C barrier and reset of idel7nok performed in resol
 C
       RETURN
       END
@@ -1914,6 +1921,7 @@ C
 !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
 !||    my_barrier                  ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE CHKMSR3N(
@@ -1927,6 +1935,7 @@ C
      8    INDSEGLO ,IBUFSEGLO)
 C-----------------------------------------------
        USE MY_ALLOC_MOD
+       use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1968,7 +1977,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
 C
       IF(NTY/=3.AND.NTY/=5) THEN
-C mise a - uniquement pour optimiser les interfaces type 7, 10
+C A - only to optimize type 7, 10 interfaces
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
           IF (ITAG(ABS(MSR(I))) == 0) THEN
@@ -2003,7 +2012,7 @@ C
               NIND_SEGLO = NIND_SEGLO + 1
               IND_SEGLO(NIND_SEGLO)=I
             ENDIF
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -2059,7 +2068,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouve, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -2115,6 +2124,8 @@ C
 !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
 !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
 !||    my_barrier                  ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHKMSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
@@ -2124,6 +2135,7 @@ C
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL ,NG,MSEGLO,
      7    MVOISIN,INDSEGLO,IBUFSEGLO)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2161,7 +2173,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
       IF(NTY/=3.AND.NTY/=5) THEN
-C mise a - uniquement pour optimiser les interfaces type 7, 10
+C A - only to optimize type 7, 10 interfaces
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
           IF (ITAG(ABS(MSR(I))) == 0) THEN
@@ -2192,7 +2204,7 @@ C
               NIND_SEGLO = NIND_SEGLO + 1
               IND_SEGLO(NIND_SEGLO)=I
             ENDIF
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -2210,7 +2222,7 @@ C
         IF(N4 == 0) N4 = N3
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
           II = CNEL(J)
-          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
+          IF(TAGEL(II) > 0) THEN    !    ELT Active finds
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
@@ -2238,14 +2250,14 @@ C
            END IF
           END IF
         END DO
-C si aucun element actif : stif a 0 en smp ou mono
+C If no active element: Stif A 0 in SMP or Mono
         IF(NSPMD == 1) THEN
           STF(I) = ZERO
           IF(NTY==24.OR.NTY==25)THEN
              NIND_SEGLO = NIND_SEGLO + 1
              IND_SEGLO(NIND_SEGLO)=I
           ENDIF
-C si aucun element actif :comm en spmd
+C If no active element: COMM in SPMD
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -2290,11 +2302,13 @@ C
       END
 C
 !||====================================================================
-!||    chk20msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk20msr3n    ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK20MSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
@@ -2303,6 +2317,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,NLG   ,TAGEL)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2340,7 +2355,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
       IF(NTY/=3.AND.NTY/=5) THEN
-C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
+C A - only to optimize type 7, 10, 20 interfaces
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
@@ -2369,7 +2384,7 @@ C
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -2422,7 +2437,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -2452,6 +2467,8 @@ C
 !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK20MSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
@@ -2460,6 +2477,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,NLG   ,TAGEL)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2497,7 +2515,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
       IF(NTY/=3.AND.NTY/=5) THEN
-C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
+C A - only to optimize type 7, 10, 20 interfaces
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
@@ -2526,7 +2544,7 @@ C
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -2549,7 +2567,7 @@ C
         IF(N4 == 0) N4 = N3
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
           II = CNEL(J)
-          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
+          IF(TAGEL(II) > 0) THEN    !    ELT Active finds
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
@@ -2577,10 +2595,10 @@ C
            END IF
           END IF
         END DO
-C si aucun element actif : stif a 0 en smp ou mono
+C If no active element: Stif A 0 in SMP or Mono
         IF(NSPMD == 1) THEN
           STF(I) = ZERO
-C si aucun element actif :comm en spmd
+C If no active element: COMM in SPMD
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -2605,11 +2623,13 @@ C
       END
 
 !||====================================================================
-!||    chk11msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk11msr3n    ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK11MSR3N(
      1    NMN    ,MSR     ,ITAG  ,ITASK  ,IRECT  ,
@@ -2620,6 +2640,7 @@ C
      6    ADDCNEL,OFC     ,OFT   ,OFTG   ,OFUR   ,
      7    OFR    ,OFP     ,NINDG ,BUFS   ,NINDEX ,
      8    TAGEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2681,6 +2702,8 @@ C
 !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK11MSR3NB(
      1    NMN    ,MSR   ,ITAG  ,ITASK   ,IRECT ,
@@ -2691,6 +2714,7 @@ C
      6    ADDCNEL,OFC   ,OFT   ,OFTG    ,OFUR  ,
      7    OFR    ,OFP   ,NINDG ,BUFS    ,NINDEX,
      8    TAGEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2727,7 +2751,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-C mise a - uniquement pour optimiser les interfaces type 7, 10
+C A - only to optimize type 7, 10 interfaces
       DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(MSR(I))) == 0) THEN
@@ -2755,6 +2779,8 @@ C
 !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK20EMSR3N(
      1    NMN    ,MSR     ,ITAG  ,ITASK  ,IRECT  ,
@@ -2765,6 +2791,7 @@ C
      6    ADDCNEL,OFC     ,OFT   ,OFTG   ,OFUR   ,
      7    OFR    ,OFP     ,NINDG ,BUFS   ,NINDEX ,
      8    NLG    ,TAGEL   )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2822,14 +2849,14 @@ C
           N1  = NLG(N1L)
           N2  = NLG(N2L)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette main ou second
+C Next main or second facet
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
             END IF 
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
@@ -2873,25 +2900,25 @@ C
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre detruit
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! beam destroyed
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort detruit
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! Spring destroyed
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
                ITAGL(IX) = 1
              ENDDO
-             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! ressort detruit
+             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! Spring destroyed
                IX = IXR(4,II)
                ITAGL(IX) = 1
              ENDIF
            END IF
            IF(ITAGL(N1)+ITAGL(N2) == 2)THEN
-C suivant facette main ou second
+C Next main or second facet
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
@@ -2903,7 +2930,7 @@ C suivant facette main ou second
          END IF
         END DO
 C
-C   on a rien trouver, il faut voir sur les autres procs en SPMD
+C   We have not found anything, we have to see on the other SPMD procs
         IF(NSPMD > 1) THEN
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -2933,6 +2960,8 @@ C
 !||    chkstfn3n      ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier     ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK20EMSR3NB(
      1    NMN    ,MSR   ,ITAG  ,ITASK   ,IRECT ,
@@ -2943,6 +2972,7 @@ C
      6    ADDCNEL,OFC   ,OFT   ,OFTG    ,OFUR  ,
      7    OFR    ,OFP   ,NINDG ,BUFS    ,NINDEX,
      8    NLG    ,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2980,7 +3010,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-C mise a - uniquement pour optimiser les interfaces type 7, 10
+C A - only to optimize type 7, 10 interfaces
       DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
@@ -3001,14 +3031,14 @@ C
           N1  = NLG(N1L)
           N2  = NLG(N2L)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
-C suivant facette main ou second
+C Next main or second facet
             IF(IFL == 1) THEN
               STF(I) = ZERO
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
             END IF 
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
@@ -3026,7 +3056,7 @@ C
 C
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II) > 0) THEN    !    elt actif trouve
+         IF(TAGEL(II) > 0) THEN    !    ELT Active finds
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            IF(II<=OFC) THEN ! solide actif
@@ -3052,19 +3082,19 @@ C
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre actif
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! active beam
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort actif
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! active
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
                ITAGL(IX) = 1
              ENDDO
-             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! ressort actif
+             IF(NINT(GEO(12,IXR(1,II))) == 12) THEN ! active
                IX = IXR(4,II)
                ITAGL(IX) = 1
              ENDIF
@@ -3075,9 +3105,9 @@ C
          ENDIF
         ENDDO
 C
-C si aucun element actif : stif a 0
+C If no active element: Stif A 0
         IF(NSPMD == 1) THEN
-C suivant facette main ou second
+C Next main or second facet
           IF(IFL == 1) THEN
             STF(I) = ZERO
           ELSE
@@ -3107,11 +3137,13 @@ C
       END
 C
 !||====================================================================
-!||    chk2msr3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK2MSR3N(
      1    NSN    ,NSV  ,ITAG ,ITASK,IRECT,
@@ -3120,6 +3152,7 @@ C
      4    IN     ,SMAS ,SINER,ADM  ,CNEL ,
      5    ADDCNEL,OFC  ,OFT  ,OFTG ,OFUR ,
      6    TAGEL  ,ILEV )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3169,7 +3202,7 @@ C
               MS(IS) = SMAS(I)
               IN(IS) = SINER(I)
             ENDIF
-C         attention >= 1 car cumul noeud frontiere des tags a 1
+C         CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -3230,11 +3263,13 @@ C
       END
 C
 !||====================================================================
-!||    chk2msr3nb   ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3nb    ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK2MSR3NB(
      1    NSN    ,NSV  ,ITAG ,ITASK,IRECT,
@@ -3244,6 +3279,7 @@ C
      5    ADDCNEL,OFC  ,OFT  ,OFTG ,OFUR ,
      6    NINDG  ,BUFS ,NINDEX,TAGEL,ITAB  ,
      7    ILEV   )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3299,7 +3335,7 @@ C
               MS(IS) = SMAS(I)
               IN(IS) = SINER(I)
             ENDIF
-C         attention >= 1 car cumul noeud frontiere des tags a 1
+C         CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +       ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -3319,7 +3355,7 @@ C
         IF(N4 == 0) N4 = N3
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
           II = CNEL(J)
-          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
+          IF(TAGEL(II) > 0) THEN    !    ELT Active finds
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
@@ -3347,14 +3383,14 @@ C
            END IF
           END IF
         END DO
-C si aucun element actif : stif a 0 en smp ou mono
+C If no active element: Stif A 0 in SMP or Mono
         IF(NSPMD == 1) THEN
            NSV(I) = -NSV(I)
            IF (ILEV /= 25 .and. ILEV /= 26) THEN
              MS(IS) = SMAS(I)
              IN(IS) = SINER(I)
            ENDIF
-C si aucun element actif :comm en spmd
+C If no active element: COMM in SPMD
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -3379,11 +3415,13 @@ C
       END
 C
 !||====================================================================
-!||    chk2msr3np   ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk2msr3np    ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK2MSR3NP(
      1    NSN   ,NSV  ,ITAG   ,ITASK,IRECT ,
@@ -3393,6 +3431,7 @@ C
      5    ITABM1,CNEL ,ADDCNEL,OFC  ,OFT   ,
      6    OFTG  ,OFUR ,NINDG  ,BUFS ,INDEX ,
      7    IDEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3434,7 +3473,7 @@ C
         IS=NSV(I)
         IF(IS > 0) THEN
 C
-C       la facette detruite est eventuellement sur un autre processeur
+C       the destroyed facet is possibly on another processor
 C
           L  =IRTL(I)
           N1 = IRECT(1,L)
@@ -3442,7 +3481,7 @@ C
           N3 = IRECT(3,L)
           N4 = IRECT(4,L)
           IF(N4 == 0) N4 = N3
-C         attention >= 1 car cumul noeud frontiere des tags a 1
+C         CAUTION> = 1 because cumulative node front of tags at 1
           IF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1 .AND. IDEL== 2) THEN
 #include "lockon.inc"
@@ -3454,7 +3493,7 @@ C         attention >= 1 car cumul noeud frontiere des tags a 1
             BUFS(4*(NINDEX-1)+2) = ITAB(N2)
             BUFS(4*(NINDEX-1)+3) = ITAB(N3)
             BUFS(4*(NINDEX-1)+4) = ITAB(N4)
-C         attention >= 1 car cumul noeud frontiere des tags a 1
+C         CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1 .AND. IDEL== 1) THEN
 #include "lockon.inc"
@@ -3480,11 +3519,13 @@ C
       END
 C
 !||====================================================================
-!||    chk23msr3n   ../engine/source/interfaces/interf/chkstfn3.F
+!||    chk23msr3n    ../engine/source/interfaces/interf/chkstfn3.F
 !||--- called by ------------------------------------------------------
-!||    chkstfn3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK23MSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
@@ -3493,6 +3534,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3529,7 +3571,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
 c arebrancher       IF(NTY/=3.AND.NTY/=5) THEN
-c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
+c Arebrancherc Place A - Only to optimize Type 7 interfaces, 10
 c arebrancher        DO I = NMNF, NMNL
 c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
 c arebrancher          IF (ITAG(ABS(MSR(I))) == 0) THEN
@@ -3554,7 +3596,7 @@ C
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -3602,7 +3644,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -3632,6 +3674,8 @@ C
 !||    chkstfn3n     ../engine/source/interfaces/interf/chkstfn3.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier    ../engine/source/system/machine.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHK23MSR3NB(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,
@@ -3640,6 +3684,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3676,7 +3721,7 @@ C-----------------------------------------------
       ICOMP = 0
 C
 c arebrancher      IF(NTY/=3.AND.NTY/=5) THEN
-c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
+c Arebrancherc Place A - Only to optimize Type 7 interfaces, 10
 c arebrancher        DO I = NMNF, NMNL
 c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
 c arebrancher          IF (ITAG(ABS(MSR(I))) == 0) THEN
@@ -3701,7 +3746,7 @@ C
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
-C attention >= 1 car cumul noeud frontiere des tags a 1
+C CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
      +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
@@ -3719,7 +3764,7 @@ C
         IF(N4 == 0) N4 = N3
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
           II = CNEL(J)
-          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
+          IF(TAGEL(II) > 0) THEN    !    ELT Active finds
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
@@ -3747,10 +3792,10 @@ C
            END IF
           END IF
         END DO
-C si aucun element actif : stif a 0 en smp ou mono
+C If no active element: Stif A 0 in SMP or Mono
         IF(NSPMD == 1) THEN
           STF(I) = ZERO
-C si aucun element actif :comm en spmd
+C If no active element: COMM in SPMD
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -3815,7 +3860,7 @@ C-----------------------------------------------
             NN = BUFS(J)
             IF(NN > 0) THEN
               I  = NINDEX(J)
-C suivant facette main ou second
+C Next main or second facet
               STF(I) = ZERO
               IF(NTY==24.OR.NTY==25)THEN
                 NIND_SEGLO = NIND_SEGLO + 1
@@ -3844,7 +3889,7 @@ C suivant facette main ou second
             NN = BUFS(J)
             IF(NN > 0) THEN
               I  = NINDEX(J)
-C suivant facette main ou second
+C Next main or second facet
               IF(IFL == 1) THEN
                 STF(I) = ZERO
               ELSE
@@ -3859,7 +3904,7 @@ C suivant facette main ou second
             NN = BUFS(J)
             IF(NN == 0) THEN
               I  = NINDEX(J)
-C suivant facette main ou second
+C Next main or second facet
               IF(IFL == 1) THEN
                 STF(I) = ZERO
               ELSE

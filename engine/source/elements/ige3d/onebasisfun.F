@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,12 +36,12 @@ C VAR      | SIZE      | TYP  |  RW  |  DEFINITION
 C--------------------------------------------------------------------------------------------------------
 C IDXI     | 1         | I    |  R   | ELEMENT INDEX IN KNOT VECTOR IN XI DIRECTION
 C PXI      | 1         | I    |  R   | POLYNOMIAL INTERPOLATION DEGREE IN XI DIRECTION
-C XI       | 1         | F    |  R   | COUNTER PARAMETER VALUE (WHERE THE FUNCTION AND DERIVATE ARE CALCULATED)
+C XI       | 1         | F    |  R   | COUNTER PARAMETER VALUE (WHERE THE FUNCTION AND DERIVATIVE ARE CALCULATED)
 C--------------------------------------------------------------------------------------------------------
 C KXI      | NKXI      | F    |  R   | (FULL) KNOT VECTOR IN XI DIRECTION FOR THE CURRENT PATCH (GROUP)
 C--------------------------------------------------------------------------------------------------------
 C DERS1    | PXI+1     | F    |  W   | INTERPOLATION FUNCTION
-C DERS2    | PXI+1     | F    |  W   | DERIVATE OF INTERPOLATION FUNCTION
+C DERS2    | PXI+1     | F    |  W   | DERIVATIVE OF INTERPOLATION FUNCTION
 C--------------------------------------------------------------------------------------------------------
 C Implicite Types
 C--------------------------------------------------------------------------------------------------------

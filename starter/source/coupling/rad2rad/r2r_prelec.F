@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,7 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8           DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
+     8           DETONATORS,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS,
+     9           NEBCS,NEW_NEBCS,NEW_NALELK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +74,7 @@ C-----------------------------------------------
         USE DETONATORS_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
         USE READER_OLD_MOD , ONLY : KINTER, KCUR, LINE, NSLASH
+        use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +93,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER ,INTENT(IN) :: NSENSOR
         TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
         INTEGER IPARTS(*),IPARTC(*),IPARTG(*),IPARTT(*),IPARTP(*),
      .     IPARTR(*),COMPT_T2,MODIF,PASSE,INOM_OPT(*),IPARTSP(*),NSPCONDN,
@@ -99,6 +100,9 @@ C-----------------------------------------------
      .     NEW_NINIVOL,IXS10(*), IXS16(*), IXS20(*)
         INTEGER ,INTENT(IN) :: NB_SEATBELT_SHELLS
         INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
+        INTEGER ,INTENT(IN) :: NEBCS
+        INTEGER ,INTENT(INOUT) :: NEW_NEBCS
+        INTEGER ,INTENT(INOUT) :: NEW_NALELK
         my_real
      .    PM_STACK(*)
 C-----------------------------------------------
@@ -133,6 +137,7 @@ C-----------------------------------------------
         INTEGER SUB_ID,IDTITL,IDINT,GR_BRIC,NUMC
         INTEGER NTRANS,NNODE_TRANSFORM,NODE_TRANSFORM(6)
         INTEGER GRNOD_T24T25
+        INTEGER NSENSOR
         my_real F,NUL_M
         CHARACTER MESS*40,TSENS*40
         CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -168,7 +173,7 @@ C-----DAMPING--------------------------------------------------------
             NDAMP = 0
           ENDIF
 
-C-----Flexible BODY---------------------------------------------------
+C----- Flexible body -----------------------------------------------------------------------------
 
           IF (NFXBODY>0) THEN
             CALL ANCMSG(MSGID=837,
@@ -239,12 +244,14 @@ C------Prereading and tag of Sensors---------------------------------C
 C--------------------------------------------------------------------C
 
           CALL HM_OPTION_START('/SENSOR')
+          CALL HM_OPTION_COUNT('/SENSOR', NSENSOR)
+C
           DO I=1,NSENSOR
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .           OPTION_ID   = ISENS, KEYWORD2    = KEY   )
             IF (KEY(1:4) == 'DIST'.OR. KEY(1:5) == 'TYPE2') THEN
-              CALL HM_GET_INTV  ('Sensor1' ,N1 ,IS_AVAILABLE,LSUBMODEL)
-              CALL HM_GET_INTV  ('Sensor2' ,N2 ,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INTV  ('N1' ,N1 ,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INTV  ('N2' ,N2 ,IS_AVAILABLE,LSUBMODEL)
               N1 = USR2SYS(N1,ITABM1,MESS,NI)
               CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)
               N2 = USR2SYS(N2,ITABM1,MESS,NI)
@@ -368,9 +375,11 @@ C
      .                              KEYWORD2 = KEY)
 C
             IF (KEY(1:7) == 'AIRBAG1') THEN
-              CALL HM_GET_INTV('surf', ISUR, IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
             ELSEIF ((KEY(1:4) == 'PRES').OR.(KEY(1:6) == 'AIRBAG')) THEN
               CALL HM_GET_INTV('entityiddisplayed', ISUR, IS_AVAILABLE, LSUBMODEL)
+            ELSE
+              CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
             ENDIF
 C
             ISURS = 0
@@ -707,24 +716,28 @@ C---------------------------------------------------------------------
           DO J=1,NGRNOD
             IF (IGRNOD(J)%ID==IGU) GR_ID = J
           END DO
-C-----check if RBE3 must be kept-----------------------------------
-          TAG = 0
-          NOD=IGRNOD(GR_ID)%R2R_ALL
-          IF (IGRNOD(GR_ID)%R2R_SHARE==0) TAG = 1
+C
+          IF (GR_ID > 0) THEN
+C-----check if rlink must be kept-----------------------------------
+            TAG = 0
+            NOD=IGRNOD(GR_ID)%R2R_ALL
+            IF (IGRNOD(GR_ID)%R2R_SHARE==0) TAG = 1
 C-----tag of rlink and of all nodes--------------------------------
-          IF (NOD>0) THEN
-            COMPT = COMPT+1
-            TAGLNK(I)=ID_RLINK
-            IF(TAG/=1) THEN
+            IF (NOD>0) THEN
+              COMPT = COMPT+1
+              TAGLNK(I)=ID_RLINK
+              IF(TAG/=1) THEN
 C-----RLINK between domains -> all nodes on the interface
-              DO J=1,IGRNOD(GR_ID)%NENTITY
-                CUR_ID = IGRNOD(GR_ID)%ENTITY(J)
-                IF (TAGNO(CUR_ID+NPART)<3) THEN
-                  CALL MODIF_TAG(TAGNO(NPART+CUR_ID),5,MODIF)
-                ENDIF
-              END DO
+                DO J=1,IGRNOD(GR_ID)%NENTITY
+                  CUR_ID = IGRNOD(GR_ID)%ENTITY(J)
+                  IF (TAGNO(CUR_ID+NPART)<3) THEN
+                    CALL MODIF_TAG(TAGNO(NPART+CUR_ID),5,MODIF)
+                  ENDIF
+                END DO
+              ENDIF
             ENDIF
           ENDIF
+C
         END DO
 
         NEW_NLINK = COMPT
@@ -798,7 +811,7 @@ C ---------> case nodes/surfaces---------------------------------------
             CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 C            
-C--         TYPE24 and TYPE25 with slave side defined by grnod         
+C--         TYPE24 and TYPE25 with secondary side defined by grnod         
             IF (FLAG_T24T25 == 1) GRS = GRNOD_T24T25
 C
 C--> type2 interfaces with penality are treated like type7  <------C
@@ -1023,7 +1036,7 @@ C---------
 C---------
           CALL HM_GET_INTV('node_ID',MAIN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)   
 C---------
           MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD
@@ -1163,6 +1176,31 @@ C---------------------------------------------------------------------
         END DO
 
 C--------------------------------------------------------------------C
+C------Prereading /EBCS (for ALE)------------------------------------C
+C--------------------------------------------------------------------C
+C
+        NEW_NEBCS = 0
+        CALL HM_OPTION_START('/EBCS')
+        DO I=1,NEBCS
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID = ID,
+     .                            OPTION_TITR = TITR)
+          CALL HM_GET_INTV('entityid',ISUR,IS_AVAILABLE,LSUBMODEL)
+C---------------------------------------------------------------------
+          ISURS = 0
+          DO J=1,NSURF
+            IF(ISUR==IGRSURF(J)%ID) ISURS=J
+          ENDDO
+C---------------------------------------------------------------------
+C         Surface defined on ALE elements only
+C         All EBCS in the domain is ALE -> TAG_EBCS not nedded
+C         detection with segments initially on the domain             
+          IF (ISURF_R2R(3,ISURS)>0) THEN
+            NEW_NEBCS = NEW_NEBCS + 1
+          ENDIF
+        END DO
+C
+C--------------------------------------------------------------------C
 C------Prereading and tag of inlets/outlets for SPH -----------------C
 C--------------------------------------------------------------------C
 
@@ -1199,8 +1237,11 @@ C--------------------------------------------------------------------
 C--------------------------------------------------------------------C
 C------Prereading of ALE/LINK----------------------------------------C
 C--------------------------------------------------------------------C
-
-        CALL HM_OPTION_COUNT('/ALE/LINK/VEL', NALELK)
+C
+        IF (PASSE==0) ALLOCATE(TAG_ALELINK(NALELK))
+        TAG_ALELINK(:)=0
+        NEW_NALELK = 0
+C        
         IF (NALELK > 0) THEN
           CALL HM_OPTION_START('/ALE/LINK/VEL')
           DO I = 1, NALELK
@@ -1216,26 +1257,24 @@ C--------------------------------------------------------------------C
             ENDDO
             N1 = USR2SYS(N1, ITABM1, MESS, ID)
             N2 = USR2SYS(N2, ITABM1, MESS, ID)
+C           ALE/LINK is kept in the current domain           
+            IF (IGRNOD(GR_ID)%R2R_ALL > 0) THEN
+              TAG_ALELINK(I) = ID
+              NEW_NALELK = NEW_NALELK + 1
+            ENDIF  
+C             
             IF (N1 > 0) THEN
               IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N1) < 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART + N1), 2, MODIF)
               ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N1) == 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N1) == 0) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N1), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N1) == -1) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N1), 0, MODIF)
               ENDIF
             ENDIF
-            IF (N2 > 0) THEN
+            IF ((N2 > 0).AND.(N1 /= N2)) THEN
               IF ((IGRNOD(GR_ID)%R2R_ALL > 0) .AND. (TAGNO(NPART+N2) < 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
               ELSEIF ((IGRNOD(GR_ID)%R2R_SHARE > 0) .AND. (TAGNO(NPART+N2) == 1)) THEN
                 CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N2) == 0) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N2), 2, MODIF)
-              ELSEIF (TAGNO(NPART+N2) == -1) THEN
-                CALL MODIF_TAG(TAGNO(NPART+N2), 0, MODIF)
               ENDIF
             ENDIF
           ENDDO
@@ -1351,8 +1390,6 @@ C------------------------------------------------------------------
         RETURN
 
 C------------------------------------------------------------------
- 999    CALL FREERR(3)
-        RETURN
 
       END SUBROUTINE R2R_PRELEC
 
@@ -1427,10 +1464,19 @@ C
 C
           IF(KEY(1:7)=='AIRBAG1')THEN
             TYPE = 1
-            CALL HM_GET_INTV('surf', ISUR, IS_AVAILABLE, LSUBMODEL)
+            CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
           ELSEIF(KEY(1:6)=='AIRBAG')THEN
             TYPE = 2
             CALL HM_GET_INTV('entityiddisplayed', ISUR, IS_AVAILABLE, LSUBMODEL)
+          ELSEIF(KEY(1:6)=='COMMU1')THEN
+            TYPE = 3
+            CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
+          ELSEIF(KEY(1:5)=='COMMU')THEN
+            TYPE = 4
+            CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
+          ELSE
+            TYPE = 0
+            CALL HM_GET_INTV('surf_IDex', ISUR, IS_AVAILABLE, LSUBMODEL)
           ENDIF
 
 C----------------------------------------------------------
@@ -1511,6 +1557,58 @@ C
               ENDIF
             END DO
           ENDIF
+C-------Case COMMU-----------------------------------------
+          IF ((TYPE==4).AND.(TAGMON(I)>0)) THEN
+            CALL HM_GET_INTV('Njet', NJET, IS_AVAILABLE, LSUBMODEL)
+C             --> loop on injectors <--
+            DO J=1,NJET
+              CALL HM_GET_INT_ARRAY_INDEX('Ijet', IJET, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('ABG_N1',   N1, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('node_ID2', N2, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('node_ID3', N3, J,IS_AVAILABLE, LSUBMODEL)
+C
+              IF (IJET==1) THEN
+                IF (N1/=0) THEN
+                  N1=USR2SYS(N1,ITABM1,MESS,NUL)
+                  IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
+                ENDIF
+                IF (N2/=0) THEN
+                  N2=USR2SYS(N2,ITABM1,MESS,NUL)
+                  IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
+                ENDIF
+                IF (N3/=0) THEN
+                  N3=USR2SYS(N3,ITABM1,MESS,NUL)
+                  IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
+                ENDIF
+              ENDIF
+            END DO
+          ENDIF
+C-------Case COMMU1----------------------------------------
+          IF ((TYPE==3).AND.(TAGMON(I)>0)) THEN
+            CALL HM_GET_INTV('Njet', NJET, IS_AVAILABLE, LSUBMODEL)
+C             --> loop on injectors <--
+            DO J=1,NJET
+              CALL HM_GET_INT_ARRAY_INDEX('Ijet', IJET, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('ABG_N1', N1, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('ABG_N2', N2, J,IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('ABG_N3', N3, J,IS_AVAILABLE, LSUBMODEL)
+C
+              IF (IJET==1) THEN
+                IF (N1/=0) THEN
+                  N1=USR2SYS(N1,ITABM1,MESS,NUL)
+                  IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
+                ENDIF
+                IF (N2/=0) THEN
+                  N2=USR2SYS(N2,ITABM1,MESS,NUL)
+                  IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
+                ENDIF
+                IF (N3/=0) THEN
+                  N3=USR2SYS(N3,ITABM1,MESS,NUL)
+                  IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
+                ENDIF
+              ENDIF
+            END DO
+          ENDIF
 C---------------------------------------------------------
         END DO
 C
@@ -1521,7 +1619,5 @@ C-----------
         RETURN
 
 C------------------------------------------------------------------
- 999    CALL FREERR(3)
-        RETURN
 
       END SUBROUTINE R2R_MONVOL

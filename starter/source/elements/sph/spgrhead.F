@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NE, NG, MT, MLN, I, J, MODE, II0, JJ0, 
      .        II, JJ, II1, JJ1, II2, JJ2, II3, JJ3, II4, JJ4,
-     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT,
+     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS,
      .        JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER WORK(70000)
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI
@@ -259,7 +259,7 @@ C
       END IF
 C reneumbering th groups and surface buffer
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       EADD(1) = 1

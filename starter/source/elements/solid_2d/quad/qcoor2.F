@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,12 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multifluid_init2   ../starter/source/multifluid/multifluid_init2.F
 !||    q4init2            ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    qinit2             ../starter/source/elements/solid_2d/quad/qinit2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE QCOOR2(X,IXQ,NGL,MXT, 
      .     PID, IX1, IX2, IX3, IX4, 
      .     Y1, Y2, Y3, Y4, 
      .     Z1, Z2, Z3, Z4,
      .     SY, SZ, TY, TZ)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
       MXT(I)=IXQ(1,I)
@@ -76,7 +78,7 @@ C--------------------------------------------------
       END DO
 
 C----------------------------
-C     COORDONNEES NOEUDS    |
+C     NODE COORDINATES      |
 C----------------------------
       DO I=LFT,LLT
       Y1(I)=X(2,IX1(I))
@@ -89,7 +91,7 @@ C----------------------------
       Z4(I)=X(3,IX4(I))
       END DO
 C---------------------------------------
-C     REPERE LOCAL (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIC)
 C---------------------------------------
       DO I=LFT,LLT
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))

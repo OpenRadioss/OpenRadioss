@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,N,M,J
+      INTEGER I,IP,N,J
       INTEGER ITER,NITER,INIT_PITER
       my_real
      .   UL(MVSIZ,10),
@@ -76,10 +76,10 @@ C-----------------------------------------------
       my_real
      .   D(MVSIZ),GFAC,BFAC,LD,P,MASS,MREF,FAC,
      .   AA,BB,A1,A2,A3,A4,
-     .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
+     .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z
       my_real
      .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10), 
-     .   NV(MVSIZ), LL, BU(MVSIZ,6), NINV(MVSIZ)
+     .   NV(MVSIZ), BU(MVSIZ,6), NINV(MVSIZ)
       my_real
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
@@ -97,13 +97,13 @@ C-----------------------------------------------
 
         IF(IDTMINS==0)THEN
           DO I=1,NEL
-            FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke
+            FACEIGV(I)=THREE_OVER_14    ! computing eigenvalues of Me-1 Ke
           END DO
         ELSE
 C-------- AMS (possible mix of elements inside the group)
           DO I=1,NEL
             IF(TAGELEM_SMS(I)==0)THEN
-              FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke, TRHEE_OVER_14 = (1/32) / (7/48) rapport des masses
+              FACEIGV(I)=THREE_OVER_14    ! computing eigenvalues of Me-1 Ke, THREE_OVER_14 = (1/32) / (7/48) rapport des masses
             ELSE
               FACEIGV(I)=ONE           ! compute here maximum eigenvalue K of Ke 
                                       ! => Retrieve K in mqviscb.F
@@ -960,7 +960,7 @@ C
             BB = MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
             DELTAX2(I) = AA/MAX(AA,BB)
             AA = AA*THIRTY2
-            BB = BB*FOURTY8/SEVEN
+            BB = BB*FORTY8/SEVEN
             DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
           ENDDO
 
@@ -1088,16 +1088,16 @@ C
               A4 = A4X*A4X+A4Y*A4Y+A4Z*A4Z
       
               DELTAX(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
-cc minoration deltax car inertie constante avec marge 
-cc d'un facteur sqrt(8) sur le cot    AA0 
-cc approche a partir du volume initial
+cc reduction of deltax because inertia constant with margin 
+cc by a sqrt(8) factor on edge aa0
+cthat’s from the initial volume
 c            AA0 = ((SIX*SQR2*VOLO(I))**TWO_THIRD) * EIGHT
 c
-c inertie major   e d'un facteur 9.6 (ratio des Lc^2) 
-c sur +grand cot    initial
-c et non plus le cot    moyen (SIX*SQR2*VOLO(I))**TWO_THIRD
-c => il faudrait recalculer ou stocker AA0 avec la m   me 
-c    formule que AA
+c Inertia major e of a factor 9.6 (ratio of LC^2) 
+c on larger initial edge
+c and no longer the average cot (six*sqr2*volo (i)) ** Two_third
+c so aa0 should be recalculated or stored with the same
+c    formula as aa
               AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),
      .                  SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I),
      .                  TX(I)*TX(I)+TY(I)*TY(I)+TZ(I)*TZ(I),
@@ -1117,15 +1117,6 @@ c              DELTAX(I) = DELTAX(I)*MIN(ONE,AA0/AA)
         END IF
 
       ENDIF
-C-----------
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 10 NODES TETRAHEDRON NB ',I10,
-     .        ' INTEGRATION POINT NB ',I1/)
- 1100 FORMAT(/' ZERO OR NEGATIVE VOLUME : 4 NODES TETRAHEDRON NB ',I10,
-     .        ' INTEGRATION POINT NB ',I1/)
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
- 3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
- 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/) 
 C-----------
       RETURN
       END

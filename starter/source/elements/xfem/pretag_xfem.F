@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE PRETAG_XFEM(IPARG  ,ITAGE   ,IEL_CRKXFEM,ITAGN  ,INOD_CRKXFEM)
 C-----------------------------------------------
-c     numerotation locale des noeuds et elems fantomes des parts xfem
+c     local numbering of nodes and ghost elements of xfem parts
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,11 +50,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,NG,NEL,IXFEM,NFT,ITY,LFT,LLT,ITG,IGTYP,ICRK_ALL(2)
+      INTEGER I, NG, NEL, IXFEM, NFT, ITY, LFT, LLT, ITG, IGTYP, ICRK_ALL(2)
 C=======================================================================
       ITG = 1 + NUMELC
 C
-      NCRKXFE = 0   ! local par proc 
+      NCRKXFE = 0   ! local by proc
       DO I=1,NUMNOD
         IF(ITAGN(I) > 0)THEN
           NCRKXFE = NCRKXFE + 1
@@ -63,7 +63,7 @@ C
       ENDDO
 C
       ICRK_ALL(1:2) = 0
-      ECRKXFE = 0             ! local par proc, toutes les coques
+      ECRKXFE = 0             ! local by proc, all shells
 c
       DO NG=1,NGROUP
         IXFEM=IPARG(54,NG)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r4coork3   ../engine/source/elements/spring/r4coork3.F
+!||    r4coork3      ../engine/source/elements/spring/r4coork3.F
 !||--- called by ------------------------------------------------------
-!||    r13ke3     ../engine/source/elements/spring/r13ke3.F
+!||    r13ke3        ../engine/source/elements/spring/r13ke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R4COORK3(JFT    ,JLT    ,X      ,NCC   ,PID    ,
      2                    NGL    ,AL     ,R11    ,R12   ,R13    , 
      3                    R21    ,R22    ,R23    ,R31   ,R32    ,
      4                    R33    ,RLOC   ,OFFG   ,OFF   )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +61,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ)
+      INTEGER I,NC1(MVSIZ),NC2(MVSIZ)
 C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  

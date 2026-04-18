@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,9 @@
 !||    radioss2                      ../engine/source/engine/radioss2.F
 !||    rdresb                        ../engine/source/output/restart/rdresb.F
 !||    resol                         ../engine/source/engine/resol.F
+!||    resol_alloc_phase1            ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase2            ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_python            ../engine/source/engine/resol_alloc.F90
 !||    resol_head                    ../engine/source/engine/resol_head.F
 !||    restalloc                     ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values           ../engine/source/engine/node_spliting/detach_node.F90
@@ -45,9 +48,10 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       module connectivity_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         USE parith_on_mod
         use precision_mod, only: wp
+        implicit none
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -170,7 +174,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(shell_) :: shell!< nodal arrays
+          type(shell_), intent(inout) :: shell!< nodal arrays
           integer, intent(in) :: global_id !< global id
           integer :: local_id !< local id or 0
 ! ----------------------------------------------------------------------------------------------------------------------

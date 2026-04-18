@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,10 +38,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   ITYP    ,NIN   ,GAP_S_L,GAP_M_L,INTTH,
      8                   DRAD    ,DGAPLOAD)
 C============================================================================
-C  cette routine est appelee par : I10STO(/int10/i10sto.F)
+C  this routine is called by: I10STO(/int10/i10sto.F)
 C                                  I7STO(/int7/i7sto.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .    JLT,IDT, NOINT, NSN, IGAP ,ITYP, NIN, INTTH
+     .    JLT, NSN, IGAP ,ITYP, NIN, INTTH
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*),CURV_MAX(*),
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD
+      INTEGER I ,J  , L, IG,IADD
 C-----------------------------------------------
 C
        IF(IGAP==0)THEN

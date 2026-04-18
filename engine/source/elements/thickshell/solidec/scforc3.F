@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,10 +63,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
@@ -75,7 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SCFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
-     2                   A        ,V       ,MS       ,W       ,FLUX     ,
+     2                   A        ,V       ,MS       ,W       ,
      3                   FLU1     ,VEUL    ,FV       ,ALE_CONNECT   ,IPARG    ,
      4                   TF       ,NPF     ,BUFMAT   ,PARTSAV ,NLOC_DMG ,
      5                   DT2T     ,NELTST  ,ITYPTST  ,STIFN   ,FSKY     ,
@@ -109,6 +111,7 @@ C-----------------------------------------------
       USE SHOUR_CTL_MOD,   ONLY : SHOUR_CTL
       use glob_therm_mod
       use sensor_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,7 +158,7 @@ C-----------------------------------------------
      .   DT2T
       my_real
      .   PM(NPROPM,*),  X(*), A(*), V(3,*), MS(*), W(*),
-     .   FLUX(6,*),GEO(NPROPG,*),
+     .   GEO(NPROPG,*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -180,7 +183,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ILAY,IR,IS,IT,IP,NF1,IFLAG,L_PLA,L_EPSD,
+      INTEGER I,J,ILAY,IR,IS,IT,NF1,IFLAG,L_PLA,L_EPSD,
      .   PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IBID,NLAY,IMAT,
      .   JJ(6),SZ_IX,CURRENT_LAYER
       INTEGER MXT0(MVSIZ),MX
@@ -246,12 +249,12 @@ C
      .  PX1H3(MVSIZ),PX2H3(MVSIZ),PX3H3(MVSIZ),PX4H3(MVSIZ),
      .  PX1H4(MVSIZ),PX2H4(MVSIZ),PX3H4(MVSIZ),PX4H4(MVSIZ),
      .  HGX1(MVSIZ),HGY2(MVSIZ),HGZ1(MVSIZ),HGZ2(MVSIZ),
-     .  VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
-     .  VDX5(MVSIZ),VDX6(MVSIZ),VDX7(MVSIZ),VDX8(MVSIZ),
-     .  VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
-     .  VDY5(MVSIZ),VDY6(MVSIZ),VDY7(MVSIZ),VDY8(MVSIZ),
-     .  VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
-     .  VDZ5(MVSIZ),VDZ6(MVSIZ),VDZ7(MVSIZ),VDZ8(MVSIZ),
+     .  
+     .  
+     .  
+     .  
+     .  
+     .  
      .  VGXA(MVSIZ),VGYA(MVSIZ),VGZA(MVSIZ), VGA2(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
@@ -262,7 +265,7 @@ C
      .  DZX(MVSIZ),DXZ(MVSIZ),
      .  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .  R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .  R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),HH(MVSIZ),
+     .  R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .   N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ),
      .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ),
      .   N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ),
@@ -278,11 +281,11 @@ C
      .   DHYZ(MVSIZ),DHZX(MVSIZ),DHZY(MVSIZ),DHZZ(MVSIZ),DH4(MVSIZ),
      .   DH5(MVSIZ),DH6(MVSIZ),EINTM(MVSIZ),DDHV(MVSIZ),EINTO(MVSIZ),
      .   SIGZM(MVSIZ),VOLM(MVSIZ),MM(MVSIZ,2),USB(MVSIZ),ET(MVSIZ),
-     .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
+     .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),
      .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
      .   STIN(MVSIZ),DSV(MVSIZ),BID(MVSIZ),CONDEN(MVSIZ),DTI
        my_real
-     .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),FOR(MVSIZ,6),
+     .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),
      .       ALPHA_E(MVSIZ),LLSH(MVSIZ),C1,E0(MVSIZ),AREA(MVSIZ)
          INTEGER SZ_R1_FREE
       DOUBLE PRECISION 
@@ -301,9 +304,10 @@ C-----
       INTEGER INLOC,L_NLOC,IPOS(8),INOD(8)
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
-      my_real :: NL_NBNOD
       my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
      .           CNS2,FQMAX,DN
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array           
 C-----
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_NEWTON(9,9),A_NEWTON(9,9)
@@ -668,19 +672,21 @@ c===========================================================================
         DNL => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
         DO ILAY=1,NLAY
           DO I=1,NEL
-            ! Recover non-local d.o.fs position
-            INOD(1:8) = 0
-            IPOS(1:8) = 0
-            DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-              INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
+            INOD(1) = NLOC_DMG%IDXI(NC1(I))
+            INOD(2) = NLOC_DMG%IDXI(NC2(I))
+            INOD(3) = NLOC_DMG%IDXI(NC3(I))
+            INOD(4) = NLOC_DMG%IDXI(NC4(I))
+            INOD(5) = NLOC_DMG%IDXI(NC5(I))
+            INOD(6) = NLOC_DMG%IDXI(NC6(I))
+            INOD(7) = NLOC_DMG%IDXI(NC7(I))
+            INOD(8) = NLOC_DMG%IDXI(NC8(I))
+            DO J = 1, 8
               IPOS(J) = NLOC_DMG%POSI(INOD(J))+ILAY-1
             ENDDO
-            ! Computation of non-local variable at intg. point
-            VAR_REG(I,ILAY) = ZERO
-            NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-            DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-              VAR_REG(I,ILAY) = VAR_REG(I,ILAY) + DNL(IPOS(J))/NL_NBNOD
-            ENDDO 
+            VAR_REG(I,ILAY) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + 
+     .                        DNL(IPOS(4)) + DNL(IPOS(5)) + DNL(IPOS(6)) +
+     .                        DNL(IPOS(7)) + DNL(IPOS(8))
+            VAR_REG(I,ILAY) = VAR_REG(I,ILAY)*ONE_OVER_8
           ENDDO
         ENDDO     
       ENDIF 
@@ -741,11 +747,12 @@ C
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
      
 C-----------------------------
 C Gather stresses
@@ -909,13 +916,14 @@ c===========================================================================
         ! Non-local internal forces 
         CALL SCFINT_REG(
      1    NLOC_DMG ,VAR_REG  ,NEL     ,OFF     ,
-     2    VOLG     ,ELBUF_TAB(NG)%NLOCS,AREA   ,
-     3    PX1      ,PX2      ,PX3     ,PX4     ,
-     4    PY1      ,PY2      ,PY3     ,PY4     ,
-     5    PZ1      ,PZ2      ,PZ3     ,PZ4     ,
-     6    MXT(LFT) ,ITASK    ,DT2T    ,GBUF%VOL,
-     7    NFT      ,NLAY     ,W_GAUSS ,A_GAUSS ,
-     8    ELBUF_TAB(NG)%NLOCTS(1,1))
+     2    VOLG     ,NC1      ,NC2     ,NC3     ,
+     3    NC4      ,NC5      ,NC6     ,NC7     ,
+     4    NC8      ,PX1      ,PX2     ,PX3     ,
+     5    PX4      ,PY1      ,PY2     ,PY3     ,
+     6    PY4      ,PZ1      ,PZ2     ,PZ3     ,
+     7    PZ4      ,MXT(LFT) ,ITASK   ,DT2T    ,
+     8    GBUF%VOL ,NFT      ,NLAY    ,W_GAUSS ,
+     9    A_GAUSS  ,AREA     ,ELBUF_TAB(NG)%NLOCTS(1,1))
       ENDIF
 c===========================================================================  
 c

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -316,7 +316,7 @@ C           IF(R<1.) ETSE(I)= H(I)/(H(I)+E(I))
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     VON MISES CRITERION
 C-------------------------
          DO  I=1,NEL0
            UVAR(I,4) = MAX(ZERO,UVAR(I,4))

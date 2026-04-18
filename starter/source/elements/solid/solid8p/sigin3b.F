@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX, N, JPS, NSIGI, NEL,IDEF,JHBE,IGTYP, NSIGS
+      INTEGER NIX, JPS, NSIGI, NEL, IDEF, JHBE, IGTYP, NSIGS
       INTEGER IX(NIX,*), IPM(NPROPMI,*), NPF(*) ,
      .   STRSGLOB(*),STRAGLOB(*),MAT(NEL),L_PLA,PT(*)
 C     REAL
@@ -96,7 +96,7 @@ C
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))
         END DO
-C       attention loi 36
+
         NFUNC  = IPM(10,MAT(1))
         DO I=1,NFUNC
           IFUNC(I) = IPM(10+I,MAT(1))

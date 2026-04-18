@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
           SUBROUTINE CBACOORK(JFT,JLT,X,IXC,PM,OFFG,
      1                     GEO,AREA,VCORE,JAC,HX,HY,
@@ -41,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -67,13 +69,13 @@ C-----------------------------------------------
      .   VASTN(MVSIZ,4,NNOD),VNRM(MVSIZ,3,NNOD),
      .   JAC(MVSIZ,4),HX(MVSIZ,4),HY(MVSIZ,4),Y24_T(*),
      .   DIR_A(NEL,*),DIR_B(NEL,*),OFF(*),
-     .   X13_T(*),X24_T(*),Y13_T(*),OFF_L
+     .   X13_T(*),X24_T(*),Y13_T(*)
       DOUBLE PRECISION
      .  SMSTR(*)
       INTEGER IREP,NPT,ISMSTR,PID(*),MAT(*),NGL(*)
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
 C-----------------------------------------------
-c FUNCTION: premilitary compute for QBAT [K] build
+c FUNCTION: preliminary compute for QBAT [K] build
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -88,7 +90,7 @@ c  O   AREA(NEL) ,NPT     - Area (element), num. of integrating points in thickn
 c  O   VCORE(3,4,NEL)     - coordinates of 4 nodes in local system
 c                           BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
 c                           for plat element
-c  O  JAC,HX,HY(4,NEL)    - Jacobien,asymmetric part(hourglass) at 4 Gauss points
+c  O  JAC,HX,HY(4,NEL)    - Jacobian,asymmetric part(hourglass) at 4 Gauss points
 c  O  VQ(9,NEL),VQN,VQG(9,4,NEL) - local system of element, nodal(4) and Gauss points(4)
 c  O  VJFI,VNRM,VASTN     - terms used for assumed strains
 c  O  NPLAT,IPLAT(NEL)    - num. of plat element and indice
@@ -103,19 +105,19 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER J,I,II(6),K,EP,SPLAT,JPLAT(MVSIZ),L,M,MAT_1
       MY_REAL
-     .    J0,J1,J2,DETA,X1,Y1,S1,PG
+     .    J0,J1,J2,PG
       MY_REAL
-     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Y13_2,Z1,Z2,GAMA1,GAMA2,
-     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z_2,Z41,Z32,L12,L34,
-     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,Y24_2,
-     .    MY23,MY34,SCAL,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2
+     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Z1,Z2,GAMA1,GAMA2,
+     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z41,Z32,L12,L34,
+     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,Y24,
+     .    MY23,MY34,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2
       my_real 
      .   LXYZ0(3),DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),
      .   R33(MVSIZ),XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),AREA_I(MVSIZ),SSZ(MVSIZ),
-     .   L13(MVSIZ),L24(MVSIZ),XX,YY,ZZ,C1,C2,LL(MVSIZ)
+     .   L13(MVSIZ),L24(MVSIZ),C1,C2,LL(MVSIZ)
       MY_REAL 
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,TOL
         DATA   PG/.577350269189626/
@@ -228,7 +230,7 @@ C----------------------------
         ENDDO
       ENDIF
 C----------------------------
-C     ORTHOTROPY (plus tard)
+C     Orthotropy (later)
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,
@@ -283,7 +285,7 @@ c
         ENDIF 
        ENDDO
       ENDIF 
-C  -------vectoriser--un jour-faire index jft,nplat,jlt pour tous--
+C  ------- Vectorize- a day-to-day JFT, NPLAT, JLT for all--
       NPLAT=JFT-1
       SPLAT= 0
       DO EP=JFT,JLT
@@ -381,7 +383,7 @@ C--------------------------
 C     CONSTRUIRE [F], [Q], [NM], [A-S], [AS] AUX NOEUDS
 C--------------------------
 C----------------------------------------------------
-C  CALCUL DE [F] 
+C  CALCULATION OF [F]
 C----------------------------------------------------
 C--------- 
 C   2A1
@@ -474,7 +476,7 @@ C
         VQN(EP,5,4)= VQN(EP,9,4)*VQN(EP,1,4)-VQN(EP,7,4)*VQN(EP,3,4)
         VQN(EP,6,4)= VQN(EP,7,4)*VQN(EP,2,4)-VQN(EP,8,4)*VQN(EP,1,4)
 C--------------------------------------------------
-C   CALCUL DE AS N AU MILIEU DES COTES
+C   CALCULATION OF AS N AT THE MIDDLE OF SIDES
 C--------------------------------------------------
 C        J=1 COTE
           VNRM(EP,1,1)=VQN(EP,7,1)+VQN(EP,7,2)

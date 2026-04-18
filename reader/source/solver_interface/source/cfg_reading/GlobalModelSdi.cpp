@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 #include "GlobalModelSDI.h"
@@ -1888,9 +1888,10 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
+    
     elemNodes[0] = first;
     elemNodes[1] = second;
-    g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
+    g_pModelViewSDI->CreateElement(radElem0,"/SPRING",elemNodes,radpartHEdit,0);
 
     for(int i = 1; i < nbElems ; i = i + 1)    
     { 
@@ -1900,8 +1901,8 @@ void GlobalEntitySDIConvert2dElementSeatbelt(int *PART_MAT119,int *PART_MAXID,in
             *ELEM_MAXID = *ELEM_MAXID + 1;
             HandleElementEdit radElem;
             elemNodes[0] = tmpNodes[i].first;
-            elemNodes[1] = tmpNodes[i].second; 
-            g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
+            elemNodes[1] = tmpNodes[i].second;
+            g_pModelViewSDI->CreateElement(radElem,"/SPRING",elemNodes,radpartHEdit,*ELEM_MAXID);
         }
         first = tmpNodes[i].first;
         second = tmpNodes[i].second;
@@ -2134,7 +2135,7 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
             SelectionElementRead elems2(*g_pEntity);
             while(elems2.Next())
             {  
-                elems2->GetNodeIds(aNodeId); 
+                elems2->GetNodeIds(aNodeId);   
                 n = nodeIndexes[aNodeId[k]];
                 knod2shell[n] = knod2shell[n] + 1;
                 aNodeId.resize(0);  
@@ -2404,7 +2405,7 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
             tmpIdShells.push_back(elemId);
             tmpIdShells.push_back(elemId);
 // Get Elem Connectivity
-            elems->GetNodeIds(aNodeId);
+            elems->GetNodeIds(aNodeId); 
 // push Spring Elem Connectivity 
             tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[1]).first, std::minmax(aNodeId[0], aNodeId[1]).second));
             tmpNodes.push_back (make_pair(std::minmax(aNodeId[3], aNodeId[2]).first, std::minmax(aNodeId[3], aNodeId[2]).second));
@@ -2428,10 +2429,9 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
 // create first spring
     *ELEM_MAXID = *ELEM_MAXID + 1;
     HandleElementEdit radElem0;
-    
     elemNodes[0] = first;
     elemNodes[1] = second;
-    g_pModelViewSDI->CreateElement(radElem0,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
+    g_pModelViewSDI->CreateElement(radElem0,"/SPRING",elemNodes,radpartHEdit,0);
 //
     tmpShelltoSprings.push_back( make_pair(tmpIdShells[0] + *OFFSET,*ELEM_MAXID + *OFFSET) );
     int nbCreatedSprings = 1;
@@ -2446,11 +2446,9 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
                 nbCreatedSprings = nbCreatedSprings + 1;
                 *ELEM_MAXID = *ELEM_MAXID + 1;
                 HandleElementEdit radElem;
-
                 elemNodes[0] = tmpNodes[index[i]].first;
                 elemNodes[1] = tmpNodes[index[i]].second;
-                g_pModelViewSDI->CreateElement(radElem,destElem,elemNodes,radpartHEdit,*ELEM_MAXID);
-
+                g_pModelViewSDI->CreateElement(radElem,"/SPRING",elemNodes,radpartHEdit,*ELEM_MAXID);
                 //
                 tmpShelltoSprings.push_back( make_pair(tmpIdShells[index[i]] + *OFFSET,*ELEM_MAXID + *OFFSET) );
                 //
@@ -2713,4 +2711,183 @@ void GlobalEntitySDIdeleteEntity()
     HandleEdit radEntityHEdit(radEntityHRead.GetType(), radEntityHRead.GetPointer());
 
     g_pModelViewSDI->Delete(radEntityHEdit);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Create main node in /RBODY when MAIN node is empty
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId)
+{    
+    EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    sdiValueEntity node1;
+    sdiValue tempVal(node1);
+     bool found =  g_pEntity->GetValue(sdiIdentifier("RBID"), tempVal);        
+    if(found) tempVal.GetValue(node1);
+
+    if(node1.GetId() == 0 || !found)
+    {
+        HandleEdit radNodeHEdit;
+        g_pModelViewSDI->CreateEntity(radNodeHEdit, "/NODE");
+        EntityEdit radNodeEdit(g_pModelViewSDI, radNodeHEdit);
+        radNodeEdit.SetValue(sdiIdentifier("X"), sdiValue(0.0));
+        radNodeEdit.SetValue(sdiIdentifier("Y"), sdiValue(0.0));
+        radNodeEdit.SetValue(sdiIdentifier("Z"), sdiValue(0.0));
+        *addedNodeId = radNodeHEdit.GetId(g_pModelViewSDI);
+
+        HandleRead rbodyHRead = g_pEntity->GetHandle();
+        HandleEdit rbodyHEdit(rbodyHRead.GetType(), rbodyHRead.GetPointer());
+        EntityEdit rbodyEdit(g_pModelViewSDI, rbodyHEdit);
+        rbodyEdit.SetValue(sdiIdentifier("independentnode"), sdiValue(sdiValueEntity(radNodeType, *addedNodeId)));
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Create Node in Radioss Model
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId)
+{
+    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    HandleNodeEdit radnodeHEdit;
+    sdiTriple pos(*x, *y, *z);
+    g_pModelViewSDI->CreateNode(radnodeHEdit, "/NODE", pos , 0);
+    *newNodeId = radnodeHEdit.GetId(g_pModelViewSDI);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// In case Itetra4=1 and /TETRA4 , change to /TETRA10
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
+{
+    bool isOk = false;
+    int elemId = 0;
+    SelectionElementEdit tetElements(g_pModelViewSDI, "/TETRA4");
+    // Create a map to store existing mid-edge nodes: key = pair of node IDs (sorted), value = mid-node ID
+    std::map<std::pair<unsigned int, unsigned int>, int> edgeToMidNodeMap;
+
+    while(tetElements.Next())
+    {
+        int id = 0;
+        int uid = 0;
+        int partId = 0;
+        bool found = false;
+        sdiUIntList aNodeId;
+        
+        EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
+        EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+        EntityType radTetra10Type = g_pModelViewSDI->GetEntityType("/TETRA10");
+        
+        // Get element Id
+        elemId = tetElements->GetId();
+        
+        // Get part handle from element
+        HandleRead partHread = tetElements->GetComponent();
+        // Get prop handle from part
+        HandleRead propHread;
+        if(partHread.IsValid())
+        {
+            EntityRead partRead(g_pModelViewSDI, partHread);
+            partRead.GetEntityHandle(sdiIdentifier("prop_ID"), propHread);
+        }
+
+        // Check if Itetra4 == 1 in the prop
+        int Itetra4 = 0;
+        if(propHread.IsValid())
+        {
+            EntityRead propRead(g_pModelViewSDI, propHread);
+            sdiValue tempValInt(Itetra4);
+            found = propRead.GetValue(sdiIdentifier("Itetra4"), tempValInt);
+            if(found) tempValInt.GetValue(Itetra4);
+        }
+
+        if(Itetra4 == *Itetra4ToConsider)
+        {
+            // Get element connectivity (4 nodes for TETRA4)
+            tetElements->GetNodeIds(aNodeId);
+
+            if(aNodeId.size() >= 4)
+            {
+                // Get node coordinates for the 4 corner nodes
+                double x[4], y[4], z[4];
+                for(int i = 0; i < 4; i++)
+                {
+                    HandleRead nodeHread;
+                    if(g_pModelViewSDI->FindById(radnodeType, aNodeId[i], nodeHread))
+                    {
+                        NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+                        sdiTriple pos;
+                        pos = nodeRead.GetPosition();
+                        x[i] = pos.GetX();
+                        y[i] = pos.GetY();
+                        z[i] = pos.GetZ();
+                    }
+                }
+                // Create 6 mid-edge nodes (nodes 5-10)
+                int midNodeIds[6];
+                // Define edge node pairs for TETRA4
+                int edgeNodes[6][2] = {
+                    {0, 1},  // edge 1-2
+                    {1, 2},  // edge 2-3
+                    {2, 0},  // edge 3-1
+                    {0, 3},  // edge 1-4
+                    {1, 3},  // edge 2-4
+                    {2, 3}   // edge 3-4
+                };
+                
+                // Calculate mid-edge node coordinates
+                double midX[6], midY[6], midZ[6];
+                for(int i = 0; i < 6; i++)
+                {
+                    int n1 = edgeNodes[i][0];
+                    int n2 = edgeNodes[i][1];
+                    midX[i] = (x[n1] + x[n2]) / 2.0;
+                    midY[i] = (y[n1] + y[n2]) / 2.0;
+                    midZ[i] = (z[n1] + z[n2]) / 2.0;
+                }
+
+
+                // Create the 6 mid-edge nodes, checking for existing nodes at same location
+                for(int i = 0; i < 6; i++)
+                {
+                    // Search for existing node at this position (with tolerance)
+                    bool nodeFound = false;
+                    unsigned int existingNodeId = 0;
+                            
+                    if (edgeToMidNodeMap[std::minmax(aNodeId[edgeNodes[i][0]], aNodeId[edgeNodes[i][1]])] != 0)
+                    {
+                        existingNodeId = edgeToMidNodeMap[std::minmax(aNodeId[edgeNodes[i][0]], aNodeId[edgeNodes[i][1]])];
+                        nodeFound = true;
+                    }
+
+                    if(nodeFound)
+                    {
+                        midNodeIds[i] = existingNodeId;
+                    }
+                    else
+                    {
+                        GlobalEntitySDICreateNode(&midX[i], &midY[i], &midZ[i], &midNodeIds[i]);
+                        // Store in map
+                        unsigned int n1 = aNodeId[edgeNodes[i][0]];
+                        unsigned int n2 = aNodeId[edgeNodes[i][1]];
+                        edgeToMidNodeMap[std::minmax(n1, n2)] = midNodeIds[i];
+                    }
+                }
+
+                // Create TETRA10 element with same ID
+                HandleElementEdit radTetra10HEdit;
+                
+                // Set all 10 nodes (4 corner + 6 mid-edge)
+                sdiUIntList tetra10Nodes;
+                tetra10Nodes.resize(10);
+                for(int i = 0; i < 4; i++)
+                    tetra10Nodes[i] = aNodeId[i];
+                for(int i = 0; i < 6; i++)
+                    tetra10Nodes[i+4] = midNodeIds[i];
+
+                g_pModelViewSDI->CreateElement(radTetra10HEdit,"/TETRA10",tetra10Nodes,partHread,elemId);
+                
+                // Delete the original TETRA4 element
+                tetElements->SetId(0);
+                
+            }
+        }
+    }
 }

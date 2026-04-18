@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ c    YFAC    = scaling factor of sigma-eps_plast relation
 c
 c    TF      = array containing discrete sigma-eps_plast relation
 c    IAD1,  ILEN1 = pre-computed data required by interpolation
-c                         routine "VINTER"
+c                         "VINTER" routine
 c    NEL     = size of the element group being processed
 c    FISOKIN = indicator for isotropic/kinematic/moixed hardening
 c    UVAR    = array containing various state variables 

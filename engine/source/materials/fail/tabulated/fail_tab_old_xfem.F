@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real, DIMENSION(2) :: XX0
+ 
       my_real 
      .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
@@ -82,15 +82,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,J1,J2,K,L,NINDX,ISHELL,LAYXFEM,NRATE,DMG_FLAG,
-     .   IFUN_EL,IFUN_TEMP,NF_LOC
+      INTEGER  :: I, J, J1, J2, K, NINDX, ISHELL, LAYXFEM, NRATE, DMG_FLAG, 
+     . IFUN_EL,IFUN_TEMP
       INTEGER, DIMENSION(NEL)   :: INDX,RFLAG
       INTEGER ,DIMENSION(NFUNC) :: IFUN_STR
 C
-      my_real  :: DP,P,SIGM,SIGM_PS,SVM,EF1,EF2,DF,FAC,DEPSF,LAMBDA,
-     .  CC,BB,CR,ORM,SS1,SS2,YY,YY_N,DADV,
+      my_real  :: DP, P, SIGM, SIGM_PS, SVM, EF1, EF2, DF, FAC, LAMBDA, 
+     . DADV,
      .  DCRIT,EL_REF,SC_EL,SC_TEMP,DD,DN
-      my_real, DIMENSION(NEL)   :: EPSF,DMG_SCALE
+      my_real, DIMENSION(NEL)   :: EPSF
       my_real, DIMENSION(NFUNC) :: YFAC,RATE
       CHARACTER (LEN=3) :: XCHAR
 C-----------------------------------------------
@@ -177,7 +177,7 @@ c----
       ENDDO
 c
       DO I=1,NEL
-c----   element length scale function
+c---- Length Scale Function element
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,2) / EL_REF
            FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
@@ -455,13 +455,7 @@ C------------------
      .'LAYER',I10)
  2100 FORMAT(1X,'FAILURE OF SHELL ELEMENT (TAB)',I10,1X,
      .'LAYER',I10,':',/,'AT TIME :',1PE12.4)
- 2200 FORMAT(1X,'STRESS TENSOR SET TO ZERO IN THE LAYER')
- 2400 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL BROKEN ')
- 2500 FORMAT(1X,'  LOWER SKIN -> UPPER SKIN ')
- 2600 FORMAT(1X,'  UPPER SKIN -> LOWER SKIN ')
- 3700 FORMAT(1X,'STRESS TENSOR SET TO ZERO, LAYER',I10)
 C---
- 2410 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL ',I10,' BROKEN ')
  3800 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT (TAB)',I10)
  3900 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT (TAB)',I10,
      .       1X,':',/,' AT TIME :',1PE12.4)
@@ -488,9 +482,6 @@ C---
      .       1X,'LAYER',I10)
  4900 FORMAT(1X,'CRACK ADVANCEMENT IN SHELL ELEMENT (TAB)   ',I10,
      .       1X,'LAYER',I10,':',/,' AT TIME :',1PE12.4)
- 5010 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10)
- 5020 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10,
-     .       1X,':',/1X,'AT TIME :',1PE12.4)
  
 c-----------
       RETURN

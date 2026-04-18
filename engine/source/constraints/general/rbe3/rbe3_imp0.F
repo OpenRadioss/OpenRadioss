@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,8 +57,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ,IADJ
+      INTEGER N, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3),NSJ,IADJ
 C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
@@ -130,8 +130,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ,IADJ
+      INTEGER J, N, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3),IADJ
 C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
@@ -202,14 +202,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
-     .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
-     .        NIR1,IR,IP,ISTIF
+      INTEGER I, J, K,
+     .        I1,ID,NI,NJ,NIDOF,ND,NDJ,NDM,NM,
+     .        IR,IP
 C     REAL
       my_real
      .   KDD(6,6),BD(6),KII(6,6),KIJ(6,6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C
@@ -336,8 +336,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ
+      INTEGER N, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3)
 C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
@@ -391,14 +391,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
-     .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
-     .        NIR1,IR,IP
+      INTEGER I, J, K,
+     .        ID,NJ
 C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C
@@ -463,8 +462,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ
+      INTEGER N, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3)
 C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
@@ -523,14 +522,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
-     .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
-     .        NIR1,IR,IP
+      INTEGER I, J, K,
+     .        ID,NJ,ND
 C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C
        I = NS
@@ -921,7 +919,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,K,L
+      INTEGER I, J,K
 C     REAL
 C-------Update KIJ=[KDD]CDI---
         DO I=1,6
@@ -1029,7 +1027,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,  JD,  L, JJ,NJ,ND,IROT,NS,ISTIF
+      INTEGER J, JJ,ND,IROT,ISTIF
 C     REAL
       my_real
      .   K0(6,6),KIJ(6,6)
@@ -1088,12 +1086,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
 C     REAL
       my_real
      .   FDSTNB(18,NML),MDSTNB(18,NML)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
         CALL RBE3CL(IML  ,ISK   ,NS      ,X      ,FRBE3  ,
@@ -1139,13 +1136,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
-     .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
-     .        NIR1,IR,IP,ISTIF,NDOFI
+      INTEGER I, J, J1, K,
+     .        I1,NJ,ND,NM,
+     .        IR,IP,NDOFI
       my_real
      .   KDD(6,6),KII(6,6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C

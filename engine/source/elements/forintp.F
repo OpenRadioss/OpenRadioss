@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    dt_mod           ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    initbuf_mod      ../engine/share/resol/initbuf.F
 !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -99,6 +100,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use sensor_mod
       USE SPH_WORK_MOD
+      use element_mod , only : nixs
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -161,7 +163,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+ 
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
@@ -173,14 +175,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDSVOID
-      INTEGER I,N, IG, NG, NVC, MLW, JFT, JLT, K, ISTRA,
-     .   KAD,IAD2,NF1,IPRI,NGLOC, NELEM, NEL, OFFSET, NSG,
-     .   INOD,MX,NS,KSMCOMP,KVNORM,MYADRN,ADRN, NISKY_L,
-     .   IPRTSPH, NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8,
+      INTEGER I, N, NG, NVC, K, ISTRA, 
+     . KAD, NELEM, NEL, OFFSET, NSG,
+     . INOD,MX,NS,KVNORM,MYADRN,ADRN, NISKY_L,
+     . NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8,
      .   K1, K2, K3, K4, K5, K6, K7, K8, IR, IS, IT, NSPHDIR, STAT,
      .   IEXPAN,IBID
       my_real
-     .   OFF,DTX,DT05,RHOI,VI,
+     . DTX,DT05,RHOI,VI,
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
      .   KSI, ETA, ZETA,
      .   VOLN(MVSIZ)
@@ -248,19 +250,19 @@ C-----------------------------------------------
      9 0.350000000000000,0.450000000000000,0.550000000000000,
      9 0.650000000000000,0.750000000000000,0.850000000000000/
 C-----------------------------------------------
-C       calcul des densites et taux de deformations.
-C       charge WA(1:14*NUMSPH), qui ne doit pas etre ecrase 
-C       avt SPSTRES (pour redescente vers les buffers d'elements).
+C       calculation of densities and strain rates
+C       load wa (1: 14*numsph), which must not be crushed 
+C       before SPSTRES (for transfer to element buffers)
 C
-C         DIVV=WA(13,1:NUMSPH) et ROTV=WA(14,1:NUMSPH) ne doivent pas etre
-C         ecrases avt le calcul des forces (SPFORC).
+C         Divv = Wa (13.1: Numsph) and Rotv = Wa (14.1: Numsph) must not be
+C         overwritten before the calculation of forces (SPFORC)
 C
-C         DIVV=WA(13,1:NUMSPH) ne doit pas etre ecrase avt SPADAH 
-C         (adaptation du diametre des particules).
+C         Divv = WA (13.1: NUMSPH) must not be crushed before spadah 
+C         (adaptation of the particle diameter)
 C-----------------------------------------------
         IBID = 0
 C
-C Allocation SPMD a faire en memoire partagee
+C SPMD allowance to do in memory shared
 C
         IF(ITASK==0) THEN
           ALLOCATE(SPH_WORK%WASIGSM(6*NSPHSYM))
@@ -589,8 +591,8 @@ C-----------------------------------------------
 C       Inlets/outlets : Re-impose rho.
 C-----------------------------------------------
           IF(NSPHIO/=0)THEN
-C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
-C on a besoin potentiellement de WA remote
+C Comm wa and wa comp on remote cells before treatment with.Sym.
+C we potentially need wa remote
             IF(NSPMD>1)THEN
               CALL STARTIME(TIMERS,93)
               CALL SPMD_SPHGETWA(WA,SPH_WORK%WAR2,KXSP)
@@ -612,7 +614,7 @@ C      /---------------/
 C      /---------------/
 C
 C-----------------------------------------------
-C     Pression=f(densite) : lois materiaux.
+C     Pressure = F (Densite): Material laws.
 C-----------------------------------------------
 250     CONTINUE
 #include "lockon.inc"
@@ -649,7 +651,7 @@ C            full plasticity correction (radial return) by default.
              IEXPAN = IPARG(49,NG)
              IPARTSPH=0
 C-----------------------------------------------
-C            retourne SIG, STIF et SSP dans WA(1:8,1:NUMSPH).
+C            Returns GIS, STIF and SSP in WA (1: 8.1: NUMSPH).
 C            a ne pas ecraser avt SPFORC.
 C-----------------------------------------------
              NDSVOID=0
@@ -711,7 +713,7 @@ C     /---------------/
 C
 C-------
 C
-C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
+C Comm wa and wa comp on remote cells before treatment with.Sym.
 C
        IF(NSPMD>1)THEN
 C       /---------------/
@@ -720,7 +722,7 @@ C       /---------------/
          IF(ITASK==0)THEN
            CALL STARTIME(TIMERS,93)
            CALL SPMD_SPHGETW(SPBUF,WASPH,WA,SPH_WORK%WAR,SPH_IORD1)
-C a optimiser (1 seule comm)
+C To optimize (1 comm)
            CALL SPMD_SPHGETSTB(SPH_WORK%STAB,SPH_WORK%STAB(1,NUMSPH+1))
            CALL STOPTIME(TIMERS,93)
          ENDIF
@@ -772,12 +774,12 @@ C-----------------------------------------------
      2      GEO     ,IPART   ,IPARTSP ,WASPACT ,ITASK         )
 C
 C-----------------------------------------------
-C       Assemblage des forces sur les particules.
+C       assembly of forces on the particles
 C-----------------------------------------------
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
-C       initialisation sur task i
+C       initialization on task i
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N    =WASPACT(NS)
 C         (re)used for storage of FX, FY, FZ, STIF :
@@ -796,7 +798,7 @@ C-----------------------------------------------
      3    SPH_WORK%WASIGSM,SPH_WORK%WAR   ,SPH_WORK%STAB ,IXSP      ,NOD2SP    ,
      4    SPBUF     ,X         )
 C
-C barriere sur WA & STAB obligatoire, WA & STAB partages
+C Barrier on WA & STAB compulsory, WA & STAB SHARING
         NGDONE = 1
 C      /---------------/
         CALL MY_BARRIER
@@ -1171,7 +1173,7 @@ C
          END IF
         END IF
 C--------
-C       pour travail des forces de visc. artificielle (par cellule).
+C       for artificial viscosity force work (per cell).
         DT05=HALF*DT1
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)
@@ -1192,7 +1194,7 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C
-C Deallocation SPMD a faire en memoire partagee
+C SPMD DEALLOGATION TO MAKE IN MEMORY SHARED
 C
         IF(ITASK==0) DEALLOCATE(SPH_WORK%STAB, SPH_WORK%WASIGSM)
         IF(ITASK==0 .AND. NSPMD > 1)THEN
@@ -1282,8 +1284,8 @@ C        /---------------/
 C
         ENDIF
 C-----------------------------------------------
-C       distances de recherche variables 
-C       apres calcul des forces (optimisation cpu si CSPH).
+C       variable search distances
+C       After calculation of the forces (CPU optimization if CSPH).
 C-----------------------------------------------
         CALL SPADAH(
      1    X         ,V         ,MS        ,SPBUF     ,ITAB      ,

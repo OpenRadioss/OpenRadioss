@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -698,7 +698,7 @@ C-----------------------------------------------
      .         DIMENSION(:,:),ALLOCATABLE :: MA,INA
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: B0
-C-------int2,RBE3,rby speciale (Fext seulement)----------
+C-------int2,RBE3,special rby (external force only)----------
         IF (IUPD==0) THEN
          DO I=1,NINT2
           N=IINT2(I)
@@ -791,7 +791,7 @@ C+++
         IF (IDYNA>0) THEN
 C-------------
          CALL IMP_FHHT(NDDL0  ,B    )
-C -----add Ma----M,IN sont deja condenses-----------------
+C -----add Ma----M,IN are already condensed-----------------
          CALL IMP_SETBA(MA    ,INA     ,IDDL   ,NDOF  ,B     ,
      1                  IFLAG )
          DO I = 1,NUMNOD

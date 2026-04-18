@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,20 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srcoor3     ../engine/source/elements/solid/solide/srcoor3.F
+!||    srcoor3       ../engine/source/elements/solid/solide/srcoor3.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    scforc3     ../engine/source/elements/thickshell/solidec/scforc3.F
-!||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    scforc3       ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
-!||    scortho3    ../engine/source/elements/thickshell/solidec/scortho3.F
-!||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
-!||    sortho3     ../engine/source/elements/solid/solide/sortho3.F
-!||    srepiso3    ../engine/source/elements/solid/solide/srepiso3.F
-!||    srrota3     ../engine/source/elements/solid/solide/srrota3.F
+!||    scortho3      ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    sorthdir3     ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sortho3       ../engine/source/elements/solid/solide/sortho3.F
+!||    srepiso3      ../engine/source/elements/solid/solide/srepiso3.F
+!||    srrota3       ../engine/source/elements/solid/solide/srrota3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SRCOOR3(X   ,IXS   ,V     ,W     ,GAMA0 ,GAMA  ,
      .   X1    ,X2    ,X3    ,X4    ,X5    ,X6    ,X7    ,X8    ,
@@ -52,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,         
      .   XDP   ,X0    ,Y0    ,Z0    ,NEL   ,XGAX  ,XGAY  ,XGAZ  ,
      .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA ,IPARG ,GAMA_R) 
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,6 +94,7 @@ C     REAL
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       INTEGER IOUTPRT
       
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION 
      .   XDP(3,*),X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),SAV(NEL,21),
      .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
@@ -100,13 +104,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+C     ENSURE DOUBLE-PRECISION (64-BIT) FLOATING-POINT CALCULATIONS, EVEN WHEN COMPILING IN SINGLE-PRECISION MODE.
       DOUBLE PRECISION
      .   XDL, YDL, ZDL
     
 C     REAL
-      my_real
-     .  DT05     
       my_real
      .   G11,G12,G13,
      .   G21,G22,G23,
@@ -117,8 +119,6 @@ C     REAL
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
-      my_real
-     .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
       my_real
      .   OFF_L
 C=======================================================================
@@ -225,7 +225,7 @@ C-----------
        VZ8(I)=V(3,NC8(I))
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF (IOUTPRT /= 0) THEN
        DO I=LFT,LLT
@@ -260,8 +260,9 @@ C-----------
        ENDIF
       ENDIF
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
+
       CALL SREPISO3(
      1   XD1,     XD2,     XD3,     XD4,
      2   XD5,     XD6,     XD7,     XD8,
@@ -305,7 +306,7 @@ C------stocker [R] in %GAMA_R--------------
 C-------sauf thick shells --------------     
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
-          DO I=LFT,LLT                                          
+          DO I=LFT,LLT                                   
             GAMA(I,1) = ONE                             
             GAMA(I,2) = ZERO                              
             GAMA(I,3) = ZERO
@@ -324,7 +325,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
@@ -520,7 +521,7 @@ C
 C
       ENDIF  ! ISMSTR    
 C-----------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH/=0 .AND. JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14
      .              .AND. JHBE/=15) THEN
@@ -663,9 +664,10 @@ c copy and cast XD (DP) to C(SP) to assure coherence between XD et X
         X8(I)= XD8(I) 
         Y8(I)= YD8(I) 
         Z8(I)= ZD8(I) 
+
       ENDDO          
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL SRROTA3(
      1   R11,     R12,     R13,     R21,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    w_ithflux   ../starter/source/restart/ddsplit/w_ithflux.F
+!||    w_ithflux     ../starter/source/restart/ddsplit/w_ithflux.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_ITHFLUX(IBFFLUX,CEP,PROC,NODLOCAL,NFXFLUX_L,LEN_IA,CEL,IXS,
      .           NUMCONV,NUMRADIA,NFXFLUX,NITFLUX)
-
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

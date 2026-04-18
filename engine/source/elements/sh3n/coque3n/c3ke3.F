@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE C3KE3(
@@ -56,7 +57,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE STACK_MOD  
-      USE DRAPE_MOD        
+      USE DRAPE_MOD
+      use element_mod , only : nixtg    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +84,7 @@ C
       INTEGER IXTG(NIXTG,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
       my_real    
@@ -95,16 +97,16 @@ C     REAL OU REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
-      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ)
+c  Indx uses locally unlike 4N shells 
+      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
       INTEGER I,J,J1,J2,IREP,IUN,NEL,IORTH,IGTYP,L_DIRA,L_DIRB,NLAY,
      .   IDRIL,EP
       my_real 
      .   AREA(MVSIZ),PX1(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
-     .   SIGY(MVSIZ),THK0(MVSIZ),
+     .   THK0(MVSIZ),
      .   X2(MVSIZ) ,Y2(MVSIZ), X3(MVSIZ),Y3(MVSIZ)
       my_real 
-     .   G(MVSIZ) , VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), 
+     .    VOL0(MVSIZ),THK02(MVSIZ), 
      .   HM(MVSIZ,4),HF(MVSIZ,4),HC(MVSIZ,2),HZ(MVSIZ),
      .   HMOR(MVSIZ,2),HFOR(MVSIZ,2),HMFOR(MVSIZ,6),GS(MVSIZ)
       MY_REAL 

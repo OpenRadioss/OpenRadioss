@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NH3D,KCUR
+      INTEGER NH3D,KCUR
      
 C=========================================================================
       KCUR           = KH3D
@@ -109,7 +109,7 @@ c
 c 
       H3D_DATA%TH3D = EP30
       H3D_DATA%DTH3D = ZERO
-      H3D_DATA%TH3D_STOP = ZERO
+      H3D_DATA%TH3D_STOP = EP20
       H3D_DATA%TH3D0 = ZERO
       H3D_DATA%DTH3D0 = ZERO
       H3D_DATA%TH3D_STOP0 = EP30

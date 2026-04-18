@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),   ALLOCATABLE :: A_SEED
       my_real
      . MEAN,STDEV,MEAN_INPUT,SD_INPUT,MAX_DISTRIB,TEMP,MIN_VALUE,
-     . MAX_VALUE,INTERV,VALUE,MAX_VALUE1,MINVAL,MAXVAL,BID
+     . MAX_VALUE,MINVAL,MAXVAL
       my_real, DIMENSION(:), ALLOCATABLE :: ARRAY
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER*100 KEY1,KEY2

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER , INTENT(INOUT) :: ICONT_I(NSN)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .        GAP,PMAX_GAP,
+     .        PMAX_GAP,
      .        X(3,*),GAP_S(*),GAP_M(*),STFN(*),STF(*),
      .        V(3,*),SECND_FR(6,*),TIME_S(*),
      .        PENE_OLD(5,NSN),STIF_OLD(2,NSN),
@@ -80,18 +80,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,L,IS,JS,LS,NLS,NLT,NSEG,NLS2,SG,FIRST,LAST,MSEG,NLF,
-     .        MG,II,N,KLEAVE, ISH, NSNRF,NSNRL,NSNF,NSNL
+     .        MG,II,N,KLEAVE, NSNRF,NSNRL,NSNF,NSNL
       INTEGER LIST(MVSIZ),IG(MVSIZ),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
      .        IX4(MVSIZ), LISTI(MVSIZ)
       my_real
      .        XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4,
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,V12,V22,V32,V42
+     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
       my_real
      .        GAPV(MVSIZ),PREC
       my_real
-     .        X0,Y0,Z0,XXX,YYY,ZZZ,CURV_MAX,TZINF,VX,VY,VZ,VV,
+     .        TZINF,VX,VY,VZ,
      .        VXI,VYI,VZI,
      .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
+      integer, save :: i_opt_stok_old
+      integer :: next,j,my_local_cand_nb
+      integer, dimension(:), allocatable, save :: local_cand_nb,offset
+      integer, dimension(:), allocatable :: cand_index
 
 C-----------------------------------------------
       IF (IRESP.EQ.1) THEN
@@ -99,6 +103,13 @@ C-----------------------------------------------
       ELSE
          PREC = EM8
       ENDIF
+      allocate(cand_index(i_stok))
+!$omp single 
+      allocate(local_cand_nb(nthread))
+      allocate(offset(nthread+1))
+      local_cand_nb(:) = 0
+!$omp end single
+      my_local_cand_nb = 0 
 C------
 C
 C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more Zero.
@@ -106,17 +117,21 @@ C
 
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
-      DO I = NSNF,NSNL 
+!$omp do schedule(guided)      
+      DO I = 1,nsn !NSNF,NSNL 
         IF(IRTLM(1,I)/=0) ICONT_I(I)=0
       ENDDO
-
+!$omp end do no wait
       NSNRF = 1 + ITASK*NSNR / NTHREAD
       NSNRL = (ITASK+1)*NSNR / NTHREAD
-
-      DO I=NSNRF,NSNRL
+!$omp do schedule(guided)      
+      DO I=1,nsnr!NSNRF,NSNRL
         IF(IRTLM_FI(NIN)%P(1,I)/=0) ICONT_I_FI(NIN)%P(I)=0
-      ENDDO
- 
+      ENDDO      
+ !$omp end do no wait
+
+
+
       MSEG = NVSIZ
       FIRST = 1 + I_STOK*ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -165,7 +180,7 @@ C
        NLT = NLS
        NLS=0
         DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize generated code (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
@@ -229,7 +244,6 @@ C
           ENDIF
         ENDDO
 C
-#include      "vectorize.inc"
         DO LS=NLF,NLS
           IS=LIST(LS)
           I=JS+IS
@@ -251,6 +265,8 @@ C
           XMAX = MAX(X1,X2,X3,X4)+TZINF
           IF (XMIN<=XI.AND.XMAX>=XI) THEN
             CAND_N(I) = -CAND_N(I)
+            my_local_cand_nb = my_local_cand_nb + 1
+            cand_index(my_local_cand_nb) = i
           ENDIF
         ENDDO
 
@@ -332,7 +348,6 @@ C
             ENDIF
           ENDDO
 C
-#include      "vectorize.inc"
           DO LS=NLF,NLS
             IS=LIST(LS)
             I=JS+IS
@@ -355,6 +370,8 @@ C
             XMAX = MAX(X1,X2,X3,X4)+TZINF
             IF (XMIN<=XI.AND.XMAX>=XI) THEN
               CAND_N(I) = -CAND_N(I)
+              my_local_cand_nb = my_local_cand_nb + 1
+              cand_index(my_local_cand_nb) = i
             ENDIF
           ENDDO
        ELSE
@@ -365,27 +382,41 @@ C
 C
 C     Compact candidates
 C
+      local_cand_nb(itask+1) = my_local_cand_nb
       CALL MY_BARRIER
+
+!$omp single
+      offset(1)=0
+      do i=1,nthread
+        offset(i+1)=offset(i)+local_cand_nb(i)
+      end do
+      i_opt_stok_old = i_opt_stok
+      if(i_opt_stok+offset(nthread+1)<=sizopt) then 
+        i_opt_stok = i_opt_stok + offset(nthread+1)        
+        lskyi_count = lskyi_count + i_opt_stok*5        
+        count_remslv(nin) = count_remslv(nin) + i_opt_stok
+      end if
+      pmax_gap = zero
+!$omp end single
+      
+      do j=1,my_local_cand_nb
+        i = cand_index(j)
+        cand_n(i) = -cand_n(i)
+        next = offset(itask+1)+j+i_opt_stok_old
+        if(next<=sizopt) then
+          cand_opt_n(next) = cand_n(i)
+          cand_opt_e(next) = cand_e(i)
+        end if
+      end do
+
+      deallocate(cand_index)
+      
+      call my_barrier()
+
+!$omp single 
+      deallocate(local_cand_nb)
+      deallocate(offset)
+!$omp end single     
 C
-!$OMP SINGLE
-      DO I=1,I_STOK
-        IF(CAND_N(I)<0)THEN
-          CAND_N(I) = -CAND_N(I)
-          I_OPT_STOK= I_OPT_STOK + 1
-          IF(I_OPT_STOK <= SIZOPT)THEN
-            CAND_OPT_N(I_OPT_STOK)= CAND_N(I)
-            CAND_OPT_E(I_OPT_STOK)= CAND_E(I)
-          END IF
-        END IF
-      END DO
-      IF(I_OPT_STOK <= SIZOPT)THEN
-        LSKYI_COUNT=LSKYI_COUNT+I_OPT_STOK*5
-        COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+I_OPT_STOK
-      END IF
-C initialize PMAX_GAP to Zero for future treatments in force computation.
-      PMAX_GAP   = ZERO
-!$OMP END SINGLE
-C
-c     print *,'i_stok',ispmd+1,i_stok,i_opt_stok
       RETURN
       END

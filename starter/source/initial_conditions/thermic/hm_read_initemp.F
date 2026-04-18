@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    udouble                    ../starter/source/system/sysfus.F
 !||    usr2sys                    ../starter/source/system/sysfus.F
-!||    usrtos                     ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod                ../starter/share/message_module/message_mod.F
@@ -74,20 +73,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBTEMP,BID,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,UID,TYP,NOD,NODSYS,NB_LINE
+      INTEGER I,J,NNOD,NOSYS,ID,IGR,IGRS,NBTEMP,BID,
+     .        UID,TYP,NOD,NODSYS,NB_LINE
       my_real
      .  TEMP0
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
       my_real, DIMENSION(:), ALLOCATABLE :: LIST_TEMP0
       INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_NOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS, USRTOS
+      INTEGER USR2SYS
       DATA MESS/'INITIAL TEMPERATURE DEFINITION           '/
 C=======================================================================
       BID =0
@@ -203,9 +201,5 @@ C--------------------------------------------------
 C     PRINT
 C--------------------------------------------------
       J=0
-      RETURN
-C
-2000  FORMAT(/, ' INITIAL TEMPERATURE ',/' -------------------',//
-     + 6X,'NODE',17X,'TEMP ' )
       RETURN
       END

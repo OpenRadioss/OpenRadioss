@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    weight0               ../engine/source/elements/sph/weight.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    sph_work_mod          ../common_source/modules/mat_elem/sph_work.F90
@@ -57,6 +58,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SPHBOX
       USE SPH_WORK_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,16 +102,16 @@ C-----------------------------------------------
      .        IPROP,IMAT,I,
      .        NVOISS,SM,NC,JS,
      .        IS,IC,ISLIDE,IPRT,NS,MYADRN, 
-     .        NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8, 
+     .        NSOL, N1, N2, N3, N4, N5, N6, N7, N8, 
      .        IR, IT, NSPHDIR, KP, NP,NELEM, OFFSET, NEL, IG, NG, 
-     .        II, II1, SZ, LENR, IERROR
+     .        II, II1, SZ, LENR
       my_real
-     .       XI,YI,ZI,DI,RHOI,PRESI,XJ,YJ,ZJ,DJ,PRESJ,RHOJ,DIJ,
+     .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
-     .       VJ,VJX,VJY,VJZ,
-     .       DRHO,WGHT,DIVV,
-     .       MUIJ,MUMAX,
-     .       ALPCI,ALPCJ,FACT,FACI,FACJ,
+     .       
+     .       WGHT,
+     .       
+     .       ALPCI,FACT,FACI,
      .       WAX,WAY,WAZ,AXI,AYI,AZI,AXJ,AYJ,AZJ,AN,
      .       VV,KV,EHOURT,DTINV,
      .       OX,OY,OZ,NX,NY,NZ,AXS,AYS,AZS,
@@ -124,7 +126,7 @@ C-----------------------------------------------
       my_real  GET_U_GEO
       EXTERNAL GET_U_GEO
 C-----
-      TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C-----------------------------------------------
@@ -374,7 +376,7 @@ C--------
       END IF
 
 C-----------------------------------------------
-C Comm H et A sur cellules remotes
+C Communication H and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
         IF(ITASK==0) THEN
@@ -426,7 +428,7 @@ C-----------------------------------------------
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = ITASK+1,NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
@@ -580,7 +582,7 @@ C Solids to SPH, no interaction if both particles are inactive
          WA(MYADRN+3)=WA(MYADRN+3)+FACI*WAZ
         END DO
 C-----
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
@@ -619,7 +621,7 @@ C         BETAZJ=WACOMP(4,SM)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
-         ELSE                     ! particule symetrique de particule remote
+         ELSE                     ! Symmetrical particle particle Remote
           SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -661,12 +663,12 @@ C         BETAZJ=WACOMPR(4,SM)
       END DO
 C-----
 
-C barrier sur A & ASPHR
+C barrier on A & ASPHR
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
 
-C     Assemblage des forces dans A
+C     Force assembly in A
       IF(NSPHSOL==0)THEN
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)

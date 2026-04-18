@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,8 @@
 !=======================================================================================
 !! \brief  module to define type for buffers use in SPHPREP and SPHINT
 !! \details
+
+      implicit none
 
         type sph_work_voxel_
           integer, dimension(:,:,:), allocatable :: nnod         ! sphprep
@@ -86,10 +88,11 @@
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
-        subroutine allocate_sph_work(sph_work,                              &
+        subroutine allocate_sph_work(sph_work,                                &
         &                              numsph,size_wreduce,                   &
         &                              flag_sol_to_sph, size_itag,            &
-        &                              size_as6, size_a6, size_as )
+        &                              size_as6, size_a6, size_as,            &
+        &                              numsphg)
 !=======================================================================================
 !! \brief  subroutine to allocate the buffers used in SPHPREP and SPHINT
           use my_alloc_mod
@@ -105,6 +108,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(in) :: size_wreduce
           integer,intent(in) :: numsph
+          integer,intent(in) :: numsphg
           integer,intent(in) :: flag_sol_to_sph
           integer,intent(in) :: size_itag
           integer,intent(in) :: size_as6
@@ -123,8 +127,8 @@
             call my_alloc(sph_work%a6,6,3,size_a6)
             call my_alloc(sph_work%as,3,8*size_as)
             call my_alloc(sph_work%as6,6,3,8*size_as6)
-          endif
-          if (numsph > 0) then
+          end if
+          if (numsphg > 0) then
             sph_work%voxel_nb = 15
             nbk = sph_work%voxel_nb
             call my_alloc(sph_work%voxel%nnod,nbk,nbk,nbk)
@@ -134,7 +138,7 @@
             call my_alloc(sph_work%voxel%dxmax,nbk,nbk,nbk)
             call my_alloc(sph_work%voxel%dymax,nbk,nbk,nbk)
             call my_alloc(sph_work%voxel%dzmax,nbk,nbk,nbk)
-          endif
+          end if
 
         end subroutine allocate_sph_work
 

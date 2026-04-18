@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .                                      MAXV_RES1, MAXV_RES2
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,FLAG,ITABG(LENG)
-      INTEGER SIZ,MSGTYP,I,J,K,NG,NREC,MSGOFF2,
+      INTEGER SIZ,MSGTYP,I,J,K,MSGOFF2,
      .        L,ISMASSCHANGE,MSGOFF3,MSGOFF4
       INTEGER, DIMENSION(:) , ALLOCATABLE :: IDNOD0, IDNOD, IDNOD_RES
 
@@ -128,9 +128,9 @@ c
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   of nodes at most
 
          MSGTYP = MSGOFF
          CALL MPI_SEND(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -190,16 +190,19 @@ C
       RETURN
       END
 !||====================================================================
-!||    rby_imrd   ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rby_imrd      ../engine/source/constraints/general/rbody/rby_impd.F
 !||--- called by ------------------------------------------------------
-!||    rby_impd   ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rby_impd      ../engine/source/constraints/general/rbody/rby_impd.F
 !||--- calls      -----------------------------------------------------
-!||    rby_imp4   ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rby_imp4      ../engine/source/constraints/general/rbody/rby_impd.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
      1                   NPBY,SKEW,ISKEW,ITAB,WEIGHT,
      2                   MS ,IN  ,NDOF ,D   ,
      3                   DR ,IXR )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -268,7 +271,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N ,K,IT,NP
+      INTEGER  K,IT,NP
       my_real
      .   XS,YS,ZS,X1(3),X2(3),DRX,DRY,DRZ,L0,L1,S
 C-----------------------------------------------
@@ -359,7 +362,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N,NP,J
-      my_real XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
+      my_real XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A
       my_real,DIMENSION(:),ALLOCATABLE :: LSM
 C-----------------------------------------------
       M    =NBY(1)
@@ -468,7 +471,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
-      INTEGER NDOF(*),ITRMAX
+      INTEGER NDOF(*)
 C     REAL
       my_real
      .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
@@ -482,7 +485,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN,  I, N,NP,J,K
+      INTEGER M, NSN,  I, N,J
 C     REAL
       DOUBLE PRECISION
      . XS(3), DS(3), VRM(3)

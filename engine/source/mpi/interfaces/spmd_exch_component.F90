@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
 !||====================================================================
       module spmd_exchange_component_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -41,6 +42,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod              ../common_source/modules/constant_mod.F
 !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+!||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exchange_component(mode,nspmd,component)
@@ -50,6 +52,7 @@
           use constant_mod
           use inter_sorting_mod , only : component_
           use spmd_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -57,7 +60,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -73,7 +75,7 @@
           integer :: my_size,my_offset,my_index
           integer :: proc_id
           integer, parameter :: my_tag = 400001
-          my_real, dimension(6) :: l_bound,r_bound
+          real(kind=WP), dimension(6) :: l_bound,r_bound
           integer :: status_mpi(mpi_status_size)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions

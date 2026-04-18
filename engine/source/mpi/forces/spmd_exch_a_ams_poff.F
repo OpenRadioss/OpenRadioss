@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,7 +74,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,MSGOFF,
-     .        SIZ,J,K,L,NB_NOD,
+     .        SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),
@@ -170,8 +170,8 @@ C --- /CONT/MAX output
             SHIFT = SHIFT+3
           ENDIF
 
-C --- /PCONT/MAX output
-          IF(ANIM_V(26)+H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+C --- /PCONT/MAX or /PCONT output
+          IF(LENC>=6) THEN
             SBUF(SHIFT+1) = FNCONT(1,NOD)
             SBUF(SHIFT+2) = FNCONT(2,NOD)
             SBUF(SHIFT+3) = FNCONT(3,NOD)
@@ -192,7 +192,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -313,7 +313,7 @@ C decompactage
 C
       DO I = 1, NSPMD
        IF(I/=LOC_PROC)THEN
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
          NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(NB_NOD>0)THEN
            CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -448,7 +448,8 @@ C --- /CONT/MAX output
              SHIFT = SHIFT+3
            ENDIF
 
-           IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+!       /PCONT
+           IF(LENC>=6) THEN
               FNCONT(1,NOD)= FNCONT(1,NOD)+ SAV_A(SHIFT+1,J)
               FNCONT(2,NOD)= FNCONT(2,NOD)+ SAV_A(SHIFT+2,J)
               FNCONT(3,NOD)= FNCONT(3,NOD)+ SAV_A(SHIFT+3,J)

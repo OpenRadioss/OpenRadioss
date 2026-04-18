@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@
 !||    domdec2                            ../starter/source/spmd/domdec2.F
 !||    dyna_ina                           ../engine/source/implicit/imp_dyna.F
 !||    dyna_wex                           ../engine/source/implicit/imp_dyna.F
-!||    ebcs11                             ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant                  ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ecrit                              ../engine/source/output/ecrit.F
 !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
@@ -157,6 +157,7 @@
 !||    iniebcs                            ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    iniparsen                          ../starter/source/tools/sensor/iniparsen.F
 !||    inisen                             ../starter/source/tools/sensor/inisen.F
+!||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_monvol                        ../starter/source/airbag/init_monvol.F
 !||    initia                             ../starter/source/elements/initia/initia.F
 !||    inivel_dt2                         ../engine/source/loads/general/inivel/inivel_dt2.F90
@@ -190,6 +191,7 @@
 !||    pfluid                             ../engine/source/loads/general/pfluid/pfluid.F
 !||    pforc3                             ../engine/source/elements/beam/pforc3.F
 !||    preload_axial                      ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini                  ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    pressure_cyl                       ../engine/source/loads/general/load_pcyl/pressure_cyl.F
 !||    q4forc2                            ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qbilan                             ../engine/source/elements/solid_2d/quad/qbilan.F
@@ -252,6 +254,7 @@
 !||    s4forc3                            ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cbilan                           ../engine/source/elements/thickshell/solide6c/s6cbilan.F
 !||    s6cforc3                           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3                           ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8bilan                            ../engine/source/elements/solid/solide8/s8bilan.F
 !||    s8cforc3                           ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3                           ../engine/source/elements/solid/solide8e/s8eforc3.F
@@ -331,6 +334,8 @@
 !||    updmat                             ../starter/source/materials/updmat.F
 !||    user_interface_mod                 ../engine/source/modules/user_interface_mod.F90
 !||    user_sensor_mod                    ../starter/source/modules/user_interface_mod.F90
+!||    ush_force3                         ../engine/source/user_interface/ushforce3.F90
+!||    ush_output                         ../engine/source/user_interface/ushforce3.F90
 !||    volpre                             ../engine/source/airbag/volpres.F
 !||    volprep                            ../engine/source/airbag/volpresp.F
 !||    wfv_imp                            ../engine/source/constraints/general/impvel/fv_imp0.F

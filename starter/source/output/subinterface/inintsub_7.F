@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -105,7 +105,7 @@ C
      .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB
                INTBUF_TAB(NI)%TYPSUB(KSUB) = 1
 C
@@ -184,7 +184,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -248,7 +248,7 @@ C           utilise KAD(1:NSN)
          END DO
 
 C----------------------------------------
-C  Secondary side : After ADRESS STORE SUBINTER in INTBUF_TAB(NI)%LISUBS
+C  Secondary side : After address STORE SUBINTER in INTBUF_TAB(NI)%LISUBS
 C---------------------------------------------
          KSUB=0
          DO JSUB=1,NINTSUB
@@ -363,7 +363,7 @@ C----------------------------------------
 C  TAG main segments calculate addresses
 C---------------------------------------------
 C
-C           utilise IADD(1:NUMNOD+1)
+C           Use IADD (1: Numnod+1)
           IADD(1:NUMNOD+1) = 0
           DO IM=1,NRTM0
               IN       =INTBUF_TAB(NI)%IRECTM(4*(IM-1)+1)

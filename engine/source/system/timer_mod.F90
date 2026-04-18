@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,109 +21,117 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    timer_mod                  ../engine/source/system/timer_mod.F90
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
 !||--- called by ------------------------------------------------------
-!||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
-!||    alemain                    ../engine/source/ale/alemain.F
-!||    alewdx                     ../engine/source/ale/grid/alewdx.F
-!||    bforc2                     ../engine/source/ale/bimat/bforc2.F
-!||    c3forc3                    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-!||    c3forc3_crk                ../engine/source/elements/xfem/c3forc3_crk.F
-!||    cbaforc3                   ../engine/source/elements/shell/coqueba/cbaforc3.F
-!||    cdk6forc3                  ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-!||    cdkforc3                   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-!||    cforc3                     ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk                 ../engine/source/elements/xfem/cforc3_crk.F
-!||    cmain3                     ../engine/source/materials/mat_share/cmain3.F
-!||    czforc3                    ../engine/source/elements/shell/coquez/czforc3.F
-!||    czforc3_crk                ../engine/source/elements/xfem/czforc3_crk.F
-!||    ecrit                      ../engine/source/output/ecrit.F
-!||    elapstime                  ../engine/source/system/timer.F
-!||    forint                     ../engine/source/elements/forint.F
-!||    forintc                    ../engine/source/elements/forintc.F
-!||    forintp                    ../engine/source/elements/forintp.F
-!||    genh3d                     ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    i10main_tri                ../engine/source/interfaces/intsort/i10main_tri.F
-!||    i11main_tri                ../engine/source/interfaces/intsort/i11main_tri.F
-!||    i11mainf                   ../engine/source/interfaces/int11/i11mainf.F
-!||    i17main_tri                ../engine/source/interfaces/int17/i17main_pena.F
-!||    i20main_tri                ../engine/source/interfaces/intsort/i20main_tri.F
-!||    i20mainf                   ../engine/source/interfaces/int20/i20mainf.F
-!||    i21main_opt_tri            ../engine/source/interfaces/intsort/i21main_opt_tri.F
-!||    i21main_tri                ../engine/source/interfaces/intsort/i21main_tri.F
-!||    i21mainf                   ../engine/source/interfaces/int21/i21mainf.F
-!||    i21optcd                   ../engine/source/interfaces/int21/i21optcd.F
-!||    i22main_tri                ../engine/source/interfaces/intsort/i22main_tri.F
-!||    i22mainf                   ../engine/source/interfaces/int22/i22mainf.F
-!||    i23main_tri                ../engine/source/interfaces/intsort/i23main_tri.F
-!||    i23mainf                   ../engine/source/interfaces/int23/i23mainf.F
-!||    i24main_tri                ../engine/source/interfaces/intsort/i24main_tri.F
-!||    i24mainf                   ../engine/source/interfaces/int24/i24main.F
-!||    i25main_free               ../engine/source/interfaces/intsort/i25main_free.F
-!||    i25main_tri                ../engine/source/interfaces/intsort/i25main_tri.F
-!||    i25mainf                   ../engine/source/interfaces/int25/i25mainf.F
-!||    i7main_tri                 ../engine/source/interfaces/intsort/i7main_tri.F
-!||    i7mainf                    ../engine/source/interfaces/int07/i7mainf.F
-!||    ig3duforc3                 ../engine/source/elements/ige3d/ig3duforc3.F
-!||    imp_chkm                   ../engine/source/implicit/imp_solv.F
-!||    imp_inttd0                 ../engine/source/implicit/imp_int_k.F
-!||    imp_solv                   ../engine/source/implicit/imp_solv.F
-!||    imp_tripi                  ../engine/source/implicit/imp_int_k.F
-!||    intcrit                    ../engine/source/interfaces/intsort/intcrit.F
-!||    inter_sort                 ../engine/source/interfaces/generic/inter_sort.F
-!||    inter_sort_07              ../engine/source/interfaces/int07/inter_sort_07.F
-!||    intfop2                    ../engine/source/interfaces/interf/intfop2.F
-!||    inttri                     ../engine/source/interfaces/intsort/inttri.F
-!||    mmain                      ../engine/source/materials/mat_share/mmain.F90
-!||    mmain8                     ../engine/source/materials/mat_share/mmain8.F
-!||    mulaw                      ../engine/source/materials/mat_share/mulaw.F90
-!||    mulaw8                     ../engine/source/materials/mat_share/mulaw8.F90
-!||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
-!||    multi_muscl_gradients      ../engine/source/multifluid/multi_muscl_gradients.F
-!||    multi_timeevolution        ../engine/source/multifluid/multi_timeevolution.F
-!||    printime                   ../engine/source/system/timer.F
-!||    q4forc2                    ../engine/source/elements/solid_2d/quad4/q4forc2.F
-!||    qforc2                     ../engine/source/elements/solid_2d/quad/qforc2.F
-!||    radioss2                   ../engine/source/engine/radioss2.F
-!||    rbyfor                     ../engine/source/constraints/general/rbody/rbyfor.F
-!||    resol                      ../engine/source/engine/resol.F
-!||    resol_head                 ../engine/source/engine/resol_head.F
-!||    rmatforp                   ../engine/source/materials/mat/mat013/rmatforp.F
-!||    s10forc3                   ../engine/source/elements/solid/solide10/s10forc3.F
-!||    s16forc3                   ../engine/source/elements/thickshell/solide16/s16forc3.F
-!||    s20forc3                   ../engine/source/elements/solid/solide20/s20forc3.F
-!||    s4forc3                    ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s6cforc3                   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-!||    s8cforc3                   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3                   ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8forc3                    ../engine/source/elements/solid/solide8/s8forc3.F
-!||    s8sforc3                   ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3                   ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    scforc3                    ../engine/source/elements/thickshell/solidec/scforc3.F
-!||    sforc3                     ../engine/source/elements/solid/solide/sforc3.F
-!||    sms_check                  ../engine/source/ams/sms_fsa_inv.F
-!||    sms_encin_2                ../engine/source/ams/sms_encin_2.F
-!||    sms_inist                  ../engine/source/ams/sms_proj.F
-!||    sms_inix                   ../engine/source/ams/sms_proj.F
-!||    sms_mass_scale_2           ../engine/source/ams/sms_mass_scale_2.F
-!||    sms_mav_lt                 ../engine/source/ams/sms_pcg.F
-!||    sms_mav_lt2                ../engine/source/ams/sms_pcg.F
-!||    sms_pcg                    ../engine/source/ams/sms_pcg.F
-!||    sms_pro_p                  ../engine/source/ams/sms_proj.F
-!||    sortie_main                ../engine/source/output/sortie_main.F
-!||    sphprep                    ../engine/source/elements/sph/sphprep.F
-!||    sphtri0                    ../engine/source/elements/sph/sphtri0.F
-!||    spmd_cell_exchange         ../engine/source/mpi/generic/spmd_cell_exchange.F
-!||    spstres                    ../engine/source/elements/sph/spstres.F
-!||    suforc3                    ../engine/source/user_interface/suforc3.F
-!||    suser43                    ../engine/source/elements/solid/sconnect/suser43.F
-!||    szforc3                    ../engine/source/elements/solid/solidez/szforc3.F
-!||    usermat_shell              ../engine/source/materials/mat_share/usermat_shell.F
-!||    usermat_solid              ../engine/source/materials/mat_share/usermat_solid.F
+!||    aconve                           ../engine/source/ale/aconve.F90
+!||    add_elapsed_time_mon_off         ../engine/source/system/timer.F
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    alemain                          ../engine/source/ale/alemain.F
+!||    alethe                           ../engine/source/ale/alethe.F
+!||    alewdx                           ../engine/source/ale/grid/alewdx.F
+!||    arezon                           ../engine/source/ale/arezon.F90
+!||    bforc2                           ../engine/source/ale/bimat/bforc2.F
+!||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
+!||    cbaforc3                         ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cdk6forc3                        ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||    cdkforc3                         ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||    cforc3                           ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk                       ../engine/source/elements/xfem/cforc3_crk.F
+!||    cmain3                           ../engine/source/materials/mat_share/cmain3.F
+!||    czforc3                          ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk                      ../engine/source/elements/xfem/czforc3_crk.F
+!||    ecrit                            ../engine/source/output/ecrit.F
+!||    elapstime                        ../engine/source/system/timer.F
+!||    forint                           ../engine/source/elements/forint.F
+!||    forintc                          ../engine/source/elements/forintc.F
+!||    forintp                          ../engine/source/elements/forintp.F
+!||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    i10main_tri                      ../engine/source/interfaces/intsort/i10main_tri.F
+!||    i11main_tri                      ../engine/source/interfaces/intsort/i11main_tri.F
+!||    i11mainf                         ../engine/source/interfaces/int11/i11mainf.F
+!||    i17main_tri                      ../engine/source/interfaces/int17/i17main_pena.F
+!||    i20main_tri                      ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i20mainf                         ../engine/source/interfaces/int20/i20mainf.F
+!||    i21main_opt_tri                  ../engine/source/interfaces/intsort/i21main_opt_tri.F
+!||    i21main_tri                      ../engine/source/interfaces/intsort/i21main_tri.F
+!||    i21mainf                         ../engine/source/interfaces/int21/i21mainf.F
+!||    i21optcd                         ../engine/source/interfaces/int21/i21optcd.F
+!||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i22mainf                         ../engine/source/interfaces/int22/i22mainf.F
+!||    i23main_tri                      ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i23mainf                         ../engine/source/interfaces/int23/i23mainf.F
+!||    i24main_tri                      ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i24mainf                         ../engine/source/interfaces/int24/i24main.F
+!||    i25main_free                     ../engine/source/interfaces/intsort/i25main_free.F
+!||    i25main_tri                      ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i25mainf                         ../engine/source/interfaces/int25/i25mainf.F
+!||    i7main_tri                       ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
+!||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
+!||    imp_chkm                         ../engine/source/implicit/imp_solv.F
+!||    imp_inttd0                       ../engine/source/implicit/imp_int_k.F
+!||    imp_solv                         ../engine/source/implicit/imp_solv.F
+!||    imp_tripi                        ../engine/source/implicit/imp_int_k.F
+!||    intcrit                          ../engine/source/interfaces/intsort/intcrit.F
+!||    inter_sort                       ../engine/source/interfaces/generic/inter_sort.F
+!||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+!||    intfop2                          ../engine/source/interfaces/interf/intfop2.F
+!||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+!||    mmain                            ../engine/source/materials/mat_share/mmain.F90
+!||    mmain8                           ../engine/source/materials/mat_share/mmain8.F
+!||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
+!||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
+!||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
+!||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+!||    print_summary                    ../engine/source/system/timer.F
+!||    printime                         ../engine/source/system/printime.F
+!||    q4forc2                          ../engine/source/elements/solid_2d/quad4/q4forc2.F
+!||    qforc2                           ../engine/source/elements/solid_2d/quad/qforc2.F
+!||    radioss2                         ../engine/source/engine/radioss2.F
+!||    rbyfor                           ../engine/source/constraints/general/rbody/rbyfor.F
+!||    resol                            ../engine/source/engine/resol.F
+!||    resol_head                       ../engine/source/engine/resol_head.F
+!||    rmatforp                         ../engine/source/materials/mat/mat013/rmatforp.F
+!||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s16forc3                         ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s20forc3                         ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s6cforc3                         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3                         ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
+!||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    scforc3                          ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
+!||    sms_check                        ../engine/source/ams/sms_fsa_inv.F
+!||    sms_encin_2                      ../engine/source/ams/sms_encin_2.F
+!||    sms_inist                        ../engine/source/ams/sms_proj.F
+!||    sms_inix                         ../engine/source/ams/sms_proj.F
+!||    sms_mass_scale_2                 ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_mav_lt                       ../engine/source/ams/sms_pcg.F
+!||    sms_mav_lt2                      ../engine/source/ams/sms_pcg.F
+!||    sms_pcg                          ../engine/source/ams/sms_pcg.F
+!||    sms_pro_p                        ../engine/source/ams/sms_proj.F
+!||    sortie_main                      ../engine/source/output/sortie_main.F
+!||    sphprep                          ../engine/source/elements/sph/sphprep.F
+!||    sphtri0                          ../engine/source/elements/sph/sphtri0.F
+!||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    spstres                          ../engine/source/elements/sph/spstres.F
+!||    suforc3                          ../engine/source/user_interface/suforc3.F
+!||    suser43                          ../engine/source/elements/solid/sconnect/suser43.F
+!||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
+!||    usermat_shell                    ../engine/source/materials/mat_share/usermat_shell.F
+!||    usermat_solid                    ../engine/source/materials/mat_share/usermat_solid.F
 !||====================================================================
       module timer_mod
         implicit none
-        integer, parameter :: max_nb_timer= 150
+        integer, parameter :: max_nb_timer= 160
         integer, parameter :: TIMER_RESOL     =     1
         integer, parameter :: TIMER_CONTSORT  =     2
         integer, parameter :: TIMER_ELEMENT   =     3
@@ -138,7 +146,15 @@
         integer, parameter :: TIMER_EXRBYV    =     12
         integer, parameter :: TIMER_EXSPMDV   =     13
         integer, parameter :: TIMER_MADYMO    =     14
+        integer, parameter :: TIMER_CONT_CRIT =     15  
+        integer, parameter :: TIMER_COMM_CRIT =     16
+        integer, parameter :: TIMER_CONT_BUK  =     17
+        integer, parameter :: TIMER_CONT_GFRONT=    18
+        integer, parameter :: TIMER_CONT_OPT  =     19
         integer, parameter :: TIMER_AMS       =     39
+        integer, parameter :: TIMER_BEG_CRIT  =     56        
+        integer, parameter :: TIMER_EOF_CRIT  =     57
+        integer, parameter :: TIMER_EOF_SORT  =     58
         integer, parameter :: TIMER_TMP1      =    150
         integer, parameter :: TIMER_TMP2      =    149
         integer, parameter :: TIMER_ALEMAIN   =     110
@@ -167,6 +183,7 @@
         integer, parameter :: TIMER_T25BUC    =      136
         integer, parameter :: TIMER_T25BUCE2E =      137
         integer, parameter :: TIMER_T25TRCE   =      138
+        integer, parameter :: timer_ale_elm   =      151       
         type timer_
           real, dimension(:,:), allocatable :: timer
           real, dimension(:), allocatable :: cputime
@@ -190,40 +207,40 @@
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine initime(t)
-!     initialisation des timers
-!     timer                       signification
+!     initialization of timers
+!     timer                       meaning
 !
 !     1                           resol
-!     2                           interfaces (total ou tri fop) [tri type 7, ALE]
+!     2                           interfaces (total or sort fop) [sort type 7, ALE]
 !     3                           elements
 !     4                           cond. cin.
 !     5                           integration
-!     6                           non parallel sur p0
+!     6                           not parallel on p0
 !     7                           IO
 !     8                           interfaces (forces fop) [i7opcd,i7dst3,i7for3,shooting nodes]
-!     9                           assemblage forces
-!    10                           echange forces spmd
-!    11                           echange rigid bodies forces
-!    12                           echange rigid bodies vitesses
-!    13                           echange vitesse spmd
+!     9                           force assembly
+!    10                           spmd force exchange
+!    11                           rigid bodies force exchange
+!    12                           rigid bodies velocity exchange
+!    13                           spmd velocity exchange
 !    14                           -----
-!********* TIMERS 15 A 25 ACTIVE sur /DEBUG/CAND + /MON/ON ***************
+!********* TIMERS 15 TO 25 ACTIVE on /DEBUG/CAND + /MON/ON ***************
 !    15                           interface i7buce_crit
-!    16                           interface icomcrit (comm critere de tris)
-!    17                           interface i7main_tri (tri)
-!    18                           interface spmd_ifront     (maj frontieres)
+!    16                           interface icomcrit (sort criterion comm)
+!    17                           interface i7main_tri (sort)
+!    18                           interface spmd_ifront     (update boundaries)
 !    19                           interface i7optcd
 !    20                           interface force i7for3
-!    21                           interface envoi force
-!    22                           interface reception force
-!    23                           interface envoi vitesse
-!    24                           interface reception vitesse
-!    25                           interface envoi XV tri (TRI7BOX)
-!    26                           interface maj cand tri (no comm, included in i7maindb)
-!    27                           interface tri mmx (comm only, included in spmd_i7crit)
+!    21                           interface send force
+!    22                           interface receive force
+!    23                           interface send velocity
+!    24                           interface receive velocity
+!    25                           interface send XV sort (TRI7BOX)
+!    26                           interface update cand sort (no comm, included in i7maindb)
+!    27                           interface sort mmx (comm only, included in spmd_i7crit)
 !    28                           interface tied type 2
 !    29                           interface shooting nodes
-!    30                           interface i7buce pure (sans comm)
+!    30                           interface i7buce pure (without comm)
 !    31                           [K] setup
 !    32                           [M] setup
 !    33                           implicit solver
@@ -233,8 +250,8 @@
 !    37                           adaptive meshing : kinematic conditions forces
 !    38                           adaptive meshing : kinematic conditions velocities
 !    39                           selective mass scaling
-!********* TIMERS 40 A 60 ACTIVE sur /DEBUG/CAND + /MON/ON ***************
-!    40                           cond cine rbodies + sensors + accelerometres
+!********* TIMERS 40 TO 60 ACTIVE on /DEBUG/CAND + /MON/ON ***************
+!    40                           cond cine rbodies + sensors + accelerometers
 !    41                           cond cine concentrated load forces
 !    42                           cond cine boundary conditions
 !    43                           cond cine rlinks + rivets + cjoints + rwalls
@@ -250,33 +267,33 @@
 !    53                           task0 DT2
 !    54                           task0 R2R
 !    55                           -----
-!    56                           synchro avant critere tri
-!    57                           synchro apres critere tri
-!    58                           synchro fin de tri
-!    59                           synchro apres element+interf forces
-!    60                           synchro fin cycle si cc a envoyer
-!********* TIMERS 61 A 70 ACTIVE sur /MON/FULL ***************
-!    61                           AMS PCG  PCG       :: PCG sauf produits matrice-vecteur W=MV
-!    62                           AMS PCG  PARIT F   :: calcul des normes et produits scalaires P/ON (sum_6_float)
-!    63                           AMS PCG  COMM R    :: comm. pour calcul des normes et produiys scalaires
-!    64                           AMS PCG  COMP M.V  :: calcul W=MV hors communications
-!    65                           AMS PCG  COMM VFI  :: COMM. ECHANGE VFI cf contacts
+!    56                           synchro before sort criterion
+!    57                           synchro after sort criterion
+!    58                           synchro end of sort
+!    59                           synchro after element+interf forces
+!    60                           synchro end of cycle if cc to send
+!********* TIMERS 61 TO 70 ACTIVE on /MON/FULL ***************
+!    61                           AMS PCG  PCG       :: PCG except matrix-vector products W=MV
+!    62                           AMS PCG  PARIT F   :: computing norms and scalar products P/ON (sum_6_float)
+!    63                           AMS PCG  COMM R    :: comm. for computing norms and scalar products
+!    64                           AMS PCG  COMP M.V  :: compute W=MV without communications
+!    65                           AMS PCG  COMM VFI  :: COMM. EXCHANGE VFI cf contacts
 !    66                           IMP PCG
 !    67                           IMP PCG
 !    68                           IMP PCG
 !    69                           IMP PCG
 !    70                           AMS EIGENVECTORS
-!******** 71 A 74 ACTIVE sur /MON/FULL ***********************
+!******** 71 TO 74 ACTIVE on /MON/FULL ***********************
 !    71                           AMS EIGENVECTORS
 !    72                           AMS EIGENVECTORS
 !    73                           AMS EIGENVECTORS
-!    74                           AMS PCG  COMP MV/E :: calcul W=MV wrt matrice elementaire uniquement - inclus dans time(64)
+!    74                           AMS PCG  COMP MV/E :: compute W=MV wrt elementary matrix only - included in time(64)
 !    75                           AMS BUILD MATRIX
-!    76                           synchro fin de cycle comm shooting
+!    76                           synchro end of cycle comm shooting
 !
-!    75 - 86                      utilise, mais non decrit ..
+!    75 - 86                      used, but not described ..
 !
-!    80                           AMS PCG COMM M.V   :: COMM. pour ASSEMBLAGE de W=MV
+!    80                           AMS PCG COMM M.V   :: COMM. for ASSEMBLY of W=MV
 !
 !    87                           sph preparation (sorting, ...)
 !    88                           sph interactions (forintp)
@@ -322,7 +339,7 @@
             t%realtime(j) = 0
             t%omp_initime(j) = 0
             t%clockini(j) = 0
-          enddo
+          end do
           call system_clock(t%clock0)
           if(t%clock0 < 0 )  call system_clock(t%clock0)   !in case of failure
           t%elapsed = 0
@@ -334,81 +351,87 @@
         end subroutine initime
 ! ======================================================================================================================
 !||====================================================================
-!||    startime                ../engine/source/system/timer_mod.F90
+!||    startime                         ../engine/source/system/timer_mod.F90
 !||--- called by ------------------------------------------------------
-!||    alemain                 ../engine/source/ale/alemain.F
-!||    alewdx                  ../engine/source/ale/grid/alewdx.F
-!||    c3forc3                 ../engine/source/elements/sh3n/coque3n/c3forc3.F
-!||    c3forc3_crk             ../engine/source/elements/xfem/c3forc3_crk.F
-!||    cbaforc3                ../engine/source/elements/shell/coqueba/cbaforc3.F
-!||    cforc3                  ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk              ../engine/source/elements/xfem/cforc3_crk.F
-!||    czforc3                 ../engine/source/elements/shell/coquez/czforc3.F
-!||    czforc3_crk             ../engine/source/elements/xfem/czforc3_crk.F
-!||    forintp                 ../engine/source/elements/forintp.F
-!||    genh3d                  ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    i10main_tri             ../engine/source/interfaces/intsort/i10main_tri.F
-!||    i11main_tri             ../engine/source/interfaces/intsort/i11main_tri.F
-!||    i11mainf                ../engine/source/interfaces/int11/i11mainf.F
-!||    i17main_tri             ../engine/source/interfaces/int17/i17main_pena.F
-!||    i20main_tri             ../engine/source/interfaces/intsort/i20main_tri.F
-!||    i20mainf                ../engine/source/interfaces/int20/i20mainf.F
-!||    i21main_tri             ../engine/source/interfaces/intsort/i21main_tri.F
-!||    i21mainf                ../engine/source/interfaces/int21/i21mainf.F
-!||    i21optcd                ../engine/source/interfaces/int21/i21optcd.F
-!||    i22main_tri             ../engine/source/interfaces/intsort/i22main_tri.F
-!||    i22mainf                ../engine/source/interfaces/int22/i22mainf.F
-!||    i23main_tri             ../engine/source/interfaces/intsort/i23main_tri.F
-!||    i23mainf                ../engine/source/interfaces/int23/i23mainf.F
-!||    i24main_tri             ../engine/source/interfaces/intsort/i24main_tri.F
-!||    i24mainf                ../engine/source/interfaces/int24/i24main.F
-!||    i25main_free            ../engine/source/interfaces/intsort/i25main_free.F
-!||    i25main_tri             ../engine/source/interfaces/intsort/i25main_tri.F
-!||    i25mainf                ../engine/source/interfaces/int25/i25mainf.F
-!||    i7main_tri              ../engine/source/interfaces/intsort/i7main_tri.F
-!||    i7mainf                 ../engine/source/interfaces/int07/i7mainf.F
-!||    ig3duforc3              ../engine/source/elements/ige3d/ig3duforc3.F
-!||    imp_chkm                ../engine/source/implicit/imp_solv.F
-!||    imp_pcgh                ../engine/source/implicit/imp_pcg.F
-!||    imp_solv                ../engine/source/implicit/imp_solv.F
-!||    intcrit                 ../engine/source/interfaces/intsort/intcrit.F
-!||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
-!||    inttri                  ../engine/source/interfaces/intsort/inttri.F
-!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
-!||    mmain8                  ../engine/source/materials/mat_share/mmain8.F
-!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-!||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
-!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
-!||    multi_muscl_gradients   ../engine/source/multifluid/multi_muscl_gradients.F
-!||    multi_timeevolution     ../engine/source/multifluid/multi_timeevolution.F
-!||    rbyfor                  ../engine/source/constraints/general/rbody/rbyfor.F
-!||    resol                   ../engine/source/engine/resol.F
-!||    rmatforp                ../engine/source/materials/mat/mat013/rmatforp.F
-!||    s10forc3                ../engine/source/elements/solid/solide10/s10forc3.F
-!||    s4forc3                 ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s8cforc3                ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3                ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8forc3                 ../engine/source/elements/solid/solide8/s8forc3.F
-!||    s8sforc3                ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3                ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3                  ../engine/source/elements/solid/solide/sforc3.F
-!||    sms_check               ../engine/source/ams/sms_fsa_inv.F
-!||    sms_inist               ../engine/source/ams/sms_proj.F
-!||    sms_inix                ../engine/source/ams/sms_proj.F
-!||    sms_mass_scale_2        ../engine/source/ams/sms_mass_scale_2.F
-!||    sms_mav_lt              ../engine/source/ams/sms_pcg.F
-!||    sms_mav_lt2             ../engine/source/ams/sms_pcg.F
-!||    sms_pcg                 ../engine/source/ams/sms_pcg.F
-!||    sms_pro_p               ../engine/source/ams/sms_proj.F
-!||    sphprep                 ../engine/source/elements/sph/sphprep.F
-!||    sphtri0                 ../engine/source/elements/sph/sphtri0.F
-!||    spmd_cell_exchange      ../engine/source/mpi/generic/spmd_cell_exchange.F
-!||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
-!||    szforc3                 ../engine/source/elements/solid/solidez/szforc3.F
-!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
-!||    usermat_solid           ../engine/source/materials/mat_share/usermat_solid.F
+!||    aconve                           ../engine/source/ale/aconve.F90
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    alemain                          ../engine/source/ale/alemain.F
+!||    alethe                           ../engine/source/ale/alethe.F
+!||    alewdx                           ../engine/source/ale/grid/alewdx.F
+!||    arezon                           ../engine/source/ale/arezon.F90
+!||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
+!||    cbaforc3                         ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cforc3                           ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk                       ../engine/source/elements/xfem/cforc3_crk.F
+!||    czforc3                          ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk                      ../engine/source/elements/xfem/czforc3_crk.F
+!||    forintp                          ../engine/source/elements/forintp.F
+!||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    i10main_tri                      ../engine/source/interfaces/intsort/i10main_tri.F
+!||    i11main_tri                      ../engine/source/interfaces/intsort/i11main_tri.F
+!||    i11mainf                         ../engine/source/interfaces/int11/i11mainf.F
+!||    i17main_tri                      ../engine/source/interfaces/int17/i17main_pena.F
+!||    i20main_tri                      ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i20mainf                         ../engine/source/interfaces/int20/i20mainf.F
+!||    i21main_tri                      ../engine/source/interfaces/intsort/i21main_tri.F
+!||    i21mainf                         ../engine/source/interfaces/int21/i21mainf.F
+!||    i21optcd                         ../engine/source/interfaces/int21/i21optcd.F
+!||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i22mainf                         ../engine/source/interfaces/int22/i22mainf.F
+!||    i23main_tri                      ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i23mainf                         ../engine/source/interfaces/int23/i23mainf.F
+!||    i24main_tri                      ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i24mainf                         ../engine/source/interfaces/int24/i24main.F
+!||    i25main_free                     ../engine/source/interfaces/intsort/i25main_free.F
+!||    i25main_tri                      ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i25mainf                         ../engine/source/interfaces/int25/i25mainf.F
+!||    i7main_tri                       ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
+!||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
+!||    imp_chkm                         ../engine/source/implicit/imp_solv.F
+!||    imp_pcgh                         ../engine/source/implicit/imp_pcg.F
+!||    imp_solv                         ../engine/source/implicit/imp_solv.F
+!||    intcrit                          ../engine/source/interfaces/intsort/intcrit.F
+!||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+!||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+!||    mmain                            ../engine/source/materials/mat_share/mmain.F90
+!||    mmain8                           ../engine/source/materials/mat_share/mmain8.F
+!||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
+!||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
+!||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
+!||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+!||    rbyfor                           ../engine/source/constraints/general/rbody/rbyfor.F
+!||    resol                            ../engine/source/engine/resol.F
+!||    rmatforp                         ../engine/source/materials/mat/mat013/rmatforp.F
+!||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
+!||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
+!||    sms_check                        ../engine/source/ams/sms_fsa_inv.F
+!||    sms_inist                        ../engine/source/ams/sms_proj.F
+!||    sms_inix                         ../engine/source/ams/sms_proj.F
+!||    sms_mass_scale_2                 ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_mav_lt                       ../engine/source/ams/sms_pcg.F
+!||    sms_mav_lt2                      ../engine/source/ams/sms_pcg.F
+!||    sms_pcg                          ../engine/source/ams/sms_pcg.F
+!||    sms_pro_p                        ../engine/source/ams/sms_proj.F
+!||    sphprep                          ../engine/source/elements/sph/sphprep.F
+!||    sphtri0                          ../engine/source/elements/sph/sphtri0.F
+!||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    suser43                          ../engine/source/elements/solid/sconnect/suser43.F
+!||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
+!||    usermat_shell                    ../engine/source/materials/mat_share/usermat_shell.F
+!||    usermat_solid                    ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    my_etime                ../engine/source/system/machine.F
+!||    my_etime                         ../engine/source/system/machine.F
 !||====================================================================
         subroutine startime(t,event)
           implicit none
@@ -436,80 +459,86 @@
 
 ! ======================================================================================================================
 !||====================================================================
-!||    stoptime                ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
 !||--- called by ------------------------------------------------------
-!||    alemain                 ../engine/source/ale/alemain.F
-!||    alewdx                  ../engine/source/ale/grid/alewdx.F
-!||    c3forc3                 ../engine/source/elements/sh3n/coque3n/c3forc3.F
-!||    c3forc3_crk             ../engine/source/elements/xfem/c3forc3_crk.F
-!||    cbaforc3                ../engine/source/elements/shell/coqueba/cbaforc3.F
-!||    cforc3                  ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk              ../engine/source/elements/xfem/cforc3_crk.F
-!||    czforc3                 ../engine/source/elements/shell/coquez/czforc3.F
-!||    czforc3_crk             ../engine/source/elements/xfem/czforc3_crk.F
-!||    forintp                 ../engine/source/elements/forintp.F
-!||    genh3d                  ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    i10main_tri             ../engine/source/interfaces/intsort/i10main_tri.F
-!||    i11main_tri             ../engine/source/interfaces/intsort/i11main_tri.F
-!||    i11mainf                ../engine/source/interfaces/int11/i11mainf.F
-!||    i17main_tri             ../engine/source/interfaces/int17/i17main_pena.F
-!||    i20main_tri             ../engine/source/interfaces/intsort/i20main_tri.F
-!||    i20mainf                ../engine/source/interfaces/int20/i20mainf.F
-!||    i21main_tri             ../engine/source/interfaces/intsort/i21main_tri.F
-!||    i21mainf                ../engine/source/interfaces/int21/i21mainf.F
-!||    i22main_tri             ../engine/source/interfaces/intsort/i22main_tri.F
-!||    i22mainf                ../engine/source/interfaces/int22/i22mainf.F
-!||    i23main_tri             ../engine/source/interfaces/intsort/i23main_tri.F
-!||    i23mainf                ../engine/source/interfaces/int23/i23mainf.F
-!||    i24main_tri             ../engine/source/interfaces/intsort/i24main_tri.F
-!||    i24mainf                ../engine/source/interfaces/int24/i24main.F
-!||    i25main_free            ../engine/source/interfaces/intsort/i25main_free.F
-!||    i25main_tri             ../engine/source/interfaces/intsort/i25main_tri.F
-!||    i25mainf                ../engine/source/interfaces/int25/i25mainf.F
-!||    i7main_tri              ../engine/source/interfaces/intsort/i7main_tri.F
-!||    i7mainf                 ../engine/source/interfaces/int07/i7mainf.F
-!||    ig3duforc3              ../engine/source/elements/ige3d/ig3duforc3.F
-!||    imp_chkm                ../engine/source/implicit/imp_solv.F
-!||    imp_pcgh                ../engine/source/implicit/imp_pcg.F
-!||    imp_solv                ../engine/source/implicit/imp_solv.F
-!||    intcrit                 ../engine/source/interfaces/intsort/intcrit.F
-!||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
-!||    inttri                  ../engine/source/interfaces/intsort/inttri.F
-!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
-!||    mmain8                  ../engine/source/materials/mat_share/mmain8.F
-!||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-!||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F90
-!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
-!||    multi_muscl_gradients   ../engine/source/multifluid/multi_muscl_gradients.F
-!||    multi_timeevolution     ../engine/source/multifluid/multi_timeevolution.F
-!||    rbyfor                  ../engine/source/constraints/general/rbody/rbyfor.F
-!||    resol                   ../engine/source/engine/resol.F
-!||    rmatforp                ../engine/source/materials/mat/mat013/rmatforp.F
-!||    s10forc3                ../engine/source/elements/solid/solide10/s10forc3.F
-!||    s4forc3                 ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s8cforc3                ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3                ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8forc3                 ../engine/source/elements/solid/solide8/s8forc3.F
-!||    s8sforc3                ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3                ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3                  ../engine/source/elements/solid/solide/sforc3.F
-!||    sms_check               ../engine/source/ams/sms_fsa_inv.F
-!||    sms_inist               ../engine/source/ams/sms_proj.F
-!||    sms_inix                ../engine/source/ams/sms_proj.F
-!||    sms_mass_scale_2        ../engine/source/ams/sms_mass_scale_2.F
-!||    sms_mav_lt              ../engine/source/ams/sms_pcg.F
-!||    sms_mav_lt2             ../engine/source/ams/sms_pcg.F
-!||    sms_pcg                 ../engine/source/ams/sms_pcg.F
-!||    sms_pro_p               ../engine/source/ams/sms_proj.F
-!||    sphprep                 ../engine/source/elements/sph/sphprep.F
-!||    sphtri0                 ../engine/source/elements/sph/sphtri0.F
-!||    spmd_cell_exchange      ../engine/source/mpi/generic/spmd_cell_exchange.F
-!||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
-!||    szforc3                 ../engine/source/elements/solid/solidez/szforc3.F
-!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
-!||    usermat_solid           ../engine/source/materials/mat_share/usermat_solid.F
+!||    aconve                           ../engine/source/ale/aconve.F90
+!||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
+!||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
+!||    alemain                          ../engine/source/ale/alemain.F
+!||    alethe                           ../engine/source/ale/alethe.F
+!||    alewdx                           ../engine/source/ale/grid/alewdx.F
+!||    arezon                           ../engine/source/ale/arezon.F90
+!||    c3forc3                          ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3_crk                      ../engine/source/elements/xfem/c3forc3_crk.F
+!||    cbaforc3                         ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cforc3                           ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk                       ../engine/source/elements/xfem/cforc3_crk.F
+!||    czforc3                          ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk                      ../engine/source/elements/xfem/czforc3_crk.F
+!||    forintp                          ../engine/source/elements/forintp.F
+!||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
+!||    i10main_tri                      ../engine/source/interfaces/intsort/i10main_tri.F
+!||    i11main_tri                      ../engine/source/interfaces/intsort/i11main_tri.F
+!||    i11mainf                         ../engine/source/interfaces/int11/i11mainf.F
+!||    i17main_tri                      ../engine/source/interfaces/int17/i17main_pena.F
+!||    i20main_tri                      ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i20mainf                         ../engine/source/interfaces/int20/i20mainf.F
+!||    i21main_tri                      ../engine/source/interfaces/intsort/i21main_tri.F
+!||    i21mainf                         ../engine/source/interfaces/int21/i21mainf.F
+!||    i22main_tri                      ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i22mainf                         ../engine/source/interfaces/int22/i22mainf.F
+!||    i23main_tri                      ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i23mainf                         ../engine/source/interfaces/int23/i23mainf.F
+!||    i24main_tri                      ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i24mainf                         ../engine/source/interfaces/int24/i24main.F
+!||    i25main_free                     ../engine/source/interfaces/intsort/i25main_free.F
+!||    i25main_tri                      ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i25mainf                         ../engine/source/interfaces/int25/i25mainf.F
+!||    i7main_tri                       ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7mainf                          ../engine/source/interfaces/int07/i7mainf.F
+!||    ig3duforc3                       ../engine/source/elements/ige3d/ig3duforc3.F
+!||    imp_chkm                         ../engine/source/implicit/imp_solv.F
+!||    imp_pcgh                         ../engine/source/implicit/imp_pcg.F
+!||    imp_solv                         ../engine/source/implicit/imp_solv.F
+!||    intcrit                          ../engine/source/interfaces/intsort/intcrit.F
+!||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
+!||    inttri                           ../engine/source/interfaces/intsort/inttri.F
+!||    mmain                            ../engine/source/materials/mat_share/mmain.F90
+!||    mmain8                           ../engine/source/materials/mat_share/mmain8.F
+!||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
+!||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
+!||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
+!||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+!||    rbyfor                           ../engine/source/constraints/general/rbody/rbyfor.F
+!||    resol                            ../engine/source/engine/resol.F
+!||    rmatforp                         ../engine/source/materials/mat/mat013/rmatforp.F
+!||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s4forc3                          ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8forc3                          ../engine/source/elements/solid/solide8/s8forc3.F
+!||    s8sforc3                         ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3                         ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3                           ../engine/source/elements/solid/solide/sforc3.F
+!||    sms_check                        ../engine/source/ams/sms_fsa_inv.F
+!||    sms_inist                        ../engine/source/ams/sms_proj.F
+!||    sms_inix                         ../engine/source/ams/sms_proj.F
+!||    sms_mass_scale_2                 ../engine/source/ams/sms_mass_scale_2.F
+!||    sms_mav_lt                       ../engine/source/ams/sms_pcg.F
+!||    sms_mav_lt2                      ../engine/source/ams/sms_pcg.F
+!||    sms_pcg                          ../engine/source/ams/sms_pcg.F
+!||    sms_pro_p                        ../engine/source/ams/sms_proj.F
+!||    sphprep                          ../engine/source/elements/sph/sphprep.F
+!||    sphtri0                          ../engine/source/elements/sph/sphtri0.F
+!||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
+!||    suser43                          ../engine/source/elements/solid/sconnect/suser43.F
+!||    szforc3                          ../engine/source/elements/solid/solidez/szforc3.F
+!||    usermat_shell                    ../engine/source/materials/mat_share/usermat_shell.F
+!||    usermat_solid                    ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
-!||    my_etime                ../engine/source/system/machine.F
+!||    my_etime                         ../engine/source/system/machine.F
 !||====================================================================
         subroutine stoptime(t,event)
           implicit none
@@ -540,7 +569,7 @@
           if(clock1 < 0 ) then
             ! retry in case of failure
             call system_clock(count=clock1, count_rate=clockrate,count_max=nbmax)
-          endif
+          end if
 
           secs = clock1-t%clockini(event)
           if(secs<0) secs = secs + nbmax

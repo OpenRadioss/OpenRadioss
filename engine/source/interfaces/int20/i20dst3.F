@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,8 +74,8 @@ C-----------------------------------------------
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
-     .     KB1(MVSIZ), KB2(MVSIZ), KB3(MVSIZ), KB4(MVSIZ),
-     .     KC1(MVSIZ), KC2(MVSIZ), KC3(MVSIZ), KC4(MVSIZ),
+     .        
+     .        
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J,M,I1,I2,I3,I4,IB1,IB2,IB3,IB4
+      INTEGER I, IG,M,I1,I2,I3,I4,IB1,IB2,IB3,IB4
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),
      .     AL1(MVSIZ),  AL2(MVSIZ),  AL3(MVSIZ), AL4(MVSIZ),
@@ -111,20 +111,20 @@ C-----------------------------------------------
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
      .     S2,D1,D2,D3,D4,XXX,YYY,ZZZ,
-     .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,SXI,
-     .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,SYI,
-     .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,SZI,
+     .     X12,X23,X34,X41,SX1,SX2,SX3,SX4,SX0,SXI,
+     .     Y12,Y23,Y34,Y41,SY1,SY2,SY3,SY4,SY0,SYI,
+     .     Z12,Z23,Z34,Z41,SZ1,SZ2,SZ3,SZ4,SZ0,SZI,
      .     X10,Y10,Z10,X20,Y20,Z20,X30,Y30,Z30,X40,Y40,Z40,
-     .     GAP2, DS2,T1,T2,T3,
-     .     AL1NUM,AL2NUM,AL3NUM,AL4NUM,AL1DEN,AL2DEN,AL3DEN,AL4DEN,
-     .     X23D,Y23D,Z23D,X34D,Y34D,Z34D,X41D,Y41D,Z41D, UNSSQR3,
-     .     X12D,Y12D,Z12D,GAP2D,XI0D,YI0D,ZI0D,S2D, LA, HLA, AAA,
+     .     GAP2,
+     .     
+     .      UNSSQR3,
+     .      LA, HLA, AAA,
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ)
 
       INTEGER BITUNSET,BITGET,BITSET
       EXTERNAL BITUNSET,BITGET,BITSET
 C--------------------------------------------------------
-C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
+C  gap shift for solids with zero gap
 C--------------------------------------------------------
        IF(IGAP /= 0)THEN 
          UNSSQR3 = ONE/SQR3
@@ -265,7 +265,7 @@ c shift nodales
              Z4(I) = Z4(I) - SZ4
 
            ELSEIF(I3 == I4)THEN
-c            bord de coque3N
+c            shell3n edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -318,7 +318,7 @@ c            bord de coque3N
              Y4(I)=Y3(I)
              Z4(I)=Z3(I)
            ELSE
-c            bord de coque
+c            shell edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -387,7 +387,7 @@ c            bord de coque
          ENDDO                           
        ENDIF
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -401,10 +401,10 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  mixed or quadrangle packet cases
 C--------------------------------------------------------
 C
        DO I=1,JLT
@@ -525,7 +525,7 @@ C
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
         LA = ONE - LB1(I) - LC1(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -549,7 +549,7 @@ C
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
         LA = ONE - LB2(I) - LC2(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -573,7 +573,7 @@ C
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
         LA = ONE - LB3(I) - LC3(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -597,7 +597,7 @@ C
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
         LA = ONE - LB4(I) - LC4(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -616,7 +616,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
        ENDDO
 c---------------------------------------------------------
-c      courbure cubique
+c      cubic curvature
 c---------------------------------------------------------
        IF(ICURV == 3)THEN
          CALL I20CMAJ(JLT    ,CMAJ   ,IRECT  ,NOD_NORMAL,CAND_E,
@@ -665,7 +665,7 @@ C
         P4(I) = NX4(I)*NX4(I) + NY4(I)*NY4(I) +NZ4(I)*NZ4(I)
         D4 = MAX(ZERO, GAP2 - P4(I))
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE2 = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE2 = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
         PENE2(I) = MAX(D1,D2,D3,D4)
 C

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,12 +68,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   P,FAC(MVSIZ),FAC2(MVSIZ)
 C-----------------------------------------------
-C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   -Average post-processing in the sense A '= (_ / a dv) / V
       DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          FAC2(I) = VOL(I)/VOLG(I)

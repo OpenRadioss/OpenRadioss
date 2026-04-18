@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    subset_ini         ../engine/source/groups/subset_ini.F
 !||--- calls      -----------------------------------------------------
 !||    fretitl2           ../engine/source/input/freform.F
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    message_mod        ../engine/share/message_module/message_mod.F
@@ -54,8 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
-     .        PARENT,LEVEL,TH_PART,L_SUB,ERR,ITITLE(LTITR),THIAD,IVARTH,
+      INTEGER J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
+     .        PARENT,LEVEL,L_SUB,ERR,ITITLE(LTITR),THIAD,IVARTH,
      .        LEN
       CHARACTER(LEN=LTITR) ::  TITR,NEW_TITLE(NSUBS)
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISUB
@@ -110,13 +110,13 @@ C-----------------------------------------------
        ALLOCATE(SUBSET(ISU)%TPART(NBTPART))
        ALLOCATE(SUBSET(ISU)%NVARTH(10))  !  /iTH (9) + /TH (1) -> SUBSET(I)%NVARTH(ITHFLAG)
 !---
-! NOMBRE DE SUBSETS FILS
+! NUMBER OF CHILD SUBSETS
         DO J=1,NCHILD
           ICHILD = ISUB(L_SUB+1)
             L_SUB = L_SUB+1
           SUBSET(ISU)%CHILD(J) = ICHILD
         ENDDO
-! NOMBRE DE PARTS FILLES
+! NUMBER OF CHILD PARTS
         DO J=1,NBPART
           IPART = ISUB(L_SUB+1)
             L_SUB = L_SUB+1

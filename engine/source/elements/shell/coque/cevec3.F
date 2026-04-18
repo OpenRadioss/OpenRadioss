@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,J,IREP,NLAY,NEL
+      INTEGER JFT, JLT,IREP,NLAY,NEL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), E1X(*), E1Y(*), E1Z(*), E2X(*),
@@ -64,7 +64,7 @@ C     REAL
       my_real
      .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ), X42(MVSIZ), Y42(MVSIZ),
      .   Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
-     .   SUM(MVSIZ), SUMA
+     .   SUMA
 C=======================================================================
       DO I=JFT,JLT                                      
         X21(I)=X2(I)-X1(I)                              
@@ -113,7 +113,7 @@ C
         E2Z(I)=E2Z(I)/SUMA                                
       ENDDO                                               
 C
-C---  directions orthotropie / anisotropie convectes
+C--- Orthotropy / anisotropy convectes directions
 C
       CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B  ,JFT    ,JLT    ,
      .              NLAY   ,IREP   ,X21    ,Y21    ,Z21    ,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,16 +42,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     KXX(5,NUMELX)     TABLEAU CONECS+PID+No ElEMENTS MULTIBRIN   E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
-C     INUM(6,NUMELX)    TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NSELR)       TABLEAU DE TRAVAIL                         E/S
-C     EADD(NUMELX)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELX)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(4,NUMELX)    TABLEAU DE TRAVAIL                         E/S
-C     IPARTX(NUMELX)    TABLEAU PART                               E/S
-C     CEP(NUMELX)    TABLEAU PROC                                  E/S
-C     XEP(NUMEX)    TABLEAU PROC                                  E/S
+C     KXX(5,NUMELX)     ARRAY CONECS+PID+No MULTISTRAND ELEMENTS    E
+C     GEO(NPROPG,NUMGEO)ARRAY OF PID CHARACTERISTICS                E
+C     INUM(6,NUMELX)    WORKING ARRAY                              E/S
+C     ITR1(NSELR)       WORKING ARRAY                              E/S
+C     EADD(NUMELX)      ARRAY OF ADDRESSES IN IDAM CHGT DAMIER       S
+C     INDEX(NUMELX)     WORKING ARRAY                              E/S
+C     ITRI(4,NUMELX)    WORKING ARRAY                              E/S
+C     IPARTX(NUMELX)    PART ARRAY                                 E/S
+C     CEP(NUMELX)    PROC ARRAY                                    E/S
+C     XEP(NUMEX)    PROC ARRAY                                    E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -74,8 +74,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
-     .        II, J, II2,JJ2,JJ, II3, JJ3, L,NGROU,
+     .        I, K, ISSN, NN, MID, PID ,
+     .        II, J, II2,JJ2,JJ, II3, JJ3,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
@@ -87,7 +87,7 @@ C
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL TRI ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       DO I=1,NUMELX
@@ -148,7 +148,7 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C INDEX INVERSION (IN ITR1)
 C
       DO I=1,NUMELX
         ITR1(INDEX(I))=I
@@ -156,7 +156,7 @@ C
 
 
 C
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C ow a verifier IBUFSSG - ITYP == 100
        DO I=1,NSURF
          NN=IGRSURF(I)%NSEG
@@ -166,7 +166,7 @@ C ow a verifier IBUFSSG - ITYP == 100
          ENDDO
        ENDDO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELX

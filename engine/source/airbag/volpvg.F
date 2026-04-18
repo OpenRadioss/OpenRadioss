@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -107,7 +107,7 @@ C
          IF (IEQUI == 0 .OR. TRELAX == ZERO) THEN
             AMTOT=AMTOT-DMOUT*DT1
 C     
-C     CALCUL DE L ENERGIE PUIS DE LA PRESSION
+C     CALCULATION OF ENERGY THEN PRESSURE
             FAC  = HALF*(GAMA-ONE)*DV
             IF(TRELAX == ZERO .OR. TT > TRELAX)THEN
                DEIN = ZERO
@@ -277,7 +277,7 @@ C
        RO    = AMTOT/(VOL-VINC)
        PCRIT = P*(TWO/(GAMA+ONE))**(GAMA/(GAMA-ONE))
 C
-C      FLUX SORTANT PAR LES TROUS
+C      OUTGOING FLUX THROUGH THE HOLES
 C
        AOUTOT=ZERO
        DO II = 1, NVENT

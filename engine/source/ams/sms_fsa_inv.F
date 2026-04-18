@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITAG(NUMNOD)   
 C
-      INTEGER I, J, K, L, NOD, IBID, IERR, IMIN,
+      INTEGER I, J, K, L, NOD, IMIN,
      .        NNZMFT, NNZMLT
       my_real
      .        LMIN
@@ -118,7 +118,7 @@ C
         CALL MY_ALLOC(AMS_WORK%CHECK%INVND,NUMNOD)
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
-C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
+C     ----- first uses the space of [M] for the assembled matrix ---------
       IF (NSPMD==1) THEN
         AMS_WORK%check%NNDFT0=0
         AMS_WORK%check%NNDFT1=NUMNOD
@@ -195,7 +195,7 @@ C M triee 1 ... NNDFT0 ... NNDFT1 ... NUMNOD
 C----------------------
       CALL MY_BARRIER
 C---------------------
-C M <- termes des processeurs voisins
+C M '<- Terms of neighboring processors
       IF (ITASK == 0 .AND. NSPMD > 1) THEN
         CALL SPMD_EXCHM_SMS(
      1           FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
@@ -366,7 +366,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I,J,NC,MAX_L,IERR,IER1,
      .        JM(NUMNOD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADA, JDIA
       my_real, 
@@ -383,7 +383,7 @@ C
          CALL ARRET(2)
        ENDIF 
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO I=NNDFT0+1,NUMNOD
@@ -413,7 +413,7 @@ C
      .                 MAX_L ,MJ    )
 C
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
         DIAG_INV(I)=MJ(NC)
        ENDDO
 
@@ -456,7 +456,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JJ,NNZA,N,K0
+      INTEGER I,J,K,JJ,NNZA,N
 C--------------------------------------------
       NNZA=0
       IADA(1)=1
@@ -509,9 +509,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,IP,NLIM,ND,ISTOP,ISP,IBID
+      INTEGER I,IT,NLIM,ISTOP,ISP,IBID
       my_real
-     .   S , R2, R02, ALPHA, BETA, G0, G1, RR, TOLS, TOLN, TOLS2
+     .   S , R2, R02, ALPHA, BETA, G0, G1, TOLS, TOLN, TOLS2
       my_real
      .  X(NDDL) ,P(NDDL) ,Z(NDDL)  ,Y(NDDL),DIAG_M(NDDL) 
       my_real
@@ -553,7 +553,7 @@ C------X(I)=ZERO--------
       R2 =R02
       IF (R02==ZERO) GOTO 200
       TOLN=R02*TOLS2
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with lanzos for linear
        IT=1
        DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)
@@ -620,10 +620,5 @@ C--------X->R--------
         R(I) = X(I) 
        ENDDO 
 C--------------------------------------------
- 1002 FORMAT(3X,'TOTAL C.G. ITERATION=',I8,5X,
-     .          ' RELATIVE RESIDUAL NORM=',E11.4)
- 1003 FORMAT(5X,
-     . '---WARNING : THE ITERATION LIMIT NUMBER WAS REACHED',
-     . 1X,'IN FSAI')
        RETURN
       END

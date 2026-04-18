@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@
 !||    chkload                                  ../engine/source/interfaces/chkload.F
 !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
 !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+!||    coupling_initialize                      ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_set_interface                   ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_set_mesh                        ../engine/source/coupling/coupling_adapter.F90
 !||    coupling_sync                            ../engine/source/coupling/coupling_adapter.F90
@@ -43,8 +44,13 @@
 !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    i25main_norm                             ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25tagn                                  ../engine/source/interfaces/int25/i25norm.F
 !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
+!||    init_global_boundary_list                ../engine/source/mpi/init/init_global_boundary_list.F90
 !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+!||    intti1                                   ../engine/source/interfaces/interf/intti1.F
+!||    inttri                                   ../engine/source/interfaces/intsort/inttri.F
 !||    lag_fxv                                  ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                                 ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_mult                                 ../engine/source/tools/lagmul/lag_mult.F
@@ -59,6 +65,9 @@
 !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
 !||    rdresb                                   ../engine/source/output/restart/rdresb.F
 !||    resol                                    ../engine/source/engine/resol.F
+!||    resol_alloc_phase1                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase2                       ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_python                       ../engine/source/engine/resol_alloc.F90
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restalloc                                ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
@@ -79,7 +88,7 @@
 !||====================================================================
       module nodal_arrays_mod
         use precision_mod, only : wp
-        use iso_c_binding, only: C_PTR
+        use, intrinsic :: iso_c_binding, only: C_PTR
         implicit none
         integer, parameter :: padding = 5 !< percentage of padding for reallocation
 
@@ -94,6 +103,7 @@
           integer :: max_uid !< maximum user id
           integer :: itherm_fe
           integer :: numnod0
+          integer :: n2d
 
 
           integer :: numnod
@@ -114,11 +124,13 @@
           integer, dimension(:), allocatable :: parent_node
           integer, dimension(:), allocatable :: nchilds
           integer, dimension(:), allocatable :: nodglob !<global internal id (starter id?)
+          integer, dimension(:), allocatable :: KINET
 
           real(kind=wp), dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
           real(kind=wp), dimension(:,:), allocatable :: AR !< accelerations
           real(kind=wp), dimension(:,:), allocatable :: V !< velocities
           real(kind=wp), dimension(:,:), allocatable :: X !< coordinates 3*(NUMNOD+NRCVVOIS)
+          real(kind=wp), dimension(:,:), allocatable :: X0 !< initial coordinates 3*NUMNOD
           real(kind=wp), dimension(:,:), allocatable :: D !< displacements 3*(NUMNOD+NRCVVOIS)
           real(kind=wp), dimension(:,:), allocatable :: VR !<velocities 3*(NUMNOD*IRODDL)
           real(kind=wp), dimension(:,:), allocatable :: DR !< displacements (SRD)
@@ -144,10 +156,13 @@
           INTEGER :: BOUNDARY_SIZE !< size of BOUNDARY
           integer, dimension(:), allocatable :: BOUNDARY
           integer, dimension(:,:), allocatable :: BOUNDARY_ADD
+
+          integer :: global_boundary_nb
+          integer, dimension(:), allocatable :: global_boundary
         end type nodal_arrays_
-        ! faire la rupture vers checkstfn
+        ! break towards checkstfn
 !       type animation_buffers
-!           ! pas obligatoire si pas de ANIM/VECT :
+!           ! not mandatory if no ANIM/VECT :
 !           integer :: current_numnod
 !           integer :: max_numnod
 !      ! animation SFANI, SANIN, STANI
@@ -155,17 +170,23 @@
 !           real(kind=wp), dimension(:), allocatable :: ANIN
 !           real(kind=wp), dimension(:), allocatable :: TANI
 !       end type
+
+        interface assign_ptr
+          module procedure assign_ptr_int_1d
+          module procedure assign_ptr_int_2d
+          module procedure assign_ptr_real_1d
+          module procedure assign_ptr_real_2d
+        end interface assign_ptr
+        public :: assign_ptr
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
         !\details Assign the pointer to the coordinates
 !||====================================================================
-!||    assign_ptrx   ../common_source/modules/nodal_arrays.F90
-!||--- called by ------------------------------------------------------
-!||    resol         ../engine/source/engine/resol.F
+!||    assign_ptr_int_1d   ../common_source/modules/nodal_arrays.F90
 !||====================================================================
-        subroutine assign_ptrX(ptrX, X, numnod)
+        subroutine assign_ptr_int_1d(ptr,array,dim1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -173,14 +194,76 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          real(kind=wp), pointer, dimension(:,:), contiguous, intent(inout) :: ptrX
-          integer, intent(in) :: numnod
-          real(kind=wp), target , dimension(3,numnod), intent(in) :: X
+          integer, pointer, dimension(:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, target , dimension(dim1), intent(inout) :: array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          ptrX => X
-        end subroutine assign_ptrX
+          ptr => array
+        end subroutine assign_ptr_int_1d
+
+!||====================================================================
+!||    assign_ptr_int_2d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
+        subroutine assign_ptr_int_2d(ptr,array,dim1,dim2)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, pointer, dimension(:,:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, intent(in) :: dim2
+          integer, target , dimension(dim1,dim2), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_int_2d
+        
+!||====================================================================
+!||    assign_ptr_real_1d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
+        subroutine assign_ptr_real_1d(ptr,array,dim1)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          real(kind=wp), pointer, dimension(:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          real(kind=wp), target , dimension(dim1), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_real_1d
+
+!||====================================================================
+!||    assign_ptr_real_2d   ../common_source/modules/nodal_arrays.F90
+!||====================================================================
+      subroutine assign_ptr_real_2d(ptr,array,dim1,dim2)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          real(kind=wp), pointer, dimension(:,:), contiguous, intent(inout) :: ptr
+          integer, intent(in) :: dim1
+          integer, intent(in) :: dim2
+          real(kind=wp), target , dimension(dim1,dim2), intent(inout) :: array
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ptr => array
+        end subroutine assign_ptr_real_2d     
 
 
 !! \brief Allocate nodal arrays
@@ -240,7 +323,7 @@
           else
             arrays%used_dr = .false.
             call my_alloc(arrays%DR,3,0)
-          endif
+          end if
           call my_alloc(arrays%parent_node,numnod)
           call my_alloc(arrays%nchilds,numnod)
           call my_alloc(arrays%itab,numnod)
@@ -250,6 +333,9 @@
           call my_alloc(arrays%ICODR,numnod*iroddl)
           call my_alloc(arrays%V,3,numnod + nrcvvois)
           call my_alloc(arrays%X,3,numnod + nrcvvois)
+#if defined(WITH_PRECICE) || defined(WITH_CWIPI)
+          call my_alloc(arrays%X0,3,numnod)
+#endif
           call my_alloc(arrays%D,3,numnod + nrcvvois)
           call my_alloc(arrays%VR,3,numnod*iroddl)
           call my_alloc(arrays%MS,numnod)
@@ -267,13 +353,13 @@
           else
             call my_alloc(arrays%MCP,0)
             call my_alloc(arrays%TEMP,0)
-          endif
+          end if
 #ifdef MYREAL4
           call my_alloc(arrays%DDP,3,numnod)
           call my_alloc(arrays%XDP,3,numnod)
           if(iparith==0) then
             call my_alloc(arrays%ACC_DP,3,numnod)
-          endif
+          end if
 #else
           call my_alloc(arrays%DDP,3,1)
           call my_alloc(arrays%XDP,3,1)
@@ -281,13 +367,14 @@
           call my_alloc(arrays%WEIGHT,numnod)
           call my_alloc(arrays%MAIN_PROC,numnod)
           call my_alloc(arrays%WEIGHT_MD,numnod)
+          call my_alloc(arrays%KINET,numnod)
           call my_alloc(arrays%ITABM1,2*numnod)
 
 
           if(iparith == 0) then
             call my_alloc(arrays%A,3,numnod*nthreads)
             call my_alloc(arrays%AR,3,numnod*nthreads)
-            call my_alloc(arrays%STIFR,numnod*iroddl*nthreads)
+            call my_alloc(arrays%STIFR,max(numnod*iroddl*nthreads,1))
             call my_alloc(arrays%VISCN,numnod*nthreads)
             call my_alloc(arrays%STIFN,numnod*nthreads)
           else
@@ -296,7 +383,7 @@
             call my_alloc(arrays%STIFR,numnod)
             call my_alloc(arrays%VISCN,numnod)
             call my_alloc(arrays%STIFN,numnod)
-          endif
+          end if
           arrays%numnod = numnod
           ! initialization to 0
           arrays%itab = 0
@@ -319,6 +406,7 @@
           arrays%DDP = 0
           arrays%XDP = 0
           arrays%WEIGHT = 0
+          arrays%KINET = 0
           arrays%MAIN_PROC = 0
           arrays%WEIGHT_MD = 0
           arrays%ITABM1 = 0
@@ -331,10 +419,10 @@
           if(itherm_fe > 0) then
             arrays%MCP = 0
             arrays%TEMP = 0
-          endif
+          end if
           do i = 1, numnod
             arrays%parent_node(i) = i
-          enddo
+          end do
           arrays%nchilds = 0
 
 
@@ -402,19 +490,19 @@
               call extend_array(arrays%IN, size(arrays%IN), arrays%max_numnod)
               call extend_array(arrays%IN0, size(arrays%IN0), arrays%max_numnod)
               call extend_array(arrays%ICODR, size(arrays%ICODR), arrays%max_numnod*arrays%iroddl)
-            endif
+            end if
             if(arrays%itherm_fe > 0) then
               call extend_array(arrays%MCP, size(arrays%MCP), arrays%max_numnod)
               call extend_array(arrays%TEMP, size(arrays%TEMP), arrays%max_numnod)
             else
               call extend_array(arrays%MCP, size(arrays%MCP), 0)
               call extend_array(arrays%TEMP, size(arrays%TEMP), 0)
-            endif
+            end if
             call extend_array(arrays%ICODT, size(arrays%ICODT), arrays%sicodt_fac * arrays%max_numnod)
             arrays%ICODT(arrays%sicodt_fac * arrays%numnod + 1:) = 0
             if(arrays%used_dr) then
               call extend_array(arrays%DR,3, size(arrays%DR,2), 3, arrays%max_numnod)
-            endif
+            end if
             call extend_array(arrays%MS, size(arrays%MS), arrays%max_numnod)
             call extend_array(arrays%MS0, size(arrays%MS0), arrays%max_numnod)
 #ifdef MYREAL4
@@ -422,9 +510,10 @@
             call extend_array(arrays%XDP,3, size(arrays%XDP,2), 3,arrays%max_numnod)
             if(arrays%iparith==0) then
               call extend_array(arrays%ACC_DP,3, size(arrays%ACC_DP,2), 3,arrays%max_numnod)
-            endif
+            end if
 #endif
             call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
+            call extend_array(arrays%KINET, size(arrays%KINET), arrays%max_numnod)
             call extend_array(arrays%MAIN_PROC, size(arrays%MAIN_PROC), arrays%max_numnod)
             call extend_array(arrays%WEIGHT_MD, size(arrays%WEIGHT_MD), arrays%max_numnod)
             call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)
@@ -441,8 +530,8 @@
               call extend_array(arrays%STIFR,size(arrays%STIFR) ,arrays%max_numnod)
               call extend_array(arrays%VISCN,size(arrays%VISCN) ,arrays%max_numnod)
               call extend_array(arrays%STIFN, size(arrays%STIFN), arrays%max_numnod)
-            endif
-          endif
+            end if
+          end if
           ! ITABM1 is of size 2*arrays%max_numnod, but only the first 2*arrays%numnod elements are used
           ! When adding an element, the second half have to be shifted
           ! ITABM1 is used in SYSFUS2, that should be replaced by a hash table
@@ -485,7 +574,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
+#ifdef MPI
           integer :: glob_max_uid
+#endif
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -498,8 +589,8 @@
           end do
 #ifdef MPI
           call spmd_allreduce(arrays%max_uid,glob_max_uid,1,SPMD_MAX)
-#endif
           arrays%max_uid = glob_max_uid
+#endif
         end subroutine init_global_node_id
 
 

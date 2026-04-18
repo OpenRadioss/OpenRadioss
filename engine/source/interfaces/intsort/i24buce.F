@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,NIN, NSNR
+      INTEGER NMN, NRTM, NSN, NOINT, NIN, NSNR
       INTEGER IRECT(4,*),NSV(*),ITASK,ILEV,IEDGE,NSNE    
       INTEGER CAND_E(*),CAND_N(*),MSEGTYP(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, NCONT,I_MEM,
@@ -78,9 +78,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, MAXSIZ,
-     .        LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER I, 
+     . ISZNSNR
       INTEGER, INTENT(IN) :: INTHEAT
       INTEGER, INTENT(IN) :: IDT_THERM
       INTEGER, INTENT(IN) :: NODADT_THERM
@@ -103,7 +102,7 @@ C-----------------------------------------------
       PENE_OLD(4,NSNF:NSNL) = PENE_OLD(3,NSNF:NSNL)
 C-----------------------------------------------
 C
-C----- TRI DES ELEMENTS ET DES NOEUDS
+Csorting of elements and nodes
 C
 C-----------------------------------------------
 C
@@ -173,8 +172,8 @@ C=============================================================================
       ENDIF
 c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of VOXEL
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -193,11 +192,10 @@ c      write(iout,*)'i24buce 2'
      9   ISEADD  ,ISEDGE   ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A   REMNOD  ,CAND_A   ,RENUM   ,NSNROLD  ,IRTSE    ,
      B   IS2SE   ,NSNE     ,DGAPLOAD,INTHEAT,IDT_THERM,NODADT_THERM)
- 234  continue
 c      write(iout,*)'i24buce 3'
 
 C
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 
 c      write(iout,*)'i24buce 4'
 C

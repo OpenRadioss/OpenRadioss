@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,12 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    mstrain_rate   ../engine/source/materials/mat_share/mstrain_rate.F
+!||    mstrain_rate           ../engine/source/materials/mat_share/mstrain_rate.F
 !||--- called by ------------------------------------------------------
-!||    m2law          ../engine/source/materials/mat/mat002/m2law.F
-!||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
-!||    sigeps44       ../engine/source/materials/mat/mat044/sigeps44.F
-!||    sigeps93       ../engine/source/materials/mat/mat093/sigeps93.F
+!||    cppm_solids            ../engine/source/materials/mat/mat131/return_mapping/cppm_solids.F90
+!||    cutting_plane_solids   ../engine/source/materials/mat/mat131/return_mapping/cutting_plane_solids.F90
+!||    m2law                  ../engine/source/materials/mat/mat002/m2law.F
+!||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
+!||    nice_solids            ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
+!||    sigeps106              ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps44               ../engine/source/materials/mat/mat044/sigeps44.F
+!||    sigeps93               ../engine/source/materials/mat/mat093/sigeps93.F
 !||====================================================================
       SUBROUTINE MSTRAIN_RATE(NEL    ,ISRATE ,ASRATE ,EPSD   ,IDEV   ,
      .                        EP1    ,EP2    ,EP3    ,EP4    ,EP5    ,EP6)

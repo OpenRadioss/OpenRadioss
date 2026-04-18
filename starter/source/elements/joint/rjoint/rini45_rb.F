@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixr
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,7 +128,7 @@ C-->
 100           K = K+NSL
             ENDDO
 C
-C-->        Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
+C-> Storage of a elementary mass (hormone mass) for special energy calculation
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
             IF (IDRB(I)==0) THEN      
@@ -167,7 +168,7 @@ C
 C-->
       ENDDO
 
-C---> Print de l'output pour kjoint2--------------------
+C---> Print of the output for kjoint2--------------------
       DO IEL=1,NEL
         IELUSR = IXR(NIXR,NFT+IEL)
         RB1 = 0

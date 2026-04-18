@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1       IXQ     ,PM      ,GEO     ,INUM    ,ISEL    ,
      2       ITR1    ,EADD    ,INDEX   ,ITRI    ,IPARTQ  ,     
      3       ND      ,IGRSURF ,IGRQUAD ,CEP     ,MAT_PARAM,
-     5       XEP     ,IGEO    ,IPM     ,IQUAOFF )     
+     5       XEP     ,IGEO    ,IPM     ,IQUAOFF ,TRIMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,8 +46,8 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXQ(7,NUMELQ)     TABLEAU CONECS+PID+MID+NOS SOLIDES 4N      E
-C     PM(NPROPM,NUMMAT) TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
+C     PM(NPROPM,NUMMAT) ARRAY OF MATERIAL PROPERTIES           E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     INUM(8,NUMELQ)    TABLEAU DE TRAVAIL                         E/S
 C     ISEL(NSELQ)       TABLEAU DES SOLIDES 4N CHOISIS POUR TH     E/S
 C     ITR1(NSELQ)       TABLEAU DE TRAVAIL                         E/S
@@ -81,16 +81,17 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
+      INTEGER,INTENT(INOUT) :: TRIMAT
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I,J,K,L, NG, NN, N, MLN, MID, PID ,
+     .        I,J,K, NN, MLN, MID, PID ,
      .        II,JJ, II1,JJ1,II2,JJ2,II3,JJ3,II4,JJ4,
      .        MODE, ML1, ML2, MT1, MT2,IGT, 
      .        MSKMLN,MSKJAL,MSKMID,MSKPID,IEOS,
      .        MSKJEU,MSKJTU,MSKJTH,MSKJPO,
-     .        IPLAST, IALEL, MT,IREP,IINT,ISSN,NGTVX,IFAIL,IRB,
+     .        IPLAST,IREP,IFAIL,IRB,
      .        JALE_FROM_MAT,JALE_FROM_PROP
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
@@ -110,7 +111,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORT ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       DO I=1,NUMELQ
@@ -151,6 +152,7 @@ C
           JCVT = IGEO(16,PID)
         ENDIF
         MLN = NINT(PM(19,ABS(MID)))
+         IF(MLN == 51)TRIMAT=4
         IF(MID<0)THEN
           IF(MLN==6.AND.JPOR/=2)MLN=17
           IF(MLN==46)MLN=47
@@ -195,13 +197,13 @@ C
           JCVT=0
         END IF
         IEOS = IPM(4,MID)
-C tri sur elem delete des rigidbody
+C sort on elem deletes rigidbody
 C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
-C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
+C IRB = 1 : inactive elem and optimized for SPMD
+C IRB = 2: Elem inactive but optimized to be active in SPMD
         IRB = IQUAOFF(I)       
 C
-C NPT = 1 ; JHBE = 0 ; JIVF = 0 et JLAG non utilise
+C Npt = 1;Jhbe = 0;Jivf = 0 and jlag not used
 C Key 1---------------------------------
         JPOR=MY_SHIFTL(JPOR,0)
         JTHE=MY_SHIFTL(JTHE,3)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tkeg3          ../engine/source/elements/truss/tkeg3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RUSER32KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                  GEO    ,IXR   ,X     ,ELBUF_TAB,NPF   ,
@@ -44,6 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*), NPF(*),JFT,JLT,OFFSET,NEL,MTN,IKGEO,
      .        IGEO(*), ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
-      my_real DT2T ,
+      my_real 
      .   GEO(NPROPG,*),X(*),TF(*),SKEW(LSKEW,*),
      .   FR_WAVE(*),PM(*),KE11(9,MVSIZ),KE12(9,MVSIZ),KE22(9,MVSIZ),
      .   OFF(MVSIZ),K_DIAG(*) ,K_LT(*)
@@ -73,10 +75,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .     AL(MVSIZ),KX(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ)
-      INTEGER  I,PID(MVSIZ),NGL(MVSIZ),
-     .   NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB9, NB10,
-     .   NB11, NB12,  NEL3, NEL4, NEL5, NB15, NB16, NBFI,
-     .   NB13, NB14, NUVAR
+      INTEGER  PID(MVSIZ),NGL(MVSIZ),
+     .           
+     .        
+     .     NUVAR
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
@@ -112,7 +114,7 @@ c       END IF
 C     Define local stiffness 
       CALL RUSER32MAT3(KX, JFT, JLT, GBUF%VAR, NUVAR)
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R4SUMG3(JFT    ,JLT    ,AL      ,KX      ,EX     ,
      1             EY     ,EZ     ,KE11    ,KE12    ,KE22   )

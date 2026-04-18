@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,12 +27,14 @@ c
 !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRK_TAGXP4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,
      .                       NXLAY  ,CRKEDGE ,XEDGE4N,ITAB    )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IR,IAD,NELCRK,ELCRK,ILEV,ILAY,IXEL,ELCUT,LAYCUT,
-     .   IECUT,ENR0,ENR,IBOUNDEDGE,IED,EDGE,COUNT,ITIP,ITRI,NUMXEL,NSX,
+     .   ENR0,ENR,IBOUNDEDGE,EDGE,ITRI,NUMXEL,NSX,
      .   ISEND_NSX,ISEND_IAD
       INTEGER JCT(MVSIZ),NS(4),IADC(4)
 C=======================================================================

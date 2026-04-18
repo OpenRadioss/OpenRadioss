@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -81,7 +81,7 @@ public:
   void close_binary_file();
   std::list<std::string> Animation();
   std::list<std::string> Time_History();
-  std::list<std::string> Out_File(std::fstream *new_file);
-  std::list<std::tuple<std::string,std::string>> Checksum_File(std::fstream *new_file);
+  std::list<std::string> Out(std::fstream *new_file);
+  void Checksum(std::fstream *new_file,std::list<std::tuple<std::string,std::string>> *deck_hash_list,std::list<std::tuple<std::string,std::string>> *file_hash_list);
 };
 

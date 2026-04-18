@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ani_pcont                                    ../engine/source/output/anim/generate/ani_pcont.F
 !||    ani_pcont21                                  ../engine/source/output/anim/generate/ani_pcont.F
 !||    arret                                        ../engine/source/system/arret.F
+!||    bcs_nrf                                      ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    clusterf                                     ../engine/source/output/cluster/clusterf.F
 !||    create_h3d_1d_scalar                         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 !||    create_h3d_1d_tensor                         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
@@ -204,6 +205,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_solv                                     ../engine/source/implicit/imp_solv.F
 !||    imp_tripi                                    ../engine/source/implicit/imp_int_k.F
 !||    iniresa                                      ../engine/source/output/restart/rdresa.F
+!||    init_h3d_engine                              ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    int2rupt                                     ../engine/source/interfaces/interf/int2rupt.F
 !||    intal1                                       ../engine/source/ale/inter/intal1.F
 !||    intal2                                       ../engine/source/ale/inter/intal2.F
@@ -257,6 +259,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
 !||    reallocate_fi2                               ../engine/source/mpi/interfaces/spmd_i25slide.F
 !||    resol                                        ../engine/source/engine/resol.F
+!||    resol_alloc_phase8                           ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                           ../engine/source/engine/resol_alloc.F90
 !||    resol_head                                   ../engine/source/engine/resol_head.F
 !||    resol_init                                   ../engine/source/engine/resol_init.F
 !||    restalloc                                    ../engine/source/output/restart/arralloc.F
@@ -500,6 +504,9 @@ C-----------------------------------------------
         my_real  :: DTH3D0= 0.
         my_real  :: TH3D_STOP0= 0.
         my_real  :: PERCENTAGE_ERROR= 0.
+
+        INTEGER DTH3D_FCT_ID           ! Function defining frequence of h3d outputs over time
+        INTEGER NB_H3D_FRAME           ! TOtal number of H3D in the run
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER   
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITITLE 

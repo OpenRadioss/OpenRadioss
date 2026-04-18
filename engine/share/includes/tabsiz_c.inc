@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .  SIBCL, SIBFV, SIECRAN, SILAS, SIEBCS, SLACCELM,
      .  SNNLINK, SLNLINK, SIPARG, SDD_IAD,
      .  SIGRV, SIEXLNK, SIBVEL, SLBVEL, SIACTIV,
-     .  SIBMPC, SKINET, SIPARI, SINBUF, SNPRW, SNPRWA, SLPRW, SLPRWA,
+     .  SIBMPC, SIPARI, SINBUF, SNPRW, SNPRWA, SLPRW, SLPRWA,
      .  SICONX, SIEXMAD, SMADPRT, SMADSH4, SMADSH3, SMADSOL, SMADNOD,
      .  SMADFAIL , SNPBY, SNPBYL, SLPBY, SLPBYL,  SLRIVET,
      .  SNSTRF, SLJOINT, SNODPOR, SMONVOL, SLAGBUF,

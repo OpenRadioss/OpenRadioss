@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mulaw8_mod            ../engine/source/materials/mat_share/mulaw8.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
@@ -122,13 +123,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR,
-     .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL,
+      INTEGER I,J,JJ(6),J1,IR,NFUNC,NUVAR,NUPARAM,
+     .        NVARF,IRUPT,NUMBER_FAILURE,IMAT,NTABL_FAIL,
      .        NIPARAM
       INTEGER IFUNC(MAXFUNC), LF_DAMMX
       INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL, IPARAMF
       my_real
-     .   QNEW(MVSIZ),VIS(MVSIZ),EPSD(MVSIZ),ET(MVSIZ),
+     .   VIS(MVSIZ),ET(MVSIZ),
      .    DPLA(8*MVSIZ), EPSP(8*MVSIZ),TSTAR(MVSIZ),SXX(MVSIZ),
      .    SYY(MVSIZ),SZZ(MVSIZ),SXY(MVSIZ),SYZ(MVSIZ),SZX(MVSIZ)   
       my_real,
@@ -144,7 +145,7 @@ C=======================================================================
         JJ(I) = NEL*(I-1)
       ENDDO
 !
-C     tangent module
+C     module
       DO I=1,NEL
         ET(I)=ZERO
       ENDDO 
@@ -158,7 +159,8 @@ C
         SVIS(I,5)= ZERO 
         SVIS(I,6)= ZERO 
         TSTAR(I) = ZERO        
-      ENDDO 
+      ENDDO
+      IMAT = MAT(1)
 C-----------------------------------------------------------------
       IF (MTN == 1) THEN
         CALL M1LAW8(
@@ -173,7 +175,7 @@ C-----------------------------------------------------------------
      9   DMELS,    BUFLY,    SSP,      ITY,
      A   NPT,      JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 2) THEN
-        CALL M2LAW8(
+        CALL M2LAW8(MAT_ELEM%MAT_PARAM(IMAT),
      1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
      2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
      3   NEL,      D1,       D2,       D3,
@@ -215,7 +217,7 @@ c     user-type laws
         ENDDO
 c
         CALL MULAW8(TIMERS,OUTPUT,
-     1   1,        NEL,      MTN,
+     1   NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,
      4   OFF,      GBUF%SIG, GBUF%EINT,GBUF%RHO,
@@ -245,7 +247,6 @@ C --------------------------
       IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(TIMERS,121)
       IF (IFAILURE == 1)THEN
         IF (MTN < 28) THEN
-        IMAT = MAT(1)
         NUMBER_FAILURE = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL
 c
         DO IR = 1,NUMBER_FAILURE 
@@ -329,9 +330,9 @@ c ---   extended mohr coulomb failure model
      5         OFF      ,DFMAX    ,TDELE)
 c ---   Biquadratic failure
              ELSEIF (IRUPT == 30) THEN
-               CALL FAIL_BIQUAD_S(
-     1         NEL      ,NUPARAM  ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
-     2         NPF      ,TF       ,TT       ,BUFMAT   ,TDELE    ,
+               CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
+     1         NEL      ,NVARF    ,NFUNC    ,IFUNC    ,DELTAX   ,
+     2         NPF      ,TF       ,TT       ,TDELE    ,
      3         NGL      ,DPLA(J1) ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,
      4         SXX      ,SYY      ,SZZ      ,SXY      ,SYZ      ,SZX      )
 c

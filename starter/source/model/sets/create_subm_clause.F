@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -155,12 +155,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,NINDX,LIST_SIZE,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
+      INTEGER I,J,IDS,NINDX,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
      . LIST_SIZE_S,LIST_SIZE_P,LIST_SIZE_N,NODE
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: SUBM_READ_TMP,SORTED_SUBM,INDEXS,
-     . PART_READ_TMP,SORTED_PARTS,INDEXP,TAGNODSUB,NODE_READ_TMP,SORTED_NODES,INDEXN
+     . PART_READ_TMP,SORTED_PARTS,INDEXP,NODE_READ_TMP,SORTED_NODES,INDEXN
 C
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS
@@ -179,14 +179,6 @@ C=======================================================================
 
       ALLOCATE(INDEXP(2*NPART)) ! parts of subsets
       INDEXP = 0
-
-      ALLOCATE(TAGNODSUB(NUMNOD))
-
-      ALLOCATE(NODE_READ_TMP(NUMNOD))
-!!      ALLOCATE(SORTED_NODES(NUMNOD))
-!!      ALLOCATE(INDEXN(2*NUMNOD)) ! nodes of subsets
-!!      INDEXN = 0
-
 
       NINDX = 0
       LIST_SIZE_S = 0
@@ -280,60 +272,6 @@ C=======================================================================
         CLAUSE%PART(I) = SORTED_PARTS(I)
       ENDDO
 !---
-
-
-      ! Tag & convert Nodes of Submodel
-      ! ---------------------
-      CALL CPP_NODE_SUB_TAG(TAGNODSUB)
-
-
-      NINDX = 0
-      DO I=1,LIST_SIZE_S
-        ISUB = SORTED_SUBM(I)
-        DO J=1,NUMNOD
-          SUB_INDEX = TAGNODSUB(J)
-          IF (ISUB == SUB_INDEX) THEN
-
-             NODE = J
-
-             NINDX=NINDX+1    !   nb of Nodes of CLAUSE subsets
-             NODE_READ_TMP(NINDX) = NODE
-
-          ENDIF
-        ENDDO
-      ENDDO
-
-
-      ! Sort of TAG Nodes from Readed SUBMODELs and remove eventual duplicates
-      ! ---------------------------------------------------- 
-
-      ALLOCATE(SORTED_NODES(NINDX))
-      ALLOCATE(INDEXN(2*NINDX))
-      INDEXN = 0
-
-      IWORK(:) = 0
-      DO I=1,NINDX
-        INDEXN(I) = I
-      ENDDO
-      CALL MY_ORDERS(0,IWORK,NODE_READ_TMP,INDEXN,NINDX,1)
-                
-      DO I=1,NINDX
-         SORTED_NODES(I) = NODE_READ_TMP(INDEXN(I))
-      ENDDO
-
-      LIST_SIZE_N = 0
-      CALL REMOVE_DUPLICATES(SORTED_NODES,NINDX,LIST_SIZE_N)
-
-
-      ! Copy in final SET
-      ! ------------------
-      CLAUSE%NB_NODE = LIST_SIZE_N  
-      ALLOCATE( CLAUSE%NODE( LIST_SIZE_N ) )
-
-      DO I=1,LIST_SIZE_N
-        CLAUSE%NODE(I) = SORTED_NODES(I)
-      ENDDO
-
 C-------------------------
        DEALLOCATE(SUBM_READ_TMP)
        DEALLOCATE(SORTED_SUBM)
@@ -341,10 +279,6 @@ C-------------------------
        DEALLOCATE(PART_READ_TMP)
        DEALLOCATE(SORTED_PARTS)
        DEALLOCATE(INDEXP)
-       DEALLOCATE(TAGNODSUB)
-       DEALLOCATE(NODE_READ_TMP)
-       DEALLOCATE(SORTED_NODES)
-       DEALLOCATE(INDEXN)
 C-------------------------
       RETURN
       END
@@ -409,7 +343,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,LIST_SIZE,IDS_MAX,PARTM,GENE_MAX,K,S,S1,
+      INTEGER I,J,LIST_SIZE,PARTM,GENE_MAX,K,S,S1,
      . NINDX,IP,ISUB,SUB_INDEX,NODE
       INTEGER START_GENE,END_GENE,INCR_GENE,SSTART,SSTOP,STACK,STACK_ONE,NB_RESULT
 !-

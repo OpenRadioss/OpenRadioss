@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps133_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief material/MAT/LAW133 subroutine
@@ -154,7 +155,7 @@
             signzx(i) = sigozx(i) + shear(i)*depszx(i)
             j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2) + signxy(i)**2+signyz(i)**2+signzx(i)**2
             vm(i)     = sqrt(three*j2)
-          enddo
+          end do
 
           !========================================================================
           !< Solid sound speed
@@ -179,11 +180,11 @@
             ratio = one
             if(g0 == zero)then
               ratio = zero
-            elseif( vm(i) > g0 )then     ! at the yield surface or within the yield surface
+            else if( vm(i) > g0 )then     ! at the yield surface or within the yield surface
               ratio = g0/vm(i)
               dpla(i) = (one-ratio)*vm(i) / max(em20,three*shear(i))
               defp(i) = defp(i) + dpla(i)
-            endif
+            end if
             ! projection
             signxx(i) = ratio*signxx(i)
             signyy(i) = ratio*signyy(i)

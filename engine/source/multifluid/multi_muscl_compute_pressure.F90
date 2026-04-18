@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    multi_muscl_fluxes_computation     ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||====================================================================
       MODULE MULTI_MUSCL_COMPUTE_PRESSURE_MOD
+      implicit none
       CONTAINS
 !||====================================================================
 !||    multi_muscl_compute_pressure     ../engine/source/multifluid/multi_muscl_compute_pressure.F90
@@ -66,7 +67,8 @@
           real(kind=WP), INTENT(INOUT) :: OFF(1)
           real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
           INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
-          real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
+          real(kind=WP),INTENT(IN)::TF(STF)
+          real(kind=WP),INTENT(INOUT)::VAREOS(NVAREOS*1)
           TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
           INTEGER,INTENT(IN) :: NVARTMP_EOS
           INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)

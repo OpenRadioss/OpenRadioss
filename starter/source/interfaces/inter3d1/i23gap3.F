@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,6 +46,7 @@ C
      A PM_STACK,IWORKSH )
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT, IP, MG, NDX,
+      INTEGER I, INRT, NELS, NELC, NELTG, IP, MG, NDX,
      .        IGTYP
 C     REAL
       my_real
@@ -88,7 +89,7 @@ C--------------------------------------------------------------
       GAPMX=EP30
       GAPMN=EP30
 C------------------------------------
-C     GAP VARIABLE NOEUDS SECONDS
+C     GAP VARIABLE NODES SECONDS
 C------------------------------------
       IF(IGAP>=1)THEN
         DO I=1,NUMNOD
@@ -137,7 +138,7 @@ C---------------------
       ENDIF
 C
       IF(NELS+NELC+NELTG==0)THEN
-Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
+CTo be checked (second) in SPMD you need an element associated with the arrete otherwise error
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
@@ -207,7 +208,7 @@ c        END IF
       IF(IGAP/=0) GAP_M(I)=GAPM
 C
       IF(NELS+NELC+NELTG==0)THEN
-Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
+CTo be checked (second) in SPMD you need an element associated with the arrete otherwise error
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
@@ -259,14 +260,14 @@ C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN)
          END IF
          WRITE(IOUT,1000)GAPMIN
 C
-C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
+C        Gap is not used for IGAP> 0;Gapmin can be equal to 0.
          IF(GAPMAX==ZERO)GAPMAX=EP30
          WRITE(IOUT,1500)GAPMAX
          GAP = MIN(GAP,GAPMAX)
        ENDIF
 C------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to use during the retri criterion
 C
       BGAPSMX = ZERO
       IF (IGAP==0) THEN
@@ -289,7 +290,7 @@ C------------------------------------
         STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODAL STIFFNESS MULTIPLIER
 C---------------------------------------------
       DO I=1,NSN
         STFN(I) = ONE

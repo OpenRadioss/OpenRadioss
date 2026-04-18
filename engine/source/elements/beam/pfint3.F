@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IG, IR1Y, IR1Z, IR2Y, IR2Z
+      INTEGER I, IG, IR1Y, IR1Z, IR2Y, IR2Z
 C     REAL
       my_real
      .   OFF_L
@@ -86,7 +86,7 @@ C
         M32(I)=M3(I)-HALF*AL(I)*F2(I)
       ENDDO
 C---------------------------------------------------
-C     LIBERATION DES ROTATIONS
+C     RELEASE OF ROTATIONS
 C---------------------------------------------------
       DO I=1,NEL
         IG=PID(I)

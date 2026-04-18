@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_floatv                ../starter/source/devtools/hm_reader/hm_get_floatv.F
 !||    hm_get_intv                  ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    ngr2usr                      ../starter/source/system/nintrr.F
-!||    usr2sys                      ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod                  ../starter/share/message_module/message_mod.F
 !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
@@ -69,7 +68,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI),DEF_INTER(100)
       my_real STFAC,XFILTR
       my_real FRIGAP(NPARIR),FRIC_P(10)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -84,9 +83,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,IBC1, IBC2, IBC3, NTYP,IDELKEEP,
+      INTEGER I,IBC1, IBC2, IBC3, NTYP,IDELKEEP,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,
-     .    IS1, IS2, ISU10,ISU20,ILEV, IGAP,MULTIMP,MFROT,IFQ,
+     .    IS1, IS2, IGAP,MULTIMP,MFROT,IFQ,
      .    IBAG,IDEL7N,MODFR,IADM,IFORM,IASSIGN,FIELD6,IPRINT
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,
@@ -98,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,SUR2USR,NGR2USR
+      INTEGER NGR2USR
       LOGICAL IS_AVAILABLE
 
 CC=======================================================================
@@ -667,15 +666,5 @@ C------------
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
-
- 1557 FORMAT(
-     .'  NUMBER OF ELEMENTS WITHIN A 90 DEGREES FILLET         ',I5/,
-     .'  ---------------------------------------------         '/,
-     .'  CRITERIA FOR REFINEMENT DUE TO PENETRATION :          '/,
-     .'  ------------------------------------------            '/,
-     .'  MINIMUM PERCENTAGE OF PENETRATION                     ',
-     .   1PG20.13/,
-     .'  MAXIMUM ANGLE ON MAIN SIDE AT CONTACT LOCATION      ',
-     .   1PG20.13//)
 
       END

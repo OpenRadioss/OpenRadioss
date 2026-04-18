@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "timeri_c.inc"
 #include      "impl1_c.inc"
-C common pour variable globale en memoire partagee
+C Common for global variable in memory shared
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       my_real 
@@ -113,11 +113,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,IGSTI,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ ,
+     .              I_SK_OLD, 
+     .         NB_N_B, NOINT, INACTI, MULTIMP, IFQ ,
      .        INTNITSCHE,IFSUB_CAREA
       INTEGER 
-     .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        ILD, NCONT, NCONTACT, INTTH,
      .        I_MEM,CAND_N_OLD,ILEV,FLAGREMN, NRTSE ,NMN_L
 C     REAL
       my_real
@@ -194,8 +194,8 @@ C
       CURV_MAX_MAX = ZERO
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS AVEC PENE INITIALE
-C     OU AVEC DU FILTRAGE DE FROTTEMENT
+C     storage of previous candidates with initial penetration
+C     or with friction filtering
 C -------------------------------------------------------------
       CALL MY_BARRIER
 
@@ -211,13 +211,13 @@ C -------------------------------------------------------------
       ENDIF
 
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
-C eshift : decalage sur cand_e
+C eshift: shift on cand_e
       CALL I7XSAVE(
      1       X            ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN ,NMN     ,
      2       ITASK        ,INTBUF_TAB%XSAV,XMINL      ,YMINL ,ZMINL   ,
@@ -236,9 +236,9 @@ C eshift : decalage sur cand_e
 #include "lockoff.inc"
 
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
       CALL MY_BARRIER
-C a conserver pour cas inacti est modifie sur p0
+C to keep for the case where inacti is modified on p0
       IF(ITASK==0)THEN
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
      +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
@@ -307,7 +307,7 @@ c        goto 150
 
         IF(ITASK==0)THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C retrieval of remote NSNR nodes stored in XREM
 C
 
           INACTI=0
@@ -330,7 +330,7 @@ C
            IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
        
 C
-C renumerotation locale des anciens candidats
+C Local renumeration of former candidates
 C
 ccc          IF(NUM_IMP>0)THEN
             CALL SPMD_RNUMCD(
@@ -346,7 +346,7 @@ C
       ILD = 0
       NB_N_B = 1
 C
-C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
+C Barrier comm spmd_tri7vox + bminma + return i7buce
 C      
  50   CALL MY_BARRIER
 C
@@ -410,7 +410,7 @@ C utile si on revient
         ILD  = 0
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C temporarily set dist to - for identification in the boundary part
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE

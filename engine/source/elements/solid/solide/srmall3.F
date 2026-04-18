@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    srmalla3   ../engine/source/elements/solid/solide/srmall3.F
 !||--- called by ------------------------------------------------------
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
 !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
@@ -47,8 +48,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     .   X , Y, Z ,DV
 C-----------------------------------------------
 C     STRESSES EXTRACTION.
 C-----------------------------------------------

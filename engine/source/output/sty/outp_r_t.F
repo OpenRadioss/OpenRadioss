@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE OUTP_R_T(KEY   ,TEXT ,ELBUF_TAB,IPARG ,DD_IAD,
      2                    IXR   ,IGEO ,GEO      ,SIZLOC,SIZP0 ,
@@ -36,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*8 KEY
       CHARACTER*40 TEXT
-      INTEGER NBX
+ 
       INTEGER IPARG(NPARG,*), DD_IAD(NSPMD+1,*),
      .  IXR(NIXR,*),IGEO(NPROPGI,*),SIZLOC,SIZP0,SIZ_WR
       my_real
@@ -64,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,ICAS_OLD,K
-      INTEGER NG, NEL, NFT, ITY, LFT,IADD, LLT,N,MLW,
+      INTEGER NG, NEL, NFT, ITY, 
      .        JJ_OLD, NGF, NGL, NN, LEN, NUVAR,
      .        LIAD, IUS, MLW2,NAD,
      .        MT,IPROP,IGTYP,COMPTEUR,L,II(6),IV
@@ -463,7 +465,7 @@ c
               ENDIF ! igtyp          
             ENDDO  ! do while
           ENDIF   ! jj_old>0
-        ENDDO   ! nn=1,nspgroup
+        ENDDO   ! nn = 1, nspgroup
       ENDIF   ! ispmd=0
 C---
       RETURN
@@ -473,8 +475,11 @@ C---
 !||--- called by ------------------------------------------------------
 !||    genoutp         ../engine/source/output/sty/genoutp.F
 !||    outp_arsz_rt    ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE COUNT_ARSZ_RT(IPARG,IGEO,GEO,IXR,DD_IAD,WASZ,SIZ_WRITE_LOC)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

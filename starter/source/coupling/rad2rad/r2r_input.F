@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -188,8 +188,6 @@ C--------------------------------------------------------------C
  1360   FORMAT('/LINK/TYPE',I1,'/NLOCAL')
  1400   FORMAT('',A10)
  1500   FORMAT(  3X,10I5)
- 1600   FORMAT('   ',A10,I10)
- 1700   FORMAT('   SUBDOMAIN',I1,I10)
  1800   FORMAT(I10)
  1900   FORMAT('   ',A100)
 C-----------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -255,7 +255,7 @@ C-----------------------------------------------
       INTEGER CHECK_PILE(NIVEAU_MAX,PARASIZ)
       CHARACTER*80 BLANC
       CHARACTER*132 TEXT(NLIGNES_MAX,PARASIZ)
-      INTEGER I,IP,IL,NLIGNES,IT
+      INTEGER I,NLIGNES,IT
       LOGICAL :: FIRST_CALL = .TRUE.
       SAVE NLIGNES_PILE,TEXT,CHECK_PILE, FIRST_CALL
       INTEGER NS_SIGNAL1,IW1,LAST_IN
@@ -279,7 +279,7 @@ C-----------------------------------------------
 C
       IF(IW1==0) THEN
 C------------------------------------------------------------------------
-C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
+C       adding a line to TEXT (1 or more X per stack descent)
 C------------------------------------------------------------------------
         NLIGNES_PILE(NIVEAU_PILE,IT) 
      .         = NLIGNES_PILE(NIVEAU_PILE,IT) + 1
@@ -291,7 +291,7 @@ C------------------------------------------------------------------------
         CHECK_PILE(NIVEAU_PILE,IT) = NS_SIGNAL
       ELSEIF(IW1==-1) THEN
 C------------------------------------------
-C       remonte de pile 
+C       stack ascent
 C------------------------------------------
         IF(NS_SIGNAL1==CHECK_PILE(NIVEAU_PILE,IT))THEN
           NLIGNES_PILE(NIVEAU_PILE,IT) 
@@ -304,7 +304,7 @@ C------------------------------------------
 C
       IF(IW1>0) THEN
 C------------------------------------------
-C       Ecriture du Trace Back et Arret
+C       writing the Trace Back and stopping
 C------------------------------------------
         IF(NIVEAU_PILE<=0)STOP
         NLIGNES = NLIGNES_PILE(NIVEAU_PILE,IT)

@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,15 @@
 #include "coupling.h"
 
 // Dummy adapter for when no coupling library is available
-class DummyCouplingAdapter : public CouplingAdapter {
+class DummyCouplingAdapter : public CouplingAdapter
+{
 public:
-    bool configure(const std::string& configFile) override;
-    void setNodes(const std::vector<int>& nodeIds) override;
-    bool initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) override;
-    void writeData(const double* values, int totalNodes, double dt, int dataType) override;
-    void readData(double* values, int totalNodes, double dt, int dataType) override;
-    void advance(double& dt) override;
+    bool configure(const std::string &configFile) override;
+    void setNodes(const std::vector<int> &nodeIds) override;
+    bool initialize(const double *coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) override;
+    void writeData(const double *values, int totalNodes, double dt, int dataType) override;
+    void readData(double *values, int totalNodes, double dt, int dataType) override;
+    void advance(double &dt) override;
     bool isCouplingOngoing() const override;
     bool requiresWritingCheckpoint() const override;
     bool requiresReadingCheckpoint() const override;

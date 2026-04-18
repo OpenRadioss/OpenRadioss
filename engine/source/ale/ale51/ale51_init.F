@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
@@ -40,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALE51_INIT(IPARG      ,PM      ,IXS     ,IXQ      ,
      2                      X          ,FLUX    ,FLU2    ,
      3                      ALE_CONNECT,ITASK   ,
-     4                      FLUX_SAV   ,QMV     ,NV46    ,ELBUF_TAB)
+     4                      FLUX_SAV   ,QMV     ,NV46    ,ELBUF_TAB,
+     5                      s_flux,s_qmv)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,6 +51,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD           
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,16 +68,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
       my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
-     .        FLUX(NV46,*), FLU2(*),
-     .        FLUX_SAV(NV46,*), QMV(*)
+     .        FLUX(s_flux,nv46), FLU2(*),
+     .        FLUX_SAV(s_flux,nv46), QMV(s_qmv,2*nv46)
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), ITASK, NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG, K, II, NF1
+      INTEGER :: NG, K, II, NF1,itrimat
       my_real :: BID(1)
       INTEGER :: NIN, IB, NBF, NBL, IE, MLW
 C-----------------------------------------------
@@ -106,7 +111,7 @@ C     ALE ON / OFF
         LFT=1                   
         DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
-              FLUX_SAV(K,II)=FLUX(K,II)
+              FLUX_SAV(ii,k)=FLUX(ii,k)
             ENDDO
         ENDDO        
       END DO !next NG
@@ -137,12 +142,15 @@ C     ALE ON / OFF
         ! UPWIND, QMV, DDVOL           !
         !------------------------------!
         IF(N2D == 0)THEN
-          CALL ALE51_UPWIND3(PM,IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     +                       0 ,BID,QMV(12*NFT+1),1,
-     +                       NV46 )
+          CALL ALE51_UPWIND3(PM,IXS,FLUX,FLU2,ALE_CONNECT,
+     +                       0 ,BID,QMV,1,
+     +                       nv46,s_flux,s_qmv,
+     .                         ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)
         ELSE
-          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
-     +                       0,BID,QMV(8*NFT+1),1)
+          CALL ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU2,ALE_CONNECT,
+     +                       0,BID,QMV,1,
+     +                       nv46,s_flux,s_qmv,
+     .                       ALE_CONNECT%group(ng)%nb_element_with_bc,ALE_CONNECT%group(ng)%list_element_with_bc)     
         ENDIF
       END DO !next NG
 
@@ -161,18 +169,26 @@ C--------------------
           MLW = BRICK_LIST(NIN,IB)%MLW 
           IF(MLW /= 51)CYCLE
           DO J=1,6
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(1) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(2) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(3) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(4) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(4)
-          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(5) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(5)
+            do itrimat=1,trimat
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(1,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(2,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(3,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(4,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(4)
+          BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX_mat(5,itrimat) = 
+     .           BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(5)
+            enddo
           ENDDO
         ENDDO   
         
         !Computing Upwind fluxes
         CALL ALE51_UPWIND3_INT22
      +                      (PM   , IXS        ,0     ,  1,
-     +                       IPARG, ELBUF_TAB  ,ITASK     )
+     +                       IPARG, ELBUF_TAB  ,ITASK ,
+     +                       nb,int22,i22len,brick_list)
       ENDIF
 
 C-----------------------------------------------

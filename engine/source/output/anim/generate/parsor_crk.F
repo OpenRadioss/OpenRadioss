@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,9 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE PARSOR_CRK(IPARG  ,IXC     ,IXTG  ,EL2FA,IDCRK   ,
@@ -38,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,9 +60,8 @@ C-----------------------------------------------
      .        NBF_L,NBF,NODGLOBXFE(*),ITAB(*)
 C-----------------------------------------------
 C     REAL
-      my_real OFF
-      INTEGER IE,NG,ITY,LFT,LLT,N,I,J,NEL,NFT,JJ,K,BUF,IXFEM,
-     .        IPT,ELC,CRKS,ICRK,IE_EL2FA,NEL_CRK,EMPL,NLEVXF
+      INTEGER IE, NG, ITY, LFT, LLT, N, I, NEL, NFT, JJ, BUF, IXFEM, 
+     . CRKS,ICRK,IE_EL2FA,NEL_CRK,NLEVXF
       INTEGER II(4)
       INTEGER,DIMENSION(:),ALLOCATABLE::NP
 C=======================================================================
@@ -75,7 +76,7 @@ C-----------------------------------------------
         ICRK = INDX_CRK(CRKS)
         IE_EL2FA = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
 C
         DO NG=1,NGROUP
           NEL   =IPARG(2,NG)
@@ -156,7 +157,7 @@ C
       ENDDO  !  DO CRKS = 1,NCRKPART
 c----------------------------------------
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
         IF(ISPMD == 0)THEN
           CALL SPMD_IGLOB_PARTN(IAD_CRK,NCRKPART,IAD_CRKG,NCRKPART)
           BUF = 4 * NBF
@@ -167,7 +168,7 @@ C   construction tableau global des parts sur p0
           CALL SPMD_IGET_PARTN(4,JJ,NP,NCRKPART,IAD_CRKG,BUF,1)
         ENDIF
 C
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         DO I = 1, NCRKPART
           IAD_CRKG(1,I) = IAD_CRK(I)
         END DO

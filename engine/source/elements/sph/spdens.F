@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,23 +61,23 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       DRHO,WGHT,WGRAD(3),DIVV,
      .       MUIJ,MUMAX,
-     .       FACT,WUN,WVX,WVY,WVZ,WRHO,
+     .       
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,DT1D2,
      .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
      .       ROTVX,ROTVY,ROTVZ,ROTV,
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ
+     . WGRDX,WGRDY,WGRDZ
 C-------------------------------------------
       DO I=LFT,LLT
        N    =NFT+I
@@ -95,7 +95,7 @@ C      characteristic length = diameter.
        WA(12,N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul des densites et tenseurs de deformations.
+C     Calculation of densities and strain tensors.
 C-----------------------------------------------
       DT1D2=0.5*DT1
       DO 10 I=LFT,LLT
@@ -247,7 +247,7 @@ C       for artificial viscosity computation :
         ROTVZ=ROTVZ+VJX*WGRAD(2)-VJY*WGRAD(1)
        END DO
 C------
-C      partie symetrique.
+C      symmetrical part.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)

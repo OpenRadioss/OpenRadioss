@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,6 +55,7 @@
 !||    s10init3                      ../starter/source/elements/solid/solide10/s10init3.F
 !||    s4init3                       ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cinit3                      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3                      ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    shell_offset_ini              ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
 !||    shell_offsetp                 ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F
@@ -67,6 +68,7 @@
 !=======================================================================================================================
 
         ! Variables from /DEF/SHELL Option.
+      implicit none
         type shell_defaults_
           integer ::  ioffset    !< offset support contact
           integer ::  ishell     !< 4n shell formulations     old :IHBE_D

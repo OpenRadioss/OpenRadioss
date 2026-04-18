@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER NA1,NA2
       my_real
      .   A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
+     . ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA
 C-----------------------------------------------
 C  dev021
       IF (IRESP==1) THEN
@@ -112,7 +112,7 @@ C  dev021
            PREC = EM10
       ENDIF
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF (IMP_INT7==3) THEN
        DO I=1,JLT
@@ -193,7 +193,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -235,7 +235,7 @@ C
           N3(I) = -RZ 
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -388,7 +388,7 @@ C
       ENDDO
       ENDIF
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
       DO I=1,JLT
         VTX = VX(I) -VN(I)*N1(I)
         VTY = VY(I) -VN(I)*N2(I)
@@ -473,7 +473,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -569,7 +569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, INACTI,NIN
+      INTEGER JLT, NIN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ)
       my_real
@@ -582,7 +582,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
+      INTEGER I, ISF, NI
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
@@ -590,9 +590,7 @@ C-----------------------------------------------
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
      .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2,H0
-
+     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ)
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -658,7 +656,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FACT(I)
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*N1(I)
@@ -683,7 +681,7 @@ C--------partie NML-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         NI = INDEX(I)
@@ -745,7 +743,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,INACTI,NIN,MFROT, IFQ, NOINT,IRECT(4,*)
+      INTEGER JLT, INACTI, NIN, MFROT, IFQ, IRECT(4, *)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -769,7 +767,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,NS
+      INTEGER I, IG, IE, NN, NS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),STIF0(MVSIZ),
@@ -778,12 +776,12 @@ C-----------------------------------------------
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),XMU(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN0(MVSIZ),
      .    
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
-     .   V2, FM2, FAC,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTI,FT,FN,FMAX,FTN,
-     .   H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4, FF0,
+     . VNX, VNY, VNZ, AA,S2,
+     . V2, FAC,ALPHA,BETA,
+     . FX, FY, FZ,FT,FN,FTN,
+     . H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,T1,T2,T3,DXT,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
+     . AREA,P,VV1,VV2,DMU,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,GAP2 ,PENE2,PREC 
       INTEGER NA1,NA2
 C-----------------------------------------------
@@ -816,7 +814,7 @@ C
         IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         D1 = SQRT(P1(I))
@@ -876,7 +874,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -918,7 +916,7 @@ C
           N3(I) = -RZ 
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -1028,22 +1026,22 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
       ELSE IF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1261,7 +1259,7 @@ c
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
 
        DO I=1,JLT
          IG=NSVG(I)

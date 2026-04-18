@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,13 +49,13 @@ C-----------------------------------------------
       INTEGER ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),ENRTAG(NUMNOD,*),
      .        ELCUTC_L(2,*),NODENR_L(*),
      .        KXFENOD2ELC_L(*),ENRTAG_L(NUMNOD_L,*),
-     .        NUMELC_L,NUMELTG_L,NCRKXFE_L,NUMNOD_L,NODGLOB(*),
+     .        NUMELC_L,NUMELTG_L,NUMNOD_L,NODGLOB(*),
      .        INOD_CRKXFEM(*),P,CEP(*),ELCUTTG_L(2,*),INCRKXFEM_L(*),
      .        INDEX_CRKXFEM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,PROC,OFFC,OFFTG,NOD,NOD_CRK,IEL_L,NL_L
+      INTEGER I, J, OFFC, OFFTG, NOD, NOD_CRK, IEL_L, NL_L
 C-----------------------------------------------
       OFFC = NUMELS + NUMELQ
       OFFTG = OFFC + NUMELC + NUMELT + NUMELP + NUMELR
@@ -93,7 +93,7 @@ cc        IF (NOD > 0 .and. INOD_CRKXFEM(NOD) > 0) THEN
 c
 c   or even:
 c
-c        NL_L = INCRKXFEM_L(I)
+c        Nl_l = incrkxfem_l (i)
 c        IF(NL_L > 0)THEN
 c          NOD_CRK = INDEX_CRKXFEM(NL_L)
 c          NODENR_L(NL_L) = NODENR(NOD_CRK)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,17 +103,17 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NSECT) :: SECTIDS
       INTEGER K1, I, J, L, KK, K2, K,LREC,
      .   NNOD, NBINTER,K0,K3,K4,K5,K6,K7,K8,K9,KR0,
-     .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,I0,ID,
+     .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,ID,
      .   IGU,IGS,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,IFRAM,
-     .   NNSK1,NNSK2,NNSK3,UID,IFLAGUNIT,IE,IADV,
-     .   ISU,NFRAM,JJ,IUN,
-     .   TAGELEM1,TAGELEM2,TAGELEM3,
+     .   NNSK1,NNSK2,NNSK3,UID,IFLAGUNIT,
+     .   NFRAM,JJ,IUN,
+     .   
      .   N1,CPT,
      .   NG,NOPRINT,ILEN
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,L0,ISTYP,SUB_ID
+      INTEGER FLAG_FMT, L0, ISTYP, SUB_ID
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG,TAGELEMS
       my_real
-     .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,POS,R
+     .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,R
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARLINE) ::CHAR8
@@ -149,7 +150,7 @@ C file run number
       NSTRF(4)=1
 C file next run number
       NSTRF(5)=2
-C file rec length
+C File Rec Length
       LREC=0
 C file record flip/flop
       NSTRF(7)=0
@@ -295,15 +296,15 @@ C
          DO L=1,NINTER                                                                                     
           IF(NSTRF(K1-1+J)==IPARI(15,L))THEN                                                             
             IPARI(28,L) = IPARI(28,L) + 1                                                                  
-C numero interne      NSTRF(K1-1+J) = L
+C internal number      NSTRF(K1-1+J) = L
           ENDIF 
          ENDDO  
         ENDDO   
 C
-C Noeuds concernes par la section (si NFRAM /= 0)
-C Noeuds concerns :
-C au dessus du plan N2N3 du frame (suivant la direction +Z)
-C & dans le plan N2N3 du frame
+C nodes concerned by the section (if nfram /= 0)
+C Knots concerns:
+C above the n2n3 plane of the frame (along the +z direction)
+C & in the n2n3 plane of the frame
 C
         IF (ISTYP >= 1 .OR. NFRAM > 0) THEN                              
           IF(ISTYP == 0) THEN                                            
@@ -363,9 +364,9 @@ C
           KK=1+NGRNOD                                                    
             NNOD = 0                                                       
             CPT = 1                                                        
-            CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,            
-     2                  B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,            
-     3                  NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,               
+            CALL SEC_NODES_SOL(IGUS,ISTYP,IGRBRIC,X0,A,            
+     2                  B,C,D,E,F,IXS,IXS10,IXS16,IXS20,            
+     3                  NIXS,NNOD,NSTRF,NBINTER,K1,               
      4                  CPT,NODTAG,ISOLNOD,TAGELEMS,                     
      5                  X1,Y1,Z1,X2,Y2,Z2,R)                             
 
@@ -452,7 +453,7 @@ C
 C-------------------------------------------------------------------------
 C      SOLIDES
 C--------------------------------------------------------------
-       CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,NSTRF(K2),NNOD,ITAB,I,NOPRINT)
+       CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,NSTRF(K2),NNOD,NOPRINT)
        IF(NSTRF(K0)>=102)THEN
          CALL ZERORE(1,10+30*NNOD,SECBUF(KR0))
        ELSEIF(NSTRF(K0)>=101)THEN
@@ -508,49 +509,10 @@ C-------------------------------------------------------------
       ENDDO
       CALL UDOUBLE(SECTIDS,1,NSECT,MESS,0,BID)
 
-C file rec length
+C File Rec Length
       NSTRF(6)=LREC*4
       
 C-------------------------------------------------------------
- 2900 FORMAT(/' SECTION',I10,' ID',I10/
-     +        ' ---------------'/
-     + '        TYPE . . . . . . . . . . . . . . .',I10/
-     + '        FILENAME . . . . . . . . . . . . .',A/
-     + '        DELTAT . . . . . . . . . . . . . .',1PG20.13/
-     + '        ALPHA. . . . . . . . . . . . . . .',1PG20.13/
-     + '        FRAME TYPE . . . . . . . . . . . .',I10/
-     + '        NUMBER OF INTERFACES . . . . . . .',I10/
-     + '        INTERFACES:')
- 2901 FORMAT(/' SECTION',I10,' ID',I10/
-     +        ' ---------------'/
-     + '        TYPE . . . . . . . . . . . . . . .',I8/
-     + '        FRAME TYPE . . . . . . . . . . . .',I8/)
- 3000 FORMAT(/
-     + '        NUMBER OF NODES. . . . . . . . . .',I10/
-     + '        NODES:')
- 3100 FORMAT(/
-     + '        NUMBER OF SHELL ELEMENTS . . . . .',I10/
-     + '   SHELL      N1      N2      N3      N4')
- 3200 FORMAT(/
-     + '        NUMBER OF 3 NODES SHELL ELEMENTS .',I10/
-     + '   SHELL      N1      N2      N3')
- 3300 FORMAT(/
-     + '        NUMBER OF BRICK ELEMENTS . . . . .',I10/
-     + '   BRICK      N1      N2      N3      N4',
-     + '     N5      N6      N7      N8')
- 3400 FORMAT(/
-     + '        NUMBER OF QUAD ELEMENTS . . . . .',I10/
-     + '   QUAD      N1      N2      N3      N4')
- 3500 FORMAT(/
-     + '        NUMBER OF TRUSS ELEMENTS . . . . .',I10/
-     + '   TRUSS      N1      N2')
- 3600 FORMAT(/
-     + '        NUMBER OF BEAM ELEMENTS . . . . .',I10/
-     + '   BEAM      N1      N2')
- 3700 FORMAT(/
-     + '        NUMBER OF SPRING ELEMENTS . . . . .',I8/
-     + '   SPRING      N1      N2')
-C
       DEALLOCATE(NODTAG)  
       DEALLOCATE(TAGELEMS)
       RETURN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
      .         IFAIL,ILENG,IFAIL2,FLGCHK,ILAW,
-     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
+     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,
      .         IF1,IF2,IF3,IF4,IF5,IFUNC5,SIZ_ARRAY_COMP
 C     REAL
       my_real
@@ -1324,7 +1324,7 @@ C------------------------
       MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
       MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
       MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
+      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
       MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
       MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
       MTAG%G_POSX = 6
@@ -1340,7 +1340,7 @@ C------------------------
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
       MTAG%G_YIELD_IN_COMP = SIZ_ARRAY_COMP   ! Yield in compression - H=9
-      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous displacement in compression
+      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous Displacement in Compression
 C------------------------
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")
@@ -1359,19 +1359,6 @@ c-----------
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1300 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)      
- 1800 FORMAT(
-     & 5X,'SPRING MATERIAL SET (BEAM TYPE)'/,
-     & 5X,'-------------------------------'/,
-     & 5X,'MATERIAL SET NUMBER . . . . . . . . . .=',I10/,
-     & 5X,'SPRING MASS . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SPRING INERTIA. . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SKEW FRAME NUMBER (0:GLOBAL). . . . . .=',I10/,
-     & 5X,'SENSOR NUMBER (0:NOT USED). . . . . . .=',I10/,
-     & 5X,'SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=',I10/,
-     & 5X,'FAILURE FLAG (0:UNCOUPLED 1:COUPLED). .=',I10/,
-     & 5X,'UNIT LENGTH FLAG. . . . . . . . . . . .=',I10/,
-     & 5X,'IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT',/,
-     & 5X,'     CURVE ARE STRAIN DEPENDING',/)
  1810 FORMAT(
      & 5X,A,/,
      & 5X,'SPRING STIFFNESS. . . . . . . . . . . .=',1PG20.13/,

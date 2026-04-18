@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
 !||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
+      implicit none
       CONTAINS
 ! ======================================================================================================================
 !                                                   procedures
@@ -71,10 +72,12 @@
           INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
           real(kind=WP), INTENT(INOUT) :: RHO(1)
           real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
-          real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
+          real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME
+          real(kind=WP), INTENT(IN) ::  BUFMAT(*)
           real(kind=WP), INTENT(INOUT) :: OFF(1)
           INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-          real(kind=WP), INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
+          real(kind=WP), INTENT(IN) :: TF(STF)
+          real(kind=WP), INTENT(INOUT) :: VAREOS(NVAREOS*1)
           TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
           INTEGER,INTENT(IN) :: NVARTMP_EOS
           INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
@@ -117,7 +120,7 @@
             ERROR  = ABS(FUNC)
             IF (ERROR  <  TOL * (ABS(PRES(1)) + ONE)) THEN
               CONT = .FALSE.
-            ENDIF
+            END IF
             DFUNC = GRUN(1)
             IF (GRUN(1)  >  ZERO) THEN
               INCR = -FUNC / DFUNC
@@ -125,9 +128,9 @@
             ELSE
               CONT = .FALSE.
               EINT(1) = ZERO
-            ENDIF
+            END IF
 
-          ENDDO
+          END DO
         END SUBROUTINE MULTI_SOLVE_EINT
 ! ----------------------------------------------------------------------------------------------------------------------
       END MODULE MULTI_SOLVE_EINT_MOD

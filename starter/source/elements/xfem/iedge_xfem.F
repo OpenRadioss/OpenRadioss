@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           CEP_CRK   ,IEDGE_TMP0)
 C=======================================================================
       USE MESSAGE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C
         CALL ANCMSG(MSGID=268 ,MSGTYPE=MSGERROR,ANMODE=ANSTOP,C1='EDGE XFEM')
       END IF
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface (shells)
+c       search for all lines in the surface (shells)
 c---------------------------------------
       LL  = 0  ! nb edges
       NEL = 0  ! nb elements

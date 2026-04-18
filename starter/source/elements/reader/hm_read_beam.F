@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../starter/source/output/message/message.F
 !||    anodset          ../starter/source/output/analyse/analyse_node.c
-!||    nintrn           ../starter/source/system/nintrn.F
 !||    usr2sys          ../starter/source/system/sysfus.F
 !||    vdouble          ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -62,6 +61,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,8 +95,8 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
-      INTEGER CPT,INDEX_PART
+      INTEGER I, I1, I2, MID, PID,MT,IPID,IDS,J,STAT
+      INTEGER INDEX_PART
       CHARACTER MESS*40, MESS2*40
       my_real BID,NORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
@@ -106,7 +106,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NINTRN
       DATA MESS /'3D BEAM ELEMENTS DEFINITION             '/
       DATA MESS2/'3D BEAM ELEMENTS SELECTION FOR TH PLOT  '/
 C=======================================================================
@@ -156,7 +155,7 @@ C--------------------------------------------------
         ENDIF
 C direction input by vector VX,VY,VZ
         NORM = SQRT(VX(I)**2 + VY(I)**2 + VZ(I)**2)
-        IF (NORM > ZERO) THEN
+        IF (NORM > EM20) THEN
           IBEAM_VECTOR(I) = 1
           RBEAM_VECTOR(1,I) = VX(I) / NORM
           RBEAM_VECTOR(2,I) = VY(I) / NORM
@@ -190,7 +189,7 @@ C-----------
 C     
       CALL ANCMSG(MSGID=2093,MSGTYPE=MSGINFO,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

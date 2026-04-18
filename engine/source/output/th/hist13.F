@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,13 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    radioss2               ../engine/source/engine/radioss2.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    eor_c                  ../common_source/tools/input_output/write_routtines.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
-!||    write_c_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    eor_c                  ../common_source/tools/input_output/write_routines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
+!||    write_c_c              ../common_source/tools/input_output/write_routines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||    wrtdes                 ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
@@ -44,6 +45,7 @@ C   OLD TH V3 RADIOSS INPUT V3 or V4
 C=======================================================================
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_,LTITLE
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,15 +80,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITITLE(80), IFILNAM(2148), ICODE, I, NJOINV, NRBAGV,
-     .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,NINTERS,
-     .   IRUNR,NN,IAD,J,ITYP
+     . II, N, MTN, NACCELV,NINTERS,
+     . NN,IAD,J,ITYP
 
       CHARACTER EOR*8, CH8*8, FILNAM*100, BLA*7
       CHARACTER(LEN=LTITLE) :: CARD
       my_real,DIMENSION(20) :: TITLE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      INTEGER, DIMENSION(20) :: TEXT
+ 
       INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV
       INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------

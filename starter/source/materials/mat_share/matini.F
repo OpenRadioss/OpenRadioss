@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20init3               ../starter/source/elements/solid/solide20/s20init3.F
 !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cinit3               ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3               ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3               ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3               ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scinit3                ../starter/source/elements/thickshell/solidec/scinit3.F
@@ -49,16 +50,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                  ../starter/source/system/arret.F
 !||    athlen                 ../starter/source/ale/athlen.F
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    law129_init            ../starter/source/materials/mat/mat129/law129_init.F90
 !||    m105init               ../starter/source/materials/mat/mat105/m105init.F
 !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
 !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
 !||    m24insph               ../starter/source/elements/sph/m24insph.F
+!||    m36init                ../starter/source/materials/mat/mat036/m36init.F90
 !||    m37init                ../starter/source/materials/mat/mat037/m37init.F
 !||    m38init                ../starter/source/materials/mat/mat038/m38init.F
 !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
 !||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
 !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
-!||    m6in                   ../starter/source/materials/mat/mat006/m6in.F
 !||    m70init                ../starter/source/materials/mat/mat070/m70init.F
 !||    m75init                ../starter/source/materials/mat/mat075/m75init.F
 !||    m77init                ../starter/source/materials/mat/mat077/m77init.F
@@ -68,6 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mating                 ../starter/source/materials/mat_share/mating.F
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    law129_init_mod        ../starter/source/materials/mat/mat129/law129_init.F90
+!||    m36init_mod            ../starter/source/materials/mat/mat036/m36init.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE MATINI(PM       ,IX               ,NIX         ,X         ,
@@ -77,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  MAT      ,IPM              ,NSIG        ,NUMS      ,PT     ,
      .                  IPT      ,NGL              ,NPF         ,TF        ,BUFMAT ,
      .                  GBUF     ,LBUF             ,MBUF        ,ELBUF_STR ,ILOADP ,
-     .                  FACLOAD  ,DDELTAX          ,TEMPEL      )   
+     .                  FACLOAD  ,DDELTAX          ,TEMPEL      ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +90,9 @@ C-----------------------------------------------
       USE DETONATORS_MOD   
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE M36INIT_MOD
+      USE LAW129_INIT_MOD
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +111,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -122,17 +130,18 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TARGET  :: BUFMAT
+      TYPE (MATPARAM_STRUCT_),DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
-      INTEGER ID
-      my_real RHO0(MVSIZ)
-      my_real ,DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
-      my_real ,DIMENSION(:) ,POINTER ::
-     .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,UVAR,EPLAS,FILL,DTEL,UPARAM,TEMP
+      INTEGER ID,IMAT
+      my_real, DIMENSION(MVSIZ) :: RHO0,YLDFAC
+      my_real, DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
+      my_real, DIMENSION(:) ,POINTER ::
+     .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,EPLAS,FILL,DTEL,UPARAM,TEMP
 C=======================================================================
       TMP(1:NEL)=ZERO
       EPL(1:NEL)=ZERO
@@ -189,7 +198,7 @@ C=======================================================================
      .            SIG     ,IX      ,NIX     ,SIGI     ,EPLAS    ,
      .            NSIG    ,MAT     ,NUMS    ,PT       ,NEL      ,
      .            FILL    ,TEMP    ,TEMPEL  )
-     
+
 !--------------------
       IF(JMULT <= 1)THEN  !reset only once
         IPARG(15)=0   !  FLAG REZONE SIG
@@ -212,9 +221,6 @@ C=======================================================================
         ENDIF
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 6) THEN
-        IF(ISGIFL > 0) THEN
-          CALL M6IN(PM,MAT,SIG,RHO,NEL)
-        ENDIF
         IPARG(15)=0
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 10) THEN
@@ -251,9 +257,6 @@ C=======================================================================
         IPARG(15)=1
         IPARG(16)=1
       ELSEIF (MTN == 17) THEN
-        IF(ISGIFL > 0) THEN
-          CALL M6IN(PM,MAT,SIG,RHO,NEL)
-        ENDIF
         IPARG(15)=0
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 18) THEN
@@ -305,11 +308,12 @@ C=======================================================================
           IPARG(16)=1
         END IF
 
+        IMAT = MAT(1)
         NUVAR  = IPM(8,MAT(1))
         NPAR   = IPM(9,MAT(1))
         IADBUF = IPM(7,MAT(1))
         IADBUF = MAX(1,IADBUF)
-        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
+        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
 
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))
@@ -320,7 +324,17 @@ C=======================================================================
           IFUNC(I) = IPM(10+I,MAT(1))
         ENDDO
 
-        IF (MTN == 37) THEN
+        IF (MTN == 36) THEN
+          if (elbuf_str%bufly(1)%l_fac_yld > 0) then
+            yldfac(1:nel) = lbuf%fac_yld(1:nel)
+          else
+            yldfac(1:nel) = one
+          end if
+          
+          CALL M36INIT(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC  ,YLDFAC  ,
+     .                 SNPC  ,STF   ,NPF   ,TF    ,UPARAM ,MBUF%VAR)
+
+        ELSEIF (MTN == 37) THEN
           IPARG(63) = 1 !Loi fluide
           CALL M37INIT(IPM     ,PM      ,
      .                 NGL     ,NUVAR   ,MBUF%VAR ,UPARAM   ,X      ,
@@ -334,9 +348,9 @@ C=======================================================================
         ELSEIF (MTN == 51) THEN
           CALL M51INIT(IPM                ,DETONATORS ,PM       ,TB  ,
      .                 NUVAR              ,MBUF%VAR   ,UPARAM   ,X   ,
-     .                 MAT                ,IPARG      ,IFORM    ,IX         ,NIX ,
+     .                 MAT                ,IPARG      ,IFORM    ,IX       ,NIX ,
      .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
-     .                 GBUF               ,NEL        ,SIG)
+     .                 GBUF       ,NEL      ,SIG      ,MAT_PARAM , NPF, TF )
         ELSEIF (MTN == 70) THEN
           CALL M70INIT(NEL   ,NPAR   ,NUVAR    ,UPARAM   ,MBUF%VAR)
 
@@ -374,6 +388,9 @@ C=======================================================================
      .                 NUVAR   ,MBUF%VAR  ,BUFMAT(IADBUF) ,X   ,
      .                 MAT     ,IPARG     ,IFORM          ,IX  ,NIX ,
      .                 BUFMAT  ,RHO0      ,TB)
+
+        ELSEIF (MTN == 129) THEN
+          CALL LAW129_INIT(MAT_PARAM(IMAT) ,NEL   ,NUVAR ,MBUF%VAR)
 
         ENDIF
       ENDIF

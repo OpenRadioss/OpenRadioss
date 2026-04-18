@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,7 +76,7 @@ C-----------------------------------------------
         INTEGER :: S_NODE_ID
         INTEGER :: SEGMENT_ID
 
-        INTEGER :: N,I
+        INTEGER :: I
         INTEGER :: IX1,IX2,IX3,IX4
         my_real
      .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,THRESHOLD,

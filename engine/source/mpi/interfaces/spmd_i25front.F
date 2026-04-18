@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,10 +70,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(int_pointer), DIMENSION(NINTER,NSPMD) :: SEND_BUF,RECV_BUF
       INTEGER, DIMENSION(NINTER,NSPMD) :: SIZ_SEND_BUF,SIZ_RECV_BUF
-      INTEGER :: I,J,K,L,II,NIN,ITY,P,UID
+      INTEGER :: I,K,L,II,NIN,ITY,P,UID
       INTEGER :: IERROR
       INTEGER :: COLOR,KEY,NEDGE
-      INTEGER :: IED,IE,JE,WGT,NRTM,NSN
+      INTEGER :: IED,IE,NRTM,NSN
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB
 #ifdef MPI
       INTEGER :: STATUS(MPI_STATUS_SIZE), MSGTYP, REQ_S(NSPMD),REQ_R(NSPMD)
@@ -520,7 +520,7 @@ C               ELSE
 C                 WRITE(6,*) "IM=",IM 
 C                 CALL FLUSH(6)
 C                 ASSERT(.FALSE.)
-C C               STOP
+C c'estop
 C               END IF
 C C====================================================
 

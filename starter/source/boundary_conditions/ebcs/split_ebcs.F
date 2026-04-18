@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -133,7 +133,7 @@ C-----------------------------------------------
                 ! --------------
                 ALLOCATE( LIST_NODE_2(LOCAL_SEG,4) )
                 LIST_NODE_2(1:LOCAL_SEG,1:4) = LIST_NODE(1:LOCAL_SEG,1:4)
-                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2) ! faces <-> nodes
+                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2) ! Faces <--> nodes
                 DEALLOCATE( LIST_NODE,LIST_NODE_2 )
             ENDIF
         ENDDO

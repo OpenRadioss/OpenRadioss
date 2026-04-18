@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I9WAL3(X    ,V         ,W         ,A     ,CRST     ,
      2          NSV      ,ILOC      ,IRTL      ,ICODE     ,ISKEW    ,
@@ -45,7 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,12 +93,12 @@ C     REAL
      .   T3X, T3Y, T3Z, STENSX, STENSY, STENSZ,
      .   COMAREA(ISIZEM+ISIZES),COMSTF(ISIZEM+ISIZES),
      .   COMT(ISIZEM+ISIZES),COMVOL(ISIZEM+ISIZES),COMBUF(ISIZEM+ISIZES)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+ 
 c
       DATA IPERM/ 4, 1, 2, 3, 4, 1/
 C-----------------------------------------------
 C
-C Phase de Preparation pour SPMD
+C preparation phase for spmd
 C
       IF(INTTH/=ZERO) THEN
        IF(ISPMD==0) THEN
@@ -127,13 +129,13 @@ C
           ENDIF
         ENDDO
 C
-C Compactage listes elem
+C Elem lists compacting
 C
         ITEMP(1) = IS
         ITEMP(2) = IM
        ENDIF
 C
-C Envoi liste facettes seconds/mains en contact
+C Sending second/mains facet list in contact
 C
        IF(NSPMD > 1) THEN
          CALL SPMD_IBCAST(ITEMP,ITEMP,1,2,0,2)
@@ -197,7 +199,7 @@ C
 C
        IF (NSPMD > 1) THEN
 C
-C gather des valeurs
+C gather values
 C
          CALL SPMD_GLOB_DSUM9(COMAREA,ILEN)
          CALL SPMD_GLOB_DSUM9(COMSTF,ILEN)
@@ -206,10 +208,10 @@ C
          CALL SPMD_GLOB_ISUM9(ICOMERR,ILEN)
                  CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
                  CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
-C   partie noeud sur P0 uniquement
+C   node part on P0 only
          IF(ISPMD/=0) GOTO 900
        END IF
-C   interface traitee par p0
+C   interface processed by p0
       ELSE
        IF(ISPMD/=0) RETURN
       ENDIF
@@ -229,7 +231,7 @@ C---------------------------------
 C
         CALL SHAPEH(H,CRST(1,II),CRST(2,II))
 C---------------------------------
-C       VITESSE DE MAILLAGE
+C       mesh velocity
 C---------------------------------
         VMX=ZERO
         VMY=ZERO
@@ -282,7 +284,7 @@ c         ENDIF
 C
       ELSEIF(ILOC(II)<0.OR.NMN==0)THEN
 C------------------------------------------------------
-C       BOUCLE SUR LES FACETTES CONNECTEES AU NOEUD II
+C       loop over facets connected to node ii
 C------------------------------------------------------
         ILOC(II) = -ILOC(II)
 C
@@ -294,7 +296,7 @@ C
         NNY = ZERO
         NNZ = ZERO
 C------------------------------------------------------
-C       BOUCLE SUR LES FACETTES CONNECTEES AU NOEUD II
+C       loop over facets connected to node ii
 C------------------------------------------------------
         DO 300 LL=LL1,LL2
          LG=LMSR(LL)
@@ -303,7 +305,7 @@ C------------------------------------------------------
  200     IF(IRECTS(KK,LG)==II) GO TO 250
  250     CONTINUE
 C------------------------------------------------------
-C         CALCUL DE LA NORMALE AVEC UPWIND SUR L'AMONT
+C         calculation of the normal with upwind on the upstream side
 C------------------------------------------------------
           K1 = IPERM(KK-1)
           K2 = IPERM(KK+1)
@@ -330,7 +332,7 @@ C          FAC = P / MAX(EM30,SQRT(NX**2+NY**2+NZ**2))
           NNY = NNY + NY*FAC
           NNZ = NNZ + NZ*FAC
 C-------------------------------------
-C       TENSION DE SURFACE
+C       surface tension
 C-------------------------------------
           IF(STENS>ZERO)THEN
             T2X = -X1 + X2
@@ -356,10 +358,10 @@ C-------------------------------------
         NNZ = NNZ/FAC
 C
 C---------------------------------
-C       W LAGRANGIEN SUIVANT N
+C       W LAGRANGIEN ACCORDING TO N
 C---------------------------------
 C---------------------------------
-C       BCS DE GRILLE
+C       grid boundary conditions
 C---------------------------------
         IF(ICODE(N)/=0)THEN
           DVN = VX * NNX + VY * NNY + VZ * NNZ
@@ -370,7 +372,7 @@ C---------------------------------
           VN = V(1,N)*NNX + V(2,N)*NNY + V(3,N)*NNZ
           WN = W(1,N)*NNX + W(2,N)*NNY + W(3,N)*NNZ
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N + BCS
+C         W LAGRANGIEN ACCORDING TO N + BCS
 C-------------------------------------
           IF(ABS(WN)>EM30)THEN
             FAC = VN / WN
@@ -380,8 +382,8 @@ C-------------------------------------
           ENDIF
         ELSEIF(IEULT/=0)THEN
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N
-C         W EULERIEN SUIVANT T
+C         W LAGRANGIEN ACCORDING TO N
+C         W EULERIEN ACCORDING TO T
 C---------------------------------
           VN = V(1,N)*NNX + V(2,N)*NNY + V(3,N)*NNZ
           W(1,N) = VN * NNX
@@ -389,8 +391,8 @@ C---------------------------------
           W(3,N) = VN * NNZ
         ELSE
 C-------------------------------------
-C         W LAGRANGIEN SUIVANT N
-C         LIBRE SUIVANT T
+C         W LAGRANGIEN ACCORDING TO N
+C         LIBRE ACCORDING TO T
 C---------------------------------
           DVN = VX * NNX + VY * NNY + VZ * NNZ
           W(1,N) = W(1,N) + DVN * NNX
@@ -401,18 +403,18 @@ C---------------------------------
 C
   800 CONTINUE
 C
-C Phase de Finalisation pour SPMD
+C finalization phase for spmd
 C
   900 CONTINUE
       IF(INTTH/=ZERO) THEN
        IF(NSPMD > 1) THEN
 C
-C Envoi buffer elems updates
+C Envoi buffer elements updates
 C
          CALL SPMD_RBCAST(COMBUF,COMBUF,1,ILEN,0,2)
        END IF
 C
-C Mise a jour ELBUF local
+C Local Elbuf update
 C
        DO II = 1, IM
          L = LISTM(II)

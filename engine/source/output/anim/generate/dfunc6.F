@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,12 +30,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
 !||    srotorth                     ../engine/source/elements/solid/srotorth.F
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                  ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                  ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod                  ../engine/share/resol/initbuf.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -67,6 +68,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,18 +107,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,N, NG, NEL, MLW, 
-     .        NN, K1, K2,JTURB,MT, IMID, IALEL,IRUPT,           
+     .        NN, K1, K2,JTURB,MT, IALEL,IRUPT,           
      .        NN1,NN2,NN3,NN4,
      .        OFFSET,K,II, IUS, NUVAR,TSHELL,TSH_ORT,
-     .        ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, NLAY, IPT,
+     .        ISOLNOD, IPRT, NPTR, NPTS, NPTT, NLAY, IPT,
      .        IL,IS,IR,IT, NPTG, ICSIG,
      .        PID, NPG_PLANE,NFAIL,NUMLAY,IJK,IIR,IOFF,IALEFVM_FLG,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IDEB, IPOS, ITRIMAT,IVISC,JJ(6),IFRAC,IMAT,IADBUF,
-     .        NUPARAM,IDX,ISUBMAT,IU(4),NFRAC,IS_ALE,IS_EULER,
+     .        NUPARAM,ISUBMAT,IU(4),NFRAC,IS_ALE,IS_EULER,
      .        IMAT_TILLOTSON,NTILLOTSON,FAC,NVAREOS,IEOS
       my_real EVAR(MVSIZ), USER(MVSIZ),
-     .        OFF, P, VONM2, VONM, S1, S2, S3, VALUE,VALUES(MVSIZ),GAMA(6),
+     .         P, VONM2, VONM, S1, S2, S3, VALUE,VALUES(MVSIZ),GAMA(6),
      .        T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .        PHI,TETA,PSI,DAMMAX,S11,S22,S33,S4,S5,S6,
      .        SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),SIG4(MVSIZ),SIG5(MVSIZ),
@@ -483,29 +485,33 @@ C              IUS = (n-1)'th user variable in UVAR
                USER(LFT:LLT) = ZERO   
 
                IF(MLW==37)THEN
-                 IUS=3+(IFUNC-283) !law37 user4 and user5   for vfrac              
+                 IUS=3+(IFUNC-283) !law37 user4 and user5   for vfrac
+                 K=IUS*NEL
                ELSEIF(MLW==51)THEN
                  IMAT = IXS(1,NFT+1)                        
                  IADBUF = IPM(7,IMAT)                       
                  NUPARAM= IPM(9,IMAT)                       
-                 UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+                 uparam => bufmat(iadbuf:iadbuf+nuparam-1) 
                  ISUBMAT = (IFUNC-282)
                  ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
-                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
+                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                 LLT       = IPARG(2,NG)
+                 IPOS      = 1 !vfrac ! 8 !eint    !12 dens
+                 K         = LLT * ((IUS )+IPOS-1)
 !               ELSEIF(MLW==20)THEN
 !                 IUS=1+(IFUNC-10248)
                ENDIF
                IFRAC=IFUNC-283+1
 
-c--------------                
-               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN                                                                       
-                 DO IL=1,NLAY                                              
-                   DO IS=1,NPTS                                            
-                     DO IT=1,NPTT                                          
-                       DO IR=1,NPTR                                        
-                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)     
-                         DO I=LFT,LLT                                                                 
-                           USER(I) = USER(I) + MBUF%VAR(I+IUS*NEL)/NPTG 
+c--------------
+               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN
+                 DO IL=1,NLAY
+                   DO IS=1,NPTS
+                     DO IT=1,NPTT
+                       DO IR=1,NPTR
+                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                         DO I=LFT,LLT
+                           USER(I) = MBUF%VAR(K+I)!/NPTG
                          ENDDO                                             
                        ENDDO                                               
                      ENDDO                                                 
@@ -530,7 +536,7 @@ c-------------
 c-------------   
 c-----------
               ELSEIF(IFUNC>=82.AND.IFUNC<=281.AND.MLW == 25) THEN
-C               WPLA par couche pour loi 25
+C               WPLA by layer for law 25
                 DO I=LFT,LLT
                   EVAR(I) = ZERO 
                 ENDDO               
@@ -558,7 +564,7 @@ C
                 ENDIF
 c-----------
               ELSEIF (IFUNC == 282 .AND. MLW == 25) THEN
-C---            FAILED LAYERS par elem pour loi 25
+Cfailed layers per element for law 25
                 DO I=LFT,LLT
                   EVAR(I) = ZERO
                 ENDDO
@@ -591,7 +597,7 @@ C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
                   DO I=LFT,LLT
                     N = I + NFT
                     IF(ISORTH ==1) THEN
-C                    pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                    for JHBE=14, average values are in corota frame
                       IF(IGTYP == 22) THEN    
                         GAMA(1)= LBUF%GAMA(JJ(1)+I)
                         GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -936,7 +942,7 @@ c-----------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)       
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 !---
                   IF (MLW == 72) THEN
@@ -1055,7 +1061,7 @@ c-----------
                    IMAT = IXS(1,NFT+1)                        
                    IADBUF = IPM(7,IMAT)                       
                    NUPARAM= IPM(9,IMAT)                       
-                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+                   uparam => bufmat(iadbuf:iadbuf+nuparam-1) 
                    ISUBMAT = ITRIMAT
                    ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
                    IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
@@ -1124,7 +1130,7 @@ c-----------
                    IMAT      = IXS(1,NFT+1)                        
                    IADBUF    = IPM(7,IMAT)                       
                    NUPARAM   = IPM(9,IMAT)                       
-                   UPARAM    => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+                   UPARAM    => BUFMAT(IADBUF:IADBUF+NUPARAM-1)
                      ITRIMAT   = IFUNC - IDEB
                      !bijection iform=12
                      ISUBMAT   = ITRIMAT
@@ -1482,7 +1488,7 @@ c------------------------------------ Color Function
                 IMAT = IXS(1,NFT+1)                        
                 IADBUF = IPM(7,IMAT)                       
                 NUPARAM= IPM(9,IMAT)                       
-                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
+                uparam => bufmat(iadbuf:iadbuf+nuparam-1) 
                 !bijective order           !indexes                  
                 ISUBMAT = UPARAM(276+1);   IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
                 ISUBMAT = UPARAM(276+2);   IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
@@ -1690,7 +1696,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                   imat   = ixs(1,nft+1)
                   iadbuf = ipm(7,imat)
                   nuparam= ipm(9,imat)
-                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                   ipos = 1
                   !bijective order           !indexes
@@ -1732,7 +1738,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                   imat   = ixs(1,nft+1)
                   iadbuf = ipm(7,imat)
                   nuparam= ipm(9,imat)
-                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                   rho0i(1) = uparam(11)
                   rho0i(2) = uparam(12)
@@ -1809,7 +1815,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       mid = MAT_PARAM(mt)%multimat%mid(ilay)
                       rho0i(ilay) = pm(89,mid)
@@ -1830,7 +1836,7 @@ c------------------------------------ Volumetric Strain (VSTRAIN)
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       rho0i(ilay) = uparam(10+ilay)
                       Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
@@ -2170,7 +2176,7 @@ C-----------
                   IMAT = IPART(1,IPRT)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)       
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 !---
                 IF (MLW == 72) THEN
@@ -2396,7 +2402,7 @@ C
             CONTINUE
           ENDIF     ! ITY
 C-----------------------------------------------
-        ENDDO       ! FIN DE BOUCLE SUR LES OFFSET
+        ENDDO       ! end of loop over offsets
        ENDIF        ! mlw /= 13
       ENDDO !next NG
 C-----------------------------------------------

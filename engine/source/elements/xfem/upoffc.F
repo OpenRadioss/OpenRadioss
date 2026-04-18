@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPOFFC(XFEM_TAB ,NG      ,
      .                  NFT      ,JFT     ,JLT      ,IXFEM    ,IEL_CRK ,
@@ -37,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IEL,NEL,ELCRK,ICUT,ILAYCUT,ILAY,ILEV,ITRI,P1,P2,
-     .  IEDGE,IBOUNDEDGE,ELCUT,IXEL,IR,IS,IT,IEDGE0,FAC,ICUT0
+     .  IEDGE,IBOUNDEDGE,IXEL,IR,IS,IT,IEDGE0,FAC,ICUT0
       INTEGER D(4),NN(4),OPEN_EDGE(4,NXLAY),ENR_NOD(4),IADC(4),IOFF(NXEL,JLT)
       my_real, DIMENSION(:) ,POINTER  ::  XOFF
       DATA d/2,3,4,1/

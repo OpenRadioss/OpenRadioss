@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,33 +81,32 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , L, M, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE, 
+      INTEGER I , L, IE, JE, NN1, NN2, SOL_EDGE, SH_EDGE,
      .        NRTMFT, NRTMLT
       my_real
-     .        XI,YI,ZI,X1S,X2S,Y1S,Y2S,Z1S,Z2S,
+     . X1S,X2S,Y1S,Y2S,Z1S,Z2S,
      .        X1,X2,X3,X4,
      .        Y1,Y2,Y3,Y4,
      .        Z1,Z2,Z3,Z4,
-     .        X5,X6,X7,X8,
-     .        Y5,Y6,Y7,Y8,
-     .        Z5,Z6,Z7,Z8,
+     .
+     .
+     .
      .        XMINS,XMAXS,YMINS,YMAXS,ZMINS,ZMAXS,
      .        XMINM,XMAXM,YMINM,YMAXM,ZMINM,ZMAXM,
-     .        XMINM_1,XMAXM_1,YMINM_1,YMAXM_1,ZMINM_1,ZMAXM_1,
-     .        XMINM_2,XMAXM_2,YMINM_2,YMAXM_2,ZMINM_2,ZMAXM_2,DXM,DYM,DZM,
-     .        V12,V22,V32,V42,VV,GAPVD,S
+     .
+     . DXM,DYM,DZM,
+     . GAPVD,S
       INTEGER MSEG,CT
       my_real
-     .        GAPV(MVSIZ),DTTI(MVSIZ)
+     . GAPV(MVSIZ)
       INTEGER LIST(MVSIZ), LISTI(MVSIZ)
-      INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2,NLSAV
-      INTEGER N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
+      INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2
+      INTEGER N1(MVSIZ),N2(MVSIZ)
       INTEGER SG, FIRST, LAST,COUNT_CAND
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGM
       my_real, 
      .         DIMENSION(:,:),ALLOCATABLE :: BOXM
       SAVE TAGM,BOXM
-      INTEGER :: IDS(4)
       INTEGER :: J
       INTEGER :: MY_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REAL_CANDIDATE
@@ -251,7 +250,7 @@ C Debug only
 C LISTI(1:NLS) = Local
 C LISTI(NLS+1:NSEG) = REMOTE
 
-CC LOCAL OF SPMD
+CC'LOCAL OF SPMD
 C#include      "vectorize.inc"
 C         DO LS = 1, NLS
 C           IS = LISTI(LS)
@@ -297,7 +296,7 @@ C========== LOCAL
          IE=CAND_M(I) ! segment, zero gap
          JE=CAND_S(I) ! edge
          GAPV(IS)=GAPE(JE)
-         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
+         IF(SH_EDGE /= 0 .AND. IGAP0 /= 0.AND.IABS(LEDGE(7,CAND_S(I)))/=3) GAPV(IS)=TWO*GAPV(IS)
          IF(IGAP==3)
      .     GAPV(IS)=MIN(GAPV(IS),GAP_M_L(IE)+GAP_E_L(JE))
          GAPV(IS)=MAX(GAPV(IS)+DGAPLOAD,DRAD)
@@ -333,6 +332,8 @@ C In that case, we assume that the segment on the
 C other side of the boundary is not broken
            S = ONE
 C          S = ZERO
+         ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_S(I)))==3)THEN
+           S = STFE(CAND_S(I))
          ENDIF
 
 #ifdef WITH_ASSERT
@@ -443,7 +444,7 @@ C =========  REMOTE
            I=JS+IS
            IE=CAND_M(I)
            GAPV(IS)=GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
-           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0) GAPV(IS)=TWO*GAPV(IS)
+           IF(SH_EDGE /= 0 .AND. IGAP0 /= 0.AND.LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE)/=3) GAPV(IS)=TWO*GAPV(IS)
 
            IF(IGAP==3)
      .       GAPV(IS)=MIN(GAPV(IS),GAPE_L_FIE(NIN)%P(CAND_S(I)-NEDGE)+GAP_M_L(IE))
@@ -453,7 +454,7 @@ C
          NLS=0
 C =========  REMOTE TRIM 1
          DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize generated code (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NEDGE

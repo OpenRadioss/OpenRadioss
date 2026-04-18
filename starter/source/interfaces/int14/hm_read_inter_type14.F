@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR1
-      INTEGER ISU1,ISU2,I,J,L, NTYP,IS1, IS2,NLO,NFRIC,NDAMP1,NDAMP2,NCURS,ISU20,INTKG
+      INTEGER ISU1,ISU2, NTYP,IS1, IS2,NLO,NFRIC,NDAMP1,NDAMP2,NCURS,ISU20,INTKG
       my_real FRIC,GAP,STARTT,STOPT,VISC
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
@@ -260,7 +260,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,12 +49,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMAT,ILAW
+      INTEGER IMAT
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
 C=======================================================================
 C     Set default variables used in all matarial laws
 C=======================================================================
-c      attention, apres la lecture de mats, remtettre     zero tout pour la loi 0 (void)
+c      note, after reading mats, reset everything to zero for law 0 (void)
 
       DO IMAT = 1,NUMMAT
         MTAG => MLAW_TAG(IMAT)

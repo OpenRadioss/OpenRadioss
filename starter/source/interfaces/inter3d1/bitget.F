@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,21 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    bitget           ../starter/source/interfaces/inter3d1/bitget.F
+!||    bitget          ../starter/source/interfaces/inter3d1/bitget.F
 !||--- called by ------------------------------------------------------
-!||    i20dst3          ../starter/source/interfaces/inter3d1/i20dst3.F
-!||    i20gap1          ../starter/source/interfaces/inter3d1/i20dst3.F
-!||    i20sti3          ../starter/source/interfaces/inter3d1/i20sti3.F
-!||    i24s1s2          ../starter/source/interfaces/inter3d1/i24buc1.F
-!||    i25neigh         ../starter/source/interfaces/inter3d1/i25neigh.F
-!||    i25s1s2          ../starter/source/interfaces/inter3d1/i25sto.F
-!||    i25trivox_edg    ../starter/source/interfaces/inter3d1/i25trivox_edg.F
-!||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
-!||    inintsub_25      ../starter/source/output/subinterface/inintsub_25.F
+!||    i20dst3         ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20gap1         ../starter/source/interfaces/inter3d1/i20dst3.F
+!||    i20sti3         ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i24s1s2         ../starter/source/interfaces/inter3d1/i24buc1.F
+!||    i25neigh        ../starter/source/interfaces/inter3d1/i25neigh.F
+!||    i25s1s2         ../starter/source/interfaces/inter3d1/i25sto.F
+!||    i25trivox_edg   ../starter/source/interfaces/inter3d1/i25trivox_edg.F
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)
@@ -59,12 +57,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25surfi      ../starter/source/interfaces/inter3d1/i25surfi.F
 !||    inintsub      ../starter/source/interfaces/interf1/inintsub.F
 !||    inintsub_11   ../starter/source/output/subinterface/inintsub_11.F
-!||    inintsub_25   ../starter/source/output/subinterface/inintsub_25.F
 !||    inintsub_7    ../starter/source/output/subinterface/inintsub_7.F
 !||====================================================================
       INTEGER FUNCTION BITSET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)
@@ -82,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       INTEGER FUNCTION BITUNSET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)

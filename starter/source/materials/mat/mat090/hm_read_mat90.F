@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER I,J,IFLAG,IDAM ,ISMOOTH ,TFLAG,FAIL 
       my_real E0,NU,FCUT,G,C1,SHAPE,HYS,ALPHA
       my_real RATE(1000),YFAC(1000),YFAC_DIM(1000)
-      my_real :: RHO0, RHOR,FCUT_UNIT,ECONT,TCUT
+      my_real :: RHO0, RHOR,ECONT,TCUT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -135,9 +135,9 @@ C-----------------------------------------------
       ENDIF 
       IF(TFLAG == 0) TFLAG = 1
       IF(ECONT == ZERO) ECONT = E0
-      IF(TCUT == ZERO) TCUT = EP20
+      IF(TCUT <=  ZERO) TCUT = EP20
 !
-!... fonction de charge      
+!... load function
 !
       DO I=1,NFUNC
         CALL HM_GET_INT_ARRAY_INDEX      ('fct_IDL'     ,IFUNC(I)    ,I ,IS_AVAILABLE, LSUBMODEL)
@@ -265,7 +265,4 @@ c-----------------
      & 5X,'LOADING STRESS FUNCTION NUMBER  . . . .=',I10/,
      & 5X,'STRAIN RATE . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/)
- 1500 FORMAT(
-     & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR . . . . . . . . .=',1PG20.13)
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,14 +27,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../engine/source/output/message/message.F
 !||    arret                  ../engine/source/system/arret.F
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    eor_c                  ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    eor_c                  ../common_source/tools/input_output/write_routines.c
 !||    my_ctime               ../engine/source/system/timer_c.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
 !||    spmd_glob_isum9        ../engine/source/mpi/interfaces/spmd_th.F
 !||    sysfus2                ../engine/source/system/sysfus.F
-!||    write_c_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c              ../common_source/tools/input_output/write_routines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||    wrtdes                 ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
@@ -88,8 +88,8 @@ C-----------------------------------------------
       DATA EOR/'ZZZZZEOR'/
 C-----------------------------------------------
 CFP Modif format @T + ajout acceleration et pression
-c si on de demande pas explicitement une reinitialisation 
-c et qu'il existe un sauvegarde anterieure alors on continue
+c if a reset is not explicitly requested
+c and that there is a previous backup so we continue
       IF(RNOI==0 .AND. NNOISER/=0)RNOI=1
 c reinitialisation demandee
       IF(RNOI==2)RNOI=0
@@ -109,7 +109,7 @@ C
          INOITMP(I)=SYSFUS2(INOISE(I+NNOISE),ITABM1,NUMNOD)
        END DO
        DO I=1,NNOISE
-         INOISE(I)= INOITMP(I)   ! INOISE = 0 si noeud non present sur le proc
+         INOISE(I)= INOITMP(I)   ! inoise = 0 if node is not present on the processor
        END DO
        IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(INOITMP,NNOISE)
        IF(ISPMD==0) THEN

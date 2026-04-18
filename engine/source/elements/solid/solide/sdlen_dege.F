@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
+!||    sdlen_dege    ../engine/source/elements/solid/solide/sdlen_dege.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sdlen8       ../engine/source/elements/solid/solidez/sdlen8.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sdlen8        ../engine/source/elements/solid/solidez/sdlen8.F
 !||--- calls      -----------------------------------------------------
-!||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
-!||    deges4v      ../engine/source/elements/solid/solide/deges4v.F
-!||    idege8       ../engine/source/elements/solid/solide/idege8.F
+!||    degenes8      ../engine/source/elements/solid/solide/degenes8.F
+!||    deges4v       ../engine/source/elements/solid/solide/deges4v.F
+!||    idege8        ../engine/source/elements/solid/solide/idege8.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SDLEN_DEGE(
      1   VOLG,    LAT,     X1,      X2,
@@ -42,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   Z3,      Z4,      Z5,      Z6,
      7   Z7,      Z8,      IXS,     IDEGE,
      8   NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +72,7 @@ C-----------------------------------------------
 C----------DELTAX crrection for degenerated element
       INTEGER I,IT
       my_real
-     .   AREAM(MVSIZ), ATAX,FAC,V_G
+     .   AREAM(MVSIZ),FAC,V_G
 C-----------------------------------------------
       CALL DEGENES8(
      1   IXS,     IDEGE,   NEL)

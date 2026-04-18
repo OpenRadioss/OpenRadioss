@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,10 +73,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
@@ -84,7 +86,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE S8CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS    ,X      ,
-     2                    A        ,V      ,MS     ,W      ,FLUX    ,
+     2                    A        ,V      ,MS     ,W      ,
      3                    FLU1     ,VEUL   ,FV     ,ALE_CONNECT  ,IPARG   ,
      4                    TF       ,NPF    ,BUFMAT ,PARTSAV,NLOC_DMG,
      5                    DT2T     ,NELTST ,ITYPTST,STIFN  ,FSKY    ,
@@ -121,6 +123,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,7 +175,7 @@ C
 C
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(3,*),MS(*),W(*), 
-     .   FLUX(6,*),FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
+     .   FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .   F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
@@ -201,9 +204,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,N,LCO,NF1,IFLAG,IAD0,NLAY,L_PLA,L_EPSD,
+      INTEGER I, J, NF1, IFLAG, IAD0, NLAY, L_PLA, L_EPSD, 
      .   IP,IR,IS,IT,IL,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,MTN0,IPTHK,
-     .   IPPOS,IPMAT,NLYMAX,MID,IPANG,IOR_TSH,NPTR0,NPTS0,NPTT0,IBID,MX,
+     . IPPOS,IPMAT,NLYMAX,MID,IPANG,IOR_TSH,IBID,MX,
      .   II(6),CURRENT_LAYER
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),MXT0(MVSIZ),IBIDON(1),
      .  IDEG(MVSIZ)
@@ -233,18 +236,18 @@ C-----------------------------------------------
      . E0(MVSIZ),C1,FAC(MVSIZ),THEM(MVSIZ,8),TEMPEL(MVSIZ),NI(8),
      . DIE(MVSIZ),CONDE(MVSIZ),CONDEN(MVSIZ),AMU(MVSIZ)
 C-----
-C Variables utilisees en argument par les materiaux.
+C variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
+C Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS,IFVM22,NN_DEL,IPRES,ISCTL,ISTAB(MVSIZ)
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
-C Variables utilisees dans les routines solides uniquement (en arguments).
+C variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
@@ -261,9 +264,9 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .  VY5(MVSIZ),VY6(MVSIZ),VY7(MVSIZ),VY8(MVSIZ),
      .  VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
      .  VZ5(MVSIZ),VZ6(MVSIZ),VZ7(MVSIZ),VZ8(MVSIZ),
-     .  HX1(MVSIZ),HX2(MVSIZ),HX3(MVSIZ),HX4(MVSIZ),
-     .  HY1(MVSIZ),HY2(MVSIZ),HY3(MVSIZ),HY4(MVSIZ),
-     .  HZ1(MVSIZ),HZ2(MVSIZ),HZ3(MVSIZ),HZ4(MVSIZ),
+     .
+     .
+     .
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
      .  PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
@@ -328,9 +331,9 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .   VOLM(MVSIZ),SIGM(MVSIZ),DTI,BID(MVSIZ)
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
       my_real
-     .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
+     .
      .   ALPHA_E(MVSIZ),LLSH(MVSIZ),LLSMIN(MVSIZ),AREA(MVSIZ)
       DOUBLE PRECISION 
      .   FACDP
@@ -340,8 +343,6 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       my_real, DIMENSION(MVSIZ,NNPT) :: SMTT
-      my_real, 
-     .  DIMENSION(:), POINTER :: EINT
       my_real, dimension(mvsiz) :: fheat
 C-----
       my_real,
@@ -354,8 +355,8 @@ C-----
      .  DIMENSION(:), POINTER :: DNL
       my_real 
      .  H(8),PR(8),PS(8),PT(8)
-      my_real
-     .   EV(mvsiz),evd(mvsiz)    !!!!   BIDON !!!!!
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array         
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       INTEGER SZ_IX
@@ -652,8 +653,8 @@ C-------------------------------------------
          ENDDO
       ENDIF
 C
-C-----------Constant SIG traitement-----
-C-----------dans ce cas unique constant direction- EV(NB2) est dans ortho. sys------
+C--------- Constant GIS treatment -----
+C-----------in this unique case constant direction- ev(nb2) is in ortho. sys------
       PID=NGEO(LFT)
       DO IR=1,NPTR
         DO IS=1,NPTS
@@ -890,11 +891,10 @@ C
      C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
      D   ISMSTR,     IPRES)
 C
-        MX = MXT(LFT)
         DO I=LFT,LLT
           RHOO(I) = LBUF%RHO(I)
-          TEMPEL(I) = PM(79,MX)
         ENDDO
+
         IF (IGTYP == 22)  
      .     CALL SCTORTH3(
      1   LFT,      LLT,      ICSIG,    NEL,
@@ -939,11 +939,12 @@ C
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLDP,      LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C
         IF (JCVT == 0) THEN
           CALL SROTA3(
@@ -983,7 +984,8 @@ C------------------------------------------------------
 c
       IF(IBOLTP /= 0) CALL BOLTST(
      .                 IP,        BPRELD,    LBUF%SIG,TT     ,        
-     .                 NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                 NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                 IPARG(67,NG),IPARG(68,NG))
 
         CURRENT_LAYER=IL
         CALL MMAIN(TIMERS, OUTPUT,
@@ -1150,8 +1152,8 @@ c    finite element heat transfert
 C--------------------------
           IF (JTHE < 0) THEN
             IF (MAT_ELEM%MAT_PARAM(MX)%HEAT_FLAG == 1) THEN
-              CALL S8ETHERM(
-     1             PM,      MX ,    VOLN,    NI,
+              CALL S8ETHERM(MAT_ELEM%MAT_PARAM(MX),
+     1             VOLN,    NI,
      2             NC1,     NC2,     NC3,     NC4,
      3             NC5,     NC6,     NC7,     NC8,
      4             PX1,     PX2,     PX3,     PX4,
@@ -1164,8 +1166,8 @@ C--------------------------
      B             THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C             IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
             ELSE
-              CALL S8ETHERM(
-     1             PM,      MX ,    VOLN,    NI,
+              CALL S8ETHERM(MAT_ELEM%MAT_PARAM(MX),
+     1             VOLN,    NI,
      2             NC1,     NC2,     NC3,     NC4,
      3             NC5,     NC6,     NC7,     NC8,
      4             PX1,     PX2,     PX3,     PX4,
@@ -1295,7 +1297,7 @@ C-----------------------------
       CALL SMALLB3(
      1   GBUF%OFF,OFFL,    NEL,     ISMSTR)
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

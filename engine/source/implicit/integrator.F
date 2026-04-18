@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -160,7 +160,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C------- integrateur de base--------- 
+C------- basic integrator --------
            DO I=NODFT,NODLT
             X(1,I)=X(1,I)+V(1,I)*DT2
             X(2,I)=X(2,I)+V(2,I)*DT2
@@ -188,7 +188,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K
-C------- integrateur de base--------- 
+C------- basic integrator --------
            DO I=NODFT,NODLT
             X(1,I)=X(1,I)+D(1,I)
             X(2,I)=X(2,I)+D(2,I)
@@ -489,7 +489,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT,NODLT ,ITSK
       INTEGER I,K
-C------- integrateur de base--------- 
+C------- basic integrator --------
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )
            DO I=NODFT,NODLT

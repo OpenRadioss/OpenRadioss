@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||====================================================================
       module inivel_init_mod
 !
+        implicit none
       contains
         !! \brief initialization ids of inivel data
 !||====================================================================
@@ -64,7 +65,7 @@
           integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
           integer , intent(inout)                          :: numskw    !< number of skew
           integer , intent(inout)                          :: numfram   !< number of frame
-          integer , intent(inout)                          :: liskn     !< 1er dimension of iskwn
+          integer , intent(inout)                          :: liskn     !< first dimension of iskwn
           integer , intent(in   )                          :: ngrnod    !< number node group
           integer , intent(in   )                          :: ngrbric   !< number solid element group
           integer , intent(in   )                          :: ngrquad   !< number quad element group
@@ -80,9 +81,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer  :: i,j,id,n,itype,igr,node,isk,isk1,ifra,ifra1
+          integer  :: j, n, itype, igr, isk, isk1, ifra, ifra1
           integer  :: igrs,igbric,igqd,igtria,igbric_loc,igqd_loc,igtria_loc,is,isens
-          real(kind=WP)  :: rtmp(6)
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,22 +97,22 @@
                 isk1 = 0
                 do j=0,numskw
                   if(isk == iskwn(4,j+1)) isk1 = j+1
-                enddo
+                end do
                 inivel_t(n)%general%skew_id = isk1
-              endif
+              end if
 !
               igr = inivel_t(n)%general%grnd_id
               igrs = 0
               do j=1,ngrnod
                 if(igr == igrnod(j)%id) igrs=j
-              enddo
+              end do
               inivel_t(n)%general%grnd_id = igrs
 !
               isens = inivel_t(n)%general%sensor_id
               is = 0
               do j=1,sensors%nsensor
                 if(sensors%sensor_tab(j)%sens_id==isens) is=j
-              enddo
+              end do
               inivel_t(n)%general%sensor_id = is
              case(4) ! axis
               ifra = inivel_t(n)%axis%frame_id
@@ -119,20 +120,20 @@
                 ifra1 = 0
                 do j=1,numfram
                   if(ifra == iframe(4,j+1)) ifra1 = j+1
-                enddo
+                end do
                 inivel_t(n)%axis%frame_id = ifra1
-              endif
+              end if
               igr = inivel_t(n)%axis%grnd_id
               igrs = 0
               do j=1,ngrnod
                 if(igr == igrnod(j)%id) igrs=j
-              enddo
+              end do
               inivel_t(n)%axis%grnd_id = igrs
               isens = inivel_t(n)%axis%sensor_id
               is = 0
               do j=1,sensors%nsensor
                 if(sensors%sensor_tab(j)%sens_id==isens) is=j
-              enddo
+              end do
               inivel_t(n)%axis%sensor_id = is
              case(5) ! fvm
               isk = inivel_t(n)%fvm%skew_id
@@ -140,9 +141,9 @@
                 isk1 = 0
                 do j=0,numskw
                   if(isk == iskwn(4,j+1)) isk1 = j
-                enddo
+                end do
                 inivel_t(n)%fvm%skew_id = isk1
-              endif
+              end if
               igbric = inivel_t(n)%fvm%grbric_id
               igqd   = inivel_t(n)%fvm%grqd_id
               igtria = inivel_t(n)%fvm%grtria_id
@@ -150,28 +151,28 @@
                 igbric_loc = 0
                 do j = 1,ngrbric
                   if (igbric == igrbric(j)%id) igbric_loc = j
-                enddo
+                end do
                 inivel_t(n)%fvm%grbric_id = igbric_loc
-              endif
+              end if
               if (igqd /= 0) then
                 igqd_loc = 0
                 do j = 1,ngrquad
                   if (igqd == igrquad(j)%id) igqd_loc = j
-                enddo
+                end do
                 inivel_t(n)%fvm%grqd_id = igqd_loc
-              endif
+              end if
               if (igtria /= 0) then
                 igtria_loc = 0
                 do j = 1,ngrsh3n
                   if (igtria == igrsh3n(j)%id) igtria_loc = j
-                enddo
+                end do
                 inivel_t(n)%fvm%grtria_id = igtria_loc
-              endif
+              end if
               isens = inivel_t(n)%fvm%sensor_id
               is = 0
               do j=1,sensors%nsensor
                 if(sensors%sensor_tab(j)%sens_id==isens) is=j
-              enddo
+              end do
               inivel_t(n)%fvm%sensor_id = is
             end select
           end do

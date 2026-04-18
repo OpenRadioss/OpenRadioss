@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER I1, MAT, NR, NT, IDR, IDT, IDP, IDE, IDQ,ILAW
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, E0, CC, EPS0, CM, TMELT,
-     .   TMAX, G, C1, RHO, UNIT, STATUS, FORM, XNR, XNT, T0, P0, DPDR,
+     .   TMAX, G, C1, XNR, XNT, T0, P0, DPDR,
      .   XKL, XLAMB, ATOM, SIG, XKMAX, RHO0, DYDZ,RHOR,EPS0_UNIT
 
       CHARACTER(ncharline) ::  FILE, VIDE
@@ -306,7 +306,7 @@ C
 !----------------------
 !
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1    
       MTAG%G_TEMP  = 1    
@@ -316,7 +316,7 @@ c
       MTAG%L_TEMP  = 1
       MTAG%L_EPSD  = 1
       MTAG%L_SSP   = 1
-      MTAG%L_Z     = 1    ! taux ionisation
+      MTAG%L_Z     = 1    ! ionization rate
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")

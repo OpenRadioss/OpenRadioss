@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ C            XYZ16                  /anim/genani.F
 !||--- called by ------------------------------------------------------
 !||    xyz16                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
@@ -55,11 +55,11 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
+      INTEGER SIZ,MSGTYP,I
 
       DATA MSGOFF/7033/
 
-C   Tableau utilise par proc 0
+C   Table used by Pro 0
        REAL
      .   XGLOB(3,NUM)
          
@@ -74,7 +74,7 @@ C   Tableau utilise par proc 0
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

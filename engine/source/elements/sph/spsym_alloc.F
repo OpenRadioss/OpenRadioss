@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,19 +61,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,IS,IC,NC,NS,INOD,NSPHSYM_L,IERROR
+      INTEGER N,IS,IC,NC,NS,INOD,NSPHSYM_L,IERROR
       my_real
      .       XI,YI,ZI,DI,
      .       OX,OY,OZ,NX,NY,NZ,
-     .       DD,DM,DK,DL,SPALINR
+     .       DD,DM,SPALINR
 C-----------------------------------------------
 C new construction of ghost particles is necessary.
        SPALINR=SQRT(ONE + MYSPATRUE)
 
-C      NSPHSYM=0 initialise dans sphprep
+C      NSPHSYM = 0 Initialized in SPHPREP
        NSPHSYMR=0
 C
-C Comptage des particules symetriques pour allocation des tableaux
+C Counting symmetric particles for array allocation
 C
       DO NC=1,NSPCOND
         IS=ISPCOND(3,NC)
@@ -92,10 +92,10 @@ C
          YI =X(2,INOD)
          ZI =X(3,INOD)
          DI  =SPBUF(1,N)
-C DMAX : max diametre sur le domaine
+C DMAX : max diameter over the domain
          DM=DI+DMAX
 C------
-C        Recherche si condition active en X.
+C        Check if condition active in X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"
@@ -109,17 +109,17 @@ C          not symetrized at this time.
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = ITASK+1,NSPHR,NTHREAD
          XI =XSPHR(3,NS)
          YI =XSPHR(4,NS)
          ZI =XSPHR(5,NS)
          DI =XSPHR(2,NS)
-C DMAX : max diametre sur le domaine
+C DMAX : max diameter over the domain
          DM=DI+DMAX
 C------
-C        Recherche si condition active en X.
+C        Check if condition active in X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"

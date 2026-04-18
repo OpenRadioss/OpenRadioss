@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,19 +26,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps76                ../engine/source/materials/mat/mat076/sigeps76.F
 !||--- calls      -----------------------------------------------------
 !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
-!||    vinter                  ../engine/source/tools/curve/vinter.F
 !||--- uses       -----------------------------------------------------
 !||    table4d_mod             ../common_source/modules/table4d_mod.F
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       SUBROUTINE NO_ASSO_PLAS76(
-     1     NEL     ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NVARTMP ,
-     2     NPF     ,TF     ,TIME    ,TIMESTEP,UPARAM  ,VARTMP  ,
+     1     NEL     ,NUPARAM,NUVAR   ,NVARTMP ,
+     2     TIME    ,TIMESTEP,UPARAM ,VARTMP  ,
      3     RHO0    ,PLA    ,DPLA    ,ET      ,NUMTABL ,TABLE   ,
      3     DEPSXX  ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      4     SIGOXX  ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      5     SIGNXX  ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     6     SOUNDSP ,UVAR   ,OFF     ,EPSD    ,YLD     )
+     6     SOUNDSP ,UVAR   ,OFF     ,EPSD    ,YLD     ,DMG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s 
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM,NUVAR,NFUNC,NUMTABL
+      INTEGER NEL,NUPARAM,NUVAR,NUMTABL
       INTEGER ,INTENT(IN)    :: NVARTMP
       my_real,INTENT(IN) :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM),INTENT(IN) :: UPARAM(NUPARAM)
@@ -63,6 +62,7 @@ C-----------------------------------------------
      .   RHO0,DEPSXX,DEPSYY,DEPSZZ,
      .   DEPSXY,DEPSYZ,DEPSZX,SIGOXX,SIGOYY,SIGOZZ,
      .   SIGOXY,SIGOYZ,SIGOZX 
+      my_real, DIMENSION(NEL), INTENT(IN) :: DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -79,24 +79,20 @@ C-----------------------------------------------
      .   UVAR
       TYPE(TABLE_4D_),DIMENSION(NUMTABL),INTENT(IN) :: TABLE
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER :: NPF(SNPC), IFUNC(NFUNC)
-      my_real :: TF(STF)
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,ICONV,NINDX,ICAS,ITER,IQUAD
+      INTEGER I,II,ICONV,NINDX,ICAS,ITER,IQUAD
       INTEGER,PARAMETER :: FUNC_TRAC  = 1
       INTEGER,PARAMETER :: FUNC_COMP  = 2
       INTEGER,PARAMETER :: FUNC_SHEAR = 3
+      INTEGER,PARAMETER :: FUNC_NUP   = 4
       INTEGER,DIMENSION(NEL)   :: INDX,IAD,ILEN
       my_real :: G,AA1,AA2,C1,NUPC,XFAC
       my_real ,DIMENSION(NEL) :: PLAT,PLAC,PLAS,EPSPT,EPSPC,EPSPS,SIGT,
      .    SIGS,DSIGS_DP,SIGC,DSIGC_DP,SDXX,SDYY,SDZZ,SDXY,SDYZ,SDZX,DSIGT_DP,
      .    NUP,P,SVM,A0,A1,A2,PHI,DPLAC,DPLAT,DPLAS,PSI,ALPHA,DYDX
       my_real
-     .    NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,NORM,AA,CB,
+     .    NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,AA,
      .    NORMXX_N,NORMYY_N,NORMZZ_N,NORMXY_N,NORMYZ_N,NORMZX_N,
      .    DSIGT_DLAM,DSIGC_DLAM,DSIGS_DLAM,DA1_DSIGS,DA1_DSIGT,
      .    DA1_DSIGC,DA2_DSIGS,DA2_DSIGT,DA2_DSIGC,DA0_DLAM,DA1_DLAM,
@@ -104,8 +100,7 @@ C-----------------------------------------------
      .    DPDT_C,DPDT_S,DPDT_T,DPDT,DLAM,CC,EPDT_MIN,DA0_DSIGS,
      .    EPDT_MAX,EPDC_MAX,EPDC_MIN,EPDS_MIN,EPDS_MAX,ASRATE
       my_real, DIMENSION(NEL,2)   :: XVEC
-      my_real, DIMENSION(NUMTABL) :: TFAC
-      my_real, DIMENSION(NFUNC)   :: YFAC
+      my_real, DIMENSION(NEL,1)   :: XVEC1
       LOGICAL :: CONV(NEL)
       my_real, PARAMETER :: SFAC = 1.05D0 ! Security factor of ICONV
 C
@@ -121,7 +116,7 @@ C
       ! -> Plastic parameters
       NUPC   = UPARAM(9)  ! Plastic Poisson ratio                      
       ! -> Flags 
-      IQUAD  = NINT(UPARAM(14)) ! Flag for quadratic or non-quatratic yield surface
+      IQUAD  = NINT(UPARAM(14)) ! Flag for quadratic or non-quadratic yield surface
       ASRATE = MIN(ONE,UPARAM(16)*TIMESTEP)
       ICONV  = NINT(UPARAM(15)) ! Flag to ensure convexity
       ICAS   = NINT(UPARAM(17)) ! Flag for tabulated case
@@ -137,11 +132,6 @@ C
       EPDC_MAX = UPARAM(22)
       EPDS_MIN = UPARAM(23)
       EPDS_MAX = UPARAM(24)
-      TFAC(1)  = UPARAM(25)
-      TFAC(2)  = UPARAM(26)
-      TFAC(3)  = UPARAM(27)
-      YFAC(1)  = UPARAM(28)
-      YFAC(2)  = UPARAM(29)
 c
       ! Initialize plastic Poisson ratio
       IF (TIME == ZERO) THEN
@@ -172,22 +162,16 @@ C
       ! Computation of yield stresses
       XVEC(1:NEL,1)   = PLAT(1:NEL)
       XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
-      SIGT     = SIGT*TFAC(1)
-      DSIGT_DP = DSIGT_DP*TFAC(1)
+      CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1:NEL,1:2),XVEC,SIGT,DSIGT_DP)
       IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAC(1:NEL)
         XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
-        SIGC     = SIGC*TFAC(2)
-        DSIGC_DP = DSIGC_DP*TFAC(2)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1:NEL,3:4),XVEC,SIGC,DSIGC_DP)
       ENDIF
       IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
         XVEC(1:NEL,1)   = PLAS(1:NEL)
         XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
-        SIGS     = SIGS*TFAC(3)
-        DSIGS_DP = DSIGS_DP*TFAC(3)
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1:NEL,5:6),XVEC,SIGS,DSIGS_DP)
       ENDIF 
       ! Select case for tabulated yield stresses
       IF (ICAS == 0) THEN 
@@ -279,7 +263,7 @@ c
         ELSE
           PHI(I) = SVM(I) - A0(I) - A1(I)*P(I) - A2(I)*P(I)*P(I)
         ENDIF
-        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE) THEN
+        IF (PHI(I) >= ZERO .AND. OFF(I) == ONE .AND. DMG(I) < ONE) THEN
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
@@ -396,7 +380,7 @@ C
               DA1_DSIGT = -NINE*(SIGS(I)/SIGT(I))**2
               ! -> A2 derivatives
               !   -> With respect to SIGS
-              DA2_DSIGS = -CINQUANTE4*CC
+              DA2_DSIGS = -FIFTY4*CC
               !   -> With respect to SIGC                                         
               DA2_DSIGC = TWENTY7*CC*SIGS(I)/SIGC(I)  
               !   -> With respect to SIGT                       
@@ -459,14 +443,20 @@ c
 c          
             ! Cumulated plastic strains update       
             PLAT(I)  = PLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
+            PLAT(I)  = MAX(PLAT(I),ZERO)
             PLAC(I)  = PLAT(I)    
             PLAS(I)  = PLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
+            PLAS(I)  = MAX(PLAS(I),ZERO)
             PLA(I)   = PLA(I)  + (SVM(I)/PSI(I))*DLAM  
+            PLA(I)   = MAX(PLA(I),ZERO)
             ! Plastic strain increments update
             DPLAT(I) = DPLAT(I) + DLAM*(SVM(I)/PSI(I))*THREE_HALF/(ONE + NUP(I))
+            DPLAT(I) = MAX(DPLAT(I),ZERO)
             DPLAC(I) = DPLAT(I)
             DPLAS(I) = DPLAS(I) + (SQR3/TWO)*(SVM(I)/PSI(I))*DLAM   
+            DPLAS(I) = MAX(DPLAS(I),ZERO)
             DPLA(I)  = DPLA(I)  + (SVM(I)/PSI(I))*DLAM
+            DPLA(I)  = MAX(DPLA(I),ZERO)
 C
             ! Update pressure
             P(I) = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
@@ -485,22 +475,16 @@ C
           ! Update yield stresses
           XVEC(1:NEL,1)   = PLAT(1:NEL)
           XVEC(1:NEL,2)   = EPSPT(1:NEL)*XFAC
-          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1,1),XVEC,SIGT,DSIGT_DP)
-          SIGT     = SIGT*TFAC(1)
-          DSIGT_DP = DSIGT_DP*TFAC(1)
+          CALL TABLE_MAT_VINTERP(TABLE(FUNC_TRAC),NEL,NEL,VARTMP(1:NEL,1:2),XVEC,SIGT,DSIGT_DP)
           IF (TABLE(FUNC_COMP)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAC(1:NEL)
             XVEC(1:NEL,2)   = EPSPC(1:NEL)*XFAC
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1,3),XVEC,SIGC,DSIGC_DP)
-            SIGC(1:NEL)     = SIGC*TFAC(2)
-            DSIGC_DP(1:NEL) = DSIGC_DP*TFAC(2)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_COMP),NEL,NEL,VARTMP(1:NEL,3:4),XVEC,SIGC,DSIGC_DP)
           ENDIF
           IF (TABLE(FUNC_SHEAR)%NOTABLE > 0) THEN 
             XVEC(1:NEL,1)   = PLAS(1:NEL)
             XVEC(1:NEL,2)   = EPSPS(1:NEL)*XFAC
-            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1,5),XVEC,SIGS,DSIGS_DP)
-            SIGS(1:NEL)     = SIGS*TFAC(3) 
-            DSIGS_DP(1:NEL) = DSIGS_DP*TFAC(3)
+            CALL TABLE_MAT_VINTERP(TABLE(FUNC_SHEAR),NEL,NEL,VARTMP(1:NEL,5:6),XVEC,SIGS,DSIGS_DP)
           ENDIF 
           ! Select case for tabulated yield stresses
           IF (ICAS == 0) THEN 
@@ -564,16 +548,13 @@ c
       !====================================================================
       ! - UPDATE PLASTIC POISSON RATIO
       !====================================================================
-      IF (IFUNC(1) > 0) THEN
-        IAD(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
-        ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,8)
+      IF (TABLE(FUNC_NUP)%NOTABLE > 0) THEN
 !
-        CALL VINTER(TF,IAD,VARTMP(1:NEL,8),ILEN,NEL,PLA,DYDX,NUP)
-!        
-        UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
+        XVEC1(1:NEL,1) = PLA(1:NEL) 
+        CALL TABLE_MAT_VINTERP(TABLE(FUNC_NUP),NEL,NEL,VARTMP(1:NEL,8:8),XVEC,NUP,DYDX)
         UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
+!
       END IF
-c
       !====================================================================
       ! - STORING NEW VALUES
       !====================================================================

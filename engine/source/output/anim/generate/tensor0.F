@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    initbuf            ../engine/share/resol/initbuf.F
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
@@ -75,7 +75,7 @@ C     REAL
       REAL R4(18)
       REAL,DIMENSION(:),ALLOCATABLE :: WA
 
-      INTEGER I,II, NG, NEL, IPT, MT1,IADD, N, J, MLW,
+      INTEGER I, NG, NEL, MT1, N, J, MLW,
      .        NN1,NN2,IPRT,BUF, ISTRAIN, NUVAR, NUVARR,JJ(6)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -277,7 +277,6 @@ C-----------------------------------------------
         ELSE
         ENDIF
  490   CONTINUE
- 500  CONTINUE
 C-----------------------------------------------
       IF (NSPMD == 1)THEN
         DO N=1,NBF
@@ -307,8 +306,6 @@ C-----------------------------------------------
         CALL SPMD_R4GET_PARTN(6,6*NBF,NBPART,IADG,WA,BUF)
       ENDIF
 C
-C-------------
- 600  CONTINUE
 C-------------
       DEALLOCATE(WA)
       RETURN

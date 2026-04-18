@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_part           ../starter/source/model/assembling/hm_read_part.F
 !||    hm_read_retractor      ../starter/source/tools/seatbelts/hm_read_retractor.F
 !||    hm_read_slipring       ../starter/source/tools/seatbelts/hm_read_slipring.F
-!||    hm_read_thpart         ../starter/source/output/thpart/hm_read_thpart.F
 !||    lecint                 ../starter/source/interfaces/interf1/lecint.F
 !||    nbadigemesh            ../starter/source/elements/ige3d/nbadigemesh.F
 !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
@@ -83,7 +82,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,7 +105,7 @@ C-----------------------------------------------
      .        IWORK(70000)
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DUPLICATE NOS
 C-----------------------
         CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
         DO I=1,NLIST
@@ -136,7 +135,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
         I=1
@@ -176,7 +175,7 @@ C
       INTEGER FUNCTION NINTLST2 (LIST,NLIST,INDEXL,IX,NIX,NUMEL,
      .                           MESS,IX1,IX2,INDEX,KK)
       USE MESSAGE_MOD
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER, AUTORISE LES 0.
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS, ALLOWS ZEROS.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -190,7 +189,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NOLD,K,
+      INTEGER I, J,
      .        IWORK(70000)
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
@@ -212,7 +211,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
         I=1
@@ -255,6 +254,7 @@ C
 !||    hm_read_alebcs                ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                   ../starter/source/constraints/general/bcs/hm_read_bcs.F
 !||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
+!||    hm_read_ebcs_cyclic           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -268,6 +268,7 @@ C
 !||    hm_read_ebcs_valvin           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+!||    hm_read_inter_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inter_hertz_type17    ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
 !||    hm_read_inter_lagdt_type07    ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_lagmul_type02   ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
@@ -296,7 +297,6 @@ C
 !||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
 !||    hm_read_intsub                ../starter/source/output/subinterface/hm_read_intsub.F
 !||    hm_read_link                  ../starter/source/constraints/rigidlink/hm_read_rlink.F
-!||    hm_read_merge_node            ../starter/source/elements/reader/hm_read_merge_node.F
 !||    hm_read_nbcs                  ../starter/source/constraints/general/bcs/hm_read_nbcs.F
 !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
 !||    hm_read_pcyl                  ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
@@ -313,7 +313,6 @@ C
 !||    lectrans                      ../starter/source/model/transformation/lectrans.F
 !||    lectranssub                   ../starter/source/model/submodel/lectranssub.F
 !||    printbcs                      ../starter/source/constraints/general/bcs/printbcs.F
-!||    setrb2on                      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../starter/source/output/message/message.F
 !||    hm_get_current_option         ../starter/source/devtools/hm_reader/hm_get_current_option.F
@@ -393,7 +392,6 @@ C
 !||    hm_preread_imptemp       ../starter/source/constraints/thermic/hm_preread_imptemp.F
 !||    hm_preread_impvel        ../starter/source/constraints/general/impvel/hm_preread_impvel.F
 !||    hm_preread_load_centri   ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
-!||    hm_preread_pload         ../starter/source/loads/general/pload/hm_preread_pload.F
 !||    hm_preread_radiation     ../starter/source/loads/thermic/hm_preread_radiation.F
 !||    hm_preread_rbe2          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_xelem         ../starter/source/elements/reader/hm_preread_xelem.F
@@ -617,16 +615,18 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    sortgroup   ../starter/source/system/nintrr.F
+!||    sortgroup     ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
-!||    lectur      ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SORTGROUP(
      1 IXS_S ,IXS_S_IND,IXQ_S,IXQ_S_IND,IXC_S,IXC_S_IND,
      2 IXT_S ,IXT_S_IND,IXP_S,IXP_S_IND,IXR_S,IXR_S_IND,
      3 IXTG_S,IXTG_S_IND,IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,LENI)
 C      GROUP SORTING vs USER ID
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -648,7 +648,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NEL,NOLD,K,
+      INTEGER I,
      .        IWORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX ! LENI*2
 C-----------------------
@@ -736,10 +736,9 @@ C-----------------------
 !||====================================================================
 !||    user2sys   ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
-!||    nintlstn   ../starter/source/system/nintrr.F
 !||====================================================================
       INTEGER FUNCTION USER2SYS(IU,IXX_S,NIX,CUR,LAST)
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER OR ZERO IF NOT FOUND
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS OR ZERO IF NOT FOUND
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -747,12 +746,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX,NUMEL, CUR, LAST
+      INTEGER NIX, CUR, LAST
       INTEGER IU,IXX_S(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, JINF, JSUP
+      INTEGER  J, JINF, JSUP
 C-----------------------
 
       IF (LAST==0) THEN
@@ -763,12 +762,12 @@ C-----------------------
       JSUP=LAST
       J=MIN(CUR,(LAST+CUR)/2)
    10 IF(JSUP<=JINF.AND.(IU-IXX_S(J))/=0) THEN
-C     >CAS ELEM non trouve
+C     > Elem case not find
         USER2SYS=0
         RETURN
       ENDIF
       IF((IU-IXX_S(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          USER2SYS=J
          RETURN
       ELSE IF (IU-IXX_S(J)<0) THEN
@@ -792,7 +791,6 @@ C
 !||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    user2sys               ../starter/source/system/nintrr.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
@@ -800,7 +798,7 @@ C
      .                          IXX_S_IND,INDEX,TYPE,ID,TITR)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -822,7 +820,7 @@ C-----------------------------------------------
       INTEGER USER2SYS
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DUPLICATE NOS
 C-----------------------
         CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
         DO I=1,NLIST
@@ -837,7 +835,7 @@ C-----------------------
         ENDDO
         NEL=K
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IXX_S (sorted)
+C SEARCH FOR ELEMENTS OF LIST() IN IXX_S (sorted)
 C-----------------------
         J=0
         DO I=1,NEL

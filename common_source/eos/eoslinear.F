@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,32 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    eoslinear   ../common_source/eos/eoslinear.F
+!||    eoslinear_mod   ../common_source/eos/eoslinear.F
 !||--- called by ------------------------------------------------------
-!||    eosmain     ../common_source/eos/eosmain.F
+!||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||====================================================================
-      SUBROUTINE EOSLINEAR(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,
-     2                     DVOL ,VNEW ,MAT  ,PSH  ,PNEW ,DPDM ,
-     3                     DPDE )
+      MODULE EOSLINEAR_MOD
+      IMPLICIT NONE
+      CONTAINS
+!||====================================================================
+!||    eoslinear       ../common_source/eos/eoslinear.F
+!||--- called by ------------------------------------------------------
+!||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||====================================================================
+      SUBROUTINE EOSLINEAR(
+     1                     IFLAG , NEL   ,PMIN ,OFF  ,EINT ,MU   ,
+     2                     DVOL  , VNEW  ,PSH  ,PNEW ,DPDM ,
+     3                     DPDE  , EOS_STRUCT, C0, BULK)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE CONSTANT_MOD , ONLY : ZERO, HALF, ONE
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -48,89 +67,58 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "param_c.inc"
-#include      "com04_c.inc"
+      IMPLICIT NONE
+#include      "my_real.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER MAT(NEL), IFLAG, NEL
-        my_real PM(NPROPM,NUMMAT),
-     .          OFF(NEL) ,EINT(NEL) ,MU(NEL)   ,
-     .          DVOL(NEL) ,VNEW(NEL),
-     .          PNEW(NEL),DPDM(NEL) ,DPDE(NEL)
-        my_real,INTENT(INOUT) :: PSH(NEL)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
+      INTEGER,INTENT(IN) :: IFLAG, NEL
+      my_real,INTENT(IN) :: PMIN,OFF(NEL),MU(NEL),DVOL(NEL),VNEW(NEL)
+      my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),PSH(NEL),EINT(NEL)
+      TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
+      my_real,INTENT(IN) :: C0,BULK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX
-        my_real BULK(NEL),PC(NEL),C0(NEL)
+      INTEGER I
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      !C0, BULK : For LINEAR EOS when no /EoS is defined. use material parameters stored in PM instal EOS_STRUCT%UPARAM
 
-        IF(IFLAG == 0) THEN
-          DO I=1,NEL
-            MX = MAT(I)
-            BULK(I) = PM(32,MX)
-            C0(I) = PM(104,MX)
-            PC(I) = PM(37,MX)
-            PSH(I) = PM(88,MX)
-          ENDDO
-          DO I=1,NEL
-            DPDM(I) = BULK(I)
+      PSH(1:NEL) = EOS_STRUCT%PSH
+
+      IF(IFLAG == 0) THEN
+        DO I=1,NEL
+          DPDM(I) = BULK
+          DPDE(I) = ZERO
+          PNEW(I) = C0+BULK*MU(I)
+          PNEW(I) = MAX(PMIN-PSH(I),PNEW(I))  !law10 : yield criteria depends on P
+          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n]) = P(mu[n+1],E[n+1]) since there is no energy depedency
+        ENDDO
+
+      ELSEIF(IFLAG == 1) THEN
+        DO I=1,NEL
+          PNEW(I) = C0+BULK*MU(I)
+          PNEW(I) = MAX(PNEW(I),PMIN-PSH(I))
+          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n+1])
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+          DPDE(I) = ZERO
+        ENDDO
+
+      ELSEIF (IFLAG == 2) THEN
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            PNEW(I) = C0+BULK*MU(I)
+            PNEW(I) = MAX(PNEW(I),PMIN-PSH(I))
+            PNEW(I) = PNEW(I)*OFF(I)
+            DPDM(I) = BULK
             DPDE(I) = ZERO
-            PNEW(I) = C0(I)+BULK(I)*MU(I)
-            PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))  !law10 : yield criteria depends on P
-            PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n]) = P(mu[n+1],E[n+1]) since there is no energy depedency
-          ENDDO
-
-        ELSEIF(IFLAG == 1) THEN
-          DO I=1,NEL
-            MX     = MAT(I)
-            BULK(I)= PM(32,MX)
-            PC(I)  = PM(37,MX)
-            C0(I)  = PM(104,MX)
-            PSH(I) = PM(88,MX)
-          ENDDO
-          DO I=1,NEL
-            PNEW(I) = C0(I)+BULK(I)*MU(I)
-            PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-            PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n+1])
-            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-            DPDE(I) = ZERO
-          ENDDO
-
-
-        ELSEIF (IFLAG == 2) THEN
-          DO I=1, NEL
-            MX = MAT(I)
-            C0(I) = PM(104,MX)
-            BULK(I) = PM(32,MX)
-            PC(I) = PM(37,MX)
-            PSH(I) = PM(88,MX)
-          ENDDO
-          DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-              PNEW(I) = C0(I)+BULK(I)*MU(I)
-              PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-              PNEW(I) = PNEW(I)*OFF(I)
-              DPDM(I) = BULK(I)
-              DPDE(I) = ZERO
-            ENDIF
-          ENDDO
+          ENDIF
+        ENDDO                                      
 
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE EOSLINEAR
+      END MODULE EOSLINEAR_MOD

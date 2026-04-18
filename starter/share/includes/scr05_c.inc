@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ C.../SCR05/
      .               ARCHINFO,ARCHN
       INTEGER ICRAY,IRFORM,ITFORM,TH_VERS,IRFE0,IMOT,IOUTPUT,
      .        PARASIZ,IVECTOR,IMPON,IRESP,IARCH,IBUILTIN,
-     .        MAXARCH,ARCHNAME,NTHMAX
+     .        MAXARCH,NTHMAX
       PARAMETER (PARASIZ=8192)   ! max number of MPI
       PARAMETER (NTHMAX=512)     ! max number of OpenMP
 

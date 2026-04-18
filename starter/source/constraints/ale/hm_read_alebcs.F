@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    ngr2usr                ../starter/source/system/nintrr.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
@@ -75,10 +74,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IC, NC, N, IS, IC1, IC2,
-     .        NOSYS, J,IGR,IGRS,IBCALE,J6(6),
-     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM,
-     .        CHKCOD,NOD,SUB_INDEX
+      INTEGER I, IC, N, IS, IC1, IC2,
+     .        NOSYS, J,IGR,IGRS,J6(6),
+     .             ID ,
+     .        CHKCOD,SUB_INDEX
       INTEGER IUN
       CHARACTER MESS*40,CODE*7
       CHARACTER(LEN=NCHARFIELD) :: STRING
@@ -87,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
+      INTEGER MY_OR,CHECK_NEW,NGR2USR
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   D a t a

@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,11 +19,10 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#include <iostream>
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
+
 #include <UTILS/mv_cmath.h>
 #include <string.h>
-#include <array>
 #include <UTILS/mv_string.h>
 #include <stdio.h>
 #ifndef WIN32
@@ -31,6 +30,7 @@
 #endif
 #include <sys/types.h>  // For stat().
 #include <sys/stat.h>   // For stat().
+#include <array> 
 
 #ifdef WIN32
 #include <direct.h>
@@ -45,7 +45,6 @@
 #include <MESSAGE/msg_manager.h> 
 #include <MESSAGE/mv_messages.h> 
 
-#include <filesystem>
 #if defined(_WIN32)
 #include <windows.h>
 #endif

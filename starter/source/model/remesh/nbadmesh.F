@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE READER_OLD_MOD , ONLY : LINE, IREC
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,14 +73,14 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB,ITABM1,KNOD2SH,NOD2SH
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IXC,IXTG,TAG
       INTEGER IPART(4,NPART),
-     .        N,IP,ID,I,J,NLEV,NMUL,STAT,INDEX_PART,NPART_ADM
-      INTEGER USR2SYS,NUMNUSR1,IDS,NI,NJ,NK,NL,K,L,P,Q,QQ,
-     .        NN,UID,IP0,ID_IP
+     .        N,IP,ID,I,J,NLEV,STAT,INDEX_PART,NPART_ADM
+      INTEGER USR2SYS,NUMNUSR1,NI,NJ,NK,NL,K,L,P,Q,QQ,
+     .        UID,IP0,ID_IP
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY
-      INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTC, SHELL_ID
-      INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTTG, SH3N_ID
+      INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTC
+      INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTTG
       REAL*8 , DIMENSION(:), ALLOCATABLE :: SH_ANGLE, SH_THK
       REAL*8 , DIMENSION(:), ALLOCATABLE :: SH3_ANGLE, SH3_THK
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUBID_SHELL,UID_SHELL
@@ -337,7 +338,7 @@ C--------------------------------------------------
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C------
-C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     building the inverse node table
 C------
 C     NUMNUSR=NUMNUSR1+NUMCNOD !
       CALL CONSTIT(ITAB,ITABM1,NUMNUSR)

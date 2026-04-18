@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -108,10 +108,10 @@ C-----------------------------------------------
      .   VC(MVSIZ,3),FORC_N(MVSIZ,3),FOR_T1(MVSIZ,3),
      .   FOR_T2(MVSIZ,3),FOR_T3(MVSIZ,3),FOR_T4(MVSIZ,3),
      .   FOR_T5(MVSIZ,3),FOR_T6(MVSIZ,3),FOR_T7(MVSIZ,3),
-     .   FOR_T8(MVSIZ,3),FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,
+     .   FOR_T8(MVSIZ,3),FCX,FCY,FCZ,GAP_MAX,GAP_MIN,
      .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ),
-     .   TOL_T,TOL_C,TOL_V
-      INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ)
+     .   TOL_C,TOL_V
+      INTEGER I,NCTL,IFCTL,IFC1(MVSIZ)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -154,7 +154,7 @@ C
      .            E_DISTOR,  DT1 )
        IF (IFCTL >0) THEN
          NCTL = NCTL + IFCTL
-C---- element center
+C---- Element center
          DO I=1,NEL
            XC(I) = ONE_OVER_8*(X1(I)+X2(I)+X3(I)+X4(I)+
      .                           X5(I)+X6(I)+X7(I)+X8(I))

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,15 +76,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , L, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE, SHFT_EDGE
+      INTEGER I , L, IE, JE, NN1, NN2, SOL_EDGE, SH_EDGE
       my_real
-     .        XI,X1,X2,X3,X4,YI,Y1,Y2,Y3,Y4,ZI,Z1,Z2,Z3,Z4,
+     .        X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .        XMINS,XMAXS,YMINS,YMAXS,ZMINS,ZMAXS,
      .        XMINM,XMAXM,YMINM,YMAXM,ZMINM,ZMAXM,
-     .        V12,V22,V32,V42,VV,GAPVD
+     .        GAPVD
       INTEGER MSEG,CT
       my_real
-     .        GAPV(MVSIZ),DTTI(MVSIZ),S
+     .        GAPV(MVSIZ),S
       INTEGER LIST(MVSIZ), LISTI(MVSIZ)
       INTEGER IS,JS,LS,NLS,NLT,NSEG,NLF,II,NLS2
       INTEGER N1,N2,M1,M2
@@ -116,7 +116,7 @@ C
          DO IS = 1, NSEG
 
            I=JS+IS
-
+ 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
            IF(CAND_S(I)<=NEDGE)THEN
@@ -157,9 +157,21 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPE(JE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE(7,JE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSEIF(IABS(LEDGE(7,JE))/=3) THEN   
+                GAPV(IS)=TWO*GAPE(JE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE(7,JE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPE(JE)     
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -172,7 +184,6 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
          DO IS=1,NSEG
 
            I=JS+IS
-
 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
@@ -198,9 +209,21 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
            JE=CAND_S(I)
 
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPE(JE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE(7,JE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPE(JE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPE(JE)
+             ELSEIF(IABS(LEDGE(7,JE))/=3) THEN   
+                GAPV(IS)=TWO*GAPE(JE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE(7,JE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPE(JE)     
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -221,6 +244,8 @@ C Loop over local candidates
            S = STFE(CAND_S(I))
          ELSE IF(L < 0) THEN
            S = ONE 
+         ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_S(I)))==3)THEN
+           S = STFE(CAND_S(I))
          ENDIF
          IF (S/=ZERO) THEN
            N1= LEDGE(5,CAND_S(I))
@@ -233,6 +258,8 @@ C Loop over local candidates
              S = STF(L)
            ELSEIF(L < 0) THEN
              S = ZERO 
+           ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_M(I)))==3)THEN
+             S = STFE(CAND_M(I))
            ENDIF
            IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))
@@ -306,10 +333,23 @@ C loop over remote candidates
            IS = LISTI(LS)
            I=JS+IS
            IE=CAND_M(I)
+
            IF(IGAP0 == 0) THEN
-             GAPV(IS)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             IF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             ELSE
+                GAPV(IS)=GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             ENDIF 
            ELSE
-             GAPV(IS)=TWO*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
+             IF(IABS(LEDGE(7,IE))/=3.AND.IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))/=3) THEN
+                GAPV(IS)=TWO*(GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE))
+             ELSEIF(IABS(LEDGE(7,IE))/=3) THEN
+                GAPV(IS)=TWO*GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)
+             ELSEIF(IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))/=3) THEN   
+                GAPV(IS)=TWO*GAPFIE(NIN)%P(CAND_S(I)-NEDGE)+GAPE(IE) 
+             ELSEIF(IABS(LEDGE(7,IE))==3.AND.IABS(LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE))==3) THEN    
+                GAPV(IS)=GAPE(IE)+GAPFIE(NIN)%P(CAND_S(I)-NEDGE)    
+             ENDIF            
            END IF
 
            IF(IGAP==3)
@@ -319,7 +359,7 @@ C loop over remote candidates
 C
          NLS=0
          DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize generated code (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NEDGE
@@ -339,6 +379,8 @@ C         IF (STIFIE(NIN)%P(II)/=ZERO) THEN
              S = STF(L)
            ELSE IF( L < 0) THEN
              S = ZERO
+           ELSEIF(L==0.AND.IABS(LEDGE(7,CAND_M(I)))==3)THEN
+             S = STFE(CAND_M(I))
            ENDIF
            IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))

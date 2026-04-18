@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    corthdir       ../starter/source/elements/shell/coque/corthdir.F
+!||    corthdir               ../starter/source/elements/shell/coque/corthdir.F
 !||--- called by ------------------------------------------------------
-!||    c3init3        ../starter/source/elements/sh3n/coque3n/c3init3.F
-!||    cinit3         ../starter/source/elements/shell/coque/cinit3.F
-!||    cmaini3        ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3                ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
-!||    stack_mod      ../starter/share/modules1/stack_mod.F
+!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
 !||====================================================================
       SUBROUTINE CORTHDIR(ELBUF_STR,
      .                    IGEO   ,GEO       ,VX        ,VY     ,VZ       ,
@@ -38,15 +42,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                    Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                    E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z ,
-     .                    NPT_ALL, IDRAPE)
+     .                    NPT_ALL, IDRAPE,LTITR, NIX,IX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
-      USE STACK_MOD          
+      USE STACK_MOD    
+      USE MESSAGE_MOD   
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE   
 C-----------------------------------------------
-C INITIALISE LES COORDONEES LOCALES DES AXES D'ORTHOTROPIE
-C INITIALISE LES EPAISSEURS ET MATERIAUX DES COUCHES
+C initializes local coordinates of orthotropy axes
+C initializes thicknesses and materials of layers
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +69,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP,NPT_ALL,IDRAPE
+      INTEGER NLAY,IREP,ISUBSTACK,IS,IR,NEL,IMAT,IPROP,NPT_ALL,IDRAPE,NIX,LTITR
+      INTEGER  IX(NIX,NEL)
       INTEGER IGEO(NPROPGI,*),IORTHLOC(*),IGEO_STACK(NPROPGI,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                                         X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
@@ -78,12 +85,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
-     .        IPT ,IPT_ALL,IT,IPID_PLY,IRP
+     .        IPT ,IPT_ALL,IT,IPID_PLY,IRP,PID
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
-     .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP
+     .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP,VNR
       my_real,  DIMENSION(MVSIZ)      :: E11,E12,E13,E21,E22,E23,VR,VS
       my_real,  DIMENSION(:), POINTER :: DIR1,DIR2,DIR_DMG 
-C      
+      !
+      CHARACTER(LEN=NCHARTITLE)::TITR1
+      !
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
@@ -125,7 +134,7 @@ C---      shell 3N
             E23(I)= Z3(I)-Z1(I)
           ENDDO
         ENDIF
-C---    vecteur de projection dans repere elementaire
+C---    projection vector in element reference frame
         IRP = IGEO(14,IPROP)
         IF(IRP == 26 ) THEN
            DO I=LFT,LLT
@@ -136,6 +145,17 @@ C---    vecteur de projection dans repere elementaire
            DO I=LFT,LLT
                VR(I)=VX(I)*E1X(I)+VY(I)*E1Y(I)+VZ(I)*E1Z(I)
                VS(I)=VX(I)*E2X(I)+VY(I)*E2Y(I)+VZ(I)*E2Z(I)
+               VNR = SQRT(VR(I)**2 + VS(I)**2)
+               IF(VNR < EM3)THEN
+                PID = IX(NIX-1,I)
+                CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)
+                CALL ANCMSG(MSGID=197,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1=IGEO(1,PID),
+     .                      C1=TITR1,
+     .                      I2=IX(NIX,I))
+              ENDIF
            ENDDO
         ENDIF   
 C-------
@@ -329,7 +349,7 @@ C---
                  IPT = IPT_ALL + IT
                  DO I=LFT,LLT  
                    IF (IORTHLOC(I) /= 0) THEN                               
-                     DIR1(I)     =  COOR1(IPT,I) !! IL ou ipt
+                     DIR1(I)     =  COOR1(IPT,I) !! IL or ipt
                      DIR1(I+NEL) =  COOR2(IPT,I)
                      DIR2(I)     =  COOR3(IPT,I)
                      DIR2(I+NEL) =  COOR4(IPT,I)

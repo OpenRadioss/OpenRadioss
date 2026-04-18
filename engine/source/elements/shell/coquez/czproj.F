@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,23 +78,23 @@ c  I   VQ(3,3,NEL)       - local sys (e1,e2,e3)
 c  I   VF(3,4,NEL),VM(2,4,NEL) - internal forces&moment (5dofs) in local system
 c                       for plate element(coplaner), symmetry terms in 1,3,
 c                       anti-symmetry terms in 2,4
-c  I   PLAT(NEL)       - plate element (logic)
+c  I flat (nel) - flat element (logic)
 C  O   Fij(NEL),Mij(NEL) - final internal forces (6dofs) in global system (j=1,4)
 C  I   COREL,DI,DB,Z1   - parameters for projections
 c  I   IDRIL           - Drilling dof flag
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, J, K ,IFINI
+      INTEGER I, J ,IFINI
       my_real 
-     .     MM(3,4),FL(3,4),ML(2,4),C1,
-     .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
+     .     
+     .     
      .     TEMP1, TEMP2, TEMP3
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------------------------------
-C               POUR ISIGI = 5 OU -5
-C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
-C          REPERE GLOBAL ---> REPERE LOCAL
+C               FOR ISIGI = 5 OR -5
+C     change of reference frame of fzero for tt=dt1
+C          GLOBAL REFERENCE FRAME ---> LOCAL REFERENCE FRAME
 C-----------------------------------------------
       IF(IABS(ISIGI)==5.AND.NCYCLE==1.AND.IRUN==1) THEN
         DO I=JFT,JLT
@@ -112,9 +112,9 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C               POUR ISIGI = 5 OU -5
+C               for isigi = 5 or -5
 C     PRISE EN COMPTE DES FORCES D EQUILIBRAGE
-C      DANS L EVALUATION DES EFFORTS INTERNES
+C      in the evaluation of internal forces
 C-----------------------------------------------
       IF((IABS(ISIGI)==5.AND.NCYCLE>=1.AND.IRUN==1).OR.
      .   (IABS(ISIGI)==5.AND.IRUN>1)) THEN
@@ -207,7 +207,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, J, K
+      INTEGER  J, K
       my_real 
      .     VXL, VYL, VZL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -313,12 +313,12 @@ C
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, J, K
+      INTEGER  J, K
       my_real 
      .     MM(3,4),FL(3,4),ML(2,4),C1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
 C
-     .     TEMP1, TEMP2, TEMP3,ARZ
+     .       ARZ
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C      these could be done simply at the end, but what's done is done.
 C-----------------------------------------------
@@ -915,11 +915,11 @@ C
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, J, K
+      INTEGER  J, K
       my_real 
      .     MM(3,4),FL(3,4),ML(2,4),C1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
-     .     TEMP1, TEMP2, TEMP3,ARZ
+     .       ARZ
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       IF(IFINI > 0 )THEN
       DO K=JFT,JLT

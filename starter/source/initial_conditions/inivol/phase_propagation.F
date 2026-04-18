@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,10 +58,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         LOGICAL :: X_PROPAGATION,Y_PROPAGATION,Z_PROPAGATION
         INTEGER :: I,J,K
-        INTEGER :: II,JJ,KK
+        INTEGER :: II,JJ
         INTEGER :: NEXT_X,NEXT_Y,NEXT_Z
         INTEGER :: MY_PHASE
-        INTEGER, DIMENSION(NB_BOX_LIMIT) :: X_LIST,Y_LIST,Z_LIST
+        INTEGER, DIMENSION(NB_BOX_LIMIT) :: X_LIST,Y_LIST
 C-----------------------------------------------
 
         MY_PHASE = CELL(IX,IY,IZ)

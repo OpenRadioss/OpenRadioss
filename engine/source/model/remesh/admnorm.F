@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    admnorm4     ../engine/source/model/remesh/admnorm.F
+!||    admnorm4      ../engine/source/model/remesh/admnorm.F
 !||--- called by ------------------------------------------------------
-!||    admdiv       ../engine/source/model/remesh/admdiv.F
+!||    admdiv        ../engine/source/model/remesh/admdiv.F
 !||--- uses       -----------------------------------------------------
-!||    remesh_mod   ../engine/share/modules/remesh_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    remesh_mod    ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMNORM4(N,IXC,X)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,15 +82,15 @@ C-----------------------------------------------
       NODNORM(1,N1)=NODNORM(1,N1)+NX
       NODNORM(2,N1)=NODNORM(2,N1)+NY
       NODNORM(3,N1)=NODNORM(3,N1)+NZ
-c  
+C  
       NODNORM(1,N2)=NODNORM(1,N2)+NX
       NODNORM(2,N2)=NODNORM(2,N2)+NY
       NODNORM(3,N2)=NODNORM(3,N2)+NZ
-c  
+C  
       NODNORM(1,N3)=NODNORM(1,N3)+NX
       NODNORM(2,N3)=NODNORM(2,N3)+NY
       NODNORM(3,N3)=NODNORM(3,N3)+NZ
-c  
+C  
       NODNORM(1,N4)=NODNORM(1,N4)+NX
       NODNORM(2,N4)=NODNORM(2,N4)+NY
       NODNORM(3,N4)=NODNORM(3,N4)+NZ
@@ -97,17 +99,19 @@ c
       END     
 
 !||====================================================================
-!||    admnorm3     ../engine/source/model/remesh/admnorm.F
+!||    admnorm3      ../engine/source/model/remesh/admnorm.F
 !||--- called by ------------------------------------------------------
-!||    admdiv       ../engine/source/model/remesh/admdiv.F
+!||    admdiv        ../engine/source/model/remesh/admdiv.F
 !||--- uses       -----------------------------------------------------
-!||    remesh_mod   ../engine/share/modules/remesh_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    remesh_mod    ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMNORM3(N,IXTG,X)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,11 +158,11 @@ C-----------------------------------------------
       NODNORM(1,N1)=NODNORM(1,N1)+NX
       NODNORM(2,N1)=NODNORM(2,N1)+NY
       NODNORM(3,N1)=NODNORM(3,N1)+NZ
-c  
+C  
       NODNORM(1,N2)=NODNORM(1,N2)+NX
       NODNORM(2,N2)=NODNORM(2,N2)+NY
       NODNORM(3,N2)=NODNORM(3,N2)+NZ
-c  
+C  
       NODNORM(1,N3)=NODNORM(1,N3)+NX
       NODNORM(2,N3)=NODNORM(2,N3)+NY
       NODNORM(3,N3)=NODNORM(3,N3)+NZ

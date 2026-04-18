@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,9 +32,9 @@
 !||--- called by ------------------------------------------------------
 !||    read_matparam          ../engine/source/output/restart/read_matparam.F
 !||--- calls      -----------------------------------------------------
-!||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_c_c               ../common_source/tools/input_output/write_routines.c
 !||    read_db                ../common_source/tools/input_output/read_db.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    eos_param_mod          ../common_source/modules/mat_elem/eos_param_mod.F90
@@ -82,6 +82,7 @@
           iad = iad+1 ; eos%nfunc   = ibuf(iad)
           iad = iad+1 ; eos%ntable  = ibuf(iad)
           iad = iad+1 ; eos%isfluid = ibuf(iad)
+          iad = iad+1 ; eos%eostype  = ibuf(iad)
           deallocate( ibuf )
 
           ! read eos model parameters (real)
@@ -90,8 +91,12 @@
           allocate (rbuf(len))
           call read_db(rbuf, len)
           iad = 0
-          iad = iad+1 ; eos%cv = rbuf(iad)
-          iad = iad+1 ; eos%cp = rbuf(iad)
+          iad = iad+1 ; eos%cv  = rbuf(iad)
+          iad = iad+1 ; eos%cp  = rbuf(iad)
+          iad = iad+1 ; eos%psh = rbuf(iad)
+          iad = iad+1 ; eos%e0 = rbuf(iad)
+          iad = iad+1 ; eos%p0 = rbuf(iad)
+          iad = iad+1 ; eos%pmin = rbuf(iad)
           deallocate( rbuf )
 
           ! read material title

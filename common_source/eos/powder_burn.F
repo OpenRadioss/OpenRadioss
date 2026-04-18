@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,6 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    powder_burn_mod   ../common_source/eos/powder_burn.F
+!||--- called by ------------------------------------------------------
+!||    eosmain           ../common_source/eos/eosmain.F
+!||====================================================================
+       MODULE POWDER_BURN_MOD
+       IMPLICIT NONE
+       CONTAINS
+!||====================================================================
 !||    powder_burn        ../common_source/eos/powder_burn.F
 !||--- called by ------------------------------------------------------
 !||    eosmain            ../common_source/eos/eosmain.F
@@ -28,15 +36,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
-      SUBROUTINE POWDER_BURN    (
+      SUBROUTINE POWDER_BURN    ( NPROPM, NUMMAT ,
      1                            IFLAG , NEL    ,PM    ,OFF       , EINT  ,MU          ,MU2 ,
      2                            ESPE  , DVOL   ,DF    ,VNEW      , MAT   ,PSH         ,
      3                            PNEW  , DPDM   ,DPDE  ,MAT_PARAM ,
-     4                            VAREOS, NVAREOS,NPROPM,NUMMAT    ,DT1   ,RHO0   ,BFRAC)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C
+     4                            VAREOS, NVAREOS,DT1   ,RHO0      ,BFRAC )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -75,8 +79,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER,INTENT(IN) :: NVAREOS,NUMMAT,NPROPM
         INTEGER MAT(NEL), IFLAG, NEL
-        my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
-        my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),RHO0(NEL),ESPE(NEL)
+        my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),DVOL(NEL),DF(NEL),VNEW(NEL),RHO0(NEL)
+        my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),ESPE(NEL)
         my_real,INTENT(INOUT) :: VAREOS(NEL,NVAREOS),BFRAC(NEL)
         my_real,INTENT(IN) :: DT1
         TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !< material data structure
@@ -84,7 +88,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I
-        my_real :: bulk,P0,PSH,DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
+        my_real :: bulk,P0,PSH(NEL),DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
         my_real :: TMP, TMP2
         my_real :: compac
         my_real :: TOTAL_BFRAC
@@ -112,7 +116,7 @@ C-----------------------------------------------
         IF(IFLAG == 0) THEN
           BULK       = MAT_PARAM%EOS%UPARAM(01)
           P0         = MAT_PARAM%EOS%UPARAM(02)
-          PSH        = MAT_PARAM%EOS%UPARAM(03)
+          PSH(1:NEL) = MAT_PARAM%EOS%UPARAM(03)
           DD         = MAT_PARAM%EOS%UPARAM(04)
           EG         = MAT_PARAM%EOS%UPARAM(05)
           Gr         = MAT_PARAM%EOS%UPARAM(06)
@@ -182,4 +186,5 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE POWDER_BURN
+      END MODULE POWDER_BURN_MOD

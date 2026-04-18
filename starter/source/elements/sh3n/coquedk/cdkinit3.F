@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,7 +63,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   SH3TRIM,ISUBSTACK,STACK,RNOISE ,DRAPE,
      D                   SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG,
-     G                   IDRAPE ,DRAPEG,MAT_PARAM,GLOB_THERM)
+     G                   IDRAPE ,DRAPEG,MAT_PARAM,GLOB_THERM,
+     H                   LTITR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C-----------------------------------------------
       USE DRAPE_MOD           
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,7 +101,7 @@ C-----------------------------------------------
      .   ISH3N,NSIGSH,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IYLDINI,
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IUSER, NSHNOD(*),NPF(*),
      .   PTSH3N(*), SH3TREE(*),IPARG(*),CPT_ELTENS,SH3TRIM(*),
-     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),IDRAPE
+     .   ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),IDRAPE,LTITR
       my_real
      .   PM(NPROPM,*),X(*),GEO(NPROPG,*),XMAS(*),
      .   IN(*),DTELEM(*), XREFTG(3,3,*),THK(*),SIGSH(NSIGSH,*),
@@ -120,7 +122,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,NDEPAR,IGTYP,IMAT,IPROP,IGMAT,NVC,IHBE,NPG,MPT,
      .   PTM,PTF,PTS,NUVAR,NUVARR,ID,LENF,LENM,LENS,IREP,IPG
-      INTEGER JJ(5),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
+      INTEGER JJ(8),IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),
      .   MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
       INTEGER  LAYNPT_MAX,LAY_MAX,NPT_ALL
       my_real,
@@ -143,7 +145,7 @@ C-----------------------------------------------
       PARAMETER (LAY_MAX = 100)
       INTEGER MATLY(MVSIZ*LAY_MAX)
       my_real
-     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
+     .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),NPGTH
 C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -169,7 +171,7 @@ C
       LENM = NEL*GBUF%G_MOMPG/NPG
       LENS = NEL*GBUF%G_STRPG/NPG
 !
-      DO I=1,5
+      DO I=1,8
         JJ(I) = NEL*(I-1)
       ENDDO
 C
@@ -299,9 +301,9 @@ c
      .               X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .               Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .               E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X ,
-     .               NPT_ALL  ,IDRAPE   ,STDRAPE ,INDX)
+     .               NPT_ALL  ,IDRAPE   ,STDRAPE ,INDX,LTITR)
 C-----------------------------------------------------------------------
-C       CALCUL DES CONTRAINTES INITIALES
+C       CALCULATION OF INITIAL STRESSES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         IF ((ISIGSH /= 0 .OR. ITHKSHEL == 2).AND. ISH3N == 30 ) THEN
            IF (MPT>0) 
@@ -321,6 +323,18 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      6               GBUF%PLA,THK     ,IGTYP   ,NEL     ,ISIGSH ,
      7               E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8               E1Z   ,E2Z      ,E3Z      ,DIR_A  ,DIR_B,POSLY )
+           IF (MPT == 0) THEN
+             DO I=LFT,LLT
+               GBUF%FORPG_G(PTF+I+JJ(1:5))=GBUF%FORPG(PTF+I+JJ(1:5))
+             END DO
+           END IF 
+           IF (ITHKSHEL == 2) THEN
+             NPGTH = ONE/NPG
+             DO I=LFT,LLT
+               GBUF%STRA(I+JJ(1:8))=GBUF%STRA(I+JJ(1:8))+
+     .                              NPGTH*GBUF%STRPG(PTS+I+JJ(1:8))
+             END DO
+           END IF 
           ELSEIF ( ITHKSHEL == 1 .AND. ISH3N == 30 ) THEN
            CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSH3N,NUMELTG,
      2                   GBUF%THK,THK   ,IXTG   ,NIXTG ,NSIGSH ,
@@ -401,7 +415,7 @@ C
         ENDDO
       ENDIF
 C-------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY TIMESTEPS
 C-------------------------------------------
 c        IGTYP=GEO(12,IXTG(5,I+NFT))
          IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.
@@ -555,7 +569,6 @@ C-----------------------------------------------
      .        VZ1(MVSIZ) , VZ2(MVSIZ) , VZ3(MVSIZ) ,
      .        VX12(MVSIZ), VX13(MVSIZ),
      .        VY12(MVSIZ), VY13(MVSIZ)
-      my_real TMP1, TMP2, FAC1
 C=======================================================================
       DO I=JFT,JLT
         VX1(I)=E1X(I)*VL(1,1,I)+E1Y(I)*VL(2,1,I)+E1Z(I)*VL(3,1,I)

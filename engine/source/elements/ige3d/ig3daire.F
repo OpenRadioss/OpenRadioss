@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -101,7 +101,7 @@ C BUILD NUMERATORS AND DENOMINATORS
       SUMXI(2)=ZERO
       SUMXI(3)=ZERO
 
-C BOUCLE SUR TOUT LES POINTS DE CONTROLE 
+C LOOP OVER ALL CONTROL POINTS
 
       DO K = 0,PZ
         DO J = 0,PY

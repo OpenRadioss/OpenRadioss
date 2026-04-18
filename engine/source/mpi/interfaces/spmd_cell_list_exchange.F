@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,7 +90,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM ! connectivity array iad(P+1)-iad(P) = nb of frontier node
-        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! frontier node ID
+        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! Frontier Node ID
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X,V !   position & velocity
         my_real, DIMENSION(NUMNOD), INTENT(in) :: MS   !   mass 
         my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP !   temperature
@@ -107,19 +107,19 @@ C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
         LOGICAL :: IS_EXCHANGE_NEEDED
-        INTEGER :: KK,I,J,ijk
-        INTEGER :: P,P_LOC,LOCAL_RANK,REMOTE_PROC
-        INTEGER :: SIZE_,OLD_POINTER
-        INTEGER :: ADRESS,SHIFT_
-        INTEGER :: INDEX_S,INDEX_R
+        INTEGER :: KK, I, ijk
+        INTEGER :: REMOTE_PROC
+        INTEGER :: SIZE_
+ 
+        INTEGER :: INDEX_R
         INTEGER :: ITIED
 
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER STATUS(MPI_STATUS_SIZE), IERROR
         INTEGER :: TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
         INTEGER :: LOC_PROC,ID_PROC
-        INTEGER :: COUNT_COMM_SIZE_CELL,ID_COMM
-        INTEGER :: DIPLS_
-        INTEGER, DIMENSION(:), ALLOCATABLE :: ARRAY_REQUEST
+ 
+ 
+ 
         LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: ALREADY_SEND
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_ALREADY_SEND
 

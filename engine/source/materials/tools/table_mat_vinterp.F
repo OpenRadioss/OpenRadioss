@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,62 +21,120 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    table_mat_vinterp_mod         ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mat_vinterp_mod          ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- called by ------------------------------------------------------
-!||    asso_plas76                   ../engine/source/materials/mat/mat076/asso_plas76.F
-!||    asso_qplas76c                 ../engine/source/materials/mat/mat076/asso_qplas76c.F
-!||    compaction_tab                ../common_source/eos/compaction_tab.F90
-!||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
-!||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
-!||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
-!||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
-!||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
-!||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
-!||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
-!||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
-!||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
-!||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
-!||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
-!||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
-!||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
-!||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
-!||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
-!||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    asso_plas76                    ../engine/source/materials/mat/mat076/asso_plas76.F
+!||    asso_qplas76c                  ../engine/source/materials/mat/mat076/asso_qplas76c.F
+!||    compaction_tab                 ../common_source/eos/compaction_tab.F90
+!||    compaction_tab_init            ../common_source/eos/compaction_tab.F90
+!||    condamage                      ../engine/source/materials/mat/mat190/condamage.F
+!||    conversion                     ../engine/source/materials/mat/mat190/conversion.F
+!||    elasticity_temp_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
+!||    fail_biquad_c                  ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_s                  ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_energy_b                  ../engine/source/materials/fail/energy/fail_energy_b.F
+!||    fail_energy_c                  ../engine/source/materials/fail/energy/fail_energy_c.F
+!||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
+!||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    fail_orthstrain_c              ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+!||    granular51                     ../engine/source/materials/mat/mat051/granular51.F90
+!||    mat87c_tabulated               ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
+!||    mat87c_tabulated_3dir_ortho    ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+!||    no_asso_lplas76c               ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+!||    no_asso_plas76                 ../engine/source/materials/mat/mat076/no_asso_plas76.F
+!||    no_asso_qplas76c               ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    rate_dependency_parameters     ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    s6zforc3                       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    self_heating_tabulated         ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
+!||    sigeps106                      ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                     ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                      ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                     ../engine/source/materials/mat/mat123/sigeps123c.F90
+!||    sigeps128c                     ../engine/source/materials/mat/mat128/sigeps128c.F90
+!||    sigeps128s                     ../engine/source/materials/mat/mat128/sigeps128s.F90
+!||    sigeps129s                     ../engine/source/materials/mat/mat129/sigeps129s.F90
+!||    sigeps130                      ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                     ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||    sigeps133                      ../engine/source/materials/mat/mat133/sigeps133.F90
+!||    sigeps163                      ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps50s                      ../engine/source/materials/mat/mat050/sigeps50s.F90
+!||    sigeps57c                      ../engine/source/materials/mat/mat057/sigeps57c.F90
+!||    sigeps70                       ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps76                       ../engine/source/materials/mat/mat076/sigeps76.F
+!||    sigeps76c                      ../engine/source/materials/mat/mat076/sigeps76c.F
+!||    sigeps88                       ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                      ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    srate_dependency_tabulated     ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
+!||    strainrate_dependency          ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c     ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s     ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
+!||    therm_softening_tabulated      ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||    work_hardening_tabulated       ../engine/source/materials/mat/mat131/work_hardening/work_hardening_tabulated.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
 !||====================================================================
-!||    table_mat_vinterp             ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mat_vinterp              ../engine/source/materials/tools/table_mat_vinterp.F
 !||--- called by ------------------------------------------------------
-!||    asso_plas76                   ../engine/source/materials/mat/mat076/asso_plas76.F
-!||    asso_qplas76c                 ../engine/source/materials/mat/mat076/asso_qplas76c.F
-!||    compaction_tab                ../common_source/eos/compaction_tab.F90
-!||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
-!||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
-!||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
-!||    granular51                    ../engine/source/materials/mat/mat051/granular51.F90
-!||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
-!||    mat87c_tabulated_3dir_ortho   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
-!||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
-!||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
-!||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
-!||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
-!||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
-!||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
-!||    sigeps133                     ../engine/source/materials/mat/mat133/sigeps133.F90
-!||    sigeps163                     ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
-!||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
-!||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    asso_plas76                    ../engine/source/materials/mat/mat076/asso_plas76.F
+!||    asso_qplas76c                  ../engine/source/materials/mat/mat076/asso_qplas76c.F
+!||    compaction_tab                 ../common_source/eos/compaction_tab.F90
+!||    compaction_tab_init            ../common_source/eos/compaction_tab.F90
+!||    condamage                      ../engine/source/materials/mat/mat190/condamage.F
+!||    conversion                     ../engine/source/materials/mat/mat190/conversion.F
+!||    elasticity_temp_isotropic      ../engine/source/materials/mat/mat131/elasticity/elasticity_temp_isotropic.F90
+!||    elasticity_viscous_isotropic   ../engine/source/materials/mat/mat131/elasticity/elasticity_viscous_isotropic.F90
+!||    fail_biquad_c                  ../engine/source/materials/fail/biquad/fail_biquad_c.F
+!||    fail_biquad_s                  ../engine/source/materials/fail/biquad/fail_biquad_s.F
+!||    fail_energy_b                  ../engine/source/materials/fail/energy/fail_energy_b.F
+!||    fail_energy_c                  ../engine/source/materials/fail/energy/fail_energy_c.F
+!||    fail_energy_ib                 ../engine/source/materials/fail/energy/fail_energy_ib.F
+!||    fail_energy_s                  ../engine/source/materials/fail/energy/fail_energy_s.F
+!||    fail_orthstrain                ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
+!||    fail_orthstrain_c              ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+!||    granular51                     ../engine/source/materials/mat/mat051/granular51.F90
+!||    mat87c_tabulated               ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
+!||    mat87c_tabulated_3dir_ortho    ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+!||    no_asso_lplas76c               ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
+!||    no_asso_plas76                 ../engine/source/materials/mat/mat076/no_asso_plas76.F
+!||    no_asso_qplas76c               ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    rate_dependency_parameters     ../engine/source/materials/mat/mat132/rate_dependency_parameters.F90
+!||    self_heating_tabulated         ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
+!||    sigeps106                      ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                     ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123                      ../engine/source/materials/mat/mat123/sigeps123.F90
+!||    sigeps123c                     ../engine/source/materials/mat/mat123/sigeps123c.F90
+!||    sigeps128c                     ../engine/source/materials/mat/mat128/sigeps128c.F90
+!||    sigeps128s                     ../engine/source/materials/mat/mat128/sigeps128s.F90
+!||    sigeps129s                     ../engine/source/materials/mat/mat129/sigeps129s.F90
+!||    sigeps130                      ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps132c                     ../engine/source/materials/mat/mat132/sigeps132c.F90
+!||    sigeps133                      ../engine/source/materials/mat/mat133/sigeps133.F90
+!||    sigeps163                      ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps50s                      ../engine/source/materials/mat/mat050/sigeps50s.F90
+!||    sigeps57c                      ../engine/source/materials/mat/mat057/sigeps57c.F90
+!||    sigeps70                       ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps76                       ../engine/source/materials/mat/mat076/sigeps76.F
+!||    sigeps76c                      ../engine/source/materials/mat/mat076/sigeps76c.F
+!||    sigeps88                       ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                      ../engine/source/materials/mat/mat088/sigeps88c.F90
+!||    srate_dependency_tabulated     ../engine/source/materials/mat/mat131/srate_dependency/srate_dependency_tabulated.F90
+!||    strainrate_dependency          ../engine/source/materials/mat/mat123/strainrate_dependency.F90
+!||    strainrate_dependency_125c     ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
+!||    strainrate_dependency_125s     ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
+!||    therm_softening_tabulated      ../engine/source/materials/mat/mat131/therm_softening/therm_softening_tabulated.F90
+!||    work_hardening_tabulated       ../engine/source/materials/mat/mat131/work_hardening/work_hardening_tabulated.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                        ../engine/source/output/message/message.F
-!||    arret                         ../engine/source/system/arret.F
+!||    ancmsg                         ../engine/source/output/message/message.F
+!||    arret                          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod                   ../engine/share/message_module/message_mod.F
-!||    table4d_mod                   ../common_source/modules/table4d_mod.F
+!||    message_mod                    ../engine/share/message_module/message_mod.F
+!||    table4d_mod                    ../common_source/modules/table4d_mod.F
 !||====================================================================
-      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX, OPT_EXTRAPOLATE)
+      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX,OPT_EXTRAPOLATE,
+     .  OPT_REGULAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -107,6 +165,7 @@ C-----------------------------------------------
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: YY
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: DYDX
       LOGICAL, OPTIONAL, INTENT(IN)                     :: OPT_EXTRAPOLATE
+      LOGICAL, OPTIONAL, INTENT(IN)                     :: OPT_REGULAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,13 +176,18 @@ C-----------------------------------------------
       INTEGER, DIMENSION(4)   :: LDIM
       my_real :: DX,DY,ALPHA,ALPHAI,BETA,BETAI,GAMMA,GAMMAI,DELTA,DELTAI
       my_real, DIMENSION(NEL,4) :: FAC
-      LOGICAL DO_EXTRAPOLATION
+      LOGICAL DO_EXTRAPOLATION,REGULAR_ABSCISSA
 C-----------------------------------------------
 C   Source Lines
 C-----------------------------------------------
       DO_EXTRAPOLATION = .TRUE.
       IF(PRESENT(OPT_EXTRAPOLATE)) THEN
         DO_EXTRAPOLATION = OPT_EXTRAPOLATE
+      ENDIF
+
+      REGULAR_ABSCISSA = .FALSE.
+      IF(PRESENT(OPT_REGULAR)) THEN
+        REGULAR_ABSCISSA = OPT_REGULAR  
       ENDIF
 
       NDIM = TABLE%NDIM
@@ -153,35 +217,74 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 
-        DO J=1,NINDX_1
-          I = INDX_1(J)
-          M = IPOS(I,K)
-          NEED_TO_COMPUTE = .TRUE.
-          DO WHILE (NEED_TO_COMPUTE )
-             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
-             IF (DX < ZERO .OR. M <= 1 ) THEN
-                IPOS(I,K) = MAX(M,1)
-                NEED_TO_COMPUTE = .FALSE.
-             ELSE
-                M=M-1
-             ENDIF
+        !< ABSCISSA GRID IS NOT UNIFORM
+        IF (.NOT.REGULAR_ABSCISSA) THEN 
+          DO J=1,NINDX_1
+            I = INDX_1(J)
+            M = IPOS(I,K)
+            NEED_TO_COMPUTE = .TRUE.
+            DO WHILE (NEED_TO_COMPUTE )
+               DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+               IF (DX < ZERO .OR. M <= 1 ) THEN
+                  IPOS(I,K) = MAX(M,1)
+                  NEED_TO_COMPUTE = .FALSE.
+               ELSE
+                  M=M-1
+               ENDIF
+            ENDDO
           ENDDO
-        ENDDO
+  
+          DO J=1,NINDX_2
+            I = INDX_2(J)
+            M = IPOS(I,K) 
+            NEED_TO_COMPUTE = .TRUE.
+            DO WHILE (NEED_TO_COMPUTE )
+               DX = TABLE%X(K)%VALUES(M) - XX(I,K)
+               IF (DX >= ZERO .OR. M == LDIM(K)) THEN
+                  IPOS(I,K) = M-1
+                  NEED_TO_COMPUTE = .FALSE.
+               ELSE
+                  M=M+1
+               ENDIF
+            ENDDO
+          ENDDO
 
-        DO J=1,NINDX_2
-          I = INDX_2(J)
-          M = IPOS(I,K) 
-          NEED_TO_COMPUTE = .TRUE.
-          DO WHILE (NEED_TO_COMPUTE )
-             DX = TABLE%X(K)%VALUES(M) - XX(I,K)
-             IF (DX >= ZERO .OR. M == LDIM(K)) THEN
-                IPOS(I,K) = M-1
-                NEED_TO_COMPUTE = .FALSE.
-             ELSE
-                M=M+1
-             ENDIF
+        !< ABSCISSA GRID IS UNIFORM
+        ELSE
+         
+          DO J=1,NINDX_1
+            I = INDX_1(J)
+            M = IPOS(I,K)
+            IF (M > 1) THEN
+              DX = TABLE%X(K)%VALUES(M) - TABLE%X(K)%VALUES(M-1)
+            ELSE
+              DX = TABLE%X(K)%VALUES(2) - TABLE%X(K)%VALUES(1)
+            ENDIF
+            IF (DX > ZERO) THEN
+              IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
+              IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
+            ELSE
+              IPOS(I,K) = 1
+            ENDIF
           ENDDO
-        ENDDO
+
+          DO J=1,NINDX_2
+            I = INDX_2(J)
+            M = IPOS(I,K)
+            IF (M < LDIM(K)) THEN
+              DX = TABLE%X(K)%VALUES(M+1) - TABLE%X(K)%VALUES(M)
+            ELSE
+              DX = TABLE%X(K)%VALUES(LDIM(K)) - TABLE%X(K)%VALUES(LDIM(K)-1)
+            ENDIF
+            IF (DX > ZERO) THEN
+              IPOS(I,K) = INT( (XX(I,K) - TABLE%X(K)%VALUES(1)) / DX ) + 1
+              IPOS(I,K) = MAX(1,MIN(IPOS(I,K),LDIM(K)-1))
+            ELSE
+              IPOS(I,K) = LDIM(K)-1
+            ENDIF
+          ENDDO
+
+        ENDIF
       ENDDO ! K=1,NDIM
 
       DO K=1,NDIM
@@ -318,4 +421,4 @@ c-----------
       RETURN
       END SUBROUTINE TABLE_MAT_VINTERP
 c-----------
-      END MODULE TABLE_MAT_VINTERP_MOD     
+      END MODULE TABLE_MAT_VINTERP_MOD

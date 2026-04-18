@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,N, IPERM(4),IPERM1(10),IPERM2(10),N1,N2,NN,ND,II,J
+      INTEGER  I,N, IPERM(4),IPERM1(10),IPERM2(10),N1,N2,NN,J
 C-----------------------------------------------
       DATA IPERM/1,3,6,5/
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
@@ -75,9 +75,9 @@ C-----------------------------------------------
       my_real
      .   OFF_L,XM,YM,ZM,XX,YY,ZZ,FACIROT,FACIROT2
 C-----------------------------------------------
-c     FACIROT  = (7./48.) / (1./32/)  ! rapport des masses
+c     FACIROT = (7./48.)/(1./32/)!masses report
       FACIROT  = (NINE + THIRD) 
-c     FACIROT2 = TWO * (7./48.) / (1./32/)  ! 2 * rapport des masses
+c     FACIROT2 = Two * (7./48.)/(1./32/)!2 * Masses report
 c     FACIROT2 = NINE + THIRD
       FACIROT2 = TWO * (NINE + THIRD)
 
@@ -125,7 +125,7 @@ C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C           cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
             STIV(I) = TWO/THIRTY2 * STI(I)
-            STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
+            STIE(I) = TWO*SEVEN/FORTY8 * STI(I)
           END DO
 C
           DO N=1,4

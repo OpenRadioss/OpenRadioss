@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,23 +21,30 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_energy_c   ../engine/source/materials/fail/energy/fail_energy_c.F
+!||    fail_energy_c           ../engine/source/materials/fail/energy/fail_energy_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      SUBROUTINE FAIL_ENERGY_C(
-     1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     , 
-     3     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
-     4     AREA     ,THK      ,DMG_FLAG ,
-     5     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     ,
-     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     7     DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )
+      SUBROUTINE FAIL_ENERGY_C(FAIL     ,
+     1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,
+     2     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
+     3     AREA     ,THK      ,DMG_FLAG ,TIME     ,
+     4     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     ,
+     5     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     6     DEPSXX   ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   )
 C-----------------------------------------------
 C    energy failure model
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,58 +81,46 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT
+      INTEGER ,INTENT(IN) :: NEL,NUVAR,NVARTMP,IPG,ILAY,IPT
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: AREA,THK,EPSP,OFF,
-     .  SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSXY,
-     .  DEPSYZ,DEPSZX
-      my_real,DIMENSION(NUPARAM) ,INTENT(IN) :: UPARAM
+     .  SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX
+      type (fail_param_) ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) ::DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: FOFF
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
-      my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX
       INTEGER ,DIMENSION(NEL) :: INDX
-      my_real RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC
-      my_real DAMAGE(NEL)
+      my_real R1,R2,IE_SP,RIEF1,RIEF2
+      my_real DAMAGE(NEL),RFAC(NEL),DYDX(NEL)
 C=======================================================================
-      RIEF1    = UPARAM(1)             
-      RIEF2    = UPARAM(2)           
-      XFAC     = UPARAM(4)           
-      DMG_FLAG = INT(UPARAM(5))
+      DMG_FLAG = FAIL%IPARAM(1)
+!
+      RIEF1    = FAIL%UPARAM(1)             
+      RIEF2    = FAIL%UPARAM(2)           
       NINDX    = 0  
 C-----------------------------------------------
+      if (fail%table4d(1)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,epsp,rfac,dydx)
+        rfac(:) = max(rfac(:),em20)
+      else
+        rfac(:) = one
+      end if
+!
       DO I = 1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-          IF (IFUNC(1) /= 0) THEN
-            RFAC = FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
-            RFAC = MAX(RFAC,EM20)
-          ELSE
-            RFAC = ONE
-          ENDIF  
-          R1 = RIEF1*RFAC
-          R2 = RIEF2*RFAC
+          R1 = RIEF1*RFAC(I)
+          R2 = RIEF2*RFAC(I)
 
           UVAR(I,1) = UVAR(I,1) + SIGNXX(I)*DEPSXX(I) + 
      .                            SIGNYY(I)*DEPSYY(I) +

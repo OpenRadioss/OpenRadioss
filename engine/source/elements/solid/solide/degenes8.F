@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,19 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
+!||    degenes8      ../engine/source/elements/solid/solide/degenes8.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
-!||    sdlen_sms    ../engine/source/elements/solid/solidez/sdlen_sms.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sdlen_dege    ../engine/source/elements/solid/solide/sdlen_dege.F
+!||    sdlen_sms     ../engine/source/elements/solid/solidez/sdlen_sms.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
-!||    intab        ../engine/source/implicit/ind_glob_k.F
+!||    intab         ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DEGENES8(
      1   IXS,     IDEGE,   NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +72,7 @@ C-----------------------------------------------
         IF (INTAB(8,NC,NJ)) IDEGE(I)=IDEGE(I)+1
         NC(J)=NJ
        END DO
-C------number of degene nodes       
+C------number of degenerate nodes       
        IDEGE(I)=IDEGE(I)/2 
       ENDDO
 C      

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_MURNAGHAN(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_MURNAGHAN(NPROPM, IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,18 +60,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT, IUNIT, NPROPM
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,K0,K1,RHOI,RHOR,MU0,DF,SSP0,G0,DPDMU
+      my_real  P0, E0, PSH, RHO0, K0, K1, RHOI, RHOR, MU0, DF, SSP0, G0, DPDMU
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -93,6 +91,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -100,17 +99,28 @@ C-----------------------------------------------
       E0=ZERO
       
       IF(K0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
-     .               C1='/EOS/MURNAGHAN',
-     .               C2='K0 MUST BE POSITIVE')
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS, C1='/EOS/MURNAGHAN', C2='K0 MUST BE POSITIVE')
       ENDIF
       
-      PM(32)=P0
-      PM(36)=K0
+      PM(32)=K0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
       PM(23)=E0
-      PM(35)=K1
-      IF(PM(79)==ZERO)PM(79)=THREE100
+
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC   = 0
+      MAT_PARAM%EOS%NTABLE  = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = K0
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = K1
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, JLT_NEW,INACTI, CAND_N(*),CAND_E(*)
+      INTEGER JLT,INACTI, CAND_N(*),CAND_E(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),INDEX(MVSIZ),I3N
       my_real
@@ -62,8 +62,8 @@ C-----------------------------------------------
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
-     .     KB1(MVSIZ), KB2(MVSIZ), KB3(MVSIZ), KB4(MVSIZ),
-     .     KC1(MVSIZ), KC2(MVSIZ), KC3(MVSIZ), KC4(MVSIZ),
+     .        
+     .        
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J
+      INTEGER I
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),
      .     AL1(MVSIZ),  AL2(MVSIZ),  AL3(MVSIZ), AL4(MVSIZ),
@@ -86,15 +86,15 @@ C-----------------------------------------------
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     S2,D1,D2,D3,D4,
-     .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
-     .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
-     .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
-     .     DS2,T1,T2,T3,LA, HLA, AAA,
+     .     S2,
+     .     X12,X23,X34,X41,SX1,SX2,SX3,SX4,SX0,
+     .     Y12,Y23,Y34,Y41,SY1,SY2,SY3,SY4,SY0,
+     .     Z12,Z23,Z34,Z41,SZ1,SZ2,SZ3,SZ4,SZ0,
+     .     LA, HLA, AAA,
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ)
 C-----------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        I3N=2
        DO I=1,JLT
@@ -109,7 +109,7 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C
        DO I=1,JLT
@@ -371,7 +371,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J
+      INTEGER I
       my_real
      .     FAC,GAP2,D1,D2,D3,D4,PENE2(MVSIZ)
 C-----------------------------------------------

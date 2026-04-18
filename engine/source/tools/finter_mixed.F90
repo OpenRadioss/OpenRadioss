@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@
 !||    fxgrvcor               ../engine/source/constraints/fxbody/fxgrvcor.F
 !||    get_preload_axial      ../engine/source/elements/spring/preload_axial.F90
 !||    gravit_imp             ../engine/source/loads/general/grav/gravit_imp.F
+!||    preload_solid_ini      ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    sms_gravit             ../engine/source/ams/sms_gravit.F
 !||    volp_lfluid            ../engine/source/airbag/volp_lfluid.F
 !||    volpfv                 ../engine/source/airbag/volpfv.F
@@ -41,6 +42,7 @@
 !||    volprep                ../engine/source/airbag/volpresp.F
 !||--- calls      -----------------------------------------------------
 !||    finter                 ../engine/source/tools/curve/finter.F
+!||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
 !||--- uses       -----------------------------------------------------
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
@@ -77,7 +79,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ismooth
-          real(kind=WP), external :: FINTER
+          real(kind=WP), external :: FINTER, FINTER_SMOOTH
           real(kind=WP) :: unused_dxdy
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,6 +91,12 @@
             call python_call_funct1d(python, -ismooth,x, y)
             if(present(dydx)) then
               call python_deriv_funct1D(python, -ismooth,x, dydx)
+            endif
+          elseif (ismooth > 0) then
+            if(present(dydx)) then
+              y = FINTER_SMOOTH(ifunc, x, npc, tf, dydx)
+            else
+              y = FINTER_SMOOTH(ifunc, x, npc, tf, unused_dxdy)
             endif
           else
             if(present(dydx)) then

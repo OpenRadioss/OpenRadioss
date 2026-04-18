@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,8 +61,8 @@ C-----------------------------------------------
      .   I,J,K,LENG,FLAG,ISMASSCHANGE,PROPID,MATID
       my_real 
      .   MAXVEL(PARAM),VEL,
-     .   MAXENCIN(PARAM),ENCIN,VEL2,
-     .   MAXMASS(PARAM),MASS,
+     .   MAXENCIN(PARAM),ENCIN,
+     .   
      .   MAXDMASS(PARAM),DMASS,
      .   MAXENINT(PARAM),ENINT
       INTEGER 

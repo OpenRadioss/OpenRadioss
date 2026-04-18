@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
 C-----------------------------------------------
-      INTEGER I,J,EP,L,I1,J1
+      INTEGER I,J,EP,L
       my_real
      .    K(3,3)
 C--------------PVQIJ=[VQ]gij-[KD][VQ]--;PVQJI=[VQ]gij-[KD]^t[VQ]-----------------------------

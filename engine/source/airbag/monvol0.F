@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -99,10 +99,10 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
-      TYPE(PYTHON_), INTENT(IN) :: PYTHON     
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON     
 C-----------------------------------------------
-C     N(3,*)  NORMALE STOCKEE DANS WA
-C     PORO(*) STOCKE DANS WA
+C     N(3,*)  NORMAL STORED IN WA
+C     PORO(*) STORED IN WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +159,7 @@ C
         IF(FR_MV(ISPMD+1,I)/=0 .OR. FR_MV(NSPMD+2,I)==ISPMD+1) THEN
           PMAIN = FR_MV(NSPMD+2,I)
         ELSE
-C saut partie airbag si proc non concerne
+C Airbag jumping if proc not concerned
           GO TO 100
         ENDIF
         IF(ITYP == 6 .OR. ITYP == 8) GO TO 100

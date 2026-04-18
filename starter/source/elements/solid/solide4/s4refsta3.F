@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II, N, JHBE, IMAT,IGTYP, ITRS, ISTRA, IPID, IBID,
+      INTEGER I, N, JHBE, IMAT,IGTYP, ITRS, ISTRA, IPID, IBID,
      .        NITSAV,JJ(6)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
@@ -145,7 +146,7 @@ C-----Case total strain, rather for computing Eint, stress will also be calculat
 C-----but NITRS=1, for nonlinear elastic, Eint is too approximative
       IF (ISMSTR >= 10 ) NITRS=10
 C----------------------------
-      IF (MTN == 35 .OR. MTN == 38 .OR. MTN == 42 .OR. MTN == 70)THEN
+      IF (MTN == 35 .OR. MTN == 38 .OR. MTN == 42 .OR. MTN == 70 .OR. MTN == 88)THEN
         IF (JCVT > 0) THEN
            IPID = IXS(NIXS-1,1)
            ID = IGEO(1,IPID)
@@ -157,7 +158,7 @@ C----------------------------
      .                 C1=TITR)
         ENDIF
 C----------------------------
-C        Connectivities, PID, MID N
+C        Connectivities, PID, Mid N
 C----------------------------
         MAT(1) = 0
         DO I=LFT,LLT
@@ -193,7 +194,7 @@ C----------------------------
           ZR(I,4) = ZERO
         END DO
 C-----Case total strain calculated in global sys
-C       Repere isoparametrique -> rep convecte -> rep orthotrope
+C       Isoparametric bench
         CALL S4REPISOT3(XR(1,1) ,XR(1,2) ,XR(1,3) ,XR(1,4) ,
      .                 YR(1,1) ,YR(1,2) ,YR(1,3) ,YR(1,4) ,
      .                 ZR(1,1) ,ZR(1,2) ,ZR(1,3) ,ZR(1,4) ,
@@ -232,7 +233,7 @@ C----------------------------
           Y4(I)=ZERO
           Z4(I)=ZERO
         END DO
-C       Repere isoparametrique -> rep convecte -> rep orthotrope
+C       Isoparametric bench
         CALL S4REPISO3(X1   ,X2   ,X3   ,X4   ,
      .                 Y1   ,Y2   ,Y3   ,Y4   ,
      .                 Z1   ,Z2   ,Z3   ,Z4   ,
@@ -255,7 +256,7 @@ c     .             Z1   ,Z2   ,Z3   ,Z4   )
      .         Z1   ,Z2   ,Z3   ,Z4   )
         ENDIF
 C----------------------------
-C       Retourne la reference en repere global.
+C       Returns the reference in global frame.
 C----------------------------
 c        CALL S4ROTAT3(E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
 c     .       XR(1,1)   ,XR(1,2)   ,XR(1,3)   ,XR(1,4)   ,
@@ -356,7 +357,7 @@ C         ENDIF
             Z4(I)=ZR(I,4)+FAC*VZ4(I)
           END DO
 C-----------
-C         Repere isoparametrique -> rep convecte -> rep orthotrope
+C         Isoparametric bench
           CALL S4REPISO3(X1   ,X2   ,X3   ,X4   ,
      .                   Y1   ,Y2   ,Y3   ,Y4   ,
      .                   Z1   ,Z2   ,Z3   ,Z4   ,

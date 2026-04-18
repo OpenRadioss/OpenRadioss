@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE C_TF_NE(ELBUF_STR,IHBE     ,NEL  ,NPT   ,MLW   ,
@@ -43,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,10 +75,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IPT,I1,I2,I3,I4,I5,II(12),
-     .        PTF,PTM,PTEP,PTS,NG,IR,IS,LENF,LENM,
+      INTEGER I,J,K,IPT,II(12),
+     .        PTF,PTM,PTS,NG,IR,IS,LENF,LENM,
      .        LENS,MAT_1,PID_1,LAYNPT_MAX,NLAY_MAX,IXLAY,IPT_ALL,
-     .        JPOS,IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
+     .        IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
       INTEGER MAT(MVSIZ),PID(MVSIZ)
       my_real
      .   FUNC(6),QPG(2,4),PG,MPG,

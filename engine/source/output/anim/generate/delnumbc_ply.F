@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    get_ply_elem          ../engine/source/output/anim/generate/anin_ply_init.F
 !||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE DELNUMBC_PLY(IPLY,NEL_PLY,IPARG,
@@ -38,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                  NBPART,IADG,NODGLOB,IDCMAX,
      6                  NBF_PXFEMG)
       USE PLYXFEM_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,16 +60,10 @@ C-----------------------------------------------
      .        NEL_PLY,NBF_PXFEMG,NODGLOB(*)
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II,IE,NG, ITY, LFT, LLT, N, I, J,
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,
-     .        NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,
-     .        IDCMAX, IDCMAXL,ISHPLYXFEM,ID_IE,IDPLY,NPT,
+      INTEGER II, NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NFT,
+     . IDCMAX,ISHPLYXFEM,IDPLY,
      .        IPT,ELC,PLYELEMS(NUMELC),PLYS,RBUF,NELCOUNT,ELEM
-
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INUMG
-
       INTEGER GET_PLY_ELEM
       EXTERNAL GET_PLY_ELEM
 C-----------------------------------------------
@@ -97,7 +93,7 @@ C       QUAD
 C-----------------------------------------------
           IF(ISHPLYXFEM > 0) THEN
 C-----------------------------------------------
-C       COQUES
+C       SHELLS
 C-----------------------------------------------
             IF(ITY==3)THEN
               DO I=LFT,LLT
@@ -110,7 +106,7 @@ C-----------------------------------------------
                 ENDIF
               ENDDO
 C-----------------------------------------------
-C       COQUES 3 NOEUDS
+C       3-NODE SHELLS
 C-----------------------------------------------
             ELSEIF(ITY==7)THEN
               DO I=LFT,LLT

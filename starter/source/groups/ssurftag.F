@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SURF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -167,7 +168,7 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELS(NI(1))+1,KNOD2ELS(NI(1)+1)
               KS=NOD2ELS(K)
               IF(KS==JS .OR. KS > NUMELS8+NUMELS10)CYCLE
-              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivit� avec tout le monde
+              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 we only look for connectivity with the elements marked by the group (cycle), otherwise if IFRE=1 we look for connectivity with everyone
               IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTS(KS))==0)CYCLE     
               DO II=1,NF
                 NODTAG(NI(II))=0
@@ -216,7 +217,7 @@ C                 permute
               END IF
             END DO
                   IF(MI(1)==NI(1).AND.MI(NF)==NI(2))THEN
-C                    FACTAG(JS) moins face jj
+C                    Factag (JS) Less Face JJ
                      FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                      GO TO 300
                   END IF
@@ -543,8 +544,10 @@ C-----------------------------------------------
 !||    surfext_tagn   ../starter/source/groups/ssurftag.F
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -668,7 +671,7 @@ C                 permute
               END IF
             END DO
                   IF(MI(1)==NI(1).AND.MI(NF)==NI(2))THEN
-C                    FACTAG(JS) moins face jj
+C                    Factag (JS) Less Face JJ
                      FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                      GO TO 300
                   END IF

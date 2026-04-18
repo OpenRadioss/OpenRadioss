@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -90,18 +90,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE, IVAD,
-     .        II,IPT,JJ(6),NPF,
-     .        IFVITSX,IFVITSY,IFVITSZ,IFDENS,IFPRES,IFENER,
+     .        II,JJ(6),
+     .        
      .        J,N,INOD,IACTIVE,
-     .        ILASTON,NLASTON,I1STOFF,N1STOFF,
+     .        ILASTON,NLASTON,
      .        ISU,NSEG,IN1,IN2,IN3,IN4,
-     .        IMAT,IPROP,IPRT,NEL,KAD,NG,K,
+     .        IPRT,NEL,KAD,NG,K,
      .        KP,NP2SORT,NBAND,
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
-     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KF,
+     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,
      .        IPPV,M,JNOD,KNOD,JK,NVOIS1,NVOIS2,NVOISS1,NVOISS2,
      .        IMPOSE,IUN,KK,I1,IAD2,
-     .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,NP2SORT_OLD,KOFF,IJ
+     .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,IJ
 C     REAL
       my_real
      .       WFEXTT,VOLO,
@@ -452,11 +452,11 @@ C------
             CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP2SORT,LONFSPH,MWA,WA,WA(KVNORM),1)
             DPS=WA(NP2SORT)
             IF (DPS _OLD*DPS<ZERO) THEN
-C       pur outlet/silent boundaries on permute le sens de comptage
+C       Pure outlet/Silent Boundaries we swap the counting direction
               IF (ISPHIO(1,I)/=4) DPS_OLD = -DPS_OLD
-C       la particule a traverse la surface dans le sens +
+C       the particle crossed the surface in the + direction
               IF (DPS_OLD>ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
-C       la particule a traverse la surface dans le sens -
+C       the particle crossed the surface in the - direction
               IF (DPS_OLD<ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
             ENDIF        
           ENDIF
@@ -471,7 +471,7 @@ C------
          IACTIVE=MWA(KP)
          IF(DPS>DMAX.AND.DPS<ZERO)THEN
 C         particule imposee :
-C           conditions multiples => la derniere condition rencontree impose ..
+C           Multiple conditions => the last condition meets imposes ..
           N=LONFSPH(IACTIVE)
           IWA(IACTIVE)=I
           NG       =MOD(KXSP(2,N),NGROUP+1)
@@ -541,7 +541,7 @@ C send IMPOSE value
              CALL SPMD_SPHGETIMP(KXSP)
           END IF 
 C     requete ppv <=> non zero interaction / impose
-c     ppv: plus proche voisin
+c     PPV: closer neighbor
 C-----------------------------------------------
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
@@ -618,7 +618,7 @@ c elmt delete OFF_SPH set to 1
        END IF
       ENDDO
 C-----------------------------------------------
-C      supprime particules n'inter-agissant plus avec l'interieur du domaine.
+C      Deletes particles no longer inter-acting with the interior of the domain.
 C-----------------------------------------------
       DO I1=1,NSPHIO
        ITYPE=ISPHIO(1,I1)
@@ -727,8 +727,8 @@ C           chainage:
             ILASTON            =ILASTON-1
             LPRTSPH(1,IPRT)    =ILASTON
 
-C           mise a jour des voisinages:
-c 1) ON NE TRAITE QUE LES VOISINS LOCAUX
+C           update of neighborhoods:
+c 1) WE ONLY PROCESS LOCAL NEIGHBORS
 
             DO J=1,KXSP(5,N)
 

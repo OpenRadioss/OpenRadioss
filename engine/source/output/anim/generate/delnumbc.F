@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,12 +27,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_fvb_amax     ../engine/source/mpi/anim/spmd_fvb_amax.F
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DELNUMBC(IPARG,IXQ  ,IXC   ,IXTG ,INVERT,
      2                    EL2FA,NBF  ,INUM ,NELCUT,
      3                    DD_IAD  ,IADD ,NBF_L,
      4                    NBPART,IADG,NODGLOB,IDCMAX          )
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,10 +56,8 @@ C-----------------------------------------------
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,
+      INTEGER NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NFT,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,NODGLOB(*),
      .        IDCMAX, IDCMAXL
 C-----------------------------------------------
@@ -88,7 +89,7 @@ C-----------------------------------------------
           INUM(EL2FA(NN3+N)) = IXQ(NIXQ,N)
          ENDDO
 C-----------------------------------------------
-C       COQUES
+C       SHELLS
 C-----------------------------------------------
         ELSEIF(ITY==3)THEN
          DO I=LFT,LLT
@@ -96,7 +97,7 @@ C-----------------------------------------------
           INUM(EL2FA(NN4+N)) = IXC(NIXC,N)
          ENDDO
 C-----------------------------------------------
-C       COQUES 3 NOEUDS
+C       3-NODE SHELLS
 C-----------------------------------------------
         ELSEIF(ITY==7)THEN
          DO I=LFT,LLT

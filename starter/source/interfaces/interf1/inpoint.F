@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,7 @@ C-----------------------------------------------
       INTEGER BRICS(*), ITAB(*),MSV(*)
       INTEGER I, J
 C------------------------------------------------------------
-C       INPUT PAR NOEUDS
+C       INPUT BY NODES
 C------------------------------------------------------------
         DO J=1,MSN
           MSV(J)=BRICS(J)

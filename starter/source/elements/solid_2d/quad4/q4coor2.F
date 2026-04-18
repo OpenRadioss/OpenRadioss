@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    q4rcoor2   ../starter/source/elements/solid_2d/quad4/q4coor2.F
+!||    q4rcoor2      ../starter/source/elements/solid_2d/quad4/q4coor2.F
 !||--- called by ------------------------------------------------------
-!||    q4init2    ../starter/source/elements/solid_2d/quad4/q4init2.F
+!||    q4init2       ../starter/source/elements/solid_2d/quad4/q4init2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE Q4RCOOR2(X,IXQ,NGL  ,MXT   ,
      .         PID, IX1, IX2, IX3, IX4,
      .         Y1, Y2, Y3, Y4,
      .         Z1, Z2, Z3, Z4,YAVG,Y234,Y124,
      .         SY, SZ, TY, TZ, E1Y, E1Z , E2Y, E2Z)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +62,7 @@ C-----------------------------------------------
      .   SY(MVSIZ) ,SZ(MVSIZ) ,
      .   TY(MVSIZ) ,TZ(MVSIZ), SUMA,CT,CS
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXQ(1,I)
@@ -73,7 +75,7 @@ C--------------------------------------------------
       END DO
 C
 C----------------------------
-C     COORDONNEES NOEUDS    |
+C     NODE COORDINATES     |
 C----------------------------
       DO I=LFT,LLT
         Y1(I)=X(2,IX1(I))
@@ -91,7 +93,7 @@ C----------------------------
          Y124(I)=Y1(I)+Y2(I)+Y4(I)
       END DO
 C---------------------------------------
-C     REPERE LOCAL (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIC)
 C---------------------------------------
       DO I=LFT,LLT
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
@@ -100,7 +102,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE ORTHOGONALISE 
+C     convected frame ORTHOGONALIZED
 C     full integ: Same than the shell 
 C-----------
       DO I=LFT,LLT

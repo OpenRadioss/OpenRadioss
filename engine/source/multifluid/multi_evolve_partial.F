@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_timeevolution    ../engine/source/multifluid/multi_timeevolution.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
@@ -38,6 +39,7 @@ C-----------------------------------------------
       USE INITBUF_MOD      
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,7 +124,7 @@ C     TRIANGLES
 C     UPDATE
          DO II = 1, NEL
             I = II + NFT
-C     Fluxes sum
+C     SUM Flow
             IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
 C     Volume flux
                SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sdlen_sms   ../engine/source/elements/solid/solidez/sdlen_sms.F
+!||    sdlen_sms     ../engine/source/elements/solid/solidez/sdlen_sms.F
 !||--- called by ------------------------------------------------------
-!||    szforc3     ../engine/source/elements/solid/solidez/szforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
-!||    basisf      ../engine/source/elements/solid/solide8/basisf.F
-!||    degenes8    ../engine/source/elements/solid/solide/degenes8.F
-!||    deges4v     ../engine/source/elements/solid/solide/deges4v.F
-!||    idege8      ../engine/source/elements/solid/solide/idege8.F
+!||    basisf        ../engine/source/elements/solid/solide8/basisf.F
+!||    degenes8      ../engine/source/elements/solid/solide/degenes8.F
+!||    deges4v       ../engine/source/elements/solid/solide/deges4v.F
+!||    idege8        ../engine/source/elements/solid/solide/idege8.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SDLEN_SMS(
      1   DELTAX,     VOLG,       IXS,        X1,
@@ -39,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   Z2,         Z3,         Z4,         Z5,
      7   Z6,         Z7,         Z8,         IPARTS,
      8   TAGPRT_SMS, TAGELEM_SMS,NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,9 +75,8 @@ C     REAL
       my_real
      .   AJ11, AJ12, AJ13, AJ21,
      .   AJ22, AJ23, AJ31, AJ32,
-     .   AJ33, AI11, AI12, AI13,
-     .   AI21, AI22, AI23, AI31,
-     .   AI32, AI33
+     . AJ33, AI11,
+     . AI21, AI31
 C     REAL
       my_real
      .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
@@ -84,7 +86,7 @@ C     REAL
      .   Y58(MVSIZ), Y67(MVSIZ), Z14(MVSIZ), Z23(MVSIZ), Z58(MVSIZ),
      .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
      .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
-     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8), VLINV,
+     . Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8),
      .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,SMAX(MVSIZ),VMIN,
      .   P1(8), P2(8), P3(8),VLINC(MVSIZ,8)
       my_real

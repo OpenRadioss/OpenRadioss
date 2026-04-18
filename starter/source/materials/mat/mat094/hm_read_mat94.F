@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -234,15 +234,15 @@ C
      & 5X,'INITIAL SHEAR MODULUS . . . . . . . . . .=',1PG20.13/
      & 5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13/)      
- 1300 FORMAT(
-     & 5X,'UNIAXIAL DATA TEST CURVE. . . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///) 
- 1310 FORMAT(
-     & 5X,'EQUIBIAXIAL DATA TEST CURVE . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
- 1320 FORMAT(
-     & 5X,'PLANAR DATA TEST CURVE. . . . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
+C1300 FORMAT(
+C    & 5X,'UNIAXIAL DATA TEST CURVE. . . . . . . . .=',I10/
+C    & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///) 
+C1310 FORMAT(
+C    & 5X,'EQUIBIAXIAL DATA TEST CURVE . . . . . . .=',I10/
+C    & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
+C 1320 FORMAT(
+C     & 5X,'PLANAR DATA TEST CURVE. . . . . . . . . .=',I10/
+C     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
 C
       RETURN
       END

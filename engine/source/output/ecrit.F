@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    imp_dyna            ../engine/share/modules/impbufdef_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
@@ -58,7 +57,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE H3D_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
       USE STATE_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
@@ -112,17 +110,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,
-     .         NTY,INTHE,IABFIS
-      my_real
-     .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
-     .   VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
-     .   MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
+      INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,NTY,INTHE,IABFIS
+      my_real :: ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
+     .           VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
+     .           MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
+      my_real ::   DM_INOUT, DE_INOUT
 
-      DOUBLE PRECISION ETIME, RETIME, TT0,
-     .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
-     .                 XMASSD, ENROTD, ENINTD, ENCIND2,
-     .                 ENROTD2, ENTOTB, EAMSD
+      DOUBLE PRECISION :: ETIME, RETIME, TT0,
+     .                    ENCIND, XMOMTD, YMOMTD, ZMOMTD,
+     .                    XMASSD, ENROTD, ENINTD, ENCIND2,
+     .                    ENROTD2, ENTOTB, EAMSD
 
       DATA X99/99.9/
       DATA TT0/-1./
@@ -152,6 +149,7 @@ C-----------------------------------------------
      K           'IGE3D','     ','     ','     ','     '/
       DATA ILIGN/55/
 C=======================================================================
+      DM_INOUT=0
       IPRI=1
       IFLAG =0
       IF(TT0==-ONE)TT0=TT
@@ -178,7 +176,7 @@ C
 C     initialization / see corrections rbodies...
       EAMS=ENCIN 
 C
-C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE pour cumul
+C global var initialized in resol and modified in rgbcor + switched to double for accumulation
       ENCIND  = ZERO
       ENROTD  = ZERO
       ENINTD  = ZERO
@@ -391,8 +389,8 @@ C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
       ENDIF
 C
       IF (NSPMD > 1) THEN
-C.....envoyer la contribution au proc 0
-C.....sommer les contributions puis standard
+C..... Send the contribution to Pro 0
+C..... summon the contributions then standard
         ENTMP(1) = ENCIN
         ENTMP(2) = ENROT
         ENTMP(3) = ENINT
@@ -422,7 +420,7 @@ C.....sommer les contributions puis standard
         ENDIF
 C
         IF (ISTAT==2) THEN
-C istat=2 => relaxation : broadcast de encin et enrot
+C istat=2 => relaxation: broadcast of encin and enrot
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,2,0,2)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
@@ -431,7 +429,7 @@ C istat=2 => relaxation : broadcast de encin et enrot
             ENROT2 = ENTMP(11)            
           ENDIF
         ELSEIF (ISTAT==3) THEN
-C istat=3 => ADYREL : broadcast de encin et enrot ENINT
+C istat=3 => adyrel: broadcast of encin and enrot enint
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,3,0,3)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
@@ -447,9 +445,13 @@ C
         ENTMP(5) = WFEXTH
         ENTMP(6) = ECONTD   
         ENTMP(7) = ECONT_CUMU
-        ENTMP(8) = WPLAST                        
-        CALL SPMD_GLOB_DSUM9(ENTMP,8)
-        IF(ISPMD/=0) THEN
+        ENTMP(8) = WPLAST
+        ENTMP(9)  = OUTPUT%DATA%INOUT%DM_IN
+        ENTMP(10) = OUTPUT%DATA%INOUT%DM_OUT
+        ENTMP(11) = OUTPUT%DATA%INOUT%DE_IN
+        ENTMP(12) = OUTPUT%DATA%INOUT%DE_OUT
+        CALL SPMD_GLOB_DSUM9(ENTMP,12)
+        IF(ISPMD /= 0) THEN
           OUTPUT%TH%WFEXT = ZERO
           EHOUR = ZERO
           ECONTV = ZERO
@@ -458,6 +460,10 @@ C
           ECONTD = ZERO
           ECONT_CUMU = ZERO
           WPLAST = ZERO
+          OUTPUT%DATA%INOUT%DM_IN = ZERO
+          OUTPUT%DATA%INOUT%DM_OUT = ZERO
+          OUTPUT%DATA%INOUT%DE_IN = ZERO
+          OUTPUT%DATA%INOUT%DE_OUT = ZERO
         ELSE
           OUTPUT%TH%WFEXT = ENTMP(1)
           EHOUR = ENTMP(2)
@@ -466,7 +472,11 @@ C
           WFEXTH= ENTMP(5)
           ECONTD = ENTMP(6)    
           ECONT_CUMU = ENTMP(7)  
-          WPLAST = ENTMP(8)              
+          WPLAST = ENTMP(8)
+          OUTPUT%DATA%INOUT%DM_IN = ENTMP(9)
+          OUTPUT%DATA%INOUT%DM_OUT = ENTMP(10)
+          OUTPUT%DATA%INOUT%DE_IN = ENTMP(11)
+          OUTPUT%DATA%INOUT%DE_OUT = ENTMP(12)
         ENDIF
       ENDIF
 C
@@ -484,17 +494,18 @@ C     EAMS = [ 1/2 v.Mv - 1/2 m v^2 ]/ 1/2 m v^2
 c----------------------------------------------------
       IF (ISPMD == 0) THEN
 c
+        DM_INOUT = OUTPUT%DATA%INOUT%DM_IN+OUTPUT%DATA%INOUT%DM_OUT
+        DE_INOUT = OUTPUT%DATA%INOUT%DE_IN+OUTPUT%DATA%INOUT%DE_OUT
+c
         ENTOT = ENCIN + ENINT + ENROT
-        ENTOTB = ENTOT + ENCIN2 + ENROT2       
+        ENTOTB = ENTOT + ENCIN2 + ENROT2
         IF(NCYCLE==0) THEN
-         ENTOT0=ENTOT - OUTPUT%TH%WFEXT - OUTPUT%TH%WFEXT_MD
+         ENTOT0=ENTOT - OUTPUT%TH%WFEXT - OUTPUT%TH%WFEXT_MD - DE_INOUT
          DELTAE=ENCIN2 + ENROT2                
-         MASS0 = XMASS - DMAS
+         MASS0 = XMASS - DMAS - DM_INOUT
         ENDIF
-        MASS0 = MASS0  + DMF
-        ENTOT0= ENTOT0 + DEF       
-        ENTOT1=ENTOT0 + OUTPUT%TH%WFEXT
-        ENTOT1B=ENTOT0 + OUTPUT%TH%WFEXT + DELTAE + OUTPUT%TH%WFEXT_MD
+        ENTOT1=ENTOT0 + OUTPUT%TH%WFEXT + DE_INOUT
+        ENTOT1B=ENTOT0 + OUTPUT%TH%WFEXT + DELTAE + OUTPUT%TH%WFEXT_MD + DE_INOUT
         IF(ABS(ENTOT1B)>EM20)THEN
           ERR = ENTOTB/ENTOT1B - ONE
           ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
@@ -502,7 +513,8 @@ c
          ERR = ZERO
          ERR1 =ZERO
         ENDIF
-        EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
+        EMASS = (XMASS - (MASS0+DM_INOUT)) / MAX(MASS0+DM_INOUT,EM20)
+        !EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
         ENINTOT = ENINT
         EKINTOT = ENCIN
 C-----------------------------------------------
@@ -545,7 +557,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF                 
         ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
@@ -560,7 +572,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -575,7 +587,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ELSEIF(EMASS>DMTMXS)THEN
@@ -589,7 +601,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -602,7 +614,7 @@ C---------------------------------
           RTMP(1)  = MSTOP
           RTMP(2)  = MREST
           RTMP(3)  = MDESS
-          RTMP(4)  = TANIM
+          RTMP(4)  = OUTPUT%TANIM
           RTMP(5)  = OUTPUT%TH%THIS
           RTMP(6)  = TSTAT
           RTMP(7)  = TOUTP
@@ -616,7 +628,7 @@ C
         MSTOP = NINT(RTMP(1))
         MREST = NINT(RTMP(2))
         MDESS = NINT(RTMP(3))
-        TANIM = RTMP(4)
+        OUTPUT%TANIM = RTMP(4)
         OUTPUT%TH%THIS =  RTMP(5)
         TSTAT = RTMP(6)
         TOUTP = RTMP(7)
@@ -635,7 +647,7 @@ C-----------------------------------------------
         IF (NLPRI /= 0) ILIGN = NLPRI
         JPRI=MOD(NCYCLE,ILIGN*IABS(NCPRI))
         IF(JPRI==0) WRITE(IOUT,1000)
-        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT,EMASS,XMASS,XMASS-MASS0
+        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT,EMASS,XMASS,XMASS-MASS0-DM_INOUT
         CALL MY_FLUSH(IOUT)
         IF(NCPRI<0) THEN
           IF(DEBUG(10)/=0)THEN
@@ -648,7 +660,7 @@ C-----------------------------------------------
             WRITE(ISTDO,'(2(A,I8),A,1PE11.4)') '     LAG_NC=',LAG_NC,',   NITER_GC=',NITER_GC,',   LAG_ERSQ2=',LAG_ERSQ2
           ENDIF
           IF(IMON > 0 .AND. TT-TT0 > ZERO) THEN
-C calcul temps restant
+C compute remaining time
             RETIME = (ETIME*(TSTOP-TT0)) / (TT-TT0) - ETIME
             WRITE(ISTDO,'(A,F14.2,A,A,F14.2,A)')' ELAPSED TIME=',ETIME,' s ',' REMAINING TIME=',RETIME,' s'
           END IF 
@@ -672,7 +684,7 @@ C
        CALL FVSTATS1(IUSC3,MONVOL,1)
              
        IF(IMON > 0 .AND. TT > ZERO) THEN
-C calcul temps restant
+C compute remaining time
          RETIME = (ETIME*TSTOP) / TT - ETIME
          WRITE(IUSC3,'(A)',ERR=990)        ' '
          WRITE(IUSC3,'(A,F14.2,A)',ERR=990)' CURRENT ELAPSED TIME    =',ETIME,' s '

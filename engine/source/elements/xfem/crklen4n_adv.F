@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret           ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRKLEN4N_ADV(
      .           NEL       ,NFT       ,ILAY      ,NLAY      ,IXC       ,
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,18 +64,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,R,IR,P1,P2,NEWCRK,IED,OK,ELCRK,NX1,NX2,NX3,NX4,NM,NP,
-     . FAC,IFI1,IFI2,IEDGE,ICUT,SIGBETA,ICRK,IELCRK,NOD1,NOD2
+      INTEGER I,K,R,IR,P1,P2,NEWCRK,IED,OK,ELCRK,
+     . FAC,IEDGE,ICUT,NOD1,NOD2
 c
       INTEGER JCT(NEL),EDGEL(4,NEL),TIP(NEL),ECUT(2,NEL),dd(4),d(8),KPERM(8)
 c
       my_real
-     .   XIN(2,NEL),YIN(2,NEL),LEN(4,NEL),XMI(2),YMI(2),
+     .   XIN(2,NEL),YIN(2,NEL),LEN(4,NEL),
      .   XXL(4,NEL),YYL(4,NEL),BETA0(4,NEL)
       my_real
-     .   XINT,YINT,ZINT,FI,XXX,YYY,ZZZ,CROSS,ACD,BCD,DLX,DLY,
-     .   X10,Y10,Z10,X20,Y20,Z20,D12,M12,MM,XINT0,YINT0,DIR11,DIR22,
-     .   X1,Y1,X2,Y2,X3,Y3,X4,Y4,BETA,BMIN,BMAX
+     .   XINT,YINT,CROSS,ACD,BCD,DLX,DLY,
+     .   M12,MM,XINT0,YINT0,DIR11,DIR22,
+     .   BETA,BMIN,BMAX
 C----------
       DATA d/1,2,2,3,4,3,1,4/
       DATA dd/2,3,4,1/
@@ -83,13 +85,13 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == 5) THEN        ! avancement de fissure
+        IF (ELCRKINI(ILAY,I) == 5) THEN        ! crack propagation
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
-          ELCRKINI(ILAY,I) = 2                 ! reset pour l avancement
-        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN   ! initialisation de fissure
+          ELCRKINI(ILAY,I) = 2                 ! reset for propagation
+        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN   ! crack initialization
           CRKLEN(I) = ALDT(I)
-          ELCRKINI(ILAY,I) = 0                 ! reset pour initialisation
+          ELCRKINI(ILAY,I) = 0                 ! reset for initialization
         ENDIF
       ENDDO
       IF (NEWCRK == 0) RETURN
@@ -126,7 +128,7 @@ c     First intersection (already cut edge)
 C------------------------------------------------
       DO IR=1,NEWCRK ! loop over elems (layers) with advancing cracks
         I = JCT(IR)    
-        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem 
+        ELCRK = IEL_CRK(I+NFT)   ! DYE SYS XFEM 
         OK    = 0
         ICUT  = 0
         IED   = 0
@@ -157,9 +159,9 @@ C---
           XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))                                      
           YIN(1,I) = YYL(p1,I) + BETA*(YYL(p2,I) - YYL(p1,I))
 c                                                                                    
-          EDGEL(IED,I) = 1              ! local : premier edge coupe
+          EDGEL(IED,I) = 1              ! Local: First Edge Cup
           IEDGE  = XEDGE4N(IED,ELCRK)    ! N  edge element sys xfem
-          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 ou 2 , debut ou fin de fissure
+          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 or 2 , start or end of crack
         ELSE
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
           CALL ARRET(2)           

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,9 +75,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,INOD,JNOD,J,NVOIS,M,IPRT,IPROP,IMAT,I,
-     .        NVOISS,IC,NC,IS,SM,JS,ISLIDE,SS,NSTAB,NN,KS,NR, 
-     .        K,JPERM(KVOISPH),IERROR
+      INTEGER N, INOD, JNOD, J, NVOIS, M, IPRT, IPROP, I, 
+     . NVOISS,NC,SM,JS,NN,KS,NR
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,
      .       SXX,SXY,SXZ,SYY,SYZ,SZZ,
@@ -87,16 +86,12 @@ C-----------------------------------------------
      .       DIJ,MM,
      .       VXI,VYI,VZI,VXJ,VYJ,VZJ,MUIJ,MUIJ2,PIJ,SSP,
      .       FACT,QA,QB,
-     .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,
-     .       UXX,UXY,UXZ,UYX,UYY,UYZ,UZX,UZY,UZZ,
-     .       VXX,VXY,VXZ,VYY,VYZ,VZZ,
      .       DIVVI,DIVVJ,ROTVI,ROTVJ,FI,FJ,
      .       FVX,FVY,FVZ,WVIS,
-     .       STIF,PJ,STIJ,SFAC,DLDT,L,CIJ,DZETA,WNORM,
+     .       STIJ,SFAC,DLDT,L,CIJ,DZETA,WNORM,
      .        VI,VJ,VIJ,
-     .        DRHOI,DRHOJ,SSP2I,SSP2J,STII,DRHOIDR,DRHOJDR,
+     .        SSP2I,SSP2J,STII,
      .        ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     .        BETAXI,BETAYI,BETAZI,
      .        BETAXXI,BETAYXI,BETAZXI,
      .        BETAXYI,BETAYYI,BETAZYI,
      .        BETAXZI,BETAYZI,BETAZZI,
@@ -105,9 +100,9 @@ C-----------------------------------------------
      .        BETAXXJ,BETAYXJ,BETAZXJ,
      .        BETAXYJ,BETAYYJ,BETAZYJ,
      .        BETAXZJ,BETAYZJ,BETAZZJ,
-     .        BETAX,WGRDX,WGRDY,WGRDZ,WGRD(3),
+     .        WGRDX,WGRDY,WGRDZ,WGRD(3),DRHOJDR,DRHOIDR,
      .        VOLI,VOLJ,DXIJ,NXIJ,
-     .        CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,WFEXTT, WW, WI, WR, ZSTAB
+     . CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,WFEXTT, WW, WI, WR
 C-----------------------------------------------
       WFEXTT=ZERO
       DO 10 I=LFT,LLT
@@ -328,7 +323,7 @@ C
 C
             STIJ=TWO*(STII+STIJ)
 C
-C           K*=FV divise par DL (C=FV divise par V)
+C           K*= fv divided by dl (c = fv divided by v)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -503,7 +498,7 @@ C WA(9) <=> WAR(8)
 C
             STIJ=TWO*(STII+STIJ)
 C
-C           K*=FV divise par DL (C=FV divise par V)
+C           K*= fv divided by dl (c = fv divided by v)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -520,7 +515,7 @@ C
          WA(11,N)=WA(11,N)+FY
          WA(12,N)=WA(12,N)+FZ
 C
-C         pour travail des forces de visc. artificielle (par cellule).
+C         for work of artificial viscosity forces (per cell).
          WVIS = MIN(ZERO,
      .          HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
          SPBUF(11,N)=SPBUF(11,N)+WVIS
@@ -576,7 +571,7 @@ C
 !     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C          noyau conjugue.
+C          nucleus combines.
            ALPHAJ=WACOMP(1,SM)
 C          BETAXJ=WACOMP(2,SM)
 C          BETAYJ=WACOMP(3,SM)
@@ -696,7 +691,7 @@ C
 C   
              STIJ=TWO*(STII+STIJ)
 C   
-C            K*=FV divise par DL (C=FV divise par V)
+C            K*= fv divided by dl (c = fv divided by v)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
              DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -711,11 +706,11 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
-          ELSE                      ! particule symetrique de particule remote
+          ELSE                      ! Symmetrical particle particle Remote
            SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -760,7 +755,7 @@ C
 !     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C          noyau conjugue.
+C          nucleus combines.
            ALPHAJ=WACOMPR(1,SM)
 C          BETAXJ=WACOMPR(2,SM)
 C          BETAYJ=WACOMPR(3,SM)
@@ -884,7 +879,7 @@ C WA(9) <=> WAR(8)
 C   
              STIJ=TWO*(STII+STIJ)
 C   
-C            K*=FV divise par DL (C=FV divise par V)
+C            K*= fv divided by dl (c = fv divided by v)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
              DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -899,7 +894,7 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS

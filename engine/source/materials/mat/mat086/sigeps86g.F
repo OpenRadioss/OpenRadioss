@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,8 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------------------------------------
 C    ZENG 15/07/97
 C    N,M SONT REMPLACES PAR N/H,M/H^2
-C    LES DIFFERENTES OPTIONS SONT SUPRIMEES 
-C    IL NE RESTE QUE : COUPLAGE M-N AVEC R (GAMA DANS LE PROGRAMME)VARIABLE
+C    the different options are removed
+C    only remains: coupling m-n with r (gamma in the program) variable
 C    MODIF POUVANT ETRE ENVISAGE: M(X) DONNE PAR USER -> CALCULER R
 C-----------------------------------------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -112,7 +112,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NRATE,J1,J2,N,NINDX,NMAX,NFUNC,
+      INTEGER I,J,NRATE,J1,J2,N,NINDX,NMAX,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(100),NFUNCV,
@@ -125,9 +125,9 @@ C-----------------------------------------------
      .        YFAC(MVSIZ,2),NNU1,NU1(MVSIZ),
      .        NU2(MVSIZ),NU3(MVSIZ),DPLA_I,DPLA_J(MVSIZ),H(MVSIZ),
      .        FAIL(MVSIZ),EPSMAX,EPSR1,EPSR2,
-     .        ERR,F,DF,YLD_I,TOL,
+     .        F,DF,YLD_I,TOL,
      .        C1,CP1,CQ1,CP2,CQ2,SM1(MVSIZ),SM2(MVSIZ),SM3,FN,FM,FNM,
-     .        PN2,QN2,PM2,QM2,DFN,DFM,DFNM,DA,DB,A_I,B_I,
+     .        DFN,DFM,DFNM,DA,DB,A_I,B_I,
      .        DFNP,DFNQ,DFMP,DFMQ,DFNMP,DFNMQ,XP,XQ,XPG,XQG,
      .        GM(MVSIZ),CM(MVSIZ),P_M,QM,PNM1,PNM2,QTIER(MVSIZ),
      .        CNM(MVSIZ),AM(MVSIZ),BM(MVSIZ),ANM(MVSIZ),BNM(MVSIZ),
@@ -359,11 +359,11 @@ C---------------------------
       ELSEIF(CODVERS<44)THEN
 C     IF(CODVERS<44.AND.IPLA==1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
       DO  I=1,NEL
 C-------------------------------------------------------------------------
-C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
+C     gamma (the inverse of gamma in the formula) is taken as 2/3 by default
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E
        GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I))
@@ -417,7 +417,7 @@ C---------------------------
         ETSE(I)= H(I)/(H(I)+E)
       ENDDO
 C-------------------------------
-C     TIENT COMPTE DU COUPLAGE
+C     takes into account the coupling
 C-------------------------------
       DO N=1,NMAX
 #include "vectorize.inc"
@@ -560,11 +560,11 @@ C-------------------------
 C     ITERATIVE
 C-------------------------
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
       DO  I=1,NEL
 C-------------------------------------------------------------------------
-C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
+C     gamma (the inverse of gamma in the formula)
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E
        CCC=EXP(-TWOP6667*C1/YLD(I))
@@ -622,7 +622,7 @@ C---------------------------
         ETSE(I)= H(I)/(H(I)+E)
       ENDDO
 C-------------------------------
-C     TIENT COMPTE DU COUPLAGE
+C     takes into account the coupling
 C-------------------------------
       DO N=1,NMAX
 #include "vectorize.inc"

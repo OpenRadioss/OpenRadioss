@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                       ../engine/source/output/message/message.F
 !||    arret                        ../engine/source/system/arret.F
 !||    fail_biquad_c                ../engine/source/materials/fail/biquad/fail_biquad_c.F
-!||    fail_changchang_c            ../engine/source/materials/fail/changchang/fail_changchang_c.F
+!||    fail_changchang_c            ../engine/source/materials/fail/changchang/fail_changchang_c.F90
 !||    fail_cockroft_c              ../engine/source/materials/fail/cockroft_latham/fail_cockroft_c.F
 !||    fail_composite_c             ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_energy_c                ../engine/source/materials/fail/energy/fail_energy_c.F
@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_fld_c                   ../engine/source/materials/fail/fld/fail_fld_c.F
 !||    fail_fld_xfem                ../engine/source/materials/fail/fld/fail_fld_xfem.F
 !||    fail_gene1_c                 ../engine/source/materials/fail/gene1/fail_gene1_c.F
-!||    fail_hashin_c                ../engine/source/materials/fail/hashin/fail_hashin_c.F
+!||    fail_hashin_c                ../engine/source/materials/fail/hashin/fail_hashin_c.F90
 !||    fail_hc_dsse_c               ../engine/source/materials/fail/hc_dsse/fail_hc_dsse_c.F
 !||    fail_hoffman_c               ../engine/source/materials/fail/hoffman/fail_hoffman_c.F
 !||    fail_inievo_c                ../engine/source/materials/fail/inievo/fail_inievo_c.F
@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_orthbiquad_c            ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
 !||    fail_orthenerg_c             ../engine/source/materials/fail/orthenerg/fail_orthenerg_c.F
 !||    fail_orthstrain_c            ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
-!||    fail_puck_c                  ../engine/source/materials/fail/puck/fail_puck_c.F
+!||    fail_puck_c                  ../engine/source/materials/fail/puck/fail_puck_c.F90
 !||    fail_rtcl_c                  ../engine/source/materials/fail/rtcl/fail_rtcl_c.F
 !||    fail_setoff_c                ../engine/source/materials/fail/fail_setoff_c.F
 !||    fail_setoff_npg_c            ../engine/source/materials/fail/fail_setoff_npg_c.F
@@ -69,7 +69,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_wilkins_c               ../engine/source/materials/fail/wilkins/fail_wilkins_c.F
 !||    fail_wind_frwave             ../engine/source/materials/fail/alter/fail_wind_frwave.F
 !||    fail_wind_xfem               ../engine/source/materials/fail/alter/fail_wind_xfem.F
-!||    m25delam                     ../engine/source/materials/mat/mat025/m25delam.F
 !||    nolib_usermat99              ../engine/source/user_interface/nolib_usermat99.F
 !||    putsignorc3                  ../engine/source/elements/shell/coqueba/cmatc3.F
 !||    rotos4                       ../engine/source/materials/mat_share/rotos4.F
@@ -81,13 +80,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    dt_mod                       ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_changchang_c_mod        ../engine/source/materials/fail/changchang/fail_changchang_c.F90
 !||    fail_composite_c_mod         ../engine/source/materials/fail/composite/fail_composite_c.F90
+!||    fail_hashin_c_mod            ../engine/source/materials/fail/hashin/fail_hashin_c.F90
 !||    fail_lemaitre_c_mod          ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
 !||    fail_param_mod               ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    fail_puck_c_mod              ../engine/source/materials/fail/puck/fail_puck_c.F90
 !||    failwave_mod                 ../common_source/modules/failwave_mod.F
-!||    law_usersh                   ../engine/source/user_interface/law_usersh.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod                    ../engine/share/spe_inc/mvsiz_mod.F90
 !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
 !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
 !||    stack_mod                    ../engine/share/modules/stack_mod.F
@@ -99,26 +101,25 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2       GSTR     ,THK      ,EINT     ,OFF       ,DIR_A    ,DIR_B    ,    
      3       MAT      ,AREA     ,EXX      ,EYY       ,EXY      ,EXZ      ,    
      4       EYZ      ,KXX      ,KYY      ,KXY       ,GEO      ,THK_LY   ,             
-     5       PID      ,TF       ,NPF      ,MTN       ,DT1C     ,DM       ,           
+     5       PID      ,TF       ,NPF      ,DT1C      ,DM       ,           
      6       BUFMAT   ,SSP      ,RHO      ,VISCMX    ,IPLA     ,IOFC     ,    
-     7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,NG       ,               
-     8       SHF      ,GS       ,SIGY     ,THK0      ,epsd_pg  ,              
+     7       INDX     ,NGL      ,THKLY    ,ZCFAC     ,NG       ,               
+     8       SHF      ,SIGY     ,THK0      ,epsd_pg  ,              
      9       POSLY    ,IGEO     ,IPM      ,FAILWAVE  ,FWAVE_EL ,                                   
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
      D       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,                        
      E       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,             
-     F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
-     G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,ALPE     ,
-     H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       )
+     F       IXEL     ,F_DEF    ,ITASK    ,PM_STACK ,ISUBSTACK ,STACK    ,
+     G       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ  ,
+     J       IPART    ,IPARTC ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MVSIZ_MOD, ONLY: MVSIZ
       USE TIMER_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      USE LAW_USERSH
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE FAIL_PARAM_MOD
@@ -130,6 +131,9 @@ C-----------------------------------------------
       USE DT_MOD
       USE FAIL_LEMAITRE_C_MOD
       USE FAIL_COMPOSITE_C_MOD
+      USE FAIL_PUCK_C_MOD
+      USE FAIL_HASHIN_C_MOD
+      USE FAIL_CHANGCHANG_C_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,29 +159,28 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
-      INTEGER IR,IS,IPT,JFT,JLT,NEL,NPT,MTN,IPLA,IOFC,NG,NLAY,
-     .  ISMSTR,IXFEM,IFAILURE,JHBE,IXLAY,IXEL,ITHK,JTHE,
-     .  IREP,ISUBSTACK,ITASK,ISHPLYXFEM,NUMTABL
-      INTEGER MAT(*),MATLY(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
+      INTEGER IR,IS,IPT,JFT,JLT,NEL,NPT,IPLA,IOFC,NG,NLAY,
+     .  ISMSTR,IXFEM,IFAILURE,JHBE,IXLAY,IXEL,JTHE,
+     .  IREP,ISUBSTACK,ITASK,NUMTABL
+      INTEGER MAT(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
      .   IPARG(*),FWAVE_EL(NEL)
       INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX
       my_real DM
       my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global strain rate by Gauss pt
+      my_real, intent(inout),dimension(mvsiz) :: SSP_EQ   ! for time step compute 
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
      .   AREA(*),GEO(NPROPG,*),TF(*),DT1C(*),THKLY(*),ALDT(*),
      .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*), 
      .   KXX(*), KYY(*), KXY(*),BUFMAT(*),SSP(*),RHO(*),
-     .   ZCFAC(MVSIZ,2),SHF(*),GS(*),SIGY(*),THK0(*),
+     .   ZCFAC(MVSIZ,2),SHF(*),SIGY(*),THK0(*),
      .   POSLY(MVSIZ,*),TEMPEL(MVSIZ),DIE(*),VARNL(NEL,*),
      .   R11(MVSIZ), R12(MVSIZ), R13(MVSIZ),
      .   R21(MVSIZ), R22(MVSIZ), R23(MVSIZ),
      .   R31(MVSIZ), R32(MVSIZ), R33(MVSIZ),
      .   DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
-     .   F_DEF(MVSIZ,8),PM_STACK(20,*),ALPE(MVSIZ),
-     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
-     .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)
+     .   F_DEF(MVSIZ,8),PM_STACK(20,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: ALDT, IPM, VARNL
       TYPE (STACK_PLY) :: STACK
@@ -185,21 +188,23 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+      integer, intent(in),dimension(NEL) ::  IPARTC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,JJ,IC,J,JMLY,IPG,IT,IFL,ILAY,NPG,MPT,IMAT,
-     .   IRUPT,NFAIL,IADBUF,IADBUFR,IGTYP,NUVAR,NVARF,JDIR,
-     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC_FAIL,NTABL_FAIL,IFAILWV,NLOCAL,
+      INTEGER I,II,JJ,J,JMLY,IPG,IT,IFL,ILAY,NPG,MPT,IMAT,
+     .   IRUPT,NFAIL,IADBUF,IGTYP,NUVAR,NVARF,JDIR,
+     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC_FAIL,NTABL_FAIL,IFAILWV,
      .   IUN,IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4,IBIDON5,
-     .   FAC,ICUT,ILAW_USER,IPTX,FAILEND,ILAYER,IROT,DMG_FLAG,
-     .   IGMAT,IPGMAT,KK,MX,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
+     .   FAC,ILAW_USER,IPTX,ILAYER,IROT,DMG_FLAG,
+     .   IGMAT,IPGMAT,KK,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   FAILNPT,JOFF,SIZNUL,PLY_ID,IJ(5),K,ISEQ,PROGRESSIVE_CRACK,
      .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,
      .   LF_DAMMX,NIPAR
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
-      INTEGER IFAIL(MVSIZ),
-     .   IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
+      INTEGER :: IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
+      INTEGER :: MAT_ID
 c
       my_real 
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,SIGOFF(MVSIZ),
@@ -215,32 +220,29 @@ c
      .   WMC(MVSIZ), EPSPL(MVSIZ), YLD(MVSIZ),DPLA(MVSIZ),
      .   VOL0(MVSIZ), COEF(MVSIZ),HARDM(MVSIZ),TSTAR(MVSIZ),
      .   PLA0(MVSIZ),G_IMP(MVSIZ), SIGKSI(MVSIZ,5),
-     .   DAMCR(MVSIZ,2),DMAXT(MVSIZ),
      .   VISC(MVSIZ),OFF_OLD(MVSIZ),EPSP_LOC(MVSIZ),EINT_LOC(2,MVSIZ),
-     .   AREAMIN(MVSIZ),DAREAMIN(MVSIZ),DMG_GLOB_SCALE(MVSIZ),
-     .   DMG_LOC_SCALE(MVSIZ),BID_ARR(MVSIZ)
+     .   DMG_GLOB_SCALE(MVSIZ),DMG_LOC_SCALE(MVSIZ),BID_ARR(MVSIZ)
       my_real 
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
+     .   ZT,DTINV,VOL2,ASRATE,TREF,TMELT,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
-     .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
+     .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5
       my_real COPY_PLA(MVSIZ)
       my_real, DIMENSION(NEL,5) :: DMG_ORTH_SCALE
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
       my_real TT_LOCAL
-      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
+      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
      .                                   EL_PLA
       TARGET :: TEMPEL,BUFMAT,EPSXX,EPSYY,DEPSXX,DEPSYY,SCALE1,POSLY,THKLY
 C
       INTEGER , DIMENSION(MVSIZ) :: ADDITIONAL_INT_PARAMETERS
       my_real , DIMENSION(MVSIZ) :: ADDITIONAL_FLT_PARAMETERS
 c----
-      TYPE(TTABLE) TABLE(*)
-      TYPE(ULAWCINTBUF) :: USERBUF     
+      TYPE(TTABLE) TABLE(*)   
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -286,17 +288,6 @@ C-----------------------------------------------
 C      
       IPT_ALL = 0
       NPTTOT  = 0
-c
-c----- Tstar  : T* = (T-T0)/(TM-T0)----
-      IF (JTHE > 0) THEN
-        T0 = PM(79, MX) 
-        TM = PM(80, MX) 
-        DO I=JFT,JLT   
-           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-        ENDDO
-      ELSE
-        TSTAR(JFT:JLT) = ZERO
-      ENDIF  
 !
 !  Check visco elastic model 
 !             
@@ -327,7 +318,6 @@ C
       IBIDON5 = 0
       IBID = 0
       ILAW_USER = IPM(217, MAT(1))
-c      IMAT = IPM(1, MAT(1))
       IUN=1
 c
       DMG_FLAG = 0
@@ -349,7 +339,6 @@ c
       MOM(JFT:JLT,2)  = ZERO
       MOM(JFT:JLT,3)  = ZERO
       YLD(JFT:JLT)    = ZERO
-      IF(FLAG_ZCFAC .AND. MTN /= 22) ZCFAC(JFT:JLT,1)= ZERO
       IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= ONE
       ETSE(JFT:JLT)   = ONE
       COEF(JFT:JLT)   = ONE 
@@ -360,8 +349,8 @@ c
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
 !
-!       compute the inverse of dt and save the result 
       dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+
 c-----------------------------------------------------------
 c---- intermediate buffer for GET_U_VAR function
       IF (TT == ZERO) THEN
@@ -425,9 +414,10 @@ c
         IADBUF = MAX(1,IPM(7,IMAT))
         NUPARAM= IPM(9,IMAT)       
         NFUNC  = IPM(10,IMAT) 
-        UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+        uparam => bufmat(iadbuf:iadbuf+nuparam-1)
         NUMTABL= IPM(226,IMAT) 
         ITABLE => IPM(226+1:226+NUMTABL,IMAT)    
+        MAT_ID = MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID
 c
         DO I=1,NFUNC
           IFUNC(I)=IPM(10+I,IMAT)
@@ -450,12 +440,21 @@ c
           ENDIF 
         ENDIF
 !
-      israte = ipm(3,imat)
-      if (israte > 0) then
-        asrate = min(one, pm(9,imat)*dt1)
-      else
-        asrate = one
-      end if
+        israte = ipm(3,imat)
+        if (israte > 0) then
+          asrate = min(one, pm(9,imat)*dt1)
+        else
+          asrate = one
+        end if
+!
+c-----  Tstar  : T* = (T-T0)/(TM-T0)----
+        IF (jthe > 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) THEN
+          tref  = mat_elem%mat_param(imat)%therm%tref
+          tmelt = mat_elem%mat_param(imat)%therm%tmelt
+          tstar(1:nel) = max(zero, (tempel(1:nel) - tref) / max(tmelt-tref, em20))
+        ELSE
+          tstar(1:nel) = zero
+        ENDIF  
 c----------------------------------------------------------------------
 !---
         L_DMG = BUFLY%L_DMG
@@ -510,7 +509,7 @@ C
             WMC(1:NEL) = ZZ(1:NEL)*THLY(1:NEL)
           ENDIF
 C-------------------------------
-C         INCREMENT DE DEFORMATIONS 
+C         increment of deformations
 C-------------------------------
           SIGNXX(1:MVSIZ) = ZERO
           SIGNYY(1:MVSIZ) = ZERO
@@ -688,20 +687,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS29C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC   ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
-!
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -712,7 +697,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -755,19 +740,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS30C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC  ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO    ,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -778,7 +750,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -821,19 +793,6 @@ C------------------------------------------
      A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
      B          OFF    ,NGL    ,SHF     )
             ELSE
-!              CALL SIGEPS31C(
-!     1          JLT    ,NUPARAM,NUVAR   ,NFUNC    ,IFUNC   ,
-!     2          NPF    ,NPT    ,IPT     ,IFLAG    ,
-!     2          TF     ,TT     ,DT1C    ,UPARAM   ,RHO    ,
-!     3          AREA   ,EINT_LOC,THKLYL ,
-!     4          EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-!     5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-!     6          EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ    ,EPSZX  ,
-!     7          SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-!     8          SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-!     9          SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-!     A          SSP    ,VISCMX ,THKN    ,COPY_PLA ,UVAR   ,
-!     B          OFF    ,NGL    ,SHF     )
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -844,7 +803,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -863,7 +822,7 @@ C------------------------------------------
 c---------------------------------
           ELSEIF (ILAW == 99) THEN
 c---------------------------------         
-C          chrgt de la structure
+C          Load structure
           
 C
 ! copie EINT (du buffer) en local (EINT_LOC) + COPY_PLA
@@ -982,96 +941,6 @@ c            Retrieve Results
              ENDIF
 
             ELSE
-              USERBUF%NCYCLE = NCYCLE
-              USERBUF%ID     = IMAT
-              USERBUF%ILAYER = IPT
-              USERBUF%NPTA   = NPT 
-              USERBUF%IFLAG  = IFLAG(1) 
-C
-              USERBUF%R11    = R11
-              USERBUF%R12    = R12
-              USERBUF%R13    = R13 
-C
-              USERBUF%R21    = R21
-              USERBUF%R22    = R22
-              USERBUF%R23    = R23 
-C
-              USERBUF%R31    = R31
-              USERBUF%R32    = R32
-              USERBUF%R33    = R33 
-C
-!               USERBUF%DIR_A  = DIR_A
-!               USERBUF%DIR_B  = DIR_B
-C
-              USERBUF%SIGOXX = SIGOXX
-              USERBUF%SIGOYY = SIGOYY
-              USERBUF%SIGOXY = SIGOXY
-              USERBUF%SIGOYZ = SIGOYZ
-              USERBUF%SIGOZX = SIGOZX
-C
-              USERBUF%EPSPXX = EPSPXX
-              USERBUF%EPSPYY = EPSPYY
-              USERBUF%EPSPXY = EPSPXY
-              USERBUF%EPSPYZ = EPSPYZ
-              USERBUF%EPSPZX = EPSPZX
-C                   
-              USERBUF%EPSXX = EPSXX
-              USERBUF%EPSYY = EPSYY
-              USERBUF%EPSXY = EPSXY
-              USERBUF%EPSYZ = EPSYZ
-              USERBUF%EPSZX = EPSZX          
-              IF (ISMSTR == 10) THEN
-C
-                DO I=JFT,JLT 
-                 ZT=ZZ(I)*THK0(I)
-                 USERBUF%FPSXX(I) = F_DEF(I,1)+ZT*F_DEF(I,6) + ONE
-                 USERBUF%FPSYY(I) = F_DEF(I,2)+ZT*F_DEF(I,7) + ONE
-                 USERBUF%FPSXY(I) = F_DEF(I,3)+ZT*F_DEF(I,8) 
-                 USERBUF%FPSYX(I) = F_DEF(I,4)+ZT*F_DEF(I,5) 
-                 USERBUF%FPSZZ(I) = THKN(I)/GBUF%THK_I(I)
-                END DO
-                IF (IGTYP /= 1 .AND.IGTYP /= 16) THEN
-                 CALL ROTOS4(JFT,JLT,USERBUF%FPSXX,USERBUF%FPSYY,
-     +                       USERBUF%FPSXY,USERBUF%FPSYX,DIR_A(JDIR),NEL)
-                END IF
-              ELSE            
-                 USERBUF%FPSXX = ZERO
-                 USERBUF%FPSYY = ZERO
-                 USERBUF%FPSXY = ZERO
-                 USERBUF%FPSYX = ZERO
-                 USERBUF%FPSZZ = ZERO
-              END IF
-C                
-              USERBUF%DEPSXX = DEPSXX
-              USERBUF%DEPSYY = DEPSYY
-              USERBUF%DEPSXY = DEPSXY
-              USERBUF%DEPSYZ = DEPSYZ           
-              USERBUF%DEPSZX = DEPSZX                     
-C
-              USERBUF%THKLYL = THKLYL          
-              USERBUF%THKN   = THKN
-              USERBUF%TEMP   = EL_TEMP
-c
-              USERBUF%SIGNXX = SIGNXX
-              USERBUF%SIGNYY = SIGNYY
-              USERBUF%SIGNXY = SIGNXY
-              USERBUF%SIGNYZ = SIGNYZ
-              USERBUF%SIGNZX = SIGNZX
-c
-              USERBUF%SIGVXX = SIGVXX
-              USERBUF%SIGVYY = SIGVYY
-              USERBUF%SIGVXY = SIGVXY
-              USERBUF%SIGVYZ = SIGVYZ
-              USERBUF%SIGVZX = SIGVZX
-           
-              USERBUF%DPLA = DPLA                  
-C                   
-!              CALL SIGEPS99C(
-!     1        JLT       ,NUPARAM       ,NUVAR   ,ILAW_USER ,NFUNC   ,
-!     2        IFUNC     ,NPF           ,NGL     ,TF        ,TT      ,
-!     3        DT1C      ,UPARAM        ,RHO     ,AREA      ,EINT_LOC,
-!     4        SHF       ,SSP           ,VISCMX  ,COPY_PLA  ,UVAR    ,
-!     5        OFF       ,SIGY          ,USERBUF ,IUSER_KEY)
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1082,25 +951,9 @@ C
                 CALL ARRET(2)
               ! ----------------
 !!!
-C
-              SIGNXX = USERBUF%SIGNXX
-              SIGNYY = USERBUF%SIGNYY
-              SIGNXY = USERBUF%SIGNXY
-              SIGNYZ = USERBUF%SIGNYZ 
-              SIGNZX = USERBUF%SIGNZX
-C               
-              SIGVXX = USERBUF%SIGVXX
-              SIGVYY = USERBUF%SIGVYY
-              SIGVXY = USERBUF%SIGVXY
-              SIGVYZ = USERBUF%SIGVYZ 
-              SIGVZX = USERBUF%SIGVZX 
-              DPLA   = USERBUF%DPLA
-              ETSE   = USERBUF%ETSE
-              THKN   = USERBUF%THKN
-              IF (JTHE == 0) EL_TEMP = USERBUF%TEMP ! otherwise it's read only in user law
             ENDIF
 c
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1108,7 +961,7 @@ c
             ENDDO 
 c--------------------------------
 #ifdef DNC
-        ELSEIF (MTN == 200 ) THEN  ! MDS
+        ELSEIF (ILAW == 200 ) THEN  ! MDS
   
 c--------------------------------
          IF(MDS_AVAIL == 1) THEN
@@ -1141,7 +994,7 @@ C
                END DO
              END IF
 
-           CALL ENG_MDS_SIGEPS_C( NCYCLE , BUFLY%IMAT, NGL ,
+           CALL ENG_MDS_SIGEPS_C( NCYCLE , MAT_ID, NGL ,
      *                            NEL    , NPT      , IT ,ILAY, IPG     , IFLAG,
      *                            UPARAM  , NUPARAM  , UVAR    , NUVAR,
      *                            NFUNC   , IFUNC    , TF      , NPF ,
@@ -1159,7 +1012,7 @@ C
      *                            SIGVYZ  , SIGVZX  ,DPLA,
      *                            ADDITIONAL_FLT_PARAMETERS,ADDITIONAL_INT_PARAMETERS)
 !
- ! recopie EINT_LOC en EINT (du buffer)
+ ! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1249,6 +1102,7 @@ c---
             DO IFL = 1, NFAIL      ! loop over fail models in current layer                                      
               UVARF  => FBUF%FLOC(IFL)%VAR
               NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
+              VARTMP => FBUF%FLOC(IFL)%VARTMP
               IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
               DAM    => FBUF%FLOC(IFL)%DAM
               DFMAX  => FBUF%FLOC(IFL)%DAMMX 
@@ -1260,6 +1114,7 @@ c---
               FAIL_PARAM => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)
               NUPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
               NIPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM
+              nvartmp    =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%nvartmp
               NFUNC_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC
               NTABL_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE
               UPARAMF    => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM(1:NUPAR)
@@ -1476,43 +1331,38 @@ c
      6               DMG_FLAG  ,DMG_LOC_SCALE ,ALDT  ,TSTAR     ,ISMSTR    )                                
 c
               CASE (11)     !    Energy failure model
-                CALL FAIL_ENERGY_C(
-     1               NEL       ,NUPAR     ,NVARF     ,NFUNC_FAIL   ,IFUNC_FAIL     , 
-     2               UPARAMF   ,UVARF     ,NPF       ,TF       ,TT         , 
-     3               NGL       ,IPG       ,ILAYER    ,IT       ,EPSPL      ,  
-     4               AREA      ,THKN      ,DMG_FLAG  , 
-     5               DMG_LOC_SCALE ,OFF   ,FOFF      ,DFMAX    ,TDEL       ,
-     6               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ   ,SIGNZX     ,
-     7               DEPSXX    ,DEPSYY    ,DEPSXY    ,DEPSYZ   ,DEPSZX     )     
+                call fail_energy_c(fail_param ,                      
+     &               nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,
+     &               ngl       ,ipg       ,ilayer    ,it       ,epspl      ,
+     &               area      ,thkn      ,dmg_flag  ,tt       ,            
+     &               dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,
+     &               signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,
+     &               depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
 c
               CASE (13)     !    Chang-Chang failure model
                 CALL FAIL_CHANGCHANG_C(
      1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT        ,
-     3               NGL       ,DMG_FLAG  ,DMG_LOC_SCALE ,DFMAX ,TDEL      ,
-     4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,        
-     5               OFF       ,FOFF      ,LF_DAMMX  )
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,FOFF      ,DMG_FLAG  ,
+     4               DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,TDEL      ,DT1       ,
+     5               IGTYP     ,PLY_ID    ,NIPAR     ,IPARAMF   )           
 c
-              CASE (14)     !    Hashin failure model  
-!                DO I=JFT,JLT        
-!                  EPSP(I) = MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),
-!     .                          ABS(EPSPXY(I)),EM20)
-!                ENDDO            
+              CASE (14)     !    Hashin failure model        
                 CALL FAIL_HASHIN_C(
-     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF      ,
-     2               TT        ,DT1C      ,IPG       ,ILAYER    ,IT         ,
-     3               NGL       ,DMG_FLAG  ,DMG_LOC_SCALE ,DFMAX     ,TDEL       ,
-     4               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX     ,        
-     5               OFF       ,FOFF      ,PLY_ID    ,
-     6               EPSPL     ,FWAVE_EL  ,DADV      ,LF_DAMMX  ) 
+     1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     4               FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,
+     5               TDEL      ,DT1       ,IGTYP     ,PLY_ID    ,NIPAR     ,
+     6               IPARAMF   )
 c
               CASE (16)     !    Modified Puck failure model
                 CALL FAIL_PUCK_C(
      1               NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
-     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     4               OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5               DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
+     2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,                  
+     3               SIGNXX    ,SIGNYY    ,SIGNXY    ,FOFF      ,DMG_FLAG  ,
+     4               DMG_LOC_SCALE,LF_DAMMX,DFMAX    ,TDEL      ,DT1       ,
+     5               IGTYP     ,PLY_ID    ,NIPAR     ,IPARAMF   )
 c
               CASE (23)     !    Tabulated failure model
                 IF (IXFEM == 0) THEN
@@ -1537,14 +1387,13 @@ c
                 ENDIF
 c
               CASE (24)     !    Orthotropic strain failure model
-                CALL FAIL_ORTHSTRAIN_C(
-     1              NEL       ,NUPAR     ,NVARF     ,UPARAMF   ,UVARF     ,
-     2              NFUNC_FAIL,IFUNC_FAIL,NPF       ,TF        ,NGL       ,
-     3              TT        ,DT1       ,IPG       ,ILAYER    ,IT        , 
-     4              EPSXX     ,EPSYY     ,EPSXY     ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5              EPSPXX    ,EPSPYY    ,EPSPXY    ,ALDT      ,ISMSTR    ,
-     6              SIGNXX    ,SIGNYY    ,SIGNXY    ,LF_DAMMX  ,   
-     7              OFF       ,OFFLY     ,FOFF      ,DFMAX     ,TDEL      )
+                call fail_orthstrain_c(fail_param,                              
+     &               nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp  ,      
+     &               tt        ,dt1       ,ipg       ,ilayer    ,it        ,    
+     &               epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale ,
+     &               epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,    
+     &               lf_dammx  ,ngl       ,    
+     &               off       ,offly     ,foff      ,dfmax     ,tdel      )
 c
               CASE (25)     !    NXT Failure
                 CALL FAIL_NXT_C(
@@ -1587,9 +1436,9 @@ c
                 ENDIF
 c
               CASE (30)     !    Biquadratic failure model
-                CALL FAIL_BIQUAD_C(
+                CALL FAIL_BIQUAD_C(mat_elem%mat_param(imat)%fail(ifl),
      1          JLT      ,NVARF   ,
-     2          TT       ,UPARAMF ,NGL      ,IPT      ,MPT      ,
+     2          TT       ,NGL      ,IPT      ,MPT      ,
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4          DPLA     ,UVARF   ,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC_FAIL,
@@ -1700,14 +1549,16 @@ c
      1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL,IFUNC_FAIL,
      2            NPF      ,TABLE    ,TF       ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
-     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
+     4            SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARTMP  ,VARTMP   ,              
      5            EL_TEMP  ,FOFF     ,DFMAX    ,TDEL     ,IPT      ,
-     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NTABL_FAIL,ITABL_FAIL) 
+     6            IPG      ,DMG_FLAG ,DMG_LOC_SCALE,NTABL_FAIL,ITABL_FAIL,
+     7            NIPAR    ,IPARAMF  ,GBUF%NOFF,OFF      ,NPTT     ,
+     8            GBUF%VAR ) 
 c
               CASE (42)     !    INIEVO
 c
                 CALL FAIL_INIEVO_C(
-     1            JLT      ,NUPAR    ,NVARF    ,
+     1            JLT      ,NUPAR    ,NVARF    ,NVARTMP  ,VARTMP   ,
      2            TABLE    ,NTABL_FAIL,ITABL_FAIL   ,TT       ,UPARAMF  , 
      3            NGL      ,EL_LEN   ,DPLA     ,EPSPL    ,UVARF    ,     
      4            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,              
@@ -1924,13 +1775,14 @@ c
 c
           ENDIF   ! IGTYP                                                          
 C-----------------------------------------------
-C         FACTEURS POUR COQUES B.L. (Zeng&Combescure)
+C         FACTORS FOR B.L. SHELLS (Zeng&Combescure)
 C-----------------------------------------------
           IF(FLAG_ZCFAC) THEN
               ZCFAC(JFT:JLT,1) = ZCFAC(JFT:JLT,1) + ETSE(JFT:JLT) * THLY(JFT:JLT)
               ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))  
           ENDIF
           YLD(JFT:JLT) = YLD(JFT:JLT) + SIGY(JFT:JLT)*THLY(JFT:JLT)
+          SSP_EQ(JFT:JLT) = SSP_EQ(JFT:JLT) + SSP(JFT:JLT)*THLY(JFT:JLT)
 c-----------------------------------------------
           IF (IMPL_S > 0) THEN
             CALL PUTSIGNORC3(JFT ,JLT ,IUN,NG,IPT,G_IMP ,SIGKSI)
@@ -1970,7 +1822,7 @@ C-------------------------------------
         IPT_ALL = IPT_ALL + NPTT
       ENDDO  !  DO ILAY =1,NLAY
 c--------------------------------------------------
-c     FIN DE BOUCLE SUR POINTS INTEGRATION (LAYERS)
+c     end of loop on integration points (layers)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
@@ -1993,7 +1845,8 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     ,PRINT_FAIL)
+     .                       IGEO     ,PRINT_FAIL,                
+     .                       IPART    ,LIPART1  ,IPARTC   ,NPART)
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -2002,7 +1855,8 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     ,PRINT_FAIL)
+     .                       IGEO     ,PRINT_FAIL,                
+     .                       IPART    ,LIPART1  ,IPARTC   ,NPART)
         ENDIF
       ENDIF  
 c---
@@ -2011,7 +1865,7 @@ c---
       IF (IXFEM == 0) THEN
         DO I=JFT,JLT
           IF (OFF(I) == FOUR_OVER_5 .and. IOFF_DUCT(I) == 0 .or.   ! rupture /fail
-     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! rupture progressive law 2,22,25
+     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! progressive rupture Law 2,22,25
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
@@ -2032,7 +1886,7 @@ c--------------------------------------------------------
         ENDIF
       ENDDO 
 c------------------------------------------------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------                                              
       IF (IGTYP == 11 .AND. IGMAT > 0) THEN
         IPGMAT = 700
@@ -2040,51 +1894,15 @@ C---------------------------
           RHO(I) = GEO(IPGMAT+1,PID(1))
           SSP(I) = GEO(IPGMAT+9,PID(1))
         ENDDO
+        SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
       ELSEIF (IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
         DO I=JFT,JLT
           SSP(I) = PM_STACK(9,ISUBSTACK)
           RHO(I) = PM_STACK(1,ISUBSTACK) 
         ENDDO
+        SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
       ENDIF   
-!---
-! Special treatment for law 19
-!---
-!  --- start treatment law 19---
-C-----------------------------------------------------------
-C     DESACTIVATION SI SURFACE < SURFACE MIN
-C-----------------------------------------------------------
-      IF (MTN == 19) THEN
-        MX = MAT(JFT)
-        DO I=JFT,JLT
-          AREAMIN(I)  = PM(53,MX)
-          DAREAMIN(I) = PM(54,MX)
-        ENDDO
-        IF (ISMSTR == 3) THEN
-          DO I=JFT,JLT
-            IF (AREAMIN(I) > ZERO) THEN
-              AA = (ONE+GSTR(I,1)+GSTR(I,2) - AREAMIN(I)) * DAREAMIN(I)
-              AA = MIN(MAX(AA,ZERO),ONE)
-              FOR(I,1)=FOR(I,1)*AA
-              FOR(I,2)=FOR(I,2)*AA
-              FOR(I,3)=FOR(I,3)*AA
-            ENDIF
-          ENDDO
-        ELSE
-          DO I=JFT,JLT
-           IF(AREAMIN(I) > ZERO)THEN
-             VV = GSTR(I,1)+GSTR(I,2)
-             VV = ONE + (ONE + (HALF + ONE_OVER_6*VV)*VV)*VV
-             AA = (VV - AREAMIN(I)) * DAREAMIN(I)
-             AA = MIN(MAX(AA,ZERO),ONE)
-             FOR(I,1)=FOR(I,1)*AA
-             FOR(I,2)=FOR(I,2)*AA
-             FOR(I,3)=FOR(I,3)*AA
-           ENDIF
-          ENDDO
-        ENDIF ! IF (ISMSTR == 3)
-      ENDIF  ! IF (MTN == 19)
-!  --- end treatment law 19---
 c
       THK(JFT:JLT) = MAX(THKN(JFT:JLT),EM30)
 c
@@ -2110,52 +1928,13 @@ c
         DEGFX(JFT:JLT) = DEGFX(JFT:JLT)+ MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT)
      .                     + MOM(JFT:JLT,3)*KXY(JFT:JLT)
 !---
-      IF (MTN == 25) THEN
-C----------------------------
-C  SHEAR DELAMINATION
-C----------------------------
-C is an obsolete option (just for the past)
-        IF (IGMAT == 0) 
-     .    CALL M25DELAM(JFT,JLT,PM,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
-!
-        IF (ISHPLYXFEM > 0) THEN
-          MX = MAT(JFT)
-          IPT_ALL = 0
-          DO ILAY=1,NLAY
-            ILAYER = ILAY
-C  cas xfem multilayer
-            IF (IXFEM == 1 .AND. IXLAY > 0) ILAYER = IXLAY
-            NPTT = ELBUF_STR%BUFLY(ILAYER)%NPTT
-            DO IT=1,NPTT
-              IPT = IPT_ALL + IT        ! count all NPTT through all layers
-              DO I=JFT,JLT
-!
-                PLY_F(I,1,IPT) = PLY_F(I,1,IPT) + VISC(I)*(PLY_EXX(I,IPT)+HALF*PLY_EYY(I,IPT))
-                PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + VISC(I)*(PLY_EYY(I,IPT)+HALF*PLY_EXX(I,IPT))
-                PLY_F(I,3,IPT) = PLY_F(I,3,IPT) + VISC(I)* PLY_EXY(I,IPT)*THIRD
-              ENDDO
-!
-              DO I=JFT,JLT
-                PLY_F(I,1,IPT) = PLY_F(I,1,IPT)*OFF(I)
-                PLY_F(I,2,IPT) = PLY_F(I,2,IPT)*OFF(I)
-                PLY_F(I,3,IPT) = PLY_F(I,3,IPT)*OFF(I)
-                PLY_F(I,4,IPT) = PLY_F(I,4,IPT)*OFF(I)
-                PLY_F(I,5,IPT) = PLY_F(I,5,IPT)*OFF(I)
-              ENDDO     
-            ENDDO ! DO IT=1,NPTT
-            IPT_ALL = IPT_ALL + NPTT
-          ENDDO ! DO ILAY=1,NLAY
-        ENDIF ! IF (ISHPLYXFEM /= 0)
-      ENDIF ! IF (MTN == 25)
-!---
       DO I=JFT,JLT
         VOL2 = HALF*VOL0(I)
-        IF (MTN == 22) VOL2 = VOL2*OFF(I)
         EINT(I,1) = EINT(I,1) + DEGMB(I)*VOL2
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 !
-      IF (JTHE > 0 .AND. MTN /= 2) DIE(JFT:JLT) = DIE(JFT:JLT) + 
+      IF (JTHE > 0) DIE(JFT:JLT) = DIE(JFT:JLT) + 
      .             COEF(JFT:JLT)*( DEGMB(JFT:JLT)*HALF*VOL0(JFT:JLT) + 
      .                             DEGFX(JFT:JLT)*THK0(JFT:JLT)*HALF*VOL0(JFT:JLT) )
 c---------------------------------------------------

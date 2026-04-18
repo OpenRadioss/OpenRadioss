@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .             BUFMAT      ,SBUFMAT  ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,TABLE    ,
      .             LTITR       ,USERL_AVAIL,MAT_NUMBER,
-     .             NPC         ,TF       ,SNPC     ,NPTS    ,BUFLEN)
+     .             NPC         ,TF       ,SNPC     ,NPTS    ,BUFLEN    ,
+     .             IRESP       )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -118,6 +119,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: SNPC, NPTS
       INTEGER,INTENT(IN) :: NPC(SNPC)
       my_real,INTENT(IN) :: TF(NPTS)
+      INTEGER,INTENT(IN) :: IRESP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -163,9 +165,9 @@ c-------------------------------------------------------------------
      .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
-     .     SBUFMAT     ,NPROPMI     ,NPROPM      ,TRIMAT      ,
+     .     SBUFMAT     ,NPROPMI     ,NPROPM      ,
      .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
-     .     LTITR       ,USERL_AVAIL,MAT_NUMBER   )
+     .     LTITR       ,USERL_AVAIL,MAT_NUMBER   ,IRESP       )
 
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)
@@ -180,7 +182,7 @@ c     /FAIL : Failure Models
 c-------------------------------------------------------------------     
       CALL HM_READ_FAIL(MAT_ELEM%MAT_PARAM,NUMMAT,MAXFAIL  ,FAIL_TAG,
      .                  NTABLE  ,TABLE    ,FAILWAVE ,NLOC_DMG,
-     .                  UNITAB  ,LSUBMODEL)
+     .                  UNITAB  ,LSUBMODEL,MLAW_TAG )
      
 c-------------------------------------------------------------------
 c     /VISC : Visco elastic  Models
@@ -217,7 +219,8 @@ c-------------------------------------------------------------------
 c     /THERM/STRESS : thermal expansion
 c-------------------------------------------------------------------
       CALL HM_READ_THERM_STRESS(NUMMAT   ,MAT_ELEM%MAT_PARAM,MLAW_TAG, UNITAB, LSUBMODEL, 
-     .                          IOUT     ,NPROPM   ,NPROPMI   ,IPM      ,PM     )
+     .                          IOUT     ,NPROPM   ,NPROPMI   ,IPM      ,PM     ,
+     .                          nfunct   ,snpc     ,npc       )
 
 c-------------------------------------------------------------------
 c     /NONLOCAL : Non-local regularization

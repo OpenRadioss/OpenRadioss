@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i3for2     ../engine/source/interfaces/inter2d/i3for2.F
+!||    i3for2       ../engine/source/interfaces/inter2d/i3for2.F
 !||--- called by ------------------------------------------------------
-!||    intvo2     ../engine/source/interfaces/inter2d/intvo2.F
+!||    intvo2       ../engine/source/interfaces/inter2d/intvo2.F
 !||--- calls      -----------------------------------------------------
-!||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I3FOR2(X     ,E    ,IRECT,LMSR ,MSR  ,
+      SUBROUTINE I3FOR2(OUTPUT, X     ,E    ,IRECT,LMSR ,MSR  ,
      1                  NSV   ,ILOC ,IRTL ,STF  ,NSN  ,
      2                  NMN   ,NTY  ,CST  ,IRTLO,FRIC0,
      3                  FRIGAP,STFN ,IBC  ,ICODT,IMAST,
@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER NSN, NMN, NTY, IBC, IMAST
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),
      .   IRTLO(*), ICODT(*), ISKY(*)
@@ -129,7 +130,7 @@ C
       SS= MIN( ONE,SS)
 C
       IF(NTY==5)THEN
-C rajout test sur stifness cote secnd
+C Add test on Stiffness Second side
        IF (STFN(II)<ZERO) THEN
          STIF = ZERO
        ELSE
@@ -207,7 +208,7 @@ C
       ENDIF  
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
          FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
          FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
@@ -219,7 +220,7 @@ c
       ENDIF
 
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 
         FNCONT(2,IX(1)) =FNCONT(2,IX(1)) + FYI*H(1)
@@ -344,7 +345,7 @@ C
           ISKY(NISKYL+3) = I
          ENDIF
         ELSE
-C deja traite plus haut
+C already treated higher
          FSKYI(NISKYL+1,2)= FSKYI(NISKYL+1,2)+FYI*H(1)
          FSKYI(NISKYL+1,3)= FSKYI(NISKYL+1,3)+FZI*H(1)
 C
@@ -357,7 +358,7 @@ C
       ENDIF  
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
           FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
           FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
@@ -368,7 +369,7 @@ c
           FCONT(3,I)=FCONT(3,I)- FZI
       ENDIF
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         FTCONT(2,IX(1)) =FTCONT(2,IX(1)) + FYI*H(1)
         FTCONT(3,IX(1)) =FTCONT(3,IX(1)) + FZI*H(1)

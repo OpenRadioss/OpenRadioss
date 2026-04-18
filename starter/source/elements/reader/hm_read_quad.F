@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    anodset                ../starter/source/output/analyse/analyse_node.c
-!||    nintrn                 ../starter/source/system/nintrn.F
 !||    usr2sys                ../starter/source/system/sysfus.F
 !||    vdouble                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -65,9 +64,10 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixq
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS QUAD 4 NOEUDS
-C     VERSIION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
+C     READING DES ELEMENTS QUAD 4 NODES
+C     VERSIION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
 C--------------------------------------------------------
 C
 C-----------------------------------------------
@@ -105,16 +105,14 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,NDEGEN,JC,STAT,
-     .   IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,ISHXFEM,IOUTN,IERROR,INDEX_PART
+      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,MID,PID,UID,NDEGEN,STAT,
+     .   IFLAGUNIT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real BID,FAC_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_QUAD,UID_QUAD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN
       INTEGER USR2SYS
       DATA MESS/'2D QUAD ELEMENTS DEFINITION            '/
       DATA MESS2/'2D QUAD ELEMENTS SELECTION FOR TH PLOT '/

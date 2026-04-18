@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptimeg      ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||====================================================================
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE SPHBOX
       USE ELBUFDEF_MOD         
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,10 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
-     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN, IPRT, IMAT,
+      INTEGER I,  N, KP, NG, MG, NP, KFT, IG, NELEM,
+     .        NEL, OFFSET, INOD, IMAT,
      .        N1, N2, N3, N4, N5, N6, N7, N8,
-     .        K1, K2, K3, K4, K5, K6, K7, K8, IERROR,
+     .        K1, K2, K3, K4, K5, K6, K7, K8,
      .        NODFT, NODLT
       my_real
      .        DM, RHO0, EHOURT, EK, VI2, VXI, VYI, VZI,
@@ -421,6 +423,7 @@ C-----------------------------------------------
 !||    stoptimeg       ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||    sphbox          ../engine/share/modules/sphbox.F
 !||====================================================================
@@ -436,6 +439,7 @@ C-----------------------------------------------
       USE SPHBOX
       USE ELBUFDEF_MOD         
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -467,8 +471,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
-     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN, IPRT, IMAT
+      INTEGER I,  N, KP, NG, J, NP, IG, NELEM,
+     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -505,36 +509,38 @@ C-----
                   NP=SOL2SPH(1,N)+KP
                   INOD=KXSP(3,NP)
                   NVOIS=KXSP(4,NP)
-                  DO J=1,NVOIS
-                    JNOD=IXSP(J,NP)
-                    IF(JNOD>0)THEN
-                      M=NOD2SP(JNOD)
-                      IF(IPARTSP(M)/=IPARTSP(NP))THEN
+                  IF (KXSP(2,NP) /= 0) THEN
+                    DO J=1,NVOIS
+                      JNOD=IXSP(J,NP)
+                      IF(JNOD>0)THEN
+                        M=NOD2SP(JNOD)
+                        IF(IPARTSP(M)/=IPARTSP(NP))THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
 #include "lockon.inc"
-                          WRITE(IOUT,5000) IXS(NIXS,N)
-                          WRITE(ISTDO,5000) IXS(NIXS,N)
+                            WRITE(IOUT,5000) IXS(NIXS,N)
+                            WRITE(ISTDO,5000) IXS(NIXS,N)
 #include "lockoff.inc"
-                          GOTO 100
-                      END IF
-                    ELSE
-                      NN = -JNOD
-                      IF(NINT(XSPHR(14,NN))/=IPARTSP(NP))THEN
-C
-C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
-#include "lockon.inc"
-                          WRITE(IOUT,5000) IXS(NIXS,N)
-                          WRITE(ISTDO,5000) IXS(NIXS,N)
-#include "lockoff.inc"
-                          GOTO 100
+                            GOTO 100
                         END IF
-                    END IF
-                  END DO
+                      ELSE
+                        NN = -JNOD
+                        IF(NINT(XSPHR(14,NN))/=IPARTSP(NP))THEN
+C
+C Solid will be deleted at next cycle
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
+#include "lockon.inc"
+                            WRITE(IOUT,5000) IXS(NIXS,N)
+                            WRITE(ISTDO,5000) IXS(NIXS,N)
+#include "lockoff.inc"
+                            GOTO 100
+                        END IF
+                      END IF
+                    END DO
+                  ENDIF
                 END DO
               END IF
  100          CONTINUE
@@ -550,40 +556,42 @@ C-----
                   NP=SOL2SPH(1,N)+KP
                   INOD=KXSP(3,NP)
                   NVOIS=KXSP(4,NP)
-                  DO J=1,NVOIS
-                    JNOD=IXSP(J,NP)
-                    IF(JNOD>0)THEN
-                      M=NOD2SP(JNOD)    
-                      IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
-     .                  AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
+                  IF (KXSP(2,NP) /= 0) THEN
+                    DO J=1,NVOIS
+                      JNOD=IXSP(J,NP)
+                      IF(JNOD>0)THEN
+                        M=NOD2SP(JNOD)    
+                        IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
+     .                    (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
+     .                    AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
 C
 C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
 #include "lockon.inc"
-                          WRITE(IOUT,6000) IXS(NIXS,N)
-                          WRITE(ISTDO,6000) IXS(NIXS,N)
+                            WRITE(IOUT,6000) IXS(NIXS,N)
+                            WRITE(ISTDO,6000) IXS(NIXS,N)
 #include "lockoff.inc"
-                          GOTO 200
-                      END IF
-                    ELSE
-                      NN = -JNOD
-                      IF((IPART(3,NINT(XSPHR(14,NN)))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN)))==2*NSUBS).
-     .                  AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
-C
-C Solid will be deleted at next cycle
-                          GBUF%OFF(I)=FOUR_OVER_5
-                          IDEL7NOK=1
-#include "lockon.inc"
-                          WRITE(IOUT,6000) IXS(NIXS,N)
-                          WRITE(ISTDO,6000) IXS(NIXS,N)
-#include "lockoff.inc"
-                          GOTO 200
+                            GOTO 200
                         END IF
-                    END IF
-                  END DO
+                      ELSE
+                        NN = -JNOD
+                        IF((IPART(3,NINT(XSPHR(14,NN)))/=IPART(3,IPARTSP(NP))).OR.
+     .                    (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN)))==2*NSUBS).
+     .                    AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
+C
+C Solid will be deleted at next cycle
+                            GBUF%OFF(I)=FOUR_OVER_5
+                            IDEL7NOK=1
+#include "lockon.inc"
+                            WRITE(IOUT,6000) IXS(NIXS,N)
+                            WRITE(ISTDO,6000) IXS(NIXS,N)
+#include "lockoff.inc"
+                            GOTO 200
+                        END IF
+                      END IF
+                    END DO
+                  ENDIF
                 END DO
               END IF
  200          CONTINUE

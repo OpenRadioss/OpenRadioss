@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    parsorf     ../starter/source/output/anim/parsorf.F
+!||    parsorf       ../starter/source/output/anim/parsorf.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PARSORF(IADD ,IPARG,IXT  ,IXP  ,IXR  ,                  
      .                  MATER,EL2FA,                                    
-     .                  IPARTT,IPARTP,IPARTR,NFACPTX,IXEDGE)                                
+     .                  IPARTT,IPARTP,IPARTR,NFACPTX,IXEDGE)   
+      use element_mod , only : nixt,nixp,nixr                          
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -48,9 +50,9 @@ C-----------------------------------------------
      .        IPARTT(*),IPARTP(*),IPARTR(*),                            
      .        NFACPTX(3,*),IXEDGE(2,*)                                  
 C-----------------------------------------------                        
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J,                 
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,                
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,JJ, K,NAX1D                                                     
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,                 
+     .        IPRT, NEL, IAD, NPAR, NFT,MTN,                
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,JJ,NAX1D                                                     
 C-----------------------------------------------                        
       IE = 0                                                            
 C                                                                       

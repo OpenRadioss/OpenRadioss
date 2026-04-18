@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,13 +40,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE AFLUX0(IPARG       ,ELBUF_STR ,PM    ,IXS         ,IXQ  ,
      .                  V           ,W         ,X     ,FLUX        ,FLU2 ,
      .                  VEUL        ,FILL      ,DFILL              ,VOL  ,
-     .                  ALE_CONNECT ,ALPH      ,ITASK ,NV46        ,IPM  )
+     .                  ALE_CONNECT ,ALPH      ,ITASK ,NV46        ,IPM  ,
+     .                  s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +57,7 @@ C-----------------------------------------------
       USE I22TRI_MOD        
       USE ALE_CONNECTIVITY_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,10 +75,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< number of variables in flux array
       my_real PM, V, W, X
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), IPM(NPROPMI,NUMMAT)
-      INTEGER ITASK,NV46
-      my_real FLUX(*), FLU2(*), VEUL(*), FILL(NUMNOD,*),DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
+      INTEGER ITASK
+      my_real FLUX(s_flux*nv46), FLU2(*), VEUL(*), FILL(NUMNOD,*),DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR    
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -142,30 +147,30 @@ C     ALE ON / OFF
         NEL = LLT
 c
         IF(N2D == 0.AND.JEUL == 0.AND. ISOLNOD == 4)THEN
-         CALL A4FLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),ALE_CONNECT)
+         CALL A4FLUX3(PM,IXS,V,W,X,FLUX,FLU2(NF1),ALE_CONNECT,s_flux)
         ELSEIF(N2D == 0.AND.JEUL == 0)THEN
          IF(ALEFVM_Param%IEnabled==0)THEN        
-           CALL AFLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),ALE_CONNECT,NSG,GBUF%TAG22)
+           CALL AFLUX3(PM,IXS,V,W,X,FLUX,FLU2(NF1),ALE_CONNECT,NSG,GBUF%TAG22,s_flux)
          ELSE
-           CALL ALEFVM_AFLUX3(PM       ,IXS         ,W  ,FLUX(6*NFT+1),
+           CALL ALEFVM_AFLUX3(PM       ,IXS         ,W  ,FLUX,
      2                        FLU2(NF1),ALE_CONNECT,
      3                        IPM      ,NV46       ,X   ,
-     4                        NEL      )        
+     4                        NEL      ,s_flux)        
          ENDIF
         ELSEIF(N2D /= 0.AND.JEUL == 0)THEN
          CALL AFLUX2(PM,IXQ,V,W,X,
-     .               FLUX(4*NFT+1),FLU2(NF1),
-     .               FILL,DFILL,VOL,ALE_CONNECT,ALPH)
+     .               FLUX,FLU2(NF1),
+     .               FILL,DFILL,VOL,ALE_CONNECT,ALPH,s_flux)
         ELSEIF(N2D == 0.AND.JEUL /= 0)THEN
          IF(ALEFVM_Param%IEnabled==0)THEN
-           CALL EFLUX3(PM,IXS,V,FLUX(6*NFT+1),FLU2(NF1),VEUL,ALE_CONNECT,GBUF%TAG22)
+           CALL EFLUX3(PM,IXS,V,FLUX,FLU2(NF1),VEUL,ALE_CONNECT,GBUF%TAG22,s_flux)
          ELSE
-           CALL ALEFVM_EFLUX3(PM   ,IXS          ,FLUX(6*NFT+1), FLU2(NF1),
+           CALL ALEFVM_EFLUX3(PM   ,IXS          ,FLUX, FLU2(NF1),
      2                        VEUL ,ALE_CONNECT  ,IPM          ,
-     3                        NV46 ,X            ,NEL      )
+     3                        NV46 ,X            ,NEL          ,s_flux)
          ENDIF
         ELSEIF(N2D /= 0.AND.JEUL /= 0)THEN
-         CALL EFLUX2(PM,IXQ,V,X,FLUX(4*NFT+1),FLU2(NF1),FILL,DFILL,VOL,ALE_CONNECT,ALPH)
+         CALL EFLUX2(PM,IXQ,V,X,FLUX,FLU2(NF1),FILL,DFILL,VOL,ALE_CONNECT,ALPH,s_flux)
         ENDIF
       ENDDO
       
@@ -178,12 +183,13 @@ C-----------
           CALL EFLUX3_INT22_FVM(
      .      PM         , IXS          , FLUX(1)   , FLU2(1)   ,
      .      IPARG      , ELBUF_STR    , ITASK     ,
-     .      NV46       , IPM          , X)         
+     .      NV46       , IPM          , X         ,s_flux)
         ELSE
           CALL AFLUX3_INT22_FVM(
      .      PM         , IXS          , FLUX(1)   , FLU2(1)   ,
      .      IPARG      , ELBUF_STR    , ITASK     ,
-     .      NV46       , IPM          , X            , W)         
+     .      NV46       , IPM          , X            , W      ,
+     .      s_flux)
        ENDIF
       ENDIF
       

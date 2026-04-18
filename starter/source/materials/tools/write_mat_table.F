@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_mat_table   ../starter/source/materials/tools/write_mat_table.F
 !||--- called by ------------------------------------------------------
 !||    write_eosparam    ../starter/source/materials/mat/write_eosparam.F90
+!||    write_failparam   ../starter/source/materials/fail/write_failparam.F
 !||    write_matparam    ../starter/source/materials/mat/write_matparam.F
 !||    write_viscparam   ../starter/source/materials/mat/write_viscparam.F
 !||--- calls      -----------------------------------------------------
@@ -52,6 +53,7 @@ c===============================================
       DO N=1,NUMTABL
         LEN  = 1
         CALL WRITE_I_C(TABLE(N)%NOTABLE,LEN)
+        IF (TABLE(N)%NOTABLE <= 0) CYCLE
         NDIM = TABLE(N)%NDIM
         CALL WRITE_I_C(NDIM,LEN)
         DO I=1,NDIM

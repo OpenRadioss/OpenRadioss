@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,7 +73,7 @@ C rigid body // noeud main sur les procs ayant au moins 1 secnd
           CALL IFRONTPLUS(NPBY(1,N),P)
         ENDIF
       ENDDO
-C rigid body // les secnds nodes ne sont pas connectes, on affecte arbitrairement le main sur le proc0
+C Rigid body // the secondary nodes are not connected, arbitrarily assigning the main node to proc0
       IF (S_FMAIN==0) CALL IFRONTPLUS(NPBY(1,N),1)
       IF(NPBY(8,N)/=0)THEN
         CALL IFRONTPLUS(NPBY(1,N),1)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,20 +23,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ale51_upwind3_int22   ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||--- called by ------------------------------------------------------
-!||    afluxt                ../engine/source/ale/ale51/afluxt.F
-!||    ale51_finish          ../engine/source/ale/ale51/ale51_finish.F
+!||    afluxt_int22          ../engine/source/ale/ale51/afluxt_int22.F90
+!||    ale51_finish_int22    ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_init            ../engine/source/ale/ale51/ale51_init.F
 !||--- calls      -----------------------------------------------------
 !||    my_barrier            ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    i22bufbric_mod        ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    multimat_param_mod    ../common_source/modules/multimat_param_mod.F90
 !||====================================================================
       SUBROUTINE ALE51_UPWIND3_INT22(
      .                         PM     , IXS      , ITRIMAT,        IFLG ,
-     .                         IPARG  , ELBUF_TAB, ITASK  )
+     .                         IPARG  , ELBUF_TAB, ITASK  ,
+     .                         nb_int22,int22_,i22len_,brick_list)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -53,10 +54,10 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE I22BUFBRIC_MOD
-      USE I22TRI_MOD 
+      use i22tri_mod , only : brick_entity,ibug22_upwind,ibug22_itrimat
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,9 +78,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITRIMAT,IFLG
+      integer, intent(in) :: nb_int22 !< number of candidates for the interface 22
+      integer, intent(in) :: int22_ !< number of /TYPE22 interfaces
+      integer, intent(in) :: i22len_ !< buffer size for intersected bricks         
       INTEGER IXS(NIXS,*), IPARG(NPARG,*),ITASK
       my_real :: PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
+      type(brick_entity), dimension(int22_,i22len_), intent(inout) :: brick_list !< interface 22 data structure                
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,7 +95,7 @@ C-----------------------------------------------
       
       INTEGER                             :: IB,IBv, NIN, ICELL,NCELL,IDLOC
       INTEGER                             :: IE,IDV,ADD, IE_M
-      my_real                             :: cellFLUX(6,9,NB),UPWL(6) 
+      my_real                             :: cellFLUX(6,9,nb_int22),UPWL(6) 
       
       my_real, DIMENSION(:), POINTER      ::  UVAR,pDDVOL           
       my_real                             :: DDVOL
@@ -104,14 +109,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-
       !=================
       ! INITIALIZATIONS 
       !=================
       NIN = 1
-      NBF = 1+ITASK*NB/NTHREAD
-      NBL = (ITASK+1)*NB/NTHREAD
-      NBL = MIN(NBL,NB)
+      NBF = 1+ITASK*nb_int22/NTHREAD
+      NBL = (ITASK+1)*nb_int22/NTHREAD
+      NBL = MIN(NBL,nb_int22)
 
 
       !INTERFACE 22 ONLY - OUTPUT---------------!
@@ -160,7 +164,7 @@ C-----------------------------------------------
           UPWL(1:6) = PM(16,MAT)
           REDUC     = PM(92,MAT)
           DDVOL     = ZERO
-          BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 = ZERO
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(itrimat) = ZERO
           DO J=1,6
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell          
             DO IADJ = 1,NADJ
@@ -168,7 +172,7 @@ C-----------------------------------------------
               IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
               Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)              
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
-              cellFLUX(J,ICELL,IB) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_UpwFLUX(IADJ)
+              cellFLUX(J,ICELL,IB) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_UpwFLUX_mat(IADJ,itrimat)
               IF(IDV==0)THEN
                cellFLUX(J,ICELL,IB)=cellFLUX(J,ICELL,IB)*REDUC
               ELSEIF(IDV>0)THEN
@@ -179,9 +183,11 @@ C-----------------------------------------------
                  cellFLUX(J,ICELL,IB)=cellFLUX(J,ICELL,IB)*PM(92,IXS(1,IDV))
                ENDIF
               ENDIF 
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ) = cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 = 
-     .        BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 + cellFLUX(J,ICELL,IB)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_UpwFLUX_mat(IADJ,itrimat) = 
+     .         cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(itrimat) = 
+     .        BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(itrimat) + 
+     .                      cellFLUX(J,ICELL,IB)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
               IF(IFLG==10)THEN
                 DDVOL = DDVOL + cellFLUX(J,ICELL,IB)
 C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB))                
@@ -191,7 +197,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             ENDDO!next IADJ
           ENDDO!next J
          
-          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL_upw = DDVOL  !HALF*DDVOL
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL_upw(itrimat) = DDVOL  !HALF*DDVOL
 
            !INTERFACE 22 ONLY - OUTPUT---------------!
 !#!include "lockon.inc"      
@@ -199,12 +205,14 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             if(ibug22_upwind==ixs(11,ie) .OR. ibug22_upwind==-1)then          
              print *,                    "      brique         =", ixs(11,ie)
              print *,                    "      icell          =", ICELL 
-            write (*,FMT='(A,1E26.14)') "       Flu1           =", BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1             
+            write (*,FMT='(A,1E26.14)') "       Flu1           =", 
+     .       BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1_mat(itrimat)             
              DO J=1,6
                NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell          
                DO IADJ = 1,NADJ                        
                  print *,                "      FACE           =", J
-            write (*,FMT='(A,6E26.14)') "       Flux(IAD:NADJ) =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ)
+            write (*,FMT='(A,6E26.14)') "       Flux(IAD:NADJ) =", 
+     .        BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX_mat(IADJ,itrimat)
                ENDDO
              ENDDO
              print *, "      ------------------------" 
@@ -238,9 +246,9 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
           DO K=1,NUM                               
             IBV   = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                       
             ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                     
-            DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL_upw                   
+            DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL_upw(itrimat)                   
           ENDDO                                 
-          DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw                   
+          DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw(itrimat)                   
           !updating law51 material buffer with computed stacked value                   
           IF(ITRIMAT>0)THEN                             
             LFT   =  1                               
@@ -248,12 +256,9 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR                     
             ADD   = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT                      
             pDDVOL => UVAR(ADD+1:ADD+LLT)                          
-            pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2                 
-            if(ixs(11,IE)==26354)then                           
-              print *, "itrimat, ddvoli", itrimat, DDVOL                       
-            endif                                
+            pDDVOL(IDLOC) =  DDVOL   !*Half: already apply 1/2 factor                                              
           ELSE                                 
-            BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw = DDVOL                     
+            BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw(itrimat) = DDVOL                     
           ENDIF                                 
       ENDDO!next IB                               
       

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
 C     REAL
       my_real 
-     .   X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
+     .   X(3,*), V(3,*),DELTA_PMAX_GAP,
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   DELTA_PMAX_DGAP
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER IEDGE,INTPLY
 C     REAL
       my_real
-     .   STARTT, STOPT, BID(1)
+     .   STARTT, STOPT
       INTEGER :: NMN,NSN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -76,14 +76,14 @@ C
       IEDGE =IPARI(58,NIN)
       INTPLY =IPARI(66,NIN)
 C
-C OW CALCUL DU CRITERE DE TRI : OPTIMISER avec NSN = IPARI(5,NIN) - NSNE
+C OW sorting criterion calculation: optimize with NSN = IPARI(5,NIN) - NSNE
 
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
       IF(STARTT>TT) RETURN
       IF(TT>STOPT)  RETURN
 C
-C test temporaire pour assurer la compatibilite restart en 51d et 51e
+C temporary test to ensure restart compatibility in 51d and 51e
        IF(INTBUF_TAB%VARIABLES(16)==ZERO)INTBUF_TAB%VARIABLES(16)=EP30
        CALL I24BUCE_CRIT(
      1 X      ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN      ,NMN      ,

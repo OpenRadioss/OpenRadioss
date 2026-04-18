@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m17law   ../engine/source/materials/mat/mat017/m17law.F
+!||    m17law          ../engine/source/materials/mat/mat017/m17law.F
 !||--- called by ------------------------------------------------------
-!||    mmain    ../engine/source/materials/mat_share/mmain.F90
+!||    mmain           ../engine/source/materials/mat_share/mmain.F90
+!||--- uses       -----------------------------------------------------
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
       SUBROUTINE M17LAW(
      1   PM,      OFF,     SIG,     EINT,
@@ -35,7 +37,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   TMU,     AMU,     AMU2,    PSH,
      8   PC,      ESPE,    C1,      C2,
      9   C3,      C4,      C5,      C6,
-     A   DF,      DPDM,    JPOR)
+     A   DF,      DPDM,    JPOR,    EOS_STRUCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +68,7 @@ C-----------------------------------------------
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), ALOGEY(*), SSP(*),
      .   RHO0(*), TMU(*), AMU(*), AMU2(*), PSH(*), PC(*), ESPE(*),
      .   C1(*), C2(*), C3(*), C4(*), C5(*), C6(*), DF(*), DPDM(*)
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,12 +100,12 @@ C
       RHO0_1=PM( 1,MX)
       VIS_1 =PM(24,MX)
       PC_1  =PM(37,MX)
-      C1_1  =PM(31,MX)-PM(88,MX)
-      C2_1  =PM(32,MX)
-      C3_1  =PM(33,MX)
-      C4_1  =PM(34,MX)
-      C5_1  =PM(35,MX)
-      C6_1  =PM(36,MX)
+      C1_1  = EOS_STRUCT%UPARAM(1)
+      C2_1  = EOS_STRUCT%UPARAM(2)
+      C3_1  = EOS_STRUCT%UPARAM(3)
+      C4_1  = EOS_STRUCT%UPARAM(4)
+      C5_1  = EOS_STRUCT%UPARAM(5)
+      C6_1  = EOS_STRUCT%UPARAM(6)
       PSH_1 =PM(88,MX)
 C
       DO 10 I=1,NEL
@@ -143,7 +150,7 @@ C
       VIS2(I)=TWO*VIS(I)
    30 DAV(I) =-(D1(I)+D2(I)+D3(I))*THIRD
 C------------------------------
-C     CONTRAINTES DEVIATORIQUES
+C     DEVIATORIC STRESSES
 C------------------------------
       DO 40 I=1,NEL
       SIG(I,1)=VIS2(I)*(D1(I)+DAV(I))

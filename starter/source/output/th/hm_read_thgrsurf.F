@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,15 +32,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
 !||    hord                     ../starter/source/output/th/hord.F
-!||    nintrn                   ../starter/source/system/nintrn.F
 !||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
-!||    r2r_listcnt              ../starter/source/coupling/rad2rad/routines_r2r.F
-!||    ulist2s                  ../starter/source/system/sysfus.F
-!||    usr2sys                  ../starter/source/system/sysfus.F
 !||    zeroin                   ../starter/source/system/zeroin.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod               ../starter/share/modules1/format_mod.F90
 !||    message_mod              ../starter/share/message_module/message_mod.F
+!||    r2r_mod                  ../starter/share/modules1/r2r_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_THGRSURF(
@@ -61,6 +58,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
+      USE R2R_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,9 +83,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
-     .        OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
+      INTEGER J, I,ID,NNE,
+     .        K,IAD0,
+     .        IFITMP,NVAR,N,IAD1,IAD2,ITITLE(LTITR),
      .        IDS,IDSMAX,
      .        NUM_FOUND
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -96,8 +94,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT,NINTRN,THVARC,HM_THVARC
-      INTEGER R2R_LISTCNT,R2R_EXIST
+      INTEGER HM_THVARC
+      INTEGER R2R_EXIST
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -120,12 +118,26 @@ C-----------------------------------------------
         IGS = IGS - 1
         ITHGRP(1:NITHGR)=0
       ELSE
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
+        NNE =  IDSMAX
+        IF (NSUBDOM>0) THEN
+          ! Multidomain : skip surface if not initially on the domain-----
+          NNE = 0  
+          DO K = 1,IDSMAX
+            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL)   
+            N = 0
+            DO J=1,NUM
+              IF(IDS == IGRSURF(J)%ID) N=J
+            ENDDO
+            IF (N > 0) THEN
+              IF (ISURF_R2R(3,N)>0) NNE = NNE + 1
+            ENDIF
+          ENDDO 
+        ENDIF
         ITHGRP(6)=NVAR
         ITHGRP(7)=IAD
         IAD=IAD+NVAR
         IFI=IFI+NVAR
-        NNE=IDSMAX
         ITHGRP(4)=NNE
         ITHGRP(5)=IAD
         IAD2=IAD+3*NNE
@@ -137,11 +149,15 @@ C
         DO K = 1,IDSMAX
           CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
           N=0
-          IF(IDS/=0)THEN
+          IF(IDS/=0)THEN   
             IF (NSUBDOM>0) THEN
-              ! Multidomain : skip if entity does not exist---------------
-              IF(R2R_EXIST(ITYP,IDS)==0) CYCLE !next K
-              ENDIF      
+              ! Multidomain : skip surface if not initially on the domain-----
+               N = 0
+               DO J=1,NUM
+                 IF(IDS == IGRSURF(J)%ID) N=J
+               ENDDO
+               IF (ISURF_R2R(3,N)==0) CYCLE
+            ENDIF 
             DO J=1,NUM
               IF(IDS == IGRSURF(J)%ID)THEN
                  N=J
@@ -149,7 +165,7 @@ C
                  NUM_FOUND=NUM_FOUND+1
                  EXIT
               ENDIF
-            ENDDO
+            ENDDO  
             NSNE=NSNE+1
             ITHBUF(IAD)=N
             IAD=IAD+1
@@ -206,9 +222,9 @@ C=======================================================================
           WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
           WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
           DO K=IAD1,IAD1+N-1
-             CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-             IAD2=IAD2+40
-             WRITE(IOUT,FMT=FMW_I_A)IGRSURF(ITHBUF(K))%ID,TITR(1:40)
+              CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+              IAD2=IAD2+40
+              WRITE(IOUT,FMT=FMW_I_A)IGRSURF(ITHBUF(K))%ID,TITR(1:40)
           ENDDO
 C
         ENDIF

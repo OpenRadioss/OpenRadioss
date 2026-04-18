@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_rbody                ../starter/source/constraints/general/rbody/hm_preread_rbody.F
 !||    hm_preread_sphio                ../starter/source/loads/sph/hm_preread_sphio.F
 !||    hm_read_admas                   ../starter/source/tools/admas/hm_read_admas.F
+!||    hm_read_ale_link                ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_cload                   ../starter/source/loads/general/cload/hm_read_cload.F
 !||    hm_read_cyljoint                ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
 !||    hm_read_friction_models         ../starter/source/interfaces/friction/reader/hm_read_friction_models.F
@@ -67,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_rwall_therm             ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
 !||    hm_read_spcnd                   ../starter/source/constraints/sph/hm_read_spcnd.F
 !||    hm_read_sphio                   ../starter/source/loads/sph/hm_read_sphio.F
+!||    hm_read_thgrsurf                ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_tagpart                      ../starter/source/groups/hm_tagpart.F
 !||    hm_tagpart2                     ../starter/source/groups/hm_tagpart2.F
 !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
@@ -139,7 +141,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGSPHIO,TAGSPHBCS,TAGSPH2S
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGMPC,FRONT_R2R,FLAGKIN_R2R
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ELCF,TAG_ELCF2,TAG_ELSF,TAG_ELSF2
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ELSP,NOM_OPT_TEMP,TAGGAU,TAG_INIVOL      
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ELSP,NOM_OPT_TEMP,TAGGAU,TAG_INIVOL   
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ALELINK(:)         
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISURF_R2R,ISLIN_R2R,IGRBRIC_R2R                          
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISUBDOM,IPART_R2R
       my_real ,DIMENSION(:), ALLOCATABLE :: PM_R2R,LINK_DOM               

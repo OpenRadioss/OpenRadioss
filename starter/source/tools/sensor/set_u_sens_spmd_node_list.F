@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,13 +28,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         INTEGER FUNCTION SET_U_SENS_SPMD_NODE_LIST(ARRAY,SIZE_ARRAY)
 !$COMMENT
 !       SET_U_SENS_SPMD_NODE_LIST description
-!       user function : save in a Radioss buffer 
-!                       a list of node
+!       User function to save a list of nodes in a Radioss buffer
 !       
 !       SET_U_SENS_SPMD_NODE_LIST organization :
 !           - check if the size of %NODE_LIST is sufficient
 !             and reallocate the array if the size is not sufficient
-!           - save the node in %NODE_LIST
+!           - save the nodes in %NODE_LIST
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s

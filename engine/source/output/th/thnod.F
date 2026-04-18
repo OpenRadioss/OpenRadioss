@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    plyxfem_mod     ../engine/share/modules/plyxfem_mod.F
 !||    th_mod          ../engine/share/modules/th_mod.F
 !||====================================================================
-      SUBROUTINE THNOD(ITHBUF ,
+      SUBROUTINE THNOD(OUTPUT, ITHBUF ,
      2             WA      ,X       ,D       ,V       ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,
@@ -44,7 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE PLYXFEM_MOD
       USE PINCHTYPE_MOD
-      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT
+      USE OUTPUT_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: output
       INTEGER CPTREAC,ITHBUF(*),
      .        ISKWN(LISKN,*),IFRAME(LISKN,*),WEIGHT(NUMNOD),INOD(*),
      .        NODREAC(*),IFORM,NTHGRP2
@@ -81,15 +82,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: CONDITION
-      INTEGER I, J, ISK, II, L, K, IUN, IFRA, N1,IPLY,IDIR,N
+      INTEGER I, J, ISK, II, L, K, IUN, IFRA,IPLY,IDIR,N
       INTEGER :: II_SAVE,IJK, ITYP
       INTEGER :: IAD,NN,IADV,NVAR
-      my_real :: XL(3),DL(3),VL(3),AL(3),VRL(3),ARL(3),OD(3),VO(3),AO(3),VRG(3),ARG(3)
+      my_real :: XL(3),DL(3),VL(3),AL(3),VRL(3),ARL(3),VRG(3),ARG(3)
       DATA IUN/1/
 C-------------------------
 C     NODES
-C          DEPLACEMENT, VITESSE, ACCELERATION,
-C          VITESSE ANGULAIRE, ACCELERATION ANGULAIRE,
+C          DEPLACEMENT, VELOCITY, ACCELERATION,
+C          VELOCITY ANGULAIRE, ACCELERATION ANGULAIRE,
 C          & POSITION
 C-------------------------
       IJK = 0
@@ -229,8 +230,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
 C start of pinching information
@@ -408,8 +409,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
 C start of pinching information
@@ -660,8 +661,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
                   ELSE
@@ -773,8 +774,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
                   ELSE

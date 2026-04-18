@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                ../engine/source/output/message/message.F
 !||    arret                 ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box               ../engine/share/modules/tri7box.F
@@ -42,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,8 +72,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, N1, NE,
+      INTEGER MSGTYP,I, LOC_PROC,P,IDEB,
+     .        SIZ,J, L, LEN, NB, N1, NE,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
@@ -88,7 +90,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -99,7 +101,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi boite
+C   Box sending
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -114,7 +116,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception des boites min-max
+C   Reception of Min-Max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -132,7 +134,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending of XREM
 C
       SIZ = 112
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
@@ -317,7 +319,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NMESR = 0

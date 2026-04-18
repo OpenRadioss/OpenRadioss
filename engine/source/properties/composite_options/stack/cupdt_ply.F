@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE CUPDT_PLY(
@@ -40,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE PLYXFEM_MOD
+       use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,21 +72,17 @@ C     REAL
      .   FLY12(MVSIZ, NPT), FLY22(MVSIZ, NPT), FLY32(MVSIZ, NPT),
      .   FLY13(MVSIZ, NPT), FLY23(MVSIZ, NPT), FLY33(MVSIZ, NPT),
      .   FLY14(MVSIZ, NPT), FLY24(MVSIZ, NPT), FLY34(MVSIZ, NPT),
-     .   PTH(MVSIZ,NPT),FAC(MVSIZ,2),STI(MVSIZ,*),MSZ2(*)
+     .   FAC(MVSIZ,2),STI(MVSIZ,*),MSZ2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,IOFF,IP,I1,I2,I3,I4,N,
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, IP, I1, I2, I3, I4, N, 
      .        IN1,IN2,IN3,IN4
       my_real
-     .   OFF_L,  
-     .   FPLY11,FPLY21,FPLY31,FPLY12,FPLY22,FPLY32,FPLY13,FPLY23,
-     .   FPLY33,FPLY14,FPLY24,FPLY34,FPLY,MPLY,
-     .   MPLY11,MPLY21,MPLY31,MPLY12,MPLY22,MPLY32,MPLY13,MPLY23,
-     .   MPLY33,MPLY14,MPLY24,MPLY34
+     .   OFF_L
 C-----------------------------------------------
 C
-C cumul de l'energie des elements deletes AU moment du delete
+C accumulation of the energy of deleted elements at the time of deletion
 C
       OFF_L = ZERO
       DO I=JFT,JLT

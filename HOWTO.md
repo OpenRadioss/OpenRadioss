@@ -238,7 +238,7 @@ This chapter explains how to setup Windows on different build configuration
 
    **Notes:**
 
-   * Intel OneAPI plugin for Visual Studio is recommended to use Intel OneAPI in Visual Studio 2019
+   * Intel OneAPI plugin for Visual Studio is recommended to use Intel OneAPI in Visual Studio 2022
    * Choose the default directory to install Intel oneAPI
 
 4. Install Git
@@ -267,7 +267,7 @@ The Git Bash tool is not needed, but can be installed.
 ### Build environment using cmd DOS shell
 
 Building using cmd.exe is using cmake.exe and ninja.exe
-Both are shipped with Visual Studio 2019.
+Both are shipped with Visual Studio 2022.
 
 1. Setup the compiler
    Load compiler settings in cmd.exe using following command :
@@ -744,7 +744,7 @@ Those bellongs to the most commonly used architectures:
 ### Build OpenRadioss with Visual Studio
 
 This sections assumes, that Intel OneAPI Compiler was successfully installed.
-Procedure was tested on Visual Studio 2019 and Visual Studio 2022
+Procedure was tested on Visual Studio 2022
 
 * Launch Visual Studio
 

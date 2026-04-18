@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,9 +65,9 @@ C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
 C VOLUME  | NEL     | F | R | VOLUME
 C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
-C FR_WAV  | NEL     | F | RW| INPUT:cet element ou un de ses voisins est
-C         |         |   |   |       completement flambe
-C         |         |   |   | OUTPUT:cet element est completement flambe
+C FR_WAV  | NEL     | F | RW| INPUT:this element or one of its neighbors is
+C         ||||completely torch
+C         ||||Output: this element is completely torched
 C EPSPXX  | NEL     | F | R | STRAIN RATE XX
 C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
@@ -151,16 +151,16 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IADBUF,IF1,IF2,AUX,IC,II,K,JJ,
+      INTEGER I,J,IADBUF,IF1,IF2,AUX,IC,II,JJ,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        INDEX(MVSIZ), NINDX
       my_real
      .    E11,E22,E33,G12,G23,G31,                                 
-     .    Y11,Y22,Y33,Y12,Y23,Y31,                                 
-     .    EP1,EP2,EP3,EP4,EP5,EP6,                                 
+     .                                     
+     .                                     
      .    YC(MVSIZ),                                               
-     .    DYDX,DYDXV(MVSIZ),EP(MVSIZ,9),EPC(MVSIZ),            
-     .    EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,AMUV   
+     .    DYDXV(MVSIZ),EP(MVSIZ,9),EPC(MVSIZ),            
+     .    EMX11,EMX22,EMX33,EMX12,EMX23,EMX31   
       my_real
      .    SXY(NEL),SYX(MVSIZ),SYZ(MVSIZ),
      .    SZY(MVSIZ),SZX(MVSIZ),SXZ(MVSIZ),

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
-      ! LOOP OVER FLUID SEGMENTS (SECND)
+      ! LOOP OVER FLUID SEGMENTS (SECOND)
       DO I=1,NRT
         II=I
         !SEARCH FOR QUAD CONNECTED TO CURRENT FLUID SEGMENT
@@ -73,7 +73,7 @@ C
 C-----------------------------------------------
 C     IRECT <- REPLACE INTERNAL IDENTIFIER 'IG' WITH LOCAL ID 'IL' FROM FLUID NODES : NSV(IL)=IG
 C-----------------------------------------------
-      ! LOOP OVER FLUID SEGMENTS (SECND)
+      ! LOOP OVER FLUID SEGMENTS (SECOND)
       DO I=1,NRT
 
         IG=IRECT(1,I)

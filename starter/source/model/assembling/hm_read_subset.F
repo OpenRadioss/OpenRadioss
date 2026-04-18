@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -107,7 +107,7 @@ C  SUBSET(ISU)%ID  ::SUBSET identifier
 C  SUBSET(ISU)%TITLE  : SUBSET title
 C  SUBSET(ISU)%TH_FLAG : TIME HISTORY flag
 C  SUBSET(ISU)%PARENT : SUBSET PARENT
-C  SUBSET(ISU)%NCHILD : SUBSETS number of childs
+C  SUBSET(ISU)%NCHILD : SUBSETS number of children
 C  SUBSET(ISU)%NPART : SUBSET number of part (within one subset)
 C  SUBSET(ISU)%NTPART : Total number of parts (within parent subset)
 C  SUBSET(ISU)%THIAD : IAD for global ITHBUF storage variables
@@ -433,7 +433,7 @@ C=======================================================================
 
       L = MIN(10,MAX(2,22/(NIVMAX+1)))
       
-c     lignes vides avant subset 
+c     Empty lines before subset 
       K = 3
       DO I=1,NIVEAU
         LIGNE(K:K+L) = BAR(I)(1:L)
@@ -478,7 +478,7 @@ c     ligne subset
       ENDDO
       WRITE(IOUT,'(A)')LIGNE(1:K)
       
-c    subset souligne + ligne vide apres subset
+c    Subset underlines + empty line after subset
       K=3
       LIGNE=' '
       DO I=1,NIVEAU

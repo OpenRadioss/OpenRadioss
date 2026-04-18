@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    domdec1   ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    domdec1       ../starter/source/spmd/domain_decomposition/domdec1.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    dd_ani    ../starter/source/output/anim/dd_ani.F
-!||    dd_fr     ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    dd_fr_2   ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    dd_frx    ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    nlocal    ../starter/source/spmd/node/ddtools.F
+!||    dd_ani        ../starter/source/output/anim/dd_ani.F
+!||    dd_fr         ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    dd_fr_2       ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    dd_frx        ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DOMDEC1(
      1     IPARG ,IXS   ,IXQ        ,IXC   ,IXT    ,
@@ -41,7 +42,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,7 +163,7 @@ C shift of 1 on ixtg6
         ELSE IF(ITY==51) THEN
           ICON = 1
           DIM  = NISP
-C kxsp shifted to retrieve KXSP(3) = noeud id
+C kxsp shifted to retrieve KXSP(3) = node id
           CALL DD_FR(KXSP(2,NFT+1),P,NEL,ICON,DIM)
         ELSE IF(ITY==100) THEN
           DIM = NIXX 
@@ -199,7 +200,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICON,NEL,DIM,P,K,CPT
+      INTEGER ICON,NEL,DIM,P
       INTEGER IX(DIM,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -208,8 +209,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL
@@ -252,8 +253,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,NEL
           ICON = KXX(3,I)
@@ -296,8 +297,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL

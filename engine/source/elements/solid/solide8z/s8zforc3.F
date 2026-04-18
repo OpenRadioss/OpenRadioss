@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    forint                 ../engine/source/elements/forint.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../engine/source/output/message/message.F
 !||    basis8                 ../engine/source/elements/solid/solide8/basis8.F
 !||    boltst                 ../engine/source/elements/solid/solide/boltst.F
 !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
@@ -86,11 +85,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    sz_dt1_mod             ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
@@ -98,7 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE S8ZFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS    ,X       ,
-     2                    A        ,V      ,MS     ,W       ,FLUX    ,
+     2                    A        ,V      ,MS     ,W       ,
      3                    FLU1     ,VEUL   ,FV     ,ALE_CONNECT   ,IPARG   ,
      4                    TF       ,NPF    ,BUFMAT ,PARTSAV ,NLOC_DMG,
      5                    DT2T     ,NELTST ,ITYPTST,STIFN   ,FSKY    ,
@@ -135,6 +136,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use glob_therm_mod
       USE sz_dt1_mod, only : sz_dt1
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -186,7 +188,7 @@ C
 C
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(*),MS(*),W(*), 
-     .   FLUX(6,*),FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
+     .   FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .   F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
@@ -216,9 +218,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
-      INTEGER  I,J,N,NF1,IFLAG,ILAY,NLAY,
+      INTEGER  I,J,NF1,IFLAG,ILAY,NLAY,
      .   IP,IR,IS,IT,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,
-     .   IPMAT,NLYMAX,MID,IPANG,IBID,MX
+     .   IPMAT,NLYMAX,IPANG,IBID
 
       DOUBLE PRECISION 
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),
@@ -246,19 +248,19 @@ C-----------------------------------------------
      . DIE(MVSIZ),CONDE(MVSIZ) ,CONDEN(MVSIZ),AMU(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
 C-----
-C   Variables utilisees en argument par les materiaux.
+C   variables used as arguments by materials
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-C   Variables utilisees en argument par les materiaux si SPH uniquement.
+C   Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS,ITET,IFVM22
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
-C   Variables utilisees dans les routines solides uniquement (en arguments).
+C   variables used only in solid routines (as arguments)
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       INTEGER IDEG(MVSIZ),ICP0
@@ -337,14 +339,14 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
       my_real
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
-     .   SIGM(MVSIZ),DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
+     .   DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),DELTAXI(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8)
       my_real
-     .   SHF(MVSIZ),ZR,ZS,ZT,WT
+     .   ZR,ZS,ZT,WT
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI1,AJI2,AJI3
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI4,AJI5,AJI6
       my_real, DIMENSION(MVSIZ,NNPT) :: AJI7,AJI8,AJI9
@@ -356,7 +358,7 @@ C-----
 
 c
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT,NN_DEL
@@ -365,6 +367,8 @@ C     Variables utilis  es pour le non-local
       my_real 
      .  H(8),PS(8),PR(8),PT(8)
       INTEGER SZ_IX
+      integer :: fake_size = 0
+      my_real, dimension(1) :: fake_array         
 
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,ISM12_11
@@ -514,8 +518,11 @@ C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
       ENDIF
+!
       NN_DEL = 0
-      PID = NGEO(1)
+      PID  = NGEO(1)
+      IMAT = MXT(LFT)
+!
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
@@ -554,19 +561,18 @@ C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
        END IF !(ISMSTR == 11) THEN
       ENDIF    ! ISMSTR == 10.OR.ISMSTR == 11
 c
-      MX = MXT(LFT)
       DO I=LFT,LLT
-        NU(I)=MIN(HALF,PM(21,MX))
+        NU(I)=MIN(HALF,PM(21,IMAT))
         DELTAX(I)=EP30
-        C1 =PM(32,MX)
+        C1 =PM(32,IMAT)
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
 !  for sound speed takeing into account nu
-      ICP0=MAT_ELEM%MAT_PARAM(MX)%COMPRESSIBILITY
+      ICP0=MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY
       FAC_NU = ONE
-      NU0 = PM(21,MX)
+      NU0 = PM(21,IMAT)
       NU_SP = ONE
       IF (IDT1SOL == 1.AND.(MTN==1.OR.ICP0 ==3)) THEN
         NU_SP=SQRT((ONE-NU0)/(ONE+NU0))
@@ -842,7 +848,7 @@ C--------[MF] is used as work array for AJI (inversed Jacobian)
      7   AJ6,       AJI1(1,IP),AJI2(1,IP),AJI3(1,IP),
      8   AJI4(1,IP),AJI5(1,IP),AJI6(1,IP),AJI7(1,IP),
      9   AJI8(1,IP),AJI9(1,IP),NNEGA,     INDEX,
-     A   IP,        NEL)
+     A   IP        ,NEL       ,MSTOP )
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
@@ -894,12 +900,12 @@ C
          ENDDO  ! IT=1,NPTT
         ENDDO   ! IS=1,NPTS
        ENDDO    ! IR=1,NPTR
-       IF (INEG_V ==0) THEN
-C---     /NEGAVOL/STOP       
-           CALL ANCMSG(MSGID=280,ANMODE=ANINFO)
-           MSTOP = 1
-       END IF !(INEG_V /=0) THEN
       END IF
+      IF (INEG_V ==2) THEN
+        DO I=LFT,LLT
+          IF (GBUF%OFF(I)==ZERO) OFFL(I)=ZERO
+        ENDDO
+      END IF 
 C --------------------------
 C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C  --- ! Total strain option doesn't change the Ref CONF.
@@ -1132,10 +1138,8 @@ C
      C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
      D   ISMSTR,     JCVT)
 C
-        MX = MXT(LFT)
         DO I=LFT,LLT
-          RHOO(I) = LBUF%RHO(I)
-          TEMPEL(I) = PM(79,MX)
+          RHOO(I)   = LBUF%RHO(I)
         ENDDO
 C
         IF (JCVT == 2) THEN
@@ -1145,11 +1149,12 @@ C
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
         CALL SRHO3(
      1   PM,         LBUF%VOL,   LBUF%RHO,   LBUF%EINT,
-     2   DIVDE,      FLUX(1,NF1),FLU1(NF1),  VOLN,
+     2   DIVDE,      fake_array,FLU1(NF1),  VOLN,
      3   DVOL,       NGL,        MXT,        OFF,
      4   0,          GBUF%TAG22, VOLP(1,IP), LBUF%VOL0DP,
      5   AMU,        GBUF%OFF,   NEL,        MTN,
-     6   JALE,       ISMSTR,     JEUL,       JLAG)
+     6   JALE,       ISMSTR,     JEUL,       JLAG,
+     .   fake_size,fake_size,0)
 C
 C-----------------------------
         IF (JCVT == 0) THEN
@@ -1184,7 +1189,8 @@ C------------------------------------------------------
 C
       IF (IBOLTP /= 0) 
      .      CALL BOLTST(IP    ,BPRELD   ,LBUF%SIG ,TT  ,NEL   ,        
-     .                  NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                  NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                 IPARG(67,NG),IPARG(68,NG))
 C
       CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,    NG,           PM,           GEO,
@@ -1339,7 +1345,6 @@ c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
       IF (INLOC > 0) THEN  
-        IMAT = MXT(LFT)  
         CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
         CALL S8ZFINT_REG(
      1   NLOC_DMG,     VAR_REG(1,IP),NEL,          GBUF%OFF,
@@ -1367,10 +1372,9 @@ c-------------------------
 c    finite element heat transfert  
 c-------------------------
          IF (JTHE < 0) THEN
-           IMAT = MXT(1)
            IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-             CALL S8ETHERM(
-     1            PM,     IMAT,     VOLN,    NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,    NI,
      2            NC1,     NC2,     NC3,     NC4,
      3            NC5,     NC6,     NC7,     NC8,
      4            PX1,     PX2,     PX3,     PX4,
@@ -1383,8 +1387,8 @@ c-------------------------
      B            THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C            IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
            ELSE
-             CALL S8ETHERM(
-     1            PM,     IMAT,     VOLN,    NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,    NI,
      2            NC1,     NC2,     NC3,     NC4,
      3            NC5,     NC6,     NC7,     NC8,
      4            PX1,     PX2,     PX3,     PX4,
@@ -1499,7 +1503,7 @@ C-----------------------------
        END IF !(IOFFS == 1) THEN
       ENDIF
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

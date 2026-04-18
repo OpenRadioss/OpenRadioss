@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -157,10 +157,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real 
-     .       MS,XK,XC,EPSTOT,F,DFDX,RHO,STIF,DEPS,G,DGDX,L0,
+     .       XK,XC,EPSTOT,F,DFDX,RHO,STIF,DEPS,G,DGDX,L0,
      .       LPREV, LNEXT,
      .       XM, XKM, XCM, FACT, XN, DTC, DTK
-      INTEGER I,K,NB1,NB2,NB3,MB1,MB2,MB3,MB4,MB5,IFUNCT,IFV
+      INTEGER K, NB1, NB2, NB3, MB1, MB2, MB3, MB4, MB5, IFUNCT, IFV
 C-----------------------------------------------
 C       POLYLINE TO DRAW INTO ANIM.
         NAX1D=NX-1
@@ -337,10 +337,10 @@ C       RETURN ELEMENT TIME STEP.
         DO K=1,NX-1
           XM   = RHO*UVARN(MB3+K-1)
 C         rigidite tangente
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to :
 C         XKM  = STIF*(XN-1.)/L0
           XKM  = STIF/UVARN(MB3+K-1)
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to :
 C         XCM  = (F*DGDX+XC)*(XN-1.)/L0
           XCM  = (F*DGDX+XC)/UVARN(MB3+K-1)
           IF(XCM+XKM<EM15)XM  =ONE

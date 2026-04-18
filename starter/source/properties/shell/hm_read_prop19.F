@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,9 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IMID, J, DRAPE_ID, ID
-      my_real :: THICKT, FAC_GEN, PUN
-      CHARACTER(LEN = NCHARTITLE) :: TITR, TITR1, IDTITL
+      INTEGER :: IMID, J, DRAPE_ID
+      my_real ::  FAC_GEN, PUN
+      CHARACTER(LEN = NCHARTITLE) :: TITR, IDTITL
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
 C-------------------------------------------------
 C     B e g i n n i n g   o f  S u b r o u t i n e
@@ -100,7 +100,7 @@ C-------------------------------------------------
       IGEO(44) = IGEO(4) ! Used with drape for OUPT
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         GEO(212) = NINTY * FAC_GEN ! default value   
+         GEO(212) = NINETY * FAC_GEN ! default value   
       ENDIF
 
       IF (IS_ENCRYPTED) THEN

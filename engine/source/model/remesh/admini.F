@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
@@ -46,7 +47,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -334,7 +336,7 @@ C             goes to sleep
 
             ELSE  
 C
-C             mapping et descente au niveau suivant
+C             mapping and descent at the next level
 C
               IF(ITRIM==-1)THEN
               NG   =SH4TREE(4,N)
@@ -459,7 +461,7 @@ C             goes to sleep
 C
           IDEL7NOK=1
 C
-C         compactage de LSH4ACT
+C         compaction of LSH4ACT
           NTMP   =NSH4ACT
           NSH4ACT=0
           DO NN=1,NTMP
@@ -594,7 +596,7 @@ C         goes to sleep
 
       IF(KINILEV/=0)THEN
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
         NTMP   =NSH4ACT
         NSH4ACT=0
         DO NN=1,NTMP
@@ -660,7 +662,7 @@ C             goes to sleep
 
             ELSE  
 C
-C             mapping et descente au niveau suivant
+C             mapping and descent at the next level
 
               DO IB=1,4
 
@@ -760,7 +762,7 @@ C             goes to sleep
 C
           IDEL7NOK=1
 C
-C         compactage de LSH4ACT
+C         compaction of LSH4ACT
           NTMP   =NSH3ACT
           NSH3ACT=0
           DO NN=1,NTMP
@@ -877,7 +879,7 @@ C         goes to sleep
 
       IF(KINILEV/=0)THEN
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
         NTMP   =NSH3ACT
         NSH3ACT=0
         DO NN=1,NTMP
@@ -929,7 +931,7 @@ C     Tag element that are inactifs and one of its sons is actif for Idel in int
                 LELT1 =LELT2
                 LELT2 =LELT
                ENDDO
-c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
+C            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
             ELSEIF (LEVEL <0.AND.ITRIM == -1) THEN
                 TAGTRIMC(N) = 1
                 NG   =SH4TREE(4,N)
@@ -987,7 +989,7 @@ c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
        ENDIF 
       ENDIF
 C
-C     tableaux de travail.
+C     working arrays.
       ALLOCATE(TAGNOD(NUMNOD),STAT=IERR)
       IF (IERR /= 0) CALL ARRET(2)
 

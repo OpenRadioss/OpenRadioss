@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -85,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dt_mod              ../engine/source/modules/dt_mod.F
 !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -126,7 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
      T   JTUR,        DT       ,    NCYCLE,     SNPC,
      Y   STF ,        GLOB_THERM ,  NXLAYMAX,   IDEL7NOK,
-     U   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     U   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -143,6 +144,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       use dttherm_mod
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -180,7 +182,7 @@ C-----------------------------------------------
      .        IPM(*),INDXOF(MVSIZ),INOD_PXFEM(*),IEL_PXFEM(*),ITAB(*),
      .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*),
      .        INDX_DRAPE(SCDRAPE)
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -209,17 +211,20 @@ C     REAL OU REAL*8
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      integer, intent(in) :: LIPART1
+      INTEGER, DIMENSION(LIPART1, NPART), INTENT(IN)     :: IPART
+
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .   I,II,J,JJ,JG,IR,IS,IT,IPT,NPTR,NPTS,NPTT,NLAY,MX, 
-     .   NPLAT,IDRIL,LENE,LENF,LENM,LENS,NNOD,N1,N2,N3,N4,
-     .   NG,NPG,PT1,PT2,PT3,PT4,PTF,PTM,PTE,PTS,L_DIRA,L_DIRB,
+     . I,J,JG,IR,IS,IT,NPTR,NPTS,NPTT,NLAY,MX,
+     . NPLAT,IDRIL,LENF,LENM,LENS,NNOD,
+     . NG,NPG,PT1,PT2,PT3,PT4,PTF,PTM,PTS,L_DIRA,L_DIRB,
      .   IPPID,JPID,IPTHK,IPPOS,IPMAT,IPMAT_IPLY,MATLY,IFAILWAVE,
-     .   J1,J2,IIGEO,IADI ,IADR,IPANG,IGTYP,IGMAT,ILAY,NPTTOT,IREP,KK(5),K,
+     . J1,J2 ,IPANG,IGTYP,IGMAT,ILAY,NPTTOT,IREP,KK(5),
      .   LENFPINCH,LENMPINCH,LENEPINCHXZ,LENEPINCHYZ,LENEPINCHZZ,
-     .   PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,MT,NPINCH,IDRAPE,ACTIFXFEM,
+     . PTFP,PTMP,PTEPXZ,PTEPYZ,PTEPZZ,NPINCH,IDRAPE,ACTIFXFEM,
      .   SEDRAPE,NUMEL_DRAPE
       INTEGER  MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),MAT_IPLY(MVSIZ,NPT),
      .   IPLAT(MVSIZ),ISTACK(MVSIZ,NPT),FWAVE_EL(NEL)
@@ -251,10 +256,10 @@ C-----------------------------------------------
      .   FLY14(MVSIZ, NPT), FLY24(MVSIZ, NPT), FLY34(MVSIZ, NPT),
      .   PLY_EXX(MVSIZ,NPT), PLY_EYY(MVSIZ,NPT), PLY_EXY(MVSIZ,NPT), 
      .   PLY_EZX(MVSIZ,NPT), PLY_EYZ(MVSIZ,NPT), PLY_FN(MVSIZ,12,NPT),
-     .   THKLY(MVSIZ,NPT),VOL0_LY(MVSIZ,NPT),POSLY(MVSIZ,NPT),
+     . THKLY(MVSIZ,NPT),POSLY(MVSIZ,NPT),
      .   DEL_PLY(MVSIZ,12,NPT),TH_IPLY(MVSIZ,NPT),
      .   SIG_IPLY(MVSIZ,3,NPT),VNI(4,4),
-     .   VFI(MVSIZ,12,NPT),DELG_PLY(MVSIZ,3,NPT),AMOM(MVSIZ,3,4),
+     . VFI(MVSIZ,12,NPT),DELG_PLY(MVSIZ,3,NPT),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -291,11 +296,12 @@ C-----------------------------------------------
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
       my_real, dimension(mvsiz) :: epsd_pg,epsd_glob
+      my_real, dimension(mvsiz) :: ssp_eq,ssp_max
       my_real :: dtinv,asrate,eps_m2,eps_k2
 !
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
-      my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B,CRKDIR,DADV
+      my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B, DADV
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR1_CRK,DIR2_CRK,DIRA,DIRB
       my_real
      .   EZZPG(MVSIZ,4)
@@ -305,10 +311,10 @@ C-----------------------------------------------
       my_real, 
      .   DIMENSION(:,:), ALLOCATABLE :: VAR_REG
 C-------------------------------------
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4     
+ 
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
       INTEGER SDIR_A    ! Size of DIR_A
@@ -356,7 +362,7 @@ C
       IF (NPT == 0) NPTTOT = NPT  !  compatibility with global integration
 C
 !-------------------------------------------      
-! Tableau pour la variable non-locale
+! array for the non-local variable
       NDDL = NPTTOT
       ALLOCATE(VAR_REG(NEL,NDDL)) 
 !-------------------------------------------
@@ -453,7 +459,7 @@ c     .              IGEO, PID,ISUBSTACK)
       IGTYP = IGEO(11,IXC(6,1))
       IGMAT  = IGEO(98 ,IXC(6,1))
 C      
-C initiallisation pour la thermique ---
+C initialization for thermal ---
        DO I=JFT,JLT
          THEM(I,1) = ZERO
          THEM(I,2) = ZERO
@@ -465,8 +471,9 @@ C
          ALLOCATE(PINCH_LOCAL%EPINCHXZ(MVSIZ))
          ALLOCATE(PINCH_LOCAL%EPINCHYZ(MVSIZ))
          ALLOCATE(PINCH_LOCAL%EPINCHZZ(MVSIZ))
-       ENDIF
-C 
+      ENDIF
+C
+      SSP_MAX = ZERO
 C--------------------------
 C     CALCULS PRELIMINAIRES 
 C--------------------------
@@ -594,7 +601,7 @@ C
 C------    assumed membrane shear strain---(no assumed shear for Ismstr=10-
         END IF !(IDRIL > 0)
 !
-!       Gauss points
+!       Gauss Points
         DO IS = 1,NPTS
           DO IR = 1,NPTR
            NG = NPTR*(IS-1) + IR
@@ -691,7 +698,7 @@ C
         ENDIF
 C
 C----------------------------------
-C       CALCUL DES DEFORMATIONS 
+C       calculation of strains
 C----------------------------------
         CALL CBASTRA3(GBUF%STRA,GBUF%STRPG(PTS),
      1             JFT, JLT, NFT, NPG,VDEF, 
@@ -801,7 +808,8 @@ C-----------------
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),
      Q    PINCH_LOCAL , GBUF%FORPGPINCH(PTFP), GBUF%MOMPGPINCH(PTMP),EZZAVG  ,
-     R    AREAPINCH  )
+     R    AREAPINCH  ) 
+          SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
         ELSE
           CALL CMAIN3(TIMERS,
      1    ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -832,8 +840,10 @@ C-----------------
      R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE  ,DT   ,
      Q    NCYCLE     ,SNPC     ,STF       ,NXLAYMAX,    IDEL7NOK    ,
      S    USERL_AVAIL ,MAXFUNC ,NPTTOT    ,SBUFMAT,     SDIR_A      ,
-     T    SDIR_B     ,GBUF%FORPG_G(PTF))        
+     T    SDIR_B     ,GBUF%FORPG_G(PTF)   ,SSP_EQ,
+     X    IPART      ,LIPART1  ,IPARTC     )   
         ENDIF
+        SSP_MAX(JFT:JLT) = MAX(SSP_MAX(JFT:JLT),SSP_EQ(JFT:JLT))
 C-----------------
         IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(TIMERS,35)
 C      
@@ -924,7 +934,7 @@ c--------------------------
        ENDDO  ! NPTR
       ENDDO  ! NPTS    
 C---------------------------------------
-C-----FIN DE BOUCLE DE 4 POINTS DE GAUSS
+C-----end of loop over 4 gauss points
 !-------------------------------------------------------------------------------
 !     global element strain rate filtering for output
 
@@ -940,7 +950,7 @@ C
 C
 C----
 C---------------------------------------
-C     POST-TRAITEMENT - valeurs moyennes
+C     Post -processing - Average values
 C---------------------------------------
 C---
 C    = FOR, MOM =
@@ -970,7 +980,7 @@ C---
         ENDDO
       ENDDO
 c------------------------------      
-C     membrane shear traitement
+C     Shear treatment membrane
       IF (IDRIL == 0) THEN
         CALL CBAFORCT(JFT     ,JLT  ,VOLG    ,X13  ,X24  ,
      2                Y13     ,Y24  ,GBUF%FOR,VF   ,NPLAT,
@@ -1011,7 +1021,7 @@ C----------------------------
      3            VFPINCHDAMPX,VFPINCHDAMPY)
       ENDIF
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
        IPOUT=2
       IF(IPRI == 1)
@@ -1066,17 +1076,17 @@ C
      5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
      6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT) , NEL     ,ZOFFSET)
+     8        PM     ,MAT(JFT) , NEL  ,ZOFFSET  ,SSP_MAX)
 C
       ENDIF
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
-         ENDIF 
+      IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )       
+      ENDIF 
 C 
       IF(ISHPLYXFEM > 0) THEN                                     
         CALL CNDT_PLY(                                            

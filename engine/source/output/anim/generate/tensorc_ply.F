@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,9 +28,10 @@ C available just with ply/xfem formulation
 !||--- calls      -----------------------------------------------------
 !||    sigrota            ../engine/source/output/anim/generate/sigrota.F
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
@@ -49,6 +50,7 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE STACK_MOD
       USE my_alloc_mod
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,20 +83,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   OFF, FAC, A1, A2, A3, THK, SIGE(MVSIZ,5)
+     . FAC, A1, A2, A3, THK, SIGE(MVSIZ,5)
       REAL R4(18)
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IR,IS,IPT,
-     .        IADD, N, J, LLT, MLW, ISTRAIN,NPTR,NPTS,NPTT,NLAY,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        II, II_L, KK ,INC,IHBE,LEN ,IREP,BUF,IEXPAN,ILAYER,
+     . N, J, LLT, MLW, ISTRAIN,NPTR,NPTS,NPTT,NLAY,
+     . IPID, NS1, NS2 , ISTRE,
+     . NN1,NN2,NN3,NN4,NN5,NN6,NNI,N0,
+     . II ,INC,IHBE ,IREP,BUF,ILAYER,
      .        JJ(8)
-      INTEGER IE,ISHPLYXFEM,IP,JPID,IPPID,IPLY0,IFLAG,ION,NPG,K,
+      INTEGER IE, ISHPLYXFEM, IFLAG, ION, NPG, 
      .        ELC,PLYELEMS(NUMELC),PLYS,IFAILURE,IVISC,NUVARV,
      .        MAT(MVSIZ),PID(MVSIZ),IGTYP,IADR,MATLY,IPMAT,
-     .        IIGEO,IADI,ISUBSTACK,IPMAT_IPLY
+     . ISUBSTACK,IPMAT_IPLY
       REAL,DIMENSION(:,:),ALLOCATABLE:: WA
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
@@ -184,7 +186,7 @@ C
           A3    = ZERO
           ISTRE = 1
 C          
-C test sur un seul element du groupe          
+C test on a single element of the group
 C
            N = 1 + NFT
 C

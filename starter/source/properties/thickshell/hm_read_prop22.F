@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -101,14 +101,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
+     .   NPT,NPTR,NPTS,NPTT, ISTRAIN,ID,
      .   IREP,IPOS,IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,ASHEAR
-      INTEGER NUML(200), NLY, NLYMAX, N, J, M1, M2, M3,ICOMPA,
-     .   K,  N1,IDSK, IPANG, IPTHK, IPPOS, IPMAT,IERRS,IP,ISK
+     .    CVIS,QA,QB,DTMIN,ASHEAR
+      INTEGER NUML(200), NLY, NLYMAX, J, M1, M2, M3,ICOMPA,
+     .   K,IDSK, IPANG, IPTHK, IPPOS, IPMAT,IERRS,IP,ISK
       my_real
-     .   AN,  DT, THK, TMIN, TMAX,ANG,VX,VY,VZ,
+     .   AN,  DT, THK, TMIN, TMAX,VX,VY,VZ,
      .   VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
@@ -168,7 +168,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('vdef_max',VDEFMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('ASP_max',ASPMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('COL_min',ASPTET,IS_AVAILABLE,LSUBMODEL,UNITAB)
-C-------for lecture check 
+C-------for reading check 
 c         WRITE(IOUT,2100)IG,IHBE,ISMSTR,IPLAST,IINT,ICPRE,ICSTR,CVIS,QA,QB,
 c     .                   DTMIN,ISTRAIN,NPTR,NPTS,NPTT
 Capply submodel transform to V (VX,VY,VZ) 
@@ -403,7 +403,7 @@ C--------------
      .              I1=IG,
      .              C1=TITR)
        ENDIF
-C---  Position des couches-----------
+C---  Position of the layers-----------
        IF (IPOS>0)THEN
         TMIN = EM20
         TMAX =-EM20
@@ -423,7 +423,7 @@ C------------[-0.5,0.5]----------
      .               C1=TITR)
         ENDIF
        ELSE
-C---  calcul automatique de position des couches -->(-1,1)
+C--- Automatic layers of the layers position-> (-1.1)
         GEO(IPPOS+1) = -HALF +HALF*GEO(IPTHK+1)
         DO K=2,NLY
          GEO(IPPOS+K)=GEO(IPPOS+K-1)+
@@ -441,7 +441,7 @@ C      TEST MATERIAUX: NON incompability---------
             GO TO 100
           ENDIF
         ENDDO
-C          ERREUR NO DE LOI DE COMP. ERRONEE
+C          ERROR NO DEFINITION OF COMP. ERRONEOUS
          CALL ANCMSG(MSGID=676,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,

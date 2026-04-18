@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    strs_txt    ../engine/source/output/sta/sta_txt.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STRS_TXT(TEXT,LEN)
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C
 !||    stat_s_strsf       ../engine/source/output/sta/stat_s_strsf.F
 !||    tab_strs_txt50     ../engine/source/output/sta/sta_txt.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c_txt      ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c_txt      ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STRS_TXT50(TEXT,LENGTH)
 C-----------------------------------------------
@@ -138,7 +138,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER*100 LINE
-      INTEGER I,K,K1
+      INTEGER K,K1
       INTEGER J1
 C
       J1 = J

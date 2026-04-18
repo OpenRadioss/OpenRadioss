@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||====================================================================
       module sfor_visn6_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief damping force calculation of distortion control for penta6 elements
@@ -86,9 +87,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,IFCONT
+          integer :: i,IFCONT
 !
-          real(kind=WP) :: fx,fy,fz,fac,vnj(6),vl,tol_v2,v2max,vc2
+          real(kind=WP) :: fac,vnj(6),vl,tol_v2,v2max,vc2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -153,7 +154,7 @@
                 for_t6(i,1)*(vx6(i)-vc(i,1))+     &
                 for_t6(i,2)*(vy6(i)-vc(i,2))+     &
                 for_t6(i,3)*(vz6(i)-vc(i,3)))
-            enddo
+            end do
           end if
           ifctl = ifcont  ! used for self-contact compute less strict : 2 times
 !

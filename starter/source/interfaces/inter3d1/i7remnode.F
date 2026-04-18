@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -141,8 +141,6 @@ C-----------------------------------------------
 !||    i7remnode_init   ../starter/source/interfaces/inter3d1/i7remnode.F
 !||--- called by ------------------------------------------------------
 !||    i7remnode        ../starter/source/interfaces/inter3d1/i7remnode.F
-!||--- calls      -----------------------------------------------------
-!||    bitget           ../starter/source/interfaces/inter3d1/bitget.F
 !||====================================================================
       SUBROUTINE I7REMNODE_INIT(ISELF_IMPACTANT,NTY    ,
      1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
@@ -169,11 +167,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,CPT,KMAX,IMS1,IMS2,ISS1,ISS2
+      INTEGER I,J,K,L,N,CPT,KMAX
+      LOGICAL :: IMS1,IMS2,ISS1,ISS2
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD
-C-----------------------------------------------
-      INTEGER BITGET
-      EXTERNAL BITGET
 C-----------------------------------------------
 c Build inverse connectivity for segments
 C-----------------------------------------------
@@ -204,12 +200,12 @@ C
           DO J=1,4
             N = TAGSECND(IRECT(J,I))
             IF( N  /= 0 ) THEN
-              IMS1 = BITGET(MBINFLG(I),0)
-              IMS2 = BITGET(MBINFLG(I),1)
-              ISS1 = BITGET(NBINFLG(N),0)
-              ISS2 = BITGET(NBINFLG(N),1)
-              IF(((IMS1 == 1 .and. ISS2==1).or.
-     .            (IMS2 == 1 .and. ISS1==1)))THEN
+              IMS1 = BTEST(MBINFLG(I),0)
+              IMS2 = BTEST(MBINFLG(I),1)
+              ISS1 = BTEST(NBINFLG(N),0)
+              ISS2 = BTEST(NBINFLG(N),1)
+              IF(((IMS1 .and. ISS2).or.
+     .            (IMS2 .and. ISS1)))THEN
                 ISELF_IMPACTANT = 1
               END IF
             END IF
@@ -738,7 +734,7 @@ C-----------------------------------------------
 !       TYP25_USE : integer, interface typ25 marker --> TYP25_USE = 1 if
 !                   an interface 25 is used, O otherwise!
 !       NBR_INSERT_II : integer, dimension = NRTM , number of inserted nodes for each II segment
-!       ADRESS_II : integer, dimension = NRTM , adress of the first inserted nodes for each II segment
+!       ADRESS_II : integer, dimension = NRTM , address of the first inserted nodes for each II segment
 !       KREMNODE_SAVE : integer, dimension = NRTM+1 , list of old nodes
 !       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound, 
 !                            can be optimized!
@@ -821,9 +817,9 @@ C-------tag int2 nodes------
 !           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 !
 !           inserted nodes : 
-!           3 nodes for ii=1 ; adress of the 1st one = 3 ; iad1(1) --> iad1(3)
-!           1 nodes for ii=4 ; adress of the 1st one = 7 ; iad2(1) --> iad2(1)
-!           6 nodes for ii=1 ; adress of the 1st one = 10 ; iad3(1) --> iad3(6)
+!           3 nodes for ii=1 ; address of the 1st one = 3 ; iad1(1) --> iad1(3)
+!           1 nodes for ii=4 ; address of the 1st one = 7 ; iad2(1) --> iad2(1)
+!           6 nodes for ii=1 ; address of the 1st one = 10 ; iad3(1) --> iad3(6)
 !
 !           First insertion iad1 :
 !           1 | 2 | iad1(1) | 3 | 4 | 5 | 6 | 7 | 8 | 9
@@ -886,7 +882,7 @@ C---------
                     IF24  =IPARI(63,N)
                     IF25  =IPARI(83,N)
                     IEDGE = IPARI(58,N)
-                    IF(IDDLEVEL==0.AND.(NTY/=24.AND.NTY/=25)) CYCLE
+                    IF((IDDLEVEL==0.AND.(NTY/=24.AND.NTY/=25)).OR.NRTM==0) CYCLE
                     ! special case : interface type 25 with edge to edge 
                     ! LEDGE array is initialized during the sorting                    
                     ! interface type 25 with edge to edge must be treated after the %LEDGE initialization
@@ -1009,7 +1005,7 @@ C extend INSERTED_NODE if needed
                                 NBR_INSERT_II(II) = NNREM - NNREM_SAVE
                                 KREMNODE_SAVE(II) = KREMNODE_SAVE(II+1) - KREMNODE_SAVE(II)
                                 IADA = IADA + KREMNODE_SAVE(II)
-                                !   adress of the first inserted node
+                                !   address of the first inserted node
                                 ADRESS_II(II) = IADA
                                 KREMNODE_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
                                 IADA = IADA + NBR_INSERT_II(II)

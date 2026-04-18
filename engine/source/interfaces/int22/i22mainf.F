@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,9 +41,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I22MAINF(TIMERS,
+      SUBROUTINE I22MAINF(OUTPUT,TIMERS,
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,
      2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,  
      3                   NELTST    ,ITYPTST    ,ITAB       ,STIFN     ,FSKYI    ,  
@@ -69,6 +70,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE ELBUFDEF_MOD 
       USE I22TRI_MOD
@@ -98,6 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS 
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
@@ -190,7 +193,7 @@ C-----------------------------------------------
       NTY       = IPARI(7,NIN)
       NOINT     = IPARI(15,NIN)
       INACTI    = IPARI(22,NIN)    ! unused
-      IBAG      = IPARI(32,NIN)     ! Pressure correction 
+      IBAG      = IPARI(32,NIN)     ! Pressure Correction 
       NISUB     = IPARI(36,NIN)    
       ISU1      = IPARI(45,NIN)
       INTTH     = IPARI(47,NIN)
@@ -235,7 +238,7 @@ C
         I_STOK = 0
       
       !-------------------------------!
-      !RECALCULATE DU I_STOK          !
+      !recalculate du i_stok
       !-------------------------------!
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
             IF(INTBUF_TAB%CAND_N(I)/=0) THEN
@@ -367,7 +370,7 @@ C
           IPARI(29,NIN) = 1
           IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
           IF (SFSAVPARIT /= 0) pFSAVparit => FSAVPARIT(1,1,NFT+1)
-          CALL I22FOR3(
+          CALL I22FOR3(output,
      1    JLT                ,A                 ,V                 ,IBC               ,ICODT              ,
      2    FSAV               ,GAP               ,FRIC              ,MS                ,VISC               ,
      3    VISCF              ,NOINT             ,INTBUF_TAB%STFNS  ,ITAB              ,CB_LOC             ,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
       D2=TF(2,M)-TF(2,M-1)
       TG=ZERO
       IF(D1/=ZERO)TG=D2/D1
-      !TEST POUR PRECISION DU CALCUL
+      !test for calculation precision
       IF(DT1<=DT2)THEN
        F =TF(2,M-1)+DT1*TG
       ELSE

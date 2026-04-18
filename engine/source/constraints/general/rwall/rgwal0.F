@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP, PMAIN,IPARSENS,ISECT
+      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP, PMAIN,IPARSENS,ISECT,IPEN
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
@@ -86,7 +86,6 @@ C Init global result to 0
           ISL = 1
           K=1
           IMP=0
-
           DO N=1,NRWALL
             N2=N +NRWALL
             N3=N2+NRWALL
@@ -96,33 +95,36 @@ C Init global result to 0
 C
             ITYP= NPRW(N4)
             ILAGM= 0
+            IPEN= NPRW(N+8*NRWALL)
             IF (NPRW(N6) == 1) ILAGM=1
-            IF(ITYP == 1.AND.ILAGM == 0)THEN
-              CALL RGWALL(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
-     +          IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD, WFEXT, WFEXT_MD)
-            ELSEIF(ITYP == 2)THEN
-              CALL RGWALC(
-     +          X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD,WFEXT, WFEXT_MD)
-C
-            ELSEIF(ITYP == 3)THEN
-              CALL RGWALS(
-     +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT, WFEXT_MD)
-            ELSEIF(ITYP == 4)THEN
-              CALL RGWALP(
-     +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
-            ENDIF
+            IF (IPEN == 0.OR.IMPL_S>0) THEN
+              IF(ITYP == 1.AND.ILAGM == 0)THEN
+                CALL RGWALL(
+     +            X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
+     +            NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
+     +            IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD, WFEXT, WFEXT_MD)
+              ELSEIF(ITYP == 2)THEN
+                CALL RGWALC(
+     +            X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD,WFEXT, WFEXT_MD)
+C  
+              ELSEIF(ITYP == 3)THEN
+                CALL RGWALS(
+     +            X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT, WFEXT_MD)
+              ELSEIF(ITYP == 4)THEN
+                CALL RGWALP(
+     +            X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
+              ENDIF
+            END IF !(IPEN == 0.OR.IMPL_S>0) THEN
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
             IF (SMINVER < 9.OR.IFQ > 0) THEN
@@ -152,7 +154,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor concerned by the rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -239,7 +241,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, N2, N3, N4, N5, N6, ITYP, ISL, IFQ, ILAGM,
      .        NDS,IMP, PMAIN, IBID,IPARSENS,ISECT
-      my_real A(3,NUMNOD),BID,DTI
+      my_real A(3,NUMNOD),DTI
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
@@ -333,7 +335,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor concerned by the rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -388,12 +390,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPRW(*)
+      INTEGER NPRW(NRWALL,NNPRW)
       my_real A(3,NUMNOD),RWBUF(NRWLP,*),MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,N2,N3,N4,N5,N6, MSR, ITYP, ILAGM
+      INTEGER N, MSR, ITYP, ILAGM,IPEN
       my_real DM
 C-----------------------------------------------
 C
@@ -403,16 +405,12 @@ C RWL(19) = Fz
 C RWL(20) = Somme (Xslv)
 C
       DO N=1,NRWALL
-        N2=N +NRWALL
-        N3=N2+NRWALL
-        N4=N3+NRWALL
-        N5=N4+NRWALL
-        N6=N5+NRWALL
-        ITYP= NPRW(N4)
+        ITYP= NPRW(N,4)
         ILAGM= 0
-        IF (NPRW(N6) == 1) ILAGM=1
-        IF(ITYP >= 1.AND.ITYP <= 4.AND.ILAGM == 0)THEN
-          MSR = NPRW(N3)
+        IF (NPRW(N,6) == 1) ILAGM=1
+        IPEN = NPRW(N,9)
+        IF(ITYP >= 1.AND.ITYP <= 4.AND.ILAGM == 0.AND.IPEN == 0)THEN
+          MSR = NPRW(N,3)
           IF(MSR /= 0)THEN
             DM = MS(MSR)+ RWBUF(20,N)
             IF(DM /= ZERO) THEN
@@ -434,6 +432,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rgwal0       ../engine/source/constraints/general/rwall/rgwal0.F
 !||    rgwal0_imp   ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rgwal0_pen   ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||====================================================================
       SUBROUTINE RGWALT(MSR ,RWL,FRWL6,PMAIN,FSAV,
      2                  FOPT,FBSAV6,IPARSENS)
@@ -493,12 +492,12 @@ C
       ENDIF
 C
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-C   changement formulation F et XMT stockoques dans RWL et appliques debut cycle suivant
+C   change of formulation for F and XMT stored in RWL and applied at the beginning of the next cycle
          RWL(17)=(FXN+FXT)*DIVDT12
          RWL(18)=(FYN+FYT)*DIVDT12
          RWL(19)=(FZN+FZT)*DIVDT12
          RWL(20)=XMT
-C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
+C test to accumulate only once in multiprocessor mode in the moving case
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
           FSAV(1)=FSAV(1)+FXN
           FSAV(2)=FSAV(2)+FYN
@@ -515,7 +514,7 @@ C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
         RWL(18)=RWL(18)+(FYN+FYT)*DIVDT12
         RWL(19)=RWL(19)+(FZN+FZT)*DIVDT12
         RWL(20)=RWL(20)+XMT
-C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
+C test to accumulate only once in multiprocessor mode in the moving case
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
          FSAV(1)=FSAV(1)+FXN
          FSAV(2)=FSAV(2)+FYN

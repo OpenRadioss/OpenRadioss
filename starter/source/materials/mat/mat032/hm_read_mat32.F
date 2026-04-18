@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -96,7 +96,7 @@ C-----------------------------------------------
 
       my_real
      .   YOUNG, ANU, CA, CE, CN, EPSM, SIGM, CM, EPS0, G, E0, C0, C1,
-     .   E1MN2, EN1N2, SDSP, EPST1, EPSM1, EPST2, EPSM2, DMAX1, DMAX2,
+     .   E1MN2, EN1N2, SDSP,
      .   AMU, R00, R45, R90, R, H, A11, A22, A1122, A12, RHO0, RHOR
       
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
@@ -230,7 +230,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .               C1=TITR)
       ENDIF
 C
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1
       MTAG%G_EPSD  = 1

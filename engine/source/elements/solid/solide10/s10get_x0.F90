@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
 !||====================================================================
       module s10get_x0_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief get initial configuration by displacement
@@ -65,7 +66,6 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,iperm1(10),iperm2(10),n,n1,n2,nn
-          real(kind=WP) :: f_min
           data iperm1/0,0,0,0,1,2,3,1,2,3/
           data iperm2/0,0,0,0,2,3,1,4,4,4/
 ! ----------------------------------------------------------------------------------------------------------------------

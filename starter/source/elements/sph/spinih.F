@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    get_u_geo      ../starter/source/user_interface/uaccess.F
-!||    reset_u_geo    ../starter/source/user_interface/uaccess.F
 !||    sptri          ../starter/source/elements/sph/sptri.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
@@ -60,13 +59,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,IPRT,I0,IMAT,PRE_SEARCH,FLG_H,J,NS,NBNOD(NPART),SZ_INTP_DIST
+      INTEGER N, IPRT, I0, IMAT, PRE_SEARCH, FLG_H, J, NBNOD(NPART), SZ_INTP_DIST
       my_real, DIMENSION(:), ALLOCATABLE :: MAX_INTP_DIST_PART   ! Max of interparticle distance per part
       my_real
      .        DIST, MP, RHO, VOL, SQ2
 C-----------------------------------------------
       my_real
-     .        GET_U_GEO,H_SCAL,VOL_TOT,RESET_U_GEO
+     .        GET_U_GEO,H_SCAL,VOL_TOT
       my_real
      .        XMIN(NPART),XMAX(NPART),YMIN(NPART),YMAX(NPART),ZMIN(NPART),
      .        ZMAX(NPART),VOLP_PRT(NPART)  

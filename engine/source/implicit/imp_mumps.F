@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -403,7 +403,7 @@ C All processes: write local stiffness coefficients (at MPI domain level) in Mat
 #ifdef MPI
       CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 #endif
-C Process 0: read stiff. coeff. from all processes, sort (bubble) and write stiffness coefficients in MatrixMarket format         
+C Process 0: read stiffness coefficients from all processes, sort (bubble) and write stiffness coefficients in MatrixMarket format         
       IF (ISPMD == 0) THEN
          ALLOCATE(NENTRIEStmp(NSPMD))
          WRITE(CSPMD,'(I1)') NSPMD
@@ -452,7 +452,7 @@ C Bubble sort in ascending order of ICOLS and then IROWS
              ENDDO 
              I = I - 1
          ENDDO  
-C Write stiff. coeff. in only one file (suppress duplications) 
+C Write stiffness coefficients in only one file (suppress duplications) 
          IND = 1 
          DO WHILE (IND <= NENTRIES)
            tmpK = K(IND)
@@ -773,7 +773,7 @@ C
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour secnds remote     
+C Complement to the interface stiffness matrix for remote seconds
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1
@@ -813,7 +813,7 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
             ENDIF
          ENDDO
       ENDDO
-C----- il manque DIAG_SL--------
+C----- It lacks diag_sl ---------
       DO N=1,NDDL_SL
        I=IDDL_SL(N)
        IF (IACTI(I)==0) CYCLE
@@ -972,7 +972,7 @@ C Matrice de rigidite d'interface
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour secnds remote     
+C Complement to the interface stiffness matrix for remote seconds
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1

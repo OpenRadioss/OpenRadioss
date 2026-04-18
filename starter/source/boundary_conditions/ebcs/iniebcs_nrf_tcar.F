@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE INIGRAV 
       USE EBCS_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +91,7 @@ C-----------------------------------------------
        ENDIF
        
        !-----------------------------!
-       ! CALCUL DE SSP0MAX           !
+       ! CALCULATION OF SSP0MAX           !
        !-----------------------------!
        NBPHASE = 0
        DO II=1,NELS                                                                                                 
@@ -119,7 +120,7 @@ C-----------------------------------------------
        SSP0MAX = SSP0                                                                                                 
  
        !-----------------------------!
-       ! ESTIMATEUR DE LC            !
+       ! LC ESTIMATOR            !
        !-----------------------------!
         Xmin   = X(1,1)
         Ymin   = X(2,1)
@@ -141,7 +142,7 @@ C-----------------------------------------------
         LC0MAX = LC   
 
        !-----------------------------!
-       ! CALCUL ET AFFECTATION : Tcp !
+       ! CALCULATION AND ASSIGNMENT : Tcp !
        !-----------------------------!  
        IF(SSP0MAX == ZERO)THEN
          TCP_REF = EP20

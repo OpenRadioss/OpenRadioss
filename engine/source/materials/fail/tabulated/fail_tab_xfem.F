@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -127,14 +127,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ::
-     .  I,J,K,L,IADR,NINDX,ISHELL,I_MOD,I_DAM,NF_LOC,
+     .  I,J,IADR,NINDX,ISHELL,I_MOD,I_DAM,
      .  ITAB_EPSF,ITAB_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
-      INTEGER, DIMENSION(NEL) :: INDX,NRATE,RFLAG,DMG_FLAG_INT
+      INTEGER, DIMENSION(NEL) :: INDX,RFLAG
 C
-      my_real, DIMENSION(NEL) :: EPSF,EPSF_N,DMG_SCALE
+      my_real, DIMENSION(NEL) :: EPSF,EPSF_N
       my_real  ::
-     .  DP,P,SIGM,SIGM_PS,SVM,EF1,EF2,DF,FAC,DEPSF,LAMBDA,
-     .  RATE1,RATE2,YFAC1,YFAC2,CC,BB,CR,ORM,SS1,SS2,YY,YY_N,DADV,
+     .  DP,P,SIGM,SIGM_PS,SVM,DF,FAC,LAMBDA,
+     .  YY,YY_N,DADV,
      .  X1SCALE,X2SCALE,X3SCALE,X4SCALE,P_THINN,ECRIT,FADE_EXPO,
      .  DCRIT,EL_REF,SC_EL,SC_TEMP,DD,DN
       CHARACTER (LEN=3) :: XCHAR
@@ -229,7 +229,7 @@ C         XX0(1)=SIGM *X1SCALE
       ENDDO
 c
       DO I=1,NEL
-c----   element length scale function
+c---- Length Scale Function element
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,5) / EL_REF
            FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
@@ -538,13 +538,7 @@ C------------------
      .'LAYER',I10)
  2100 FORMAT(1X,'FAILURE OF SHELL ELEMENT (TAB)',I10,1X,
      .'LAYER',I10,':',/,'AT TIME :',1PE12.4)
- 2200 FORMAT(1X,'STRESS TENSOR SET TO ZERO IN THE LAYER')
- 2400 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL BROKEN ')
- 2500 FORMAT(1X,'  LOWER SKIN -> UPPER SKIN ')
- 2600 FORMAT(1X,'  UPPER SKIN -> LOWER SKIN ')
- 3700 FORMAT(1X,'STRESS TENSOR SET TO ZERO, LAYER',I10)
 C---
- 2410 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL ',I10,' BROKEN ')
  3800 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT (TAB)',I10)
  3900 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT (TAB)',I10,
      .       1X,':',/,' AT TIME :',1PE12.4)
@@ -571,9 +565,6 @@ C---
      .       1X,'LAYER',I10)
  4900 FORMAT(1X,'CRACK ADVANCEMENT IN SHELL ELEMENT (TAB)   ',I10,
      .       1X,'LAYER',I10,':',/,' AT TIME :',1PE12.4)
- 5010 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10)
- 5020 FORMAT(1X,'SHELL ELEMENT FAILURE DUE TO THINNING (TAB)',I10,
-     .       1X,':',/1X,'AT TIME :',1PE12.4)
  
 c-----------
       RETURN

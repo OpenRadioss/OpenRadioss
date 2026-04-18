@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -230,7 +230,7 @@ c
         ENDDO
       ENDIF
 c
-      ! Printout timestep element deletion
+      ! Printout Timestep element deletion
       IF (NINDX>0) THEN
         DO J=1,NINDX
 #include "lockon.inc"

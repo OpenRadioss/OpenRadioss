@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -275,7 +275,7 @@ C
                 ! DL = (OC.ON) / ||ON||
                ! C: centroid
                ! P: detonation base
-               ! N: detonation vector
+               ! N: Vector detonation
                 DL(I) = (XC(I)-XLP)*NX + (YC(I)-YLP)*NY + (ZC(I)-ZLP)*NZ
                 DL(I) = ABS(DL(I))
                 DL(I) = DL(I)/NN

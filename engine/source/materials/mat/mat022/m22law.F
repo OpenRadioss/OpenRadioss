@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M22LAW(
      1   PM,      OFF,     SIG,     EINT,
@@ -47,11 +48,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   DTEL,    G_DT,    NEL,     IPM,
      F   RHOREF,  RHOSP,   NFT,     JSPH,
      G   ITY,     JTUR,    JTHE,    ISMSTR,
-     H   JSMS,    NPG ,    glob_therm)
+     H   JSMS,    NPG ,    glob_therm,
+     I   NUMGEO,  IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +82,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSPH,NPG
+      INTEGER,INTENT(IN) :: NUMGEO
       INTEGER NELTST,ITYPTST ,PID(*), G_DT
       INTEGER MAT(*),NGL(*),IPLA,NEL,IPM(NPROPMI,*)
       my_real
@@ -99,15 +103,16 @@ C-----------------------------------------------
      .   MSSA(*), DMELS(*), CONDE(*),DTEL(*),
      .   RHOREF(*)  ,RHOSP(*)  
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ), I, MX, II,IBID,ICC_1
+      INTEGER ICC(MVSIZ), I, MX, II,ICC_1
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ),AK(MVSIZ),
      .   QH(MVSIZ), C1(MVSIZ),
-     .   P(MVSIZ), EPMX(MVSIZ), THETL(MVSIZ),
+     .   P(MVSIZ), EPMX(MVSIZ),
      .   CA(MVSIZ), CB(MVSIZ), CC(MVSIZ), CN(MVSIZ), 
      .   EPDR(MVSIZ),
      .   DVOL(MVSIZ), SIGMX(MVSIZ),
@@ -247,7 +252,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        DAV     =-THIRD*(D1(I)+D2(I)+D3(I))
        SIG(I,1)=SIG(I,1)+P(I)+G2*(D1(I)+DAV)
@@ -276,7 +281,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        IF(EPXE(I)>EPSL(I).AND.THREE*G(I)<EM15)THEN
         SIG(I,1)=ZERO
@@ -315,7 +320,7 @@ C-----------------------------------------------
        G2=TWO*G1
        SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        IF(EPXE(I)>EPSL(I).AND.G(I)*(THREE*G0(I)+QH(I))<EM15)THEN
         SIG(I,1)=ZERO
@@ -389,7 +394,7 @@ C-----------------------------------------------
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
@@ -412,7 +417,7 @@ C-----------------------------------------------
  120  CONTINUE
 
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     Ductile rupture test
 C---------------------------
       IF(PDAM==ONE.AND.CODVERS>=42)THEN
         DO I=1,NEL

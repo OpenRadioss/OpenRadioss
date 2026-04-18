@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C     REAL
 C=======================================================================
 C
         IF (TT == ZERO) THEN
-C       rayon vecteur HS a TT=0, en coord locales
+C       Vector radius HS A TT = 0, in local coordinates
           SKEW(1) = RS(1)-RM(1)
           SKEW(2) = RS(2)-RM(2)
           SKEW(3) = RS(3)-RM(3)
@@ -113,7 +113,7 @@ C--------------------
         VRY=DET*(MGY*B2+MGZ*C1+MGX*C3)
         VRZ=DET*(MGZ*B3+MGX*C2+MGY*C1)
 C
-C     rayon vecteur a TT=0
+C     vector radius a tt = 0
         R(1)=SKEW(1)
         R(2)=SKEW(2)
         R(3)=SKEW(3)
@@ -159,7 +159,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
         my_real
-     .     TT,DT1,STIF,WLX,WLY,WLZ
+     .     TT,DT1,WLX,WLY,WLZ
         my_real
      .     RX(4),RY(4),RZ(4),
      .     VA(3), VB(3), VC(3), VD(3)
@@ -176,7 +176,7 @@ C     REAL
      .     MGX,MGY,MGZ
 C=======================================================================
 C
-C     Calcul vitesse rotation facette WX,WY,WZ dans repère local
+C     Rotation velocity computation WX, WY, WZ in local frame
 C
         X12=RX(1)*RX(1)
         X22=RX(2)*RX(2)
@@ -213,7 +213,7 @@ C
         C2=YYY*ZX+XY*YZ
 C--------------------
 C
-C rappel : rotation vector expressed wrt du = v*dt
+C Reminder: Rotation Vector expressd wrt du = V*dt
 C     MGX = Y1*V(3,J1) + Y2*V(3,J2) + Y3*V(3,J3) + Y4*V(3,J4)
 C     .   - Z1*V(2,J1) - Z2*V(2,J2) - Z3*V(2,J3) - Z4*V(2,J4)
 C     MGY = Z1*V(1,J1) + Z2*V(1,J2) + Z3*V(1,J3) + Z4*V(1,J4)
@@ -298,7 +298,7 @@ C     REAL
 C=======================================================================
 C
         IF (TT == ZERO) THEN
-C       rayon vecteur HS a TT=0, en coord locales
+C       Vector radius HS A TT = 0, in local coordinates
           SKEW(1) = RS(1)-RM(1)
           SKEW(2) = RS(2)-RM(2)
           SKEW(3) = RS(3)-RM(3)
@@ -340,7 +340,7 @@ C
         C2=YYY*ZX+XY*YZ
 C
         IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
-C--    For solid secnd node VRM=VRS=Velocity rotation main segment
+C--    For solid second node VRM=VRS=Velocity rotation main segment
           MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .        - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
           MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
@@ -361,12 +361,12 @@ C
           WZ = (VRM(3)+VRS(3))*HALF
         ENDIF
 C
-C     rayon vecteur a TT=0
+C     vector radius a tt = 0
         R(1)=SKEW(1)
         R(2)=SKEW(2)
         R(3)=SKEW(3)
 
-C     Vitesse entrainemnet
+C     velocity causes
         VX = VX - (WY*R(3)-WZ*R(2))
         VY = VY - (WZ*R(1)-WX*R(3))
         VZ = VZ - (WX*R(2)-WY*R(1))
@@ -431,7 +431,7 @@ C     REAL
 C=======================================================================
 C
         IF (TT == ZERO) THEN
-C       rayon vecteur HS a TT=0, en coord locales
+C       Vector radius HS A TT = 0, in local coordinates
           SKEW(1) = RS(1)-RM(1)
           SKEW(2) = RS(2)-RM(2)
           SKEW(3) = RS(3)-RM(3)
@@ -484,7 +484,7 @@ C
         VRM(3)=DET*(MGZ*B3+MGX*C2+MGY*C1)
 C
         IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
-C--    For solid secnd node VRM=VRS=velocity main segment
+C--    For solid second node VRM=VRS=velocity main segment
           WX = VRM(1)
           WY = VRM(2)
           WZ = VRM(3)
@@ -494,12 +494,12 @@ C--    For solid secnd node VRM=VRS=velocity main segment
           WZ = (VRM(3)+VRS(3))*HALF
         ENDIF
 C
-C     rayon vecteur a TT=0
+C     vector radius a tt = 0
         R(1)=SKEW(1)
         R(2)=SKEW(2)
         R(3)=SKEW(3)
 
-C     Vitesse entrainemnet
+C     velocity causes
         VX = VX - (WY*R(3)-WZ*R(2)) -(VRM(2)*RM(3)-VRM(3)*RM(2))
         VY = VY - (WZ*R(1)-WX*R(3)) -(VRM(3)*RM(1)-VRM(1)*RM(3))
         VZ = VZ - (WX*R(2)-WY*R(1)) -(VRM(1)*RM(2)-VRM(2)*RM(1))

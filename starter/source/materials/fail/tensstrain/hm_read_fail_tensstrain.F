@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER    ::  ISHELL,ISOLID,IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
+      INTEGER    ::  IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
       my_real    ::  RF1,RF2,EPSP1,EPSP2,SCALE_EL,PTHKF,
      .               EL_REF,SCALE_TEMP,FSCAL_UNIT,UNIT_T
       LOGICAL    ::  IS_AVAILABLE,IS_ENCRYPTED

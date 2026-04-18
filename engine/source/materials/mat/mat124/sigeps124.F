@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,17 +75,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       INTEGER I,J,II,ITER,NITER,NINDX,INDX(NEL),NINDX2,INDX2(NEL),
      .        IRATE,DTYPE,DFLAG,IREG,INDX3(NEL),NINDX3,IDEL
       my_real 
-     .   YOUNG,BULK,G,NU,LAM,G2,AFILTR,AH,BH,CH,DH,HP,AS,QH0,
-     .   M0,ECC,DF,BS,EPSI,EPST0,EPSTMAX,DELTAS,BETAS,EPSC0,
+     .   YOUNG,BULK,G,NU,LAM,G2,AH,BH,CH,DH,HP,AS,QH0,
+     .   M0,ECC,DF,BS,EPST0,EPSTMAX,DELTAS,BETAS,EPSC0,
      .   EPSCMAX,ALPHAS,GAMMAS
       my_real
      .   DLAM,AG,BG,DFP_DKAP,DFP_DQH1,DFP_DQH2,DFP_DRHOB,DFP_DSIGM,
-     .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DENOM,DFPDSIG2,
-     .   DFP_DTHETA,DGP_DRHOB,DGP_DSIGM,DJ3DSXX,DJ3DSXY,DJ3DSYY,
+     .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,DFPDSIG2,
+     .   DGP_DRHOB,DGP_DSIGM,DJ3DSXX,DJ3DSXY,DJ3DSYY,
      .   DJ3DSYZ,DJ3DSZX,DJ3DSZZ,DKAP_DLAM,DMG_DSIGM,DQH1_DKAP,
-     .   DQH2_DKAP,DRCOS_DTHETA,DTHETA_DJ2,DTHETA_DJ3,EH,FH,
-     .   NORMDP,NORMGP,NORMPXX,NORMPXY,NORMPYY,NORMPYZ,NORMPZX,
-     .   NORMPZZ,RH,TRDEP,TRDGPDS,XSIH,NORMFP,LDAV,DFAPEX_DKAP,DFP,
+     .   DQH2_DKAP,EH,FH,
+     .   NORMGP,NORMPXX,NORMPXY,NORMPYY,NORMPYZ,NORMPZX,
+     .   NORMPZZ,RH,TRDEP,TRDGPDS,XSIH,LDAV,DFAPEX_DKAP,
      .   RS,U,UPRIM,V,VPRIM,DFP_DTH,DR_DCOSTH,DTH_DJ2,DTH_DJ3,
      .   WF,WF1,EFC,BETAC,SIGTENS(MVSIZ,6),EVV(MVSIZ,3),DIRPRV(MVSIZ,3,3),
      .   SIGPT(NEL,3),SIGPC(NEL,3)
@@ -93,9 +93,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,J2,J3,THETA,QH1,QH2,HARDP,FP,TRSIG,
      .   DPXX,DPYY,DPXY,DPZZ,DPYZ,DPZX,RCOS,KAP,SIGM,RHOB,DFP_DLAM,
      .   COSTH,SINTH,COS3TH,AL,BL,CL,PLAXX,PLAYY,PLAZZ,PLAXY,PLAYZ,PLAZX,
-     .   APEX,FAPEX,EPS_EQ,KAPDT,KAPDT1,KAPDT2,FST,OMEGAT,EPS_INEL,H,FC,FT,
+     .   APEX,FAPEX,EPS_EQ,KAPDT,KAPDT1,KAPDT2,OMEGAT,EPS_INEL,H,FC,FT,
      .   ALPHART,ALPHARC,ARATE,EPS0,OMEGAC,KAPDC,KAPDC1,XSIS,NORMSIGP,
-     .   KAPDC2,FSC,ALPHAC,SIGTXX,SIGTYY,SIGTZZ,SIGTXY,SIGTYZ,SIGTZX,
+     .   KAPDC2,ALPHAC,SIGTXX,SIGTYY,SIGTZZ,SIGTXY,SIGTYZ,SIGTZX,
      .   SIGCXX,SIGCYY,SIGCZZ,SIGCXY,SIGCYZ,SIGCZX,ELXX,ELYY,ELZZ,ELXY,
      .   ELYZ,ELZX,SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX,FT1
       !=======================================================================
@@ -143,8 +143,8 @@ c
       EPSCMAX    = UPARAM(33)       ! Maximum compressive strain rate threshold
       ALPHAS     = UPARAM(34)       ! Compressive strain rate effect parameter 1
       GAMMAS     = UPARAM(35)       ! Compressive strain rate effect parameter 2
-      !  -> Element deletion flag
-      IDEL       = NINT(UPARAM(36)) ! Element deletion flag
+      !  -> flag deletion element
+      IDEL       = NINT(UPARAM(36)) ! flag element
 c
       !--------------------------------------------------------------------
       ! Recovering internal variables
@@ -901,7 +901,7 @@ c
             SIGNZX(I) = (ONE-DMG(I,1))*SIGNZX(I)
           ENDIF
 c
-          ! Element deletion check    
+          ! DELETION CHECK element    
           IF ((DMG(I,1) == ZEP999).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO

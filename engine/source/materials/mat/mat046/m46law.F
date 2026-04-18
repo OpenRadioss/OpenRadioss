@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_mod          ../common_source/modules/ale/ale_mod.F
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M46LAW(
      1   LFT,     LLT,     NFT,     MTN,
@@ -48,12 +49,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   VOL_AVG, DTEL,    G_DT,    NEL,
      F   D4,      D5,      D6,      RHOREF,
      G   RHOSP,   ISMSTR,  ITY,     JSMS,
-     H   JTUR,    JTHE  ,  NPG ,    SVIS,   glob_therm)
+     H   JTUR,    JTHE  ,  NPG ,    SVIS,   glob_therm,
+     I   IGEO)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
       USE ALE_MOD
       use glob_therm_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +95,7 @@ C-----------------------------------------------
      .         RHOREF(*)  ,RHOSP(*)  
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,14 +106,13 @@ C-----------------------------------------------
      .  DE1(MVSIZ),DE2(MVSIZ),DE3(MVSIZ),DE4(MVSIZ),DE5(MVSIZ),DE6(MVSIZ),
      .  SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
      .  SO1(MVSIZ),SO2(MVSIZ),SO3(MVSIZ),SO4(MVSIZ),SO5(MVSIZ),SO6(MVSIZ)
-      INTEGER NPAR,IADBUF,I,IBID,MX
+      INTEGER NPAR,I,IBID,MX
       my_real  FACQ0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       MX = MAT(1)
       NPAR   = IPM(9,MX)
-      IADBUF = IPM(7,MX)
       FACQ0 = ONE
       
 C
@@ -174,7 +177,7 @@ C-----------------------
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     Q,       SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,

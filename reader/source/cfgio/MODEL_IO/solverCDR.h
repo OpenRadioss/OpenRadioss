@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 
@@ -60,7 +60,11 @@ public:
     IParameter::Type GetType() const;
     IParameter::Keywordtype GetKeywordType() const;
 
-    std::string GetName() const { return ""; }
+    std::string GetName() const;
+
+    virtual std::string GetExpression() const;
+    virtual void SetExpressionValue(double value);
+
     void* GetPointer() { return nullptr; }
     void SetCurParameterObj(IMECPreObject* pobj)
     {
@@ -94,7 +98,7 @@ private:
     string         cur_paramvaltypeskey;
 
 };
-class ModelFactoryReaderPO : public MvModelFactory_t
+class HCIO_DATA_DLL_API ModelFactoryReaderPO : public MvModelFactory_t
 {
 public:
     //typedef std::vector< std::pair<std::string, cfgkernel::Variant> > IdentifierValuePairList;
@@ -119,6 +123,7 @@ public:
     bool SetParameterObjectUsageData(IMECPreObject* pre_object);
     bool SetIdParameterData(IMECPreObject* pre_object, IMECPreObject* main_pre_object = NULL);
     void SetParameterAttributeData(IMECPreObject* pre_object, IDescriptor* descr_p, IMECPreObject* main_pre_object = NULL);
+    virtual void EvaluateExpressionParameters(const MECMsgManager* pMsgManager);
 
 private:
 
@@ -132,6 +137,15 @@ public:
     CommonDataReaderCFG(const std::string& profile, const std::string& subprofile,
                         const string& cfg_dir_path = "", bool set_cur_kernel = false,
                         const ReadFileFactorySP& p_fileFactory=nullptr);
+
+    CommonDataReaderCFG(ModelFactoryReaderPO* pmodel,
+                        const std::string& profile, const std::string& subprofile,
+                        const string& cfg_dir_path = "", bool set_cur_kernel = false,
+                        const ReadFileFactorySP& p_fileFactory=nullptr);
+
+    void Init(const std::string& profile, const std::string& subprofile,
+              const string& cfg_dir_path, bool set_cur_kernel,
+              const ReadFileFactorySP& p_fileFactory);
 
    ~CommonDataReaderCFG();
 

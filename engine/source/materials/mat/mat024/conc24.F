@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,11 +86,11 @@ C-----------------------------------------------
       INTEGER I,J,I1,I2,ICAP,NBDAMA
       INTEGER INDEX1(NEL), INDEX2(NEL),DAMAI(NEL)
       my_real :: YMS,Y0S,ETS,VMAX,EPSMAX,RT,ARMA,PLUS,DIFF,ETEST
-      my_real, DIMENSION(3)   :: DAM0,EPS_F0,CRAK0
-      my_real, DIMENSION(6)   :: ANG0,SIGC0
+ 
+ 
       my_real, DIMENSION(NEL) :: DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6,
      .   ARM1,ARM2,ARM3,SCLE1, SCLE2, SCLE3,SCAL1, SCAL2, SCAL3,
-     .   H1, H2, H3, H4, H5, H6, S01, S02, S03, S04, S05, S06, 
+     . S01, S02, S03, S04, S05, S06,
      .   SM, DSM, S1,S2,S3,S4,S5,S6,DE1,DE2, DE3, C44, C55, C66
       my_real, DIMENSION(NEL,3,3) :: CDAM
 C=======================================================================
@@ -147,7 +147,7 @@ c
 c------
 C BETON
 c------
-C     1 - EVOLUTION DU DOMMAGE ET PREVISION ELASTIQUE
+C     1 - evolution of damage and elastic prediction
 c------
       CALL ELAS24(NEL  ,PM   ,
      .            CDAM ,SIGC ,DAM  ,ANG  ,EPS_F,CRAK ,
@@ -156,7 +156,7 @@ c------
      .            S01  ,S02  ,S03  ,S04  ,S05  ,S06  ,
      .            SCAL1,SCAL2,SCAL3)
 c------
-C     2 - EVALUATION DU CRITERE
+C     2 - evaluation of the criterion
 c------
       CALL CRIT24(NEL,PM,SIGC,VK0,VK,OFF,
      .            ROB,NGL,SEQ,
@@ -165,7 +165,7 @@ c------
      .            SCAL1,SCAL2,SCAL3,SCLE1,SCLE2,SCLE3,
      .            SM,DSM)
 c------
-C     3 - ELASTIQUE, ENDOMAGE ET/OU PLASTIQUE
+C     3 - elastic, damage and/or plastic
 c------
       I1 = 0
       I2 = 0
@@ -255,7 +255,7 @@ c-----
       DAMSUM(1:NEL) = DAM(1:NEL,1) + DAM(1:NEL,2) + DAM(1:NEL,3)
 c-----
 C . . . . . . . . . . . . . .
-C     CALCUL DU OFF
+C     calculation of off
 C . . . . . . . . . . . . .
       DO I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
@@ -311,7 +311,7 @@ c-----------------------
 c
       CALL UDAM24N(SIG,ANG,NBDAMA,DAMAI,NEL)
 c
-c     ADDITION DES FORCES ARMATURES ET RETOUR REPERE GLOBAL
+c     addition of reinforcement forces and return to global frame
       IF (ARMA > ZERO) THEN
         DO I=1,NEL
           SIG(I,1) = SIG(I,1) * (ONE - ARM1(I)) + ARM1(I)*SIGA(I,1)

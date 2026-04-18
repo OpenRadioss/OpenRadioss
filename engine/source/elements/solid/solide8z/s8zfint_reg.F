@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,NNOD,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
       my_real 
-     . DX, DY, DZ, L2,XI,NTVAR,A,
+     .    L2,XI,
      . B1,B2,B3,B4,B5,B6,B7,B8,
      . A1,A2,A3,A4,A5,A6,A7,A8,C1,C2,C3,C4,C5,C6,C7,C8,
      . ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF,MINMASSCAL
@@ -95,8 +95,6 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real, POINTER, DIMENSION(:) :: 
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 C=======================================================================
       NULLIFY(MASS)
       NULLIFY(MASS0)
@@ -416,9 +414,9 @@ c
           C8 = VOL(I) * H(8) * VAR_REG(I)      
 c
 c       Fint = Vol * (L*L * BT*B*Unl + NT*N*Unl + Damp*NT*N*Vnl - NT*Vreg  )    
-c       L    = longueur stocke ds la structure 
+c       The = length stores in the structure 
 c       Unl  = cumul nodal def
-c       vnl  = vitesse non locale
+c       vnl  = velocity non locale
 c          
           F1(I) = A1 + B1 - C1
           F2(I) = A2 + B2 - C2

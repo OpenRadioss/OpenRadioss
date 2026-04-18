@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,12 +28,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    anodset                ../starter/source/output/analyse/analyse_node.c
 !||    fretitl2               ../starter/source/starter/freform.F
+!||    ifrbody_off            ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    kinset                 ../starter/source/constraints/general/kinset.F
 !||--- uses       -----------------------------------------------------
+!||    ifrbody_off_mod        ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE CHECKRBY(RBY     ,NPBY    ,LPBY    ,ITAB    ,
-     2                    IKINE   ,IDDLEVEL,NOM_OPT ,NUMSL   )
+     2                    IKINE   ,IDDLEVEL,NOM_OPT ,NUMSL   ,
+     3                    ROOTNAM ,ROOTLEN )
 C-------------------------------------
 C     LECTURE STRUCTURE RIGIDES IFORM8=2
 C-----------------------------------------------
@@ -41,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE ifrbody_off_mod , ONLY : ifrbody_off
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,12 +67,14 @@ C-----------------------------------------------
       INTEGER IKINE(*), IDDLEVEL, NUMSL
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER, INTENT(IN) :: ROOTLEN
+      CHARACTER(LEN=ROOTLEN) :: ROOTNAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,K,KK,M,N,NSL,NSKEW,IC,
-     .   ISPHER,IDIR,P,IG,ID,ICDG,NSL_XTRA,
-     .   NRB,NUMSL_TMP
+      INTEGER I,J,K,KK,N,NSL,
+     .   ISPHER,IDIR,ID,ICDG,NSL_XTRA,
+     .   NRB,NUMSL_TMP,IFOUND,IM_ID(NRBYKIN),NM,IM,IACTI
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,IKINE1
@@ -145,7 +151,7 @@ C
       ENDDO
       NUMSL_TMP=KK
 C-------------------------------------
-C Bilan secnd nodes doubles (sans les XTRA_NODES qui sont teste avant)
+C Report of secondary double nodes (excluding XTRA_NODES which are tested beforemain)
 C-------------------------------------
       IF (NRBYKIN > 1) THEN
       IWORK=0
@@ -164,22 +170,51 @@ C-------------------------------------
           IFLAGDBL=1
         ELSE
           IF (IFLAGDBL/=0) THEN
+            NM =0 
+            IACTI = 1
             DO J=IFLAGI1,I-1
               IRB=TABSL(2,INDEX(J))
-              ID=NOM_OPT(1,IRB)
-              CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,IRB),LTITR)
+              IM = ITAB(NPBY(1,IRB))
+              NM = NM + 1
+              IM_ID(NM) = IM
+              IF (NPBY(7,IRB)==0) IACTI = 0 
+            END DO
+            call ifrbody_off(NM,IM_ID,ROOTNAM,ROOTLEN,NRBYKIN,IFOUND)
+            IF (IFOUND==0.AND.IACTI>0) THEN ! error out
+              DO J=IFLAGI1,I-1
+                IRB=TABSL(2,INDEX(J))
+                ID=NOM_OPT(1,IRB)
+                CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,IRB),LTITR)
+                CALL ANCMSG(MSGID=3121,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      PRMOD=MSG_CUMU)
+              END DO
+              CALL ANCMSG(MSGID=3121,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=TABSL(1,INDEX(IFLAGI1)),
+     .                    PRMOD=MSG_PRINT)
+            ELSEIF (IFOUND==0.AND.IACTI==0) THEN ! warning out sensor effect will be treated later
+              DO J=IFLAGI1,I-1
+                IRB=TABSL(2,INDEX(J))
+                ID=NOM_OPT(1,IRB)
+                CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,IRB),LTITR)
+                CALL ANCMSG(MSGID=1026,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      PRMOD=MSG_CUMU)
+              END DO
               CALL ANCMSG(MSGID=1026,
      .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    PRMOD=MSG_CUMU)
-            END DO
-            CALL ANCMSG(MSGID=1026,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=TABSL(1,INDEX(IFLAGI1)),
-     .                  PRMOD=MSG_PRINT)
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=TABSL(1,INDEX(IFLAGI1)),
+     .                    PRMOD=MSG_PRINT)
+            END IF ! (IFOUND==0.AND.IACTI>0)
             IFLAGDBL=0
           END IF
         END IF

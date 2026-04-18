@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -92,13 +92,13 @@ C-----------------------------------------------
      .   ISIDE,ITGLASS
       INTEGER ,DIMENSION(NEL) :: INDXF1,INDXF2,INDXD1,INDXD2,RFLAG
 c
-      my_real SIGMAX,AA,BB,CC,CR,COSX,SINX,S1,S2,S3,K_IC,K_TH,
+      my_real AA,BB,CC,CR,COSX,SINX,S1,S2,S3,K_IC,K_TH,
      .   GEORED,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,ALPHA,ALPHAI,BETA,
      .   KRES1,KRES2,EXP_N,EXP_M,V0,VC,REFLEN,DMG1,DMG2,DMG3,TANPHI
       my_real ,DIMENSION(NEL) :: TPROPG,AI,FORMF,SIGP_AKT,DAM1,DAM2,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX,
-     .   SP1,SP2,SP3,SIN2,COS2,COSI,TFACT1,TFACT2,CR_LEN,CR_DEPTH,CR_ANG   
-      my_real, DIMENSION(:), POINTER :: DIR1,DIR2
+     . SP1,SP2,SP3,SIN2,COS2,COSI,TFACT1,TFACT2
+ 
 c--------------------------------------------------------------------
 c---  state variables for Ch.Alter model
 c     UVAR(1)  = SIGP1       ! principal stress DIR1               

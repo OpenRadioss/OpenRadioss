@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -118,9 +119,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J, NF1, IBID, JHBE, IREP,IGTYP, NUVAR, IDEF,
+      INTEGER I, NF1, IBID, JHBE, IREP,IGTYP, NUVAR, IDEF,
      .     IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,
-     .     NSPHDIR, L_PLA
+     .      L_PLA
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .     IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .     IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
@@ -243,7 +244,7 @@ C     Orthotropy
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
-     .     SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG_GR(28))
+     .     SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG_GR(28),JCVT)
 C     
 C-----------
       CALL SVEOK3(NVC,8, IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
@@ -287,7 +288,7 @@ C     Fill partial volumes
      5        MAT      ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      6        IPT      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      7        GBUF     ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     8        FACLOAD, DELTAX  ,TEMPEL)
+     8        FACLOAD, DELTAX  ,TEMPEL    ,MAT_PARAM )
      
          VFRAC = MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%MID(ILAY))

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,7 +95,7 @@ C-----------------------------------------------
      .      E, NU, YEILD, ET,CSD, VISP, Q1, Q2, Q3, SN, EPSN,
      .      F1,FN,FC, FF, FU,FI,G,C1,N,FAC_L,FAC_T,FAC_M,FAC_C,
      .      R,XFAC,YFAC,RHO0,RHOR,FCUT
-      INTEGER NRATE,J,I,NFUNC, IFLAG,IYIELDTAB,ITAB, ISRATE
+      INTEGER I, NFUNC, IFLAG, IYIELDTAB, ISRATE
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.

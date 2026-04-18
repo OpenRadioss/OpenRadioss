@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    alewdx      ../engine/source/ale/grid/alewdx.F
 !||====================================================================
       module alew8_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -69,13 +70,13 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           DO I = NODFT, NODLT
-            IF(IABS(NALE(I)) == 1) THEN
+            IF(ABS(NALE(I)) == 1) THEN
               ! lagrangian framework
               W(1,I)=V(1,I)
               W(2,I)=V(2,I)
               W(3,I)=V(3,I)
 
-            ELSEIF(NALE(I) == 0)THEN
+            ELSE IF(NALE(I) == 0)THEN
               ! lagrangian framework
               W(1,I)=V(1,I)
               W(2,I)=V(2,I)
@@ -85,8 +86,8 @@
               W(1,I)=ZERO
               W(2,I)=ZERO
               W(3,I)=ZERO
-            ENDIF
-          ENDDO
+            END IF
+          END DO
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine alew8
       end module alew8_mod

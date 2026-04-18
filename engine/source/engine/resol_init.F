@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,7 +52,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    kinini                     ../engine/source/constraints/general/kinini.F
 !||    mpp_init                   ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    my_barrier                 ../engine/source/system/machine.F
-!||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    r2r_init                   ../engine/source/coupling/rad2rad/r2r_init.F
 !||    rbe2_init                  ../engine/source/constraints/general/rbe2/rbe2f.F
 !||    s10cnd_ini                 ../engine/source/elements/solid/solide10/s10cndf.F
@@ -75,6 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dtdc_mod                   ../engine/share/modules/dtdc_mod.F
 !||    ecnd_mod                   ../engine/share/modules/ecdn_mod.F
 !||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod               ../common_source/modules/failwave_mod.F
 !||    glob_therm_mod             ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod               ../common_source/modules/groupdef_mod.F
@@ -86,11 +86,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
 !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
 !||    loads_mod                  ../common_source/modules/loads/loads_mod.F90
-!||    nloc_count_solnod_mod      ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
 !||    outmax_mod                 ../common_source/modules/outmax_mod.F
 !||    output_mod                 ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                ../common_source/modules/outputs_mod.F
 !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
 !||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
@@ -115,7 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C  IXR     ,IXTG     ,PON, IKINE     ,
      D  A        ,AR      ,V         ,VR        ,
      E  X       ,D        ,MS      ,IN        ,STIFN     ,
-     F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
+     F  STIFR   ,DMAS     ,DINER   ,
      G           WA       ,UWA     ,PM        ,GEO       ,
      H  PARTSAV ,PARTS0   ,MONVOL    ,
      I  I87H    ,I87I     ,I87J    ,I87K      ,
@@ -169,7 +167,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3)
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3,NHIER_RBY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -190,10 +188,8 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD
-      USE OUTPUTS_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
-      USE NLOC_COUNT_SOLNOD_MOD
       USE INTER_SH_OFFSET_INI_MOD , only : INTER_SH_OFFSET_INI
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
       USE LOADS_MOD 
@@ -202,6 +198,7 @@ C-----------------------------------------------
       use spmd_xv_inter_type1_mod , only : is_present_inter1
       USE parith_on_mod, only: element_pon_
       use rbe3_mod
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -300,11 +297,12 @@ C-----------------------------------------------
 !                 INT7ITIED = 0 type 7 + ITIED/=0 not used
 !                 INT7ITIED = 1 type 7 + ITIED/=0 used
       INTEGER, INTENT(INOUT) :: INT7ITIED
+      INTEGER, INTENT(INOUT) :: NHIER_RBY
       my_real
      .   X(3,*), D(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*),  WA(*),  A(3,*), AR(3,*),
-     .   FANI(3,*), UWA(*), STIFN(*),  STIFR(*),
-     .   ANIN(*), PARTSAV(NPSAV,*),PARTS0(*),
+     .   UWA(*), STIFN(*),  STIFR(*),
+     .   PARTSAV(NPSAV,*),PARTS0(*),
      .   DMAS, DINER     ,
      .   PM(NPROPM,*)    , GEO(NPROPG,*), 
      .   VISCN(*),
@@ -324,7 +322,7 @@ c    .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
 c    .  I8VISCN(3,*)
 C
 
-      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      LOGICAL, DIMENSION(NSPMD), INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
       INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
 C
       DOUBLE PRECISION XDP(3,*)     
@@ -389,7 +387,8 @@ C
 C
 C kinematic conditions : arrays init. (RBY & INT20)
 C
-      CALL INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
+      CALL INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY,NHIER_RBY)
+      CALL SPMD_MAX_I(NHIER_RBY)
 C
 C reaction force (node array)
 C
@@ -410,7 +409,7 @@ C----- reset initial mass
           IF (IRODDL /=0) IN(1:NUMNOD)=IN0(1:NUMNOD)
         END IF
 C
-C parallel structures init.
+C Parallel Structures Init.
 C
         IROTG=0
         DO I=1,NRBE3
@@ -479,19 +478,36 @@ C
      5                  SDD_R2R_ELEM,WEIGHT_MD,ILENXV,NUMSPH_GLO_R2R,
      6                  FLG_SPHINOUT_R2R,IPARI,NLOC_DMG)
         END IF
-C
+        ! FANI(1,1) = VECT_CONT !cont
+
+        ! FANI(1,NFIA+1) = VECT_FINT ! FINT
         NFIA = NUMNOD*MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
+        ! FANI(1,NFEA+1) = VECT_FEXT ! FEXT
         NFEA = NFIA + NUMNOD*MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
+        ! FANI(1,NFNCA+1) = VECT_PCONT ! FNCONT
         NFNCA= NFEA + NUMNOD*MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT)
+        ! FANI(1,NFTCA+1) = VECT_PCONT_2 !FTCONT
         NFTCA= NFNCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
+        ! FANI(1,NFOA+1) = SECT + RBODY + RWALL  = FOPT
         NFOA = NFTCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
+        ! FANI(1,NFT2+1) = VECT_CONT2 = FNCONT2
         NFT2 = NFOA+ 2*(NSECT+NRBODY+NRWALL)
+        ! FANI(1,NFNCA2+1) = VECT_PCONT2 = FNCONTP2
         NFNCA2= NFT2  + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
+        ! FANI(1,NFTCA2+1) = VECT_PCONT2_2 = FTCONTP2
         NFTCA2= NFNCA2+ NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)
+
+        ! ANIN(1,1) = SCAL_DT
+        ! ANIN(1,NDMA+1) = SCAL_DMAS
         NDMA = NUMNOD*MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
+        ! ANIN(1,NDIN+1) = SCAL_DINER
         NDIN = NDMA +NUMNOD*MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
+        ! ANIN(1,NDMA2+1) = SCAL_SPRING       
         NDMA2 = NDIN+NUMNOD*MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER)
+        ! ANIN(1,NDAMA2+1) = SCAL_DAMA2 ! PDAMA2
         NDAMA2 = NDMA2+NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
+
+
         IF(IRODDL/=0)THEN
           DO NG=1,NINTER
             ITY = IPARI(7,NG)
@@ -588,11 +604,11 @@ C
         IF(H3D_DATA%N_VECT_CONT2_MIN >0) IFCONT2MIN=1
         IF(H3D_DATA%N_VECT_PCONT2_MIN >0) IFCONTP2MIN=1
         IF(H3D_DATA%N_SCAL_CSE_FRIC >0) THEN
-          S_EFRIC = NUMNOD
-          IF(NINTSTAMP/=0) S_EFRICG = NUMNODG
+          OUTPUT%DATA%S_EFRIC = NUMNOD
+          IF(NINTSTAMP/=0) OUTPUT%DATA%S_EFRICG = NUMNODG
         ENDIF
-        IF(NINEFRIC >0) S_EFRICINT = NUMNOD
-        IF(NINEFRIC_STAMP >0) S_EFRICINTG = NUMNODG
+        IF(OUTPUT%DATA%NINEFRIC >0) OUTPUT%DATA%S_EFRICINT = NUMNOD
+        IF(OUTPUT%DATA%NINEFRIC_STAMP >0) OUTPUT%DATA%S_EFRICINTG = NUMNODG
 C------------------------
 C      PARAL. ARITH.
 C------------------------
@@ -728,7 +744,7 @@ C   Domain Decomposition Weight computation
 C----------------------------------------------------------
        IF(IDDW>0) CALL INITIMEG(NGROUP)
 C----------------------------------------------------------
-C   INIT ADAPTIVE MESHING (sequentielle)
+C   Init Adaptive Meshing (Sequential)
 C----------------------------------------------------------
        IF(NADMESH/=0)THEN
          CALL ADMINI(IXC ,IPART(I15C),IXTG   ,IPART(I15H),IPART,
@@ -748,7 +764,7 @@ C        ADAPTIVE MESHING + STATIC CONDENSATION
          CALL CNDORDR(IPART,IPART(I15C),IPART(I15H),SH4TREE,SH3TREE)
        END IF
 C----------------------------------------------------------
-C   INIT MULTIPLICATEURS LAGRANGES (sequentielle)
+C   Lagrangian multipliers (sequential)
 C----------------------------------------------------------
        IF(LAG_NCF+LAG_NCL > 0)THEN
          LAG_SEC=0
@@ -829,7 +845,7 @@ C
         ENDDO
       ENDIF
 C-----------------------
-C INTERFACE TYPE 2 PENALITE
+C INTERFACE TYPE 2 penalty
 C-----------------------
        INT2PEN=0
        DO I=1, NINTER
@@ -860,31 +876,34 @@ C
 C--- // --------------------------------------
 C         FORCE & MOMENTUM INIT
 C---------------------------------------------
-      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
-        CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
-        CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)
-      END IF
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDMA) = ZERO
-        ENDDO
-      ENDIF
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDIN) = ZERO
-        ENDDO
-      END IF
-      IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(NDAMA2+2*(I-1)+1) = ZERO
-          ANIN(NDAMA2+2*(I-1)+2) = ZERO
-        ENDDO
-      ENDIF
-C-----------------------------------------------
+       IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) OUTPUT%DATA%VECT_CONT = 0
+       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
+          OUTPUT%DATA%VECT_PCONT = 0
+          OUTPUT%DATA%VECT_PCONT_2 = 0
+       END IF
+       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
+          OUTPUT%DATA%SCAL_DMAS = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDMA) = ZERO
+!!       ENDDO
+       ENDIF
+       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
+          OUTPUT%DATA%SCAL_DINER = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDIN) = ZERO
+!!       ENDDO
+       END IF
+       IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
+          OUTPUT%DATA%SCAL_DAMA2 = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(NDAMA2+2*(I-1)+1) = ZERO
+!!         ANIN(NDAMA2+2*(I-1)+2) = ZERO
+!!       ENDDO
+       ENDIF
+!C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
         IF (IPARIT==0) THEN
           CALL ZEROR(A(1,NDTASK),NUMNOD)
@@ -939,7 +958,7 @@ C
             CALL ZERO1(FTHE(NODFT),NUMNTHREAD)
           ENDIF 
 C
-          IF(NSPHSOL/=0)THEN
+          IF(SOL2SPH_FLAG/=0)THEN
             CALL ZERO1(DMSPH(NODFT),NUMNTHREAD)
           ENDIF
 
@@ -1140,7 +1159,6 @@ C-----------------------
        ! Non-local regularization is activated
        IF (NLOC_DMG%IMOD > 0) THEN
          CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
-         CALL NLOC_COUNT_SOLNOD(NGROUP, NPARG, IPARG, ELBUF_TAB, IXS, NIXS, NUMELS)
        ENDIF
 C-----------------------
 C DT_DC OF TSH
@@ -1207,10 +1225,13 @@ C-----------------------------------------------
 !||    resol_init     ../engine/source/engine/resol_init.F
 !||--- calls      -----------------------------------------------------
 !||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE  GRPSPLIT(
      1     IPARG, IGROUC, NGROUC, IGROUNC, NGROUNC,
      2     IXC,IXS,IXTG,IPM,IGEO,PM,GEO,TABMP_L,TAB_MAT)
+      use element_mod , only : nixc,nixtg,nixs
 C----6------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1607,7 +1628,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    resol_init   ../engine/source/engine/resol_init.F
 !||====================================================================
-      SUBROUTINE INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY)
+      SUBROUTINE INIT_KYNE(IKINE,NPBY,LPBY,TAGSLV_RBY,NHIER_RBY)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1623,6 +1644,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IKINE(NUMNOD),NPBY(NNPBY,*),LPBY(*),TAGSLV_RBY(*)
+      INTEGER, INTENT(INOUT) :: NHIER_RBY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1632,11 +1654,13 @@ C-----------------------------------------------
         IKINE(J)=0
       ENDDO
 C-------------------------------------
-C Traitement Rigid Bodies 
+C Processing Rigid Bodies
 C-------------------------------------
       K = 0
+      NHIER_RBY = 0
       DO N=1,NRBYKIN
         NSN = NPBY(2,N)
+        NHIER_RBY = MAX(NHIER_RBY,NPBY(20,N))
         DO I=1,NSN
           J=LPBY(K+I)
           IKINE(J) = (IKINE(J)/2)*2 + 1

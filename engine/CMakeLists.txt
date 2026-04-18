@@ -2,8 +2,17 @@
 # CMake project file for Radioss Starter
 # --------------------------------------
  
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.15)
 project (Radioss_Engine)
+
+# Windows specific settings
+# --------------------------
+if (arch STREQUAL "win64")
+   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+   set(PYTHON_EXEC "python")
+else()
+   set(PYTHON_EXEC "python3")
+endif()
 
 
 # Verbose
@@ -250,7 +259,7 @@ message (" dir : ${Build_includes_directory} added")
 # Load external libraries
 add_custom_target(
     extlib ALL
-    COMMAND python ${source_directory}/../Compiling_tools/script/load_extlib.py
+    COMMAND ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/load_extlib.py
     COMMENT "Loading extlib libraries"
 )
 
@@ -260,7 +269,7 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/engine_message_description.inc
          COMMAND 
-         python ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${source_directory}/source/output/message/engine_message_description.txt -outfile=${Build_includes_directory}/engine_message_description.inc
+         ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${source_directory}/source/output/message/engine_message_description.txt -outfile=${Build_includes_directory}/engine_message_description.inc
          DEPENDS 
               ${source_directory}/source/output/message/engine_message_description.txt
          )
@@ -271,7 +280,7 @@ add_custom_command(
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
          COMMAND 
-            python ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/or_build_info.py -arch=${arch} -outfile=${Build_includes_directory}/build_info.inc
          )
 else()
 #include generated with a text files
@@ -279,7 +288,7 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/engine_message_description.inc
          COMMAND 
-            python ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${source_directory}/source/output/message/engine_message_description.txt -outfile=${Build_includes_directory}/engine_message_description.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/build_message.py -inputfile=${source_directory}/source/output/message/engine_message_description.txt -outfile=${Build_includes_directory}/engine_message_description.inc
          DEPENDS 
               ${source_directory}/source/output/message/engine_message_description.txt
          )
@@ -290,7 +299,7 @@ add_custom_command(
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
          COMMAND 
-            python ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=E -outfile=${Build_includes_directory}/build_info.inc
+            ${PYTHON_EXEC} ${source_directory}/../Compiling_tools/script/build_info.py -version=${version} -titlevers=${titlevers} -arch=${arch} -solver=E -outfile=${Build_includes_directory}/build_info.inc
          )
 endif()
 

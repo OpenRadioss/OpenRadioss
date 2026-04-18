@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -85,19 +85,21 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDEX
 c
       my_real  :: YOUNG,G,A11,A12,NU,TREF,TINI,ETA,
-     .   XRATE,XSCALE,YSCALE,DTINV,J2,Q2,DPHI_DLAM,ALPHA,ALPHI,
-     .   R,DFDSIG2,SIG_DFDSIG,DDEP,ASRATE
+     .   XRATE,XSCALE,YSCALE,DTINV,J2,DPHI_DLAM,ALPHA,ALPHI,
+     .   DFDSIG2,SIG_DFDSIG,DDEP,ASRATE,CP
 c
-      my_real, DIMENSION(NEL) ::SVM,SVMT,YLD,YLD_TREF,YLD_TEMP,
-     .   SXX,SYY,SXY,SYZ,SZX,SIGM,STXX,STYY,STXY,STYZ,STZX,
+      my_real, DIMENSION(NEL) ::SVM,YLD,YLD_TREF,YLD_TEMP,
+     .   SXX,SYY,SXY,SIGM,
      .   FACT_ETA,DYDX,HARDP,HARDR,YLD_I,HARDP_I,HARDR_I,DXDYV,DLAM,PHI,
-     .   FTHERM,TFAC,DEPSZZ,NORMXX,NORMYY,NORMXY,DEPSPXX,DEPSPYY,DEPSPXY,
-     .   STZZ,SZZ,DPXX,DPYY,DPXY,DPLA_DLAM,PLA0,DEZZ
+     .   FTHERM,TFAC,NORMXX,NORMYY,NORMXY,
+     .   SZZ,DPXX,DPYY,DPXY,DPLA_DLAM,PLA0,DEZZ
       my_real, DIMENSION(NEL,3) :: XVEC_ETA
       my_real, DIMENSION(NEL,4) :: XVEC
       INTEGER, DIMENSION(NEL,3) :: IPOS_ETA
       INTEGER, DIMENSION(NEL,2) :: IPOS
 !-------------------------------------------------------------------------------
+      ! UVAR(1)     EPSD - plastic strain rate saved for filtering
+!
       ! VARTMP(1)   latest position of PLAS in TAB_YLD function 
       ! VARTMP(2)   latest position of PLAS in TAB_TEMP function 
       ! VARTMP(3)   latest position of TEMP in TAB_TEMP function 
@@ -121,6 +123,7 @@ c
       G       = UPARAM(11)      !< Shear modulus
       A11     = UPARAM(16)      !< 2D Elastic matrix diagonal coefficient
       A12     = UPARAM(17)      !< 2D Elastic matrix off-diagonal coefficient
+      CP      = UPARAM(20)      !< Specific heat coefficient
       ASRATE  = UPARAM(21)      !< Filtering pulsation for plastic strain rate
       !< Plastic strain rate filtering parameters
       DTINV  = ONE / MAX(EM20, TIMESTEP)
@@ -140,6 +143,8 @@ c
       IF (FUNC_ETA  > 0) THEN
         NDIM_ETA   = TABLE(FUNC_ETA)%NDIM
       ENDIF
+      
+      epsd(1:nel) = uvar(1:nel,1)
 !
       !< Recovering internal variables and initializations of local variables
       DO I = 1,NEL
@@ -300,7 +305,7 @@ c
 !
             !   c) Assemble the derivation of the yield function w.r.t. lambda
             !   ----------------------------------------------------------------
-            DPHI_DLAM = - DFDSIG2 + HARDP(I)*DPLA_DLAM(I)
+            DPHI_DLAM = - DFDSIG2 - HARDP(I)*DPLA_DLAM(I)
             DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20),DPHI_DLAM)  
 !
             !< 3 - Computation of the plastic multiplier
@@ -389,7 +394,7 @@ c
         IF (JTHE == 0 .AND. ETA > ZERO .AND. INLOC == 0) THEN 
           DO II = 1, NINDX 
             I = INDEX(II)
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
+            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)/(RHO(I)*CP)
           ENDDO                      
         ENDIF 
       ENDIF
@@ -399,10 +404,9 @@ c
       IF (INLOC > 0) THEN 
         DO I = 1,NEL   
           IF (LOFF(I) == ONE) THEN   
-            DEZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-            DEZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEZZ(I)
+            DEZZ(I) = - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
             IF (JTHE == 0 .AND. ETA > ZERO) THEN 
-              TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
+              TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)/(RHO(I)*CP)
             ENDIF
           ENDIF
         ENDDO
@@ -418,17 +422,11 @@ c
         !< Yield stress
         SIGY(I) = YLD(I)
         !< Plastic strain rate
-        EPSD(I) = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
+        EPSD(I)   = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
+        UVAR(I,1) = EPSD(I) 
         !< Thickness variation
-        IF (INLOC > 0) THEN
-          IF (LOFF(I) == ONE) THEN 
-            DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
-            DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-          ENDIF
-        ELSE
-          DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG + DEZZ(I)
-        ENDIF
-        THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)  
+        DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG + DEZZ(I)
+        THK(I)  = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)  
       ENDDO
 !
       END SUBROUTINE SIGEPS109C

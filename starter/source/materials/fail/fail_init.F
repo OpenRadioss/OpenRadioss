@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,8 +56,10 @@ c======================================================================-
             MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NUVAR   = 0
+            MAT_PARAM(IMAT)%FAIL(IFL)%NVARTMP = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC   = 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE  = 0
+            MAT_PARAM(IMAT)%FAIL(IFL)%NTABLE4D= 0
             MAT_PARAM(IMAT)%FAIL(IFL)%NMOD    = 0
 c
             MAT_PARAM(IMAT)%FAIL(IFL)%FAIL_IP = 0

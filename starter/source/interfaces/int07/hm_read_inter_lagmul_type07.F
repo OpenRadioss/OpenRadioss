@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NOINT,NI
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(*)
       my_real
      .   FRIGAP(*), STFAC
@@ -72,11 +72,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP,MULTIMP,FLAGREMNOD,
+      INTEGER NTYP,MULTIMP,FLAGREMNOD,
      .    IREM7I2,IS1,IS2
       my_real
      .   STARTT,BUMULT,STOPT,GAPMAX,GAP
-      CHARACTER MESS*40
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
@@ -162,7 +162,7 @@ C------------------------------------------------------------
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
-C bmult augmente pour les tres gros modeles et interface 7 ou 20
+C bmult increases for very large models and interface 7 or 20
            IF(NTYP==7)THEN
              IF(NUMNOD > 2500000) THEN
                BUMULT = BMUL0*TWO

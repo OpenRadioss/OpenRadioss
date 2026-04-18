@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,13 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_TABULATED(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_TABULATED(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -60,10 +61,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real ::  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,Cv,MU0,PP,RHOI,RHOR,G0,SSP0,DPDMU,DF
+      my_real ::   P0, E0, PSH, RHO0,MU0,RHOI,RHOR,G0,SSP0,DPDMU,DF
       my_real :: XSCALE_A, XSCALE_B, FSCALE_A, FSCALE_B
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
       INTEGER :: A_FUN_ID, B_FUN_ID
@@ -153,16 +155,28 @@ C-----------------------------------------------
             
       !STORAGE    
       PM(23) = E0
-      PM(27) = SSP0      
-      PM(31) = P0-PSH
+      PM(27) = SSP0
+      PM(32) = ZERO
       PM(88) = PSH
-      PM(33) = XSCALE_A
-      PM(34) = XSCALE_B
-      PM(35) = A_fun_id
-      PM(36) = B_fun_id
-      PM(104)= P0-PSH      
-      PM(160) = FSCALE_A
-      PM(161) = FSCALE_B
+      PM(31) = P0-PSH
+      PM(104)= P0-PSH
+
+      EOS_STRUCT%NUPARAM = 4
+      EOS_STRUCT%NIPARAM = 2
+      EOS_STRUCT%NFUNC = 0
+      EOS_STRUCT%NTABLE = 0
+      CALL EOS_STRUCT%CONSTRUCT() !allocations
+
+      EOS_STRUCT%UPARAM(1) = XSCALE_A
+      EOS_STRUCT%UPARAM(2) = XSCALE_B
+      EOS_STRUCT%UPARAM(3) = FSCALE_A
+      EOS_STRUCT%UPARAM(4) = FSCALE_B
+
+      EOS_STRUCT%IPARAM(1) = A_fun_id
+      EOS_STRUCT%IPARAM(2) = B_fun_id
+
+      EOS_STRUCT%E0 = E0
+      EOS_STRUCT%PSH = PSH
 
       WRITE(IOUT,1000)
 

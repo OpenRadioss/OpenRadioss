@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,10 +44,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intstamp_mod               ../engine/share/modules/intstamp_mod.F
 !||    message_mod                ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
-!||    outputs_mod                ../common_source/modules/outputs_mod.F
+!||    output_mod                 ../common_source/modules/output/output_mod.F90
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I21MAINF(TIMERS,
+      SUBROUTINE I21MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -66,12 +66,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
 C-----------------------------------------------
@@ -99,11 +99,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
-     .        TAGMSR_I21_SMS, NODGLOB(*), NPC(*),INDEXCONT(*),
+     .         NODGLOB(*), NPC(*),INDEXCONT(*),
      .        TAGCONT(*),KINET(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
@@ -134,11 +135,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, J,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
+      INTEGER I, I_STOK, JLT , NFT, J,
+     .        IBC, NOINT, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        INTTH,IFORM, NCAND, MSTR, ILEV, IKTHE, IROT, H,
+     .        INTTH,IFORM, MSTR, ILEV, IKTHE, IROT, H,
      .        IFORM_THE,INVN,IFTLIM, IERROR, NINSKID,INTFRIC, 
      .        NSETPRTS ,NPARTFRIC,JJ,IORTHFRIC,NTY
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -151,7 +152,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,STIGLO,GAPMIN,VISCF,
-     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH, DTI ,PMAXSKID
+     .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, DTI ,PMAXSKID
 C-----------------------------------------------
 C     REAL
       my_real
@@ -172,12 +173,12 @@ C     REAL
      .   EFRIC_L(MVSIZ)
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM
-      INTEGER NRTMFT, NRTMLT, NRADM, ITRIA(MVSIZ)
+      INTEGER   NRADM, ITRIA(MVSIZ)
       my_real
      .    FNI(MVSIZ),
      .    FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
      .    FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
-     .    VXM, VYM, VZM, FX, FY, FZ, STF, PMAX,
+     .    VXM, VYM, VZM, PMAX,
      .    XG(3), ROT(9), WXM, WYM, WZM, FRAD, DRAD, FHEAT, XFRIC,DCOND
       INTEGER ICURV,SFSAVPARIT,IFRIC,FCOND
       my_real
@@ -301,7 +302,7 @@ c----------------------------------------------------
         I_STOK = INTBUF_TAB%I_STOK(1)
 
 C
-C decoupage statique
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -366,11 +367,11 @@ c------------------------------------------------
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
             CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
             CALL I21COR3(
      1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STF,
@@ -481,7 +482,7 @@ C
             STIF(1:JLT)=ZERO
           END IF
 C
-            CALL I21ASS3(JLT       ,A        ,NIN      ,NOINT    ,FXN    ,
+            CALL I21ASS3(output, JLT       ,A        ,NIN      ,NOINT    ,FXN    ,
      2      FYN      ,FZN      ,FXT      ,FYT      ,FZT    ,
      3      IX1      ,IX2      ,IX3      ,IX4      ,NSVG   ,
      4      FCONT    ,FNCONT   ,FTCONT   ,LB       ,LC     ,

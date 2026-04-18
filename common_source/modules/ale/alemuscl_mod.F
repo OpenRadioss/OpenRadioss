@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,8 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    freform                          ../engine/source/input/freform.F
 !||    gradient_limitation              ../engine/source/ale/alemuscl/gradient_limitation.F
 !||    gradient_limitation2             ../engine/source/ale/alemuscl/gradient_limitation2.F
-!||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
 !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+!||    gradient_reconstruction_new      ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    hm_read_ale_muscl                ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
 !||    hm_read_mat37                    ../starter/source/materials/mat/mat037/hm_read_mat37.F
 !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2                         ../engine/source/engine/radioss2.F
 !||    rdcomi                           ../engine/source/output/restart/rdcomm.F
 !||    resol                            ../engine/source/engine/resol.F
+!||    resol_alloc_phase4               ../engine/source/engine/resol_alloc.F90
 !||    resol_init                       ../engine/source/engine/resol_init.F
 !||    restalloc                        ../engine/source/output/restart/arralloc.F
 !||    st_qaprint_ale_options_driver    ../starter/source/output/qaprint/st_qaprint_ale_options_driver.F

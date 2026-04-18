@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,11 +73,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   AFILTR,Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
      .   Xscale_TANG,Yscale_TANG
       my_real
-     .   DPDT,DLAM,DDEP,DEPXX,DEPYY,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
-     .   NORMXX,NORMYY,NORMXY,DENOM,DFDSIG2,DPDT_NL,DEPSDT,DPHI,DTINV
+     .   DLAM,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
+     .   NORMXX,NORMYY,NORMXY,DFDSIG2,DEPSDT,DPHI,DTINV
       my_real, DIMENSION(NEL) ::
      .   SXX,SYY,SZZ,SXY,SIGVM,YLD,HARDP,PHI,DEZZ,YLD0,DYLD0DEPSD,PHI0,
-     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,TEST,DPXX,DPYY,DPXY,
+     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,DPXX,DPYY,DPXY,
      .   DSIGXX,DSIGYY,DSIGXY
 c
       !=======================================================================
@@ -96,6 +96,9 @@ c
       Ivisc        = NINT(UPARAM(12)) ! Viscosity formulation      
       ! Strain-rate filtering (if Ivisc = 0)
       AFILTR       = MIN(ONE, UPARAM(14)*TIMESTEP)
+!
+      if (ivisc == 0) epsd(1:nel) = uvar(1:nel,2)
+!      
       ! Initial yield stress vs strain-rate curve
       IF (IFUNC(1) > 0) THEN
         Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
@@ -114,7 +117,7 @@ c
         Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
         TANG(1:NEL)  = ZERO
       ELSE
-        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        TANG(1:NEL)  = UPARAM(21) ! Constant Tangent Modulus
         DTANGDEPSD(1:NEL) = ZERO
       ENDIF
       DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
@@ -150,6 +153,7 @@ c
      .                        TWO*(EPSPXY(I)**2))
           DEPSDT    = SQRT(DEPSDT)
           EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
+          UVAR(I,2) = EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate

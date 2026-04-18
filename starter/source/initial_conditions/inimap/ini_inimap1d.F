@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MULTI_SOLVE_EINT_MOD , ONLY : MULTI_SOLVE_EINT
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -145,6 +146,8 @@ C-----------------------------------------------
          NBMAT = INIMAP1D(KK)%NBMAT
          IF(NBMAT==0)CYCLE !something went wrong with reader
          ALLOCATE(PRES(MVSIZ, NBMAT), EINT(MVSIZ, NBMAT))
+         PRES(:,:)=ZERO
+         EINT(:,:)=ZERO
          IF (INIMAP1D(KK)%GRBRICID  /=  0) THEN
             GRBRICID = INIMAP1D(KK)%GRBRICID
          ELSEIF (INIMAP1D(KK)%GRQUADID  /=  0) THEN
@@ -243,7 +246,7 @@ C     IFIRST + SHIFT is the first element which ID is greater than NFT + NEL
                ILAST = NELEM
             ENDIF
 
-            !IF some elems are targeted in this current group NG, check material law
+            !IF some elements are targeted in this current group NG, check material law
             IF(IFIRST>0 .AND. IFIRST<=ILAST )THEN
               SELECT CASE(MLW)
               CASE (3, 4, 6, 49, 51, 151)
@@ -372,7 +375,7 @@ C     Alpha
                   IFUNC = INIMAP1D(KK)%FUNC_ALPHA(IMAT)
                   IF (IFUNC /= 0) THEN
                     IF(IFUNC>0)THEN
-                      !--function_identifier
+                      !--function_IDIDENTIFIFIE
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -437,7 +440,7 @@ C     RHO
                   IFUNC = INIMAP1D(KK)%FUNC_RHO(IMAT)
                   IF(IFUNC /= 0)THEN
                     IF(IFUNC > 0)THEN
-                      !--function_identifier
+                      !--function_IDIDENTIFIFIE
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -563,7 +566,7 @@ C     PRES
                      IFUNC = INIMAP1D(KK)%FUNC_PRES(IMAT)
                      IF(IFUNC /= 0)THEN
                        IF(IFUNC > 0)THEN
-                         !--function_identifier
+                         !--function_IDIDENTIFIFIE
                          NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                          FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                          PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -702,7 +705,7 @@ C     CYLINDRICAL
                            IFUNC = INIMAP1D(KK)%FUNC_VEL
                            IF(IFUNC /= 0)THEN
                              IF(IFUNC > 0)THEN                                                                           
-                               !--function_identifier                                                                    
+                               !--function_IDIDENTIFIFIE                                                                    
                                NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
                                FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
                                PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 
@@ -749,7 +752,7 @@ C     Initialize cell centred velocities
                   IFUNC = INIMAP1D(KK)%FUNC_VEL
                   IF(IFUNC /= 0)THEN                                                                            
                     IF(IFUNC > 0)THEN                                                                           
-                      !--function_identifier                                                                    
+                      !--function_IDIDENTIFIFIE                                                                    
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 

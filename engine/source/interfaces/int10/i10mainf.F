@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,8 +36,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I10MAINF(IPARI  ,X      ,A      ,
+      SUBROUTINE I10MAINF(output, IPARI  ,X      ,A      ,
      2                    ICODT  ,FSAV   ,V      ,MS     ,DT2T    ,
      3                    NELTST ,ITYPTST,ITAB   ,STIFN  ,FSKYI  ,
      4                    ISKY   ,FCONT  ,LINDMAX,
@@ -48,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                    ICONTACT,INTBUF_TAB,FBSAV6,ISENSINT,DIMFB,
      C                    H3D_DATA,NODADT_THERM )  
 C============================================================================
-C  cette routine est appelee par : INTFOP2(/interf/intfop2.F)
+C  this routine is called by : INTFOP2(/interf/intfop2.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I7CDCOR3(int7/i7cdcor3.F)
 C                          I7COR3(int7/i7cor3.F)
@@ -58,6 +59,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
@@ -82,13 +84,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST,NSTRF(*),
      .        NISKYFI,NIN,LINDMAX
       INTEGER IPARI(*), ICODT(*), ITAB(*),
      .        ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
      .        ICONTACT(*), ISENSINT(*),DIMFB
       INTEGER ,INTENT(IN) :: NODADT_THERM
-C statistique interface
+C Interface Statistics
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
 C     REAL
@@ -107,7 +110,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDUM,
-     .        I, J, H, NOINT, ISECIN, I_STOK, NSEG, 
+     .        I, J, H, NOINT, ISECIN, I_STOK, 
      .        IGAP, JLT_NEW, JLT , NFT, ITIED, IGSTI, NISUB, IADM,
      .        NB_LOC,I_STOK_LOC,DEBUT, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -133,8 +136,8 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ), 
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .       
+     .      
      .   GAPV(MVSIZ),
      .   VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 
@@ -174,8 +177,8 @@ C
          NUM_IMP = 0
           VISC  =ZERO
         ENDIF
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is executed in // after the calculation of the forces of the elements.
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -184,7 +187,7 @@ C decoupage statique
         ENDIF
         DEBUT = (JTASK-1)*NB_LOC
         I_STOK = 0
-C recalcul du istok
+C recalculation of istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
@@ -195,7 +198,7 @@ C inbuf == cand_n
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
           ELSE
-C   remise a 0 de cand_f de 1, 2, 3    
+C   reset of cand_f of 1, 2, 3
             INTBUF_TAB%CAND_F(6*(I-1)+1) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+2) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO    
@@ -237,7 +240,7 @@ C
 c
         DO NFT = 0 , I_STOK - 1 , NVSIZ
          JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
          CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,CAND_E_N,
      2         CAND_N_N)
@@ -278,7 +281,7 @@ C preparation candidats retenus
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
-            CALL I10FOR3(
+            CALL I10FOR3(output,
      1       JLT       ,A       ,MS      ,V      ,FSAV     ,
      2       INTBUF_TAB%CAND_F,STIFN,STIF    ,FSKYI  ,ISKY     ,
      3       ITIED     ,VISC    ,X1      ,X2     ,X3       ,

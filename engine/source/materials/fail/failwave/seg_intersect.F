@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,16 +35,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real  :: X1,Y1,X2,Y2,X3,Y3,X4,Y4,XINT,YINT,RATIO
+      my_real  :: X1,Y1,X2,Y2,X3,Y3,X4,Y4,XINT,YINT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  :: OK,IDEBUG
-      my_real  :: AX,BX,AY,BY,CX,CY,SY,SX,DM,ALPHA,BETA,TOL
+      my_real  :: AX,BX,AY,BY,CX,CY,DM,ALPHA,BETA
 c----------------------------------------------------------
-c     calcule intersection de deux segments en 2D : N1-N2 et N3-N4
-c     intersection trouve => OK=1, sinon OK=0
-c     alpha, beta = ratio du point intersection de chaque segment
+c     Calculated intersection of two 2D segments: N1-N2 and N3-N4
+c     intersection finds => ok = 1, otherwise ok = 0
+c     alpha, beta = ratio of the intersection point of each segment
 C=======================================================================
       OK = 0
       AX = X2 - X1
@@ -53,7 +53,7 @@ C=======================================================================
       BY = Y4 - Y3
 c
       DM = AY*BX - AX*BY
-      IF (DM /= ZERO) THEN  ! les lignes ne sont pas paralleles
+      IF (DM /= ZERO) THEN  ! the lines are not parallel
         CX = X3 - X1
         CY = Y3 - Y1
 c

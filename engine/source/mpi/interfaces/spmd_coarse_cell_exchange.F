@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
-        INTEGER, INTENT(in) :: MODE ! mode : 1 --> end/rcv / 2 --> wait + computation
+        INTEGER, INTENT(in) :: MODE ! Mode: 1 -> End / RCV / 2 -> Wait + Computation
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; IRECVFROM = nmn
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI !   interface data
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
@@ -74,15 +74,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI        
-        INTEGER :: KK,NIN,I,J
-        INTEGER :: P,P_LOC,LOCAL_RANK
-        INTEGER :: MY_SIZE,OLD_POINTER
-        INTEGER :: ADRESS,SHIFT_
+        INTEGER :: KK,NIN,I
+        INTEGER :: MY_SIZE
 
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
-        INTEGER :: SIZE_CELL_LIST,TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
+        INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER :: TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
         INTEGER :: LOC_PROC,ID_PROC
-        INTEGER :: COUNT_COMM_SIZE_CELL,ID_COMM
         INTEGER :: ITIED
 !   ----------------------------------------
         LOC_PROC = ISPMD + 1

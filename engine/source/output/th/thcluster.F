@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,8 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
  
 c TWO SOLUTIONS : 
-C - mettre l'user ID dans ITHBUF(J)
-C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
+C - Put User ID in ITHBUF (J)
+C add CLUSTER(ILOC)%ID_GLOB in the cluster (*)
 !||====================================================================
 !||    thcluster         ../engine/source/output/th/thcluster.F
 !||--- called by ------------------------------------------------------
@@ -34,6 +34,7 @@ C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod       ../engine/share/modules/cluster_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE THCLUSTER(WA   ,IAD   ,IADV   ,NN      ,NVAR     ,
      .                     ITTYP,ITHBUF,CLUSTER,SKEW    ,X        ,
@@ -43,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
       USE CLUSTER_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,L,II,JJ,KK,IVAR,ICLUSTER_L,IWA_L,NNOD,ISKN,
+        INTEGER :: J,L,II,JJ,KK,IVAR,ICLUSTER_L,IWA_L,NNOD,ISKN,
      .             N1,N2,N3,N4,NG,NFT
         my_real :: XM,YM,ZM,NORM,SX,SY,SZ,TX,TY,TZ,FS,FN,MB,MT
         my_real ,DIMENSION(3) :: VX,VY,VN,X1,FLOC,MLOC

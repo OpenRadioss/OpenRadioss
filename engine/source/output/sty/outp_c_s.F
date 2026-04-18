@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE OUTP_C_S(NBXX,KEY,TEXT,ELBUF_TAB,IPARG ,EANI,
      .                    IPM ,IGEO,IXC ,IXTG ,DD_IAD,SIZLOC,SIZP0,THKE,SIZ_WR)
@@ -36,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,11 +66,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,JJ,IGTYP,NUVAT,NBB(100),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, NFT, IAD, ITY, LFT, NPT,NLAY,NPTR,NPTS,NPTT,
-     .        LLT, MLW, ISTRAIN,N, K1, K2,IL,IR,IS,IT,
-     .        IHBE, JJ_OLD, NGF, NGL, NN, LEN, IMX,NUVAR,L,
-     .        NBX,NPG,MPT,IPT,I1,NU,KK,NS,NVAR,ITHK,I5,COMPTEUR,
+      INTEGER I,J,K,JJ,RESP0,WRTLEN,RES
+      INTEGER NG, NEL, NFT, ITY, LFT, NPT,NLAY,NPTR,NPTS,NPTT,
+     .        LLT, MLW, ISTRAIN,N,IL,IR,IS,IT,
+     .        IHBE, JJ_OLD, NGF, NGL, NN, IMX,NUVAR,L,
+     .        NBX,NPG,MPT,IPT,I1,NU,KK,NVAR,ITHK,COMPTEUR,
      .        IJ(3)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
@@ -76,9 +78,9 @@ C-----------------------------------------------
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 
       my_real   
-     .   FAC,S1, S2, S12, VONM2,AA,MEAN_GAUSS
+     .   FAC,S1, S2, S12, VONM2,MEAN_GAUSS
       my_real   
-     .   FUNC(6),FUNC1(100)
+     .   FUNC(6)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -160,7 +162,7 @@ C
      .            (MLW == 1.OR.MLW == 2.OR.MLW == 3.OR.MLW == 19.OR.
      .             MLW == 22.OR.MLW == 15.OR.MLW == 23.OR.MLW == 25.OR.
      .             MLW == 27.OR.MLW == 32)) THEN
-C Ecriture de 0. si loi non user et outp user demande
+C Writing 0. If law not user and outp user requests
                 DO I=LFT,LLT
                   JJ=JJ+1
                   WA(JJ) = ZERO
@@ -656,8 +658,11 @@ c
 !||--- called by ------------------------------------------------------
 !||    genoutp         ../engine/source/output/sty/genoutp.F
 !||    outp_arsz_cs    ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
-      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC) 
+      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC)
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -679,8 +684,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JJ,NGF,NGL,NN,ITY,IAD,NFT,LFT,LLT,NPT,
-     .        IHBE,IGTYP,NUVAR,MLW,NG,NEL,NBX,I,NPG,MPT,
+      INTEGER JJ,NGF,NGL,NN,ITY,NFT,LFT,LLT,NPT,
+     .        IHBE,IGTYP,NUVAR,MLW,NG,NEL,I,NPG,MPT,
      .        WASZ1,WASZ26,J
 C-----------------------------------------------
       WASZ1 = 0

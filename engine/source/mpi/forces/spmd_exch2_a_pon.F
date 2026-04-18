@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,13 +102,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, NISKYF, N, IDEB,
-     .          SIZ,J,K,L,NB_NOD,CC,NBIRECV, II, JJ, NN, IPT, MSGOFF,
+        INTEGER MSGTYP, I, NOD, LOC_PROC, IERROR, INDEX, NISKYF, N, 
+     . SIZ,J,K,L,NB_NOD,CC,NBIRECV, II, NN, IPT, MSGOFF,
      .          IAD_RECV(NSPMD+1),
      .          STATUS(MPI_STATUS_SIZE),
      .          REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
-     .          nbi,nbirct,nbisdt,l0,nbircp(NSPMD),nbisdp(NSPMD),
-     .          LSKYI_OLD,SISKY_OLD
+     .          nbi,nbirct,nbisdt,l0,nbircp(NSPMD),nbisdp(NSPMD)
 
         INTEGER, DIMENSION(:), ALLOCATABLE :: ISKYFT,ISKYF,ITAGX,ADSKYI
         my_real, DIMENSION(:), ALLOCATABLE :: RBUF,SBUF, FSKYT,FTHESKYIF,
@@ -170,8 +169,8 @@ C
             SIZ = SIZ + 3*NFACNIT*FR_NBCC(2,I)               !NITSCHE METHOD
             IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0)
      .           SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0)
-     .           SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact pressure
+            IF(LENC>=6*LENI)
+     .           SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output Pcont&Pcont_max
             MSGTYP = MSGOFF
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
@@ -231,7 +230,7 @@ C
                   ENDIF
                 ENDDO
               ENDIF
-C + la t hermique
+C + the thermal
             ELSE
               IF(GLOB_THERM%NODADT_THERM == 1) THEN
                 IF(NFSKYI==4) THEN
@@ -330,7 +329,7 @@ C
                   ENDIF
                 ENDDO
               ENDIF
-C + la t hermique
+C + the thermal
             ELSE
               IF(GLOB_THERM%NODADT_THERM == 1) THEN
                 IF(NFSKYI==4) THEN
@@ -496,7 +495,7 @@ C
             ISKYF(I) = ISKYFT(I)
           ENDDO
         ELSE
-C tag a 0 de itagx sur noeud frontiere
+C tag set to 0 of itagx on frontiere node
           DO I = 1, NSPMD
             IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -537,7 +536,7 @@ C a optimiser
             IF(IALELAG == 0) THEN
               IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0 ) THEN
                 IF(IFSUBM==0)THEN
-C prepar  ation envoi a proc I partie fixe (elem)
+C PREPARATION SEND TO PRO fixed part (ELEM)
                   IF(IVECTOR==1) THEN
                   ELSE
 C   ivec  tor = 0
@@ -570,10 +569,10 @@ C   cas   3D seul possible
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
-C prepar  ation envoi partie fixe (elem) a proc I
+C PREPARATION SEND FIXED PART (ELEMENT) A PRO
 C
                   IF(IVECTOR==1) THEN
                   ELSE
@@ -609,11 +608,11 @@ C   cas   3D seul possible
                   ENDIF
                 ENDIF
 C
-C --- plus la thermque
+C --- more the thermque
 C
               ELSE
                 IF(IFSUBM==0)THEN
-C prepar  ation envoi a proc I partie fixe (elem)
+C PREPARATION SEND TO PRO fixed part (ELEM)
                   IF(IVECTOR==1) THEN
                   ELSE
                     IF(GLOB_THERM%NODADT_THERM == 1) THEN
@@ -678,10 +677,10 @@ C prepar  ation envoi a proc I partie fixe (elem)
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
-C prepar  ation envoi partie fixe (elem) a proc I
+C PREPARATION SEND FIXED PART (ELEMENT) A PRO
 C
                   IF(IVECTOR==1) THEN
                   ELSE
@@ -757,7 +756,7 @@ C + ale + lag
 C
               IF(GLOB_THERM%ITHERM_FE == 0 .AND. GLOB_THERM%INTHEAT == 0 ) THEN
                 IF(IFSUBM==0)THEN
-C prepar  ation envoi a proc I partie fixe (elem)
+C PREPARATION SEND TO PRO fixed part (ELEM)
                   IF(IVECTOR==1) THEN
                   ELSE
 C   ivec  tor = 0
@@ -800,10 +799,10 @@ C
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
-C prepar  ation envoi partie fixe (elem) a proc I
+C PREPARATION SEND FIXED PART (ELEMENT) A PRO
 C
                   IF(IVECTOR==1) THEN
                   ELSE
@@ -847,11 +846,11 @@ C
                   ENDIF
                 ENDIF
 C
-C --- plus la thermque
+C --- more the thermque
 C
               ELSE
                 IF(IFSUBM==0)THEN
-C prepar  ation envoi a proc I partie fixe (elem)
+C PREPARATION SEND TO PRO fixed part (ELEM)
                   IF(IVECTOR==1) THEN
                   ELSE
                     IF(GLOB_THERM%NODADT_THERM == 1) THEN
@@ -938,10 +937,10 @@ C
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code a le-cfd with parity/on mass
 C
 C
-C prepar  ation envoi partie fixe (elem) a proc I
+C PREPARATION SEND FIXED PART (ELEMENT) A PRO
 C
                   IF(IVECTOR==1) THEN
                   ELSE
@@ -1104,7 +1103,7 @@ C --- /CONT/MAX output
             ENDIF
 
 C --- /PCONT/MAX output
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+            IF(LENC>=6*LENI) THEN   ! Pcont&Pcont_max
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -1118,7 +1117,7 @@ C --- /PCONT/MAX output
               END DO
             ENDIF
 
-C partie interface : calcul et envoi du nb de noeuds a envoyer
+C interface part: calculation and sending of the number of nodes to send
             nbi = 0
             IF(NISKYF/=0) THEN
 #include "vectorize.inc"
@@ -1149,7 +1148,7 @@ C
             SIZ = SIZ + (IADSDP(I+1)-IADSDP(I))*3*NFACNIT
             IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0)
      .             SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
-            IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0)
+            IF(LENC>=6*LENI)
      .             SIZ = SIZ + 6*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
 C
             MSGTYP = MSGOFF
@@ -1246,7 +1245,7 @@ C cas 3D    seul possible
                 ENDIF
               ENDIF
 C
-C--- plus la thermique
+C--- plus thermal
 C
             ELSE
               IF(IFSUBM==0)THEN
@@ -1470,7 +1469,7 @@ C
                 ENDIF
               ENDIF
 C
-C--- plus la thermique
+C--- plus thermal
 C
             ELSE
               IF(IFSUBM==0)THEN
@@ -1722,7 +1721,7 @@ C --- /CONT/MAX output
           ENDIF
 
 C --- /PCONT/MAX output
-          IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) THEN
+          IF(LENC>=6*LENI) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -1736,7 +1735,7 @@ C --- /PCONT/MAX output
             END DO
           ENDIF
 
-C partie interface : recupere le nb de noeuds a recevoir
+C interface part: retrieves the number of nodes to receive
           NBI = NINT(RBUF(L))
 C       L = L + 1
           NBIRCT = NBIRCT + NBI
@@ -1756,7 +1755,7 @@ C SFSKYI : FSKYI size (LSKYI*NFSKYI)
           CALL REALLOCATE_I_SKYLINE(NBIRCT,2,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM,INTERFACES%PON)
         ENDIF
 C
-C Traitement interface si concerne le proc
+C Interface treatment if concerns proc
 C
         IF(NBIRCT>0.OR.NBISDT>0) THEN
           CALL SPMD_EXCHI_A_PON(

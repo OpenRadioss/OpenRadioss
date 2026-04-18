@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,37 +21,40 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    read_ebcs                 ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+!||    read_ebcs                     ../starter/source/boundary_conditions/ebcs/read_ebcs.F
 !||--- called by ------------------------------------------------------
-!||    lectur                    ../starter/source/starter/lectur.F
+!||    lectur                        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                    ../starter/source/output/message/message.F
-!||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    hm_read_ebcs_fluxout      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
-!||    hm_read_ebcs_gradp0       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
-!||    hm_read_ebcs_inip         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
-!||    hm_read_ebcs_iniv         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
-!||    hm_read_ebcs_inlet        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-!||    hm_read_ebcs_monvol       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
-!||    hm_read_ebcs_normv        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
-!||    hm_read_ebcs_nrf          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
-!||    hm_read_ebcs_pres         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propellant   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
-!||    hm_read_ebcs_valvin       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
-!||    hm_read_ebcs_valvout      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
-!||    hm_read_ebcs_vel          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-!||    ifrontplus                ../starter/source/spmd/node/frontplus.F
+!||    ancmsg                        ../starter/source/output/message/message.F
+!||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start               ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_read_ebcs_cyclic           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
+!||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
+!||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
+!||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
+!||    hm_read_ebcs_iniv             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
+!||    hm_read_ebcs_inlet            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+!||    hm_read_ebcs_monvol           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
+!||    hm_read_ebcs_normv            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
+!||    hm_read_ebcs_nrf              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
+!||    hm_read_ebcs_pres             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+!||    hm_read_ebcs_propellant       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
+!||    hm_read_ebcs_valvin           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
+!||    hm_read_ebcs_valvout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
+!||    hm_read_ebcs_vel              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+!||    ifrontplus                    ../starter/source/spmd/node/frontplus.F
 !||--- uses       -----------------------------------------------------
-!||    front_mod                 ../starter/share/modules1/front_mod.F
-!||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod               ../starter/share/message_module/message_mod.F
-!||    restmod                   ../starter/share/modules1/restart_mod.F
-!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-!||    table_mod                 ../starter/share/modules1/table_mod.F
+!||    front_mod                     ../starter/share/modules1/front_mod.F
+!||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_ebcs_cyclic_mod       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
+!||    hm_read_ebcs_propellant_mod   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
+!||    message_mod                   ../starter/share/message_module/message_mod.F
+!||    restmod                       ../starter/share/modules1/restart_mod.F
+!||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
+!||    table_mod                     ../starter/share/modules1/table_mod.F
 !||====================================================================
-      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB)
+      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB,N2D)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +70,8 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use hm_read_ebcs_propellant_mod, only : hm_read_ebcs_propellant
+      use hm_read_ebcs_cyclic_mod, only : hm_read_ebcs_cyclic
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,12 +90,13 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPC1
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
+      INTEGER,INTENT(IN) :: N2D
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: LOCAL_ID
-      INTEGER :: ID,TYP,UID
-      INTEGER :: II, SURF_ID, JJ, SUB_INDEX
+      INTEGER :: ID,TYP,UID,SURF_ID2
+      INTEGER :: II, SURF_ID, JJ, SUB_INDEX, NB_NODES
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE, IS_EBCS_PARALLEL
@@ -221,6 +227,15 @@ C-----------------------------------------------
               CALL HM_READ_EBCS_PROPELLANT(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL,NSURF, twf)
             end select
 
+         CASE ('CYCLIC')
+
+            TYP = 12
+            allocate (t_ebcs_cyclic :: EBCS_TAB%tab(ii)%poly)
+            select type (twf => EBCS_TAB%tab(ii)%poly)
+            type is (t_ebcs_cyclic)
+              CALL HM_READ_EBCS_CYCLIC(IGRSURF, MULTI_FVM, ID, TITR, LSUBMODEL,NSURF, twf, N2D, numnod, itab )
+            end select
+
          CASE ('MONVOL')
 
             TYP = 100
@@ -238,7 +253,7 @@ C-----------------------------------------------
 
          EBCS_TAB%tab(II)%poly%type = TYP
          EBCS_TAB%tab(II)%poly%ebcs_id = ID
-         !     Get surface id
+         !     Get surface ID
          CALL HM_GET_INTV('entityid', SURF_ID, IS_AVAILABLE, LSUBMODEL)
          JJ = -HUGE(JJ)
          IF (SURF_ID > 0) THEN
@@ -251,22 +266,40 @@ C-----------------------------------------------
             ENDDO
          ENDIF
          IF (EBCS_TAB%tab(II)%poly%surf_id > 0) THEN
-            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)         
+            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)
+            !secondary surface with  EBCS/CYCLIC
+            IF(EBCS_TAB%tab(II)%poly%type == 12)then
+              surf_id2 = EBCS_TAB%tab(II)%poly%surf_id2
+              CALL EBCS_TAB%tab(II)%poly%set_nodes_elems_secondary_surface(IGRSURF(surf_id2)%NSEG, NUMNOD, IGRSURF(surf_id2)%NODES)
+            endif
 
             IS_EBCS_PARALLEL = .FALSE.
             IF(EBCS_TAB%tab(II)%poly%type == 10 .OR. EBCS_TAB%tab(II)%poly%type == 11)THEN
               IS_EBCS_PARALLEL = .TRUE.
             ENDIF
 
+            NB_NODES = EBCS_TAB%tab(II)%poly%nb_node
             IF(.NOT. IS_EBCS_PARALLEL) THEN
-              DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+              DO JJ = 1, NB_NODES
                 CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)
               ENDDO
+              !cyclic ebcs, treating also nodes of secondary surface
+              IF(EBCS_TAB%tab(II)%poly%type == 12)THEN
+                DO JJ = 1, NB_NODES
+                  CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(NB_NODES+jj), 1)
+                ENDDO
+              ENDIF
             ENDIF
 
-            DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+            DO JJ = 1, NB_NODES
               FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1
             ENDDO
+            ! /EBCS/CYCLIC surface 2
+            IF(EBCS_TAB%tab(II)%poly%type == 12)THEN
+              DO JJ = 1, NB_NODES
+                FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(NB_NODES+jj)) = 1
+              ENDDO
+            ENDIF
 
          ELSE
            !     error

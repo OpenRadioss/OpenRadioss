@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,
-     .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
+      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,NUMEL,IX,
+     .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,8 +58,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER NNODE, NIX,  IDSU,ID,NSEG,IX(NIX,*),ISEG(*),IELE(*),ITYPE(*),
+      INTEGER NNODE, NIX,  IDSU,ID,NSEG,ISEG(*),IELE(*),ITYPE(*),
      .        IADD(*),INVC(*),IFAC(*),TYPE,SURF_NODES(NSEG,4)
+      INTEGER,INTENT(IN) :: NUMEL
+      INTEGER,INTENT(IN) :: IX(NIX,NUMEL)
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD)
       INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
       my_real PM(NPROPM,NUMMAT),X(3,SX/3)
 C-----------------------------------------------
@@ -125,25 +128,39 @@ C-----------------------------------------------
 
   230   CONTINUE
 
-        IF (NEL==0) THEN
+        IF (NEL == 0) THEN
           IERR=IERR+1
           NEIGH=NEIGH+1
-          WRITE(IOUT,*)' ** ERROR EBCS ',ID,' CANNOT FIND NEIGHBORING BRICK FOR SEGMENT',J,' OF SURFACE',IDSU
+          IF(N2D == 0)THEN
+            WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' FACE IS NOT FACING A SOLID ELEMENT, FACE :', ITAB(IRECT(1:4))
+          ELSE
+            WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' SEGMENTS IS NOT FACING A SOLID ELEMENT, SEG :', ITAB(IRECT(1:2))
+          ENDIF
           GOTO 500
         ENDIF
 
         XS1=ZERO
         YS1=ZERO
         ZS1=ZERO
-        DO JJ=1,4
-          NN=IRECT(JJ)
-          XX1(JJ)=X(1,NN)
-          XX2(JJ)=X(2,NN)
-          XX3(JJ)=X(3,NN)
-          XS1=XS1+FOURTH*X(1,NN)
-          YS1=YS1+FOURTH*X(2,NN)
-          ZS1=ZS1+FOURTH*X(3,NN)
-        ENDDO
+        IF(N2D == 0)THEN
+          DO JJ=1,4
+            NN=IRECT(JJ)
+            IF(NN==0)NN=IRECT(3) ! case N4=0 => N4=N3 (same result)
+            XX1(JJ)=X(1,NN)
+            XX2(JJ)=X(2,NN)
+            XX3(JJ)=X(3,NN)
+            XS1=XS1+FOURTH*X(1,NN)
+            YS1=YS1+FOURTH*X(2,NN)
+            ZS1=ZS1+FOURTH*X(3,NN)
+          ENDDO
+        ELSE
+          XX2(1)=X(2,IRECT(1))
+          XX3(1)=X(3,IRECT(1))
+          XX2(2)=X(2,IRECT(2))
+          XX3(2)=X(3,IRECT(2))
+          YS1=HALF*(X(2,IRECT(1)) + X(2,IRECT(2)))
+          ZS1=HALF*(X(3,IRECT(1)) + X(3,IRECT(2)))
+        ENDIF
 
         IF (N2D == 0) THEN               
            CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)      
@@ -178,7 +195,7 @@ C-----------------------------------------------
  
         IELE(J)=NEL
         ITYPE(J)=NNODE
-        IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10 .OR. TYPE == 11) THEN
+        IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10 .OR. TYPE == 11 .OR. TYPE == 12) THEN
            IFAC(J) = NF
         ENDIF
         M=IX(1,NEL)
@@ -206,8 +223,12 @@ C-----------------------------------------------
         WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
         WRITE(IOUT,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
       ENDIF
-      IF(NEIGH/=0)THEN
-        WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' SEGMENTS NOT FACING A BRICK '
+      IF(NEIGH /= 0)THEN
+        IF(N2D == 0)THEN
+          WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' FACE IS NOT FACING A SOLID ELEMENT, FACE :', ITAB(IRECT(1:4))
+        ELSE
+          WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' SEGMENTS IS NOT FACING A SOLID ELEMENT, SEG :', ITAB(IRECT(1:2))
+        ENDIF
       ENDIF
 
       RETURN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,10 +55,9 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,RBOD_ID,IDIR,ICRIT,ISECT,IFLAG,IAD
+      INTEGER RBOD_ID,IDIR,ICRIT,ISECT,IFLAG,IAD
 c
-      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c

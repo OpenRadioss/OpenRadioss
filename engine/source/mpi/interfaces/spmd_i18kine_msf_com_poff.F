@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,10 +60,8 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
      *        REQ_SI(NSPMD),REQ_RI(NSPMD)
-      INTEGER P,LENSD,LENRV,IADS(NSPMD+1),IADR(NSPMD+1),IERROR,
-     *        SIZ,LOC_PROC,MSGTYP,J,L,NOD,PTR,NNOD,NB,ITNOD,MSGOFF
-      my_real
-     *        TESTVAL
+      INTEGER P, LENRV, IADS(NSPMD+1), IADR(NSPMD+1), IERROR, 
+     * SIZ,LOC_PROC,MSGTYP,J,L,NOD,NB,MSGOFF
       my_real ,
      *  DIMENSION(:), ALLOCATABLE :: BBUFS,BBUFR
       DATA MSGOFF/154/
@@ -71,7 +69,7 @@ C--------------------------------------------------------------------
       LENRV = (IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))*9
       ALLOCATE (BBUFS(LENRV),BBUFR(LENRV))
       LOC_PROC=ISPMD+1
-C Preparation du recv
+C Preparation of recv
       IADR(1) = 1
       L=1
       DO P=1,NSPMD
@@ -123,7 +121,7 @@ C--------------------------------------------------------------------
 C Recv
 
       DO P = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
         IF(NB>0)THEN
           CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
@@ -143,7 +141,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           ENDDO
         ENDIF
       ENDDO
-C Fin du send
+C End of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

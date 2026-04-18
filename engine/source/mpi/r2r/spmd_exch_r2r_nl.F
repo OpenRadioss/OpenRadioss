@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        SIZ,J,K,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF,NN,
+     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF,
      .        OFFSET_S_NL,OFFSET_R_NL
       my_real
      .        RBUF(RBUF_SIZE),SBUF(SBUF_SIZE),
@@ -167,7 +167,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -182,7 +182,7 @@ C
 C decompactage
 C
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -211,7 +211,7 @@ C   test si msg necessaire a envoyer a completer par test interface
                   IN(NOD)= RBUF(L+7)            
                 ENDIF
                 L = L + SIZE                               
-C calcul du travail localement                
+C local computation of work
                 IF(WEIGHT(NOD)==1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -239,7 +239,7 @@ C calcul du travail localement
                    MS(NOD)= RBUF(L+3)           
                  ENDIF                 
                  L = L + SIZE 
-C calcul du travail localement                
+C local computation of work
                  IF(WEIGHT(NOD)==1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   GAP_E_L, NEDGE_LOCAL ,IFQ   ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,
      F   IFPEN_E  ,IFPEN_E2S ,KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,
-     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,DGAPLOAD) 
+     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,DGAPLOAD,PENE_OLD_E,STIF_OLD_E,
+     F   SIZ,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S ) 
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0,IFQ
+      INTEGER NSN, NMN, NOINT, INACTI, IGAP0, IFQ
       INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
      .        IFPEN_E(*), IFPEN_E2S(*)
@@ -79,7 +80,7 @@ C-----------------------------------------------
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL
       my_real
-     .   GAP,PMAX_GAP,VMAXDT,
+     . GAP,VMAXDT,
      .   BMINMA(6),BGAPEMX, MARGE
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
@@ -87,24 +88,24 @@ C     REAL
      .   CAND_P(*), CAND_PS(*), CANDE2E_FX(*), CANDE2E_FY(*), CANDE2E_FZ(*),
      .   CANDE2S_FX(4,*) ,CANDE2S_FY(4,*),CANDE2S_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      INTEGER , INTENT(IN) :: SIZ, SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ),PENE_OLD_E2S(SIZ_E2S),
+     .          STIF_OLD_E2S(SIZ_E2S)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, MAXSIZ,  NSNF, NSNL,
-     .        LOC_PROC, N, IEDG, I1, I2
 C     REAL
       my_real
-     .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ,DRAD2
+     . XYZM(6), AAA,DRAD2
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
-      SAVE LX, LY, LZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       DRAD2 = ZERO
 C-----------------------------------------------
 C
-C----- TRI DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes
 C
 C-----------------------------------------------
 C
@@ -162,7 +163,7 @@ c      END DO
 c#include      "lockon.inc"
 c      LX=LX+MY_LX
 c      LY=LY+MY_LY
-c      LZ=LZ+MY_LZ
+c      Lz = lz+my_lz
 c#include      "lockoff.inc"
 c
 c      CALL MY_BARRIER      
@@ -207,7 +208,7 @@ c      NBZ = NINT((BMINMA(3)-BMINMA(6))/LZ)
       IF(RES8 > LVOXEL8) stop 678
 c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
-C     pas d'initialisation de VOXEL <=> remise a 0 dans i25trivox.
+C     No initialization of Voxel <=> Discount a 0 in i25trivox.
 C
       CALL I25TRIVOX_EDG(
      1   I_MEM   ,VMAXDT   ,INACTI  ,IRECT   ,
@@ -226,9 +227,9 @@ C
      D   GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
      F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ, 
-     G   DGAPLOAD )
+     G   DGAPLOAD,PENE_OLD_E,STIF_OLD_E,SIZ ,PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S )
 C
-C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C
       RETURN
       END

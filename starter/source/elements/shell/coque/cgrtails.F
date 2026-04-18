@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE QA_OUT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -142,7 +143,7 @@ C-----------------------------------------------
 
       INTEGER MODE,WORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_WORKSH
-C     REAL OU REAL*8
+C     real or real*8
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR,TITR1,TITR2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
@@ -178,7 +179,7 @@ C         GROUPING BY MVSIZ GROUPS
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C phase 1 : domain decomposition
+C Phase 1: Domain Decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -644,7 +645,7 @@ C----- fixed to 1 excepting small strain case
            IF (ITHK<0) THEN
             ITHK = 1 
             IF (MAT_PARAM(MID)%SMSTR==1 .OR. MLN == 1) ITHK = 0
-C--------message out       
+C------- Out message       
             ISM0 = ITHK
             IF (ITHK == 0) ISM0=2
                 CALL ANCMSG(MSGID=1770,
@@ -658,7 +659,7 @@ C--------message out
 C----- fixed to iterative, but can be changed according to law           
            IF (IPLA<0) THEN
              IPLA = 1
-C--------message out       
+C------- Out message       
                 CALL ANCMSG(MSGID=1771,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -681,7 +682,7 @@ C----certain laws to use 4 to see one by one
                 IF (MLN == 19 .AND. NPN==1) ISMST =11
               END IF
               GEO(3,PID) = ISMST
-C--------message out       
+C------- Out message       
                 CALL ANCMSG(MSGID=1772,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -1031,7 +1032,7 @@ C
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C DD_IAD => nb groups per sub domain
+C Dd_iad => nb groups per sub domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

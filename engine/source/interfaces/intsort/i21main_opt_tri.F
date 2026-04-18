@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,10 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, INACTI, I_STOK, NSN, ADXLOC
+      INTEGER  INACTI, I_STOK, NSN, ADXLOC
 C     REAL
       my_real
-     .   STARTT,GAP,STOPT, DX, DY, DZ
+     .   STARTT,GAP,STOPT
 C-----------------------------------------------
 C
       NSN    =IPARI(5,NIN)
@@ -86,7 +86,7 @@ C
       ENDIF
 C
 C-----------------------------------------------------------
-C     Filtrage des candidats a l'impact
+C     Filtrage des CANDIDATES a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)

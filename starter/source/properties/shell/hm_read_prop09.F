@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -130,7 +130,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ZERO
 C ISEN USED IN ENGINE call csens3.F routine
         ISEN = 0
@@ -229,17 +229,6 @@ C-------to have DR----
           IF (ISMSTR==10.AND.ISROT>0.AND.IDROT==0) IDROT = 1
 
 
-        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
-          IHBE_OLD=IHBE
-          IHBE=0
-          CALL ANCMSG(MSGID=321,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_2,
-     .                I1=IG,
-     .                C1=IDTITL,
-     .                I2=IHBE_OLD,
-     .                I3=IHBE)
-        ENDIF
 C
 c        CALL FRETITL(IDTITL,IGEO(NPROPGI-LTITR+1),LTITR)
 c
@@ -251,7 +240,7 @@ C
           GEO(5)=EP06
         ENDIF
 
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(10)=IHBE
         IGEO(11)=IGTYP
@@ -259,7 +248,7 @@ C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         GEO(171)=IHBE
 C
         IF (IHBE>11.AND.IHBE<29) THEN
-C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
+C---------- geo (13, i) is used for DN Porte; Geo (17, I), Cvis changes -----
           GEO(13)=GEO(17)
           GEO(17)=CVIS
 C          IGEO(20,I)=ISROT

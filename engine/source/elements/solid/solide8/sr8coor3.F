@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .        Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .        Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),VIS(MVSIZ),
+     .        Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .        VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
      .        VX5(MVSIZ), VX6(MVSIZ), VX7(MVSIZ), VX8(MVSIZ),
      .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
@@ -155,7 +155,7 @@ C-----------
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C  
-C     Prepare les sorties par PART.
+C     prepares outputs by part
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=1,NEL
@@ -185,7 +185,7 @@ C-----------
       ENDIF
 C  
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISOT3(
      1   X1,      X2,      X3,      X4,
@@ -204,7 +204,7 @@ C-----------
      4   R21,     R22,     R23,     R31,
      5   R32,     R33,     NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
        DO I=1,NEL

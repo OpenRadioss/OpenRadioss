@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                     DEPBXY  ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      5                     SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      6                     SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
-     7                     MOMNYY  ,MOMNXY  )
+     7                     MOMNYY  ,MOMNXY  ,ZSHIFT  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C     REAL
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),
      .   MOMOXX(NEL),MOMOYY(NEL),MOMOXY(NEL)
+      my_real, intent(in) :: ZSHIFT
 C-----------------------------------------------
 C   O U T P U T   A R G U M E N T S
 C-----------------------------------------------
@@ -63,22 +64,19 @@ C-----------------------------------------------
      .    THK(*),
      .    SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .    MOMNXX(NEL),MOMNYY(NEL),MOMNXY(NEL),
-     .    SIGNYZ(NEL),SIGNZX(NEL),
-     .    SIGVXX(NEL),SIGVYY(NEL)
+     .    SIGNYZ(NEL),SIGNZX(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J
+      INTEGER I
 C     REAL
       my_real
-     .   DTINV,AMU,FACT,VISC
-      my_real
      .   B1(MVSIZ),B2(MVSIZ),THK0(MVSIZ),
-     .   B3(MVSIZ),DEGMB(MVSIZ),DEGFX(MVSIZ),
+     . B3(MVSIZ),
      .   THK08,EZZ(MVSIZ)
       my_real
      .   EIGV(MVSIZ,3,2),TRAV(MVSIZ),ROOTV(MVSIZ),  
-     .   EH1(MVSIZ),EH2(MVSIZ),EB1(MVSIZ),EB2(MVSIZ),DEZZ(MVSIZ),
+     . EH1(MVSIZ),EH2(MVSIZ),EB1(MVSIZ),EB2(MVSIZ),
      .   EPSXX (MVSIZ),EPSYY (MVSIZ),EPSXY (MVSIZ),
      .   FOR1(MVSIZ),FOR2(MVSIZ),MOM1(MVSIZ),MOM2(MVSIZ)
 c     .   TAN_A,TAN_A2,SIN2_A(MVSIZ),COS2_A(MVSIZ),SINCOS_A(MVSIZ),ANG
@@ -130,7 +128,7 @@ C     rot matrix (eigenvectors), ROOTV= 2R
 !---
 C
       DO I=JFT,JLT
-        THK08 = THK0(I)*ONE_OVER_12
+        THK08 = THK0(I)*(ONE_OVER_12+ZSHIFT*ZSHIFT)
         B1(I) = A1(I)*THK08
         B2(I) = A2(I)*THK08
         B3(I) = G(I) *THK08
@@ -207,6 +205,19 @@ C
         EZZ(I) = -NU(I) * (DEPSXX(I)+DEPSYY(I)) / (ONE-NU(I))
         THK(I) = THK(I) * (ONE + EZZ(I) * OFF(I))
       ENDDO
+! coupling terms due to shell offset      
+      IF (ZSHIFT /= ZERO) THEN
+        DO I=JFT,JLT
+          THK08 = THK0(I)*ZSHIFT
+          SIGNXX(I) = SIGNXX(I) + THK08*(A1(I)*DEPBXX(I)+A2(I)*DEPBYY(I))
+          SIGNYY(I) = SIGNYY(I) + THK08*(A1(I)*DEPBYY(I)+A2(I)*DEPBXX(I))
+          SIGNXY(I) = SIGNXY(I) + THK08*G(I)*DEPBXY(I)
+!
+          MOMNXX(I) = MOMNXX(I) + ZSHIFT*(A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I))
+          MOMNYY(I) = MOMNYY(I) + ZSHIFT*(A1(I)*DEPSYY(I)+A2(I)*DEPSXX(I))
+          MOMNXY(I) = MOMNXY(I) + ZSHIFT*G(I)*DEPSXY(I)
+        ENDDO
+      END IF 
 C
       RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I, FMW_6I, FMW_2I_X_F, FMW_4I
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -316,7 +317,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
             TITR = IGRPART(I)%TITLE
             NEL =IGRPART(I)%NENTITY
               IF (NSUBDOM>0) THEN
-C-----------> Multidomaines -> on prend le nb de parts avant split-----      
+C-----------> Multidomaines -> on prend le nb de parts avant split-----
                  IF ((NEL==0).AND.(IGRPART(I)%R2R_ALL/=0)) GOTO 220
               ENDIF   
 C----------------------------------------------------------------------         
@@ -354,7 +355,7 @@ C-----------------------------------------------
             ELSE
               NSEG=IGRSURF(I)%NSEG
               NSEGIGE=IGRSURF(I)%NSEG_IGE
-C-----------> Multidomaines -> on prend le nb de segments avant split----      
+C-----------> Multidomaines -> on prend le nb de segments avant split----
                 IF (NSUBDOM>0) NSEG=ISURF_R2R(2,I)
 C----------------------------------------------------------------------          
               IF (NSEG == 0 .AND. NSEGIGE == 0 .AND. IGRSURF(I)%SET_GROUP == 0) THEN
@@ -428,7 +429,11 @@ C----------------------------------------------------------------------
                         NE=0
                       ENDIF
                       IF(N2D == 0)THEN
-                        WRITE(IOUT,'(6I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,4),ITYP,NE
+                        IF(ITYP==3.OR.ITYP==7.OR.ITYP==1) THEN
+                          WRITE(IOUT,'(6I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,4),ITYP,NE
+                        ELSE
+                          WRITE(IOUT,'(2I10,16X,2I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,2),ITYP,NE
+                        ENDIF
                       ELSE
                         WRITE(IOUT,'(2I10,16X,2I10)')(ITAB(IGRSURF(I)%NODES(J,L)),L=1,2),ITYP,NE
                       ENDIF
@@ -553,7 +558,7 @@ C-----------------------------------------------
             ID = IGRNOD(I)%ID
             NNOD=IGRNOD(I)%NENTITY
               IF (NSUBDOM>0) NNOD=IGRNOD(I)%R2R_ALL
-C-----------> Multidomaines -> on prend le nb de noeuds avant split----      
+C-----------> Multidomaines -> on prend le nb de noeuds avant split----
 C----------------------------------------------------------------------      
             IF (NNOD==0) THEN
               CALL ANCMSG(MSGID=690,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, I3, II, NN, L, J,K, JJ, I0BASE,
+      INTEGER I, I1, I2, I3, II, NN, L, J,K, I0BASE,
      .        IX1,IX2,IX3,IX4,NIRL
 C     REAL
       my_real
@@ -255,7 +255,7 @@ C---- update main forces (moment balance) - local coordinates RX
                 MYS = AR(1,I)*E2X + AR(2,I)*E2Y + AR(3,I)*E2Z
                 MZS = AR(1,I)*E3X + AR(2,I)*E3Y + AR(3,I)*E3Z
               
-C--           moment balance + moment transfer
+C- Balance time + Transfer moment
                 CALL I2LOCEQ_27(NIRL    ,RS     ,RX     ,RY     ,RZ      ,    
      .                          FMX     ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                          MXS     ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -265,7 +265,7 @@ C--           moment balance + moment transfer
                 MYS = ZERO
                 MZS = ZERO
 
-C--           moment balance
+C- Balance moment
                 CALL I2LOCEQ_27(NIRL    ,RS     ,RX     ,RY     ,RZ      ,    
      .                          FMX     ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                          MXS     ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -362,7 +362,7 @@ C
            A(3,I)=ZERO                                       
          ENDIF                                          
 C                                            
-C        stokage ZERO pour noeuds delete par idel2         
+C        zero storage for nodes deleted by idel2
         ELSEIF (WEIGHT(-I) == 1) THEN                       
           I0 = I0BASE + IADX(K)                                
           NN = IADI2(1,I0)                                 

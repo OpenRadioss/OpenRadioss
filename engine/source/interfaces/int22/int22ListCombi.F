@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,15 +95,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,II,J,K,L,COUNT,CountVAR,CountFIX,ITYP,pCODE,lIDBLE
+        INTEGER :: I,II,J,K,L,COUNT,CountVAR,CountFIX,ITYP,pCODE
         INTEGER :: LIST(32+8),SizeL
         INTEGER :: IBIN
         INTEGER :: LLVAR(arg_SizeVAR,arg_SizeVAR-1), SizeLLVAR
         INTEGER :: LLFIX(arg_SizeVAR,arg_SizeFIX+1), SizeLLFIX        
-        INTEGER :: SizeLLVAR_bak
         INTEGER :: IKEEP
-        INTEGER :: TAG(12),TAG_nod(8),TAG_edg(12), Lnbit, Lcode, Ldble, NNOD, NEDG
-        INTEGER :: IDOUBLE(12),lvl
+        INTEGER :: TAG_nod(8),TAG_edg(12), Lnbit, Lcode, Ldble, NNOD, NEDG
+        INTEGER :: lvl
         INTEGER :: TAG_nod_fix(8),TAG_edg_fix(12),TAG_nod_bak(8),TAG_nod_tmp(8)
         LOGICAL :: bool,bCOMPL
 C-----------------------------------------------
@@ -229,7 +228,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
             !------------------------------------------------!
             ! CHECKING FIXED LIST CONSISTENCY                !
             !------------------------------------------------!          
-            !--verifier nombre de bits
+            !check number of bits
             CountFIX   = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
@@ -237,7 +236,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               CountFIX = CountFIX + C_POLYH(ITYP)
             ENDDO !next I        
             IF(CountFIX > NINTP)CYCLE
-            !--verifier les sommets isdoles dans LLFIX : doublon impossible
+            !check isolated vertices in llfix: duplicate impossible
             TAG_nod_fix(1:8) = 0
             DO I=1,SizeLLFIX
               bCOMPL           = .FALSE.
@@ -285,7 +284,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 LLFIX(II,I) = -LLFIX(II,I)
               ENDIF
             ENDDO !next I        
-            !--verifiers les edges de LLFIX : doublon possible seuelemnt si defini dans IDBLE       
+            !check edges in llfix: duplicate possible only if defined in idble
             TAG_edg_fix(1:12) = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
@@ -305,8 +304,8 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
             !------------------------------------------------!
             ! VARIABLE LIST REDUCTION                        !
             !------------------------------------------------!
-            !--verifier les sommets isoles dans LLVAR : doublon impossible
-            !conserver les tags de LLVAR ne pas faire de reset : TAG_nod(1:8) = 0 
+            !check isolated vertices in llvar: duplicate impossible
+            !keep llvar tags, do not reset: tag_nod(1:8) = 0
             I = 1    
 ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)      
             DO WHILE(I < SizeLLVAR)
@@ -335,8 +334,8 @@ ccc                  print *, " after removing : LLVAR(II,1:SizeLLVAR)=", LLVAR(
    51         CONTINUE
               I = I + 1
             ENDDO !next I 
-            !--verifiers les edges de LLVAR : doublon possible seuelement si defini dans IDBLE                 
-            !conserver les tags de LLFIX, ne pas faire de reset : TAG_edg(1:12) = 0
+            !check edges in llvar: duplicate possible only if defined in idble
+            !keep llfix tags, do not reset: tag_edg(1:12) = 0
             I = 1
             DO WHILE(I < SizeLLVAR)
 ccc              print *, "testing LLVAR=", LLVAR(II,I)

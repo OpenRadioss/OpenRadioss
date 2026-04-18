@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fxbsini     ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- called by ------------------------------------------------------
-!||    initia      ../starter/source/elements/initia/initia.F
+!||    initia        ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
-!||    fsigcini    ../starter/source/constraints/fxbody/fsigcini.F
-!||    fsigpini    ../starter/source/constraints/fxbody/fsigpini.F
-!||    fsigsini    ../starter/source/constraints/fxbody/fsigsini.F
-!||    fsigtini    ../starter/source/constraints/fxbody/fsigtini.F
-!||    fsigtrini   ../starter/source/constraints/fxbody/fsigtrini.F
+!||    fsigcini      ../starter/source/constraints/fxbody/fsigcini.F
+!||    fsigpini      ../starter/source/constraints/fxbody/fsigpini.F
+!||    fsigsini      ../starter/source/constraints/fxbody/fsigsini.F
+!||    fsigtini      ../starter/source/constraints/fxbody/fsigtini.F
+!||    fsigtrini     ../starter/source/constraints/fxbody/fsigtrini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FXBSINI(FXBELM, FXBSIG, NELS , NELC  , NELTG,
      .                   X     , IPARG , PM   , FXBMOD, NML  ,
@@ -37,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   FXBRPM, NFX   , IFILE, LVSIG , NSNI ,
      .                   NME   , IRCS  , IRCM0, NELT  , NELP ,
      .                   IXT   , IXP   ,IBEAM_VECTOR,RBEAM_VECTOR)
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

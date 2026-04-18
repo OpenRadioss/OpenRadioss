@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I3000,NXX,NYY,NZZ                                         
+      INTEGER I3000
       INTEGER N,ADRBUF                                                  
       INTEGER INOE, I, J, K, DGR                                        
       my_real XG,YG,ZG,A,B,C,ROT(9),                                    
@@ -80,7 +80,7 @@ C
        IF (IGRSURF(N)%TYPE/=101) GOTO 200
        ADRBUF=IGRSURF(N)%IAD_BUFR
 C-------------------------------------------------------                
-c      Parametres de l'ellipsoide.                                      
+c      Parametres de l'ellipsoide.
 C-------------------------------------------------------                
        DGR=BUFSF(ADRBUF+36)                                             
        XG=BUFSF(ADRBUF+4)                                               
@@ -93,7 +93,7 @@ C-------------------------------------------------------
         ROT(I)=BUFSF(ADRBUF+7+I-1)                                      
        END DO                                                           
 C-------------------------------------------------------                
-C      - Calcul des noeuds sur le cube A,B,C.                           
+C      - Calculation of nodes on the cube A, B, c.
 C-------------------------------------------------------                
        INOE=0                                                           
        DO I = 1,6                                                       
@@ -119,7 +119,7 @@ C-------------------------------------------------------
         ENDDO                                                           
        ENDDO                                                            
 C-------------------------------------------------------                
-C      - Calcul de la normale : projection radiale.                     
+C      - Calculation of the normal : radial projection.
 C-------------------------------------------------------                
        AN=A**DGR                                                        
        BN=B**DGR                                                        
@@ -158,7 +158,7 @@ C
         NNOR(3,INOE)=THREE1000*NZ                                       
        END DO                                                           
 C-------------------------------------------------------                
-C      Ecriture des normales aux noeuds.                                
+C      Writing normal to nodes.                                
 C-------------------------------------------------------                
        INOE=0                                                           
        DO I=1,384                                                       

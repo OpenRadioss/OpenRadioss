@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real  VECT(NEL), VECT1(NEL), VEL(NEL)
       my_real  XL(3,NNO), VL(3,NNO)
 
-C Coordonnees et vitesses locales
+C Local coordinates and velocities
       DO I=1,NNO
          II=IBUF(I)
          XL(1,I)=X(1,II)
@@ -185,7 +185,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
                  COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = THIRD*VL(1,I1)+THIRD*VL(1,I2)+THIRD*VL(1,I3)
            VY0 = THIRD*VL(2,I1)+THIRD*VL(2,I2)+THIRD*VL(2,I3)
            VZ0 = THIRD*VL(3,I1)+THIRD*VL(3,I2)+THIRD*VL(3,I3)
@@ -268,7 +268,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
            COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = WI(1,I5)*VL(1,I1)+WI(2,I5)*VL(1,I2)+WI(3,I5)*VL(1,I3)+WI(4,I5)*VL(1,I4)
            VY0 = WI(1,I5)*VL(2,I1)+WI(2,I5)*VL(2,I2)+WI(3,I5)*VL(2,I3)+WI(4,I5)*VL(2,I4)
            VZ0 = WI(1,I5)*VL(3,I1)+WI(2,I5)*VL(3,I2)+WI(3,I5)*VL(3,I3)+WI(4,I5)*VL(3,I4)
@@ -277,7 +277,7 @@ C vitesse N-1/2
 
       ENDIF
 C-----------------------------------------------
-C    1. Pression incidente
+C    1. Incident pressure
 C-----------------------------------------------
       DO I=1,NEL
          OFF(I) = ZERO
@@ -354,7 +354,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF    
 C-----------------------------------------------
-C     Vitesse onde incidente
+C     Incident wave velocity
 C-----------------------------------------------
       DO I=1,NEL
          VI(I)=PP(I)*COSG(I)/RHOC
@@ -378,7 +378,7 @@ C add afterflow velocity, no afterflow velocity for plane wave
          ENDIF
       ENDIF
 C-----------------------------------------------
-C   2. Pression Onde Reflechie
+C   2. Reflected wave pressure
 C-----------------------------------------------
       IF(FREESURF == 2) THEN
         DO I=1,NEL
@@ -422,12 +422,12 @@ C-----------------------------------------------
           ENDDO
         ENDIF    
 C-----------------------------------------------
-C    Vitesse onde reflechie
+C    Reflected wave velocity
 C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC
         ENDDO
-      ELSE  ! pas de surface libre
+      ELSE  ! no free surface
         DO I=1,NEL
           PR(I) = ZERO
           VR(I) = ZERO

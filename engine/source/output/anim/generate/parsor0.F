@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PARSOR0(IADD ,IPARG   ,MATER   ,EL2FA   , 
      2                DD_IAD,IADG               ,
@@ -57,11 +57,9 @@ C     REAL
      .        NODGLOB(*)
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
-      INTEGER II, IE, NG, ITY, LFT, LLT, KPT, N, I,
+      INTEGER II, IE, NG, ITY, LFT, LLT, N, I, 
      .        NEL, IAD, NPAR, NFT, IPRT,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     . NN1,NN2,
      .        JJ, INOD,
      .        NP(NUMSPH),BUF,BUFP
 C-----------------------------------------------
@@ -124,7 +122,7 @@ C
 
           CALL SPMD_IGLOB_PARTN(IADD,NPAR,IADG,BUFP)
           CALL SPMD_IGET_PARTN(1,JJ,NP,NPAR,IADG,BUF,1)
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         DO I = 1, NPART
           IADG(1,I) = IADD(I)
         END DO

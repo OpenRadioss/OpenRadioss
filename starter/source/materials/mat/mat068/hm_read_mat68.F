@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -93,7 +93,7 @@ C-----------------------------------------------
      . EMF11,EMF22,EMF33,EMF12,EMF23,EMF31,
      . FAC1,FAC2,FAC3,FAC4,FAC5,FAC6,FAC7,FAC8,FAC9,
      . FAC10,FAC11,FAC12,FAC13,FAC14,FAC15,FAC16,FAC17,FAC18
-      my_real FAC_C,FAC_L,FAC_T,FAC_M,DMIN,DMAX
+      my_real DMIN,DMAX
       INTEGER I11,I22,I33,I12,I23,I31,I21,I32,I13,IF1,IF2
       INTEGER J11,J22,J33,J12,J23,J31,J21,J32,J13
       my_real :: RHO0, RHOR, FAC_UNIT
@@ -305,7 +305,7 @@ c
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
       ! Properties compatibility  
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ORTHOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_BRICK_ORTHOTROPIC")
 c
       !---LISTING OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,68

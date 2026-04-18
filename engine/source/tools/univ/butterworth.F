@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real
      .   DT2,WD,WA,WA2,A0,A1,A2,B1,B2,C1
 C=======================================================================
@@ -59,7 +58,6 @@ C    OUTPUT variables:
 C    FX - current filtered variable
 C=======================================================================
       DT2  = DT / TWO                           
-      PI   = ATAN2(ZERO,-ONE)
       WD = SQR2*PI*FREQ*5.0/3.0  
       WA = SIN(WD*DT2) / COS(WD*DT2)                     
       WA2 = WA*WA                                      

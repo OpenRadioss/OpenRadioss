@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER NFX, NLG, AGRVI, IADG, IG, NL, NNO, ISK, N2, N1, IFUNC,
      .        I, K1, K2, K3, IAGRV(NUMNOD), J, JJ
       my_real
-     .        FI0, FI, DYDX, WFEXTT, VV
+     .        FI0, FI, WFEXTT, VV
       my_real FINTER
       EXTERNAL FINTER
 C

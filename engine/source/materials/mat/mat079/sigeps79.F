@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C----------------------------------------------------------------
      .   SIGYI(NEL),SIGYF(NEL),SIGYOLD(NEL),DMG_OLD(NEL)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
-     .   PMIN, RATIO, J2
+     .   PMIN, J2
 C
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

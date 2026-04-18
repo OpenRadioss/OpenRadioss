@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,8 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tag_node_from_spring       ../starter/source/model/sets/tag_node_from_spring.F
 !||--- called by ------------------------------------------------------
 !||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE TAG_NODE_FROM_SPRING(IXR,GEO,NUMELR,ELEM,TAGNOD,CLAUSE_NODE,IND)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

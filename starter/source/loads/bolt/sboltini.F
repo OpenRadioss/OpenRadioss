@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFLAGINI,J,II,JJ
+      INTEGER I, IFLAGINI, II, JJ
       my_real
      .  NX,NY,NZ,TSTART,TEND,LOAD,SENS,
      .  L11,L22,L33,L12,L23,L13,T11,T22,T33,T12,T23,T13,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multifluid_init3       ../starter/source/multifluid/multifluid_init3.F
 !||    s10init3               ../starter/source/elements/solid/solide10/s10init3.F
 !||    s4init3                ../starter/source/elements/solid/solide4/s4init3.F
+!||    s6zinit3               ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8zinit3               ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    sinit3                 ../starter/source/elements/solid/solide/sinit3.F
 !||--- calls      -----------------------------------------------------
@@ -39,12 +40,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .       E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .       F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
-     .       SIGI ,IXS  ,X    ,JHBE ,PT   ,NEL  ,ISOLNOD)
+     .       SIGI ,IXS  ,X    ,JHBE ,PT   ,NEL  ,ISOLNOD ,JCVT_NEW )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JHBE,IREP,NSIGI,NSIGS,NEL,ISOLNOD
+      INTEGER JHBE,IREP,NSIGI,NSIGS,NEL,ISOLNOD,JCVT_NEW
       INTEGER PID(*),IGEO(NPROPGI,*),IXS(NIXS,*),PT(*)
 C     REAL
       my_real
@@ -78,7 +80,7 @@ C-----------------------------------------------
       INTEGER I,ISK,IPNUM,IG,IIS,II,J,JJ,N,IFLAGINI,N1,N2,N4,NNOD,INIORTH(MVSIZ)
 C     REAL
       my_real
-     .   XL,YL,ZL,SUM,HX,HY,HZ,KX,KY,KZ,LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN,
+     .   SUM,HX,HY,HZ,KX,KY,KZ,LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN,
      .   F3X,F3Y,F3Z,
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,PTS(3)
       my_real
@@ -92,6 +94,11 @@ C     GAMA(1)= TG11 , GAMA(2) = TG12, TG13..., TG21..., TG22..., TG23...
 C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
+
+    
+      JCVT = JCVT_NEW
+
+
       IF (NVSOLID3 /= 0) THEN
         IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
         DO I=LFT,LLT
@@ -164,7 +171,7 @@ C
           ELSE
             SUM = ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
-C         repere orthogononalise facette
+C         orthogonalized frame facet
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F1X(I) = VX * SUM
           F1Y(I) = VY * SUM
@@ -172,16 +179,16 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2X(I) = F3Y*F1Z(I) - F3Z*F1Y(I)
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
-C         dir ortho ds repere global
-C         S1 = vect F1 + rot(phi) dans le plan de facette
-C         S2 = vect F2 + rot(phi) dans le plan de facette
+C         ortho dir in global frame
+C         S1 = vect F1 + rot(phi) in the facet plane
+C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = CP*F1X(I) + SP*F2X(I)
           SK(2) = CP*F1Y(I) + SP*F2Y(I)
           SK(3) = CP*F1Z(I) + SP*F2Z(I)
           SK(4) =-SP*F1X(I) + CP*F2X(I)
           SK(5) =-SP*F1Y(I) + CP*F2Y(I)
           SK(6) =-SP*F1Z(I) + CP*F2Z(I)
-C         dir ortho ds repere elementaire
+C         ortho dir in element frame
           GAMA(I,1) = SK(1)*E1X(I) + SK(2)*E1Y(I) + SK(3)*E1Z(I)
           GAMA(I,2) = SK(1)*E2X(I) + SK(2)*E2Y(I) + SK(3)*E2Z(I)
           GAMA(I,3) = SK(1)*E3X(I) + SK(2)*E3Y(I) + SK(3)*E3Z(I)
@@ -215,7 +222,7 @@ C
           ELSE
             SUM= ONE / MAX(SQRT(VX*VX+VY*VY+VZ*VZ),EM20)
           ENDIF
-C         repere orthogononalise facette
+C         orthogonalized frame facet
 C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F1X(I) = VX * SUM
           F1Y(I) = VY * SUM
@@ -223,16 +230,16 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2X(I) = F3Y*F1Z(I) - F3Z*F1Y(I)
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
-C         dir ortho ds repere global
-C         S1 = vect F1 + rot(phi) dans le plan de facette
-C         S2 = vect F2 + rot(phi) dans le plan de facette
+C         ortho dir in global frame
+C         S1 = vect F1 + rot(phi) in the facet plane
+C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = F3X
           SK(2) = F3Y
           SK(3) = F3Z
           SK(4) = CP*F1X(I) + SP*F2X(I)
           SK(5) = CP*F1Y(I) + SP*F2Y(I)
           SK(6) = CP*F1Z(I) + SP*F2Z(I)
-C         dir ortho ds repere elementaire
+C         ortho dir in element frame
           GAMA(I,1) = SK(1)*E1X(I) + SK(2)*E1Y(I) + SK(3)*E1Z(I)
           GAMA(I,2) = SK(1)*E2X(I) + SK(2)*E2Y(I) + SK(3)*E2Z(I)
           GAMA(I,3) = SK(1)*E3X(I) + SK(2)*E3Y(I) + SK(3)*E3Z(I)
@@ -686,7 +693,7 @@ C         R'=R, T'=R^S, S'=T'^R
       ENDDO
 C-----
       IF (IREP > 0) THEN
-C       dir orthotrope attache au repere isoparametrique
+C       Orthotropic dir attach to the isoparametric frame 
         DO I=LFT,LLT
           A(1) = RX(I)*E1X(I) + RY(I)*E1Y(I) + RZ(I)*E1Z(I)
           A(2) = RX(I)*E2X(I) + RY(I)*E2Y(I) + RZ(I)*E2Z(I)

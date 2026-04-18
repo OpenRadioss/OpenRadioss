@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,8 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        CHARACTER(LEN=NCHARLINE100) :: CARTE,CARTE1,TEXT
-        INTEGER I,J,L,N_H3D_PART,STEXT
+        CHARACTER(LEN=NCHARLINE100) :: TEXT
+        INTEGER I,N_H3D_PART,STEXT
 C=========================================================================
         TEXT = ''
         STEXT = 0
@@ -125,6 +125,5 @@ c        print *,'ds la construct',H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PAR
 c      ENDDO
 
         RETURN
- 999    print *,'error lecture'
         CALL ARRET(0)
       END

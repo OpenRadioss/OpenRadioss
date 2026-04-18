@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,25 +95,13 @@ C----------------------------------------------------------------
       INTEGER VPVEC,ICASE
       my_real 
      . EY,C1,C2,ET,VMU,VMU0
-     . , A,B,C,D,VAR
-     . , AXX,BXX,CXX,AYY,BYY,CYY,AZZ,BZZ,CZZ
-     . , AXY,BXY,CXY,AYZ,BYZ,CYZ,AZX,BZX,CZX
-     . , C1XX,C2XX,ETXX,VMUXX, C1YY,C2YY,ETYY,VMUYY
-     . , C1XY,C2XY,GTXY,VMUXY, C1YZ,C2YZ,GTYZ,VMUYZ
-     . , C1ZX,C2ZX,GTZX,VMUZX, P0,PHI,GAMA0,FAC,FAC1
+     . , A,B,C,VAR
+     . , P0,PHI,GAMA0,FAC,FAC1
      . , S(3,3),SIGPR(3),DIRPR(3,3)
-     . , C1ZZ,C2ZZ,ETZZ,VMUZZ,SIGT_CUTOFF,SIGC_CUTOFF
+     . ,SIGT_CUTOFF,SIGC_CUTOFF
       my_real  
      .   E(MVSIZ),EDOT(MVSIZ),DAV,E1,E2,E3,E4,E5,E6,EPSP
      . , EPET(MVSIZ),EMET(MVSIZ),EPETS(MVSIZ),EMETS(MVSIZ)
-     . , EMXX(MVSIZ),EMYY(MVSIZ),EMZZ(MVSIZ)
-     . , GMXY(MVSIZ),GMYZ(MVSIZ),GMZX(MVSIZ) 
-     . , EPETXX(MVSIZ),EPETYY(MVSIZ),EPETZZ(MVSIZ)
-     . , EMETXX(MVSIZ),EMETYY(MVSIZ),EMETZZ(MVSIZ)
-     . , GPGTXY(MVSIZ),GPGTYZ(MVSIZ),GPGTZX(MVSIZ)
-     . , GMGTXY(MVSIZ),GMGTYZ(MVSIZ),GMGTZX(MVSIZ)
-     . , SYXX(MVSIZ),SYYY(MVSIZ),SYZZ(MVSIZ)
-     . , SYXY(MVSIZ),SYYZ(MVSIZ),SYZX(MVSIZ)
      . , SIGAIR(MVSIZ),GAMA(MVSIZ),SYIELD(MVSIZ)
      . , SIGSXX(MVSIZ),SIGSYY(MVSIZ),SIGSZZ(MVSIZ)
      . , SIGSXY(MVSIZ),SIGSYZ(MVSIZ),SIGSZX(MVSIZ)
@@ -202,7 +190,7 @@ C COMP    UTE TRIAL STRESSES
             SIGSYZ(I)=SIGSYZ(I)+EY*EPSPYZ(I)*TIMESTEP*HALF
             SIGSZX(I)=SIGSZX(I)+EY*EPSPZX(I)*TIMESTEP*HALF
   120     CONTINUE
-C si ancienne methode alors ....
+C If old method then ....
           IF (VPVEC==1) THEN
            DO 130 I=1,NEL
             S(1,1)=SIGSXX(I)
@@ -379,7 +367,7 @@ C COMPUTE TRIAL STRESSES
   240    CONTINUE
          IF(KEN<0)GOTO 255
 C
-C si ancienne methode alors ....
+C If old method then ....
          IF (VPVEC==1) THEN
           DO 250 I=1,NEL
            S(1,1)=SIGSXX(I)
@@ -475,7 +463,6 @@ C--------------------------
          ELSE
            SYIELD(I) = ABS(A+B*(ONE+C*GAMA(I)))
          ENDIF
-         IF(GAMA(I) > ZERO .AND. (GAMA(I)-UVAR(I,1)) < ZERO) SIGC_CUTOFF = ZERO
          IF(IFUNC(2)/=0)THEN
             DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))*THIRD
             E1 = EPSPXX(I) - DAV
@@ -786,7 +773,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alew7      ../engine/source/ale/grid/alew7.F
 !||    epsf2u     ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps88   ../engine/source/materials/mat/mat088/sigeps88.F
 !||--- calls      -----------------------------------------------------
 !||    floatmin   ../common_source/tools/math/precision.c
 !||====================================================================
@@ -808,28 +794,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       my_real
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -869,7 +855,7 @@ C
         VAL(1,NN) = STR(1,NN)-PR
         VAL(2,NN) = STR(2,NN)-PR
         VAL(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression----
+C accuracy reinforcement in compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1079,10 +1065,10 @@ C
         VEC(8,NN)=VEC(3,NN)*VEC(4,NN)-VEC(1,NN)*VEC(6,NN)
         VEC(9,NN)=VEC(1,NN)*VEC(5,NN)-VEC(2,NN)*VEC(4,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1104,7 +1090,6 @@ C
 !||    valpvecdp   ../engine/source/materials/mat/mat033/sigeps33.F
 !||--- called by ------------------------------------------------------
 !||    epsf2u      ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F
 !||--- calls      -----------------------------------------------------
 !||    floatmin    ../common_source/tools/math/precision.c
 !||====================================================================
@@ -1126,16 +1111,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(3,MVSIZ),VECDP(9,MVSIZ)
       REAL FLMIN
@@ -1143,12 +1128,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -1188,7 +1173,7 @@ C
         VALDP(1,NN) = STR(1,NN)-PR
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1412,10 +1397,10 @@ C
         VEC(8,NN)=VECDP(8,NN)
         VEC(9,NN)=VECDP(9,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1477,7 +1462,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K
+      INTEGER    I
       my_real
      .        EV(3,MVSIZ),AV(6,MVSIZ),EVV(3,MVSIZ),DIRPRV(3,3,MVSIZ)
 C----------------------------------------------------------------
@@ -1554,16 +1539,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(3,MVSIZ),VECDP(9,MVSIZ),S4_2,S5_2,S6_2,C1,C2,SQ_AA
       REAL FLMIN
@@ -1571,12 +1556,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0 
@@ -1622,7 +1607,7 @@ C
         VALDP(1,NN) = STR(1,NN)-PR
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1858,10 +1843,10 @@ C
         VEC(8,NN)=VECDP(8,NN)
         VEC(9,NN)=VECDP(9,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1880,23 +1865,26 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
 
 
 !||====================================================================
-!||    valpvec_v   ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvec_v                 ../engine/source/materials/mat/mat033/sigeps33.F
 !||--- called by ------------------------------------------------------
-!||    sigeps124   ../engine/source/materials/mat/mat124/sigeps124.F
-!||    sigeps163   ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps190   ../engine/source/materials/mat/mat190/sigeps190.F
-!||    sigeps33    ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps38    ../engine/source/materials/mat/mat038/sigeps38.F
-!||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
-!||    sigeps62    ../engine/source/materials/mat/mat062/sigeps62.F
-!||    sigeps69    ../engine/source/materials/mat/mat069/sigeps69.F
-!||    sigeps71    ../engine/source/materials/mat/mat071/sigeps71.F
-!||    sigeps82    ../engine/source/materials/mat/mat082/sigeps82.F
-!||    sigeps90    ../engine/source/materials/mat/mat090/sigeps90.F
-!||    sigeps92    ../engine/source/materials/mat/mat092/sigeps92.F
-!||    sigeps94    ../engine/source/materials/mat/mat094/sigeps94.F
+!||    sigeps124                 ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps130                 ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps163                 ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps190                 ../engine/source/materials/mat/mat190/sigeps190.F
+!||    sigeps33                  ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38                  ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps42                  ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps62                  ../engine/source/materials/mat/mat062/sigeps62.F
+!||    sigeps69                  ../engine/source/materials/mat/mat069/sigeps69.F
+!||    sigeps71                  ../engine/source/materials/mat/mat071/sigeps71.F
+!||    sigeps82                  ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps88                  ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps90                  ../engine/source/materials/mat/mat090/sigeps90.F
+!||    sigeps92                  ../engine/source/materials/mat/mat092/sigeps92.F
+!||    sigeps94                  ../engine/source/materials/mat/mat094/sigeps94.F
+!||    yield_criterion_hershey   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
 !||--- calls      -----------------------------------------------------
-!||    floatmin    ../common_source/tools/math/precision.c
+!||    floatmin                  ../common_source/tools/math/precision.c
 !||====================================================================
       SUBROUTINE VALPVEC_V(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
@@ -1916,28 +1904,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       my_real
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -1977,7 +1965,7 @@ C
         VAL(NN,1) = STR(NN,1)-PR
         VAL(NN,2) = STR(NN,2)-PR
         VAL(NN,3) = STR(NN,3)-PR
-C renforcement de precision en compression----
+C accuracy reinforcement in compression ----
         IF(ABS(STR(NN,3))>ABS(STR(NN,1))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(NN,1)
@@ -2187,10 +2175,10 @@ C
         VEC(NN,8)=VEC(NN,3)*VEC(NN,4)-VEC(NN,1)*VEC(NN,6)
         VEC(NN,9)=VEC(NN,1)*VEC(NN,5)-VEC(NN,2)*VEC(NN,4)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(NN,1)=VEC(NN,7)
         STR(NN,2)=VEC(NN,8)
         STR(NN,3)=VEC(NN,9)
@@ -2208,24 +2196,27 @@ C
       RETURN
       END
 !||====================================================================
-!||    valpvecdp_v       ../engine/source/materials/mat/mat033/sigeps33.F
+!||    valpvecdp_v               ../engine/source/materials/mat/mat033/sigeps33.F
 !||--- called by ------------------------------------------------------
-!||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
-!||    sigeps124         ../engine/source/materials/mat/mat124/sigeps124.F
-!||    sigeps163         ../engine/source/materials/mat/mat163/sigeps163.F90
-!||    sigeps190         ../engine/source/materials/mat/mat190/sigeps190.F
-!||    sigeps33          ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps38          ../engine/source/materials/mat/mat038/sigeps38.F
-!||    sigeps42          ../engine/source/materials/mat/mat042/sigeps42.F
-!||    sigeps62          ../engine/source/materials/mat/mat062/sigeps62.F
-!||    sigeps69          ../engine/source/materials/mat/mat069/sigeps69.F
-!||    sigeps71          ../engine/source/materials/mat/mat071/sigeps71.F
-!||    sigeps82          ../engine/source/materials/mat/mat082/sigeps82.F
-!||    sigeps90          ../engine/source/materials/mat/mat090/sigeps90.F
-!||    sigeps92          ../engine/source/materials/mat/mat092/sigeps92.F
-!||    sigeps94          ../engine/source/materials/mat/mat094/sigeps94.F
+!||    fail_spalling_s           ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+!||    sigeps124                 ../engine/source/materials/mat/mat124/sigeps124.F
+!||    sigeps130                 ../engine/source/materials/mat/mat130/sigeps130.F90
+!||    sigeps163                 ../engine/source/materials/mat/mat163/sigeps163.F90
+!||    sigeps190                 ../engine/source/materials/mat/mat190/sigeps190.F
+!||    sigeps33                  ../engine/source/materials/mat/mat033/sigeps33.F
+!||    sigeps38                  ../engine/source/materials/mat/mat038/sigeps38.F
+!||    sigeps42                  ../engine/source/materials/mat/mat042/sigeps42.F
+!||    sigeps62                  ../engine/source/materials/mat/mat062/sigeps62.F
+!||    sigeps69                  ../engine/source/materials/mat/mat069/sigeps69.F
+!||    sigeps71                  ../engine/source/materials/mat/mat071/sigeps71.F
+!||    sigeps82                  ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps88                  ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps90                  ../engine/source/materials/mat/mat090/sigeps90.F
+!||    sigeps92                  ../engine/source/materials/mat/mat092/sigeps92.F
+!||    sigeps94                  ../engine/source/materials/mat/mat094/sigeps94.F
+!||    yield_criterion_hershey   ../engine/source/materials/mat/mat131/yield_criterion/yield_criterion_hershey.F90
 !||--- calls      -----------------------------------------------------
-!||    floatmin          ../common_source/tools/math/precision.c
+!||    floatmin                  ../common_source/tools/math/precision.c
 !||====================================================================
       SUBROUTINE VALPVECDP_V(SIG,VAL,VEC,NEL)
 C-----------------------------------------------
@@ -2245,16 +2236,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(MVSIZ,3),VECDP(MVSIZ,9)
       REAL FLMIN
@@ -2262,12 +2253,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -2307,7 +2298,7 @@ C
         VALDP(NN,1) = STR(NN,1)-PR
         VALDP(NN,2) = STR(NN,2)-PR
         VALDP(NN,3) = STR(NN,3)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(NN,3))>ABS(STR(NN,1))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(NN,1)
@@ -2532,11 +2523,11 @@ C
         VEC(NN,8)=VECDP(NN,8)
         VEC(NN,9)=VECDP(NN,9)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
 #include      "vectorize.inc"
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(NN,1)=VEC(NN,7)
         STR(NN,2)=VEC(NN,8)
         STR(NN,3)=VEC(NN,9)
@@ -2579,7 +2570,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS1,CS2,CS3,CS4,CS5,CS6,
@@ -2587,10 +2578,10 @@ C-----------------------------------------------
      .   PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
+     .   VMAG,
+     .      
      .   S1,S2,S3,
-     .   A22, A23, A31, A32, A33,
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   S4_2,S5_2,S6_2,C1,C2,SQ_AA,
      .   VALDP1(MVSIZ),VALDP2(MVSIZ),VALDP3(MVSIZ),
@@ -2608,12 +2599,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS1,CS2,FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0 
@@ -2666,7 +2657,7 @@ C
         VALDP1(NN) = STR1(NN)-PR
         VALDP2(NN) = STR2(NN)-PR
         VALDP3(NN) = STR3(NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR3(NN))>ABS(STR1(NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR1(NN)
@@ -2908,11 +2899,11 @@ C
         VEC(NN,8)=VECDP8(NN)
         VEC(NN,9)=VECDP9(NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       IF (NINDEX3 > 0) THEN
         DO NN = 1, NEL
           IF(INDEX3(NN) == 1) THEN
-C strutilise com tableau temporaire au lieu de scalaires temporaires
+C Structilis com temporary table instead of temporary scalars
             S1=VEC(NN,7)
             S2=VEC(NN,8)
             S3=VEC(NN,9)

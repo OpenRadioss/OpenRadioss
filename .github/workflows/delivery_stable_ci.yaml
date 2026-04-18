@@ -1,7 +1,6 @@
 name: Delivery stable CI
 
 on:
-
   workflow_dispatch:
     inputs:
       tag_name:
@@ -24,6 +23,7 @@ jobs:
   build_linux:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
+
     runs-on: ["${{ matrix.build }}","delivery_stable_ci"]
 
     env:
@@ -41,34 +41,34 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           - build: starter_linux64_gf_sp
             precision: sp
             os: linux64
             binary: starter
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           - build: engine_linux64_gf
             precision: dp
             os: linux64
             binary: engine
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           - build: engine_linux64_gf_sp
             precision: sp
             os: linux64 
             binary: engine
-            image_name: build-linux64_gf:cos8-ompi411-devts11
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
           ### LINUXA64 ###
           - build: starter_linuxa64
             binary: starter
@@ -104,10 +104,11 @@ jobs:
             image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
 
     container: 
-      image: fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/${{ matrix.image_name }}"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -130,11 +131,11 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
           ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       - name: Running build
@@ -153,7 +154,7 @@ jobs:
             echo "Running BUILD for linux GF"
             arch_suffix='_gf'
             extra_opts='-static-link'
-            source /home/adminqa/.bashrc
+            source /root/.bashrc
           else
             echo "Running BUILD for arm"
             export MODULEPATH=$MODULEPATH:/opt/arm/modulefiles
@@ -216,7 +217,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -224,7 +225,7 @@ jobs:
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: ${{ env.WORKDIR }}/extlib.zip
@@ -232,7 +233,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -263,7 +264,6 @@ jobs:
           exit 1
 
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
-
 
   build_windows_no_container:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
@@ -337,11 +337,11 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
           ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
 
@@ -401,7 +401,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -410,7 +410,7 @@ jobs:
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
       - name: Close the branch if errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -438,10 +438,11 @@ jobs:
     # DEV ONLY # runs-on: dev_delivery
     runs-on: delivery    
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
          - /etc/localtime:/etc/localtime:ro
          # DEV ONLY # - /github_download_counter_dev:/github_download_counter
@@ -481,15 +482,15 @@ jobs:
 
       # Get last git modifications, don't clean before (way to go faster)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
-          lfs: 'true'
+          lfs: 'false'
           ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -499,7 +500,7 @@ jobs:
 
       # Get OpenRadioss gui in Tools repository
       - name: Checkout git Tools sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -509,7 +510,7 @@ jobs:
 
       # Download ALL artifacts (including extlib.zip)
       - name: Download ALL artifacts for packaging
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           merge-multiple: true
           path: "${{ env.WORKDIR }}/exec_tmp"
@@ -606,7 +607,7 @@ jobs:
             echo "EOF"
           } >> $GITHUB_ENV
 
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: get_commit_author
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -682,16 +683,57 @@ jobs:
               --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }} 
 
       - name: Create a new GitHub Discussion Annoucement
-        id: create-discussion
-        uses: abirismyname/create-discussion@v2.1.0
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+        uses: actions/github-script@v8
         with:
-          title: OpenRadioss Stable Update (${{ env.LAST_STABLE_TAG_NAME }})
-          body: |
-            We're excited to announce a new **stable release of OpenRadioss!**  
-            This version, based on **tag ${{ env.LAST_STABLE_TAG_NAME }}**, brings improved stability and performance based on community feedback.
-            🔹 [Get it now](https://github.com/${{ github.repository }}/releases/tag/${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHETAG }})
-            Please, try it out and share your appreciated feedback, thanks!
-          repository-id: ${{ secrets.DISCUSSION_REPO_ID }}
-          category-id: ${{ secrets.DISCUSSION_CAT_ID }}  
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get the discussion categories for your repository
+            const { data: repository } = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            // Create discussion using GraphQL
+            const query = `
+              query {
+                repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
+                  id
+                  discussionCategories(first: 10) {
+                    nodes {
+                      id
+                      name
+                    }
+                  }
+                }
+              }
+            `;
+
+            const result = await github.graphql(query);
+            const repoId = result.repository.id;
+            const categories = result.repository.discussionCategories.nodes;
+            
+            // Use first available category or create with a default
+            const categoryId = categories.length > 0 ? categories[0].id : null;
+            
+            if (categoryId) {
+              const createMutation = `
+                mutation CreateDiscussion($repositoryId: ID!, $categoryId: ID!, $title: String!, $body: String!) {
+                  createDiscussion(input: {repositoryId: $repositoryId, categoryId: $categoryId, title: $title, body: $body}) {
+                    discussion {
+                      url
+                    }
+                  }
+                }
+              `;
+              
+              const discussion = await github.graphql(createMutation, {
+                repositoryId: repoId,
+                categoryId: categoryId,
+                title: `OpenRadioss Stable Update (${process.env.LAST_STABLE_TAG_NAME})`,
+                body: `We're excited to announce a new **stable release of OpenRadioss!**\nThis version, based on **tag ${process.env.LAST_STABLE_TAG_NAME}**, brings improved stability and performance based on community feedback.\n🔹 [Get it now](https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/XXXX)\nPlease, try it out and share your appreciated feedback, thanks!`
+              });
+              
+              console.log(`Discussion created: ${discussion.createDiscussion.discussion.url}`);
+            } else {
+              console.log('No discussion categories found. Please create discussion categories first.');
+            }                

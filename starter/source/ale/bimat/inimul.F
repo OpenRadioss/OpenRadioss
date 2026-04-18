@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,7 @@ C-----------------------------------------------
           IF(M20_DISCRETE_FILL)THEN
             IF(F(N,M)<ZEP99.AND.F(N,M)>-ZEP99)F(N,M)=ZERO        
           ENDIF
-          !remplissage partiel autorise mais check dans l'engine de alpd=zero
+          !Partial filling authorizes but check in the alpd machine = zero
           DF(N,M)=ZERO
         END DO !N=1,NUMNOD
       END DO !M=1,NMULT

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,16 +63,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VJ,WGHT,WGRAD(3),
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ,
+     . WGRDX,WGRDY,WGRDZ,
      . TI,TJ
 C-------------------------------------------
       DO I=LFT,LLT
@@ -82,7 +82,7 @@ C-------------------------------------------
        WGRADT(3,N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul du gradient de temperature.
+C     Calculation of temperature gradient.
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
@@ -165,7 +165,7 @@ C
 C--------
        END DO
 C------
-C      partie symetrique.
+C      symmetrical part.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)
@@ -274,21 +274,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,INOD,JNOD,J,NVOIS,M,
-     .        NVOISS,SM,JS,NC,NS,NN
+     .        NVOISS,SM,JS,NC,NN
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
      .       VJ,WGHT,WGRAD(3),
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,
-     . BETAXI,BETAYI,BETAZI,
+     . 
      . BETAXXI,BETAYXI,BETAZXI,
      . BETAXYI,BETAYYI,BETAZYI,
      . BETAXZI,BETAYZI,BETAZZI,
      . ALPHAJ,ALPHAXJ,ALPHAYJ,ALPHAZJ,
-     . BETAXJ,BETAYJ,BETAZJ,
+     . 
      . BETAXXJ,BETAYXJ,BETAZXJ,
      . BETAXYJ,BETAYYJ,BETAZYJ,
      . BETAXZJ,BETAYZJ,BETAZZJ,
-     . BETAX,WGRDX,WGRDY,WGRDZ,WGRD(3),
+     . WGRDX,WGRDY,WGRDZ,WGRD(3),
      . GRADTXI,GRADTYI,GRADTZI,
      . GRADTXJ,GRADTYJ,GRADTZJ
 C-------------------------------------------
@@ -297,7 +297,7 @@ C-------------------------------------------
        WLAPLT(N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul du Laplacien(T).
+C     Calculation of Laplacian(T).
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
@@ -483,7 +483,7 @@ C
 C--------
        END DO
 C------
-C      partie symetrique.
+C      symmetrical part.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)
@@ -524,7 +524,7 @@ C      partie symetrique.
 !     .     +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .      (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C         noyau conjugue.
+C         nucleus combines.
           ALPHAJ=WACOMP(1,SM)
 C          BETAXJ=WSMCOMP(1,JS)
 C          BETAYJ=WSMCOMP(2,JS)
@@ -601,7 +601,7 @@ C
 !     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C          noyau conjugue.
+C          nucleus combines.
            ALPHAJ=WACOMPR(1,SM)
 C           BETAXJ=WSMCOMP(1,JS)
 C           BETAYJ=WSMCOMP(2,JS)
@@ -690,7 +690,7 @@ C-----------------------------------------------
      .       NX,NY,NZ,TX,TY,TZ,NN,
      .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ
 C-----------------------------------------------
-C       Prepare le gradient de temperature sur les particules symetriques.
+C       PREPARE Gradient temperature on symmetric particles.
 C-----------------------------------------------
       OX = ZERO
       OY = ZERO
@@ -754,7 +754,7 @@ C         ENDIF
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO SS=1,NSPHR
          JS=ISPSYMR(NC,SS)

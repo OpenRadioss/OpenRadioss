@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_write_vector   ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
@@ -51,6 +52,7 @@ C-----------------------------------------------
       USE I22EDGE_MOD    
       USE I22TRI_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,15 +72,15 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: IOK_PART(*),IS_WRITTEN_NODE(*)
       my_real, INTENT(INOUT) :: X(3,NUMNOD)
       my_real, INTENT(INOUT) :: NODAL_VECTOR(3,*)
-      REAL R4
+ 
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: ICELLM,NCELL,NBF,NBL,ICELL,NIN,NODE_ID,IB,NG,I
-      INTEGER :: IAD0, NNODES, II, NFACE, J, K, IE,IGR
-      my_real :: rho_cell, RHO(4)
+      INTEGER :: NCELL, NBF, NBL, ICELL, NIN, NODE_ID, IB, I
+      INTEGER :: NNODES, II, J, IE, IGR
+ 
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
       LOGICAL :: lStillNode
       my_real VALUE(3)

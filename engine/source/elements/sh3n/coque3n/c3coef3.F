@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISH,MX,IPID,J,IGTYP,IGMAT,IPGMAT,IPOS
+      INTEGER I,ISH,MX,IGTYP,IGMAT,IPGMAT,IPOS
 C     REAL
       my_real
      .   FAC1,FSH,VISCDEF,Z0  
@@ -85,7 +85,7 @@ C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
 C
       IF (MTN == 19) THEN
         VISCDEF=FOURTH
-      ELSEIF (MTN == 25.OR.MTN == 27) THEN
+      ELSEIF (MTN == 25 .OR. MTN == 27 .OR. MTN == 123 .OR. MTN == 125 .OR. MTN == 127 .OR. MTN == 132) THEN ! must be rechecked for type51,17, 11, pcompp
         VISCDEF=FIVEEM2
       ELSE
         VISCDEF=ZERO
@@ -151,7 +151,7 @@ C
       SELECT CASE(IGTYP)
         CASE (1,9,10,11,16)
            DO I=JFT,JLT
-            ZOFFSET(I) = Z0
+            ZOFFSET(I) = Z0*THK0(I)
            ENDDO 
         CASE (17,51,52)
             IPOS   = IGEO(99,PID(1))

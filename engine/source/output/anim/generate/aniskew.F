@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_igath     ../engine/source/mpi/anim/spmd_igath.F
-!||    write_s_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ANISKEW(ELBUF_TAB,SKEW,IPARG ,X     ,IXT ,
      .                   IXP      ,IXR ,GEO   ,DD_IAD,BUFL)
@@ -36,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +62,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ISK(6),NEL,NEL3,OFFSET,LFT,LLT,NG,
+      INTEGER I,ISK(6),NEL,LFT,LLT,NG,
      .   ITY,IAD,MLW,NFT,N,II,LEN,IPROP,IGTYP,WA(BUFL),JJ,NUVAR
       my_real
      .   EX(9),S3000,X1,Y1,Z1,X2,Y2,Z2,S
@@ -86,7 +88,7 @@ C   seul proc0 ecrit en spmd
 C-----------------------------------------------
 C      SKEW ELEMENT 1D
 C-----------------------------------------------
-C   il faut recuperer les donnees sur les procs
+C   need to retrieve data on the processors
       II = 0
       DO NG=1,NGROUP
         MLW   =IPARG(1,NG)
@@ -130,7 +132,7 @@ C-----------------------------------------------
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
+C              ENDIF
             ENDDO
 C-----------------------------------------------
 C       POUTRES
@@ -248,7 +250,7 @@ C-----------------------------------------------
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
+C              ENDIF
             ENDDO
 
           ELSEIF(IGTYP==13 .OR. IGTYP == 23)THEN
@@ -269,7 +271,7 @@ c              ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
           ELSEIF(IGTYP == 25)THEN
             DO I=LFT,LLT
@@ -289,7 +291,7 @@ c             ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
           ELSEIF(IGTYP>=29.AND.IGTYP<=32)THEN
             DO I=LFT,LLT
@@ -309,7 +311,7 @@ c             ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
 
           ELSEIF ((IGTYP==33).OR.(IGTYP==45))THEN
@@ -337,7 +339,7 @@ c             ENDIF
         ELSE
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE
+C       end of loop
 C-----------------------------------------------
       ENDDO
 

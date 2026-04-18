@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
 !||====================================================================
       module fail_visual_ib_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   Visual failure criteria for type18 beam elements
@@ -87,11 +88,11 @@
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i,j,nindx,nindxd,type_max,f_flag,strdef,strflag
+          integer :: i,j,nindx,nindxd,type_max,f_flag,strdef
           integer ,dimension(nel) :: indx,indxd
-          real(kind=WP) :: rfac,r1,r2,ie_sp,dydx,rief1,rief2,xfac,finter,fact, &
+          real(kind=WP) :: finter, &
             eps11,eps22,eps33,eps12,eps13,eps23,i1,i2,i3, &
-            e_eq,e_eq1,e11,e22,e33,e_eq2,q,r,r_inter,phi, &
+            e11,e22,e33,q,r,r_inter,phi, &
             c_min,c_max,ema,f,ff, &
             sig11,sig22,sig33,sig12,sig13,sig23
           external finter
@@ -129,7 +130,7 @@
           do i=1,nel
             damage(i) = zero
             !epsyy = 0, epszz = 0, epsyz = 0
-          enddo
+          end do
 
           ! second, calculation of the maximum 1st principle strain
           do i=1,nel
@@ -210,19 +211,19 @@
                   r_inter = e11
                   e11     = e22
                   e22     = r_inter
-                endif
+                end if
                 if (e22 < e33)then
                   r_inter = e22
                   e22     = e33
                   e33     = r_inter
-                endif
+                end if
                 if (e11 < e22)then
                   r_inter = e11
                   e11     = e22
                   e22     = r_inter
-                endif
+                end if
 !c
-              endif !type_max
+              end if !type_max
 
               if (ema == one .and. ff /= zero .and. f_flag > 1) then
 !c-----------------------------------------------
@@ -314,7 +315,7 @@
                   uvar(i,10) = one
                   uvar(i,11) = one
 
-                endif
+                end if
 
                 e11 = a2(1)
 
@@ -322,7 +323,7 @@
                 !without filtering
                 e11        = ema * e11 + ( one - ema ) * uvar(i,2)
                 uvar(i,2)  = e11
-              endif
+              end if
 
               damage(i)    =  max(zero , min(one ,(e11-c_min)/max(em6,(c_max-c_min)) ))
               uvar(i,1)    =  max(uvar(i,1),damage(i))
@@ -331,8 +332,8 @@
                 if (dfmax(i) < em6  ) then
                   nindxd = nindxd + 1
                   indxd(nindxd) = i
-                endif
-              endif
+                end if
+              end if
 
               dfmax(i)     =  uvar(i,1)
 
@@ -340,9 +341,9 @@
                 nindx = nindx + 1
                 indx(nindx) = i
                 dfmax(i)  = one
-              endif
+              end if
 
-            endif  ! uvar(i,1) < one
+            end if  ! uvar(i,1) < one
           end do
 
 !c------------------------
@@ -366,10 +367,10 @@
             end do
           end if   ! nindx
 !c------------------
-1000      format(5x,'failure (visual) of beam element ',i10,1x,',integration pt',i5 &
-            ,2x,'at time :',1pe12.4,1x)
-2000      format(5x,'start damage (visual) of beam element ',i10,1x,',integration pt',i5 &
-            ,2x,'at time :',1pe12.4,1x)
+1000      format(5x,"failure (visual) of beam element ",i10,1x,",integration pt",i5 &
+            ,2x,"at time :",1pe12.4,1x)
+2000      format(5x,"start damage (visual) of beam element ",i10,1x,",integration pt",i5 &
+            ,2x,"at time :",1pe12.4,1x)
 !c------------------
           return
 

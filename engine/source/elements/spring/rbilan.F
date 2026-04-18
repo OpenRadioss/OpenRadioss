@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
 !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE RBILAN(
@@ -40,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,17 +71,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J, ILENG, FLAG
+      INTEGER I,MX, ILENG, FLAG
       my_real
      .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
      .   V1(MVSIZ,3),V2(MVSIZ,3),
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
      .   XMAS2(MVSIZ), REINTT,
-     .   XMAS(MVSIZ), RHO(MVSIZ), INEL,
+     .   XMAS(MVSIZ), INEL,
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
-     .   VA1,XM1PHI,XM2PHI,RBIDON(1),OFF(MVSIZ),
-     .   IN2, EI(MVSIZ),REK(MVSIZ),
+     .   RBIDON(1),OFF(MVSIZ),
+     .   IN2,REK(MVSIZ),
      .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),

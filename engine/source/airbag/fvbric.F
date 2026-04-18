@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, NBX, NBY, NBRIC, NNB, IFV, NNB1, J, K, NV, NALL,
+      INTEGER I, NBX, NBY, NBRIC, NNB, IFV, NNB1, J, K, NV, NALL,
      .        NC, TNC(4), TNV(5,6), KK, L, N1, N2, N3, N4, N5, N6, N7,
      .        N8, I1, I2 
       my_real
@@ -74,7 +74,7 @@ C
 C
       IFV=IVOLU(45)
       IF (NSPMD == 1) THEN
-C traitement necessaire pour rester p/on
+C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
             I1=FVSPMD(IFV)%IBUF_L(1,I)
             I2=FVSPMD(IFV)%IBUF_L(2,I)

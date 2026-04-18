@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3       XMAX     ,YMAX , ZMAX  , C_MAX , CURV_MAX,
      4       ICURV    ,IRECT, NRTM_T, SX    , SY      ,
      5       SZ       ,SX2  , SY2   , SZ2   , NMN_L   )
-C sauvegarde des XSAV et calcul borne domaine
+C saving XSAV and computing domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,ITASK, ICURV, NRTM_T,
-     .        NSV(*),MSR(*), IRECT(4,*),NMN_L,NTY,INACTI
+     . NSV(*),MSR(*), IRECT(4,*),NMN_L
       my_real
      .        XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, C_MAX,
      .        SX, SY, SZ, SX2, SY2, SZ2,
@@ -56,8 +56,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
-      my_real
-     .        XXX, YYY, ZZZ 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

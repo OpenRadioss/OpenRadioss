@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    snorm3                 ../engine/source/multifluid/snorm3.F
 !||    snorm3t                ../engine/source/multifluid/snorm3t.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
       SUBROUTINE MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, XGRID, WGRID, MULTI_FVM)
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

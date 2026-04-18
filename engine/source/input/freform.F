@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -577,9 +577,20 @@ C--------------------
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990,END=9990)DTIN,DTMX
+       IF(DTMX < ZERO)THEN
+         CALL ANCMSG(MSGID=316,ANMODE=ANINFO,C1='/DTIX : PARAMETER DT_MAX MUST BE STRICTLY POSITIVE')
+         IERR=IERR+1
+       ENDIF
+       IF(DTMX == ZERO)DTMX=EP20
+       IF(DTMX /= EP20 )THEN
+         IF(DTIN > DTMX)THEN
+           CALL ANCMSG(MSGID=316,ANMODE=ANINFO,C1='/DTIX : PARAMETER DT_INI MUST BE LOWER THAN DT_MAX')
+           IERR=IERR+1
+         ENDIF
+       ENDIF
       ELSE
        DTIN=ZERO
-       DTMX=EP30
+       DTMX=EP20
       ENDIF
 C--------------------
 C     /FLSEC
@@ -845,13 +856,17 @@ C--------------------------
       WRITE(CHRUN,'(I4.4)')IRUNN
       
 C-----------------------
-C   /NEGVOL  (SMSTR: INEG_V=1;STOP: INEG_V=0)
+C   /NEGVOL  (SMSTR: INEG_V=1;STOP: INEG_V=0, DEL: INEG_V=2)
 C--------------------------------------------------------
       IKEY   = KNEGVOL
       INEG_V = 1
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
         READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
-        IF(KEY2(1:4)=='STOP') INEG_V = 0
+        IF(KEY2(1:4)=='STOP') THEN
+          INEG_V = 0
+        ELSEIF(KEY2(1:3)=='DEL') THEN 
+          INEG_V = 2
+        END IF
       END IF
 
 C-----------------------
@@ -1202,7 +1217,7 @@ C           if /DT/AMS is read later, then following definition can be erased
            IDTMIN(52) = ID_DT_OPTION   
          ELSEIF(KEY3(1:1)=='2')THEN
            ID_DT_OPTION = 2
-           !option requires an airbag_id.
+           !Option REQUIRS AIRBAG_ID.
          ELSE
            ID_DT_OPTION = 1
            DTFAC1(52) = DTFACA
@@ -1753,7 +1768,7 @@ C--------------------
        ENDIF
        K = K + 1 + NBC
       ENDDO
-      WRITE(IIN,'(I8)') LOWMACH_OPT
+      ALE%GLOBAL%HLLC_LOWMACH = LOWMACH_OPT
 
 C--------------------------
 C     /DEL
@@ -2497,7 +2512,7 @@ C--------------------
 C-----------------------
 C     /ANIM (ANIMATION FILES)
 C-----------------------
-      CALL FREANIM(IKAD(0),KEY0,KANIM,SENSORS)
+      CALL FREANIM(output,IKAD(0),KEY0,KANIM,SENSORS)
 C-----------------------
 C     /OUTP (OUTPUT FILES)
 C-----------------------

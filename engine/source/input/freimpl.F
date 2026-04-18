@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -431,7 +431,7 @@ C----------------------------
          IF(KEY3(1:3)=='OFF') THEN
           IRREF = 0
          ELSEIF(KEY3(1:5)=='INTER')THEN
-C-----0 agressive, 1: moyen ----2--faible  3  non--4 non sauf 1er---
+C----- 0 Aggressive, 1: Middle ---- 2--FAIBLE 3 NON-4 NO except 1st ---
           READ(KEY4,'(I2)')IM
           IREFI = IM
          ELSEIF(KEY3(1:5)=='LIMIT')THEN
@@ -608,7 +608,7 @@ C-----------------------------------------------
      .        S(N),SMIN
 C
       IF (N==0) RETURN
-C-----en ordre croisante-----
+C----- In increasing order -----
       NN =0
       DO I =1,N
        IF (RC(I)>ZERO) THEN

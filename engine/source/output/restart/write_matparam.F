@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,11 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_ale_rezoning_param       ../engine/source/output/restart/write_ale_rezoning_param.F90
-!||    write_c_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c                      ../common_source/tools/input_output/write_routines.c
 !||    write_db                       ../common_source/tools/input_output/write_db.F
 !||    write_eosparam                 ../engine/source/output/restart/write_eosparam.F90
 !||    write_failparam                ../engine/source/output/restart/write_failparam.F
-!||    write_i_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                      ../common_source/tools/input_output/write_routines.c
 !||    write_mat_table                ../engine/source/materials/tools/write_mat_table.F
 !||    write_thermparam               ../engine/source/output/restart/write_thermparam.F90
 !||    write_viscparam                ../engine/source/output/restart/write_viscparam.F
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       use write_therpmaram_mod
       use write_ale_rezoning_param_mod , only : write_ale_rezoning_param
+!     use write_eosparam_mod , only : write_eosparam
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,12 +60,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NUMMAT,IMAT,NUPARAM,NIPARAM,NUMTABL,NFAIL,ITHERM
+      INTEGER :: I,NUMMAT,IMAT,NUPARAM,NIPARAM,NUMTABL,NFAIL
       INTEGER :: IAD,NFIX,NFIXR,LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       INTEGER :: NBSUBMAT
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
+      INTEGER :: OLDFORMAT
 C=======================================================================
       NFIX = 24
       NUMMAT = MAT_ELEM%NUMMAT
@@ -165,10 +167,7 @@ c
 c     write thermal parameters
 c
       DO IMAT = 1,NUMMAT
-        itherm = mat_elem%mat_param(imat)%itherm
-        if (itherm > 0) then
-          CALL WRITE_THERMPARAM(MAT_ELEM%MAT_PARAM(IMAT)%THERM)
-        END IF
+        CALL WRITE_THERMPARAM(MAT_ELEM%MAT_PARAM(IMAT)%THERM)
       END DO      
 c      
 c     write parameters of failure models per material
@@ -195,29 +194,38 @@ c
         ENDIF
       ENDDO
 
-      ! Write multimaterial buffer
-      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
-      ALLOCATE (RBUF(21) )
-      DO IMAT = 1,NUMMAT
-        NBSUBMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB
-        IBUF(1) = NBSUBMAT
-        CALL WRITE_I_C(IBUF, 1)
-        IF(NBSUBMAT > 0)THEN
-          IBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid
-          RBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac
-          CALL WRITE_I_C(IBUF, NBSUBMAT)
-          CALL WRITE_DB(RBUF, NBSUBMAT)
-        ENDIF
-      ENDDO
-      DEALLOCATE(IBUF)
-      DEALLOCATE(RBUF)
-
       ! write eos model parameters
       DO IMAT = 1,NUMMAT
         IF (MAT_ELEM%MAT_PARAM(IMAT)%IEOS > 0) THEN
           CALL WRITE_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
         END IF
       END DO
+
+      ! Write multimaterial buffer
+      ALLOCATE (IBUF(21) ) !< max is 21 submaterials
+      ALLOCATE (RBUF(21) )
+      DO IMAT = 1,NUMMAT
+        NBSUBMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB
+        OLDFORMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%old_data_format
+        IBUF(1) = NBSUBMAT
+        IBUF(2) = OLDFORMAT
+        CALL WRITE_I_C(IBUF, 2)
+        IF(NBSUBMAT > 0)THEN
+          IBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid
+          RBUF(1:NBSUBMAT) = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac
+          CALL WRITE_I_C(IBUF, NBSUBMAT)
+          CALL WRITE_DB(RBUF, NBSUBMAT)
+           IF(OLDFORMAT == 1)THEN
+             !embedded EOS parameters
+             DO I = 1,NBSUBMAT
+               CALL WRITE_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%EOS(I))
+             END DO
+          ENDIF
+        ENDIF
+      ENDDO
+      DEALLOCATE(IBUF)
+      DEALLOCATE(RBUF)
+
       
       ! write ALE rezoning parameters
       DO IMAT = 1,NUMMAT

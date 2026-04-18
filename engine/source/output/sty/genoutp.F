@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    count_arsz_sptt   ../engine/source/output/sty/outp_sp_t.F
 !||    count_arsz_ss     ../engine/source/output/sty/outp_s_s.F
 !||    count_arsz_st     ../engine/source/output/sty/outp_s_t.F
-!||    filelen_sys       ../common_source/tools/input_output/write_routtines.c
+!||    filelen_sys       ../common_source/tools/input_output/write_routines.c
 !||    outp_arsz_cs      ../engine/source/mpi/interfaces/spmd_outp.F
 !||    outp_arsz_ct      ../engine/source/mpi/interfaces/spmd_outp.F
 !||    outp_arsz_rs      ../engine/source/mpi/interfaces/spmd_outp.F
@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod         ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
 !||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    stack_mod         ../engine/share/modules/stack_mod.F
@@ -73,7 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  IXS   ,IXQ       ,IXC    ,IXT   ,IXP   ,
      3                  IXR   ,IXTG      ,IPARG  ,PM    ,IGEO  ,
      4                  MS    ,CONT      ,ITAB   ,PARTSAV,FINT ,
-     5                  FEXT  ,TANI      ,EANI   ,ANIN  ,IPART ,
+     5                  FEXT  ,TANI      ,EANI   ,IPART ,
      6                  VR    ,ELBUF_TAB ,DD_IAD,WEIGHT,
      7                  IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG ,
      8                  FOPT  ,NOM_OPT   ,NPBY   ,FNCONT   ,FTCONT,
@@ -87,6 +88,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE DRAPE_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -120,7 +122,7 @@ C-----------------------------------------------
      .        LENG,NODGLOB(*), NOM_OPT(*), NPBY(*)
       my_real
      .        X(*), D(*), V(*), VR(*), A(*),
-     .        PM(NPROPM,*), MS(*),ANIN(*),
+     .        PM(NPROPM,*), MS(*),
      .        CONT(*), PARTSAV(*),FINT(*),FEXT(*),TANI(6,*),EANI(*),
      .        SPBUF(*), FOPT(*), FNCONT(3,*), FTCONT(3,*),GEO(*),THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -134,7 +136,7 @@ C-----------------------------------------------
       CHARACTER CHOUTP*4,FILNAM*100,T10*10,MES*40,VAR_CHAR*11,CHAR_JJ*2,
      .          TITRE*40
       INTEGER FILEN,I,INNODA,J,JJ
-      INTEGER LENR,SIZLOC,SIZP0,SIZP0_95_96
+      INTEGER SIZLOC,SIZP0
       INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I
       INTEGER SIZWR_CT(3),SIZP0_CT(3),SIZLOC_CT(3),
      .        SIZWR_CS(2),SIZP0_CS(2),SIZLOC_CS(2),
@@ -261,7 +263,7 @@ C-----------------------------------------------
       INNODA=0
       IF(OUTP_N(1) == 1) CALL OUTP_NO('NODAL_DT  ',
      .   ' Nodal Time Step                        ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DT,NUMNOD,ITAB,INNODA,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
       IF(OUTP_N(1)+ANIM_N(1)>=1)
@@ -269,7 +271,7 @@ C-----------------------------------------------
 
       IF(OUTP_N(2) == 1) CALL OUTP_NO('NOD_ADMAS ',
      .   ' Added Mass                             ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DMAS,NUMNOD,ITAB,0,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
       IF(OUTP_N(2)+ANIM_N(2)>=1)
@@ -277,7 +279,7 @@ C-----------------------------------------------
 
       IF(OUTP_N(3) == 1) CALL OUTP_NO('NOD_ADINER',
      .   ' Added Inertia                          ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DINER,NUMNOD,ITAB,0,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
 C     IF(OUTP_N(3)+ANIM_N(12)>=1)

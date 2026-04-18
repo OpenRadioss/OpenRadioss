@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE LECTRANSSUB(X      ,IGRNOD,ITAB,ITABM1,UNITAB,
-     .                       RTRANS ,LSUBMODEL,IS_DYNA)
+     .                       RTRANS ,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
+     .                       NSPCOND  ,NUMSPH ,SISKWN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +71,8 @@ C-----------------------------------------------
      .   X(3,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER IS_DYNA
+      INTEGER, INTENT(IN) :: LISKN,NSPCOND,NUMSPH,SISKWN
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,SISKWN/LISKN)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -79,7 +82,7 @@ C-----------------------------------------------
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,ITRANSSUB,IBID,
      .   NTAG,CTAG,ISU,IDU,IDNOD,
-     .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR
+     .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB !NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
@@ -90,13 +93,13 @@ C-----------------------------------------------
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
      .   SCAL2, SCAL3, EPS,XC(3)
-      CHARACTER KEY*10
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       CHARACTER(LEN=NCHARLINE) ::CART,SOLVERKEYWORD
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      LOGICAL IS_AVAILABLE
+      LOGICAL IS_AVAILABLE,IS_FOUND
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -168,6 +171,7 @@ C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
+     .                       SUBMODEL_INDEX = SUB_INDEX,
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
         RTRANS(I,19) = ID
@@ -214,8 +218,30 @@ C
           CALL HM_GET_FLOATV('translation_x',TX,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
+
+          ISK = 0
+          IF (ISK0 > 0) THEN
+              IS_FOUND = .FALSE.
+              DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+                IF (ISK0 == ISKWN(4,J+1)) THEN
+                  ISK=J+1
+                  IS_FOUND = .TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(.NOT. IS_FOUND)THEN
+                CALL ANCMSG(MSGID=3117,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1= ID,
+     .                      C1= TITR,
+     .                      I2= ISK0)
+              ENDIF
+          ENDIF
 c
           IF (N0 > 0 .OR. N1 > 0) THEN
+            ISK = 0
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
             IF (I0 == 0) THEN
@@ -236,11 +262,17 @@ c
             END IF
 C
 C TRANSFORMATION OF COORDS OF NODES N0 & N1
+            X0(1) = X(1,I0)
+            X0(2) = X(2,I0) 
+            X0(3) = X(3,I0)
             IF(TAGNODSUB(I0) == ITRANSSUB) THEN
               DO J=1,I-1
                 IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
               END DO
             END IF
+            X1(1) = X(1,I1)
+            X1(2) = X(2,I1) 
+            X1(3) = X(3,I1)
             IF(TAGNODSUB(I1) == ITRANSSUB) THEN
               DO J=1,I-1
                 IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
@@ -258,6 +290,7 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
           RTRANS(I,16) = TY
           RTRANS(I,17) = TZ
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
+          RTRANS(I,23) = ISK
 C
           ROT(1:9)=ZERO
           ROT(1) = ONE
@@ -266,7 +299,7 @@ C
 C
           WRITE(IOUT,500) ID,ID_TRANSSUB   
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
-          WRITE(IOUT,510) S,TX,TY,TZ
+          WRITE(IOUT,510) S,TX,TY,TZ,ISK0
 C----
         ELSEIF (KEY(1:3) == 'ROT') THEN
 C
@@ -651,7 +684,21 @@ C--------------------------------------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=N0)
+              X0(1) = ZERO
+              X0(2) = ZERO
+              X0(3) = ZERO
+            ELSE
+C
+              X0(1) = X(1,I0)
+              X0(2) = X(2,I0) 
+              X0(3) = X(3,I0)
+              IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+                END DO
+              END IF
             END IF
+
             IF (I1 == 0) THEN
               CALL ANCMSG(MSGID=694,
      .                    MSGTYPE=MSGERROR,
@@ -659,13 +706,19 @@ C--------------------------------------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=N1)
+              X1(1) = ZERO
+              X1(2) = ZERO
+              X1(3) = ZERO
+            ELSE
+              X1(1) = X(1,I1)
+              X1(2) = X(2,I1) 
+              X1(3) = X(3,I1)
+              IF(TAGNODSUB(I1) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
+                END DO
+              END IF
             END IF
-            X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
-            X0(3) = X(3,I0)
-            X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
-            X1(3) = X(3,I1)
           ELSE
             X0(1) = X0(1) * FAC_L 
             X0(2) = X0(2) * FAC_L  
@@ -674,18 +727,6 @@ C--------------------------------------------------
             X1(2) = X1(2) * FAC_L  
             X1(3) = X1(3) * FAC_L 
           ENDIF
-C
-          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
-            END DO
-          END IF
-C
-          IF(TAGNODSUB(I1) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
-            END DO
-          END IF
 C
           DO J=1,3
             RTRANS(I,J+11) = X0(J)
@@ -705,10 +746,18 @@ C
 C
           CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
 C
-          CALL HM_GET_FLOATV('scalefactor_x',RTRANS(I,20),IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('scalefactor_y',RTRANS(I,21),IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('scalefactor_z',RTRANS(I,22),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_x',SX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_y',SY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('scalefactor_z',SZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c          
+          IF (SX == ZERO) SX = ONE
+          IF (SY == ZERO) SY = ONE
+          IF (SZ == ZERO) SZ = ONE
+c
+          RTRANS(I,20) = SX
+          RTRANS(I,21) = SY
+          RTRANS(I,22) = SZ
+c
           IF (N0 > 0) THEN
             I0 = USRTOS(N0,ITABM1)
             IF (I0 == 0) THEN
@@ -725,18 +774,22 @@ c
               X0(1) = X(1,I0)
               X0(2) = X(2,I0) 
               X0(3) = X(3,I0)
+              IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+                END DO
+              END IF
             ENDIF
+          ELSE
+            X0(1) = ZERO
+            X0(2) = ZERO
+            X0(3) = ZERO
           ENDIF
 C
           DO J=1,3
             RTRANS(I,J+11) = X0(J)
           ENDDO
 C
-          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
-            END DO
-          END IF
 C
           WRITE(IOUT,1000) ID,ID_TRANSSUB   
           WRITE(IOUT,1010) RTRANS(I,12),RTRANS(I,13),RTRANS(I,14),RTRANS(I,20),RTRANS(I,21),RTRANS(I,22)
@@ -759,7 +812,6 @@ C-----------------------
      .'  ---------------------- ')
  200  FORMAT(10X,'   NODES           N0   . . . . .= ',I10/,
      .       10X,'                   N1   . . . . .= ',I10)
- 300  FORMAT(10X,'   CENTER NODE     N0   . . . . .= ',I10)
  500  FORMAT(/
      . '    SUBMODEL TRANSLATION, TRANSFORMATION ID   = ',I10/,                        
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
@@ -767,7 +819,8 @@ C-----------------------
  510  FORMAT(10X,'   VALUE. . . . . . . . . . . . .= ',E20.13/,
      . '             COORDINATES     X. . . . . . .= ',E20.13/,
      . '                             Y. . . . . . .= ',E20.13/,
-     . '                             Z. . . . . . .= ',E20.13)
+     . '                             Z. . . . . . .= ',E20.13/,
+     . '             Skew_ID  . . . . . . . . . . .= ',I10)
  600  FORMAT(/
      . '    SUBMODEL ROTATION, TRANSFORMATION ID.     = ',I10/,                       
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
@@ -830,7 +883,6 @@ C-----------------------
      . '                             Y  . . . . . .= ',E20.13/,
      . '                             Z  . . . . . .= ',E20.13)
 
- 3000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
  3500 FORMAT( 17X,I10,3(5X,E20.13))
 C-----------------------
       RETURN

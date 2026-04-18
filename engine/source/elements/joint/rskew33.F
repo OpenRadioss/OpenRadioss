@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rskew33      ../engine/source/elements/joint/rskew33.F
+!||    rskew33       ../engine/source/elements/joint/rskew33.F
 !||--- called by ------------------------------------------------------
-!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||    rgjoint       ../engine/source/elements/joint/rgjoint.F
 !||--- calls      -----------------------------------------------------
-!||    get_u_skew   ../engine/source/user_interface/uaccess.F
-!||    inv3         ../engine/source/elements/joint/rskew33.F
-!||    prod_ab      ../engine/source/elements/joint/rskew33.F
-!||    qrot33       ../engine/source/elements/joint/rskew33.F
+!||    get_u_skew    ../engine/source/user_interface/uaccess.F
+!||    inv3          ../engine/source/elements/joint/rskew33.F
+!||    prod_ab       ../engine/source/elements/joint/rskew33.F
+!||    qrot33        ../engine/source/elements/joint/rskew33.F
 !||--- uses       -----------------------------------------------------
-!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    sensor_mod    ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE RSKEW33(JFT    ,JLT     ,IXR   ,IOUT  ,IPROP,
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C IXR      | 5*NEL   | I | R | SPRING CONNECTIVITY
 C                            | IXR(1,I) IPROP
@@ -78,15 +80,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JTYP, IERR, NRB, SKFLG,
-     .        IDSK1,IDSK2,ISK1,ISK2,IP1,IP2, 
+      INTEGER I, J, K, JTYP, IERR, SKFLG,
+     . IDSK1,IDSK2,ISK1,ISK2,
      .        N1,N2,N3,USENS,INSENS,
      .        ISENS_OLD,ISENS_ACT     
-      my_real CO,SI,KSI,NX,NY,NZ,TH,
-     .        U(LSKEW),V(LSKEW),U0(LSKEW),V0(LSKEW),EX(LSKEW),
-     .        R1(3),R2(3),RM(3),RL1(3),RL2(3),T(3),
-     .        X1(LSKEW),X2(LSKEW),Q(LSKEW),A0(LSKEW),B0(LSKEW),
-     .        A(LSKEW),B(LSKEW),EXI(LSKEW),
+      my_real CO,SI,NX,
+     . U(LSKEW),V(LSKEW),EX(LSKEW),
+     . R1(3),R2(3),RM(3),
+     . A0(LSKEW),
+     . A(LSKEW),EXI(LSKEW),
      .        GET_U_GEO,NR,DT(3),DEX(LSKEW),EXPREC(LSKEW)
       DOUBLE PRECISION X21(MVSIZ),Y21(MVSIZ),Z21(MVSIZ)
 C-----------------------------------------------
@@ -219,7 +221,7 @@ C-----
             
             CALL INV3(EX,EXI)    
                               
-C----- Calcul du vecteur rotation R12
+C---- Calculation of the rotation vector R12
           X21(I) = (VR(1,NC2(I))-VR(1,NC1(I)))*DT1
           Y21(I) = (VR(2,NC2(I))-VR(2,NC1(I)))*DT1
           Z21(I) = (VR(3,NC2(I))-VR(3,NC1(I)))*DT1
@@ -259,7 +261,7 @@ C-------------------------------------
 C----   mean skew is calculated  -----
 C-------------------------------------
               
-C----- Initialisation de EXPREC
+C----- Initialization of EXPREC
             IF ((NCYCLE==0).AND.(TT==0).AND.(IGTYP==33)) THEN
                CALL PROD_AB(U,A0,A)        
                DO J=1,9
@@ -271,7 +273,7 @@ C----- Initialisation de EXPREC
                  END DO         
               ENDIF
                 
-C----- Calcul de DEX
+C----- Calculation of DEX
             X21(I) = HALF*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
             Y21(I) = HALF*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
             Z21(I) = HALF*(VR(3,NC2(I))+VR(3,NC1(I)))*DT1
@@ -289,13 +291,13 @@ C-----
               SI = SIN(NR)
             CALL QROT33(DEX, DT, CO, SI)
             
-C----- Calcul du nouveau EX    
+C----- Calculation of new EX
             CALL PROD_AB(EXPREC,DEX,EX)
 
 C-------------------------------    
           ENDIF
 C-------------------------------
-C----- Calcul du vecteur rotation R12
+C---- Calculation of the rotation vector R12
           X21(I) = (VR(1,NC2(I))-VR(1,NC1(I)))*DT1
           Y21(I) = (VR(2,NC2(I))-VR(2,NC1(I)))*DT1
           Z21(I) = (VR(3,NC2(I))-VR(3,NC1(I)))*DT1
@@ -317,7 +319,7 @@ C- simple precision - extended sple precsion only for translational dof
             Y21(I) = XDP(2,NC2(I))-XDP(2,NC1(I))
             Z21(I) = XDP(3,NC2(I))-XDP(3,NC1(I))
           ELSE
-C- double precision
+C- Double precision
             X21(I) = X(1,NC2(I))-X(1,NC1(I))
             Y21(I) = X(2,NC2(I))-X(2,NC1(I))
             Z21(I) = X(3,NC2(I))-X(3,NC1(I))  
@@ -406,7 +408,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
      .        PI1    
 C=======================================================================
@@ -458,7 +459,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
      .        PI1      
 C=======================================================================
@@ -513,7 +513,6 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,
      .        U1,U2,U3, U1S, U2S, U3S, S,C,CI
 C=======================================================================
@@ -558,7 +557,6 @@ C====================================================
       SUBROUTINE PROD_ABT(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
-      INTEGER I,J
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
       X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7) 

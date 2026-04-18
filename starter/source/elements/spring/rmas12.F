@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,13 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    rmas12   ../starter/source/elements/spring/rmas12.F
+!||    rmas12        ../starter/source/elements/spring/rmas12.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RMAS12(IXR,GEO,PARTSAV,X  ,V  ,IPART,XL ,MSR    ,INR,MSRT)
+      use element_mod , only : nixr
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +63,7 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT

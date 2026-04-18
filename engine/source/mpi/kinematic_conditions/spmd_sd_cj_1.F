@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,8 +32,8 @@ C
 !||====================================================================
       SUBROUTINE SPMD_SD_CJ_1(A,LJOINT,FR_CJ,IADCJ,ICSIZE,
      .                        TAG_LNK_SMS)
-C envoi de p0 vers les autres procs de A
-C apres traitement des joints cylindriques
+C sending p0 to the other processors for a
+C After treatment of cylindrical joints
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,MSGOFF,IERROR,LOC_PROC,NOD,L,I,J,N,
-     .        IDEB,IAD,SIZ,A_AR,NBINDEX,
+     .        IDEB,SIZ,A_AR,NBINDEX,
      .        INDEXI(NSPMD),REQ_S(NSPMD),STATUS(MPI_STATUS_SIZE),
      .        LEN(NSPMD)
       PARAMETER (A_AR = 3)

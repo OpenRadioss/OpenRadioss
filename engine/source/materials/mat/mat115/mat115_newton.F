@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,14 +77,14 @@ c
 c
       real(kind=8) :: LDAV
       my_real 
-     .   H,TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
+     .   TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
      .   DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,TRDFDS,
      .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,
-     .   DPHI,SIG_DFDSIG,DFDSIG2,DPHI_DPLA,
+     .   SIG_DFDSIG,DFDSIG2,DPHI_DPLA,
      .   I1,I2,I3,Q,R,R_INTER,PSI,S11,S22,S33
 c     
       my_real, DIMENSION(NEL) ::
-     .   SIGVM,SIGEQ,DSIGXX,DSIGYY,DSIGZZ,DSIGXY,DSIGYZ,DSIGZX,TRSIG,
+     .   SIGVM,SIGEQ,TRSIG,
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGM,J2,YLD,HARDP,PHI,DPLA_DLAM,DPHI_DLAM,
      .   DEFVP
       !=======================================================================
@@ -347,7 +347,7 @@ c
      .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
      .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
           Q  = (THREE*I2 - I1*I1)/NINE
-          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PSI = ACOS(MAX(R_INTER,-ONE))
           S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1

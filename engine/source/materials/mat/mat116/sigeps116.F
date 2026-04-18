@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,9 +57,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II,IEL,IORDER1,IORDER2,IFAIL1,IFAIL2,ICRIT,NINDXF,NINDXD
       INTEGER ,DIMENSION(NEL)  :: INDXF,INDXD
-      my_real :: RHO0,E,G,GC1_INI,GC2_INI,GC1_INF,GC2_INF,RATG1,RATG2,
+      my_real :: E,G,GC1_INI,GC2_INI,GC1_INF,GC2_INF,RATG1,RATG2,
      .   FG1,FG2,SIGA1,SIGA2,SIGB1,SIGB2,RATE1,RATE2,DTINV,EPSDOT,
-     .   ALPHA,ALPHAI,BETA,DM,DPN,DPT,DPT1,DPT2,DAM,DEPS,STF,ET2,
+     .   ALPHA,ALPHAI,BETA,DM,DPN,DPT,DPT1,DPT2,DAM,STF,ET2,
      .   BB,DTB,FACT1,FACT2,THICK
       my_real, DIMENSION(NEL) :: YLD_N,YLD_T,GC_N,GC_T,EPSM1,EPSM2,EPSMF,
      .   COSG,SING,EPSN,EPST,EPSM,EPSN1,EPSN2,EPST1,EPST2,EPSP,
@@ -172,7 +172,7 @@ c
         END IF    
       END IF    
 c-------------------------
-c     Strain rate dependent fracture energies     
+c     Strain Rate depends fracture Energies     
 c-------------------------
       GC_N(:NEL) = GC1_INI
       GC_T(:NEL) = GC2_INI

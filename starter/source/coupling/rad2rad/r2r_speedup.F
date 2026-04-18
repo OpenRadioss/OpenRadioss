@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -371,7 +371,7 @@ C--     beam element time step --
               ENDIF
             END DO
           ENDIF
-C--     truss element time step --
+C-Truss Time Step element-
         ELSEIF (KEYA(1:9)=='/DT/TRUSS') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(5) = DTSCA 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C
 C     NAME          DESCRIPTION                         
 C
 C     IBOX          BOX structure
-C     X             Node position 
+C     X node position 
 C     SKEW          SKEW array
 C     NOD_ARRAY     Result list of nodes
 C     ND_SIZE       number of stacked nodes
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INSIDE,ISK,BOX_TYPE,NBOXBOX,IBX
+      INTEGER I, J, INSIDE, ISK, BOX_TYPE, IBX
       my_real
      .    XP1,YP1,ZP1,XP2,YP2,ZP2,DIAM,NODINB(3)
 C-----------------------------------------------

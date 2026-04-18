@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -92,6 +92,8 @@ C-----------------------------------------------
       USE checksum_output_option_mod
       USE checksum_starter_option_mod
       use hm_read_th_checksum_mod
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use seatbelt_mod , only : NGUIDED_CABLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1185,6 +1187,9 @@ C   monitored volume
      . 'AO      ','UO      ','AC      ','UC      ','CP      ',
      . 'CV      ','GAMA    ','DTBAG   ','NFV     ','MASS-IN ',
      . 'ENTHA-IN','ENER-INT','WORK    ','UPCRIT  '/
+C
+C Caution : all variables added or defined in VARMV/ must be added also in VARMVENT/
+C
       DATA VARMVENT/
      . 'MASS    ','VOL     ','P       ','A       ','T       ',
      . 'AO      ','UO      ','AC      ','UC      ','CP      ',
@@ -1244,7 +1249,7 @@ C   frames
       DATA VARGAU/
      . 'P       ','IE      ','DENS    ','T       ','PA      ',
      . 'PAX     ','PAY     ','PAZ     '/
-C     element cluster
+C     cluster element
       DATA VARCLUS/
      . 'FX      ','FY      ','FZ      ','MX      ','MY      ',
      . 'MZ      ','FS      ','FN      ','MS      ','MN      ',
@@ -1889,14 +1894,14 @@ C   options 20--->100  IVSG=196
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options  101--->118 IVSG= 763
+C  Options 101 ---> 118 IVSG = 763
       DO I=101,118
        DO J=1,7
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options  118--->199 IVSG= 889
+C  Options 118 ---> 199 IVSG = 889
       DO I=119,199
        DO J=1,9
         IVARSG(J,I)= IVSG + J
@@ -1907,28 +1912,28 @@ C  Options  118--->199 IVSG= 889
         IVARSG(J,200)= IVSG + J
        ENDDO
          IVSG = IVSG + 6
-C  Options 201--->202 IVSG= 1624
+C  Options 201 ---> 202 IVSG = 1624
       DO I=201,202
        DO J=1,11
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 11
       ENDDO
-C  Options 203--->19984    IVSG= 1646
+C  Options 203 ---> 19984 IVSG = 1646
       DO I=203,19984
        DO J=1,6
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 6
       ENDDO
-C  Options 203--->19984    IVSG= 120338
+C  Options 203 ---> 19984 IVSG = 120338
       DO I=19985,39766
        DO J=1,6
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 6
       ENDDO
-C  Option LOCSTRN
+C  Locstrn option
       DO J=1,6
        IVARSG(J,39767)= 239030 + J
       ENDDO
@@ -2334,7 +2339,7 @@ C
           CALL HM_READ_THGRKI(
      1      101      ,KEY      ,PTR_NOPT_INTER,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
-     3      NVARIN   ,VARIN    ,NINTER+NINTSUB,VARING  ,NVARING  ,
+     3      NVARIN   ,VARIN,NINTER+NINTSUB+NGUIDED_CABLE,VARING  ,NVARING  ,
      4      IVARING  ,NSNE     ,NVALL  ,ITHVAR,FLAGABF ,NVARABF   ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
           IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
@@ -2556,7 +2561,7 @@ C
      4      NVARN ,VARN  ,0     ,VARNG   ,NVARNG   ,       
      5      IVARNG,NSNOD ,NVALL ,IMERGE  ,ITHVAR   ,ITHERM_FE,       
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,IBID,IBID)                          
-C         decode les numeros de skews.                               
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                         
           IAD2=ITHGRP(5,IGS)+NNE                                     
           DO K=1,NNE                                                 
@@ -2567,7 +2572,7 @@ C         decode les numeros de skews.
              GO TO 110                                               
             ENDIF                                                    
  100       CONTINUE                                                  
-C          decode les numeros de frames.                             
+C          decode les numeros de frames.
            DO 101 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,    
      .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+      
      .               (NUMFRAM+1)                                     
@@ -2610,7 +2615,7 @@ C          decode les numeros de frames.
      4      NVARC ,VARC  ,NUMELC,VARCG ,NVARCG   ,
      5      IVARCG,NSELC,NVALL,IMERGE,ITHVAR   ,ITHERM_FE,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH4NM, NUMELC)                           
-C         decode les numeros de skews.                                  
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                            
           IAD2=ITHGRP(5,IGS)+3*NNE                                      
           DO K=1,NNE                                                    
@@ -3160,7 +3165,7 @@ C
         IF(IPART(8,N)>0) NSMAT=NSMAT+1
       ENDDO
 C=======================================================================
-C Tag des groupes avec des parts dans les TH PART et SUBSET non DEF
+C Tag groups with shares in th part and subset not def
 C=======================================================================
       DO NG=1,NGROUP
         NEL=IPARG(2,NG)
@@ -3204,7 +3209,7 @@ C=======================================================================
         ENDDO
       ENDDO
 C=======================================================================
-C print groupe de PART et SUBSET
+C print group of PART and SUBSET
 C=======================================================================
       CALL THPRIN(
      1          'PART      ',IPART ,LIPART1    ,4     ,
@@ -3213,11 +3218,11 @@ C=======================================================================
      1          'SUBSET    ',SUBSET ,ITHFLAG  ,1     ,
      2          NVSUBTH  ,ITHBUF    ,VARPA    ,NSUBS )
 C
-C     LES GROUPES TH PART ET SUBSET NE SONT PLUS UTILISES
+C     TH GROUPS PART AND SUBSET ARE NO LONGER USED
 C
       NTHGRP2=IGS
 C------------------------------------------------
-C Recherce des parts ou subsets dans plusieurs TH
+C Search for shares or subsets in several th
 C------------------------------------------------
       DO I=1,TAGP
         DO J=1, TAGP
@@ -3256,7 +3261,7 @@ C-------------------------------------
      2      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
      3      NVARS7        ,NVARS8        ,NVARS9           ,NVARS10           ,NVARSNLOC        ,
      4      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
-     5      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
+     5      NVARIN        ,NVARRW        ,NVARRB           ,NVARSE            ,
      5      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
      6      NVARGAU       ,NVARFR        ,NVARSLIP         ,NVARRET           ,NVARCLUS         ,
      7      NVARFLOW      ,NVARSURF      ,NVARC            ,NVARSENS          ,
@@ -3266,17 +3271,17 @@ C-------------------------------------
      B      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
      C      VARC_TITLE    ,VARS10_TITLE  ,
      D      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
-     E      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
+     E      VARRW_TITLE   ,VARRB_TITLE   ,VARSE_TITLE      ,VARAC_TITLE       ,
      F      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
      G      VARFR_TITLE   ,VARSLIP_TITLE ,VARRET_TITLE     ,VARCLUS_TITLE     ,VARFLOW_TITLE    ,
      H      VARSURF_TITLE ,VARSENS_TITLE ,
-     I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH        ,
+     I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH         ,
      J      VARP          ,VARR          ,VART             ,VARS1             ,VARS2            ,
      K      VARS3         ,VARS4         ,VARS5            ,VARS6             ,VARS7            ,
-     L      VARS8         ,VARS9         ,VARS10           ,VARSNLOC         ,
+     L      VARS8         ,VARS9         ,VARS10           ,VARSNLOC          ,
      M      VARC          ,
      N      VARNS         ,VARSPH        ,VARIN            ,
-     O      VARRW         ,VARRB         ,VARMV            ,VARSE             ,VARAC            ,
+     O      VARRW         ,VARRB         ,VARSE            ,VARAC             ,
      P      VARJO         ,VARMVENT      ,VARPA            ,VARFX             ,VARGAU           ,
      Q      VARFR         ,VARSLIP       ,VARRET           ,VARCLUS           ,VARFLOW          ,
      R      VARSURF       ,VARSENS       )

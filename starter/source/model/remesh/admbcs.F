@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ADMBCS(IXC,IPARTC,IXTG,IPARTTG,IPART,
      .                  ICODE,ISKEW,ITAB,SH4TREE,SH3TREE)
       USE MESSAGE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,13 +122,15 @@ C
 
 
 !||====================================================================
-!||    admbcs4   ../starter/source/model/remesh/admbcs.F
+!||    admbcs4       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS4(DIR,ICOD ,ISK  ,N    ,IXC    ,
      .                          IPARTC,IPART,ICODE,ISKEW,SH4TREE)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -178,13 +181,15 @@ C-----------------------------------------------
       RETURN
       END     
 !||====================================================================
-!||    admbcs3   ../starter/source/model/remesh/admbcs.F
+!||    admbcs3       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS3(DIR,ICOD,ISK,N,IXTG,
      .                         IPARTTG,IPART,ICODE,ISKEW,SH3TREE)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -204,7 +209,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEVEL,IP,NLEV
-      INTEGER SON,M1,M2,J
+      INTEGER SON, M1, M2
 C-----------------------------------------------
       INTEGER MY_OR
       EXTERNAL MY_OR

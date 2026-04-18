@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i8for3     ../engine/source/interfaces/inter3d/i8for3.F
+!||    i8for3       ../engine/source/interfaces/inter3d/i8for3.F
 !||--- called by ------------------------------------------------------
-!||    intvo8     ../engine/source/interfaces/inter3d/intvo8.F
+!||    intvo8       ../engine/source/interfaces/inter3d/intvo8.F
 !||--- calls      -----------------------------------------------------
-!||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I8FOR3(LFT   ,LLT   ,NFT   ,
+      SUBROUTINE I8FOR3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  E     ,MSR   ,NSV   ,IRTL  ,STF   ,
      .                  NSVGLO,NSV2   ,ILOC,
      3                  STFN  ,IBC   ,ICODT ,FSAV  ,IGIMP ,
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,17 +101,18 @@ C     REAL
      .   FY1(*), FY2(*), FY3(*), FY4(*), FZ1(*), FZ2(*), FZ3(*), FZ4(*)
       my_real  , INTENT(IN) :: FRIC_LAST,FNOR_LAST,DISTLIN(NSN)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, J3, J2, J1, IG,
-     .   I3, I2, I1,JL,JG,J,NN, PP, PPL,K
+     .   I3, I2, I1,J,NN, PP, PPL,K
       INTEGER NISKYL
       my_real
      .   NX,NY,NZ,LX,LY,LZ,NX2,CC2,ST,LI2(NSN),
-     .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),VN(NSN),
-     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN),NNX, 
+     .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),
+     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN), 
      .   FELAST, FTRY, DELTAG, DT1INV, VIS2,PEN(NSN),FFAC,
      .   FNLIM, FTLIM,
      .   FNXI(NSN),FNYI(NSN),FNZI(NSN),FNX1(NSN),FNY1(NSN),
@@ -212,7 +213,7 @@ c
           NY = N3(I)*LX - N1(I)*LZ
           NZ = N1(I)*LY - N2(I)*LX
 c
-c (vitesse SECONDARY = 0)
+c (velocity SECONDARY = 0)
           VX(I) =  V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
      .         + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
           VY(I) =  V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)
@@ -262,7 +263,7 @@ C
 C-------------------
 C     INCREMENTAL FORMULATION FOR TANGENTIAL FORCE
 C-------------------
-      ! A Reecrire pour le parallele
+      ! to be rewritten for parallel
       DO I=LFT,LLT
         IL=I+NFT
         IG=NSV(IL)
@@ -279,7 +280,7 @@ c
         NY = N3(I)*LX - N1(I)*LZ
         NZ = N1(I)*LY - N2(I)*LX
 c
-c (vitesse SECONDARY = 0)
+c (velocity SECONDARY = 0)
         VX(I) = V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
      .        + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
         VY(I) = V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)
@@ -635,7 +636,7 @@ C
       END IF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
@@ -659,7 +660,7 @@ C
 #include "lockoff.inc"
         ENDIF
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   PM(NPROPM,*),
      .   OFF(*),DT1C(*),GS(*),THK(*),EPSP(MVSIZ)
       my_real
-     .   EXZ(MVSIZ),EYZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),
+     .   EXZ(MVSIZ),EYZ(MVSIZ),
      .   NU(MVSIZ),THK0(MVSIZ),DEGMB(MVSIZ),DEGFX(MVSIZ)
       my_real
      .   FOR(NEL,5),MOM(NEL,3),
@@ -88,7 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   YM(MVSIZ),FP1(MVSIZ),FP2(MVSIZ),FP3(MVSIZ),
      .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),MP1(MVSIZ),MP2(MVSIZ),MP3(MVSIZ),
      .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),
-     .   EPMX(MVSIZ),YMAX(MVSIZ),YEQ(MVSIZ),DWPLA(MVSIZ),HH(MVSIZ),
+     .   EPMX(MVSIZ),YMAX(MVSIZ),YEQ(MVSIZ),DWPLA(MVSIZ),
      .   RR(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),CC(MVSIZ),
      .   B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),EPDR(MVSIZ),EPSL(MVSIZ),HL(MVSIZ),
      .   YLDL(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
@@ -197,7 +197,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         YEQ(I) = SQRT(YEQ(I) + MP3(I)**2)
       ENDDO
 !-------------
-!     VITESSE DE DEFORMATION
+! strain rate
 !-------------
       DO I=JFT,JLT
         EPSP(I) = ABS(DEGMB_LOC(I)+DEGFX_LOC(I)*THK0(I))/(YEQ(I)+EM20)
@@ -253,7 +253,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         THK(I) = THK(I) * (ONE + EZZ*OFF(I))
       ENDDO
 !--------------------------------
-!     TEST DE RUPTURE DUCTILE
+! Ductile rupture test
 !--------------------------------
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .    GAMA(4,MVSIZ),CXX,CYY,CXY,C11,C22,C12,CX1,CX2,CY1,CY2
 C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
        NF=NPLAT+1
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
        DO M=JFT,JLT 
         EP=IPLAT(M)
@@ -90,7 +90,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 C        DHZ(M)= HZ(EP)*C1
         ZR(M) = Z1(EP)
        ENDDO
-C------------------shear est constante----
+C------------------shear is constant----
        DO EP=JFT,JLT
         CHM(1,1,EP)=DM(1,1,EP)*HXX(EP)
 C+GM(EP)*HYY(EP)
@@ -99,7 +99,7 @@ C+GM(EP)*HXX(EP)
         CHM(1,2,EP)=DM(1,2,EP)*HXY(EP)
 C+GM(EP)*HXY(EP)
         CHM(2,1,EP)=CHM(1,2,EP)
-C------------------pour etre coherant avec QEPH explicite---
+C------------------to be consistent with explicit qeph---
         CHF(1,1,EP)=FACF(EP)*CHM(2,2,EP)
 C+GM(EP)*HXX(EP))
         CHF(2,2,EP)=FACF(EP)*CHM(1,1,EP)
@@ -321,17 +321,17 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
       MY_REAL 
-     .    DM(3,3,MVSIZ),C1,C2,GM(MVSIZ),
+     .    DM(3,3,MVSIZ),C1,C2,
      .    G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
      .    G14(MVSIZ),G22(MVSIZ),G23(MVSIZ),
      .    G24(MVSIZ),G33(MVSIZ),G34(MVSIZ),G44(MVSIZ),
-     .    CHM(2,2,MVSIZ),CHF(2,2,MVSIZ),FACF(MVSIZ),FAC,
-     .    GAMA(4,MVSIZ),CXX,CYY,CXY,C11,C22,C12,RZ_3,
+     .    CHM(2,2,MVSIZ),
+     .    GAMA(4,MVSIZ),C11,RZ_3,
      .    CBKRX(4,MVSIZ),CBKRY(4,MVSIZ),CBKRZ(4,MVSIZ),
      .    CBERX(4,MVSIZ),CBERY(4,MVSIZ),CBERZ(4,MVSIZ),
      .    GRZ3(4,MVSIZ),ZR(MVSIZ),C3,CX1,CX2,CY1,CY2,ZR2
 C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
        DO M=JFT,JLT 
         EP=IPLAT(M)
@@ -352,7 +352,7 @@ c        zr(m)=zero
         DM(3,1,M)=DM(1,3,M)
         DM(3,2,M)=DM(2,3,M)
        ENDDO
-C------------------shear est non constante----
+C------------------shear is not constant----
 C-------0.5*[-By Bx 0 0 0 BRZ]^tKG[-By Bx 0 0 0 BRZ]*0.5
 C-------DHZ=0.25*Kg*V---------
        DO EP=JFT,JLT

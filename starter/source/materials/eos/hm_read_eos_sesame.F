@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_SESAME(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,MFI,IDF)
+      SUBROUTINE HM_READ_EOS_SESAME(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,MFI,IDF,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD  
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,15 +67,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT,IUNIT
       INTEGER,INTENT(INOUT) :: MFI, IDF
       INTEGER,INTENT(IN) :: IMID      
       my_real PM(NPROPM),BUFMAT(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER,INTENT(IN) :: IMIDEOS    
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
+      INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -105,6 +104,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -123,9 +123,18 @@ C----------------
       REWIND(31)
       NR = NINT(XNR)
       NT = NINT(XNT)
-      PM(33)=NR
-      PM(34)=NT
-      PM(35)=IDF
+
+      MAT_PARAM%EOS%NUPARAM = 0
+      MAT_PARAM%EOS%NIPARAM = 3
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+
       IF(PM(79) == ZERO)PM(79)=THREE100
       IDR = IDF
       IDT = IDR + NR
@@ -133,6 +142,10 @@ C----------------
       IDE = IDP + NR * NT
       IDF = IDE + NR * NT
       MFI = MFI + IDF - IDR
+
+      MAT_PARAM%EOS%IPARAM(1) = NR  ! PM(33)
+      MAT_PARAM%EOS%IPARAM(2) = NT  ! PM(34)
+      MAT_PARAM%EOS%IPARAM(3) = IDR ! PM(35)
 C
       BUFMAT(IDR:IDF-1) = ZERO
 C

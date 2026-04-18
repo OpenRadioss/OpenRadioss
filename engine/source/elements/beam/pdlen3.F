@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -161,7 +161,7 @@ C----------------------------------------------
             BB  = MAX(B1,B2)
             STIR(I) = MAX(G*B3,FOUR*YOUNG*BB) / AA
             STI(I) = A1 * YOUNG / AA
-!           calcul du pourcentage d'amortissement en cisaillement
+!           Calculation of the shear deprecation percentage
             SL2I(I)= A1*AL(I)**2 / MAX(B1,B2,EM30)
             SHF    = ONE-GEO(37,PID(I))
             PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))

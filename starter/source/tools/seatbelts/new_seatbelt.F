@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg            ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../starter/share/message_module/message_mod.F
-!||    submodel_mod      ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                        ELEM_CUR,TAG_RES,TAG_NOD,ID,FLAG,
@@ -40,7 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
-      USE SUBMODEL_MOD , ONLY : NSUBMOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NODE_CUR,NRES_FOUND,ELEM_NEWT,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST
+      INTEGER K,NODE_CUR,NRES_FOUND,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -70,9 +69,9 @@ C
       NODE_CUR = NOD_START
       ELEM_NEXT = 0
       IF (FLAG == 0) TAG_RES(ELEM_CUR) = ID
+      IF ((TAG_NOD(IXR(2,ELEM_CUR))/=ID).OR.((TAG_NOD(IXR(3,ELEM_CUR))/=ID))) NNOD = NNOD + 1
       TAG_NOD(IXR(2,ELEM_CUR)) = ID
       TAG_NOD(IXR(3,ELEM_CUR)) = ID
-      NNOD = NNOD + 1
       NRES_FOUND = 1
 C
       DO WHILE (NRES_FOUND > 0)
@@ -104,10 +103,6 @@ C--                 loop inisde retractor : bifurcation is not allowded inside r
 C--                 start of the secondary branch is saved
                     NB_BRANCH = NB_BRANCH + 1
                     BRANCH_CPT = BRANCH_CPT + 1
-                    CALL ANCMSG(MSGID=2098,
-     .                          MSGTYPE=MSGWARNING,
-     .                          ANMODE=ANINFO,
-     .                          I1=ITAB(NODE_NEXT))
                     BRANCH_TAB(2*(BRANCH_CPT-1)+1) = NODE_NEXT
                     BRANCH_TAB(2*(BRANCH_CPT-1)+2) = ELEM_TEST
                   ENDIF
@@ -127,11 +122,20 @@ C       Exit loop if node is a connection between 1D and 2D seatblet
 C
         IF (NRES_FOUND > 0) THEN
           IF (FLAG == 0) THEN
+            IF ((TAG_NOD(IXR(2,ELEM_NEXT))/=ID).OR.((TAG_NOD(IXR(3,ELEM_NEXT))/=ID))) THEN
+              NNOD = NNOD + 1
+            ENDIF
             TAG_RES(ELEM_NEXT) = ID
             TAG_NOD(IXR(2,ELEM_NEXT)) = ID
             TAG_NOD(IXR(3,ELEM_NEXT)) = ID
-            NNOD = NNOD + 1
-          ELSE
+          ELSE     
+            IF ((TAG_NOD(IXR(2,ELEM_NEXT))>0).and.(TAG_NOD(IXR(3,ELEM_NEXT))>0)) THEN
+C             Loop detected inside retractor  
+              CALL ANCMSG(MSGID=3119,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=RETRACTOR(ID)%ID,I2=IXR(NIXR,ELEM_NEXT))
+            ENDIF
             IF (TAG_RES(ELEM_NEXT) > 0) THEN
               ID_PREV = RETRACTOR(TAG_RES(ELEM_NEXT))%ID
               IF ((ID_PREV > 0).AND.(NRES_FOUND > 0)) CALL ANCMSG(MSGID=2010,

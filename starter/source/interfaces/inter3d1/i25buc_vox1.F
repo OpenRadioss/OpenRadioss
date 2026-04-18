@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    i25trivox1             ../starter/source/interfaces/inter3d1/i25trivox1.F
 !||    insol25                ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||    margin_reduction       ../starter/source/interfaces/inter3d1/margin.F90
 !||--- uses       -----------------------------------------------------
+!||    margin_reduction_mod   ../starter/source/interfaces/inter3d1/margin.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    tri7box                ../starter/share/modules1/tri7box.F
 !||====================================================================
@@ -54,6 +56,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INTBUFDEF_MOD 
+      use margin_reduction_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +79,7 @@ C-----------------------------------------------
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)
+      INTEGER, INTENT(IN) :: IELEM_M(2,NRTM)
       integer, intent(in) :: nin !< interface index
       integer, intent(in) :: npari !< first dim of ipari
       integer, dimension(npari), intent(inout) :: ipari !< interface data
@@ -93,6 +96,7 @@ C     REAL
 
       INTEGER , INTENT(IN) :: NRTMT
       type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
+      integer :: candidate_count
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,6 +122,7 @@ C     REAL
       INTEGER :: NB_LARGE_NODES
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
+      my_real :: xmin_base, ymin_base, zmin_base, xmax_base, ymax_base, zmax_base
 C-----------------------------------------------
       IONE=1
       IHUNDRED=100
@@ -128,16 +133,16 @@ C-------use temporarily GAP_N(1,*)=V/A
 C       Not used :: MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
-C     1-CALCUL TAILLE DES ZONES INFLUENCES
-C     DD EST LA LONGEUR MOYENNE ELEMENT
-C     DD_ST EST LA LONGEUR MAX ELEMENT
+C     1-CALCULATION TAILLE DES ZONES INFLUENCES
+C     dd is the average element length
+C     dd_st is the max element length
       DD=ZERO
       DD_ST=ZERO
       PENSOL=EP30
       D_MOY = ZERO
       N_SOL = 0
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -178,15 +183,23 @@ C       IF (MSEGTYP(L)==0) DD_ST=MAX(DD_ST,DD1,DD2,DD3,DD4)
 C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD0=DD/NRTM/FOUR
+      IF(NRTM > 0 .AND. NRTM <= 3) THEN
+        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,STFN,DD0)
+! special case for floor and wall with only one element
+! the margin may be too large when a wall is modeled with only one element
+      END IF
+
       DD=DD0
+
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
-C calcul de TZINF en fct de la marge et non le contraire
+
+C calculation of tzinf based on the margin and not the other way around
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
+C marge_st: margin independent of bumult as input to find the same initial penalties (delete or coordinate change cases)
       MARGE_ST = BMUL0*DD
 
-C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
+C if iddlevel = 0, then 1st pass here, with the engine's margin to find the same candidates
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
       BID = FOUR_OVER_5*DD
@@ -195,17 +208,17 @@ C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver
         IBID =(2*IBID+4)*IBID*2
       ENDIF
 C      MAXBOX= ZEP9*(DD - TZINF)
-C DD + 2*TZINF : taille element augmentee de zone influence
+C DD + 2*Tzinfo: Size element increased in influence zone
       MAXBOX= HALF*(DD + 2*TZINF)
       MINBOX= HALF*MAXBOX
       TZINF0 = TZINF
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     calculation of the domain boundaries
 C--------------------------------
       BMINMA(1)=-EP30
       BMINMA(2)=-EP30
@@ -449,7 +462,7 @@ c        END IF
       END IF
 C
 
-C     initialisation complete de VOXEL
+C     complete initialization of voxel
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -506,9 +519,11 @@ C
 !||    insol25       ../starter/source/interfaces/inter3d1/i25buc_vox1.F
 !||--- called by ------------------------------------------------------
 !||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL25(IRECT   ,IXS    ,IXS10,IXS16,IXS20,
      .                   KNOD2ELS,NOD2ELS,NEL  ,I    )
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

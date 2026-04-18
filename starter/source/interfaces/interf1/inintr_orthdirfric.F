@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE INTBUF_FRIC_MOD                     
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -226,7 +227,7 @@ C-----------------------------------------------
         N3 = IRECTM(3,I)
         N4 = IRECTM(4,I)
 
-C---Element Frame :
+C--- Frame element:
 
         IF (N3 /= N4) THEN
 C---      shell 4N
@@ -282,7 +283,7 @@ C
         E2Y    = E3Z * E1X - E3X * E1Z
         E2Z    = E3X * E1Y - E3Y * E1X
 
-C---    projection of V on element plance
+C---    projection of V on element plane
         V  = VX*E3X + VY*E3Y + VZ*E3Z
         VX = VX-V*E3X
         VY = VY-V*E3Y

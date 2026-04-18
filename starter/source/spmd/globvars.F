@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    globvars   ../starter/source/spmd/globvars.F
+!||    globvars      ../starter/source/spmd/globvars.F
 !||--- called by ------------------------------------------------------
-!||    lectur     ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal     ../starter/source/spmd/node/ddtools.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE GLOBVARS(IGEO,IXR,NSTRF)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------    
+C-----------------------------------------------   
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,10 +60,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,P,NNOD,NSEGC,NSEGTG,NSEGS,K0
 
-C   Variable Globale NUMNODG nombre global des noeuds
+C   Global variable NUMNODG - global number of nodes
       NUMNODG = NUMNOD
 
-C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
+C   Global variables NUMELTGG,NUMELCG - global number of triangles
       NUMELQG = NUMELQ
       NUMELCG = NUMELC
       NUMELTGG = NUMELTG
@@ -74,11 +76,11 @@ C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELS20G = NUMELS20
       NUMSPHG = NUMSPH
       NUMELXG = NUMELX
-C   Variable globales NUMNODM (MAX des NUMNOD_L)
+C   Global variable NUMNODM (MAX of NUMNOD_L)
       NUMNODM = 0
-C Nombre global des RBE2
+C Global number of RBE2
       NRBE2G = NRBE2
-C Nombre global des RBE3
+C Global number of RBE3
       NRBE3G = NRBE3
 
       DO P = 1,NSPMD
@@ -91,7 +93,7 @@ C Nombre global des RBE3
        NUMNODM = MAX(NUMNODM,NNOD)
        ENDDO
 C
-C   calcul nu nombre Elts 1D pour animations.
+C   naked calculation and 1D number for animations.
 
         NB1DG = NUMELT + NUMELR + NUMELP
         NSKEWAG = NUMELP + NUMELT + NUMSKW
@@ -115,8 +117,8 @@ C   calcul nu nombre Elts 1D pour animations.
           ENDIF
 
         ENDDO    
-C   pour les sections et pour le proc0 on calcule le max
-C   des nombres d'elements coques pour toutes les sections
+C   for sections and for proc0 we calculate the max
+C   of the number of shell elements for all sections
 cow
       SECTIOM = 0
       IF (NSECT>0) THEN

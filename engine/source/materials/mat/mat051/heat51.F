@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   T,       AV1,     AV2,     AV3,
      2   UPARAM,  XK,      NEL    )
 C----------------------------------------
-C     CALCUL DE LA CONDUCTIVITE THERMIQUE
+C     calculation of thermal conductivity
 C----------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -54,10 +54,10 @@ C     REAL
      .   XK1,XK2,XK3,AL1,AL2,AL3,AL12,AL22,AL32,AA
 C-----------------------------------------------
 C
-C     rigidit    (ou conductibilite thermique) equivalente 
+C     Rigidity (or thermal conductivity) Equivalent 
 C
 C
-C   hyp. de distribution de la phase 1 sur le volume:
+C   hypothesis of phase 1 distribution over the volume
 C
 C
 C                  0-----+--------0  
@@ -84,44 +84,44 @@ C             al1
 C
 C
 C-----------------------------------------------
-C  pour 2 phases:
+C  for 2 phases
 C
 C                             (1-al1^2-al2^2)
 C   K = K1 al1^2 + K2 al2^2 + ---------------
 C                             al1/K1 + al2/K2 
 C
-C si K1=K2=KO K=K0  (al1+al2 = 1)
+C if K1=K2=KO K=K0  (al1+al2 = 1)
 C-----------------------------------------------
-C  generalisation pour 3 phases:
+C  generalization for 3 phases
 C
 C
 C                                            (1-al1^2-al2^2-al3^2)
 C1)   K = K1 al1^2 + K2 al2^2 + K3 al3^2 + ------------------------
 C                                          al1/K1 + al2/K2 + al3/K3
 C
-C => si K1=K2=K3=K0 => K/=KO   (al1+al2+al3 /= 1)!!! pb
+C => if K1=K2=K3=K0 => K/=KO   (al1+al2+al3 /= 1)!!! problem
 C
-C2) => normalisation
+C2) => normalization
 C
 C                                     (al1+al2+al3)(1-al1^2-al2^2-al3^2)
 C K = K1 al1^2 + K2 al2^2 + K3 al3^2 + --------------------------------
 C                                         al1/K1 + al2/K2 + al3/K3
 C
-C => si K1=K2=K3=K0 => K=KO   
+C => if K1=K2=K3=K0 => K=KO   
 C-----------------------------------------------
-C   calcul de al a partir de av (pour chaque phase):
+C   calculation of al from av (for each phase)
 C
 C   av = 3 al^2 - 2 al^3
 C
 C-----------------------------------------------
-C   solution approchee:
+C   approximate solution:
 C
-C   si av -> 0  al -> sqrt(av/3)
-C   si av -> 1  al -> 1 - sqrt((1-av)/3)
+C   if av -> 0  al -> sqrt(av/3)
+C   if av -> 1  al -> 1 - sqrt((1-av)/3)
 C
 C   al -> av - av sqrt((1-av)/3) + (1-av) sqrt(av/3)
 C
-C   av      al(approche)   av(correspondant) erreur
+C   av al (approach) av (correspondent) error
 C   0       0              0                 0%
 C   0.25    0.34           0.27              2%
 C   0.5     0.5            0.5               0%
@@ -129,7 +129,7 @@ C   0.75    0.66           0.73              2%
 C   1       1              1                 0%
 C-----------------------------------------------
 C----------------------------
-C     CONDUCTION THERMIQUE
+C     THERMAL CONDUCTION
 C----------------------------
 
       DO I=1,NEL

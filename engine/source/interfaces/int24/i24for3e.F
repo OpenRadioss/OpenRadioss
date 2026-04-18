@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,12 +59,12 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0
+      INTEGER J,K,IP,NS1,NS2,IE,NP0
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
       my_real
-     .   FX,FY,FZ,S,STI,FICT(NFIC)
+     .   S,FICT(NFIC)
 C=======================================================================
 C----IRTSE(5,*) -> id of edge
 C=======================================================================
@@ -92,7 +92,7 @@ C=======================================================================
 c         FICT(K) = FICI(K)/NPT
         END DO    
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center   
+C--- Equi_Balance to ns1, ns2 and element center   
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
          DO J =1,4
@@ -169,7 +169,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0,IX
+      INTEGER J,IP,NS1,NS2,IE,NP0,IX
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
@@ -201,7 +201,7 @@ C=======================================================================
         print *,'probleme EDGENS,IE1,IE2=',NS,IE1,IE2
        END IF
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center       
+C--- Equi_Balance to ns1, ns2 and element center       
          FX = FXI
          FY = FYI
          FZ = FZI         
@@ -306,7 +306,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,IP,NS1,NS2,IE,NP0,IX
+      INTEGER J,IP,NS1,NS2,IE,NP0,IX
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
@@ -338,7 +338,7 @@ C=======================================================================
         print *,'probleme EDGENS,IE1,IE2=',NS,IE1,IE2
        END IF
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center       
+C--- Equi_Balance to ns1, ns2 and element center       
          FX = FXI
          FY = FYI
          FZ = FZI         
@@ -438,7 +438,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NRTSE,NSNE,NSN
+      INTEGER NRTSE,NSNE,NSN
 C=======================================================================
           NRTSE   = IPARI(52)
           NSNE    = IPARI(55)
@@ -490,7 +490,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,NS,IP,NS1,NS2,IE,NP0,ipr
+      INTEGER I,NSN0,NS,IP,NS1,NS2,IE,NP0,ipr
       my_real
      .   X0,Y0,Z0,XE0,YE0,ZE0,S
 C=======================================================================
@@ -600,7 +600,7 @@ C-----------------------------------------------
 ! | .     o3    . |
 ! 1---o1------o2--2 NPT=3
 C----- NLS : Num. of element with active edge----
-      INTEGER I,J,K,NSN0,NS,IP,NS1,NS2,IE,NP0
+      INTEGER I,NSN0,NS,IP,NS1,NS2,IE,NP0
       my_real
      .   S0,SE0,FAC
 C=======================================================================
@@ -666,7 +666,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER IK1(4),IK2(4),IE1,IE2,IED
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/

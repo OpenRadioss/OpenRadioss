@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,10 +81,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JJ,IG,IC,II,IFL,IPLY,NVARF,NFAIL,JVAR,NVARF_MAX, 
+      INTEGER I, J, K, JJ, II, IFL, IPLY, NVARF, NFAIL, 
      .   IPMAT_IPLY,JINF,JSUP,
      .   ILAW,IRUPT,IMAT,JJINF,JJSUP,NBDEL,NF,NL,KK(5)
-       INTEGER  MAT(MVSIZ),IFAIL(MVSIZ),MATF(MVSIZ),
+       INTEGER MAT(MVSIZ), 
      .   NBIPLY_DEL(MVSIZ),NIPLY_DEL(MVSIZ,NPT),JLY,
      .   NINDX,INDX(MVSIZ)
 C     REAL
@@ -103,9 +103,9 @@ c
       TYPE(BUF_INTLAY_) ,POINTER :: INTLAY
       TYPE(BUF_INTLOC_) ,POINTER :: ILBUF
       TYPE(BUF_FAIL_)   ,POINTER :: FBUF
-      TYPE(L_BUFEL_)    ,POINTER :: LBUF     
+ 
 C======================================================================|
-C     EPS POINT EQUIVALENT (au sens energetique)
+C     EPS Equivalent (in the energy sense)
 C-----------------------------------------------------------
 C     interface
 C----------------------------------------------------------- 
@@ -147,7 +147,7 @@ c
         DO K=1,NINDX
           I=INDX(K)
 C
-C Actuallement on utilise qu'une interface elastique isotrope. (Law01)
+C Currently we use that an elastic interface isotropic.(Law 01)
 C  
 C         Only with  law59 (K33, K13, K23)                              
 c

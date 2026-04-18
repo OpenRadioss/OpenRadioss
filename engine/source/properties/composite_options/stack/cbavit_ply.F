@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
           SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
@@ -35,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE PLYXFEM_MOD
+       use element_mod , only : nixc
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C  transformation au repere local est absolue
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -65,18 +67,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER J,I,K,EP,NN(4), IPLY,IP,NPLAT0
-      INTEGER L,M,J1,J2
+      INTEGER J, I, EP, NN(4), IP, NPLAT0
+ 
       my_real
-     .   PG,Z1,Z2,MX13,MY13,MX23,MY23,MX34,MY34,GAMA1,GAMA2, X21, 
-     .   X34,Y21,Y34 ,Z21,Z34,L12,L34,X41,X32,Y41,Y32,Z41,Z32,XX1
-     .   YY,XY,XZ1,YZ ,ZZ,Y24,X24,Y13,X13,COREL(3,4),XX1,YY,OFF_L,
+     .   PG,Z1,Z2,MX13,MY13,
+     .   Y24,X24,Y13,X13,OFF_L,
      .   D1,D2,DT05,DT025,EXZ,EYZ,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,
-     .   DDRZ,DDRX,A1,A2,D3
+     .   DDRX,A1,A2,D3
       my_real 
      .  VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3), V24(MVSIZ,3),
-     .  VHI(MVSIZ,3), AR(3),D(6),ALR(3),RR(3,NNOD),
-     .  AREA_I(MVSIZ), DEL_IPLY(MVSIZ,3,NPT-1),DN_IPLY(MVSIZ,12,NPT-1),
+     .  VHI(MVSIZ,3), AR(3),ALR(3),
+     .  AREA_I(MVSIZ),
      .  DN_PLY(MVSIZ,12,NPT)
       DATA   PG/.577350269189626/
 C-----------------------------------------------
@@ -245,7 +246,7 @@ C
         ENDDO
       ENDDO
 C----------------------------
-C---------Facteur pour longueur caracteristique---
+C---------Factor for characteristic length---
 C----------------------------
       OFF_L = 0.
       DO EP=JFT,JLT
@@ -273,7 +274,7 @@ C----------------------------
        ENDDO  
       ENDIF
 C ---
-C  les deplacements nodaux dans le rep re local
+C  the nodal displacements in the local frame
       DO J=1, NPT
        DO EP=JFT,JLT
          IP = ISTACK(EP,J)
@@ -311,7 +312,7 @@ C  node 4 layer J
          DN_PLY(EP,12,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3 
         ENDDO
        ENDDO  
-C  glissement elementaire
+C  Elementary shift
       DO J=1, NPT
        DO EP=JFT,JLT
          DEL_PLY(EP,1,J) = (

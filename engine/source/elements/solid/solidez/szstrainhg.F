@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,12 +58,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  J,IR,IS,IT,IP
+      INTEGER I
       my_real
      .   HGX(MVSIZ,4), HGY(MVSIZ,4), HGZ(MVSIZ,4),
-     .   KSI,ETA,ZETA,COEF,NJR_1(MVSIZ),NJS_1(MVSIZ),NJT_1(MVSIZ),
-     .   JSR_1(MVSIZ),JRS_1(MVSIZ),JTR_1(MVSIZ),JRT_1(MVSIZ),JTS_1(MVSIZ),
-     .   JST_1(MVSIZ),F1,F2,F3,F1X,F2Y,F3Z
+     .   COEF,NJR_1(MVSIZ),NJS_1(MVSIZ),NJT_1(MVSIZ),
+     .   
+     .   F1X,F2Y,F3Z
 C-----------------------------------------------
       COEF = EIGHT
       DO I=1,NEL

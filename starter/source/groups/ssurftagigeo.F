@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,11 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,NN,KK,I1,
+      INTEGER J,K,JS,KS,II,JJ,LL,NN,KK,
      .        NI(4),NS(4),MI(4),MI2(4),MS(4),NMIN,MMIN,
-     .        MF,NF,IPERM,N1,N2,I,ISEG
+     .        MF,NF,IPERM
       INTEGER NODTAG(NUMNOD),FACEIGEO(4,6),PWR(7),CROSSFACEIGEO(4,6),
-     .        NNS,NCTRL,IPID,PX,PY,PZ,
+     .        NCTRL,IPID,PX,PY,PZ,
      .        FASTAGIGEO(NUMELIG3D) 
       my_real
      .   KNOTLOCELX(2),KNOTLOCELY(2),KNOTLOCELZ(2)
@@ -126,12 +126,12 @@ C       External surface only.
           CROSSFACEIGEO=0
 C
           IF(PX==2) THEN
-            CROSSFACEIGEO(1,5) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+PX   ! milieu - devant
+            CROSSFACEIGEO(1,5) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+PX   ! Middle - In front
             CROSSFACEIGEO(2,5) = (PX+1)*(PY+1)*PZ+PX
             CROSSFACEIGEO(3,5) = PX
             CROSSFACEIGEO(4,5) = (PX+1)*PY+PX
 
-            CROSSFACEIGEO(1,6) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+PX   ! milieu - derriere
+            CROSSFACEIGEO(1,6) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+PX   ! Middle - behind
             CROSSFACEIGEO(2,6) = (PX+1)*PY+PX
             CROSSFACEIGEO(3,6) = PX
             CROSSFACEIGEO(4,6) = (PX+1)*(PY+1)*PZ+PX
@@ -143,28 +143,28 @@ C
             CROSSFACEIGEO(3,3) = (PX+1)+1
             CROSSFACEIGEO(4,3) = (PX+1)*PY
 
-            CROSSFACEIGEO(1,4) = (PX+1)*(PY+1)*PZ+(PX+1)+1     ! milieu - droit
+            CROSSFACEIGEO(1,4) = (PX+1)*(PY+1)*PZ+(PX+1)+1     ! Middle - Droit
             CROSSFACEIGEO(2,4) = (PX+1)*(PY+1)*PZ+(PX+1)*PY
             CROSSFACEIGEO(3,4) = (PX+1)*PY
             CROSSFACEIGEO(4,4) = (PX+1)+1
           ENDIF
 
           IF(PZ==2) THEN
-            CROSSFACEIGEO(1,1) = (PX+1)*(PY+1)+PX+1    ! milieu - bas
+            CROSSFACEIGEO(1,1) = (PX+1)*(PY+1)+PX+1    ! Middle - Bas
             CROSSFACEIGEO(2,1) = (PX+1)*(PY+1)+1
             CROSSFACEIGEO(3,1) = (PX+1)*(PY+1)+(PX+1)*PY+1 
             CROSSFACEIGEO(4,1) = (PX+1)*(PY+1)*PZ
 
-            CROSSFACEIGEO(1,2) = (PX+1)*(PY+1)*PZ    ! milieu - haut
+            CROSSFACEIGEO(1,2) = (PX+1)*(PY+1)*PZ    ! Middle - High
             CROSSFACEIGEO(2,2) = (PX+1)*(PY+1)+(PX+1)*PY+1 
             CROSSFACEIGEO(3,2) = (PX+1)*(PY+1)+1
             CROSSFACEIGEO(4,2) = (PX+1)*(PY+1)+PX+1
           ENDIF
 
-CC positionnement des faces crees ici verifiees : ok 
+Cpositioning of the Creed faces here verifies: ok 
 
           DO JJ=1,6
-            DO II=1,4 ! on va chercher les 4 coins de chaque face
+            DO II=1,4 ! we are going to look for the 4 corners of each face
               NS(II)=IXIG3D(KXIG3D(4,JS)+FACEIGEO(II,JJ)-1) 
             END DO
 C
@@ -187,7 +187,7 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELIG3D(NI(1))+1,KNOD2ELIG3D(NI(1)+1)
               KS=NOD2ELIG3D(K)
               IF(KS==JS)CYCLE
-              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivite avec tout le monde
+              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 we only look for connectivity with the elements marked by the group (cycle), otherwise if IFRE=1 we look for connectivity with everyone
               IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTIG3D(KS))==0)CYCLE     
               DO II=1,NF
                 NODTAG(NI(II))=0
@@ -200,7 +200,7 @@ C           looks for an elt sharing the face.
               DO II=1,NF
                 NN=NN+NODTAG(NI(II))
               END DO
-              IF(NN==NF)THEN ! il faut que la face ait 4 points en commun avec uen autre pour eventuellement etre exclue
+              IF(NN==NF)THEN ! the face must have 4 points in common with another to be potentially excluded
                 DO KK=1,6
             DO II=1,4
               MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1) 
@@ -244,8 +244,8 @@ C                   permute
 C
                   IF((MI(1)==NI(1).AND.MI(NF)==NI(2)).OR.
      .               (MI2(1)==NI(1).AND.MI2(NF)==NI(2)))THEN
-C                    FACTAGIGEO(JS) moins face jj
-                     FASTAGIGEO(JS)=FASTAGIGEO(JS)+PWR(JJ) ! lorsqu'on ajoute PWR(JJ), on exclue la face JJ
+C                    Factagigeo (JS) less face JJ
+                     FASTAGIGEO(JS)=FASTAGIGEO(JS)+PWR(JJ) ! When we add Pwr (JJ), we exclude JJ side
                      GO TO 400
                   END IF
                 END DO
@@ -284,7 +284,7 @@ C-----------
      .              KNOTLOCELY,KNOTLOCELZ)
               DECALIGEO=DECALIGEO+16
             ELSE
-              NSEGIGE = NSEGIGE + 9 ! 9 = Anciennement NIGEOCUT
+              NSEGIGE = NSEGIGE + 9 ! 9 = formerly Nigeocut
             ENDIF
           ENDDO
         ENDIF
@@ -324,7 +324,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JJ,IELTYP,NCTRL,DECALIGEO,
-     1      IADPART,IADTABIGE,
+     1      IADTABIGE,
      2      KXIG3D(NIXIG3D,*),JS,IXIG3D(*),IGEO(NPROPGI,*),NIGE(*),
      3      NSEGIGE,PX,PY,PZ
       my_real
@@ -336,8 +336,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,K,L,M,N,IAD_KNOT,N1,N2,N3,
-     .        NKNOT1,NKNOT2,NKNOT3,IDX,IDY,IDZ,IPID,ISEG,ITNCTRL,
-     .        IDFRSTLOCKNT, IDPC,IDX2,IDY2,IDZ2
+     .        NKNOT1,NKNOT2,NKNOT3,IDX,IDY,IDZ,IPID,ISEG,
+     .        IDFRSTLOCKNT,IDX2,IDY2,IDZ2
       my_real
      .   X_IGEO(NCTRL),Y_IGEO(NCTRL),Z_IGEO(NCTRL),
      .   VX_IGEO(NCTRL),VY_IGEO(NCTRL),VZ_IGEO(NCTRL),
@@ -830,7 +830,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,NUMEL,NUMPT
+      INTEGER N,I,J,NUMEL
       my_real
      .   MASSELIG3D(NUMELIG3D)
 C=======================================================================
@@ -842,11 +842,11 @@ C
 C
       DO I=1,NUMELIG3D
         DO J=1,NCTRLMAX
-          MASSELIG3D(I)=MASSELIG3D(I)+MSIG3D(I,J) !! num locale ici et pas globale I a la place de kxigi3D(I)
+          MASSELIG3D(I)=MASSELIG3D(I)+MSIG3D(I,J) !! local number here and not global I instead of kxigi3D(I)
         ENDDO
       ENDDO
 C
-      DO N=1,NINTER  !!! regarder la repartition de la masse sur les points fictifs (masse + importante sur les coins et les arretes)
+      DO N=1,NINTER  !!! look at the distribution of mass on the fictitious points (more mass on the corners and edges)
        DO I=1,INTBUF_TAB(N)%S_NIGE
          NUMEL = INTBUF_TAB(N)%NIGE(I)
          INTBUF_TAB(N)%MASSIGE(I)=INTBUF_TAB(N)%MASSIGE(I)+

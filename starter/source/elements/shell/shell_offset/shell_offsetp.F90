@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,13 +27,15 @@
 !||====================================================================
       module shell_offsetp_mod
 
+        implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine do the shell offset treatment w/ projection for composite shell
+!!\brief This subroutine performs the shell offset treatment with projection for composite shell
 !=======================================================================================================================
 !||====================================================================
 !||    shell_offsetp             ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
@@ -73,13 +75,13 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ngroup           !< number of elem group
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                          :: npropg           !< 1er dim of geo
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
+          integer, intent (in   )                          :: npropg           !< first dimension of geo
           integer, intent (in   )                          :: numgeo           !< number of prop
           integer, intent (in   )                          :: numelc           !< number shell 4n element
-          integer, intent (in   )                          :: nixc             !< 1er dim of ixc
+          integer, intent (in   )                          :: nixc             !< first dimension of ixc
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
-          integer, intent (in   )                          :: nixtg            !< 1er dim of ixtg
+          integer, intent (in   )                          :: nixtg            !< first dimension of ixtg
           integer, intent (in   )                          :: numnod           !< number node
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (in   ) ,dimension(nixc,numelc)  :: ixc              !< shell 4n connectivity
@@ -87,7 +89,7 @@
           real(kind=WP), intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
           real(kind=WP), intent (in  ),dimension(numelc+numeltg) :: thk              !< shell thickness
           real(kind=WP), intent (inout),dimension(3,numnod)      :: x                !< node coordinates
-          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< shell w/ offset
+          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< shell with offset
           type(shell_defaults_), intent(inout)             :: defaults_shell   !< /DEF_SHELL variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -140,7 +142,7 @@
                   n = ixc(j+1,ie)
                   nn = nn + intag(n)
                   ix(j) = n
-                enddo
+                end do
                 if (nn>0) then
                   nshel = nshel + 1
                   idnneoset(nshel) = ie
@@ -153,7 +155,7 @@
                   end if
                 end if
               end do
-            elseif (ity == 7)then
+            else if (ity == 7)then
               nnode =3
               do i=1,nel
                 ie = nft + i
@@ -162,7 +164,7 @@
                   n = ixtg(j+1,ie)
                   nn = nn + intag(n)
                   ix(j) = n
-                enddo
+                end do
                 if (nn>0) then
                   nshel = nshel + 1
                   idnneoset(nshel) = ie + numelc  ! same than thke
@@ -180,7 +182,7 @@
           end do
 !--- check jnuctions- tag elements not used in nodal normal,thk compute
           call sh_offset_jonct_chk(nshel    ,ixnneoset   ,x     ,numnod ,          &
-            idnneoset ,sh_oset )
+            idnneoset ,sh_oset ,thk_g)
 ! reduce again dim nshel after junction check
           nshel = 0
           do i = 1,nneoset_g

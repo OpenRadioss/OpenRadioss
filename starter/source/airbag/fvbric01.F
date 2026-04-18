@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use element_mod , only : nixs      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -209,7 +210,7 @@ C     Reset IFLAG to 0
 C     Find bricks connected to surface element
       DO II = 1, NSEG
          NSURFNODE = 3
-C     Flag surface element nodes
+C     Flag surface nodes
          DO KK = 1, NSURFNODE
             KKK = IBUF(ELEM(KK, II))
             IFLAG(KKK) = 1
@@ -277,7 +278,7 @@ C     Find the corresponding face
                ENDIF
             ENDDO
          ENDDO
-C     Unflag surface element nodes
+C     Unflag surface nodes element
          DO KK = 1, NSURFNODE
             KKK = IBUF(ELEM(KK, II))
             IFLAG(KKK) = 0               

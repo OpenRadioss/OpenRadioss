@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
       USE DDWEIGHTS_MOD
+      use element_mod , only : nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +49,7 @@ C-----------------------------------------------
       INTEGER  OFF,NUMELP,
      .  NUMMAT,NUMGEO,  IXP(NIXP,*), IGEO(NPROPGI,*),
      .  IPM(NPROPMI,*)
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*)
       REAL WD(*)

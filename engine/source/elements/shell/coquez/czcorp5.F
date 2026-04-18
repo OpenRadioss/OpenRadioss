@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    czcorp5     ../engine/source/elements/shell/coquez/czcorp5.F
+!||    czcorp5       ../engine/source/elements/shell/coquez/czcorp5.F
 !||--- called by ------------------------------------------------------
-!||    czcorc1     ../engine/source/elements/shell/coquez/czcorc.F
+!||    czcorc1       ../engine/source/elements/shell/coquez/czcorc.F
 !||--- calls      -----------------------------------------------------
-!||    a3invdp_v   ../engine/source/elements/shell/coquez/a3invdp_v.F
+!||    a3invdp_v     ../engine/source/elements/shell/coquez/a3invdp_v.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CZCORP5( NUMNOD ,NEL    ,NUMELC ,VR      ,NPT    ,TOL    ,
      2                    IXC    ,PLAT   ,AREA   ,AREA_I ,V13    ,
@@ -35,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                    Z1     ,DI     ,DB     ,COREL  ,RLZ    ,
      8                    LL     ,
      9                    L13    ,L24    ,IDRIL  ,DIZ    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,14 +69,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real :: DETA,
      .   RRXYZ(MVSIZ,3,NNOD),
-     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,
+     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
      .   AR(MVSIZ,3),BTB(6),XX(MVSIZ),YY(MVSIZ),ZZ(MVSIZ),XY(MVSIZ),XZ(MVSIZ),YZ(MVSIZ),
      .   ABC,XXYZ2,YYXZ2,ZZXY2,D(MVSIZ,6),DIZ1(MVSIZ,6),DIZ2(MVSIZ,6),
-     .   ALR(3),ALD(NNOD),DBAD(3),BTB_C,ALRZ
+     .   ALR(3),ALD(NNOD),DBAD(3),ALRZ
         my_real, DIMENSION(MVSIZ,NNOD) :: AD
 C----------------------------------
         DO I=1,NEL

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,8 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    detcord0                       ../starter/source/initial_conditions/detonation/detcord0.F
 !||    ecran1                         ../starter/source/initial_conditions/detonation/ecran1.F
 !||    ecran2                         ../starter/source/initial_conditions/detonation/ecran2.F
+!||    eikonal_bcs_sym_tag            ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-!||    eikonal_init_start_list_2d     ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_init_start_list        ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_solver                 ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    ig3dinit3                      ../starter/source/elements/ige3d/ig3dinit3.F
 !||    initia                         ../starter/source/elements/initia/initia.F
@@ -65,6 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20init3                       ../starter/source/elements/solid/solide20/s20init3.F
 !||    s4init3                        ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cinit3                       ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3                       ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3                       ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3                       ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scinit3                        ../starter/source/elements/thickshell/solidec/scinit3.F
@@ -86,10 +88,17 @@ C-----------------------------------------------
           LOGICAL :: IS_MAT_VALID = .FALSE.
           INTEGER :: MAT = 0
           INTEGER :: SHADOW = 0
+          INTEGER :: iframe1 = 0 ! optional frame (1st sym plane)
+          INTEGER :: iframe2 = 0 ! optional frame (2nd sym plane)
+          my_real :: O1(3)=0. ! origin for iframe1
+          my_real :: O2(3)=0. ! origin for iframe2
+          my_real :: N1(3)=0. ! normal vector from plane defined with iframe1
+          my_real :: N2(3)=0. ! normal vector from plane defined with iframe2
           my_real :: TDET
           my_real :: XDET
           my_real :: YDET
           my_real :: ZDET
+          my_real :: R0
           !optional list of nodes
           INTEGER :: GRNOD_ID
           INTEGER :: NNOD

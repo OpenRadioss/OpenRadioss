@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    daasolv               ../engine/source/fluid/daasolv.F
 !||    daasolvp              ../engine/source/fluid/daasolvp.F
-!||    ebcs11                ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant     ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    finter_mixed_mod      ../engine/source/tools/finter_mixed.F90
 !||    force                 ../engine/source/loads/general/force.F90
 !||    forcefingeo           ../engine/source/loads/general/forcefingeo.F
 !||    forcepinch            ../engine/source/loads/general/forcepinch.F
@@ -61,7 +62,7 @@ C-----------------------------------------------
       XX_LAST  = TF(NPF(IFUNC+1)-2)
 !
       IF ((NPF(IFUNC+1)-NPF(IFUNC)) == 2) THEN
-!     constant function
+!     Constant Function
         FINTER_SMOOTH = TF(NPF(IFUNC)+1)
         RETURN
       ELSE

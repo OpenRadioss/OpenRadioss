@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, JJ, J, K, L, N, SEG1
       my_real
-     .   CMS, DMS,XMAX_M,YMAX_M,ZMAX_M,XMAX_S,YMAX_S,ZMAX_S,
+     .    XMAX_M,YMAX_M,ZMAX_M,XMAX_S,YMAX_S,ZMAX_S,
      .   XMIN_M,YMIN_M,ZMIN_M,XMIN_S,YMIN_S,ZMIN_S,
      .   XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,XS,YS,ZS,DIST,MINDIST,
      .   X1,Y1,Z1,AAA
@@ -66,7 +66,7 @@ C=======================================================================
       IIX = 0
       IIY = 0
       IIZ = 0
-C----- BORNES DU DOMAINE
+C----- BOUNDS OF THE DOMAIN
       XMAX_M=-EP30
       YMAX_M=-EP30
       ZMAX_M=-EP30
@@ -122,7 +122,7 @@ C
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing of nodes in boxes
 C=======================================================================
       ALLOCATE(VOXEL(NBX,NBY,NBZ))
       VOXEL=0
@@ -142,7 +142,7 @@ C=======================================================================
 
         FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(FIRST == 0)THEN
-c         empty cell
+c         Empty Cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
           NEXT_NOD(I)                 = 0 ! last one
           LAST_NOD(I)                 = 0 ! no last
@@ -162,7 +162,7 @@ c         jump to the last node of the cell
         ENDIF
       ENDDO
 C=======================================================================
-C 2   recherche noeud second. le plus proche de chaque main
+C 2 Second node search.closest to each main
 C=======================================================================
       DO NE=1,NMN
         MINDIST = EP30
@@ -298,7 +298,7 @@ C
       END DO
       KNOD2SEG(1)=0
 C----------------------------------------------------------------
-c 4 Remplissage LCSEG : List of Connected Segments to secnd nodes
+c 4 Remplissage LCSEG : List of Connected Segments to second nodes
 C----------------------------------------------------------------
       II=0
       DO I=1,NSN

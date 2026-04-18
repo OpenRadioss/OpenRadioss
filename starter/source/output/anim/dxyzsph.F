@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,11 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, J, INOD,CNT,BUF
+      INTEGER N, J, INOD, CNT
       my_real
      3   XI,YI,ZI,R,
      4   XQ(3),FACT
-      REAL R4,R4NP(3*NNSPH)
+      REAL R4(3*NNSPH)
 C-----------------------------------------------
       IF (NUMSPH+MAXPJET==0) GOTO 100
 C-----------------------------------------------

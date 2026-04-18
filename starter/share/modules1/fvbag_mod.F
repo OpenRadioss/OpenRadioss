@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,7 +63,7 @@ C     Dispersion of pressure around mean pressure
 C------------------------------------------------
           my_real PDISP_OLD, PDISP
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
           INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC
           my_real,
@@ -75,7 +75,7 @@ C Dimensions
 C-----------
           INTEGER NNS, NNTR, LENP, NPOLY, LENH, NPOLH
 C----------------
-C Anim polyhedres
+C Anim polyhedra
 C----------------
           INTEGER NPOLH_ANIM, NNS_ANIM, ID
           INTEGER, DIMENSION(:), POINTER :: IFVPOLY_ANIM, IFVTADR_ANIM,
@@ -85,7 +85,7 @@ C----------------
           my_real
      .           , DIMENSION(:,:), POINTER :: NOD_ANIM
 C------------------------
-C Polygones et polyhedres
+C Polygons and polyhedra
 C------------------------
           INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
      .                                      IFVPOLH, IFVPADR, IDPOLH,
@@ -94,7 +94,7 @@ C------------------------
           my_real
      .           , DIMENSION(:,:), POINTER :: RFVNOD
 C------------------------
-C Variables volumes finis
+C Finite volume variables
 C------------------------
           my_real
      .           , DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,14 +116,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,NF1,NF2,IBID,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
+      INTEGER I,J,IP,NF1,NF2,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
       INTEGER ID,NPTR,NPTS,NPTT,NLAY,L_PLA,L_SIGB,IBOLTP,IINT,IMAS_DS
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER NC(MVSIZ,10),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10) 
       my_real
-     .   BID, FV,
+     .    FV,
      .   VOLU(MVSIZ), MASS(MVSIZ),VOLG(MVSIZ),
      .   VOLP(MVSIZ,5), STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .   VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
@@ -208,9 +209,9 @@ c
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NSIGI,SIGSP,NSIGS,
-     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG(28))
+     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG(28),JCVT)
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     INITIALIZATION OF THERMAL CONDITIONS
 C----------------------------------------
       IF(JTHE < 0) THEN
        DO I=LFT,LLT
@@ -256,23 +257,23 @@ C
      .              MAT      ,IPM      ,NSIGS    ,NUMSOL     ,PTSOL  ,
      .              IP       ,NGL      ,NPF      ,TF         ,BUFMAT ,
      .              GBUF     ,LBUF     ,MBUF     ,ELBUF_STR  ,ILOADP ,
-     .              FACLOAD, DELTAX    ,TEMPEL   )
+     .              FACLOAD, DELTAX    ,TEMPEL   ,MAT_PARAM )
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       CALCULATION OF ELEMENTARY TIMESTEPS
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .     VOLU, DTX , IGEO,IGTYP)
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     INITIALIZATION OF MASSES
 C----------------------------------------
         CALL S10MSI(LBUF%RHO,MASS,VOLU,DTELEM(NFT+1),STI,
      .   LBUF%OFF,LBUF%SIG ,LBUF%EINT ,
      .   GBUF%OFF,GBUF%SIG,GBUF%EINT,GBUF%RHO,WIP(NPT,IP),
      .   MASSCP  ,RHOCP   ,GBUF%FILL,NEL, DTX)
 C---------------------------------------------------------
-C  INITIALATION DES CONTRAINTES
+C  INITIALIZATION OF STRESSES
 C---------------------------------------------------------
 
          IF(MTN>=28)THEN
@@ -323,7 +324,7 @@ C
      1                 GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
         ENDIF
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     [TO
 C----------------------------------------
       CALL S10MASS3(MASS,MAS,PARTSAV,IPARTS(NF1),MSS(1,NF1),VOLU,
      .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,
@@ -338,8 +339,8 @@ C----------------------------------------
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     Assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         NCC=10

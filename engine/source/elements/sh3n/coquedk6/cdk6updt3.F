@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cdk6updt3   ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
+!||    cdk6updt3     ../engine/source/elements/sh3n/coquedk6/cdk6updt3.F
 !||--- called by ------------------------------------------------------
-!||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||    cdk6forc3     ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CDK6UPDT3(JFT  ,JLT ,F ,M , NVC  ,
      2                   OFFG ,OFF ,STI ,STIR,STIFN,
@@ -32,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                   F31    ,F32  ,F33 ,F14 ,F15  ,
      7                   F16    ,F24  ,F25 ,F26 ,F34 ,
      8                   F35    ,F36  ,NVS ,IVS )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,8 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, I, J, EP
-      INTEGER NC1, NC2, NC3,NC,NCJ
+      INTEGER    I, EP
+      INTEGER   NC,NCJ
 C-----------------------------------------------
 C
       DO 20 I=JFT,JLT
@@ -84,7 +87,7 @@ C
         F(3,NC)=F(3,NC)-F33(I)
         STIFN(NC)=STIFN(NC)+STI(I)
        ENDDO
-C---------avec voisins----------------------
+C---------with neighbors----------------------
        DO EP=JFT,NVS
         I =IVS(EP)
         NCJ = IXTG1(1,I)
@@ -171,7 +174,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K
+      INTEGER I, K
 C-----------------------------------------------
       DO 20 I=JFT,JLT
         IF(OFF(I)<1.)OFFG(I) = OFF(I)

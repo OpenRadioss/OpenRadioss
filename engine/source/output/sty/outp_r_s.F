@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,15 +61,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, JJ,K,L
       INTEGER NG, NEL, NFT, IAD, ITY, LFT, LLT,
-     .        JJ_OLD, NGF, NGL, NN, LEN, NUVAR, NPTT, NPTS,
-     .        LIAD
+     .        JJ_OLD, NGF, NGL, NN
       INTEGER RESP0,WRTLEN,RES,COMPTEUR
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      my_real
-     .   FUNC(6)
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------      
@@ -153,7 +150,7 @@ cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I)
            ENDDO
            RESP0=RES
           ENDIF        ! if(jj_old>0)
-         ENDDO         ! nn=1,nspgroup
+         ENDDO         ! nn = 1, nspgroup
          IF (RESP0>0) THEN
           IF (OUTYY_FMT==2) THEN
             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)

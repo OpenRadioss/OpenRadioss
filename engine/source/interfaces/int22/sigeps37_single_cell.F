@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE SIGEPS37_SINGLE_CELL (
@@ -51,6 +52,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE ALEFVM_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,7 +154,7 @@ C-----------------------------------------------
              RHO2 = UVAR( 2)                                                              
              RHO1 = UVAR( 3)                                                              
              IF (MAS1 / MAS < EM10) THEN                                               
-                !! Phase 2 seule presente                                                 
+                !!Phase 2 Only present                                                 
                 UVAR( 1) = ZERO                                                           
                 UVAR( 4) = ZERO                                                           
                 UVAR( 5) = ONE                                                             
@@ -160,7 +162,7 @@ C-----------------------------------------------
                 UVAR( 2) = RHO2                                                           
                 P = P0 * (RHO2/RHO20)**GAM                                                
              ELSEIF (MAS2 / MAS < EM10) THEN                                           
-                !! Phase 1 seule presente                                                 
+                !!Phase 1 only present                                                 
                 RHO1 = MAS / VOL                                                          
                 UVAR( 1) = RHO1                                                           
                 UVAR( 3) = RHO1                                                           

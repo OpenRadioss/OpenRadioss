@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,7 +53,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J, K,I1,J1,K1,ND,ID,NL,IERR1,IERR2
+      INTEGER  I, J,ND,NL,IERR1,IERR2
 C     REAL
 C-----------------------------------------------
       N_RWL = 0
@@ -120,7 +120,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J, K,IR
+      INTEGER N, I, J,IR
 C     REAL
       my_real
      .   EJ(3)
@@ -212,7 +212,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J, K,IR,ID
+      INTEGER N, I, J,IR,ID
 C     REAL
       my_real
      .   EJ(3)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,31 +25,41 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    alemain                          ../engine/source/ale/alemain.F
 !||--- calls      -----------------------------------------------------
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
 !||    aflux0                           ../engine/source/ale/aflux0.F
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22                     ../engine/source/ale/ale51/afluxt_int22.F90
 !||    agrad0                           ../engine/source/ale/agrad0.F
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22               ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    bhol2                            ../engine/source/ale/ale2d/bhol2.F
 !||    my_barrier                       ../engine/source/system/machine.F
 !||    spmd_xvois                       ../engine/source/mpi/fluid/spmd_cfd.F
+!||    startime                         ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
+!||    aconve_mod                       ../engine/source/ale/aconve.F90
+!||    afluxt_int22_mod                 ../engine/source/ale/ale51/afluxt_int22.F90
+!||    ale51_finish_int22_mod           ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                          ../common_source/modules/ale/ale_mod.F
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
-!||    arezon_mod                       ../engine/source/ale/arezon.F
+!||    arezon_mod                       ../engine/source/ale/arezon.F90
 !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE ALETHE(
      1   IPARG,      ELBUF_TAB,  FLUX,       VAL2,
@@ -61,10 +71,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   LNRCVOIS,   LNSDVOIS,   NERCVOIS,   NESDVOIS,
      8   LERCVOIS,   LESDVOIS,   SEGVAR,
      9   MSNF,       NODFT,      NODLT,      BHOLE,
-     A   IPM,        QMV,        ITAB,       ITABM1,
-     B   LENQMV,     NV46,
+     A   IPM,        QMV,
+     B   s_flux,     s_qmv,      NV46,
      C   IAD_ELEM,   GLOB_THERM,
-     D   FR_ELEM,    MATPARAM)
+     D   FR_ELEM,    MATPARAM  ,timers,nthread,nb_int22,int22,i22len)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +87,16 @@ C-----------------------------------------------
       USE AREZON_MOD , ONLY : AREZON
       use glob_therm_mod
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixs,nixq
+      use timer_mod
+      use precision_mod , only : WP
+      use afluxt_int22_mod , only : afluxt_int22
+      use ale51_finish_int22_mod , only : ale51_finish_int22
+      use arezon_mod , only : arezon
+      use aconve_mod , only : aconve
+      use i22bufbric_mod
+
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,37 +108,66 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
+#include "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
+      integer, intent(in) :: nthread !< number of omp threads
+      integer, intent(in) :: nb_int22 !< number of candidates for the interface 22      
+      integer, intent(in) :: int22 !< number of /TYPE22 interfaces
+      integer, intent(in) :: i22len !< buffer size for intersected bricks
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
-     .        ITAB(NUMNOD), ITABM1(*), BHOLE(*),
+     .        BHOLE(*),
      .        NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT),
-     .        NODFT, NODLT, LENQMV, ITASK, NV46,
+     .        NODFT, NODLT,ITASK, NV46,
      .        IAD_ELEM(2, *), FR_ELEM(*)
  
       my_real VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
      .        MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
-     .        MSNF(*),QMV(*)
+     .        MSNF(*),QMV(s_qmv,2*nv46)
 
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)   :: glob_therm
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
-      INTEGER :: NVAR_MAT !< number of MAT variable(s) : %VAR(1:NEL, 1:NVAR_MAT)
-      INTEGER :: NVAR_EOS !< number of EoS variable(s) : %VAR(1:NEL, 1:NVAR_EOS)
-      my_real,DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
+      INTEGER ITRIMAT,I, LENCOMN,LENCOM
+      integer :: n_entity,n_neighbor,s_alpha_mat
+      integer :: s_lesdvois,s_lercvois,s_bhole
+      integer :: phi_data_s
+      real(kind=WP), dimension(:,:),allocatable ,save:: flux_sav
+      real(kind=WP), dimension(:,:),allocatable ,save:: alpha_mat,val2_mat            
+      real(kind=WP), dimension(:,:,:), allocatable, save :: flux_mat,qmv_mat
+      real(kind=WP), dimension(:,:),allocatable, save :: phi_arezon,phi_conv
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(FLUX_SAV(NV46,LENQMV))
+      s_lesdvois = nesdvois(nspmd+1)
+      s_lercvois = nercvois(nspmd+1)
+      s_bhole = 0
+      if(n2d/=0) s_bhole = max(1,nmult)*numelq
+
+      if(itask==0) then
+        ALLOCATE(FLUX_SAV(s_flux,NV46))
+      endif    
+      if(n2d==0) then
+        n_entity = numels
+        n_neighbor = nsvois
+      else
+        n_entity = numelq
+        n_neighbor = nqvois
+      end if
+      s_alpha_mat = n_entity + n_neighbor   
+
+      call my_barrier
       LENCOMN=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
       LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
 
@@ -130,15 +179,17 @@ C=======================================================================
         !  SPMD EXCHANGES                     !
         !-------------------------------------!
         IF (NSPMD  > 1) THEN
+          if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
           CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOMN)
 !$OMP   END SINGLE
+          if(itask==0) call stoptime(timers,timer_spmdcfd)
         END IF
        !-----------------------------!
        !   DIFFUSIVE FLUXES          !
        !-----------------------------!
         CALL AGRAD0(IPARG,IXS,IXQ,X,ALE_CONNECT,
-     +              FLUX,VEUL,ELBUF_TAB,ITASK)
+     +              FLUX,VEUL,ELBUF_TAB,ITASK,s_flux)
 C----------------------
         CALL MY_BARRIER
 C----------------------
@@ -152,7 +203,7 @@ C----------------------
      3                  IXQ,        FV,         X,          BUFMAT,
      4                  TF,         NPF,        NERCVOIS,   NESDVOIS,
      5                  LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
-     6                  MATPARAM)
+     6                  MATPARAM,   s_flux,     nv46)
           ENDIF
 C------------------------
           CALL MY_BARRIER
@@ -166,11 +217,11 @@ C         SPMD exchange : PHI+VAL2
           CALL AKTURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
      3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
-     4                MATPARAM)
+     4                MATPARAM,s_flux,nv46)
           CALL AETURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
      3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
-     4                MATPARAM)
+     4                MATPARAM,s_flux,nv46)
           ENDIF
       ENDIF !(ITHERM+ITURB /= 0)
 
@@ -194,7 +245,8 @@ C=======================================================================
         CALL AFLUX0(IPARG      ,ELBUF_TAB,PM       ,IXS       ,IXQ    ,
      .              V          ,W        ,X        ,FLUX      ,VAL2   ,
      .              VEUL       ,FILL     ,DFILL    ,PHI       ,
-     .              ALE_CONNECT,ALPH     ,ITASK    ,NV46      ,IPM    )
+     .              ALE_CONNECT,ALPH     ,ITASK    ,NV46      ,IPM    ,
+     .              s_flux     )
 C----------------------
         CALL MY_BARRIER
 C----------------------
@@ -215,183 +267,130 @@ C-----------------------
           CALL ALE51_INIT(IPARG       ,PM    ,IXS  ,IXQ      ,
      2                    X           ,FLUX  ,VAL2 ,
      3                    ALE_CONNECT ,ITASK ,
-     4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB)
+     4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB,
+     5                    s_flux,s_qmv)
         ENDIF
-        !-----------------------------!
-        !     REZONE DEVIATEUR        !
-        !-----------------------------!
-        CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI     ,ALE_CONNECT ,
-     2              2       ,1         ,ITASK  ,NERCVOIS,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM  ,BHOLE       ,
-     4              ITRIMAT)
-        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              2        ,2       ,ITASK  ,NERCVOIS   ,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
-        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              2        ,3       ,ITASK  ,NERCVOIS   ,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
-        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              2        ,4       ,ITASK  ,NERCVOIS   ,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
-        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              2        ,5       ,ITASK  ,NERCVOIS   ,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
-        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI    ,ALE_CONNECT,  
-     2              2        ,6       ,ITASK  ,NERCVOIS   ,
-     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM ,BHOLE      ,  
-     4              ITRIMAT)
-        !------------------------------!
-        !     REZONING : EPS_PLAS      !
-        !------------------------------!
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                10       ,1       ,ITASK ,NERCVOIS   ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                ITRIMAT)
-        !-------------------------------!
-        !     REZONING : %VAR (MAT/EOS) !
-        !-------------------------------!
-        DO I = 1,ALE%REZON%NUM_NUVAR_MAT
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
-     2                11      ,I        ,ITASK   ,NERCVOIS ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
-     4                ITRIMAT,1) ! OPT_FALG_MAT_EOS = 1 : rezoning for material laws
-        ENDDO
-        DO I = 1,ALE%REZON%NUM_NUVAR_EOS
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
-     2                11      ,I        ,ITASK   ,NERCVOIS ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
-     4                ITRIMAT,2) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
-        ENDDO
+        if(itask==0) then
+          allocate(phi_arezon(ale%rezon%phi_dim1,ale%rezon%phi_dim2(1)))
+        endif
+        call my_barrier()
+        call arezon(n2d,numelq, 
+     .              1,nmult,max(1,nmult),      
+     .              ngroup,nparg,0,itask,nspmd, 
+     .              s_lesdvois,s_lercvois,s_flux,s_bhole,nesdvois,nercvois,lesdvois,lercvois,iparg, 
+     .              ale%rezon%nvar_idx_list,bhole,phi_arezon,flux,elbuf_tab,ale_connect,ale%rezon%phi_data,timers)
+        call my_barrier()
 
-        !------------------------------!
-        !     REZONING : TEMPERATURE   !
-        !------------------------------!
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                12       ,1       ,ITASK ,NERCVOIS   ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                ITRIMAT)
 C-----------------------------
 C       MASS & ENERGY CONVECTION
 C-----------------------------
-         DO NVAR=ALE%GLOBAL%LCONV,1,-1
-          !1     : Mass
-          !2     : Energy
-          !3,4   : Turbulency
-          !5     : law37 massic fraction
-          !6,7,8 : MomX, MomY, MomZ (ALE with Full FVM)
-           IF((NVAR /= 9.AND.ALE%GLOBAL%CODV(NVAR) /= 0))THEN
-              CALL ACONVE(
-     1                    IPARG       ,ELBUF_TAB ,FLUX    , VAL2     ,PHI     ,
-     2                    ALE_CONNECT ,NVAR      ,ITASK   , NERCVOIS ,NESDVOIS,
-     3                    LERCVOIS    ,LESDVOIS  ,LENCOM  , SEGVAR   ,BHOLE   ,
-     4                    ITRIMAT     ,QMV       ,0       , IXS      ,IXQ     ,
-     5                    PM          ,X)
-            ENDIF
+        phi_data_s = max(1,nmult)
+        if(itask==0) allocate(phi_conv(ale%conv%phi_dim1,ale%conv%phi_dim2(1)))
+        call my_barrier()
 
-         ENDDO  
+        call aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, 
+     .              numnod, 
+     .              1,trimat,nmult,max(1,nmult), 
+     .              ngroup,nparg,0,itask,nspmd, 
+     .              s_lesdvois,s_lercvois,s_flux,s_qmv,s_bhole, 
+     .              int22,i22len,nsvois,nqvois,ntgvois,nsegflu,phi_data_s, 
+     .              nesdvois,nercvois,lesdvois,lercvois, 
+     .              iparg,bhole,ixs,ixq, 
+     .              phi_conv,flux,qmv,val2,pm,x, 
+     .              elbuf_tab,ale_connect,ale%conv%phi_data,brick_list,segvar,timers)
+        call my_barrier()
 C----------------------       
         !-----------------------------!
         !     LAW51 :                 !
         !       SUBMATERIAL TREATMENT !
         !-----------------------------!
-         IF (TRIMAT   >  0 .AND. ALEMUSCL_Param%IALEMUSCL   >  0) THEN
-            IF (N2D  ==  0) THEN
-               CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
-     .              NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK,
-     .              IAD_ELEM, FR_ELEM, SEGVAR)
-            ELSE
-               CALL ALE51_GRADIENT_RECONSTRUCTION2(IPARG, ELBUF_TAB, IXQ, X, ALE_CONNECT,
-     .              NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 
-     .              IAD_ELEM, FR_ELEM, SEGVAR)
-            ENDIF
-         ENDIF
+        IF (TRIMAT   >  0 .AND. ALEMUSCL_Param%IALEMUSCL   >  0) THEN
+          IF (N2D  ==  0) THEN
+            CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
+     .           NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK,
+     .           IAD_ELEM, FR_ELEM, SEGVAR,timers)
+          ELSE
+            CALL ALE51_GRADIENT_RECONSTRUCTION2(IPARG, ELBUF_TAB, IXQ, X, ALE_CONNECT,
+     .            NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 
+     .            IAD_ELEM, FR_ELEM, SEGVAR,timers)
+          ENDIF
+        ENDIF
 
-         DO ITRIMAT = 1,TRIMAT
-            CALL AFLUXT(IPARG   ,ELBUF_TAB  ,PM      ,IXS      ,IXQ,
-     2                  X       ,FLUX       ,VAL2    ,
-     3                  PHI     ,ALE_CONNECT,ITASK   ,
-     4                  ITRIMAT ,FLUX_SAV   ,NERCVOIS,NESDVOIS ,
-     5                  LERCVOIS,LESDVOIS   ,LENCOM  ,QMV      ,ITAB    ,
-     6                  ITABM1  ,NV46       ,SEGVAR)
-        !-----------------------------!
-        !     LAW51 REZONING :        !
-        !        DEVIATORIC STRESS    ! 
-        !-----------------------------!
-            IF(ITRIMAT /= 4 ) THEN
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,1       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,2       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,3       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,4       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,5       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-               CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                     2        ,6       ,ITASK ,NERCVOIS   ,
-     3                     NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                     ITRIMAT)
-            ENDIF
-        !-----------------------------!
-        !     LAW51 REZONING :        !
-        !      EPS_PLAS               !
-        !      or/and DETONATION TIMES!        
-        !-----------------------------!
-            CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2                  10      ,1        ,ITASK ,NERCVOIS,
-     3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
-     4                  ITRIMAT)
-        !-----------------------------!
-        !     LAW51 REZONING :        !
-        !      TEMPERATURE            !
-        !-----------------------------!
-            CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                  12      ,1        ,ITASK ,NERCVOIS,
-     3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
-     4                  ITRIMAT)
-        !-----------------------------!
-        !     LAW51 :                 !
-        !        EINT CONVECTION      !
-        !-----------------------------!
-            CALL ACONVE(IPARG       ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
-     2                  ALE_CONNECT ,2        ,ITASK ,NERCVOIS,NESDVOIS,
-     3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
-     4                  ITRIMAT     ,QMV      ,0     ,IXS     ,IXQ     ,
-     5                  PM          ,X )
-        !-----------------------------!
-        !     LAW51 :                 !
-        !       MASS CONVECTION       !
-        !-----------------------------!
-            CALL ACONVE(IPARG       ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
-     2                  ALE_CONNECT ,1        ,ITASK ,NERCVOIS,NESDVOIS,
-     3                  LERCVOIS    ,LESDVOIS ,LENCOM,SEGVAR  ,BHOLE   ,
-     4                  ITRIMAT     ,QMV      ,1     ,IXS     ,IXQ     ,
-     5                  PM          ,X )
-         ENDDO!next ITRIMAT
-        !-----------------------------!
-         IF (TRIMAT > 0) THEN
-           CALL ALE51_FINISH(IPARG,PM   ,IXS  ,IXQ,
-     .                       X    ,FLUX ,VAL2 ,PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
-         ENDIF
+        if(trimat>0) then
+          if(itask==0) then
+            allocate(flux_mat(s_flux,NV46,trimat))
+            allocate(qmv_mat(s_qmv,2*nv46,trimat))
+            allocate(alpha_mat(s_alpha_mat,trimat))
+            allocate(val2_mat(s_flux,trimat))
+          endif         
+
+          call my_barrier
+
+          call AFLUXT(IPARG   ,ELBUF_TAB  ,PM      ,IXS      ,IXQ,
+     2                X       ,flux_mat   ,val2_mat    ,s_alpha_mat,
+     3                alpha_mat,ALE_CONNECT,ITASK   ,
+     4                TRIMAT ,FLUX_SAV   ,NERCVOIS,NESDVOIS ,
+     5                LERCVOIS,LESDVOIS   ,qmv_mat  ,
+     6                NV46       ,SEGVAR  ,timers,s_flux,s_qmv,
+     7                ngroup,n2d,nspmd)
+          call my_barrier     
+        endif
+
+        if(trimat>0) then
+          call my_barrier()
+          call arezon(n2d,numelq, 
+     .                trimat,nmult,max(1,nmult),      
+     .                ngroup,nparg,1,itask,nspmd, 
+     .                s_lesdvois,s_lercvois,s_flux,s_bhole,nesdvois,nercvois,lesdvois,lercvois,iparg, 
+     .                ale%rezon%nvar_idx_list_51,bhole,phi_arezon,flux_mat,elbuf_tab,ale_connect,ale%rezon%phi_51_data,timers)
+          call my_barrier()
+         endif
+
+        if(itask==0) deallocate(phi_arezon)
+
+        if(trimat>0) then
+          if(int22/=0) then
+            do itrimat=1,trimat
+              call afluxt_int22(itask,nthread,numels,nparg,ngroup,s_flux,s_alpha_mat,nv46, 
+     .                         itrimat,trimat,npropm,nummat,iparg,ixs,pm,alpha_mat,flux_mat,elbuf_tab,nb,int22,i22len,brick_list)
+            enddo
+          endif
+          
+          phi_data_s = trimat
+          call my_barrier()
+
+          call aconve(n2d,nv46,npropm,nummat,numels,numelq,numeltg, 
+     .                numnod, 
+     .                trimat,trimat,nmult,max(1,nmult), 
+     .                ngroup,nparg,1,itask,nspmd, 
+     .                s_lesdvois,s_lercvois,s_flux,s_qmv,s_bhole, 
+     .                int22,i22len,nsvois,nqvois,ntgvois,nsegflu,phi_data_s, 
+     .                nesdvois,nercvois,lesdvois,lercvois, 
+     .                iparg,bhole,ixs,ixq, 
+     .                phi_conv,flux_mat,qmv_mat,val2_mat,pm,x, 
+     .                elbuf_tab,ale_connect,ale%conv%phi_51_data,brick_list,segvar,timers)!
+          call my_barrier()
+          if (int22>0) THEN
+            call ale51_finish_int22(itask,nthread,numels,nparg,ngroup, 
+     .                              npropm,nummat,iparg,ixs,pm,elbuf_tab, 
+     .                              trimat,nb_int22,int22,i22len,brick_list)
+          endif
+         endif
 C----------------------
       ENDIF
 
-      IF(ITASK==0) DEALLOCATE(FLUX_SAV)
+      call my_barrier
+      if(itask==0) then      
+        if(trimat>0) then
+            deallocate(flux_mat)
+            deallocate(qmv_mat)
+            deallocate(alpha_mat)
+            deallocate(val2_mat)
+        endif
+        deallocate(flux_sav)
+        deallocate(phi_conv)
+      endif
+
       RETURN
       END
 C

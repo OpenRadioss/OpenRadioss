@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DMASANIF(ELBUF_TAB,X   ,D    ,GEO  ,IPARG,
      .                    IXT     ,IXP  ,IXR  ,MAS  ,PM   ,
@@ -34,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +60,7 @@ C-----------------------------------------------
       my_real
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, 
      .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,NB6, 
      .        NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15, NB16,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
@@ -66,7 +68,7 @@ C-----------------------------------------------
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA,
      .        NUVAR
-      REAL R4
+ 
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
@@ -183,7 +185,7 @@ cc            MAS(EL2FA(NN8+N_FA)) = BUFEL(NB16+I)
           ENDIF ! IF(MLW)
         ENDIF ! IF (ITY)
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
       ENDDO
 C-----------------------------------------------

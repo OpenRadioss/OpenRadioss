@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sreploc3       ../engine/source/elements/solid/solide/sreploc3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S10KE3(
      1   PM,       GEO,      IXS,      IXS10,
@@ -51,7 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD      
+      use element_mod , only : nixs      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,8 +101,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, NB3S, IP, NF2, I,J
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),PID
+      INTEGER  NF1, IP, NF2, I,J
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -112,9 +114,9 @@ C-----------------------------------------------
 C----------------
       INTEGER NC(MVSIZ,10),IADBUF,IKORTH,IBID,IUN
       my_real
-     .   OFF(MVSIZ) , VOLP(MVSIZ,5),
+     .    VOLP(MVSIZ,5),
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
-     .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
+     .  
      .  PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),
      .  NX(MVSIZ,10,5),
      .  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ninterp        ../engine/source/interfaces/int14/ninterp.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    output_mod     ../common_source/modules/output/output_mod.F90
@@ -43,7 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,11 +82,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ADRBUF, I, IL, J3, J2, J1, IN, I3, I2, I1
+      INTEGER ADRBUF, I, IL, IN, I3, I2, I1
       INTEGER NISKYL
       INTEGER NDEB, NREST
       INTEGER DGR
-      INTEGER IPT,NPT,II,JJ
       my_real
      .   A, B, C, AN, BN, CN, ROT(9),
      .   X1, X2, X3, N1, N2, N3, N,
@@ -161,7 +159,7 @@ C---------------------------------
 C---------------------------------
       ENDDO
 C----------------------------------------------------------
-C     MOMENTS ET STABILITE.
+C     moments and stability
 C----------------------------------------------------------
       IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
@@ -189,8 +187,8 @@ C----------------------------------------------------------
       IL=KSC(I+NDEB)
       IN=KSI(IL)
 C---------------------------------
-C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-C     les forces sont transmises au (meme) point 
+C     CALCULATION DES MOMENTS MS ^ F (REP. GLOBAL).
+C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)
@@ -200,7 +198,7 @@ C---------------------------------
       AM2=X3*FV(1,I)-X1*FV(3,I)
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
-C     Assemblage des FORCES, moments et rigidites d'interface
+C     assembly of interface forces, moments and stiffnesses
 C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
@@ -211,7 +209,7 @@ C---------------------------------
       BUFSF(ADRBUF+30)=BUFSF(ADRBUF+30)-AM3
       BUFSF(ADRBUF+31)=BUFSF(ADRBUF+31)+ST(I)
 C        STIFRM += [ ST2 * |(CIMP-M)^N|**2 ] + [ ST1 * |(CIMP-M)^T|**2 ]
-C        est majore par :
+C        is increased by:
       DD = X1**2+X2**2+X3**2
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*ST(I)
 C---------------------------------
@@ -229,7 +227,7 @@ C----------------------------------------------------------
        ENDDO
       ENDIF
 C---------------------------------
-C     Assemblage des FORCES aux noeuds seconds.
+C     Assembly of forces with second nodes.
 C---------------------------------
       IF (IPARIT==0) THEN
 C-----------------------------------------------
@@ -271,17 +269,17 @@ C       Stabilite
 C       Stabilite
         FSKYI(NISKYL,4)=ST(I)
         FSKYI(NISKYL,5)=WST(IN)
-C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
+C 2C in Modsti FSKYI (Niskyl, 5) = 2.*WST (in)
         ISKY(NISKYL)   =IN
         ENDDO
       ENDIF
 
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     anim (contact forces)
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
@@ -295,9 +293,9 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
-C     2eme partie : apres calcul de DT2.
+C     2eme partie : apres calculation de DT2.
 C---------------------------------
       DO I=1,MIN(MVSIZ,NREST)
          IL=KSC(I+NDEB)
@@ -305,7 +303,7 @@ C---------------------------------
          DE=DE+FV(1,I)*V(1,IN)+FV(2,I)*V(2,IN)+FV(3,I)*V(3,IN)
       ENDDO
 C---------------------------------
-C     Groupe suivant.
+C     Next group.
 C---------------------------------
       IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
@@ -319,7 +317,7 @@ C-------------------------------
       NREST=NSP
  100  CONTINUE
 C-------------------------------
-C     Passage au repere local :
+C     Passage to the local frame:
 C-------------------------------
       DO I=1,MIN(MVSIZ,NREST)
       IL=KSP(I+NDEB)
@@ -343,7 +341,7 @@ C-------------------------------
       NV(3,I) =NIMP(3,IL)
       ENDDO
 C----------------------------------------------------------
-C     Coefficient de Frottement :
+C     friction coefficient:
 C     MU=F(FORCE NORMALE LOCALE).
 C----------------------------------------------------------
       IF (NFRIC==0) THEN
@@ -392,13 +390,13 @@ C-----------------------------------------------
       TV(2,I)=TV(2,I)/TN
       TV(3,I)=TV(3,I)/TN
 C-----------------------------------------------
-C     Force de Frottement.
+C     friction force
       FTPA=MIN(TN,FMAX)
       FXT=TV(1,I)*FTPA
       FYT=TV(2,I)*FTPA
       FZT=TV(3,I)*FTPA
 C-------------------------------
-C     proj. sur tangente.
+C     proj. on tangent
       COST =(XPV(1,I)-XI)*TV(1,I)
      .     +(XPV(2,I)-YI)*TV(2,I)
      .     +(XPV(3,I)-ZI)*TV(3,I)
@@ -406,7 +404,7 @@ C     proj. sur tangente.
       XQ(2,I) =YI+COST*TV(2,I)
       XQ(3,I) =ZI+COST*TV(3,I)
 C-------------------------------
-C     glissement du point sur la tgte.
+C     sliding of the point on the tangent
       XQ(1,I) =XQ(1,I)+FTPA*TV(1,I)/MAX(EM20,STF)
       XQ(2,I) =XQ(2,I)+FTPA*TV(2,I)/MAX(EM20,STF)
       XQ(3,I) =XQ(3,I)+FTPA*TV(3,I)/MAX(EM20,STF)
@@ -424,7 +422,7 @@ C----------------------------------------------------------
       IL=KSP(I+NDEB)
       IN=KSI(IL)
 C-------------------------------
-C     nouvelle normale.
+C     normal new.
 C-------------------------------
       XPVN1 =XQ(1,I)**(DGR-1)
       SGNXN=-ONE
@@ -441,9 +439,9 @@ C-------------------------------
       N =N1*N1+N2*N2+N3*N3
       N  =SQRT(N)
 C-------------------------------
-C     nouveau point d'impact : projection hors ellips.
-C     la position de l'impact et le calcul de la normale s'affinent
-C     en l'absence de glissement.
+C     New  point: projection excluding ellips.
+C     the  position and normal calculation are refined
+C     in the absence of shift.
 C-------------------------------
       E =N1*XQ(1,I)+N2*XQ(2,I)+N3*XQ(3,I)
       DIST =(E-EXP((DGR-1)*LOG(MAX(E,EM20))/DGR))
@@ -454,12 +452,12 @@ C-------------------------------
       CIMP(1,IL)=XQ(1,I)-DIST*N1
       CIMP(2,IL)=XQ(2,I)-DIST*N2
       CIMP(3,IL)=XQ(3,I)-DIST*N3
-C     memorisation des composantes de la normale.
+C     storing the normal components
       NIMP(1,IL)=N1
       NIMP(2,IL)=N2
       NIMP(3,IL)=N3
 C-------------------------------
-C     rabattre F // PI apres glissement
+C     Fold f // pi after shift
 C     ROMPT LA RELATION FTOT=F(PENETRATION MAX.)
 C-------------------------------
       FX=FV(1,I)
@@ -478,7 +476,7 @@ C-------------------------------
       FX=PSCA/DIST*(XI-XPV(1,I))
       FY=PSCA/DIST*(YI-XPV(2,I))
       FZ=PSCA/DIST*(ZI-XPV(3,I))
-C     decomposition pour sorties :
+C     decomposition for outputs:
       PSCA=FX*NV(1,I)+FY*NV(2,I)+FZ*NV(3,I)
       FXN =PSCA*NV(1,I)
       FYN =PSCA*NV(2,I)
@@ -509,7 +507,7 @@ C---------------------------------
 C---------------------------------
       ENDDO
 C----------------------------------------------------------
-C     MOMENTS ET STABILITE.
+C     moments and stability
 C----------------------------------------------------------
       IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
@@ -529,8 +527,8 @@ C----------------------------------------------------------
       IL=KSP(I+NDEB)
       IN=KSI(IL)
 C---------------------------------
-C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-C     les forces sont transmises au (meme) point 
+C     CALCULATION DES MOMENTS MS ^ F (REP. GLOBAL).
+C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)
@@ -540,7 +538,7 @@ C---------------------------------
       AM2=X3*FV(1,I)-X1*FV(3,I)
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
-C     Assemblage des FORCES, moments et rigidites d'interface
+C     assembly of forces, moments, and interface stiffnesses
 C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
@@ -551,13 +549,13 @@ C---------------------------------
       BUFSF(ADRBUF+30)=BUFSF(ADRBUF+30)-AM3
       BUFSF(ADRBUF+31)=BUFSF(ADRBUF+31)+ST(I)
 C        STIFRM += [ ST2 * |(CIMP-M)^N|**2 ] + [ ST1 * |(CIMP-M)^T|**2 ]
-C        est majore par :
+C        is bounded by:
       DD = X1**2+X2**2+X3**2
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*ST(I)
 C---------------------------------
       ENDDO
 C---------------------------------
-C     Assemblage des FORCES aux noeuds seconds.
+C     Assembly of forces with second nodes.
 C---------------------------------
       IF (IPARIT==0) THEN
 C-----------------------------------------------
@@ -599,17 +597,17 @@ C       Stabilite
 C       Stabilite
         FSKYI(NISKYL,4)=STF
         FSKYI(NISKYL,5)=WST(IN)
-C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
+C 2C in Modsti FSKYI (Niskyl, 5) = 2.*WST (in)
         ISKY(NISKYL)   =IN
         ENDDO
       ENDIF
 
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     anim (contact forces).
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    (TT>=TANIM .AND. TT<=TANIM_STOP.OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP.OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
@@ -623,9 +621,9 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
-C     2eme partie : apres calcul de DT2.
+C     2eme partie : apres calculation de DT2.
 C---------------------------------
       DO I=1,MIN(MVSIZ,NREST)
          IL=KSP(I+NDEB)
@@ -633,7 +631,7 @@ C---------------------------------
          DE=DE+FV(1,I)*V(1,IN)+FV(2,I)*V(2,IN)+FV(3,I)*V(3,IN)
       ENDDO
 C---------------------------------
-C     Groupe suivant.
+C     Next group.
 C---------------------------------
       IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ

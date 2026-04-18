@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||    timer_mod                    ../engine/source/system/timer_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -54,6 +55,7 @@ C-----------------------------------------------
       USE INTERFACE_MODIFICATION_MOD
       USE SENSOR_MOD
       USE TRI7BOX
+      USE SPMD_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,15 +93,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL, DIMENSION(NINTER) :: FORCE_COMPUTATION
       INTEGER I,J,KK,IGN,IGE,JJ, NSN, NMN,
-     .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
+     .        NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
-      INTEGER :: JMAX
+      INTEGER :: JMAX,KEY,KEYIN
       my_real
      .        XX,XY,XZ,DIST0,VX,VY,VZ,GAPINF,VV,DTI,VMAXDT,
      .        STARTT, STOPT, MINBOX,TZINFL,GAPSUP,PMAX_GAP,
-     .        MARGE0,TZINF(NBINTC),CRITERL(NBINTC),TS     ,
-     .        XXP,XYP,XZP,XXG,XYG,XZG,D0,D1,D2,D3,D4,D5,D6,D7,D8,
+     .        MARGE0,TZINF(NBINTC),TS     ,
+     .        D0,D1,
      .        DELTA_PMAX_GAP_SAV(NINTER)
+      my_real :: DGLOB
 C-----------------------------------------------
 C   F u n c t i o n s
 C-----------------------------------------------
@@ -109,7 +112,7 @@ C-----------------------------------------------
       ENDIF
       FORCE_COMPUTATION(1:NINTER) = .FALSE.
 C
-C Precalcul des interfaces utiles
+C precalculation of useful interfaces
 C
       NBNEW = 0
       DO KK=1,NBINTC
@@ -223,7 +226,7 @@ C=======================================================================
         IF(NTY == 17)THEN
 C=======================================================================
          IF(IPARI(33,I) == 0)THEN
-C penser a faire le cumul des SIZE_T
+C remember to accumulate SIZE_T
 C
           IGN = IPARI(36,I)
           IGE = IPARI(34,I)
@@ -243,7 +246,7 @@ C
           XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
           DIST0 = XX**2 + XY**2 + XZ**2
 C
-C      Te st sur pas de temps sur l'interface
+C      test on timestep on the interface
 C
           IF(DIST0>=TZINF(KK)**2.OR.KFORSMS/=0) THEN
 C           DIST = -1
@@ -261,15 +264,15 @@ C           DIST = -1
 C=======================================================================
         ELSEIF(NTY == 24)THEN
 C=======================================================================
-c  deplacement relatif 
+c  Relative displacement 
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
-c  deplacement relatif + gap
+c  Relative displacement + gap
 c         XXG = MAX(XSLV(7,I)-XMSR(10,I),XMSR(7,I)-XSLV(10,I),ZERO)
 c         XYG = MAX(XSLV(8,I)-XMSR(11,I),XMSR(8,I)-XSLV(11,I),ZERO)
 c         XZG = MAX(XSLV(9,I)-XMSR(12,I),XMSR(9,I)-XSLV(12,I),ZERO)
-c  deplacement relatif + pene-gap (PENE_OLD(3,i))
+c  displacement relatif + pene-gap (PENE_OLD(3,i))
 c         XXP = MAX(XSLV(13,I)-XMSR(4,I),XMSR(1,I)-XSLV(16,I),ZERO)
 c         XYP = MAX(XSLV(14,I)-XMSR(5,I),XMSR(2,I)-XSLV(17,I),ZERO)
 c         XZP = MAX(XSLV(15,I)-XMSR(6,I),XMSR(3,I)-XSLV(18,I),ZERO)
@@ -310,7 +313,7 @@ c         D8 = XX+XY+XZP
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local main nodes and ALL secnd nodes
+c velocity between local main nodes and ALL second nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1
          INTBUF_TAB(I)%VARIABLES(24) = VMAXDT
@@ -357,7 +360,7 @@ c     .       F20.10,A,F14.7,A,F20.10,A,I4)')
 C=======================================================================
         ELSEIF(NTY == 25)THEN
 C=======================================================================
-c  deplacement relatif 
+c  Relative displacement 
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
@@ -374,7 +377,7 @@ c  deplacement relatif
 C--------
 C
 c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
-c velocity between local main nodes and ALL secnd nodes
+c velocity between local main nodes and ALL second nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1                           
 ! If VMAXDT > MARGE0, the run is likely diverging. 
@@ -387,16 +390,23 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-
-
-         IF(VMAXDT > FIVE * MARGE0) THEN
+         IF(VMAXDT > TWO * MARGE0) THEN
            ! assuming that MARGE0 is identical on all processors
-           ERRORS = ERRORS + 1
-           IF(ISPMD == 0) THEN
-             WRITE(ISTDO,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
+           IF(VMAXDT > FIVE*MARGE0) THEN
+             ERRORS = ERRORS + 1
+             IF(ISPMD == 0) THEN
+               WRITE(ISTDO,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
-             WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
+               WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
+             ENDIF
+           ELSE
+             IF(ISPMD == 0) THEN
+               WRITE(ISTDO,'(A,I10)') "WARNING: NODAL VELOCITY MAY BE TOO HIGH
+     . FOR INTERFACE",IPARI(15,I) 
+               WRITE(IOUT,'(A,I10)') "WARNING: NODAL VELOCITY MAY BE TOO HIGH
+     . FOR INTERFACE",IPARI(15,I) 
+              ENDIF
            ENDIF
            NSN = IPARI(5,I)
            NMN = IPARI(6,I)
@@ -405,9 +415,9 @@ c (no need to communicate VMAXDT in SPMD)
            DO JJ=1,NSN
              J=INTBUF_TAB(I)%NSV(JJ)
              IF(INTBUF_TAB(I)%STFNS(JJ)/=ZERO .AND. J<=NUMNOD .AND. J > 0) THEN
-               VX = V(1,J) 
-               VY = V(2,J) 
-               VZ = V(3,J) 
+               VX = MAX(V(1,J)-VMSR(4,I),VMSR(1,I)-V(1,J),ZERO)
+               VY = MAX(V(2,J)-VMSR(5,I),VMSR(2,I)-V(2,J),ZERO)
+               VZ = MAX(V(3,J)-VMSR(6,I),VMSR(3,I)-V(3,J),ZERO)
                IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
                  D1 = SQRT(VX**2+VY**2+VZ**2)
                  JMAX = J
@@ -417,20 +427,32 @@ c (no need to communicate VMAXDT in SPMD)
            DO JJ=1,NMN
              J=INTBUF_TAB(I)%MSR(JJ)
              IF(J>0 .AND. J <= NUMNOD) THEN
-               VX = V(1,J) 
-               VY = V(2,J) 
-               VZ = V(3,J) 
+               VX = MAX(VSLV(1,I)-V(1,J),V(1,J)-VSLV(1,I),ZERO)
+               VY = MAX(VSLV(2,I)-V(2,J),V(2,J)-VSLV(2,I),ZERO)
+               VZ = MAX(VSLV(3,I)-V(3,J),V(3,J)-VSLV(3,I),ZERO)
                IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
                  D1 = SQRT(VX**2+VY**2+VZ**2)
                  JMAX = J
                ENDIF
              ENDIF
            ENDDO
-           IF(D1 > FIVE * MARGE0 /TWO ) THEN
-             WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
-             WRITE(IOUT,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
+           IF(INTBUF_TAB(I)%belongs_to_comm_crit) THEN
+             KEY = -1
+             DGLOB = -HUGE(DGLOB)
+             call spmd_allreduce(D1, DGLOB, 1 , SPMD_MAX, INTBUF_TAB(I)%MPI_COMM_CRIT)
+             KEYIN = -1
+             IF(D1 == DGLOB) THEN
+               KEYIN = ISPMD
+             ENDIF
+             call spmd_allreduce(ISPMD, KEY, 1 , SPMD_MAX, INTBUF_TAB(I)%MPI_COMM_CRIT)
+             IF(D1  == DGLOB .AND. ISPMD == KEY) THEN
+               WRITE(ISTDO,*) "NODE WITH HIGHEST RELATIVE VELOCITY:",ITAB(JMAX),D1
+               WRITE(IOUT,*)  "NODE WITH HIGHEST RELATIVE VELOCITY:",ITAB(JMAX),D1
+             ENDIF
            ENDIF
-           INTBUF_TAB(I)%VARIABLES(24) = MARGE0
+           IF(VMAXDT > FIVE*MARGE0) THEN
+             INTBUF_TAB(I)%VARIABLES(24) = MARGE0
+           ENDIF
          ENDIF
 
 
@@ -457,7 +479,7 @@ c     .       F20.10,A,F14.7,A,F20.10,A,I4)')
 C=======================================================================
         ELSE ! all other NTYP
 C=======================================================================
-c        a optimiser pour l'interface type 7 (cf type 24)
+c        a optimiser for l'interface type 7 (cf type 24)
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
@@ -483,7 +505,7 @@ C
 C
          DIST0 = INTBUF_TAB(I)%VARIABLES(5) - SQRT(XX**2+XY**2+XZ**2)
 C
-C Test sur pas de temps sur l'interface
+C test on timestep on the interface
 C
          IF (VV/=ZERO) THEN
              GAPINF =INTBUF_TAB(I)%VARIABLES(6)

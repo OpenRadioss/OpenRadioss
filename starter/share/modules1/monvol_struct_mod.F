@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: IBAGJET
 !     Real info on injectors (NJET x NRBJET)
       my_real, DIMENSION(:, :), ALLOCATABLE :: RBAGJET
-!     Vent holes and porous surfaces
+!     Wind Holes and Porous Surfaces
       INTEGER :: NVENT, NPORSURF
 !     Integer data
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: IBAGHOL
@@ -115,7 +115,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: ELEM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVBAG_ELEMID
-!     Adress of element inside IXC and IXTG
+!     Address of element inside IXC and IXTG
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELTG
 !     Store mat number of triagnel surface
       INTEGER, DIMENSION(:), ALLOCATABLE :: MATTG
@@ -145,7 +145,7 @@ C-----------------------------------------------
       LOGICAL :: EDGES_BUILT
       INTEGER :: NEDGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_NODE1, EDGE_NODE2, EDGE_ELEM, IAD_EDGE_ELEM
-!     Keep old adresses until full conversion is done
+!     Keep old addresses until full conversion is done
       INTEGER :: IADALE, IADALE2, IADALE3, IADALE4, IADALE5, IADALE6, IADALE7, IADALE8, IADALE9, 
      .     IADALE10, IADALE11, IADALE12, IADALE13, KRA5, KRA6, KR5
       LOGICAL :: OK_REORIENT
@@ -659,6 +659,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -795,6 +796,7 @@ C-----------------------------------------------
       SUBROUTINE MONVOL_CHECK_VENTHOLE_SURF(IPRI, T_MONVOLN, IGRSURF, IHOL, SHOL, X, IXC, IXTG)
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixc,nixtg      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -859,7 +861,7 @@ C-----------------------------------------------
          SHOL = SHOL + DS
       ENDDO
 C------------------------------------------------
-C     Ajout condition Svent incluse dans Surf airbag
+C     Adding Svent Save Include in Surf Airbag
 C------------------------------------------------
       CHKSURF=0
       NN =IGRSURF(ISUR)%NSEG
@@ -870,7 +872,7 @@ C------------------------------------------------
          IF(ITY == 7) JI=JI+NUMELC
          NN1 =IGRSURF(EXT_SURFID)%NSEG
          FOUND = .FALSE.
-C     Test surface externe
+C     External surface test
          DO J1=1,NN1
             JI1 =IGRSURF(EXT_SURFID)%ELEM(J1)
             ITY1=IGRSURF(EXT_SURFID)%ELTYP(J1)
@@ -1107,6 +1109,7 @@ C-----------------------------------------------
 !||    monvol_struct_mod       ../starter/share/modules1/monvol_struct_mod.F
 !||====================================================================
       SUBROUTINE MONVOL_ORIENT_SURF(T_MONVOLN, TITLE, IVOLU, ITAB, SURF, IXC, IXTG, X, ITYPE)
+      use element_mod , only : nixc,nixtg        
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -1195,7 +1198,7 @@ C-----------------------------------------------
       INTEGER(8) :: graph_ptr
       INTEGER :: IELEM,ICOMP, EDGES_A(5),EDGES_B(5), NB_REVERSED
       INTEGER :: NPT_A, NPT_B, IELEM1, IELEM2, ELTYP1, ELTYP2, NB_COMMON_NODE, 
-     .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC
+     .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC,SEG1ID,SEG2ID
       LOGICAL :: lFOUND, lFOUND_ADJ
       INTEGER :: NB_DUPLICATED_ELTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: DUPLICATED_ELTS
@@ -1645,26 +1648,26 @@ C      endif !(debug_output)
       ALLOCATE(DUPLICATED_ELTS(NB_DUPLICATED_ELTS * 2))
       CALL TAB1_GET(duplicate_ptr, DUPLICATED_ELTS)
       DO JJ = 1, NB_DUPLICATED_ELTS
-         ELEM1ID = SURF%ELEM(DUPLICATED_ELTS(2 * (JJ - 1) + 1))
-         ELEM2ID = SURF%ELEM(DUPLICATED_ELTS(2 * (JJ - 1) + 2))
-!     ELEM1D is already oriented, ELEM2ID has to be oriented reversely
+         SEG1ID = DUPLICATED_ELTS(2 * (JJ - 1) + 1)
+         SEG2ID = DUPLICATED_ELTS(2 * (JJ - 1) + 2)
+!     ELEM1D is already oriented, SEG2ID has to be oriented reversely
          ELTYP1 = SURF%ELTYP(DUPLICATED_ELTS(2 * (JJ - 1) + 1))
          ELTYP2 = SURF%ELTYP(DUPLICATED_ELTS(2 * (JJ - 1) + 2))
          IF (ELTYP1 == ELTYP2) THEN
-            II(1:4) = SURF%NODES(ELEM1ID, 1:4)
+            II(1:4) = SURF%NODES(SEG1ID, 1:4)
             IF (ELTYP1 == 7) THEN
 !     Triangles
-               SURF%NODES(ELEM2ID, 1:4) = (/ II(2), II(1), II(3), II(4) /)
+               SURF%NODES(SEG2ID, 1:4) = (/ II(2), II(1), II(3), II(4) /)
             ELSE
 !     Quads
-               SURF%NODES(ELEM2ID, 1:4) = (/ II(1), II(4), II(3), II(2) /)
+               SURF%NODES(SEG2ID, 1:4) = (/ II(1), II(4), II(3), II(2) /)
             ENDIF
          ELSE
 !     Target element is necessarily the triangle
-            II(1:4) = SURF%NODES(ELEM2ID,1:4)  
+            II(1:4) = SURF%NODES(SEG2ID,1:4)  
             EDGES_A(1:5) = (/ II(1:3), II(1), 0 /) 
             NPT_A = 3 
-            II(1:4) = SURF%NODES(ELEM1ID,1:4)  
+            II(1:4) = SURF%NODES(SEG1ID,1:4)  
             EDGES_B(1:5) = (/ II(1:4), II(1) /)
             NPT_B = 4   
             !--CHECK PATTERN (CURRENT vs ADJACENT)
@@ -1681,11 +1684,11 @@ C      endif !(debug_output)
                IF(lFOUND)EXIT
             ENDDO
             IF(lFOUND)THEN
-               II(1:4) = SURF%NODES(ELEM2ID, 1:4) 
+               II(1:4) = SURF%NODES(SEG2ID, 1:4) 
                IF(NPT_A == 4)THEN
-                  SURF%NODES(ELEM2ID,1:4)=(/ II(1), II(4), II(3), II(2) /)
+                  SURF%NODES(SEG2ID,1:4)=(/ II(1), II(4), II(3), II(2) /)
                ELSE
-                  SURF%NODES(ELEM2ID,1:4)=(/ II(2), II(1), II(3), II(4) /)
+                  SURF%NODES(SEG2ID,1:4)=(/ II(2), II(1), II(3), II(4) /)
                ENDIF
             ENDIF
          ENDIF
@@ -1789,6 +1792,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
+      use element_mod , only : nixc,nixtg      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

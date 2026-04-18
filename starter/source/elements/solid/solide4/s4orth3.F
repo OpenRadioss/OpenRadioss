@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C     REAL
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
 C-----------------------------------------------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
       IF (JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14)THEN
         DO I=LFT,LLT
 C         Extration de G tq Xortho=Transpose(G) Xcvt
@@ -170,7 +170,7 @@ C     REAL
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
 C-----------------------------------------------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
       IF (JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14)THEN
         DO I=LFT,LLT
 C         Extration de G tq Xortho=Transpose(G) Xcvt

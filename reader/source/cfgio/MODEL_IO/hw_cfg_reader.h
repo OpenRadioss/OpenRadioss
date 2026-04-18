@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef HW_CFG_READER_H
 #define HW_CFG_READER_H
 
@@ -118,7 +118,6 @@ public: /** @name Constructors, destructor, re-configuring */
 public: /** @name Reading model (public) */
     /// Reading model
     void readModel(MECIModelFactory* model_p, bool do_transform = true);
-    void readCurrentObjects(vector<IMECPreObject*>& preobj_lst, char* header_card, int linecount=0);
     IMECPreObject* readCurrentObjects(MECIModelFactory* model_p, char* header_card = NULL, const CUserNameTypeInfo* headerdata=nullptr, int linecount=0);
     virtual void readCurrentObjects(MECIModelFactory* model_p, vector<IMECPreObject*>& preobj_lst, char* header_card, const CUserNameTypeInfo* headerdata=nullptr, int linecount=0);
 
@@ -204,6 +203,7 @@ public:
     inline void SetModelFactoryPtr(MECIModelFactory* mf_p) { myModelFactoryPtr = mf_p; }
     /// Returns true if the line is a header
     virtual bool isHeader(const char* buffer, char** keyword_p = NULL) const;
+    virtual void postTreatLineCount(const CUserNameTypeInfo* p_type_info, string &header, int* line_count) {}
 protected:
     /// Gets the current model factory
     inline const MECIModelFactory* GetModelFactoryPtr() const { return myModelFactoryPtr; }
@@ -275,7 +275,7 @@ public:
 
     void readCurrentObjects(MECIModelFactory* model_p, vector<IMECPreObject*>& preobj_lst, char* header_card, const CUserNameTypeInfo* headerdata = nullptr, int linecount=0);
 
-
+    virtual void postTreatLineCount(const CUserNameTypeInfo* p_type_info, string& header, int* line_count);
 };
 
 

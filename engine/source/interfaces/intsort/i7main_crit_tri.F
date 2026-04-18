@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,7 +77,7 @@ C
       IF(STARTT>TT) RETURN
       IF(TT>STOPT)  RETURN
 C
-C test temporaire pour assurer la compatibilite restart en 51d et 51e
+C temporary test to ensure restart compatibility in 51d and 51e
        IF(INTBUF_TAB%VARIABLES(16)==ZERO)
      .     INTBUF_TAB%VARIABLES(16)=EP30
        CALL I7BUCE_CRIT(

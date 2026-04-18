@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,9 @@
 !||====================================================================
       module inivel_dt2_mod
 !
+      implicit none
       contains
-        !! \brief time step change due to inivel w/ T_start
+        !! \brief time step change due to inivel with T_start
 !||====================================================================
 !||    inivel_dt2      ../engine/source/loads/general/inivel/inivel_dt2.F90
 !||--- called by ------------------------------------------------------
@@ -68,7 +69,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer  :: i,j,id,n,itype,iactiv,sens_id
+          integer  :: n,itype,iactiv,sens_id
           real(kind=WP)  :: tstart,tstart_s,tstart1,time1
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,6 @@
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
 !||    anim_nodal_ssp_elems             ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||    build_connectivity               ../engine/source/multifluid/connectivity.F
-!||    c3grhead                         ../starter/source/elements/sh3n/coque3n/c3grhead.F
 !||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
 !||    c_multi_vel                      ../starter/source/restart/ddsplit/c_multi_vel.F
 !||    c_vois                           ../starter/source/restart/ddsplit/c_vois.F
@@ -37,8 +36,8 @@
 !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
 !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
 !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
-!||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                           ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs10_nrf                       ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant                ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                        ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ebcs_mod                         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecrit                            ../engine/source/output/ecrit.F
@@ -67,7 +66,9 @@
 !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||    h3d_solid_vector                 ../engine/source/output/h3d/h3d_results/h3d_solid_vector.F
 !||    hist2                            ../engine/source/output/th/hist2.F
+!||    hm_read_bcs_nrf                  ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                 ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    hm_read_ebcs_cyclic              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -118,7 +119,9 @@
 !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
 !||    iniphase                         ../starter/source/initial_conditions/inivol/iniphase.F
+!||    init_bcs_nrf                     ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_h3d_engine                  ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                      ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    initia                           ../starter/source/elements/initia/initia.F
@@ -156,7 +159,6 @@
 !||    multi_evolve_partial             ../engine/source/multifluid/multi_evolve_partial.F
 !||    multi_face_elem_data             ../engine/source/multifluid/multi_face_data_elem.F
 !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
-!||    multi_fluxout_ebcs               ../engine/source/multifluid/multi_fluxout_ebcs.F
 !||    multi_fvm2fem                    ../engine/source/multifluid/multi_fvm2fem.F
 !||    multi_globalize                  ../engine/source/multifluid/multi_globalize.F
 !||    multi_i18_force_poff             ../engine/source/interfaces/int18/multi_i18_force_poff.F
@@ -166,7 +168,6 @@
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propellant_ebcs            ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    multi_update_global              ../engine/source/multifluid/multi_update_global.F
 !||    multi_update_partial             ../engine/source/multifluid/multi_update_partial.F
@@ -186,6 +187,7 @@
 !||    read_ebcs                        ../starter/source/boundary_conditions/ebcs/read_ebcs.F
 !||    read_material_models             ../starter/source/materials/read_material_models.F
 !||    resol                            ../engine/source/engine/resol.F
+!||    resol_alloc_python               ../engine/source/engine/resol_alloc.F90
 !||    resol_head                       ../engine/source/engine/resol_head.F
 !||    restalloc                        ../engine/source/output/restart/arralloc.F
 !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
@@ -285,7 +287,7 @@
           real(kind=WP), dimension(:), allocatable :: rho, eint, pres
           real(kind=WP), dimension(:), allocatable :: tburn, vol
           real(kind=WP), dimension(:, :), allocatable :: bfrac
-          integer, pointer, dimension(:) :: pcnel, paddcnel, paddtmpl
+          integer, pointer, dimension(:) :: pcnel => null(), paddcnel => null(), paddtmpl => null()
 
           ! indicates whether we run in 3d (sym = 0), or 2d (sym = 1 planar case, sym = 2 cylindrical case)
           integer :: sym
@@ -340,11 +342,11 @@
         end type multi_fvm_struct
 
         type lbuf_ptr
-          type(l_bufel_), pointer :: lbuf
+          type(l_bufel_), pointer :: lbuf => null()
         end type lbuf_ptr
 
         type ebuf_ptr
-          type(buf_eos_), pointer :: ebuf
+          type(buf_eos_), pointer :: ebuf => null()
         end type ebuf_ptr
 
         type fvm_inivel_struct

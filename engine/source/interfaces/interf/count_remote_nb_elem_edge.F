@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
@@ -43,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !             the nodes from your interface!"
 !$ENDCOMMENT
        USE nodal_arrays_mod
+       use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,7 +158,7 @@ C-----------------------------------------------
                     ENDDO
                 ELSEIF(ELEM_ID>OFFSET_TRUSS.AND.ELEM_ID<=OFFSET_BEAM) THEN
                 ! -----------------
-                ! truss element
+                ! truss
                     DO K=2,3
                         NODE_ID = IXT(K,ELEM_ID-OFFSET_TRUSS)
                         TAG_NODE(NODE_ID) = 1

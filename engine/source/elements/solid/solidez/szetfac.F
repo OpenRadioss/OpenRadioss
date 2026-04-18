@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,10 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    szetfac      ../engine/source/elements/solid/solidez/szetfac.F
+!||    szetfac       ../engine/source/elements/solid/solidez/szetfac.F
 !||--- called by ------------------------------------------------------
-!||    szhour3      ../engine/source/elements/solid/solidez/szhour3.F
-!||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+!||    s6zhour3      ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zhour3_or   ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
+!||    szhour3       ../engine/source/elements/solid/solidez/szhour3.F
+!||    szhour3_or    ../engine/source/elements/solid/solidez/szhour3_or.F
 !||====================================================================
       SUBROUTINE SZETFAC(LFT,LLT,IKT,MTN,ET,G  )
 C-----------------------------------------------
@@ -49,9 +51,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,K
+      INTEGER I
       my_real
-     .   FAC_L,FAC_U,FAC(MVSIZ),ETE,FAC_MIN,FAC_MAX
+     .   FAC_L,FAC_U,FAC(MVSIZ)
 C-------IKT=2 for the moment----------
       FAC_L=FIVEEM2
       DO I=LFT,LLT

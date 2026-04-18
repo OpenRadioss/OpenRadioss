@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -103,6 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_stack                   ../starter/source/restart/ddsplit/w_stack.F
 !||    w_tabmat_prop             ../starter/source/restart/ddsplit/w_tabmat_prop.F
 !||    write_ale_grid            ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf             ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall            ../common_source/output/restart/write_bcs_wall.F90
 !||    write_common_data         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_gradp0         ../common_source/modules/boundary_conditions/ebcs_mod.F90
@@ -128,16 +129,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_real_2d             ../common_source/comm/write_mod.F
 !||    write_real_3d             ../common_source/comm/write_mod.F
 !||    write_rrbe3pen            ../engine/source/output/restart/restart_rbe3pen.F90
+!||    write_rrwallpen           ../engine/source/output/restart/restart_rwallpen.F90
 !||    write_sensors             ../engine/source/output/restart/write_sensors.F
 !||    write_thermparam          ../engine/source/output/restart/write_thermparam.F90
 !||    write_units               ../common_source/comm/write_units.F
 !||    write_viscparam           ../engine/source/output/restart/write_viscparam.F
 !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db_c                ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c                ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DB(A,N)
-C ecriture nombre reel : routine tampon
+C Writing Reel Number: wrapper routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,7 +167,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             DO J = 1, 1000
@@ -183,7 +185,7 @@ C fortran real : 64 bits C double : 64 bits
             CALL WRITE_DB_C(R4,N-N2)
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             DO J = 1, 1000
               K=K+1
@@ -212,10 +214,10 @@ C
 !||    write_data_nrf          ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
-!||    write_db_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DB_ARRAY(A,N)
-C ecriture nombre reel : routine tampon
+C Writing Reel Number: wrapper routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -243,7 +245,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             DO J = 1, 1000
@@ -261,7 +263,7 @@ C fortran real : 64 bits C double : 64 bits
             CALL WRITE_DB_ARRAY_C(R4,N-N2)
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             DO J = 1, 1000
               K=K+1
@@ -287,7 +289,7 @@ C
 !||    add_elapsed_time_mon_off   ../engine/source/system/timer.F
 !||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
 !||    intstamp_wrestr            ../engine/share/modules/intstamp_mod.F
-!||    printime                   ../engine/source/system/timer.F
+!||    printime                   ../engine/source/system/printime.F
 !||    w_elbuf_str                ../engine/source/elements/elbuf/w_elbuf_str.F
 !||    write_double               ../common_source/comm/write_mod.F
 !||    write_double_1d            ../common_source/comm/write_mod.F
@@ -296,10 +298,10 @@ C
 !||    write_sensors              ../engine/source/output/restart/write_sensors.F
 !||    wrrestp                    ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db_c                 ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c                 ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DPDB(A,N)
-C ecriture nombre reel : routine tampon
+C Writing Reel Number: wrapper routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -315,13 +317,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,N1,N2
         DOUBLE PRECISION R8(1000)
-        REAL R4(1000)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
         K=0
         N1=N/1000
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
         DO I = 1, N1
           DO J = 1, 1000
             K=K+1

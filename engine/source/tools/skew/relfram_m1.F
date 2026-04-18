@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, K
+ 
 C     REAL
       my_real
      .   ROT(9),ROT0(9),ROTDT05(9),ROTT05(9),
@@ -77,7 +77,7 @@ C-----------
        OM(2)=XG(2)-O(2)
        OM(3)=XG(3)-O(3)   
 C-----------
-C      vitesse d'entrainement (T-1/2).
+C      Training velocity (T-1/2).
 C-----------
        DT05=0.5*DT1
        OM2(1)=OM(1)-DT05*(VG(1)-VO(1))
@@ -118,10 +118,10 @@ C-----------
        AE(3)=AO(3)+DWDT(1)*OM(2)-DWDT(2)*OM(1)
      .            +W(1)*WOM(2)-W(2)*WOM(1)
 C-----------
-C      acceleration de Coriolis.
+C      Coriolis acceleration.
 C-----------
 C      second order correction.
-C      vitesse d'entrainement (T).
+C      Training velocity (T).
 C      VE(1)=VO(1)+WOM(1)
 C      VE(2)=VO(2)+WOM(2)
 C      VE(3)=VO(3)+WOM(3)
@@ -139,6 +139,5 @@ C-----------
        AREL(2)=AREL(2)+AE(2)+AC(2)
        AREL(3)=AREL(3)+AE(3)+AC(3)
 C-----------------------------------------------
- 999  CONTINUE
       RETURN
       END

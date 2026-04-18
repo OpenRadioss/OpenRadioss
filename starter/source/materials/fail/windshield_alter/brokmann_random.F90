@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@
 !||    updfail               ../starter/source/materials/updfail.F90
 !||====================================================================
       module brokmann_random_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initializes random crack in /fail/alter following Ch.Brokmann extension

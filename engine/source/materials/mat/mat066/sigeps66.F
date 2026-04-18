@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -137,7 +137,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,IYLDC,IYLDT,IRATE,NCC,NCT,NFUNC,VP,IADBUF
+      INTEGER I,J,J1,J2,IRATE,NCC,NCT,NFUNC,VP,IADBUF
       INTEGER IPOS1(NEL),IAD1(NEL), ILEN1(NEL),
      .   IPOS2(NEL),IAD2(NEL), ILEN2(NEL),IFUNC(MFUNC),
      .   JJC(NEL),JJT(NEL)
@@ -323,7 +323,7 @@ C              ECROUISSAGE CINEMATIQUE
                YT(I) = (ONE - FISOKIN) * YT(I) + FISOKIN * Y2(I)
             ENDDO
         ENDIF
-      ELSE   ! IRATE =4 => multiples curves (tracation & compression)
+      ELSE   ! Irate = 4 => multiple curves (traction and compression)
 C----------------------------------------------------------------------
 C       compression
 C------------------------------------------------------------------------ 

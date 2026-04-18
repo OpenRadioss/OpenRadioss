@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    dnwalc      ../engine/source/output/anim/generate/dnwalc.F
 !||    dnwals      ../engine/source/output/anim/generate/dnwals.F
-!||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DSECNOR(X    ,RWBUF,NPRW)
 C-----------------------------------------------
@@ -50,7 +50,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,N,K,N2,N3,N4,ITYP,I3000,NXX,NYY,NZZ
-      my_real XX,YY,ZZ
       I3000 = 3000
       IF (ISPMD/=0) GOTO 100
       DO N=1,NSECT+NRWALL

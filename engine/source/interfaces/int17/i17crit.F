@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,11 +29,14 @@ Cas|         I17MAIN_PENA            /int17/i17main_pena.F
 !||--- calls      -----------------------------------------------------
 !||    i16box             ../engine/source/interfaces/int16/i16crit.F
 !||    i20box             ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE I17CRIT(
      1       X      ,V      ,A       ,NELEM ,EMINX  ,
      2       NME    ,ITASK  ,XSAV    ,IXS   ,IXS16  ,
      3       IXS20  ,XMSR_G ,SIZE_T_G)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMEF,NSNL,NMEL,I, J, II, K,I16,I20,LFT16,LLT16,
+      INTEGER NMEF,NMEL,I,I16,I20,LFT16,LLT16,
      .        LFT20,LLT20,INDEX16(MVSIZ),INDEX20(MVSIZ)
       my_real
      .   XMSR(6), SIZE_T
@@ -69,7 +72,7 @@ C-----------------------------------------------
       NMEF = 1 + ITASK*NME / NTHREAD
       NMEL = (ITASK+1)*NME / NTHREAD
 C--------------------------------------------------------------
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- criterion calculation to know if sorting is needed
 C--------------------------------------------------------------
       XMSR(1) = -EP30
       XMSR(2) = -EP30
@@ -79,7 +82,7 @@ C--------------------------------------------------------------
       XMSR(6) =  EP30    
       SIZE_T  =  ZERO
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
       DO I=NMEF,NMEL
         EMINX(1,I) = EP30

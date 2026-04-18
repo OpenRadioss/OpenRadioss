@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    imp_k_eig                      ../engine/stub/imp_k_eig.F
 !||    imp_solv                       ../engine/source/implicit/imp_solv.F
 !||    ini_tmax                       ../engine/source/output/ini_outmax.F
+!||    init_h3d_engine                ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_th                        ../engine/source/output/th/init_th.F
 !||    init_th0                       ../engine/source/output/th/init_th0.F
 !||    layini                         ../engine/source/elements/shell/coque/layini.F
@@ -102,6 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2                       ../engine/source/engine/radioss2.F
 !||    rdresb                         ../engine/source/output/restart/rdresb.F
 !||    resol                          ../engine/source/engine/resol.F
+!||    resol_alloc_python             ../engine/source/engine/resol_alloc.F90
 !||    resol_head                     ../engine/source/engine/resol_head.F
 !||    resol_init                     ../engine/source/engine/resol_init.F
 !||    restalloc                      ../engine/source/output/restart/arralloc.F

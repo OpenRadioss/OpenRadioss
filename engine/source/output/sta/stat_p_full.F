@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_stat_pgather   ../engine/source/mpi/output/spmd_stat.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE STAT_P_FULL(
@@ -40,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
       USE MY_ALLOC_MOD
+      use element_mod , only : nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0
+      INTEGER SIZP0
       INTEGER IXP(NIXP,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTP(*),IPART_STATE(*),STAT_INDXP(*)
       my_real   
@@ -70,7 +72,7 @@ C-----------------------------------------------
      .   IR,IS,PT,L_PLA,G_PLA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
-      CHARACTER*100 DELIMIT,LINE
+      CHARACTER*100 DELIMIT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
@@ -161,7 +163,7 @@ C-----------------------------------------------
                 ENDIF ! IF (IGTYP)
 !---
                 IE=IE+1
-!---            pointeur de fin de zone dans WA
+!---            end-of-zone pointer in wa
                 PTWA(IE)=JJ
               ENDIF ! IF (IPART_STATE(IPRT) /= 0)
             ENDDO  !  DO I=LFT,LLT
@@ -173,7 +175,7 @@ c------- end loop over beam elements
 !     BEAM - WRITE
 !-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-!     recopies inutiles pour simplification du code.
+! unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELP
           PTWA_P0(N)=PTWA(N)
@@ -183,7 +185,7 @@ c------- end loop over beam elements
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-!       construit les pointeurs dans le tableau global WAP0
+! builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELP,PTWA_P0,STAT_NUMELP_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -192,9 +194,9 @@ c------- end loop over beam elements
       IF (ISPMD == 0 .AND. LEN > 0) THEN
         IPRT0 = 0
         DO N=1,STAT_NUMELP_G
-!         retrouve le nieme elt dans l'ordre d'id croissant
+!         find the nieme elt in the order of an increasing id
           K=STAT_INDXP(N)
-!         retrouve l'adresse dans WAP0
+!         Find the address in WAP0
           J=PTWA_P0(K-1)
 !
           IOFF = NINT(WAP0(J + 1))

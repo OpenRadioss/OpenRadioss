@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptime           ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
 !||    message_mod        ../engine/share/message_module/message_mod.F
@@ -96,6 +97,7 @@ C-----------------------------------------------
       USE ams_work_mod
       USE MY_ALLOC_MOD
       use python_funct_mod, only : python_
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -244,7 +246,7 @@ C
 C
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! communication on the first thread
           CALL SPMD_MIJ_SMS(
      1           ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2           MSKYI_FI_SMS)
@@ -315,7 +317,7 @@ C
 C
         CALL MY_BARRIER
 C
-C       Z_SMS utilise temporairement pour [M]V
+C       Z_SMS temporarily uses for [m] V
         CALL SMS_MAV_LT(TIMERS,
      1           NODFT   ,NODLT  ,NUMNOD ,JAD_SMS  ,JDI_SMS  ,
      2           ITASK   ,DIAG_SMS,LT_SMS,X_SMS ,Z_SMS ,
@@ -407,7 +409,7 @@ C-----------------------------------
           D_TSTOP  = DAMPR(18,ND)
           IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
             IF(ISK<=1)THEN
-C----- Damping sur dof rotation et seulement -----
+C----- Damping on rotation dof and only -----
              IF (DAMPR(19,ND)>0) CYCLE
              DAMPA = DAMPR(3,ND)
              DAMPB = DAMPR(4,ND)
@@ -665,7 +667,7 @@ C
 C
 C-----------------------------------
 C
-C     PREC_SMS utilise pour stocker la diagonale vraie (cf rbodies)
+C     PREC_SMS used to store the true diagonal (cf rbodies)
       PREC_SMS(NODFT:NODLT)=DIAG_SMS(NODFT:NODLT)
 C
       CALL MY_BARRIER()

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module restart_rbe3pen_mod
+      implicit none
       contains
 ! ----------------------------------------------------------------------------------------------------------------------
         !! \brief get the number of penalty formulation of RBE3
@@ -50,7 +51,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer , intent(in  )                            :: nrbe3       !< number of rbe3
-          integer , intent(in  )                            :: nrbe3l      !< 1er dimension irbe3
+          integer , intent(in  )                            :: nrbe3l      !< first dimension irbe3
           integer , dimension(nrbe3l,nrbe3),   intent(in  ) :: irbe3       !< rbe3 data array
           integer , intent(out)                             :: nrbe3pen_l  !< number of rbe3 using penalty
 ! ----------------------------------------------------------------------------------------------------------------------

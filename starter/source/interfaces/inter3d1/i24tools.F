@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -437,7 +437,7 @@ C-----------------------------------------------
       INTEGER N,IC(*),ISELF,IRECT(4,*),I1,I2,IE,IASYM,IRR
       my_real
      .   X(3,*)
-C----ne reste qu'un seg
+C---- It's only one seg
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -520,7 +520,7 @@ C--------only groupe YJ*Ni<0  or no valid one
         END IF
 C ------still no valid one-----------       
         IF (J1==0) then
-c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
+c        print *,'***warning** No valid Neighbour Segs of',N,' CANDIDATES'
          IRR = 11
          IC(1)=0         
         ELSE
@@ -554,7 +554,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*)
-C----ne reste qu'un seg
+C---- It's only one seg
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -650,7 +650,7 @@ C--------groupe YJ*Ni<0 :convex keep angle (min_cos) only
         END IF !(J==N) then
 C ------still no valid one-----------       
         IF (J1==0) then
-c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
+c        print *,'***warning** No valid Neighbour Segs of',N,' CANDIDATES'
          IRR = 11
          IC(1)=0         
         ELSE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_GRUNEISEN(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_GRUNEISEN(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -59,9 +60,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -71,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR
-      my_real :: MU,MU2,FAC1,DPDMU,PP,BB,AA
+      my_real :: MU2,FAC1,DPDMU,PP,BB,AA
       my_real :: MU0, DF, SSP0, G0, FAC, FF, FG, XX, DFF, DFG
       my_real :: PSH !< pressure shift
       my_real :: P0  !< initial pressure
@@ -96,7 +98,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
-
+!-------------------------------------------------------------------------------
       IF(A == ZERO) A=GAMA0
 
 
@@ -118,6 +120,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -171,18 +174,30 @@ C-----------------------------------------------
 
       ! Storage in Material Buffer PM
       PM(23)  = E0
-      PM(32)  = PM(1)*C*C
-      PM(33)  = C
-      PM(34)  = S1
-      PM(35)  = GAMA0
-      PM(36)  = A
+      PM(27)  = SSP0
+      PM(32)  = PM(1)*C*C + A*E0  !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)  = PSH
-      PM(160) = S2
-      PM(161) = S3
-      IF(PM(79)==ZERO)PM(79)=THREE100
-      PM(27) = SSP0
-      PM(31) = PP - PSH
+      PM(31)  = PP - PSH
       PM(104) = PP - PSH
+
+      MAT_PARAM%EOS%NUPARAM = 6
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC   = 0
+      MAT_PARAM%EOS%NTABLE  = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = C
+      MAT_PARAM%EOS%UPARAM(2) = S1
+      MAT_PARAM%EOS%UPARAM(3) = S2
+      MAT_PARAM%EOS%UPARAM(4) = S3
+      MAT_PARAM%EOS%UPARAM(5) = GAMA0
+      MAT_PARAM%EOS%UPARAM(6) = A
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
       
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN

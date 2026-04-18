@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,8 +58,7 @@ C----------------------------------------------------------
       INTEGER NODE,ICRIT
 c
       my_real :: VEL,VX,VY,VZ,VV,VVX,VVY,FVX,FVY,FV,FREQ,
-     .           TMIN,TSTART,TDELAY,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+     .           TMIN,TSTART,TDELAY
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c

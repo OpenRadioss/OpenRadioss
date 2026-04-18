@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE OUTP_S_S(NBX     ,KEY     ,TEXT   ,ELBUF_TAB,
@@ -39,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD         
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,17 +68,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II(6),JJ,NBB(20),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, IADD,N,MLW,
-     .        JJ_OLD, NGF, NGL, NN, LEN,NLAY, NUVAR, NPTT, NPTS,
-     .        LIAD, IUS, ISOLNOD, IPT,IL,IR,IS,IT, MLW2, NPTG, 
-     .        MT, NPTR,K, NPT1,COMPTEUR,L
+      INTEGER I,J,II(6),JJ,RESP0,WRTLEN,RES
+      INTEGER NG, NEL,N,MLW,
+     .        JJ_OLD, NGF, NGL, NN,NLAY, NUVAR, NPTT, NPTS,
+     .         IUS, ISOLNOD,IL,IR,IS,IT, 
+     .         NPTR,K,COMPTEUR,L
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
-     .   FUNC(6),S1 ,S2 ,S3 ,P ,VONM2, USER(200)
+     .   S1 ,S2 ,S3 ,P ,VONM2, USER(200)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -215,7 +217,7 @@ c
                   ENDDO       
                 ENDDO       
 c
-              ELSE  ! Lois non user
+              ELSE  ! Laws not user
                DO I=LFT,LLT
                 WA(JJ+ 1 ) = ISOLNOD
                 WA(JJ+ 2 ) = NPT
@@ -374,7 +376,7 @@ c-------------------------------
             RESP0=RES
           ENDIF    ! nbx= 26
          ENDIF    ! JJ_OLD>0
-        ENDDO      ! nn=1,nspgroup
+        ENDDO      ! nn = 1, nspgroup
 c
         IF (RESP0>0) THEN
            IF (OUTYY_FMT == 2) THEN
@@ -392,8 +394,11 @@ c-----------
 !||--- called by ------------------------------------------------------
 !||    genoutp         ../engine/source/output/sty/genoutp.F
 !||    outp_arsz_ss    ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE COUNT_ARSZ_SS(IPARG,DD_IAD,IPM,IXS,WASZ,SIZ_WRITE_LOC)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -413,8 +418,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NN,NG,SZP0(NSPGROUP),RSZP0(NSPGROUP),NGF,NGL,JJ,
-     .        WASZ26,P0ARS26,MLW,NEL,NPT,JHBE,ISOLNOD, 
+      INTEGER NN,NG,NGF,NGL,JJ,
+     .        WASZ26,MLW,NEL,NPT,JHBE,ISOLNOD, 
      .        NUVAR,I,LFT,LLT,NFT,ITY,WASZ1
 C-----------------------------------------------
       WASZ1 = 0
@@ -478,7 +483,7 @@ C-----------------------------------------------
                JJ = JJ + (NUVAR+4)*NEL      
              ENDIF               
             ELSE
-cc  pour d'autres type de lois materiaux
+cfor other types of material laws
                JJ = JJ + 4 * NEL
             ENDIF 
 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IER1, II, I, J, K, L, M, JJ, IER2
+      INTEGER IER1, II, I, J, K, L, M, IER2
       my_real  N2, N3, YS, ZS, T2, T3, XL, SS,YM1,YM2,ZM1,ZM2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -67,7 +67,7 @@ C-----------------------------------------------
       IER1=0
       DO II=1,NSN
         I=NSV(II)
-        J=ILOC(II) ! nearest lag node (main) from secnd node (ale)
+        J=ILOC(II) ! Nearest Lag Node (Main) from second node (ale)
         K=MSR(J)
         L=IRTL(II)
         M=MSR(IRECT(1,L))
@@ -104,7 +104,7 @@ C-----------------------------------------------
       ENDDO !next II
 
       IF(IER1 > 0)THEN
-        ! ** ERROR TIED INTERFACE: SECND NODE OUTSIDE main SEGMENT
+        ! ** ERROR TIED INTERFACE: SECOND NODE OUTSIDE main SEGMENT
         CALL ANCMSG(MSGID=81,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
       ENDIF
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,22 +78,22 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I, J, ILAW, Ires, Itab, Ismooth
+       INTEGER ILAW, Ires, Itab, Ismooth
        INTEGER TAB_YLD1,TAB_YLD2,TAB_YLD3,TAB_YLD4,TAB_YLD5,
      .         TAB_YLDC,TAB_YLDS
 C     REAL
       my_real
      .   RHO0,RHOR,
      .   YOUNG1,YOUNG2,YOUNG3,NU12,NU21,G12,G23,G31,
-     .   FCUT,C1,SSP,A11,A12,A21,A22,XI1,XI2,
+     .   SSP,A11,A12,A21,A22,
      .   DMIN,DMAX,K,E3C,CC,NU1P,NU2P,NU4P,NU5P,
      .   S01,A01,B01,C01,S02,A02,B02,C02,
      .   S03,A03,B03,C03,S04,A04,B04,C04,
      .   S05,A05,B05,C05,ASIG,BSIG,CSIG,
-     .   TAU0,ATAU,BTAU,DETC,
+     .   TAU0,ATAU,BTAU,
      .   XSCALE1,YSCALE1,XSCALE2,YSCALE2,XSCALE3,YSCALE3,
      .   XSCALE4,YSCALE4,XSCALE5,YSCALE5,XSCALEC,YSCALEC,
-     .   XSCALES,YSCALES,XSCALE_UNIT,YSCALE_UNIT,ASRATE,TREF
+     .   XSCALES,YSCALES,XSCALE_UNIT,YSCALE_UNIT,ASRATE
 C     
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -115,7 +115,7 @@ card2 - Young moduli - Flags
       CALL HM_GET_INTV  ('MAT_ITAB'  ,Itab     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_SMOOTH',Ismooth  ,IS_AVAILABLE, LSUBMODEL)
       IF (Ismooth == 0) Ismooth = 1
-card3 - Coulomb moduli - Poissson's ratio  
+cArd3 - Coulomb Moduli - Poissson's'Ratio  
       CALL HM_GET_FLOATV('MAT_NU21'  ,NU21     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G12'   ,G12      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G23'   ,G23      ,IS_AVAILABLE, LSUBMODEL, UNITAB)

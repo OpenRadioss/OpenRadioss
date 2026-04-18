@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C     REAL
       my_real
      .  MXX(NEL),MYY(NEL),MZZ(NEL)
       my_real
-     .  MYZ,MZY,MZX,MXZ,MXY,MYX,FXX,FYY,FZZ,FA,FB,RAX,RBX,RAY,RBY,
+     .  MYZ,MZY,MZX,MXZ,MXY,MYX,FXX,FYY,FA,FB,RAX,RBX,RAY,RBY,
      .  D1,D2,DD
 C=======================================================================
       DO I=1,NEL

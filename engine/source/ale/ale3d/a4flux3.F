@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,12 +26,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    aflux0                 ../engine/source/ale/aflux0.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
-      SUBROUTINE A4FLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT)
+      SUBROUTINE A4FLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE ALE_CONNECTIVITY_MOD
+       use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,8 +51,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXS(NIXS,NUMELS)
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(s_flux,6), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -75,7 +78,7 @@ C-----------------------------------------------
      .   VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
      .   VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
      .   VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
-     .   REDUC, UPWL(6,MVSIZ)
+     .   REDUC, UPWL(MVSIZ,6)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -198,7 +201,7 @@ C-----------------------------------------------
       !======================================================!
       DO J=1,6
         DO I=LFT,LLT
-          UPWL(J,I)=PM(16,MAT(I))
+          UPWL(I,J)=PM(16,MAT(I))
         END DO !J
       END DO !I
       
@@ -220,7 +223,7 @@ C-----------------------------------------------
         FLUX2(I)=FLUX2(I)*REDUC
        ELSEIF(II > 0)THEN
         IF(INT(PM(19,IXS(1,II))) == 11)THEN
-          UPWL(2,I)=ONE
+          UPWL(I,2)=ONE
           FLUX2(I)=FLUX2(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -230,7 +233,7 @@ C-----------------------------------------------
         FLUX4(I)=FLUX4(I)*REDUC
        ELSEIF(II > 0)THEN
         IF(INT(PM(19,IXS(1,II))) == 11)THEN
-          UPWL(4,I)=ONE
+          UPWL(I,4)=ONE
           FLUX4(I)=FLUX4(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -240,7 +243,7 @@ C-----------------------------------------------
         FLUX5(I)=FLUX5(I)*REDUC
        ELSEIF(II > 0)THEN
         IF(INT(PM(19,IXS(1,II))) == 11)THEN
-          UPWL(5,I)=ONE
+          UPWL(I,5)=ONE
           FLUX5(I)=FLUX5(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -250,7 +253,7 @@ C-----------------------------------------------
         FLUX6(I)=FLUX6(I)*REDUC
        ELSEIF(II > 0)THEN
         IF(INT(PM(19,IXS(1,II))) == 11)THEN
-          UPWL(6,I)=ONE
+          UPWL(I,6)=ONE
           FLUX6(I)=FLUX6(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
@@ -267,18 +270,18 @@ C-----------------------------------------------
       !     sgn  : sign of computed flux on face                 !
       !==========================================================!
       DO I=LFT,LLT
-        ! 6 fluxes on faces      
-        FLUX(1,I)=ZERO
-        FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
-        FLUX(3,I)=ZERO
-        FLUX(4,I)=FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-        FLUX(5,I)=FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
-        FLUX(6,I)=FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
+        ! 6 flows we faces      
+        FLUX(NFT+I,1)=ZERO
+        FLUX(NFT+I,2)=FLUX2(I)-UPWL(I,2)*ABS(FLUX2(I))
+        FLUX(NFT+I,3)=ZERO
+        FLUX(NFT+I,4)=FLUX4(I)-UPWL(I,4)*ABS(FLUX4(I))
+        FLUX(NFT+I,5)=FLUX5(I)-UPWL(I,5)*ABS(FLUX5(I))
+        FLUX(NFT+I,6)=FLUX6(I)-UPWL(I,6)*ABS(FLUX6(I))
         ! One global flux
-        FLU1(I)  =FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
-     .           +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-     .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-     .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
+        FLU1(I)  =FLUX2(I)+UPWL(I,2)*ABS(FLUX2(I))
+     .           +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
+     .           +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
+     .           +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
       END DO
 C-----------------------------------------------
       RETURN

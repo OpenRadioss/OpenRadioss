@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,13 +26,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xfecut          ../engine/source/output/anim/generate/xfecut.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE XFECONNEC3N(
      .     JFT      ,JLT      ,NFT     ,IXTG        ,ELCUTC   ,
      .     IEL_CRKTG,IAD_CRKTG,ILEV    ,NODEDGE     ,CRKEDGE  ,
      .     XEDGE3N  )
 C----------------------------------------------- 
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,11 +57,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,K1,K2,K3,KK,p,P1,P2,P3,IFI1,IFI2,
+      INTEGER I,K,K1,K2,K3,KK,P1,P2,P3,IFI1,IFI2,
      .  EDGE,IEDGE1,IEDGE2,EDGE1,EDGE2,IED1,IED2,
      .  IADC1,IADC2,IADC3,ILAY,IXEL,ELCUT,ELCRK,ELCRKTG,
      .  IED0,IFI10,NOD1,NOD2,ITRI,NX1,NX2,NX3
-      INTEGER IFI0(3,MVSIZ),NEG(2),D1(3),D2(3),DX(6)
+      INTEGER IFI0(3,MVSIZ),D1(3),D2(3),DX(6)
       my_real
      .   XIN(3,MVSIZ),YIN(3,MVSIZ),ZIN(3,MVSIZ),
      .   XX(3,MVSIZ),YY(3,MVSIZ),ZZ(3,MVSIZ)
@@ -70,7 +72,7 @@ C-------------------
       DATA DX/1,2,3,1,2,3/        
 c      DATA ED/1,3,2,1,3,2/
 C=======================================================================
-c     Re-build phantom element connectivities
+c     Re-built phantom connectivities
 C-----------------------------------------------
       IXEL = MOD(ILEV-1, NXEL) + 1
       ILAY = (ILEV-IXEL)/NXEL  + 1

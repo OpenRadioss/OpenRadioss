@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,7 +86,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
-      my_real STARTT, FRIC, GAP, STOPT,DIST
+      my_real  FRIC, GAP,DIST
       INTEGER :: NMN,NSN,NTY
       INTEGER :: LFT,LLT,NFT
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,10 +24,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cupdtn3pinch   ../engine/source/elements/shell/coqueba/cupdtn3pinch.F
 !||--- called by ------------------------------------------------------
 !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDTN3PINCH(
      1                        JFT  ,JLT    ,NVC  ,IXC       , 
      2                        FP   ,FPINCH ,STI  ,STIFPINCH ,FACP )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J
+      INTEGER NVC1, NVC2, NVC3, NVC4, I
 C-----------------------------------------------
 C 
       NVC1= NVC/8

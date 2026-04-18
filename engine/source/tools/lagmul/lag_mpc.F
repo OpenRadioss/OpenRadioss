@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,11 +56,11 @@ C-----------------------------------------------
       INTEGER I, J, JJ, LL, IK, NK, KF, ISK, NN, NDL, IDL, NUMC, IC
       my_real COEF,HH,R,S1,S2,S3
 C-----------------------------------------------
-C        NC : nombre de condition cinematique
-C        IC : numero de la condition cinematique (1,NC)
+C        NC : number of kinematic condition
+C        ic: number of the kinematic condition (1,nc)
 C        IK :
-C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        I  : global node number (1,NUMNOD)
+C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        IK = IAD,IAD+1,IAD+2,...
@@ -216,20 +216,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, JJ, LL, NK, KF, ISK, NN, NDL, IDL, NUMC, IC
-      my_real COEF,HH,R,S1,S2,S3
+      INTEGER I, J, NK, KF, ISK, NN, NDL, NUMC
+      my_real COEF
 C-----------------------------------------------
-C        NC : nombre de condition cinematique
-C        IC : numero de la condition cinematique (1,NC)
+C        NC: number of cinematic condition
+C        ic: number of the kinematic condition (1,nc)
 C        IK :
-C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        I  : global node number (1,NUMNOD)
+C        J ': direction 1,2,3,4,5,6
 C------
-C        BLL => LAGCOMC(2)
-C        IADLL => LAGCOMC(1)
-C        LLL => LAGCOMK(1)
-C        JLL => LAGCOMK(2)
-C        SLL => LAGCOMK(3)
+C        BLL => Lagcomc (2)
+C        Iadll => lagcomc (1)
+C        LLL => Lagcomk (1)
+C        JLL => LAGCOMK (2)
+C        SLL => LAGCOMK (3)
 C        XLL => LAGCOMK(4)
 C======================================================================|
       KF = 0
@@ -354,7 +354,7 @@ C---
         ENDDO
         LAGCOMC(1,NC)=NK
         LAGCOMC(2,NC)=ZERO   ! a verifier
-C voir si utile
+C See so useful
 c        IF (COMNTAG(NN)==1) THEN
 c          ISKIP = ISKIP + 1
 c          NC = NC - 1

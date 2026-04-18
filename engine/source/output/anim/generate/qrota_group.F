@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,10 +24,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qrota_group       ../engine/source/output/anim/generate/qrota_group.F
 !||--- called by ------------------------------------------------------
 !||    h3d_quad_tensor   ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE QROTA_GROUP(
      1   X,       IXQ,     KCVT,    TENS,
      2   GAMA,    NEL,     ISORTH)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,13 +58,13 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   R22(MVSIZ),R23(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   T22(MVSIZ),T33(MVSIZ),T23(MVSIZ),T32(MVSIZ),
+     .   
      .   SY(MVSIZ),SZ(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
      .   G22,G33,G23,G32,
      .   CT,CS,SUMA,
-     .   T1,T2,T3,T4,S1,S2,S3,S4
+     .   T1,T2,T3,T4,S1,S2,S4
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
-     .   N, I
+     .    I
 C-----------------------------------------------
       IF (KCVT == 0) THEN
         DO I=1,NEL
@@ -70,7 +73,7 @@ C-----------------------------------------------
           NC3(I)=IXQ(4,I)
           NC4(I)=IXQ(5,I)
 C----------------------------
-C     COORDONNEES NODALES
+C     NODE COORDINATES
 C----------------------------
           Y1(I)=X(2,NC1(I))
           Z1(I)=X(3,NC1(I))
@@ -81,7 +84,7 @@ C----------------------------
           Y4(I)=X(2,NC4(I))
           Z4(I)=X(3,NC4(I))
 C---------------------------------------
-C     REPERE LOCAL (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIC)
 C---------------------------------------
           SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
           SZ(I)=HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
@@ -89,7 +92,7 @@ C---------------------------------------
           TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
         ENDDO
 C-----------
-C       REPERE CONVECTE
+C       convected frame
 C-----------
         DO I=1,NEL
           CT = TY(I)*TY(I)+TZ(I)*TZ(I)
@@ -107,7 +110,7 @@ C-----------
           SY(I)=SY(I)*SUMA
           SZ(I)=SZ(I)*SUMA
 C-----------
-C       MATRICE DE PASSAGE GLOBAL -> CONVECTE
+C       TRANSFORMATION MATRIX GLOBAL -> CONVECTED
 C-----------
           R22(I)= SY(I)
           R32(I)=-SZ(I)
@@ -122,7 +125,7 @@ c
           G23=GAMA(I,5)
           G33=GAMA(I,6)
 C-----------
-c       MATRICE DE PASSAGE ORTHOTROPE -> CONVECTE
+c       TRANSFORMATION MATRIX ORTHOTROPIC -> CONVECTED
 C-----------
           R22(I)= G22
           R23(I)=-G23
@@ -133,7 +136,7 @@ C-----------
 c
       DO I=1,NEL
 C-----------
-C       SIZE(TENS)=6 ON STOCKE COMME DES SOLIDES MAIS ON N'UTILISE QUE 1, 2 et 4
+C       SIZE(TENS)=6 STORED AS SOLIDS BUT ONLY USE 1, 2 and 4
 C-----------
         S1=TENS(1,I)
         S2=TENS(2,I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,14 +61,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,L,J,ID,IGS,IGRS,JREC,IAD0,IADV,NSEG,NSEGV,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NSEG_TOT,
+      INTEGER  K,L,ID,IGS,IGRS,NSEG,NSEGV,
+     .        SKIPFLAG,UID,NSEG_TOT,
      .        NSETS,NENTITY,KK,JJ
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
 !
       TYPE (SURF_)   , DIMENSION(NSLIN+NSETS)   :: IGRSLIN
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 !   IGRSLIN(IGS)%ID   :: LINE identifier
 !   IGRSLIN(IGS)%TITLE   :: LINE title
@@ -84,11 +84,11 @@ C-----------------------------------------------
 !   2. Split lines accordingly
 !
 C-----------------------------------------------
-C     LIGNES DES LIGNES ...
+C     LINES OF LINES ...
 C=======================================================================
       IF (FLAG == 0) ICOUNT=0
 
-C     boucle sur les lignes  
+C     loop over the lines
       CALL HM_OPTION_START('/LINE')
       DO IGS=1,NSLIN
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -120,7 +120,7 @@ C     boucle sur les lignes
      .                              I1=ID,
      .                              C1=TITR,
      .                              I2=JJ)
-                      !! comme les /surf/surf                      ELSEIF (IGRSLIN(IGRS)%NSEG == -1) THEN
+                      !!Like /surfing /surfing Elseif (igrslin (igrs)%nseg == -1) then
                       ELSEIF (IGRSLIN(IGRS)%LEVEL == 0)THEN
 C                       reference a une ligne non initialise     
                         IF (ITER > NSLIN) GOTO 900               

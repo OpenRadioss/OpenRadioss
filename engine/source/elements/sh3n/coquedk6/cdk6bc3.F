@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,12 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cdk6bc3    ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
+!||    cdk6bc3       ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
 !||--- called by ------------------------------------------------------
-!||    radioss2   ../engine/source/engine/radioss2.F
+!||    radioss2      ../engine/source/engine/radioss2.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CDK6BC3(ICODR ,ISKEW ,ISKWN ,IXTG  ,IXTG1   ,
      1                   NPBY ,X     ,SKEW )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,IC1,IC2,IC3,N1,N2,N3,J1(3),IS,NELTG3
+      INTEGER I,II,IC1,IC2,IC3,N1,N2,N3,J1(3),IS,NELTG3
       my_real
      .  LX,LY,LZ,LL,LL1,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z
 C-----------------------------------------------

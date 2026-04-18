@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    rbe3t1             ../engine/source/constraints/general/rbe3/rbe3f.F
 !||====================================================================
       module rbe3pen_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty formulation initialization
@@ -72,7 +73,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,m,iad,ipen,nml,ns,irot,n_p
+          integer :: n,iad,ipen,nml,ns,irot,n_p
 ! ======================================================================================================================
 !! 1.  rrbe3pen_d, rrbe3pen_stf, rrbe3pen_fac, rrbe3pen_vi, rrbe3pen_m, init only with TT=zero
           if (time==zero) then
@@ -95,18 +96,18 @@
                 rbe3%pen%rrbe3pen_fac(n_p), rbe3%pen%rrbe3pen_vi(n_p )       ,         &
                 rbe3%pen%rrbe3pen_m(1,n_p))
 !
-            enddo
+            end do
           end if !(time==zero) then
           if (impl_s>0) then ! not use penalty for implicit
             do n = 1,rbe3%nrbe3
               ipen =rbe3%irbe3(9,n)
               if (ipen >0) rbe3%irbe3(9,n) =-ipen
-            enddo
+            end do
           else
             do n = 1,rbe3%nrbe3
               ipen =rbe3%irbe3(9,n)
               if (ipen <0) rbe3%irbe3(9,n) =-ipen
-            enddo
+            end do
           end if
 !
         end subroutine rbe3pen_init
@@ -130,7 +131,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
+          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten,em10,em03
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -157,10 +158,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,m,icoline
+          integer :: i,m,icoline
           real(kind=WP), dimension(3) :: xbar,wri,rR,rn
           real(kind=WP) :: wi(nml),rndotrn,facn,facr,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          real(kind=WP) :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2,ins
+          real(kind=WP) :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2
           real(kind=WP) ::  srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),A(3,3),Ar(3,3)
           double precision :: disdp(3)
 ! ======================================================================================================================
@@ -182,7 +183,7 @@
               stif = stifn(m)*rndotrn
             end if
             stfrm  = stfrm + wi(i)*stif
-          enddo
+          end do
 !      print *,'stf_m,stf_s',stfrm,stifn(ns)
 !
           disdp(1:3)= x(1:3,ns) - xbar(1:3)
@@ -191,9 +192,9 @@
           rrbe3pen_m(1:3) = zero
           lsm2 = rR(1)*rR(1)+rR(2)*rR(2)+rR(3)*rR(3)
 !-------set up rrbe3pen_stf
-          if (stifn(ns)<=em20) then ! free node w/ spc
-            rrbe3pen_stf(1) = two*stfnm
-            rrbe3pen_stf(2) = four*stfrm
+          if (stifn(ns)<=em10) then ! zero or small stif
+            rrbe3pen_stf(1) = em03*stfnm*min(one,ms(ns)/msbar)
+            rrbe3pen_stf(2) = em20 ! only have translation stif
           else
             rrbe3pen_stf(1) = stfnm*stifn(ns)/(stfnm+stifn(ns))
 !         stfnr_p is fixed to rrbe3pen_stf(1,n_p)*rndotrn (Lsm2) excepting for spc case
@@ -231,7 +232,7 @@
             gamma(8) = gamma(8)+wi(i)*(       -rn(2)*rn(3))
             gamma(9) = gamma(9)+wi(i)*(rndotrn-rn(3)*rn(3))
 !
-          enddo
+          end do
           icoline = 0
           det =                                                          &
             (gamma(1)*(gamma(5)*gamma(9)-gamma(6)*gamma(8))-       &
@@ -241,7 +242,7 @@
           gamma_max = max(em20,gamma(1),gamma(5),gamma(9))
           if(abs(det/(gamma_max*gamma_max*gamma_max)) < em6) then!elements with colinear master nodes
 !
-!         if (irot==0) write(*,*)'error :RBE3: colinear master nodes' ! error out, add check in Starter si possible
+!         if (irot==0) write(*,*)'error :RBE3: colinear master nodes' ! error out, add check in Starter if possible
             icoline = 1
 !
           else
@@ -306,9 +307,10 @@
                 Ar(1,3)*Ar(1,3)+Ar(2,3)*Ar(2,3)+Ar(3,3)*Ar(3,3))
             end do
 !
-          endif !if (icoline>0) then
+          end if !if (icoline>0) then
           if (in(ns)>zero) then
             rrbe3pen_fac = max(one,(facn+facr))  ! solid/solid(shell)
+            rrbe3pen_stf(2) = rrbe3pen_stf(2)/rrbe3pen_fac !instability concern
           else
             rrbe3pen_fac = max(one,facn)         ! shell/solid(shell)
           end if

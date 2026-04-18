@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFUNC,IFUNC2,ISENS,IFL,IFAIL,J,ILENG,ITENS,Fsmooth
+      INTEGER IFUNC,IFUNC2,ISENS,IFL,IFAIL,ILENG,ITENS,Fsmooth
 C     REAL
       my_real
      .   MASS,STIFF,DAMP,GAP,MIN_RUP,MAX_RUP,
@@ -209,7 +209,7 @@ C-----------------------------
       PROP_TAG(IGTYP)%G_LENGTH      = 1  ! X0 (AL0) - total length
       PROP_TAG(IGTYP)%G_TOTDEPL     = 1  ! DX - total deformation (translation)
       PROP_TAG(IGTYP)%G_DEP_IN_TENS = 1  ! DPX  (DPY,DPZ) - max displacement in tension
-      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2,DPZ2) - max displacement in compression
+      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
       PROP_TAG(IGTYP)%G_POSX        = 5
       PROP_TAG(IGTYP)%G_LENGTH_ERR  = 1
       PROP_TAG(IGTYP)%G_NUVAR       = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6

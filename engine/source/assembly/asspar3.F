@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,8 +71,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,L,N,KK,JJ1,JJ2,NN,KM,NUM7,LL,
-     .          NISKYFT,NISKYLT, LDONE,IDONE,NC,NL,IFT,ILT,KFT,KLT,
-     .          I0,IBAR,KKK,NCT
+     .          NISKYFT,NISKYLT, LDONE,IDONE,NC,
+     .          IBAR,NCT
         my_real
      .          FF, FSKYT(NISKY), FTHESKYT(NISKY)
         COMMON /ASSP2/ LDONE, IDONE, IBAR
@@ -91,7 +91,7 @@ C-----------------------------------------------
         ENDIF
         NISKYFT   = 1+ITASK*NISKY/ NTHREAD
         NISKYLT   = (ITASK+1)*NISKY/NTHREAD
-c      print *,' nisky=',nisky,' nodlt=',nodlt
+C      print *,' nisky=',nisky,' nodlt=',nodlt
 C
         DO N=NODFT,NODLT
           ADSKYI(N) = 0
@@ -120,7 +120,7 @@ C
             ADSKYI(N) = ADSKYI(N) + 1
           ENDDO
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C Computing SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
           ADSKYI(0) = 1
           ADSKYI(1) = 1
@@ -236,9 +236,9 @@ C
           CALL MY_BARRIER
         ENDIF
 C-----------------------------------------------
-C     LE CALL BARRIER EST FAIT SUR TOUS LES PROCES.
-C     SI ET SEULEMENT SI LA TACHE IDONE N'EST PAS FAITE
-C     QUAND LE PREMIER DES PROCES. ARRIVE ICI
+C     THE BARRIER CALL IS MADE ON ALL PROCESSES.
+C     IF AND ONLY IF THE IDONE TASK IS NOT DONE
+C     WHEN THE FIRST PROCESS ARRIVES HERE
 C-----------------------------------------------
 #include "lockon.inc"
         IF(IDONE/=2)IBAR = 1
@@ -279,7 +279,7 @@ C
           ISKY(I) = 0
         ENDDO
         NISKY = 0
-C adsKy est decale de 1
+C adsKy is offset by 1
 C-----------------------------------------------
 C     FORCES D'INTERFACES
 C-----------------------------------------------
@@ -300,7 +300,7 @@ C-----------------------------------------------
                     FSKYI(K,LL)  = FF
                   ENDIF
  500        CONTINUE
-C +  la thermique
+C +  thermal
           ELSE
             DO  K=JJ1,JJ2-1
               DO  KK=K+1,JJ2
@@ -320,7 +320,7 @@ C +  la thermique
             ENDDO
           ENDIF
 C-----------------------------------------------
-C       ASSEMBLAGE DES FORCES
+C       FORCE ASSEMBLY
 C-----------------------------------------------
           IF(INTHEAT == 0 ) THEN
             DO K=JJ1,JJ2
@@ -334,7 +334,7 @@ C-----------------------------------------------
               A(2,N)  = A(2,N)  + MIN(ZERO,FSKYI(K,2))
               A(3,N)  = A(3,N)  + MIN(ZERO,FSKYI(K,3))
             ENDDO
-C + la thermique
+C + thermal
           ELSE
             DO K=JJ1,JJ2
               A(1,N)  = A(1,N)  + MAX(ZERO,FSKYI(K,1))

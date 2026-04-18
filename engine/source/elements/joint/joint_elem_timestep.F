@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol                 ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE JOINT_ELEM_TIMESTEP(MS,IN,STIFN,STIFR,IXR,IPART,
      1                               IPARTR,IGEO,GEO,NPBY,IPARG,ELBUF_TAB,
@@ -34,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M1,M2,IG,IGTYP,KAD,ITYP,NG,JFT,JLT,NEL,
-     .        NB8,NFT,NUVAR,IRB,NV
-      my_real DTN,DTR,DTRB1,DTRB2,DT
+      INTEGER I,J,M1,M2,IG,IGTYP,ITYP,NG,JFT,JLT,NEL,
+     .        NFT,NUVAR,IRB,NV
+      my_real DTRB1,DTRB2,DT
       TYPE(G_BUFEL_),POINTER :: GBUF
 C----------------------------------------------------------      
       
@@ -75,7 +77,7 @@ C
         GBUF => ELBUF_TAB(NG)%GBUF
           IF (ITYP == 6) THEN
 C
-C--------> Boucle sur les elements ressort -------
+C--------> Loop over spring elements -------
           DO I=JFT,JLT
               J = I + NFT    
             IG = IPART(2,IPARTR(J))
@@ -108,7 +110,7 @@ C--------> Calcul pas de temps nodal RB2 -------
                   DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
               ENDIF
 C
-C--------> Calcul pas de temps du Joint ------- 
+C--------> Calculation of Joint time step -------
                 DT = MIN(DTRB1,DTRB2)                
               IF(DT<DT2T) THEN
                 DT2T=DT

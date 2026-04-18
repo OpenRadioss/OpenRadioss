@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,9 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, KRK, LL, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
-     .   NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
-     .   IR,IS
+      INTEGER II, I, J, K, N, IH, IP, NG, MTE, NUVAR, 
+     . NEL
       LOGICAL :: BOOL
       INTEGER :: J_FIRST,NITER,IADB,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_QUAD
@@ -103,7 +102,7 @@ C
 C
             IF (K==N)THEN
                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                 II = ((IH-1) - IADB)*NVAR
                 DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
                     IH = IH + 1

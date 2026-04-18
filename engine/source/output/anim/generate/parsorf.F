@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,9 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PARSORF(ELBUF_TAB,
      .                   X      ,D     ,IADD   ,CDG   ,IPARG    ,
@@ -41,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,8 +78,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
+     .        IPRT, NEL, IAD, NPAR, NFT,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ,K,NAX1D
       INTEGER NP((NB1D+NANIM1D_L)*2),BUF,GBUF
@@ -100,11 +102,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     PART
 C-----------------------------------------------
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
       IF (NUMELP + NUMELT + NUMELR /= 0 .OR. NSPMD > 1) THEN
         DO IPRT=1,NPART
           IF (MATER(IPRT) /= 3) CYCLE
-C        test scinde car NFACPTX(1,IPRT) peut etre "out of core".
+C        Scinde car test because nfacptx (1, iprt) can be "out of core".
           IF (NUMELXG > 0 . AND. IGEO(11,IPART(2,IPRT)) == 28) CYCLE
 C
           NPAR = NPAR + 1
@@ -264,7 +266,7 @@ C
         ENDIF
 
         CALL SPMD_IGET_PARTN(2,JJ,NP,NPAR,IADG,BUF,1)
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         IF(SIADG>0) THEN
         DO I = 1, NPART
           IF(IADG(1,I)<=0) THEN

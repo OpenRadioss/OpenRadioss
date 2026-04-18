@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,8 @@
 !||    lectur                  ../starter/source/starter/lectur.F
 !||====================================================================
       module inter_offset_itag_mod
+
+      implicit none
 
       contains
 ! ======================================================================================================================
@@ -55,12 +57,12 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ninter           !< number of interface
-          integer, intent (in   )                          :: npari            !< 1er dim of ipari
+          integer, intent (in   )                          :: npari            !< first dimension of ipari
           integer, intent (in   )                          :: nsurf            !< number of surface
           integer, intent (in   )                          :: numelc           !< number shell 4n element
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
           integer, intent (in   ) ,dimension(npari,ninter) :: ipari            !< interface array
-          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< < shell w/ offset
+          integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< < shell with offset
           type (surf_)   ,       dimension(nsurf) ,target  :: igrsurf          !< surf array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

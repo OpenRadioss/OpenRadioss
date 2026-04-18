@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LAW70_UPD(MAT_PARAM,TITR     ,MAT_ID   ,NUPARAM  ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
-     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM       )
+     .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM       ,YOUNG0 )
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +61,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN):: TITR
       my_real ,DIMENSION(NPROPM)  ,INTENT(INOUT) :: PM
       my_real ,DIMENSION(NUPARAM) ,INTENT(INOUT) :: UPARAM
+      my_real ,INTENT(INOUT) :: YOUNG0
       TYPE (MATPARAM_STRUCT_)     ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -278,6 +279,7 @@ c
         IF (EMAX < E0) EMAX = E0        
         IFLAG0 = 1
       END IF
+      YOUNG0 = STIFFINI
 c--------------------------------------------------------
 c     Automatic modification of EPST and E0
 c--------------------------------------------------------
@@ -359,7 +361,7 @@ c------------------------------------
       PM(24) = EMAX   ! E0/(ONE - NU**2)
       PM(32) = C1 
 c------------------------------------
-c     Output new tables definition
+c     Output New Tables Definition
 c------------------------------------
       IF (IS_ENCRYPTED == 0)THEN
         WRITE(IOUT,1000)     

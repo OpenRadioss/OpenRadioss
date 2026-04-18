@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier            ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
 !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
@@ -50,6 +51,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
         USE ELBUFDEF_MOD 
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,15 +85,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J
-        INTEGER :: N,NN,II,JJ,MY_SIZE
+        INTEGER :: N,NN,II,JJ
         INTEGER :: NFT,GROUP_ID,ILOC,NEL
-        INTEGER :: ISU1,NBRIC,NSN,NTY,INACTI,NODE_ID,IBRIC
+        INTEGER :: ISU1,NBRIC,NSN,NODE_ID,IBRIC
         INTEGER :: NODF,NODL,NSNF,NSNL
         my_real :: MASS
         my_real, DIMENSION(3) :: LOCAL_FORCE_INT
         REAL(kind=8), DIMENSION(3) :: LOCAL_FORCE_INT_DP
         !   parith/on array
-        INTEGER :: SIZE_VEL
         INTEGER, DIMENSION(NTHREAD) :: INDEX_THREADS
         my_real, DIMENSION(:), ALLOCATABLE, SAVE :: VEL
         REAL(kind=8), DIMENSION(:,:), ALLOCATABLE, SAVE :: VEL_DP

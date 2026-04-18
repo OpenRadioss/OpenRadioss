@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,14 +64,14 @@ C
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,5,6,7,8,6,7,8,5/
 C-----------------------------------------------------------------------
-C     mass init en parith pour spmd
+C     mass init in parith for spmd
        DO I=LFT,LLT
 C
         MASS(I)=FILL(I)*RHO(I)*VOLG(I)
         DTELEM(I)=MIN(DTELEM(I),DTX(I))
         STI(I) = FILL(I) * RHO(I) * VOLG(I) * TWO / SIXTY4 /
      .        MAX(EM20,DTX(I)*DTX(I))
-        FAC=TRHEE_OVER_14
+        FAC=THREE_OVER_14
         AM = MASS(I)*FAC/(EIGHT*FAC + TWELVE)
         BM = MASS(I)*ONE/(EIGHT*FAC + TWELVE)
         MSS(1,I)=AM
@@ -241,7 +241,7 @@ c
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT
           MASSCP=FILL(I)*RHOCP(I)*VOLG(I)        
-          FAC=TRHEE_OVER_14
+          FAC=THREE_OVER_14
           AM = MASSCP*FAC/(EIGHT*FAC + TWELVE)
           BM = MASSCP*ONE/(EIGHT*FAC + TWELVE)
           MCPS(1,I)=AM
@@ -333,6 +333,7 @@ C.....
 !||    s16init3    ../starter/source/elements/thickshell/solide16/s16init3.F
 !||    s20init3    ../starter/source/elements/solid/solide20/s20init3.F
 !||    s6cinit3    ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3    ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3    ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3    ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scinit3     ../starter/source/elements/thickshell/solidec/scinit3.F
@@ -361,7 +362,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
-      INTEGER NIX,N,JPS,JHBE,IGTYP,NSIGI,NUVAR,NEL,IUSER,NSIGS,
+      INTEGER NIX,JPS,JHBE,IGTYP,NSIGI,NUVAR,NEL,IUSER,NSIGS,
      .   IDEF,L_PLA,L_SIGB
       INTEGER IX(NIX,*),STRSGLOB(*),STRAGLOB(*),MAT(NEL),PT(*),SIGB(NEL*L_SIGB)
 C     REAL
@@ -374,7 +375,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,JPS1,MA,IFLAGINI,
+      INTEGER I, II, JJ, IPT, IPP,IUS,IPSU,JPS1,MA,IFLAGINI,
      .   NVAR_TMP,IADB,NRATE
       my_real
      .   GAMA(6),TENS(6)

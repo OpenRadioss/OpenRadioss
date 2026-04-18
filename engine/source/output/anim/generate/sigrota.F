@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    urotov         ../engine/source/airbag/uroto.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SIGROTA(JFT     ,JLT     ,NFT     ,IPT      ,NEL      ,
      2                   NS1     ,X       ,IXC     ,ELBUF_STR,
@@ -38,6 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,N,I1,NLAY,NPTR,NPTS,NPG,IR,IS,JJ(5),DIM,IDRAPE,IGTYP
+      INTEGER I, J, N, NLAY, NPTR, NPTS, NPG, IR, IS, JJ(5), IDRAPE, IGTYP
       my_real
      .   X1(NEL),  X2(NEL),  X3(NEL), X4(NEL),
      .   Y1(NEL),  Y2(NEL),  Y3(NEL), Y4(NEL),
@@ -64,19 +66,19 @@ C-----------------------------------------------
      .   X21(NEL), Y21(NEL), Z21(NEL), 
      .   X31(NEL), Y31(NEL), Z31(NEL), 
      .   X32(NEL), Y32(NEL), Z32(NEL), 
-     .   X42(NEL), Y42(NEL), Z42(NEL),
+     .
      .   E1X(NEL), E1Y(NEL), E1Z(NEL), 
      .   E2X(NEL), E2Y(NEL), E2Z(NEL), 
      .   E3X(NEL), E3Y(NEL), E3Z(NEL), 
      .   E11(NEL),E12(NEL),E13(NEL),
      .   E21(NEL),E22(NEL),E23(NEL), DIR(NEL,2),
-     .   PHI,CSP,SNP,U(3,NEL),
+     .
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1
-      TYPE(G_BUFEL_)  , POINTER :: GBUF   
+ 
       TYPE(L_BUFEL_)  , POINTER :: LBUF   
-      TYPE(L_BUFEL_DIR_)  , POINTER :: LBUF_DIR   
+ 
 C=======================================================================
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS

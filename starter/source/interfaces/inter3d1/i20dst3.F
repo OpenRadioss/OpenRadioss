@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -93,7 +93,7 @@ C     REAL
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .     S2,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,SXI,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,SYI,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,SZI,
@@ -104,7 +104,7 @@ C-----------------------------------------------
       EXTERNAL BITUNSET,BITGET,BITSET
 C
 C--------------------------------------------------------
-C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
+C  GAP SHIFT FOR SOLIDS WITH NULL GAP
 C--------------------------------------------------------
 c                                    
 c         --------------------------           
@@ -117,7 +117,7 @@ c                                 |   gap_search(search algorithm)
 c                                 |                          
 c                                 |                          
 c                                 |                          
-c                   0 Secnd       |                          
+c                   0 Second |                          
 c                   |             |  ^                       
 c                   | gap_s       |  |                       
 c                   |             |  |                       
@@ -285,7 +285,7 @@ C
              Z4(I) = Z4(I) - SZ4
             ENDIF
            ELSEIF(I3 == I4)THEN
-c            bord de coque3N
+c            edge of shell3N
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -338,7 +338,7 @@ c            bord de coque3N
              Y4(I)=Y3(I)
              Z4(I)=Z3(I)
            ELSE
-c            bord de coque
+c            edge of shell
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -535,7 +535,7 @@ C
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
         LA = ONE - LB1(I) - LC1(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -559,7 +559,7 @@ C
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
         LA = ONE - LB2(I) - LC2(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle shapr angle
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -583,7 +583,7 @@ C
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
         LA = ONE - LB3(I) - LC3(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -607,7 +607,7 @@ C
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
         LA = ONE - LB4(I) - LC4(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -822,8 +822,8 @@ C=======================================================================
       DO I=1,NRTM
         GAP_M(I) = GAP_M(I)-TWO*GAP_SH(I)
       ENDDO
-c mise a zero du gap secnd sur le bord des coques
-c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG 
+c zeroing of the second gap on the edge of the shells
+c ici NVS donne encore le node global, NSV sera modifie in I20NLG 
       DO I=1,NLN
         J = NLG(I)
         TAG(J)=I
@@ -857,7 +857,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N1,N2,N3,N4
+      INTEGER I  ,N1,N2,N3,N4
       my_real
      .   SURFX,SURFY,SURFZ,X12,Y12,Z12,X23,Y23,Z23,
      .   X34,Y34,Z34,X41,Y41,Z41,AAA,SI,CO
@@ -872,7 +872,7 @@ c          N1 = NLG(MSR(I))
       END DO
 
       DO I=1,NRTM
-c test pour ne prendre en compte que les solides 
+c test to consider only the solids
         IF(GAP_SH(I)/=ZERO)THEN
 c          N1 = NLG(IRECT(1,I))
 c          N2 = NLG(IRECT(2,I))
@@ -1016,8 +1016,8 @@ C-----------------------------------------------
       INTEGER I,NLN,NLG(NLN)
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,H1S,H2S,H1M,H2M,
      .     GAP2,XXS1,YYS1,ZZS1,XXS2,YYS2,ZZS2,
      .     XXM1,YYM1,ZZM1,XXM2,YYM2,ZZM2,
      .     PENE2(MVSIZ),SOLIDN_NORMAL(3,*),AAA,
@@ -1142,7 +1142,7 @@ C
        H2S = ONE - H1S
        H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) =  H1S*XXS1 + H2S*XXS2
      .        - H1M*XXM1 - H2M*XXM2

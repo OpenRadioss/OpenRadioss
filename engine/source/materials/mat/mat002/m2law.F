@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m2law            ../engine/source/materials/mat/mat002/m2law.F
+!||    m2law              ../engine/source/materials/mat/mat002/m2law.F
 !||--- called by ------------------------------------------------------
-!||    mmain            ../engine/source/materials/mat_share/mmain.F90
+!||    mmain              ../engine/source/materials/mat_share/mmain.F90
 !||--- calls      -----------------------------------------------------
-!||    m2iter_imp       ../engine/source/materials/mat/mat002/m2iter_imp.F
-!||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
-!||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
-!||    mstrain_rate     ../engine/source/materials/mat_share/mstrain_rate.F
+!||    m2iter_imp         ../engine/source/materials/mat/mat002/m2iter_imp.F
+!||    mdtsph             ../engine/source/materials/mat_share/mdtsph.F
+!||    mqviscb            ../engine/source/materials/mat_share/mqviscb.F
+!||    mstrain_rate       ../engine/source/materials/mat_share/mstrain_rate.F
 !||--- uses       -----------------------------------------------------
-!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    prop_param_mod     ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
-      SUBROUTINE M2LAW(
+      SUBROUTINE M2LAW(mat_param ,
      1   PM,      OFF,        SIG,     EINT,
      2   RHO,     QOLD,       EPXE,    EPSD,
      3   VOL,     STIFN,      DT2T,    NELTST,
@@ -44,19 +46,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   D5,      D6,         PNEW,    PSH,
      A   QNEW,    SSP_EQ,     SOLD1,   SOLD2,
      B   SOLD3,   SOLD4,      SOLD5,   SOLD6,
-     C   SIGY,    DEFP,       DPLA,
+     C   SIGY,    DEFP,       DPLA,    JLAG,
      D   EPSP,    TSTAR,      ETSE,    MSSA,
      E   DMELS,   TEMPEL,     SIGBAK,  AL_IMP,
      F   SIGNOR,  CONDE,      DTEL,    G_DT,
      G   NEL,     IPM,        RHOREF,  RHOSP,
      H   IPG,     DMG,        ITY,     JTUR,
      I   JTHE,    JSPH,       ISMSTR,  JSMS,
-     J   PLAP,    NPG ,       IEOS  ,  DPDM ,
-     K   FHEAT,   glob_therm, JLAG)
+     J   NPG ,    DPDM ,      FHEAT,   glob_therm,
+     H   NUMGEO,  IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      use matparam_def_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,12 +87,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSPH
-      INTEGER, INTENT(IN) :: IEOS
       INTEGER, INTENT(IN) :: JLAG
+      INTEGER,INTENT(IN) :: NUMGEO
 C
       INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
       INTEGER MAT(NEL),NGL(NEL), IPM(NPROPMI,*)
-      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: PLAP
       my_real :: DT2T
       my_real PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
      .        EPXE(NEL), EPSD(NEL), VOL(NEL), STIFN(NEL), OFFG(NEL),GEO(NPROPG,*),
@@ -104,19 +107,21 @@ C
       my_real SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
      .        SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
      .        RHOREF(NEL)  ,RHOSP(NEL)
-      type (glob_therm_) ,intent(inout) :: glob_therm
+      type (glob_therm_)      ,intent(inout) :: glob_therm
+      type (matparam_struct_) ,intent(in)    :: mat_param
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,NINDX
+      INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,NINDX
       INTEGER :: INDX(NEL)
-      my_real RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX,
+      my_real RHO0, PLAP,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR,
      .        Z3,Z4,RHOCP,RHOCPI,T_REF,T_MELT,ASRATE,
      .        E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
-     .        SCALE, BID1, BID2, BID3, DTA,MT,
+     . SCALE, DTA,MT,
      .        DSXX,DSYY,DSZZ,DSXY,DSYZ,DSZX,ALPHA,HKIN,
      .        FACQ0,FISOKIN,BETA,VM,VM_1,NORM_1,CA0,CB,SIGM0
-      my_real EPD(MVSIZ),G(MVSIZ), AK(MVSIZ),PC(MVSIZ), QH(MVSIZ),
+      my_real EPD(MVSIZ),G(MVSIZ), AK(MVSIZ), QH(MVSIZ),
      .        AJ2(MVSIZ), DAV(MVSIZ),CA(MVSIZ),SIGMX(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .        SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ)
@@ -126,36 +131,40 @@ C   B o d y
 C-----------------------------------------------
       FACQ0   = ONE
 C
-      MX      = MAT(1)
-      RHO0    = PM( 1,MX)
-      BULK    = PM(32,MX)
-      CN      = PM(40,MX)
-      CC      = PM(43,MX)
-      ICC     = NINT(PM(49,MX))
-      EPMX    = PM(41,MX)
-      EPDR    = PM(44,MX)
-      IRTY    = NINT(PM(50,MX))
-      Z3      = PM(51,MX)
-      CMX     = PM(45,MX)
-      ISRATE  = IPM(3,MX)
-      ASRATE  = MIN(ONE,PM(9,MX)*DT1)
-      FISOKIN = PM(55,MX)
-      G0      = PM(22,MX)
-      CA0     = PM(38,MX)
-      CB      = PM(39,MX)
-      SIGM0   = PM(42,MX)
-      VP      = IPM(255,MX)
-      PSHIFT  = PM(88,MX)
+      IFORM   = mat_param%iparam(1)
+      ICC     = mat_param%iparam(2)
+      VP      = mat_param%iparam(3)
+      ISRATE  = mat_param%iparam(4)
+
+      RHO0    = mat_param%rho
+      BULK    = mat_param%bulk
+      G0      = mat_param%shear
+       
+
+      CA0     = mat_param%uparam(1)
+      CB      = mat_param%uparam(2)
+      CN      = mat_param%uparam(3)
+      EPMX    = mat_param%uparam(4)
+      SIGM0   = mat_param%uparam(5)
+      CC      = mat_param%uparam(6)
+      EPDR    = mat_param%uparam(7)
+      fisokin = mat_param%uparam(8)
+      asrate  = mat_param%uparam(9)
+      Z3      = mat_param%uparam(10)
+      asrate  = MIN(one, asrate*dt1)
+
+      T_REF   = mat_param%therm%tref
+      T_MELT  = mat_param%therm%tmelt
+      RHOCP   = mat_param%therm%rhocp
+      IF (RHOCP > ZERO) THEN
+        RHOCPI = ONE / RHOCP
+      ELSE
+        RHOCPI = ZERO
+      END IF
+      PSHIFT  = PM(88,MAT(1))     ! from EOS
 !
-      IF (IRTY == 1) THEN        ! Zerilli
-        RHOCPI  = PM(53,MX)       
-        T_REF   = PM(54,MX)
-        Z4      = PM(52,MX)
-      ELSE                       ! Johnson-Cook
-        RHOCP = PM(69,MX)
-        IF (RHOCP > ZERO) RHOCPI = ONE / RHOCP
-        T_REF  = PM(79,MX)
-        T_MELT = PM(80,MX)
+      IF (IFORM == 1) THEN        ! Zerilli
+        Z4 = mat_param%uparam(11)
       END IF
 !
       DO I=1,NEL
@@ -221,9 +230,9 @@ C-------------
       EPD(1:NEL)  = ONE                 
 c
       IF (CC /= ZERO) THEN
-        IF(VP == 1)THEN
+        IF (VP == 1) THEN
           DO I=1,NEL
-            EPD(I)= MAX(PLAP(I),EPDR)
+            EPD(I)= MAX(EPSD(I),EPDR)
             EPD(I)= LOG(EPD(I)/EPDR)  
           ENDDO
         ELSE
@@ -233,14 +242,14 @@ c
           ENDDO
         ENDIF ! VP
 !  
-        IF (IRTY == 0) THEN   ! J-C
+        IF (IFORM == 0) THEN   ! J-C
           DO I=1,NEL
              MT=MAX(EM15,Z3)
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE +CC * EPD(I))*(ONE -TSTAR(I)**MT)
-             IF(ICC==1) SIGMX(I)= SIGM0*EPD(I)
+             IF (ICC==1) SIGMX(I) = SIGM0*EPD(I)
           ENDDO
-        ELSEIF (IRTY==1) THEN
+        ELSEIF (IFORM==1) THEN
           DO I=1,NEL
              EPD(I)= CC*EXP((-Z3+Z4 * EPD(I))*TEMPEL(I))
              IF (ICC==1) SIGMX(I) = SIGM0 + EPD(I)
@@ -248,9 +257,10 @@ c
              EPD(I)=ONE
           ENDDO
         END IF
-      ELSEIF (IRTY == 0) THEN  
+      ELSEIF (IFORM == 0) THEN  
         MT = MAX(EM15,Z3)
         EPD(1:NEL) = ONE - TSTAR(1:NEL)**MT
+        IF (ICC==1) SIGMX(1:NEL) = SIGM0*EPD(1:NEL)
       ENDIF
 C-------------
 C     CRITERE
@@ -389,7 +399,7 @@ c-----------------------------------------
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
@@ -419,7 +429,7 @@ C
         ENDIF
       ENDDO
  
-      IF (IEOS == 0) THEN !  add pressure to the deviatoric stress
+      IF (MAT_PARAM%IEOS == 0) THEN !  add pressure to the deviatoric stress
         DO I=1,NEL
           PNEW(I)  = BULK*AMU(I)
           SIG(I,1) =(SIG(I,1) - PNEW(I))*OFF(I)
@@ -527,8 +537,8 @@ c .....   Parameter alpha of consistent matrix
 !
       IF (VP== 1) THEN
         DO I=1,NEL       
-          PLAP1   = DPLA(I)/MAX(EM20,DT1)
-          PLAP(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
+          PLAP    = DPLA(I) / MAX(EM20,DT1)
+          EPSD(I) = ASRATE * PLAP + (ONE - ASRATE) * EPSD(I)
         ENDDO
       ENDIF
 C----------------------------------------------
@@ -538,9 +548,9 @@ C----------------------------------------------
         DO I=1,NEL
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO
-      ELSEIF(RHOCP > ZERO)THEN
+      ELSEIF (RHOCP > ZERO) THEN
         DO I=1,NEL
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) * RHOCPI
           ! temperature and internal energy must be incremented consistantly
           ! internal energy is incremented later in parent subroutine (mmain)
           ! with total energy deformation which already includes plastic work

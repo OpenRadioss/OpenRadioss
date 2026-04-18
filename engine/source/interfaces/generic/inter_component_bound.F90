@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    inter_prepare_sort          ../engine/source/interfaces/generic/inter_prepare_sort.F
 !||====================================================================
       module inter_component_bound_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -39,6 +40,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod            ../common_source/modules/constant_mod.F
 !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine inter_component_bound(numnod,tzinf,curv,x,component)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -46,6 +48,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use inter_sorting_mod , only : component_
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,15 +56,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: numnod !< number of nodes
-          my_real, intent(in) :: tzinf !< max tzinf
-          my_real, intent(in) :: curv !< max curv
-          my_real, dimension(3,numnod), intent(in) :: x !< node coordinates
+          real(kind=WP), intent(in) :: tzinf !< max tzinf
+          real(kind=WP), intent(in) :: curv !< max curv
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< node coordinates
           type(component_), intent(inout) :: component
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +71,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ncomp
           integer :: node_id
-          my_real, dimension(6) :: local_bound
+          real(kind=WP), dimension(6) :: local_bound
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,7 +91,7 @@ C-------
       READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE
       READ(LINE,ERR=999,FMT=FMT_I) IDB
 C-------
-C get box de box ID'S dans grnod:
+C get box from box ID'S in grnod:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -113,7 +113,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grnod:
+C   simple box in grnod:
 C---
       BOOL = .FALSE.
       IF(ISU>0)THEN
@@ -256,7 +256,7 @@ C
             CALL CHECKSPHERE(XP1, YP1, ZP1, NODINB, DIAM, OK)
           END IF
 C
-C tag nodes dans box:
+C tag nodes in box:
 C
           IF(OK == 1)THEN
             IF(TAGN(I) == 0)THEN
@@ -1308,7 +1308,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans grshel:
+C get box from box ID'S in grshel:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -1333,7 +1333,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grshel:
+C   simple box in grshel:
 C---
       BOOL = .FALSE.
       IF(ISU>0)THEN
@@ -1675,7 +1675,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans LINE :
+C get box from box ID'S in LINE :
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -1706,7 +1706,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans /LINE :
+C   simple box in /LINE :
 C---
       BOOL=.FALSE.
       IF(ISU>0)THEN
@@ -1748,7 +1748,7 @@ C---
         ENDDO
       ENDIF
 C---
-C tag lines (ou surfaces) in main-box:
+C Tag Lines (or surfaces) in Main-Box:
 C---
 C---count lines within BOX
       IF(ISU > 0)THEN
@@ -1820,6 +1820,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE OPTIONDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1959,6 +1960,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD      
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2011,7 +2013,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans SURF:
+C get box from box ID'S in SURF:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -2133,6 +2135,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2299,7 +2302,7 @@ C
               END IF
             END DO
                   IF(MI(1)==NI(1).AND.MI(NF)==NI(2))THEN
-C                    FACTAG(JS) moins face jj
+C                    Factag (JS) Less Face JJ
                      FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                      GO TO 100
                   END IF

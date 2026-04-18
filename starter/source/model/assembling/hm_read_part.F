@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -442,7 +442,7 @@ c-------------------------------------------------------------------
         IPART(8,I)=ITH
         IPART(9,I)=SUB_INDEX
 
-        !ensure positive identifier
+        !Positive Ensure Identify
         IF(IPART(4,I) == 0) THEN
           CALL ANCMSG(MSGID=494,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1=LINE1)
         ENDIF
@@ -460,7 +460,7 @@ C--------------------------------------------------
         ENDIF
       ENDDO      
 C--------------------------------------------------
-C LAW151 - MULTIFLUID
+C Law151 - Multifluid
 C--------------------------------------------------   
       MULTI_FVM%IS_USED = IS_ASSOCIATED_LAW51
       IMULTI_FVM = 0

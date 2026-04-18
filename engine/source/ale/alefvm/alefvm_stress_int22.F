@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod            ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod        ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE ALEFVM_STRESS_INT22 (
@@ -51,6 +52,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE ELBUFDEF_MOD     !TYPE(ELBUF_STRUCT_)
       USE I22BUFBRIC_MOD   !BRICK_LIST
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,9 +114,9 @@ C-----------------------------------------------
       !inter22
       NIN = 1
       
-      ! attention : il faut que mmain soit traite pour chacun des groupes 
-      ! afin de connaitre les tenseurs voisins (SIG,SVIS,QVIS) !
-      ! l'assemblage est ensuite realise apres tous les appel de 
+      ! attention: mmain must be processed for each group
+      ! in order to know the neighboring tensors (SIG,SVIS,QVIS) !
+      ! the assembly is then carried out after all calls to
       ! ALEMAIN>SFORC3() pour chaque groupe.
 
       !-------------------------------------------------------------!

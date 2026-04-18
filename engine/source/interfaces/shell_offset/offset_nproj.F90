@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,9 +26,10 @@
 !||    resol              ../engine/source/engine/resol.F
 !||====================================================================
       module offset_nproj_mod
+      implicit none
       contains
 !=======================================================================================================================
-!!\brief This subroutine do nodal offset projection for shell
+!!\brief This subroutine performs nodal offset projection for shell
 !=======================================================================================================================
 !||====================================================================
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
@@ -67,7 +68,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,n,nnod,lenr,n_l,ndim1,ndim2,ng
-          real(kind=WP)  :: shelloff,r(3),s(3),t(3),xv(3,4),norm2
+          real(kind=WP)  :: r(3),s(3),t(3),xv(3,4),norm2
           double precision  :: dx(3) ,t6(6,3)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -107,7 +108,7 @@
                 sh_offset_tab%norm_n6(1:6,2,n_l) = sh_offset_tab%norm_n6(1:6,2,n_l) + t6(1:6,2)
                 sh_offset_tab%norm_n6(1:6,3,n_l) = sh_offset_tab%norm_n6(1:6,3,n_l) + t6(1:6,3)
               end do
-            enddo
+            end do
             if (nspmd>1) then
               lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)
               ndim1 = 3*6
@@ -152,7 +153,7 @@
                 if (n_l==0) cycle
                 sh_offset_tab%norm_n(1:3,n_l) = sh_offset_tab%norm_n(1:3,n_l) + t(1:3)
               end do
-            enddo
+            end do
 !
             if (nspmd>1) then
               lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)

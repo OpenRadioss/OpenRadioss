@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    s10forc3          ../engine/source/elements/solid/solide10/s10forc3.F
 !||    s4forc3           ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3          ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3          ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3          ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    scforc3           ../engine/source/elements/thickshell/solidec/scforc3.F
@@ -33,6 +34,7 @@
 !||    szforc3           ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       module sdistor_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief some parameter initialization for solid distortion control
@@ -43,6 +45,7 @@
 !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
 !||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3        ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3        ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F
@@ -103,7 +106,7 @@
           fqmax = ep02
           if (nu > 0.48999) then
             f_nu = em02
-          elseif (nu>0.4) then
+          else if (nu>0.4) then
             f_nu = one-two*nu
             mu=f_nu*mu
           else
@@ -123,7 +126,7 @@
             caq=f_es*mu*rho(i)*ll(i)
             fld(i)=fourth*caq*cxx(i)*off(i)
             sti_c(i) = c2 * ll(i) *off(i)
-          enddo
+          end do
           call scre_sig3(sig, c1, istab,offg,ismstr ,nel)
 !
         end subroutine sdistor_ini

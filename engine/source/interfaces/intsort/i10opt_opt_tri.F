@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,19 +58,19 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT, I_STOK,CT
+      INTEGER NOINT, I_STOK
 C     REAL
       my_real
      .   STARTT, GAP, STOPT
 C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
-C  Calcul des adresses des buffers d'interfaces. 
-C  Les adresses des buffers J10-JFI et K10-KFI 
-C  sont remplaces systematiquement par des tableaux
+C  calculation of interface buffer addresses.
+C  the addresses of buffers J10-JFI and K10-KFI
+C  are systematically replaced by arrays
 C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C  Les anciens adresses directs Jn, Kn sont modifies
-C  dans la routine sans commentaires additionnels habituels
+C  the old direct addresses Jn, Kn are modified
+C  in the routine without usual additional comments
 C----------------------------------------------------
       NOINT  =IPARI(15)
 C
@@ -81,7 +81,7 @@ C
       IF(TT>STOPT)  RETURN
 C
 C-----------------------------------------------------------
-C     Filtrage des candidats a l'impact
+C     Filtrage des CANDIDATES a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER I,IREP1,MTN
 C     REAL
       my_real
-     .   OFF_L,CS,SN,KSI,NR,X0,Y0,Z0,VX0,VY0,VZ0,DTI,CC,COSIN
+     .   OFF_L,CS,SN,KSI,X0,Y0,Z0,VX0,VY0,VZ0,DTI,CC,COSIN
       my_real 
      .   P1X(NEL), P2X(NEL),  P3X(NEL),  P4X(NEL), 
      .   P1Y(NEL), P2Y(NEL),  P3Y(NEL),  P4Y(NEL), 
@@ -103,7 +103,7 @@ C----------------------------
 C     REPERE ISO
 C----------------------------
       DO I=1,NEL 
-        ! P milieu des aretes
+        ! p at the middle of edges
         P1X(I)=(X1(I)+X5(I))*HALF
         P1Y(I)=(Y1(I)+Y5(I))*HALF
         P1Z(I)=(Z1(I)+Z5(I))*HALF
@@ -177,7 +177,7 @@ C----------------------------
         AREA(I) = FOURTH*DET(I)
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part
 C-----------
       IF (IOUTPRT == 1) THEN
        DO I=1,NEL
@@ -193,7 +193,7 @@ C-----------
        ENDDO
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE
+C     Change to the convected frame
 C-----------
       DO I=1,NEL                                                
         XLOC(I,1) = E1X(I)*X1(I)+E1Y(I)*Y1(I)+E1Z(I)*Z1(I)               
@@ -254,7 +254,7 @@ C
         ZLOC(I,8) = ZLOC(I,8) - Z0
       ENDDO
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE
+C     PASSAGE DES VELOCITIES AU convected frame
 C-----------
       DO I=1,NEL   
         VXLOC(I,1) = E1X(I)*VX1(I)+E1Y(I)*VY1(I)+E1Z(I)*VZ1(I)               
@@ -383,7 +383,7 @@ C
         Q(I,8) = E3Y(I)
         Q(I,9) = E3Z(I)
 C--------------------   
-C       Vecteur de la  rotation instantanee
+C       vector of instantaneous rotation
 C
         CS = HALF * (MROT(1)+MROT(5)+MROT(9)-ONE)
         IF (CS >= ONE) THEN

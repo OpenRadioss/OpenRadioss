@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,8 +63,8 @@ C-----------------------------------------------
       my_real
      .   KTHE, XTHE, FRAD, DRAD, FHEATS, FHEATM,
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
-     .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ), ASI(MVSIZ),
-     .   BSI(MVSIZ), GAPV(MVSIZ), CONDINT(MVSIZ),
+     .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ),
+     .    GAPV(MVSIZ), CONDINT(MVSIZ),
      .   FNI(MVSIZ), TF(*), EFRICT(MVSIZ),  
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),
@@ -83,7 +83,7 @@ C     REAL
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
      .   TS,  RSTIF, TSTIFM, TSTIFT, COND, P, DYDX,
      .   TM, DDCOND, DD, HCOND, DIST, PENRAD, NORM, AREAC,
-     .   PHIM,AREA,CONDS,CONDM
+     .   PHIM,CONDS,CONDM
 C-----------------------------------------------
       PHI(1:JLT) = ZERO
       IF(IFUNCTK==0)THEN
@@ -100,7 +100,7 @@ C-----------------------------------------------
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -108,7 +108,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -121,7 +121,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
          DIST = -(SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
@@ -144,7 +144,7 @@ C         DISTANCE BETWEEN SECOND NODE
 C             AND SURFACE MAIN
 C---------------------------------
 C-------------------------------------
-C         Conduction : close distance
+C         Conduction: Close distance
 C-------------------------------------
 
           IF(PENRAD <= ZERO)THEN
@@ -266,7 +266,7 @@ C
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -274,7 +274,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -287,7 +287,7 @@ C-------------------------------------------------------------
          END IF  
 C
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
          DIST = -(SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
@@ -306,11 +306,11 @@ C
           TSTIFM = ZERO
           COND = ZERO
 C-------------------------------------
-C         Conduction : close distance
+C         Conduction: Close distance
 C-------------------------------------
           IF(PENRAD <= ZERO)THEN
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
             P      = XTHE * ABS(FNI(I)) / AREAS(I)
             RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))

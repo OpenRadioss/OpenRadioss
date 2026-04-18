@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg        ../engine/source/output/message/message.F
 !||    arret         ../engine/source/system/arret.F
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||    sphbox        ../engine/share/modules/sphbox.F
@@ -123,11 +123,11 @@ C
 !||    wrrestp        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db       ../common_source/tools/input_output/write_db.F
-!||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||====================================================================
-      SUBROUTINE SPMD_SAVESPH(IFLG)
+      SUBROUTINE SPMD_SAVESPH(IFLG,NUMSPHG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -145,10 +145,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFLG
+      INTEGER, INTENT(IN) :: NUMSPHG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      IF(NUMSPH>0.AND.NSPMD>1)THEN
+      IF(NUMSPHG>0.AND.NSPMD>1)THEN
         IF(IFLG==1)THEN
           CALL WRITE_I_C(PSPHR,NSPMD)
           CALL WRITE_I_C(PSPHS,NSPMD)

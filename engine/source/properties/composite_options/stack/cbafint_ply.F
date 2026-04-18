@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,10 +24,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cbafint_ply   ../engine/source/properties/composite_options/stack/cbafint_ply.F
 !||--- called by ------------------------------------------------------
 !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CBAFINT_PLY(JFT,JLT,NPT,NG,NPLAT,IPLAT,CDET,THKLY,TH12,
      .                        VOL,FF0,BM,BC,TC,SIG_IPLY,VNI,AREA,
-     .                        VF,VFI,IXC) 
+     .                        VF,VFI,IXC)
+      use element_mod , only : nixc
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C  CALCUL DES FORCES INTERNES AUX NOEUDS 
@@ -56,7 +59,7 @@ c     .   FF(5,MVSIZ,NPT),CDET(*),VOL(MVSIZ,NPT),
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J,JSUP,JINF,IPLY,K,NPLAT0
+      INTEGER EP,I,J,JSUP,JINF,IPLY,NPLAT0
       my_real
      .  C1,C2,BC1,BC3,BC5,BCX,BCY,FL1,FL2,FL3,
      .  FF(MVSIZ,5,NPT)
@@ -85,14 +88,14 @@ C----------NOEUD 1 ------------
           VF(EP,1,J) = VF(EP,1,J) + C2*(BM(EP,1)*FF(EP,1,J))
           VF(EP,2,J) = VF(EP,2,J) + C2*(BM(EP,5)*FF(EP,2,J))
           VF(EP,3,J) = VF(EP,3,J) + C2*(BC1+BC(EP,2)*FF(EP,5,J))
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(1,EP,J) = VF(1,EP,J) + C2*(BM(EP,5)*FF(3,EP,J))
 cc          VF(2,EP,J) = VF(2,EP,J) + C2*(BM(EP,1)*FF(3,EP,J)) 
           
 C         
           VF(EP,7,J) = VF(EP,7,J) + C2*(BM(EP,3)*FF(EP,1,J))
           VF(EP,8,J) = VF(EP,8,J) + C2*(BM(EP,7)*FF(EP,2,J))
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(7,EP,J) = VF(7,EP,J) + C2*(BM(7,EP)*FF(3,EP,J))
 cc          VF(8,EP,J) = VF(8,EP,J) + C2*(BM(3,EP)*FF(3,EP,J))                 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -103,7 +106,7 @@ C----------NOEUD 2 ------------
           VF(EP,5,J) = VF(EP,5,J) + C2*(BM(EP,6)*FF(EP,2,J))
           VF(EP,6,J) = VF(EP,6,J) + C2*(BC(EP,7)*FF(EP,4,J)
      .                            + BC(EP,8)*FF(EP,5,J)) 
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(4,EP,J) = VF(4,EP,J) + C2*(BM(EP,6)*FF(3,EP,J))
 cc          VF(5,EP,J) = VF(5,EP,J) + C2*(BM(EP,2)*FF(3,EP,J)) 
 C

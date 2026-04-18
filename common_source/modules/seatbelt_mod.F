@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,36 +21,45 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    seatbelt_mod            ../common_source/modules/seatbelt_mod.F
+!||    seatbelt_mod                  ../common_source/modules/seatbelt_mod.F
 !||--- called by ------------------------------------------------------
-!||    c_seatbelts             ../starter/source/restart/ddsplit/c_seatbelts.F
-!||    create_seatbelt         ../starter/source/tools/seatbelts/create_seatbelt.F
-!||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
-!||    hist2                   ../engine/source/output/th/hist2.F
-!||    hm_read_retractor       ../starter/source/tools/seatbelts/hm_read_retractor.F
-!||    hm_read_slipring        ../starter/source/tools/seatbelts/hm_read_slipring.F
-!||    ini_seatbelt            ../starter/source/tools/seatbelts/ini_seatbelt.F
-!||    init_seatbelt_rbodies   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
-!||    kine_seatbelt_force     ../engine/source/tools/seatbelts/kine_seatbelt_force.F
-!||    kine_seatbelt_vel       ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
-!||    lectur                  ../engine/source/input/lectur.F
-!||    material_flow           ../engine/source/tools/seatbelts/material_flow.F
-!||    new_seatbelt            ../starter/source/tools/seatbelts/new_seatbelt.F
-!||    r23l114def3             ../engine/source/elements/spring/r23l114def3.F
-!||    rdresb                  ../engine/source/output/restart/rdresb.F
-!||    resol                   ../engine/source/engine/resol.F
-!||    restalloc               ../engine/source/output/restart/arralloc.F
-!||    rgrhead                 ../starter/source/elements/spring/rgrhead.F
-!||    rgrtails                ../starter/source/elements/spring/rgrtails.F
-!||    rinit3                  ../starter/source/elements/spring/rinit3.F
-!||    spmd_collect_seatbelt   ../engine/source/mpi/output/spmd_collect_seatbelt.F
-!||    spmd_exch_a_seatbelt    ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
-!||    st_qaprint_seatbelts    ../starter/source/output/qaprint/st_qaprint_seatbelts.F
-!||    update_slipring         ../engine/source/tools/seatbelts/update_slipring.F
-!||    w_seatbelts             ../starter/source/restart/ddsplit/w_seatbelts.F
-!||    wrrestp                 ../engine/source/output/restart/wrrestp.F
+!||    c_seatbelts                   ../starter/source/restart/ddsplit/c_seatbelts.F
+!||    contrl                        ../starter/source/starter/contrl.F
+!||    create_seatbelt               ../starter/source/tools/seatbelts/create_seatbelt.F
+!||    ddsplit                       ../starter/source/restart/ddsplit/ddsplit.F
+!||    guided_cable_force_mod        ../engine/source/tools/seatbelts/guided_cable_force.F90
+!||    hist2                         ../engine/source/output/th/hist2.F
+!||    hm_print_inter_guided_cable   ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
+!||    hm_read_inter_guided_cable    ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
+!||    hm_read_retractor             ../starter/source/tools/seatbelts/hm_read_retractor.F
+!||    hm_read_slipring              ../starter/source/tools/seatbelts/hm_read_slipring.F
+!||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
+!||    ini_guided_cable              ../starter/source/tools/seatbelts/ini_guided_cable.F90
+!||    ini_seatbelt                  ../starter/source/tools/seatbelts/ini_seatbelt.F
+!||    init_seatbelt_rbodies         ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
+!||    kine_seatbelt_force           ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+!||    kine_seatbelt_vel             ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
+!||    lectur                        ../engine/source/input/lectur.F
+!||    material_flow                 ../engine/source/tools/seatbelts/material_flow.F
+!||    new_seatbelt                  ../starter/source/tools/seatbelts/new_seatbelt.F
+!||    r23l114def3                   ../engine/source/elements/spring/r23l114def3.F
+!||    rdcomi                        ../engine/source/output/restart/rdcomm.F
+!||    rdresb                        ../engine/source/output/restart/rdresb.F
+!||    resol                         ../engine/source/engine/resol.F
+!||    restalloc                     ../engine/source/output/restart/arralloc.F
+!||    rgrhead                       ../starter/source/elements/spring/rgrhead.F
+!||    rgrtails                      ../starter/source/elements/spring/rgrtails.F
+!||    rinit3                        ../starter/source/elements/spring/rinit3.F
+!||    spmd_collect_seatbelt         ../engine/source/mpi/output/spmd_collect_seatbelt.F
+!||    spmd_exch_a_seatbelt          ../engine/source/mpi/seatbelts/spmd_exch_a_seatbelt.F
+!||    st_qaprint_interfaces         ../starter/source/output/qaprint/st_qaprint_interfaces.F
+!||    st_qaprint_seatbelts          ../starter/source/output/qaprint/st_qaprint_seatbelts.F
+!||    update_slipring               ../engine/source/tools/seatbelts/update_slipring.F
+!||    w_seatbelts                   ../starter/source/restart/ddsplit/w_seatbelts.F
+!||    wrcomi                        ../engine/source/output/restart/wrcomm.F
+!||    wrrestp                       ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
-!||    table_mod               ../engine/share/modules/table_mod.F
+!||    table_mod                     ../engine/share/modules/table_mod.F
 !||====================================================================
       MODULE SEATBELT_MOD
 C-----------------------------------------------
@@ -195,5 +204,42 @@ C
 C
         my_real  , DIMENSION(:,:), ALLOCATABLE:: TH_SLIPRING,TH_RETRACTOR
 C
-c---------------
+c=======================================================================
+c define structure for guided cable
+c=======================================================================
+c
+        TYPE GUIDE_CONT_STRUCT
+          INTEGER  UPDATE   
+          INTEGER  ANCHOR_NODE   
+          INTEGER  NODE(3) 
+          INTEGER  NODE_NEXT(2)  
+          INTEGER  NODE_IREMOTE(4)
+          INTEGER  ACTIVE_SEGMENT
+          my_real  FORC(3)   
+          my_real  FORC_AD(3)     
+          my_real  DIST
+        END TYPE GUIDE_CONT_STRUCT
+c
+        TYPE GUIDE_STRUCT
+          INTEGER  ID
+          INTEGER  ID_G          
+          INTEGER  ISTIFF
+          INTEGER  NODE_SET
+          INTEGER  PART_SET
+          INTEGER  NCONT
+          INTEGER  ELTYPE
+          INTEGER  N_REMOTE_PROC
+          INTEGER  NB_NODES
+          INTEGER  PROC
+          INTEGER, DIMENSION(:), ALLOCATABLE :: NODES
+          my_real  STFAC
+          my_real  FRIC
+          TYPE(GUIDE_CONT_STRUCT),ALLOCATABLE,DIMENSION(:) :: CONT
+        END TYPE GUIDE_STRUCT
+C
+        TYPE(GUIDE_STRUCT),ALLOCATABLE,DIMENSION(:) :: GUIDE
+c
+        INTEGER  NGUIDED_CABLE
+        INTEGER  NGUIDED_CABLE_G
+
       END MODULE  SEATBELT_MOD

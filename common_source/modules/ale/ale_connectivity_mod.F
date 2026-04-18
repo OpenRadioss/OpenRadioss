@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    a4flux3                          ../engine/source/ale/ale3d/a4flux3.F
 !||    aconv2                           ../engine/source/ale/ale2d/aconv2.F
 !||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    adiff2                           ../engine/source/ale/ale2d/adiff2.F
 !||    adiff3                           ../engine/source/ale/ale3d/adiff3.F
 !||    aeturb                           ../engine/source/ale/turbulence/aeturb.F
@@ -47,12 +47,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
 !||    ale51_antidiff2                  ../engine/source/ale/ale51/ale51_antidiff2.F
 !||    ale51_antidiff3                  ../engine/source/ale/ale51/ale51_antidiff3.F
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_apply_remote_flux          ../engine/source/ale/ale51/ale51_apply_remote_flux.F90
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
-!||    ale51_spmd2                      ../engine/source/ale/ale51/ale51_spmd2.F
-!||    ale51_spmd3                      ../engine/source/ale/ale51/ale51_spmd3.F
 !||    ale51_upwind2                    ../engine/source/ale/ale51/ale51_upwind2.F
 !||    ale51_upwind3                    ../engine/source/ale/ale51/ale51_upwind3.F
 !||    aleconv3                         ../engine/source/ale/porous/aleconv.F
@@ -81,14 +79,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    amulf2                           ../engine/source/ale/bimat/amulf2.F
 !||    arezo2                           ../engine/source/ale/ale2d/arezo2.F
 !||    arezo3                           ../engine/source/ale/ale3d/arezo3.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    bconv2                           ../engine/source/ale/ale2d/bconv2.F
 !||    bcs_wall_trigger                 ../engine/source/boundary_conditions/bcs_wall_trigger.F90
 !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
 !||    binit2                           ../starter/source/ale/bimat/binit2.F
 !||    brezo2                           ../engine/source/ale/ale2d/brezo2.F
-!||    brezo2_sig                       ../engine/source/ale/ale2d/brezo2.F
 !||    build_connectivity               ../engine/source/multifluid/connectivity.F
 !||    c_idglob                         ../starter/source/restart/ddsplit/c_idglob.F
 !||    c_ixfloc                         ../starter/source/restart/ddsplit/c_ixfloc.F
@@ -109,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eigp                             ../engine/stub/eigp.F
 !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
-!||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_init_start_list          ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
 !||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
@@ -117,8 +114,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    funct_python_update_elements     ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    genani                           ../engine/source/output/anim/generate/genani.F
 !||    genh3d                           ../engine/source/output/h3d/h3d_results/genh3d.F
-!||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
 !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F
+!||    gradient_reconstruction_new      ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    h3d_nodal_scalar                 ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
 !||    h3d_quad_scalar_1                ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
@@ -141,6 +138,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
 !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
+!||    init_ale                         ../engine/source/ale/init_ale.F90
+!||    init_ale_boundary_condition      ../engine/source/ale/init_ale_boundary_condition.F90
+!||    init_ale_spmd                    ../engine/source/ale/init_ale_spmd.F90
 !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_diffusion                   ../engine/share/modules/diffusion_mod.F
 !||    initia                           ../starter/source/elements/initia/initia.F
@@ -178,6 +178,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2                         ../engine/source/engine/radioss2.F
 !||    rdresb                           ../engine/source/output/restart/rdresb.F
 !||    resol                            ../engine/source/engine/resol.F
+!||    resol_alloc_python               ../engine/source/engine/resol_alloc.F90
 !||    resol_head                       ../engine/source/engine/resol_head.F
 !||    restalloc                        ../engine/source/output/restart/arralloc.F
 !||    s10forc3                         ../engine/source/elements/solid/solide10/s10forc3.F
@@ -192,6 +193,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4init3                          ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cforc3                         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||    s6cinit3                         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zforc3                         ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zinit3                         ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cforc3                         ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8cinit3                         ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8eforc3                         ../engine/source/elements/solid/solide8e/s8eforc3.F
@@ -237,7 +240,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     Extended type : + iface
         TYPE, PUBLIC, EXTENDS(T_CONNECTIVITY) :: T_CONNECTIVITY_EXT1
           INTEGER, DIMENSION(:), ALLOCATABLE :: IFACE2
-        END TYPET_CONNECTIVITY_EXT1
+          integer :: remote_neighb_elem !< number of remote elements
+          integer, dimension(:), allocatable :: index_elem_w_neigh !< for each element, index to access its neighbors
+          integer, dimension(:), allocatable :: id_facet_neighbor_elem !< for each element, id of the facet of the neighbor element
+        END TYPE T_CONNECTIVITY_EXT1
+
+        type group_connectivity_
+          integer :: nb_element_with_bc !< number of elements with boundary
+          integer, dimension(:), allocatable :: list_element_with_bc !< list of elements with boundary
+        end type group_connectivity_
 
 
 !     ******************    !
@@ -255,6 +266,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     node-node, node-element, element-element
           TYPE(T_CONNECTIVITY) :: NN_CONNECT, NE_CONNECT
           TYPE(T_CONNECTIVITY_EXT1) :: EE_CONNECT
+          type(group_connectivity_), dimension(:), allocatable :: group
           LOGICAL :: HAS_NN_CONNECT = .FALSE.
           LOGICAL :: HAS_NE_CONNECT = .FALSE.
           LOGICAL :: HAS_EE_CONNECT = .FALSE.
@@ -311,7 +323,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
-!     Comptes Node to Element connectivities,    !
+!     Comptes Node to element connectivities,    !
 !     and Node to Node connectivities for ALE    !
 !     grid velocity formulations                 !
 !     ---------------------------------------    !
@@ -578,7 +590,7 @@ C-----------------------------------------------
             EDGES_TMP(1, II) = EDGES(1, II)
             EDGES_TMP(2, II) = EDGES(2, II)
           ENDDO
-          CALL QUICKSORT_I2(EDGES_TMP(1, :), IDX, 1, NB_EDGE)
+          CALL QUICKSORT_I2(EDGES_TMP(1, :), IDX, 1, NB_EDGE)! hidden copies
           DO II = 1, NB_EDGE
             EDGES_TMP(1, II) = EDGES(1, IDX(II))
             EDGES_TMP(2, II) = EDGES(2, IDX(II))
@@ -601,7 +613,7 @@ C-----------------------------------------------
               EDGES(2, NB_EDGE_NEW) = EDGES_TMP(2, II)
               II = II + 1
             ELSE
-              CALL QUICKSORT_I(EDGES_TMP(2, II : II + IAD1 - 1), 1, IAD1)
+              CALL QUICKSORT_I(EDGES_TMP(2, II : II + IAD1 - 1), 1, IAD1) !hidden copies
               NODE1 = EDGES_TMP(1, II)
               NODE2 = EDGES_TMP(2, II)
               NB_EDGE_NEW = NB_EDGE_NEW + 1
@@ -624,7 +636,7 @@ C-----------------------------------------------
             NN_NB_CONNECT(EDGES(1, II)) = NN_NB_CONNECT(EDGES(1, II)) + 1
             NN_NB_CONNECT(EDGES(2, II)) = NN_NB_CONNECT(EDGES(2, II)) + 1
           ENDDO
-          NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+          !NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
 !       indirection tab
           ALLOCATE(THIS%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
           THIS%NN_CONNECT%IAD_CONNECT(1) = 1
@@ -677,7 +689,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
-!     Computes Element to Element connectivities  !
+!     Computes element to element connectivities  !
 !     for ALE, and EULER computations             !
 !     ---------------------------------------     !
 C-----------------------------------------------

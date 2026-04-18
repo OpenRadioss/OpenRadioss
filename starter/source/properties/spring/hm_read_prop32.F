@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -268,8 +268,8 @@ C
       PROP_TAG(IGTYP)%G_SKEW = 3
       PROP_TAG(IGTYP)%G_SKEW_ERR = 3
       PROP_TAG(IGTYP)%G_MASS = 1
-      PROP_TAG(IGTYP)%G_V_REPCVT  = 3 ! -- VITESSES REPERE CONVECTEE (V_REPCVT)
-      PROP_TAG(IGTYP)%G_VR_REPCVT = 3  ! -- VITESSES REPERE CONVECTEE (VR_REPCVT)
+      PROP_TAG(IGTYP)%G_V_REPCVT  = 3 ! -- VELOCITIES convected frameE (V_REPCVT)
+      PROP_TAG(IGTYP)%G_VR_REPCVT = 3  ! -- VELOCITIES convected frameE (VR_REPCVT)
       PROP_TAG(IGTYP)%G_NUVAR = NUVAR
 C
       RETURN
@@ -349,7 +349,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE RINI32(NEL   ,IOUT   ,IPROP ,
+      SUBROUTINE RINI32(NEL   ,IPROP ,
      3                  IX    ,XL     ,MASS  ,XINER  ,STIFM ,
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR ,
      5                  ID,TITR,EINT,NPF,TF)
@@ -431,7 +431,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NUVAR,NEL,IPROP,   
+      INTEGER NUVAR,NEL,IPROP,   
      .        IX(4,NEL),NPF(*),KFUNC,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU
       my_real 

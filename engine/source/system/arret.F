@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    animx                            ../engine/source/output/anim/generate/animx.F
 !||    arret_message                    ../engine/source/system/arret_message.F
 !||    arret_message_slid               ../engine/source/system/arret_message.F
+!||    bcs_nrf                          ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bemsolv                          ../engine/source/fluid/bemsolv.F
 !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
 !||    blero2                           ../engine/source/ale/bimat/blero2.F
@@ -75,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dtnodams                         ../engine/source/time_step/dtnodams.F
 !||    dyna_ina                         ../engine/source/implicit/imp_dyna.F
 !||    dyna_ini                         ../engine/source/implicit/imp_dyna.F
+!||    ebcs12_cyclic                    ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    eig                              ../engine/stub/eig.F
 !||    eigcond                          ../engine/stub/eigcond.F
 !||    enrichc_ini                      ../engine/source/elements/xfem/enrichc_ini.F
@@ -225,6 +227,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_k0h                          ../engine/source/implicit/imp_solv.F
 !||    ini_kisc                         ../engine/source/implicit/lin_solv.F
 !||    inipar                           ../engine/source/mpi/init/inipar.F
+!||    init_h3d_engine                  ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    intbuf_ini                       ../common_source/interf/intbuf_ini.F
 !||    inter7_collision_detection       ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter_count_node_curv            ../engine/source/interfaces/generic/inter_count_node_curv.F
@@ -256,13 +259,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_allocate                   ../engine/source/multifluid/multi_allocate.F
+!||    multi_ebcs                       ../engine/source/multifluid/multi_ebcs.F
 !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
 !||    multi_i18_force_pon              ../engine/source/interfaces/int18/multi_i18_force_pon.F
 !||    multi_inlet_ebcs                 ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propellant_ebcs            ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    ndof_fv                          ../engine/source/implicit/ind_glob_k.F
@@ -329,7 +332,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_fa                     ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_i24                    ../engine/source/mpi/interfaces/spmd_exch_i24.F
 !||    spmd_exch_i25                    ../engine/source/mpi/interfaces/spmd_exch_i25.F
-!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_press                  ../engine/source/mpi/interfaces/spmd_exch_press.F
 !||    spmd_exch_smst2                  ../engine/source/mpi/ams/spmd_exch_smst2.F
 !||    spmd_exch_sorting_efric          ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
@@ -355,7 +357,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_i7fcom_poff                 ../engine/source/mpi/forces/spmd_i7fcom_poff.F
 !||    spmd_i7fcom_pon                  ../engine/source/mpi/forces/spmd_i7fcom_pon.F
 !||    spmd_i7xvcom2                    ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-!||    spmd_ifront                      ../engine/source/mpi/interfaces/spmd_ifront.F
 !||    spmd_ifront_stamp                ../engine/source/mpi/interfaces/send_cand.F
 !||    spmd_inisph                      ../engine/source/mpi/sph/spmd_sptool.F
 !||    spmd_initfi                      ../engine/source/mpi/interfaces/spmd_i7tool.F
@@ -401,26 +402,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tritri3                          ../engine/stub/fvmbags_stub.F
 !||    upd_aspc0                        ../engine/source/constraints/general/bcs/bc_imp0.F
 !||    update_slipring                  ../engine/source/tools/seatbelts/update_slipring.F
-!||    upgrade_cand_opt                 ../common_source/interf/upgrade_multimp.F
-!||    upgrade_lcand_e2s                ../common_source/interf/upgrade_multimp.F
-!||    upgrade_lcand_edg                ../common_source/interf/upgrade_multimp.F
-!||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
 !||    upgrade_rem_2ry                  ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    user_windows_routine             ../engine/source/user_interface/user_windows.F
 !||    usermat_shell                    ../engine/source/materials/mat_share/usermat_shell.F
 !||    usermat_solid                    ../engine/source/materials/mat_share/usermat_solid.F
+!||    ush_force3                       ../engine/source/user_interface/ushforce3.F90
 !||    wciusc2                          ../engine/source/input/wciusc2.F
 !||    write_intbuf                     ../engine/source/output/restart/write_intbuf.F
 !||    wriusc2                          ../engine/source/input/wriusc2.F
-!||    xanim28                          ../engine/source/elements/xelem/xanim28.F
 !||    xforc28                          ../engine/source/elements/xelem/xforc28.F
 !||--- calls      -----------------------------------------------------
 !||    c_h3d_close_file                 ../engine/source/output/h3d/h3d_build_cpp/c_h3d_close_file.cpp
 !||    checksum_option_checksum_file    ../common_source/modules/output/checksum_mod.F90
-!||    close_c                          ../common_source/tools/input_output/write_routtines.c
+!||    checksum_option_out_file         ../common_source/modules/output/checksum_mod.F90
+!||    close_c                          ../common_source/tools/input_output/write_routines.c
 !||    compute_binary_checksum          ../common_source/output/checksum/checksum.cpp
-!||    cur_fil_c                        ../common_source/tools/input_output/write_routtines.c
-!||    delete_tmpfile                   ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                        ../common_source/tools/input_output/write_routines.c
+!||    delete_tmpfile                   ../common_source/tools/input_output/write_routines.c
 !||    my_exit                          ../engine/source/system/my_exit.c
 !||    print_runtime                    ../engine/source/system/timer.F
 !||    qaclose                          ../common_source/qa/qa_out_mod.F
@@ -661,34 +659,37 @@ C
                 CALL PRINT_RUNTIME( )
 
 
-                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD)                ! Htlm report
+                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD, OUTPUT_PTR)                ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)               ! MVW output
                 IF ((IRAD2R==1).AND.(ISPMD==0)) CALL SEND_IBUF_C(1,1)      ! Rad2rad termination
 
               ENDIF
 
+              if (ispmd==0)then
+                if (output_ptr%checksum%checksum_count > 0) then
+                    ! Write Checksum digest in output file
+                    CALL checksum_option_out_file(output_ptr%checksum)   ! Deck checksums print
+                end if
+              endif
               CLOSE(UNIT=IOUT)
-              IF (ISPMD==0)THEN
-                 IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT > 0 ) THEN
-                     IZIP=0
-                     CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%checksum%files_checksum , 
+
+              if (ispmd==0)then
+                if (output_ptr%checksum%checksum_count > 0) then
+                    IZIP=0
+                    CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%checksum%files_checksum , 
      *                                            C_LOC(OUTPUT_PTR%OUT_FILENAME),
      *                                            LEN_TRIM(OUTPUT_PTR%OUT_FILENAME),
      *                                            IZIP)
-                 ENDIF
-              ENDIF
 
+                    CALL checksum_option_checksum_file(output_ptr%checksum,rootnam,rootlen,chrun)   ! Deck checksums print
+                end if
+              endif
+              
               IF(ISPMD /=0) THEN
                  CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
               ENDIF
 
               CLOSE(UNIT=IUHIS)
-
-              if (ispmd==0)then
-                if (output_ptr%checksum%checksum_count > 0) then
-                    CALL checksum_option_checksum_file(output_ptr%checksum,ROOTNAM,ROOTLEN,CHRUN)   ! Deck checksums print
-                end if
-              endif
 
               CALL MY_EXIT(0)
  
@@ -719,7 +720,7 @@ C
                 WRITE(ISTDO,1250) NCYCLE
                 CALL PRINT_RUNTIME( )
 
-                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD) ! Htlm report
+                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD, OUTPUT_PTR) ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)
               ENDIF
 

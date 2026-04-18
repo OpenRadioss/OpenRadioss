@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,13 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_PUFF(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,10 +59,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT, IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,8 +73,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   C1, C2, C3, G0, T1, T2, ES, HH, E0, RHO0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,RHOR,RHOI,MU2,
-     .   XX,AA,BB,GX,PRES,EXPA,ETA,EE,CC, MU0, DF, PP ,SSP0, DPDMU, PC
+     .   RHOR,RHOI,MU2,
+     .   XX,AA,BB,GX,PRES,EXPA,ETA,EE,CC, MU0, DF, PP ,SSP0, DPDMU, PC, PSH
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -103,21 +105,39 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
 
-      PM( 23) = E0
-      PM( 32) = C1
-      PM( 33) = C2
-      PM( 34) = C3
-      PM( 35) = T1
-      PM( 36) = T2
-      PM(160) = ES
-      PM(161) = G0
-      PM(162) = HH
-      IF(PM(79)==ZERO)PM(79)=THREE100
+      PSH = ZERO
+
+      PM(23) = E0
+      PM(32) = C1 + G0*E0  !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
+!-------------------------------------
+      MAT_PARAM%EOS%NUPARAM = 8
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = C1
+      MAT_PARAM%EOS%UPARAM(2) = C2
+      MAT_PARAM%EOS%UPARAM(3) = C3
+      MAT_PARAM%EOS%UPARAM(4) = T1
+      MAT_PARAM%EOS%UPARAM(5) = T2
+      MAT_PARAM%EOS%UPARAM(6) = ES
+      MAT_PARAM%EOS%UPARAM(7) = G0
+      MAT_PARAM%EOS%UPARAM(8) = HH
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+
 
       !COMPUTING INITIAL PRESSURE
       IF(RHOI == ZERO)THEN

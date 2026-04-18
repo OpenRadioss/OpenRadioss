@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -122,7 +122,7 @@ C-----------------------------------------------
        !    default = write restart files
        RESTART_FILE = 1
        ! ---------------------
-       ! infile / outfile cdl line
+       ! Infile / Outfile CDL Line
        INFILE_NAME_LEN = 0
        INFILE_NAME(1:INFILE_CHAR_LEN) = ''
        INFILE_BOOL=.FALSE.
@@ -224,7 +224,7 @@ C -NORST : no restart file command
           CASE ( '-NORST')
              RESTART_FILE = 0
 C------------------------------------------------
-C Lignes de commande qui ne sont pas definies
+C Command lines that are not defined
           CASE DEFAULT
              ERR = 0
              IF (I == 1)THEN
@@ -478,7 +478,6 @@ C check if -dylib has got an argument or if the next string is an input command
 
          ENDIF     !         IF (PUSERLNAMI+1  > ARGN) THEN
        ENDIF
- 3000  CONTINUE
 C------------------------------------------------
 C -MDS_LIBPATH
 C------------------------------------------------

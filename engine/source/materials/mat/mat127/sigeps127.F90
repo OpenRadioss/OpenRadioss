@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps127_mod
+        implicit none
       contains
         ! ======================================================================================================================
         ! \brief   material law /MAT/LAW127
@@ -120,7 +121,7 @@
             epsr, fbrt, tsmd, yc_over_sc, yfac_xt, yfac_xc, yfac_yc, dam,     &
             yfac_yt, yfac_sc, eft, efc, emt, emc,scale,eps_ef,tau2,sc2,       &
             tau_bar, d11,d22,d33, d12,d13,d23,e3,nu13,nu31,nu23,nu32,red
-          real(kind=WP), dimension(nel) ::  xc, xt, yc, yt, sc, dydx
+          real(kind=WP), dimension(nel) ::  xc, xt, yc, yt, sc, dydx,xt_0
 !!======================================================================
           e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
           e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
@@ -192,11 +193,11 @@
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(1)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt)
-            xt(1:nel)= yfac_xt*xt(1:nel)
+            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt_0)
+            xt_0(1:nel)= yfac_xt*xt_0(1:nel)
           else
-            xt(1:nel) = xt0
-          endif
+            xt_0(1:nel) = xt0
+          end if
           ! xc
           if(ifunc(2) /= 0) then
             ipos(1:nel) = 1
@@ -206,7 +207,7 @@
             xc(1:nel)= yfac_xc*xc(1:nel)
           else
             xc(1:nel) = xc0
-          endif
+          end if
           ! yt
           if(ifunc(3) /= 0) then
             ipos(1:nel) = 1
@@ -216,7 +217,7 @@
             yt(1:nel)= yfac_yt*yt(1:nel)
           else
             yt(1:nel) = yt0
-          endif
+          end if
           ! yc
           if(ifunc(4) /= 0) then
             ipos(1:nel) = 1
@@ -226,7 +227,7 @@
             yc(1:nel)= yfac_yc*yc(1:nel)
           else
             yc(1:nel) = yc0
-          endif
+          end if
           ! sc shaer
           if(ifunc(5) /= 0) then
             ipos(1:nel) = 1
@@ -236,7 +237,7 @@
             sc(1:nel)= yfac_sc*sc(1:nel)
           else
             sc(1:nel) = sc0
-          endif
+          end if
           ! Reduction of stress ply and checking the deletion of element
           ndex = 0
           do i=1,nel
@@ -245,7 +246,7 @@
                 red = min(em01, one/ncyred)
                 off(i) = off(i) - red
                 if(off(i) <= em02) off(i) = zero
-              endif
+              end if
               signxx(i) = sigoxx(i) * off(i)
               signyy(i) = sigoyy(i) * off(i)
               signzz(i) = sigozz(i) * off(i)
@@ -255,8 +256,8 @@
             else
               ndex = ndex + 1
               index(ndex) = i
-            endif
-          enddo
+            end if
+          end do
 !! ---------------------------------------
           ! undapte stress for element not reach the failure.
 #include "vectorize.inc"
@@ -274,7 +275,7 @@
             !
             a11 = max(d11,d22,d33)
             ssp(i) = sqrt(a11/rho0(i))
-          enddo ! ndex
+          end do ! ndex
           ! check the Failure. It's  based on  chang-chang model
           ndx_fail = 0
           select case (twoway)
@@ -282,19 +283,20 @@
 #include "vectorize.inc"
             do n=1,ndex
               i= index(n)
+              xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in b or c
               if(dmg(i,5) == one .or. dmg(i,8) == one) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
-              endif
+                xt(i) = fbrt*xt_0(i)
+              end if
               ! Fiber failure
               if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                 eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2
                 if( eft >= one) dmg(i,2) = one  !
-              elseif(dmg(i,3) == zero ) then
+              else if(dmg(i,3) == zero ) then
                 efc = (signxx(i)/xc(i))**2
                 if(efc >= one) dmg(i,3) = one
-              endif
+              end if
               ! matrix failure dir b
               if(signyy(i) >= zero  .and. dmg(i,4) == zero ) then
                 scale = half/g12
@@ -304,11 +306,11 @@
                 tau_bar = tau_bar/(scale*sc2 + three_over_4*alpha*sc2**2)
                 emt = (signyy(i)/yt(i))**2  + tau_bar
                 if( emt >= one) dmg(i,4) = one
-              elseif(signyy(i) < zero .and. dmg(i,5) == zero) then
+              else if(signyy(i) < zero .and. dmg(i,5) == zero) then
                 yc_over_sc  = fourth*(yc(i)/sc(i))**2
                 emc = fourth*(signyy(i)/sc(i))**2  + (yc_over_sc - one)*signyy(i)/yc(i) + (signxy(i)/sc(i))**2
                 if(emc >= one) dmg(i,5)= one
-              endif
+              end if
               ! matrix failure dir c
               if(signzz(i) >= zero  .and. dmg(i,7) == zero ) then
                 scale = half/g12
@@ -318,38 +320,39 @@
                 tau_bar = tau_bar/(scale*sc2 + three_over_4*alpha*sc2**2)
                 emt = (signzz(i)/yt(i))**2  + tau_bar
                 if( emt >= one) dmg(i,7) = one
-              elseif(signzz(i) < zero .and. dmg(i,8) == zero) then
+              else if(signzz(i) < zero .and. dmg(i,8) == zero) then
                 yc_over_sc  = fourth*(yc(i)/sc(i))**2
                 emc = fourth*(signzz(i)/sc(i))**2  + (yc_over_sc - one)*signzz(i)/yc(i) + (signxy(i)/sc(i))**2
                 if(emc >= one) dmg(i,8)= one
-              endif
+              end if
               if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one
             end do ! ndex
            case(1)  ! two fiber direction
 #include "vectorize.inc"
             do n=1,ndex
               i = index(n)
+              xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in direction c
               if(dmg(i,8) == one ) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
-              endif
+                xt(i) = fbrt*xt_0(i)
+              end if
               ! Fiber failure dir a
               if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                 eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2
                 if( eft >= one) dmg(i,2) = one  !
-              elseif(dmg(i,3) == zero ) then
+              else if(dmg(i,3) == zero )then
                 efc = (signxx(i)/xc(i))**2
                 if(efc >= one) dmg(i,3) = one
-              endif
+              end if
               ! Fiber failure dir b
               if(signyy(i) >= zero .and. dmg(i,4)  == zero ) then
                 eft = (signyy(i)/yt(i))**2  + beta*(signxy(i)/sc(i))**2
                 if( eft >= one) dmg(i,4) = one
-              elseif(dmg(i,5) == zero ) then
+              else if(dmg(i,5) == zero ) then
                 efc = (signyy(i)/yc(i))**2
                 if(efc >= one) dmg(i,5) = one
-              endif
+              end if
               ! matrix failure only on shear
               if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one
               ! failure based on effective strain
@@ -372,7 +375,7 @@
                   ndx_fail = ndx_fail + 1
                   indx_fail(ndx_fail) = i
                   uvar(i,1) = one
-                endif
+                end if
               end do
              case(1) ! two fiber direction
               do n=1,ndex
@@ -388,7 +391,7 @@
                   ndx_fail = ndx_fail + 1
                   indx_fail(ndx_fail) = i
                   uvar(i,1) = one
-                endif
+                end if
               end do
             end select
           else ! dfailt = zero
@@ -405,7 +408,7 @@
                   ndx_fail = ndx_fail + 1
                   indx_fail(ndx_fail) = i
                   uvar(i,1) = one
-                endif
+                end if
               end do
              case(1) ! two fiber direction
               do n=1,ndex
@@ -420,10 +423,10 @@
                   ndx_fail = ndx_fail + 1
                   indx_fail(ndx_fail) = i
                   uvar(i,1) = one
-                endif
+                end if
               end do
             end select
-          endif
+          end if
           !
 #include "vectorize.inc"
           do n=1,ndex
@@ -435,65 +438,59 @@
               (signxx(i) >= slimt1*xt(i) .or. sigoxx(i) == slimt1*xt(i)) ) then
               limit_sig = slimt1*xt(i)
               signxx(i) = min(signxx(i),limit_sig)
-              signyy(i) = sigoyy(i)
-              signzz(i) = sigozz(i)
-              signxy(i) = sigoxy(i)
-            elseif(dmg(i,3) == one .and. &
+              signyy(i) = slimt1*sigoyy(i)
+              signzz(i) = slimt1*sigozz(i)
+              signxy(i) = slimt1*sigoxy(i)
+            else if(dmg(i,3) == one .and. &
               (signxx(i) <= -slimc1*xc(i) .or. sigoxx(i) == -slimc1*xc(i)) ) then
               !!signxx(i) = - slimc1*xc(i)
               limit_sig= - slimc1*xc(i)
               signxx(i)= max(signxx(i),limit_sig)
-              signyy(i) = sigoyy(i)
-              signzz(i) = sigozz(i)
-              signxy(i) = sigoxy(i)
-            endif
-            ! matrix direction c
-            if( dmg(i,7) == one .and. &
+              signyy(i) = slimc1*sigoyy(i)
+              signzz(i) = slimc1*sigozz(i)
+              signxy(i) = slimc1*sigoxy(i)
+            elseif( dmg(i,7) == one .and. &
               (signzz(i) >= slimt2*yt(i) .or. sigozz(i) == slimt2*yt(i)) ) then
               limit_sig= slimt2*yt(i)
               signzz(i)= min(signzz(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signyy(i) = sigoyy(i)
-              signxy(i) = sigoxy(i)
-            elseif(dmg(i,8) == one .and. &
+              signxx(i) = slimt2*sigoxx(i)
+              signyy(i) = slimt2*sigoyy(i)
+              signxy(i) = slimt2*sigoxy(i)
+            else if(dmg(i,8) == one .and. &
               (signzz(i) <= -slimc2*yc(i) .or. sigozz(i) == -slimc2*yc(i)) ) then
               limit_sig= - slimc2*yc(i)
               signzz(i)= max(signzz(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signyy(i) = sigoyy(i)
-              signxy(i) = sigoxy(i)
-            endif
-            ! matrix direction b
-            if(dmg(i,4) == one .and. &
+              signxx(i) = slimc2*sigoxx(i)
+              signyy(i) = slimc2*sigoyy(i)
+              signxy(i) = slimc2*sigoxy(i)
+            elseif(dmg(i,4) == one .and. &
               (signyy(i) >= slimt2*yt(i) .or. sigoyy(i) == slimt2*yt(i)) ) then
               limit_sig= slimt2*yt(i)
               signyy(i)= min(signyy(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signxy(i) = sigoxy(i)
-              signzz(i) = sigozz(i)
-            elseif(dmg(i,5) == one  .and. &
+              signxx(i) = slimt2*sigoxx(i)
+              signxy(i) = slimt2*sigoxy(i)
+              signzz(i) = slimt2*sigozz(i)
+            else if(dmg(i,5) == one  .and. &
               (signyy(i) <= -slimc2*yc(i) .or. sigoyy(i) == -slimc2*yc(i)) ) then
               limit_sig = - slimc2*yc(i)
               signyy(i)= max(signyy(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signxy(i) = sigoxy(i)
-              signzz(i) = sigozz(i)
-            endif
-            !
-            if(dmg(i,6) == one  ) then
+              signxx(i) = slimc2*sigoxx(i)
+              signxy(i) = slimc2*sigoxy(i)
+              signzz(i) = slimc2*sigozz(i)
+            elseif(dmg(i,6) == one  ) then
               limit_sig = slims*sc(i)
               if(signxy(i) >= zero .and. signxy(i) >= limit_sig) then
                 signxy(i) = min(limit_sig, signxy(i))
-                !! signxx(i) = sigoxx(i)
-                !! signyy(i) = sigoyy(i)
-                !!  signzz(i) = sigozz(i)
-              elseif(signxy(i) < zero .and. signxy(i) <= -limit_sig) then
+                !! signxx(i) = slims*sigoxx(i)
+                !! signyy(i) = slims*sigoyy(i)
+                !!  signzz(i) = slims*sigozz(i)
+              else if(signxy(i) < zero .and. signxy(i) <= -limit_sig) then
                 signxy(i) = max(-limit_sig, signxy(i))
-                !! signxx(i) = sigoxx(i)
-                !!  signyy(i) = sigoyy(i)
-                !! signzz(i) = sigozz(i)
-              endif
-            endif
+                !! signxx(i) = slims*sigoxx(i)
+                !! signyy(i) = slims*sigoyy(i)
+                !! signzz(i) = slims*sigozz(i)
+              end if
+            end if
             ! out of plane damage
             eps_ef = half*sqrt(epszx(i)**2 + epsyz(i)**2)
             if( eps_ef >= epsf) then
@@ -501,8 +498,8 @@
               dam = min(tsmd, dam)
               signzx(i) = (one - dam)*signzx(i)
               signyz(i) = (one - dam)*signyz(i)
-            endif
-          enddo ! nel loop
+            end if
+          end do ! nel loop
           if(ndx_fail > 0) then
 #include "vectorize.inc"
             do n=1,ndx_fail
@@ -511,10 +508,10 @@
               write(iout, 1000) ngl(i),time
               write(istdo,1000) ngl(i),time
 #include "lockoff.inc"
-            enddo ! ndx_fail
-          endif ! ndxfail
+            end do ! ndx_fail
+          end if ! ndxfail
 !
-1000      FORMAT(1X,'delete solid element ',I10 , ' at time :', 1PE12.4)
+1000      FORMAT(1X,"delete solid element ",I10 , " at time :", 1PE12.4)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps127
       end module sigeps127_mod

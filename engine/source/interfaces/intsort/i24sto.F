@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -101,14 +101,14 @@ C-----------------------------------------------
      .             MBINFLG,ISEADD ,ISEDGE ,PENE_E,IEDGE )
 
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES 
+C SUPPRESSION DES ANCIENS CANDIDATES DEJE STOCKES 
 C-----------------------------------------------
       DO I=1,J_STOK
        IF(PENE(I)/=ZERO)THEN
          N  = PROV_N(I)
          NE = PROV_E(I)+ESHIFT
          IF(N>NSN)THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering of previous sorts for non-local nodes (spmd)
             N = OLDNUM(N-NSN)+NSN
             IF(N==NSN) N = NSN+NSNROLD+1
          END IF
@@ -292,7 +292,7 @@ C=======================================================================
              IAD = ISEADD(N)
              NES = ISEDGE(IAD)
            ELSE
-c a faire !!!!!!!!!!!!!!!!!!!!!!!!!
+c a to perform !!!!!!!!!!!!!!!!!!!!!!!!!
              stop 987
            ENDIF
            IF(IME /= 1 .or. NES == 0) PENE_E(I)=ZERO

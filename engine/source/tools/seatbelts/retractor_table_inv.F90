@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
 !||====================================================================
       module retractor_table_inv_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -82,7 +83,7 @@
 !
           ndim = table%ndim
           if (ndim > 1) then
-            call ancmsg(msgid=36, anmode=aninfo, c1='table interpolation')
+            call ancmsg(msgid=36, anmode=aninfo, c1="table interpolation")
             call arret(2)
           end if
 !
@@ -98,9 +99,9 @@
                 r = one
               else
                 r = (table%y%values(i) - yy) / (table%y%values(i) - table%y%values(i - 1))
-              endif
+              end if
               exit
-            endif
+            end if
           end do
           unr = one - r
 !

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,15 +78,15 @@ C-----------------------------------------------
      .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),STIF(MVSIZ),
      .   VC(MVSIZ,3),FORC_N(MVSIZ,3),FOR_T1(MVSIZ,3),
      .   FOR_T2(MVSIZ,3),FOR_T3(MVSIZ,3),FOR_T4(MVSIZ,3),
-     .   FCX,FCY,FCZ,FAC,GAP_MAX,GAP_MIN,TOL_T,TOL_C,TOL_V,
-     .   PENMIN(MVSIZ),PENREF(MVSIZ),MARGE(MVSIZ)
-      INTEGER I,J,NCTL,IFCTL,IFC1(MVSIZ)
+     .   FCX,FCY,FCZ,GAP_MAX,GAP_MIN,TOL_C,TOL_V,
+     .   PENMIN(MVSIZ),PENREF(MVSIZ)
+      INTEGER I,NCTL,IFCTL,IFC1(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
          TOL_C= ZEP2
          TOL_V = EIGHT
-C---- element center
+C---- Element center
          DO I=1,NEL
            VC(I,1) = FOURTH*(VX1(I)+VX2(I)+VX3(I)+VX4(I))
            VC(I,2) = FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
@@ -109,7 +109,7 @@ C
      .               IFCTL, STIF  ,  MU    ,   NEL  ,
      .               E_DISTOR,DT1 )
          NCTL = NCTL + IFCTL
-C---- element center
+C---- Element center
          DO I=1,NEL
            XC(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
            YC(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))

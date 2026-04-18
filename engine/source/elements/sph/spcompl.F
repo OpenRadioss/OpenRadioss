@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,13 +71,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,INOD,JNOD,J,NVOIS,M,NN,
-     .        NVOISS,SM,JS,NC,IC,IS,
+     . NVOISS,SM,JS,NC,
      .        I,IPRT,IGEO,IORDER,NMUN,NZERO,NUN,
      .        MWAMUN(NSPHACT),MWAUN(NSPHACT),MWAZERO(NSPHACT),
      .        IGTYP
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,DIJ,
-     .       VJ,VJX,VJY,VJZ,
+     . VJ,
      .       WGHT,WGRAD(3),
      .       WCOMPI,WCOMPXI,WCOMPYI,WCOMPZI,
      .       WGRADXI,WGRADYI,WGRADZI,
@@ -86,23 +86,9 @@ C-----------------------------------------------
      .       WGRADZXI,WGRADZYI,WGRADZZI,DET,
      . LI11,LI12,LI13,LI21,LI22,LI23,LI31,LI32,LI33,
      . TCOFA11,TCOFA12,TCOFA13,TCOFA21,TCOFA22,TCOFA23,
-     . TCOFA31,TCOFA32,TCOFA33,L(3,3),IL(3,3),
-     . LXI11,LXI12,LXI13,LXI22,LXI23,LXI33,
-     . LYI11,LYI12,LYI13,LYI22,LYI23,LYI33,
-     . LZI11,LZI12,LZI13,LZI22,LZI23,LZI33,
-     . MXI11,MXI12,MXI13,MXI21,MXI22,MXI23,MXI31,MXI32,MXI33,
-     . MYI11,MYI12,MYI13,MYI21,MYI22,MYI23,MYI31,MYI32,MYI33,
-     . MZI11,MZI12,MZI13,MZI21,MZI22,MZI23,MZI31,MZI32,MZI33,
+     . TCOFA31,TCOFA32,TCOFA33,
      . ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,
-     . BETAXI,BETAYI,BETAZI,
-     . BETAXXI,BETAYXI,BETAZXI,
-     . BETAXYI,BETAYYI,BETAZYI,
-     . BETAXZI,BETAYZI,BETAZZI,
-     . BETAX,WGRDX,WGRDY,WGRDZ,
-     .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,
-     .       S11,S12,S13,S22,S23,S33,
-     .       ALPHAXJ,ALPHAYJ,ALPHAZJ,
-     .       BETAXJ,BETAYJ,BETAZJ
+     . VX,VY,VZ
 C-----------------------------------------------
       my_real
      .         GET_U_GEO
@@ -213,7 +199,7 @@ C------
           WGRADZI=WGRADZI+VJ*WGRAD(3)
         ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
@@ -338,7 +324,7 @@ C------
           WGRADZZI=WGRADZZI+VJ*WGRAD(3)*(ZI-ZJ)
         ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
@@ -503,7 +489,7 @@ C         WGRADZXI=WGRADZXI+VJ*WGRAD(3)*(XI-XJ)
 C         WGRADZYI=WGRADZYI+VJ*WGRAD(3)*(YI-YJ)
 !        ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
 !        NVOISS=KXSP(6,N)
 !        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
 !          JS=IXSP(J,N)
@@ -772,7 +758,7 @@ C           LZI32=LZI32+VJZ*(YI-YJ)
 !          END IF
 !        ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
 !        NVOISS=KXSP(6,N)
 !        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
 !          JS=IXSP(J,N)
@@ -960,7 +946,7 @@ C           LZI32=LZI32+VJZ*(YI-YJ)
 C------
 C     Inverse LI.
 C------
-C       Cofacteurs.
+C       COFACTORS.
 C       COFAC11=  LI22*LI33-LI32*LI23
 C       COFAC12= -LI21*LI33+LI31*LI23
 C       COFAC13=  LI21*LI32-LI31*LI22
@@ -970,7 +956,7 @@ C       COFAC23= -LI11*LI32+LI31*LI12
 C       COFAC31=  LI12*LI23-LI22*LI13
 C       COFAC32= -LI11*LI23+LI21*LI13
 C       COFAC33=  LI11*LI22-LI21*LI12
-C      Transposee des cofacteurs.
+C      Transpose of cofactors.
 C       TCOFA11=  LI22*LI33-LI32*LI23
 C       TCOFA21= -LI21*LI33+LI31*LI23
 C       TCOFA31=  LI21*LI32-LI31*LI22
@@ -1166,7 +1152,7 @@ C------
 C------
 !      ENDDO
 C-----------------------------------------------
-C       Prepare les corrections sur les particules symetriques.
+C       Prepare corrections on symmetric particles.
 C-----------------------------------------------
 C-------------------------------------------
       RETURN
@@ -1397,7 +1383,7 @@ C           WACOMP(16,JS)=WACOMP(16,SM)
            ENDIF
           ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
           DO SM = 1+ITASK,NSPHR,NTHREAD
            JS=ISPSYMR(NC,SM)

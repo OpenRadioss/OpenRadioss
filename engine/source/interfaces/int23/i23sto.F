@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,8 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J,
-     .        ME,N1,N2,N3,N4,M1,M2,M3,M4
+      INTEGER I,K_STOK,I_STOK,N,NE,J
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C     REAL
       my_real
@@ -68,9 +67,6 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
-     .   NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
-     .   NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
-     .   NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
 C-----------------------------------------------
         CALL I23COR3T(J_STOK ,X    ,IRECT ,PROV_E ,
@@ -88,14 +84,14 @@ C-----------------------------------------------
      .               YI    ,ZI     ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4    ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
+C REMOVAL OF OLD CANDIDATES ALREADY STORED (INITIAL PENETRATION)
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN
             N  = PROV_N(I)
             NE = PROV_E(I)+ESHIFT
             IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C Numbering of previous triangles for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
@@ -138,7 +134,7 @@ C-----------------------------------------------
         ENDDO
         RETURN
 
-C a refaire
+C To be redone
 c        DO I=1,J_STOK
 c          IF(PENE(I)/=ZERO)THEN
 c            I_STOK = I_STOK + 1
@@ -156,7 +152,7 @@ c      ITAGP(N2)=1
 c      ITAGP(N3)=1
 c      ITAGP(N4)=1
 c            IF(N>NSN) THEN
-cC numerotation tris precedent pour les noeuds non locaux (SPMD)
+c This is sorted previously for non-local nodes (SPMD)
 c              N = OLDNUM(N-NSN)+NSN
 c              IF(N==NSN) N = NSN+NSNROLD+1
 c            END IF
@@ -178,8 +174,8 @@ c     .             (M4/=M3.AND.ITAGP(M3)/=0.AND.ITAGP(M4)/=0).OR.
 c     .             (M4/=M3.AND.ITAGP(M4)/=0.AND.ITAGP(M1)/=0).OR.
 c     .             (M4==M3.AND.ITAGP(M3)/=0.AND.ITAGP(M1)/=0))THEN
 cC
-cC retains information from 1 neighbor only (1st penetrated)
-cCa doit etre refait / tri
+c Retains information from 1 neighbor only (1st penetrated)
+c It must be redone / sorted
 c                  IF(ABS(IFPEN(J)) > ABS(IFPEN(I_STOK)))THEN
 c                    IFPEN(I_STOK)  = IFPEN(J)
 c                    CAND_P(I_STOK) = CAND_P(J)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -97,7 +97,7 @@ C-------
         BOXTYPE = 1
       END IF
 C-------
-C get box de box ID'S dans grshel:
+C get box from box ID'S in grshel:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -122,7 +122,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grshel:
+C   simple box in grshel:
 C---
       BOOL =.FALSE.
       IF(ISU>0)THEN

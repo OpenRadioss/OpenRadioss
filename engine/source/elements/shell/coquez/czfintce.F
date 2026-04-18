@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                      MX34 ,MY13 ,MY23 ,MY34 ,VSTRE,MSTRE,
      4                      VF   ,VM   ,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL LA PARTIE CONSTANTE
+C        calculation of the constant part
 C         VF(3,NODE),VM(2,NODE) : FORCES INTERNES GENERALISEES
 C        ENTREES  : THK,AREA,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34,Z1,...
 C        SORTIES  : VF,VM
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I ,J
+        INTEGER I 
         my_real
      .     S1, C2, Y13S8, Y24S8, S42S, S52S, X13S8, X24S8
 C
@@ -132,7 +132,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J
         my_real
-     .     S1, C2, A05,ERZ,OFF05
+     .      C2,ERZ,OFF05
 C
 C      --------const sig_rz added here---------
        DO I=JFT,JLT

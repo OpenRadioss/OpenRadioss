@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -166,7 +166,7 @@ C
         XXC=0.
         YYC=0.
         ZZC=0.
-C   attention : il faut penser a maj de X avant forint
+C   Please note: you have to think of Maj of x before Forint
         DO I=1,NNOD
           N=NOD(I)
           XXC=XXC+X(1,N)
@@ -181,7 +181,7 @@ C   attention : il faut penser a maj de X avant forint
         YYC=0.
         ZZC=0.
         MAS=1.E-30
-C   attention : il faut penser a maj de X & M avant forint
+C   Please note: you have to think of Maj of X & before me forge
         DO I=1,NNOD
           N=NOD(I)
           XXC=XXC+X(1,N)*MS(N)

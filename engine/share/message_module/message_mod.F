@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ass2sort                           ../engine/source/assembly/ass2sort.F
 !||    ass2sort_pxfem                     ../engine/source/assembly/ass2sort.F
 !||    balph2                             ../engine/source/ale/bimat/balph2.F
+!||    bcs_nrf                            ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcsdtth                            ../engine/source/constraints/general/bcs/bcsdtth.F
 !||    bforc2                             ../engine/source/ale/bimat/bforc2.F
 !||    blero2                             ../engine/source/ale/bimat/blero2.F
@@ -252,6 +253,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_kisc                           ../engine/source/implicit/lin_solv.F
 !||    ini_msg                            ../engine/source/output/message/ini_msg.F
 !||    iniresa                            ../engine/source/output/restart/rdresa.F
+!||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    inivel_start                       ../engine/source/loads/general/inivel/inivel_start.F90
 !||    int18_law151_init                  ../engine/source/interfaces/int18/int18_law151_init.F
 !||    int18_law151_omp_accumulation      ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
@@ -351,6 +353,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20deri3                           ../engine/source/elements/solid/solide20/s20deri3.F
 !||    s4jac_i                            ../engine/source/elements/solid/solide4/s4jac_i.F
 !||    s6cderi3                           ../engine/source/elements/thickshell/solide6c/s6cderi3.F
+!||    s6zderi3                           ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zderit3                          ../engine/source/elements/solid/solide6z/s6zderit3.F90
+!||    s6zderito3                         ../engine/source/elements/solid/solide6z/s6zderito3.F90
+!||    s6zjac_i                           ../engine/source/elements/solid/solide6z/s6zjac_i.F90
 !||    s8deri3                            ../engine/source/elements/solid/solide8/s8deri3.F
 !||    s8ederic3                          ../engine/source/elements/solid/solide8e/s8ederic3.F
 !||    s8edericm3                         ../engine/source/elements/solid/solide8e/s8edericm3.F
@@ -408,7 +414,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_fa                       ../engine/source/mpi/elements/spmd_exch_dttsh.F
 !||    spmd_exch_i24                      ../engine/source/mpi/interfaces/spmd_exch_i24.F
 !||    spmd_exch_i25                      ../engine/source/mpi/interfaces/spmd_exch_i25.F
-!||    spmd_exch_min_max                  ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_press                    ../engine/source/mpi/interfaces/spmd_exch_press.F
 !||    spmd_exch_smst2                    ../engine/source/mpi/ams/spmd_exch_smst2.F
 !||    spmd_exch_sorting_efric            ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
@@ -516,6 +521,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_solid                      ../engine/source/materials/mat_share/usermat_solid.F
 !||    userwi_read                        ../engine/source/user_interface/userwindow_interface_routines.F
 !||    userwi_write                       ../engine/source/user_interface/userwindow_interface_routines.F
+!||    ush_force3                         ../engine/source/user_interface/ushforce3.F90
 !||    wciusc2                            ../engine/source/input/wciusc2.F
 !||    wigerest                           ../engine/source/output/restart/rdresb.F
 !||    write_th_restart                   ../engine/source/output/th/write_th_restart.F

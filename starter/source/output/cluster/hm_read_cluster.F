@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE READER_OLD_MOD , ONLY : LINE, KLINE, KEY0, KCUR
+      use element_mod , only : nixs,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,JJ,KK,N,CLID,UID,ICLUS,IAD,IG,IGR,ISK,IFAIL,IEL,NEL,NNOD,IFLAGUNIT,VAL,NNOD0,ITY,NELMAX
+      INTEGER I, J, K, II, JJ, KK, CLID, UID, IG, IGR, ISK, IFAIL, IEL, NEL, NNOD, IFLAGUNIT, NNOD0, NELMAX
       INTEGER NOD1(2000),NOD2(2000),SUB_INDEX,ISK_L
       my_real BID(1),AX(4),NX(4),FMAX(2),MMAX(2)
       CHARACTER(LEN=NCHARTITLE)::TITR
@@ -361,9 +362,6 @@ C-------------------------------------
      & 10X,'FAILURE EXPONENT N3 . . . . . . . . . . .=',1PG20.13/,
      & 10X,'FAILURE EXPONENT N4 . . . . . . . . . . .=',1PG20.13)
  9000 FORMAT(10X/)
-C-----------
-      RETURN
-  998 CALL ANCMSG(MSGID=55,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=KEY0(KCUR),C2=KLINE,C3=LINE)
 C-----------
       RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
 !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE C3BILAN(
@@ -48,6 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE SENSOR_MOD
+       use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +87,7 @@ C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG
 C     REAL
       my_real
-     .   IN25,XX,YY,ZZ,XY,YZ,ZX, COEF, INEL, 
+     .   IN25,XX,YY,ZZ, INEL, 
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
@@ -164,8 +166,8 @@ C
        ZM(I) = XMAS25(I)*VZA(I)
       ENDDO
 C
-C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR ne sont transmis que par
-C                CFORC3 et pas par CSUBC3 et CZFORC3 (IFLA=0) !!!!!!!
+C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR are only transmitted by
+C                CFORC3 and not by CSUBC3 and CZFORC3 (IFLA=0) !!!!!!!
 C
       IF(NPSAV>=21)THEN
        IF(IXFEM == 0)THEN

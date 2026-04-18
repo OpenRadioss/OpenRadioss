@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,17 +55,17 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
-     .   IFRL1, IFRL2, L,TYPE, NNOD,KR11,KR12,
-     .   KR21,KR22,NBINTER,LEN,NNODT
+     .    I, K, II, N, KR1,KR2,KR3,K0,KR0,K2,
+     .   IFRL1, IFRL2,TYPE, NNOD,KR11,KR12,
+     .   KR21,KR22,NBINTER,NNODT
       my_real
-     .   DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL,
-     .   TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA,AA,DTINV
+     .   DW, TT1, TT2, TT3, DD, D1, D2,WFEXTL,
+     .    ALPHA,AA,DTINV
 C
       IF(NSECT==0)RETURN
       IF(NSTRF(2)==0)RETURN
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C READ FILE in the order of the sections read from the file
 C  T = TT
 C-----------------------------------------------
        IF(NSPMD==1) THEN
@@ -80,7 +80,7 @@ C-----------------------------------------------
            END DO
          END IF
 C
-C SPMD SPECIFIC : MAJ MODIF NSTRF et SECBUF dans SECT_READP
+C spmd specific: major modification of nstrf and secbuf in sect_readp
 C
          CALL SECTION_READP(TT,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
        END IF

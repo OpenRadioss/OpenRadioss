@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_anim_ply_velvec   ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
 !||    spmd_vgath             ../engine/source/mpi/anim/spmd_vgath.F
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -61,7 +61,7 @@ C-----------------------------------------------
      .   S3000,S
       REAL R4
       REAL, DIMENSION(:,:), ALLOCATABLE :: PLYVELVEC
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,BUF
       INTEGER NNSRG,NFVNOD,IFUNC,NFNOD_PXFEM,ND,EMPL,NFNOD_CRKXFEMG
 C-----------------------------------------------
       INTEGER N,IPLY,JJ,EMPSIZPL
@@ -221,7 +221,6 @@ c----------------------------
         ENDIF                      
       ENDIF
 C-------------
- 300  CONTINUE
       RETURN
       END
 
@@ -232,7 +231,7 @@ C-------------
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_velvec2      ../engine/source/mpi/anim/spmd_velvec2.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -265,7 +264,7 @@ C     REAL
       INTEGER NNSRG,NFNOD_PXFEM,NFNOD_PXFEMG
       INTEGER I,N,WEIGHT(*),FR_SEC(NSPMD+1,*)
 
-      INTEGER NODGLOB(*),K,P,RBUF,NNG
+      INTEGER NODGLOB(*),RBUF,NNG
       INTEGER NFVNOD,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -339,7 +338,7 @@ C
       ENDIF
 
 C
-C nodcut non parallelises
+C NODCUT Non -paralle
       IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
           IF (ISPMD==0)THEN
@@ -482,7 +481,7 @@ C-----------
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_fsum9   ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -513,7 +512,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -629,7 +628,6 @@ c----------------------------
         ENDIF
       ENDIF!(ISPMD==0) 
 c----------------------------  
- 300  CONTINUE
       DEALLOCATE(VG)
       RETURN
       END
@@ -640,7 +638,7 @@ c----------------------------
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE VELVECC21(V,V_TEMP,IVOIS,AL,NODCUT,NNWL,
      .                  NNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
@@ -668,7 +666,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
        my_real
      .       , DIMENSION(:,:), ALLOCATABLE ::  V_TMP
@@ -796,7 +794,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    genani        ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE VELVECC_MAX(VMAX,NODCUT,NNWL,NNSRG,NFVNOD,
      .                       NFNOD_PXFEMG,NFNOD_CRKXFEMG)
@@ -818,8 +816,8 @@ C-----------------------------------------------
       my_real
      .   VMAX(3,*)
       REAL R4  
-      INTEGER I,K,NODCUT,NNWL
-      INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
+      INTEGER I,NODCUT,NNWL
+      INTEGER NNSRG,NFVNOD,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 
       IF (NSPMD == 1) THEN
@@ -920,7 +918,7 @@ c----------------------------
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_vgath     ../engine/source/mpi/anim/spmd_vgath.F
-!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -951,7 +949,7 @@ C     REAL
       my_real
      .   S3000,S
       REAL R4
-      INTEGER I,IVOIS(2,*),NODCUT,NNWL,K,P,BUF
+      INTEGER I,IVOIS(2,*),NODCUT,NNWL,BUF
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1056,9 +1054,10 @@ C-------------
 !||--- called by ------------------------------------------------------
 !||    genani           ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -1082,7 +1081,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE I22BUFBRIC_MOD   
       USE I22EDGE_MOD    
-      USE I22TRI_MOD         
+      USE I22TRI_MOD
+      use element_mod , only : nixs,nixq         
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1104,7 +1104,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,NG,I
+      INTEGER :: NGM, IDLOCM, IBM,ICELLM,MLW,NCELL,NELm,NBF,NBL,ICELL,NIN,NODE_ID,IB,I
       my_real :: rho_cell, RHO(4), VFRAC(4)
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
 C-----------------------------------------------

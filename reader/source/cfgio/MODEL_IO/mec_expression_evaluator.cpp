@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,34 +19,28 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #include "mec_expression_evaluator.h"
 #include <string>
 #include <boost/lexical_cast.hpp>
 using std::string;
 
-IValueExpressionEvaluator::IValueExpressionEvaluator(const IExpressionEvaluator* pEvaluator) :
+IVariableExpressionEvaluator::IVariableExpressionEvaluator(const IExpressionEvaluator* pEvaluator) :
     p_pEvaluator(const_cast<IExpressionEvaluator*>(pEvaluator)), p_doDelete(false)
 {}
 
-IValueExpressionEvaluator::IValueExpressionEvaluator(IExpressionEvaluator* pEvaluator,bool doDelete) :
+IVariableExpressionEvaluator::IVariableExpressionEvaluator(IExpressionEvaluator* pEvaluator,bool doDelete) :
     p_pEvaluator(pEvaluator), p_doDelete(doDelete)
 {}
 
-IValueExpressionEvaluator::~IValueExpressionEvaluator()
+IVariableExpressionEvaluator::~IVariableExpressionEvaluator()
 {
     if(p_doDelete) delete p_pEvaluator;
 }
 
-double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) const
+double IVariableExpressionEvaluator::Evaluate(const char* expression, int* pError) const
 {
-    if(nullptr == p_pEvaluator)
-    {
-        if(nullptr != pError) *pError = -2;
-        return 0;
-    }
-
     // replace variables by their values
     string srcExpression(expression), newExpression;
     size_t posTokenStart = 0, posTokenEnd = 0;
@@ -70,6 +64,11 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
                 posTokenStart += 2;
             }
         }
+        else if(posTokenEnd == posTokenStart &&
+                srcExpression[posTokenStart] == '&')
+        { // single "&" is parameter prefix, so just skip
+            ++posTokenStart;
+        }
         else
         {
             string token = srcExpression.substr(posTokenStart, posTokenEnd - posTokenStart);
@@ -81,6 +80,11 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
             }
             else if(sscanf(token.c_str(), "%lg", &tokenValue) == 1)
             { // the token is a number, so just copy
+                if(posTokenStart == 0 && posTokenEnd == srcExpression.npos)
+                { // easy case: only a single number, so just return it
+                    if(nullptr != pError) *pError = 0;
+                    return tokenValue;
+                }
                 newExpression += token;
             }
             else if(GetValue(token.c_str(), tokenValue))
@@ -96,6 +100,12 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
         }
     }
 
+    if(nullptr == p_pEvaluator)
+    {
+        if(nullptr != pError) *pError = -2;
+        return 0;
+    }
+
     // replace '**' with '^' in case p_pEvaluator doesn't support this
     while((posTokenStart = newExpression.find("**",0)) != newExpression.npos)
     {
@@ -104,28 +114,20 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
 
     // evaluate newExpression
     int error = 0;
-    double value = p_pEvaluator->Evaluate(newExpression.c_str(), &error);
+    double value = 0;
+    if(nullptr != p_pEvaluator)
+    {
+        value = p_pEvaluator->Evaluate(newExpression.c_str(), &error);
     if(0 != error) value = 0;
+    }
+    else
+    {
+        error = -2;
+    }
 
     // return error if desired (potential shifting to be done!)
     if(nullptr != pError) *pError = error;
 
     return value;
 };
-
-#include <exprtk.hpp>
-double ExpressionEvaluatorExprTk::Evaluate(const char* expression, int* pError) const
-{
-    exprtk::expression<double> exprtkexpression;
-    exprtk::parser<double> parser;
-
-    if (!parser.compile(std::string(expression), exprtkexpression))
-    {
-        if(nullptr != pError) *pError = -1;
-        return 0;
-    }
-
-    if(nullptr != pError) *pError = 0;
-    return exprtkexpression.value();
-}
 

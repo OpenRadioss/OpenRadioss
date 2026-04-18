@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tensgps_skin           ../engine/source/output/anim/generate/tensor6.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
@@ -47,6 +48,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,14 +78,14 @@ C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       my_real
      .   EVAR(3,MVSIZ)
-      INTEGER I,I1,II,J,LENR,NEL,NFT,N
-      INTEGER IOK_PART(MVSIZ),IS_WRITTEN_TENSOR(MVSIZ),TAG_SKIN_ND(NUMNOD)
+      INTEGER I, II, J, LENR, NEL, NFT, N
+      INTEGER IOK_PART(MVSIZ), TAG_SKIN_ND(NUMNOD)
 
-      INTEGER IXSKIN(7,NUMSKIN),ISKIN(MVSIZ),IXSK(5,MVSIZ),IDEB,ie
-      INTEGER JJ,N1,N2
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      INTEGER IXSKIN(7, NUMSKIN), IXSK(5, MVSIZ), IDEB
+      INTEGER JJ
+ 
+ 
+ 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,VALUE

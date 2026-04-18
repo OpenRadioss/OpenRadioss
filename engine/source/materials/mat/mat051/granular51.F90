@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -117,14 +117,15 @@
               rho_new(i) = uvar(i,9+kk) / vnew(i)  !mass/volume
             else
               rho_new(i)=rho_old(i)
-            endif
-          enddo
+            end if
+          end do
 
           !========================================================================
           !< Recovering Yield surface value Y = Y(P)
           !========================================================================
           !
           xvec1(1:nel,1) = Pold(1:nel)
+          vartmp(1:nel,1) = 1
           ! matparam%table(1) : G(rho) function
           ! ivartmp(1,1) : backup index poisition to optimize search during next cycle
           ! xvec1 : abscissa for table interpolation (in)
@@ -138,6 +139,7 @@
           !========================================================================
           !
           xvec1(1:nel,1) = rho_new(1:nel)
+          vartmp(1:nel,1) = 1
           ! matparam%table(1) : G(rho) function
           ! ivartmp(1,1) : backup index poisition to optimize search during next cycle
           ! xvec1 : abscissa for table interpolation (in)
@@ -152,7 +154,7 @@
             mas = uvar(i,9+kk)
             if(mas < em20)then
               rho_new(i) = rho0
-            endif
+            end if
 
             t1(i)=sigd(1,i)
             t2(i)=sigd(2,i)
@@ -165,7 +167,7 @@
             if(pold(i) <= pfrac)then
               p(i)  = pfrac
               fac2 = zero
-            endif
+            end if
             pp(i) = p(i)
 
             sigdo(1:6,i) = sigd(1:6,i)
@@ -197,7 +199,7 @@
                   dpla = (one - r)*vm  /max(three*g(i),em15)
                   plas(i)  = plas(i)  + dpla
                   epseq(i) = epseq(i) + dpla
-                endif
+                end if
               else
                 r = one-em02 ! 1-epsilon
               end if
@@ -221,7 +223,7 @@
                 + (sigdo(6,i)+sigd(6,i)) * deps(6,i))
               eint(i) = eint(i) + einc
 
-            elseif(vfrac(i) < em02)then
+            else if(vfrac(i) < em02)then
               plas(i) = zero
               sigd(1,i) = zero
               sigd(2,i) = zero
@@ -248,7 +250,7 @@
               sigd(6,i) = sigd(6,i) * r
             end if
 
-          enddo !next i
+          end do !next i
 
           return
         end subroutine granular51

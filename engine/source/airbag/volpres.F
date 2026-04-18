@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER I,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
      .        N1,N2,N3,N4,IJ,ISENS,
      .        ITYP
-      my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
+      my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,XX,YY,ZZ,
      .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
@@ -258,7 +258,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM
@@ -351,7 +351,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM
@@ -443,7 +443,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM

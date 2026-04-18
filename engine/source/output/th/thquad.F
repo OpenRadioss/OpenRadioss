@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod     ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
@@ -98,7 +99,8 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
-      USE ALEFVM_MOD , only:ALEFVM_Param   
+      USE ALEFVM_MOD , only:ALEFVM_Param
+      use element_mod , only : nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,18 +128,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, KRK, LL, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
-     .        NC1, NC2, NC3, NC4,  NEL, MTN1,KK(6),IJ,NPTR,NPTS,
+      INTEGER II, I, J, K, L ,N, IH, IP, NG, MTE, NUVAR,
+     .             NEL,KK(6),IJ,NPTR,NPTS,
      .        IR,IS,JJ(6),NITER,IADB,NN,IADV,NVAR,ITYP,IJK,IS_ALE
       my_real
-     .        SY , SZ, TY , TZ, SUMA,
-     .        Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .        R11,R12,R13,R21,R22,R23,R31,R32,R33,
-     .        G22,G23,G32,G33,
-     .        T22,T23,T32,T33,
-     .        S1,S2,S3,S4,
-     .        T1,T2,T3,T4,CS,CT,EVAR(6),GAMA(6),
-     .        TMP(3,4),VEL(3),SSP,BFRAC,RHO0
+     .           
+     .        
+     .        
+     .        
+     .        
+     .        
+     .        EVAR(6),GAMA(6),
+     .        TMP(3,4),VEL(3),BFRAC,RHO0
       my_real, dimension(:), allocatable :: WWA
       TYPE(L_BUFEL_) ,POINTER :: LBUF,LBUF1,LBUF2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

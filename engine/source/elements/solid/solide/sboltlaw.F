@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE SBOLTLAW(
      1   PM,      SIG,     MAT,     D1,
@@ -46,11 +47,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   OFF,     IPM,     RHOREF,  RHOSP,
      E   VOL0DP,  ISMSTR,  JSPH,    JTUR,
      F   ITY,     JTHE,    JSMS,    NPG ,
-     G   glob_therm)
+     G   glob_therm,NUMGEO,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +76,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER, INTENT(IN) :: JSPH,NPG
+      INTEGER,INTENT(IN) :: NUMGEO
 C
       INTEGER NEL
       my_real
@@ -96,10 +99,11 @@ C
      .   RHOREF(*)  ,RHOSP(*) 
       DOUBLE PRECISION VOL0DP(*) 
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,IBID !, J
+      INTEGER I, MX !, J
       my_real
      .   REDUC ,REDUC1 , T1, T2 , EE, NU, GGT, TREPS, P, TP 
       my_real
@@ -107,9 +111,9 @@ C-----------------------------------------------
      .   RHO0(MVSIZ), RHO0_1,C1_1 
 C-----------------------------------------------
       my_real
-     .   DF,DPDM,FACQ0,
+     .   FACQ0,
      .   E1, E2, E3, E4, E5, E6, EINC,
-     .   BID1, BID2, BID3, DTA,  YM, DPDMP
+     .   BID1, BID2, BID3, DTA
 C-----------------------------------------------
       FACQ0 = ONE
       REDUC1 = EM04 !EM03 !ONE 
@@ -146,7 +150,7 @@ C
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL0,    MSSA,    DMELS,   IBID,
+     8   VOL0,    MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,

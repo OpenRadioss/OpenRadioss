@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ C-----------------------------------------------
      .        IX5(MVSIZ), IX6(MVSIZ), IX7(MVSIZ), IX8(MVSIZ)
       INTEGER NF1, I, IL, IGTYP,IPID1,NCC,IDEF,NREFSTA,
      .     IP,IR, IS, IT,JHBE,IREP,MPT,NLAY,NPTR,NPTS,NPTT,NUVAR,
-     .     L_PLA,L_SIGB,NSPHDIR, NCELF, NCELL,IBOLTP,L_JAC,NNPT
+     .     L_PLA,L_SIGB,NSPHDIR, NCELF, NCELL,IBOLTP,NNPT
       CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
@@ -153,14 +154,14 @@ C-----------------------------------------------
      .   RHOCP(MVSIZ),TEMP0(MVSIZ),AIRE(MVSIZ),NU(MVSIZ)
       my_real
      .   BID(MVSIZ), FV, STI, WI
-      INTEGER NLYMAX, IPANG, IPTHK, IPPOS, IPMAT,IG,IM,MTN0
-      INTEGER NPTR0,NPTS0,NPTT0 ,ICSTR,LLPIJ
+      INTEGER NLYMAX, IPANG, IPMAT
+      INTEGER LLPIJ
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
       my_real
      .   AJP1(MVSIZ,8) , AJP2(MVSIZ,8) , AJP3(MVSIZ,8) ,
      .   AJP4(MVSIZ,8) , AJP5(MVSIZ,8) , AJP6(MVSIZ,8) ,
      .   AJP7(MVSIZ,8) , AJP8(MVSIZ,8) , AJP9(MVSIZ,8) ,
-     .   DTX0(MVSIZ),WT,ZR,ZS,ZT,ZZ
+     .   DTX0(MVSIZ),WT,ZR,ZS,ZT
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -422,10 +423,10 @@ c
 !       
         IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
           DO I=1,NEL
-            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                             + TEMP(IXS(4,I)) + TEMP(IXS(5,I))      
-     .                             + TEMP(IXS(6,I)) + TEMP(IXS(7,I))      
-     .                             + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I+NFT)) + TEMP(IXS(3,I+NFT))
+     .                             + TEMP(IXS(4,I+NFT)) + TEMP(IXS(5,I+NFT))      
+     .                             + TEMP(IXS(6,I+NFT)) + TEMP(IXS(7,I+NFT))      
+     .                             + TEMP(IXS(8,I+NFT)) + TEMP(IXS(9,I+NFT))) 
           ENDDO
         ELSE
           TEMPEL(1:NEL) = TEMP0(1:NEL)
@@ -436,7 +437,7 @@ c
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
-     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG(28))
+     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG(28),JCVT)
       ENDIF
       CALL S8ZDERIC3(GBUF%VOL,HX, HY, HZ,
      .     AJC1,AJC2,AJC3,
@@ -459,7 +460,7 @@ C
      .            MAT      ,IPM    ,NSIGS      ,NUMSOL     ,PTSOL  ,
      .            IP       ,NGL    ,NPF        ,TF         ,BUFMAT ,
      .            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR  ,IlOADP ,
-     .            FACLOAD, DELTAX  ,TEMPEL    )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
           ENDDO
         ENDDO
       ENDDO
@@ -469,7 +470,7 @@ C
      1                GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     initialization of thermal
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C
@@ -533,7 +534,7 @@ c
      .               MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      .               GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX,TEMPEL    )
+     .               FACLOAD, DELTAX,TEMPEL     ,MAT_PARAM)
 C
          IF(JTHE /=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
 C
@@ -585,7 +586,7 @@ c
        ENDDO
       ENDDO
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     initialization of masses
 C----------------------------------------
       CALL SMASS3(
      .     GBUF%RHO,MAS,PARTSAV,X,V,
@@ -601,10 +602,10 @@ C----------------------------------------
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
-C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
+C     Please note: IX1, IX2 ... IX8 are in the form NC (MVSIZ, 8)
       IF(I7STIFS/=0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
@@ -612,7 +613,7 @@ C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
      3              BID(1)   ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       calculation of elementary timesteps
 C------------------------------------------
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

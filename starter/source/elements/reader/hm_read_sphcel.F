@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,10 +69,10 @@ C     KXSP(1,*)              :INUTILISE
 C     KXSP(2,*)              :NG     :   +/- NO DU GROUPE
 C     KXSP(3,*)              :IPRC   :   NO SYSTEME DU NOEUD ASSOCIE
 C     KXSP(4,*)              :NVOIS  :   NOMBRE DE VOISINS.
-C     KXSP(5,*)              :NVOIS  :   NOMBRE DE CANDIDATS RETENUS PAR LE BUCKET.
-C     KXSP(6,*)              :NVOISS :   NOMBRE DE VOISINS DANS LA PARTIE SYMETRIQUE.
-C     KXSP(7,*)              :NVOISS :   NOMBRE DE CANDIDATS RETENUS DANS LA PARTIE SYMETRIQUE.
-C     KXSP(NISP,*)           :ID     :   ID DE LA CELLULE.
+C     KXSP(5,*)              :NVOIS  :   NUMBER OF CANDIDATES RETAINED BY THE BUCKET.
+C     KXSP(6,*)              :NVOISS :   NUMBER OF NEIGHBORS IN THE SYMMETRICAL PART.
+C     KXSP(7,*)              :NVOISS :   NUMBER OF CANDIDATES RETAINED IN THE SYMMETRICAL PART.
+C     KXSP(NISP,*)           :ID     :   CELL ID.
 C     UNITAB          UNIT ARRAY 
 C     IPRI            PRINT FLAG (in 0.out file)
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE READER_OLD_MOD , ONLY : LINE, KCUR, KSPHOPT, IREC, KOPTAD
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +118,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,ID,IDS,K,
+      INTEGER I,N,J,ID,IDS,
      .        MID,PID,IPRT,IPIDS,NSPHDIR,
      .        NSPHCEL,NCELL,IDNOD,INOD,IDMAX,KSPHRES,
      .        NBP,IT,NT,NP,NN,ITOPO,STAT,
@@ -131,8 +132,7 @@ C-----------------------------------------------
       INTEGER :: MID_SPH,MID_SOL
       INTEGER :: LAW_SPH,LAW_SOL
       INTEGER :: ERROR_NUM
-      INTEGER :: I1,I2,I3,I4,I5
-      CHARACTER(LEN=NCHARTITLE) :: C1
+      INTEGER :: I1,I2
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: USER_PART_SPH,USER_PART_SOL
       INTEGER :: USER_MID_SPH,USER_MID_SOL
@@ -246,7 +246,7 @@ C--------------------------------------------------
         NCELL=NCELL+1
         IPARTSP(NCELL)=INDEX_PART
         NOD2SP(INOD) =NCELL
-C         meme identifiant que le noeud.
+C         same identifier as the node.
         KXSP(NISP,NCELL)=IDNOD
         IDMAX=MAX(IDMAX,IDNOD)
 C--------------------------------------------------
@@ -439,7 +439,7 @@ C-- Hexa + degenerated penta6
             ENDDO
        ENDIF
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(KXSP(NISP,1),NISP,NUMSPH,MESS,0,BID)
 C-------------------------------------

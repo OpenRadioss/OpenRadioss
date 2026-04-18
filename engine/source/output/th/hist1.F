@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,15 +25,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    radioss2               ../engine/source/engine/radioss2.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    eor_c                  ../common_source/tools/input_output/write_routtines.c
-!||    flu_fil_c              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    eor_c                  ../common_source/tools/input_output/write_routines.c
+!||    flu_fil_c              ../common_source/tools/input_output/write_routines.c
 !||    fretitl2               ../engine/source/input/freform.F
 !||    my_ctime               ../engine/source/system/timer_c.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
-!||    write_c_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
+!||    write_c_c              ../common_source/tools/input_output/write_routines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||    wrtdes                 ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
@@ -95,9 +95,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       REAL R4
-      INTEGER ITITLE(100), IFILNAM(100), ICODE, I, NJOINV, NRBAGV,
-     .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,
-     .   IRUNR,NVAR,MID,PID,IAD1,IAD2,J,IAD,LTITL,NRECORD,
+      INTEGER ITITLE(100), IFILNAM(100), ICODE, I, 
+     . II, N, ITY, K,
+     . NVAR,MID,PID,IAD1,IAD2,J,IAD,LTITL,NRECORD,
      .   SEEK_LOC,IPART1,IPART2    
 C     REAL
       my_real
@@ -107,7 +107,7 @@ C     REAL
       CHARACTER (LEN=LTITLE) :: CARD
       CHARACTER CH80*80,TITL*100,VAR*10
       INTEGER :: LEN_TMP_NAME, TITLSUM
-      INTEGER, DIMENSION(20) :: TEXT
+ 
       CHARACTER(len=2148) :: TMP_NAME
       INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------
@@ -231,7 +231,7 @@ C
 C-------ADDITIONAL RECORDS------------
       IF(TH_VERS>=50)THEN
 C
-C       NOMBRE DE RECORDS ADDITIONNELS
+C       number of additional records
         NRECORD=2
         IF(ITTYP==0)THEN
           WRITE(IUNIT)NRECORD
@@ -292,14 +292,7 @@ C-------HIERARCHY INFO------------
       IWA(4)=NSUBS
       IWA(5)=NTHGRP2 
       IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
-      IF (TH_VERS >= 2026)THEN
-        NGLOBTH=16  
-      ELSEIF (TH_VERS >= 2021) THEN
-        NGLOBTH=15   
-      ELSE
-        NGLOBTH=12
-      END IF
-c
+      NGLOBTH=22
       IF (IUNIT /= IUHIS) THEN
         IWA(6)= 0
       ELSE

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    viscmain        ../engine/source/materials/visc/viscmain.F
 !||====================================================================
       module visc_plas_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -115,7 +116,7 @@
             sigvzx(i) = sigvozx(i) + g*depspzx(i)
             ! update of sound speed
             soundsp(i) = sqrt(soundsp(i)**2 + (four_over_3*g )/rho(i))
-          enddo
+          end do
 !
           do i=1,nel
             sigvmises = three*(half*(sigvxx(i)**2  + sigvyy(i)**2 + sigvzz(i)**2)      &
@@ -129,8 +130,8 @@
               sigvxy(i) = scale*sigvxy(i)
               sigvyz(i) = scale*sigvyz(i)
               sigvzx(i) = scale*sigvzx(i)
-            endif
-          enddo
+            end if
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine visc_plas
       end module visc_plas_mod

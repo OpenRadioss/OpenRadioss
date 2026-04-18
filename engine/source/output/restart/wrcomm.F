@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,9 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod          ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    damp_mod         ../engine/share/modules/damp_mod.F
 !||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    eos_param_mod    ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
@@ -40,16 +41,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
 !||    outmax_mod       ../common_source/modules/outmax_mod.F
 !||    output_mod       ../common_source/modules/output/output_mod.F90
-!||    outputs_mod      ../common_source/modules/outputs_mod.F
 !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
 !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
+!||    seatbelt_mod     ../common_source/modules/seatbelt_mod.F
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
+!||    sfem_mod         ../common_source/modules/elements/sfem_mod.F90
 !||    state_mod        ../common_source/modules/state_mod.F
 !||    th_mod           ../engine/share/modules/th_mod.F
 !||====================================================================
-      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
+      SUBROUTINE WRCOMI(OUTPUT,LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+     .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST,SFEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,8 +59,7 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE LOADS_MOD
       USE DRAPE_MOD
       USE STATE_MOD
@@ -72,7 +73,10 @@ C-----------------------------------------------
       USE glob_therm_mod
       USE PBLAST_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
+      use sfem_mod
+      USE SEATBELT_MOD , ONLY : NGUIDED_CABLE,NGUIDED_CABLE_G
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +85,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*),ISP
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
       TYPE(MULTI_FVM_STRUCT) ,INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE)     ,INTENT(IN) :: H3D_DATA
       TYPE (DYNAIN_DATABASE) ,INTENT(IN) :: DYNAIN_DATA
@@ -89,6 +94,7 @@ C-----------------------------------------------
       TYPE (LOADS_)          ,INTENT(IN) :: LOADS
       type (glob_therm_)     ,intent(in) :: GLOB_THERM
       type (PBLAST_)         ,intent(in) :: PBLAST
+      type (SFEM_)           ,intent(in) :: SFEM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -140,7 +146,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IVAR,IDUM
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES POUR ECRITURE SUR RFILE.
+C     preparation of integer variables for writing to rfile.
 C=======================================================================
 C-----
       IDUM=0
@@ -170,7 +176,7 @@ C-----
       TABVINT(22) =ISIGI
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA
-      TABVINT(25) =ISGIFL
+      TABVINT(25) = ANALY_TEMP
       TABVINT(26) = TH_HAS_NODA_PEXT
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS
@@ -184,7 +190,7 @@ C-----
 C-----
        TABVINT(5)  =NGROUP
        TABVINT(9)  =LBUFEL
-C   -------- Tailles des tableaux entiers --------
+C   sizes of integer arrays
       TABVINT(36)  = 0
       TABVINT(37)  = SICODE
       TABVINT(38)  = 0
@@ -248,6 +254,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(95)  = SLBVEL
       TABVINT(96)  = SIACTIV
       TABVINT(97)  = SIBMPC
+      SKINET = 0
       TABVINT(98)  = SKINET
       TABVINT(99)  = SIPARI
       TABVINT(100) = 0 !SINBUF
@@ -313,7 +320,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(160) = SNPORGEO
       TABVINT(161) = SLNODPOR
 C-----
-C   tailles des tableau flottant
+C   sizes of arrays of floating point numbers
 C
       TABVINT(162) = SX
       TABVINT(163) = SD
@@ -444,7 +451,7 @@ C-----1
       TABVINT(292)=NANIM1D
       TABVINT(293)=NR2RLNK
 C-----
-      TABVINT(294)=ANIM_HAS_NODA_PEXT*10 + H3D_HAS_NODA_PEXT
+      TABVINT(294)=OUTPUT%DATA%ANIM_HAS_NODA_PEXT*10 + OUTPUT%DATA%H3D_HAS_NODA_PEXT
       TABVINT(295)=IANIM
       TABVINT(296)=IOUTP
       TABVINT(297)=NHIN2
@@ -656,7 +663,7 @@ C-----
       DO I=1,12
        TABVINT(LVARINT + I) = IDTMIN(I)
       ENDDO
-C-----  chk pt restart
+C----- CHK PT RESTART
       TABVINT(LVARINT + 13 ) = IDTGR(11)
       TABVINT(LVARINT + 14 ) = NODADT
       TABVINT(LVARINT + 15 ) = NPROC
@@ -867,7 +874,7 @@ C--------------------------------------
       TABVINT(LVARINT)= NBI18
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSKYI18
-C partie commun spmd cfd
+C common part SPMD CFD
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSVOIS
       LVARINT=LVARINT+1
@@ -890,6 +897,8 @@ C partie commun spmd cfd
       TABVINT(LVARINT)= NUMPORL
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= ALE%GLOBAL%ICAA
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)= ALE%GLOBAL%HLLC_LOWMACH
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= ISPHBUC
       LVARINT=LVARINT+1
@@ -1086,7 +1095,7 @@ C    spmd rigid material
       TABVINT(LVARINT)=  SFR_RBYM
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=  SFR_RBYM2
-C Tableaux Noise
+C Noise arrays
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = SINOISE
       LVARINT=LVARINT+1
@@ -1133,11 +1142,11 @@ C--------------------------------------
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NTHPART
 C--------------------------------------
-C ecriture sur restart de tableaux de masse elementaires
+C writing of elementary mass arrays to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IREST_MSELT
 C--------------------------------------
-C ecriture sur restart nthread
+C writing nthread to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHREAD
 C   ----for output of rotational dof -----
@@ -1407,7 +1416,7 @@ C
 
 C ITETRA=3
       LVARINT=LVARINT+1
-      TABVINT(LVARINT)=ISFEM            
+      TABVINT(LVARINT)=SFEM%ISFEM  + SFEM%ne_sfem         
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOADP_F      
@@ -1458,10 +1467,10 @@ C
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRTMX25     
-C drape option
+C Drape option
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NDRAPE
-C Element activation
+C activation element
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LRACTIV
 C ID_PLY -> animation file
@@ -1594,17 +1603,17 @@ C Friction interface
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = IFCONTP2MIN
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRIC
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRIC
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICINT
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICINT
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICG
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICG
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICINTG
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICINTG
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NINEFRIC
+      TABVINT(LVARINT) = OUTPUT%DATA%NINEFRIC
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NINEFRIC_STAMP
+      TABVINT(LVARINT) = OUTPUT%DATA%NINEFRIC_STAMP
 C  NITSCHE METHOD
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NITSCHE
@@ -1679,9 +1688,13 @@ C-----Seatbelts - slipring / retractors
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR
       LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE
+      LVARINT=LVARINT+1
       TABVINT(LVARINT)=NSLIPRING_G
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRETRACTOR_G
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=NGUIDED_CABLE_G
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=N_ANCHOR_REMOTE
       LVARINT=LVARINT+1
@@ -1768,12 +1781,11 @@ c-----------
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
 !||    output_mod           ../common_source/modules/output/output_mod.F90
-!||    outputs_mod          ../common_source/modules/outputs_mod.F
 !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
+!||    sph_mod              ../engine/share/modules/sph_mod.F
 !||    state_mod            ../common_source/modules/state_mod.F
 !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
@@ -1781,10 +1793,10 @@ c-----------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE ALE_MOD
+      USE SPH_MOD, ONLY : XI_RES,YI_RES,ZI_RES
       USE PARAMETERS_MOD
       USE OUTPUT_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
@@ -1841,20 +1853,20 @@ C-----
       TABVREA(4)=DT12
       TABVREA(5)=DT2OLD
       TABVREA(6)=TSTOP
-      TABVREA(7)=0 !no longer used
+      TABVREA(7)=OUTPUT%DATA%INOUT%DM_IN
       TABVREA(8)=OUTPUT%TH%THIS
 C-----
-      TABVREA(9)=0 !no longer used
+      TABVREA(9)=OUTPUT%DATA%INOUT%DM_OUT
       TABVREA(10)=OUTPUT%TH%DTHIS
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
       TABVREA(14)=OUTPUT%TH%WFEXT
       TABVREA(15)=REINT
-      TABVREA(16)=0 !no longer used
-      TABVREA(17)=0 !no longer used
-      TABVREA(18)=DTANIM
-      TABVREA(19)=TANIM
+      TABVREA(16)=OUTPUT%DATA%INOUT%DE_IN
+      TABVREA(17)=OUTPUT%DATA%INOUT%DE_OUT
+      TABVREA(18)=OUTPUT%DTANIM
+      TABVREA(19)=OUTPUT%TANIM
       TABVREA(20)=UREINT
       TABVREA(21)=ECONTV
       TABVREA(22)=EHOUR
@@ -2105,7 +2117,7 @@ C  INITIAL MASS IN STARTER
       TABVREA(RVARINT) = PERCENT_ADDMASS_OLD
       
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP      
+      TABVREA(RVARINT) = OUTPUT%TANIM_STOP      
       
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = XI_RES  

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,7 +82,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IS
+      INTEGER I,IS
 C     REAL
       my_real
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),
@@ -188,7 +188,7 @@ C
        BYZ6(I) = -ZNU1*PY3H(I)-ZNU*PYC3(I)
        BZY6(I) = -ZNU1*PZ3H(I)
       ENDDO
-C ----------shear,PX,PY->DXY;PXY,PXZ...pour DYZ,DXZ-------------
+C ----------shear,PX,PY->DXY;PXY,PXZ...for DYZ,DXZ-------------
 C | PY  PX   0 |
 C | PXY PYZ PZY|
 C | PXZ PYX PZX|

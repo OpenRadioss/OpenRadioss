@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_fvb_gath            ../engine/source/mpi/airbags/spmd_fvb_gath.F
 !||    spmd_fvb_igath           ../engine/source/mpi/airbags/spmd_fvb_igath.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod                 ../common_source/modules/output/anim_mod.F
 !||    cast_mod                 ../common_source/modules/cast_mod.F90
 !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    finter_mixed_mod         ../engine/source/tools/finter_mixed.F90
@@ -45,10 +44,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
 !||    message_mod              ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FVBAG1(NN       , NEL    , IBUF     , ELEM          , NJET    ,
+      SUBROUTINE FVBAG1(OUTPUT,NN       , NEL    , IBUF     , ELEM          , NJET    ,
      2                  IBAGJET  , RBAGJET, NVENT    , IBAGHOL       , RBAGHOL ,
      3                  P        , RHO    , TK       , U             , SSPK    ,
      4                  X        , V      , A        , NSENSOR       ,SENSOR_TAB,
@@ -80,7 +80,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE H3D_MOD , only:H3D_DATABASE
       USE CAST_MOD, only: double_to_my_real
       USE PYTHON_FUNCT_MOD, only : python_
@@ -107,6 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR, NPOLH
       INTEGER NN, NEL, IBUF(*), ELEM(3,*), NJET, IBAGJET(NIBJET,*),
      .        NVENT, IBAGHOL(NIBHOL,*),
@@ -142,15 +143,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, IINJ, ISU, IEL, N1, N2, N3, JEL,
-     .        NN1, NN2, NN3, J, JJ, K, KK, IMASS, IFLU, ISENS, IVEL,
-     .        ITEMP, NV, ILVOUT, NPOLYG,NTRIA, IPRI,
-     .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
-     .        ITVENT, PHDT, I1, I2, NNSA, IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMAIN,N21,N22,ITYPL,
-     .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2, IDT_FVMBAG
+      INTEGER I, II, IINJ, IEL, N1, N2, N3, JEL, 
+     .        J, JJ, K, KK, ISENS, IVEL,
+     .        NV, ILVOUT, NPOLYG,NTRIA, IPRI,
+     .        IVENT, IDEF,
+     .        ITVENT, PHDT, I1, I2, IVDP,ITTF, IDPDEF,
+     .        IDTPDEF,ITYPL,
+     .        PREPARE_ANIM,IVENTYP, IEL1, IEL2, IDT_FVMBAG
       INTEGER TITREVENT(20)
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
+ 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSURF
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ICONT
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ITAGP
@@ -199,30 +200,29 @@ C-----------------------------------------------
      .         AREA,Denom,Denom_max, NX, NY,
      .        NZ, GAMAI, CPAI, CPBI, CPCI, RMWI, TI,
      .        CPDI, CPEI, CPFI,
-     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
-     .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
-     .         GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
-     .        CVG, WSURF(3), GAMA, FEL(NELT), 
+     .        RHOI, DATAINJ(6,NJET), SCALT,
+     .        FVEL, TSTART, TSG, INJVEL,
+     .         CPA, CPB, CPC, EFAC,
+     .        WSURF(3), GAMA, FEL(NELT),
      .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
      .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
      .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, TEMP2, PEXT, VOLG, VOLPH,
-     .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
+     .        AREAP, AREAEL, QA, QB, DTX, AL, DD, AD, SSP,
      .        QX, VV,  MSINI, RMW, CV, GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2,
-     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
-     .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
-     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,
+     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS,
+     .        AOUT, DERI, PDEF, PVOLTMP,
      .        DTPDEFI, DTPDEFC, TVENT,AOUTOT, SVENTOT,
-     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1, H2, H3,
+     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1,
      .        FAC1, FAC2, FAC3, HM1, AREA_OLD, PP,  VMAX, UU,
-     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2,
+     .        PCRIT, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VX3, VY3, VZ3, VVX, VVY, VVZ,  FAC, 
      .         FVDP, RBID, TTF,
-     .        CPD, CPE, CPF, TEMP0, TT1,PSTAG, VOLNO,TSTOPE,
+     .        CPD, CPE, CPF, TEMP0, PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, WFEXT0,  DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT,
-     .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
+     .        PRES_AV, RHO_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
       DOUBLE PRECISION :: CP
 
       LOGICAL :: boolTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
@@ -232,7 +232,7 @@ C
       EXTERNAL  GET_U_FUNC
       CHARACTER*20 VENTTITLE
       MY_REAL :: DTOLD, PARAM_LAMBDA
-      INTEGER :: PARAM_L_TYPE, NNODES,nodeID
+      INTEGER :: PARAM_L_TYPE
 
 C-----------------------------------------------
 C   C o m m e n t s
@@ -646,7 +646,7 @@ C---------------------------------------------------
 
 
 C---------------------------------------------------
-C Calcul des quantites dans les polyhedres
+C Calculation of quantities in the polyhedra
 C---------------------------------------------------
       IF (DT1 == ZERO) THEN
         GAMAI=RVOLU(1)
@@ -688,7 +688,7 @@ C---------------------------------------------------
       IF(IVOLU(39) == 0) GO TO 250
 
 C---------------------------------------------------
-C Injecteurs
+C Injectors
 C---------------------------------------------------
       DO IEL=1,NELT
         IF (ITAGEL(IEL) > 0) THEN
@@ -737,7 +737,7 @@ C        ITTF : 1 or 2 +10 1 flag has been activated and RVOLU(60) is filled
         DATAINJ(3,IINJ)=INJVEL
       ENDDO
 C---------------------------------------------------
-C Vent holes
+C Holes wind
 C---------------------------------------------------
       IF (INTBAG == 0) THEN
         PORO(1:NELT)=ZERO
@@ -763,8 +763,8 @@ C
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
 C-----------------------------------------------------------
-C Surface de fuite effective des triangles de l'airbag
-C Correction des scale factors sur la surface des vent holes
+C Effective leakage area of the airbag triangles
+C Correction of scale factors on the surface of the vent holes
 C-----------------------------------------------------------
       CALL FVVENT0(
      1             ELSOUT  ,AOUTOT  ,NVENT    ,NELT    ,ITTF    ,
@@ -773,7 +773,7 @@ C-----------------------------------------------------------
      4             ELTG    ,IPARG   ,MATTG    ,NEL     ,POROSITY,
      5             IPM     ,PM      ,ELBUF_TAB,IGROUPC ,IGROUPTG)
 C---------------------------------------------------
-C Bilans volumes finis
+C Finished volume assessments
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,JEL,AREA,N1,N2,N3)
 !$OMP+ PRIVATE(X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X12,Y12,Z12,X23,Y23,Z23,Z31,Y31,X31)
@@ -824,7 +824,7 @@ C----------------------
             JEL=IFVTRI(4,KK)
             AREA=PAREA(KK)
             IF(JEL == 0) THEN
-C Permeabilite du triangle interne
+C Permeability of the inner triangle
               N1=IFVTRI(1,KK)
               N2=IFVTRI(2,KK)
               N3=IFVTRI(3,KK)
@@ -857,7 +857,7 @@ C Permeabilite du triangle interne
       ENDDO
 !$OMP END PARALLEL
 C----------------
-C Calcul des flux
+C Calculation of fluxes
 C----------------
       DO I=1,NPOLH
         DO J=IFVPADR(I),IFVPADR(I+1)-1
@@ -904,7 +904,7 @@ C--------------------------------------------
 C Injector
                 IINJ=ITAGEL(IEL)
                 DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
-                IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! le triangle est traite deux fois
+                IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! the triangle is processed twice
                 DQI(1)=-DMI*DATAINJ(3,IINJ)*NRX
                 DQI(2)=-DMI*DATAINJ(3,IINJ)*NRY
                 DQI(3)=-DMI*DATAINJ(3,IINJ)*NRZ
@@ -1104,7 +1104,7 @@ C
               VFY=HALF*(UY1+UY2)
               VFZ=HALF*(UZ1+UZ2)
               IF(JEL == 0) THEN
-C Permeabilite du triangle interne
+C Permeability of the inner triangle
                 HM1=HMIN(KK)
                 H1 = ONE-RVOLU(51)/HM1
                 IF(H1 > 0) THEN
@@ -1115,7 +1115,7 @@ C Permeabilite du triangle interne
 
 C                   AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HM1)
               ELSE
-C Triangle appuy sur structure interne => flux fonction de la porosite
+C Triangle supported on internal structure => flux as a function of porosity
                 IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
                 AREA=AREA*POROSITY(IEL-NEL)
               ENDIF
@@ -1273,7 +1273,7 @@ C-------------------------
           ENDIF
           TPOLH(I)=TEMP
 C---------------------------------------------------
-C Pressure & Density
+C Pressure and Density
 C---------------------------------------------------
           RPOLH(I)=MPOLH(I)/PVOLU(I)
           PPOLH(I)=RPOLH(I)*RMW*TEMP
@@ -1873,7 +1873,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 C---------------------------------------------------
 C Fluid velocity on nodes
 C---------------------------------------------------
-      IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
+      IF( (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP) .OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
      .              (MANIM >= 4.AND.MANIM <= 15)) THEN
 C     Computations for anim, also needed if there are gauges.
         PREPARE_ANIM = 1
@@ -2283,7 +2283,7 @@ C
       ! ANIM / H3D : LOCATE POLYHEDRA CENTROIDS                    !
       !------------------------------------------------------------!
       !whenever output file is required
-      IF((TT>=TANIM         .AND. TT<=TANIM_STOP)         .OR. TT>=TOUTP .OR.
+      IF((TT>=OUTPUT%TANIM         .AND. TT<=OUTPUT%TANIM_STOP)         .OR. TT>=TOUTP .OR.
      .   (TT>=H3D_DATA%TH3D .AND. TT<=H3D_DATA%TH3D_STOP) .OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0)THEN
      
@@ -2345,7 +2345,7 @@ C
       ENDIF! H3D/ANIM CRITERION
             
 C----------------------
-C     TH Gauges output
+C     Th gauges output
 C----------------------
       IF (NBGAUGE > 0) THEN
 C To be done even if gauge nodes are not related to FVMBAG.

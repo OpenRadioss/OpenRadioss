@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upd_tmax       ../engine/source/output/upd_outmax.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    outmax_mod     ../common_source/modules/outmax_mod.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -46,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE OUTMAX_MOD
       USE STACK_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,10 +88,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N, I, J,NG,ITY,NEL
+      INTEGER NG, ITY, NEL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+ 
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     

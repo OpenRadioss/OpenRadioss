@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  X1   ,X2   ,X3   ,X4   ,Y1   ,Y2   ,
      .                  Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4   )
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,14 +63,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N1,N2,N3,N4
+      INTEGER I
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
       my_real
      .   CHECKVOLUME_4N
 C=======================================================================
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
+C     connectivities and material number and pid
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I) =IXS(1,I)

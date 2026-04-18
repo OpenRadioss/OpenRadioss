@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -377,6 +378,7 @@ C-----------------------------------------------
 !||    sms_ini_kad   ../starter/source/ams/sms_init.F
 !||--- called by ------------------------------------------------------
 !||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SMS_INI_KAD(
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
@@ -388,6 +390,7 @@ C-----------------------------------------------
      7  IPARTTG ,IPARTX  ,TAGPRT_SMS,TAGREL_SMS,ITAB    ,
      8  IRBE2   ,IRBE3     ,LRBE2    ,LRBE3    ,
      9  NPRW    ,LPRW      ,IPART    ,IGEO     ,NATIV_SMS)
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -775,6 +778,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD 
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -826,7 +830,7 @@ C-----------------------------------------------
       DATA IPENTA6/1,2,3,5,6,7/
 C-----------------------------------------------
 C
-C     Construit JDI_SMS, JADS_SMS, etc
+C     Built jdi_sms, jads_sms, etc.
 C     -----------------
       DO I=1,NUMNOD
         NAD_SMS(I)=KAD_SMS(I)
@@ -1130,7 +1134,7 @@ C
       END DO
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     NODNX_SMS(I) devient le nb de nds connectes a I
+C     Nodnx_sms (i) becomes the nb of NDS connects a i
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
       DO I=1,NUMNOD
@@ -1179,6 +1183,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD 
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1228,7 +1233,7 @@ C-----------------------------------------------
       DATA IUN/1/
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     construit IDI_SMS et pointeurs KAD_SMS vers JAD_SMS 
+C     Built Idi_sms and Pointers Kad_sms to Jad_sms 
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans IDI_SMS(I),IDI_SMS(I+1)-1
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
@@ -1323,7 +1328,7 @@ C inter/type2 : numbering
 C------------
       KINET(1:NUMNOD) = 0 
 C
-C     Tag des mains pour TYPE2 symetrisees
+C     main tag for symmetrical type 2
 C
       DO N=1,NINTER
         NTY = IPARI(7,N)
@@ -1356,7 +1361,7 @@ c
       ENDDO
 C
       DO N=1,NUMNOD
-        IF(KINET(N)/=0) KINET(N)=MIN(IUN,KINET(N)-1) ! KINET == 1 <=> Incompatible conditions
+        IF(KINET(N)/=0) KINET(N)=MIN(IUN,KINET(N)-1) ! Kinet == 1 <=> Incompatible conditions
       END DO
 C------------
 C
@@ -1570,6 +1575,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD 
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1624,7 +1630,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1873,7 +1879,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1922,7 +1929,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1931,14 +1938,14 @@ C-------------------------------------------------------------------------
         END DO
       END DO
 C-------------------------------------------------------------------------
-C     PREPARE JSM_SMS (connectivite elementaire)
+C     PREPARE JSM_SMS (Elementary connectivitis)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=JAD_SMS(I),JAD_SMS(I)+LAD_SMS(I)-1
           J =JDI_SMS(KJ)
 cc        IF(I < J)THEN
 C
-C         dichotomie (recherche parmi les voisins ordonnes de J)
+C         Dichotomy (research among the neighbors of J)
           K1=JAD_SMS(J)
           K2=JAD_SMS(J)+LAD_SMS(J)-1
  100      CONTINUE
@@ -1972,7 +1979,7 @@ C
         NAD_SMS(I)=JAD_SMS(I)+LAD_SMS(I)
       END DO
 C
-C inter/type2 : reconstruction (jdi et jsm)
+C Inter/Type2: Reconstruction (JDI and JSM)
 C------------
       DO N=1,NINTER
         NTY   = IPARI(7,N)

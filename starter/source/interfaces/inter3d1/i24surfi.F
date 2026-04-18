@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,6 +48,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE FORMAT_MOD , ONLY : FMW_10I, FMW_4I
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,7 +144,7 @@ C-----attention: ISU2=ISU1 /=0
       END SELECT
 c      ISYM = IPARI(43)
 c---------------------------------------
-c     copie des surfaces (IALLO == 2)
+c     Copy of surfaces (Iallo == 2)
 c---------------------------------------
        IF(IALLO == 2)THEN
         DO I=1,NRTM
@@ -188,10 +189,9 @@ C------------ call anyway, if coating shell MSEGTYP(L)=MSEGTYP(L)+1
 #endif
       ENDIF
 C=======================================================================
-c     NOEUDS
-C=======================================================================
+c     NODES C=======================================================================
 c-----------------------------------------------------------------
-c     tag noeuds surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
+c     tag nodes surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
 c-----------------------------------------------------------------
       DO I=1,NUMNOD
         TAG(I)=0 ! initialisation
@@ -237,7 +237,7 @@ C for inteply activation needed for Plyxfem + Type24
          ENDIF 
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S2 : build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S2: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU2 /= 0)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
@@ -264,7 +264,7 @@ c     tagged nodes on S2 -> negative value
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S1: build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S1: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU1 /= 0)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
@@ -288,7 +288,7 @@ c     tagged nodes on S1 -> negative value, ->+3 for nodes on both
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds du groupe de noeud NOD1: build TAGS,set NSV if IALLO= 2
+c     nodes of the nod1 nod group: build tags, set nsv if iallo = 2
 c-----------------------------------------------------------------
       IF(NOD1 /= 0)THEN
         DO J=1,IGRNOD(NOD1)%NENTITY
@@ -349,7 +349,7 @@ C-----new subsuf/suf on edge-----
 C=======================================================================
 C=======================================================================
 c-----------------------------------------------------------------
-c     nombre de noeuds dans l'interface(SECONDARY+MAIN+edge)
+c     number of nodes in the interface (SECONDARY + MAIN + edge)
 c-----------------------------------------------------------------
       IF(IALLO == 2) THEN 
        NLN   = IPARI(35)
@@ -357,7 +357,7 @@ c-----------------------------------------------------------------
        IPARI(52) = NLS2
        IF (IEDGE == 4) IPARI(52) = NRTSE
        IPARI(55) = NSNE
-C------initialization of doubler M_seg pour shells  add ISU1>0
+C------initialization of doubler M_seg for shells  add ISU1>0
        NRTM_SH= IPARI(42)
        NRTM0 = IPARI(4) - NRTM_SH
        CALL SH2SURF(NRTM0,IRECT,IMBIN,MBINFLG,MSEGTYP,IPARI(4))
@@ -501,7 +501,7 @@ c      ALLOCATE (TAG(NUMNOD)        ,STAT=stat)
 #endif
 
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
 C initialize IXWORK to zero
       IXWORK(4,1:NLMAX)=0
@@ -554,8 +554,8 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
-c       + calcul des angles(sin) inter-facettes
+c       removal of duplicate lines
+c       + Calculation of angles (sin) inter-facet
 c---------------------------------------
         LI = INDEX(1)
         I1M = LINEIX(1,LI)
@@ -625,7 +625,7 @@ c           second segment
           MZ = NZ
         ENDDO
 c---------------------------------------
-c       suppression des lignes internes (IEDGE == 1)
+c       Deletion of internal lines (iedge == 1)
 c       dimension first
 c---------------------------------------
         LL = NL
@@ -659,14 +659,14 @@ c         keep only border edges (IXWORK(5,L) == 1)
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
-c         toutes les lignes sont conserves ET actives
+c         all lines are kept AND active
           DO L=1,LL
             NL = NL + 1
             IF(IXWORK(5,L) == 0)IXWORK(5,L)=-1 ! all on +-1
           ENDDO
         ELSEIF(IEDGE == 3)THEN
-c         les bords sont conservs
-c         les artes vives sont conservs (EDG_COS)
+c         the edges are preserved
+c         the live edges are preserved (EDG_COS)
           DO L=1,LL
             IF(IABS(IXWORK(5,L)) == 1)THEN
               NL = NL + 1
@@ -727,7 +727,7 @@ c             print *,'edge I,J=',itab(IXWORK(1,L)),itab(IXWORK(2,L)),L
         ENDDO
       ENDIF
 c---------------------------------------
-c       nombre de lignes: may keep only NACTIF
+c       number de lignes: may keep only NACTIF
 c---------------------------------------
       NACTIF = NACTIF + NL
 c---------------------------------------
@@ -933,10 +933,12 @@ C------------------------------------------------------------
 !||    i25surfi       ../starter/source/interfaces/inter3d1/i25surfi.F
 !||--- calls      -----------------------------------------------------
 !||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE IN24COQ_SOL3(IRECT ,IXC ,IXTG ,MSEGTYP   ,X  ,
      .                   KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,
      .                   KNOD2ELS,NOD2ELS,IXS ,IXS10 ,IXS16 ,IXS20 )
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1240,7 +1242,7 @@ c---------------------------------------
       END IF
 #endif
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
 C initialize IXWORK to zero
       IXWORK(4,1:NLMAX)=0
@@ -1293,8 +1295,8 @@ C-----------means I1,I2 has been exchanged
 C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 c---------------------------------------
-c       suppression des lignes doubles
-c       + calcul des angles(sin) inter-facettes
+c       removal of duplicate lines
+c       + Calculation of angles (sin) inter-facet
 c---------------------------------------
         LI = INDEX(1)
         I1M = LINEIX(1,LI)
@@ -1364,13 +1366,13 @@ c           second segment
           MZ = NZ
         ENDDO
 c---------------------------------------
-c       suppression des lignes internes (IEDGE == 1)
+c       Deletion of internal lines (iedge == 1)
 c       dimension first
 c---------------------------------------
         LL = NL
         NL = 0
-c         les bords sont conservs
-c         les artes vives sont conservs (EDG_COS)
+c         the edges are preserved
+c         the live edges are preserved (EDG_COS)
           DO L=1,LL
             IF(IABS(IXWORK(5,L)) == 1)THEN
               NL = NL + 1
@@ -1400,7 +1402,7 @@ C             IXWORK(5,NL)=+-1 ! bord on
           ENDDO
 C
       ELSE
-C       pas de surfaces
+C       no surfaces
         NL = 0
       ENDIF
 c---------------------------------------

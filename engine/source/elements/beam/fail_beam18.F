@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,10 +42,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
 !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||====================================================================
-      SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,NUMMAT   ,NUMGEO   ,
-     .                       NPROPM   ,NPROPG   ,SNPC     ,STF      ,
-     .                       NEL      ,NPT      ,IMAT     ,IPROP    ,JTHE    ,
-     .                       TEMPEL   ,NGL      ,PM       ,GEO      ,
+      SUBROUTINE FAIL_BEAM18(ELBUF_STR,FAIL     ,MAT_PARAM,NUMGEO   ,
+     .                       NPROPG   ,SNPC     ,STF      ,
+     .                       NEL      ,NPT      ,IPROP    ,JTHE    ,
+     .                       TEMPEL   ,NGL      ,GEO      ,
      .                       OFF      ,EPSD     ,NPF      ,TF       ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
@@ -72,13 +72,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL        ! size of element group
-      INTEGER ,INTENT(IN) :: IMAT       ! material law number
       INTEGER ,INTENT(IN) :: IPROP      ! beam property number
       INTEGER ,INTENT(IN) :: NPT        ! number of integration points in beam section
       INTEGER ,INTENT(IN) :: JTHE       ! thermal dependency flag
-      INTEGER ,INTENT(IN) :: NUMMAT     ! number of defined materials
       INTEGER ,INTENT(IN) :: NUMGEO     ! number of defined properties   
-      INTEGER ,INTENT(IN) :: NPROPM     ! size of real material parameter table
       INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
@@ -90,7 +87,6 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL   ! table of element identifiers
       my_real                            ,INTENT(IN)    :: TIME
-      my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN)    :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN)    :: GEO
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: EPSD
       my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: AL
@@ -103,13 +99,14 @@ C-----------------------------------------------
       my_real                            ,INTENT(IN)    :: DTIME  
       my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: SIGY    
 C
-      TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
-      TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
+      TYPE (ELBUF_STRUCT_)    ,INTENT(INOUT) :: ELBUF_STR
+      TYPE (FAIL_PARAM_)      ,INTENT(IN)    :: FAIL
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN)    :: MAT_PARAM
       TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IFL,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
+      INTEGER :: I,IFL,IPT,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,NPARAM,IRUPT
       INTEGER :: II(3)
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
@@ -121,7 +118,7 @@ C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
       my_real, DIMENSION(:), POINTER :: UVARF,DFMAX,TDEL
-      INTEGER, DIMENSION(:), POINTER :: FOFF
+      INTEGER, DIMENSION(:), POINTER :: FOFF,VARTMP
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step
@@ -137,8 +134,11 @@ C--------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
       COUNT(1:NEL) = 0
+      IRUPT  =  FAIL%IRUPT                             
       NPARAM  = FAIL%NUPARAM
       NFUNC   = FAIL%NFUNC
+      NUVAR   = FAIL%NUVAR                              
+      NVARTMP = FAIL%NVARTMP                               
 C---------------------------------------
 C     START LOOP OVER INTEGRATION POINTS
 C---------------------------------------
@@ -146,8 +146,7 @@ C---------------------------------------
         LBUF   => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
         FBUF   => ELBUF_STR%BUFLY(1)%FAIL(1,1,IPT)  
         UVARF  => FBUF%FLOC(IFL)%VAR
-        NVARF  =  FBUF%FLOC(IFL)%NVAR                                 
-        IRUPT  =  FBUF%FLOC(IFL)%ILAWF                                
+        VARTMP => FBUF%FLOC(IFL)%VARTMP
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
@@ -190,12 +189,10 @@ c
 c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
@@ -206,12 +203,10 @@ c---------------
      .         TDEL      ,IOUT      ,ISTDO     ,ELBUF_STR%GBUF%UELR   ,NPT)
 c---------------          
         CASE (10)     !    Tension Strain failure model
-          IF (JTHE > 0) THEN
-            T0 = PM(79, IMAT) 
-            TM = PM(80, IMAT) 
-            DO I=1,NEL  
-              TSTAR(I) = MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-            ENDDO
+          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+            T0 = MAT_PARAM%THERM%TREF
+            TM = MAT_PARAM%THERM%TMELT
+            TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
           ELSE
             TSTAR(1:NEL) = ZERO
           ENDIF
@@ -221,18 +216,15 @@ c---------------
      .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
      .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
-     .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
+     .          SNPC     ,NPF      ,STF      ,UVARF  ,NUVAR,
      .          TF       ,IPT      ,FOFF     ,ISMSTR ,ELBUF_STR%GBUF%UELR ,NPT)
 c---------------  
         CASE (11)     ! Energy failure model                                           
-          CALL FAIL_ENERGY_IB(
-     .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM ,
-     .          TIME     ,EPSD     ,OFF      ,DFMAX,                        
-     .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
-     .          LBUF%DMGSCL,UVARF  ,NVARF    ,
-     .          SNPC     ,NPF      ,STF      ,
-     .          TF       ,IPT      ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+          CALL FAIL_ENERGY_IB(FAIL ,NEL      ,NGL      ,
+     .          TIME     ,EPSD     ,OFF      ,DFMAX    ,                        
+     .          TDEL     ,IOUT     ,ISTDO    ,LBUF%DMGSCL,
+     .          NUVAR    ,UVARF    ,NVARTMP  ,VARTMP   ,
+     .          IPT      ,FOFF     ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .          DEPSXX   ,DEPSXY   ,DEPSXZ   ,ELBUF_STR%GBUF%UELR ,NPT)
 
 c--------------- 
@@ -241,7 +233,7 @@ c---------------
      .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .          TIME     ,OFF      ,DFMAX    ,TDEL     ,                       
      .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
-     .          UVARF    ,NVARF    ,SNPC     ,NPF      ,
+     .          UVARF    ,NUVAR    ,SNPC     ,NPF      ,
      .          STF      ,TF       ,IPT      ,FOFF     ,
      .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL,ELBUF_STR%GBUF%UELR ,NPT)
 
@@ -253,7 +245,7 @@ c---------------
      .          TIME     ,DPLA_IPT ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          NVARF    ,UVARF    ,FOFF     ,ELBUF_STR%GBUF%UELR ,NPT)   
+     .          NUVAR    ,UVARF    ,FOFF     ,ELBUF_STR%GBUF%UELR ,NPT)   
 
 C--------------
         CASE (36)     ! visual failure model                                        
@@ -263,7 +255,7 @@ C--------------
      .                       IOUT     ,ISTDO    ,
      .                       SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .                       EPSXX    ,EPSXY    ,EPSXZ    ,
-     .                       NVARF    ,
+     .                       NUVAR    ,
      .                       UVARF    ,ISMSTR   ,DTIME    , IPT)
 c-------------
         CASE (39)     ! GENE1 failure model                                        
@@ -286,27 +278,25 @@ c-------------
         CASE (42)     ! Inievo failure model  
 
           CALL FAIL_INIEVO_IB(                         
-     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR ,
-     .                     TABLE  ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM       ,
-     .                       NGL  ,AL           ,DPLA_IPT       ,EPSD , FBUF%FLOC(IFL)%VAR,
-     .                    SIGNXX  ,SIGNXY       ,SIGNXZ     ,
-     .                    PLA_IPT ,SIGY_IPT     ,FOFF ,FBUF%FLOC(IFL)%DAMMX  ,
-     .                    TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
-     .                    FBUF%FLOC(IFL)%DAMINI ,
-     .                    NTABLE  ,OFF)  
+     .         NEL     ,FAIL%NUPARAM ,NUVAR      ,NVARTMP ,FBUF%FLOC(IFL)%VARTMP,
+     .         TABLE   ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM       ,
+     .         NGL     ,AL           ,DPLA_IPT       ,EPSD , FBUF%FLOC(IFL)%VAR,
+     .         SIGNXX  ,SIGNXY       ,SIGNXZ     ,
+     .         PLA_IPT ,SIGY_IPT     ,FOFF ,FBUF%FLOC(IFL)%DAMMX  ,
+     .         TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
+     .         FBUF%FLOC(IFL)%DAMINI ,NTABLE  ,OFF)  
 
 c-------------
         CASE (41)     ! TAB2 failure model         
           
           CALL FAIL_TAB2_IB(                         
-     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
-     .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
-     .                       NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
-     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  , 
+     .                    NEL  ,FAIL%NUPARAM ,NUVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
+     .                    NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
+     .                    NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
+     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  ,NVARTMP ,FBUF%FLOC(IFL)%VARTMP, 
      .                    TEMPEL  ,OFF          ,FBUF%FLOC(IFL)%DAMMX ,TDEL  ,LBUF%DMGSCL,
-     .                         IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
-     .         ELBUF_STR%GBUF%UELR, 
-     .                      SNPC  ,STF  ,NTABLE) 
+     .                    IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
+     .                    ELBUF_STR%GBUF%UELR,SNPC  ,STF  ,NTABLE) 
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO

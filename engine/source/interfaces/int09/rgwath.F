@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float     ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RGWATH(
      1               X      ,V      ,W        ,RWL     ,NSW     ,
@@ -42,7 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +67,7 @@ C-----------------------------------------------
       my_real
      .  PM(NPROPM,*), X(*), RWL(*), MS(*), FSAV(*), V(*), W(*), 
      .  E(*), A(*),
-     .  TEMP,TSTIF,FHEAT, SAVE(3)
+     .  TEMP,TSTIF,FHEAT
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -73,7 +75,7 @@ C-----------------------------------------------
       INTEGER M3, M2, M1, I, N, N3, N2, N1, K, PMAIN
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, FXN, FYN, FZN, FXT, FYT, FZT,
-     .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DA, DVT,
+     .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DV, DVT,
      .   FNXN,FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN)
@@ -107,7 +109,7 @@ C
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C-----------------------
-C     VITESSE DE MATIERE ET GRILLE
+C     material and grid velocity
 C-----------------------
 C
       DO 10 N=1,NUMNOD
@@ -161,12 +163,12 @@ c       FZN=FZN+FNZN*WEIGHT(N)
         FRIC =RWL(13)
         FRIC2=FRIC**2
         IF(FTDFT<=FRIC2*FNDFN.OR.ITIED==1) THEN
-C         POINT SECND TIED
+C         SECONDARY NODE TIED
           V(N1)=VXW
           V(N2)=VYW
           V(N3)=VZW
         ELSE
-C         POINT SECND SLIDING
+C         SECONDARY NODE SLIDING
           FCOE=FRIC*SQRT(FNDFN/FTDFT)
           FNXT=FCOE*FNXT
           FNYT=FCOE*FNYT
@@ -200,7 +202,7 @@ c        FZT=ZERO
        W(N3)=W(N3)-DV*RWL(3)
  20   CONTINUE
 C
-C Traitement Parith/ON
+C Parith/ON processing
 C
       IF (MSR/=0) THEN
         DO K = 1, 6
@@ -219,7 +221,7 @@ C
         CALL SUM_6_FLOAT(1, NSN, F6, FRWL6(6,1), 6)
         
         IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor is concerned by rgwall
           IF(FR_WALL(ISPMD+1)/=0) THEN
             CALL SPMD_EXCH_FR6(FR_WALL,FRWL6,6*6)
           ENDIF

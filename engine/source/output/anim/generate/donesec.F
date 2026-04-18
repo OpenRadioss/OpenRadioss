@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,8 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DONESEC(ISECT,NESCT,NSTRF,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,11 +48,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, KK, K0, K1, K5, K9, NSEG, NSEGC, NSEGTG
+      INTEGER J, KK, K0, K5, K9, NSEGC, NSEGTG
       INTEGER NSEGS, POWER2(8),IPACK,
      .         II(8), N1, N2, N3, N4, N5, N6, N7, N8, K3, N
       DATA POWER2/1,2,4,8,16,32,64,128/
-      SAVE K1
       SAVE K0
 C-----------------------------------------------
         IF (ISECT==1) K0 = NSTRF(25)

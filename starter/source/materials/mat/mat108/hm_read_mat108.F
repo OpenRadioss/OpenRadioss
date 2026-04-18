@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,9 +75,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
-     .         IFAIL,IFAIL2,FLGCHK,ILAW,IEQUIL,
-     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
+       INTEGER  IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
+     .         IFAIL,IFAIL2,ILAW,IEQUIL,
+     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,
      .         IF1,IF2,IF3,IF4,SIZ_ARRAY_COMP
 C     REAL
       my_real
@@ -1054,7 +1054,7 @@ C------------------------
       MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
       MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
       MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
+      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
       MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
       MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
       MTAG%G_POSX = 5
@@ -1069,7 +1069,7 @@ C------------------------
       MTAG%G_MASS = 1
       MTAG%G_SKEW_ID = 1  
       MTAG%G_YIELD_IN_COMP = SIZ_ARRAY_COMP   ! Yield in compression - H=9
-      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous displacement in compression
+      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous Displacement in Compression
 C 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")

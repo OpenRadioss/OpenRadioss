@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I7CMP3B(I_STOK,CAND_E  ,CAND_N, PROV_E, PROV_N,
      1                   PENE)
 C============================================================================
-C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
+C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,10 +80,10 @@ C     CAS DECHARGEMENT
       SUBROUTINE I7CMP3(I_STOK,CAND_E  ,CAND_N, IFLAG,PENE,
      1                  PROV_N,PROV_E)
 C============================================================================
-C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
+C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -100,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_STOK,J_STOK,IFLAG
+      INTEGER I_STOK, IFLAG
       INTEGER CAND_N(*),CAND_E(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: PROV_N,PROV_E    
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: PENE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    sinit22_fvm      ../engine/source/interfaces/int22/sinit22_fvm.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
@@ -39,14 +40,14 @@ C Destroy a cell ICELL_target for a given cut
 C cell IB in the cut cell buffer.
 C When a Cell is destroyed from the list , Cell
 C list is updated taken into account : Volume, 
-C Faces, and Ajdacent Cell data
+C Faces, and adjacent cell data
 C What needs to be update in cut cell buffer :
 C      TYPE BRICK_ENTITY 
-C        INTEGER                         :: NBCUT                   !nombre de plans de coupe
+C        INTEGER                         :: NBCUT                   !number of cutting planes
 C        INTEGER                         :: SECID_Cell(8)           !cut local id in [1,8] -> [1,52] = sec type. Each possible cut is numbered from 1 to 52 ; 8 nodes => 8 possible cut cells
 C        INTEGER                         :: WhichCell_Node(8)       !node local id in[1,8] -> [1,8] = local cut cell id.
-C        INTEGER                         :: %POLY()%NumNOD(9)          !noeuds sommets
-C        INTEGER                         :: %POLY()%NumPOINT        !nombre total de point decrivant le volume
+C        INTEGER                         :: %POLY()%NumNOD(9)          !vertex nodes
+C        Integer :: %Poly () %Numpoint! Total number of points describing the volume
 C        INTEGER                         :: %POLY()%FACE()%NumPOINT      !gives number of points (node+intersec.pts) on a given cell face        
 C        INTEGER                         :: Adjacent_Cell(6,9,5)    !index3: IADJ (adjacent cell id 1:%NAdjCell)
 C        INTEGER                         :: NAdjCell(9,6)           !Number of adjacent cell for a given cell 1:9 and a given face 1:6
@@ -65,6 +66,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE I22BUFBRIC_MOD 
       USE I22TRI_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -234,7 +236,7 @@ c          ENDIF
                                                   
           BRICK_LIST(NIN,IB)%SECTYPE(1)               = 'REMOVED 0-CELL' 
           
-  !optim : no time to optim, will be treated later, meanwhile a second pass is done in sinit22.F
+!optim : no time to optim, will be treated later, meanwhile a second pass is done in sinit22.F
 c           !---UPDATING ADJACENT CELL   
 c          !adjacent brick
 c          NAdjv = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%NAdjCell                                                       
@@ -250,7 +252,7 @@ c          DO IADJ=1,NADJ
 c            IF (BRICK_LIST(NIN,IBv)%POLY(1)%FACE(J)%Adjacent_Cell(IADJ)/=ICELL_TARGET) EXIT
 c          ENDDO  
 c          IF(IADJ<=NADJ)THEN
-c          !traiter ici l'adjacence en 3D : boucler sur toutes les voisines de toutes les faces, si = 1ou 9 selon ICELL_TARGET, mettre   jour
+c          ! Treat the adjacency in 3D here: to complete on all the neighbors of all the faces, if = 1 or according to Icell_target, update
 c          a
 c            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Adjacent_Cell(IADJ) = ICELLv
 c          ENDIF

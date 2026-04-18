@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6rcoor3    ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
+!||    s6rcoor3      ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
 !||--- called by ------------------------------------------------------
-!||    s6cforc3    ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6cforc3      ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||--- calls      -----------------------------------------------------
-!||    s6cortho3   ../engine/source/elements/thickshell/solide6c/s6cortho3.F
-!||    s6proj3     ../engine/source/elements/thickshell/solide6c/s6proj3.F
-!||    vrrota3     ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||    s6cortho3     ../engine/source/elements/thickshell/solide6c/s6cortho3.F
+!||    s6proj3       ../engine/source/elements/thickshell/solide6c/s6proj3.F
+!||    vrrota3       ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S6RCOOR3(
      .   X  ,IXS , V  , W  ,GAMA0,GAMA,
@@ -43,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   IOUTPRT, VGAX, VGAY, VGAZ, VGA2,DI,
      .   NEL, XGAX, XGAY, XGAZ, XGXA2, XGYA2, XGZA2,
      .   XGXYA, XGYZA, XGZXA, IPARG,GAMA_R)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,15 +94,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      my_real
-     .   DT05
-      my_real
-     .   G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
-     .   G21(MVSIZ),G22(MVSIZ),G23(MVSIZ),
-     .   G31(MVSIZ),G32(MVSIZ),G33(MVSIZ),
-     .   T11(MVSIZ),T12(MVSIZ),T13(MVSIZ),
-     .   T21(MVSIZ),T22(MVSIZ),T23(MVSIZ),
-     .   T31(MVSIZ),T32(MVSIZ),T33(MVSIZ)
       my_real
      .   XL,YL,ZL
       my_real
@@ -193,7 +187,7 @@ C-----------
         ENDDO
       ENDIF
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=LFT,LLT
@@ -252,7 +246,7 @@ C  -----------
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE 
+C     convected frame 
 C-----------
        CALL S6CORTHO3(
      1   X1,      X2,      X3,      X4,
@@ -273,7 +267,7 @@ C------stocker [R] in %GAMA_R--------------
        GAMA_R(LFT:LLT,5) = R22(LFT:LLT)                             
        GAMA_R(LFT:LLT,6) = R32(LFT:LLT)                             
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C   X=RX' <=> X'=t(R)X chgt de base.
       IF(ISMSTR<=4.AND.JLAG>0) THEN
@@ -356,7 +350,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)
@@ -416,7 +410,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
 C
        ENDIF
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL VRROTA3(
      1   R11,     R12,     R13,     R21,

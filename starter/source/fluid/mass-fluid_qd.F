@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,9 +60,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFORM, KFORM, ILVOUT, NELMAX
-      INTEGER IN, JN, KN, N1, N2, N3, N4, N5, NN1, NN2, NN3, NN4, NNJ, IEL, JEL, ERR
-      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4, XQ, YQ, ZQ, R2,
-     .        XP, YP, ZP, X13, Y13, Z13, X24, Y24, Z24,
+      INTEGER IN, JN, KN, N1, N2, N3, N4, N5, NN1, NN2, NN3, NN4, IEL, JEL, ERR
+      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4, XQ, YQ, ZQ,
+     .        XP, YP, ZP,
      .        NRX, NRY, NRZ,  AREA, D2, RVAL, RVLH, RVLG
       my_real MASSX, MASSY, MASSZ, WI(4,2), SUM
       my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, EBEM
@@ -124,7 +124,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
            Z4=X(3,NN4)
-C  Control point P
+C  Control Point P
            XP=WI(1,N5)*X1+WI(2,N5)*X2+WI(3,N5)*X3+WI(4,N5)*X4
            YP=WI(1,N5)*Y1+WI(2,N5)*Y2+WI(3,N5)*Y3+WI(4,N5)*Y4
            ZP=WI(1,N5)*Z1+WI(2,N5)*Z2+WI(3,N5)*Z3+WI(4,N5)*Z4
@@ -163,7 +163,7 @@ C
                 Z3=X(3,NN3)
                 Z4=X(3,NN4)
                 AREA=AF(JEL)
-C  Position de la source Q
+C  Position of source Q
                 XQ=WI(1,JN)*X1+WI(2,JN)*X2+WI(3,JN)*X3+WI(4,JN)*X4
                 YQ=WI(1,JN)*Y1+WI(2,JN)*Y2+WI(3,JN)*Y3+WI(4,JN)*Y4
                 ZQ=WI(1,JN)*Z1+WI(2,JN)*Z2+WI(3,JN)*Z3+WI(4,JN)*Z4
@@ -220,7 +220,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
            Z4=X(3,NN4)
-C  Control point P
+C  Control Point P
            XP=WI(1,IN)*X1+WI(2,IN)*X2+WI(3,IN)*X3+WI(4,IN)*X4
            YP=WI(1,IN)*Y1+WI(2,IN)*Y2+WI(3,IN)*Y3+WI(4,IN)*Y4
            ZP=WI(1,IN)*Z1+WI(2,IN)*Z2+WI(3,IN)*Z3+WI(4,IN)*Z4

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NINDX,INDEX(NEL),Istat
+      INTEGER I,II,NINDX,INDEX(NEL),Istat
 c
        my_real ::  
      .   YOUNG,BULK,LAMHOOK,G,G2,NU,ALPHA,CFAIL,PFAIL,RHOF0
@@ -387,7 +387,7 @@ c
      .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
      .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
           Q  = (THREE*I2 - I1*I1)/NINE
-          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PSI = ACOS(MAX(R_INTER,-ONE))
 

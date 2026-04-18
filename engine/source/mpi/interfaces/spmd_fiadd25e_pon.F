@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,12 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret               ../engine/source/system/arret.F
 !||    ibcoff              ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    debug_mod           ../engine/share/modules/debug_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE SPMD_FIADD25E_PON(
+      SUBROUTINE SPMD_FIADD25E_PON(OUTPUT,
      1       NB     ,LEN    ,BUFR   ,NSV     ,FSKYI,
      2       ISKY   ,IBC    ,ISECIN ,NOINT   ,IBAG ,
      3       ICODT  ,SECFCUM,NSTRF  ,ICONTACT,FCONT,
@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE DEBUG_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER NB, LEN, IBC  ,ISECIN  ,IBAG , NOINT, INACTI,
      .        NSV(*), ISKY(*), ICODT(*), NSTRF(*),ICONTACT(*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
@@ -84,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,
-     .        NISKY_SAV,TEMP_SIZ,IERROR,NOD1,NOD2,PP,PPL
+     .        NISKY_SAV,NOD1,NOD2,PP,PPL
       INTEGER NB_EDGE
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -101,7 +102,7 @@ C
         ASSERT(N > 0)
         ASSERT(N <= NEDGE)
         IF(INTTH == 0 ) THEN
-C pb: pas sur de recevoir les FKSKY dans cet ordre
+C issue: not sure to receive the FKSKY in this order
 C#ifdef D_ES
 C         IF(LEDGE(8,N) == D_ES) THEN
 C          WRITE(6,*) "EDGE:",N,LEDGE(5,N),LEDGE(6,N),BUFR(10,I)
@@ -165,10 +166,10 @@ C        ENDIF
 
 
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C continuation of i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15)))
      .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
@@ -234,7 +235,7 @@ C     Sections
          ENDIF
 C     
          IF((IBAG/=0.AND.INACTI/=7).OR.
-     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! attention conflit inacti=7 et ibag=3
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! warning: conflict inacti = 7 and ibag = 3
 C     Airbags IBAG
             DO I = 1, NB
                IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.

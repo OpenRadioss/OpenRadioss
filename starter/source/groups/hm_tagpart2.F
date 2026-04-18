@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,13 +73,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,NSEG,JREC,IADV,ISU,K,L,IPP,NUMA,JJ,KK,NENTITY_POS, NENTITY_NEG,NENTITY
+      INTEGER ISU,K,L,IPP,NUMA,JJ,KK,NENTITY_POS, NENTITY_NEG,NENTITY
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAG_ENTITY_POS, TAG_ENTITY_NEG,LIST_ENTITY
       INTEGER :: ID_LOCAL
       INTEGER, DIMENSION(:), ALLOCATABLE :: ENTITY_POS,ENTITY_NEG
       CHARACTER MOT*4
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
-C groupes de SUBSETS
+C groups of SUBSETS
 C-------------------------
 
            CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
@@ -106,7 +106,7 @@ C-------------------------
                 IF (JJ == SUBSET(K)%ID) THEN
                   ISU=K
                   DO L=1,SUBSET(ISU)%NTPART
-C                   tag les parts
+C                   tag the parts
                     IF(BUFFTMP(SUBSET(ISU)%TPART(L))==0)THEN
                       BUFFTMP(SUBSET(ISU)%TPART(L))=1
                       NINDX=NINDX+1
@@ -117,7 +117,7 @@ C                   tag les parts
                 ELSEIF (JJ == -SUBSET(K)%ID) THEN
                   ISU=K
                   DO L=1,SUBSET(ISU)%NTPART
-C                   tag les parts 
+C                   tag the parts
                     IF(BUFFTMP(SUBSET(ISU)%TPART(L))==0)THEN
                       BUFFTMP(SUBSET(ISU)%TPART(L))=-1
                       NINDX=NINDX+1
@@ -144,7 +144,7 @@ C                   tag les parts
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR.
      .        KEY(1:4) == 'PROP') THEN
 C-------------------------
-C groupes de PART,MAT,PROP
+C Part groups, mat, prop
 C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
@@ -188,7 +188,7 @@ C-------------------------
                     ENDIF
                     ISU=MAP(ID_LOCAL,2)
                     TAG_ENTITY_POS(KK)=1  
-                    !tag les parts                         
+                    !tag the parts
                     IF(BUFFTMP(ISU)==0)THEN                
                         BUFFTMP(ISU)=1                       
                         NINDX=NINDX+1                        
@@ -206,7 +206,7 @@ C-------------------------
 
                     ISU=MAP(ID_LOCAL,2)
                     TAG_ENTITY_NEG(KK)=1  
-                    !tag les parts                         
+                    !tag the parts
                     IF(BUFFTMP(ISU)==0)THEN                
                         BUFFTMP(ISU)=-1          
                         NINDX=NINDX+1            
@@ -226,7 +226,7 @@ C-------------------------
                         IF(JJ == NUMA)THEN                       
                             ISU=K 
                             TAG_ENTITY_POS(KK)=1  
-                            !tag les parts                         
+                            !tag the parts
                             IF(BUFFTMP(ISU)==0)THEN                
                                 BUFFTMP(ISU)=1                       
                                 NINDX=NINDX+1                        
@@ -248,7 +248,7 @@ C-------------------------
                         IF(JJ == NUMA)THEN      
                             ISU=K 
                             TAG_ENTITY_NEG(KK)=1  
-                            !tag les parts              
+                            !tag the parts
                             IF(BUFFTMP(ISU)==0)THEN   
                                 BUFFTMP(ISU)=-1          
                                 NINDX=NINDX+1            

@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -139,6 +139,7 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
                 // should not be used, interface should be defined by /CWIPI/SURF instead of a grnod with cwipi
                 setGroupNodeId(std::stoi(value));
                 std::cout << "Setting group_node_id_ to " << value << std::endl;
+                std::cout << "ERROR: GRNOD not supported yet" << std::endl;
             }
             else if (key == "SURF") {
                 //surface_id_ = std::stoi(value);
@@ -167,19 +168,24 @@ bool CwipiCouplingAdapter::configure(const std::string& configFile) {
 
 void CwipiCouplingAdapter::setNodes(const std::vector<int>& nodeIds) {
     couplingNodeIds_ = nodeIds;
-    
-    // Allocate buffers for 3D data
-    int bufferSize = couplingNodeIds_.size() * 3;
-    
+    //print nodes IDs    std::cout << "Setting coupling node IDs for CWIPI coupling adapter: ";
+//    std::cout << "Coupling node IDs for CWIPI coupling adapter: ";
+//    for (int nodeId : couplingNodeIds_) {
+//        std::cout << nodeId << " ";
+//    }
+//    std::cout << std::endl;
+    // Allocate buffers with per-field dimensions (3 for vector fields, 1 for scalar fields)
     for (size_t i = 0; i < readData_.size(); ++i) {
         if (readData_[i].isActive) {
-            readData_[i].buffer.resize(bufferSize);
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            readData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
     
     for (size_t i = 0; i < writeData_.size(); ++i) {
         if (writeData_[i].isActive) {
-            writeData_[i].buffer.resize(bufferSize);
+            const int fieldDim = dataDimensions(static_cast<DataType>(i));
+            writeData_[i].buffer.resize(couplingNodeIds_.size() * fieldDim);
         }
     }
 }
@@ -188,22 +194,52 @@ void CwipiCouplingAdapter::setMesh(const int* elem_node_offsets, const int* elem
     numElements_ = num_elements;
     eltsConnecPointer_.assign(elem_node_offsets, elem_node_offsets + num_elements + 1);
     eltsConnec_.assign(elem_node_indices, elem_node_indices + elem_node_offsets[num_elements]);
+    //print the mesh
+    //For each element, print the nodes ID in one line
+//    std::cout << "Mesh connectivity for CWIPI coupling adapter:" << std::endl;
+//    for (int i = 0; i < num_elements; ++i) {
+//        std::cout << "Element " << i << ": ";
+//        for (int j = eltsConnecPointer_[i]; j < eltsConnecPointer_[i + 1]; ++j) {
+//            std::cout << eltsConnec_[j] << " ";
+//        }
+//        std::cout << std::endl;
+//    }
 }
 
-bool CwipiCouplingAdapter::initialize(const double* coordinates, int totalNodes, int mpiRank, int mpiSize) {
-    if (!active_) return false;
+bool CwipiCouplingAdapter::initialize(const double* coordinates, int n2d, int totalNodes, int mpiRank, int mpiSize) {
+    //std::cout << "CwipiCouplingAdapter::initialize called, active_=" << active_ << std::endl;
+    std::cout.flush();
+    if (!active_) {
+        std::cout << "ERROR: CwipiCouplingAdapter::initialize called but adapter is not active" << std::endl;
+        std::cout.flush();
+        return false;
+    }
+    if (n2d >0) { 
+        // For now, only support 3D coupling with CWIPI. Support for 2D and axisymmetric cases can be added later if needed.
+        std::cout << "Error: CWIPI coupling adapter currently only supports 3D coupling" << std::endl;
+        return false;
+
+    }
     
     try {
         // 1. Initialize CWIPI
         std::cout << "Initializing CWIPI coupling adapter..." << std::endl; 
+        std::cout << "  dimension_ = " << dimension_ << std::endl;
+        std::cout << "  tolerance_ = " << tolerance_ << std::endl;
+        std::cout << "  numElements_ = " << numElements_ << std::endl;
+        std::cout << "  couplingNodeIds_.size() = " << couplingNodeIds_.size() << std::endl;
         // 2. Create coupling
+        // Use CWIPI_SOLVER_CELL_CENTER for shell/surface meshes (2D in 3D)
+        // CWIPI_SOLVER_CELL_VERTEX tries to locate points inside 3D cells which fails for shells
+        cwipi_solver_type_t solver_type = (dimension_ == 2) ? CWIPI_SOLVER_CELL_CENTER : CWIPI_SOLVER_CELL_VERTEX;
+        std::cout << "  solver_type = " << ((solver_type == CWIPI_SOLVER_CELL_CENTER) ? "CELL_CENTER" : "CELL_VERTEX") << std::endl;
         cwipi_create_coupling(couplingName_.c_str(),
                              CWIPI_COUPLING_PARALLEL_WITH_PARTITIONING,
                              coupledAppName_.c_str(),
-                             dimension_,
+                             dimension_,  // Mesh entities dimension: 2 for surfaces (quads/tris), 3 for volumes
                              tolerance_,
                              CWIPI_STATIC_MESH,
-                             CWIPI_SOLVER_CELL_VERTEX,
+                             solver_type,
                              -1,  // No postprocessing
                              "EnSight Gold",
                              "text");
@@ -219,7 +255,7 @@ bool CwipiCouplingAdapter::initialize(const double* coordinates, int totalNodes,
             meshVertices.push_back(coordinates[idx * 3 + 1]);
             meshVertices.push_back(coordinates[idx * 3 + 2]);
         }
-        
+
         // 4. Define mesh
         if (order_ == 1) {
             std::cout << "Defining CWIPI mesh with linear elements." << std::endl;
@@ -272,8 +308,6 @@ void CwipiCouplingAdapter::writeData(const double* values, int totalNodes, doubl
     // Start async send
     std::string fieldName = getFieldName(static_cast<DataType>(dataType));
     int tag = getTag(static_cast<DataType>(dataType));
-    std::cout << "Sending data for field: " << fieldName 
-              << " with tag: " << tag << std::endl; 
     cwipi_issend(couplingName_.c_str(),
                 exchangeName_.c_str(),
                 tag,
@@ -419,12 +453,18 @@ void CwipiCouplingAdapter::extractNodeData(const double* globalValues, int total
     if (!writeData_[dataType].isActive) {
         return;
     }
-    
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
+
     for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
         int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-        writeData_[dataType].buffer[i * 3] = globalValues[nodeId * 3];
-        writeData_[dataType].buffer[i * 3 + 1] = globalValues[nodeId * 3 + 1];
-        writeData_[dataType].buffer[i * 3 + 2] = globalValues[nodeId * 3 + 2];
+        if (fieldDim == 1) {
+            // Scalar field (e.g., TEMPERATURE): one value per node
+            writeData_[dataType].buffer[i] = globalValues[nodeId];
+        } else {
+            writeData_[dataType].buffer[i * 3] = globalValues[nodeId * 3];
+            writeData_[dataType].buffer[i * 3 + 1] = globalValues[nodeId * 3 + 1];
+            writeData_[dataType].buffer[i * 3 + 2] = globalValues[nodeId * 3 + 2];
+        }
     }
 }
 
@@ -435,19 +475,29 @@ void CwipiCouplingAdapter::injectNodeData(double* globalValues, int totalNodes, 
         return;
     }
     
+    const int fieldDim = dataDimensions(static_cast<DataType>(dataType));
+
     if (readData_[dataType].mode == Mode::ADD) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] += readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+            if (fieldDim == 1) {
+                globalValues[nodeId] += readData_[dataType].buffer[i];
+            } else {
+                globalValues[nodeId * 3] += readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] += readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] += readData_[dataType].buffer[i * 3 + 2];
+            }
         }
     } else if (readData_[dataType].mode == Mode::REPLACE) {
         for (size_t i = 0; i < couplingNodeIds_.size(); ++i) {
             int nodeId = couplingNodeIds_[i] - 1; // Convert to 0-based indexing
-            globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
-            globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
-            globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+            if (fieldDim == 1) {
+                globalValues[nodeId] = readData_[dataType].buffer[i];
+            } else {
+                globalValues[nodeId * 3] = readData_[dataType].buffer[i * 3];
+                globalValues[nodeId * 3 + 1] = readData_[dataType].buffer[i * 3 + 1];
+                globalValues[nodeId * 3 + 2] = readData_[dataType].buffer[i * 3 + 2];
+            }
         }
     }
 
@@ -458,6 +508,7 @@ std::string CwipiCouplingAdapter::getFieldName(DataType type) {
         case DataType::POSITIONS: return "positions";
         case DataType::FORCES: return "forces";
         case DataType::DISPLACEMENTS: return "displacements";
+        case DataType::TEMPERATURE: return "temperature";
         default: return "unknown";
     }
 }

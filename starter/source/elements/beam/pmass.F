@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 NC1,NC2,IMAT,MXG,AREA,AL,STRP ,
      .                 MCPP ,TEMP ,NINTEMP)
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     INITIALIZATION OF NODAL MASSES
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,16 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,I1,I2,J,K,IPY,IPZ,IPA,IGTYP,NIP
-      my_real
-     .   XX,YY,ZZ,XY,YZ,ZX,
-     .   STI, E, G, AA, BB, DX,DY,DZ, ARI,INI,RYI,RZI,
-     .   STIR, PHI, SHF, DSH, DMP, SL2I, FAC,LL,TEMP0
-      my_real
-     .   RHO(MVSIZ), EMS(MVSIZ),COEFI(MVSIZ),
-     .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
-      my_real
-     .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
+      INTEGER :: I,IP,I1,I2,J,IPY,IPZ,IPA,IGTYP,NIP
+      my_real :: XX,YY,ZZ,XY,YZ,ZX,STI, E, G, AA, BB, ARI,INI,RYI,RZI,STIR, DMP, SL2I, LL,TEMP0
+      my_real :: RHO(MVSIZ), EMS(MVSIZ),COEFI(MVSIZ),TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
+      my_real :: FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
 C=======================================================================
       IPY = 200  
       IPZ = 300  
@@ -117,7 +111,7 @@ C----------------------------------------------
       DO I=LFT,LLT
         E = PM (20,IMAT)
         G = PM (22,IMAT)
-        CST = SIX_OVER_5*E/G
+        CST = SIX_OVER_5*E/max(G,em30)
         BB  = MAX(TIYY(I),TIZZ(I),EM30)
         SL2I= AREA(I)*AL(I)**2 /BB
         FACDT(I) = ONE_OVER_12*SL2I
@@ -167,7 +161,7 @@ C----------------------------------------------
         INP(I) = TIN(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     INITIALIZATION OF NODAL STIFFNESSES FOR INTERFACES
 C----------------------------------------------
       IF(I7STIFS/=0)THEN
         DO I=LFT,LLT
@@ -177,7 +171,7 @@ C----------------------------------------------
         ENDDO
       ENDIF
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES
+C     INITIALIZATION OF NODAL STIFFNESSES
 C----------------------------------------------
       DO I=LFT,LLT
        E = PM (20,IMAT)

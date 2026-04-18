@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM, NSN, NOINT,IDT,INACTI,NIN,NSNR,NSNROLD,NMN,ITASK
+      INTEGER NRTM, NSN, NOINT, INACTI, NIN, NSNR, NSNROLD, NMN, ITASK
       INTEGER IRECT(4,*), NSV(*), NUM_IMP, IRECTG(4,*)
       INTEGER CAND_E(*),CAND_N(*),MSR(*),MWAG(*),RENUM(*),IFPEN(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, I_MEM,IGAP,ICURV,NCONT,
@@ -73,8 +73,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
-     .   GAPMIN, GAPMAX, BMINMA(6),CURV_MAX(NRTM), BGAPSMX,
-     .   LXM, LYM, LZM
+     .   GAPMIN, GAPMAX, BMINMA(6),CURV_MAX(NRTM), BGAPSMX
       my_real
      .   X(3,*), STFN(*), STF(*), GAP_S(*), GAP_M(*),
      .   CAND_P(*)
@@ -84,9 +83,8 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, I_ADD, IP0, IP1, MAXSIZ,
-     .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
-     .        NSNFIOLD(NSPMD)
+      INTEGER I, I_ADD, IP0, IP1, MAXSIZ, 
+     . ADD(2,I_ADD_MAX), ISZNSNR
 C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
@@ -104,13 +102,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 C     P21.......BPN                 NSN
@@ -121,7 +119,7 @@ C
       IP0 = 1
       IP1 = IP0 + NSN + NSNROLD + 3
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -145,7 +143,7 @@ C
 C
       ISZNSNR = NSNR
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of the sorting phase
 C
 C       SEPARER B ET N EN TWO
 C
@@ -205,8 +203,8 @@ c     9   IFPEN    ,CAND_P   ,NSV      ,ITAGP    ,IRECTG   )
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of voxel
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -222,11 +220,10 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      7   NRTM    ,NSNROLD  ,IGAP     ,GAP      ,GAP_S   ,
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,INTHEAT,IDT_THERM,NODADT_THERM)
- 234  continue
 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF (I_MEM ==2) RETURN
       IF(I_MEM==1)THEN
@@ -255,7 +252,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         ENDIF
         RETURN
         TZINF = THREE_OVER_4*TZINF
-C taille de boite non diminuee
+C unconassed gearbox size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=GAP ) THEN

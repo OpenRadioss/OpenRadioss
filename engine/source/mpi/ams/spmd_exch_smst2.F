@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -229,7 +229,7 @@ C     REAL
               ENDIF
             ENDDO
             ! -----------------
-            ! Sent MPI comm
+            ! Feels mpi comm
             L=1
             IDEBS=0
             DO P=1, NSPMD
@@ -288,7 +288,7 @@ C     REAL
             ENDDO   ! DO P=1, NSPMD
 
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD_0-IADS(P)
@@ -359,7 +359,7 @@ C     REAL
               ENDIF
             ENDDO
             ! -----------------
-            ! Sent MPI comm
+            ! Feels mpi comm
             L=1
             IDEBS = 0
             DO P=1, NSPMD
@@ -452,7 +452,7 @@ C     REAL
               ENDIF !  IF (NB > 0)
             ENDDO ! DO P=1, NSPMD
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD-IADS(P)

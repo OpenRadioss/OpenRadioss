@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,16 +129,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, I,J, L,IG, ISOLNOD,IGTYP,
-     .        IHBE,NE, ISH3N,IIS,NIP,IPG,NPG,PT,NPP,
-     .   J1,JJ1,NU,IP,JJ,NUVAR,L_SIGB,
-     .   NVARSH,NUMR,NUMSOLID,KK,UID,IFLAGUNIT,
-     .   IUNIT, IFRAM, JJHBE, IORTH, ND, NPTD00,
+     .        IHBE, ISH3N,IIS,NIP,IPG,NPG,PT,NPP,
+     .   IP,JJ,NUVAR,
+     .   NVARSH,KK,UID,IFLAGUNIT,
+     .   IUNIT, JJHBE,
      .   NUVARD00, NDIR, NPGTMP,
      .   NPTR,NPTS,NPTT,JR,JS,JT,NFAIL(5),IMAT,ILAW,
-     .   JL,NPT_MAX,MLAWLY,IPMAT,JDRP_ID,NVARBEAM,IFAIL,NEM1,
-     .   IRUPT_TYP,NVAR_RUPT,IOK,NVMAX,CPTVAR,FLAGDEG,NUM_LINES,NMAX_AUX,NMAX_FAIL,
+     .   JL,NPT_MAX,MLAWLY,IPMAT,NVARBEAM,IFAIL,NEM1,
+     .   IRUPT_TYP,NVAR_RUPT,IOK,NVMAX,FLAGDEG,NUM_LINES,NMAX_AUX,NMAX_FAIL,
      .   ISUBSTACK,NSLICE,IPNPT_LAY,IPT
-      INTEGER IE, KN, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
+      INTEGER IE, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
       INTEGER KTRIELS, KTRIELC, KTRIELTG, KTRIELSPR, KTRIELBEAM, KTRIELTRUSS,
      .   KTRIELTQUAD, KTRIELSPHCEL
       INTEGER IGBR, JGBR, I1, SIZE,NSROT,NG,ITYR,NFTR,NELR,ISMRAD
@@ -146,8 +147,7 @@ C-----------------------------------------------
       my_real
      .   EM , EB, H1, H2, H3,
      .   R0 , EIN, VX, VY, VZ, PHI1, PHI2, SCALEYLD,
-     .   EXX, EYY, EXY, EYZ, EZX, FXX, FYY, FXY,
-     .   EPSP, ANGLE1, ANGLE2, AA, AREA, FOR,ENER,DENS,
+     .   EPSP, ANGLE1, ANGLE2, AREA, FOR,ENER,DENS,
      .   FILL, RHO, SLEN
       my_real
      .   S(6),
@@ -162,8 +162,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSRS,INDEXS,ITRIS,
      . KSYSUSRQ,INDEXQ,ITRIQ,IES2IPARG,MLAW_LY,ITRISPH,INDEXSPH,KSYSUSRSPH
 
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER*15,KEYWORD 
       INTEGER NONEXIST
 C-----------------------------------------------
@@ -173,8 +173,8 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE,GLOB
 
       INTEGER  NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,ID_ELEM,
-     . ELT,ELTP,INI,K0,NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,
-     . SUB_INDEX,IDOUB,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT,NB_INISPHCEL
+     . INI,K0,NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,
+     . SUB_INDEX,ISTRSF,ISTRSFG,ISTRAF,ISTRAFG,ISTAT,NB_INISPHCEL
       my_real
      .   THK,FOR1,FOR2,FOR3,MOM1,MOM2,MOM3
 !
@@ -182,7 +182,7 @@ C-----------------------------------------------
       EXTERNAL SET_USRTOS
 C=======================================================================
 C
-C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
+C -- READING OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
       SUB_INDEX = 0
@@ -1954,7 +1954,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISH4NM ---
            IF (KTRIELC == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELC
                 ITRI(IE) = IXC(NIXC,IE)
               END DO
@@ -2021,6 +2021,9 @@ C---------
                 ! check is SHELL is QEPH
                   IG   = IXC(6,IE)
                   IHBE = IGEO(10,IG)
+!               ! Void property created for multidomains - inistate is ignored
+                  IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
+!
                   IF (IHBE==12 .OR. IHBE==24) THEN
                     NPGTMP = 4       
                   ELSE               
@@ -2126,6 +2129,9 @@ C------------------------------------
                     ! check is SHELL is QEPH
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
+!                   ! Void property created for multidomains - inistate is ignored
+                    IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
+!
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
                     ELSE               
@@ -2313,6 +2319,9 @@ C------------------------------------
                     ! check is SHELL is QEPH
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
+!                   ! Void property created for multidomains - inistate is ignored
+                    IF ((IGEO(11,IG)==0).AND.(IGEO(125,IG)==1)) CYCLE
+!
                     IF (IHBE==12 .OR. IHBE==24) THEN
                       NPGTMP = 4       
                     ELSE               
@@ -2386,7 +2395,7 @@ C------------------------------------
                           SIGSH(PT+2,I) = TMPVAL3(N)
                           SIGSH(PT+3,I) = TMPVAL4(N)
                           SIGSH(PT+4,I) = TMPVAL5(N)
-                          SIGSH(PT+6,I) = TMPVAL6(N)
+                          SIGSH(PT+5,I) = TMPVAL6(N)
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
 !----
@@ -2497,6 +2506,10 @@ C----look at how to orginase SIGSH(,I)
 C                     CALL ANCERR(58,ANINFO_BLIND_2)
                     ENDIF ! IF (NPG == 0 .OR. NPG == 1)
                     PT = INISHVAR1
+                    IF (IHBE==24) THEN 
+                       SIGSH(INISHVAR1,I) = MAX(1,NPG) !have to use this since SIGSH(NVSHELL,I) is used also for stress
+                       PT = PT +1 
+                    END IF
                     NPP = NIP
                     IF (NPP==0) NPP=2
 !===============================================
@@ -3118,7 +3131,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISH3NM ---
         IF (KTRIELTG==0) THEN
-C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C         sorting elements of D00 by ascending id (sorted only once)
           DO IE = 1, NUMELTG
             ITRI(IE) = IXTG(NIXTG,IE)
           END DO
@@ -4220,7 +4233,7 @@ C----------
 !---
 ! to be replaced by ---  MAP_TABLES%ITRUSSM ---
            IF (KTRIELTRUSS == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELT
                 ITRI(IE) = IXT(NIXT,IE)
               END DO
@@ -4321,7 +4334,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%IBEAMM ---
             IF (KTRIELBEAM == 0) THEN
-! tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
+! local sorting of elements of D00 by ascending id (sorted only once)
               DO IE = 1,NUMELP
                 ITRI(IE) = IXP(NIXP,IE)
               ENDDO
@@ -4521,7 +4534,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISPRINGM ---
             IF (KTRIELSPR == 0) THEN
-C tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
+C local sorting of elements of D00 by ascending id (sorted only once)
               DO IE = 1,NUMELR
                 ITRI(IE) = IXR(NIXR,IE)
               ENDDO
@@ -4720,7 +4733,7 @@ C------!
 !---
 ! to be replaced by ---  MAP_TABLES%IQUADM ---
            IF (KTRIELTQUAD == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELQ
                 ITRIQ(IE) = IXQ(NIXQ,IE)
               END DO

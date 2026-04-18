@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sdlen3     ../engine/source/elements/solid/solide/sdlen3.F
 !||--- called by ------------------------------------------------------
 !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
 !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
 !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F

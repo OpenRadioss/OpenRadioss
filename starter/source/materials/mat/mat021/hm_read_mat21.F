@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,IFUNC
+      INTEGER :: ILAW,IFUNC
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C1,FAC_Y,PMIN,PEXT,BUNL,XMUMX,E0,G,PSTAR,DELTA,FSCAL_UNIT
       CHARACTER*64 :: chain      
 C=======================================================================
@@ -147,7 +147,7 @@ C=======================================================================
         PSTAR=-A0/A1 
       ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
-        !Si intersection avec l'axe
+        !If intersection with the axis
         IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
@@ -199,7 +199,7 @@ c-------------------
         WRITE(IOUT,1500)IFUNC,FAC_Y,C1,BUNL,XMUMX,PMIN,PEXT,PSTAR
       ENDIF
 C
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1
       MTAG%G_EPSQ  = 1

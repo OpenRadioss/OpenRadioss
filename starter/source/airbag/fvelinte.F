@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,11 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE FVELINTE_MOD
       CONTAINS
 !||====================================================================
-!||    fvelinte    ../starter/source/airbag/fvelinte.F
+!||    fvelinte      ../starter/source/airbag/fvelinte.F
 !||--- called by ------------------------------------------------------
-!||    fvmesh0     ../starter/source/airbag/fvmesh0.F
+!||    fvmesh0       ../starter/source/airbag/fvmesh0.F
 !||--- uses       -----------------------------------------------------
-!||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+!||    fvbag_mod     ../starter/share/modules1/fvbag_mod.F
 !||====================================================================
       SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV, 
      .                    NNT, NTG, POROSITY, NSEG,SURF_ELTYP,
@@ -41,6 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE FVBAG_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,7 +134,7 @@ C     Node 3
       DO I=1,FVDATA(IFV)%NNTR
          IEL=FVDATA(IFV)%IFVTRI(4,I)
          IF (IEL == 0) THEN
-C     Triangle interne appuye sur element solide
+C     Internal triangle Pressing on solid element
             IFOUND=0
             I1=FVDATA(IFV)%IFVTRI(1,I)
             I2=FVDATA(IFV)%IFVTRI(2,I)
@@ -229,7 +230,7 @@ C TAG elements of internal surface
       DO I=1,FVDATA(IFV)%NNTR
          IEL=FVDATA(IFV)%IFVTRI(4,I)
          IF (IEL < 0) THEN
-C     Triangle interne appuye sur element solide
+C     Internal triangle Pressing on solid element
             IFOUND=0
             I1=FVDATA(IFV)%IFVTRI(1,I)
             I2=FVDATA(IFV)%IFVTRI(2,I)

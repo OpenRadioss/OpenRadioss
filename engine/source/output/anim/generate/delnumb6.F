@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,12 +26,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DELNUMBS(IPARG,IXS  ,EL2FA,NBF  ,INUM ,
      .                    DD_IAD  ,IADD ,NBPART,IADG ,KXSP ,
      .                    ISPH3D)
 C=======================================================================
+      use element_mod , only : nixs
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -54,7 +57,7 @@ C     REAL
      .        ISPH3D
 C-----------------------------------------------
       INTEGER NG, ITY, LFT, LLT, N, I, J, NEL, IAD, NFT,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10, ISOLNOD,
+     .        NN1,NN2,NN3,NN4,NN5, ISOLNOD,
      .        BUF
 C-----------------------------------------------
 C

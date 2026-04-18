@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,8 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,ID,IDS,NSEG,ITYPE,IDPRT,IDSURF,SKIP,IN1,IN2,IN3,LVAD
-      my_real DIST,FCUT
+      INTEGER I, J, N, ID, IDS, NSEG, ITYPE, IDSURF, SKIP, LVAD
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C=======================================================================
@@ -79,7 +78,7 @@ C
       I = 0
       DO N = 1,NSPHIO
         SKIP = 0        
-CC----------Multidomaines --> on ignore les inlets non tages------------
+CC --------- Multidomatic-> We do not know the inlets non-tages ------------------------------------
         IF (NSUBDOM > 0) THEN
          IF(TAGSPHIO(N) == 0) SKIP = 1
         ENDIF
@@ -95,7 +94,7 @@ C
           NOM_OPT(1,I)=ID
           CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 C         
-          ! Reading type dans surface ID
+          ! Reading type in surface ID
           CALL HM_GET_INTV('Itype'   ,ITYPE  ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SURF_ID' ,IDSURF ,IS_AVAILABLE,LSUBMODEL)
 C

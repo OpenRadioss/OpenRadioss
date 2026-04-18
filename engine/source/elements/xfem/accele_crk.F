@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NN,NCT_CRK,NC_CRK,ILEV,EN0,NLEV
+      INTEGER KK,N,NN,NCT_CRK,NC_CRK,ILEV,EN0,NLEV
       my_real
      .   RTMP0,RTMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: FAC
@@ -73,7 +73,7 @@ c
             IF (EN0 > 0) FAC(EN0) = FAC(EN0) + 1                        
           END DO                                                        
         END DO                                                          
-c                                                                      
+C                                                                      
         DO ILEV=1,NLEV                                                  
           DO KK = NCT_CRK+1, NCT_CRK+NC_CRK                             
             EN0 = CRKLVSET(ILEV)%ENR0(2,KK)                             

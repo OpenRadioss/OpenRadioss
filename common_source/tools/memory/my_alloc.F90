@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,9 @@
 !||    allocate_nodal_arrays              ../common_source/modules/nodal_arrays.F90
 !||    allocate_rbe3                      ../common_source/modules/constraints/rbe3_mod.F90
 !||    allocate_rbe3pen                   ../common_source/modules/constraints/rbe3_mod.F90
+!||    allocate_rwall                     ../common_source/modules/constraints/rwall_mod.F90
+!||    allocate_rwall_pen                 ../common_source/modules/constraints/rwall_mod.F90
+!||    allocate_sfem                      ../common_source/modules/elements/sfem_mod.F90
 !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
 !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
 !||    anioff0                            ../engine/source/output/anim/generate/anioff0.F
@@ -81,6 +84,8 @@
 !||    genh3d                             ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    genstat                            ../engine/source/output/sta/genstat.F
 !||    gpsstrain_skin                     ../engine/source/output/anim/generate/tensgpstrain.F
+!||    hierarchy_rbody                    ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
+!||    hierarchy_rbody_ddm                ../starter/source/constraints/general/rbody/hierarchy_rbody.F90
 !||    hireorbe3                          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_grogro                          ../starter/source/groups/hm_grogro.F
 !||    hm_grogronod                       ../starter/source/groups/hm_grogronod.F
@@ -124,8 +129,11 @@
 !||    ini_seatbelt                       ../starter/source/tools/seatbelts/ini_seatbelt.F
 !||    inint3                             ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                             ../starter/source/interfaces/interf1/inintr.F
+!||    init_bcs_nrf                       ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                      ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_h3d_engine                    ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_monvol                        ../starter/source/airbag/init_monvol.F
+!||    init_rwall_penalty                 ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
 !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
 !||    intbuf_fric_ini_starter            ../starter/source/interfaces/intbuf/intbufFric_ini_starter.F
 !||    intbuf_ini_starter                 ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
@@ -143,6 +151,7 @@
 !||    pre_i2                             ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    prerbe3p0                          ../engine/source/constraints/general/rbe3/rbe3f.F
 !||    presegmt                           ../starter/source/interfaces/interf1/presegmt.F
+!||    quad_surface_buffer                ../starter/source/model/sets/quad_surface_buffer.F
 !||    r2r_group                          ../starter/source/coupling/rad2rad/r2r_group.F
 !||    r2r_speedup                        ../starter/source/coupling/rad2rad/r2r_speedup.F
 !||    r2r_split                          ../starter/source/coupling/rad2rad/r2r_split.F
@@ -161,15 +170,22 @@
 !||    remn_i2op_edg25                    ../starter/source/interfaces/int25/i25remlin.F
 !||    remn_self24                        ../starter/source/interfaces/inter3d1/remn_self24.F
 !||    resol                              ../engine/source/engine/resol.F
+!||    resol_alloc_phase1                 ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase3                 ../engine/source/engine/resol_alloc.F90
+!||    resol_alloc_phase9                 ../engine/source/engine/resol_alloc.F90
 !||    restalloc                          ../engine/source/output/restart/arralloc.F
 !||    retrirby                           ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    rgbodfp                            ../engine/source/constraints/general/rbody/rgbodfp.F
+!||    rgwal0_pen                         ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    ri2_int24p_ini                     ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    rm_cand24                          ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    rwall_fpen                         ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    sensor_init                        ../engine/source/tools/sensor/sensor_init.F
 !||    set_user_window_nodes              ../starter/source/user_interface/user_windows_tools.F
 !||    seteloff                           ../starter/source/constraints/general/rbody/hm_read_rbody.F
 !||    setrbyon                           ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||    sfem_exclude_dim                   ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||    sfem_exclude_ini                   ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    sgrhead                            ../starter/source/elements/solid/solide/sgrhead.F
 !||    sgrtails                           ../starter/source/elements/solid/solide/sgrtails.F
 !||    sms_admesh_0                       ../engine/source/ams/sms_admesh.F
@@ -248,6 +264,7 @@
 !||    trirbmerge                         ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    update_pon_shells                  ../engine/source/engine/node_spliting/update_pon.F90
 !||    userwis_front                      ../starter/source/user_interface/user_windows_tools.F
+!||    ush_init                           ../starter/source/elements/elbuf_init/ush_init.F90
 !||    velvec2                            ../engine/source/output/anim/generate/velvec.F
 !||    velvec3                            ../engine/source/output/anim/generate/velvec.F
 !||    velvecc                            ../engine/source/output/anim/generate/velvec.F
@@ -479,10 +496,10 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (stat /= 0) then
-            write(6, "(a,i10,a)") 'Error in memory allocation'
+            write(6, "(a,i10,a)") "Error in memory allocation"
             if(present(msg)) then
               write(6, "(a)") msg
-            endif
+            end if
             call arret(2)
           end if
         end subroutine check_error_and_write
@@ -520,7 +537,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_1d
@@ -554,7 +571,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_2d
@@ -589,7 +606,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_3d
@@ -625,7 +642,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_1d
@@ -659,7 +676,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_2d
@@ -694,7 +711,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_3d
@@ -731,7 +748,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_integer_1d
@@ -765,7 +782,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_integer_2d
@@ -801,7 +818,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_integer_3d
 
@@ -837,7 +854,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_1d
@@ -871,7 +888,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_2d
@@ -906,7 +923,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_3d
@@ -942,7 +959,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_1d
@@ -976,7 +993,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_2d
@@ -1011,7 +1028,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_3d
@@ -1048,7 +1065,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pinteger_1d
@@ -1082,7 +1099,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pinteger_2d
@@ -1118,7 +1135,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_pinteger_3d
 
@@ -1157,7 +1174,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_1d
@@ -1191,7 +1208,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_2d
@@ -1226,7 +1243,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_3d
@@ -1262,7 +1279,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_1d
@@ -1296,7 +1313,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_2d
@@ -1331,7 +1348,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_3d
@@ -1368,7 +1385,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_integer_1d
@@ -1402,7 +1419,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_integer_2d
@@ -1438,7 +1455,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_integer_3d
 ! ======================================================================================================================
@@ -1473,7 +1490,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_1d
@@ -1507,7 +1524,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_2d
@@ -1542,7 +1559,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_3d
@@ -1578,7 +1595,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_1d
@@ -1612,7 +1629,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_2d
@@ -1647,7 +1664,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_3d
@@ -1684,7 +1701,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pinteger_1d
@@ -1718,7 +1735,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pinteger_2d
@@ -1754,7 +1771,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_pinteger_3d
 
@@ -1789,7 +1806,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_1d
@@ -1823,7 +1840,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_2d
@@ -1858,7 +1875,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_3d
@@ -1890,7 +1907,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_1d
@@ -1924,7 +1941,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_2d
@@ -1959,7 +1976,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_3d
@@ -1994,7 +2011,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_1d
@@ -2028,7 +2045,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_2d
@@ -2063,7 +2080,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_3d
@@ -2095,7 +2112,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_1d
@@ -2129,7 +2146,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_2d
@@ -2164,7 +2181,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_3d

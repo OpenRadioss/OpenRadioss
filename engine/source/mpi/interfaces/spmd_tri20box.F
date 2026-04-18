@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,8 +80,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,IL,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
+      INTEGER MSGTYP,I,NOD, LOC_PROC,P,IDEB,IL,
+     .        SIZ,J, L, LEN, NB, IERROR1, IAD,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
@@ -92,13 +92,13 @@ C-----------------------------------------------
       DATA MSGOFF3/134/
 
       my_real
-     .        BMINMA(6,NSPMD), RATIO
+     .        BMINMA(6,NSPMD)
       TYPE(r8_pointer), DIMENSION(NSPMD) :: BUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
      .   .OR.NUM_IMP>0) THEN
@@ -108,7 +108,7 @@ C
       END IF
       LOC_PROC = ISPMD + 1
 C
-C   boite minmax pour le tri provenant de i20buce BMINMA
+C   minmax box for sorting from i20buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -119,7 +119,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi boite
+C   Box sending
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -134,7 +134,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception des boites min-max
+C   Reception of Min-Max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -152,7 +152,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending XREM
 C
       IF(IGAP==0) THEN
         SIZ = 18
@@ -172,10 +172,10 @@ C
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
           P=IRINDEXI(INDEXI)
-C Traitement special sur d.d. ne consever que les noeuds internes
+C Special treatment on d.d. only keep internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-boundary nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -208,7 +208,7 @@ C
 C
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C restore weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -344,7 +344,7 @@ C /DT/NODA/AMS
                 END IF
 C fin /DT/NODA/AMS
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                IF(IDTMINS==0)THEN
@@ -615,7 +615,7 @@ C /DT/NODA/AMS
                 END IF
 C fin /DT/NODA/AMS
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                 IF(IDTMINS==0)THEN
@@ -834,7 +834,7 @@ C /DT/AMS
                    L = L + SIZ
                  END DO
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -975,7 +975,7 @@ C + la thermique
                    L = L + SIZ
                  END DO
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1117,7 +1117,7 @@ C /DT/INTER/AMS
                    L = L + SIZ
                  END DO
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1254,7 +1254,7 @@ C + la thermique
                    L = L + SIZ
                  END DO
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1344,7 +1344,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -1386,7 +1386,7 @@ C
             LEN = NSNFI(NIN)%P(P)*SIZ
             MSGTYP = MSGOFF3 
             IAD = IDEB
-C correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
+C Correction Address for Passage REM SP Table used in DP DS the commout routine
             IF(IR4R8 == 1) IAD = 2*IDEB-1
             CALL MPI_IRECV(
      1        XREM(1,IAD),LEN,MPI_DOUBLE_PRECISION,IT_SPMD(P),

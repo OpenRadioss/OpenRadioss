@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||    i7trivox1              ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    margin_reduction       ../starter/source/interfaces/inter3d1/margin.F90
 !||--- uses       -----------------------------------------------------
 !||    front_mod              ../starter/share/modules1/front_mod.F
+!||    margin_reduction_mod   ../starter/source/interfaces/inter3d1/margin.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    tri7box                ../starter/share/modules1/tri7box.F
 !||====================================================================
@@ -52,6 +54,7 @@ C-----------------------------------------------
       USE FRONT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use intbufdef_mod 
+      use margin_reduction_mod , only : margin_reduction
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -163,7 +166,7 @@ C-----------------------------------------------
 C-----
       DD=ZERO
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -191,26 +194,29 @@ C      LONGUEUR COTE 4
        DD=DD+ (DD1+DD2+DD3+DD4)
   10  CONTINUE
       DD0=DD/NRTM/FOUR
+      IF(NRTM >0 .AND. NRTM <= 3 .AND. .not. IS_USED_WITH_LAW151) THEN
+        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,STFN,DD0)
+      ENDIF
       DD =DD0
 C      DD = MAX(DD0,ONEP251*GAP)
 C      DD = MAX(DD ,ONEP251*DRAD)
 C remove this additional test which breaks igap performance
 C in case this factor is needed, then needs to compute mean gap instead
 C 
-C MARGE : marge engine dependante du BUMULT en input (ajustable pour performance)
+C Marge: Bumult Bumult Engine Marge in Input (adjustable for performance)
       MARGE = BUMULT*DD
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
-C MARGE_ST : marge independante du BUMULT en input necessaire pour trouver les pene initiales de maniere parith/on
+C marge_st: margin independent of bumult as input necessary to find the initial penalties in a parith/on manner
       MARGE_ST = BMUL0*DD
-C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
+C 1st passage with margin x2 to find more candidates (amounts to taking bmul0 = 0.4 instead of 0.2)
 C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 C     TEST TO BY-PASS SECOND SEARCH
 C     IF(IDDLEVEL==1 .AND. MARGE >= MARGE_ST) GOTO 999 !
-C----- BORNES DU DOMAINE
+C----- DOMAIN BOUNDARIES
       XMAX_M=-EP30
       YMAX_M=-EP30
       ZMAX_M=-EP30 
@@ -332,7 +338,7 @@ C     STD DEVIATION & CRVOXEL
           DEV_Z=DEV_Z+(ZZ1-MEAN_Z)**2+(ZZ2-MEAN_Z)**2
      .               +(ZZ3-MEAN_Z)**2+(ZZ4-MEAN_Z)**2
 
-C        indice des voxels occupes par la facette
+C        index of voxels occupied by the facet
 
           IX1=INT(NBX*(XMINE-TZINF_ST-XMIN)/(XMAX-XMIN))
           IY1=INT(NBY*(YMINE-TZINF_ST-YMIN)/(YMAX-YMIN))
@@ -366,7 +372,7 @@ C we keep all in +/- 2 sigma => 95% of the population for normal law distributio
         XMAXB=MIN(MEAN_X+2*DEV_X,XMAX)
         YMAXB=MIN(MEAN_Y+2*DEV_Y,YMAX)
         ZMAXB=MIN(MEAN_Z+2*DEV_Z,ZMAX)
-C Test cas particulier 2D
+C 2D special case test
         IF(ABS(XMINB-XMAXB) < EM10)THEN
           XMINB=XMIN
           XMAXB=XMAX
@@ -435,7 +441,7 @@ C
           NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
         ENDIF
 
-C     initialisation complete de VOXEL
+C     complete initialization of voxel
         DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
           VOXEL1(I)=0
         ENDDO
@@ -463,7 +469,7 @@ C------------------
           RETURN
         ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
         IF(I_MEM==1)THEN
           I_MEM = 0
           GO TO 100

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    chvis3       ../engine/source/elements/shell/coque/chvis3.F
+!||    chvis3        ../engine/source/elements/shell/coque/chvis3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3       ../engine/source/elements/shell/coque/cforc3.F
-!||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3_crk    ../engine/source/elements/xfem/cforc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CHVIS3(
      2   JFT ,JLT ,THK ,HOUR,OFF ,PX1 ,PX2 ,PY1 ,PY2 ,
@@ -39,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B   IHBE    ,NFT   ,ISMSTR,KFTS  ,
      C   SRH1  ,SRH2  ,SRH3   ,IGTYP ,
      D   IGMAT   ,A11R,NEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,9 +83,9 @@ C     REAL
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), A11(MVSIZ),
      .   B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),
      .   B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ),
-     .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ), H14(MVSIZ),
-     .   H21(MVSIZ), H22(MVSIZ), H23(MVSIZ), H24(MVSIZ),
-     .   H31(MVSIZ), H32(MVSIZ), H33(MVSIZ), H34(MVSIZ),
+     .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ),
+     .   H21(MVSIZ), H22(MVSIZ), H23(MVSIZ),
+     .   H31(MVSIZ), H32(MVSIZ), H33(MVSIZ),
      .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RX4(MVSIZ),
      .   RY1(MVSIZ), RY2(MVSIZ), RY3(MVSIZ), RY4(MVSIZ),
      .   THK02(MVSIZ),YM(MVSIZ), NU(MVSIZ), ALPE(MVSIZ),
@@ -99,15 +102,15 @@ C     REAL
      .   A1(MVSIZ),  A2(MVSIZ),  A3(MVSIZ),  A4(MVSIZ),
      .   A5(MVSIZ),  A6(MVSIZ),  A7(MVSIZ),  A8(MVSIZ),
      .   B1(MVSIZ),  B2(MVSIZ),  EHOU(MVSIZ),  
-     .   HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
+     .     
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ)
       my_real
-     .   PX1V, PX2V, PY1V, PY2V, SSPHVL, HVISH1, HVISH2,ZZ2,
+     .   PX1V, PX2V, PY1V, PY2V, HVISH1, HVISH2,
      .   SHFPR3, FAC, EHOURT, 
-     .   R0,R1,T2A,TSA,TD,VV,MM,HOUR1P,HOUR2P,HOUR3P,
-     .   PX1VP,PY1VP,PX2VP,PY2VP,HOUR1A,HOUR2A,HOUR3A,TSAPHI,
-     .   TDPHI,SHFPR3D,HVISH1D,HVISH2D,R0D,R1D,HH3D,
-     .   SR2D2,SRSHFPR3, INV9, INV12,SCALE(MVSIZ),IZ
+     .   R0,R1,T2A,TSA,TD,VV,
+     .   HOUR1A,HOUR2A,HOUR3A,
+     .   
+     .   SR2D2,SRSHFPR3, INV9, INV12,SCALE(MVSIZ)
 C=======================================================================
       EHOURT = ZERO
       SR2D2 = SQRT(TWO)* HALF

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,9 +35,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ths_vol                        ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                    ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                    ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod                        ../engine/share/modules/h3d_mod.F
 !||    initbuf_mod                    ../engine/share/resol/initbuf.F
 !||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -73,6 +74,7 @@ C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
         USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
         USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,8 +124,7 @@ C-----------------------------------------------
      .     S11,S22,S33,S4,S5,S6,VONM,GAMA(6),
      .     T11,T21,T31,T12,T22,T32,T13,T23,T33,
      .     PHI,THETA,PSI,DAMMAX,VEL(0:3),VFRAC(MVSIZ,1:21),
-     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3),
-     .     VOLFRAC,BFRAC
+     .     CUMUL(3),VX,VY,VZ,NX,NY,NZ,SURF,TMP_2(MVSIZ,3)
         my_real
      .     G1(MVSIZ,3),G2(MVSIZ,3),G3(MVSIZ,3),VOLN(MVSIZ),AREAM(MVSIZ),
      .     RHO0,DET(MVSIZ),EZZ(MVSIZ),MAXDAMINI,E33
@@ -132,13 +133,12 @@ C-----------------------------------------------
      .          N,K,JTURB,MT,IALEL,
      .          NLAY_FAIL,
      .          OFFSET, IPT,
-     .          IUVAR,IPOS,ITRIMAT,
+     .          IUVAR,IPOS,
      .          IALEFVM_FLG, IMAT,IADBUF,NUPARAM,ICSIG,NC(8),IEOS,NMOD,MAT_ID,FAIL_ID
         INTEGER
      .          ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
      .          IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,IIR,
-     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2,
-     .          SUBMATLAW
+     .          IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE,IS_EULER,IS_ALE,IAD2
         LOGICAL DETECTED
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -319,7 +319,8 @@ C--------------------------------------------------
                 ENDDO
                 IF (ISOLNOD == 16 .OR. ISOLNOD == 20.OR.
      .             (ISOLNOD == 8  .AND.JHBE == 14).OR.
-     .             ((ISOLNOD == 6 .OR.I SOLNOD == 8).AND.JHBE == 15))THEN
+     .             ((ISOLNOD == 6 .OR.ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24))THEN
                   DO IL=1,NLAY
                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
                       DO IS=1,NPTS
@@ -779,7 +780,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'WPLA' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C               WPLA par couche pour loi 25
+C               wpla by layer for law 25
                 IOK = 0
                 DO I=1,NEL
                   EVAR(I) = ZERO
@@ -787,8 +788,8 @@ C               WPLA par couche pour loi 25
                 IUS = INFO1
                 IF (ISOLNOD == 16.OR.ISOLNOD == 20.OR.
      .             (ISOLNOD == 8.AND.JHBE == 14).OR.
-     .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15))THEN
-
+     .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24))THEN
                   IF (IUS <= NPTG) THEN
                     DO IL=1,NLAY
                       IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
@@ -811,13 +812,14 @@ C               WPLA par couche pour loi 25
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'FLAY' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C---            FAILED LAYERS par elem pour loi 25
+C---            failed layers per element for law 25
                 DO I=1,NEL
                   EVAR(I) = ZERO
                 ENDDO
                 IF( ISOLNOD == 16.OR.ISOLNOD == 20.OR.
      .             (ISOLNOD == 8.AND.JHBE == 14).OR.
-     .            ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15))THEN
+     .            ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c
                   NPG_PLANE = NPTR * NPTS * NPTT
                   DO I=1,NEL
@@ -845,7 +847,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+1)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -873,7 +875,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+2)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -901,7 +903,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+3)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -929,7 +931,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+4)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -1013,7 +1015,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1069,7 +1071,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1124,7 +1126,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -2732,7 +2734,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   !bijective order           !indexes
                   ISUBMAT=UPARAM(276+1);     IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                   ISUBMAT=UPARAM(276+2);     IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
@@ -2888,7 +2890,7 @@ C--------------------------------------------------
                     imat   = ixs(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     ipos = 1
                     !bijective order           !indexes
@@ -2931,7 +2933,7 @@ C--------------------------------------------------
                     imat   = ixs(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     rho0i(1) = uparam(11)
                     rho0i(2) = uparam(12)
@@ -3011,7 +3013,7 @@ C--------------------------------------------------
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       mid = mat_param(mt)%multimat%mid(ilay)
                       rho0i(ilay) = pm(89,mid)
@@ -3033,7 +3035,7 @@ C--------------------------------------------------
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       rho0i(ilay) = uparam(10+ilay)
                       Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)

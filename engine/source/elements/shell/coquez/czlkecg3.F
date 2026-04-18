@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C---------------|[FMIJ]{MIJ]|----
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J,NF,M
+      INTEGER EP,I,NF,M
       MY_REAL 
      .    C1,C2,
      .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ), 
@@ -79,10 +79,10 @@ C-----------------------------------------------
      .    FXX(MVSIZ),FYY(MVSIZ),FXY(MVSIZ),MXX(MVSIZ),MYY(MVSIZ),
      .    MXY(MVSIZ),FXY2(MVSIZ),MXY2(MVSIZ),SCX(MVSIZ),SCY(MVSIZ),
      .    CS1(MVSIZ),CS2(MVSIZ),CS3(MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        NF=NPLAT+1
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)

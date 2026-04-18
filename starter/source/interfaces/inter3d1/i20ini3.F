@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -200,7 +201,7 @@ C
      7         XN2      ,YN2    ,ZN2    ,XN3    ,YN3    ,
      8         ZN3    ,XN4      ,YN4    ,ZN4      )
 C
-C     CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES 
+C     CALCULATION OF ELEMENTARY AND NODAL STIFFNESSES
 C
       IF(ISU2 /= 0 .and. ISYM == 1)THEN
         IFS2 = 1
@@ -228,7 +229,7 @@ C
      F IXS20          ,ID,TITR,IGEO, PM_STACK , IWORKSH )
       IPARI(21) = IGAP
 C
-C     IL FAUT ENCORE FAIRE ONE BUCKET SORT DANS LE STARTER
+C     STILL NEED TO DO A BUCKET SORT IN THE STARTER
 C
       MAXBOX  = INTBUF_TAB%VARIABLES(9)
       MINBOX  = INTBUF_TAB%VARIABLES(12)
@@ -273,13 +274,13 @@ C
        ! -----------------
 
         IF((IDDLEVEL==0).AND. (DECTYP>=3.AND.DECTYP<=6))THEN
-C Appe routine poids noeuds interfaces
+C Appe routine weights nodes interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,NSNT,NMNT)
         END IF
 
 c----------------------------------------------------
-c   Calcul des normales nodales
-c   Igap/=0 pour solides (GAP=0)
+c   Calculation of nodal normals
+c   IGAP/= 0 for solids (gap = 0)
 c----------------------------------------------------
 c      IF(ICURV==3.or.IGAP/=0)THEN
       IF(IGAP/=0)THEN
@@ -297,7 +298,7 @@ C-----EDGES -------
       NMNE   =IPARI(56)
       
       IF(NLINS + NLINM /= 0)THEN  
-C       CALCUL DES RIGIDITES ELEMENTTAIRES 
+C       CALCULATION OF ELEMENTARY STIFFNESSES
 C
         GAP0 = GAPINPUT
         GAPE = GAPINPUT
@@ -330,12 +331,12 @@ C
         GAPINF=MIN(GAPINF,INTBUF_TAB%VARIABLES(6))
         INTBUF_TAB%VARIABLES(6)=MAX(GAPINF,INTBUF_TAB%VARIABLES(13))
 C
-C       IL FAUT ENCORE FAIRE ONE BUCKET SORT DANS LE STARTER
+C       STILL NEED TO DO A BUCKET SORT IN THE STARTER
 C
         MAXBOX  = INTBUF_TAB%VARIABLES(9)
         MINBOX  = INTBUF_TAB%VARIABLES(12)
         GAP_TRI = INTBUF_TAB%VARIABLES(2)
-c       majoration temporaire du gap pour tri (gap shift)
+c       temporary increase of the gap for sorting (gap shift)
         IF(IGAP/=0)GAP_TRI=TWO*GAP_TRI
         CALL I11BUC1(
      1X         ,INTBUF_TAB%IXLINM,INTBUF_TAB%IXLINS,INTBUF_TAB%VARIABLES(4),NLINSA,
@@ -349,8 +350,8 @@ c       majoration temporaire du gap pour tri (gap shift)
         INTBUF_TAB%VARIABLES(9)  = MAXBOX
         INTBUF_TAB%VARIABLES(12) = MINBOX
 C------------------------------------------------------
-C     CALCUL LES PENETRATIONS INITIALES 
-C     CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
+C     CALCULATE THE INITIAL PENETRATIONS
+C     CORRECTION OF THE POSITION OF ANCHOR POINTS
 C     1-EDGES
 C------------------------------------------------------
  
@@ -381,13 +382,13 @@ C
          IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
         IF(((IDDLEVEL==0)).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
-C Appel routine poids noeuds interfaces
+C Call routine for interface node weights
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)
         END IF
       END IF
 C------------------------------------------------------
-C     2-NOEUDS FACETTES
+C     2-NODES FACETTES
 C------------------------------------------------------
       IF(IGAP /= 0)CALL I20GAP1(
      1 NRTM         ,NSN          ,NLN,  INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_SH,
@@ -445,9 +446,9 @@ C
       ENDDO
 
 C------------------------------------------------------
-C     RE-CALCUL LES PENETRATIONS INITIALES 
-C     APRES CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
-C     1-NOEUDS FACETTES
+C     RE-CALCULATION LES PENETRATIONS INITIALES 
+C     AFTER CORRECTING THE POSITION OF ANCHOR POINTS
+C     1-NODES FACETTES
 C------------------------------------------------------
  
       NGROUS=1+(I_STOK-1)/NVSIZ
@@ -531,7 +532,7 @@ C
          IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
         IF(((IDDLEVEL==0)).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
-C Appel routine poids noeuds interfaces
+C Call routine for interface node weights
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)
         END IF

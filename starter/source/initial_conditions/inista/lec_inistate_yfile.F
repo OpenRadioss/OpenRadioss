@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,14 +60,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, I,J, IGTYP,NUMS,IHBE,NE, ISH3N,IIS,NIP,IPG,NPG,PT,J1,JJ1,NU,IP,JJ,NUVAR,NVARSH,NUMR,NUMSOLID,KK,JJHBE
+      INTEGER K, N, I, J, IGTYP, NUMS, IHBE, IIS, NIP, NPG, PT, J1, JJ1, NU, IP, NUVAR, NVARSH, NUMR, NUMSOLID, KK, JJHBE
       INTEGER KN
       INTEGER IS_SOLID,IS_QUAD   
       my_real THKI, EM, EB, H1, H2, H3, R0 , EIN, SMOOTHL
       my_real S(6), SIGLOC(6)
 C=======================================================================
 C
-C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
+C -- READING OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
 
@@ -463,7 +463,7 @@ C
  199   CONTINUE
 C
 C--------------------------------------------------------
-C     CONTRAINTES INITIALES + energies densites eps-plast
+C     Initial constraints + EPS-PLAST density energy
 C     SHELL 4N/3N
 C--------------------------------------------------------
 C
@@ -751,7 +751,7 @@ C
           ENDIF
 C-----------------------
 C  COQUE STANDARD
-C  IHBE different de 11
+C  IHBE different from 11
 C-----------------------
          IF(NPG == 0)THEN
           IF(NIP == 0)THEN
@@ -872,7 +872,7 @@ C-----------------------
 C
 C--------------------------------------------------------
 C     CONTRAINTES INITIALES + ENERGIES DENSITES EPS-PLAST
-C     SPH particles
+C     Sph particles 
 C--------------------------------------------------------
 C
 C      FICHIER Y000
@@ -1073,7 +1073,7 @@ C
  699    CONTINUE
 C
 C--------------------------------------------------------------
-C     EFFORT et MOMENTS INITIALES + energies densites eps-plast
+C      
 C     Ressort
 C--------------------------------------------------------------
 C

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   RSOM(2),RHI(2),
@@ -96,7 +96,7 @@ C--------
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
         VDEF(I,5)=X13(I)*BCY-X24(I)*BCX-BCXY*RSOM(1)
 C----------------------------------
-C  VITESSE DE DEFORMATION HOURGLASS
+C  hourglass strain rate
 C----------------------------------
         VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)
@@ -149,7 +149,7 @@ C--------
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
         VDEF(I,5)=X13(I)*BCY-X24(I)*BCX-BCXY*RSOM(1)
 C----------------------------------
-C  VITESSE DE DEFORMATION HOURGLASS
+C  hourglass strain rate
 C----------------------------------
         VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)
@@ -465,7 +465,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   BXV2,BYV1,BXR1,BYR2
@@ -508,7 +508,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
      .   AA4,BXV2,BYV1,A05,BXRZ,BYRZ,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K,
      .   BM0RZ(MVSIZ,4,4)
@@ -560,7 +560,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
      .   AA4,BXV2,BYV1,A05,NXY,NYX,A05K(4),A05E(4),
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4),
@@ -688,7 +688,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   BXV2,BYV1,BXR1,BYR2,KXY,KYX

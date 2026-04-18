@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J17_T,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, 
-     .        ADD1, NB_N_B, INIT, NOINT, INACTI, MULTIMP, IGAP, I_STOK,
+     .         IP0, IP1, K11_T, I_SK_OLD, 
+     .         NB_N_B, INIT, NOINT, INACTI, MULTIMP, I_STOK,
      .        INTTH , ADXLOC
       INTEGER 
      .       NRTM_T,ESHIFT,ILD, NCONTACT, NRTM_L,
@@ -136,7 +136,7 @@ C
        DD(1)=INTSTAMP%D(1)
        DD(2)=INTSTAMP%D(2)
        DD(3)=INTSTAMP%D(3)
-C sauvegarde de XSAV (tableau BUFIN(JD(19)))
+C Backup of XSAV (BUFIN Table (JD (19)))
        IROT=INTSTAMP%IROT
        CALL I21XSAVE(
      1       X     ,INTBUF_TAB%NSV,NSN ,ITASK ,INTBUF_TAB%XSAV,
@@ -150,7 +150,7 @@ C
 C -------------------------------------------------------------
        I_SK_OLD=0
        INTBUF_TAB%I_STOK(1)=ZERO
-C BARRIER II_STOK et RESULT
+C BARRIER II_STOK and RESULT
        RESULT21 = 0
 C      
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
@@ -160,9 +160,9 @@ C
        INACTI = IPARI(22,NIN)
 C -------------------------------------------------------------
        NRTM_T=NRTM/NTHREAD
-C eshift : decalage sur cand_e
+C eshift: shift on cand_e
        ESHIFT = ITASK*NRTM_T
-C il faut conserver K11 global
+C must conserver K11 global
 
        K11_T = 1+4*ITASK*NRTM_T
 
@@ -248,7 +248,7 @@ C--------------------------------------------------------------
           GOTO 50
          ENDIF
 C-----------------------------------------------------------
-C     Remise a 0 de IFPEN pour les nds qui ne sont plus candidats
+C     reset of IFPEN for nodes that are no longer candidates
 C--------------------------------------------------------------
          IF(ITASK==0)THEN
            IP0 = 1

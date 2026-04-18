@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .     ZZ2(MVSIZ), EXZZ2(MVSIZ), EYZZ2(MVSIZ), EXZ2PY2(MVSIZ), 
      .     EXZ2PY1(MVSIZ), EYZ2PX2(MVSIZ), EYZ2PX1(MVSIZ),ZZZ(MVSIZ), 
@@ -102,7 +102,7 @@ C
 C
       IF(IHBE<=1)THEN
         DO I=JFT,JLT
-C z2 mis a zero pour non equilibre des foreces et moments d'hourglass
+C z2 set to zero for imbalance of hourglass forces and moments
           Z2(I) = ZERO
           DT1V4 = FOURTH*DT1C(I)
           IF(IMPL_S>0) DT1V4=ZERO
@@ -175,7 +175,7 @@ C    old
         DO I=JFT,JLT
           DT1V4 = HALF*DT1C(I)
           IF(IMPL_S>0) DT1V4=ZERO
-c wraping z1=z3=0 z4=z2 => modif des vitesses pour l'hourglass membrane
+c wrapping z1 = z3 = 0 z4 = z2 => velocity modification for the lurglass membrane
           ZZ2(I)=HALF*Z2(I)
 C
           GZX(I)     = EXZ(I)/AREA(I)
@@ -242,9 +242,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-      my_real
-     .     S
+      INTEGER I
 C=======================================================================
         DO I=JFT,JLT
           F_DEF(I,1)=PX1(I)*VX13(I)+PX2(I)*VX24(I)

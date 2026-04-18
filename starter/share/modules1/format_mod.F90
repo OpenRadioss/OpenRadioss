@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -38,6 +38,7 @@
 !||    fredec_2key_4id_t            ../starter/source/starter/freform.F
 !||    fredec_2key_id_or_key_id     ../starter/source/starter/freform.F
 !||    fredec_key_3id_t             ../starter/source/starter/freform.F
+!||    hm_preread_skw               ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_ale_link             ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_frm                  ../starter/source/tools/skew/hm_read_frm.F
 !||    hm_read_inter_type24         ../starter/source/interfaces/int24/hm_read_inter_type24.F
@@ -95,6 +96,7 @@
 !||    lecig3d                      ../starter/source/elements/ige3d/lecig3d.F
 !||    leclas                       ../starter/source/loads/laser/leclas.F
 !||    leclas1                      ../starter/source/loads/laser/leclas1.F
+!||    lectrans                     ../starter/source/model/transformation/lectrans.F
 !||    nbadigemesh                  ../starter/source/elements/ige3d/nbadigemesh.F
 !||    prelecig3d                   ../starter/source/elements/ige3d/prelecig3d.F
 !||    printgroup                   ../starter/source/output/outfile/printgroup.F
@@ -111,6 +113,7 @@
 !||    yctrl                        ../starter/source/initial_conditions/inista/yctrl.F
 !||====================================================================
       module format_mod
+        implicit none
 
         ! number of character per field/column
         INTEGER, PARAMETER :: LFIELD = 10

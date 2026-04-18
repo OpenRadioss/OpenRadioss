@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,7 +44,7 @@ C-----------------------------------------------
       INTEGER I,J,L
 C     REAL
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XX,YY,ZZ,R,XX0,YY0,ZZ0,
+     .   XWL, YWL, ZWL,XN,YN,ZN,D,XX,YY,ZZ,R,XX0,YY0,ZZ0,
      .   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)
       REAL R4
       DATA DX0/ 0., 0., 0., 0., 0., 0./

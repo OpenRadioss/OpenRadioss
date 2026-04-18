@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf        ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    h3d_inc_mod    ../engine/share/modules/h3d_inc_mod.F
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||====================================================================
@@ -39,6 +40,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD    
       USE H3D_INC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,9 +73,9 @@ C-----------------------------------------------
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
      .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
-     .        NN,NN1,N1,IDB
-      INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL
-      INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
+     .        NN,N1
+      INTEGER NC(10,MVSIZ),PWR(7),LL
+      INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,TIA4S(3,4)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,

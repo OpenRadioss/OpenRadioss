@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I, M,N, FLAG
 C     REAL
       my_real
-     .   X1,Y1,Z1,VXM,VYM,VZM,
+     .   
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
      .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
@@ -88,15 +88,15 @@ C     REAL
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ), FAC, AM, BM, CM,
      .   OFF_L(MVSIZ)
-      INTEGER IPERM1(10),IPERM2(10),N1,N2
+      INTEGER IPERM1(10),IPERM2(10)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
-      FLAG = IPARG(80) ! Flag pour sorties additionnelles
+      FLAG = IPARG(80) ! flag for additional outputs
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
-      FAC=TRHEE_OVER_14
+      FAC=THREE_OVER_14
 C
       IF(ISROT == 0)THEN
         AM = FAC/(FOUR*FAC + SIX)

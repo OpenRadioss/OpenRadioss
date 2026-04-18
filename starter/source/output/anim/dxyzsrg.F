@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,14 +51,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, ADRBUF
-      INTEGER INOE, I, J, K, IDG, ITER
+      INTEGER INOE, I, J, K, IDG
       my_real XG,YG,ZG,A,B,C,ROT(9),
      1        DGR,AN,BN,CN,
-     2        XLN,YLN,ZLN,NXL,NYL,NZL,NORMN
+     2        XLN,YLN,ZLN
       my_real
      1   NCOR(3,384),
-     2   XA,XB,XC,LA,LB,LC,
-     3   XX,YY,ZZ,XL,YL,ZL,E,D
+     2   
+     3   XX,YY,ZZ,XL,YL,ZL,E
       my_real
      1   XX0,YY0,ZZ0,
      2   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)
@@ -77,7 +77,7 @@ C-----------------------------------------------
        IF (IGRSURF(N)%TYPE/=101) GOTO 200
        ADRBUF=IGRSURF(N)%IAD_BUFR
 C-------------------------------------------------------
-c      Parametres de l'ellipsoide.
+C     Ellipsoid parameters
 C-------------------------------------------------------
        DGR=BUFSF(ADRBUF+36)
        IDG=DGR
@@ -91,7 +91,7 @@ C-------------------------------------------------------
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO
 C-------------------------------------------------------
-C      - Calcul des noeuds sur le cube A,B,C
+C      - Calculation of nodes on the cube A, B, C
 C-------------------------------------------------------
        INOE=0
        DO I = 1,6
@@ -117,8 +117,8 @@ C-------------------------------------------------------
         ENDDO
        ENDDO
 C-------------------------------------------------------
-C      - Projection radiale sur l'ellipsoide.
-C      - Passage au repere global.
+C      - Radial projection on the ellipsoide.
+C      - Transformation to global reference frame.
 C-------------------------------------------------------
        AN=A**IDG
        BN=B**IDG
@@ -147,7 +147,7 @@ C
         NCOR(3,INOE)=ZZ+ZG
        END DO
 C-------------------------------------------------------
-C      Ecriture des noeuds.
+C      Writing nodes.
 C-------------------------------------------------------
        INOE=0
        DO I=1,384

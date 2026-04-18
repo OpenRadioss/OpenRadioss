@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE XFEM2DEF_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,II,IL,ILAY,ELCRK,IED,ICUT,IEDGE,IC1,IC2,ICRK,p1,p2,
+      INTEGER I,K,II,IL,ILAY,ELCRK,IED,IEDGE,ICRK,p1,p2,
      .  NOD1,NOD2,JCRK,IXEL
       INTEGER dd(3),d1(3),d2(3),IFI(2),ILEV(NXEL),N(3),ISIGN0(3),
      .  IENR0(3),IENR(3),NTAG(3)

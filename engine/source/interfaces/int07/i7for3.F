@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,20 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i7for3        ../engine/source/interfaces/int07/i7for3.F
+!||    i7for3       ../engine/source/interfaces/int07/i7for3.F
 !||--- called by ------------------------------------------------------
-!||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
+!||    i7mainf      ../engine/source/interfaces/int07/i7mainf.F
 !||--- calls      -----------------------------------------------------
-!||    bitget        ../engine/source/interfaces/intsort/i20sto.F
-!||    i7curv        ../engine/source/interfaces/int07/i7curv.F
-!||    ibcoff        ../engine/source/interfaces/interf/ibcoff.F
+!||    i7curv       ../engine/source/interfaces/int07/i7curv.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod      ../common_source/modules/output/anim_mod.F
-!||    h3d_mod       ../engine/share/modules/h3d_mod.F
-!||    outputs_mod   ../common_source/modules/outputs_mod.F
-!||    tri7box       ../engine/share/modules/tri7box.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I7FOR3(JLT       ,A         ,V          ,IBCC       ,ICODT  ,
+      SUBROUTINE I7FOR3(OUTPUT,JLT       ,A         ,V          ,IBCC       ,ICODT  ,
      2                  FSAV      ,GAP       ,FRIC       ,MS         ,VISC   ,
      3                  VISCF     ,NOINT     ,STFN       ,ITAB       ,CN_LOC ,
      4                  STIGLO    ,STIFN     ,STIF       ,FSKYI      ,ISKY   ,
@@ -82,8 +80,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,14 +112,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBCC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
-     .        IFRIC,IFORM,INTFRIC,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
+     .        IFRIC,IFORM,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
      .        ICODT(*), ITAB(*), ISKY(*), KINET(*),
      .        MFROT, IFQ, NOINT,NEWFRONT,ISECIN, NSTRF(*),
      .        IRECT(4,*),IFPEN(*) ,ICONTACT(*), CAND_N(*),
      .        KINI(*),NPC(*),JTASK,TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        TYPSUB(*),
-     .        ISET, IADM,INTTH,NFT
+     .        IADM,INTTH,NFT
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ),
      .        NISUB, LISUB(*), ADDSUBS(*), ADDSUBM(*), LISUBS(*),
@@ -148,8 +146,7 @@ C-----------------------------------------------
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
      .     GAPV(MVSIZ),
-     .     TMP(MVSIZ),
-     .     STIFSAV(MVSIZ), VISCN(*),TF(*),
+     .     VISCN(*),TF(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
      .     X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
      .     X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),
@@ -177,11 +174,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI, II,
-     .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IMS2
+      INTEGER I, J1, IG, J, JG,K,IE, NN, NI, II,
+     .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB
+      LOGICAL :: ISS1,ISS2,IMS1,IMS2
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
-      my_real
-     .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
@@ -189,28 +185,24 @@ C-----------------------------------------------
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),EFRIC_L(MVSIZ),
-     .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
+     .   VNX, VNY, VNZ, AA,S2,DIST,RDIST,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
-     .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
+     .   FX, FY, FZ, F2, MAS2, DTMI0,DTI,FT,FN,FTN,
      .   FACM1, ECONTT, ECONVT, H0, LA1, LA2, LA3, LA4,
      .   D1,D2,D3,D4,A1,A2,A3,A4,ECONTDT,ECONTTIED,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24, FFO,
-     .   E10, H0D, S2D, SUM,
-     .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
-     .   P1S(MVSIZ),P2S(MVSIZ),P3S(MVSIZ),P4S(MVSIZ),
-     .   D2D,D3D,D4D,VNXD,VNYD,VNZD,V2D,FM2D,F2D,AAD,FXD,FYD,FZD,
-     .   A1D,A2D,A3D,A4D,VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
-     .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA,STFR,VISR ,TM,TS
+     .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,
+     .   AREA,P,VV1,VV2,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
+     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA
       my_real
      .   PREC,NN1,NN2,NN3,NN4,XN1,YN1,ZN1,XN2,YN2,ZN2,XN3,YN3,ZN3,
      .   XN4,YN4,ZN4,EFRIC_LS,EFRIC_LM
       my_real
      .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
-     .   CX,CY,CFI,AUX, FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ),
-     .   DTM, PHIM,QFRICT,DYDX,TH,THI(MVSIZ),FRICT(MVSIZ),FORC_SIGN,
+     .   CX,CY,CFI,AUX,
+     .   DTM,QFRICT,FORC_SIGN,
      .   VT1(MVSIZ), VT2(MVSIZ),
      .   FT1(MVSIZ),FT2(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
@@ -220,12 +212,7 @@ C-----------------------------------------------
      .   AN(NFORTH) ,BN(NFORTH) ,NEP1 ,NEP2 ,NEP ,C11 ,C22 ,ANS , EP ,SIGNC
       my_real
      .   FSAVSUB1(24,NISUB),IMPX,IMPY,IMPZ,BB,GAPR,DGAP,GAPP
-      my_real
-     .   TOTAL
       my_real  DISTP(MVSIZ)
-      INTEGER BITGET
-      EXTERNAL BITGET
-C
 C-----------------------------------------------
 C      1 .. JLT : all impacts
 C          1 .. JLT-JLT_TIED     : Standard TYPE7 formulation
@@ -259,7 +246,7 @@ C--------------------------------------------------------
       IF (SYM_FLAG_TYPE19 > 0) FORC_SIGN = -ONE
 C
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF((INTTH == 0.OR.DRAD == ZERO).AND.DGAPLOADP==ZERO) THEN ! NO HEAT EXCHANGE/No load pressure
         IF(ICURV(1) == 3) THEN
@@ -439,7 +426,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT-JLT_TIED
           RR = 1.E30
@@ -733,11 +720,11 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C          CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -752,12 +739,12 @@ C          CAND_P does not vary during tying (IF ITIED=1, rebound occurs when PE
 
       ELSE IF(INACTI==6)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .       ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .         +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1188,9 +1175,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT-JLT_TIED
             MAS2  = MS(IX1(I))*H1(I)
@@ -1298,9 +1285,9 @@ C---------------------------------
               STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
               MAS2  = MS(IX1(I))*H1(I)
      .               + MS(IX2(I))*H2(I)
@@ -1318,7 +1305,7 @@ C---------------------------------
             ELSE
             ENDIF
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the VIS2 array to avoid problems
             VIS2(I) = ZERO
             STIF(I) = STIF(I) * GAPV(I) /
      .             MAX((GAPV(I) - PENE(I)),EM10)
@@ -1414,9 +1401,9 @@ C         VISC = 0
 C---------------------------------
           ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
             DO I=JLT-JLT_TIED+1,JLT
               FAC = GAPV(I)/MAX( EM10,( GAPV(I)-MIN(PENE(I),CAND_F(7,INDEX(I))) ) )
@@ -1500,7 +1487,7 @@ C
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -1520,7 +1507,7 @@ C---------------------------------
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZI(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FNCONT(1,JG)=FNCONT(1,JG)- FXI(I)
               FNCONT(2,JG)=FNCONT(2,JG)- FYI(I)
               FNCONT(3,JG)=FNCONT(3,JG)- FZI(I)
@@ -1619,15 +1606,15 @@ C
 
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfs
 
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -1638,7 +1625,7 @@ C
                     IMPZ=FORC_SIGN*FZI(I)*DT12
 
 
-                    IF(IMS2 > 0)THEN
+                    IF(IMS2)THEN
                       FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                       FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                       FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -1656,7 +1643,7 @@ C
 
 
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVPARIT(JSUB+1,1,I+NFT) =  -FORC_SIGN*FXI(I)
                         FSAVPARIT(JSUB+1,2,I+NFT) =  -FORC_SIGN*FYI(I)
                         FSAVPARIT(JSUB+1,3,I+NFT) =  -FORC_SIGN*FZI(I)
@@ -1783,15 +1770,15 @@ C
 
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 
-                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                   KSUB=LISUBM(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBM(KK),0)
-                    IMS1 = BITGET(INFLG_SUBM(KK),1)
+                    IMS2 = BTEST(INFLG_SUBM(KK),0)
+                    IMS1 = BTEST(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                         (IMS2 .AND. ISS1 )))  THEN
                         KK=KK+1
                         KSUB=LISUBM(KK)
                         CYCLE
@@ -1801,7 +1788,7 @@ C
                       IMPY=FORC_SIGN*FYI(I)*DT12
                       IMPZ=FORC_SIGN*FZI(I)*DT12
 
-                      IF(IMS2 > 0)THEN
+                      IF(IMS2)THEN
                         FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)-IMPX
                         FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)-IMPY
                         FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)-IMPZ
@@ -1814,7 +1801,7 @@ C
                       END IF
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0)THEN
+                        IF(IMS2)THEN
                           FSAVPARIT(JSUB+1,1,I+NFT) =  -FORC_SIGN*FXI(I)
                           FSAVPARIT(JSUB+1,2,I+NFT) =  -FORC_SIGN*FYI(I)
                           FSAVPARIT(JSUB+1,3,I+NFT) =  -FORC_SIGN*FZI(I)
@@ -3024,7 +3011,7 @@ C--------      total force
       END IF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -3044,7 +3031,7 @@ C---------------------------------
             FTCONT(3,IX4(I)) =FTCONT(3,IX4(I)) + FZT(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FTCONT(1,JG)=FTCONT(1,JG)- FXT(I)
               FTCONT(2,JG)=FTCONT(2,JG)- FYT(I)
               FTCONT(3,JG)=FTCONT(3,JG)- FZT(I)
@@ -3208,16 +3195,16 @@ C
               ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 C
 C            Find if node is on Surface S1 -> S2  or S2 ->S1
-                ISS2 = BITGET(INFLG_SUBS(JJ),0)
-                ISS1 = BITGET(INFLG_SUBS(JJ),1)
+                ISS2 = BTEST(INFLG_SUBS(JJ),0)
+                ISS1 = BTEST(INFLG_SUBS(JJ),1)
                 KSUB=LISUBM(KK)
                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                  IMS2 = BITGET(INFLG_SUBM(KK),0)
-                  IMS1 = BITGET(INFLG_SUBM(KK),1)
+                  IMS2 = BTEST(INFLG_SUBM(KK),0)
+                  IMS1 = BTEST(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
 !                S and M candidates on the same sub_interface
-                    IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                    IF(.NOT.((IMS1 .AND. ISS2 ).OR.
+     .                       (IMS2 .AND. ISS1 )))  THEN
                       KK=KK+1
                       KSUB=LISUBM(KK)
                       CYCLE
@@ -3226,7 +3213,7 @@ C            Find if node is on Surface S1 -> S2  or S2 ->S1
                     IMPX=FORC_SIGN*FXT(I)*DT12
                     IMPY=FORC_SIGN*FYT(I)*DT12
                     IMPZ=FORC_SIGN*FZT(I)*DT12
-                    IF(IMS2 > 0) THEN
+                    IF(IMS2) THEN
 C                main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
@@ -3245,7 +3232,7 @@ C
                     FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                     IF(ISENSINT(JSUB+1)/=0) THEN
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
                         FSAVPARIT(JSUB+1,4,I+NFT) =  -FORC_SIGN*FXT(I)
                         FSAVPARIT(JSUB+1,5,I+NFT) =  -FORC_SIGN*FYT(I)
                         FSAVPARIT(JSUB+1,6,I+NFT) =  -FORC_SIGN*FZT(I)
@@ -3277,7 +3264,7 @@ C
 
           IE=CE_LOC(I)
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of M
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -3412,15 +3399,15 @@ C
                   JJ=JJ+1
                 ELSEIF(ITYPSUB == 3 ) THEN   ! Inter =0 : collecting forces from all inter with 2 surfaces
 
-                  ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
-                  ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
+                  ISS2 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),0)
+                  ISS1 = BTEST(INFLG_SUBSFI(NIN)%P(JJ),1)
                   KSUB=LISUBM(KK)
                   DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
-                    IMS2 = BITGET(INFLG_SUBM(KK),0)
-                    IMS1 = BITGET(INFLG_SUBM(KK),1)
+                    IMS2 = BTEST(INFLG_SUBM(KK),0)
+                    IMS1 = BTEST(INFLG_SUBM(KK),1)
                     IF(KSUB==JSUB)THEN
-                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
-     .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
+                      IF(.NOT.((IMS1  .AND. ISS2 ).OR.
+     .                         (IMS2  .AND. ISS1 )))  THEN
                         KK=KK+1
                         KSUB=LISUBM(KK)
                         CYCLE
@@ -3429,7 +3416,7 @@ C
                       IMPX=FORC_SIGN*FXT(I)*DT12
                       IMPY=FORC_SIGN*FYT(I)*DT12
                       IMPZ=FORC_SIGN*FZT(I)*DT12
-                      IF(IMS2 > 0) THEN
+                      IF(IMS2) THEN
 C                main side :
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
@@ -3448,7 +3435,7 @@ C
                       FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
 C
                       IF(ISENSINT(JSUB+1)/=0) THEN
-                        IF(IMS2 > 0) THEN
+                        IF(IMS2) THEN
                           FSAVPARIT(JSUB+1,4,I) =  FORC_SIGN*FXT(I)
                           FSAVPARIT(JSUB+1,5,I) =  FORC_SIGN*FYT(I)
                           FSAVPARIT(JSUB+1,6,I) =  FORC_SIGN*FZT(I)
@@ -3509,14 +3496,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRIC(INTEREFRIC,IX1(I)) = EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX2(I)) = EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX3(I)) = EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX4(I)) = EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRIC(INTEREFRIC,JG) = EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRIC(INTEREFRIC,JG) = OUTPUT%DATA%EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
@@ -3531,14 +3518,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX1(I)) = OUTPUT%DATA%EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX2(I)) = OUTPUT%DATA%EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX3(I)) = OUTPUT%DATA%EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX4(I)) = OUTPUT%DATA%EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRICG(JG) = EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRICG(JG) = OUTPUT%DATA%EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
@@ -3552,7 +3539,7 @@ C---------------------------------
         IF(    (VISC/=ZERO)
      .    .AND.(IVIS2==0.OR.IVIS2==1))THEN
           DO I=1,JLT
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
             IF(MSI(I)==ZERO)THEN
               KS(I) =ZERO
@@ -4129,14 +4116,14 @@ C
         FZ4(I)=FZI(I)*H4(I)
       ENDDO
 C
-C spmd : identification des noeuds interf. utiles a envoyer
+C SPMD: Identification of interf nodes.useful to send
       IF (NSPMD>1) THEN
 Ctmp+1 mic only to avoid compiler bug
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
         ENDDO
@@ -4148,11 +4135,11 @@ C-----------------------------------------------------
       IF((IBAG/=0).OR.(IADM/=0).OR.(IDAMP_RDOF/=0)) THEN
         DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with SPMD communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               ICONTACT(JG)=1
             ENDIF
             ICONTACT(IX1(I))=1
@@ -4168,7 +4155,7 @@ C
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             RCONTACT(JG)=MIN(RCONTACT(JG),RCURVI(I))
           END IF
           RCONTACT(IX1(I))=MIN(RCONTACT(IX1(I)),RCURVI(I))
@@ -4183,7 +4170,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             PCONTACT(JG)=MAX(PCONTACT(JG),PENE(I)/(PADM*GAPV(I)))
             ACONTACT(JG)=MIN(ACONTACT(JG),ANGLMI(I))
           END IF
@@ -4200,7 +4187,7 @@ C
         IF(IBCS>0) THEN
           IG=NSVG(I)
           IF(IG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             CALL IBCOFF(IBCS,ICODT(IG))
           ENDIF
         ENDIF

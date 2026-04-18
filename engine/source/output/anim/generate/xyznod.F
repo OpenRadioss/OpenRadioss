@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wrt_xyznod   ../engine/source/mpi/anim/spmd_wrt_xyznod.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
 C-----------------------------------------------
@@ -64,8 +64,8 @@ C-----------------------------------------------
            CALL WRITE_R_C(R4,1)
         END DO
       ELSE
-C   le proc 0 a besoin d un tableau de taille numnodg pour reconstruire 
-C   le tableau global des X. LEs autres non. Cela evite une allocation dynamique
+C   proc 0 needs an array of size numnodg to reconstruct
+C   the global X array. The others do not. This avoids dynamic allocation
 
          IF (ISPMD==0) THEN
            CALL SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUMNODG)

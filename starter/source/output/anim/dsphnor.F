@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,9 +44,9 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I3000,NXX,NYY,NZZ                                         
-      INTEGER N, J, INOD                                                
-      INTEGER INP(NNSPH*3),CNT,LRECV                                    
+      INTEGER I3000
+      INTEGER N, INOD
+      INTEGER INP(NNSPH*3), CNT
       my_real                                                           
      3   XI,YI,ZI,R,NX,NY,NZ,NORMN,                                     
      4   XQ(3)                                                          

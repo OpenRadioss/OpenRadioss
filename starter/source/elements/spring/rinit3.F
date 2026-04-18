@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -120,8 +121,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,I2, IGTYP, NDEPAR, 
      .   K,KK,KK1,ITMP,
-     .   I1, I0, I3,NEL3,NUVAR,NUPARAM,NFUNC,IADFUN,
-     .   NMAT,IADMAT,NJPID,ILENG,NFUND,
+     .   I1, I0, I3,NUVAR,NUPARAM,NFUNC,IADFUN,
+     .   ILENG,NFUND,
      3   UIX(4,MVSIZ),
      .   IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH,NKIN,
      .   KCOND1,KCOND2
@@ -449,7 +450,11 @@ C---- For mat law108 skew of property 23 is used if no skew per element
             ELSEIF (MTN == 114) THEN
 C---- For mat law114 lmin is used for mass setting of element with null length
               IMASS = 1
-              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              IF (GBUF%RETRACTOR_ID(I) < 0) THEN
+                LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              ELSE
+                LMIN = UPARAM(IADBUF + 119)
+              ENDIF  
               RFAC = UPARAM(IADBUF + 124)
               IXX = UPARAM(IADBUF + 122)
               IYY = UPARAM(IADBUF + 123)
@@ -471,22 +476,22 @@ C
                NKIN  = IKINE(I2)
                KCOND2 = IRB(NKIN)+IRB2(NKIN)          
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
-               IF (((XMAS(I1) > ZERO).OR.(KCOND1 > 0)).AND.((XMAS(I2) > ZERO).OR.(KCOND1 > 0)).AND.(MTN == 108)) THEN
-C-               imass = 1 (mass per unit lenght) + null length accepted for law108
-C-               if nodes have masses are or connected to rbodies - only a warning is printed                              
+               IF (MTN == 108) THEN
+C-               imass = 1 (mass per unit lenght) + null length accepted for law108 - only a warning is printed  
+C.               mass checked later in rcheckmass                            
                  CALL ANCMSG(MSGID=3103,
      .                       MSGTYPE=MSGWARNING,
      .                       ANMODE=ANINFO_BLIND_1,
      .                       I1=ID,
      .                       C1=TITR,
-     .                       I2=IXR(NIXR,I))
+     .                       I2=IXR(NIXR,NFT+I))
                ELSE
                  CALL ANCMSG(MSGID=1664,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,
      .                       I1=ID,
      .                       C1=TITR,
-     .                       I2=IXR(NIXR,I))   
+     .                       I2=IXR(NIXR,NFT+I))   
                ENDIF   
              ENDIF
             ELSEIF(IMASS == 2) THEN
@@ -522,7 +527,7 @@ C
      .            ANMODE=ANINFO_BLIND_2,
      .            PRMOD=MSG_PRINT)
 C------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     initialization of nodal rigidities for interfaces
 C------------------------------------------
       IF (I7STIFS /= 0) THEN
         IF (IGTYP == 4 .OR. IGTYP == 12 .OR. IGTYP == 27) THEN
@@ -786,7 +791,7 @@ C=======================================================================
         NUPARAM =  NINT(GEO(26,I0))
         IF (IGTYP == 32) THEN
           CALL RINI32(
-     1                NEL      ,IOUT  ,I0       ,
+     1                NEL      ,I0       ,
      2                UIX      ,UL    ,GBUF%MASS,UINER   ,USTIFM ,
      3                USTIFR   ,UVISM ,UVISR    ,GBUF%VAR,NUVAR  ,ID,TITR,
      4                GBUF%EINT,NPC   ,PLD      )
@@ -875,7 +880,7 @@ C---
         ELSEIF (IGTYP == 36) THEN
            CALL RINI36(
      1       NEL    ,IOUT  ,I0       ,
-     2       UIX    ,UL    ,GBUF%MASS,UINER   ,USTIFM ,
+     2       UL    ,GBUF%MASS,UINER   ,USTIFM ,
      3       USTIFR ,UVISM ,UVISR    ,GBUF%VAR,NUVAR  )
         ENDIF
 C---
@@ -1214,7 +1219,7 @@ C
 C-----
       ENDIF  ! IGTYP
 C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES & DT Nodal (take into account XCM)
+C     COMPUTATION OF ELEMENT TIME STEPS & Nodal DT (take into account XCM)
 C------------------------------------------
 C
       K1 = 4
@@ -1348,7 +1353,7 @@ C
      .               GEO(23,I0)*GEO(57,I0),
      .               GEO(27,I0)*GEO(61,I0)))/XL(I)
           XCR= (XCR+MAX(GEO(20,I0),GEO(24,I0),GEO(28,I0))
-     .        +   MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
+     .        +     MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
           IF (XCM+XKM<EM15) XM =ONE
@@ -1420,10 +1425,10 @@ C
      .              MAX(UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))* AL2
               XKR= ( XKR
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
-     .                   UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
-     .                   UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
-              XCR= (XCR+MAX(UPARAM(IAD + K12 + 1),UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3))
-     .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
+     .                    UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
+     .                    UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
+              XCR= (XCR+MAX(UPARAM(IADBUF + K12 + 4),UPARAM(IADBUF + K12 + 5),UPARAM(IADBUF + K12 + 6))
+     .            +     MAX(UPARAM(IADBUF + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
               XM  =GBUF%MASS(I)
               XINE=GEO(2,I0)*XL(I)
               IF (XCM+XKM<EM15) XM  =ONE
@@ -1658,12 +1663,14 @@ C-----
       RETURN
       END
 !||====================================================================
-!||    rini3u   ../starter/source/elements/spring/rinit3.F
+!||    rini3u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI3U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1756,12 +1763,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    rini1u   ../starter/source/elements/spring/rinit3.F
+!||    rini1u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI1U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1844,15 +1853,17 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    rini2u   ../starter/source/elements/spring/rinit3.F
+!||    rini2u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI2U(IXR     ,UMASS ,UINER,
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
+      use element_mod , only : nixr
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1883,9 +1894,9 @@ C----------------------------------------------
         EMS(I)=HALF*UMASS(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
-C     traitement specifique spmd pour mass et iner parith/on
+C     specific spmd treatment for mass and iner parith/on
       DO I=LFT,LLT
         I1 = IXR(2,I+NFT)
         I2 = IXR(3,I+NFT)
@@ -1933,14 +1944,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    r4ini    ../starter/source/elements/spring/rinit3.F
+!||    r4ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R4INI(SIGRS ,IXR  ,NSIGI ,EINT  ,F   ,
      .                 DL    ,FEP  ,DPL   ,DPL2  ,XL0 ,
      .                 DFS   ,DV   ,IGTYP ,PTSPRI,DL0 ,
      .                 F0    )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1953,7 +1966,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSIGI,NUVAR,IGTYP
+      INTEGER NSIGI,IGTYP
       INTEGER IXR(NIXR,*),PTSPRI(*)
 C     REAL
       my_real
@@ -2000,9 +2013,10 @@ C---
       RETURN
       END
 !||====================================================================
-!||    r8ini    ../starter/source/elements/spring/rinit3.F
+!||    r8ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R8INI(IGTYP ,NEL  ,SIGRS ,IXR   ,NSIGI,
      .                 FX    ,FY   ,FZ    ,MX    ,MY   ,
@@ -2015,6 +2029,7 @@ C---
      .                 PTSPRI,DX0  ,DY0   ,DZ0   ,RX0  ,
      .                 RY0   ,RZ0  ,FX0   ,FY0   ,FZ0  ,
      .                 MX0   ,MY0  ,MZ0   )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2028,7 +2043,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 
-      INTEGER IXR(NIXR,*),NSIGI,NUVAR,NEL,IGTYP,PTSPRI(*)
+      INTEGER IXR(NIXR,*),NSIGI,NEL,IGTYP,PTSPRI(*)
 C     REAL
       my_real
      .   FX(*),FY(*),FZ(*),EINT(*),SIGRS(NSIGI,*),

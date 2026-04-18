@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -35,14 +35,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE AGRAD0(IPARG    ,IXS      ,IXQ       ,X       ,ALE_CONNECT   ,
-     .                  GRAD     ,VEUL     ,ELBUF_STR ,ITASK   )
+     .                  GRAD     ,VEUL     ,ELBUF_STR ,ITASK   ,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
       INTEGER IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ)
       my_real X(3,NUMNOD),GRAD(*), VEUL(*)
       INTEGER IPARG(NPARG,NGROUP),ITASK
@@ -87,19 +90,19 @@ C-----------------------------------------------
           NEL = LLT
           IF(N2D == 0)THEN
             IF(JALE+JLAG /= 0)THEN
-              CALL AGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1))
+              CALL AGRAD3(IXS,X,ALE_CONNECT,GRAD,s_flux,nft)
             ELSEIF(JEUL == 1)THEN
-              CALL EGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1),VEUL)
+              CALL EGRAD3(IXS,X,ALE_CONNECT,GRAD,VEUL,s_flux)
             ELSE
-              CALL TGRAD3(GBUF%SIG,GRAD(6*NFT+1),NEL)
+              CALL TGRAD3(GBUF%SIG,GRAD,NEL,s_flux,nft)
             ENDIF
           ELSE
             IF(JLAG+JALE /= 0)THEN
-              CALL AGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
+              CALL AGRAD2(IXQ,X,ALE_CONNECT,GRAD,s_flux)
             ELSEIF(JEUL == 1)THEN
-              CALL EGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
+              CALL EGRAD2(IXQ,X,ALE_CONNECT,GRAD,s_flux)
             ELSE
-              CALL TGRAD2(GBUF%SIG,GRAD(4*NFT+1),NEL)
+              CALL TGRAD2(GBUF%SIG,GRAD,NEL,s_flux,nft)
             ENDIF
           ENDIF
         ENDIF

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      INTEGER K,J,DET_IID
+      INTEGER K
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER TEMP_INTEGER
       INTEGER :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
@@ -90,6 +90,18 @@ C-----------------------------------------------
             WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__ZDET_'
             TEMP_DOUBLE = DETONATORS%POINT(K)%ZDET
             IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+
+            WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__R0_'
+            TEMP_DOUBLE = DETONATORS%POINT(K)%R0
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+
+            WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__IFRAME1_'
+            TEMP_INTEGER = DETONATORS%POINT(K)%IFRAME1
+            IF(TEMP_INTEGER > 0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+
+            WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__IFRAME2_'
+            TEMP_INTEGER = DETONATORS%POINT(K)%IFRAME2
+            IF(TEMP_INTEGER > 0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
 
             WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__GRNOD_ID_'
             TEMP_INTEGER = DETONATORS%POINT(K)%GRNOD_ID

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,14 +36,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-!||    anim_mod                     ../common_source/modules/output/anim_mod.F
 !||    array_mod                    ../common_source/modules/array_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I18MAIN_KINE_1(IPARI   ,INTBUF_TAB ,X        ,V             ,
+      SUBROUTINE I18MAIN_KINE_1(output, IPARI   ,INTBUF_TAB ,X        ,V             ,
      2                          A       ,ISKEW      ,SKEW     ,LCOD          ,WA      ,
      3                          MS      ,ITAB       ,JTASK    ,KINET         ,STIFN   ,
      4                          MTF     ,CAND_SAV   ,INT18ADD ,IAD_ELEM      ,FR_ELEM ,
@@ -63,7 +63,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MULTI_FVM_MOD    
       USE ALE_CONNECTIVITY_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE ARRAY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*),TAGPENE(*)
       my_real
@@ -98,7 +99,7 @@ C-----------------------------------------------
       INTEGER I,NODF,NODL,NRTMDIM
       INTEGER N, NTY, NMN, INACTI,LINDMAX
       INTEGER NB_JLT(PARASIZ),NB_JLT_NEW(PARASIZ),NB_STOK_N(PARASIZ),
-     *        NN,P,NODFI,IERROR1,IERROR2,IERROR3,IERROR4
+     * P,NODFI,IERROR1,IERROR2,IERROR3,IERROR4
       my_real
      .    STARTT,STOPT,BID,VBID
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
@@ -107,7 +108,7 @@ C     initialisation MTF(1:14,1:NUMNOD)
 C=======================================================================
 C
 c
-c     a reecrire sur mains uniquement
+c     To be reached on mains only
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
@@ -120,7 +121,7 @@ c     a reecrire sur mains uniquement
         MTF(7,I) = ZERO   ! Fx mains
         MTF(8,I) = ZERO   ! Fy mains
         MTF(9,I) = ZERO   ! Fz mains
-        MTF(10,I)= ZERO   ! PENE cumulee sur second
+        MTF(10,I)= ZERO   ! cumulative penetration on second
 c        MTF(11,I)= EP30   ! Distance relative min
         MTF(11,I)= ZERO   ! pene max
         MTF(12,I) = ZERO  ! Nx second
@@ -189,19 +190,19 @@ C -------------------
       CALL MY_BARRIER
 C -------------------
       IF (NSPMD > 1)THEN
-C     MSFI (MASSE des noeuds seconds  n est pas mis a jour
-C     la masse est necessaire pour les calculs ensuite
+C     MSFI (mass of second nodes is not updated
+C     mass is needed for subsequent calculations
           CALL SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,MTF,MS,ITAB)
       ENDIF
 C-----------------------------------------------
-C statistique interface
+C Interface Statistics
       IF (DEBUG(3) >= 1.AND.NCYCLE == 0) THEN
         NB_JLT(JTASK) = 0
         NB_JLT_NEW(JTASK) = 0
         NB_STOK_N(JTASK) = 0
       ENDIF
 C=======================================================================
-C     calcul des penetrations cumulees ...
+C     calculation of cumulative penetrations ...
 C     MTF(10,i) pene cumulee
 C     MTF(11,i) dist min relative
 C     MTF(12:14,i) normales cumulee
@@ -226,27 +227,27 @@ C LINDMAX = NCONT*MULTIMP
 C=======================================================================
 !$OMP SINGLE
 
-C     COMM SPMD : MTF(10,*)=somme des PENE
-C     COMM SPMD : MTF(11,*)=min des distances relatives
-C     COMM SPMD : MTF(12:14,*)=sommes des normales
-c   1: envoie sur le proc qui possede le noeud
-c   2: cumul(ou min) sur les noeuds frontieres secnd 18
-c   2: cumul sur les noeuds frontieres secnd 18
+C     Comm spmd: mtf (10,*) = sum of the pene
+C     Comm spmd: mtf (11,*) = min relative distances
+C     Comm SPMD: MTF (12:14,*) = IS NORMALS
+c   1: send to the proc that owns the node
+c   2: accumulate (or min) on secondary 18 boundary nodes
+c   2: accumulate on secondary 18 boundary nodes
       IF (NSPMD > 1)THEN
-         CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,VBID,
+         CALL SPMD_I18KINE_PENE_COM_POFF(output, IPARI,INTBUF_TAB,VBID,
      *                                   MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
      .                                   H3D_DATA  )
 
-c     Besoin des accelerations pour le noeud second
-c     quand on a surface main, noeud second. distant
-c     Dans le meme cas, retour du MTF_PENE+MTF_PENEMIN pour les
+c     need accelerations for the second node
+c     quand on a surface main, node second. distant
+c     in the same case, return MTF_PENE+MTF_PENEMIN for
 c     calculs suivants.
 
           CALL SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,MTF,A,ITAB,TAGPENE)
       ENDIF
 !$OMP END SINGLE
 C=======================================================================
-C     calcul des forces et des masses a transmettre aux mains
+C     calculation of forces and masses to be transmitted to the mains
 c     ponderation en pene/somme(pene)
 C=======================================================================
 C -------------------
@@ -264,15 +265,15 @@ C -------------------
        ENDIF
       ENDDO
 C=======================================================================
-C     COMM SPMD : MTF(1:9,*)= masses et forces des mains
-C     comm sur les noeuds frontieres main int 18
+C     Comm spmd: mtf (1: 9,*) = masses and main forces
+C     comm on main int 18 boundary nodes
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_MSF_COM_POFF(MTF,IAD_ELEM,FR_ELEM,ITAB)
       ENDIF
 !$OMP END SINGLE
 C=======================================================================
-C     calcul des nouvelles accelerations des mains
+C     calculation of new accelerations of the mains
 C=======================================================================
 C -------------------
       CALL MY_BARRIER
@@ -292,11 +293,11 @@ C -------------------
        ENDIF
       ENDDO
 C=======================================================================
-c     si MTF(1,*) /= 0 le noeuds est main int 18 sur ce proc
-c     et peut etre utilise comme flag
+c     if MTF(1,*) /= 0 the node is main int 18 on this proc
+c     and maybe used as flag
 
-c     => envoyer MTF(1,*) et A(1:3,*) pour TOUS les noeuds frontieres
-c     en reception si MTF(recu) est non nul
+c     => send MTF(1,*) and A(1:3,*) for ALL boundary nodes
+c     in reception if mtf (received) is not zero
 c     => ecraser A(local) par A(recu)
 !$OMP SINGLE
       IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,IAD_ELEM,FR_ELEM,ITAB)
@@ -320,9 +321,10 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I18MAIN_KINE_2(IPARI,INTBUF_TAB ,X   ,V       ,
+      SUBROUTINE I18MAIN_KINE_2(output,IPARI,INTBUF_TAB ,X   ,V       ,
      2                   A    ,ISKEW ,SKEW    ,LCOD   ,WA      ,
      3                   MS   ,ITAB  ,FSAV    ,JTASK  ,KINET   ,
      4                   STIFN,MTF   ,CAND_SAV,FCONT  ,INT18ADD,
@@ -330,6 +332,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE TRI7BOX
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -347,6 +350,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*)
       my_real
@@ -375,7 +379,7 @@ C=======================================================================
          SLVNDTAG = 0
       ENDIF
 C=======================================================================
-C     calcul des vitesses a imposer aux second
+C     velocity calculation to be imposed on the second
 c     ponderation en pene/somme(pene)
 C=======================================================================
 C -------------------
@@ -384,9 +388,9 @@ C -------------------
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
-        MTF(1,I) = ZERO   ! vx second. impose par main
-        MTF(2,I) = ZERO   ! vy second. impose par main
-        MTF(3,I) = ZERO   ! vz second. impose par main
+        MTF(1,I) = ZERO   ! VX Second.main
+        MTF(2,I) = ZERO   ! Vy second.main
+        MTF(3,I) = ZERO   ! Vz second.main
         MTF(4,I) = ZERO   ! vxp second. old (v+a*dt)
         MTF(5,I) = ZERO   ! vyp second. old (v+a*dt)
         MTF(6,I) = ZERO   ! vzp second. old (v+a*dt)
@@ -437,14 +441,14 @@ C -------------------
       ENDDO
 C=======================================================================
 
-C     a faire:
+C     a to perform:
 C     COMM SPMD : MTF(1:6,*)= velocities
 
 c   1: send to proc which contain the fluid node
 c   2: cumul on boundary fluid nodes
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
-        CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
+        CALL SPMD_I18KINE_PENE_COM_POFF(output, IPARI,INTBUF_TAB,FCONT,
      *                                  MTF,A,IAD_ELEM,FR_ELEM,2,SLVNDTAG,IBID,ITAB,
      .                                  H3D_DATA )
 C reset  MTF_V on procs which do not have fluid node but have it as candidate
@@ -464,7 +468,7 @@ C -------------------
        NTY   =IPARI(7,N)
        INACTI =IPARI(22,N)
        IF(NTY==7.and.IPARI(34,N)==-2.and.INACTI==7)THEN
-         CALL I18MAIN_KINE_S(N,
+         CALL I18MAIN_KINE_S(output, N,
      1                       IPARI(1,N)   ,INTBUF_TAB(N)    ,X                    ,STIFN      ,
      2                       V            ,A                ,MS                   ,FSAV(1,N)  ,FCONT     ,
      3                       JTASK        ,ITAB             ,CAND_SAV(INT18ADD(N)),MTF        ,
@@ -476,9 +480,9 @@ C=======================================================================
 !$OMP SINGLE
 C     COMM SPMD : A(1:3,*)= acceleration des seconds
 
-c   1: envoie sur le proc qui possede le noeud qui ecrase l'acceleration
+c   1: send to the proc that owns the node that overwrites the acceleration
       IF (NSPMD > 1)THEN
-        CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
+        CALL SPMD_I18KINE_PENE_COM_POFF(output,IPARI,INTBUF_TAB,FCONT,
      *                                  MTF,A,IAD_ELEM,FR_ELEM,3,SLVNDTAG,IBID,ITAB,
      .                                  H3D_DATA)
       ENDIF
@@ -528,10 +532,10 @@ C   D u m m y   A r g u m e n t s
 C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C     X     3,NUMNOD                 COORDONNEES                        E
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
 C-----------------------------------------------
@@ -570,16 +574,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_STOK_GLOB,NSN,
+      INTEGER I, NSN, 
      .        NOINT,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,NMNF,NMNL,
-     .        JLT, NFT,DEBUT,NBID,NB_LOC, I3N,IGSTI,ICURV,IADM
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
+     . JLT, NFT,DEBUT,NBID,NB_LOC,IGSTI,ICURV,IADM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX2(LINDMAX),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),KINI(MVSIZ),IBID
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
-     .   KMIN, KMAX, GAPMAX,SURF(3,NRTMDIM)
+     . KMIN, KMAX, GAPMAX
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -603,8 +607,8 @@ C -------------------
 C -------------------
 
 C=======================================================================
-C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
+C     calculation des pene,normale,Hi...
+C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NBID=0
       BID=ZERO
@@ -671,7 +675,7 @@ C preparing retained candidates
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e replaced with cand_n_n et cand_e_n
+C cand_n and cand_e replaced with cand_n_n and cand_e_n
           CALL I7COR3(
      1         JLT       ,X   ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
      2         CAND_N_N  ,INTBUF_TAB%STFM   ,INTBUF_TAB%STFNS  ,X1    ,X2   ,
@@ -752,13 +756,13 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -791,10 +795,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
-     .        JLT, NFT,DEBUT,NB_LOC, I3N,IGSTI,ICURV,IADM
+      INTEGER NSN, 
+     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,
+     . JLT, NFT,DEBUT,NB_LOC,IGSTI,ICURV,IADM
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -805,11 +809,8 @@ C-----------------------------------------------
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ),
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
+     .     STIF(MVSIZ),
+     .     GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -817,8 +818,8 @@ C-----------------------------------------------
       IF(INACTI/=7.or.IPARI(34)==0)RETURN
 C
 C=======================================================================
-C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
+C     calculation des pene,normale,Hi...
+C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NSN   =IPARI(5)
       NTY   =IPARI(7)
@@ -843,8 +844,8 @@ C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     this part is done in parallel after the calculation of element forces
+C     static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -853,7 +854,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=======================================================================
-C     calcul des forces et des masses a transmettre aux mains
+C     calculation of the forces and masses to be transmitted to the mains
 c     ponderation en pene/somme(pene)
 C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -902,7 +903,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NMNF,NMNL,I, J,ISK
+      INTEGER NMNF, NMNL, I, J
       my_real
      .    A11,A12,A13,A22,A23,A33,B11,B12,B13,B22,B23,B33,
      .    USDET,FX   ,FY   ,FZ
@@ -917,7 +918,7 @@ C-----------------------------------------------
         J=MSR(I)
         IF(J > 0) THEN
 
-c     invertion matrice 3x3 sym et multiplication par un vecteur
+c     inversion of symmetric 3x3 matrix and multiplication by a vector
 c
 c     B = A^-1
 c
@@ -982,13 +983,13 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -1021,10 +1022,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,NME,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
-     .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
-     .        JLT, NFT,NBID,NB_LOC, I3N,IADM
+      INTEGER NSN, 
+     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,DEBUT,
+     . JLT, NFT,NB_LOC,IADM
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -1063,8 +1064,8 @@ C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     this part is performed in parallel after the calculation of the forces of the elements
+C     static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -1073,7 +1074,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=======================================================================
-C     calcul des vitesses a imposer aux second
+C     velocity calculation to be imposed on the second
 c     ponderation en pene/somme(pene)
 C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -1106,8 +1107,9 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I18MAIN_KINE_S(NIN,
+      SUBROUTINE I18MAIN_KINE_S(output, NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN    ,
      2      V         ,A         ,MS      ,FSAV    ,FCONT    ,
      3      JTASK     ,ITAB      ,CAND_SAV,MTF      ,
@@ -1118,6 +1120,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      use output_mod
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -1125,13 +1128,13 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -1153,6 +1156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NIN,JTASK
       INTEGER IPARI(NPARI),NB_JLT_NEW,NB_STOK_N, NB_JLT,
      .        ITAB(*), ISKEW(*), LCOD(*) ,SLVNDTAG(*)
@@ -1228,7 +1232,7 @@ C=======================================================================
       if(JTASK/=1)return
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-          CALL I18KINE_S(
+          CALL I18KINE_S(output,
      1  JLT          ,A         ,V       ,INTBUF_TAB%CAND_E(1+NFT) ,INTBUF_TAB%CAND_N(1+NFT) ,
      2  GAP          ,MS        ,NOINT   ,INTBUF_TAB%STFNS,ITAB         ,
      3  STIFN        ,STIF      ,X       ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
@@ -1303,19 +1307,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J,  K, NN
+      INTEGER I, IG, NN
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   S2,
      .   DT1INV,
      .   H0, LA1, LA2, LA3, LA4,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,
-     .   P,H00 ,
-     .   AAA
+     .   D1,D2,D3,D4,
+     .   H00 
       my_real
      .   PREC
-      INTEGER JJ,IBID
+      INTEGER IBID
       my_real
      .   PP1,PP2,PP3,PP4,BID
 C
@@ -1518,7 +1521,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -1528,7 +1531,6 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ),
      .   MT1XX(MVSIZ), MT1XY(MVSIZ), MT1XZ(MVSIZ),
      .   MT1YY(MVSIZ), MT1YZ(MVSIZ), MT1ZZ(MVSIZ),
      .   MT2XX(MVSIZ), MT2XY(MVSIZ), MT2XZ(MVSIZ),
@@ -1537,13 +1539,9 @@ C-----------------------------------------------
      .   MT3YY(MVSIZ), MT3YZ(MVSIZ), MT3ZZ(MVSIZ),
      .   MT4XX(MVSIZ), MT4XY(MVSIZ), MT4XZ(MVSIZ),
      .   MT4YY(MVSIZ), MT4YZ(MVSIZ), MT4ZZ(MVSIZ),
-     .   P,H00 ,
      .   AAA
       my_real
-     .   PREC
-      INTEGER JJ,IBID
-      my_real
-     .   PP1,PP2,PP3,PP4,BID,
+     .
      .   MTXX,MTXY,MTXZ,MTYY,MTYZ,MTZZ
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -1790,25 +1788,20 @@ C-----------------------------------------------
      .     LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
-     .     GAPV(MVSIZ),STIFSAV(MVSIZ), MTF(14,*),CAND_SAV(8,*),
+     . GAPV(MVSIZ), MTF(14,*),CAND_SAV(8,*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   FAC,
-     .   P,
      .   AAA 
       my_real
-     .   PREC
-      INTEGER JSUB,KSUB,JJ,NSUB,IBID
-      my_real
-     .   PP1,PP2,PP3,PP4,BID,
      .   V1,V2,V3,V4,VSX,VSY,VSZ
 C
 C-----------------------------------------------
@@ -1891,13 +1884,13 @@ C
 C-----------------------------------------------------
 C not useful so far
 C-----------------------------------------------------
-CC spmd : identification des noeuds interf. utiles a envoyer
+CC'espMD: Identification of interf nodes.useful to send
 C      IF (NSPMD > 1) THEN
 C        DO I = 1,JLT
 C          IF(PENE(I) > ZERO)THEN
 C           NN = NSVG(I)
 C          IF(NN < 0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
 C            NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
 C          ENDIF
 C         ENDIF
@@ -1912,11 +1905,11 @@ C
 !||--- called by ------------------------------------------------------
 !||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I18KINE_S(JLT ,A      ,V      ,CAND_E,CAND_N ,
+      SUBROUTINE I18KINE_S(OUTPUT,JLT ,A      ,V      ,CAND_E,CAND_N ,
      2                  GAP    ,MS    ,NOINT  ,STFN   ,ITAB   ,
      3                  STIFN  ,STIF   ,X      ,IRECT ,NSV    ,
      4                  NX1    ,NX2    ,NX3    ,NX4   ,NY1    ,
@@ -1932,7 +1925,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1954,6 +1947,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(IN) :: OUTPUT
       INTEGER JLT,INACTI,NIN,
      .        ITAB(*), NOINT, IRECT(4,*),CAND_N(*),CAND_E(*),
      .        NSN
@@ -1965,12 +1959,12 @@ C-----------------------------------------------
      .        LB1(MVSIZ), LB2(MVSIZ), LB3(MVSIZ), LB4(MVSIZ),
      .        LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .        P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
-     .        GAPV(MVSIZ),STIFSAV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
+     . GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, JG , K, NN, NI,
+      INTEGER I, IG, JG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
@@ -1982,12 +1976,9 @@ C-----------------------------------------------
      .        DT12INV, FAC, FAC2,
      .        FSAV1, FSAV2, FSAV3, FSAV8,
      .        FSAV9, FSAV10, FSAV11,   
-     .        P, 
      .        AAA
-      my_real PREC
-      INTEGER JSUB,KSUB,JJ,NSUB
-      my_real IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BBB,
-     .        V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
+      my_real IMPX,IMPY,IMPZ,BBB,
+     . VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
 C
 C-----------------------------------------------
       IF(DT12 > ZERO)THEN
@@ -2150,7 +2141,7 @@ C---------------------------------
 #include "lockoff.inc"
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
      .              (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D  /=  0))THEN
 #include "lockon.inc"
          DO I=1,JLT

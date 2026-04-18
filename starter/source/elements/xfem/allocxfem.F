@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE XFEM2DEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +94,7 @@ C
       IENRNOD = MAX(IENRNOD,4)
       IENRNOD = IENRNOD * NLEVMAX
 C--------------------
-C     INITIALISATION
+C     INITIALIZATION
 C--------------------
 C  crack xfem for layered shell
 C--------------------

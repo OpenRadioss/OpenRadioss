@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,8 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NN,M,IK,IC,MSL,NSL,TNSL,ICDG
-      my_real RX,RY,RZ,MASRB
+      INTEGER I, J, N, NN, M, MSL, NSL, TNSL, ICDG
+      my_real MASRB
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
@@ -78,7 +78,7 @@ C======================================================================|
         ENDIF
         IF(MASS(M)==ZERO) MASS(M)= EM15
         IF(INER(M)==ZERO) INER(M)= EM15
-C-----  CORRECTION DE LA CENTRE DE GRAVITE DU MAIN
+C----- correction of the center of gravity of the main
         IF(ICDG==1)THEN
 C-----    CDG TOTAL
           MASRB = MASS(M)
@@ -104,7 +104,7 @@ C-----    CDG TOTAL
             X(J,M)=X(J,M)/MASRB
           ENDDO
         ELSEIF(ICDG==2)THEN
-C-----    CDG DES NOEUDS SECONDS
+C----- center of gravity of the secondary nodes
           MASRB=ZERO
           DO J=1,3
             X(J,M)=ZERO

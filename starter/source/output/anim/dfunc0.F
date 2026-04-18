@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,11 +61,11 @@ C-----------------------------------------------
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
      .   P, VONM2, VONM, S1, S2, S12, S3, VALUE
-      INTEGER I,II(6),NG,NEL,N,MLW,NN,NN1,JTURB,MT,IALEL,IPRT           
+      INTEGER I, II(6), NG, NEL, N, NN1, JTURB, MT, IALEL, IPRT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       REAL R4,WA(NBF)                                                   
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)      
+C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
 C=======================================================================                                                                       
       NN1 = 1                                                           
 c      NN2 = NN1 + (NUMSPH+MAXPJET)                                      
@@ -152,7 +152,7 @@ c
           ENDIF                                                         
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES GROUPES                                   
+C       END OF LOOP ON GROUPS
 C-----------------------------------------------                        
  900  CONTINUE                                                          
 C-----------------------------------------------                        

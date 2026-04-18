@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    genani      ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DPARSRG(NSURG,NNWL,NODCUT)
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER ISRG, N1, II(4),
      .        I,J,K
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
       IF (ISPMD/=0) GOTO 100
 C-----------------------------------------------
       N1 = NUMNODG + NODCUT + NSECT + NRWALL + NNWL

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -224,7 +224,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, JT(3,NRBE2),JR(3,NRBE2),
+      INTEGER  N, ISK, I, M, JT(3,NRBE2),JR(3,NRBE2),
      .        IAD, NS, NSN, MID, NHI, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -294,8 +294,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER K, N, ISK, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, ICOM, NSN, MID, NHI, IRAD
       DOUBLE PRECISION
      .   FRBE2M6(3,6,NMRBE2)
 C-----------------------------------------------
@@ -385,8 +385,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER  N, ISK, M, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, NSN, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
 C
@@ -436,8 +436,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER  N, ISK, M, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, NSN, IRAD
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
 C
@@ -489,8 +489,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ISK, I, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, ICOM, NSN, MID, NHI, IRAD
+      INTEGER K, N, ISK, J, M, ISIZE, JT(3,NRBE2),JR(3,NRBE2),
+     .        IAD, ICOM, NSN, MID, NHI, IRAD
       my_real
      .        DD
       DOUBLE PRECISION
@@ -581,7 +581,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, IJT, JT1(3), IC
+      INTEGER I, N, K, IJT, JT1(3), IC
 C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
@@ -594,7 +594,7 @@ C-----------------------------------------------
 
       IF(ISK<=1)THEN
 C
-C Remontee des forces
+C Feedback of forces
         DO K = 1, 6
           FS6(1,K) = ZERO
           FS6(2,K) = ZERO
@@ -628,7 +628,7 @@ C
         ENDDO
       END IF
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
       CALL SUM_6_FLOAT(1  ,NSL  ,F1, FS6(1,1), 3)
       CALL SUM_6_FLOAT(1  ,NSL  ,F2, FS6(2,1), 3)
@@ -662,7 +662,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .   AAX, AAY, AAZ
@@ -727,7 +727,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
@@ -739,7 +739,7 @@ C-----------------------------------------------
       ENDIF
 C
 C retablit accelerations secnds == main 
-C (le terme de rotation AR x MN est dj pass au 2nd membre)
+C (the rotation term AR x MN is already passed to the 2nd member)
       IF(ISK<=1)THEN
         IF(JT(3)>0)A(3,M)=R(3,M)*PREC_SMS3(3,M)
         IF(JT(2)>0)A(2,M)=R(2,M)*PREC_SMS3(2,M)
@@ -800,7 +800,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IJT
+      INTEGER I, N, IJT
 C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
@@ -875,7 +875,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, IJT, JT1(3), IC
+      INTEGER I, N, K, IJT, JT1(3), IC
 C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
@@ -887,7 +887,7 @@ C-----------------------------------------------
       ENDIF
 
 C
-C Remontee des diagonales
+C Feedback of diagonals
       DO K = 1, 6
         FS6(1,K) = ZERO
         FS6(2,K) = ZERO
@@ -923,7 +923,7 @@ C
       END IF
 C
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
       CALL SUM_6_FLOAT(1  ,NSL  ,F1, FS6(1,1), 3)
       CALL SUM_6_FLOAT(1  ,NSL  ,F2, FS6(2,1), 3)
@@ -957,7 +957,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NS ,NML, IAD,JJ,M,MID,IROT,IRAD
+      INTEGER  J, K, N ,M,MID,IRAD
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2

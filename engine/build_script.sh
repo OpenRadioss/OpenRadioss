@@ -90,6 +90,7 @@ ADF=""
 MPI="-DMPI=smp"
 pmpi="SMP Only"
 clean=0
+mpi=0
 mpi_os=0
 mpi_root=""
 mpi_libdir=""
@@ -135,6 +136,7 @@ else
          then
             dmpi=_${pmpi}
             MPI=-DMPI=${pmpi}
+            mpi=1
          else 
             pmpi="SMP Only"
          fi
@@ -285,6 +287,16 @@ else
 
    done
 
+   if [[ $mpi == 0 && ($mpi_os == 1 || -n $mpi_root || -n $mpi_libdir || -n $mpi_incdir) ]]
+   then
+     echo " "
+     echo "Warning:"
+     echo "--------"
+     echo "You have provided MPI options, but not enabled MPI."
+     echo "Set the MPI implementation with -mpi=[mpi]."
+     echo " "
+   fi
+
    if [ $got_arch == 0 ] 
    then
      echo " " 
@@ -395,10 +407,39 @@ else
     fi
 fi
 
-Fortran_path=`which $Fortran_comp`
-C_path=`which $C_comp`
-CPP_path=`which $CPP_comp`
-CXX_path=`which $CXX_comp`
+Fortran_path=`which $Fortran_comp 2>/dev/null`
+C_path=`which $C_comp 2>/dev/null`
+CPP_path=`which $CPP_comp 2>/dev/null`
+CXX_path=`which $CXX_comp 2>/dev/null`
+
+# Validate compilers are found
+if [ -z "$Fortran_path" ]
+then
+  echo " "
+  echo "-- Error: Fortran compiler '$Fortran_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
+if [ -z "$C_path" ]
+then
+  echo " "
+  echo "-- Error: C compiler '$C_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
+if [ -z "$CXX_path" ]
+then
+  echo " "
+  echo "-- Error: C++ compiler '$CXX_comp' not found in PATH"
+  echo "-- Please install it or add its location to your PATH"
+  echo " "
+  cd ..
+  exit 1
+fi
 
 
 # Apply cmake

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
 C=======================================================================
-C     (I) TRAITEMENT DES FCTS
+C     (I) PROCESSING OF FUNCTIONS
 C=======================================================================
 C     I.1 INLET/OUTLET CONDITIONS
 C=======================================================================
@@ -147,6 +147,5 @@ C              IERR=IERR+1
             ENDIF
       ENDDO
 C=======================================================================
- 900  CONTINUE
       RETURN
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,JLT_NEW,IGAP,INTFRIC
+      INTEGER JLT,JLT_NEW,INTFRIC
       INTEGER CAND_S(*),CAND_M(*),
      .        N1(*),N2(*),M1(*),M2(*), NSMS(*),INDEX(*),
      .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
@@ -70,8 +70,8 @@ C-----------------------------------------------
       my_real
      .     PENE2(MVSIZ),
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,
      .     GAP2,DRAD2
 C-----------------------------------------------
        JLT_NEW = 0
@@ -157,7 +157,7 @@ C
        H2S(I) = ONE -H1S(I)
        H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) = H1S(I)*XXS1(I) + H2S(I)*XXS2(I)
      .       - H1M(I)*XXM1(I) - H2M(I)*XXM2(I)

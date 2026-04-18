@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    table2d_intersect   ../starter/source/tools/curve/table2d_intersect.F
-!||--- called by ------------------------------------------------------
-!||    law76_upd           ../starter/source/materials/mat/mat076/law76_upd.F
 !||--- uses       -----------------------------------------------------
 !||    table_mod           ../starter/share/modules1/table_mod.F
 !||====================================================================
@@ -45,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J1,J2,K
+      INTEGER :: J1,J2,K
       my_real :: S1,S2,T1,T2,X1,X2,Y1,Y2,AX,AY,BX,BY,CX,CY,DM,ALPHA,BETA
 c-----------------------------------------------
 c     This routine checks if the functions in a 2 dim table do not intersect 

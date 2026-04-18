@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod             ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
 !||    timer_mod               ../engine/source/system/timer_mod.F90
@@ -46,6 +47,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +85,7 @@ C-----------------------------------------------
       my_real :: MAXVAL_RHO, MINVAL_RHO, 
      .     MAXVAL_U, MINVAL_U, 
      .     MAXVAL_V, MINVAL_V, 
-     .     MAXVAL_W, MINVAL_W, LIM_VELX, LIM_VELY, LIM_VELZ, LIM_VEL
+     .     MAXVAL_W, MINVAL_W, LIM_VELX, LIM_VELY, LIM_VELZ
       my_real :: MAXVAL_PRES, MINVAL_PRES, LIM_PRES
       my_real :: PHASE_MAXVAL_RHO(NBMAT), PHASE_MINVAL_RHO(NBMAT), 
      .     PHASE_MAXVAL_ALPHA(NBMAT), PHASE_MINVAL_ALPHA(NBMAT), 
@@ -91,15 +93,14 @@ C-----------------------------------------------
      .     PHASE_LIM_ALPHA(NBMAT), PHASE_LIM_RHO(NBMAT), PHASE_LIM_PRES(NBMAT)
       my_real :: PEPS, MEPS, LIMFACE(6)
       TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(L_BUFEL_), POINTER :: LBUF 
       INTEGER :: VOIS(6), FACE_LIST(6), NEL, ITY, ISOLNOD, NFT, MATLAW, 
      .     NODE1, NODE2, NODE3, NODE4
-      my_real :: SUMX, SUMY, SUMZ, VOL, ONE_OVER_VOL, LIM_ALPHA
+      my_real :: SUMX, SUMY, SUMZ, VOL, ONE_OVER_VOL
       my_real :: EPS_INT
       my_real, DIMENSION(:), POINTER :: VOLUME
       my_real :: X1(3), X2(3), X3(3), X4(3)
-      my_real :: MAT(3, 3), RHS(3), SOL(3), MATM1(3, 3), DET, MATTEST(3, 3)
-      INTEGER :: IAD, LGTH
+      my_real :: MAT(3, 3), RHS(3), SOL(3), MATM1(3, 3), DET
+      INTEGER :: IAD
 
 
 
@@ -170,7 +171,7 @@ C     TRIANGLES
                NZ(1:6) = -EP30
                VOL = VOLUME(II)
                ONE_OVER_VOL = ONE / VOL
-C     Element centroid
+C     centroid element
                XK(1:3) = MULTI_FVM%ELEM_DATA%CENTROID(1:3, I)
 C     Matrice
                MAT(1:3, 1:3) = ZERO
@@ -267,7 +268,7 @@ C     =========
 C     Density gradient
                   MAXVAL_RHO = MULTI_FVM%RHO(I)
                   MINVAL_RHO = MAXVAL_RHO
-C     Pressure gradient
+C     Gradient press
                   MAXVAL_PRES = MULTI_FVM%EINT(I)
                   MINVAL_PRES = MAXVAL_PRES
                ELSE
@@ -278,7 +279,7 @@ C     ==========
 C     Density gradient
                      PHASE_MAXVAL_RHO(IMAT) = MULTI_FVM%PHASE_RHO(IMAT, I)
                      PHASE_MINVAL_RHO(IMAT) = PHASE_MAXVAL_RHO(IMAT)
-C     Pressure gradient
+C     Gradient press
                      PHASE_MAXVAL_PRES(IMAT) = MULTI_FVM%PHASE_EINT(IMAT, I)
                      PHASE_MINVAL_PRES(IMAT) = PHASE_MAXVAL_PRES(IMAT)
 C     Volume fraction gradient
@@ -448,7 +449,7 @@ C     Density gradient limitation
                      MULTI_FVM%GRAD_RHO(1, I) = SUMX * LIM_RHO
                      MULTI_FVM%GRAD_RHO(2, I) = SUMY * LIM_RHO
                      MULTI_FVM%GRAD_RHO(3, I) = SUMZ * LIM_RHO
-C     Pressure gradient
+C     Gradient press
                      VALK = MULTI_FVM%EINT(I)
                      RHS(1:3) = ZERO
                      DO IFACE = 1, NB_FACE
@@ -574,7 +575,7 @@ C     Density gradient limitation
                         MULTI_FVM%PHASE_GRAD_RHO(1, IMAT, I) = SUMX * PHASE_LIM_RHO(IMAT)
                         MULTI_FVM%PHASE_GRAD_RHO(2, IMAT, I) = SUMY * PHASE_LIM_RHO(IMAT)
                         MULTI_FVM%PHASE_GRAD_RHO(3, IMAT, I) = SUMZ * PHASE_LIM_RHO(IMAT)
-C     Pressure gradient
+C     Gradient press
                         VALK = MULTI_FVM%PHASE_EINT(IMAT, I)
                         RHS(1:3) = ZERO
                         DO IFACE = 1, NB_FACE
@@ -594,7 +595,7 @@ C     Pressure gradient
                         SUMX = -SOL(1)
                         SUMY = -SOL(2)
                         SUMZ = -SOL(3)
-C     Pressure gradient limitation
+C     Gradient Limitation Pressure
                         LIMFACE(1:6) = ONE
                         DO IFACE = 1, NB_FACE
                            KFACE = FACE_LIST(IFACE)

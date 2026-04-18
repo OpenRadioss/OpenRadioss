@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -279,10 +280,10 @@ C
 !      
       IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
-     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
-     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I+NFT)) + TEMP(IXS(3,I+NFT))
+     .                           + TEMP(IXS(4,I+NFT)) + TEMP(IXS(5,I+NFT))        
+     .                           + TEMP(IXS(6,I+NFT)) + TEMP(IXS(7,I+NFT))        
+     .                           + TEMP(IXS(8,I+NFT)) + TEMP(IXS(9,I+NFT))) 
         ENDDO
       ELSE
         TEMPEL(1:NEL) = TEMP0(1:NEL)
@@ -296,7 +297,7 @@ C
      .            MAT     ,IPM    ,NSIGS  ,NUMSOL     ,PTSOL  ,
      .            IP      ,NGL    ,NPF    ,TF         ,BUFMAT , 
      .            GBUF    ,LBUF   ,MBUF   ,ELBUF_STR  ,ILOADP ,
-     .            FACLOAD, DELTAX ,TEMPEL )                         
+     .            FACLOAD, DELTAX ,TEMPEL ,MAT_PARAM )
 C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
@@ -339,10 +340,10 @@ c
 !      
         IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
           DO I=1,NEL
-            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                             + TEMP(IXS(4,I)) + TEMP(IXS(5,I))      
-     .                             + TEMP(IXS(6,I)) + TEMP(IXS(7,I))      
-     .                             + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I+NFT)) + TEMP(IXS(3,I+NFT))
+     .                             + TEMP(IXS(4,I+NFT)) + TEMP(IXS(5,I+NFT))      
+     .                             + TEMP(IXS(6,I+NFT)) + TEMP(IXS(7,I+NFT))      
+     .                             + TEMP(IXS(8,I+NFT)) + TEMP(IXS(9,I+NFT))) 
           ENDDO
         ELSE
           TEMPEL(1:NEL) = TEMP0(1:NEL)
@@ -355,7 +356,7 @@ c
      .              MAT     ,IPM    ,NSIGS  ,NUMSOL    ,PTSOL  ,
      .              ILAY    ,NGL    ,NPF    ,TF        ,BUFMAT ,
      .              GBUF    ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
-     .              FACLOAD, DELTAX ,TEMPEL )
+     .              FACLOAD, DELTAX ,TEMPEL ,MAT_PARAM )
         IF (MTN >= 28) THEN
            NUVAR = IPM(8,IXS(1,NFT+1))
            IDEF =1
@@ -428,7 +429,7 @@ C  Warning : IX1, IX2 ... IX6 <=> NC(MVSIZ,6)
      3              BID ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C Element time step
+C Time Step element
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 

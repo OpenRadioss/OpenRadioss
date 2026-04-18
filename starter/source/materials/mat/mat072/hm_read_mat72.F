@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real 
      .     RHO0,RHOR,
      .     E,NU,G,G2,C11,A1,A2,LAMHOOK,
-     .     CP,EPS0,SIGY,EXP,
+     .     EPS0,SIGY,EXP,
      .     FF,GG,HH,NN,LL,MM,
      .     C1,C2,C3,DC,MEXP
       INTEGER ILAW

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    parsors     ../starter/source/output/anim/parsors.F
+!||    parsors       ../starter/source/output/anim/parsors.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PARSORS(IADD ,IPARG     ,IXS    ,MATER ,IPARTS ,       
      2                  EL2FA ,                                         
      3                                    INSPH  ,KXSP  ,IPARTSP,       
      4                  IXS10 ,IXS20     ,IXS16  ,NNSPH ,ISPH3D,        
-     5                  SHFT16   ,SHFTSPH ,NNSPHG)                      
+     5                  SHFT16   ,SHFTSPH ,NNSPHG)   
+      use element_mod , only : nixs
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

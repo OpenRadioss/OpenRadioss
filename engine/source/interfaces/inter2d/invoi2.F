@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,7 +56,7 @@ C-----------------------------------------------
       NUM=NSEG(J+1)-NSEG(J)
       NPT=NSEG(J)-1
 C---------------------------------------------
-C     RECHERCHE DU NOEUD main LE PLUS PROCHE
+C     search for the closest main node
 C---------------------------------------------
       DO 100 JJ=1,NUM
       LL=LMSR(NPT+JJ)
@@ -71,7 +71,7 @@ C---------------------------------------------
       ENDIF
   100 CONTINUE
 C------------------------------------------------
-C     RECHERCHE DU SEGMENT main LE PLUS PROCHE
+C     search for the closest main segment
 C------------------------------------------------
       ILOC(II)=J
       RESULT=EP30

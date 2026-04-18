@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,8 @@
 !||    resol_init                ../engine/source/engine/resol_init.F
 !||====================================================================
       module spmd_xv_inter_type1_mod
+
+      implicit none
 
         INTEGER :: IS_PRESENT_INTER1  ! -1 : not yet defined
         !  0 : false
@@ -76,7 +78,7 @@
           integer,intent(in) :: SFR_ELEM
           real(kind=WP), dimension(3,numnod), intent(inout) :: a,v
           INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    !< frontier node id
-          INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< adress for frontier node
+          INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< address for frontier node
           INTEGER,INTENT(IN) :: NPARI, NINTER
           INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,9 +87,6 @@
           integer, parameter :: my_tag = 18001
           integer :: my_request
           integer, dimension(nspmd) :: my_request_0
-#ifdef MPI
-          integer, dimension(MPI_STATUS_SIZE) :: my_status
-#endif
           type(array_type) :: rcv_buff
           type(array_type), dimension(nspmd) :: send_buff
 
@@ -97,7 +96,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Pre-Condition
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
+#ifndef MPI
+          return
+#endif
           if(is_present_inter1 == 0)return  !no /inter/type1 in input file
           !initialize 'is_present_inter1'
           if(is_present_inter1 == -1)then
@@ -108,7 +109,7 @@
                 is_present_inter1 = 1
                 exit
               end if
-            enddo
+            end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -123,14 +124,14 @@
                 call alloc_my_real_2D_array(rcv_buff) ! allocate the R buffer
                 array_size = rcv_buff%size_my_real_array_2d(1) * rcv_buff%size_my_real_array_2d(2)
                 call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
-                call spmd_wait(my_request, my_status) ! wait the R comm, sent by the processor 0
+                call spmd_wait(my_request) ! wait the R comm, sent by the processor 0
                 do k=1,my_size
-                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  ! index for boundary nodes belonging to interface /TYPE1
                   a(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(1:3,k)
                   v(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(4:6,k)
-                enddo
+                end do
                 call dealloc_my_real_2D_array(rcv_buff) ! deallocate the R buffer
-              endif
+              end if
 
             else ! prepare the sending by main processor ("0")
 
@@ -141,27 +142,26 @@
                 send_buff(j)%size_my_real_array_2d(2) = my_size_0(j)
                 call alloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
                 do k=1,my_size_0(j)
-                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  ! index for boundary nodes belonging to interface /TYPE1
                   send_buff(j)%my_real_array_2d(1:3,k) = a(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save acceleration into the S buffer
                   send_buff(j)%my_real_array_2d(4:6,k) = v(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save velocity into the S buffer
-                enddo
+                end do
                 ! send the S buffer to processor "j"
                 array_size = send_buff(j)%size_my_real_array_2d(1) * send_buff(j)%size_my_real_array_2d(2)
                 if(my_size_0(j) /= 0) then
                   call spmd_isend(send_buff(j)%my_real_array_2d(:,1),array_size,j-1,my_tag,my_request_0(j),SPMD_COMM_WORLD)
-                endif
-              enddo
+                end if
+              end do
 
               do j=2,nspmd
                 if(my_size_0(j) /= 0) then
-                  call spmd_wait(my_request_0(j), my_status)  ! wait the S comm for the processor "j"
+                  call spmd_wait(my_request_0(j))  ! wait the S comm for the processor "j"
                   call dealloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
-                endif
-              enddo
+                end if
+              end do
 
-            endif
-          endif
-#endif
+            end if
+          end if
           return
         end subroutine spmd_xv_inter_type1
       end module spmd_xv_inter_type1_mod

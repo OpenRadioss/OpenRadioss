@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    mmodul             ../engine/source/elements/solid/solidez/mmodul.F
 !||--- called by ------------------------------------------------------
+!||    s6zhour3_or        ../engine/source/elements/solid/solide6z/s6zhourg3_or.F90
 !||    szhour3_or         ../engine/source/elements/solid/solidez/szhour3_or.F
 !||--- calls      -----------------------------------------------------
 !||    c33stif2el         ../engine/source/elements/solid/solidez/c33stif2el.F
@@ -63,12 +64,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,IAD,J,K,ipr,NBDAMA
+      INTEGER I,MX,J
 C     REAL
       my_real
      .   NU,LAMDA,GG,C1,QC(MVSIZ,9),QCG(MVSIZ,9),QG(MVSIZ,9),
-     .   QGC(MVSIZ,9),G3(MVSIZ,3),TT,TV,CA,CB,CN,
-     .   S1,NU12,NU21,EFAC,ARMA,ARM1,ARM2,ARM3,ET24
+     .   QGC(MVSIZ,9),G3(MVSIZ,3),TT,TV,
+     .   S1,NU12,NU21,ARMA,ARM1,ARM2,ARM3,ET24
       my_real
      .   CC24(MVSIZ,3,3),C3(MVSIZ,3)
 C-----------------------------------------------
@@ -280,7 +281,35 @@ C----- w/o armature :--> isotropic
           G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )   
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )  
+      ELSEIF (MTN == 123) THEN     
+         DO I=JFT,JLT
+          CC(I,1,1) = mat_param%uparam(31)
+          CC(I,2,2) = mat_param%uparam(32)
+          CC(I,3,3) = mat_param%uparam(33)
+          CC(I,1,2) = mat_param%uparam(34)
+          CC(I,2,3) = mat_param%uparam(36)
+          CC(I,1,3) = mat_param%uparam(35)
+          G3(I,1)   = mat_param%uparam(4)
+          G3(I,2)   = mat_param%uparam(5)
+          G3(I,3)   = mat_param%uparam(6)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )  
+      ELSEIF (MTN == 125) THEN     
+         DO I=JFT,JLT
+          CC(I,1,1) = mat_param%uparam(81)
+          CC(I,2,2) = mat_param%uparam(82)
+          CC(I,3,3) = mat_param%uparam(83)
+          CC(I,1,2) = mat_param%uparam(84)
+          CC(I,2,3) = mat_param%uparam(86)
+          CC(I,1,3) = mat_param%uparam(85)
+          G3(I,1)   = mat_param%uparam(4)
+          G3(I,2)   = mat_param%uparam(5)
+          G3(I,3)   = mat_param%uparam(6)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
       ELSEIF (MTN == 127) THEN     
         DO I=JFT,JLT
           CC(I,1,1) = mat_param%uparam(41)
@@ -311,8 +340,22 @@ C----- w/o armature :--> isotropic
          G3(I,3)   = MAT_PARAM%SHEAR
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )       
-
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+      ELSEIF (MTN == 130) THEN
+        DO I=JFT,JLT
+          MX = MAT(I)
+          CC(I,1,1) = MAT_PARAM%UPARAM(4)
+          CC(I,2,2) = MAT_PARAM%UPARAM(5)
+          CC(I,3,3) = MAT_PARAM%UPARAM(6)
+          CC(I,1,2) = ZERO 
+          CC(I,2,3) = ZERO
+          CC(I,1,3) = ZERO
+          G3(I,1)   = MAT_PARAM%UPARAM(7)
+          G3(I,2)   = MAT_PARAM%UPARAM(8)
+          G3(I,3)   = MAT_PARAM%UPARAM(9)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
        ELSE
 C----------warring out isotrope effective       
         DO I=JFT,JLT

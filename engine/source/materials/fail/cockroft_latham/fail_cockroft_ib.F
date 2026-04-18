@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real
      .                            C0,EMA,EEQ,SIG_A,SIG_FILTRE,R,Q,I1,S11,
      .                            S22 , S33,R_INTER,PHI,I2 
-      my_real ,DIMENSION(NEL) ::  EPS_EQ,DAMAGE,EPSRATE,EPS11,EPSI,D_EEQ
+      my_real ,DIMENSION(NEL) ::  D_EEQ
 C=======================================================================
 C     UVAR(I,1) contains previous equivalent strain value increment
 C     UVAR(I,2) contains the Cockroft-Latham accumulated value
@@ -113,7 +113,7 @@ c-----------------------------
           I2 = -SIGNXY(I)*SIGNXY(I)-SIGNXZ(I)*SIGNXZ(I)
           
           Q  = (THREE*I2 - I1*I1)/NINE
-          R  = (TWO*I1*I1*I1 - NINE*I1*I2 )/CINQUANTE4     
+          R  = (TWO*I1*I1*I1 - NINE*I1*I2 )/FIFTY4     
            
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PHI = ACOS(MAX(R_INTER,-ONE))

@@ -3,12 +3,9 @@ name: Developer CI
 on:
   
   pull_request:
-    paths:    
-      - '.github/workflows/*.yml'
-
-  pull_request_target:
-    paths-ignore:    
-      - '.github/workflows/*.yml'    
+    # CI is disabled if ONLY workflow files are changed
+    paths-ignore:
+      - '.github/workflows/**'
 
 env:
   QA_TIMEOUT_PER_TEST: 150
@@ -17,21 +14,40 @@ env:
 
 jobs:
 
-  build:
+  # This job is a guard to avoid running CI if workflows files are changed (even if they are not the only ones)
+  guard:
+    runs-on: developer_ci   
+    container: 
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-common:latest"          
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect workflow changes
+        run: |
+          # fetch base branch
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          
+          # list changed files in the PR
+          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }})
+          echo "Files changed in this PR:"
+          echo "$changed"
+          echo "-----"
+
+          # check if workflow or other sensitive dirs were modified
+          if echo "$changed" | grep -E '^\.github/workflows/'; then
+            echo "::error::Workflow files modified — stopping CI for safety."
+            exit 1
+          fi
+
+  build-for-qa:
+    needs: guard
     if: ${{ github.repository_owner == 'OpenRadioss' }}
     # concurrency: 
     #   group: ${{ github.ref_name }}
     #   cancel-in-progress: true
 
-    # DEV ONLY # runs-on: ["build","dev_devci"]
+    # DEV ONLY # runs-on: ["build","dev","dev_ci"]
     runs-on: ["build","developer_ci"]
-    container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      volumes: 
-        - /etc/localtime:/etc/localtime:ro
 
     env:
       BUILD_NB_THREAD: 2
@@ -45,33 +61,20 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
-
-          - build: starter_linux64_gf_sp 
-            precision: sp
-            os: linux64
-            binary: starter
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
 
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
+            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
 
-          - build: engine_linux64_gf_ompi_sp
-            precision: sp
-            os: linux64 
-            binary: engine
-            mpi: ompi
-
-          - build: engine_linux64_gf
-            precision: dp
-            os: linux64
-            binary: engine
-
-          - build: engine_linux64_gf_sp
-            precision: sp
-            os: linux64 
-            binary: engine
+    container: 
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "internal.artifacts.altair.com/radioss-docker-local/${{ matrix.image_name }}"   
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
 
     steps:
 
@@ -81,9 +84,9 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Running build
@@ -101,7 +104,7 @@ jobs:
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh
 
@@ -116,30 +119,128 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique) 
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: exec
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: extlib.zip
         if: ${{ matrix.build == 'starter_linux64_gf' }}
 
+  build:
+    needs: guard
+    if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # concurrency: 
+    #   group: ${{ github.ref_name }}
+    #   cancel-in-progress: true
+
+    # DEV ONLY # runs-on: ["build","dev","dev_ci"]
+    runs-on: ["build","developer_ci"]
+
+    env:
+      BUILD_NB_THREAD: 2
+
+    strategy:
+      # If one job fails othere are canceled
+      fail-fast: true
+      matrix:
+        include:
+
+          - build: starter_linux64_gf_sp 
+            precision: sp
+            os: linux64
+            binary: starter
+            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+
+          - build: engine_linux64_gf_ompi_sp
+            precision: sp
+            os: linux64 
+            binary: engine
+            mpi: ompi
+            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+
+          # Disabled since error would be seen in ompi version
+          # - build: engine_linux64_gf
+          #   precision: dp
+          #   os: linux64
+          #   binary: engine
+          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+
+          # - build: engine_linux64_gf_sp
+          #   precision: sp
+          #   os: linux64 
+          #   binary: engine
+          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+
+    container: 
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "internal.artifacts.altair.com/radioss-docker-local/${{ matrix.image_name }}"    
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+
+    steps:
+
+      - name: Clean local exe dir
+        run: |
+          rm -rf exec
+          md5sum exec/* || echo "Nothing in exec/" 
+
+      # Get last git modifications, WS is not persistent here
+      - uses: actions/checkout@v6
+        with:
+          lfs: 'false'
+          ref: refs/pull/${{ github.event.number }}/merge
+
+      - name: Running build
+        run: |
+          echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
+          
+          mpi_opts=''
+          if [ ! -z ${{ matrix.mpi }} ]
+          then
+            mpi_opts="-mpi=${{ matrix.mpi }}"
+          fi
+
+          cmd="./build_script.sh -release -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts"
+          echo "========================================="
+          echo "--  BUILD ${{ matrix.build }} --"   
+          echo "--  $cmd --"   
+          echo "========================================="
+          source /root/.bashrc
+          chmod 755 Compiling_tools/script/*
+          chmod 755 ${{ matrix.binary }}/build_script.sh
+
+          md5sum exec/* || echo "Nothing in exec/" 
+          mkdir exec
+          cd ${{ matrix.binary }}
+
+          eval $cmd
+
+          cd ..
+          md5sum exec/* || exit 1
+
+      # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique) 
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
+          path: exec
+
   code-analysis:
+    needs: guard
     # We execute after all builds (in // with QA)
     if: ${{ github.repository_owner == 'OpenRadioss' }}
 
     # DEV ONLY # runs-on: ["build","dev_devci"]
     runs-on: ["build","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-cos8-bld:ompi4.1.1-ts11"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -169,14 +270,14 @@ jobs:
           md5sum exec/* || echo "Nothing in exec/" 
 
       # Get last git modifications, WS is not persistent here
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Generate Fortran Signatures
         run: |
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           cd scripts/gcc_plugin
           sh build.sh          
           cd -
@@ -196,7 +297,7 @@ jobs:
           echo "--  BUILD & ANALYSE ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh
 
@@ -207,21 +308,19 @@ jobs:
           eval $cmd
 
   qa:
-    needs: build
+    needs: build-for-qa
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-cos8-qa:ompi4.1.1"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
     env:
       hm_reader_extlib: ../../extlib/hm_reader
       hm_reader_cfgfiles: ../../hm_cfg_files
-      homeuser: /home/adminqa
+      homeuser: /root
       mpi: ompi
       # DEV ONLY # QA_NB_PROC: 2
       QA_NB_PROC: 4
@@ -238,9 +337,9 @@ jobs:
     steps:
 
       # Get git related to the commit
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
           ref: refs/pull/${{ github.event.number }}/merge
 
       - name: Clean local exe dir
@@ -250,25 +349,25 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_linux64_gf
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
 
@@ -290,6 +389,10 @@ jobs:
           cd qa-tests/scripts
           chmod 755 or_qa_script or_radioss.pl 
           rm -f QA.summary
+
+          # Allow root to execute mpi command (we are in docker container as root)
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
           source ${{ env.homeuser }}/.bashrc
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,17 @@
 !||    rbe2v1                ../engine/source/constraints/general/rbe2/rbe2v.F
 !||    rbe2vl1               ../engine/source/constraints/general/rbe2/rbe2v.F
 !||    rgbodv                ../engine/source/constraints/general/rbody/rgbodv.F
+!||    rwall_fpen            ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||====================================================================
       module velrot_explicit_mod
+
+      implicit none
 
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 !=======================================================================================================================
-!!\brief This subroutine compute displacement due to finit rotation (no more precise w/ cross-product)
+!!\brief This subroutine computes displacement due to finite rotation (no longer precise with cross-product)
 !=======================================================================================================================
 !||====================================================================
 !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
@@ -102,11 +105,12 @@
 
         end subroutine velrot_explicit
 !=======================================================================================================================
-!!\brief This subroutine compute cross-product Z = X (x) Y
+!!\brief This subroutine computes cross-product Z = X (x) Y
 !=======================================================================================================================
 !||====================================================================
 !||    cross_product     ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||--- called by ------------------------------------------------------
+!||    rwall_fpen        ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    velrot_explicit   ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod     ../common_source/modules/precision_mod.F90

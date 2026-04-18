@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r23bilan     ../engine/source/elements/spring/r23bilan.F
+!||    r23bilan      ../engine/source/elements/spring/r23bilan.F
 !||--- called by ------------------------------------------------------
-!||    r23law108    ../engine/source/elements/spring/r23law108.F
-!||    r23law113    ../engine/source/elements/spring/r23law113.F
-!||    r23law114    ../engine/source/elements/spring/r23law114.F
+!||    r23law108     ../engine/source/elements/spring/r23law108.F
+!||    r23law113     ../engine/source/elements/spring/r23law113.F
+!||    r23law114     ../engine/source/elements/spring/r23law114.F
 !||--- calls      -----------------------------------------------------
-!||    grelem_sav   ../engine/source/output/th/grelem_sav.F
+!||    grelem_sav    ../engine/source/output/th/grelem_sav.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R23BILAN(
      1   EINT,    PARTSAV, IXR,     GEO,
@@ -35,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   GRTH,    IGRTH,   OFF_DUM, NC1,
      4   NC2,     X,       VR,      NEL,
      5   IGRE)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,17 +66,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J, ILENG, FLAG
+      INTEGER I,MX, FLAG
       my_real
      .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
      .   V1(MVSIZ,3),V2(MVSIZ,3),
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
      .   XMAS2(MVSIZ), REINTT,
-     .   XMAS(MVSIZ), RHO(MVSIZ), INEL,
+     .   XMAS(MVSIZ), INEL,
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
-     .   VA1,XM1PHI,XM2PHI,RBIDON(1),OFF(MVSIZ),
-     .   IN2, EI(MVSIZ),REK(MVSIZ),
+     .   RBIDON(1),OFF(MVSIZ),
+     .   IN2,REK(MVSIZ),
      .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),

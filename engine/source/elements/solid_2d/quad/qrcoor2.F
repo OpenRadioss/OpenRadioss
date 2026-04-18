@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IV
+      INTEGER I
       my_real
      .   SY(MVSIZ) , SZ(MVSIZ) ,
      .   TY(MVSIZ) , TZ(MVSIZ) , 
@@ -84,7 +84,7 @@ C-----------------------------------------------
       END DO
 C
 C----------------------------
-C     COORDONNEES NODALES
+C     NODE COORDINATES
 C----------------------------
       DO I=1,NEL
         Y1(I)=X(2,NC1(I))
@@ -104,7 +104,7 @@ C----------------------------
         END DO
       END IF
 C---------------------------------------
-C     REPERE LOCAL
+C     LOCAL REFERENCE FRAME
 C---------------------------------------
       DO I=1,NEL
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
@@ -113,7 +113,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE : Same than the shell
+C     convected frame : Same than the shell
 C-----------
       DO I=1,NEL
         CT = TY(I)*TY(I)+TZ(I)*TZ(I)
@@ -166,7 +166,7 @@ C-----------
         Z4(I)=ZL
       END DO
 C-----------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH /= 0)THEN
         DO I=1,NEL
@@ -193,7 +193,7 @@ C
           ZL=G23*Y4(I)+G33*Z4(I)
           Y4(I)=YL
           Z4(I)=ZL
-C         MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
+C         TRANSFORMATION MATRIX GLOBAL -> ORTHOTROPIC.
           T22=R22(I)*G22+R23(I)*G32
           T23=R22(I)*G23+R23(I)*G33
           T32=R32(I)*G22+R33(I)*G32

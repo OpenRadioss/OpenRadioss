@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    vinter2       ../engine/source/tools/curve/vinter.F
 !||====================================================================
       SUBROUTINE SIGEPS36(
-     1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,
+     1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,TF     ,
+     2     TIMESTEP,UPARAM  ,RHO0    ,
      4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
@@ -64,7 +64,6 @@ C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
 C NPF     |  *      | I | R | FUNCTION ARRAY   
 C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
-C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C RHO0    | NEL     | F | R | INITIAL DENSITY
@@ -101,9 +100,7 @@ C=======================================================================
       INTEGER, INTENT(IN) :: IEOS
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL,MAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
-      my_real
-     .   TIME,TIMESTEP,UPARAM(*),
-     .   RHO0(NEL),
+      my_real :: TIMESTEP,UPARAM(*),RHO0(NEL),
      .   EPSXX(NEL),EPSYY(NEL),EPSZZ(NEL),
      .   EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -243,7 +240,7 @@ c          from the old stresses, thus, SIGOxx is a shifted old stress
         ENDDO            
       ENDIF 
 c------------------------------------------
-c     element length scale function
+c     Length Scale Function element
 c------------------------------------------
       IF (OPTE == 1) THEN
         IFUNCE = UPARAM( 2*NRATE + 22)
@@ -355,7 +352,7 @@ c           yp= 3 x^2 + c
           E62 = E6*E6
           C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
           EPST = SQRT(-C*THIRD)
-c         2*EPST est un majorant de la solution
+c         2*EPST is an upper bound of the solution
           EPSR1DAV = EPSR1F - DAV
           IF(EPST+EPST < EPSR1DAV)CYCLE
           D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
@@ -368,7 +365,7 @@ c         2*EPST est un majorant de la solution
             Y = (EPST2 + C)* EPST + D
             YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
-c           EPST est un majorant de la solution
+c           EPST is an upper bound of the solution
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
@@ -469,7 +466,7 @@ c
             VARTMP(I,J2+2) = IPOS2(I)
           ENDDO
 C
-          IF (FISOKIN == ZERO) THEN   ! ecrouissage isotrope
+          IF (FISOKIN == ZERO) THEN   ! ISOTROP
 #include "vectorize.inc"
             DO I=1,NEL
               J1 = JJ(I)
@@ -484,7 +481,7 @@ C
               H(I) = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I))) * CC
             ENDDO
 c
-          ELSEIF (FISOKIN == ONE) THEN   ! ecrouissage cinematique
+          ELSEIF (FISOKIN == ONE) THEN   ! cinematics
 c
 #include "vectorize.inc"
             DO I=1,NEL
@@ -502,7 +499,7 @@ c
               YLD(I) = CC*(Y1(I)    + FAC*(Y2(I)-Y1(I)))            
             ENDDO
 c
-          ELSE      ! 0 < FISOKIN < 1  ecrouissage mixte
+          ELSE      ! 0 <fisokin <1 mixed collapse
 c
 #include "vectorize.inc"
             DO I=1,NEL
@@ -636,19 +633,6 @@ C=======================================================================
       ELSE  ! VP=1
 C=======================================================================
 C=======================================================================
-        IF (ISIGI == 0) THEN
-          IF(TIME == ZERO)THEN
-           DO I=1,NEL
-                YFAC(I,1) = UPARAM(6+NRATE+1)*FACYLDI(I)
-                YLD(I) = YFAC(I,1)*FINTER(IFUNC(1)  ,ZERO,NPF,TF,DYDX1(I)) 
-            H(I)   = DYDX1(I) 
-            YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
-            H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
-            UVAR(I,3) = YLD(I)     
-           ENDDO
-          ENDIF
-        ENDIF
-C
         DO I=1,NEL
          PLAOLD(I) = PLA(I)                                          
          PLAP(I) = UVAR(I,2)                              
@@ -656,7 +640,7 @@ C
          JJ(I) = 1                                                 
         ENDDO
 C-------------------------
-C       CRITERE DE VON MISES
+C       VON MISES CRITERION
 C-------------------------
         DO I=1,NEL
           SVM2(I) = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
@@ -1148,7 +1132,7 @@ c------------------------------------------------
               I = INDEX(II) 
               SVM_TAB(I)       = SQRT(SVM2(I))  
               DPLA_J(I) =  UVAR(I,1) + EM09 
-              !DPLA_J(I) = (SVM-YLD(I))/(G3(I)+H(I))!converge moins bien avec estimation radial
+              !Dpla_j (i) = (svm-yld (i))/(g3 (i)+h (i))! Converges less well with radial estimate
               !-------------- 
               !update yield :
               !-------------- 
@@ -1430,7 +1414,7 @@ c          ..gets stresses from shifted stresses and back stresses
              SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
           ENDDO
 
-        ELSEIF (FISOKIN > ZERO) THEN   ! ecrouissage mixte
+        ELSEIF (FISOKIN > ZERO) THEN   ! mixed collapse
 #include "vectorize.inc"
           DO I=1,NEL
              DSXX = SIGEXX(I) - SIGNXX(I) 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -165,45 +165,36 @@ C-----------------------------------------------
       INTEGER I,J,J1,J2,N,NINDX,NMAX,IADBUF,NFUNC,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
-     .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(MVSIZ,100),NRATEM,
+     . JJ(MVSIZ),INDEX(MVSIZ),IFUNC(MVSIZ,100),
      .        NRATE1,IFUNC1(100),NFUNCV(MVSIZ),
      .        NFUNCM,IPERF
-      INTEGER JST(MVSIZ+1),IC,MNRATE
+      INTEGER JST(MVSIZ+1), IC
       my_real
-     .      MX,MX2,MX3,MX4,ME,MA1,MA2,MG,MNU,
-     .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN
+     . MX234
       my_real
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
      .        YFAC(MVSIZ,2),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
-     .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),SVMO(MVSIZ),H(MVSIZ),
+     . PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
      .        HK(MVSIZ)
       my_real
-     .        R,UMR,A,B,C,AMU,S11,S22,S12,P,P2,FAC,DEZZ,
-     .        SIGZ,S1,S2,S3,DPLA,VM2,EPST,NNU2,
-     .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,ALPHA,
+     . R,UMR,A,B,C,S11,S22,S12,P,P2,FAC,DEZZ,
+     . SIGZ,S1,S2,S3,VM2,EPST,NNU2,
+     . F,DF,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,ALPHA,
      .        E1,A11,A21,G1,G31,NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
      .        EPSMAX1,EPSR11,EPSR21,FISOKIN1,
      .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX
 C
 C -- Added variables for NEC grouping
       my_real
-     .     NG_E,NG_A1,NG_A2,NG_G,NG_NU,NG_G3,
-     .     NG_ESPMAX,NG_EPSR1,NG_EPSR2,NG_FISOKIN,
-     .     NG_NRATES(MVSIZ,100),
-     .     NG_RATE1,NG_RATE2,NG_YFAC1,NG_YFAC2,
-     .     NG_IPOS1,NG_IPOS2,NG_IAD1,NG_IAD2,NG_ILEN1,NG_ILEN2,
-     .     NG_EPS1,NG_EPS2,NG_Y11,NG_Y12,NG_EPSMAX,
-     .     Y11(MVSIZ),Y12(MVSIZ)
-      INTEGER NG_NRATE, NG_CRVVAL,EPSMAX0LIST(MVSIZ)
+     . NG_NU3,
+     .     NG_NRATES(MVSIZ,100)
+ 
       INTEGER
-     .     K,L,M,JJS(MVSIZ+1,100+1),JCNT,
-     .     ISQRT,ISQRTLIST(MVSIZ),
-     .     DIFF(MVSIZ),IMIX,IMIXV(MVSIZ),TEMPIC,JEND(MVSIZ),
-     .     IFUNCM(MVSIZ,100),NFUNCMV(MVSIZ),JLAST(MVSIZ+1),
-     .     IEPSMAX0,JJINDEX(MVSIZ),JJSTART,JJEND
+     . IMIX,IMIXV(MVSIZ),JEND(MVSIZ),
+     . IFUNCM(MVSIZ,100)
 C -- End NEC grouping
       DATA NMAX/3/,IPERF/0/
 C-----------------------------------------------
@@ -390,7 +381,7 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1)==0)THEN
-C projection radiale 
+C radial projection 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -412,7 +403,7 @@ C projection radiale
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -488,10 +479,10 @@ C------------------------------------------
          ENDIF
 C-------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P

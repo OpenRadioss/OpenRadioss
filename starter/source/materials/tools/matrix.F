@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -229,28 +229,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       my_real
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM
       REAL FLMIN
 C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     MAIN STRESS DEVIATOR
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on REAL or DOUBLE type
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -289,7 +289,7 @@ C
         VAL(1,NN) = STR(1,NN)-PR
         VAL(2,NN) = STR(2,NN)-PR
         VAL(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression
+C Compression accuracy strengthening
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -499,10 +499,10 @@ C
         VEC(8,NN)=VEC(3,NN)*VEC(4,NN)-VEC(1,NN)*VEC(6,NN)
         VEC(9,NN)=VEC(1,NN)*VEC(5,NN)-VEC(2,NN)*VEC(4,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -526,6 +526,7 @@ C
 !||    sigeps01    ../starter/source/materials/mat/mat001/sigeps01.F90
 !||    sigeps38    ../starter/source/materials/mat/mat038/sigeps38.F
 !||    sigeps42    ../starter/source/materials/mat/mat042/sigeps42.F
+!||    sigeps88    ../starter/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90    ../starter/source/materials/mat/mat090/sigeps90.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
@@ -547,16 +548,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
+      INTEGER   N, NN, LMAX, LMAXV(MVSIZ),NINDEX3, INDEX3(MVSIZ),
      .        NINDEX1, NINDEX2, INDEX1(MVSIZ), INDEX2(MVSIZ)
       DOUBLE PRECISION
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
      .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
-     .   VMAG, S11,
-     .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
-     .   A22, A23, A31, A32, A33,
+     .   VMAG,
+     .      
+     .       
      .   MDEMI, XMAXINV, FLM,
      .   VALDP(3,MVSIZ),VECDP(9,MVSIZ)
       REAL FLMIN
@@ -564,12 +565,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     MAIN STRESS DEVIATOR
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on REAL or DOUBLE type
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -608,7 +609,7 @@ C
         VALDP(1,NN) = STR(1,NN)-PR
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -832,10 +833,10 @@ C
         VEC(8,NN)=VECDP(8,NN)
         VEC(9,NN)=VECDP(9,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)

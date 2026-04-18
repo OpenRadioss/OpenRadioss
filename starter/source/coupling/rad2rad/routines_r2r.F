@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,6 @@ C-----------
 !||====================================================================
 !||    r2r_sys          ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_eref     ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_xref     ../starter/source/loads/reference_state/xref/hm_read_xref.F
 !||    lecrefsta        ../starter/source/loads/reference_state/refsta/lecrefsta.F
@@ -191,7 +190,7 @@ C-----------------------------------------------
 C-----------------------------------------------
         TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
-        INTEGER I,NNCPL,COMPT
+        INTEGER I,COMPT
 C=======================================================================
         NODGR_R2R = 0
         IF (IGU > 0) THEN
@@ -274,6 +273,7 @@ C-----------------------------------------------
 !||    hm_preread_rbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_rbe3        ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
 !||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+!||    hm_read_ale_link       ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_cyljoint       ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
 !||    hm_read_gjoint         ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
 !||    hm_read_inivol         ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
@@ -466,17 +466,16 @@ C-----------GAUGES------------------
       end function R2R_EXIST
 
 !||====================================================================
-!||    r2r_listcnt        ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    r2r_listcnt      ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_thgrsurf   ../starter/source/output/th/hm_read_thgrsurf.F
-!||    hm_thgrki_vent     ../starter/source/output/th/hm_thgrki_vent.F
+!||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
 !||--- calls      -----------------------------------------------------
-!||    my_exit            ../starter/source/output/analyse/analyse.c
-!||    r2r_exist          ../starter/source/coupling/rad2rad/routines_r2r.F
+!||    my_exit          ../starter/source/output/analyse/analyse.c
+!||    r2r_exist        ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod         ../starter/share/modules1/format_mod.F90
-!||    r2r_mod            ../starter/share/modules1/r2r_mod.F
-!||    reader_old_mod     ../starter/share/modules1/reader_old_mod.F90
+!||    format_mod       ../starter/share/modules1/format_mod.F90
+!||    r2r_mod          ../starter/share/modules1/r2r_mod.F
+!||    reader_old_mod   ../starter/share/modules1/reader_old_mod.F90
 !||====================================================================
       INTEGER FUNCTION R2R_LISTCNT(NVAR,TYP)
 C-----------------------------------------------
@@ -669,7 +668,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J
+        INTEGER I
 C=======================================================================
 C-- Split of NOM_OPT
 
@@ -706,6 +705,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE R2R_MOD
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -767,6 +767,7 @@ C-----------------------------------------------
         USE RESTMOD
         USE NOD2EL_MOD
         USE R2R_MOD
+        use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

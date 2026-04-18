@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -77,7 +77,7 @@ C VISCM    |   NX    | F | W | NODAL VISCOSITY (TIME STEP)
 C VISCR    |   NX    | F | W | NODAL ROTATION VISCOSITY (TIME STEP)
 C----------+---------+---+---+--------------------------------------------
 C FORC     | 3*NX    | F | W | NODAL FORCES
-C TORQ     | 3*NX    | F | W | NODAL TORQUS
+C TORQ     | 3*NX    | F | W | NODAL TORQUE
 C----------+---------+---+---+--------------------------------------------
 C NUVAR    |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C UVAR     |NUVAR    | F |R/W| USER ELEMENT VARIABLES 
@@ -177,11 +177,11 @@ C-----------------------------------------------
       INTEGER NB1, NB2, NB3, MB1, MB2, MB3, MB4, MB5,
      .        K, IFUNCT, IFV, NIT, ECHANGE
       my_real
-     .  LPREV, LNEXT, VPREV(3), VNEXT(3), VV,XK, XC,
-     .  L0, L, DX, DXOLD, DDX, DT11, DVX, FX, G, Y, DFDX, DGDX, F,
+     .   LNEXT, VPREV(3), VNEXT(3), VV,XK, XC,
+     .  L0, L, DX, DXOLD, DDX, DT11, DVX, FX, G, DFDX, DGDX, F,
      .  STIF, MU1, MU2, FRIC, MU, BETA, FMAX, DFS, DF,   FF,
-     .  EPSMOY, DF1, DF2, XN, FXOLD, EPSTOT, EPSMIN, EPSMAX, DEPS,
-     .  RHO, XM, XKM, XKS, XCM, DTC, DTK, FACT, FFAC,XFAC  
+     .  EPSMOY, XN, FXOLD, EPSTOT, EPSMIN, EPSMAX, DEPS,
+     .  RHO, XM, XKM, XCM, DTC, DTK, FACT, FFAC,XFAC  
 C-----------------------------------------------
 C       initial total length UVAR(NB1:NB1)
         NB1=1
@@ -232,7 +232,7 @@ C------------------------------------------
 C        LINEAR ELASTIC
          L0  =UVAR(NB1)
          DX  =L-L0
-C        raideur tgte par unite de longueur.
+C        tangent stiffness per unit length
          STIF=XK
          F   =XK*DX/L0
          EPSTOT=DX/L0
@@ -252,7 +252,7 @@ C        NON LINEAR ELASTIC
          DX    =L-L0
          EPSTOT=DX/L0
          F     =GET_U_FUNC(IFUNCT,EPSTOT,DFDX)
-C        raideur tgte par unite de longueur.
+C        tangent stiffness per unit length
          F = FFAC*F
          STIF=FFAC*DFDX
         ENDIF
@@ -333,7 +333,7 @@ C-------
      .       + VPREV(2) * (VEL(2,K+1) - VEL(2,K))
      .       + VPREV(3) * (VEL(3,K+1) - VEL(3,K))
          UVARN(MB2+K-1)=UVARN(MB2+K-1)
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to:
      .       +STIF*(DT*DDX*(XN-ONE)/MAX(EM15,L)-EPSMOY)
         ENDDO
 C-------
@@ -344,7 +344,7 @@ C
           ECHANGE=0
           NIT=NIT+1
           DO K=1,NX-1
-C           stifr utilise de maniere temporaire.
+C           SFR uses a temporary manner.
             STIFR(K)=UVARN(MB2+K-1)
           END DO
           DO K=2,NX-1
@@ -381,7 +381,7 @@ C
            DFS  = STIFR(K-1)-STIFR(K)
            IF(ABS(DFS)>FMAX)THEN
              DF =SIGN(ABS(DFS)-FMAX,DFS)
-C            tous les brins ont la meme longueur correspond a :
+C            all strands have the same length corresponds to:
              UVARN(MB2+K-2)=UVARN(MB2+K-2)-HALF*DF
              UVARN(MB2+K-1)=UVARN(MB2+K-1)+HALF*DF
              ECHANGE=1

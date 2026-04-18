@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    int22listcombi   ../engine/source/interfaces/int22/int22ListCombi.F
 !||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -59,7 +60,7 @@ C                          8 +     6      +     5      +                        
 C                          9 +     6      +     7      +                                             
 C     LIST OF NODES       10 +     8      +     4      +   LIST OF EDGES       LIST OF FACES          
 C     DEFINED WITH        11 +     8      +     5      +   DEFINED WITH        DEFINED WITH         
-C     LOCAL IDs           12 +     8      +     7      +   LOCAL IDs               LOCAL IDs         
+C     Local IDS 12 + 8 + 7 + Local IDS Local IDS         
 C                            +------------+------------+
 
 C---------identification of cut cell---------
@@ -89,6 +90,7 @@ C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE I22EDGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -210,7 +212,6 @@ C=======================================================================
         ! 3 Potential Polyhedron Detection : stored in SecTypeList in [1,106]
         !===================================================================
         Iremoved = 0
-   10   CONTINUE
         IB = I        
         SecTypeList(:) = 0
         UsedNodes = 0
@@ -242,7 +243,7 @@ C=======================================================================
             K = K+1             
           END IF
         END DO
-        IF(NBITS==3.AND.(NPQTS==1.OR.NPQTS==3))GOTO 50 !pas d'autre intersection
+        IF(NBITS==3.AND.(NPQTS==1.OR.NPQTS==3))GOTO 50 !no other intersection
         !------------------------!
         !        PENTA           !
         !------------------------!
@@ -483,7 +484,7 @@ C=======================================================================
             IAD          = (I-1)*12+J
             NBCUT        = EDGE_LIST(NIN,IAD)%NBCUT
             DO K=1,NBCUT
-              !on ecrit les coordonnees des intersections aux edges
+              !write intersection coordinates at the edges
               CUTCOOR = EDGE_LIST(NIN,IAD)%CUTCOOR(K) 
               POINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD)%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD)%VECTOR(1:3))                          
             END DO ! (DO K=1,NBCUT <=> NBCUT>0)
@@ -533,7 +534,7 @@ C=======================================================================
 C=======================================================================
 C 5 DEBUG
 C=======================================================================
-      CALL MY_BARRIER  !pour affichage complet dans lordre par itask 0
+      call my_barrier  !for complete display in order by itask 0
 
       if(debug_outp)then
       if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))then

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -81,15 +81,13 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER INFO,MSGOFF
-      INTEGER K
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-C     si FROM = 0 ADD = 2 broadcast depuis 0 sur les autres
-C     si FROM = NSPMD  ADD = 1 de NSPMD sur les autres
+C     If from = 0 Add = 2 Broadcast since 0 on the others
+C     if FROM = NSPMD ADD = 1 from NSPMD on others
 
       IF(ISPMD==FROM)THEN
         call MPI_BCAST(TABI,N1*N2,REAL,FROM,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,NRTS, NIN, NRTSR,
+      INTEGER NMN, NRTM, NSN, NOINT,NRTS, NIN, NRTSR,
      .        IGAP,IAUTO, I_MEM, ITASK
       INTEGER IRECTS(2,*),IRECTM(2,*),ADDCM(*),CHAINE(2,*)
       INTEGER CAND_M(*),CAND_S(*),IFPEN(*),FLAGREMNODE,KREMNODE(*),REMNODE(*)
@@ -86,14 +86,10 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX,ISZNSNR
       PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, N1, N2, I_ADD, MAXSIZ,JJ,
-     .        ADD(2,I_ADD_MAX), N
+      INTEGER I, I_ADD, MAXSIZ,
+     . ADD(2,I_ADD_MAX)
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
-      my_real 
-     . DD,DD1,MARGE_ST,DX1,DY1,DZ1
-      INTEGER :: L
-      INTEGER NB_OLD(2,I_ADD_MAX+1)
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
 C-----------------------------------------------
@@ -104,11 +100,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES 
+C----- sorting by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if we don't have enough memory for the stacks we restart the sorting
+C by incrementing nb_n_b (number of nodes per finished box)
 C
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -117,7 +113,7 @@ C     P21.......Elt Bas Pile        NRTS
 C     P22.......Elt PILE            3*NRTS
       MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x,y,z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -146,7 +142,7 @@ C
       ENDIF    
 C
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of sorting phase
    
       MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
@@ -217,11 +213,9 @@ C Reduction of the number of voxels
 
         CALL MY_BARRIER
 
-  100 CONTINUE
-
 C
 C     I_MEM = 1 ==> N/A
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> N/A
 
 
@@ -264,7 +258,7 @@ c     ENDIF
 #include "lockoff.inc"
         ENDIF
         TZINF = THREE_OVER_4*TZINF
-C ne pas dimunuer la taille des boite
+C do not decrease the box size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
@@ -291,8 +285,8 @@ C --- --- --- Chd|  I11BUCE                       src/intsort/i11buce.F
 C --- --- --- Chd|-- called by -----------
 C --- --- --- Chd|        I11MAIN_TRI                   src/intsort/i11main_tri.F     
 C --- --- --- Chd|-- calls ---------------
-C --- --- --- Chd|        ANCMSG                        src/message/message.F         
-C --- --- --- Chd|        ARRET                         src/sortie/arret.F            
+C --- ------- CHD |Ancmsg SRC/Message/message.f         
+C --- ------- CHD |SRC stop/exit/stop. F            
 C --- --- --- Chd|        I11TRI                        src/intsort/i11tri.F          
 C --- --- --- Chd|        I11TRIVOX                     src/intsort/i11trivox.F       
 C --- --- --- Chd|        MY_BARRIER                    src/spe/machine.F             
@@ -372,11 +366,11 @@ C --- --- --- C   S o u r c e  L i n e s
 C --- --- --- C-----------------------------------------------
 C --- --- --- C-----------------------------------------------
 C --- --- --- C
-C --- --- --- C----- TRI PAR BOITES 
+C --- --- --- C----- SORTING BY BOXES
 C --- --- --- C
 C --- --- --- C-----------------------------------------------
-C --- --- --- C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C --- --- --- C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C --- --- --- C if we don't have enough memory for the stacks we restart the sorting
+C --- --- --- C by incrementing nb_n_b (number of nodes per finished box)
 C --- --- --- C
 C --- --- --- C     POINTEUR  NOM                 TAILLE
 C --- --- --- C     P1........Elt Bas Pile        NRTM
@@ -385,7 +379,7 @@ C --- --- --- C     P21.......Elt Bas Pile        NRTS
 C --- --- --- C     P22.......Elt PILE            3*NRTS
 C --- --- ---       MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
 C --- --- --- C
-C --- --- --- C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C --- --- --- C-----initialization of addresses and x,y,z
 C --- --- --- C
 C --- --- --- C     ADDE     ADDN     X      Y      Z
 C --- --- --- C     1        1        XMIN   YMIN   ZMIN
@@ -414,9 +408,9 @@ C --- --- ---         ISZNSNR = NRTSR
 C --- --- ---       ENDIF    
 C --- --- --- C
 C --- --- --- C
-C --- --- --- C-----DEBUT DE LA PHASE DE TRI 
+C --- --- --- C-----beginning of the sorting phase
 C --- --- --- C 
-C --- --- ---       GOTO 50 !commenter pour debtrancher le tri voxel
+C --- --- ---       GOTO 50 !comment to disable the voxel sorting
 C --- --- ---       print *, "bucket search"
 C --- --- ---       CALL I11TRI(
 C --- --- ---      1   ADD     ,
@@ -428,7 +422,7 @@ C --- --- ---      6   ADDCM   ,CHAINE  ,NRTS     ,ITAB     ,NB_OLD ,
 C --- --- ---      7   STIFS   ,STIFM   ,IAUTO    ,NIN      ,IFPEN  ,
 C --- --- ---      8   IFORM) 
 C --- --- --- 
-C --- --- ---       !cts on debranche la routine de tri par voxel pour le moment
+C --- --- ---       !cts we disable the voxel sorting routine for now
 C --- --- ---       GOTO 100    
 C --- --- ---        
 C --- --- ---    50 CONTINUE
@@ -453,7 +447,7 @@ C --- --- ---       NBX8=NBX
 C --- --- ---       NBY8=NBY
 C --- --- ---       NBZ8=NBZ
 C --- --- ---       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-C --- --- ---       LVOXEL8 = LVOXEL      
+C --- ------- lvoxel8 = lvoxel      
 C --- --- --- 
 C --- --- ---       IF(RES8 > LVOXEL8)THEN
 C --- --- ---         AAA = LVOXEL
@@ -496,7 +490,7 @@ C --- --- ---   100 CONTINUE
 C --- --- --- 
 C --- --- --- C
 C --- --- --- C     I_MEM = 1 ==> N/A
-C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C --- --- --- C     I_MEM = 3 ==> N/A
 C --- --- --- 
 C --- --- ---       IF (I_MEM == 2) RETURN
@@ -520,7 +514,7 @@ C --- --- ---           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 C --- --- --- #include "lockoff.inc"
 C --- --- ---         ENDIF
 C --- --- ---         TZINF = THREE_OVER_4*TZINF
-C --- --- --- C ne pas dimunuer la taille des boite
+C --- --- --- C do not decrease the box size
 C --- --- --- C        MINBOX= THREE_OVER_4*MINBOX
 C --- --- --- C        MAXBOX= THREE_OVER_4*MAXBOX
 C --- --- ---         IF( TZINF<=MAX(GAP,DRAD) ) THEN

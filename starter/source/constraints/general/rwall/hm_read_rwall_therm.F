@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ngr2usr                ../starter/source/system/nintrr.F
 !||    remove_nd              ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    subrotpoint            ../starter/source/model/submodel/subrot.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
@@ -50,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                K       ,OFFS    ,IKINE1  ,IXS     ,IXQ     ,
      .                                NPC     ) 
 C-------------------------------------
-C     LECTURE MUR RIGIDE
+C     READING MUR RIGIDE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,6 +60,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS, NGR2USR
+      INTEGER NGR2USR
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       DATA MESS/'STANDARD RIGID WALL DEFINITION          '/
 C=======================================================================

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    amomt3    ../engine/source/elements/solid/solide/amomt3.F
+!||    amomt3        ../engine/source/elements/solid/solide/amomt3.F
 !||--- called by ------------------------------------------------------
-!||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
-!||    ajac3_v   ../engine/source/elements/solid/solide/ajac3.F
-!||    amomtn3   ../engine/source/elements/solid/solide/amomtn3.F
+!||    ajac3_v       ../engine/source/elements/solid/solide/ajac3.F
+!||    amomtn3       ../engine/source/elements/solid/solide/amomtn3.F
 !||--- uses       -----------------------------------------------------
-!||    ale_mod   ../common_source/modules/ale/ale_mod.F
+!||    ale_mod       ../common_source/modules/ale/ale_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE AMOMT3(
      1   PM,      RHO,     VOL,     X1,
@@ -67,11 +68,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      X   IPARG1,  IXS,     IAD22,   NC1,
      Y   NC2,     NC3,     NC4,     NC5,
      Z   NC6,     NC7,     NC8,     NALE,
-     1   NEL,     NFT,     MTN,     IPM)
+     1   NEL,     NFT,     MTN,     IPM,
+     2   s_qmv,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +95,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: MTN
       INTEGER, INTENT(IN) :: NEL
+      integer, intent(in) :: s_qmv !< first dimension of qmv array
+      integer, intent(in) :: nv46 !< second dimension of qmv array      
       my_real
      .   PM(NPROPM,NUMMAT), RHO(*),VOL(*),
      .   X1(*),X2(*),X3(*),X4(*),X5(*),X6(*),X7(*),X8(*),
@@ -117,7 +122,7 @@ C-----------------------------------------------
      .   VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),
      .   VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
      .   VDX(*),VDY(*),VDZ(*),
-     .   DELTAX(*),VIS(*),QMV(12,*),BUFMAT(*),IAD22(*)
+     .   DELTAX(*),VIS(*),QMV(s_qmv,2*nv46),BUFMAT(*),IAD22(*)
       INTEGER MAT(*),IPARG1(*),IXS(NIXS,*), 
      .   NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*), 
      .   NALE(*)
@@ -135,7 +140,7 @@ C-----------------------------------------------
      .   AJV(MVSIZ),AJ0(MVSIZ,3),AJ1(MVSIZ,3),AJ2(MVSIZ,3),AJ3(MVSIZ,3),
      .   V43a(MVSIZ,3), V43b(MVSIZ,3),
      .   V87a(MVSIZ,3), V87b(MVSIZ,3)
-      INTEGER I,J,IADBUF,IFLG, MX
+      INTEGER I,J,IADBUF,IFLG, MX,ii
 C-----------------------------------------------
       IF(ALE%UPWIND%UPWM == 0. AND. IPARG1(64) == 1)RETURN   !silent boundary
 C-----------------------------------------------
@@ -158,50 +163,51 @@ C-----------------------------------------------
        ENDDO
 
         DO I=1,NEL
+          ii = i + nft
           IF(INT22>0)THEN
             IF(NINT(IAD22(I))/=0)CYCLE
           ENDIF
-          AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
+          AAA = QMV(ii,1)+QMV(ii,2)+QMV(ii,3)+QMV(ii,4)+QMV(ii,5)+QMV(ii,6)
           AAA = AAA/SIX
-          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)   
-          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)   
-          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)   
-          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)   
-          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)   
-          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)   
+          QMV(ii,1) = ONE_OVER_8 * (QMV(ii,1) - AAA)   
+          QMV(ii,2) = ONE_OVER_8 * (QMV(ii,2) - AAA)   
+          QMV(ii,3) = ONE_OVER_8 * (QMV(ii,3) - AAA)   
+          QMV(ii,4) = ONE_OVER_8 * (QMV(ii,4) - AAA)   
+          QMV(ii,5) = ONE_OVER_8 * (QMV(ii,5) - AAA)   
+          QMV(ii,6) = ONE_OVER_8 * (QMV(ii,6) - AAA)   
 
           DMX = ZERO
           DMY = ZERO
           DMZ = ZERO
-          DM = QMV(1,I)+QMV(6,I)+QMV(4,I)
+          DM = QMV(ii,1)+QMV(ii,6)+QMV(ii,4)
           DMX = DMX + VX1(I)*DM
           DMY = DMY + VY1(I)*DM
           DMZ = DMZ + VZ1(I)*DM
-          DM = QMV(1,I)+QMV(4,I)+QMV(5,I)
+          DM = QMV(ii,1)+QMV(ii,4)+QMV(ii,5)
           DMX = DMX + VX2(I)*DM
           DMY = DMY + VY2(I)*DM
           DMZ = DMZ + VZ2(I)*DM
-          DM = QMV(1,I)+QMV(5,I)+QMV(2,I)
+          DM = QMV(ii,1)+QMV(ii,5)+QMV(ii,2)
           DMX = DMX + VX3(I)*DM
           DMY = DMY + VY3(I)*DM
           DMZ = DMZ + VZ3(I)*DM
-          DM = QMV(1,I)+QMV(2,I)+QMV(6,I)
+          DM = QMV(ii,1)+QMV(ii,2)+QMV(ii,6)
           DMX = DMX + VX4(I)*DM
           DMY = DMY + VY4(I)*DM
           DMZ = DMZ + VZ4(I)*DM
-          DM = QMV(3,I)+QMV(6,I)+QMV(4,I)
+          DM = QMV(ii,3)+QMV(ii,6)+QMV(ii,4)
           DMX = DMX + VX5(I)*DM
           DMY = DMY + VY5(I)*DM
           DMZ = DMZ + VZ5(I)*DM
-          DM = QMV(3,I)+QMV(4,I)+QMV(5,I)
+          DM = QMV(ii,3)+QMV(ii,4)+QMV(ii,5)
           DMX = DMX + VX6(I)*DM
           DMY = DMY + VY6(I)*DM
           DMZ = DMZ + VZ6(I)*DM
-          DM = QMV(3,I)+QMV(5,I)+QMV(2,I)
+          DM = QMV(ii,3)+QMV(ii,5)+QMV(ii,2)
           DMX = DMX + VX7(I)*DM
           DMY = DMY + VY7(I)*DM
           DMZ = DMZ + VZ7(I)*DM
-          DM = QMV(3,I)+QMV(2,I)+QMV(6,I)
+          DM = QMV(ii,3)+QMV(ii,2)+QMV(ii,6)
           DMX = DMX + VX8(I)*DM
           DMY = DMY + VY8(I)*DM
           DMZ = DMZ + VZ8(I)*DM
@@ -455,7 +461,7 @@ C
       ELSE
 
       !-----------------------------------------------------------------------!
-      ! SUPG OU TG                                                            !
+      ! SUPG OR TG
       ! TRANSPORTATION FORCE WHICH MINIMIZE HOURGLASS                         !
       !  <PHI,UJ*DUI/DXJ> ESTIMATED AT NODES                                  !
       !-----------------------------------------------------------------------!

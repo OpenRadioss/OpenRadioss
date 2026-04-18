@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg           ../starter/source/output/message/message.F
 !||    anodset          ../starter/source/output/analyse/analyse_node.c
-!||    nintrn           ../starter/source/system/nintrn.F
 !||    usr2sys          ../starter/source/system/sysfus.F
 !||    vdouble          ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -65,11 +64,12 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixtg
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS 2D TRIANGULAIRES
+C     READING DES ELEMENTS 2D TRIANGULAIRES
 C--------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -112,7 +112,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   BID,FAC_L
-      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,JC,STAT,IPARTTG_TMP
+      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,STAT,IPARTTG_TMP
       INTEGER INDEX_PART
       CHARACTER*40 MESS
       DATA MESS /'2D TRIANGULAR ELEMENT DEFINITION '/
@@ -123,7 +123,6 @@ C-----------------------------------------------
 C   FUNCTION
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NINTRN
 C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
@@ -278,7 +277,7 @@ C-----------
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT) 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

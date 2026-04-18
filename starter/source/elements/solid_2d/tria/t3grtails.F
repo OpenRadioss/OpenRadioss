@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ALE_MOD , ONLY : ALE
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -159,11 +160,11 @@ C
 C
       IPTUN = 1
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         bounding of MVSIZ groups
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C submat 1 : domain decompostition
+C Submat 1: Domain Decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -462,7 +463,7 @@ C
 
 
 C     
-C RENUMEROTATION DE L'ARBRE
+C renumbering of the tree
 C
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
@@ -473,7 +474,7 @@ C
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -483,7 +484,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C renumbering for shell groups
 C
       DO I=1,NGRSH3N
         NN=IGRSH3N(I)%NENTITY
@@ -498,8 +499,8 @@ C
         IF(NOD2ELTG(I) /= 0)NOD2ELTG(I)=ITR1(NOD2ELTG(I))
       END DO
 C
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized based on dd
 C
       DO 300 N=1,ND
        NFT = 0
@@ -805,8 +806,8 @@ C     Multifluid law, setting NLAY
           !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
           !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
           IF(JALE == 1)THEN
-            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MAT_PARAM(MID)%REZON%NUM_NUVAR_MAT
-            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MAT_PARAM(MID)%REZON%NUM_NUVAR_EOS
+            ALE%REZON%NUM_NUVAR_MAT = MAX(ALE%REZON%NUM_NUVAR_MAT, MAT_PARAM(MID)%REZON%NUM_NUVAR_MAT)
+            ALE%REZON%NUM_NUVAR_EOS = MAX(ALE%REZON%NUM_NUVAR_EOS, MAT_PARAM(MID)%REZON%NUM_NUVAR_EOS)
           ENDIF
 
           !ALE UVAR REZONING  (81:MAT,  82:EOS)
@@ -892,7 +893,7 @@ c  220    CONTINUE
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C      DD_IAD => nb groupes par sous domaine
+C      Dd_iad => nb groups by sub -domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

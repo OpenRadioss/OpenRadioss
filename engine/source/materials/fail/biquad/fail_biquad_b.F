@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SVM     ! Von Mises stress
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: PRESSURE! element pressure
 
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR   
@@ -75,13 +75,13 @@ C-----------------------------------------------
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG(NEL),INDX(NEL),IADBUF,NINDX,
-     .        INDEX(NEL),IR,IFAIL,JJ,MATID,SEL,ICOUP
+      INTEGER I,J,INDX(NEL),NINDX,
+     .        IR,SEL,ICOUP
       my_real 
-     .        D1,DF,TRIAX,SCALE,SXX,SYY,SZZ
+     .        D1,DF,TRIAX
       my_real EPS_FAIL,FINTER
       EXTERNAL FINTER
-      my_real P1X,P1Y,S1X,S1Y,S2Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC,DCRIT,EXP
+      my_real P1X,P1Y,S1X,S1Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC,DCRIT,EXP
       my_real X_1(3) , X_2(3)
 
 C!--------------------------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,IAD,N
+      INTEGER I, IP, N
 C-----------------------------------------------
 C
       IF(IDTGRS==0)THEN
@@ -74,7 +74,6 @@ C
             GO TO 120
           END IF
          END DO
- 100     CONTINUE
          CALL ANCMSG(MSGID=21,ANMODE=ANINFO_BLIND,
      .               I1=-IDTGRS)
          CALL ARRET(2)
@@ -123,12 +122,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
+      INTEGER I, J, K, N, ITY, 
      .        IAD, IP, ILOC4(4)
-      INTEGER SIZE, LENR, ISMS, NM, NS, IMOV, NSN, ILAGM,
+      INTEGER ISMS, IMOV, NSN, ILAGM, 
      .        N2, N3, N4, N5, N6
-      INTEGER M, MSR, NSNW, KI, NHI, NSMS(2)
-      INTEGER J1, IPERM1(6), IPERM2(6)
+      INTEGER M, MSR, NSNW, KI
+      INTEGER IPERM1(6), IPERM2(6)
       DATA ILOC4/1,3,6,5/
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
@@ -198,6 +197,7 @@ C-----------------------------------------------
 !||    resol          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_KAD(
@@ -213,6 +213,7 @@ C-----------------------------------------------
      A  IGEO    ,NATIV_SMS)
 C-----------------------------------------------
         USE MY_ALLOC_MOD
+        use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -249,7 +250,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
+      INTEGER I, J, K, NG, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
      .        IAD, IP, ILOC4(4),
      .        TAG8(8), IG, IGTYP
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
@@ -604,6 +605,7 @@ C-----------------------------------------------
 !||    startimeg       ../engine/source/system/timer.F
 !||    stoptimeg       ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -624,6 +626,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -663,16 +666,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
+      INTEGER I, J, K, JJ, KK, IJ
       INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4),
      .        TAG8(8), IG, IGTYP
-      INTEGER MSR, NSN, KI, KJ, NSR
-      INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
+      INTEGER KJ
+ 
+      INTEGER 
      .         N1, N2, N3, N4, LNEW, ILEV
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
-      INTEGER LSMSPCG
-      INTEGER IK, NK
+ 
+      INTEGER IK
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAGA
       INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAGK
@@ -687,7 +690,7 @@ C-----------------------------------------------
       CALL MY_ALLOC(TAGK,NUMNOD)
 C-----------------------------------------------
 C
-C     Construit JDI_SMS, JADS_SMS, etc
+C     Built jdi_sms, jads_sms, etc.
 C     -----------------
       DO I=1,NUMNOD
         NAD_SMS(I)=KAD_SMS(I)
@@ -1002,7 +1005,7 @@ C
  252  CONTINUE
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     NODNX_SMS(I) devient le nb de nds connectes a I
+C     Nodnx_sms (i) becomes the nb of NDS connects a i
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
       DO I=1,NUMNOD
@@ -1040,6 +1043,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_orders       ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -1060,6 +1064,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1099,11 +1104,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER MSR, NSN, KI, KJ, NSR
-      INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
-     .         N1, N2, N3, N4, LNEW, ILEV
+      INTEGER I, J, K, KK, II, N
+      INTEGER NSN, KJ
+      INTEGER L
+      INTEGER NTY, ILAGM, 
+     . N1, N2, N3, N4, ILEV
       INTEGER IK, NK, IKK,WORK(70000)
       INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAGK
@@ -1118,7 +1123,7 @@ C-------------------------------------------------------------------------
       CALL MY_ALLOC(INDEX2,NUMNOD)
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     construit IDI_SMS et pointeurs KAD_SMS vers JAD_SMS 
+C     Built Idi_sms and Pointers Kad_sms to Jad_sms 
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans IDI_SMS(I),IDI_SMS(I+1)-1
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
@@ -1386,6 +1391,7 @@ C-----------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    intstamp_mod    ../engine/share/modules/intstamp_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F
@@ -1412,6 +1418,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD 
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1456,12 +1463,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL,
+      INTEGER I, J, K, KK, II, N, 
      .        NHI, NS
-      INTEGER MSR, NSN, KI, KJ, NSR, NSMS(2)
-      INTEGER NSNW, IMOV
-      INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, JI, 
+      INTEGER NSN, KJ
+ 
+      INTEGER L
+      INTEGER NTY, ILAGM, 
      .         N1, N2, N3, N4, N5, N6, ISMS, 
      .         NMN, ILEV
       INTEGER IK
@@ -1472,7 +1479,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1681,7 +1688,7 @@ C             Penalty node
         END IF
       END DO
 C------------
-C     Recalcule NNZ_SMS de la matrice compactee
+C     Recalculate NNZ_SMS of the compressed matrix
 C------------
       NNZ_SMS=0
       DO I=1,NUMNOD
@@ -1708,6 +1715,7 @@ C-----------------------------------------------
 !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
 !||    spmd_exch_nodnx      ../engine/source/mpi/ams/spmd_exch_nodnx.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    intstamp_mod         ../engine/share/modules/intstamp_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
@@ -1733,6 +1741,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1775,9 +1784,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER MSR, NSN, KI, KJ, NSR
-      INTEGER SIZE, LENR, IAD, L, LLT
+      INTEGER I, J, K, KK, II, IJ, N
+      INTEGER NSN, KJ
+      INTEGER SIZE, LENR, L
       INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
      .         N1, N2, N3, N4,
      .         NMN, ILEV, ERROR
@@ -1792,7 +1801,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1809,7 +1818,7 @@ C
           J =JDI_SMS(KJ)
 cc        IF(I < J)THEN
 C
-C         dichotomie (recherche parmi les voisins ordonnes de J)
+C         dichotomy (search among the ordered neighbors of J)
           K1=JAD_SMS(J)
           K2=JAD_SMS(J)+LAD_SMS(J)-1
  100      CONTINUE
@@ -2214,7 +2223,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K1, K, I, N, J, IC, NSN, ISMS,
      .         ICSIZE, IMOV, ITYP, ILAGM, ICOUNT        
-      INTEGER NTY, ILEV, NMN, NRTS, NRTM,
+      INTEGER 
      .        NLINS, NLINM, II, SIZE, LENR
       my_real
      .        IDMAX,ID
@@ -2412,7 +2421,7 @@ C-----------------------------------------------
         IF(NOD2ADD(N)/=0)NODNX_SMS(N)=1
       END DO
 C-----------------------------------------------
-C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
+C list of sms nodes of the wall in NRWL_SMS (non-optimized memory).
       IF(NRWALL/=0)THEN
         K = 1
         DO N=1,NRWALL
@@ -2430,7 +2439,7 @@ C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
               END IF
             END DO
           END IF
-C nb de noeuds sms dans le mur.
+C number of sms nodes in the wall.
           NPRW(6*NRWALL+N)=ICOUNT-K
 C for sms_fixvel, etc
           IF(IMOV /= 0)THEN
@@ -2589,14 +2598,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, I, N, J
+      INTEGER N, J
       INTEGER NTY, ILEV, NSN, NMN, NRTS, NRTM,
      .        NLINS, NLINM, II, SIZE, LENR
       INTEGER,DIMENSION(:), ALLOCATABLE :: TAG
 C-----------------------------------------------
       CALL MY_ALLOC(TAG,NUMNOD)
 C-----------------------------------------------
-C supprime nds d'interf type 2 des interfs a penalite
+C supprime nds d'interf type 2 des interfs a penalty
 C /DT/AMS or /DT/INTER/AMS
 C
       TAG(1:NUMNOD)=0
@@ -2750,9 +2759,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, M, N, NSN,
+      INTEGER I, 
      .        N1, N2, N3, N4, N5, N6
-      INTEGER ITY, IMOV, ILAGM, ISMS, IERR
+      INTEGER ISMS, IERR
 C-----------------------------------------------
 C
       IERR=0

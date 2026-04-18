@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,13 +30,14 @@
 !||    tforc3              ../engine/source/elements/truss/tforc3.F
 !||====================================================================
       module preload_axial_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine get info of /PRELOD/AXIAL
+!!\brief This subroutine gets info of /PRELOAD/AXIAL
 !=======================================================================================================================
 !||====================================================================
 !||    get_preload_axial   ../engine/source/elements/spring/preload_axial.F90
@@ -80,7 +81,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,nld,isens
           real(kind=WP) :: t_start,t_stop,t_shift,tt,t_stif
 ! ----------------------------------------------------------------------------------------------------------------------
 !           e x t e r n a l   f u n c t i o n s
@@ -106,7 +106,7 @@
 !---
         end subroutine get_preload_axial
 !=======================================================================================================================
-!!\brief This subroutine compute axial force of 1D-element using /PRELOD/AXIAL
+!!\brief This subroutine computes axial force of 1D-element using /PRELOAD/AXIAL
 !=======================================================================================================================
 !||====================================================================
 !||    preload_axial   ../engine/source/elements/spring/preload_axial.F90

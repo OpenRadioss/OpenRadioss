@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_write_vector            ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod                   ../engine/share/modules/fvbag_mod.F
 !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
 !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
@@ -38,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE H3D_NODAL_VECTOR(
      .                  ELBUF_TAB          ,NODAL_VECTOR            ,IFUNC          ,IPARG           ,GEO             , 
-     .                  MASS               ,PM                      ,ANIN           ,ITAB            ,NODE_ID         , 
+     .                  MASS               ,PM                      ,ITAB            ,NODE_ID         , 
      .                  INFO1              ,INFO2                   ,IS_WRITTEN_NODE,H3D_PART        ,IPARTC          , 
      .                  IPARTTG            ,IXC                     ,IXTG           ,TEMP            ,IFLOW           , 
      .                  RFLOW              ,IXS                     ,IXQ            ,NV46            ,MONVOL          , 
@@ -67,6 +68,7 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE FVBAG_MOD , only : FVBAG_DATA, NFVBAG
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +91,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: SW
       my_real
      .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
-     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
+     .   PM(NPROPM,NUMMAT),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
      .   PDAMA2(2,*),X(3,NUMNOD),STIFR(*),STIFN(NUMNOD),A(3,NUMNOD),D(3,NUMNOD),V(3,NUMNOD), CONT(3,*),
      .   FCONTG(3,*), FINT(3,NUMNOD), FEXT(3,NUMNOD),FNCONT(3,*),FNCONTG(3,*),
      .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,NUMNOD),DXANCG(3,*),

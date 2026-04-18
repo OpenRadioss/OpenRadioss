@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propellant_ebcs            ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                 ../engine/source/multifluid/multi_solve_eint.F90
 !||====================================================================
       MODULE MULTI_SUBMATLAW_MOD
@@ -40,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_muscl_compute_pressure   ../engine/source/multifluid/multi_muscl_compute_pressure.F90
 !||    multi_nrf_ebcs                 ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium     ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propellant_ebcs          ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint               ../engine/source/multifluid/multi_solve_eint.F90
 !||--- calls      -----------------------------------------------------
 !||    arret                          ../engine/source/system/arret.F
@@ -87,9 +85,11 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: EINT(NEL), RHO(NEL), THETA(NEL)
       my_real, INTENT(OUT) :: PRES(NEL), SSP(NEL)
       my_real, INTENT(IN) :: BURNTIME(NEL), DELTAX(NEL), CURRENT_TIME
-      my_real, INTENT(INOUT) :: BURNFRAC(NEL), BUFMAT(*)
+      my_real, INTENT(INOUT) :: BURNFRAC(NEL)
+      my_real, INTENT(IN) :: BUFMAT(*)
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*NEL)
+      my_real, INTENT(IN) :: TF(STF)
+      my_real, INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(NEL,NVARTMP_EOS)

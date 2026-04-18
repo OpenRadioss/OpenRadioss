@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_ibcast       ../engine/source/mpi/generic/spmd_ibcast.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RBYONF(IPARG   ,IPARI         ,MS     ,IN     ,
      2                  IXS     ,IXQ    ,IXC   ,IXT    ,IXP    ,
@@ -42,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,10 +74,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ITEMP(10),K, K0, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
+      INTEGER I, J ,ITEMP(10),K, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
      .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9
 C======================================================================|
-C     MODIFICATION DES RIGID BODY
+C     modification of the rigid bodies
 C-------------------------------------------
       K1=1+LIPART1*NPART+2*9*NPART
       K2=K1+NUMELS
@@ -84,6 +86,8 @@ C-------------------------------------------
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
+      K8=K7
+      K9=K8+NUMELTG
 C
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -113,16 +117,16 @@ C
            ENDDO
            N = 0
  110       CONTINUE
-C En SPMD, il faut communiquer le RB concerne si N<>0 sur un proc
+C in spmd, the concerned rigid body must be communicated if n<>0 on a processor
 C si rigid body present sur le proc N = rb trouve
               IF(N/=0) N = N*WEIGHT(NPBY(1,N))
-C reduction pour retrouver la valeur de N (N = 0 partout sauf sur le proc main)
+C reduction to find the value of n (n = 0 everywhere except on the main processor)
               IF(NSPMD > 1) THEN
                 CALL SPMD_GLOB_ISUM9(N,1)
-C broadcast de N sur tous les procs
+C broadcast of n to all processors
                 CALL SPMD_IBCAST(N,N,1,1,0,2)
               ENDIF
-C si N = 0, alors le rby n avait ete trouve sur aucun proc
+C if N = 0, then the rby had not been found on any proc
               IF(N==0) GOTO 120
 C
               IF(ONOF==0)THEN
@@ -164,13 +168,15 @@ C
      5             X        ,V      ,VR       ,RBY(1,N),
      6             IXTG     ,NPBY   ,RBY      ,LPBY    ,0        ,
      7             FR_RBY2  ,N      ,ONFELT   ,WEIGHT  ,PARTSAV  ,
-     8             IPART(K3),NPBY(2,N)        ,ELBUF_TAB,PRI_OFF)
+     8             NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9             IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A             IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
               NPBY(7,N)=ONOF
  120      CONTINUE
       ENDDO
 C------------------------------------
-C     tag des noeuds secnds rby avec gravite ou load/centri
-C     pour calcul du travail des forces externes
+C     tag of the secondary rby nodes with gravity or load/centrifugal
+C     for calculation of the work of external forces
 C-------------------------------------
       TAGSLV_RBY(1:NUMNOD)=0
 C
@@ -218,6 +224,7 @@ C-----------
 !||    rbypid         ../engine/source/constraints/general/rbody/rbypid.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    sensor_mod     ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
@@ -234,6 +241,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE SENSOR_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -269,10 +277,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ITEMP(10),K, K0, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
-     .        N2, ISU,ADRSRF,IM, IDEB, IGET,IMAXNSN, IMAXP,
-     .        NSN, NSNP, PROC, ND, PP, II, NSLARB_L, P,
-     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9,IFAIL,ELT_ACTIV,PRI_OFF
+      INTEGER I ,K, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
+     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,IFAIL,ELT_ACTIV,PRI_OFF,K8,K9
       my_real
      .        CRIT
 C======================================================================|
@@ -290,6 +296,8 @@ C-------------------------------------------
       K5=K4+NUMELT
       K6=K5+NUMELP
       K7=K6+NUMELR
+      K8=K7
+      K9=K8+NUMELTG
 C-------------------------------------------
 C     ITAG :: Main node of active rbody w/o sensor => Rbody number
 C       is used for initialization of mass & inertia if the rbody is included into the rbody being activated
@@ -344,7 +352,9 @@ C
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
             ONOF1 = 1 ! at least 1 rbody is activated or deactivated
             NPBY(7,N)=1
           ELSEIF (IACTI>1 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
@@ -362,7 +372,9 @@ C
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
             NPBY(7,N)=1
           ENDIF
         ENDIF
@@ -405,7 +417,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
            ELSE ! IF(TT>0.)THEN
              IF (ISPMD==0) THEN
@@ -425,7 +439,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
@@ -452,7 +468,9 @@ C
      5                   X        ,V     ,VR   ,RBY(1,N),
      6                   IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                   FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                   IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
            NPBY(7,N)=0
            ONOF1 = 1 ! at least 1 rbody is activated or deactivated
          ENDIF
@@ -492,7 +510,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
            ELSE ! IF(TT>0.)THEN (Failure most probably does not occur at time zero)
              IF (ISPMD==0) THEN
@@ -512,7 +532,9 @@ C
      5                     X        ,V     ,VR   ,RBY(1,N),
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated   
            ENDIF
@@ -538,7 +560,9 @@ C
      5                   X        ,V     ,VR   ,RBY(1,N),
      6                   IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                   FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                   IPART(K3),NPBY(2,N)   ,ELBUF_TAB, PRI_OFF)
+     8                   NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                   IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                   IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
            NPBY(7,N)=0
            ONOF1 = 1 ! at least 1 rbody is activated or deactivated
          ENDIF
@@ -565,7 +589,9 @@ C-------------------------------------------
      5                    X        ,V     ,VR   ,RBY(1,N),
      6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                    FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
-     8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB,PRI_OFF)
+     8                    NPBY(2,N),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
           ENDIF
           K=K+NPBY(2,N)
         ENDDO
@@ -579,8 +605,8 @@ C-------------------------------------------
         NPBY(7,N)=IACTI
       ENDDO
 C-------------------------------------
-C     tag des noeuds secnds rby avec gravite ou load/centri
-C     pour calcul du travail des forces externes
+C     tag of the secondary rby nodes with gravity or load/centrifugal
+C     for calculation of the work of external forces
 C-------------------------------------
       IF(ONOF1==0) GOTO 200
 C

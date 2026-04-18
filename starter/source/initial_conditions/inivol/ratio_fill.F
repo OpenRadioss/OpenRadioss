@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INIVOL_DEF_MOD , ONLY : INIVOL_STRUCT_
+      use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,7 +203,7 @@ C-----------------------------------------------
       END DO
       GETEL = IE
 
-      ! get trace samples coordinates:
+      ! Get trace samples coordinates:
 
       IF (ISOLNOD == 4 .OR. N2D/=0) THEN
         DO I=1,NEL
@@ -600,7 +601,7 @@ C-----------------------------------------------
             DISP(IP,I) = ONE-DIST
 
           ELSEIF (SURF_TYPE == 200) THEN
-           !--planar surface
+           !-Planar Surface
             !get this out from the loop ! does not depends on IP
             IAD0 = IAD_BUFR
             DIST = ZERO
@@ -673,7 +674,7 @@ C-----------------------------------------------
                 IPL = INOD2SURF(JJ,NSH)
 !               SEGTOSURF(IPL) - identify the right surface to whom the segment
 !               IPL belongs. One node NSH can connect segments coming from
-!               different surface containers.
+!               different containers surface.
 !               Do not forget that containers overwrite phases (superpose)
                 ISURF = SEGTOSURF(IPL)
                 IPL = IPL - SWIFTSURF(ISURF)

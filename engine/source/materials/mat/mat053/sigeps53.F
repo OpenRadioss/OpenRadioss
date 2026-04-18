@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -148,18 +148,18 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,IADBUFV(MVSIZ),J1,J2,JJ(MVSIZ),NFUNC,
-     .        NRATE(MVSIZ),IPOS1(MVSIZ),IPOS2(MVSIZ),IAD1(MVSIZ),
-     .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),
-     .        IFUNC(MVSIZ,100),NFUNCV(MVSIZ),PFUN(MVSIZ),
-     .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),NFUNCM,NRATEM,
-     .        IPFLAG,IPARAM,NPAR, IFLAG(MVSIZ)
+       INTEGER I,J,IADBUFV(MVSIZ),JJ(MVSIZ),NFUNC,
+     .        IPOS1(MVSIZ),IAD1(MVSIZ),
+     .        ILEN1(MVSIZ),
+     .        IFUNC(MVSIZ,100),
+     .        
+     .         IFLAG(MVSIZ)
        my_real   
-     .        RATE(MVSIZ,2),YFAC(MVSIZ,2),
-     .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
-     .        DYDX2(MVSIZ),PLA(MVSIZ),FAIL(MVSIZ),EPSR1(MVSIZ),
-     .        P0(MVSIZ),PFAC(MVSIZ),
-     .        DFDP(MVSIZ),DPLA,
+     .        
+     .        Y1(MVSIZ),Y2(MVSIZ),DYDX1(MVSIZ),
+     .        PLA(MVSIZ),
+     .        
+     .        
      .        EVL(MVSIZ),
      .        E11(MVSIZ), E22(MVSIZ), G12(MVSIZ),G23(MVSIZ),
      .        F1(MVSIZ), F2(MVSIZ), F11(MVSIZ), F22(MVSIZ), F12(MVSIZ), 
@@ -237,12 +237,12 @@ C....fourth direction
 C       IPOS4(I) = NINT(UVAR(I,5))
 C        IAD4(I)  = 0.5*NPF(IFUNC(I,4)) + 1
 C        ILE4(I)  = 0.5*NPF(IFUNC(I,5)+1) - IAD4(I) - IPOS4(I)
-C... 45 direction curve
+C... 45 Direction curve
 C       IPOS5(I) = NINT(UVAR(I,6))
 C        IAD5(I)  = 0.5*NPF(IFUNC(I,5)) + 1
 C        ILE5(I)  = 0.5*NPF(IFUNC(I,6)+1) - IAD5(I) - IPOS5(I)
         ENDDO
-C  extrapollation dans chaque direction
+C  extrapolation in each direction
 C---first direction--
         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVOL,DYDX1,Y1)
        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVL,DYDX1,Y2)
@@ -323,7 +323,7 @@ C
          ENDIF
            UVAR(I,1+J)= IPOS1(I)
          ENDDO      
-CCCC 45 direction
+CCCC 45 Direction
         ELSEIF(J==5)THEN
 C          CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,EVL,DYDX1,Y2)

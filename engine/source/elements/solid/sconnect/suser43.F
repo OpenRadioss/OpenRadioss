@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -44,8 +44,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptime                  ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    law_userso                ../engine/source/user_interface/law_userso.F
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    mvsiz_mod                 ../engine/share/spe_inc/mvsiz_mod.F90
 !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
 !||    table_mod                 ../engine/share/modules/table_mod.F
 !||    timer_mod                 ../engine/source/system/timer_mod.F90
@@ -74,9 +74,9 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
-      USE LAW_USERSO
       USE SIGEPS169_CONNECT_MOD
       USE ELBUFDEF_MOD
+      use MVSIZ_MOD,only : MVSIZ
 C-------------------------------------------------------------------------
 C     This subroutine compute user 8 nodes solids forces and moments.
 C----------+---------+---+---+--------------------------------------------
@@ -184,14 +184,14 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,I1,I2,II,JJ(6),J,J1,J2,IC,IR,IPG,JPT,IUV,IEL,ISRATE,
+      INTEGER I,IR,IPG,IEL,ISRATE,
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
      .  IADBUF,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP,LF_DAMMX
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
-      my_real :: A,B,C,EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
+      my_real :: EPSP,ASRATE,ALPHA,TTHICK,OFF_EL
       my_real 
      .   HH(NPG,NPG),AREAP(MVSIZ,NPG),AREAT(MVSIZ),
-     .   UXLOC(MVSIZ,8),UYLOC(MVSIZ,8),UZLOC(MVSIZ,8),
+     .
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),
      .   VXZ(MVSIZ,NPG),VYZ(MVSIZ,NPG),VZZ(MVSIZ,NPG),
      .   VGXA(MVSIZ),VGYA(MVSIZ),VGZA(MVSIZ), VGA2(MVSIZ),
@@ -212,14 +212,12 @@ C-----------------------------------------------
      .   USER_PLA(MVSIZ),USER_OFF(MVSIZ),USER_EINT(MVSIZ),USER_RHO(MVSIZ),USER_VOL(MVSIZ)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_MAT_)  ,POINTER :: MATBUF
       TYPE(FAIL_LOC_) ,POINTER :: FLOC
       TARGET :: AREAP   
-      TYPE(BUF_FAIL_), POINTER  :: FBUF
-      TYPE(ULAWINTBUF) :: USERBUF
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
       INTEGER, DIMENSION(:) ,POINTER   :: ITABLE,VARTMP
-      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN,OFFI
+      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN
+      integer :: JJ(6)
      
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
@@ -345,7 +343,7 @@ C--------------------------------------------------
 c--------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 c--------------------------------------------------
-c     BOUCLE SUR LES POINTS DE GAUSS
+c     loop over gauss points
 c--------------------------------------------------
       DO IPG = 1,NPG
         LBUF => ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)
@@ -630,9 +628,9 @@ c
 C----
       ENDDO   ! IPG=1,NPG                                                               
 c--------------------------------------------------
-c     FIN BOUCLE SUR LES POINTS DE GAUSS
+c     end of loop over gauss points
 c--------------------------------------------------
-c     element suppression
+c     delete element
 c--------------------------------------------------
       CALL SCONNECT_OFF(ELBUF_STR ,GBUF%OFF  ,NEL    ,NPG    ,NGL   ,
      .                  ISOLID    ,TIME      )

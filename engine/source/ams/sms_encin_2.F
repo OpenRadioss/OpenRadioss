@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -130,10 +130,10 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT1_SMS, NODLT1_SMS
       INTEGER NODFT2_SMS, NODLT2_SMS
-      INTEGER N, IBID, IPRI, INFO, ITHIS, IT, M, MSR, NN, IERROR,
-     .        I, IAD, NSN, K, KI, NRBDIM
+      INTEGER N, IPRI, INFO, ITHIS, IT, M, MSR, IERROR,
+     .        I, K, NRBDIM
       my_real
-     .        RBID, DT05, MAS, P1, P2, P3
+     .         DT05, MAS
 C-----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IMV
       my_real
@@ -233,7 +233,7 @@ C
 C
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! communication on the first thread
           CALL SPMD_MIJ_SMS(
      1           ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2           MSKYI_FI_SMS)

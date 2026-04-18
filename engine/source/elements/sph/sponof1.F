@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    message_mod    ../engine/share/message_module/message_mod.F
-!||    outputs_mod    ../common_source/modules/outputs_mod.F
+!||    sph_mod        ../engine/share/modules/sph_mod.F
 !||====================================================================
       SUBROUTINE SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
@@ -49,7 +49,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE OUTPUTS_MOD
+      USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
 C----6------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,21 +91,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE, IVAD,IX, N2ENTER,
      .        II,IPT,JJ,NPF,
-     .        IFVITS,IFDENS,IFPRES,IFENER,
+     .        IFVITS,IFDENS,IFENER,
      .        INACTIV,J,N,INOD,IACTIVE,
      .        ISU,NSEG,IN1,IN2,IN3,IN4,
      .        IMAT,IPROP,IPRT,NEL,KAD,NG,K,
      .        KP,NP2SORT,NBAND,
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
-     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KXPROJ,KF,
+     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,
      .        IUN,IAD2,NSEGB
       my_real
      .       PENTV,VT,VN,VV,
-     .       PENTR,RHON,RHO0,PENTP,PN,PSHFT,PENTE,EN,EI,
+     .       PENTR,RHON,RHO0,PENTE,EN,EI,
      .       T05,SSEG,MP,WFEXTT,VOLO,
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,
-     .       X12,Y12,Z12,X23,Y23,Z23,X31,Y31,Z31,NX,NY,NZ,NN,
-     .       XI,YI,ZI,DD,DIAM,DMAX,DPS,VOL,BID
+     .       X12,Y12,Z12,X23,Y23,Z23,NX,NY,NZ,NN,
+     .       XI,YI,ZI,DIAM,DMAX,DPS,VOL,BID
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       my_real
@@ -118,7 +118,7 @@ C-----------------------------------------------
       EN = 0
       RHON = ZERO
 C-------
-C     reset active particles states.
+C     Active reset Particecutes States.
       DO I=1,NSPHIO
        IPRT   =ISPHIO(2,I)
 C      loop over active particles related to IPRT.
@@ -233,7 +233,7 @@ c default value
          DIAM= (SQR2*VOL)**THIRD
        END IF             
 C------
-C      boite englobante / surface entiere.
+C      Enclosure box / entire surface.
        XBMIN =EP20
        YBMIN =EP20
        ZBMIN =EP20
@@ -244,10 +244,10 @@ C------
        ISU =ISPHIO(3,I)
 c NSEGB on split surface (IBUFSSG)
        NSEGB=IGRSURF(ISU)%NSEG
-c NSEG on complete surface (IBUFSSG_IO)
+c Nseg we complete surface (ibufssg_io)
        NSEG=ISPHIO(10,I)
-c IAD on split surface (IBUFSSG)
-c IAD2 on complete surface (IBUFSSG_IO)
+c IAD on Split Surface (Ibufssg)
+c IAD2 we complete surface (ibufssg_io)
        IAD2 =ISPHIO(11,I)
        DMAX=VSPHIO(IVAD+3)
 

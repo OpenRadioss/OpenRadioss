@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_init             ../engine/source/engine/resol_init.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../engine/source/output/message/message.F
-!||    close_c                ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c               ../common_source/tools/input_output/write_routtines.c
+!||    close_c                ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
+!||    read_r_c               ../common_source/tools/input_output/write_routines.c
 !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IR, N, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0,ID_SEC
+      INTEGER I,J, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0
       my_real
      .   TT1, TT2, TT3, TMP(20)
       CHARACTER(LEN=NCHARTITLE) ::  FILNAM
@@ -311,11 +311,11 @@ C
          TMP(4) = SECBUF(3)
          TMP(5) = SECBUF(4)
          LEN = 5
-C   2*LEN necessaire pour communication !!!
+C   2*Len necessary for communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
        ELSE
          LEN = 5
-C   2*LEN necessaire pour communication !!!
+C   2*Len necessary for communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
          NSTRF(4) = TMP(1)
          NSTRF(5) = TMP(2)

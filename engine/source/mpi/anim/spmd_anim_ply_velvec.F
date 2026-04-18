@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    velvec                 ../engine/source/output/anim/generate/velvec.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
@@ -56,16 +56,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),NOD_PXFEM(*)
       INTEGER IPLY,IFUNC,EMPSIZPL
-      REAL R4
+ 
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGOFF2,STAT(MPI_STATUS_SIZE,NSPMD-1), IERR
-      INTEGER I,N,ND,EMPL,P,ITAG,EMP
+      INTEGER I, N, ND, EMPL, P, ITAG
       INTEGER PLYSIZ
-      my_real
-     .   VN,VAL
 C
       REAL , DIMENSION(:,:), ALLOCATABLE :: WRTBUF
       my_real
@@ -81,7 +79,7 @@ C
         PLYSIZ  = PLYNOD (IPLY)%PLYNUMNODS
         ALLOCATE(WRTBUF(3,PLYSIZG(IPLY)))
 
-C Les plynods du proc 0
+C the plynods of processor 0
         DO ND=1,PLYSIZ
              I = PLYNOD(IPLY)%NODES(ND)
              N = NOD_PXFEM(I)
@@ -107,7 +105,7 @@ C Les plynods du proc 0
                 WRTBUF(3,EMPL)= ZERO
              ENDIF
         END DO
-C Les plynods des autres procs
+C the plynods of other processors
            DO P=2,NSPMD
              IF (PLYIADNOD(IPLY,P)>0)THEN
               ALLOCATE(IRECBUF(PLYIADNOD(IPLY,P)))

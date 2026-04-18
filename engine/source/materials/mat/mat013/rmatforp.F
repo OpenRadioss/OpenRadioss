@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER  K,M
 
 C-------------------------------------
-C Traitement rigid material  
+C Processing rigid material
 C-------------------------------------
 
 !$OMP SINGLE
@@ -107,7 +107,7 @@ C
 
         END IF
 C
-C Traitement fin parith/on multi-thread
+C End of parith/on multi-thread processing
 C
 
 !$OMP DO SCHEDULE(DYNAMIC,1)

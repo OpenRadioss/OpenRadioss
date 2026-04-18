@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -113,6 +113,10 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%ISFLUID = 0
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%CV = ZERO
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%CP = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%PSH = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%P0 = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%PMIN = ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%E0 = ZERO
 c        
         ! Thermal parameters
         MAT_ELEM%MAT_PARAM(IMAT)%THERM%iform      = 0

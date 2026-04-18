@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,24 +26,25 @@
 !||    lecins         ../starter/source/interfaces/interf1/lecins.F
 !||====================================================================
       module i2_surfi_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing the initialization of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs the initialization of the interface type2 with input surf/surf
 !||====================================================================
-!||    i2_surfi                ../starter/source/interfaces/inter3d1/i2_surfi.F90
+!||    i2_surfi         ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||--- called by ------------------------------------------------------
-!||    lecins                  ../starter/source/interfaces/interf1/lecins.F
+!||    lecins           ../starter/source/interfaces/interf1/lecins.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                  ../starter/source/output/message/message.F
-!||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
-!||    inelts                  ../starter/source/interfaces/inter3d1/inelt.F
-!||    insol3                  ../starter/source/interfaces/inter3d1/insol3.F
-!||    select_s2s              ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||    ancmsg           ../starter/source/output/message/message.F
+!||    ineltc           ../starter/source/interfaces/inter3d1/inelt.F
+!||    inelts           ../starter/source/interfaces/inter3d1/inelt.F
+!||    insol3           ../starter/source/interfaces/inter3d1/insol3.F
+!||    select_s2s       ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||--- uses       -----------------------------------------------------
-!||    message_mod             ../starter/share/message_module/message_mod.F
-!||    select_s2s_mod          ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||    message_mod      ../starter/share/message_module/message_mod.F
+!||    select_s2s_mod   ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||====================================================================
         subroutine i2_surfi(                                                 &
           npari   ,ipari   ,nsurf   ,igrsurf ,                &
@@ -64,7 +65,7 @@
           use select_s2s_mod,   only : select_s2s
           use message_mod
           use constant_mod,     only : nine,ep20
-          use connectivity_size_mod, only : nixs,nixc,nixtg
+          use element_mod, only : nixs,nixc,nixtg
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -158,9 +159,9 @@
             rem = 100*l/nsu1
             write(iout,1000) l,rem
             if (ipri>=5) then
-              write(iout,'(/,A/)') 'Remain surface 1 list'
+              write(iout,"(/,A/)") "Remain surface 1 list"
               do i=1,l
-                write(iout,*) 'id,irect(1:4)=',i,itab(irect(1:4,i))
+                write(iout,*) "id,irect(1:4)=",i,itab(irect(1:4,i))
               end do
             end if
           end if
@@ -179,10 +180,10 @@
             rem = 100*(l2)/nsu2
             write(iout,2000) l2,rem
             if (ipri>=5) then
-              write(iout,'(/,A/)') 'Remain surface 2 list'
+              write(iout,"(/,A/)") "Remain surface 2 list"
               do i=l1+1,l
                 id = i-l1
-                write(iout,*) 'id,irect(1:4)=',id,itab(irect(1:4,i))
+                write(iout,*) "id,irect(1:4)=",id,itab(irect(1:4,i))
               end do
             end if
           end if
@@ -199,9 +200,9 @@
                 ns = ns + 1
                 itagn(n) = 1
                 nsv(ns) = n
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 !
           do i=1,igrsurf(isu2)%nseg
             if (itags2(i)==0) cycle
@@ -211,9 +212,9 @@
                 ns = ns + 1
                 itagn(n) = 2
                 nsv(ns) = n
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 !---i2chk3 done here
           nint = 1  ! not used
           do i=1,nrtm
@@ -249,7 +250,7 @@
                 neltg = n
 230             continue
               end do
-            endif
+            end if
 !
             if(numelc/=0) then
               do iad=knod2elc(ix(1))+1,knod2elc(ix(1)+1)
@@ -264,17 +265,17 @@
                 nelc = n
 250             continue
               end do
-            endif
+            end if
             if(nels+nelc+neltg==0) then
               seg_n = msegtyp(i) - nrtm
-              if(i<=l1) then ! 1er surf
+              if(i<=l1) then ! first surface
                 call ancmsg(msgid=3092,msgtype=msgwarning,                          &
                   anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
               else
                 call ancmsg(msgid=3093,msgtype=msgwarning,                          &
                   anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
               end if
-            endif
+            end if
           end do
 ! ns
           do i=1,nsn
@@ -282,7 +283,7 @@
             st(1,i)=nine
             st(2,i)=nine
             dmin(i)=ep20
-          enddo
+          end do
 !    if (nsn/=ns) print *,'***error dimensionning: nsn,ns',nsn,ns
 !    if (nsn/=nmn) print *,'***error dimensionning: nsn,nmn',nsn,nmn
           msr(1:nsn) = nsv(1:nsn)
@@ -290,8 +291,8 @@
           deallocate(itags2)
           deallocate(itagn)
           deallocate(igrelem)
-1000      FORMAT(/1X,'SURFACE 1: Number of remain seg and % = ',I10,F10.1)
-2000      FORMAT(/1X,'SURFACE 2: Number of remain seg and % = ',I10,F10.1)
+1000      FORMAT(/1X,"SURFACE 1: Number of remain seg and % = ",I10,F10.1)
+2000      FORMAT(/1X,"SURFACE 2: Number of remain seg and % = ",I10,F10.1)
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine i2_surfi

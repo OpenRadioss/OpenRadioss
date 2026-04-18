@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    check_edge_state         ../engine/source/interfaces/interf/check_edge_state.F
 !||    check_surface_state      ../engine/source/interfaces/interf/check_surface_state.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod              ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,
@@ -38,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !           if 1 active element contains N1 & N2, the edge must be kept (for interface 11)
 !           if 1 active element contains N1 & N2 & N3 & N4, the surface must be kept (for interface 7)
 !$ENDCOMMENT
+        use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,7 +146,7 @@ C-----------------------------------------------
                     ENDDO
                 ELSEIF(ELEM_ID>OFFSET_TRUSS.AND.ELEM_ID<=OFFSET_BEAM) THEN
                 ! -----------------
-                ! truss element
+                ! truss
                     DO K=2,3
                         NODE_ID = IXT(K,ELEM_ID-OFFSET_TRUSS)
                         TAG_NODE(NODE_ID) = 1

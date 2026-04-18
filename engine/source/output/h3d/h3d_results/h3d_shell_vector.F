@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_shell_vector_1     ../engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
@@ -55,6 +56,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MULTI_FVM_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,36 +88,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   EVAR(MVSIZ),DAM1(MVSIZ),DAM2(MVSIZ),
-     .   WPLA(MVSIZ),DMAX(MVSIZ),WPMAX(MVSIZ),FAIL(MVSIZ),
-     .   EPST1(MVSIZ),EPST2(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ),
-     .   VALUE(MVSIZ),VG(5),VLY(5),VE(5),MASS(MVSIZ)
-      my_real
-     .   OFF, P,VONM2,S1,S2,S12,S3,DMGMX,FAC,
-     .   DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
-     .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA,X2L,VAR,
-     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,RX,RY,RZ,SX,SY,SZ,
-     .   RHO0,THK0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,A0
-      INTEGER I,I1,II,J,NG,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
-     .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
-     .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
-     .        OFFSET,IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
-     .        IIGEO,IADI,ISUBSTACK,ITHK,NERCVOIS(*),NESDVOIS(*),
-     .        LERCVOIS(*),LESDVOIS(*),ID_PLY,NB_PLYOFF,IOK,N1,N2,N3,N4
-      INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),NPT_ALL,IPLY,
-     .        ID_ELEM_TMP(MVSIZ),NIX,IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
-     .        IS_WRITTEN_VALUE(MVSIZ)
-      REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVAR
-      TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
+     .   FAIL(MVSIZ)
+      INTEGER I, NG,
+     .        NN3,
+     .        NERCVOIS(*),NESDVOIS(*),
+     .        LERCVOIS(*),LESDVOIS(*)
+ 
 C-----------------------------------------------
 c      print *,'LAYER_INPUT',LAYER_INPUT
 c      print *,'IPT_INPUT',IPT_INPUT

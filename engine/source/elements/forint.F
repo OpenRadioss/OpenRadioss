@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,65 +21,71 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    forint                 ../engine/source/elements/forint.F
+!||    forint                  ../engine/source/elements/forint.F
 !||--- called by ------------------------------------------------------
-!||    resol                  ../engine/source/engine/resol.F
+!||    resol                   ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../engine/source/output/message/message.F
-!||    arret                  ../engine/source/system/arret.F
-!||    get_preload_axial      ../engine/source/elements/spring/preload_axial.F90
-!||    ig3duforc3             ../engine/source/elements/ige3d/ig3duforc3.F
-!||    initbuf                ../engine/share/resol/initbuf.F
-!||    my_barrier             ../engine/source/system/machine.F
-!||    pforc3                 ../engine/source/elements/beam/pforc3.F
-!||    prelecflow             ../engine/source/elements/solid/solide/prelecflow.F
-!||    q4forc2                ../engine/source/elements/solid_2d/quad4/q4forc2.F
-!||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
-!||    r23forc3               ../engine/source/elements/spring/r23forc3.F
-!||    rforc3                 ../engine/source/elements/spring/rforc3.F
-!||    s10forc3               ../engine/source/elements/solid/solide10/s10forc3.F
-!||    s16forc3               ../engine/source/elements/thickshell/solide16/s16forc3.F
-!||    s20forc3               ../engine/source/elements/solid/solide20/s20forc3.F
-!||    s4forc3                ../engine/source/elements/solid/solide4/s4forc3.F
-!||    s6cforc3               ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-!||    s8cforc3               ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3               ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8forc3                ../engine/source/elements/solid/solide8/s8forc3.F
-!||    s8sforc3               ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3               ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    scforc3                ../engine/source/elements/thickshell/solidec/scforc3.F
-!||    section_p              ../engine/source/tools/sect/section_p.F
-!||    section_r              ../engine/source/tools/sect/section_r.F
-!||    section_s              ../engine/source/tools/sect/section_s.F
-!||    section_s4             ../engine/source/tools/sect/section_s4.F
-!||    section_s6             ../engine/source/tools/sect/section_s6.F
-!||    section_t              ../engine/source/tools/sect/section_t.F
-!||    sensor_energy_part     ../engine/source/tools/sensor/sensor_energy_part.F
-!||    sforc3                 ../engine/source/elements/solid/solide/sforc3.F
-!||    srota6                 ../engine/source/output/anim/generate/srota6.F
-!||    startimeg              ../engine/source/system/timer.F
-!||    stoptimeg              ../engine/source/system/timer.F
-!||    suforc3                ../engine/source/user_interface/suforc3.F
-!||    szforc3                ../engine/source/elements/solid/solidez/szforc3.F
-!||    tforc3                 ../engine/source/elements/truss/tforc3.F
+!||    ancmsg                  ../engine/source/output/message/message.F
+!||    arret                   ../engine/source/system/arret.F
+!||    get_preload_axial       ../engine/source/elements/spring/preload_axial.F90
+!||    ig3duforc3              ../engine/source/elements/ige3d/ig3duforc3.F
+!||    initbuf                 ../engine/share/resol/initbuf.F
+!||    my_barrier              ../engine/source/system/machine.F
+!||    pforc3                  ../engine/source/elements/beam/pforc3.F
+!||    prelecflow              ../engine/source/elements/solid/solide/prelecflow.F
+!||    preload_solid_ini       ../engine/source/elements/solid/solide/preload_solid_ini.F90
+!||    q4forc2                 ../engine/source/elements/solid_2d/quad4/q4forc2.F
+!||    qforc2                  ../engine/source/elements/solid_2d/quad/qforc2.F
+!||    r23forc3                ../engine/source/elements/spring/r23forc3.F
+!||    rforc3                  ../engine/source/elements/spring/rforc3.F
+!||    s10forc3                ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s16forc3                ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    s20forc3                ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s4forc3                 ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s6cforc3                ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3                ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s8cforc3                ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3                ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8forc3                 ../engine/source/elements/solid/solide8/s8forc3.F
+!||    s8sforc3                ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3                ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    scforc3                 ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    section_p               ../engine/source/tools/sect/section_p.F
+!||    section_r               ../engine/source/tools/sect/section_r.F
+!||    section_s               ../engine/source/tools/sect/section_s.F
+!||    section_s4              ../engine/source/tools/sect/section_s4.F
+!||    section_s6              ../engine/source/tools/sect/section_s6.F
+!||    section_t               ../engine/source/tools/sect/section_t.F
+!||    sensor_energy_part      ../engine/source/tools/sensor/sensor_energy_part.F
+!||    sforc3                  ../engine/source/elements/solid/solide/sforc3.F
+!||    srota6                  ../engine/source/output/anim/generate/srota6.F
+!||    startimeg               ../engine/source/system/timer.F
+!||    stoptimeg               ../engine/source/system/timer.F
+!||    suforc3                 ../engine/source/user_interface/suforc3.F
+!||    szforc3                 ../engine/source/elements/solid/solidez/szforc3.F
+!||    tforc3                  ../engine/source/elements/truss/tforc3.F
 !||--- uses       -----------------------------------------------------
-!||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-!||    ale_mod                ../common_source/modules/ale/ale_mod.F
-!||    dt_mod                 ../engine/source/modules/dt_mod.F
-!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    groupdef_mod           ../common_source/modules/groupdef_mod.F
-!||    h3d_mod                ../engine/share/modules/h3d_mod.F
-!||    initbuf_mod            ../engine/share/resol/initbuf.F
-!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-!||    message_mod            ../engine/share/message_module/message_mod.F
-!||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
-!||    output_mod             ../common_source/modules/output/output_mod.F90
-!||    preload_axial_mod      ../engine/source/elements/spring/preload_axial.F90
-!||    python_funct_mod       ../common_source/modules/python_mod.F90
-!||    sensor_mod             ../common_source/modules/sensor_mod.F90
-!||    table_mod              ../engine/share/modules/table_mod.F
-!||    timer_mod              ../engine/source/system/timer_mod.F90
+!||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
+!||    ale_mod                 ../common_source/modules/ale/ale_mod.F
+!||    dt_mod                  ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
+!||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+!||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+!||    initbuf_mod             ../engine/share/resol/initbuf.F
+!||    mat_elem_mod            ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    message_mod             ../engine/share/message_module/message_mod.F
+!||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod              ../common_source/modules/output/output_mod.F90
+!||    preload_axial_mod       ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini_mod   ../engine/source/elements/solid/solide/preload_solid_ini.F90
+!||    python_funct_mod        ../common_source/modules/python_mod.F90
+!||    s6zforc3_mod            ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                ../common_source/modules/elements/sfem_mod.F90
+!||    table_mod               ../engine/share/modules/table_mod.F
+!||    timer_mod               ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE FORINT(TIMERS, PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,
@@ -108,15 +114,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P    DF        ,WF        ,FFSKY      ,AFGLOB    ,NBSDVOIS  ,
      Q    NERCVOIS  ,NESDVOIS  ,LERCVOIS   ,LESDVOIS  ,PHI1      ,
      R    PHI2      ,MSF       ,NODFT      ,NODLT     ,
-     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,SFEM_NODVAR,
+     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,
      T    KXIG3D    ,IXIG3D    ,KNOT       ,WIGE      ,CONDN     ,
-     U    CONDNSKY  ,S_SFEM_NODVAR,
+     U    CONDNSKY  ,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
-     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN)
+     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
+     *    NGRTH     ,NELEM     ,SFEM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -137,6 +144,10 @@ C-----------------------------------------------
       USE PRELOAD_AXIAL_MOD
       USE ELBUFDEF_MOD
       use glob_therm_mod
+      USE PRELOAD_SOLID_INI_MOD
+      USE S6ZFORC3_MOD
+      use element_mod , only : nixs,nixq,nixt,nixr,nixp
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,11 +173,11 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "impl1_c.inc"
 #include      "stati_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
-      INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       type(python_), intent(inout) :: PYTHON
       INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -197,6 +208,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
       INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER, INTENT(IN) :: NGRTH
+      INTEGER, INTENT(IN) :: NELEM
       my_real, INTENT(IN) :: DTMINS
       my_real, INTENT(IN) :: DTFACS
       my_real
@@ -213,7 +226,7 @@ C-----------------------------------------------
      .   GRESAV(*), MSSA(*), DMELS(*), MSTR(*), DMELTR(*),
      .   MSP(*), DMELP(*), MSRT(*), DMELRT(*),VF(3,*),AF(3,*),FFSKY(*),
      .   PHI1(*),PHI2(*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
-     .   POR(*) ,SFEM_NODVAR(S_SFEM_NODVAR),KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
+     .   POR(*) ,KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
      .   MS_2D(*),STRESSMEAN(6,*),KNOTLOCPC(*),KNOTLOCEL(*)
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
@@ -230,25 +243,27 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DTFAC1(102),DTMIN1(102)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)    :: glob_therm
+      TYPE(SFEM_) ,INTENT(INOUT) :: SFEM  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       DOUBLE PRECISION, POINTER :: pFBSAV6
-      INTEGER INDXOF(MVSIZ), IERROR, NV46,IPREID,FUN_ID,SENS_ID
-      INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,IFAIL,
-     .   K1, K2, KAD,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
-     .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
-     .   JJ19,NPE,NIPMAX,ICNOD,NFT1,IBID,NN,
+      INTEGER  IERROR, NV46,IPREID,FUN_ID,SENS_ID
+      INTEGER I,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,IFAIL,
+     .   K1, K2, KAD,NF1,IPRI, OFFSET,
+     .   K0, K3, K6, K7, K8, NSG, NEL, KFTS, ISTRA,
+     .   NPE,NIPMAX,ICNOD,IBID,NN,
      .   L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
-     .   ICP,ICS,IMATVIS,IEXPAN,NPTS,MPT,NPTT,NPTR,NPT0,IG,OFF_IGRTH,
-     .   NCTRL,DIM6,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
+     .   ICP,ICS,IMATVIS,IEXPAN,NPT0,IG,OFF_IGRTH,
+     .   NCTRL,IPARSENS,ISECT,GAMA(6),PX,PY,PZ,ISENS_ENERGY
       my_real BID,QMVBID,PRELOAD1,STF_F
       my_real SBID
       my_real VOLN(MVSIZ)
       my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ,JFAC
       my_real, DIMENSION(MVSIZ,6) :: SVIS
       TYPE(G_BUFEL_) ,POINTER :: GBUF
+      integer :: fake_size = 0
 C======================================================================|
        ALLOCATE(FX(MVSIZ,64),FY(MVSIZ,64),FZ(MVSIZ,64),STAT=IERROR)
        ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
@@ -288,6 +303,8 @@ C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cy
 C
        OFF_IGRTH = 0
        IBID = 0
+       nv46 = 6
+       if(n2d/=0) nv46 = 4
 C
         IF (IALELAG > 0) THEN   ! law 77
          DO I=NODFT,NODLT
@@ -371,6 +388,15 @@ C----6---------------------------------------------------------------7---------8
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
+          IF (IPREID>0) THEN
+             GBUF => ELBUF_TAB(NG)%GBUF 
+             FUN_ID = IPARG(67,NG)
+             SENS_ID= IPARG(68,NG) 
+             CALL PRELOAD_SOLID_INI(PYTHON, NFUNCT,
+     1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
+     2           TF            ,STF           ,SENSORS      ,TT            ,
+     3           GBUF%BPRELD   ,GBUF%G_BPRELD ,NEL          )
+          END IF
 C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
@@ -390,12 +416,12 @@ C---------
      D   ISTRA,      ITASK,           TEMP,       FTHE,
      E   FTHESKY,    IEXPAN,          GRESAV,     GRTH,
      F   IGRTH(NF1), MSSA(NF1),       DMELS(NF1), TABLE,
-     G   XDP,        SFEM_NODVAR,     VOLN,       CONDN,
+     G   XDP,      sfem%SFEM_NODVAR,  VOLN,       CONDN,
      H   CONDNSKY,   D,               SENSORS,    IPRI,
      I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,IBID,
      *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,           S_SFEM_NODVAR)
+     V   impl_s,     idyna,           sfem%S_SFEM_NODVAR,fake_size,nv46,  sfem%itag_nsfem )
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -428,7 +454,7 @@ c---------
             CALL S10FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
-     3   MS,                  W,                   WA,                  VAL2,
+     3   MS,                  W,                   VAL2,
      4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
      5   TF,                  NPC,                 BUFMAT,              PARTSAV,
      6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
@@ -441,12 +467,12 @@ c---------
      D   D,                   GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
      E   TABLE,               MSSA(NF1),           DMELS(NF1),          IGEO,
      F   XDP,                 VOLN,                CONDN,               CONDNSKY,
-     G   SFEM_NODVAR,         ITAGND,              SENSORS,             IPRI,
+     G   sfem%SFEM_NODVAR,    ITAGND,              SENSORS,             IPRI,
      H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK,
      I   SNPC,                STF,                 SBUFMAT,             SVIS,
      J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,     
      V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna ,
-     W   S_SFEM_NODVAR)
+     W   sfem%S_SFEM_NODVAR,  sfem%itag_nsfem )
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
@@ -515,7 +541,7 @@ c
               CALL S20FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
-     3   MS,                  W,                   WA,                  VAL2,
+     3   MS,                  W,                   VAL2,
      4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
      5   TF,                  NPC,                 BUFMAT,              PARTSAV,
      6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
@@ -605,7 +631,7 @@ C-------------------------
 
               CALL S16FORC3(TIMERS, OUTPUT,ELBUF_TAB,NG     ,
      1         PM       ,GEO      ,IXS      ,X          ,
-     2         A        ,V        ,MS       ,W          ,WA         ,
+     2         A        ,V        ,MS       ,W          ,
      3         VAL2     ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG      ,
      4         TF       ,NPC      ,BUFMAT   ,PARTSAV    ,NLOC_DMG   ,
      5         DT2T     ,NELTST   ,ITYPTST  ,STIFN      ,FSKY       ,
@@ -653,6 +679,60 @@ C
                 K0=NSTRF(K0+24)
                ENDDO
               ENDIF
+C
+C-------------------------------------------------------------------7---------8
+          ELSEIF (JHBE == 24 .AND. ISOLNOD == 6) THEN 
+C-------------------------
+            CALL S6ZFORC3(
+     .        TIMERS   ,OUTPUT   ,NGROUP   ,ELBUF_TAB,NPROPM   ,NUMMAT   ,PM       , 
+     .        NG       ,NPROPG   ,NUMGEO   ,GEO      ,NIXS     ,NUMELS   ,NUMELQ   ,
+     .        NSVOIS   ,IXS      ,NUMNOD   ,X        ,A        ,V        ,
+     .        W        ,VAL2     ,ALE_CONNECT,NPARG  ,IPARG    ,
+     .        STF      ,TF       ,SNPC     ,NPC      ,SBUFMAT  ,BUFMAT   ,NPSAV    ,
+     .        NPART    ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST  ,STIFN    ,LSKY     ,
+     .        FSKY     ,IADS     ,OFFSET   ,NEL      ,IPARTS(NF1),
+     .        FX(1,1) ,FY(1,1)   ,FZ(1,1)  ,FX(1,2)  ,FY(1,2)  ,FZ(1,2)  ,
+     .        FX(1,3) ,FY(1,3)   ,FZ(1,3)  ,FX(1,4)  ,FY(1,4)  ,FZ(1,4)  ,
+     .        FX(1,5) ,FY(1,5)   ,FZ(1,5)  ,FX(1,6)  ,FY(1,6)  ,FZ(1,6)  ,
+     .        NLOC_DMG,NPROPMI   ,IPM      ,ISTRA    ,NPROPGI  ,IGEO     ,NGPE     ,
+     .        NTHREAD ,GRESAV    ,NGRTH    ,NELEM    ,GRTH     ,IGRTH(NF1),NTABLE  , 
+     .        TABLE   ,MSSA(NF1) ,DMELS(NF1),VOLN    ,ITASK    ,IPRI     ,MAT_ELEM ,
+     .        IBID    ,IFTHE     ,FTHE     ,FTHESKY  ,ICONDN   ,CONDN    ,CONDNSKY ,
+     .        IEXPAN  ,DT        ,SVIS     ,IRESP    ,idel7nok ,MAXFUNC  ,IMON_MAT ,
+     .        USERL_AVAIL,GLOB_THERM,XDP   ,SENSORS  ,DT1      ,TH_STRAIN,
+     .        IDTMIN  ,TT        ,IDYNA    ,IMPL_S   ,IPARIT   ,IREP     , 
+     .        ISCAU   ,ISMDISP   ,ISMSTR   ,ISORTH   ,ISORTHG  ,JALE     ,JCVT     ,
+     .        JEUL    ,JLAG      ,JSPH     ,JPLASOL  ,JTHE     ,MTN      , 
+     .        N2D     ,NCPRI     ,NCYCLE   ,NFILSOL  ,NFT      ,IINT     ,NODADT   ,
+     .        DTFAC1  ,D         ,IMATVIS  ,INVSTR   ,ICP      , 
+     .        JHBE)
+c
+              IF (NSECT>0) THEN
+                K0 = NSTRF(25)
+                N = NINTER+NRWALL+NRBODY
+                DO I=1,NSECT
+                  N  = N+1
+                  K2 = K0+30+NSTRF(K0+14)
+                  K3 = K0+30+NSTRF(K0+14)+NSTRF(K0+6)
+                  IPARSENS = 0
+                  ISECT = 0
+                  IF (SENSORS%STABSEN > 0) ISECT = SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
+                  NULLIFY(pFBSAV6)
+                  IF (ISECT/=0) THEN
+                    IPARSENS=1
+                    pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
+                  ENDIF
+C 
+                  CALL SECTION_S6(JFT, JLT, NFT, NSTRF(K0+7), NSTRF(K0+3),
+     .              NSTRF(K0+4), NSTRF(K0+5), NSTRF(K3), X, V,
+     .              FSAV(1,N), IXS, FANI(1,1+2*(I-1)), SECFCUM(1,1,I), FX,
+     .              FY, FZ, NSTRF(K0), NSTRF(K0+14), NSTRF(K0+26),
+     .              NSTRF(K0+6), NSTRF(K2), MS,XSEC(1,1,I),
+     .              pFBSAV6,IPARSENS)
+                  K0 = NSTRF(K0+24)
+                ENDDO
+              ENDIF
+C
 C-------------------------------------------------------------------7---------8
           ELSEIF(JHBE == 15)THEN
 C-------------------------
@@ -662,7 +742,7 @@ C-------------------------
 C              6 node penta
               CALL S6CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG         ,
      1         PM   ,GEO   ,IXS    ,X            ,
-     2         A           ,V    ,MS    ,W      ,WA          ,
+     2         A           ,V    ,MS    ,W      ,
      3         VAL2 ,VEUL  ,FV     ,ALE_CONNECT        ,IPARG       ,
      4         TF    ,NPC    ,BUFMAT       ,PARTSAV     ,
      5         DT2T ,NELTST,ITYPTST,STIFN        ,FSKY        ,
@@ -712,7 +792,7 @@ c---------
 C              8 node hexa
               CALL SCFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG          ,
      1         PM       ,GEO      ,IXS     ,X           ,
-     2         A        ,V        ,MS      ,W           ,WA      ,
+     2         A        ,V        ,MS      ,W           ,
      3         VAL2     ,VEUL     ,FV      ,ALE_CONNECT       ,IPARG     ,
      4         TF       ,NPC      ,BUFMAT  ,PARTSAV     ,NLOC_DMG  ,
      5         DT2T     ,NELTST   ,ITYPTST ,STIFN       ,FSKY    ,
@@ -764,7 +844,7 @@ C------------------------- Isolid=19 for Salim
 !            IF (IMPL_S /= 0) THEN
              CALL S8SFORC3(TIMERS,OUTPUT, ELBUF_TAB,NG   ,
      1         PM         ,GEO      ,IXS      ,X          ,
-     2         A          ,V        ,MS       ,W          ,WA        ,
+     2         A          ,V        ,MS       ,W          ,
      3         VAL2       ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG     ,
      4         TF         ,NPC      ,BUFMAT   ,PARTSAV    ,NLOC_DMG  ,
      5         DT2T       ,NELTST   ,ITYPTST  ,STIFN      ,FSKY      ,
@@ -788,7 +868,7 @@ C-------------------------
             CALL S8EFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
-     3   MS,         W,          WA,         VAL2,
+     3   MS,         W,          VAL2,
      4   VEUL,       FV,         ALE_CONNECT,IPARG,
      5   TF,         NPC,        BUFMAT,     PARTSAV,
      6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
@@ -858,7 +938,7 @@ C-------------------------
 c
             CALL S8CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG    ,
      1         PM    ,GEO   ,IXS    ,X            ,
-     2         A            ,V     ,MS    ,W      ,WA          ,
+     2         A            ,V     ,MS    ,W      ,
      3         VAL2    ,VEUL    ,FV      ,ALE_CONNECT   ,IPARG       ,
      4         TF      ,NPC     ,BUFMAT  ,PARTSAV ,NLOC_DMG    ,
      5         DT2T ,NELTST ,ITYPTST,STIFN        ,FSKY        ,
@@ -937,7 +1017,7 @@ c            IF (NPTR==0) NPTR=IINT
             
             CALL S8ZFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1         PM         ,GEO       ,IXS      ,X          ,        
-     2         A          ,V         ,MS       ,W          ,WA         , 
+     2         A          ,V         ,MS       ,W          ,
      3         VAL2       ,VEUL      ,FV       ,ALE_CONNECT      ,IPARG      , 
      4         TF         ,NPC       ,BUFMAT   ,PARTSAV    ,NLOC_DMG   , 
      5         DT2T       ,NELTST    ,ITYPTST  ,STIFN      ,FSKY       ,
@@ -954,7 +1034,7 @@ c            IF (NPTR==0) NPTR=IINT
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,JFAC,
-     M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT ,SNPC,
+     M         D          ,SENSORS   ,IPRI     ,MAT_ELEM   ,IBID,DT ,SNPC,
      N         STF        ,SBUFMAT   ,SVIS     ,NSVOIS     ,IDTMINS  ,
      O         IRESP      ,MAXFUNC   ,USERL_AVAIL, GLOB_THERM, 
      P         impl_s     ,idyna)
@@ -1015,7 +1095,7 @@ C-------------------------
 C
                CALL SZFORC3(TIMERS,ELBUF_TAB,NG    ,
      1         PM      ,GEO    ,IXS    ,X            ,
-     2         A       ,V     ,MS     ,W      ,WA          ,
+     2         A       ,V     ,MS     ,W      ,
      3         VAL2      ,VEUL      ,FV         ,ALE_CONNECT      ,IPARG     ,  
      4         TF      ,NPC    ,BUFMAT       ,PARTSAV     ,
      5         DT2T    ,NELTST,ITYPTST,STIFN        ,FSKY        ,
@@ -1039,8 +1119,6 @@ C
 C-------------------------
 C             STANDARD 8 NODE SOLID ELEMENT (JHBE = 1,2,101,102)
 C-------------------------
-              NV46   = 6
-              IF(N2D /= 0) NV46 = 4
               !
               CALL SFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
@@ -1070,10 +1148,10 @@ C-------------------------
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IPRI,       NLOC_DMG,
-     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
+     S   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   IBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna,      OUTPUT%TH%WFEXT)
+     V   impl_s,     idyna,      OUTPUT%TH%WFEXT,fake_size,fake_size)
 
             ENDIF
 
@@ -1156,13 +1234,13 @@ C----6---------------------------------------------------------------7---------8
           
             CALL Q4FORC2(TIMERS,OUTPUT,
      1        PM   ,GEO   ,IXQ    ,X         ,A           ,
-     2        V    ,MS    ,W      ,WA        ,VAL2 ,
+     2        V    ,MS    ,W      ,VAL2 ,
      3        VEUL  ,FV     ,ALE_CONNECT     ,IPARG     ,NLOC_DMG,
      4        ELBUF_TAB,TF    ,NPC    ,BUFMAT    ,PARTSAV     ,
      5        DT2T ,NELTST,ITYPTST,STIFN     ,OFFSET      ,
      6        EANI ,IPARTQ(NF1),NEL,IADQ     ,FSKY        ,
      7        IPARG(10,NG),NG    ,
-     8        IPM         ,BID   ,QMVBID  ,GRESAV   ,GRTH        ,
+     8        IPM         ,BID   ,GRESAV   ,GRTH        ,
      9        IGRTH(OFF_IGRTH+NF1),TABLE     ,IGEO      ,ITASK   ,IEXPAN,
      A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID,IBID,SNPC,
      B        STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
@@ -1185,7 +1263,7 @@ C----6---------------------------------------------------------------7---------8
      D        SVIS,NSVOIS,IRESP,TT,DT1,      
      .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .        IMON_MAT,USERL_AVAIL, impl_s,     idyna,
-     .        DT      ,GLOB_THERM,SENSORS)
+     .        DT      ,GLOB_THERM,SENSORS,fake_size,fake_size,nv46)
 
           ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -1207,7 +1285,7 @@ C
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 c
-          CALL TFORC3(
+          CALL TFORC3(MAT_ELEM%MAT_PARAM,NUMMAT,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
      2   GEO,                 IXT,                 X,                   A,
      3   V,                   PARTSAV,             BUFMAT,              DT2T,
@@ -1432,7 +1510,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      A   IFAILURE,            MTN,                 IGTYP,               NPT,
      B   JSMS,                MSSA(NF1),           DMELS(NF1),          KXIG3D,
      C   IXIG3D,              KNOT,                NCTRL,               WIGE,
-     D   WA,                  VAL2,                DT2T,                NELTST,
+     D   VAL2,                DT2T,                NELTST,
      E   ITYPTST,             OFFSET,              TABLE,               IEXPAN,
      F   ALE_CONNECT,         FV,                  ITASK,               IPRI,
      G   PX,                  PY,                  PZ,                  KNOTLOCPC,

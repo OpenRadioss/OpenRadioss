@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -132,7 +132,7 @@ C
           ZD8(I)=X(3,NC8(I))  
         ENDDO      
       ENDIF
-C   -----attention, format is different to Ismstr=10,11
+C   -----note: format is different to Ismstr=10,11
         DO I=1,NEL
           IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE )THEN
            SAV(I,1)=XD1(I)-XD8(I)

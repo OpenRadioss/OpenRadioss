@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
       INTEGER II,JJ, I, J, N, IH, NG, 
-     .        K, IST, IP, L, LWA, NEL,KK(6)
+     .        K, IP, NEL,KK(6)
       INTEGER :: J_FIRST,NITER,IADR,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_SPH 
 C-----------------------------------------------

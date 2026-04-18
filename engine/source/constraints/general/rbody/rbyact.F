@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -96,8 +96,8 @@ c        MASRB=MASRB*WEIGHT(M)
 c        XMG=XMG*WEIGHT(M)
 c      ENDIF
 C---------------------------------
-C     RECHERCHE DES NOEUDS SECONDS
-C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
+C     search for secondary nodes
+C     of sub rby (main node among the secondary nodes)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
@@ -115,8 +115,8 @@ C---------------------------------
          ENDIF
       ENDDO
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     correction of the mass and of the
+C     center of gravity of the main node
 C---------------------------------
       DO J=1,3
          XG(J)=X(J,M)
@@ -146,7 +146,7 @@ C inertie meme si iwa(n)==0
         ENDIF
       ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
         RBF6(1,K) = ZERO
@@ -195,7 +195,7 @@ C
       ENDDO
 
 C--------------------------------------
-C     CORRECTION DE L'INERTIE DU MAIN
+C     correction of the inertia of the main node
 C--------------------------------------
       RBY(1)=RBY(1)+INERT
       RBY(5)=RBY(5)+INERT
@@ -239,7 +239,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=(XX+YY)*MS(N)
          ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
-C main DE SOUS RBY
+C main node of sub rby
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)
@@ -323,7 +323,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=YY*MS(N)
          ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
-C main DE SOUS RBY
+C main node of sub rby
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)
@@ -370,7 +370,7 @@ C
         ENDDO
       ENDIF
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
         RBFB6(1,K) = ZERO
@@ -426,7 +426,7 @@ C----------------------------------------------
      .        MASRB,RBY(1),RBY(5),RBY(9),RBY(2),RBY(3),RBY(6)
       ENDIF
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     COMPUTATION OF THE PRINCIPAL INERTIA FRAME
 C----------------------------------------------------------------
       IF(N2D == 1) THEN
         RBY(10) = RBY(1)

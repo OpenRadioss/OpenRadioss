@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -230,8 +230,8 @@ C
           IF(NISUB/=0)THEN
 C
 C           SUR LES ENTIERS ON ECONOMISE +- 2NSN+2NMN+NST / AUTRES TYPES
-C           K14 = ELEMS CANDIDATS A L'IMPACT...
-C           K15 = NOEUDS CANDIDATS A L'IMPACT + ADRESSE ELEMS CORRES.
+C           K14 = ELEMENTS CANDIDATES A L'IMPACT...
+C           K15 = CANDIDATE NODES FOR IMPACT + ADDRESS OF CORRESPONDING ELEMENTS.
 C
             WRITE(IOUT,1010)NOINT
             WRITE(IOUT,'(10I10)')

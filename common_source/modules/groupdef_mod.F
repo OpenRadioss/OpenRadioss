@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -108,6 +108,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dtnodams                          ../engine/source/time_step/dtnodams.F
 !||    dtnodarayl                        ../engine/source/time_step/dtnodarayl.F
 !||    dxyzsrg                           ../engine/source/output/anim/generate/dxyzsrg.F
+!||    ebcs_cyclic_surface_matching      ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    ebcs_cyclic_surface_matching_2d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    ebcs_main                         ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ecrsub2                           ../starter/source/model/assembling/hm_read_subset.F
 !||    eig                               ../engine/stub/eig.F
@@ -198,11 +201,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_rbody                  ../starter/source/constraints/general/rbody/hm_preread_rbody.F
 !||    hm_preread_sphio                  ../starter/source/loads/sph/hm_preread_sphio.F
 !||    hm_preread_xelem                  ../starter/source/elements/reader/hm_preread_xelem.F
+!||    hm_print_inter_guided_cable       ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_activ                     ../starter/source/tools/activ/hm_read_activ.F
 !||    hm_read_admas                     ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_link                  ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                       ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_bcs_nrf                   ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                  ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_cload                     ../starter/source/loads/general/cload/hm_read_cload.F
@@ -212,6 +217,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_damp                      ../starter/source/general_controls/damping/hm_read_damp.F
 !||    hm_read_drape                     ../starter/source/properties/composite_options/drape/hm_read_drape.F
 !||    hm_read_dt                        ../starter/source/general_controls/engine/hm_read_dt.F
+!||    hm_read_ebcs_cyclic               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -243,6 +249,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inivel                    ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 !||    hm_read_inivol                    ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_inter_fsi                 ../starter/source/interfaces/reader/hm_read_inter_fsi.F
+!||    hm_read_inter_guided_cable        ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inter_hertz_type17        ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
 !||    hm_read_inter_lagdt_type07        ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_lagmul              ../starter/source/interfaces/reader/hm_read_inter_lagmul.F
@@ -404,8 +411,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inisms                            ../starter/source/general_controls/computation/hm_read_sms.F
 !||    inisoldist                        ../starter/source/initial_conditions/inivol/inisoldist.F
 !||    inisrf                            ../starter/source/constraints/general/rbody/inisrf.F
+!||    init_bcs_nrf                      ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                     ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_global_frontier_monvol       ../engine/source/airbag/init_global_monvol_frontier.F90
+!||    init_h3d_engine                   ../engine/source/output/h3d/h3d_build_fortran/init_h3d_engine.F90
 !||    init_inivol                       ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons           ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    init_monvol                       ../starter/source/airbag/init_monvol.F
@@ -482,6 +491,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mv_matv                           ../engine/source/airbag/monv_imp0.F
 !||    ngr2usr                           ../engine/source/input/freform.F
 !||    ngr2usrn                          ../starter/source/system/nintrr.F
+!||    ngr2usrnn                         ../starter/source/system/ngr2usrnn.F90
 !||    nintrigr                          ../starter/source/system/nintrr.F
 !||    nl_solv                           ../engine/source/implicit/nl_solv.F
 !||    nodald                            ../engine/source/output/anim/generate/nodald.F
@@ -635,6 +645,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_surf_load_pressure             ../starter/source/output/th/th_surf_load_pressure.F
 !||    thprin_sub                        ../starter/source/output/th/thprin.F
 !||    tsurftag                          ../starter/source/groups/tsurftag.F
+!||    update_slipring                   ../engine/source/tools/seatbelts/update_slipring.F
 !||    updfail                           ../starter/source/materials/updfail.F90
 !||    velvecz22                         ../engine/source/output/anim/generate/velvecz22.F
 !||    volpvgb                           ../engine/source/airbag/volpvg.F
@@ -714,7 +725,7 @@ C-----------------------------------------------------------------------
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
 !                                 = 0 ALL THE REST
-!  For element (part) group:
+!  For element (share) Group:
 !                                 = 1 ELEM
 !                                 = 2 GRELEM
 !                                 = 3 SUBSET,PART,MAT,PROP
@@ -760,7 +771,7 @@ C-----------------------------------------------------------------------
 !                                 ID MaDyMo - for entity type which impose surface movement:
 !                                 No systeme MaDyMo for entity type which impose surface movement
           INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
-          INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
+          INTEGER   :: NB_MADYMO  ! Name of the entity which requires the MVT of the surface.
 !                                --> No systeme Radioss ou MaDyMO.
           INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.

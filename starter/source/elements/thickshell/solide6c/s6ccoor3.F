@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     Z1, Z2, Z3, Z4, Z5, Z6)
 
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,14 +66,14 @@ C-----------------------------------------------
      .   R11(*),R12(*),R13(*),R21(*),R22(*),R23(*),R31(*),R32(*),R33(*),
      .   F1X(*),F1Y(*),F1Z(*),F2X(*),F2Y(*),F2Z(*),TEMP0(MVSIZ), TEMP(*)
       INTEGER IX1(*), IX2(*), IX3(*), IX4(*), IX5(*), IX6(*)
-      my_real 
+      my_real
      .     X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
      .     Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), 
      .     Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .   XL,YL,ZL
 C-----------------------------------------------
@@ -81,13 +82,13 @@ C-----------------------------------------------
       my_real
      .   CHECKVOLUME_6N
 C=======================================================================
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
+C     CONNECTIVITIES AND MATERIAL NUMBER AND PID
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXS(1,I)
         IX1(I)=IXS(2,I)
         IX2(I)=IXS(3,I)
-        IX3(I)=IXS(4,I)
+        IX3(I)=IXS(4,I)  
         IX4(I)=IXS(6,I)
         IX5(I)=IXS(7,I)
         IX6(I)=IXS(8,I)
@@ -167,7 +168,7 @@ C
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE .
+C     convected frame .
 C-----------
       CALL S6CORTHO3(                                    
      .  X1, X2, X3, X4, X5, X6,                          

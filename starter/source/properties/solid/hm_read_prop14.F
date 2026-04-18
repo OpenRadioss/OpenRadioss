@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -98,9 +98,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
-      INTEGER I8PT,ITET4,ITET4_PREV,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG,IHBE_PR
+      INTEGER ITET4,ITET4_PREV,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG,IHBE_PR
       my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,ICONTROL_D,ICONTROL
+      INTEGER     IHBE_DS,ISST_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,ICONTROL_D,ICONTROL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lFOUND
       CHARACTER(LEN=NCHARLINE) ::  MSGLINE
 C-----------------------------------------------
@@ -348,7 +348,7 @@ C--------------------------------------------------
       IF (QA == ZERO) QA = ONEP1         
       IF (QB == ZERO) QB = FIVEEM2      
 
-      ! --default CVIS (hourglass)  --- 
+      ! --Default Cvis (Hourglass) --- 
       IF (IHBE == 24) THEN
         IF (CVIS == ZERO) CVIS = EM01
         GEO(13) = CVIS        
@@ -607,9 +607,9 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,I8PT,J
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
-      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,IHBE_OLD,ID
+      INTEGER     IHBE_DS,ISST_DS,IFRAME_DS
+      my_real CVIS,QA,QB,QH,VNS1,VNS2 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s

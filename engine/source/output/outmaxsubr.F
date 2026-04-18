@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tensgps3       ../engine/source/output/anim/generate/tensor6.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -38,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,LENR,NSIZ
+      INTEGER N, LENR, NSIZ
       my_real
      .  FAC
       my_real
@@ -124,6 +126,7 @@ C
 !||    tensgpstrain         ../engine/source/output/anim/generate/tensgpstrain.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -133,7 +136,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -171,7 +175,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,LENR
+      INTEGER N, LENR
       my_real
      .  FAC
       my_real
@@ -231,7 +235,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S1,T1,DET,R
 C-----------------------------------------------
@@ -268,7 +272,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S1,T1,T2,T3,S(6),P1,DETB,DETS,R,ALPHA
 C-----------------------------------------------
@@ -326,7 +330,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+ 
       my_real
      .   P2(NEL,2)
 C-----------------------------------------------
@@ -359,7 +363,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+ 
       my_real
      .   P2(NEL,2)
 C-----------------------------------------------
@@ -390,7 +394,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(3)
 C-----------------------------------------------
@@ -423,7 +427,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(6),S1,S2,S3,VONM,P,VONM2
 C-----------------------------------------------
@@ -471,7 +475,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT
+      INTEGER I, IL, IR, IS, IT
       my_real
      .   S(6),S1,S2,S3,VONM
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -524,8 +528,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,NFAIL,IIR
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      INTEGER I, IL, IR, IS, IT, NFAIL, IIR
+ 
       my_real,
      .  DIMENSION(:), POINTER  :: DFMAX
 C-----------------------------------------------
@@ -578,7 +582,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,JJ(6)
+      INTEGER I, IL, IR, IS, IT, JJ(6)
       my_real
      .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
@@ -648,7 +652,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,JJ(6)
+      INTEGER I, IL, IR, IS, IT, JJ(6)
       my_real
      .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
@@ -707,7 +711,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(3),S1,S2,S12,VONM2,VONM
 C-----------------------------------------------
@@ -751,7 +755,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT
+      INTEGER I, IL, IR, IS, IT
       my_real
      .   S(3),S1,S2,S3,VONM
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -807,7 +811,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,JJ(3)
+      INTEGER I, IL, IR, IS, IT, JJ(3)
       my_real
      .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -873,7 +877,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,JJ(3),NPG,LENS,NG,PTS
+      INTEGER I, IR, IS, JJ(3), NPG, LENS, NG, PTS
       my_real
      .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -951,7 +955,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IL,IR,IS,IT,NFAIL,IIR
+      INTEGER I, IL, IR, IS, IT, NFAIL, IIR
       my_real, DIMENSION(:), POINTER  :: DFMAX
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C-----------------------------------------------
@@ -1109,7 +1113,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(3),NORM2
 C-----------------------------------------------
@@ -1152,7 +1156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S(3),NORM2
 C-----------------------------------------------
@@ -1196,7 +1200,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J
+      INTEGER I
       my_real
      .   S1,T1,T2,T3,S(6),P1,DETB,DETS,R,ALPHA
 C-----------------------------------------------

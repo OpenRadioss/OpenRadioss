@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    myqsort_int               ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod               ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE FIND_SURFACE_INTER(ITAB  ,SHOOT_STRUCT  ,IXS  ,IXS10  ,IXC  ,
      .                                IXTG  ,
@@ -45,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !$ENDCOMMENT
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
+        use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J,K,N,IJK
-        INTEGER :: NODE_ID,NODE_ID_2,ELEM_ID
+        INTEGER :: NODE_ID, ELEM_ID
         INTEGER :: OFFSET_SOLID,OFFSET_QUAD,OFFSET_SHELL,OFFSET_TRUSS
         INTEGER :: OFFSET_BEAM,OFFSET_SPRING,OFFSET_TRIANGLE,OFFSET_UR
         INTEGER, DIMENSION(4,6), TARGET :: FACES ! definition of faces for solid
@@ -89,12 +91,12 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT_INTERSECT_2,INTERSECT_3,INTERSECT_4
         INTEGER, DIMENSION(:), ALLOCATABLE :: TMP_ARRAY
         INTEGER, DIMENSION(4) :: LOCAL_NODE
-        INTEGER :: DICHOTOMIC_SEARCH_I_ASC  ! function
+ 
         INTEGER :: GROUP_NUMBER
         INTEGER :: KIND_SOLID,OLD_J,MERGED_NODE,ERROR
         INTEGER, DIMENSION(4) :: LIST_NODE_ID,PERM_LIST_NODE_ID,NB_APPAREANCE
         LOGICAL :: NEED_COMPUTE
-        INTEGER :: N1,N2,N3,N4
+ 
 C-----------------------------------------------
 
         FACES_SHELL(1:4,1) = (/1,2,3,4/)
@@ -174,21 +176,21 @@ C-----------------------------------------------
             IX_TETRA10 => NULL()
             ! ----------------------
             IF(ELEM_ID<=NUMELS8) THEN
-                ! solid element : 8 nodes --> 6 surfaces
+                ! Solid element: 8 nodes -> 6 surfaces
                 !     o----o
                 !    /+   /|
                 !   o-+--o |
                 !   | o++|+o
                 !   |+   |/
                 !   o----o
-                ! penta element : 6 nodes --> 5 surfaces
+                ! Penta element: 6 nodes -> 5 surfaces
                 !        o
                 !       /+\
                 !      o+  \
                 !     /\o++/o
                 !    /+ \ /
                 !   o----o
-                ! tetra4 element : 4 nodes --> 4 surfaces  
+                ! tetra4 element: 4 nodes -> 4 surfaces  
                 !       o      
                 !      /+\
                 !     / + \
@@ -269,7 +271,7 @@ C-----------------------------------------------
                 NODE_SURF_NB = 4 ! number of node per surface
                 SHIFT_ELM = OFFSET_SHELL
             ELSEIF(ELEM_ID<=OFFSET_BEAM) THEN
-                !   truss element
+                !   truss
                 DO_COMPUTATION = .FALSE.
             ELSEIF(ELEM_ID<=OFFSET_SPRING) THEN
                 !   beam element

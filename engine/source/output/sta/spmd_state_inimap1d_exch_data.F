@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,J,K,L,NG,NREC,MSGOFF2,IDOM,IPOS
+      INTEGER SIZ,MSGTYP,I,J,K,L
       INTEGER NCELL, NPTS, NBMAT
 
       DATA MSGOFF/10002/
@@ -94,7 +94,7 @@ C-----------------------------------------------
       ELSE                                                                                    
         NCELL = STATE_INIMAP_BUF(1)%NUM_CENTROIDS                                             
         DO I=2,NSPMD                                                                          
-          ! Reception du buffer flottant double des adresses DATA_I                           
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                                     
           NCELL = STATE_INIMAP_BUF(I)%NUM_CENTROIDS                                           
           NBMAT = STATE_INIMAP_BUF(I)%NSUBMAT                                                 
@@ -159,7 +159,7 @@ C-----------------------------------------------
           STATE_INIMAP_BUF(1)%POS_NODES(I)=STATE_INIMAP_BUF(1)%POS_NODES(I)
         ENDDO                                             
         DO I=2,NSPMD                                                
-          ! Reception du buffer flottant double des adresses DATA_I                        
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                
           NPTS = STATE_INIMAP_BUF(I)%NUM_POINTS                                            
           SIZ = 2*NPTS                                         

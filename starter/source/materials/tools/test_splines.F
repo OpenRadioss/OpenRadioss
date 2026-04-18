@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
        !compute SPLINE length with third order method (SIMPSON)
-       !  INPUT  - LOCAL_PT : 4 control points P0,P1,P2,P3
+       !  INPUT - Local_pt: 4 control points P0, P1, P2, P3
        !  INPUT  - ALPHA : CCR SPLINE PARAMETER
        !  INPUT  - T : position [0,1] on SPLINE [T1,T2].  1.0 means full spline length
        !  OUTPUT - LEN : length of the curve parametrised with t in [0,T]  T<=1.0
@@ -106,7 +106,7 @@ c
         ENDDO                                            
         
       ENDDO 
-      ! last point                                           
+      ! Last point                                           
       TT = ONE
       K = K + 1
       XX(K) = XF(NPT0)

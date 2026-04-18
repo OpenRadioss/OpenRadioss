@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       use glob_therm_mod
       use s20temp_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,13 +109,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, IBID, I, IGTYP, IP, NF2,NPTR,NPTS,NPTT,IR,IS,IT,
-     .        NB01,NB02,NB03,NB04,NB05,NB06, NUVAR,IDEF,
+      INTEGER NF1, I, IGTYP, IP, NF2,NPTR,NPTS,NPTT,IR,IS,IT,
+     .         NUVAR,IDEF,
      .        JHBE, IPID1,NLAY,L_PLA,L_SIGB
       INTEGER NC(MVSIZ,20),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), NCC
       CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
-     .   BID, FV(1),
+     .    FV(1),
      .  MASS(MVSIZ),
      .  STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .  XX(MVSIZ,20), YY(MVSIZ,20), ZZ(MVSIZ,20),
@@ -214,7 +215,7 @@ C
      4   DTELEM(NF1),STI   ,GBUF%SIG  ,GBUF%EINT   ,GBUF%RHO,
      5   GBUF%QVIS  ,TEMP0 ,TEMP      ,NEL         ,GLOB_THERM%NINTEMP)
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     initialization of thermal
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C-----------------------------
@@ -261,14 +262,14 @@ C
      .               MAT      ,IPM      ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP       ,NGL      ,NPF       ,TF        ,BUFMAT ,
      .               GBUF     ,LBUF     ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX    ,TEMPEL)
+     .               FACLOAD, DELTAX    ,TEMPEL    ,MAT_PARAM )
 C----------------------------------------
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .         GBUF%VOL, DTX       , IGEO,IGTYP)
 C----------------------------------------
-c         INITIALISATION DES MASSES
+c         initialization of masses
 C
           CALL S20MSI(LBUF%RHO, MASS    , LBUF%VOL , DTELEM(NF1), STI    ,
      .                LBUF%OFF, LBUF%SIG, LBUF%EINT, DTX        , NEL    ,
@@ -328,8 +329,8 @@ C----------------------------------------
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         NCC=20

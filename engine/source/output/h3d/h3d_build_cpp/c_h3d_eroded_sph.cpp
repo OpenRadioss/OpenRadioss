@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -115,7 +115,7 @@ void c_h3d_eroded_sph_(my_real *TT,int *IH3D, int *NUMSPH, my_real *FUNC , int *
           {
               elem_id = ID_ELEM[i];
               elem_result[0] = 0.0f;
-              if(  FUNC[i] < 0.0f ) 
+              if(  FUNC[i] <= 0.0f ) 
               {
                 elem_result[0] = 1.0f;
                 rc = Hyper3DDatasetWrite(h3d_file, elem_id, &elem_result[0]);

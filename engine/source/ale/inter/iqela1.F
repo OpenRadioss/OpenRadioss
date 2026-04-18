@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,23 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iqela1     ../engine/source/ale/inter/iqela1.F
+!||    iqela1       ../engine/source/ale/inter/iqela1.F
 !||--- called by ------------------------------------------------------
-!||    intal2     ../engine/source/ale/inter/intal2.F
+!||    intal2       ../engine/source/ale/inter/intal2.F
 !||--- calls      -----------------------------------------------------
-!||    shapeh     ../engine/source/ale/inter/shapeh.F
+!||    shapeh       ../engine/source/ale/inter/shapeh.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE IQELA1(A,E,MSM,IRECT,CRST,MSR,
+      SUBROUTINE IQELA1(OUTPUT,A,E,MSM,IRECT,CRST,MSR,
      1                 NSV,ILOC,IRTL,MS,NOR,LCODE,ISKEW,FSAV,
      2                 FCONT,FNCONT,H3D_DATA,NSN,NMN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER,INTENT(INOUT) :: IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*)
       my_real,INTENT(INOUT) :: A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
       my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*)
@@ -84,7 +85,7 @@ C-----------------------------------------------
       IANIM  = .FALSE.
       ICONT  = (ANIM_V(4)+OUTP_V(4) > 0+H3D_DATA%N_VECT_CONT)
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0)THEN      
-       IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+       IF( (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP) .OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
      .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D /= 0)THEN
          IPCONT = .TRUE.
        ENDIF
@@ -110,7 +111,7 @@ C-----------------------------------------------
        E(I3)=ZERO
       ENDDO
 
-      !secnd nodes
+      !second nodes
       DO II=1,NSN
        I=NSV(II)
        J=ILOC(II)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod         ../engine/share/message_module/message_mod.F
 !||    table_mod           ../engine/share/modules/table_mod.F
@@ -58,6 +59,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +103,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NF1,IFLAG,NUPARAM,IG,IGT,
+      INTEGER I,J,NF1,NUPARAM,IG,IGT,
      .   NUVAR,NUVARP,II(6)
 C-----
       INTEGER IMAT(MVSIZ),SID(MVSIZ),IPROP(MVSIZ),NC(MVSIZ,8)
@@ -109,7 +111,7 @@ C-----
      .   MX(MVSIZ,8),MY(MVSIZ,8) , MZ(MVSIZ,8),
      .   STI(MVSIZ),STIR(MVSIZ), VISCM(MVSIZ) ,VISCR(MVSIZ)
       my_real
-     .   OFF(MVSIZ) , RHOO(MVSIZ),FR_W_E(MVSIZ),
+     . OFF(MVSIZ) ,FR_W_E(MVSIZ),
      .   XX(MVSIZ,8), YY(MVSIZ,8),  ZZ(MVSIZ,8), 
      .   UX(MVSIZ,8), UY(MVSIZ,8),  UZ(MVSIZ,8),
      .   VX(MVSIZ,8), VY(MVSIZ,8),  VZ(MVSIZ,8),
@@ -125,7 +127,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
-      UVAR  => ELBUF_STR%GBUF%VAR
+
+      ! output is using BUFLY data instead of GBUF (see dfunc6.F)
+      NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT         !NUVAR = ELBUF_STR%GBUF%G_NUVAR
+      UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR      !UVAR  => ELBUF_STR%GBUF%VAR
+
       NF1=NFT+1
 !
       DO I=1,6
@@ -138,7 +144,7 @@ C GATHER NODAL VARIABLES
      .             XX ,YY ,ZZ, UX  ,UY  ,UZ , 
      .             VX ,VY ,VZ, VRX ,VRY ,VRZ, 
      .             GBUF%OFF,OFF, NC,SID,IMAT,IPROP)
-      NUVAR   = ELBUF_STR%GBUF%G_NUVAR
+
       NUPARAM = IPM(9,IMAT(1))
 C-----------
       IG =IPROP(1)
@@ -548,7 +554,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K, J
+      INTEGER I, K, J
 C=======================================================================
       IF (IVECTOR == 1) THEN
         DO J=1,8
@@ -601,14 +607,17 @@ c-----------
       RETURN
       END
 !||====================================================================
-!||    sucoor3   ../engine/source/user_interface/suforc3.F
+!||    sucoor3       ../engine/source/user_interface/suforc3.F
 !||--- called by ------------------------------------------------------
-!||    suforc3   ../engine/source/user_interface/suforc3.F
+!||    suforc3       ../engine/source/user_interface/suforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SUCOOR3(IXS,X  ,V,VR,W,D,FR_WAVE ,FR_W_E  ,
      .                   XX , YY, ZZ, UX, UY, UZ, 
      .                   VX , VY, VZ, VRX, VRY, VRZ,
      .                   OFFG,OFF,NC ,SID,IMAT,IPROP)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

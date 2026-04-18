@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD             
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 !      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -87,7 +88,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO NG = 1,NGROUP 
 c
-        MLW     = IPARG(1,NG)     ! type de loi mat
+        MLW     = IPARG(1,NG)     ! material law type
         NEL     = IPARG(2,NG)                                             
         NFT     = IPARG(3,NG)                                             
         ITY     = IPARG(5,NG)                                                        
@@ -288,6 +289,7 @@ c---------
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)
                   IF(ASSOCIATED(FLOC%DAM)) DEALLOCATE(FLOC%DAM)
                   IF(ASSOCIATED(FLOC%DAMMX)) DEALLOCATE(FLOC%DAMMX)
                   IF(ASSOCIATED(FLOC%DAMINI)) DEALLOCATE(FLOC%DAMINI)
@@ -337,7 +339,7 @@ c------------------------------------------------------
           ELSEIF (ITY==7 .and. JHBE == 30) THEN
             NPTR = 3
             NPTS = 1
-          ELSE   ! one Gauss point on surface
+          ELSE   ! One Gauss Point We Surface
             NPTR = 1
             NPTS = 1
           ENDIF
@@ -361,7 +363,7 @@ c-------------------------------------------------
             NPT = NPG*NLAY*NPTT
           ENDIF
 c-----------------------------------------------------
-c deallocation des sub-structures de l'element buffer
+c deallocation of the sub-structures of the element buffer
 c-----------------------------------------------------
           CALL DEALLOCATE_ONE_ELEMENT_GROUP(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,NINTLAY,NEL,NPT,NG,NGROUP,ITY,IGTYP)
 
@@ -374,6 +376,7 @@ C
                 DO J = 1,NFAIL 
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)                                
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)                                
                 ENDDO  
                                                             
                 IF(ASSOCIATED(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR))DEALLOCATE(ELBUF_TAB(NG)%INTLAY(IL)%MAT(IR,IS)%VAR)
@@ -391,6 +394,7 @@ C
                 DO J = 1,NFAIL
                   FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)
+                  IF(ASSOCIATED(FLOC%VARTMP)) DEALLOCATE(FLOC%VARTMP)
                   IF(ASSOCIATED(FLOC%DAM)) DEALLOCATE(FLOC%DAM)
                   IF(ASSOCIATED(FLOC%DAMMX)) DEALLOCATE(FLOC%DAMMX)
                   IF(ASSOCIATED(FLOC%DAMINI)) DEALLOCATE(FLOC%DAMINI)

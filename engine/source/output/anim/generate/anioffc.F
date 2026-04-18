@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_c_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
@@ -66,14 +66,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, NBX, IP, 
-     .        NN, K1, K2,MT,JALE, IMID, 
-     .        N1,N2,N3,N4,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN, ISEATBELT
-      INTEGER RBUF,ISROT
+     . LLT, MLW,NBX,IP,
+     . NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     . N_FA, IHBE, ISTRAIN, IEXPAN, ISEATBELT
+      INTEGER RBUF
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFBUF
-      REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       CALL MY_ALLOC(IOFFBUF,NBF_L)

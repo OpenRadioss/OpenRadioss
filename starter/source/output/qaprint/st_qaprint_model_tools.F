@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -133,7 +133,7 @@ C-----------------------------------------------
       CHARACTER(LEN=nchartitle)  :: TITR, TEMP_STRING
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER :: TEMP_INTEGER
-      INTEGER :: ISECT, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, KR0
+      INTEGER :: ISECT, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, KR0
       INTEGER :: NNOD,NSEGS,NSEGQ,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NBINTER,
      .           ISEN,INTVAL
       INTEGER :: WORK(70000),INDEX(2*(NUMFRAM+1)),IFRAME,ITR1(NUMFRAM+1)

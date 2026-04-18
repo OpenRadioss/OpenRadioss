@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,7 +95,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1), 15)
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 15)
@@ -119,7 +119,7 @@ C
         ENDIF
        ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
        CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(5,1), 15)
        CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(6,1), 15)

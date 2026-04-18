@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT, IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,Cv,MU0,PP,RHOI,RHOR,G0,SSP0,DPDMU,DF
+      my_real  GAMMA, P0, T0, E0, PSH, RHO0, Cv, MU0, RHOI, RHOR, G0, SSP0, DPDMU, DF
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -95,6 +95,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -125,37 +126,47 @@ C-----------------------------------------------
       ! P0 <=0
       ! GAMMA <=ONE
       IF(P0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
       
       IF(GAMMA <= ONE)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0 == ZERO)T0=THREE100
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
+
       Cv = ZERO
       IF(RHO0*T0 /= ZERO) THEN
         ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
         Cv = E0/RHO0/T0
       ENDIF
-      
-      PM(32) = GAMMA
-      PM(88) = PSH
-      PM(23) = E0
-      PM(35) = T0
-      PM(36) = Cv
-      PM(31) = P0-PSH
-      PM(79) = T0
-      PM(104)=P0-PSH
 
+      PM(23) = E0
+      PM(31) = P0-PSH
+      PM(32) = (GAMMA-ONE)*E0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(79) = T0
+      PM(88) = PSH
+      PM(104)= P0-PSH
+
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = T0
+      MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%Cv = Cv
       MAT_PARAM%EOS%Cp = GAMMA * Cv
+      MAT_PARAM%EOS%E0 = E0
       
       !SSP0
       SSP0 = ZERO 

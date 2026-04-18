@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani                ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_isum9       ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
@@ -62,12 +62,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
+      INTEGER PMAIN,I,J,K,L,S,B,M,P,N,
      .        RECOISDE(NSPMD),
      .        II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
 C
       INTEGER BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
-     .        NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
+     .        NBNOD,SIZ,LPO,NSN,PTR,NN,NR,
      .        SRBY
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFSPM,BUFRECVM,PORBY,BUFSPO
 
@@ -75,7 +75,7 @@ C
 
 C   MPI variables
       INTEGER LOC_PROC
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,ATID,ATAG,ALEN
+      INTEGER MSGOFF,MSGOFF2,MSGTYP
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
 C-----------------------------------------------
       DATA MSGOFF/7018/

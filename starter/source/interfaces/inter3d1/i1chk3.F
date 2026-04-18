@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,7 +115,7 @@ C-----------------------------------------------
            ENDIF
         ENDIF
       ENDDO!next I
-      !LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT
+      !THE GLOBAL NODE IS REPLACED BY THE LOCAL NODE IN IRECT
       DO I=1,NRT
         DO J=1,4
           IG=IRECT(J,I)

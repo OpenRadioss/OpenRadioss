@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHLAGM , 
      .                                K       ,OFFS    ,IKINE1LAG) 
 C-------------------------------------
-C     LECTURE MUR RIGIDE
+C     READING MUR RIGIDE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

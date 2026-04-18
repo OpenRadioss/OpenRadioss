@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -186,14 +186,14 @@ C-----------------------------------------------
      .         NRTS_L,NSN_L,NRTM_L,NMN_L,II_STOK_L,II_STOK_E_L,II_STOK_S,II_STOK_S_L,
      .         MULTIMP,NCONT,NCONTE,SIZ,MFROT,NISUBS_L,NISUBM_L,
      .         NLN_L,NLINS_L,NLINM_L,NSNE_L,NMNE_L,NME_L,NMNG_l,
-     .         NSN0,NSN0_L,KE,NBT8,P2,NBS_INTERF,NBM_INTERF,NADMSR,
+     .         NSN0,NSN0_L,NBT8,NADMSR,
      .         NADMSR_L,IBID,IEDGE4,
      .         NRTM_IGE,NRTM_IGE_L,NRTS_IGE,NRTS_IGE_L,
      .         NRTM_FE, NRTM_FE_L, NRTS_FE, NRTS_FE_L,NMN_FE_L,
      .         NMN_IGE_L,NSN_FE_L,NSN_IGE_L,NMN_FE,
-     .         NMN_IGE,NSN_FE,NSN_IGE,L,INTFRIC,NREMNOR,IVIS2,
+     .         NMN_IGE,NSN_FE,NSN_IGE,INTFRIC,NREMNOR,IVIS2,
      .         NEDGE,NEDGE_L,INTNITSCHE,II,NISUBE_L,ITHK,FLAGLOADP,
-     .         ISTIF_MSDT, IDEL25_SOLID
+     .         ISTIF_MSDT, IDEL25_SOLID,NEDGE_1D,NMN_1D,NMN_1D_L
        INTEGER :: NINDX_NDLOCAL24
        INTEGER :: MULTIMPE
 c      my_real
@@ -206,7 +206,7 @@ c     .        RCONT
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_EDGE,TAG_EDGE2
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2E
        INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_II_E2S
-       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_JJ_E2E,TAG_JJ_E2S 
+       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_JJ_E2E,TAG_JJ_E2S,TAG_NODE_MSR_1D
        LOGICAL :: TYPE18_LAW151
 C ----------------------------------------
 !      NODLOCAL24 is used for interface /TYPE24 or /TYPE25
@@ -240,7 +240,7 @@ C Tag Arrays must be increased accordingly
 !      ALLOCATE(TAG_SCRATCH(NUMNOD+I24MAXNSNE+NUMELS))
 !      TAG_SCRATCH(1:NUMNOD+I24MAXNSNE+NUMELS) = 0
 C
-C     Init tableau de tag pour frontiere int2
+C     initialize tag array for int2 boundary
 C
       IF(NBDDI2M>0) THEN
         DO I = 1, NUMNOD_L
@@ -315,6 +315,8 @@ C       WRITE(6,*) __FILE__,"INTERFACE=",NI
         FLAGLOADP = IPARI(95,NI)
         ISTIF_MSDT = IPARI(97,NI)
         IDEL25_SOLID = IPARI(100,NI)
+        NEDGE_1D  = IPARI(101,NI)
+        NMN_1D  = IPARI(104,NI)
 
         IF (ITYP == 24) NRTSE  = IPARI(52,NI)
         IF (ITYP == 24) IEDGE4 = IPARI(59,NI)
@@ -372,6 +374,7 @@ C       WRITE(6,*) __FILE__,"INTERFACE=",NI
         NADMSR_L = IPARI_L(67,NI)
         NEDGE_L  = IPARI_L(68,NI)
         NISUBE_L = IPARI_L(90,NI)
+        NMN_1D_L = IPARI_L(104,NI)
 
 
 C=======================================================================
@@ -575,7 +578,7 @@ c     .                            TAG_NODE_2RY) !JD(31)
      .                            TAG_NODE_2RY) !JD(36)
 
           ELSEIF(IPARI(17,NI)/=0)THEN
-C si Idel2 actif
+C if Idel2 active
 C smas & siner (ZERO)   
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,
@@ -1673,9 +1676,9 @@ c split candidates
           IBUF8_L(1:SIZ)=0
           DO K=1,NLN
              N = INTBUF_TAB(NI)%NLG(K) ! N noeud global
-             NL = TAG_NLG2(N)       ! NL noeud local d interface sur le proc
+             NL = TAG_NLG2(N)       ! NL local interface node on the processor
              IF(NL > 0)THEN
-C 36 entiers 18 doubles
+C 36 integer 18 doubles
                CALL COPYR8(IBUF8_L(36*(NL-1)+1),
      .                     INTBUF_TAB(NI)%DAANC6(36*(K-1)+1)     ,18  )
              ENDIF
@@ -2482,6 +2485,12 @@ C=======================================================================
                 NODLOCAL24(1:NUMNOD) = NODLOCAL(1:NUMNOD)
                 FLAG_INIT_24_25 = .FALSE.
           ENDIF
+          IF(NEDGE_1D >0) THEN
+            ALLOCATE( TAG_NODE_MSR_1D(NMN_1D))
+            TAG_NODE_MSR_1D(1:NMN_1D) = 0
+          ELSE
+            ALLOCATE( TAG_NODE_MSR_1D(0))
+          ENDIF
 
 !          NODLOCAL24(1:NUMNOD) = NODLOCAL(1:NUMNOD)
           
@@ -2504,7 +2513,7 @@ C=======================================================================
           II_STOK_S_L = 0
           II_STOK_E_L = 0
           IF(IEDGE/=0)THEN
-            ALLOCATE(TAG_II_E2E(II_STOK_E))
+            ALLOCATE(TAG_II_E2E(II_STOK_E))       
             ALLOCATE(TAG_II_E2S(II_STOK_S))
             ALLOCATE(TAG_JJ_E2E(II_STOK_E))
             ALLOCATE(TAG_JJ_E2S(II_STOK_S))
@@ -2513,7 +2522,9 @@ C=======================================================================
      .                               II_STOK_E, II_STOK_E_L, TAG_II_E2E,
      .                               II_STOK_S, II_STOK_S_L, TAG_II_E2S,
      .                               PROC     , IPARI(63,NI),IPARI(83,NI),
-     .                               NRTM     , TAG_JJ_E2E  ,TAG_JJ_E2S )
+     .                               NRTM     , TAG_JJ_E2E  ,TAG_JJ_E2S  ,
+     .                               IPARI(101,NI),CEP      ,LEN_CEP     ,
+     .                               IPARI(104,NI),NUMNOD   ,TAG_NODE_MSR_1D)
           END IF
 
 c split and write on disk integers arrays
@@ -2600,7 +2611,7 @@ C
             IF(IEDGE>0) THEN
                CALL SPLIT_REMNODE_I25_EDGE(PROC     , INTBUF_TAB(NI), NEDGE    , NEDGE_L,
      .                            TAG_EDGE   ,TAG_EDGE2        , TAG_SEGM2 , ITAB     ,NUMNOD_L  ,  
-     .                            IPARI_L(94,NI))
+     .                            IPARI_L(94,NI),CEP,LEN_CEP)
                CALL SPLIT_REMNODE_I25_E2S(PROC     , INTBUF_TAB(NI), NRTM    , NRTM_L,
      .                            TAG_EDGE   ,TAG_EDGE2        , TAG_SEGM2 , ITAB     ,NUMNOD_L  ,  
      .                            IPARI_L(96,NI))
@@ -2664,7 +2675,9 @@ C----------LEDGE:
      .                        NODLOCAL,
      .                        TAG_EDGE,
      .                        ITAB,
-     .                        PROC)
+     .                        PROC,
+     .                        IPARI(101,NI),
+     .                        CEP,LEN_CEP)
 
 C----------LBOUND:
           CALL SPLIT_LBOUND_I25(NADMSR,NADMSR_L,INTBUF_TAB(NI)%LBOUND,TAG_SM)
@@ -2725,6 +2738,11 @@ c     .                            TAG_II_E2E)
      .                         NUMELQ    ,NUMELC         ,NUMELT   ,NUMELP    ,
      .                         NUMELR    ,NUMELTG)
 
+          IF(NEDGE_1D >0) THEN
+             CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%MSR_1D,NMN_1D_L,
+     .                              TAG_NODE_MSR_1D,NODLOCAL)
+          ENDIF
+
 c split and write on disk floating arrays 
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%STFAC,1,1)  
@@ -2772,6 +2790,14 @@ C         IF(IEDGE/=0.AND.INACTI==5)THEN
             CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%CAND_P,
      .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CAND_PS,II_STOK_S_L,4,
+     .                            TAG_II_E2S) 
+            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%PENE_OLD_E,
+     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%STIF_OLD_E,
+     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENE_OLD_E2S,II_STOK_S_L,4,
+     .                            TAG_II_E2S) 
+            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%STIF_OLD_E2S,II_STOK_S_L,4,
      .                            TAG_II_E2S) 
 
           END IF
@@ -2848,7 +2874,7 @@ C----------No need for VTX_BISECTOR in restart file
 C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
           DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
      .              TAG_NODE_MSR,TAG_II,TAG_SM,
-     .              KNOR2MSR,NOR2MSR,TAG_NODE_2RY2)
+     .              KNOR2MSR,NOR2MSR,TAG_NODE_2RY2,TAG_NODE_MSR_1D)
           DEALLOCATE(TAG_EDGE)
           DEALLOCATE(TAG_EDGE2)
           IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2S,TAG_JJ_E2S)
@@ -2916,8 +2942,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .         I,ITYP,NBS_INTERF,NBM_INTERF,NBT8,
-     .         NI,K,P2
+     .         NBS_INTERF,NBM_INTERF,
+     .         K,P2
 
          CALL WRITE_I_C(T8%S_COMM,1)
 C        WRITE(6,*) __FILE__,__LINE__,"SCOMM=",T8%S_COMM 

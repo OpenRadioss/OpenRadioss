@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,7 +91,7 @@ C   +++
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
 C     REAL
       my_real
      .   VX14(MVSIZ), VY14(MVSIZ), VZ14(MVSIZ),
@@ -101,7 +101,7 @@ C     REAL
      .   VX25N(MVSIZ), VY25N(MVSIZ), VZ25N(MVSIZ),
      .   VX36N(MVSIZ), VY36N(MVSIZ), VZ36N(MVSIZ),
      .   VX3614N(MVSIZ),VY3614N(MVSIZ),VX2514N(MVSIZ),VY2514N(MVSIZ),
-     .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ), DT1D2, DT1D1
+     .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ)
       my_real 
      .  NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
 C-----------------------------------------------
@@ -136,7 +136,7 @@ C
        VY2514N(I)=VY25N(I)-VY14N(I)
       ENDDO
 C                                                                     12
-C   ----------constant part--------------------------------------
+C   --------- Constant part ---------------------------------------------------------------------------------------------------------
       DO I=1,NEL
         DXX(I)=PX1(I)*VX14(I)+PX2(I)*VX25(I)+
      .         PX3(I)*VX36(I)+PX4(I)*VXHI(I)
@@ -173,7 +173,7 @@ C
         WYY(I)=ZERO
         WZZ(I)=ZERO
       ENDDO
-C   ----------non-constant part--------------------------------------
+C   --------- Non-conchies part ---------------------------------------------------------------------------------
       DO I=1,NEL
         NU1 = NU(I)/(ONE - NU(I))
         PXAVX = PX1(I)*VX14N(I)+PX2(I)*VX25N(I)+PX3(I)*VX36N(I)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s8eoff   ../engine/source/elements/solid/solide8/s8eoff.F
+!||    s8eoff        ../engine/source/elements/solid/solide8/s8eoff.F
 !||--- called by ------------------------------------------------------
-!||    s4ke3    ../engine/source/elements/solid/solide4/s4ke3.F
-!||    s6cke3   ../engine/source/elements/thickshell/solide6c/s6cke3.F
-!||    s8cke3   ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8ske3   ../engine/source/elements/solid/solide8s/s8ske3.F
-!||    s8zke3   ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s4ke3         ../engine/source/elements/solid/solide4/s4ke3.F
+!||    s6cke3        ../engine/source/elements/thickshell/solide6c/s6cke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8ske3        ../engine/source/elements/solid/solide8s/s8ske3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8EOFF(JFT, JLT, IXS, ETAG, OFF)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, I, N1, N2, N3, N4, N5, N6, N7, N8, NALL
+      INTEGER IEL, N1, N2, N3, N4, N5, N6, N7, N8, NALL
 C
       DO IEL=JFT,JLT
          N1=IXS(2,IEL)

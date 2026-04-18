@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IBEAM_VECTOR,RBEAM_VECTOR,IVECT,VECT)
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,11 +64,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real XP1, XP2, XP3, XNOR1, XP4, XP5, XP6,
-     .        XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
+      INTEGER :: I
+      my_real :: XP1, XP2, XP3, XNOR1, XP4, XP5, XP6, XNOR2,  DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
 C=======================================================================
-C     CONNECTIVITES ET MATERIEL                   |
+C     connectivities and material
 C--------------------------------------------------
       TOL=TWO*EM06
       DO I=LFT,LLT

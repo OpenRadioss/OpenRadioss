@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -76,12 +76,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II(6),J
+      INTEGER I,II(6)
 C     REAL
-      my_real
-     .     X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ), X31G(MVSIZ), 
-     .     Y31G(MVSIZ), Z31G(MVSIZ), 
-     .     X41G(MVSIZ), Y41G(MVSIZ), Z41G(MVSIZ)
       my_real
      .     X21GA, Y21GA, Z21GA, X31GA, Y31GA, Z31GA,
      .     X41GA, Y41GA, Z41GA
@@ -184,7 +180,7 @@ C
         A_I(I) = ONE / AREA(I)
       ENDDO
 C
-C     CALCUL POUR VECTEURS HOURGLASS
+C     CALCULATION FOR HOURGLASS VECTORS
 C
       DO I=JFT,JLT
         VHX(I)=(-X2(I)+X3(I)-X4(I))/AREA(I)

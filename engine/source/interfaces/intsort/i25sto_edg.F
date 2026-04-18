@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      NEDGE ,LEDGE  ,ITAB  ,DRAD   ,IGAP ,
      5      GAPE  ,GAP_E_L,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      6      CAND_P,IFQ    ,CAND_FX ,CAND_FY,CAND_FZ,IFPEN ,
-     7      DGAPLOAD)
+     7      DGAPLOAD,PENE_OLD_E,STIF_OLD_E,SIZ)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -63,8 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, IGAP0, NEDGE, NIN, ITAB(NUMNOD), INACTI,IFQ
-      INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
+      INTEGER I_MEM, IGAP0, NEDGE, ITAB(NUMNOD), INACTI, IFQ
+      INTEGER J_STOK, MULNSN, NOINT, IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,NEDGE),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),IFPEN(*)
 C     INTEGER NEDGEROLD,RENUM(*)
@@ -73,12 +73,14 @@ C     INTEGER NEDGEROLD,RENUM(*)
      .   X(3,NUMNOD), MARGE, GAPE(*), GAP_E_L(*), CAND_P(*),
      .   CAND_FX(*), CAND_FY(*), CAND_FZ(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
+      INTEGER , INTENT(IN) :: SIZ
+      my_real , INTENT(INOUT) :: PENE_OLD_E(SIZ),STIF_OLD_E(SIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,ie,n1,n2
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
-      INTEGER :: EID
+      INTEGER I, J, K_STOK, I_STOK, N, NE
+ 
+ 
 C     REAL
       my_real
      .   PENE(MVSIZ)
@@ -87,10 +89,11 @@ C-----------------------------------------------
      .                  NEDGE ,LEDGE  ,MARGE  ,GAPE    ,GAP_E_L ,
      .                  IGAP   ,X     ,IRECT  ,PENE    ,ADMSR   ,
      .                  EDG_BISECTOR,VTX_BISECTOR,ITAB,
-     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD)
+     .                  XREM_EDGE,E_RBUF_SIZE,NEDGE_REMOTE,DGAPLOAD,
+     .                  IREM_EDGE,E_IBUF_SIZE)
 
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
 C     IF(INACTI==5)THEN
         DO I=1,J_STOK
@@ -99,7 +102,7 @@ C     IF(INACTI==5)THEN
             NE = PROV_M(I)
 
             IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering of previous sorts for non-local nodes (spmd)
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
               IF(N <= NEDGE) N = NEDGE+NEDGE_REMOTE_OLD+1
             END IF
@@ -160,6 +163,8 @@ C#endif
             CAND_S(I_STOK) = PROV_S(I)
             CAND_M(I_STOK) = PROV_M(I)
             CAND_P(I_STOK) = ZERO
+            PENE_OLD_E(I_STOK) = ZERO
+            STIF_OLD_E(I_STOK) = ZERO
 
             IF(IFQ > 0) THEN
                CAND_FX(I_STOK) = ZERO

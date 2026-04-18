@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER MSGTYP,LOC_PROC,NOD,I,J,L,IDEB,IAD,LEN,
      .        NBINDEX,INDEX,MSGOFF,SIZ,IERROR,K,M,
      .        STATUS(MPI_STATUS_SIZE),ISIZE6,
-     .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD),IROT
+     .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/212/
       DOUBLE PRECISION
      .        SBUF(LCOMM*ISIZE*6), RBUF(LCOMM*ISIZE*6)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                   ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE JOINT_BLOCK_STIFFNESS(ITAB,MS,IN,STIFN,STIFR,
      1                    WEIGHT ,IXR,IPART,X,
@@ -36,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixr
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,11 +67,12 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M1,M2,IG,IGTYP,N1,N2,KAD,ITYP,NG,JFT,JLT,NEL,
-     .        NB8,FLAG,NFT,NUVAR,JNTYP,IRB1,IRB2,FLAG_S,FLAG_PR,NV
-      my_real MASS,INER1,INER2,KM1,KRM1,KM2,KRM2,XX,KX1,KX2,KR1,DTC,ALPHA,
-     .        XL,KXMAX,KRMAX,KXMIN1,KXMIN2,KX,KR,DTCG,SCF,GET_U_GEO,
+      INTEGER I,J,M1,M2,IG,IGTYP,N1,N2,ITYP,NG,JFT,JLT,NEL,
+     .        FLAG,NFT,NUVAR,JNTYP,IRB1,IRB2,FLAG_S,FLAG_PR,NV
+      my_real INER1,INER2,KM1,KRM1,KM2,KRM2,XX,KX1,KX2,KR1,DTC,ALPHA,
+     .        XL,KXMAX,KRMAX,KX,KR,SCF,GET_U_GEO,
      .        XX1,XX2,DTA,MASS1,MASS2     
+      CHARACTER(LEN=30) :: INFO_MESSAGE
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
 C-----------------------------------------------
@@ -108,7 +111,7 @@ C----------------------------------------------------------
           JLT = MIN(NVSIZ,NEL)  
         GBUF => ELBUF_TAB(NG)%GBUF
           IF (ITYP /= 6) GOTO 250
-C--------> Boucle sur les elements ressort -------
+C--------> Loop over spring elements -------
         DO I=JFT,JLT
             J = I + NFT    
           IG = IPART(2,IPARTR(J))
@@ -121,12 +124,6 @@ C--------> Boucle sur les elements ressort -------
             FLAG = NINT(GET_U_GEO(10,IG))
             FLAG_S = 0                  
               IF (FLAG==0) THEN
-C
-            IF (FLAG_PR==0) THEN
-              WRITE(IOUT,100)
-              WRITE(IOUT,200)
-                FLAG_PR = 1      
-              ENDIF
 C                                                
             N1 = IXR(2,J)
             N2 = IXR(3,J)
@@ -153,7 +150,7 @@ C
      .             +((X(3,N2)-X(3,M2))**2)
               XX = MAX(XX1,XX2)
 C           
-C--------> Calcul raideur cote noeud 1 -------         
+C--------> Stiffness calculation node 1 side -------         
               MASS1 = MS(M1)
               INER1 = IN(M1)
               KM1 = STIFN(M1)
@@ -169,7 +166,7 @@ C
             ENDIF          
               KXMAX = MIN(KX1,KX2)              
 C                                   
-C--------> Calcul raideur cote noeud 2 -------          
+C--------> Stiffness calculation node 2 side -------          
               MASS2 = MS(M2)
               INER2 = IN(M2)
               KM2 = STIFN(M2)
@@ -187,11 +184,11 @@ C
               KXMAX = MIN(KX1,KX2,KXMAX)    
               KR = MIN(KR,KR1)
                        
-C--------> Calcul raideur finale et affectation------- 
+C--------> Final stiffness calculation and assignment------- 
             KX = MAX(KXMAX,2*KM1,2*KM2)
               IF ((KX - KXMAX)>1e-8) FLAG_S = 1
             IF ((INER1 == ZERO).OR.(INER2 == ZERO)) THEN
-C--         Raideur en rotation mise    zero si kjoint attach      un noeud de solid --
+C--         Rotational stiffness set to zero if kjoint attached to a solid node --
               KR = ZERO
                 KRMAX = KR
               FLAG_S = 0
@@ -200,13 +197,14 @@ C--         Raideur en rotation mise    zero si kjoint attach      un noeud de s
                 KR = MAX(KR,2*KRM1,2*KRM2)
             ENDIF
 C
-            IF ((IRB1 > 0) .AND.(IRB2 > 0)) THEN 
-                IF ((KX - KXMAX)>1e-8) WRITE(IOUT,300)
-                IF ((KR - KRMAX)>1e-8) WRITE(IOUT,400)
-            ELSE
-                IF ((KX - KXMAX)>1e-8) WRITE(IOUT,1300)
-                IF ((KR - KRMAX)>1e-8) WRITE(IOUT,1400)
-            ENDIF            
+            INFO_MESSAGE = '' 
+            IF ((KX-KXMAX)>1e-8 .OR. (KR-KRMAX)>1e-8) THEN
+              IF ((IRB1 > 0).AND.(IRB2 > 0)) THEN 
+                INFO_MESSAGE = '(FROM RIGID BODIES)'
+              ELSE  
+                INFO_MESSAGE = '(FROM CONNECTED STRUCTURES)'
+              ENDIF    
+            ENDIF  
 C
             IF (FLAG_S==1) THEN
                 KR = MAX(KR,1.3*KX*(XX+XL))
@@ -215,8 +213,8 @@ C
               KX = SCF*KX      
               KR = SCF*KR        
 C
-            WRITE(IOUT,'(4X,I10,5X,I2,8X,1PE11.4,8X,1PE11.4)') 
-     .            IXR(NIXR,J),JNTYP,KX,KR                 
+            WRITE(IOUT,'(I10,I10,8X,1PE11.4,8X,1PE11.4,1X,A)') 
+     .            IXR(NIXR,J),JNTYP,KX,KR,INFO_MESSAGE                 
 C
             GBUF%VAR(NV + 16) = KX
             GBUF%VAR(NV + 17) = KR
@@ -280,19 +278,10 @@ C
 250     CONTINUE   
       ENDDO
 
-      WRITE(IOUT,'( )')
 C----------------------------------------------------------       
             
-      ENDIF      
+      ENDIF
 C
       RETURN
-100   FORMAT(/,
-     & 1X,'AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'/)
-200   FORMAT(1X,'JOINT ID',11X,'TYPE',6X,'KNN',16X,'KNR')
-C
-300   FORMAT(1X,'WARNING TRANS. STIFF. IMPOSED BY STIFF. ON RBODY')
-400   FORMAT(1X,'WARNING ROT. STIFF. IMPOSED BY STIFF. ON RBODY')
-C
-1300   FORMAT(1X,'WARNING TRANS. STIFF. IMPOSED BY STIFF. ON CONNECTED STRUCTURES')
-1400   FORMAT(1X,'WARNING ROT. STIFF. IMPOSED BY STIFF. ON CONNECTED STRUCTURES')                    
+C                 
       END    

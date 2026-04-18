@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,9 +84,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .     A12(MVSIZ), A23(MVSIZ), A34(MVSIZ), A41(MVSIZ),
-     .     B12(MVSIZ), B23(MVSIZ), B34(MVSIZ), B41(MVSIZ),
-     .     AB1(MVSIZ), AB2(MVSIZ), AN     
+     .        
+     .        
+     .       AN     
 C-----------------------------------------------
       DO 100 I=LFT,LLT
       X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))

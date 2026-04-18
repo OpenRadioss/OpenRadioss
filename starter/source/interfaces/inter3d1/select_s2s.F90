@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,11 +27,12 @@
 !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||====================================================================
       module select_s2s_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief this subroutine doing preparation to remove useless surf of the interface type2 w/ input surf/surf
+!! \brief This subroutine performs preparation to remove redundant surfaces of the interface type2 with input surf/surf
 !||====================================================================
 !||    select_s2s      ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||--- called by ------------------------------------------------------
@@ -89,7 +90,7 @@
           n_buck = 100
           allocate(xs1(3,nsu1),n1(3,nsu1),dim1(3,nsu1))
           allocate(xs2(3,nsu2),n2(3,nsu2),dim2(3,nsu2))
-!  1er surf
+!  first surface
           do i=1,nsu1
             nj(1:4) = nodes1(i,1:4)
             call norma4n(n1(1,i),n1(2,i),n1(3,i),area1,nj,x)
@@ -234,7 +235,7 @@
                       itag2(i) = 0
                     end do
                   end do
-!  tag usful surf1 by 2nd nodes found, remove 2nd surf by distance and angle
+!  tag useful surf1 by 2nd nodes found, remove 2nd surf by distance and angle
                   do k=1,nsu_1
                     i = ind_1(k)
                     if (itag1(i)==0) cycle
@@ -279,14 +280,14 @@
                         ifound=ii
                         if (i_old>0.and. (dsn+tol_d) < dmin) itag2(i_old) = 0
                         dmin = dsn
-                      elseif (dsn > dmin+tol_d .and. ifound>0) then
+                      else if (dsn > dmin+tol_d .and. ifound>0) then
                         itag2(ii) = 0
-                      endif
+                      end if
                       if (ifound==0) ifound=ii
                     end do
                     if (ifound==0) itag1(i) = 0
                   end do
-!  tag usful surf2 by nodes in surf1 found, remove surf1 by distance and angle
+!  tag useful surf2 by nodes in surf1 found, remove surf1 by distance and angle
                   do k=1,nsu_2
                     i = ind_2(k)
                     if (itag2(i)==0) cycle
@@ -330,19 +331,19 @@
                         ifound=ii
                         if (i_old>0.and.(dsn+tol_d) < dmin) itag1(i_old) = 0
                         dmin = dsn
-                      elseif (dsn > dmin+tol_d .and. ifound>0) then
+                      else if (dsn > dmin+tol_d .and. ifound>0) then
                         itag1(ii) = 0
-                      endif
+                      end if
                       if (ifound==0) ifound=ii
                     end do
                     if (ifound==0) itag2(i) = 0
                   end do
-                elseif (nsu_1 > 0) then ! nsu_2 = 0
+                else if (nsu_1 > 0) then ! nsu_2 = 0
                   do ii=1,nsu_1
                     i = ind_1(ii)
                     itag1(i) = 0
                   end do
-                elseif (nsu_2 > 0) then ! nsu_1 = 0
+                else if (nsu_2 > 0) then ! nsu_1 = 0
                   do ii=1,nsu_2
                     i = ind_2(ii)
                     itag2(i) = 0

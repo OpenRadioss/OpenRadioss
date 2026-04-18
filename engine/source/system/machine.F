@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,7 @@ C=======================================================================
 !||--- called by ------------------------------------------------------
 !||    a22conv3                         ../engine/source/ale/alefvm/cut_cells/a22conv3.F
 !||    aconv3                           ../engine/source/ale/ale3d/aconv3.F
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    admdiv                           ../engine/source/model/remesh/admdiv.F
 !||    admregul                         ../engine/source/model/remesh/admregul.F
 !||    admvit                           ../engine/source/model/remesh/admvit.F
@@ -36,12 +36,13 @@ C=======================================================================
 !||    aflux0                           ../engine/source/ale/aflux0.F
 !||    aflux3_int22_fvm                 ../engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22                     ../engine/source/ale/ale51/afluxt_int22.F90
 !||    agauge                           ../engine/source/ale/agauge.F
 !||    agrad0                           ../engine/source/ale/agrad0.F
 !||    akturb                           ../engine/source/ale/turbulence/akturb.F
 !||    al_constrainth1                  ../engine/source/implicit/nl_solv.F
 !||    al_constrainth2                  ../engine/source/implicit/nl_solv.F
-!||    ale51_finish                     ../engine/source/ale/ale51/ale51_finish.F
+!||    ale51_finish_int22               ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_init                       ../engine/source/ale/ale51/ale51_init.F
@@ -56,7 +57,7 @@ C=======================================================================
 !||    alew6                            ../engine/source/ale/grid/alew6.F
 !||    alew7                            ../engine/source/ale/grid/alew7.F
 !||    alewdx                           ../engine/source/ale/grid/alewdx.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    asspar3                          ../engine/source/assembly/asspar3.F
 !||    asspar4                          ../engine/source/assembly/asspar4.F
 !||    asspart                          ../engine/source/assembly/asspart.F
@@ -124,6 +125,7 @@ C=======================================================================
 !||    i25comp_2                        ../engine/source/interfaces/int25/i25comp_2.F
 !||    i25edge_switch                   ../engine/source/interfaces/int25/i25edge_switch.F
 !||    i25gap3                          ../engine/source/interfaces/int25/i25gap3.F
+!||    i25irtlm                         ../engine/source/interfaces/int25/i25irtlm.F
 !||    i25main_free                     ../engine/source/interfaces/intsort/i25main_free.F
 !||    i25main_norm                     ../engine/source/interfaces/int25/i25main_norm.F
 !||    i25main_opt_tri                  ../engine/source/interfaces/intsort/i25main_opt_tri.F
@@ -193,10 +195,12 @@ C=======================================================================
 !||    resol                            ../engine/source/engine/resol.F
 !||    resol_init                       ../engine/source/engine/resol_init.F
 !||    rgwal0                           ../engine/source/constraints/general/rwall/rgwal0.F
+!||    rgwal0_pen                       ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    rgwalc                           ../engine/source/constraints/general/rwall/rgwalc.F
 !||    rgwall                           ../engine/source/constraints/general/rwall/rgwall.F
 !||    rgwalp                           ../engine/source/constraints/general/rwall/rgwalp.F
 !||    rgwals                           ../engine/source/constraints/general/rwall/rgwals.F
+!||    rwall_fpen                       ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    s10cndf1                         ../engine/source/elements/solid/solide10/s10cndf.F
 !||    s10cndf2                         ../engine/source/elements/solid/solide10/s10cndf.F
 !||    s10cndfnd                        ../engine/source/elements/solid/solide10/s10cndf.F
@@ -318,7 +322,7 @@ C
 !||    wait_task   ../engine/source/system/machine.F
 !||====================================================================
       SUBROUTINE WAIT_TASK(ITID)
-      INTEGER ITID(*),IT,JT
+      INTEGER ITID(*)
 #if defined(_OPENMP)
 #endif
       RETURN
@@ -356,11 +360,11 @@ C=======================================================================
       END
 #endif
 C=======================================================================
-C  ROUTINE DE SYNCHRO POUR LE CRAY EN SMP
+C  synchronization routine for the CRAY in SMP
 C=======================================================================
-C cette routine doit etre appelee pour eviter certaines
-C optimisations super-scalaire incompatible avec notion
-C de var. partagee.
+C this routine must be called to avoid certain
+C Super-scalar optimizations incompatible with concept
+C shared variable.
 !||====================================================================
 !||    sync_data      ../engine/source/system/machine.F
 !||--- called by ------------------------------------------------------
@@ -445,7 +449,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C call a rendre specifique machine en cas de pb de compilation
 #if CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd
-C   pas de routine FLUSH sur AIX
+C   no FLUSH routine on AIX
 #elif 1
       CALL FLUSH(IUNIT)
 #endif

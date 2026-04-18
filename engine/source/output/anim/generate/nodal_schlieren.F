@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod            ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -59,6 +60,7 @@ C-----------------------------------------------
       USE I22EDGE_MOD    
       USE I22TRI_MOD           
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,16 +85,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
+      INTEGER I, ITYP, NEL, 
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .        IALEL,NNOD,IPOS,NGv,IDLOCv,K, IAD2
       INTEGER IV(6), IE
-      INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
+      INTEGER NG
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
       my_real D,V, DPHI(MVSIZ)
-      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK 
-      my_real :: GRAD(6,MVSIZ)     
+ 
+      my_real :: GRAD(MVSIZ,6)     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -144,7 +146,7 @@ C-----------------------------------------------
                 LFT = 1
                 LLT = NEL
                 CALL AGRAD3(
-     1   IXS,             X,               ALE_CONNECTIVITY,GRAD)
+     1   IXS,             X,               ALE_CONNECTIVITY,GRAD,MVSIZ,0)
                 IE =NFT+I
                 IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 IV(1)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 1 - 1)
@@ -160,12 +162,6 @@ C-----------------------------------------------
                 IF(IV(5)<=0)IV(5)=IE
                 IF(IV(6)<=0)IV(6)=IE
                 DPHI(I) = ZERO
-!     .           (PHI(IV(1))-PHI(IE))*GRAD(1,I) 
-!     .          +(PHI(IV(2))-PHI(IE))*GRAD(2,I) 
-!     .          +(PHI(IV(3))-PHI(IE))*GRAD(3,I) 
-!     .          +(PHI(IV(4))-PHI(IE))*GRAD(4,I) 
-!     .          +(PHI(IV(5))-PHI(IE))*GRAD(5,I) 
-!     .          +(PHI(IV(6))-PHI(IE))*GRAD(6,I)  
                   DO J=2,NNOD+1
                     JJ=IXS(J,NFT+I)
                     K = J-1

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,9 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortie_main             ../engine/source/output/sortie_main.F
 !||--- calls      -----------------------------------------------------
 !||    bufmonv                 ../engine/source/output/th/hist2.F
-!||    cur_fil_c               ../common_source/tools/input_output/write_routtines.c
-!||    flu_fil_c               ../common_source/tools/input_output/write_routtines.c
-!||    fseek_c_rd              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c               ../common_source/tools/input_output/write_routines.c
+!||    flu_fil_c               ../common_source/tools/input_output/write_routines.c
+!||    fseek_c_rd              ../common_source/tools/input_output/write_routines.c
 !||    spmd_collect_seatbelt   ../engine/source/mpi/output/spmd_collect_seatbelt.F
 !||    spmd_gatherv            ../engine/source/mpi/generic/spmd_gatherv.F
 !||    spmd_glob_dsum9         ../engine/source/mpi/interfaces/spmd_th.F
@@ -67,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cluster_mod             ../engine/share/modules/cluster_mod.F
 !||    ebcs_mod                ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
 !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
@@ -100,7 +101,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES    ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO      ,VSPHIO    ,
      N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W           ,SITHBUF   ,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV ,GLOB_THERM  ,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV ,GLOB_THERM  ,OUTPUT    ,
+     P                 MASS0_START)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -119,6 +121,8 @@ C-----------------------------------------------
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use thsechecksum_mod
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
+      USE SEATBELT_MOD , only : NGUIDED_CABLE_G
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -171,6 +175,7 @@ C-----------------------------------------------
      .   RIVOFF(NRIVET), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
      .   VSPHIO(*), W(3,NUMNOD)
+      my_real, INTENT(IN   ) :: MASS0_START
       REAL(KIND=8), INTENT(INOUT) :: THIS0, DTHIS0
       INTEGER, DIMENSION(NIXP,NUMELP) ,INTENT(IN):: IXP
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -198,7 +203,7 @@ C-----------------------------------------------
       my_real XX,YY,ZZ,DET,XXMOM,YYMOM,ZZMOM, 
      .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
      .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,          
-     .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
+     .        FSAVINT(NTHVKI,NINTER+NINTSUB+NGUIDED_CABLE_G),FSAVVENT(5,NVENTTOT),          
      .        FAC,ARRAY(5)                            
       my_real, DIMENSION(100) :: SUBSAV  
       my_real, DIMENSION(1) :: WA_LOCAL
@@ -313,7 +318,12 @@ C------------------------
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
           WA(II+16)= WPLAST ! Plastic Work
-C         NGLOBTH depends on /TH/VERS
+          WA(II+17)= XMASS-MASS0_START ! Added mass
+          WA(II+18)= EP02*(XMASS - MASS0_START) / MAX(MASS0,EM20) ! Added mass % 
+          WA(II+19)= OUTPUT%DATA%INOUT%DM_IN    !inlet mass
+          WA(II+20)= OUTPUT%DATA%INOUT%DM_OUT   !outlet mass
+          WA(II+21)= OUTPUT%DATA%INOUT%DE_IN    !inlet energy
+          WA(II+22)= OUTPUT%DATA%INOUT%DE_OUT   !outlet energy
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
 C-----------------------------
@@ -593,12 +603,14 @@ C-------------------------------------------------------
 C      TH GROUP KINE SPMD
 C       (  FSAV(NTHVKI,*), with NTHVKI = 18  )
 C-------------------------------------------------------
-       FSAVMAX = NVOLU+NRBAG+NJOINT+NSECT+NRBODY+NRWALL+NINTER+NINTSUB
+       FSAVMAX = NVOLU+NRBAG+NJOINT+NSECT+NRBODY+NRWALL+NINTER+NINTSUB+NGUIDED_CABLE_G
 
        IF (NSPMD > 1) THEN
          CALL SPMD_GLOB_DSUM9(FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT))
          IF((NVOLU+NRBAG)>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT),NTHVKI*(NVOLU+NRBAG))
          IF(NINTSUB>0)CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG),NTHVKI*NINTSUB)
+         IF(NGUIDED_CABLE_G>0)
+     .     CALL SPMD_GLOB_DSUM9(FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NINTSUB),NTHVKI*NGUIDED_CABLE_G)
        ENDIF
        IF(FSAVMAX>0) THEN
          IF (ISPMD/=0) THEN
@@ -610,13 +622,16 @@ C-------------------------------------------------------
          ENDIF
        ENDIF
 C
-       IF(NINTER+NINTSUB/=0.AND.ISPMD==0)THEN
+       IF(NINTER+NINTSUB+NGUIDED_CABLE_G/=0.AND.ISPMD==0)THEN
          DO J=1,NTHVKI
            DO N=1,NINTER
              FSAVINT(J,N)=FSAV(J,N)
            END DO
            DO N=1,NINTSUB
              FSAVINT(J,NINTER+N)=FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG)+N)
+           END DO
+           DO N=1,NGUIDED_CABLE_G
+             FSAVINT(J,NINTER+NINTSUB+N)=FSAV(J,(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG+NINTSUB)+N)
            END DO
          END DO
        END IF
@@ -633,7 +648,7 @@ C
        END IF
 
 C---------------------------------------------------------
-C      /TH/SURF : 6 output channels
+C      /Th/surfing: 6 output channels
 C---------------------------------------------------------
       !FSAVSURF(1, 1:NSURF) : area                        (ebcs + monvol + ploads)
       !FSAVSURF(2, 1:NSURF) : massflow                    (ebcs + monvol         )
@@ -647,7 +662,7 @@ C-----------------------------------
        DO I=1,NSURF
          IF(IGRSURF(I)%TH_SURF == 1 .AND. FSAVSURF(1,I) == ZERO) THEN
            NN = IGRSURF(I)%NSEG
-           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD)
+           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD, N2D)
          ENDIF
        ENDDO
 
@@ -727,14 +742,14 @@ C--------------------------------------------
 C      PRE-TREATMENT ACCELEROMETERS (SPMD ONLY)
 C--------------------------------------------
        IF(NACCELM>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les accelerometres
+C gather on proc 0 of up-to-date values for the accelerometers
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
        END IF
 C--------------------------------------------
 C      PRE-TREATMENT GAUGES (SPMD ONLY)
 C--------------------------------------------
        IF(NBGAUGE>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les gauges
+C gather on proc 0 of up-to-date values for the gauges
          CALL SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
        END IF
 C--------------------------------------------
@@ -795,7 +810,7 @@ C-------------------------------------------------------
 !   TH optimization for node elements
         !   initialization of local array       
         WA_NOD(ID_HIST)%WA_REAL( 1:WA_NOD_SIZE(ID_HIST) ) = ZERO
-        CALL THNOD(ITHBUF ,
+        CALL THNOD(OUTPUT, ITHBUF ,
      2   WA_NOD(ID_HIST)%WA_REAL,X       ,D       ,V      ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,

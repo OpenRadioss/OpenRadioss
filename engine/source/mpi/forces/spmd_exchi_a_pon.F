@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        SIZ,L,NB_NOD,CC,NBIRECV, II, JJ, L0,MSGOFF,
      .        IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),
-     .        STATUS(MPI_STATUS_SIZE),POINT,LSAV
+     .        STATUS(MPI_STATUS_SIZE),LSAV
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF,SBUF
       DATA MSGOFF/170/
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C
                END IF
              END DO
             END IF
-C + la th  ermique
+C + the thermal
            ELSE
             IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
@@ -259,7 +259,7 @@ C
                END IF
              END DO
             END IF
-C + la th  ermique
+C + the thermal
            ELSE
             IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
@@ -365,7 +365,7 @@ C
        END IF
       END DO
 C
-C decompactage partie interface
+C COMPACTING PART INTERFACE
 C
       NBIRCT = 0
       DO II=1,NBIRECV
@@ -403,7 +403,7 @@ C
               L = L + SIZI
             ENDDO
            ENDIF
-C + la thermique
+C + the thermal
           ELSE
            IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN
@@ -508,7 +508,7 @@ C
               L = L + SIZI
             ENDDO
            ENDIF
-C + la thermique
+C + the thermal
           ELSE
            IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN

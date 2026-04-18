@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    convrrest                    ../engine/source/output/restart/rdresb.F
 !||    crkxfem_rrest                ../engine/source/output/restart/rdresb.F
 !||    crkxfem_rrestanim            ../engine/source/output/restart/rdresb.F
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    decompress_i_nnz             ../common_source/comm/decompress_nnz.F
 !||    decompress_r_nnz             ../common_source/comm/decompress_nnz.F
 !||    drape_rrest                  ../engine/source/output/restart/rdresb.F
@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fxfluxrrest                  ../engine/source/constraints/thermic/fxfluxrrest.F
 !||    fxtemprrest                  ../engine/source/output/restart/rdresb.F
 !||    get_nrbe3pen_l               ../engine/source/output/restart/restart_rbe3pen.F90
+!||    get_nrwallpen_l              ../engine/source/output/restart/restart_rwallpen.F90
 !||    group_ini                    ../engine/source/groups/group_ini.F
 !||    imprrest                     ../engine/source/output/restart/rdresb.F
 !||    init_global_node_id          ../common_source/modules/nodal_arrays.F90
@@ -72,19 +73,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radiarrest                   ../engine/source/output/restart/rdresb.F
 !||    rdcomr                       ../engine/source/output/restart/rdcomm.F
 !||    read_ale_grid                ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf                 ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall                ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_cluster                 ../engine/source/output/cluster/read_cluster.F
 !||    read_db                      ../common_source/tools/input_output/read_db.F
 !||    read_dpdb                    ../common_source/tools/input_output/read_db.F
 !||    read_elgroup_param           ../engine/source/output/restart/read_elgroup_param.F
 !||    read_failwave                ../engine/source/output/restart/read_failwave.F
-!||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                     ../common_source/tools/input_output/write_routines.c
 !||    read_inivel                  ../engine/source/output/restart/read_inivel.F90
 !||    read_joint                   ../engine/source/output/restart/read_joint.F
 !||    read_matparam                ../engine/source/output/restart/read_matparam.F
 !||    read_nloc_struct             ../engine/source/output/restart/read_nloc_struct.F
 !||    read_pcyl                    ../engine/source/output/restart/read_pcyl.F
 !||    read_rrbe3pen                ../engine/source/output/restart/restart_rbe3pen.F90
+!||    read_rrwallpen               ../engine/source/output/restart/restart_rwallpen.F90
 !||    read_sensors                 ../engine/source/output/restart/read_sensors.F
 !||    read_th_restart              ../engine/source/output/th/read_th_restart.F
 !||    read_units                   ../common_source/comm/write_units.F
@@ -113,6 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod                    ../engine/share/modules/drape_mod.F
 !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecnd_mod                     ../engine/share/modules/ecdn_mod.F
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
@@ -126,19 +130,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                   ../common_source/modules/outmax_mod.F
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                  ../common_source/modules/outputs_mod.F
 !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    pload_cyl_mod                ../common_source/modules/loads/pload_cyl_mod.F
 !||    python_funct_mod             ../common_source/modules/python_mod.F90
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    read_ale_grid_mod            ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf_mod             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall_mod            ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_inivel_mod              ../engine/source/output/restart/read_inivel.F90
 !||    restart_rbe3pen_mod          ../engine/source/output/restart/restart_rbe3pen.F90
+!||    restart_rwallpen_mod         ../engine/source/output/restart/restart_rwallpen.F90
 !||    restmod                      ../engine/share/modules/restart_mod.F
+!||    rwall_mod                    ../common_source/modules/constraints/rwall_mod.F90
 !||    seatbelt_mod                 ../common_source/modules/seatbelt_mod.F
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
+!||    sfem_mod                     ../common_source/modules/elements/sfem_mod.F90
 !||    skew_mod                     ../common_source/modules/skew_mod.F90
 !||    sph_mod                      ../engine/share/modules/sph_mod.F
 !||    stack_mod                    ../engine/share/modules/stack_mod.F
@@ -155,7 +162,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3)
+     .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3       ,
+     .                   RWALL            ,SFEM       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -181,7 +189,6 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE PBLAST_MOD
       USE OUTMAX_MOD
-      USE OUTPUTS_MOD
       USE PLOAD_CYL_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
@@ -202,9 +209,14 @@ C-----------------------------------------------
       use glob_therm_mod
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
+      use read_bcs_nrf_mod, only : read_bcs_nrf
       use rbe3_mod
       use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
       use checksum_output_option_mod
+      use element_mod , only : nixc
+      use rwall_mod
+      use restart_rwallpen_mod, only : get_nrwallpen_l,read_rrwallpen
+      use sfem_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -269,6 +281,8 @@ C-----------------------------------------------
       TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
       TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
       TYPE(RBE3_)           ,INTENT(INOUT)                 :: RBE3
+      TYPE(RWALL_)          ,INTENT(INOUT)                 :: RWALL
+      TYPE(SFEM_)           ,INTENT(INOUT)                 :: SFEM
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -308,7 +322,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-C fichier de restart au format binaire ieee
+C Restart file in binary format ieee
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
 C
@@ -598,11 +612,13 @@ C
 
         CALL READ_I_C(IBMPC,SIBMPC)
 
-        CALL READ_I_C(KINET,SKINET)
+        CALL READ_I_C(NODES%KINET,NUMNOD)
 
         CALL READ_I_C(FASOLFR,SFASOLFR)
 
         CALL READ_I_C(SEGQUADFR,SSEGQUADFR)
+
+        CALL READ_I_C(sfem%in_sfem,sfem%ne_sfem)
 
         CALL READ_I_C(IPARI,SIPARI)
 
@@ -613,9 +629,9 @@ c        CALL READ_I_C(INBUF,SINBUF)
         !read new structure INTBUF_TAB
         CALL INTBUF_INI(INTERFACES%INTBUF_TAB)
 
-        CALL READ_I_C(NPRW,SNPRW)
+        CALL READ_I_C(RWALL%NPRW,RWALL%NNPRW*RWALL%NRWALL)
 
-        CALL READ_I_C(LPRW,SLPRW)
+        CALL READ_I_C(RWALL%LPRW,RWALL%SZ_LPRW)
 
         CALL READ_I_C(ICONX,SICONX)
 
@@ -705,7 +721,7 @@ C
 
         CALL READ_I_C(FR_RBY,SFR_RBY)
 
-        CALL READ_I_C(FR_WALL,SFR_WALL)
+        CALL READ_I_C(RWALL%FR_WALL,SFR_WALL)
 
         CALL READ_I_C(FR_RBY2,SFR_RBY2)
 
@@ -816,12 +832,12 @@ C
         CALL READ_I_C(IAD_CNDM,SIAD_CNDM)
         CALL READ_I_C(FR_CNDM,SFR_CNDM)
 C
-C Partie Parith/ON lue en SPM dans tous les cas
+C Part Parith/We read in SPM in all cases
 C
-C lecture directe de ADDCNE
+C direct reading of ADDCNE
         IF(IPARIT==1) THEN
           CALL READ_I_C(ELEMENT%PON%ADSKY,NUMNOD+1)
-C lecture directe de PROCNE
+C direct reading of PROCNE
           CALL READ_I_C(ELEMENT%PON%PROCNE,LCNE0)
 C lecture directe structure interface type2
           IF (I2NSNT > 0) THEN
@@ -833,7 +849,7 @@ C---Itet2 of S10
            CALL READ_I_C(ADDCNCND,SADDCNCND)
           ENDIF
           CALL READ_I_C(PROCNCND,SPROCNCND)
-C lecture directe de IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
+C Direct reading of IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
 C  IADRBMK
           CALL READ_I_C(ELEMENT%PON%IADS       ,SIZE(ELEMENT%PON%IADS))       !< 1 ; 8xNUMELS  solid indexes to FSKY
           CALL READ_I_C(ELEMENT%PON%IADS10     ,SIZE(ELEMENT%PON%IADS10 ))    !< 6* NUMELS10 
@@ -877,7 +893,7 @@ C  ply xfem
 C
           IF(IPLYXFEM > 0) THEN
             CALL READ_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL READ_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL READ_I_C(IADC_PXFEM,4*EPLYXFE)
           ENDIF
@@ -893,7 +909,7 @@ C
           ENDIF
 C
         ELSEIF(IPARI0==1)THEN
-C saut de lecture
+C skip reading
           LEN = NUMNOD+1+LCNE0+(NUMNOD+1)*MIN(1,I2NSNT)+LCNI2
      +        + NISKY0+NSKYRW0+NSKYRBK0+NISKYI2+NSKYMV0+NSKYMVC0
      +        + NSKYLL0+NSKYRBM0+NSKYI18+NSKYRBE30+NSKYRBMK0
@@ -939,13 +955,13 @@ C--------------------------------------
         CALL READ_I_C(SH3TRIM,LEN)
       END IF
 C--------------------------------------
-C allocation + lecture struture interface partie entiere
+C Allowance + Reading Structure Interface Entiere Party
 C--------------------------------------
         CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS,
      .                   GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie entiere)
+C     Reading + Intit Frontiere SPMD for SPH (integer part)
 C--------------------------------------
       CALL SPMD_INISPH(1)
 C--------------------------------------
@@ -959,7 +975,7 @@ C--------------------------------------
         CALL INTFRIC_RRESTI(INTERFACES%INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
-C  Structure table partie entiere
+C  Table structure
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTI(TABLE)
@@ -1012,7 +1028,15 @@ C----------------------------------
         CALL READ_BCS_WALL()
       ENDIF
 C----------------------------------
-C     LECTURE DES VARIABLES REELLES
+C /BCS/NRF
+C----------------------------------
+      CALL READ_I_C(ITMP,1)
+      BCS%NUM_NRF = ITMP
+      IF(BCS%NUM_NRF > 0)THEN
+        CALL READ_BCS_NRF()
+      ENDIF      
+C----------------------------------
+C     reading real variables
 C--------------------------------------
 C      warning to radioss developers :
 C      IF(LVARREA>LMXVREA)THEN
@@ -1158,9 +1182,13 @@ C--------------------------------------
 
         CALL READ_CLUSTER(CLUSTER)
 
-        CALL READ_DB(RWBUF,SRWBUF)
+        CALL READ_DB(RWALL%RWBUF,RWALL%nrwlp*RWALL%nrwall)
 
-        CALL READ_DB(RWSAV,SRWSAV)
+        CALL READ_DB(RWALL%RWSAV,RWALL%SZ_RWSAV)
+
+        CALL get_nrwallpen_l(RWALL%nrwall,RWALL%nnprw,RWALL%nprw,RWALL%nrwall_pen,RWALL%pen%lnspen)
+
+        CALL read_rrwallpen(RWALL%nrwall_pen,RWALL%pen,RWALL%pen%lnspen)
 
         CALL READ_DB(RBY,SRBY)
 
@@ -1184,7 +1212,7 @@ C lecture struture interface partie reelle si irunn > 1
         IF(IRUNN>1.OR.MCHECK/=0) CALL SPMD_INITFI(IPARI,2,H3D_DATA,INTERFACES%PARAMETERS,
      .                                            GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie reelle)
+C     Reading + Intit Frontier SPMD for SPH (real part)
 C--------------------------------------
         CALL SPMD_INISPH(2)
 C--------------------------------------
@@ -1224,7 +1252,7 @@ C Read DDP
        ENDIF
        NPSAV = 29
 C   ----------------------------------------------------------------------
-C     Utilise pour les checks point restart.
+C     used for checkpoint restarts.
        IF(MCHECK/=0)THEN
         CALL READ_I_C(MY_ILEN,1)
         CALL READ_I_C(MY_RLEN,1)
@@ -1330,13 +1358,13 @@ C   ----------------------------------------------------------------------
          CALL READ_DB(NPCONT2_MIN, 3*NUMNOD)
       ENDIF
 C--------Frictional energy output-------
-      IF(S_EFRICINT >0)THEN
-         IF(NINEFRIC > 0) CALL READ_DB(EFRIC, NINEFRIC*NUMNOD)
-         IF(NINEFRIC_STAMP > 0) CALL READ_DB(EFRIC_STAMP, NINEFRIC_STAMP*NUMNODG)
+      IF(OUTPUT%DATA%S_EFRICINT >0)THEN
+         IF(OUTPUT%DATA%NINEFRIC > 0) CALL READ_DB(OUTPUT%DATA%EFRIC, OUTPUT%DATA%NINEFRIC*NUMNOD)
+         IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) CALL READ_DB(OUTPUT%DATA%EFRIC_STAMP, OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG)
       ENDIF
-      IF(S_EFRIC >0)THEN
-         CALL READ_DB(EFRICG, NUMNOD)
-         IF(NINTSTAMP/=0) CALL READ_DB(EFRICG_STAMP, NUMNODG)
+      IF(OUTPUT%DATA%S_EFRIC >0)THEN
+         CALL READ_DB(OUTPUT%DATA%EFRICG, NUMNOD)
+         IF(NINTSTAMP/=0) CALL READ_DB(OUTPUT%DATA%EFRICG_STAMP, NUMNODG)
       ENDIF
 C--------------------------------------
 C  Interface friction buffer (Reals )
@@ -1371,7 +1399,7 @@ Cfor TYPE2
         CALL READ_I_C(NATIV0_SMS,NUMNOD)
       ENDIF
 C--------------------------------------
-C structure tables partie reelle
+C Structure Tables Real Party
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTR(TABLE)
@@ -1404,7 +1432,7 @@ C--------------------------------------
          CALL EIGRREST()
       ENDIF
 C--------------------------------------
-C   SEATBELTS - SLIPRING / RETRACTOR-
+C   SEATBELTS - SLIPRING / RETRACTOR / GUIDE-
 C--------------------------------------
       DO I = 1, NSLIPRING
 C
@@ -1505,6 +1533,39 @@ C
           ENDIF
         ENDDO
       ENDDO
+C      
+      DO I = 1, NGUIDED_CABLE
+C
+        CALL READ_I_C(GUIDE(I)%ID, 1)
+        CALL READ_I_C(GUIDE(I)%ID_G, 1)        
+        CALL READ_I_C(GUIDE(I)%ISTIFF, 1)
+        CALL READ_I_C(GUIDE(I)%NODE_SET, 1)
+        CALL READ_I_C(GUIDE(I)%PART_SET, 1)
+        CALL READ_I_C(GUIDE(I)%NCONT, 1)  
+        CALL READ_I_C(GUIDE(I)%ELTYPE, 1)
+        CALL READ_I_C(GUIDE(I)%N_REMOTE_PROC, 1)
+C        
+        CALL READ_DB(GUIDE(I)%STFAC, 1)
+        CALL READ_DB(GUIDE(I)%FRIC, 1)
+C
+        ALLOCATE(GUIDE(I)%CONT(GUIDE(I)%NCONT))        
+C        
+        DO J=1,GUIDE(I)%NCONT
+C
+          CALL READ_I_C(GUIDE(I)%CONT(J)%UPDATE, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%ACTIVE_SEGMENT, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%ANCHOR_NODE, 1)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE, 3)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE_NEXT, 2)
+          CALL READ_I_C(GUIDE(I)%CONT(J)%NODE_IREMOTE, 4)
+C
+          CALL READ_DB(GUIDE(I)%CONT(J)%FORC, 3)
+          CALL READ_DB(GUIDE(I)%CONT(J)%FORC_AD, 3)
+          CALL READ_DB(GUIDE(I)%CONT(J)%DIST, 1)
+C
+        ENDDO
+C
+      ENDDO      
 C
       IF (N_ANCHOR_REMOTE > 0) THEN
         CALL READ_I_C(ANCHOR_REMOTE%ADD_PROC, NSPMD+1)
@@ -1658,7 +1719,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_getpid         ../engine/source/system/pid.c
 !||    read_db           ../common_source/tools/input_output/read_db.F
-!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c          ../common_source/tools/input_output/write_routines.c
 !||    redsqi            ../engine/source/output/tools/redsqi.F
 !||    redsqr            ../engine/source/output/tools/redsqr.F
 !||    tmpenvf           ../engine/source/system/tmpenv_c.c
@@ -1744,7 +1805,7 @@ C--------------------------------------
         IF (LENSIG>0) CALL READ_DB(FXBSIG,LENSIG)
         IF (LENGRVR>0) CALL READ_DB(FXBGRVR,LENGRVR)
       ENDIF
-C Lecture des fichiers de modes et de contraintes
+C reading mode and constraint files
       INQUIRE(IOLENGTH=RCLEN) VV
 
       TLEN=4096
@@ -1796,7 +1857,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_getpid         ../engine/source/system/pid.c
 !||    read_db           ../common_source/tools/input_output/read_db.F
-!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c          ../common_source/tools/input_output/write_routines.c
 !||    redsqi            ../engine/source/output/tools/redsqi.F
 !||    redsqr            ../engine/source/output/tools/redsqr.F
 !||    tmpenvf           ../engine/source/system/tmpenv_c.c
@@ -1851,7 +1912,7 @@ C--------------------------------------
       ELSE
         CALL READ_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Lecture du fichier de modes additionnels
+C reading the additional modes file
       INQUIRE(IOLENGTH=RCLEN) VV
 
       CALL MY_GETPID(MY_PID)
@@ -1886,7 +1947,7 @@ C
 !||    dsrrest       ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||    redsqi        ../engine/source/output/tools/redsqi.F
 !||    redsqr        ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -1919,7 +1980,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
 C--------------------------------------
-C Lecture des parametres entiers
+C reading integer parameters
 C--------------------------------------
          N=7
          IF (IRFORM/5<=1) THEN
@@ -2042,7 +2103,7 @@ C-----------
 !||    rdresb     ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db    ../common_source/tools/input_output/read_db.F
-!||    read_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c   ../common_source/tools/input_output/write_routines.c
 !||    redsqi     ../engine/source/output/tools/redsqi.F
 !||    redsqr     ../engine/source/output/tools/redsqr.F
 !||====================================================================
@@ -2158,7 +2219,7 @@ C
 !||    ancmsg                   ../engine/source/output/message/message.F
 !||    arret                    ../engine/source/system/arret.F
 !||    read_db                  ../common_source/tools/input_output/read_db.F
-!||    read_i_c                 ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                 ../common_source/tools/input_output/write_routines.c
 !||    spmd_comm_split          ../engine/source/mpi/generic/spmd_comm_split.F
 !||    spmd_fvb_comm_pattern    ../engine/source/mpi/airbags/spmd_fvb_comm_pattern.F
 !||--- uses       -----------------------------------------------------
@@ -2697,14 +2758,14 @@ C
       RETURN
       END
 C
-C convection flux
+C convection flow
 !||====================================================================
 !||    convrrest        ../engine/source/output/restart/rdresb.F
 !||--- called by ------------------------------------------------------
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2757,7 +2818,7 @@ C radiative flux
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2810,7 +2871,7 @@ C imposed temperature
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2863,7 +2924,7 @@ C rigid material
 !||    rdresb      ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db     ../common_source/tools/input_output/read_db.F
-!||    read_i_c    ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c    ../common_source/tools/input_output/write_routines.c
 !||    redsqi      ../engine/source/output/tools/redsqi.F
 !||    redsqr      ../engine/source/output/tools/redsqr.F
 !||====================================================================
@@ -2915,7 +2976,7 @@ C shell xfem
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db         ../common_source/tools/input_output/read_db.F
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLYXFEM_RREST(MS_LAYER,ZI_LAYER,INOD,IEL,ICODE,ISKEW,
      .                         MSZ2)
@@ -2966,7 +3027,7 @@ C shell xfem
 !||--- called by ------------------------------------------------------
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod         ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -3122,7 +3183,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
 C-----------------------------------------------
@@ -3154,7 +3215,7 @@ C---
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db             ../common_source/tools/input_output/read_db.F
-!||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    restmod             ../engine/share/modules/restart_mod.F
 !||    xfem2vars_mod       ../engine/share/modules/xfem2vars_mod.F
@@ -3606,7 +3667,7 @@ C STACk PART
 !||    rdresb        ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STACK_RREST(IGEO,GEO,PM)
 C-----------------------------------------------
@@ -3642,7 +3703,7 @@ C-----------------------------------------------
 !||    rdresb        ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    drape_mod     ../engine/share/modules/drape_mod.F
 !||====================================================================
@@ -3797,7 +3858,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||====================================================================

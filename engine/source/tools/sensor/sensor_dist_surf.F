@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,12 +67,9 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-       INTEGER I,ISURF,INOD,NP1,NP2,NP3,NP4,NSEG,ICRIT,IFLAG
-       my_real DIST,DMIN,DMAX,ALPHA,TDELAY,TMIN
-       my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,
-     .    XP4,YP4,ZP4,NORM,INFINITY
-      TYPE (SURF_) ,POINTER :: SURFACE
-      PARAMETER (INFINITY = 1.0E20)
+       INTEGER ISURF, INOD, NP1, NP2, NP3, ICRIT, IFLAG
+       my_real DIST,DMIN,DMAX,TDELAY,TMIN
+       my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 

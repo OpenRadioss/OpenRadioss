@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
 !||====================================================================
       module inter_init_node_color_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -41,6 +42,7 @@
 !||--- uses       -----------------------------------------------------
 !||    array_mod               ../common_source/modules/array_mod.F
 !||    constant_mod            ../common_source/modules/constant_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine inter_init_node_color( nsn,nrtm,nb_cell_x,nb_cell_y,nb_cell_z, &
           numnod,s_comp_nb,m_comp_nb, &
@@ -51,6 +53,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use array_mod
           use constant_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +61,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -75,8 +77,8 @@
           integer, dimension(4*nrtm), intent(in) :: irectm !< list of M node id
           integer, dimension(nsn), intent(inout) :: s_node_color !<
           integer, dimension(nrtm), intent(inout) :: m_node_color !<
-          my_real, dimension(6), intent(in) :: box_limit !< min and max position
-          my_real, dimension(3,numnod), intent(in) :: x !< node coordinates
+          real(kind=WP), dimension(6), intent(in) :: box_limit !< min and max position
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< node coordinates
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,7 +90,7 @@
           integer :: i,j,k,ijk
           integer :: node_id,node_nb
           integer, dimension(3) :: cell_id,low_bound,up_bound
-          my_real, dimension(3) :: barycentre
+          real(kind=WP), dimension(3) :: barycentre
           integer, dimension(:), allocatable :: tmp_list,tmp_list2,s_color,m_color
           integer, dimension(:,:), allocatable :: s_index,m_index
           type(array_type_int_1d), dimension(:), allocatable :: s_connect,m_connect

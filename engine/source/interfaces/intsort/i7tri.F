@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,59 +66,57 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "ige3d_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   classify BPE elements and BPN nodes in two zones
+C   > or < to a boundary determined here and output all
+C   in bpe,hpe, and bpn,hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     BPE          TABLEAU DES FACETTES A TRIER      => Local
-C                  ET DU RESULTAT COTE MAX            
-C     PE           TABLEAU DES FACETTES              => Local
+C     BPE          ARRAY OF FACETTES TO SORT      => Local
+C                  and from the result max side
+C     PE           ARRAY OF FACETTES              => Local
 C                  RESULTAT COTE MIN
-C     BPN          TABLEAU DES NOEUDS A TRIER        => Local
-C                  ET DU RESULTAT COTE MAX            
-C     PN           TABLEAU DES NOEUDS                => Local
+C     BPN          SORTED NODES ARRAY        => Local
+C                  and from the result max side
+C     PN           NODES ARRAY => Local
 C                  RESULTAT COTE MIN
-C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
-C          1.......ADRESSES NOEUDS
-C          2.......ADRESSES ELEMENTS
-C     ZYZM(6,*)     TABLEAU DES XYZMIN               E/S 
+C     ADD(2,*)     ARRAY OF ADRESSES              E/S 
+C          1.......ADRESSES NODES C          2.......ADRESSES ELEMENTS
+C     ZYZM(6,*)     ARRAY OF XYZMIN               E/S 
 C          1.......XMIN BOITE
 C          2.......YMIN BOITE
 C          3.......ZMIN BOITE
 C          4.......XMAX BOITE
 C          5.......YMAX BOITE
 C          6.......ZMAX BOITE
-C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
+C     IRECT(4,*)   ARRAY OF CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        => Local
-C     NB_EC        NOMBRE D'ELTS CANDIDATS           => Local
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
-C     NSV          NOS SYSTEMES DES NOEUDS           E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
+C     NB_NC        NUMBER OF CANDIDATE NODES        => Local
+C     NB_EC        NUMBER OF CANDIDATE ELEMENTS           => Local
+C     I_ADD        position in the table of i/o addresses
+C     NSV          NOS SYSTEMES DES NODES E
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
-C     I_STOK       niveau de stockage des couples
-C                                candidats impact    E/S
-C     ADNSTK       adresse courante dans la boite des noeuds
-C     CAND_N       boites resultats noeuds
-C     ADESTK       adresse courante dans la boite des elements
+C     I_STOK       storage level for pairs
+C                                CANDIDATES impact    E/S
+C     ADNSTK       current address in the node box
+C     CAND_N       boites resultats nodes C     ADESTK       current address in the element box
 C     CAND_E       adresses des boites resultat elements
-C                  MULNSN = MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
+C                  MULNSN = MULTIMP*NSN maximum size now allowed for the
+C                  COUPLES NODES,ELT CANDIDATES
+C     NOINT        INTERFACE USER NUMBER
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
 C
-C     PROV_N       CAND_N provisoire (variable static dans i7tri)
-C     PROV_E       CAND_E provisoire (variable static dans i7tri)
+C     Prov_n Provisional Cand_n (static variable in i7tri)
+C     PROV_E       CAND_E provisoire (variable static in i7tri)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -143,24 +141,24 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
      .        PROV_N(2*MVSIZ),PROV_E(2*MVSIZ),
-     .        TN1(NVECSZ),TN2(NVECSZ),TN3(NVECSZ),TN4(NVECSZ),
-C BPE : utilise sur NRTM et non NRTM + 100 en toute rigueur (ici MAXSIZ = NRTM + 100)
+     .        
+C BPE: Use on nrtm and not nrtm + 100 rigorously (here maxsiz = nrtm + 100)
      .        BPE(MAXSIZ/3),PE(MAXSIZ),BPN(NSN+NSNR),PN(NSN+NSNR),
      .        OLDNUM(ISZNSNR),IADD
 C     REAL
       my_real
      .   AAA,
      .   DX,DY,DZ,DSUP,TRHRESHOLD, XX1, XX2, XX3, XX4,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL,
-     .   TXX1(3,NVECSZ), TXX2(3,NVECSZ), TXX3(3,NVECSZ), TXX4(3,NVECSZ),
-     .   TXMAX(NVECSZ),TXMIN(NVECSZ),TYMAX(NVECSZ),
-     .   TYMIN(NVECSZ),TZMAX(NVECSZ),TZMIN(NVECSZ),SMOINS,SPLUS,XX
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX,
+     .      
+     .   
+     .   SMOINS,SPLUS,XX
 C REMNODE
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGREMNODE
       INTEGER DELNOD,M
 
 C-----------------------------------------------
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C initial construction phase of BPE and BPN moved from I7BUCE => I7TRI
 C
 
       IF(FLAGREMNODE == 2) ALLOCATE(TAGREMNODE(NUMNOD+NUMFAKENODIGEO))
@@ -174,11 +172,11 @@ C
 C
 C     DRAD = ZERO
 C
-C Copie des nos de segments et de noeuds dans BPE ET BPN
+C copy of segment and node numbers in BPE and BPN
 C
       NB_EC = 0
       DO I=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(I)/=ZERO)THEN
           NB_EC = NB_EC + 1
           BPE(NB_EC) = I
@@ -189,8 +187,8 @@ C on ne retient pas les facettes detruites
         IADD = 10
       ENDIF
 C
-C Optimisation // recherche les noeuds compris dans xmin xmax des 
-C elements du processeur
+C optimization // search for nodes within xmin xmax of the
+C processor elements
 C
       NB_NC = 0
       DO I=1,NSN
@@ -207,7 +205,7 @@ C
         ENDIF
       ENDDO
 C
-C Prise en compte candidats non locaux en SPMD
+C Non -local candidate account in SPMD
 C
       DO I = NSN+1, NSN+NSNR
         IF( XREM(1,I-NSN)<XMIN) CYCLE
@@ -220,7 +218,7 @@ C
         BPN(NB_NC) = I
       ENDDO
 C
-C En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non locaux
+C in SPMD, for inacti or IFQ, recovers old numbering of non-local candidates
 C
       IF(NSPMD>1.AND.
      +  (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
@@ -236,7 +234,7 @@ C=======================================================================
 C-----------------------------------------------------------
 C
 C
-C    1- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    1- sorting phase on the median according to the largest direction
 C
 C
 C-----------------------------------------------------------
@@ -253,7 +251,7 @@ C
       SPLUS  = XYZM(DIR+3,I_ADD)
       TRHRESHOLD =(SMOINS+SPLUS)*HALF
 C
-C    2- DIVISER LES NOEUDS EN TWO ZONES
+C    2- DIVISER LES NODES EN TWO ZONES
 C
       NB_NCN= 0
       NB_NCN1= 0
@@ -265,7 +263,7 @@ C
        IF(J <= NSN) THEN
         XX = X(DIR,NSV(J))
         IF(XX < TRHRESHOLD) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the BP stack
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = J
@@ -279,7 +277,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
        IF(J > NSN) THEN
         XX = XREM(DIR,J-NSN)
         IF(XX < TRHRESHOLD) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the BP stack
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = J
@@ -316,7 +314,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
        ENDIF
       ENDDO
 C
-C    3- DIVISER LES ELEMENTS
+C    3- divide the elements
 C
       NB_ECN= 0
       ADDNE= ADD(2,I_ADD)
@@ -363,7 +361,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          XMIN = MIN(XX1,XX2,XX3,XX4) + AAA
 
          IF(XMIN < SMOINS) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the BP stack
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
          ENDIF
@@ -386,7 +384,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          ENDIF
          XMIN =  MIN(XX1,XX2,XX3,XX4) + AAA 
          IF(XMIN < SMOINS) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the BP stack
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
          ENDIF
@@ -421,12 +419,12 @@ C    4- REMPLIR LES TABLEAUX D'ADRESSES
 C
       ADD(1,I_ADD+1) = ADDNN
       ADD(2,I_ADD+1) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
-C     (i.e. TRHRESHOLD est un max pour la courante)
-C     on va redescendre et donc on definit une nouvelle boite
-C     on remplit les max de la nouvelle boite
-C     initialises dans i7buc1 a 1.E30 comme ca on recupere
-C     soit XMAX soit le max de la boite
+C-----we fill the min of the next box and the max of the current one
+C     (i.e. THRESHOLD is a max for the current one)
+C     We're going to go down and so we define a new box
+C     we fill the max of the new box
+C     initialises in i7buc1 a 1.E30 comme ca on recupere
+C     either XMAX or the max of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -438,7 +436,7 @@ C     soit XMAX soit le max de la boite
 C
       NB_NC = NB_NCN
       NB_EC = NB_ECN
-C     on incremente le niveau de descente avant de sortir
+C     we increment the descent level before exiting
       I_ADD = I_ADD + 1
       IF(I_ADD+1>=I_ADD_MAX) THEN
 c       WRITE(6,*) __LINE__,__LINE__
@@ -453,20 +451,19 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE
-C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
+C                    BOITE NE CONTENANT QU'ONE NODE C                    No More Memory Available
 C
-C-------------------TEST SUR MEMOIRE DEPASSEE------------
+C-------------------test for memory exceeded------------
 C
       IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
+C       no more room in the stack of elements boxes too small
          WRITE(6,*) __LINE__,__LINE__
 
         I_MEM = 1
         RETURN
       ENDIF
 C
-C--------------------TEST SUR BOITE VIDES--------------
+C--------------------test for empty boxes--------------
 C
       IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
@@ -475,9 +472,9 @@ C
         DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
         DSUP= MAX(DX,DY,DZ)
 C
-C-------------------TEST SUR FIN DE BRANCHE ------------
-C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C          VIRER LES INUTILES
+C-------------------test for end of branch ------------
+C       1- storage of candidate node(s) and corresponding elements
+C          remove the useless ones
 C
 C       NCAND_PROV=NB_EC*NB_NC
 C   NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
@@ -620,15 +617,15 @@ C=======================================================================
         ENDIF
       ENDIF
 C-------------------------------------------------------------------------
-C       BOITE VIDE OU
-C       FIN DE BRANCHE
-C       on decremente le niveau de descente avant de recommencer
+C       empty box or
+C       end of branch
+C       we decrement the descent level before restarting
 C-------------------------------------------------------------------------
       I_ADD = I_ADD - 1
       IF (I_ADD/=0) THEN
 C-------------------------------------------------------------------------
-C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C         the bottom of the stacks must be copied into corresponding stack bottoms
+C         before going back down into the adjacent branch
 C-------------------------------------------------------------------------
           CALL I7DSTK(NB_NC,NB_EC,ADD(1,I_ADD),BPN,PN,BPE,PE)
 C=======================================================================
@@ -636,7 +633,7 @@ C=======================================================================
 C=======================================================================
       ENDIF
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     end of sorting
 C-------------------------------------------------------------------------
       IF(J_STOK/=0)CALL I7STO(
      1              J_STOK,IRECT  ,X     ,NSV   ,II_STOK,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -132,7 +132,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
       ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
 C
       ISROT = 0  
 C
@@ -186,7 +186,7 @@ c
         CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr',GEO(IPPHI+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Thick',GEO(IPTHK+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
         CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi',GEO(IPPOS+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = NINTY
+        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = NINETY
         GEO(IPWEIGHT+K)= ONE        
       ENDDO  
 C--------------------------------------------------
@@ -381,7 +381,7 @@ C---
       IGEO(4) = NLY                                                          
       IGEO(99) = IPOS
       ZSHIFT = ZERO
-C---  calcul epaIGEO(5)eur & position des couches
+C--- EPAIGEO (5) EUR and position of the layers
       IF (IPOS > 0)THEN
         TMIN = EP20
         TMAX =-EP20
@@ -406,7 +406,7 @@ C---  calcul epaIGEO(5)eur & position des couches
         DO N=1,NLY
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
-C---      calcul automatique de position des couches
+C--- automatic calculation of layer positions
         GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,NLY
           GEO(IPPOS+N) = GEO(IPPOS+N-1)

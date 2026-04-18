@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,10 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FILLCNE_XFEM(LCNE_CRKXFEM,IPARG,
      .   IEL_CRKXFEM   ,INOD_CRKXFEM   ,IXC    ,IXTG , CEP,
      .   ADDCNE_CRKXFEM,CNE_XFE,CEL_XFE,CEP_XFE,CRKNODIAD )
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,NG,NP,NEL,NFT,ITY,ITYO,II,III,NIN,P,PROC,INDX,OFFC,OFFTG
+      INTEGER I, J, K, N, NG, NP, NEL, NFT, ITY, II, NIN, P, PROC, INDX, OFFC, OFFTG
       INTEGER ADSKY(0:NCRKXFE+1)
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: KNOD2ELC
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TAGSKYC,TAGSKYTG
@@ -61,7 +63,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELC*2) :: INDXC
       INTEGER, DIMENSION(NUMELTG*2):: INDXTG
 C=======================================================================
-C   CALCUL DE CNE ADDCNE_CRKXFEM CEL for XFEM part
+C   CALCULATION OF CNE ADDCNE_CRKXFEM CEL for XFEM part
 C-----------------------------------------------
       ALLOCATE(KNOD2ELC(NUMNOD+1))
       KNOD2ELC = 0
@@ -81,7 +83,7 @@ c---------------------------
 c     Connectivities
 c---------------------------
       DO I = 1, NUMELC
-        ITRIC(I) = IXC(7,I)    !  ID elements std dans l'ordre d'input
+        ITRIC(I) = IXC(7,I)    !  Id elements std in the order of input
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRIC,INDXC,NUMELC,1)
 c
@@ -95,7 +97,7 @@ c---------------------------
         DO K=1,4
           N = IXC(K+1,I)
           KNOD2ELC(N)  = KNOD2ELC(N) + 1
-          TAGSKYC(K,I) = KNOD2ELC(N)      ! Nb d'elements std connectes a un noeud
+          TAGSKYC(K,I) = KNOD2ELC(N)      ! Number of std connects to a node
         END DO
       END DO
 c---
@@ -108,7 +110,7 @@ c---
         END DO
       END DO
 c---------------------------
-c     SHELL -4N- Connectivities
+c     Shell -4n- Connectivities
 c---------------------------
       INDX = 0
       DO J=1,NUMELC
@@ -125,7 +127,7 @@ c---------------------------
         ENDIF 
       ENDDO
 c---------------------------
-c     SHELL -3N- Connectivities
+c     Shell -3N- Connectivities
 c---------------------------
       DO J=1,NUMELTG
         I = INDXTG(J)

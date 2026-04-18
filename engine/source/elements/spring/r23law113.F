@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r4tors              ../engine/source/elements/spring/r4tors.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
 !||    python_funct_mod    ../common_source/modules/python_mod.F90
@@ -70,6 +71,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE SENSOR_MOD
       USE PRELOAD_AXIAL_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -118,32 +120,32 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),
+      INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),
      .        MID(MVSIZ)
 C     REAL
       my_real 
-     .   STI(3,MVSIZ),STIR(3,MVSIZ),VISI(MVSIZ),VISIR(MVSIZ),
-     .   USTI(MVSIZ),USTIR(MVSIZ),DF(MVSIZ),AL(MVSIZ),UNUSED(MVSIZ),
-     .   UINER(MVSIZ),FR_W_E(MVSIZ),OFF(MVSIZ),BID
+     .   STI(3,MVSIZ),STIR(3,MVSIZ),
+     .   AL(MVSIZ),
+     .   FR_W_E(MVSIZ),OFF(MVSIZ),BID
       my_real
      .   EXX2(MVSIZ), EYX2(MVSIZ), EZX2(MVSIZ),
      .   EXY2(MVSIZ), EYY2(MVSIZ), EZY2(MVSIZ),
      .   EXZ2(MVSIZ), EYZ2(MVSIZ), EZZ2(MVSIZ),
      .   AL2(MVSIZ),X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
-     .   X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),X3(MVSIZ),Y3(MVSIZ),Z3(MVSIZ),
-     .   EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),
+     .   X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),
+     .   
      .   EXX(MVSIZ),EYX(MVSIZ),EZX(MVSIZ),
      .   EXY(MVSIZ),EYY(MVSIZ),EZY(MVSIZ),
      .   EXZ(MVSIZ),EYZ(MVSIZ),EZZ(MVSIZ),
-     .   XCR(MVSIZ),XK(MVSIZ),XM(MVSIZ),XC(MVSIZ),RX1(MVSIZ),RX2(MVSIZ),
+     .   XCR(MVSIZ),XM(MVSIZ),RX1(MVSIZ),RX2(MVSIZ),
      .   RY1(MVSIZ),RY2(MVSIZ),RZ1(MVSIZ),RZ2(MVSIZ),XIN(MVSIZ),
      .   AK(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ),
-     .   EX2(MVSIZ),EY2(MVSIZ),EZ2(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),
+     .   VX1(MVSIZ),VX2(MVSIZ),
      .   VY1(MVSIZ),VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ),VL12(MVSIZ)
       INTEGER IGTYP,I,I0,NUVAR,IADBUF
       DOUBLE PRECISION
-     .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),X3DP(3,MVSIZ),
-     .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
+     .   X1DP(3,MVSIZ),X2DP(3,MVSIZ),
+     .   AL2DP(MVSIZ),ALDP(MVSIZ)
 C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(6)

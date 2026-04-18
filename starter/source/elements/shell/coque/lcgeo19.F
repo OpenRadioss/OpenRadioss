@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,11 +64,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER ISS*3
-      INTEGER IPMAT,IMID,MLAWLY1, IG,J,JREC
+      INTEGER IMID, IG, J
       my_real
      .    THICKT
       INTEGER ISH3N,DRAPE_ID
-      INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR,TITR1
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
       LOGICAL :: FOUND
@@ -93,7 +92,7 @@ C-----------------------------------------------
 
       IG = IGEO(1)
       IF (IGEO(4) <= 0) IGEO(4) = 1
-      IF (GEO(212) == ZERO) GEO(212) = NINTY
+      IF (GEO(212) == ZERO) GEO(212) = NINETY
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(

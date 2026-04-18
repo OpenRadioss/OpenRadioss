@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #include "GlobalModelSDI.h"
 
@@ -40,7 +40,7 @@ CDECL void cpp_node_sub_tag_(int *TAGNODSUB)
     SelectionRead nodes(g_pModelViewSDI,"/NODE");
     unsigned int submodelId=0;
     unsigned int includeId=0;
-    int i=0;
+    int cptNode=0;
 //
 // Nodes loop
 //
@@ -61,8 +61,33 @@ CDECL void cpp_node_sub_tag_(int *TAGNODSUB)
             hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
             value.GetValue(submodelId);
         }
-        TAGNODSUB[i] = includeId;
-        i++;
+        TAGNODSUB[cptNode] = includeId;
+        cptNode++;
+    }
+
+    SelectionRead cnodes(g_pModelViewSDI,"/CNODE");
+//
+// Nodes loop
+//
+    while(cnodes.Next())
+    {
+// Get Submodel Id
+        sdiValue value;
+        HandleRead hInclude(cnodes->GetInclude());
+        unsigned int submodelId = 0;
+        includeId = hInclude.GetId(g_pModelViewSDI);
+        hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
+        value.GetValue(submodelId);
+        while(0 == submodelId && hInclude.IsValid())
+        {
+            EntityRead include(g_pModelViewSDI, hInclude);
+            hInclude = include.GetInclude();
+            includeId = hInclude.GetId(g_pModelViewSDI);
+            hInclude.GetValue(g_pModelViewSDI, sdiIdentifier("shadow_submodelid"), value);
+            value.GetValue(submodelId);
+        }
+        TAGNODSUB[cptNode] = includeId;
+        cptNode++;
     }
 }
 

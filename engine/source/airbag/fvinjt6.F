@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IINJ, IMASS, IFLU, ISENS, ITEMP
       my_real
      .   TSTART, FMASS, GMASS, GMASS_OLD, GMTOT, GMTOT_OLD, DGMASS,
-     .   TSG,    DYDX,  RMWG,  FTEMP,  TEMP,  EFAC , 
+     .   TSG,  RMWG,  FTEMP,  TEMP,  EFAC , 
      .   CPA,    CPB,   CPC,   CPG,    CVG
 C-----------------------------------------------
       DO IINJ=1,NJET

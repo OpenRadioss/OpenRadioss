@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cndint       ../engine/source/model/remesh/cndint.F
+!||    cndint        ../engine/source/model/remesh/cndint.F
 !||--- called by ------------------------------------------------------
-!||    resol        ../engine/source/engine/resol.F
+!||    resol         ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier   ../engine/source/system/machine.F
+!||    my_barrier    ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    remesh_mod   ../engine/share/modules/remesh_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    remesh_mod    ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE CNDINT(IXC ,IPARTC ,IXTG ,IPARTTG,IPART,
      2              ITASK   ,A      ,V    ,AR     ,VR   , 
@@ -38,6 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -187,7 +189,7 @@ C
       CALL MY_BARRIER
 C
 C-------
-C     Interpolation de v,a
+C     interpolation of v, a
       DO LEVEL=0,LEVELMAX-1
 
         LL=PSH4UPL(LEVEL+1)-PSH4UPL(LEVEL)
@@ -388,7 +390,7 @@ C-------
         END DO
       END IF
 
-c pour debug
+c for debug
 c      DT2P=DT2*ZEP999
 c      DO N=NODFT,NODLT
 c        IF(TAGNOD(N)/=0)THEN

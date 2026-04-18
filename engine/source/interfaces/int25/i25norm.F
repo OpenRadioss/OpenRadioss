@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,14 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #define TO1D(i,j,k,s1,s2) i+(j-1)*s1+(k-1)*s1*s2
 !||====================================================================
-!||    i25tagn         ../engine/source/interfaces/int25/i25norm.F
+!||    i25tagn            ../engine/source/interfaces/int25/i25norm.F
 !||--- called by ------------------------------------------------------
-!||    i25main_norm    ../engine/source/interfaces/int25/i25main_norm.F
+!||    i25main_norm       ../engine/source/interfaces/int25/i25main_norm.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier      ../engine/source/system/machine.F
+!||    my_barrier         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    tri7box            ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25TAGN (NI25    ,NIN     ,NRTM    ,NSN      ,NSNR    ,
      2                    JTASK   ,IAD_FRNOR ,FR_NOR ,IRTLM   ,MSEGTYP ,
@@ -38,12 +39,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                    NOR2MSR   ,FLAGREMN,KREMNOR ,REMNOR   ,IEDGE    ,
      6                    NEDGE,LEDGE,NRTM_FREE,FREE_IRECT_ID,I_STOK_E2S  ,
      7                    CANDM_E2S  ,CANDS_E2S  ,MVOISIN ,E2S_ACTNOR,NADMSR ,STFM,
-     8                    NUMBER_EDGE_TYPE1,NUMBER_EDGE_TYPE1_0,EDGE_TYPE1,EDGE_TYPE1_0 )
+     8                    NUMBER_EDGE_TYPE1,NUMBER_EDGE_TYPE1_0,EDGE_TYPE1,EDGE_TYPE1_0,
+     9                    nodes )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE TRI7BOX
+      use nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,13 +83,14 @@ C     REAL
       my_real
      .        STFNS(*)
       my_real, INTENT(IN):: STFM(NRTM)
+      type(nodal_arrays_), intent(inout) :: nodes !< nodal arrays
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , K, N, NOR, NOD, L, ISH, FIRST, LAST, NL, LVOIS, NORV
+      INTEGER I, J, K, N, NOR, NOD, L, ISH, FIRST, LAST, NL, LVOIS
       INTEGER NRTMFT, NRTMLT, NSNF, NSNL, NSNRF, NSNRL, NODFT, NODLT,
-     .        I1, I2, I3, I4, M, NOR1, NOR2,  NADMSRFT, NADMSRLT,
+     . M, NOR1, NOR2, NADMSRFT, NADMSRLT,
      .        NRTMFT_FREE, NRTMLT_FREE, NEDGFT, NEDGLT, SOL_EDGE, SH_EDGE
       INTEGER IRM,JRM,IEDG,JEDG
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGMSR
@@ -119,7 +123,8 @@ c
         ALLOCATE(TAGMSR(NRTM))
         TAGMSR(1:NRTM) = 0
 c
-        DO N=NSNF,NSNL
+!$omp do schedule(guided)
+        do n=1,nsn          
           NOR1 = KREMNOR(N)+1
           NOR2 = KREMNOR(N+1)
           DO M=NOR1,NOR2
@@ -135,7 +140,7 @@ c
                 DO J=1,4
                   NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
                     IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
@@ -154,8 +159,10 @@ C             considerer L ET tous les segments voisins (cf glissement)
               TAGMSR(REMNOR(M)) = 0
            ENDDO
         END DO
+!$omp end do        
       ELSE ! FLAGREMN
-        DO N=NSNF,NSNL
+!$omp do schedule(guided)
+        do n=1,nsn           
           IF(IRTLM(1,N) > 0)THEN
              IF(STFNS(N)/=ZERO.AND.IRTLM(4,N) == ISPMD+1)THEN
 C                                  IRTLM(4,N) is INTERCEP
@@ -163,7 +170,7 @@ C                                  IRTLM(4,N) is INTERCEP
                 ACTNOR(L)=1
                 DO J=1,4
                   NOR=ADMSR(J,L)
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
                     IF(STFM(LVOIS) > ZERO) THEN
@@ -178,6 +185,7 @@ C             considerer L ET tous les segments voisins (cf glissement)
              END IF
           END IF
         ENDDO
+!$omp end do        
       ENDIF
       
 C
@@ -186,7 +194,8 @@ C
 
       IF(FLAGREMN == 2 ) THEN
 
-        DO N=NSNRF,NSNRL
+!$omp do schedule(guided)
+        do n=1,nsnr
            NOR1 = KREMNOR_FI(NIN)%P(N) +1
            NOR2 = KREMNOR_FI(NIN)%P(N+1) 
            DO M=NOR1,NOR2
@@ -201,7 +210,7 @@ C
               DO J=1,4
                 NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
                   IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
@@ -222,9 +231,11 @@ C             considerer L ET tous les segments voisins (cf glissement)
              TAGMSR(REMNOR_FI(NIN)%P(M)) = 0
           ENDDO
         END DO
+!$omp end do        
       ELSE ! FLAGREMN
 
-        DO N=NSNRF,NSNRL
+!$omp do schedule(guided)
+        do n=1,nsnr        
            IF(IRTLM_FI(NIN)%P(1,N) > 0)THEN
             IF(STIFI(NIN)%P(N)/=ZERO.AND.IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
               L = IRTLM_FI(NIN)%P(3,N)
@@ -234,7 +245,7 @@ C
               DO J=1,4
                 NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
                   IF(STFM(LVOIS) > ZERO) THEN
@@ -253,12 +264,15 @@ C             considerer L ET tous les segments voisins (cf glissement)
             END IF
           END IF
         END DO
+!$omp end do        
       ENDIF
 C
-C     Calcul des candidats optimises
+C     calculation of optimized candidates
       FIRST = I_STOK_RTLM + 1 + (I_STOK_GLO-I_STOK_RTLM)*(JTASK-1) / NTHREAD
       LAST  = I_STOK_RTLM +     (I_STOK_GLO-I_STOK_RTLM)*JTASK / NTHREAD
-      DO I=FIRST,LAST
+!$omp do schedule(guided)
+        do i=i_stok_rtlm+1,i_stok_glo
+      
 
         IRM = CAND_OPT_E(I) 
         ACTNOR(IRM)=1
@@ -273,11 +287,13 @@ C     Calcul des candidats optimises
            ACTNOR(ISH)=1
         END IF
       END DO
+!$omp end do      
 C
-C     Force le calcul le long des free edges necessaire a vtx_bisector
+C     force calculation along free edges needed for vtx_bisector
       NRTMFT_FREE= 1+(JTASK-1)*NRTM_FREE/NTHREAD
       NRTMLT_FREE= JTASK*NRTM_FREE/NTHREAD
-      DO I=NRTMFT_FREE,NRTMLT_FREE
+!$omp do schedule(guided)
+      do i=1,nrtm_free
         IRM = FREE_IRECT_ID(I) 
         ACTNOR(IRM) = 1
         ISH=IABS(MSEGTYP(IRM))
@@ -294,6 +310,7 @@ C     Force le calcul le long des free edges necessaire a vtx_bisector
           END IF
         END DO
       END DO
+!$omp end do      
 C
       IF(IEDGE /= 0) THEN
 
@@ -305,7 +322,8 @@ C
 C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)    
           FIRST = 1 + I_STOK_E2S*(JTASK-1) / NTHREAD
           LAST  = I_STOK_E2S*JTASK / NTHREAD
-          DO I=FIRST,LAST
+!$omp do schedule(guided)
+          do i=1,i_stok_e2s          
             IF(CANDS_E2S(I)  < 0)THEN ! after optcd_e2s
               IRM=CANDM_E2S(I) 
               ACTNOR(IRM)=1
@@ -315,13 +333,14 @@ C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)
               TAGNOD(IRECT(4,IRM)) = 1
             END IF
           END DO
+!$omp end do        
 C
 C         All secondary edges includes
           NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1_0 / NTHREAD
           NEDGLT = JTASK*NUMBER_EDGE_TYPE1_0 / NTHREAD
           IF(JTASK==NTHREAD) NEDGLT =NUMBER_EDGE_TYPE1_0
-#include "vectorize.inc"
-          DO J = NEDGFT,NEDGLT
+!$omp do schedule(guided)
+          do j=1,number_edge_type1_0             
             I = EDGE_TYPE1_0(J)
 C
             IF(SH_EDGE==1 .AND. LEDGE(LEDGE_TYPE,I) /= 1 .AND. LEDGE(LEDGE_RIGHT_SEG,I) /= 0) CYCLE
@@ -346,6 +365,7 @@ C
               TAGNOD(IRECT(4,JRM)) = 1
             ENDIF
           ENDDO
+!$omp end do          
         ENDIF
       ENDIF
 C
@@ -358,7 +378,9 @@ C
 C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)    
           FIRST = 1 + I_STOK_E2S*(JTASK-1) / NTHREAD
           LAST  = I_STOK_E2S*JTASK / NTHREAD
-          DO I=FIRST,LAST
+!$omp do schedule(guided)
+          do i=1,i_stok_e2s     
+!          DO I=FIRST,LAST
             IF(CANDS_E2S(I)  < 0)THEN ! after optcd_e2s
 c              IF( LEDGE(LEDGE_TYPE,ABS(CANDS_E2S(I)))/=1)CYCLE
               IRM=CANDM_E2S(I) 
@@ -368,13 +390,16 @@ c              IF( LEDGE(LEDGE_TYPE,ABS(CANDS_E2S(I)))/=1)CYCLE
               IF(TAGNOD(IRECT(4,IRM))==1)E2S_ACTNOR(ADMSR(4,IRM)) = 1
             END IF
           END DO
+!$omp end do          
 
 C         All secondary edges includes
           NEDGFT = 1 + (JTASK-1)*NUMBER_EDGE_TYPE1 / NTHREAD
           NEDGLT = JTASK*NUMBER_EDGE_TYPE1 / NTHREAD
           IF(JTASK==NTHREAD) NEDGLT =NUMBER_EDGE_TYPE1
-#include "vectorize.inc"
-          DO J = NEDGFT,NEDGLT
+!#include "vectorize.inc"
+
+!$omp do schedule(guided)
+          do j=1,number_edge_type1         
             I = EDGE_TYPE1(J)
 C
             IRM =LEDGE(LEDGE_LEFT_SEG ,I)
@@ -386,35 +411,34 @@ C
               IF(TAGNOD(IRECT(MOD(IEDG,4)+1,IRM))==1)E2S_ACTNOR(ADMSR(MOD(IEDG,4)+1,IRM)) = 1
             ENDIF
           ENDDO
+!$omp end do          
         ENDIF
       ENDIF
 
 C
-C     force le calcul des normales vs noeuds frontieres
+C     force calculation of normals vs boundary nodes
       CALL MY_BARRIER()
 
-      IF(NSPMD > 1 .AND. JTASK == 1)THEN
-        DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
-          NOD=FR_ELEM(I)
-          TAGNOD(NOD)=2 + TAGNOD(NOD)
-        END DO
-        DO I = 1,NRTM
-          DO J = 1,4
-            IF(TAGNOD(IRECT(J,I))>=2) THEN
-              IF(ACTNOR(I) == 0) THEN
-                ACTNOR(I) = 3
-              ELSEIF(ACTNOR(I) == 1) THEN
-C               ACTNOR(I) = 4
-C ACTNOR values
-C                         Free edge
-C                    YES           NO
-C Boundary  YES      4             3 
-C           NO       1             0
-C
-              ENDIF
-            ENDIF
-          ENDDO
-        END DO
+      IF(NSPMD > 1)THEN
+!$omp do schedule(guided)
+        do i=1,nodes%global_boundary_nb
+          nod = nodes%global_boundary(i)
+          tagnod(nod) = tagnod(nod)+2
+        enddo        
+!$omp enddo  
+        call my_barrier()
+!$omp do schedule(guided)
+        do i=1,nrtm
+          if(actnor(i)==0) then          
+            do j=1,4
+              if(tagnod(irect(j,i))>=2) then
+                actnor(i) = 3
+              endif          
+            enddo
+          endif          
+        enddo        
+!$omp enddo  
+
       END IF
 C
       CALL MY_BARRIER() 
@@ -471,7 +495,7 @@ C-----------------------------------------------
       INTEGER NI25, NRTM, NRTM0, NMN, JTASK, IEDGE, NEDGE, FLAG, NADMSR,ISHIFT,SOL_EDGE,
      .        IRECT(4,NRTM), MSR(*),
      .        ACTNOR(*), MSEGTYP(*), TAGNOD(*), 
-     .        MVOISIN(4,*), EVOISIN(4,*), IAD_FREDG(NINTER25,*), FR_EDG(*),
+     .        MVOISIN(4,*), EVOISIN(4,*), IAD_FREDG(NINTER25,*), FR_EDG(2,nspmd+1),
      .        LEDGE(NLEDGE,*), LBOUND(*), ADMSR(4,*), IAD_FRNOR(NINTER25,*), FR_NOR(*),
      .        IADNOR(4,*),ADDCSRECT(*), PROCNOR(*)
       INTEGER :: FREE_IRECT_ID(NRTM),NRTM_FREE
@@ -487,12 +511,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J , N, LLT, NM, IRM, N1, N2, N3, N4, IAD, LENR, LENS, CC, ISH
+      INTEGER I, J, N, LLT, IRM, IAD, ISH
       INTEGER IX1, IX2, IX3, IX4,
-     .        I1, I2, I3, I4, JRM, JEDG, IEDG, NEDG, IS1,IS2
-      INTEGER NRTMFT, NRTMLT, NEDGFT, NEDGLT, NADMSRFT, NADMSRLT
+     . I1, I2, I3, I4, JRM, JEDG, IEDG, IS1,IS2
+      INTEGER NRTMFT, NRTMLT, NADMSRFT, NADMSRLT
       INTEGER SIZE                 
-      my_real S1,S2
       REAL*4
      .     X0, Y0, Z0,
      .     X1, X2, X3, X4,
@@ -505,11 +528,11 @@ C-----------------------------------------------
      .     XN2(MVSIZ),YN2(MVSIZ),ZN2(MVSIZ),
      .     XN3(MVSIZ),YN3(MVSIZ),ZN3(MVSIZ),
      .     XN4(MVSIZ),YN4(MVSIZ),ZN4(MVSIZ),
-     .     XS(MVSIZ), YS(MVSIZ), ZS(MVSIZ),
      .     AAA, NX, NY, NZ,
      .     VX, VY, VZ, X12, Y12, Z12
-      REAL*4 :: X0S,Y0S,Z0S,X01S,Y01S,Z01S,X02S,Y02S,Z02S
-      LOGICAL :: LIMIT_CASE,IS_QUAD(MVSIZ)
+ 
+      LOGICAL :: IS_QUAD(MVSIZ)
+      logical, save :: limit_case
 C     REAL*4 :: RZERO, RUN, REM30, REP30, RDIX
 C     PARAMETER ( RZERO = 0.          )
 C     PARAMETER ( RUN   = 1.          )     
@@ -527,8 +550,8 @@ C     PARAMETER ( REM30 = RUN/REP30   )
 
 C-----------------------------------------------
 C debug
-      INTEGER IE,JE,I1E,I2E
-      INTEGER :: IDS(4)
+ 
+ 
 
 C     RZERO = 0.
 C     RUN   = 1.
@@ -546,7 +569,7 @@ C
         LLT=MIN(NRTMLT-N+1,MVSIZ)
 C
         TAGE(N:LLT+N-1)=0
-CLe nofusion est important 
+Cnofusion is important
 #include  "vectorize.inc"
 CDIR$ NOFUSION
         DO I=1,LLT
@@ -820,7 +843,7 @@ C
 C
       CALL MY_BARRIER
 C
-!$OMP SINGLE
+!$omp single
       NB_FREE_BOUND = 0
       LIMIT_CASE = .FALSE. 
       DO I=1,NRTM_FREE
@@ -863,7 +886,10 @@ C A special treatment is done, VTX_BISECTOR has to set to 0
           ENDIF
         ENDDO
       ENDDO
+!$omp end single
+
       IF(LIMIT_CASE) THEN
+!$omp do schedule(guided) private(IRM,IEDG,IS1,IS2)        
         DO I=1,NB_FREE_BOUND
           IRM  = FREE_BOUND(1,I)
           IEDG = FREE_BOUND(2,I)
@@ -889,9 +915,8 @@ C A special treatment is done, VTX_BISECTOR has to set to 0
             VTX_BISECTOR(3,2,IS2) = RZERO
           ENDIF
         ENDDO
+!$omp end do        
       ENDIF
-!$OMP END SINGLE
-
 
 C
       CALL MY_BARRIER
@@ -976,75 +1001,43 @@ C
 C
 C
 C
+      if(nspmd>1) then
+        if(jtask==1) then
+          size = 3
+          call spmd_exch_nor(
+     1      ni25,iad_fredg,fr_edg , nod_normal,wnod_normal,size ,nadmsr,
+     2      buffers%recv_rq  ,buffers%send_rq,buffers%irindex,buffers%isindex,buffers%iad_recv,
+     3      buffers%nbirecv,buffers%nbisend,buffers%recv_buf   ,buffers%send_buf ,vtx_bisector,
+     4      lbound,iad_frnor,fr_nor,2,fskyn25 ,ishift,addcsrect, procnor,sol_edge)
+          where(lbound(1:nadmsr)>1)
+            lbound(1:nadmsr)=1
+          end where
+        endif
+      endif
+  
 
-      NRTMFT= 1+(JTASK-1)*NRTM/ NTHREAD
-      NRTMLT= JTASK*NRTM/NTHREAD
-      DO N=NRTMFT,NRTMLT,MVSIZ
-C
-        LLT=MIN(NRTMLT-N+1,MVSIZ)
-C
-#include  "vectorize.inc"
-        DO I=1,LLT
-C
-          IRM=I+N-1
-C
+!$omp do schedule(guided)
+      do n=1,nrtm
+        if(actnor(n)==0) cycle
+        if(stifm(n)<=0) then
+          wnod_normal(1:3,1:4,n) = RZERO
+        else
+          do j=1,4
+            jrm = mvoisin(j,n)
+            jedg = evoisin(j,n)
+            if(jrm>0) then
+              wnod_normal(1:3,j,n) = nod_normal(1:3,jedg,jrm)
+            endif
+          enddo
+        endif
+      enddo
+!$omp enddo
 
-          IF(ACTNOR(IRM)==3) THEN
-             WNOD_NORMAL(1:3,1:4,IRM) = RZERO
-C            CYCLE
-          ENDIF
-
-           IF(ACTNOR(IRM)==0) THEN
-CC pas besoin de calculer les bis. sur ce irm
-C             WNOD_NORMAL(1:3,1:4,IRM) = RZERO
-              CYCLE
-           ENDIF
-
-C
-          IF(STIFM(IRM) <= 0) THEN
-            WNOD_NORMAL(1:3,1:4,IRM) = RZERO
-          ELSE
-            DO J=1,4
-              JRM =MVOISIN(J,IRM)
-              JEDG=EVOISIN(J,IRM)
-              IF(JRM > 0 )THEN
-C               IF(ACTNOR(JRM) > 0) THEN
-                  WNOD_NORMAL(1,J,IRM) = NOD_NORMAL(1,JEDG,JRM)
-                  WNOD_NORMAL(2,J,IRM) = NOD_NORMAL(2,JEDG,JRM)
-                  WNOD_NORMAL(3,J,IRM) = NOD_NORMAL(3,JEDG,JRM)
-C               ELSE
-C                 WNOD_NORMAL(1,J,IRM) = RZERO
-C                 WNOD_NORMAL(2,J,IRM) = RZERO
-C                 WNOD_NORMAL(3,J,IRM) = RZERO
-C               ENDIF
-              ELSEIF(JRM<=0)THEN
-                WNOD_NORMAL(1,J,IRM) = RZERO
-                WNOD_NORMAL(2,J,IRM) = RZERO
-                WNOD_NORMAL(3,J,IRM) = RZERO
-              END IF
-            END DO !J
-          ENDIF ! STIFM = 0
-        END DO !I
-      END DO ! N
-C
-      CALL MY_BARRIER
-      IF(NSPMD > 1)THEN
-        IF(JTASK==1)THEN
-          SIZE = 3
-          CALL SPMD_EXCH_NOR(
-     1      NI25,IAD_FREDG,FR_EDG , NOD_NORMAL,WNOD_NORMAL,SIZE , NADMSR,
-     2      BUFFERS%RECV_RQ  ,BUFFERS%SEND_RQ,BUFFERS%IRINDEX,BUFFERS%ISINDEX,BUFFERS%IAD_RECV,
-     3      BUFFERS%NBIRECV,BUFFERS%NBISEND,BUFFERS%RECV_BUF   ,BUFFERS%SEND_BUF ,VTX_BISECTOR,
-     4      LBOUND,IAD_FRNOR,FR_NOR,2,FSKYN25 ,ISHIFT,ADDCSRECT, PROCNOR,SOL_EDGE)
-          WHERE (LBOUND(1:NADMSR) > 1) 
-            LBOUND(1:NADMSR) = 1
-          END WHERE
-        END IF
-      END IF
-C
       CALL MY_BARRIER
 C
-      DO IRM=NRTMFT,NRTMLT
+
+!$omp do schedule(guided)
+      do irm=1,nrtm            
 C
 C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)<=ZERO) CYCLE
 
@@ -1084,33 +1077,9 @@ C broken
           ENDIF
         END DO
       END DO
+!$omp end do      
       ENDIF ! FLAG
 
-C debug print
-CCCC #ifdef D_ES
-CCCC !$OMP SINGLE
-CCCC       DO NEDG=1,NEDGE
-CCCC           IRM  = LEDGE(LEDGE_LEFT_SEG ,NEDG)
-CCCC           IEDG = LEDGE(LEDGE_LEFT_ID  ,NEDG)
-CCCC           JRM  = LEDGE(LEDGE_RIGHT_SEG,NEDG)
-CCCC           JEDG = LEDGE(LEDGE_RIGHT_ID ,NEDG)
-CCCC           IF(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES ) THEN
-CCCC             WRITE(6,*) "LEDGE(1:4)=",IRM,IEDG,JRM,JEDG
-CCCC             IF(IRM > 0) THEN
-CCCC               WRITE(6,"(2I10,A,3Z20)") IEDG,IRM,"(A) F[XYZ]=",
-CCCC      .         NOD_NORMAL(1,IEDG,IRM),
-CCCC      .         NOD_NORMAL(2,IEDG,IRM),
-CCCC      .         NOD_NORMAL(3,IEDG,IRM)
-CCCC             ELSEIF(IRM < 0) THEN
-CCCC                WRITE(6,"(2I10,A,3Z20)") IEDG,IRM,"(B) F[XYZ]=",
-CCCC      .         NOD_NORMAL(1,IEDG,ABS(IRM)),
-CCCC      .         NOD_NORMAL(2,IEDG,ABS(IRM)),
-CCCC      .         NOD_NORMAL(3,IEDG,ABS(IRM))
-CCCC             ENDIF
-CCCC           ENDIF
-CCCC        ENDDO
-CCCC !$OMP END SINGLE
-CCCC #endif
       CALL MY_BARRIER
 
       RETURN
@@ -1144,8 +1113,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J, C1, C2, CC
-      INTEGER NADMSRFT, NADMSRLT, NRTMFT, NRTMLT
+      INTEGER I, C1, C2, CC
+      INTEGER NADMSRFT, NADMSRLT
       REAL*4 
      .       AAA
 C------------------------------------

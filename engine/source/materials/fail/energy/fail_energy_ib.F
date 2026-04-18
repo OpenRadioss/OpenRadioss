@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,21 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_energy_ib   ../engine/source/materials/fail/energy/fail_energy_ib.F
+!||    fail_energy_ib          ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||--- called by ------------------------------------------------------
-!||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
+!||    fail_beam18             ../engine/source/elements/beam/fail_beam18.F
 !||--- calls      -----------------------------------------------------
-!||    finter           ../engine/source/tools/curve/finter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      SUBROUTINE FAIL_ENERGY_IB(
-     .           NEL      ,NGL      ,NUPARAM  ,UPARAM   ,
+      SUBROUTINE FAIL_ENERGY_IB(FAIL,NEL      ,NGL      ,
      .           TIME     ,EPSD     ,OFF      ,DFMAX    ,       
-     .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
-     .           DAMSCL   ,UVAR     ,NVAR     ,
-     .           SNPC     ,NPF      ,STF      , 
-     .           TF       ,IPT      ,FOFF     ,
-     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .           DEPSXX   ,DEPSXY   ,DEPSXZ   ,UELR ,NPG)
+     .           TDEL     ,IOUT     ,ISTDO    ,DAMSCL   ,
+     .           NVAR     ,UVAR     ,NVARTMP  ,VARTMP   ,
+     .           IPT      ,FOFF     ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
+     .           DEPSXX   ,DEPSXY   ,DEPSXZ   ,UELR     ,NPG      )
+! ---------------------------- ----------------------------------------------------------------------
+!         Modules
+! --------------------------------------------------------------------------------------------------
+          use fail_param_mod
+          use table_mat_vinterp_mod
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 18)
 C-----------------------------------------------
@@ -50,22 +55,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER                     ,INTENT(IN)    :: NEL     ! size of element group
-      INTEGER                     ,INTENT(IN)    :: NUPARAM ! size of parameter array
       INTEGER                     ,INTENT(IN)    :: IPT     ! current integration point
+      INTEGER                     ,INTENT(IN)    :: NPG    
       INTEGER                     ,INTENT(IN)    :: IOUT    ! output file unit
       INTEGER                     ,INTENT(IN)    :: ISTDO   ! output file unit
-      INTEGER                     ,INTENT(IN)    :: SNPC 
-      INTEGER                     ,INTENT(IN)    :: STF       
       INTEGER                     ,INTENT(IN)    :: NVAR     
+      INTEGER                     ,INTENT(IN)    :: NVARTMP     
+      INTEGER ,DIMENSION(NEL,NVARTMP),INTENT(INOUT) :: VARTMP
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
-      INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
-      INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real                     ,INTENT(IN)    :: TIME    ! current time
-      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
-      my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
@@ -73,23 +74,21 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DEPSXX,DEPSXY,DEPSXZ 
       my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR
       my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
-      INTEGER                     ,INTENT(IN)    :: NPG    
+      type (fail_param_)          ,intent(inout) :: fail    !< failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NINDX,NINDXD,FAILIP
       INTEGER ,DIMENSION(NEL) :: INDX,INDXD
-      my_real :: RFAC,R1,R2,DYDX,RIEF1,RIEF2,XFAC,FINTER
-      EXTERNAL FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE,IE_SP
+      my_real :: R1,R2,RIEF1,RIEF2
+      my_real ,DIMENSION(NEL) :: DAMAGE,IE_SP,RFAC,DYDX
 C=======================================================================
-      NINDX   = 0
-      NINDXD  = 0
-      RIEF1    = UPARAM(1)             
-      RIEF2    = UPARAM(2)           
-      XFAC     = UPARAM(4)        
-      FAILIP  = MIN(NINT(UPARAM(6)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
-
+      NINDX  = 0
+      NINDXD = 0
+      RIEF1  = FAIL%UPARAM(1)             
+      RIEF2  = FAIL%UPARAM(2)           
+      FAILIP = MIN(FAIL%FAIL_IP,NPG)  ! 	number of failed integration points prior to element deletion 
+                                      !  default : FAILIP = 1
       DO I=1,NEL
         DAMAGE(I) = ZERO
         UVAR(I,1) = UVAR(I,1) + (SIGNXX(I)*DEPSXX(I) + 
@@ -97,16 +96,17 @@ C=======================================================================
      .                           SIGNXZ(I)*DEPSXZ(I))
       ENDDO
 c-----------------------------
+      if (fail%table4d(1)%notable > 0) then
+        call table_mat_vinterp(fail%table4d(1),nel,nel,vartmp,epsd,rfac,dydx)
+        rfac(:) = max(rfac(:),em20)
+      else
+        rfac(:) = one
+      end if
+!
       DO I=1,NEL
         IF (OFF(I) == ONE .AND. FOFF(I) == 1) THEN
-          IF (IFUNC(1) /= 0) THEN
-            RFAC = FINTER(IFUNC(1),EPSD(I)*XFAC,NPF,TF,DYDX)
-            RFAC = MAX(RFAC,EM20)
-          ELSE
-            RFAC = ONE
-          ENDIF  
-          R1 = RIEF1*RFAC
-          R2 = RIEF2*RFAC
+          R1 = RIEF1*RFAC(I)
+          R2 = RIEF2*RFAC(I)
           IE_SP(I) = UVAR(I,1)
           IF (IE_SP(I) > R1) THEN
             DAMAGE(I) = (IE_SP(I)-R1)/(R2-R1)

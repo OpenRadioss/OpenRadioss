@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,10 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGR1, NG, ISSN, MTNN, I, NE1, N, NFIX,
+      INTEGER NGR1, NG, MTNN, I, NE1, N,
      .        PID, NEL_PREC, LB_L, P, NEL,NB,
-     .        MODE, WORK(70000),NN,IAD1,NGROU, J,MID,IETYP,
-     .        MT,IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,inno,
+     .        MODE, WORK(70000),NN, J,MID,IETYP,
+     .        IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,
      .        NGP(NSPMD+1),JALE_FROM_MAT,JALE_FROM_PROP
       my_real KNOTLOCELINDX(SKNOTLOCEL)
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
@@ -95,7 +95,7 @@ C----------------------------------------------------------
       NGR1 = NGROUP + 1
       nullify(MATPARAM)
 C
-C phase 1 : decompostition canonique
+C Phase 1: Canonical decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -166,8 +166,8 @@ C
         ENDDO
         NFT = NFT + NEL
       ENDDO  
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
        NFT = 0
@@ -210,8 +210,8 @@ C foam + air
           !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
           !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
           IF(JALE == 1)THEN
-            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MATPARAM%REZON%NUM_NUVAR_MAT
-            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MATPARAM%REZON%NUM_NUVAR_EOS
+            ALE%REZON%NUM_NUVAR_MAT = MAX(ALE%REZON%NUM_NUVAR_MAT, MATPARAM%REZON%NUM_NUVAR_MAT)
+            ALE%REZON%NUM_NUVAR_EOS = MAX(ALE%REZON%NUM_NUVAR_EOS, MATPARAM%REZON%NUM_NUVAR_EOS)
           ENDIF
 
           !ALE UVAR REZONING  (81:MAT,  82:EOS)
@@ -250,7 +250,7 @@ C
 C
 c          LBUFEL= IPARG(4,NGROUP)+NE1*
 c     .            (NXVIE+NUVAR+INND*(NXVIN+NUVARN))-1
-C reperage groupe/processeur
+C Group/Processor Splition
           IPARG(32,NGROUP)= P-1
           NFT = NFT + NE1
   220    CONTINUE
@@ -259,7 +259,7 @@ C reperage groupe/processeur
        ENDDO
        LB_L = LBUFEL - LB_L
        LB_MAX = MAX(LB_MAX,LB_L)
-C DD_IAD => nb groupes par sous domaine
+C Dd_iad => nb groups by sub -domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
@@ -271,9 +271,9 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
-      DO I=1,NSURF ! mettre un if pour ne pas changer les faces EF classiques
+      DO I=1,NSURF ! add an if to not change the classic ef faces
         NN=IGRSURF(I)%NSEG_IGE
         DO J=1,NN
           IF(IGRSURF(I)%ELTYP_IGE(J) == 101)
@@ -289,14 +289,12 @@ C
       WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(4,N),IPARG(5,N),
      +              N=NGR1,NGROUP)
-c      WRITE(IOUT,1002) LBUFEL
 C
  1000 FORMAT(10X,' 3D - ISO-GEOMETRIC ELEMENT GROUPS '/
      +       10X,' ----------------------------------'/
      +' GROUP   ELEMENT    ELEMENT   FIRST    BUFFER   ELEMENT  '/
      +'         MATERIAL   NUMBER    ELEMENT  ADDRESS  TYPE     '/)
  1001 FORMAT(6(1X,I7,1X))
- 1002 FORMAT(' BUFFER LENGTH : ',I10 )
 C
 
       RETURN

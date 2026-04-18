@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,13 +72,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
+      INTEGER I, NG, J, NP, IG, NELEM, 
      .        NEL, OFFSET, NVOIS, M, JNOD, NN, IERROR
 C                                                                    
 C-----
-      TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+ 
+ 
+ 
 C-----------------------------------------------
       IF(ITASK==0)THEN
         ALLOCATE(WSPCLOUD(NUMSPH),STAT=IERROR)

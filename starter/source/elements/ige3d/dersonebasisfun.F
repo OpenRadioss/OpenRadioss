@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -97,7 +97,7 @@ C-------------------------------------------------------------------------------
       
       DERS(1) = ANDU(1,PXI+1) 
 
-CCC ERREUR A PARTIR DE LA
+Cerror from here
 
       DO K=1,NDERS
         DO J=1,K+1

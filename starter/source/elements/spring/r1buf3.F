@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r1buf3   ../starter/source/elements/spring/r1buf3.F
+!||    r1buf3        ../starter/source/elements/spring/r1buf3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R1BUF3(OFF   ,GEO   ,X   ,AL  ,IX,
      .                  IPOS  ,IGEO  )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I1, I2, K, USENS
+      INTEGER I, J, I1, I2, USENS
 C     REAL
       my_real
      .   EX, EY, EZ

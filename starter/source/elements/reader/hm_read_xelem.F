@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -98,7 +98,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2,PID,N,ID,IDS,J,STAT,MID,IAD,NNOD,IGS
+      INTEGER I, I1, I2,PID,N,J,STAT,MID,IAD,NNOD,IGS
       INTEGER INDEX_PART
       INTEGER TABIDS(NUMELX)
       CHARACTER MESS*40
@@ -199,7 +199,7 @@ C-----------
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT)
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       DO I=1,NUMELX
          TABIDS(I)= KXX(NIXX,I)

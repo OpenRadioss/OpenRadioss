@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -152,6 +152,7 @@ C READING INTERFACES
      .                           OPTION_TITR=TITR,KEYWORD2=KEY,KEYWORD3=KEY2)
          ! CHECK IF READ OPTION IS /INTER/SUB
          IF(KEY(1:LEN_TRIM(KEY)) == 'SUB') CYCLE
+         IF(KEY(1:LEN_TRIM(KEY)) == 'GUIDED_CABLE') CYCLE
          NI=NI+1
          DO I = 1,NPARI
             IPARI(I,NI) = 0

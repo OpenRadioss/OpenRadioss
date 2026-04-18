@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,13 +29,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI   ,INTBUF_TAB, I2RUPT,
-     2                                 AREASL    ,INTHEAT)
+     2                                 AREASL    ,INTHEAT   ,ITAB)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE SEATBELT_MOD , ONLY : GUIDE, NGUIDED_CABLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,13 +57,14 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: INTHEAT
       INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
       INTEGER, INTENT(IN) :: IPARI(NPARI,NINTER)
+      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       my_real, INTENT(IN) :: I2RUPT(6,*),AREASL(*)
 C
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MY_ID, MY_INTER
+      INTEGER I, MY_ID, MY_INTER, NODE_ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -120,6 +122,47 @@ C          S_FRIC_P is the size of FRIC_P if option is not use size is Zero
 
 C
         END DO ! MY_INTER=1,NINTER
+C
+C       QA_PRINT FOR /INTER/GUIDED/CABLE
+        DO MY_INTER=1,NGUIDED_CABLE
+C
+          CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,INOM_OPT(4)+NINTSUB+MY_INTER),LTITR)
+          MY_ID = GUIDE(MY_INTER)%ID
+C
+          IF(LEN_TRIM(TITR)/=0)THEN
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),MY_ID,0.0_8)
+          ELSE
+            CALL QAPRINT('A_INTER_FAKE_NAME', MY_ID,0.0_8)
+          END IF
+C
+          CALL QAPRINT('ISTIF_',GUIDE(MY_INTER)%ISTIFF,0.0_8)          
+          TEMP_DOUBLE = GUIDE(MY_INTER)%FRIC
+          CALL QAPRINT('FRIC_',0,TEMP_DOUBLE)     
+          TEMP_DOUBLE = GUIDE(MY_INTER)%STFAC
+          CALL QAPRINT('STFAC_',0,TEMP_DOUBLE)      
+C
+          DO I=1,GUIDE(MY_INTER)%NCONT
+C
+            WRITE(VARNAME,'(A,I0)') 'ANCHOR_NODE_CONT_',I
+            NODE_ID = ITAB(GUIDE(MY_INTER)%CONT(I)%ANCHOR_NODE)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NODE_ID,0.0_8) 
+C
+            WRITE(VARNAME,'(A,I0)') 'NODE1_CONT_',I
+            NODE_ID = ITAB(GUIDE(MY_INTER)%CONT(I)%NODE(1))
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NODE_ID,0.0_8) 
+C
+            WRITE(VARNAME,'(A,I0)') 'NODE2_CONT_',I
+            NODE_ID = ITAB(GUIDE(MY_INTER)%CONT(I)%NODE(2))
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NODE_ID,0.0_8) 
+C
+            WRITE(VARNAME,'(A,I0)') 'NODE3_CONT_',I
+            NODE_ID = ITAB(GUIDE(MY_INTER)%CONT(I)%NODE(3))
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NODE_ID,0.0_8)
+C                                                               
+          ENDDO  
+C                    
+        ENDDO   
+C                 
       END IF
 C-----------------------------------------------
 C     /INTER/TYPE2 - additional output

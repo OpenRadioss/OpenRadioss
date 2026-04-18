@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,7 @@
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_reals
@@ -95,7 +95,7 @@
             call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_ints
@@ -125,7 +125,7 @@
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_doubles
@@ -154,7 +154,7 @@
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_double
@@ -183,7 +183,7 @@
             call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_INTEGER, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_int
@@ -212,7 +212,7 @@
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, comm, request, ierr)
           else
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_irecv_real

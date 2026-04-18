@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,15 +45,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     KXX(5,NUMELX)      TABLEAU CONECS+PID+NOS RESSORTS            E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELX)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
-C     INDEX(NUMELX)      TABLEAU DE TRAVAIL                         E/S
-C     INUM (6*NUMELX)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELX)        TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NUMELX)        TABLEAU DE TRAVAIL                         E/S
+C     KXX(5,NUMELX)      ARRAY CONECS+PID+SPRING NUMBERS            E
+C     IPARG(NPARG,NGROUP)ARRAY OF GROUP CHARACTERISTICS             E/S
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS              E
+C     EADD(NUMELX)       ARRAY OF ADDRESSES IN IDAM CHGT DAMIER    E
+C     DD_IAD             ARRAY OF DD IN SUPER GROUPS                S
+C     INDEX(NUMELX)      WORKING ARRAY                              E/S
+C     INUM (6*NUMELX)      WORKING ARRAY                            E/S
+C     CEP(NUMELX)        WORKING ARRAY                              E/S
+C     ITR1(NUMELX)        WORKING ARRAY                             E/S
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,12 +91,12 @@ C
 C----------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C phase 1 : decompostition canonique
+C Phase 1: Canonical decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
       NFT = 0
-C initialisation dd_iad
+C initialize dd_iad
       DO N=1,ND
         DO P=1,NSPMD+1
           DD_IAD(P,NSPGROUP+N) = 0
@@ -160,7 +160,7 @@ C
         NFT = NFT + NEL
       ENDDO
 C
-C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
+C RENAMING FOR SURFACE see for 100==ITYP
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -170,8 +170,8 @@ C
         ENDDO
       ENDDO
 
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
         NFT = 0
@@ -225,7 +225,7 @@ c                                        other groups using old buffer
 C         flag for group of duplicated elements in multidomains
               IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
-C reperage groupe/processeur
+C Group/Processor Splition
               IPARG(32,NGROUP)= P-1
               NFT = NFT + NE1
   220       CONTINUE
@@ -234,7 +234,7 @@ C reperage groupe/processeur
         ENDDO
 cc       LB_L = LBUFEL - LB_L
 cc       LB_MAX = MAX(LB_MAX,LB_L)
-C DD_IAD => nb groupes par sous domaine
+C Dd_iad => nb groups by sub -domain
         NGP(NSPMD+1)=0
         DO P = 1, NSPMD
           NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

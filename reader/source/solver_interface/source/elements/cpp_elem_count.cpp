@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 #include "GlobalModelSDI.h"
@@ -101,13 +101,18 @@ CDECL void cpp_elem_count_(char *elemType, int *s_elemType, int *nbElems, int *i
         config = Element::HW_ELEMENT_CONFIG_QUAD4;   
         SelectionElementRead elems(g_pModelView,FilterElementConfig(config));
         *nbElems = elems.Count();
-    }
-    else if (strncmp(cname,"/TETRA4",7) == 0 )   
-    {    
-        config = Element::HW_ELEMENT_CONFIG_TETRA4;   
-        SelectionElementRead elems(g_pModelView,FilterElementConfig(config));
-        *nbElems = elems.Count();
-    }      
+    }*/
+    if (strncmp(cname,"/TETRA4",7) == 0 )   
+    {     
+        SelectionElementRead elems(g_pModelViewSDI, "/TETRA4"); 
+        *nbElems = 0;
+        while(elems.Next())
+        {
+            if ((int)elems->GetId() > 0) {
+                (*nbElems)++;
+            }
+        }
+    }/*  
     else if (strncmp(cname,"/PENTA6",7) == 0  && *isDyna == 0)   
     {    
         config = Element::HW_ELEMENT_CONFIG_PENTA6;  
@@ -118,7 +123,7 @@ CDECL void cpp_elem_count_(char *elemType, int *s_elemType, int *nbElems, int *i
         fflush(stdout);
     }   
 */  
-    if (strncmp(cname,"/BRICK20",8) == 0  && *isDyna == 0)   
+    else if (strncmp(cname,"/BRICK20",8) == 0  && *isDyna == 0)   
     {    
         SelectionElementRead elems(g_pModelViewSDI, "/BRIC20"); 
         *nbElems = elems.Count();

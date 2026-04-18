@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: P,NT,NG,I,K,NNE,IAD,ITYP,IH,NFT,ITY,NEL,N1,N2
+      INTEGER :: P,NT,NG,K,NNE,IAD,ITYP,IH,NFT,ITY,NEL,N1,N2
 C-----------------------------------------------
       IF(IFLAG==0) THEN
 C
@@ -68,10 +68,10 @@ C
         ENDDO
       ENDIF
 C
-C Mise a jour de PROC dans ITHBUF en fonction de la domdec
+C ITHBUF update according to Domdec
 C
       IF (NSPMD>1) THEN
-C traitement de p1 a pmaxporc-1 (p0 par defaut)
+C PMAXPORC-1 P1 treatment (P0 by default)
         DO NT = 1, NTHGRP2
           ITYP=ITHGRP(2,NT)
           NNE =ITHGRP(4,NT)

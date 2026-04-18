@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,11 +74,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   AFILTR,Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
      .   Xscale_TANG,Yscale_TANG
       my_real
-     .   DPDT,DLAM,DDEP,DEPXX,DEPYY,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
-     .   NORMXX,NORMYY,NORMXY,DENOM,DFDSIG2,DPDT_NL,DEPSDT,DTINV
+     .   DLAM,DEVEPSPXX,DEVEPSPYY,DEVEPSPZZ,TREPSP,
+     .   NORMXX,NORMYY,NORMXY,DFDSIG2,DEPSDT,DTINV
       my_real, DIMENSION(NEL) ::
      .   SXX,SYY,SZZ,SXY,SIGVM,YLD,HARDP,PHI,DEZZ,YLD0,DYLD0DEPSD,
-     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,TEST,DPXX,DPYY,DPXY
+     .   DYOUNDEPSD,DTANGDEPSD,TRSIG,DPHI_DLAM,DPXX,DPYY,DPXY
 c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -114,7 +114,7 @@ c
         Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
         TANG(1:NEL)  = ZERO
       ELSE
-        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        TANG(1:NEL)  = UPARAM(21) ! Constant Tangent Modulus
         DTANGDEPSD(1:NEL) = ZERO
       ENDIF
       DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
@@ -135,7 +135,7 @@ c
         DYOUNDEPSD(I) = ZERO ! Initialization of the derivative of YOUN
         DTANGDEPSD(I) = ZERO ! Initialization of the derivative of TANG
       ENDDO
-c      
+!      
       ! Filling the strain rate vector
       IF (Ivisc == 0) THEN 
         ! Compute effective strain-rate
@@ -147,7 +147,8 @@ c
           DEPSDT    = TWO_THIRD*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
      .                        TWO*(EPSPXY(I)**2))
           DEPSDT    = SQRT(DEPSDT)
-          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
+          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * UVAR(I,1)
+          UVAR(I,1) = EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,
      .        MARQUEUR(8192),
      .        MARQUEURDOUBLE(13),J1,FLAG_IKCOND,MARQ2,MARQM2,
-     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN
+     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN,NHIER
       INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -79,7 +79,7 @@ C-----------------------------------------------------------------
       MARQ2  = 0
       MARQM2 = 0
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INTERFACE 1,2,9 OU RBODY AVEC RWALL
+C  AUTOMATIC CORRECTIONS INTERFACE 1,2,9 OR RBODY WITH RWALL
 C=======================================================================
       K=0
       KK=0
@@ -90,6 +90,8 @@ C=======================================================================
         JWARN = 0
         NSL=NPRW(N)
         ITYP=NPRW(N+3*NRWALL)
+        IPEN=NPRW(N+8*NRWALL)
+        IF (IPEN>0) CYCLE 
         J=0
         DO L=1,NSL
           I=LPRW(K+L)
@@ -134,7 +136,7 @@ C=======================================================================
 C
 c      CALL ANCHECK(71)
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBE3 sont SECONDARY de RBE2,or INT2
+C - unauthorized hierarchy: check that the main nodes of rbe3 are secondary to rbe2 or int2
 C----------------------------------------------------------
 ! look at compatibility w/ BCS,RBODY and compute nrbe3_gp, ini penealty
       NUN=0
@@ -189,7 +191,7 @@ C----------------------------------------------------------
         ENDDO
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBE2 SECONDARY de INT2
+C - unauthorized hierarchy: check that the main nodes of rbe2 are secondary to int2
 C----------------------------------------------------------
       DO I=1,NRBE2
                M = IRBE2(3,I)
@@ -207,7 +209,7 @@ C----------------------------------------------------------
           ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE2
+C - unauthorized hierarchy: check that the main nodes of rbody are secondary to rbe2
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
@@ -227,7 +229,7 @@ C           NUN=NUN+1
          ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE3
+C - unauthorized hierarchy: check that the main nodes of rbody are secondary to rbe3
 C----------------------------------------------------------
       DO I=1,NRBODY          
         M=NPBY(1,I)
@@ -265,7 +267,7 @@ C----------------------------------------------------------
           END IF 
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds mains des RBE2 sont mains de RBODY
+C - Check that the main nodes of rbe2 are mains of rbody
 C----------------------------------------------------------
       DO I=1,NRBE2
                M = IRBE2(3,I)
@@ -285,8 +287,13 @@ C----------------------------------------------------------
          ENDDO
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds mains des Rbody SECONDARY d'autres Rbodies
+C - Check main nodes of Rbody SECONDARY to other Rbodies
 C----------------------------------------------------------
+      NHIER = 0
+      DO N=1,NRBYKIN
+        NHIER = MAX(NHIER,NPBY(20,N))
+      END DO
+      IF (NHIER==0) THEN
        KRB = 0
        DO N=1,NRBYKIN
          NSLRB = NPBY(2,N)
@@ -310,6 +317,7 @@ C----------------------------------------------------------
           ENDIF
         ENDDO
        ENDDO
+      END IF !(NHIER==0) THEN
 C----------------------------------------------------------
 C - Check incompatibility /BCS/CYCLIC
 C----------------------------------------------------------
@@ -366,6 +374,12 @@ C-------  RLINK
         END IF 
        ENDDO
       END IF !(NBCSCYC>0) THEN
+! remove ik of penalty RBE3
+      DO I=1,NRBE3
+        NSL= IRBE3(3,I)
+        IPEN = IRBE3(9,I)  
+        IF (IPEN>0) IKRBE3(IKINE(NSL)) = 0
+      END DO
 C=======================================================================
       IF(IPRI>=6)THEN
         WRITE(IOUT,*)' NODES WITH KINEMATIC CONDITIONS:'
@@ -385,18 +399,18 @@ C=======================================================================
       ENDIF
 C
 C---------------------------------------------------------------
-C LISTE CONDITIONS INCOMPATIBLES PAR TYPE
-C LISTE DES NOEUDS CONCERNES
+C LIST OF INCOMPATIBLE CONDITIONS BY TYPE
+C LIST OF AFFECTED NODES
 C
-C NKIN(I) >= 2     => POSSIBLE CONDITIONS INCOMPATIBLES SUR LE NOEUD I
-C FLAG_IKCOND = 1  => CONDITIONS INCOMPATIBLES DANS LE MODELE
-C MARQUEURDOUBLE(I) = 1 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
-C                         DE MEME TYPE SUR LE NOEUD I
-C MARQUEUR(I) != 0 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
-C                         DE TYPES DIFFERENTS SUR LE NOEUD I
-C MARQUEUR(I) = 2 => CAS RBODY + RWALL
-C MARQUEUR(I) =-2 => CAS INTERFACES TYPE 1,2,9  + RWALL
-C MARQUEUR(I) = 3 => CAS INTERFACES TYPE 1,2,9 + RBODY + RWALL
+C NKIN(I) >= 2     => POSSIBLE INCOMPATIBLE CONDITIONS ON NODE I
+C FLAG_IKCOND = 1  => INCOMPATIBLE CONDITIONS IN THE MODEL
+C MARQUEURDOUBLE(I) = 1 => INCOMPATIBLE CONDITIONS BETWEEN CONDITIONS
+C                         OF THE SAME TYPE ON NODE I
+C MARQUEUR(I) != 0 => INCOMPATIBLE CONDITIONS BETWEEN CONDITIONS
+C                         OF DIFFERENT TYPES ON NODE I
+C MARQUEUR(I) = 2 => CASE RBODY + RWALL
+C MARQUEUR(I) =-2 => CASE INTERFACES TYPE 1,2,9  + RWALL
+C MARQUEUR(I) = 3 => CASE INTERFACES TYPE 1,2,9 + RBODY + RWALL
 C---------------------------------------------------------------
       DO I=1,NUMNOD
         NKIN(I) = 0
@@ -937,7 +951,7 @@ c         WRITE(IOUT,FMT=FMW_10I)(IKRW(L),L=1,KWARN)
 c
       ENDIF
 C---------------------------------------------------------------
-C RESUME CONDITIONS INCOMPATIBLES PAR TYPE
+C SUMMARY OF INCOMPATIBLE CONDITIONS BY TYPE
 C---------------------------------------------------------------
       WRITE(IOUT,*)'SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITION
      .S :'
@@ -1235,12 +1249,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, KK, IKK, ITYP, NE, NSL
 C-----------------------------------------------------------------
-C  Recopie dans tableau de travail
+C  Copy to work table
       DO N=1,NUMNOD
         IKINEW(N)=IKINE(N)
       END DO
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INTERFACE 1,2,9 OU RBODY AVEC RWALL
+C  AUTOMATIC CORRECTIONS INTERFACE 1,2,9 OR RBODY WITH RWALL
 C=======================================================================
       K=0
       KK=0
@@ -1313,7 +1327,7 @@ C-----------------------------------------------
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,ICDG,ISEN,M
 C-----------------------------------------------------------------
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INITIAL VELOCITIES
+C  AUTOMATIC CORRECTIONS FOR INITIAL VELOCITIES
 C=======================================================================
 C should be done in hierarchy order: RBODY,RBE3,RBE2,int2...
 C-----------------------------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INTBUF_FRIC_MOD
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +92,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N,LLT,L,N1,N2,N3,N4
+      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N1,N2,N3,N4
       INTEGER ITMP(NUMNOD),NLEV, MYLEV,IP,NELEM,STAT,IPG,IPL,IPFMAX,IPFLMAX
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C     REAL
@@ -527,7 +528,7 @@ C overwrite
         DEALLOCATE(CONTRIB_KEY,CONTRIB_VALUE)
       ENDIF
 
-C -----Friction model  secnd nodes parts------
+C ---- FRICTION MODEL DRAD NODES PARTS ------
       IF(INTFRIC > 0) THEN
         IF(NUMELS  /= 0)THEN
           DO I = 1,NSN   

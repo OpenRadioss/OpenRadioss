@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,18 +59,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE Q4FORC2(TIMERS, OUTPUT, PM    ,GEO    ,IC     ,X     ,A      ,
-     2                   V     ,MS     ,W      ,FLUX  ,FLU1  ,
+     2                   V     ,MS     ,W      ,FLU1  ,
      3                   VEUL   ,FV     ,ALE_CONNECT ,IPARG  ,NLOC_DMG,
      4                   ELBUF_TAB,TF  ,NPF    ,BUFMAT,PARTSAV,
      5                   DT2T  ,NELTST ,ITYPTST,STIFN ,OFFSET ,
      6                   EANI  ,IPARTQ ,NEL    ,IADQ  ,FSKY   ,
      7                   ICP   ,NG     ,
-     8                   IPM   ,BUFVOIS,QMV    ,GRESAV,GRTH   ,
+     8                   IPM   ,BUFVOIS,GRESAV,GRTH   ,
      9                   IGRTH ,TABLE  ,IGEO   ,ITASK ,IEXPAN ,
      A                   MS_2D ,FSKYM  ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SZ_BUFVOIS,SNPC,
      B                   STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
@@ -135,8 +136,8 @@ C-----------------------------------------------
      +  DT2T
       my_real
      +  PM(NPROPM,*), GEO(*), X(*),A(*),V(3,*),MS(*), W(*),PARTSAV(*), 
-     +  FLUX(4,*),FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
-     +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),QMV(8,*),GRESAV(*),MS_2D(*),
+     +  FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
+     +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),GRESAV(*),MS_2D(*),
      +  FSKYM(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE (TTABLE) TABLE(*)
@@ -153,11 +154,10 @@ c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
-c  I   X(3,NUMNOD)         co-ordinate 
+c  I   X(3,NUMNOD)         coordinate 
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
-c  IO  MS(NUMNOD)          nodal masse
-c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
+c  IO  MS(NUMNOD)          nodal mass
 c  I   FLU1,VEUL,IELVS     used w/ ALE or EULER 
 c  I   IPARG(NG)           element group data
 c  I   ELBUF()             internal element(material) data used w/ ALE or EULER
@@ -170,20 +170,19 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ(),FSKY()       work arrays for special option of internal force assemlage   
+c  I   IADQ(),FSKY()       work arrays for special option of internal force assemblage   
 c  I   ICP                 flag for constant pressure
 c  I   IPM(NPROPMI,*)      MATERIAL DATA (INTEGER)
 c  I   BUFVOIS()           work table for fluid w/ SPMD 
-c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data
 c  I   IGEO                geometrical property integer data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IFLAG,IOFFS,ICPG,ISTRAIN
+      INTEGER I,IFLAG,IOFFS,ICPG,ISTRAIN
 C     FOR THE USAGE OF EMPTY INPUT
-      INTEGER IBID,IBIDON(1),ipr,enum,SZ_IX
+      INTEGER IBID,IBIDON(1),SZ_IX
       INTEGER SZ_BUFVOIS
 C     INDEX OF ELEMENT INFORMATION IN GLOBAL TABLE "IC"
       INTEGER LCO
@@ -261,7 +260,7 @@ c     +    DEFP(MVSIZ),
      +    PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      +    RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),
      +    SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
-     +    TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
+     +    
      +    AIRN(MVSIZ),VOLN(MVSIZ),
      +    DVOL(MVSIZ),
      +    NU(MVSIZ),E0(MVSIZ),C1,FAC(MVSIZ),
@@ -276,12 +275,12 @@ c     +    DEFP(MVSIZ),
      +    PP(MVSIZ),DSV(MVSIZ)
 C
       my_real
-     +    AY1(MVSIZ),AY2(MVSIZ),AY3(MVSIZ),AY4(MVSIZ),YH(MVSIZ),
+     +    
      +    FAY1(MVSIZ),FAY2(MVSIZ),FAY3(MVSIZ),FAY4(MVSIZ),
-     +    DET(MVSIZ), 
+     +     
      .    BYZ1(MVSIZ),BYZ2(MVSIZ),BYZ3(MVSIZ),BYZ4(MVSIZ),
      .    BZY1(MVSIZ),BZY2(MVSIZ),BZY3(MVSIZ),BZY4(MVSIZ),
-     +    QN1,QN2,QN3,QN4,NUU(MVSIZ)
+     +    NUU(MVSIZ)
 C
       my_real VARNL(NEL)
       my_real
@@ -405,7 +404,7 @@ C     PROJECT NODAL COORDINATES AND VELOCITES INTO CO-ROTATIONAL SYSTEM
      8   YAVG,    AY,      EXX,     NEL,
      9   JHBE)
       ELSE
-C----EXX,YAVG ,AY are calculated in global system anyway, more efficient eo be done here
+C----EXX,YAVG ,AY are calculated in global system anyway, more efficient to be done here
 C----for the moment constant in element
         CALL Q4RCOOR2(
      1   X,       IC(LCO), Y1,      Y2,

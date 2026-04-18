@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,8 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
-!||    flu_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c         ../common_source/tools/input_output/write_routines.c
+!||    flu_fil_c         ../common_source/tools/input_output/write_routines.c
 !||    section           ../engine/source/tools/sect/section.F
 !||    section_read      ../engine/source/tools/sect/section_read.F
 !||    section_readp     ../engine/source/tools/sect/section_readp.F
@@ -34,8 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_wrt_cutd     ../engine/source/mpi/sections/spmd_section.F
 !||    spmd_wrt_cutf     ../engine/source/mpi/sections/spmd_section.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE SECTION_IO (
      1    NSTRF  ,D      ,DR    ,V        ,VR      ,FSAV    ,
@@ -72,11 +72,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
-     .        IFRL1, IFRL2, L, ID_SEC,TYPE, LREC, NNOD,KR11,KR12, LENR,
-     .        KR21,KR22,NBINTER, NN, LEN, KC, NSIZE, NNODG, SIZE, NNODT,
+      INTEGER  I, K, II, N, KR1,KR2,KR3,K0,KR0,K1,K2,
+     .        IFRL1, IFRL2, ID_SEC,TYPE, LREC, NNOD,KR11,KR12, LENR,
+     .        KR21,KR22,NBINTER, LEN, KC, NSIZE, NNODG, SIZE, NNODT,
      .        ISECT
-      my_real DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL, AOLD, TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA, AA, DV, WA(10)
+      my_real DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL, TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA, AA, DV, WA(10)
       REAL*4 R4
 C-----------------------------------------------
 C
@@ -151,7 +151,7 @@ C
           NNOD = NSTRF(K0+6)
           TYPE=NSTRF(K0)
           IF(TYPE>=1)THEN
-C ecriture deplacements
+C Writing displacements 
             ID_SEC=NSTRF(K0+23)
             IF(NSPMD==1) THEN
               CALL WRITE_I_C(ID_SEC,1)
@@ -165,7 +165,7 @@ C ecriture deplacements
             ENDIF
             IF(IRODDL/=0)THEN
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -196,7 +196,7 @@ C-----------------------------------------------------
               ENDIF
             ELSE
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -229,7 +229,7 @@ C-----------------------------------------------------
 C ecriture forces
             IF(IRODDL/=0)THEN
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -260,7 +260,7 @@ C-----------------------------------------------------
               ENDIF
             ELSE
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -301,7 +301,7 @@ C T = TT
 C-----------------------------------------------
       IF(NSTRF(2)>=1)THEN
 C-----------------------------------------------
-C Calcul erreur locale cummulee dans FSAVE
+C Calculation of local error combined in FSAVE
 C-----------------------------------------------
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
@@ -362,7 +362,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C READ FILE dans l ordre des sections lues sur le fichier
+C READ FILE in the order of the sections read from the file
 C  T = TT + DT2
 C-----------------------------------------------
        IF(NSPMD==1) THEN
@@ -377,7 +377,7 @@ C-----------------------------------------------
            END DO
          END IF
 C
-C SPMD SPECIFIC : MAJ MODIF NSTRF et SECBUF dans SECT_READP
+C SPMD SPECIFIC: UPDATE MODIFICATION NSTRF and SECBUF in SECT_READP
 C
          CALL SECTION_READP(TT+DT2,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
        END IF

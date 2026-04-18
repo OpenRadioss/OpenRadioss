@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -138,6 +138,7 @@ C--------------------------------------------------
         NOM_OPT(1,I)=ID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         IF (KEY(1:4) == 'WALL' ) CYCLE
+        IF (KEY(1:3) == 'NRF' ) CYCLE
         ILAGM = 0
         IF (KEY(1:6) == 'LAGMUL' ) ILAGM = 1
         ICYC = 0

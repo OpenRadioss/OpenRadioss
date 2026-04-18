@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(J==1) THEN
-        !=====REPERE GLOBAL
+        !=====GLOBAL REFERENCE FRAME
         SELECT CASE (K)
           CASE(1)
             A(3)=ZERO
@@ -167,7 +167,7 @@ C-----------------------------------------------
         ISK  = ISKEW(N)
         LCOD = ICODT(N)
         IF(ISK==1) THEN
-         !=====REPERE GLOBAL
+         !=====GLOBAL REFERENCE FRAME
          SELECT CASE (LCOD)
            CASE(1)
              A(3,N)=ZERO

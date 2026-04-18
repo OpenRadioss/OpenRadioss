@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s8etherm   ../engine/source/elements/solid/solide8e/s8etherm.F
+!||    s8etherm           ../engine/source/elements/solid/solide8e/s8etherm.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    s8cforc3           ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3           ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3           ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
-      SUBROUTINE S8ETHERM(
-     1   PM,      IMAT,     VOL,     NI,
+      SUBROUTINE S8ETHERM(MAT_PARAM,
+     1   VOL,     NI,
      2   NC1,     NC2,     NC3,     NC4,
      3   NC5,     NC6,     NC7,     NC8,
      4   PX1,     PX2,     PX3,     PX4,
@@ -40,6 +42,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   DT1,     TEMPNC,  TEL,     HEAT,
      B   FPHI,    OFFG,    OFF,     PARTSAV,
      C   IPARTS,  VOL0,    NEL,     THEACCFACT)
+!-----------------------------------------------
+!   m o d u l e s
+!-----------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +59,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
-      INTEGER, INTENT(IN) :: IMAT
       my_real, INTENT(IN) :: THEACCFACT
       INTEGER IPARTS(*),
      .        NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
@@ -68,20 +73,20 @@ C     REAL
      .            PX6(MVSIZ), PY6(MVSIZ),PZ6(MVSIZ),
      .            PX7(MVSIZ), PY7(MVSIZ),PZ7(MVSIZ),
      .            PX8(MVSIZ), PY8(MVSIZ),PZ8(MVSIZ),        
-     .    NI(8),TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), HEAT(*),
+     .    NI(8),TEMPNC(*), FPHI(MVSIZ,8), HEAT(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
       my_real PARTSAV(NPSAV,*),VOL0(*)
+      type (matparam_struct_)   ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, M
-C     REAL
       my_real CA, CB, KC, PHIX, PHIY, PHIZ, RHOCP, T0
 !=======================================================================
-      CA = PM(75,IMAT)
-      CB = PM(76,IMAT)
-      RHOCP = PM(69,IMAT)
-      T0  = PM(79,IMAT)
+      CA    = MAT_PARAM%THERM%AS    !< thermal conductivity coefficient A for solid phase
+      CB    = MAT_PARAM%THERM%BS    !< thermal conductivity coefficient B for solid phase
+      RHOCP = MAT_PARAM%THERM%RHOCP
+      T0    = MAT_PARAM%THERM%TINI
 !
       DO I=1,NEL
        IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
@@ -107,7 +112,7 @@ C
         PHIY = KC*PHIY
         PHIZ = KC*PHIZ
 C  
-C force thermique nodale
+C nodal thermal force
 C
           FPHI(I,1) = FPHI(I,1) +
      .          HEAT(I)*NI(1) - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))

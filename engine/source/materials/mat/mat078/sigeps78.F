@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -92,16 +92,16 @@ C-----------------------------------------------
       my_real EINI,NU,BSAT,HYU,CYU,RSAT,
      .        YIELD,BYU,MYU,C1_KH,C2_KH,
      .        EINF,COE,FCTP,FCT,CUN,CDEUX,CTROIS,SIGY,DMU,PRDEN,
-     .        THA,THB,TOLR,SEFF,DG,SEFFP,CASTA,THETAQ,DTCA,DTBM,
+     .        THA,THB,TOLR,SEFF,SEFFP,CASTA,DTCA,DTBM,
      .        STHABXX,STHABYY,STHABZZ,STHABXY,STHABYZ,STHABZX,
      .        SAXX,SAYY,SAZZ,SAXY,SAYZ,SAZX,GAMA,HDGSIG,H,BQDB,EQBQ
       my_real :: YOUNG(NEL),
      .        ALXX(NEL),ALYY(NEL),ALZZ(NEL),RBULK(NEL),SHEAR(NEL),LAMDA(NEL),
      .        ALXY(NEL),ALYZ(NEL),ALZX(NEL),
-     .        AYU(NEL),SIGM(NEL),SIGEQ(NEL),DYDXE(NEL),WAVE(NEL),R(NEL),
+     .        AYU(NEL),SIGM(NEL),DYDXE(NEL),WAVE(NEL),R(NEL),
      .        STRIALXX(NEL),STRIALYY(NEL),STRIALZZ(NEL),
      .        STRIALXY(NEL),STRIALYZ(NEL),STRIALZX(NEL),
-     .        G2(NEL),ASTA(NEL),SCALEE(NEL),RNIH(NEL),DRNIH(NEL),EPBAR(NEL),
+     .        G2(NEL),ASTA(NEL),SCALEE(NEL),RNIH(NEL),
      .        MAX_ASTA(NEL)
       my_real :: DB(6,NEL),EP(6,NEL),AST(6,NEL),BETA(6,NEL),
      .        DR(NEL),BQ(6,NEL)
@@ -173,7 +173,7 @@ C     READING STORED STATE_VARIABLES
         SHEAR(I) = YOUNG(I)*CDEUX
         LAMDA(I) = YOUNG(I)*CTROIS
         G2(I) = TWO*SHEAR(I)
-C       Module d'onde de compression
+C       Compression wave wave module
         WAVE(I)=G2(I)+LAMDA(I)
         ASTA(I)=ZERO
         MAX_ASTA(I) = UVAR(I,6)
@@ -253,7 +253,7 @@ C=======================================================================
         PRDEN=THREE*SHEAR(I)+CYU*AYU(I)+MYU*BYU
         CASTA=CYU*SQRT(AYU(I)/ASTA(I))
         DO K=1,NITER     
-c       THA et THB pour semi implicite---------------------------------
+c       THA and THB for semi-implicit---------------------------------
         THA=ONE-CASTA*DEP(I)
         THB=ONE-MYU*DEP(I)
 C       sum of Tetaa alpha* + Tetab Beta=STHAB
@@ -331,7 +331,7 @@ C=======================================================================
         DTCA=TWO*THIRD*CYU*AYU(I)
         DTBM=TWO*THIRD*BYU*MYU
         DO J=1,6
-C         Actualisation de alpha* et beta avec Epsilon_n+1^p
+C         Update of alpha* and beta with Epsilon_n+1^p
           AST(J,I)=THA*AST(J,I)+DTCA*EP(J,I)
           BETA(J,I)=THB*BETA(J,I)+DTBM*EP(J,I)
         ENDDO
@@ -415,7 +415,7 @@ C============================================================
         SIGNXY(I)=SIGOXY(I)+G2(I)*(DEPSXY(I)-EP(4,I))
         SIGNYZ(I)=SIGOYZ(I)+G2(I)*(DEPSYZ(I)-EP(5,I))
         SIGNZX(I)=SIGOZX(I)+G2(I)*(DEPSZX(I)-EP(6,I))
-c==========Module tangent=====================================
+c============ Tangent module ========================================================================
          
         IF( DEP(I) > ZERO)THEN
          SIGM(I)=-(SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD

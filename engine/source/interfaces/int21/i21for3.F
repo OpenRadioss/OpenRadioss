@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -110,34 +110,34 @@ C-----------------------------------------------
      .   PCONTACT(*), PADM, ANGLMI(*),
      .   XG(3), MXI(MVSIZ), MYI(MVSIZ), MZI(MVSIZ), STRI(MVSIZ),
      .   KT(MVSIZ), C(MVSIZ), FHEAT,EFRICT(MVSIZ),QFRIC,
-     .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,DYDX,
+     .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,
      .   FSAVPARIT(NISUB+1,11,*),PRATIO(MVSIZ)
       my_real  , INTENT(INOUT) :: EFRIC_L(MVSIZ)
       my_real  , INTENT(IN) :: FRIC_COEFS(MVSIZ,10), FRICC(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
-     .        NA1,NA2,IBCM,IBCS
+      INTEGER I, IG, JG , NI,
+     .        IBCM,IBCS
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   XMU(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), DTMI(MVSIZ), 
-     .   VNX, VNY, VNZ, AA, S2,
-     .   V2, FF, ALPHA, BETA,
-     .   FX, FY, FZ, FT, FN, FMAX, FTN,
+     .      AA,
+     .   V2, ALPHA, BETA,
+     .   FX, FY, FZ, FT, FN, FTN,
      .   ECONTT, ECONVT, FS2,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV8, 
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,FSAV25,
-     .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,AREA,P,VV1,VV2,DMU,
-     .   DT1INV, VIS, PA, PLIN, FS, QFRICT, DTI,DTI2,DTMI0, MAS2,BETA1
+     .   VV,AREA,P,VV1,VV2,DMU,
+     .   DT1INV, VIS, PA, PLIN, FS, QFRICT,DTMI0, MAS2,BETA1
       my_real
      .   PREC
       my_real
-     .   ST1(MVSIZ),ST2(MVSIZ),ST3(MVSIZ),ST4(MVSIZ),STV(MVSIZ),
-     .   PENX(MVSIZ),STIF0(MVSIZ),FRICT(MVSIZ)
+     .   
+     .   PENX(MVSIZ),STIF0(MVSIZ)
       my_real
-     .   IMPX,IMPY,IMPZ,XX,YY,ZZ,TH
+     .   IMPX,IMPY,IMPZ,XX,YY,ZZ
       my_real 
      .   FINTER 
       EXTERNAL FINTER
@@ -167,21 +167,21 @@ C---------------------
        IF(IGAP<=1)THEN
         IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENETRATION 
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
          ENDDO
         ELSEIF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -194,13 +194,13 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
        ELSE
         IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENX(I)=PENE(I)
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENX(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -208,14 +208,14 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
          ENDDO
         ELSEIF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENX(I)=PENE(I)
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .          +FIVEEM2*(PENX(I)+FIVEEM2*(GAP0(I)-PENX(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -232,21 +232,21 @@ C
 C----  ILEV=1
        IF(INACTI==6)THEN
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .       ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .         +FIVEEM2*(PENE(I)+FIVEEM2*ABS(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I)==ZERO .AND. 
      .        ( IFPEN(CAND_N_N(I))/=1 .OR.TT==ZERO ) )  STIF(I) = ZERO
         ENDDO
        ELSE
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .           ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I)==ZERO .AND. 
      .        (IFPEN(CAND_N_N(I))/=1 .OR.
@@ -336,7 +336,7 @@ C     IF(KDTINT==0.AND.IDTMINS/=2)THEN
         ENDDO
       END IF
 C---------------------------------
-C     CALCUL DE LA FORCE NORMALE
+C     CALCULATION OF THE NORMAL FORCE
 C---------------------------------
       DO I=1,JLT
        FXN(I)=FNI(I)*NX(I)
@@ -397,7 +397,7 @@ C---    Coulomb friction
       ELSEIF (MFROT==1) THEN
 C---    Viscous friction
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> normal to the elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -414,7 +414,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF(MFROT==2)THEN
 C---    Darmstad LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -433,7 +432,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF (MFROT==3) THEN
 C---    Renard LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 

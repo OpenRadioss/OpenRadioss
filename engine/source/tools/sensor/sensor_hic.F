@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -56,17 +56,16 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,ICRIT
+      INTEGER I,J,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,ICRIT
 c
       my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT,TIME_INTERVAL
       my_real :: HIC_PERIOD,HIC_CRIT,HIC,HIC_PREC,HIC_TMP
       my_real :: TIME_PREC,TEST_TIME,DELTA_T,BETA
       my_real :: ACC_X,ACC_Y,ACC_Z,ACC,ACCG,ACC_PREC,CURRENT_VALUE,GRAVITY
-      my_real :: PERIOD_TMP,OPT_PERIOD,T1,T2,TMIN,TDELAY,INFINITY
+      my_real :: PERIOD_TMP,OPT_PERIOD,T1,T2,TMIN,TDELAY
       my_real ,DIMENSION(:) ,POINTER :: VALUE_TABLE
 c
       DATA NVAR/4/
-      PARAMETER (INFINITY = 1.0E20)
 c-----------------------------------------------------------------------
 c     Sensor state variables
 c        SENSOR%VAR(1) :  TIME_PREC   = beginning of current time interval
@@ -205,7 +204,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------      
 1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
 1200  FORMAT('      HIC     = ',1PE12.5,'  ,HIC PERIOD  = ',1PE12.5)           
-1300  FORMAT('      TIME T1 = ' 1PE12.5,'  ,TIME T2 = ',1PE12.5)
+1300  FORMAT('      TIME T1 = ',1PE12.5,'  ,TIME T2 = ',1PE12.5)
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,6 +66,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,10 +103,9 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW,I10,I20,I16
-      INTEGER IC,IC1,IC2,IC3,IC4,IPID,ID,IDS,N,JC,NSPHDIR,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,NUMELS_READ,
-     .        IOUTN, IERROR, INDEX_PART,IXS10_SAV(6),IC5,IC6,
+      INTEGER I, J, MT, I10,I20,I16
+      INTEGER IC1,IC2,IC3,IC4,IPID,N,STAT
+      INTEGER INDEX_PART,IXS10_SAV(6),IC5,IC6,
      .        IC7,IC8
       my_real BID
       CHARACTER MESS*40, MESS2*40
@@ -509,7 +509,7 @@ C-----------
 C-------------------------------------
       IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(IXS(NIXS,1),NIXS,NUMELS,MESS,0,BID)
       RETURN
@@ -521,7 +521,6 @@ C
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
-!||    usr2sys        ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE LCE16S3(IXS    ,ISEL    ,PM      ,IPOINT  ,ITAB     ,ITABM1 ,
@@ -532,6 +531,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -560,13 +560,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW, K, N, IAD, NN
-      INTEGER IC,IC1,IC2,IC3,IC4,MID,PID
+      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW, K, N, NN
+      INTEGER IC,IC1,IC2,IC3,IC4
       CHARACTER MESS*40, MESS2*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
 C
       DATA MESS/'3D SOLID ELEMENTS DEFINITION            '/
       DATA MESS2/'3D SOLID ELEMENTS SELECTION FOR TH PLOT '/
@@ -574,7 +573,7 @@ C
 C----------------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C      LOI 17 SI LA BCS EST  111 (3D)
+C      LAW 17 IF THE BCS IS  111 (3D)
       DO I=1,NUMELS8
         MT=IXS(1,I)
         MLAW=NINT(PM(19,MT))
@@ -591,12 +590,12 @@ C      LOI 17 SI LA BCS EST  111 (3D)
         ENDDO
       ENDDO
 C----------------------------------------------------
-C     CLASSEMENT DES ELEMENTS PAR LOI DE MATERIAU
+C     CLASSIFICATION OF ELEMENTS BY MATERIAL LAW
 C----------------------------------------------------
       CALL REORDR(IXS   ,NIXS   ,NUMELS8,PM      ,IPOINT ,
      .            IPARTS,NGRBRIC,IGRBRIC,NUMMAT)
 C------------------------------------------
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C------------------------------------------
       DO I=1,NSURF
         NN =IGRSURF(I)%NSEG
@@ -608,7 +607,7 @@ C------------------------------------------
         ENDDO
       ENDDO
 C------------------------------------------
-C     RENUMEROTATION DES PARTICULES SPH 
+C     RENAMING OF SPH PARTICLES
 C------------------------------------------
       IF(NSPHSOL/=0)THEN
         DO I=1,NUMSPH
@@ -634,7 +633,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
         END DO          
       END IF
 C------------------------------------------
-C     PERMUTATION DE ISOLNOD
+C     PERMUTATION OF ISOLNOD
 C------------------------------------------
       DO I=1,NUMELS8
         IPOINT(2,I)=ISOLNOD(I)
@@ -643,7 +642,7 @@ C------------------------------------------
         ISOLNOD(IPOINT(1,I))=IPOINT(2,I)
       ENDDO
 C------------------------------------------
-C Reconstruction de la matrice Nod -> Solid elt
+C Reconstruction of the matrix Nod -> Solid elt
 C------------------------------------------
       DO  K=2,9
         DO  I=1,NUMELS
@@ -808,11 +807,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    lce16s4   ../starter/source/elements/reader/hm_read_solid.F
+!||    lce16s4       ../starter/source/elements/reader/hm_read_solid.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE LCE16S4(IXS,PM,ICODE)
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -838,7 +839,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C     LOI 17 SI LA BCS EST  111 (3D)
+C     LAW 17 IF THE BCS IS  111 (3D)
       DO I=1,NUMELS8
         MT=IXS(1,I)
         IF(MT < 1)CYCLE
@@ -865,7 +866,6 @@ C
 !||    contrl            ../starter/source/starter/contrl.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg            ../starter/source/output/message/message.F
-!||    usr2sys           ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../starter/share/message_module/message_mod.F
 !||    reader_old_mod    ../starter/share/modules1/reader_old_mod.F90
@@ -879,6 +879,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -898,17 +899,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, IT, NT
-      INTEGER IPID,ID,IDS,N,NSPHDIR,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,INDEX_PART
-      my_real BID
+      INTEGER I, J, IT, NT
+      INTEGER NSPHDIR,STAT
+      INTEGER FLAG_FMT,INDEX_PART
       CHARACTER MESS*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPARTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
 C
       DATA MESS/'3D SOLID ELEMENTS DEFINITION            '/
 C=======================================================================

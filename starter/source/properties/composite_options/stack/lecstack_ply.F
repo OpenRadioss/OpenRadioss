@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_read_stack          ../starter/source/stack/hm_read_stack.F
 !||    lcgeo19                ../starter/source/elements/shell/coque/lcgeo19.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||    vdouble                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
@@ -89,13 +88,12 @@ C-----------------------------------------------
       LOGICAL lFOUND
       CHARACTER(LEN=NCHARTITLE) ::  IDTITL,TITR1
       CHARACTER MESS*40
-      INTEGER I, IG,IGTYP,J,IP,ISTRAIN,I8PT,ISK,ITU,IRB,IHON,IHBE,IPLAST,ITHK,K,N,IDS, IUNIT,UID,ISORTH
-      INTEGER NSTACK,ISTACK,NUMS,IFLAGUNIT,JPID,N1,SUB_ID,PID1,JPID1,JPID2,NISUB,II,IPOS
-      my_real ANGL,RBID,FAC_L,ZSHIFT
+      INTEGER I, IG, IGTYP, J, IHBE, K, IDS, IUNIT, UID, ISORTH
+      INTEGER NSTACK, ISTACK, NUMS, IFLAGUNIT, JPID, N1, SUB_ID, JPID1, JPID2, NISUB, II, IPOS
+      my_real RBID, FAC_L, ZSHIFT
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'PID DEFINITION                          '/
 C----------------------
 C     GEO(3) : ISMSTR
@@ -110,7 +108,7 @@ C     GEO(37): ISHEAR
 C     GEO(38): FSHEAR
 C     GEO(39): IPLAST
 C     GEO(40): IG    v50  ->    IGEO(1)
-C     GEO(20:34) : Milieu poreux (bricks)
+C     GEO (20:34): porous medium (bricks)
 C     GEO(129): HCLOS (bricks)
 C     GEO(130): HTEST (bricks)
 C     GEO(131:170): FREE
@@ -191,7 +189,7 @@ C----------------------------------------------------------------
           CALL FRETITL(IDTITL,IGEO_STACK(NPROPGI-LTITR+1,I),LTITR)    
           NUMS = NUMGEO_STACK(NUMGEO + I)
           CALL HM_READ_STACK(
-     .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,PM       ,IPM      ,ISKN     ,
+     .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,IPM      ,ISKN     ,
      .           IG             ,RTRANS          ,SUB_ID   ,STACK_INFO(NUMS)   ,
      .           IDTITL         ,UNITAB          ,LSUBMODEL,DEFAULTS%SHELL )
      
@@ -350,7 +348,7 @@ C
        ENDIF 
       ENDDO ! DO I = 1, NUMSTACK
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

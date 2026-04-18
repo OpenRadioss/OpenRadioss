@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,13 +64,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
       my_real
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46
 C-----------------------------------------------
+
       DO I=1,NEL
         VX17=VX1(I)-VX7(I)
         VX28=VX2(I)-VX8(I)
@@ -84,6 +85,7 @@ C-----------------------------------------------
         VZ28=VZ2(I)-VZ8(I)
         VZ35=VZ3(I)-VZ5(I)
         VZ46=VZ4(I)-VZ6(I)
+        
 !
         DXX(I)=PX1(I)*VX17+PX2(I)*VX28+
      .         PX3(I)*VX35+PX4(I)*VX46

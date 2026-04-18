@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,11 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvbric2       ../starter/source/airbag/fvbric2.F
 !||--- called by ------------------------------------------------------
 !||    init_monvol   ../starter/source/airbag/init_monvol.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FVBRIC2(ELEM  , IXS , NEL    , NBRIC,
      .                   TBRIC , TFAC, TAGELS , NELA ,
      .                   IBUFA , NNA , ELEMA  ,
      .                   TAGELA, BRNA, NB_NODE)
+      use element_mod , only : nixs      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,7 +101,7 @@ C
          NFAC=NFACE(NTYPE)
          DO J=1,NFAC
             IF (TFAC(2*(J-1)+1,I)==3) THEN
-C La facette de solide est libre a l'interieur de l'airbag
+C The solid facet is free inside the airbag
                IF (NTYPE==2) THEN
                   NELA=NELA+1
                   KK=FAC4(1,J)

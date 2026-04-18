@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 #include "mv_cstdio.h"
 #include "mv_cmath.h"
 #include "mv_cstdarg.h"
@@ -57,9 +57,9 @@ static char *loc_pre_print_value(double value,bool is_neg,int nb_decs,int nb_cha
 
 
 /***************************************************************/
-/* function read_FTN_format pour lire les double correctement  */
-/* utilisation de libF77.a et libI77.a                         */
-/* besoin aussi de f2cc.h                                      */
+/* function read_FTN_format to read doubles correctly          */
+/* use of libF77.a and libI77.a                                */
+/* also need f2cc.h                                            */
 /***************************************************************/
 char *get_path (char *s,char *s1) {
   char	*p_c ;
@@ -134,9 +134,9 @@ int my_isxdigit	(char i) {
 } 
 
 /*--------------------------------------*/
-/* lecture des lignes de mot cles	*/
+/* reading keyword lines               */
 /* ex: /MAT/law/mat_id/mat_title	*/
-/* les != segment sont stockes ds ppstr */
+/* the != segments are stored in ppstr */
 /*--------------------------------------*/
 int get_strings (char *str,int n,char **ppstr) {
   char *p_c ;

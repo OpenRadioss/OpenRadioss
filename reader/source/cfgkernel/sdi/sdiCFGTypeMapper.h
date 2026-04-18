@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 
@@ -111,13 +111,17 @@ protected:
         SDITypeMapper::Init();
     }
 
-    virtual void SortTmpKeywordList()
+    virtual void Pretreat()
     {
-        std::stable_sort(p_tmpkeywordlist.begin(), p_tmpkeywordlist.end(), [](const auto& lhs, const auto& rhs)
+        // first call parent implementation...
+        SDITypeMapper::Pretreat();
+        // ... now we resort, putting control cards in their initial order in the end,
+        // to distinguish Starter and Engine
+        std::sort(p_tmpkeywordlist.begin(), p_tmpkeywordlist.end(), [](const auto& lhs, const auto& rhs)
                          {
                              if(lhs.myDBtype == HCDI_OBJ_TYPE_CARDS && rhs.myDBtype == HCDI_OBJ_TYPE_CARDS)
                              { // control cards have to keep their order, to distinguish Starter and Engine
-                                 return false;
+                          return lhs.myinitialorder < rhs.myinitialorder;
                              }
                              else if(lhs.myDBtype == HCDI_OBJ_TYPE_CARDS)
                              { // in order not to mess up the sorting, we have to put all control cards...
@@ -161,7 +165,7 @@ private: // used by constructor from CFGKernel
                 {
                     auto username = list[i];
                     p_tmpkeywordlist.push_back(
-                        myKeywordInfo(username, (unsigned int) type, idpool));
+                        myKeywordInfo(username, (unsigned int) type, p_tmpkeywordlist.size(), idpool));
                 }
                 useLastLevel = false; // if we have user names in higher levels, we don't use the last level
             }
@@ -190,7 +194,8 @@ private: // used by constructor from CFGKernel
                     int configType = pSubtype->getHMConfigType();
                     int subType = pSubtype->getHMType();
                     p_tmpkeywordlist.push_back(
-                        myKeywordInfo(username, (unsigned int)type, idpool, configType, subType));
+                        myKeywordInfo(username, (unsigned int)type, p_tmpkeywordlist.size(),
+                                      idpool, configType, subType));
                     return;
                 }
             }

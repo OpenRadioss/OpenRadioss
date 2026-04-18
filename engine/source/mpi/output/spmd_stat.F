@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,8 +69,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
-     .        MSGTYP,I,J,IAD,IDEB, POLD,
+      INTEGER IERROR,
+     .        I,J,IAD,IDEB, POLD,
      .        LENP(NSPMD),DISP(NSPMD)
 
 
@@ -95,7 +95,7 @@ C
      G    SPMD_COMM_WORLD,IERROR)
 C
         IF(ISPMD==0)THEN
-C         construit les pointeurs globaux de fin de zone
+C         builds the global pointers for the end of the zone
           PTV_P0(0)=0
           DO I=2,NSPMD
             IDEB = DISP(I)
@@ -126,7 +126,7 @@ C         construit les pointeurs globaux de fin de zone
       SUBROUTINE SPMD_IGET_PARTN_STA(
      .             SIZE,STAT_NUMEL,STAT_LENELG,LENG,NP,
      .             IADG,NPGLOB,STAT_INDX)
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa array according to the parts (iadg)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,8 +152,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,IDEB,K,N,NB_TMP,LEN,
-     .        NBF_L,NPT(SIZE*STAT_NUMEL)
+      INTEGER MSGOFF,MSGTYP,IDEB,K,NB_TMP,
+     .        NBF_L
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DATA MSGOFF/10001/
 C-----------------------------------------------
@@ -227,7 +227,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(3,*),VGATH(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+       INTEGER WEIGHT(*),NODGLOB(*),NODTAG(*),
      .         NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -241,7 +241,7 @@ C-----------------------------------------------
       my_real 
      .       BUFSR(3,NUMNODM)
       INTEGER IBUF(NUMNODM)
-C   Tableau utilise par proc 0
+C   Table used by Pro 0
          
        IF (ISPMD/=0) THEN
 
@@ -256,9 +256,9 @@ C   Tableau utilise par proc 0
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -285,7 +285,7 @@ C   de noeuds au max
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF2 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -295,7 +295,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant double des adresses NODGLOB
+C   reception of the double floating buffer of nodglob addresses
 
             MSGTYP = MSGOFF 
             CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -345,7 +345,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(*),VGATH(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF,NODTAG(*),
+       INTEGER WEIGHT(*),NODGLOB(*),NODTAG(*),
      .         NODTAGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -359,7 +359,7 @@ C-----------------------------------------------
       my_real 
      .       BUFSR(NUMNODM)
       INTEGER IBUF(NUMNODM)
-C   Tableau utilise par proc 0
+C   Table used by Pro 0
          
        IF (ISPMD/=0) THEN
 
@@ -372,9 +372,9 @@ C   Tableau utilise par proc 0
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -399,7 +399,7 @@ C   de noeuds au max
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -409,7 +409,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant double des adresses NODGLOB
+C   reception of the double floating buffer of nodglob addresses
 
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -467,7 +467,7 @@ C-----------------------------------------------
       DATA MSGOFF/10003/
       DATA MSGOFF2/10003/
       INTEGER IBUFN(NUMNODM),IBUFM(NUMNODM)
-C   Tableau utilise par proc 0
+C   Table used by Pro 0
          
        IF (ISPMD/=0) THEN
 
@@ -498,7 +498,7 @@ C
 
           DO I=2,NSPMD
 
-C Reception du buffer entier des adresses NODGLOB
+C reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

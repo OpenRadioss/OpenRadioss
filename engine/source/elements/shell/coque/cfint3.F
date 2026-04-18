@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,9 +58,9 @@ C     REAL
      .   F31(MVSIZ), F32(MVSIZ), F33(MVSIZ), F34(MVSIZ),
      .     B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),
      .     B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ),
-     .     H11(MVSIZ), H12(MVSIZ), H13(MVSIZ), H14(MVSIZ),
-     .     H21(MVSIZ), H22(MVSIZ), H23(MVSIZ), H24(MVSIZ),
-     .     H31(MVSIZ), H32(MVSIZ), H33(MVSIZ), H34(MVSIZ)
+     .     H11(MVSIZ), H12(MVSIZ), H13(MVSIZ),
+     .     H21(MVSIZ), H22(MVSIZ), H23(MVSIZ),
+     .     H31(MVSIZ), H32(MVSIZ), H33(MVSIZ)
       my_real
      .     M11(MVSIZ), M12(MVSIZ), M13(MVSIZ), M14(MVSIZ),
      .     M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),
@@ -80,18 +80,18 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
       my_real
-     .     M4(MVSIZ), M5(MVSIZ), F1(MVSIZ), F2(MVSIZ), F3(MVSIZ), 
-     .     F4(MVSIZ), F5(MVSIZ), M1(MVSIZ), M2(MVSIZ), M3(MVSIZ),
-     .     G11T(MVSIZ), G21T(MVSIZ), G12T(MVSIZ), G22T(MVSIZ), 
-     .     G13T(MVSIZ), G23T(MVSIZ), G14T(MVSIZ), G24T(MVSIZ),
-     .     G31T(MVSIZ), G32T(MVSIZ), G33T(MVSIZ), G34T(MVSIZ),
+     .     M4(MVSIZ), M5(MVSIZ), 
+     .         
+     .        
+     .       
+     .        
      .     F1A,F2A,F3A,F4A,F5A, G11TA, G21TA, G12TA, G22TA, 
      .     G13TA, G23TA, G14TA, G24TA, G31TA, G32TA, G33TA, G34TA,
      .     M1A,M2A,M3A,TEMP1,TEMP2,TEMP3
 C=======================================================================
-C               POUR ISIGI = 5 OU -5
-C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
-C          REPERE GLOBAL ---> REPERE LOCAL
+C               FOR ISIGI = 5 OR -5
+C     COORDINATE SYSTEM CHANGE OF FZERO FOR TT=DT1
+C          GLOBAL REFERENCE FRAME ---> LOCAL REFERENCE FRAME
 C-----------------------------------------------
       IF(IABS(ISIGI)==5.AND.NCYCLE==1.AND.IRUN==1) THEN
         DO I=JFT,JLT
@@ -106,9 +106,9 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C               POUR ISIGI = 5 OU -5
+C               FOR ISIGI = 5 OR -5
 C     PRISE EN COMPTE DES FORCES D EQUILIBRAGE
-C      DANS L EVALUATION DES EFFORTS INTERNES
+C      IN THE EVALUATION OF INTERNAL FORCES
 C-----------------------------------------------
       IF((IABS(ISIGI)==5.AND.NCYCLE>=1.AND.IRUN==1).OR.
      .     (IABS(ISIGI)==5.AND.IRUN>1)) THEN

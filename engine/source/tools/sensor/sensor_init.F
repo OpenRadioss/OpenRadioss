@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -79,8 +79,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER :: I,K,J,IC,IG,NG,NP,IJK,KJI
-      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NBR_GROUP,NSENSOR
+      INTEGER :: I,K,J,NG,NP,IJK,KJI
+      INTEGER :: TYP,IPART,IPART_2,ISUBS,IGRN,NSENSOR
       INTEGER :: NFT,NF1,ITY,NEL
       INTEGER, DIMENSION(:), POINTER :: IPART_POINTER
       INTEGER :: NUMBER_PART_GROUP,NUMBER_PART_GROUP_2
@@ -475,7 +475,7 @@ c----------------------------------------------------------------------
         SENSORS%LOGICAL_SENSOR_COUNT=0
       ENDIF
 
-      IF(PYTHON%NB_FUNCTS > 0) THEN
+      IF(PYTHON%NB_FUNCTS > 0 .AND. NSENSOR > 0) THEN
         ALLOCATE(UIDS(NSENSOR))
         ALLOCATE(RESULTS(SENSOR_RESULT_SIZE,NSENSOR))
         ALLOCATE(STATUSES(NSENSOR))
@@ -497,7 +497,7 @@ c----------------------------------------------------------------------
         DO ISENS = 1,NSENSOR
           TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
           IF (TYP == SENSOR_TYPE_PYTHON) THEN
-            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS))
+            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS),TIME)
           ENDIF  ! TYP 
         END DO  ! ISENS
       ENDIF

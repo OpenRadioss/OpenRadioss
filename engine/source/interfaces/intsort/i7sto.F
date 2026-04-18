@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .               YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4   ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJE STOCKES (PENE INITIALE)
 C-----------------------------------------------
        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
      .    ITIED/=0)THEN
@@ -100,7 +100,7 @@ C-----------------------------------------------
                 N  = PROV_N(I)
                 NE = PROV_E(I)+ESHIFT
                 IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering from previous sorting for non-local nodes (SPMD)
                   N = OLDNUM(N-NSN)+NSN
                   IF(N==NSN) N = NSN+NSNROLD+1
                 END IF

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C     READING SURFACE AND NUMBERING SEGMENTS
-C           IN :  NRT NOMBRE DE RENSEIGNEMENTS A LIRE
+C           IN :  NRT NUMBER OF ITEMS TO READ
 C           OUT : IRECT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,8 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N23, IT, J, NSGOLD,ITG,K,IR1,K4,N1,N2,N3,N4
-      my_real X13,Y13,Z13,X24,Y24,Z24,D1,D2
+      INTEGER I, J, K, K4, N1, N2, N3, N4
 C=======================================================================
       NRTNEW=0
 

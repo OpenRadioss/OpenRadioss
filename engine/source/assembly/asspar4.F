@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -99,17 +99,17 @@ C-----------------------------------------------
         INTEGER VSIZE, NBCC, NUM7, KM,IL,IPLY,ND
         PARAMETER (VSIZE = 8192)
         PARAMETER (NBCC = 20)
-        INTEGER I,J,L,K,N,NC,KK,JJ,JJ1,JJ2,NN,NFSKYFT_INTPLY,NFSKYLT_INTPLY,
+        INTEGER I, J, L, K, N, NC, KK, JJ1, JJ2, NN, NFSKYFT_INTPLY, NFSKYLT_INTPLY, 
      .          NISKYFT,NISKYLT,NFSKYFT,NFSKYLT,K1,K2,K3,IJK,NF,
-     .          NCT,DIFFADD,NDLT,NDFT,LJ,KKEND,NSTART,KKSTART,KMAX,KSPLIT
-        INTEGER IC(NBCC+1),NN_A(VSIZE),IARRAY(VSIZE)
+     . NCT,DIFFADD,NDLT,NDFT
+ 
         my_real FF, FSKYT(NISKY)
         INTEGER :: VIND_SIZE
         INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
         INTEGER :: CHUNK_NODE,CHUNK_NODE_1
         INTEGER, PARAMETER :: IVSIZE = 32
 C-----------------------------------------------
-C Partie ELEMENT
+C element
 C-----------------------------------------------
 
         VIND_SIZE=MAX(NODLT-NODFT+1,IVSIZE)
@@ -134,7 +134,7 @@ C-----------------------------------------------
           ADSKYI(N) = ADSKYI(N)+1
         ENDDO
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C Computing SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
         ADSKYI(0) = 1
         ADSKYI(1) = 1
@@ -407,7 +407,7 @@ C-----------------------------------------------
 
         IF( (N2D/=0).OR.(ALE%SUB%IFSUBM==1).OR.(IALELAG > 0) ) CALL MY_BARRIER
 
-C masse stocke dans FSKY(1) et NODES%A(1) utilise pour cumul en 2D
+C mass stored in FSKY(1) and NODES%A(1) used for 2D accumulation
         IF(N2D/=0) THEN
 !$OMP DO SCHEDULE(guided)
           DO I = 1,NUMNOD
@@ -463,7 +463,7 @@ C-----------------------------------------------
         ENDIF
 
 C-----------------------------------------------
-C Partie INTERFACE
+C Interface part
 C-----------------------------------------------
         IF(NISKY>LSKYI)THEN
           WRITE(IOUT,*) ' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
@@ -492,7 +492,7 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(guided)
             DO I=1,NISKY
               J = ISKY(I) ! address for N per contribution
-              FSKY_L(J) = FSKYI(I,L) ! FSKYT : contribution triée par noeud
+              FSKY_L(J) = FSKYI(I,L) ! FSKYT: contribution sorted by node
             END DO
 !$OMP END DO
             call my_barrier()
@@ -538,7 +538,7 @@ C
             ENDDO
           ENDIF
 C
-C Barriere FSKYI et NISKY
+C FSKYI and NISKY barrier
 C
           CALL MY_BARRIER
           NISKY = 0
@@ -559,7 +559,7 @@ C-----------------------------------------------
               IF(DIFFADD==0) THEN
                 K1 = K1 + 1
                 VIND1(K1) = N
-C   20 valeur seuil pour appel a qsort (20 = NBCC)
+C   20 Value threshold for call in qsort (20 = NBCC)
               ELSEIF(DIFFADD>=1.AND.DIFFADD<NBCC) THEN
                 K2 = K2 + 1
                 VIND2(K2) = N
@@ -569,7 +569,7 @@ C   20 valeur seuil pour appel a qsort (20 = NBCC)
               ENDIF
             ENDDO
 C
-C une seule contribution
+C single contribution
 C
             IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(KDTINT==0)THEN
@@ -594,7 +594,7 @@ C
                   NODES%VISCN(N) = NODES%VISCN(N) + FSKYI(K,5)
                 ENDDO
               ENDIF
-C + la thermique
+C + thermal
             ELSE
               IF(GLOB_THERM%NODADT_THERM == 1) THEN
                 IF(KDTINT==0)THEN
@@ -678,7 +678,7 @@ C                Iply is the position of ply in contact
               ENDDO
             ENDIF
 C
-C pas plus de 20 contributions
+C no more than 20 contributions
 C
             IF (IVECTOR==0) THEN
 C   ANCIEN CODE
@@ -700,7 +700,7 @@ C-----------------------------------------------
                           FSKYI(K,L)  = FF
                         ENDIF
   500             CONTINUE
-C + la thermique
+C + thermal
                 ELSE
                   IF(GLOB_THERM%NODADT_THERM == 1 ) THEN
                     DO  K=JJ1,JJ2-1
@@ -761,7 +761,7 @@ C
                 ENDIF
 C
 C-----------------------------------------------
-C       ASSEMBLAGE DES FORCES
+C       FORCE ASSEMBLY
 C-----------------------------------------------
 
                 IF(GLOB_THERM%INTHEAT == 0 ) THEN
@@ -781,7 +781,7 @@ C-----------------------------------------------
                       NODES%VISCN(N) = NODES%VISCN(N) + FSKYI(K,5)
                     ENDDO
                   ENDIF
-C+ la thermique
+C+ thermal analysis
                 ELSE
                   IF(GLOB_THERM%NODADT_THERM == 1) THEN
                     IF(KDTINT==0)THEN
@@ -858,7 +858,7 @@ C
             ENDIF
 C   FIN NOUVEAUX TRAITEMENTS VECTORIELS
 C
-C plus de 20 contributions
+C more than 20 contributions
 C
             DO IJK=1,K3
               N = VIND3(IJK)
@@ -874,7 +874,7 @@ C-----------------------------------------------
               IF(INTPLYXFEM>0)
      .        CALL ASS2SORT_PXFEM(PLYSKYI%FSKYI,JJ1,JJ2,FSKYT,5)
 C-----------------------------------------------
-C       ASSEMBLAGE DES FORCES
+C       FORCE ASSEMBLY
 C-----------------------------------------------
               IF(GLOB_THERM%INTHEAT == 0 ) THEN
                 IF(KDTINT==0)THEN
@@ -893,7 +893,7 @@ C-----------------------------------------------
                     NODES%VISCN(N) = NODES%VISCN(N) + FSKYI(K,5)
                   ENDDO
                 ENDIF
-C  + la thermique
+C  + thermal
               ELSE
                 IF(GLOB_THERM%NODADT_THERM ==1) THEN
                   IF(KDTINT==0)THEN
@@ -960,7 +960,7 @@ C
             ENDDO
           ENDDO
 !$OMP END DO
-c ftheskyi and condnskyi are nor all reset to zero
+C ftheskyi and condnskyi are nor all reset to zero
 c
 C fin nisky/=0
         ENDIF
@@ -1009,7 +1009,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||====================================================================
-      SUBROUTINE ASSPARI2(
+      SUBROUTINE ASSPARI2(initial_numnod,
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,
      2  IN   ,FSKYI2,I2SIZE ,ADDCNI2,INDSKY,
      3  FTHESKYI2,FTHE,CONDNSKYI2,CONDN,GLOB_THERM)
@@ -1028,6 +1028,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "parit_c.inc"
 #include      "scr18_c.inc"
+        integer, intent(in) :: initial_numnod
         INTEGER MAXBLOCI2,NBLOCI2,NBVALI2,NBCOLI2
         PARAMETER (MAXBLOCI2=1000)
         COMMON/PTMPARI2/NBLOCI2,NBVALI2(1:MAXBLOCI2),NBCOLI2(1:MAXBLOCI2)
@@ -1043,7 +1044,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER K,N,NC,NCT,IDEB,LB,KK,K1,K2
+        INTEGER K, N, NC, NCT
 C-----------------------------------------------
 C Interface type2
 C-----------------------------------------------
@@ -1054,7 +1055,7 @@ C
 C scalaire
           IF(GLOB_THERM%INTHEAT == 0 ) THEN
             IF(IRODDL/=0)THEN
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1071,7 +1072,7 @@ C scalaire
                 ENDDO
               ENDDO
             ELSE
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1085,7 +1086,7 @@ C scalaire
             ENDIF
           ELSE
             IF(IRODDL/=0)THEN
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1103,7 +1104,7 @@ C scalaire
                 ENDDO
               ENDDO
             ELSE
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC

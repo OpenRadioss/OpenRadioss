@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compress_i_nnz    ../common_source/comm/compress_nnz.F
 !||    compress_r_nnz    ../common_source/comm/compress_nnz.F
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
@@ -61,7 +61,7 @@ c     .
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,NI,SIZ,L_INTBUF_SIZE
+      INTEGER N,NI,SIZ,L_INTBUF_SIZE
 C=======================================================================
       ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
       INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0
@@ -314,6 +314,8 @@ C------- to be cleaned later
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_IELEM_M         
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PROC_MVOISIN  
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_MSR_1D 
 
 C=======================================================================
 C real arrays sizes
@@ -595,6 +597,17 @@ C=======================================================================
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_E2S_NOD_NORMAL
 
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PENE_OLD_E
+
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STIF_OLD_E
+
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_PENE_OLD_E2S
+
+        N = N+1
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_STIF_OLD_E2S
 C=======================================================================
 C write all INTBUF_TAB arrays sizes on disk
 C=======================================================================
@@ -977,6 +990,9 @@ C we can avoid to write 0
         SIZ = INTBUF_TAB(NI)%S_PROC_MVOISIN
         CALL WRITE_I_C(INTBUF_TAB(NI)%PROC_MVOISIN,SIZ)   
 
+        SIZ = INTBUF_TAB(NI)%S_MSR_1D
+        CALL WRITE_I_C(INTBUF_TAB(NI)%MSR_1D,SIZ)  
+
 C=======================================================================
 C write REAL arrays on disk
 C=======================================================================
@@ -1089,6 +1105,24 @@ C=======================================================================
         IF(SIZ > 0) THEN
           SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
           CALL WRITE_DB(INTBUF_TAB(NI)%CAND_PS,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E
+        CALL WRITE_DB(INTBUF_TAB(NI)%PENE_OLD_E,SIZ)
+
+        SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E
+        CALL WRITE_DB(INTBUF_TAB(NI)%STIF_OLD_E,SIZ)
+
+        SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E2S
+        IF(SIZ > 0) THEN
+          SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+          CALL WRITE_DB(INTBUF_TAB(NI)%PENE_OLD_E2S,SIZ)
+        ENDIF
+
+        SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E2S
+        IF(SIZ > 0) THEN
+          SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
+          CALL WRITE_DB(INTBUF_TAB(NI)%STIF_OLD_E2S,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_GAPE
@@ -1381,7 +1415,7 @@ C-----
 !||--- called by ------------------------------------------------------
 !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    int8_mod          ../common_source/modules/interfaces/int8_mod.F90
 !||====================================================================
@@ -1405,7 +1439,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,NBS_INTERF,NBM_INTERF,SIZ,P2
+      INTEGER K,NBS_INTERF,NBM_INTERF,SIZ,P2
 
       IF(NSPMD > 1) THEN
          SIZ = T8%S_COMM 

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),KINET(*),KINI(*),
-     .        JLT,IDT, NOINT,IGAP , NSN, ITY, NIN, IGSTI,
+     .        JLT,IGAP , NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH,INTFRIC,IORTHFRIC
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
@@ -91,7 +91,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI
+      INTEGER I   , L, NN, IG, IX,  NI
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

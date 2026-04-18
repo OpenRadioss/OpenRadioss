@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,9 +47,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
-     .   S11, S12, S13, S21, S22, S31,S32,S1,S2
+     .   S11, S12, S21, S22, S31,S32
 C-----gama -> orthotropic system [{a}{b}{c}]---
         DO I=LFT,LLT
           S11 = GAMA(I,1)*E1X(I)+GAMA(I,2)*E2X(I)+GAMA(I,3)*E3X(I)

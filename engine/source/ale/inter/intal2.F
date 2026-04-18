@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,8 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
+      SUBROUTINE INTAL2(output,IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,
      2           MSM         ,MS      ,ITAB      ,FSAV      ,FCONT     ,
      3           FNCONT      ,H3D_DATA  )
@@ -42,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER,INTENT(INOUT) :: IPARI(SIPARI), ISKEW(*), LCOD(*), ITAB(NUMNOD)
       my_real,INTENT(INOUT) :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), E(*), MSM(*), MS(*),FSAV(*)
       my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*)
@@ -82,8 +85,8 @@ C-----------------------------------------------
      3   INTBUF_TAB%N )
       ENDIF
 
-      CALL IQELA1
-     1   (A                ,E               ,MSM           ,
+      CALL IQELA1(output,
+     1    A                ,E               ,MSM           ,
      2    INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      3    INTBUF_TAB%ILOCS ,INTBUF_TAB%IRTLM,MS            ,INTBUF_TAB%N  ,LCOD    ,
      4    ISKEW            ,FSAV            ,FCONT         ,FNCONT        ,H3D_DATA,

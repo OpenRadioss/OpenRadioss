@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,9 +57,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I20MAINF(TIMERS,
+      SUBROUTINE I20MAINF(OUTPUT,TIMERS,
      1       IPARI     ,X         ,A         ,
      2       ICODT     ,FSAV      ,V         ,MS        ,DT2T      ,
      3       NELTST    ,ITYPTST   ,ITAB      ,STIFN     ,FSKYI     ,
@@ -81,6 +82,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -107,6 +109,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17, IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IRLEN20E, ISLEN20E, DIMFB
@@ -141,10 +144,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
+     . IBC, NOINT, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
-     .        NB_LOC, I_STOK_LOC,DEBUT,JD42B,
-     .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,JD22B,JD22C,
+     . NB_LOC, I_STOK_LOC,DEBUT,
+     . LENR, LENT, MAXCC,INTTH,IFORM,
      .        NLN, NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM,
      .        NLNFT1, NLNLT, NLNL, IFUNCTK, SFSAVPARIT, J, H, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -157,7 +160,7 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,FRAD,DRAD,
+     . KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,FRAD,DRAD,
      .   XTHE,FHEATM,FHEATS
 C-----------------------------------------------
 C     REAL
@@ -172,7 +175,7 @@ C     REAL
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .     PENE(MVSIZ),
+     .
      .     H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .     GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
      .     GAPR(MVSIZ),TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ)
@@ -187,14 +190,12 @@ C     REAL
      .     VYM1(MVSIZ), VYM2(MVSIZ), VZM1(MVSIZ), VZM2(MVSIZ),
      .     MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ)
       my_real
-     .     SURF(3,NRTMDIM), PRES(NRTMDIM)
-      my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM
       my_real
      .    NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .    NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .    NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ),
-     .    CMAJ(MVSIZ), PENRAD(MVSIZ),CONDINT(MVSIZ),FNI(MVSIZ),
+     . CMAJ(MVSIZ),CONDINT(MVSIZ),FNI(MVSIZ),
      .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),EFRICT(MVSIZ)
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        NL1(MVSIZ), NL2(MVSIZ),ML1(MVSIZ), ML2(MVSIZ), 
@@ -262,12 +263,12 @@ C----deactive implicit part
       FHEATM   = ZERO
       FHEATS   = ZERO
 C----------------------------------------------------------------------
-C     NOEUDS/SURFACE
+C     NODES/SURFACE
 C----------------------------------------------------------------------
 
 c----------------------------------------------------
-c   Calcul des normales nodales
-c   Courbure quadratique ou Igap/=0 pour solides (GAP=0)
+c   calculation of nodal normals
+c   quadratic curvature or igap/=0 for solids (gap=0)
 c----------------------------------------------------
 
       IF(IGAP/=0)THEN
@@ -281,23 +282,23 @@ c----------------------------------------------------
           IF(NSPMD > 1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
             CALL SPMD_I20EXCH_N(INTBUF_TAB%SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
-C Communication supplementaire normale sur proc remote en SPMD
-C allocation partie non edge sur taille NSNR (nb noeuds secnd remote)
+C Normal supplementary communication on proc remote in SPMD
+C NSNR Size NSNR (NB NODES STEND remote) allowance allowance
             ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F (3,IPARI(24)))
-C allocation partie edge sur taille NLINR (nb lignes secnd remote)
+C EDGE Party allowance on size n line (nb second remote lines)
             ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE(3,2*IPARI(57)))
       CALL SPMD_I20NORMF(
      1 INTBUF_TAB%SOLIDN_NORMAL,INTBUF_TAB%SOLIDN_NORMAL_F,INTBUF_TAB%SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
      2 ISLEN20      ,IRLEN20T     ,ISLEN20T      ,IRLEN20E,ISLEN20E,
      3 INTBUF_TAB%NSV,INTBUF_TAB%NLG ,INTBUF_TAB%IXLINS   )
           END IF
-C il s agit de la barriere matchant celle de i20norm sur tache1
+C this is the barrier matching that of i20norm on task1
         END IF
         CALL MY_BARRIER()
       ENDIF
 c----------------------------------------------------
-c   Calcul des normales nodales
-c   Courbure quadratique ou Igap/=0 pour solides (GAP=0)
+c   calculation of nodal normals
+c   quadratic curvature or igap/=0 for solids (gap=0)
 c----------------------------------------------------
       IF(ICURV==3)THEN
         CALL MY_BARRIER()
@@ -331,12 +332,12 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
           END IF
 cc        ELSE
 cc          CALL MY_BARRIER()
-C il s agit de la barriere matchant celle de i20norm sur tache1
+C this is the barrier matching that of i20norm on task1
         END IF
         CALL MY_BARRIER()
       ENDIF
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   radius of curvature: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM/=0)THEN
@@ -376,7 +377,7 @@ C Traitement d'assemblage parith/on spmd a optimiser si besoin
            END IF
 cc         ELSE
 cc           CALL MY_BARRIER()
-C il s agit de la barriere matchant celle de I7NORMN sur tache1
+C this is the barrier matching that of i7normn on task1
          END IF
          CALL MY_BARRIER()
 
@@ -396,7 +397,7 @@ C il s agit de la barriere matchant celle de I7NORMN sur tache1
 C----------------------------------------------------
 C
       I_STOK = INTBUF_TAB%I_STOK(1)
-C decoupage statique
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -408,7 +409,7 @@ C decoupage statique
       I_STOK = 0
 C
 C
-C recalcul du istok
+C recalculation of istok
 C    
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
         IF(INTBUF_TAB%CAND_N(I) < 0) THEN
@@ -457,11 +458,11 @@ c
       DO NFT = 0 , I_STOK - 1 , NVSIZ
 c------------------------------------------------
         JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
         CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
         CALL I20COR3(
      1  JLT   ,INTBUF_TAB%XA,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
      2  CAND_N_N  ,INTBUF_TAB%STFM,INTBUF_TAB%STFA,X1      ,X2       ,
@@ -520,7 +521,7 @@ C
      8                    H4,theaccfact)
           ENDIF
 C 
-          CALL I20FOR3(
+          CALL I20FOR3(output,
      1  JLT          ,A         ,INTBUF_TAB%VA,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFA,ITAB        ,CN_LOC   ,
@@ -580,8 +581,8 @@ C----------------------------------------------------------------------
       NLINSA =IPARI(53)
       IF(NLINSA /= 0)THEN
         I_STOK = INTBUF_TAB%I_STOK_E(1)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is performed in parallel after the calculation of element forces
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -590,7 +591,7 @@ C decoupage statique
         ENDIF
         DEBUT = (JTASK-1)*NB_LOC
         I_STOK = 0
-C recalcul du istok
+C recalculation of istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%LCAND_S(I) < 0) THEN
             I_STOK = I_STOK + 1
@@ -635,7 +636,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
       CALL I11CDCOR3(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%LCAND_N,INTBUF_TAB%LCAND_S,CM_LOC,
      2       CS_LOC)
@@ -709,11 +710,11 @@ C         preparation candidats retenus
       ENDIF
 
 C----------------------------------------------------------------------
-C     3- FORCES entre NOEUD SECOND. et NOEUD D'ANCRAGE
+C     3- Forces between second node.and anchor node
 C----------------------------------------------------------------------
       CALL MY_BARRIER
 C----------------------------------------------------------------------
-C     NOEUDS secnd,main,edge
+C     NODES second,main,edge
 C----------------------------------------------------------------------
       IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
       NLNFT1= (JTASK-1)*NLN/NTHREAD

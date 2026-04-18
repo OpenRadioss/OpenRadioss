@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,10 +84,10 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, J, JJ, KK(5),N, NPTI, I1, PID, IPID, L_PLA,PT,
+      INTEGER I, II, J, JJ, KK(5),N, NPTI, PID, IPID, L_PLA,PT,
      .        ILAY,IPT_ALL,IPT,PTN,JDIR,ILAW,NPTT,IT
       my_real 
-     .         TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C,
+     .         TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UXY,UYZ,UZX,A,B,C,
      .         E1(6),E2(6),Z1,Z2,Z0,AA,S6(6),POSI(MVSIZ,NPT),
      .         FORJ(5),MOMJ(3),TJ,UNPT,NPGI,F2M
       CHARACTER(LEN=NCHARTITLE)::TITR1

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J,ITYPE,ISH
+      INTEGER I,K_STOK,I_STOK,ITYPE
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
 C     REAL
@@ -132,8 +132,6 @@ C-----------------------------------------------
 !||    i25s1s2   ../engine/source/interfaces/intsort/i25sto.F
 !||--- called by ------------------------------------------------------
 !||    i25sto    ../engine/source/interfaces/intsort/i25sto.F
-!||--- calls      -----------------------------------------------------
-!||    bitget    ../engine/source/interfaces/intsort/i20sto.F
 !||--- uses       -----------------------------------------------------
 !||    tri7box   ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -155,28 +153,27 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,NE,IMS1,IMS2,ISS1,ISS2
+      INTEGER I,N,NE
+      LOGICAL IMS1,IMS2,ISS1,ISS2
 C     REAL
 C-----------------------------------------------
       my_real
      .   PENE(*)
-      INTEGER BITGET
-      EXTERNAL BITGET
 C=======================================================================
          DO I=1,LLT
            N  = PROV_N(I)
            NE = PROV_E(I)+ESHIFT
-           IMS1 = BITGET(MBINFLG(NE),0)
-           IMS2 = BITGET(MBINFLG(NE),1)
+           IMS1 = BTEST(MBINFLG(NE),0)
+           IMS2 = BTEST(MBINFLG(NE),1)
            IF(N <= NSN) THEN
-             ISS1 = BITGET(NBINFLG(N),0)
-             ISS2 = BITGET(NBINFLG(N),1)
+             ISS1 = BTEST(NBINFLG(N),0)
+             ISS2 = BTEST(NBINFLG(N),1)
            ELSE
-             ISS1 = BITGET(IREM(I24IREMP+6,N-NSN),0) 
-             ISS2 = BITGET(IREM(I24IREMP+6,N-NSN),1) 
+             ISS1 = BTEST(IREM(I24IREMP+6,N-NSN),0) 
+             ISS2 = BTEST(IREM(I24IREMP+6,N-NSN),1) 
            ENDIF
-           IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
-     .              (IMS2 == 1 .and. ISS1==1)))THEN
+           IF(.NOT.((IMS1.and.ISS2).or.
+     .              (IMS2.and.ISS1)))THEN
              PENE(I)=ZERO
            ENDIF
          ENDDO

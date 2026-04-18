@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,18 +29,23 @@
 !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
 !||--- called by ------------------------------------------------------
 !||    a22conv3                         ../engine/source/ale/alefvm/cut_cells/a22conv3.F
-!||    aconve                           ../engine/source/ale/aconve.F
+!||    aconve                           ../engine/source/ale/aconve.F90
 !||    afluxt                           ../engine/source/ale/ale51/afluxt.F
+!||    afluxt_int22                     ../engine/source/ale/ale51/afluxt_int22.F90
+!||    ale51_finish_int22               ../engine/source/ale/ale51/ale51_finish_int22.F90
 !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||    ale51_upwind3_int22              ../engine/source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 !||    alemain                          ../engine/source/ale/alemain.F
-!||    arezon                           ../engine/source/ale/arezon.F
+!||    arezon                           ../engine/source/ale/arezon.F90
 !||    atherm                           ../engine/source/ale/atherm.F
 !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
 !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
 !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
-!||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
+!||    ebcs10_nrf                       ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant                ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs12_cyclic                    ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
+!||    ebcs8_inlet                      ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
 !||    h3d_quad_scalar                  ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
 !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
@@ -76,13 +81,15 @@
 !||    wrcomr                           ../engine/source/output/restart/wrcomm.F
 !||    write_buf_law51                  ../engine/source/materials/mat/mat051/write_buf_law51.F
 !||--- uses       -----------------------------------------------------
+!||    eos_param_mod                    ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE MULTIMAT_PARAM_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use precision_mod , only : WP
+          use precision_mod , only : WP
+          use eos_param_mod , only : eos_param_, ptr_eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -93,18 +100,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
         INTEGER, PARAMETER :: M51_N0PHAS = 04
-        INTEGER, PARAMETER :: M51_NVPHAS = 23
+        INTEGER, PARAMETER :: M51_NVPHAS = 29  ! including nvareos_max at the end
         INTEGER, PARAMETER :: M51_IFLG6_SIZE = 37
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-        TYPE MULTIMAT_PARAM_                                 !< data structure for MAT_PARAM buffer
-          integer :: nb = 0                                  !< number of submaterial
-          integer,allocatable,dimension(:) :: mid            !< material internal identifier for each submaterial
-          real(kind=WP),allocatable,dimension(:) :: vfrac          !< volume fraction for each submaterial
+! ---------------------------------------------------------------------------------------------------------------------- 
+        TYPE MULTIMAT_PARAM_                                     !< data structure for MAT_PARAM buffer
+          integer :: nb = 0                                      !< number of submaterial
+          integer :: old_data_format = 0
+          integer,allocatable,dimension(:) :: mid                !< material internal identifier for each submaterial
+          real(kind=WP),allocatable,dimension(:) :: vfrac        !< volume fraction for each submaterial
+          type(eos_param_), dimension(:), allocatable :: EOS     !< old format : Embedded Eos parameters
+          type(ptr_eos_param_), DIMENSION(:), POINTER :: pEOS    !< pointers (new/old format)
 
         contains
           procedure :: destruct => destruct_multimat_param
+          procedure :: eos_construct => construct_multimat_eos
 
         END TYPE MULTIMAT_PARAM_
 
@@ -122,9 +133,45 @@
         subroutine destruct_multimat_param(this)
           implicit none
           class(MULTIMAT_PARAM_) :: this
+          integer :: i
           if (allocated(this%mid))   deallocate(this%mid)
           if (allocated(this%vfrac)) deallocate(this%vfrac)
+          if (allocated(this%eos)) then
+              do i=1,size(this%eos)
+                 call this%eos(i)%destruct()
+              end do
+              deallocate(this%eos)
+          end if
+          if (associated(this%pEOS))then
+              deallocate(this%pEOS)
+          end if
         end subroutine destruct_multimat_param
+
+!||====================================================================
+!||    construct_multimat_eos   ../common_source/modules/multimat_param_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod             ../common_source/modules/constant_mod.F
+!||====================================================================
+        subroutine construct_multimat_eos(this)
+          use constant_mod , only : zero
+          implicit none
+          class(MULTIMAT_PARAM_) :: this
+          integer :: i
+          this%nb = 4
+          allocate(this%eos(4))
+          allocate(this%pEOS(4))
+          do i=1,4
+             this%eos(i)%title = 'embedded EoS'
+             this%eos(i)%eostype = 1
+             this%eos(i)%nuparam = 7
+             this%eos(i)%niparam = 0
+             this%eos(i)%nfunc = 0
+             this%eos(i)%ntable = 0
+             call this%eos(i)%construct()
+          end do
+
+
+        end subroutine construct_multimat_eos
 
       END MODULE MULTIMAT_PARAM_MOD
 

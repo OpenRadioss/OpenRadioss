@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,7 @@
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
           nvars7        ,nvars8        ,nvars9           ,nvars10           ,nvarsnloc        ,&
           nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
-          nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
+          nvarin        ,nvarrw        ,nvarrb           ,nvarse            ,&
           nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
           nvargau       ,nvarfr        ,nvarslip         ,nvarret           ,nvarclus         ,&
           nvarflow      ,nvarsurf      ,nvarc            ,nvarsens          ,&
@@ -57,17 +57,17 @@
           vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
           varc_title    ,vars10_title  ,&
           varns_title   ,varsph_title  ,varin_title      ,&
-          varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
+          varrw_title   ,varrb_title   ,varse_title      ,varac_title       ,&
           varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
           varfr_title   ,varslip_title ,varret_title     ,varclus_title     ,varflow_title    ,&
           varsurf_title ,varsens_title,&
           varn1         ,varn1a        ,varn2            ,varnpinch         ,&
           varp          ,varr          ,vart             ,vars1             ,vars2            ,&
           vars3         ,vars4         ,vars5            ,vars6             ,vars7            ,&
-          vars8         ,vars9         ,vars10           ,varsnloc         ,&
+          vars8         ,vars9         ,vars10           ,varsnloc          ,&
           varc          ,&
           varns         ,varsph        ,varin            ,&
-          varrw         ,varrb         ,varmv            ,varse             ,varac            ,&
+          varrw         ,varrb         ,varse            ,varac             ,&
           varjo         ,varmvent      ,varpa            ,varfx             ,vargau           ,&
           varfr         ,varslip       ,varret           ,varclus           ,varflow          ,&
           varsurf       ,varsens)
@@ -106,7 +106,6 @@
           integer,                                   intent(in) :: nvarin
           integer,                                   intent(in) :: nvarrw
           integer,                                   intent(in) :: nvarrb
-          integer,                                   intent(in) :: nvarmv
           integer,                                   intent(in) :: nvarse
           integer,                                   intent(in) :: nvarac
           integer,                                   intent(in) :: nvarjo
@@ -147,7 +146,6 @@
           character(len=100),                        intent(in) :: varin_title(nvarin)
           character(len=100),                        intent(in) :: varrw_title(nvarrw)
           character(len=100),                        intent(in) :: varrb_title(nvarrb)
-          character(len=100),                        intent(in) :: varmv_title(nvarmv)
           character(len=100),                        intent(in) :: varse_title(nvarse)
           character(len=100),                        intent(in) :: varac_title(nvarac)
           character(len=100),                        intent(in) :: varjo_title(nvarjo)
@@ -187,7 +185,6 @@
           character(len=10),                        intent(in) :: varin(nvarin)
           character(len=10),                        intent(in) :: varrw(nvarrw)
           character(len=10),                        intent(in) :: varrb(nvarrb)
-          character(len=10),                        intent(in) :: varmv(nvarmv)
           character(len=10),                        intent(in) :: varse(nvarse)
           character(len=10),                        intent(in) :: varac(nvarac)
           character(len=10),                        intent(in) :: varjo(nvarjo)
@@ -214,50 +211,56 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           open(newunit=io, file="th.nms1", status="new", action="write")
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$'
-          write(io, *) '$$               FILE NMS release 2026.0'
-          write(io, *) '$$'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$    INDEX NAME      DESCRIPTION'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ TIME'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '            TIME      TIME'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ GLOBAL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '          1 IE        INTERNAL ENERGY'
-          write(io, *) '          2 KE        KINETIC ENERGY'
-          write(io, *) '          3 XMOM      X-MOMENTUM'
-          write(io, *) '          4 YMOM      Y-MOMENTUM'
-          write(io, *) '          5 ZMOM      Z-MOMENTUM'
-          write(io, *) '          6 MASS      MASS'
-          write(io, *) '          7 DT        TIME STEP'
-          write(io, *) '          8 RKE       ROTATION ENERGY'
-          write(io, *) '          9 EFW       EXTERNAL WORK'
-          write(io, *) '         10 SIE       SPRING ENERGY'
-          write(io, *) '         11 CE        CONTACT ENERGY'
-          write(io, *) '         12 HE        HOURGLASS ENERGY'
-          write(io, *) '         13 CE_ELAST  ELASTIC CONTACT ENERGY'
-          write(io, *) '         14 CE_FRIC   FRICTIONAL CONTACT ENERGY'
-          write(io, *) '         15 CE_DAMP   DAMPING CONTACT ENERGY'
-          write(io, *) '         16 WPLA      PLASTIC WORK'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$"
+          write(io, *) "$$               FILE NMS release 2026.0"
+          write(io, *) "$$"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$    INDEX NAME      DESCRIPTION"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ TIME"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "            TIME      TIME"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ GLOBAL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "          1 IE        INTERNAL ENERGY"
+          write(io, *) "          2 KE        KINETIC ENERGY"
+          write(io, *) "          3 XMOM      X-MOMENTUM"
+          write(io, *) "          4 YMOM      Y-MOMENTUM"
+          write(io, *) "          5 ZMOM      Z-MOMENTUM"
+          write(io, *) "          6 MASS      MASS"
+          write(io, *) "          7 DT        TIME STEP"
+          write(io, *) "          8 RKE       ROTATION ENERGY"
+          write(io, *) "          9 EFW       EXTERNAL WORK"
+          write(io, *) "         10 SIE       SPRING ENERGY"
+          write(io, *) "         11 CE        CONTACT ENERGY"
+          write(io, *) "         12 HE        HOURGLASS ENERGY"
+          write(io, *) "         13 CE_ELAST  ELASTIC CONTACT ENERGY"
+          write(io, *) "         14 CE_FRIC   FRICTIONAL CONTACT ENERGY"
+          write(io, *) "         15 CE_DAMP   DAMPING CONTACT ENERGY"
+          write(io, *) "         16 WPLA      PLASTIC WORK"
+          write(io, *) "         17 DMASS     ADDED MASS"
+          write(io, *) "         18 DMASS%    PERCENTAGE ADDED MASS"
+          write(io, *) "         19 M_IN      INLET MASS"
+          write(io, *) "         20 M_OUT     OUTLET MASS"
+          write(io, *) "         21 E_IN      INLET ENERGY"
+          write(io, *) "         22 E_OUT     OUTLET ENERGY"
 
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ NODAL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ NODAL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarn1,varn1_title,varn1,0)
           call write_thnms1_titles(io,nvarn1a,varn1a_title,varn1a,nvarn1)
           call write_thnms1_titles(io,nvarn2,varn2_title,varn2,nvarn1+nvarn1a)
           call write_thnms1_titles(io,nvarnpinch,varnpinch_title,varnpinch,nvarn1+nvarn1a+nvarn2)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ BRICK'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ BRICK"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvars1,vars1_title,vars1,0)
           call write_thnms1_titles(io,nvars2,vars2_title,vars2,nvars1)
           call write_thnms1_titles(io,nvars3,vars3_title,vars3,nvars1+nvars2)
@@ -271,125 +274,120 @@
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
           call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SHELL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SHELL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarc,varc_title,varc,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SH3N'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SH3N"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarc,varc_title,varc,0)
 
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ TRUSS'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ TRUSS"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvart,vart_title,vart,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ BEAM'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ BEAM"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarp,varp_title,varp,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SPRING'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SPRING"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarr,varr_title,varr,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ NSTRAND'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ NSTRAND"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarns,varns_title,varns,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SPHCEL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SPHCEL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarsph,varsph_title,varsph,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ INTER'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ INTER"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarin,varin_title,varin,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ RWALL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ RWALL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarrw,varrw_title,varrw,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ RBODY'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ RBODY"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarrb,varrb_title,varrb,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ FXBODY'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ FXBODY"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarfx,varfx_title,varfx,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ ACCEL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ ACCEL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarac,varac_title,varac,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SECTIO'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SECTIO"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarse,varse_title,varse,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ CYL_JO'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ CYL_JO"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarjo,varjo_title,varjo,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ MONVOL'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          call write_thnms1_titles(io,nvarmv,varmv_title,varmv,0)
-
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ VENT'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ MONVOL"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarmvent,varmvent_title,varmvent,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ PART, MAT, PROP'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ PART, MAT, PROP"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarpa,varpa_title,varpa,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SUBSET'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SUBSET"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarpa,varpa_title,varpa,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ FRAME'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ FRAME"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarfr,varfr_title,varfr,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ GAUGE'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ GAUGE"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvargau,vargau_title,vargau,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ CLUSTER'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ CLUSTER"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarclus,varclus_title,varclus,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SPH_FLOW'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SPH_FLOW"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarflow,varflow_title,varflow,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SURF'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SURF"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarsurf,varsurf_title,varsurf,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ TRIA'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ TRIA"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvars1,vars1_title,vars1,0)
           call write_thnms1_titles(io,nvars2,vars2_title,vars2,nvars1)
           call write_thnms1_titles(io,nvars3,vars3_title,vars3,nvars1+nvars2)
@@ -403,9 +401,9 @@
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
           call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ QUAD'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ QUAD"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvars1,vars1_title,vars1,0)
           call write_thnms1_titles(io,nvars2,vars2_title,vars2,nvars1)
           call write_thnms1_titles(io,nvars3,vars3_title,vars3,nvars1+nvars2)
@@ -419,22 +417,22 @@
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
           call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SLIPRING'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SLIPRING"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarslip,varslip_title,varslip,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ RETRACTOR'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ RETRACTOR"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarret,varret_title,varret,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-          write(io, *) '$$ SENSOR'
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+          write(io, *) "$$ SENSOR"
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
           call write_thnms1_titles(io,nvarsens,varsens_title,varsens,0)
 
-          write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+          write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 
           close(io)

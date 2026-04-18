@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,7 +63,7 @@ C-----------------------------------------------
         MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH
       ENDDO
 
-C calcul mass initiale en arithmetique // pour le spmd
+C initial mass calculation in arithmetic // for spmd
         DO I=LFT,LLT
           MSQ(I)=MSQ(I)+MASS(I)
         ENDDO

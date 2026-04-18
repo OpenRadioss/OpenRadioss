@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -421,7 +421,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIVEAU_PILE,IT
+      INTEGER NIVEAU_PILE
       DATA NIVEAU_PILE/0/
       SAVE NIVEAU_PILE
 C-----------------------------------------------
@@ -506,7 +506,7 @@ C-----------------------------------------------
       INTEGER CHECK_PILE(0:NIVEAU_MAX) 
       CHARACTER(LEN=NCHARLINE):: BLANC
       CHARACTER(LEN=NCHARLINE):: TEXT(0:NIVEAU_MAX)
-      INTEGER I,IP,IL,NLIGNES,IT
+      INTEGER I
       DATA CHECK_PILE/0,NIVEAU_MAX*0/
       SAVE TEXT,CHECK_PILE
 C-----------------------------------------------
@@ -517,7 +517,7 @@ C-----------------------------------------------
 C
       IF(IW==0) THEN
 C------------------------------------------------------------------------
-C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
+C       Addition of a text line (1 or more x by battery descent)
 C------------------------------------------------------------------------
         TEXT(NIVEAU_PILE)(1:NIVEAU_PILE)=BLANC(1:NIVEAU_PILE)
         TEXT(NIVEAU_PILE)(NIVEAU_PILE+1:ncharline)=
@@ -525,7 +525,7 @@ C------------------------------------------------------------------------
         CHECK_PILE(NIVEAU_PILE) = NS_SIGNAL
       ELSEIF(IW==-1) THEN
 C------------------------------------------
-C       remonte de pile 
+C       pile
 C------------------------------------------
         IF(NS_SIGNAL==CHECK_PILE(NIVEAU_PILE))THEN
           TEXT(NIVEAU_PILE+1)=BLANC
@@ -537,7 +537,7 @@ C------------------------------------------
 C
       IF(IW>0) THEN
 C------------------------------------------
-C       Ecriture du Trace Back et Arret
+C       Writing the trace back and stop
 C------------------------------------------
         IF(NIVEAU_PILE<=0)CALL MY_EXIT(3)
 C

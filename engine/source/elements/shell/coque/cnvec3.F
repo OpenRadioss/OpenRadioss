@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C     routine reectite en 50c
+C     Routine Reactite in 50c
 !||====================================================================
 !||    cnvec3         ../engine/source/elements/shell/coque/cnvec3.F
 !||--- called by ------------------------------------------------------
@@ -70,7 +70,7 @@ C     REAL
       my_real
      .   SUMA,S1,S2,X21,X32,X34,X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41
       my_real, DIMENSION(MVSIZ) :: 
-     .   E11,E12,E13,E21,E22,E23,RX,RY,RZ,SX,SY,SZ
+     .   RX,RY,RZ,SX,SY,SZ
 C=======================================================================
       DO I=JFT,JLT                          
         X21 = X2(I)-X1(I)                   
@@ -111,10 +111,10 @@ C=======================================================================
         ENDDO
       ENDIF
 C
-C---  orthogonalisation du repere local
+C---  orthogonalization of local coordinate system
 C
       IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN
-C---    Repere convecte symetrique - version 5 (default)
+C--- Symetrical convected frame- Version 5 (Default)
         DO I=JFT,JLT                         
           SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                  
@@ -140,7 +140,7 @@ C
           E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
         ENDDO
       ELSEIF (ISHFRAM == 2) THEN
-C---    Repere convecte nonsymetrique - version 4
+C--- Nononstymmetrical convected frame- Version 4
         DO I=JFT,JLT
           SUMA   = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
           E1X(I) = E1X(I)*SUMA + E2Y(I)*E3Z(I)-E2Z(I)*E3Y(I)
@@ -169,7 +169,7 @@ C
         ENDDO
       ENDIF
 C
-C---  directions orthotropie / anisotropie convectes
+C--- Orthotropy / anisotropy convectes directions
 C
       CALL CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B  ,JFT    ,JLT    ,
      .              NLAY     ,IREP   ,RX     ,RY     ,RZ     ,

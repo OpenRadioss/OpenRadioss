@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,8 +95,14 @@ c
                 ELSE
                   DM = THREE_OVER_4 * EM01
                 END IF
-              CASE (25, 125, 127)
+              CASE (25, 123, 125, 127,132)
                 IF (IHBE == 23) DM = EM01
+              CASE (42, 69)
+                IF (IHBE == 11) THEN
+                  DM = ZEP04
+                ELSE
+                  DM = ZEP03
+                END IF
               CASE DEFAULT
                 IF (IHBE == 23 .AND. (IGTYP == 1 .or. IGTYP == 9)) DM = ZEP015
             END SELECT
@@ -104,8 +110,8 @@ c
 c------   specific composite IGMAT > 0
           IF (IGMAT > 0) THEN  ! .and. (ILAW /= 15 .AND. ILAW /= 27)) THEN
             IF (DM == ZERO) DM = FIVEEM2
-          ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25 .or. ILAW==125 
-     .                                                        .or. ILAW == 127) THEN
+          ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25  .or. ILAW == 123
+     .                        .or. ILAW==125  .or. ILAW == 127 .or. ILAW == 132) THEN
             IF (DM == ZERO) DM = FIVEEM2
           ENDIF !(IGMAT > 0
 c          

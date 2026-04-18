@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    dsdim0   ../starter/source/implicit/dsolve/dsdim.F
+!||    dsdim0        ../starter/source/implicit/dsolve/dsdim.F
 !||--- called by ------------------------------------------------------
-!||    lectur   ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DSDIM0(NDOF  ,IXS   , IXQ    , IXC    , IXT    ,
      2                  IXP   ,IXR   , IXTG   , KXX    ,
      3                  IXX   ,GEO   )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +57,7 @@ C-----------------------------------------------
 
       ALLOCATE(TAG8(NUMNOD))
 C
-C Remplissage de NDOF (cf DIM_GLOB_K dans ENGINE)
+C Filling of ndof (see dim_glob_k in engine)
 C
       DO I=1,NUMNOD
          NDOF(I)=0

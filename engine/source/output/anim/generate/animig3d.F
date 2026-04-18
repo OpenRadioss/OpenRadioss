@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),
-     .        NANIM3D_L, IPARG(NPARG,*), ITAB(*)  ! DISCUTER AVEC SEB DE COMMENT RENVOYER NANIM3D_L
+     .        NANIM3D_L, IPARG(NPARG,*), ITAB(*)  ! discuss with Seb how to return NANIM3D_L
       INTEGER IG3DSOLID(8,27,*),IPARTIG3D(*),IPART(LIPART1,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       my_real

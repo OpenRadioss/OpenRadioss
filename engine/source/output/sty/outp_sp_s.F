@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,14 +67,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II(6),JJ,N,NN,NG,NEL,MLW,JJ_OLD,NGF,NGL, LEN,WRTLEN,
+      INTEGER I, J, II(6), JJ, N, NN, NG, NEL, MLW, JJ_OLD, NGF, NGL, WRTLEN, 
      .        NUVAR,IUS,RESP0,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
-     .   FUNC(6),S1 ,S2 ,S3,P,VONM2
+     .   S1 ,S2 ,S3,P,VONM2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF     
 C=======================================================================
@@ -231,7 +231,7 @@ c---
           ENDDO
           RESP0=RES
          END IF
-        ENDDO   ! nn=1,nspgroup
+        ENDDO   ! nn = 1, nspgroup
 
         IF (RESP0 > 0) THEN
           IF (OUTYY_FMT == 2) THEN                           
@@ -270,8 +270,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,
-     .        P0ARSZ2,WASZ2
+      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ
 C-----------------------------------------------
       WASZ = 0
 

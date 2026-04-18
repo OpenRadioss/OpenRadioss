@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nlocal_acc       ../engine/source/assembly/nlocal_acc.F
 !||--- called by ------------------------------------------------------
 !||    resol            ../engine/source/engine/resol.F
-!||--- calls      -----------------------------------------------------
-!||    my_isnan         ../engine/source/system/my_isnan.F
 !||--- uses       -----------------------------------------------------
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
@@ -46,12 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N,NDDL,NPOS,K
+      INTEGER N,NDDL,NPOS
       my_real, POINTER, DIMENSION(:) :: 
      .  F,M
-      LOGICAL :: MY_ISNAN
 C-----------------------------------------------
-c     calcul acceleration de la variable non locale
+c     calculation of acceleration of the non-local variable
 c=======================================================================
       ! Recovering forces and masses
       F => NLOC_DMG%FNL(1:NLOC_DMG%L_NLOC,1)

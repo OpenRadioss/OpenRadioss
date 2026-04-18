@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -86,26 +86,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR,I,J,II,JJ,L,W,NN,KK,K,LLT,
+      INTEGER NIR,I,J,II,L,W,KK,K,LLT,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
 C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,ECONTT,ECONVT,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .   FNORM,FLX,FLY,FLZ,FS(3),XSM,YSM,ZSM,XM,YM,ZM,
+     .   FLX,FLY,FLZ,FS(3),XSM,YSM,ZSM,XM,YM,ZM,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STIFM(MVSIZ),
      .   VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,DLX,DLY,DLZ,
-     .   VX0,VY0,VZ0,VSX,VSY,VSZ,VMX,VMY,VMZ,VX,VY,VZ,DTINV,STF,
+     .   VX0,VY0,VZ0,VSX,VSY,VSZ,VMX,VMY,VMZ,VX,VY,VZ,STF,
      .   FXV,FYV,FZV,DRX,DRY,DRZ,STBRK,DTI,MHARM,DKM,DET,B1,B2,B3,C1,C2,C3,
-     .   A1,A2,A3,MTTX,MTTY,MTTZ,DERX,DERY,DERZ,DXT
+     .   DXT
       my_real
-     .   H(4,MVSIZ),FN(3),FT(3),FX(4),FY(4),FZ(4),FMX(4),FMY(4),FMZ(4),
-     .   RX(4),RY(4),RZ(4),RM(3),RS(3),V0(3),VS(3),VM(3),
+     .   H(4,MVSIZ),FX(4),FY(4),FZ(4),FMX(4),FMY(4),FMZ(4),
+     .   RX(4),RY(4),RZ(4),RM(3),RS(3),VS(3),VM(3),
      .   STIF(MVSIZ), VIS(MVSIZ), VA(3),VB(3),VC(3),VD(3)
       my_real
-     .   VRX0,VRX1,VRX2,VRX3,VRX4,VRY0,VRY1,VRY2,VRY3,VRY4,VRZ0,VRZ1,VRZ2,VRZ3,VRZ4,
+     .   VRX1,VRX2,VRX3,VRX4,VRY1,VRY2,VRY3,VRY4,VRZ1,VRZ2,VRZ3,VRZ4,
      .   VRSX,VRSY,VRSZ,VRX,VRY,VRZ,MLX,MLY,MLZ,MX(4),MY(4),MZ(4),MRX,MRY,MRZ,FTX,FTY,FTZ,
-     .   MGX,MGY,MGZ,MSX,MSY,MSZ,MVX,MVY,MVZ,STR,VISR(MVSIZ),DKI,INHARM,VRMX,VRMY,VRMZ,
+     .   MGX,MGY,MGZ,MVX,MVY,MVZ,STR,VISR(MVSIZ),DKI,INHARM,VRMX,VRMY,VRMZ,
      .   LEN2,FAC_TRIANG,IROT, VRM(3),VRS(3),HL(4)
 C
 C=======================================================================
@@ -393,14 +393,14 @@ C
           VRY =  VRS(2) - VRM(2)
           VRZ =  VRS(3) - VRM(3)
 
-C-------------  vers increm en vitesses
+C-------------  vers increm en velocities
           DLX = VX*DT1
           DLY = VY*DT1
           DLZ = VZ*DT1
           DRX = VRX*DT1
           DRY = VRY*DT1
           DRZ = VRZ*DT1
-C-------------  DX == deplacement relatif
+C-------------- DX == Relative displacement
           DX(1,II) = DX(1,II) + DLX
           DX(2,II) = DX(2,II) + DLY
           DX(3,II) = DX(3,II) + DLZ
@@ -409,7 +409,7 @@ C-------------  DX == deplacement relatif
           DR(3,II) = DR(3,II) + DRZ
 C
 C------------------------------------------------                  
-C         Calcul de la force
+C         force calculation
 C------------------------------------------------
 C                           
           FLX = DX(1,II) * STFN(II)
@@ -460,12 +460,12 @@ C
           STIFM(K)=ZERO
 C
 C------------------------------------------------                  
-C         Calcul du Moment
+C         moment calculation
 C------------------------------------------------
 C
           IF (IROT > ZERO) THEN
 C
-C--   Secnd node shell of  spring 
+C--   Second node shell of  spring 
 C
           IF(SAV_INER_POFF(I)==ZERO.OR.SAV_INER_POFF(IX1(K))==ZERO.OR.
      .                      SAV_INER_POFF(IX2(K))==ZERO.OR.
@@ -524,7 +524,7 @@ C
 C
           ELSE
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
           MX(1:4) = ZERO
           MY(1:4) = ZERO
@@ -553,7 +553,7 @@ C
           ENDDO
 C
 C----------------------------------------------------
-C         Secnd forces/moments -> global coordinates 
+C         Second forces/moments -> global coordinates 
 C----------------------------------------------------
 C
           SAV_FOR_PENA(1,I) = SAV_FOR_PENA(1,I) - FS(1)
@@ -634,7 +634,7 @@ C------------------------------------------------
             FINI(6,II) = MLZ
           ENDIF
 C------------------------------------------------
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal forces -> output
 C------------------------------------------------
           HL(1:4) = H(1:4,K)
           CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,

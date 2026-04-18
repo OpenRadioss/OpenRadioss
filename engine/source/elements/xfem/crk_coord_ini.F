@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,14 +47,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,N,NX,NCT,NC,ILEV,NLEV
+      INTEGER KK,N,NX,NCT,NC,ILEV,NLEV
 C=======================================================================
       DO N = NODFT,NODLT
         NX = INOD_CRK(N)   ! no node systeme xfem
         IF (NX > 0) THEN
 C---
-          NCT = ADDCNE_CRK(NX)-1 ! premiere adresse sky du node NX (sys_xfem)
-          NC  = ADDCNE_CRK(NX+1)-ADDCNE_CRK(NX)  ! nb elements connectes au noeud
+          NCT = ADDCNE_CRK(NX)-1 ! First Sky address of Node NX (SYS_XFEM)
+          NC  = ADDCNE_CRK(NX+1)-ADDCNE_CRK(NX)  ! NB Elements connected to the node
 C---
 c         initialisation coord noeuds phantomes par ply
 c

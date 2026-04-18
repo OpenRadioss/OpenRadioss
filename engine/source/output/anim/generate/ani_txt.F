@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    genani      ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE ANI_TXT(TEXT,LEN)
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    genani      ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE ANI_TXT50(TEXT,LEN)
 C-----------------------------------------------

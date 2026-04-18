@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -138,7 +138,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M
+      INTEGER I,J,K
       my_real
      .  AK,G0,G(5),BETA(5),
      .  EV,EDXX,EDYY,EDZZ,EDXY,EDYZ,EDZX,      
@@ -512,7 +512,7 @@ C
 C
 C       WRITE (6,*) SIGNXX(I),SIGNYY(I),SIGNZZ(I),SIGNXY(I)
 c       WRITE (6,*) SOUNDSP(I),AK,RHO0(I),GT
-C CRITERES DE STASSI ET DE TYPE VON MISES
+C STASSI AND VON MISES TYPE CRITERIA
 C
       SSIG1=SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
       SSIG2=HALF*(SXX**2+SYY**2+SZZ**2)+SXY**2+SYZ**2+SZX**2

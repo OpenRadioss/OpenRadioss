@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -125,7 +125,7 @@ C
           STFN=STIFN(IS)              
           STFR=STIFR(IS)                      
 C
-C---      secnd forces -> rep local
+C---      second forces -> rep local
 C
           FSLOC(1) = ROT(1)*FS(1) + ROT(4)*FS(2) + ROT(7)*FS(3)
           FSLOC(2) = ROT(2)*FS(1) + ROT(5)*FS(2) + ROT(8)*FS(3)
@@ -134,7 +134,7 @@ C
           FSLOC(5) = ROT(2)*MOMS(1) + ROT(5)*MOMS(2) + ROT(8)*MOMS(3)  
           FSLOC(6) = ROT(3)*MOMS(1) + ROT(6)*MOMS(2) + ROT(9)*MOMS(3)  
 C
-C-------  transfer secnd forces to main
+C-------  transfer second forces to main
           DO JJ=1,NIR                                               
             FMLOC(JJ,1) = H(JJ)*FSLOC(1)             
             FMLOC(JJ,2) = H(JJ)*FSLOC(2)             
@@ -146,7 +146,7 @@ C-------  transfer secnd forces to main
      .                  + HXS(JJ)*FSLOC(4) + HPRT(JJ)*FSLOC(5)     
             FMLOC(JJ,6) = H(JJ)*FSLOC(6)             
           ENDDO                                                     
-C-------  transfer secnd mass + inertia + stiffness to main
+C-------  transfer second mass + inertia + stiffness to main
           DO JJ=1,NIR                                               
             IM  = INOD(JJ)
             LEN = SQRT((X(1,IM)-XC)**2+(X(2,IM)-YC)**2+(X(3,IM)-ZC)**2)                       
@@ -282,7 +282,7 @@ C---
 C---
          ENDIF
        ELSEIF(WEIGHT(-IS) == 1) THEN  
-C        stokage ZERO pour noeuds delete par idel2
+C        zero storage for nodes deleted by idel2
          I0 = I0 + 1                 
          NN = IADI2(1,I0)            
          FSKYI2(1,NN) = ZERO         

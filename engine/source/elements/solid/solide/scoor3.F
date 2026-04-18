@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
+!||    scoor3        ../engine/source/elements/solid/solide/scoor3.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
 !||--- calls      -----------------------------------------------------
-!||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
-!||    srepiso3    ../engine/source/elements/solid/solide/srepiso3.F
-!||    sreploc3    ../engine/source/elements/solid/solide/sreploc3.F
+!||    sorthdir3     ../engine/source/elements/solid/solide/sorthdir3.F
+!||    srepiso3      ../engine/source/elements/solid/solide/srepiso3.F
+!||    sreploc3      ../engine/source/elements/solid/solide/sreploc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SCOOR3(X,IXS,V,W,GAMA0,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
@@ -49,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   YD1, YD2  , YD3, YD4, YD5, YD6, YD7, YD8,
      .   ZD1, ZD2  , ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
      .   XDP, IPARG, NG , NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,MXT_1
+      INTEGER I,MXT_1
       my_real, DIMENSION(MVSIZ) ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z

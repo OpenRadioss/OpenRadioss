@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDXOF(MVSIZ),
+      INTEGER 
      .        I, J, JINF,JSUP
 C     REAL
       my_real
@@ -71,7 +71,7 @@ C
 C    sti = vol*E/lc*lc
 C    lc = (vol)**0.3333
 C    here we take lc = hi 
-C  la rigidit  est surestim , dans le cas ou hi<lc 
+C  stiffness is overestimated, in the case where hi<lc
 cc           FAC = OFF(I)*ONE_OVER_8*AREA(I)/THK_IPLY(I,J)
 cc           FAC = OFFI(I,J)*AREA(I)/THK_IPLY(I,J)
            IF(OFF(I)/=ZERO)THEN

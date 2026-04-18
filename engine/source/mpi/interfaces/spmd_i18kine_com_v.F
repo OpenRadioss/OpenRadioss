@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,16 +71,16 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
-     *        REQ_SI(NSPMD),REQ_RI(NSPMD)
+     *        REQ_SI(NSPMD)
       INTEGER P,LENSD,LENRV,IADS(NSPMD+1),IADR(NSPMD+1),IERROR,
      *        SIZ,LOC_PROC,MSGTYP,MSGOFF,IDEB(NINTER)
       INTEGER NIN,NTY,INACTI
-      INTEGER J,L,NB,NN,K,N,NOD,MODE,LEN,ALEN,ND
+      INTEGER L,NB,NN,K,NOD,ALEN,ND
       my_real ,
      *   DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       DATA MSGOFF/153/
 C-----------------------------------------------
-C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
+C for type 18KINE, accelerations of secondary nodes must be communicated
 
 
       LOC_PROC = ISPMD+1
@@ -90,7 +90,7 @@ C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
       LENRV = 0
 
       ALEN=3
-C Comptage des tailles de buffer  Receeption et envoi
+C counting buffer sizes for reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NIN=1,NINTER
@@ -112,7 +112,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C preparation of receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -133,16 +133,16 @@ C Send
            IF((NTY==7.and.IPARI(34,NIN)==-2.and.INACTI==7).OR.
      .       (NTY==22.and.IPARI(34,NIN)==-2.and.INACTI==7))THEN
                NB = NSNSI(NIN)%P(P)
-C Preparation du send
+C preparation of send
                DO NN=1,NB
                  ND = NSVSI(NIN)%P(IDEB(NIN)+NN)
                  NOD=INTBUF_TAB(NIN)%NSV(ND)
                  BBUFS(L  )=MTF(1,NOD)
                  BBUFS(L+1)=MTF(2,NOD)
                  BBUFS(L+2)=MTF(3,NOD)
-C MTFI(4-6 ne sont pas des valeurs de cumuls,
-c ils sont initialises dans les parties ou on en a besoin
-c il est inutile de les communiquer
+C MTFI(4-6 are not cumulative values,
+c they are initialized in the parts where needed
+c it is useless to communicate them
 c                 BBUFS(L+3)=MTF(4,NOD)
 c                 BBUFS(L+4)=MTF(5,NOD)
 c                 BBUFS(L+5)=MTF(6,NOD)
@@ -198,7 +198,7 @@ c                    MTFI_V(NIN)%P(6,IDEB(NIN)+K)=BBUFR(IADR(P)+L+5)
            ENDDO
           ENDIF
       ENDDO
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

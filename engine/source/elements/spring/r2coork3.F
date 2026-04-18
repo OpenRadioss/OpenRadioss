@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r2coork3   ../engine/source/elements/spring/r2coork3.F
+!||    r2coork3      ../engine/source/elements/spring/r2coork3.F
 !||--- called by ------------------------------------------------------
-!||    r8ke3      ../engine/source/elements/spring/r8ke3.F
+!||    r8ke3         ../engine/source/elements/spring/r8ke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R2COORK3(JFT    ,JLT    ,X      ,NCC   ,PID    ,
      2                    NGL    ,R11    ,R12   ,R13    ,R21    ,
      3                    R22    ,R23    ,R31   ,R32    ,R33    ,
      4                    SKEW   ,GEO    ,OFFG  ,OFF    ,AL    ,
      5                    IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),ISK
+      INTEGER I,NC1(MVSIZ),NC2(MVSIZ),ISK
 C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),

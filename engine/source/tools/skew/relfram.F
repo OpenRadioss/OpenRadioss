@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,7 +49,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, K
+      INTEGER  K
 C     REAL
       my_real
      .   ROT(9),ROT0(9),ROTDT05(9),ROTT05(9),
@@ -95,7 +95,7 @@ C-----------
        XL(2)=ROT(4)*OM(1)+ROT(5)*OM(2)+ROT(6)*OM(3)
        XL(3)=ROT(7)*OM(1)+ROT(8)*OM(2)+ROT(9)*OM(3)
 C-----------
-C      relative displacement at time T.
+C      Relative Displacement at Time T.
 C-----------
 C      relative displacement in global frame at time T-1/2.
        DREL(1)=DG(1)-DO(1)+(ROT0(1)-ROT(1))*XL(1)
@@ -112,7 +112,7 @@ C      relative displacement in local frame at time T-1/2.
        DL(2)=ROT0(4)*DREL(1)+ROT0(5)*DREL(2)+ROT0(6)*DREL(3)
        DL(3)=ROT0(7)*DREL(1)+ROT0(8)*DREL(2)+ROT0(9)*DREL(3)
 C-----------
-C      vitesse d'entrainement (T-1/2).
+C      Training velocity (T-1/2).
 C-----------
        DT05=0.5*DT1
        OM2(1)=OM(1)-DT05*(VG(1)-VO(1))
@@ -249,10 +249,10 @@ C-----------
        AE(3)=AO(3)+DWDT(1)*OM(2)-DWDT(2)*OM(1)
      .            +W(1)*WOM(2)-W(2)*WOM(1)
 C-----------
-C      acceleration de Coriolis.
+C      Coriolis acceleration.
 C-----------
 C      second order correction.
-C      vitesse d'entrainement (T).
+C      Training velocity (T).
 C      VE(1)=VO(1)+WOM(1)
 C      VE(2)=VO(2)+WOM(2)
 C      VE(3)=VO(3)+WOM(3)
@@ -286,6 +286,5 @@ C      relative angular acceleration in local frame at time T.
        ARL(2)=ROT(4)*ARREL(1)+ROT(5)*ARREL(2)+ROT(6)*ARREL(3)
        ARL(3)=ROT(7)*ARREL(1)+ROT(8)*ARREL(2)+ROT(9)*ARREL(3)
 C-----------------------------------------------
- 999  CONTINUE
       RETURN
       END

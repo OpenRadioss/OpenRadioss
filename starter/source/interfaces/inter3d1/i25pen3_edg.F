@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,N1,N2,M1,M2,NI,L,J, IE, JE, IL, JL
+      INTEGER I, N1, N2, M1, M2, IE, JE
       my_real
      .     XXS1(MVSIZ) ,XXS2(MVSIZ) ,XYS1(MVSIZ) ,XYS2(MVSIZ) ,XZS1(MVSIZ) ,XZS2(MVSIZ) ,
      .     XXM1(MVSIZ) ,XXM2(MVSIZ) ,XYM1(MVSIZ) ,XYM2(MVSIZ) ,XZM1(MVSIZ) ,XZM2(MVSIZ) ,
@@ -83,9 +83,15 @@ C-----------------------------------------------
           GAPV(I)=GAPE(IE)+GAPE(JE)
 C
           IF(IGAP0 == 0) THEN
-            GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+             IF(LEDGE(7,IE)/=3)  GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
           ELSE
-            GAPV(I)=TWO*(GAPE(IE)+GAPE(JE))
+            IF(LEDGE(7,IE)/=3.AND.LEDGE(7,JE)/=3) THEN
+               GAPV(I)=TWO*(GAPE(IE)+GAPE(JE))
+            ELSEIF(LEDGE(7,IE)/=3) THEN
+               GAPV(I)=TWO*GAPE(IE)+GAPE(JE)
+            ELSEIF(LEDGE(7,JE)/=3) THEN
+               GAPV(I)=TWO*GAPE(JE)+GAPE(IE)
+            ENDIF
           END IF
 C
           IF(IGAP == 3)
@@ -155,7 +161,7 @@ C--------------------------------------------------------
       END DO
 C
 C--------------------------------------------------------
-C     calcul d'un minorant de la distance
+C     calculation of a lower bound of the distance
 C--------------------------------------------------------
         DO I=1,JLT
           XMAX1 = MAX(XXS1(I),XXS2(I))
@@ -177,7 +183,7 @@ C--------------------------------------------------------
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance^2
 
           XM12 = XXM2(I)-XXM1(I)
           YM12 = XYM2(I)-XYM1(I)
@@ -207,7 +213,7 @@ C
           ALM = -(XB + ALS*XSM) / XM2
           ALM=MIN(ONE,MAX(ZERO,ALM))
 
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 
           XX =  ALS*XXS1(I) + (ONE-ALS)*XXS2(I)
      .        - ALM*XXM1(I) - (ONE-ALM)*XXM2(I)

@@ -19,7 +19,7 @@ union_2_sorted_sets (int * array1, int * array1_size,
    -----------------------------------------------------------------------------------------------------
     union_2_sorted_sets : union 2 sets of sorted arrays.
     The Arrays shall not contain 2 time same entity
-    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+    The result arrays must be already allocated & big enough, result_size is the size of the new set.
    -----------------------------------------------------------------------------------------------------
     int * array1      : input  - array1
     int * array1_size : input  - size of array1
@@ -31,13 +31,13 @@ union_2_sorted_sets (int * array1, int * array1_size,
  
 
 
-interect_2_sorted_sets(int * array1, int * array1_size,
-                       int * array2, int * array2_size,
-                       int * result, int * result_size )
+intersect_2_sorted_sets(int * array1, int * array1_size,
+                        int * array2, int * array2_size,
+                        int * result, int * result_size )
    -----------------------------------------------------------------------------------------------------
-    interect_2_sorted_sets : intersections of 2 sets of sorted arrays.
+    intersect_2_sorted_sets : intersections of 2 sets of sorted arrays.
     The Arrays shall not contain 2 time same entity
-    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+    The result arrays must be already allocated & big enough, result_size is the size of the new set.
    -----------------------------------------------------------------------------------------------------
     int * array1      : input  - array1
     int * array1_size : input  - size of array1
@@ -55,7 +55,7 @@ difference_2_sorted_sets(int * array1, int * array1_size,
     difference_2_sorted_sets : difference of 2 sets of sorted arrays.
     Does array1-array2 : Removes all members of array2 in array1
     The Arrays shall not contain 2 time same entity
-    The result arrays must be already allocated & big enough, result_size is the size of the nex set.
+    The result arrays must be already allocated & big enough, result_size is the size of the new set.
    -----------------------------------------------------------------------------------------------------
     int * array1      : input  - array1
     int * array1_size : input  - size of array1
@@ -84,7 +84,7 @@ void union_surface(int * s1_nd1, int * s1_nd2, int * s1_nd3, int* s1_nd4,int * s
      s1_nd1 - s1_nd4 : 1st surface - 4 nodes
      s1_eltyp        : 1st surface - element type
      s1_elid         : 1st surface - element ID
-     s1_nmemb        : 1st surface - number of surfzce segments.
+     s1_nmemb        : 1st surface - number of surface segments.
 
      s2_nd1 - s2_nd4 : 2nd surface - 4 nodes
      s2_eltyp        : 2nd surface - element type
@@ -159,7 +159,7 @@ void union_line(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_elid,int * s
      s1_nd1 - s1_nd2 : 1st surface - 4 nodes
      s1_eltyp        : 1st surface - element type
      s1_elid         : 1st surface - element ID
-     s1_nmemb        : 1st surface - number of surfzce segments.
+     s1_nmemb        : 1st surface - number of surface segments.
 
      s2_nd1 - s2_nd2 : 2nd surface - 4 nodes
      s2_eltyp        : 2nd surface - element type
@@ -185,7 +185,7 @@ void _FCALL delete_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_eli
      s1_nd1 - s1_nd2 : 1st line - 2 nodes
      s1_eltyp        : 1st line - element type
      s1_elid         : 1st line - element ID
-     s1_nmemb        : 1st line - number of surfzce segments.
+     s1_nmemb        : 1st line - number of surface segments.
 
      s2_nd1 - s2_nd2 : 2nd line - 2 nodes
      s2_eltyp        : 2nd line - element type
@@ -210,7 +210,7 @@ void _FCALL intersect_line_(int * s1_nd1, int * s1_nd2, int * s1_eltyp,int * s1_
      s1_nd1 - s1_nd2 : 1st line - 2 nodes
      s1_eltyp        : 1st line - element type
      s1_elid         : 1st line - element ID
-     s1_nmemb        : 1st line - number of surfzce segments.
+     s1_nmemb        : 1st line - number of surface segments.
 
      s2_nd1 - s2_nd2 : 2nd line - 2 nodes
      s2_eltyp        : 2nd line - element type

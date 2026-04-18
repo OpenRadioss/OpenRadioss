@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                       ../engine/source/system/arret.F
 !||    epsf2u                      ../engine/source/materials/mat/mat033/sigeps33.F
 !||    fail_biquad_s               ../engine/source/materials/fail/biquad/fail_biquad_s.F
-!||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F
+!||    fail_changchang_s           ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_cockroft_s             ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F
 !||    fail_composite_s            ../engine/source/materials/fail/composite/fail_composite_s.F90
 !||    fail_emc                    ../engine/source/materials/fail/emc/fail_emc.F
 !||    fail_energy_s               ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_gene1_s                ../engine/source/materials/fail/gene1/fail_gene1_s.F
-!||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F
+!||    fail_hashin_s               ../engine/source/materials/fail/hashin/fail_hashin_s.F90
 !||    fail_hoffman_s              ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
 !||    fail_inievo_s               ../engine/source/materials/fail/inievo/fail_inievo_s.F
 !||    fail_johnson                ../engine/source/materials/fail/johnson_cook/fail_johnson.F
@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_orthbiquad_s           ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
 !||    fail_orthenerg_s            ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
 !||    fail_orthstrain             ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
-!||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F
+!||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F90
 !||    fail_rtcl_s                 ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
 !||    fail_sahraei_s              ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
 !||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F90
@@ -67,22 +67,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mrotensns                   ../engine/source/materials/mat_share/mrotens.F
 !||    nolib_usermat99             ../engine/source/user_interface/nolib_usermat99.F
 !||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
-!||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
 !||    startime                    ../engine/source/system/timer_mod.F90
 !||    stoptime                    ../engine/source/system/timer_mod.F90
 !||    viscmain                    ../engine/source/materials/visc/viscmain.F
 !||--- uses       -----------------------------------------------------
 !||    dt_mod                      ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_changchang_s_mod       ../engine/source/materials/fail/changchang/fail_changchang_s.F90
 !||    fail_composite_s_mod        ../engine/source/materials/fail/composite/fail_composite_s.F90
+!||    fail_hashin_s_mod           ../engine/source/materials/fail/hashin/fail_hashin_s.F90
 !||    fail_lemaitre_s_mod         ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
 !||    fail_param_mod              ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    fail_puck_s_mod             ../engine/source/materials/fail/puck/fail_puck_s.F90
 !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    law_userso                  ../engine/source/user_interface/law_userso.F
 !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    matparam_def_mod            ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod                   ../engine/share/spe_inc/mvsiz_mod.F90
 !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
 !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
 !||    table_mod                   ../engine/share/modules/table_mod.F
@@ -131,8 +133,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MVSIZ_MOD, ONLY: MVSIZ
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
-      USE LAW_USERSO
       USE TABLE_MOD
       USE MAT_ELEM_MOD   
       USE MATPARAM_DEF_MOD
@@ -146,6 +148,9 @@ C-----------------------------------------------
       USE FAIL_LEMAITRE_S_MOD
       USE FAIL_SPALLING_S_MOD
       USE FAIL_COMPOSITE_S_MOD
+      USE FAIL_PUCK_S_MOD
+      USE FAIL_HASHIN_S_MOD
+      USE FAIL_CHANGCHANG_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -221,7 +226,8 @@ C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC, JSMS
       INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,NTABL_FAIL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
+     .  NVARF,NVARTMP,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
+      INTEGER, DIMENSION(:), POINTER  :: VARTMP
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      .SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -255,7 +261,6 @@ C----
      .                                   YLDFAC,DAM,EL_LEN,EL_PLA,DAMINI
       my_real, DIMENSION(MVSIZ)       :: EL_BFRAC,EL_TB
       INTEGER :: SIZBFRAC,SIZTB
-      TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF     
       TYPE (FAIL_PARAM_), POINTER     :: FAILPARAM
@@ -304,13 +309,13 @@ C=======================================================================
       IADBUF = IPM(7,MX)                   
       NFUNC  = IPM(10,MX)                  
       NUMTABL= IPM(226,MX)                 
-      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR) 
+      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
       IFUNC  => IPM(10+1:10+NFUNC,MX)      
       ITABLE => IPM(226+1:226+NUMTABL,MX)    
 c
       !C
       
-      !c               (utilisateurs pour la rupture
+      !users for failure
        BIDON1 = ZERO
        BIDON2 = ZERO
        BIDON3 = ZERO
@@ -319,7 +324,7 @@ c
        BID1 = ZERO
        BID3 = ZERO
       
-      !               (utilisateurs pour la rupture
+      ! users for failure
       IBID    = 0
       IBIDON1 = 0
       IBIDON2 = 0
@@ -409,7 +414,7 @@ c
 
       IF (JCVT > 0) THEN
 C---------------------------
-C       ISOTROPE ET ORTHOTROPE CONVECTE
+C       isotropic and convected orthotropic
 C---------------------------
         DO I=LFT,LLT
          DE1(I) = EP1(I)*DT1
@@ -995,14 +1000,6 @@ c
         IF(MDS_AVAIL == 1 )THEN
           ALLOCATE(ISMSTR10_FP(15,NEL))
 
-          CALL SREPLOC3(
-     1         RX,      RY,      RZ,      SX,
-     2         SY,      SZ,      TX,      TY,
-     3         TZ,      R11,     R21,     R31,
-     4         R12,     R22,     R32,     R13,
-     5         R23,     R33,     LLT)
-
-
           IF (ISMSTR == 10) THEN
              DO I=LFT,LLT
                FPSXX(I) = ONE+MFXX(I)
@@ -1161,6 +1158,7 @@ C------------------------------------------------------------
           ENDIF
 c----             
           UVARF   => FBUF%FLOC(IR)%VAR     
+          VARTMP  => FBUF%FLOC(IR)%VARTMP     
           IRUPT    = FBUF%FLOC(IR)%ILAWF   
           NVARF    = FBUF%FLOC(IR)%NVAR    
           DFMAX   => FBUF%FLOC(IR)%DAMMX  
@@ -1174,6 +1172,7 @@ c
           FAILPARAM => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)
           NPAR    =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NUPARAM 
           NIPAR   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NIPARAM
+          NVARTMP =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NVARTMP
           UPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%UPARAM(1:NPAR) 
           IPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%IPARAM(1:NIPAR) 
           NFUNC   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NFUNC         
@@ -1328,37 +1327,36 @@ C---- strain tension
      8             MFZX   ,MFZY   ,MFZZ   ,LBUF%DMGSCL)
           ELSEIF (IRUPT == 11)THEN                                        
 C---- energy failure  
-            CALL FAIL_ENERGY_S(
-     1        NEL      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,NPF      ,
-     2        TF       ,TT       ,DT1      ,UPARAMF  ,NGL      ,EPSP1    ,
-     3        UVARF    ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
+            CALL FAIL_ENERGY_S(FAILPARAM   ,
+     1        NEL      ,NVARF    ,NVARTMP  ,UVARF    ,VARTMP   ,
+     2        TT       ,DT1      ,NGL      ,EPSP1    ,
+     3        OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,            
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      5        DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      )
           ELSEIF (IRUPT == 13) THEN
 C---- chang - chang   
             CALL FAIL_CHANGCHANG_S(
-     1         NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
-     2         TT       ,IPG      ,ILAY     ,NPG      ,NGL      ,
-     3         LBUF%DMGSCL,DFMAX  ,OFF      ,LBUF%OFF ,GBUF%NOFF,
-     4         S1       ,S2       ,S3       ,S4       ,S6       ,
-     5         TDEL     ,LF_DAMMX )  
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
+     3        S1       ,S2       ,S3       ,S4       ,S6       ,
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF(IRUPT == 14)THEN                                        
 c --- Hashin failure model
-            DO I=1,NEL
-              EPSP1(I) = MAX(ABS(EP1(I)),ABS(EP2(I)),ABS(EP3(I)),EM20)
-            ENDDO   
             CALL FAIL_HASHIN_S(
-     1        NEL      ,NVARF    ,ILAY     ,NPG      ,TT       ,       
-     2        DT1      ,UPARAMF  ,NGL      ,OFF      ,GBUF%NOFF, 
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
      3        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     4        UVARF    ,NPAR     ,DFMAX    ,TDEL     ,EPSP1    ,LF_DAMMX )  
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF(IRUPT == 16)THEN                                        
 c --- modified Puck failure model
             CALL FAIL_PUCK_S(
-     1        NEL      ,NVARF    ,ILAY     ,NPG      ,TT       ,      
-     2        DT1      ,UPARAMF  ,NGL      ,OFF      ,GBUF%NOFF,
-     3        S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     4        UVARF    ,NPAR     ,DFMAX    ,LF_DAMMX ,TDEL     )   
+     1        NEL      ,NPAR     ,NVARF    ,UPARAMF  ,UVARF    ,
+     2        TT       ,NGL      ,ILAY     ,IPG      ,NPG      ,
+     3        S1       ,S2       ,S3       ,S4       ,S6       ,
+     4        LBUF%DMGSCL,LF_DAMMX,DFMAX   ,TDEL     ,DT1      ,
+     5        LBUF%OFF ,OFF      ,GBUF%NOFF,NIPAR    ,IPARAMF  )
           ELSEIF (IRUPT == 23) THEN                                      
 C---- tabulated failure model
                CALL FAIL_TAB_S(
@@ -1369,14 +1367,13 @@ C---- tabulated failure model
      5         OFF      ,TABLE    ,DFMAX    ,TDEL  ,NFUNC    ,IFUNC )                                      
           ELSEIF (IRUPT == 24) THEN                                      
 c   --- Orthotropic strain failure
-              CALL FAIL_ORTHSTRAIN(
-     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,
-     2        NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,ISMSTR  ,
+              CALL FAIL_ORTHSTRAIN(FAILPARAM,
+     1        LLT      ,NVARF    ,TT       ,DT1      ,ISMSTR   ,
      3        EP1      ,EP2      ,EP3      ,EP4      ,EP5      ,EP6     ,
      4        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6     ,
      5        S1       ,S2       ,S3       ,S4       ,S5       ,S6      ,
      6        UVARF    ,OFF      ,IPG      ,NGL      ,DFMAX    ,TDEL    ,
-     7        GBUF%UELR,NPG      ,DELTAX   ,LF_DAMMX )
+     7        GBUF%UELR,NPG      ,DELTAX   ,LF_DAMMX ,NVARTMP  ,VARTMP  )
           ELSEIF (IRUPT == 27) THEN                                      
 c ---   extended mohr coulomb failure model                                             
               CALL FAIL_EMC(
@@ -1395,9 +1392,9 @@ c ---   MIT Wierzbicki Sahraei electric battery failure
      5        NVARF    ,UVARF    ) 
           ELSEIF (IRUPT == 30) THEN                                      
 c  --- Biquadratic failure model                                  
-              CALL FAIL_BIQUAD_S(
-     1        LLT      ,NPAR     ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
-     2        NPF      ,TF       ,TT       ,UPARAMF  ,TDEL     ,
+              CALL FAIL_BIQUAD_S(mat_elem%mat_param(imat)%fail(ir),
+     1        LLT      ,NVARF    ,NFUNC    ,IFUNC    ,EL_LEN   ,
+     2        NPF      ,TF       ,TT       ,TDEL     ,
      3        NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,LBUF%DMGSCL,                   
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6       )    
           ELSEIF (IRUPT == 33) THEN                                
@@ -1472,13 +1469,13 @@ C---- Tabulated failure model version 2
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
      7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL,
-     8          GBUF%NOFF,VOLN     )
+     8          GBUF%NOFF,VOLN     ,NVARTMP  ,VARTMP   )
 c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model
               CALL FAIL_INIEVO_S(
-     1          NEL      ,NPAR     ,NVARF    ,
-     2          TABLE    ,NTABL_FAIL,ITABL_FAIL,TT       ,UPARAMF  , 
+     1          NEL      ,NPAR     ,NVARF    ,NVARTMP  ,VARTMP   ,
+     2          TABLE    ,NTABL_FAIL,ITABL_FAIL,TT     ,UPARAMF  , 
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_PLA   ,EL_TEMP  ,SIGY     ,OFF      ,DFMAX    ,

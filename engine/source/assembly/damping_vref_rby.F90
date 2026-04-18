@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    rbyfor                 ../engine/source/constraints/general/rbody/rbyfor.F
 !||====================================================================
       module damping_vref_rby_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -55,7 +56,7 @@
           ndamp_vrel,iparit,numnod,dt1,id_damp_vrel,        &
           tt,nnpby,nrbykin,npby,rby6,                       &
           rby6_c,tagslv_rby,weight,lskew,numskw,            &
-          dim,damp,skew,wfext,size_rby6_c)
+          dim,damp,skew,wfext,size_rby6_c,nhi)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,6 +89,7 @@
           integer,                                   intent(in) :: numskw                      !< number of skews
           integer,                                   intent(in) :: dim                         !< first dimension of array damp
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
+          integer,                                   intent(in) :: nhi                         !< hierarchy level of Rbody
           real(kind=WP),                                   intent(in) :: v(3,numnod)                 !< nodal velocity
           real(kind=WP),                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
           real(kind=WP),                                intent(inout) :: a(3,numnod)                 !< nodal force
@@ -126,6 +128,7 @@
             t_stop  = dampr(18,id)
 !
             if ((id_rby > 0).and.(tt>=t_start).and.(tt<=t_stop)) then
+              if (npby(20,id_rby)/=nhi) cycle
               igr   = nint(dampr(2,id))
               isk   = nint(dampr(15,id))
               id_func = nint(dampr(26,id))
@@ -146,9 +149,9 @@
                 numskw,skew,damp_a,dim,damp,            &
                 dw,damp_a2,iparit,size_rby6_c)
 !
-            endif
+            end if
 !
-          enddo
+          end do
 !
           wfext = wfext + dw
 !

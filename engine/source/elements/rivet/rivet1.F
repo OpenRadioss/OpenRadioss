@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -85,7 +85,7 @@ C-----------------------------------------------
        NIND2 = 0
        DO IS = 1 , NN
         I = JS+IS 
-C test si rivet a traiter sur le proc
+C test if rivet to be processed on the processor
         IF(IXRT(2,I)>0)THEN
 C----------------------------
 C       RUPTURE
@@ -140,7 +140,7 @@ C-----------------------------------------------
          IROT=NINT(GEO(4,IG))
          DT12M1=ONE/DT12
 C----------------------------
-C        TRANSLATION DU CDG
+C        TRANSLATION OF CENTER OF GRAVITY
 C----------------------------
          MASS = MS(N1)+MS(N2)
          MASM1= ONE / MASS
@@ -168,7 +168,7 @@ C
 C
          IF(IROT==0) THEN
 C----------------------------
-C          CALCUL FORCES
+C          FORCE COMPUTATION
 C----------------------------
            AX = (-A(1,N1)+(VX-V(1,N1))*DT12M1)*MS(N1)
            AY = (-A(2,N1)+(VY-V(2,N1))*DT12M1)*MS(N1)
@@ -201,7 +201,7 @@ C
            AY=ALP*AY
            AZ=ALP*AZ
 C----------------------------
-C          CALCUL ACCELERATIONS
+C          ACCELERATION COMPUTATION
 C----------------------------
            A(1,N1)=A(1,N1)+AX/MS(N1)
            A(2,N1)=A(2,N1)+AY/MS(N1)
@@ -211,7 +211,7 @@ C----------------------------
            A(3,N2)=A(3,N2)-AZ/MS(N2)
          ELSE
 C----------------------------
-C          ROTATION DU CDG
+C          ROTATION OF CENTER OF GRAVITY
 C----------------------------
            XX1=X(1,N1)-XCDG
            YY1=X(2,N1)-YCDG
@@ -239,7 +239,7 @@ C
            VZZ = (VRZ1*IN(N1)+XX1*VMY1-YY1*VMX1
      .         +  VRZ2*IN(N2)+XX2*VMY2-YY2*VMX2)*INM1
 C----------------------------
-C          CALCUL FORCES
+C          FORCE COMPUTATION
 C----------------------------
            VT1(1) = ZZ1*VYY - YY1*VZZ
            VT1(2) = XX1*VZZ - ZZ1*VXX
@@ -284,7 +284,7 @@ C
            AY=ALP*AY
            AZ=ALP*AZ
 C----------------------------
-C          CALCUL ACCELERATIONS
+C          ACCELERATION COMPUTATION
 C----------------------------
            DA1(1) = HALF*DT2*DT12M1*(VYY*VT1(3) - VZZ*VT1(2))
            DA1(2) = HALF*DT2*DT12M1*(VZZ*VT1(1) - VXX*VT1(3))
@@ -329,7 +329,7 @@ C
            RIVET(11,I) = AR(2,N2)*I2
            RIVET(12,I) = AR(3,N2)*I2
            RIVET(13,I) = ZERO
-C          correction energie cinetique de rotation
+C          Rotation cinetic energy correction
            WW = VXX**2+VYY**2+VZZ**2
            WT = (VYY*ZN(IS)-VZZ*YN(IS))**2
      .        + (VZZ*XN(IS)-VXX*ZN(IS))**2

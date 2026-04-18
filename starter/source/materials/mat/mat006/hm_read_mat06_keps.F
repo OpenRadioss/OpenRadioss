@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,LAW6_OPT
-      my_real RHO0, VIS, BID, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0, RK0,
+      INTEGER JTUR, I,COUNT,LAW6_OPT
+      my_real RHO0, VIS, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0, RK0,
      .        SSL, CTM, SK, SE, RPR, CT1, CT2, CT3, AK, E, A, B, YP0, YP1,
      .        MU,RHOR
 C-----------------------------------------------
@@ -140,11 +140,24 @@ C-----------------------------------------------
       PM(24)=VIS
       PM(104)=C0 - PSH
       PM(32)=C1
-      PM(33)=C2
-      PM(34)=C3
-      PM(35)=C4
-      PM(36)=C5
       PM(37)=PMIN
+      
+      ! allocate EoS data structure
+      MATPARAM%IEOS = 1
+      MATPARAM%EOS%NUPARAM = 7
+      MATPARAM%EOS%NIPARAM = 0
+      MATPARAM%EOS%NFUNC = 0
+      MATPARAM%EOS%NTABLE = 0
+      CALL MATPARAM%EOS%CONSTRUCT() !allocations
+      MATPARAM%EOS%UPARAM(1) = C0-PSH
+      MATPARAM%EOS%UPARAM(2) = C1
+      MATPARAM%EOS%UPARAM(3) = C2
+      MATPARAM%EOS%UPARAM(4) = C3
+      MATPARAM%EOS%UPARAM(5) = C4
+      MATPARAM%EOS%UPARAM(6) = C5
+      MATPARAM%EOS%UPARAM(7) = ZERO
+      MATPARAM%EOS%PSH = PSH
+      MATPARAM%EOS%E0 = E0      
 
       IF(RHOR /= ZERO) THEN
         MU = RHO0/RHOR-ONE  
@@ -227,7 +240,7 @@ C-----------------------------------------------
 
       PM(88)=PSH
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG6%G_RK    = 1
       MTAG6%G_RE    = 1

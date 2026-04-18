@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,8 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
      7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_,
-     8           NLOC_DMG ,DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,
-     9           NB_SEATBELT_SHELLS,MAT_PARAM)
+     8           NLOC_DMG ,DETONATORS,SEATBELT_SHELL_TO_SPRING,
+     9           NB_SEATBELT_SHELLS,MAT_PARAM,NEBCS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
         USE MATPARAM_DEF_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
         USE READER_OLD_MOD , ONLY : KINTER, NSLASH
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-        INTEGER ,INTENT(IN) :: NSENSOR
         INTEGER NGROU,
      .     BUF_NOD(*),INNOD,FLAG,KK,
      .     IPARTS(*),IXS10(6,*),IXS20(12,*),
@@ -105,6 +105,7 @@ C-----------------------------------------------
      .     NALE_R2R(*),FLG_R2R_ERR,IWORKSH(*),ALE_EULER
         INTEGER ,INTENT(IN) :: NB_SEATBELT_SHELLS
         INTEGER ,INTENT(IN) :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
+        INTEGER ,INTENT(INOUT) :: NEBCS
         my_real :: PM_STACK(*)
         TYPE (NLOCAL_STR_) ,INTENT(IN)  :: NLOC_DMG
         TYPE (DETONATORS_STRUCT_),TARGET,INTENT(IN) :: DETONATORS
@@ -130,6 +131,7 @@ C-----------------------------------------------
         INTEGER N_LNK_C,NI,GRM,GRS,MAIN,IGU,NUL,IAD_TMP,COMPT_T2
         INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION,NN
         INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,NEW_NINIVOL
+        INTEGER NEW_NEBCS,NEW_NALELK
         CHARACTER(LEN=NCHARTITLE) :: TITR
         CHARACTER NAME*100
         INTEGER NGRNOD2,NGRBRIC2,NGRQUAD2,NGRSHEL2,NGRSH3N2,NGRTRUS2,NGRBEAM2,NGRSPRI2,LENGRN,ITITLE(LTITR)
@@ -198,7 +200,7 @@ C--------------------------------------------------------------------C
         IF (IPID==0) NSUBDOM = 1
         NSUBDOM_LOC = NSUBDOM
         DO P=1,NSUBDOM_LOC
-C-----2 pass : pass 1 - contact nodes / passe 2 - connection nodes
+C----- 2 Pass: Pass 1-Nodes / Pass 2-Nodes Connection
           N = P
           IF (IPID==0) N = IDDOM
           COMPT = 0
@@ -330,7 +332,8 @@ C---------------Prereading of options for tag of nodes---------------C
      5                 IGRBRIC  ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS,
      6                 IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7                 NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16,
-     8                 DETONATORS,NSENSOR,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS)
+     8                 DETONATORS,SEATBELT_SHELL_TO_SPRING,NB_SEATBELT_SHELLS,
+     9                 NEBCS,NEW_NEBCS,NEW_NALELK)
               ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
               IF (COMPT_T2>0) THEN
@@ -377,6 +380,8 @@ C
             NUMMPC = NEW_NUMMPC
             NSPCOND = NSPCONDN
             NSPHIO = NSPHION
+            NEBCS = NEW_NEBCS
+            NALELK = NEW_NALELK
 C---------------Determination of flag for coupled sph particles------C
             FLG_SPH = 0
             DO J=1,NUMSPH
@@ -399,21 +404,21 @@ C---------------Warnings for size of interfaces ---------------------C
 C--         For SPH big multidomains interfaces are alloxed -> no error message only a warning
               IF ((FLG_SPH==1).OR.(FLG_FSI==1)) R2R_FLAG_ERR_OFF = 1
 C
-              FAC = (100*INNOD) / NUMNOD
+                FAC = (100*INNOD) / NUMNOD
               IF (((FAC>20).AND.(FAC<50)).OR.((R2R_FLAG_ERR_OFF==1).AND.(FAC>50))) THEN
-                CALL ANCMSG(MSGID=859,
-     .                      MSGTYPE=MSGWARNING,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      I1=INNOD,
-     .                      I2=FAC)
-              ELSEIF (FAC>50) THEN
-                FLG_R2R_ERR = 1
-                CALL ANCMSG(MSGID=1075,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      I1=INNOD,
-     .                      I2=FAC)
-              ENDIF
+                  CALL ANCMSG(MSGID=859,
+     .                        MSGTYPE=MSGWARNING,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=INNOD,
+     .                        I2=FAC)
+                ELSEIF (FAC>50) THEN
+                  FLG_R2R_ERR = 1
+                  CALL ANCMSG(MSGID=1075,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=INNOD,
+     .                        I2=FAC)
+                ENDIF
             ENDIF
 C---------------Warnings for splitted contact interfaces ------------C
             IF (TAGINT_WARN(1)>0) THEN

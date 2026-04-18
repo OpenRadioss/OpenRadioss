@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -100,29 +100,16 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
-     .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
-     .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
-     .        REQ_RD(NSPMD),REQ_SD(NSPMD),
-     .        REQ_RC(NSPMD),REQ_SC(NSPMD),
-     .        INDEXI,ISINDEXI(NSPMD),
-     .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5,
-     .        RSIZ, ISIZ, L2, REQ_RD2(NSPMD),
-     .        LEN2, RSHIFT, ISHIFT, ND, JDEB, Q, NBB
-
-      INTEGER :: P_LOC
-      INTEGER :: KEY,CODE
-     
+      INTEGER MSGTYP, LOC_PROC, P, IDEB, 
+     . L, LEN,
+     . STATUS(MPI_STATUS_SIZE),IERROR,
+     . REQ_RD(NSPMD),
+     . INDEXI,
+     . MSGOFF4,MSGOFF5,
+     . RSIZ, ISIZ, REQ_RD2(NSPMD),
+     . LEN2
       DATA MSGOFF4/6026/ 
       DATA MSGOFF5/6027/ 
-        
-      my_real
-     .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
-      
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
-      my_real, DIMENSION(:,:), ALLOCATABLE :: XTMP
-      INTEGER :: ADRESS, LOCAL_RANK
       INTEGER :: SIZE_S
       INTEGER :: OFFSET(NSPMD)
       INTEGER :: DUMMY(1)
@@ -131,8 +118,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C================================================================
       LOC_PROC = ISPMD + 1
       ! save the old NSNFI values

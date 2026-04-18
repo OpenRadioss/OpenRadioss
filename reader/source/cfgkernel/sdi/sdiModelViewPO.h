@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 
@@ -145,6 +145,26 @@ template <sdi::SpecializationType SPECIALTYPE> class SDISelectionDataPO;
 template <sdi::SpecializationType SPECIALTYPE> class SDISelectionDataPOSubobject;
 template <sdi::SpecializationType SPECIALTYPE> class SDISelectionDataPOArray;
 
+
+class ElemCache
+{
+public:
+    ElemCache(unsigned int index1, unsigned int index2) : p_index1(index1), p_index2(index2) {}
+    unsigned int p_index1;
+    unsigned int p_index2;
+};
+ 
+typedef vector<ElemCache> ElemCacheVect;
+typedef vector<const ElemCacheVect *> ElemCacheVectPtrs;
+ 
+class ElemsByCompsCache : public std::map<unsigned int, ElemCacheVect>
+{
+public:
+    ElemsByCompsCache(const std::vector<IMECPreObject*>& preobjects);
+ 
+    ElemsByCompsCache() {}
+};
+
 // Template for PreObject-based EntityData
 template<sdi::SpecializationType SPECIALTYPE>
 class TSDIEntityDataPO : public TSDIEntityDataCFG<SPECIALTYPE>
@@ -199,7 +219,7 @@ public:
         }
         if(name.empty())
         {
-            
+            // backward compatibility for HM loads, which use "displayname"
             sdiValue value;
             GetValue(sdiIdentifier("displayname"), value);
             value.GetValue(name);
@@ -237,7 +257,13 @@ protected:
 
     void SetDataPointer(IMECPreObject* ptr)
     {
-        if(!ptr || !(p_ptr && !strcmp(ptr->GetKernelFullType(), p_ptr->GetKernelFullType()))) p_pDescr = 0;
+        if(!ptr ||
+           !(p_ptr && !strcmp(ptr->GetKernelFullType(), p_ptr->GetKernelFullType())) ||
+           !(p_ptr && strlen(ptr->GetKernelFullType()) == 0 &&
+             !strcmp(ptr->GetInputFullType(), p_ptr->GetInputFullType())))
+        {
+            p_pDescr = 0;
+        }
         p_vpSubDescr.resize(0); /* we could check the subobjects one by one, but they might be different,
                                  * so this is a simple and safe approach */
         p_ptr = ptr;
@@ -347,8 +373,18 @@ public:
         }
     }
 
-    // this is called indirectly when looping through a selection and must not change keyword and type
-    virtual void Init() {}
+    // this is called indirectly when looping through a selection and must not change p_entityType
+    virtual void Init()
+    {
+        if(nullptr != p_ptr)
+        {
+            p_keyword = p_ptr->GetInputFullType();
+        }
+        else
+        {
+            p_keyword = "";
+        }
+    }
 };
 
 // Template for PreObject-based EntityData, where multiple entities are stored in arrays of a PreObject
@@ -367,6 +403,7 @@ public:
     }
 
     friend class SDISelectionDataPOArray<SPECIALTYPE>;
+    friend class SDIElementSelectionDataElemCache;
 
 protected:
     unsigned int p_index2 = 0;
@@ -432,6 +469,15 @@ public:
         return p_ptr->GetIntValue(att_index_id, p_index2);
     }
 
+    virtual Status SetId(const unsigned int id) const
+    {
+        if(!p_ptr) return false;
+        int att_index_id = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+        if(att_index_id < 0) return false;
+        p_ptr->SetIntValue(att_index_id, p_index2, id);
+        return true;
+    }
+
 
     virtual HandleRead GetOwner() const
     {
@@ -449,81 +495,28 @@ public:
         att_index_id = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, "PART");
         if(0 <= att_index_id) return p_ptr->GetObjectId(att_index_id);
 
-        // we shouldn't get here
-        assert(0);
+        att_index_id = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, "collector");
+        if(0 <= att_index_id) return p_ptr->GetObjectId(att_index_id);
+
+        // we get here, if the elements do not have an owner, *ELEMENT_PLOTEL for example
         return 0;
     }
 
 
     // Get value of an attribute for this element (by attribute name)
-    virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const
-    {
-        if (!p_ptr) return false;
-        // Try to get the attribute as an array value at the element's index (p_index2)
-        int att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(p_ptr->GetIntValue(att_index, p_index2));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(p_ptr->GetFloatValue(att_index, p_index2));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(sdiString(p_ptr->GetStringValue(att_index, p_index2)));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            int objId = p_ptr->GetObjectId(att_index, p_index2);
-            if (objId > 0) {
-                value = sdiValue(sdiValueEntity(sdiValueEntityType(
-                    this->GetModelView()->GetEntityType(p_ptr->GetInputFullType())), objId));
-                return true;
-            }
-        }
-            
-        // Try as single value (not array)
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_INT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(p_ptr->GetIntValue(att_index));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_FLOAT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(p_ptr->GetFloatValue(att_index));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, identifier.GetNameKey());
-        if (att_index >= 0) {
-            value = sdiValue(sdiString(p_ptr->GetStringValue(att_index)));
-            return true;
-        }
-        att_index = p_ptr->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, identifier.GetNameKey());
-        if (att_index >= 0) {
-            int objId = p_ptr->GetObjectId(att_index);
-            if (objId > 0) {
-                value = sdiValue(sdiValueEntity(sdiValueEntityType(
-                    this->GetModelView()->GetEntityType(p_ptr->GetInputFullType())), objId));
-                return true;
-            }
-        }
-        // Not found
-        return false;
-    }
+    inline virtual Status GetValue(const sdiIdentifier& identifier, sdiValue& value) const;
+    
     virtual unsigned int GetNodeCount() const
     {
         unsigned int node_count = 0;
         unsigned int node_max = 20;
 
         if(!p_ptr) return 0 ;
-        std::vector<int> att_indices(node_max);
+        std::vector<int> att_indices(node_max); // TBD: speed-up by getting this only once per preobject
         for (unsigned int i = 0; i < node_max; ++i) {
             att_indices[i] = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "node" + std::to_string(i + 1));
+            // TBD: speed-up by stopping if first one is < 0, set node_max for following loop
         }
-        
 
         for(unsigned int i = 0; i < node_max; ++i)
         {
@@ -552,19 +545,19 @@ public:
 
         unsigned int node_count = 0;
         unsigned int node_max = 20;
-        std::vector<int> att_indices(node_max);
+        std::vector<int> att_indices(node_max); // TBD: speed-up by getting this only once per preobject
 
         for (unsigned int i = 0; i < node_max; ++i) {
             att_indices[i] = p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "node" + std::to_string(i + 1));
+            // TBD: speed-up by stopping if first one is < 0, set node_max for following loop
         }
-
 
         aNodeId.resize(node_max);
         
         for(unsigned int i = 0; i < aNodeId.size(); ++i)
         {
             aNodeId[i] = p_ptr->GetIntValue(att_indices[i], p_index2);
-            if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count++;
+            if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count = i + 1;
         }
 
         if (node_count == 0)
@@ -576,11 +569,11 @@ public:
             for(unsigned int i = 0; i < node_max; ++i)
             {
                 aNodeId[i] = p_ptr->GetIntValue(att_indices[i], p_index2);
-                if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count++;
+                if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count = i + 1;
             }
-            aNodeId.resize(node_count);
         }
 
+        aNodeId.resize(node_count);
         return ;
     }
     
@@ -610,6 +603,11 @@ public:
             p_ptr->SetIntValue(att_index, i, pNode->GetId());
         }
         return true;
+    }
+    
+    virtual Status SetValue(const sdiIdentifier& identifier, const sdiValue& value) const
+    {
+        return false;
     }
 };
 
@@ -732,12 +730,18 @@ public:
 
             sdiString kernelFullType = this->p_pre_obj_lst->at(i)->GetKernelFullType();
 
-            bool isSame = true;
-            if (kernelFullType.find("/ELEMS") == 0) {
-                kernelFullType.erase(0, 6); // Remove "/ELEMS"
-                if (!(strcmp(this->p_keyword.c_str(), kernelFullType.c_str()) == 0)) {
-                    isSame = false;
+            sdiString inputFullType = this->p_pre_obj_lst->at(i)->GetInputFullType();
+            if (inputFullType.find('/') != std::string::npos) {
+                size_t secondSlashPos = inputFullType.find('/', inputFullType.find('/') + 1);
+                if (secondSlashPos != std::string::npos) {
+                    inputFullType = inputFullType.substr(0, secondSlashPos);
                 }
+            }
+
+            bool isSame = true;
+            
+            if (!(strcmp(this->p_keyword.c_str(), inputFullType.c_str()) == 0)) {
+                isSame = false;
             }
 
             if(this->p_pre_obj_lst->at(i) != nullptr && isSame)
@@ -918,6 +922,89 @@ protected:
     unsigned int p_indexSubobject = UINT_MAX;
 };
 
+class SDIElementSelectionDataElemCache : public SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>
+{
+public:
+    SDIElementSelectionDataElemCache(const SDIModelViewPrivate* pModelView, 
+                                           const ElemCacheVectPtrs& elemsCachePtrs,
+                                           std::vector<IMECPreObject *> *pre_obj_lst) :
+        //SDISelectionDataPO<SPECIALTYPE>(keyword, pModelView, pre_obj_lst, pFilter)
+        SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>("", pModelView, pre_obj_lst, nullptr)
+    {
+        p_elemsCachePtrs = elemsCachePtrs;
+        p_currentCacheIndex = 0;
+        p_currentElemIndex = -1;
+    }
+
+    virtual ~SDIElementSelectionDataElemCache() {}
+
+    virtual bool Next() override
+    {
+        // first call
+        if(UINT_MAX == this->p_index) {
+            SetDataPointer(p_pre_obj_lst->at(p_elemsCachePtrs[0]->at(0).p_index1));
+            SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>::Next();
+        }
+        
+        
+        // subsequent calls
+        TSDIEntityDataPOArray<SPECIALIZATION_TYPE_ELEMENT>* pCurrentEntityData = static_cast<TSDIEntityDataPOArray<SPECIALIZATION_TYPE_ELEMENT>*>(this->p_pCurrentEntityData);
+        
+        unsigned int NumberOfEntities = 0;
+
+        if(p_currentCacheIndex + 1 >= p_elemsCachePtrs.size() &&
+           p_currentElemIndex + 1 >= p_elemsCachePtrs[p_currentCacheIndex]->size()) 
+        {
+            SetDataPointer(nullptr);
+            return false;
+        }
+
+        int idIndex = pCurrentEntityData->p_ptr->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+        NumberOfEntities = (unsigned int) pCurrentEntityData->p_ptr->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+
+        if(nullptr != pCurrentEntityData->p_ptr &&
+           p_currentElemIndex + 1 < p_elemsCachePtrs[p_currentCacheIndex]->size())
+        { // there is another one in current preobject
+            ++p_currentElemIndex;
+            SetDataPointer(p_pre_obj_lst->at(p_elemsCachePtrs[p_currentCacheIndex]->at(p_currentElemIndex).p_index1));
+            pCurrentEntityData->p_index2 = p_elemsCachePtrs[p_currentCacheIndex]->at(p_currentElemIndex).p_index2;
+            //printf("pCurrentEntityData->GetKeyword()=%s\n", pCurrentEntityData->GetKeyword().c_str());
+            return true;
+        }
+        else
+        { // switch to next preobject
+            ++p_currentCacheIndex;
+            if(p_currentCacheIndex >= p_elemsCachePtrs.size()) 
+            {
+                SetDataPointer(nullptr);
+                return false;
+            }
+            p_currentElemIndex = 0;
+            SetDataPointer(p_pre_obj_lst->at(p_elemsCachePtrs[p_currentCacheIndex]->at(p_currentElemIndex).p_index1));
+            pCurrentEntityData->p_index2 = p_elemsCachePtrs[p_currentCacheIndex]->at(p_currentElemIndex).p_index2;
+            //printf("pCurrentEntityData->GetKeyword()=%s\n", pCurrentEntityData->GetKeyword().c_str());
+            return true;
+        }
+    }
+
+    virtual unsigned int Count() const override
+    {
+        unsigned int count = 0;
+        for (const ElemCacheVect* cache : p_elemsCachePtrs) {
+            if (cache) {
+                count += (unsigned int) cache->size();
+            }
+        }
+        return count;
+    }
+
+
+private:
+    ElemCacheVectPtrs p_elemsCachePtrs;
+    unsigned int p_currentCacheIndex;
+    unsigned int p_currentElemIndex;
+};
+
 
 class EntityReadPO
 {
@@ -988,6 +1075,20 @@ public:
                     delete p_preobjects[i][j];
             delete[] p_preobjects;
         }
+        if(p_pElemsByCompsCache) delete p_pElemsByCompsCache;
+    }
+
+    //! Create cache
+    void CreateElemsByCompsCache()
+    {
+        if(nullptr == p_pElemsByCompsCache) p_pElemsByCompsCache = new ElemsByCompsCache(p_preobjects[HCDI_OBJ_TYPE_ELEMS]);
+    }
+
+    //! Clear cache
+    void ClearElemsByCompsCache()
+    {
+        if(p_pElemsByCompsCache) delete p_pElemsByCompsCache;
+        p_pElemsByCompsCache = nullptr;
     }
 
     enum SortState {
@@ -1001,6 +1102,170 @@ public:
     void SetUnsorted()
     {
         for(size_t i=0; i < HCDI_OBJ_TYPE_HC_MAX; ++i) p_isSorted[i] = SortNone;
+    }
+
+    // Helper function to sort node and element arrays within PreObjects
+    void SortNodeArraysById() const
+    {
+        for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_NODES].size(); ++i)
+        {
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][i];
+            if(nullptr == pObj) continue;
+            
+            int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+            if(idIndex < 0) continue;
+            
+            unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+            if(count <= 1) continue; // No need to sort if 0 or 1 element
+            
+            // Get all attribute indices for nodes
+            int xIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globalx");
+            int yIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globaly");
+            int zIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globalz");
+            
+            // Create index vector and sort it
+            std::vector<std::pair<unsigned int, unsigned int>> idxPairs(count);
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int nodeId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                idxPairs[j] = std::make_pair(nodeId, j);
+            }
+            
+            std::stable_sort(idxPairs.begin(), idxPairs.end(),
+                [](const std::pair<unsigned int, unsigned int>& a,
+                   const std::pair<unsigned int, unsigned int>& b) {
+                    return a.first < b.first;
+                });
+            
+            // Check if already sorted
+            bool alreadySorted = true;
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                if(idxPairs[j].second != j)
+                {
+                    alreadySorted = false;
+                    break;
+                }
+            }
+            if(alreadySorted) continue;
+            
+            // Reorder arrays according to sorted indices
+            std::vector<int> tempIds(count);
+            std::vector<double> tempX(count), tempY(count), tempZ(count);
+            
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int oldIdx = idxPairs[j].second;
+                tempIds[j] = pObj->GetIntValue(idIndex, oldIdx);
+                if(xIndex >= 0) tempX[j] = pObj->GetFloatValue(xIndex, oldIdx);
+                if(yIndex >= 0) tempY[j] = pObj->GetFloatValue(yIndex, oldIdx);
+                if(zIndex >= 0) tempZ[j] = pObj->GetFloatValue(zIndex, oldIdx);
+            }
+            
+            // Write back sorted data
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                pObj->SetIntValue(idIndex, j, tempIds[j]);
+                if(xIndex >= 0) pObj->SetFloatValue(xIndex, j, tempX[j]);
+                if(yIndex >= 0) pObj->SetFloatValue(yIndex, j, tempY[j]);
+                if(zIndex >= 0) pObj->SetFloatValue(zIndex, j, tempZ[j]);
+            }
+        }
+    }
+    
+    void SortElementArraysById() const
+    {
+        for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
+        {
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
+            if(nullptr == pObj) continue;
+            
+            int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+            if(idIndex < 0) continue;
+            
+            unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+            if(count <= 1) continue; // No need to sort if 0 or 1 element
+            
+            // Get indices for collector and node attributes
+            int collectorIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "collector");
+            
+            // Get node attribute indices (up to 20 nodes)
+            std::vector<int> nodeIndices(20, -1);
+            for(unsigned int k = 0; k < 20; ++k)
+            {
+                std::string nodeName = "node" + std::to_string(k + 1);
+                nodeIndices[k] = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeName);
+                if(nodeIndices[k] < 0)
+                {
+                    nodeName = "node_ID" + std::to_string(k + 1);
+                    nodeIndices[k] = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeName);
+                }
+            }
+            
+            // Create index vector and sort it
+            std::vector<std::pair<unsigned int, unsigned int>> idxPairs(count);
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int elemId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                idxPairs[j] = std::make_pair(elemId, j);
+            }
+            
+            std::stable_sort(idxPairs.begin(), idxPairs.end(),
+                [](const std::pair<unsigned int, unsigned int>& a,
+                   const std::pair<unsigned int, unsigned int>& b) {
+                    return a.first < b.first;
+                });
+            
+            // Check if already sorted
+            bool alreadySorted = true;
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                if(idxPairs[j].second != j)
+                {
+                    alreadySorted = false;
+                    break;
+                }
+            }
+            if(alreadySorted) continue;
+            
+            // Reorder arrays according to sorted indices
+            std::vector<int> tempIds(count);
+            std::vector<int> tempCollector;
+            if(collectorIndex >= 0) tempCollector.resize(count);
+            
+            std::vector<std::vector<int>> tempNodes(20);
+            for(unsigned int k = 0; k < 20; ++k)
+            {
+                if(nodeIndices[k] >= 0) tempNodes[k].resize(count);
+            }
+            
+            // Read values in sorted order
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                unsigned int oldIdx = idxPairs[j].second;
+                tempIds[j] = pObj->GetIntValue(idIndex, oldIdx);
+                if(collectorIndex >= 0)
+                    tempCollector[j] = pObj->GetIntValue(collectorIndex, oldIdx);
+                for(unsigned int k = 0; k < 20; ++k)
+                {
+                    if(nodeIndices[k] >= 0)
+                        tempNodes[k][j] = pObj->GetIntValue(nodeIndices[k], oldIdx);
+                }
+            }
+            
+            // Write back sorted data
+            for(unsigned int j = 0; j < count; ++j)
+            {
+                pObj->SetIntValue(idIndex, j, tempIds[j]);
+                if(collectorIndex >= 0)
+                    pObj->SetIntValue(collectorIndex, j, tempCollector[j]);
+                for(unsigned int k = 0; k < 20; ++k)
+                {
+                    if(nodeIndices[k] >= 0)
+                        pObj->SetIntValue(nodeIndices[k], j, tempNodes[k][j]);
+                }
+            }
+        }
     }
 
     void ApplyIdOffsets(const char* submodelsolkey, bool doUnOffset = false)
@@ -1059,6 +1324,20 @@ public:
             }
             p_isSorted[CFGType] = SortById;
         }
+        
+        // Sort node and element arrays within PreObjects by ID
+        if((SortById == p_selectionSortMethod || SortByFileAndId == p_selectionSortMethod) &&
+           (HCDI_OBJ_TYPE_NODES == CFGType || HCDI_OBJ_TYPE_ELEMS == CFGType))
+        {
+            if(HCDI_OBJ_TYPE_NODES == CFGType)
+            {
+                SortNodeArraysById();
+            }
+            else if(HCDI_OBJ_TYPE_ELEMS == CFGType)
+            {
+                SortElementArraysById();
+            }
+        }
 
         // create selection data
         if(p_typesMainAndSubobjects.count(type) > 0) // special case, cf comments for p_typesMainAndSubobjects
@@ -1090,202 +1369,38 @@ public:
     {
         if(entityTypeIdentifierTarget == EntityTypeIdentifier("elements"))
         {
-            // Handle relation selection for elements
+            if(!p_pElemsByCompsCache) 
+            {
+                p_pElemsByCompsCache = new ElemsByCompsCache(p_preobjects[HCDI_OBJ_TYPE_ELEMS]);
+                
+                // Calculate total number of elements in cache
+                size_t totalElems = 0;
+                for(const auto& pair : *p_pElemsByCompsCache)
+                {
+                    totalElems += pair.second.size();
+                }
+            }
+
+            ElemCacheVectPtrs elemsCachePtrs;
             if(RelationSource::SOURCE_TYPE_ENTITY == relationSource.GetType())
             {
-                // Process source entity (like a component)
                 const SDIEntityData* entitydata = relationSource.GetEntity();
-                EntityType entityType = entitydata ? entitydata->GetType() : ENTITY_TYPE_NONE;
-                
-                if(entitydata && entityType != ENTITY_TYPE_NONE)
+
+
+                //if(entitydata && entitydata->GetType() == HCDI_OBJ_TYPE_COMPS)
+                if(entitydata)
                 {
-                    unsigned int entityId = entitydata->GetId();
-                    
-                    // Find elements in the preobjects that belong to this entity
-                    std::vector<IMECPreObject*> *elementsList = new std::vector<IMECPreObject*>();
-                    
-                    // We'll use a map to group elements by part (index1)
-                    // For each part, we'll count elements with the same index2
-                    std::map<unsigned int, std::map<unsigned int, std::vector<IMECPreObject*>>> elemsByPartAndIndex2;
-                    
-                    // First, collect all elements and organize them by part ID (index1) and index2
-                    for(size_t i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
+                    unsigned int compid = entitydata->GetId();
+                    auto it = p_pElemsByCompsCache->find(compid);
+                    if(it != p_pElemsByCompsCache->end())
                     {
-                        IMECPreObject* elemObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
-                        if(elemObj)
-                        {
-                            // Using the ID as index1 (part ID)
-                            unsigned int partId = elemObj->GetId();  // This represents index1 - the part ID
-                            
-                            // Get index2 - if not available directly, we might need to use another attribute
-                            // For this example, we'll use a simple modulo operation on the element ID as a placeholder
-                            unsigned int index2 = elemObj->GetId() % 10;  // Just a placeholder for actual index2
-                            
-                            // Group elements by part ID and index2
-                            elemsByPartAndIndex2[partId][index2].push_back(elemObj);
-                            
-                            // If this element belongs to the entity we're looking for
-                            if(partId == entityId)
-                            {
-                                // Add to our result list
-                                elementsList->push_back(elemObj);
-                            }
-                        }
-                    }
-                    
-                    // Count elements with same index2 within each part and print some debug info
-                    for(const auto& partEntry : elemsByPartAndIndex2) 
-                    {
-                        unsigned int partId = partEntry.first;
-                        // For now, just print some information about the counts
-                        // In a real implementation, you might use this information differently
-                        for(const auto& index2Entry : partEntry.second)
-                        {
-                            unsigned int index2 = index2Entry.first;
-                            size_t count = index2Entry.second.size();
-                            
-                            // You can use this information as needed
-                            // For example, if count > threshold, do something special
-                        }
-                    }
-                    
-                    if(!elementsList->empty())
-                    {
-                        // Create a selection data for these elements
-                        // Group elements by their keywords and create appropriate selection data
-                        // First, categorize elements by their types
-                        std::map<std::string, std::vector<IMECPreObject*>*> elementsByType;
-
-                        // Categorize elements by type
-                        for(auto* elemObj : *elementsList) {
-                            if(elemObj) {
-                                std::string elemType = elemObj->GetInputFullType();
-                                if(elementsByType.find(elemType) == elementsByType.end()) {
-                                    elementsByType[elemType] = new std::vector<IMECPreObject*>();
-                                }
-                                elementsByType[elemType]->push_back(elemObj);
-                            }
-                        }
-
-                        // If there's only one type, return that selection
-                        if(elementsByType.size() == 1) {
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        } 
-                        else if(!elementsByType.empty()) {
-                            // If multiple types, return the first one (you might need a more complex logic here)
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        }
-
-                        // Fallback - use the original list with shell type
-                        return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                            "/SHELL", 
-                            this,
-                            elementsList, 
-                            &relationFilterTarget);
-                    }
-                    else
-                    {
-                        delete elementsList;
+                        elemsCachePtrs.push_back(&(it->second));
                     }
                 }
             }
-            else
-            {
-                // Process source selection (multiple entities)
-                SDISelectionData* selectiondata = const_cast<SDISelectionData*>(relationSource.GetSelection());
-                if(selectiondata && selectiondata->GetReferenceToCurrentValue())
-                {
-                    std::vector<IMECPreObject*> *elementsList = new std::vector<IMECPreObject*>();
-                    
-                    // Save current position in the selection
-                    // Use Restart instead of Reset (which doesn't exist)
-                    selectiondata->Restart();
-                    
-                    while(selectiondata->Next())
-                    {
-                        const SDIEntityData* entityData = selectiondata->GetReferenceToCurrentValue();
-                        if(entityData)
-                        {
-                            unsigned int entityId = entityData->GetId();
-                            
-                            // Find elements in the preobjects that belong to this entity
-                            for(size_t i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
-                            {
-                                IMECPreObject* elemObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
-                                if(elemObj)
-                                {
-                                    // Using the ID as index1 (part ID)
-                                    unsigned int partId = elemObj->GetId();  // This represents index1 - the part ID
-                                    
-                                    // If this element belongs to the entity we're looking for
-                                    if(partId == entityId)
-                                    {
-                                        // Add to our result list
-                                        elementsList->push_back(elemObj);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Reset position in the selection after we're done
-                    selectiondata->Restart();
-                    
-                    if(!elementsList->empty())
-                    {
-                        // Create a selection data for these elements
-                        // Categorize elements by their type/keyword
-                        std::map<std::string, std::vector<IMECPreObject*>*> elementsByType;
-                        for(auto* elemObj : *elementsList) {
-                            if(elemObj) {
-                                std::string elemType = elemObj->GetInputFullType();
-                                // Initialize the vector if it doesn't exist yet
-                                if(elementsByType.find(elemType) == elementsByType.end()) {
-                                    elementsByType[elemType] = new std::vector<IMECPreObject*>();
-                                }
-                                elementsByType[elemType]->push_back(elemObj);
-                            }
-                        }
-
-                        // If we found elements with specific types
-                        if(!elementsByType.empty()) {
-                            // Return the first group of elements we found
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        }
-
-                        // Fallback to default if no element types were found
-                        return new SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>(
-                            "/SHELL", 
-                            this,
-                            elementsList, 
-                            &relationFilterTarget);
-                    }
-                    else
-                    {
-                        delete elementsList;
-                    }
-                }
-            }
-            
-            // Fallback to the dummy implementation
-            return CreateSelectionData("/SHELL");
-        }
-        return 0;
+            return new SDIElementSelectionDataElemCache(this, elemsCachePtrs, &(p_preobjects[HCDI_OBJ_TYPE_ELEMS]) );
+        } 
+        return nullptr;
     }
 
 
@@ -1419,7 +1534,7 @@ public:
 
         // Get type of subobject from CFG-descriptor of parent
         // NB: Other locations in this file where we need the subobjects are changed to use the
-        
+        // information in the format block rather than in the GUI block. However, I am keeping
         // the code here as it is for the time being, because it is only used for "adhesive options"
         const IDescriptor *pDescr = GetDescriptor(pParent);
         if(nullptr == pDescr) return (HandleEdit());
@@ -1464,12 +1579,11 @@ public:
 
         unsigned int idNode = id;
         if (idNode == 0)  idNode = GetNextAvailableId(type);
-
-
+        
         int idIndex, xIndex, yIndex, zIndex, arraySize = 0;
-        if(p_preobjects[HCDI_OBJ_TYPE_NODES].size() > 0)
+        if(p_preobjects[HCDI_OBJ_TYPE_NODES].size() > 0 && p_currentIncludeId == p_preobjects[HCDI_OBJ_TYPE_NODES][p_preobjects[HCDI_OBJ_TYPE_NODES].size()-1]->GetFileIndex())
         {
-            pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][0];
+            pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][p_preobjects[HCDI_OBJ_TYPE_NODES].size()-1];
             idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
             xIndex  = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globalx");
             yIndex  = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, "globaly");
@@ -1483,6 +1597,7 @@ public:
         else
         {
             pObj = HCDI_GetPreObjectHandle("", keyword.c_str(), "", (int) p_currentIncludeId, 0);
+            pObj->SetFileIndex(p_currentIncludeId);
             p_preobjects[HCDI_OBJ_TYPE_NODES].push_back(pObj);
             idIndex = pObj->AddIntArray("id", 1);
             xIndex  = pObj->AddFloatArray("globalx", 1);
@@ -1495,9 +1610,12 @@ public:
         pObj->SetFloatValue(yIndex, arraySize , position[1]);
         pObj->SetFloatValue(zIndex, arraySize , position[2]);
 
-        handle = HandleNodeEdit(GetEntityType(keyword), 0, arraySize);
+        handle = HandleNodeEdit(GetEntityType(keyword),p_preobjects[HCDI_OBJ_TYPE_NODES].size()-1, arraySize);
 
         if(nullptr != p_pIdManager) p_pIdManager->AddId(idNode, type);
+
+        // pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][0];
+          //  pObj->SetFileIndex(p_currentIncludeId);
 
         return true;
     }
@@ -1540,7 +1658,7 @@ public:
         
         sdiString kernelFullType = "/ELEMS" + keyword;
 
-        if (id == 0) return false;
+        if (validId == 0) validId = GetNextAvailableId(type);
 
         if(p_preobjects[HCDI_OBJ_TYPE_ELEMS].size() > 0)
         {
@@ -1551,7 +1669,7 @@ public:
         }
 
         if(isNewPo)
-        {           
+        {
             pObj = HCDI_GetPreObjectHandle(kernelFullType.c_str(), keyword.c_str(), "", (int) p_currentIncludeId, 0);
             p_preobjects[HCDI_OBJ_TYPE_ELEMS].push_back(pObj);
             pObj->AddIntArray("id", 1);
@@ -1565,20 +1683,34 @@ public:
         
         int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
         int arraySize = pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
-        if(!isNewPo) pObj->resizeArray(IMECPreObject::VTY_INT,idIndex, arraySize + 1);
-        if(isNewPo) pObj->SetIntValue(idIndex, 0 , id);
-        if(!isNewPo) pObj->SetIntValue(idIndex, arraySize , id);
         
+        // For existing pObj, resize arrays to add new element
+        if(!isNewPo) {
+            pObj->resizeArray(IMECPreObject::VTY_INT, idIndex, arraySize + 1);
+        }
         
+        // Set the element ID at the correct index (0 for new pObj, arraySize for existing)
+        int elementIndex = isNewPo ? 0 : arraySize;
+        pObj->SetIntValue(idIndex, elementIndex, validId);
+        
+        // Set node IDs for all nodes
         for (int i = 0; i < aNodeId.size(); ++i) {
             idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "node_ID" + std::to_string(i + 1));
-            arraySize = pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
-            if(!isNewPo) pObj->resizeArray(IMECPreObject::VTY_INT,idIndex, arraySize + 1);
-            if(isNewPo) pObj->SetIntValue(idIndex, 0 , aNodeId[i]);
-            if(!isNewPo) pObj->SetIntValue(idIndex, arraySize , aNodeId[i]);
+            if(!isNewPo) {
+                pObj->resizeArray(IMECPreObject::VTY_INT, idIndex, arraySize + 1);
+            }
+            pObj->SetIntValue(idIndex, elementIndex, aNodeId[i]);
+        }
+        // Initialize remaining node IDs to 0 if element has fewer nodes than array size
+        for (int k = aNodeId.size(); k < 20; ++k) {
+            sdiString nodeId = "node_ID" + std::to_string(k + 1);
+            int nodeIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, nodeId);
+            if (nodeIndex >= 0) {
+                pObj->SetIntValue(nodeIndex, elementIndex, 0);
+            }
         }
 
-        handle = HandleElementEdit(type, (unsigned int) p_preobjects[HCDI_OBJ_TYPE_ELEMS].size()-1, arraySize);
+        handle = HandleElementEdit(type, (unsigned int) p_preobjects[HCDI_OBJ_TYPE_ELEMS].size()-1, elementIndex);
         
         return handle.IsValid();
     }
@@ -1652,6 +1784,48 @@ public:
         {
             return (unsigned int) p_preobjects[HCDI_OBJ_TYPE_INCLUDEFILES].size();
         }
+        
+        SpecializationType specializationType = GetSpecializationType(type);
+        if(SPECIALIZATION_TYPE_NODE == specializationType)
+        {
+            unsigned int maxId = 0;
+            for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_NODES].size(); ++i)
+            {
+                IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][i];
+                if(nullptr == pObj) continue;
+                int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+                if(0 > idIndex) continue;
+                unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+                for(unsigned int j = 0; j < count; ++j)
+                {
+                    unsigned int nodeId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                    if(nodeId > maxId) maxId = nodeId;
+                }
+            }
+            return maxId + 1;
+        }
+        
+        if(SPECIALIZATION_TYPE_ELEMENT == specializationType)
+        {
+            unsigned int maxId = 0;
+            for(unsigned int i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
+            {
+                IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
+                if(nullptr == pObj) continue;
+                const char *keyword = pObj->GetInputFullType();
+                if(GetEntityType(keyword) != type) continue; // skip elements of different types
+                int idIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+                if(0 > idIndex) continue;
+                unsigned int count = (unsigned int) pObj->GetNbValues(IMECPreObject::VTY_INT, idIndex);
+                for(unsigned int j = 0; j < count; ++j)
+                {
+                    unsigned int elemId = (unsigned int) pObj->GetIntValue(idIndex, j);
+                    if(elemId > maxId) maxId = elemId;
+                }
+            }
+            return maxId + 1;
+        }
+        
         return ModelViewCFG::GetNextAvailableId(type);
     }
 
@@ -1866,7 +2040,7 @@ public:
             }
             if(name.empty())
             {
-                
+                // backward compatibility for HM loads, which use "displayname"
                 sdiValue value;
                 GetValueFromPreObject(pObj, sdiIdentifier("displayname"), value);
                 value.GetValue(name);
@@ -1877,8 +2051,58 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    //! Descriptior Values and Hierachy by identifier
+    //! Descriptor Values and Hierachy by identifier
     ////////////////////////////////////////////////////////////////////////////////
+    virtual Status GetValue(const HandleRead&    handle,
+                            const sdiIdentifier& identifier,
+                            sdiValue&            value) const
+    { 
+        EntityType type = handle.GetType();
+        SpecializationType SpecializationType = GetSpecializationType(type);
+        switch(SpecializationType)
+        {
+        case SPECIALIZATION_TYPE_NODE: 
+        {
+            sdiIdentifier newIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), handle.GetIndex2());
+            if (handle.GetIndex1() >= p_preobjects[HCDI_OBJ_TYPE_NODES].size()) {
+                return false;
+            }
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][handle.GetIndex1()];
+            return GetValueFromPreObject(pObj, newIdentifier, value);
+        }
+        case SPECIALIZATION_TYPE_ELEMENT: 
+        {
+            sdiIdentifier newIdentifier;
+            if(identifier.GetNameKey() == "PART")
+            {
+                newIdentifier = sdiIdentifier(identifier.GetNameKey());
+            }
+            else
+            {
+                newIdentifier = sdiIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), handle.GetIndex2());
+            }
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][handle.GetIndex1()];
+            if (handle.GetIndex1() >= p_preobjects[HCDI_OBJ_TYPE_ELEMS].size()) {
+                return false;
+            }
+            return GetValueFromPreObject(pObj, newIdentifier, value);
+        }
+        default:
+        {
+            if(myTypeInclude == type)
+            { // has a specific GetValue()
+                EntityRead entity(this, HandleRead(type, handle.GetPointer()));
+                return entity.GetValue(identifier, value);
+            }
+            unsigned int CFGType = GetCFGType(type);
+            if(CFGType > p_nbPOTypes) return false;
+            EntityReadPO entityReadPO(static_cast<const IMECPreObject*>(handle.GetPointer()), this);
+            return GetValueFromPreObject(static_cast<const IMECPreObject*>(handle.GetPointer()),
+                identifier, value, &entityReadPO);
+        }
+        }
+    }
+
     virtual Status GetValue(const EntityType                type,
                           const void*                     entityptr,
                           const sdiIdentifier& identifier,
@@ -1901,6 +2125,7 @@ public:
                 identifier, value, &entityReadPO);
         }
     }
+
     virtual Status SetValue(const HandleEdit&    handle,
                             const sdiIdentifier& identifier,
                             const sdiValue&      value) const
@@ -1919,7 +2144,8 @@ public:
         case SPECIALIZATION_TYPE_ELEMENT: 
         {
             IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][handle.GetIndex1()];
-            return 0;
+            unsigned int index2 = handle.GetIndex2();
+            return SetValueToPreObjectArray(pObj, index2, identifier, value);
         }
         default:
         {
@@ -1997,6 +2223,23 @@ public:
         vector<const IDescriptor*>     *pvpSubDescr = 0,
         const char*                     parameterName = 0,
         bool                            parameterIsNegated = false) const;
+
+    inline bool SetValueToPreObjectArray(IMECPreObject                  *pObj,
+                                  unsigned int          index2,
+                                         const sdiIdentifier& identifier,
+                                         const sdiValue&      value) const;
+
+    /// Sub-methods of SetValueToPreObject. (This componentization should be continued further.)
+    /// The sub-methods can then be redefined in derived classes to hard-code special cases.
+    //@{
+
+    /// Set a single object value
+    inline virtual bool SetSingleObjectValueToPreObject(IMECPreObject*              pObj,
+                                                        const sdiString&            skeyword,
+                                                        const sdiValue&             value,
+                                                        int                         i) const;
+
+    //@}
 
     template <class ENTITYREAD>
     bool IsPreObjectParameterized(const IMECPreObject            *pObj,
@@ -2156,7 +2399,7 @@ public:
     // Utility
     void PrintPreobject(const IMECPreObject *ptr)
     {
-        
+        // dump to stdout for debugging
         if(ptr && (
 #ifdef _DEBUG
             999 == p_doPrintDebug ||
@@ -2183,7 +2426,7 @@ public:
 public: // for EntityData, should rather be friend
     EntityType myTypeElementOwner = ENTITY_TYPE_NONE;
     EntityType myTypeNode = ENTITY_TYPE_NONE;
-    EntityType myTypeSubmodel = ENTITY_TYPE_NONE;
+
 
 protected:
 
@@ -2222,6 +2465,7 @@ protected:
     mutable std::map<EntityType, std::map<unsigned int, std::pair<unsigned int, unsigned int>>> p_MapELems; 
     mutable bool p_isDirtyMapNodes = true;
     mutable std::map<EntityType, bool> p_isDirtyMapElems;
+    mutable ElemsByCompsCache *p_pElemsByCompsCache = nullptr;
 
     // This is a "hack" for LS-Dyna *DEFINE_CURVE, which can either be present as
     // - separate "main" preobjects or
@@ -2234,6 +2478,80 @@ protected:
 public:
     int p_doPrintDebug = getenv("HW_PRINT_NEXT_PREOBJECT") ? atoi(getenv("HW_PRINT_NEXT_PREOBJECT")) : 0;
 }; // ModelViewPO class
+
+
+inline ElemsByCompsCache::ElemsByCompsCache(const std::vector<IMECPreObject*>& preobjects)
+{
+    
+    for (const IMECPreObject* pObj : preobjects) {
+        if (!pObj) continue;
+        
+        // Get the part ID from the element
+        bool isDyna = false;
+        int att_index_comp = pObj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT,"PART");
+        if (att_index_comp < 0) {
+            att_index_comp = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "collector");
+            if(att_index_comp >= 0) {
+                isDyna = true;
+            }   
+        }
+        if (att_index_comp < 0) continue;
+        
+        if(isDyna) {
+            // LS-DYNA case: collector is an array of part IDs
+            for(unsigned int i = 0; i < pObj->GetNbValues(IMECPreObject::VTY_INT,
+                                                         att_index_comp); ++i) {
+                int compId = pObj->GetIntValue(att_index_comp, i);
+                
+                // Find the preobject
+                unsigned int index1 = 0;
+                for (unsigned int j = 0; j < preobjects.size(); ++j) {
+                    if (preobjects[j] == pObj) {
+                        index1 = j;
+                        break;
+                    }
+                }
+                // Find the element index within the preobject
+                unsigned int index2 = 0;
+                int att_index_id = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+                if (att_index_id >= 0) {
+                    index2 = i; // assuming the order of collector and id attributes match
+                }
+                (*this)[compId].push_back(ElemCache(index1, index2));
+                //printf("Mapping element (preobject %d, index %d) to component %d\n", index1, index2, compId);
+            }
+            continue; // proceed to next preobject
+        }
+        else {
+            // Other solvers: PART is a single object reference
+            int att_index_id = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, "id");
+
+            int compId = pObj->GetObjectId(att_index_comp);
+
+             for(unsigned int i = 0; i < pObj->GetNbValues(IMECPreObject::VTY_INT,
+                                                         att_index_comp); ++i) {
+                     
+                // Find the preobject
+                unsigned int index1 = 0;
+                for (unsigned int j = 0; j < preobjects.size(); ++j) {
+                    if (preobjects[j] == pObj) {
+                        index1 = j;
+                        break;
+                    }
+                }
+                
+                // Find the element index within the preobject
+                unsigned int index2 = 0;
+                if (att_index_id >= 0) {
+                    index2 = i; // assuming the order of collector and id attributes match
+                }
+
+                (*this)[compId].push_back(ElemCache(index1, index2));
+            }
+        }
+
+    }
+}
 
 
 template<sdi::SpecializationType SPECIALTYPE>
@@ -2340,6 +2658,16 @@ const IDescriptor *TSDIEntityDataPO<SPECIALTYPE>::GetDescriptor() const
         p_pDescr=mv->GetDescriptor(p_ptr);
     }
     return p_pDescr;
+}
+
+
+Status SDIElementDataPO::GetValue(const sdiIdentifier& identifier,
+                                  sdiValue&            value) const
+{
+    const ModelViewPO* mv = static_cast<const ModelViewPO*>(this->GetModelView());
+    assert(mv);
+    sdiIdentifier arrayIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), p_index2);
+    return mv->GetValueFromPreObject(p_ptr, arrayIdentifier, value, this, &p_pDescr);
 }
 
 
@@ -3497,7 +3825,6 @@ bool ModelViewPO::SetValueToPreObject(IMECPreObject*              pObj,
                 pSubObj = HCDIPreObjectCreateSubobject(pObj, skeyword, vtype, i, valDimExtent, pDescr,
                     pvpSubDescr, &attDim, &ikwd, p_pCFGKernel, &subIndex);
             }
-            // assert(nullptr != pSubObj); 
             if(nullptr != pSubObj)
             {
                 if(0 <= i)
@@ -3531,7 +3858,7 @@ bool ModelViewPO::SetValueToPreObject(IMECPreObject*              pObj,
                         i = -1;
                     }
                     else
-                    { 
+                    { // 0 == attDim && 1 == value.GetArrayDimension(): not possible
                         assert(0);
                     }
                 }
@@ -3571,38 +3898,7 @@ bool ModelViewPO::SetValueToPreObject(IMECPreObject*              pObj,
     {
         if(value.GetCompoundType() == COMPOUND_TYPE_ENTITY)
         {
-            sdiValueEntity value_loc;
-            isOk = value.GetValue(value_loc);
-            const char *otype = nullptr;
-            if(value_loc.GetEntityFullType().IsTypeNumeric())
-            {
-                unsigned int CFGType = GetCFGType(value_loc.GetEntityFullType().GetTypeNumeric());
-                otype = HCDI_get_entitystringtype((int) CFGType).c_str();
-            }
-            else
-            {
-                EntityType type = GetEntityType(value_loc.GetEntityFullType().GetTypeNamed());
-                unsigned int CFGType = GetCFGType(type);
-                otype = HCDI_get_entitystringtype((int) CFGType).c_str();
-            }
-            if(i == -1)
-                pObj->AddObjectValue(skeyword.c_str(), otype, value_loc.GetId());
-            else
-            {
-                int keywordIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, skeyword);
-                if (keywordIndex == -1)
-                {
-                    pObj->AddObjectArray(skeyword.c_str(), i + 1);
-                    keywordIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, skeyword);
-                }
-                else
-                {
-                    int arraySize = pObj->GetNbValues(IMECPreObject::VTY_OBJECT, keywordIndex);
-                    if (arraySize <= i)
-                        pObj->resizeArray(IMECPreObject::VTY_OBJECT, keywordIndex, i + 1);
-                }
-                pObj->SetObjectValue(keywordIndex, i,otype, value_loc.GetId());
-            }
+            isOk = SetSingleObjectValueToPreObject(pObj, skeyword, value, i);
         }
         else
         {
@@ -3827,6 +4123,58 @@ bool ModelViewPO::SetValueToPreObject(IMECPreObject*              pObj,
     else // array dimesion > 1 not yet supported
     {
         isOk = false;
+    }
+    return isOk;
+}
+
+bool ModelViewPO::SetValueToPreObjectArray(IMECPreObject*              pObj,
+                                      const unsigned int          arrayIndex,
+                                      const sdiIdentifier&        identifier,
+                                      const sdiValue&             value) const
+{
+
+    sdiIdentifier arrayIdentifier(identifier.GetNameKey(),identifier.GetSolverIdx(),arrayIndex);
+
+    return SetValueToPreObject(pObj, arrayIdentifier, value);
+}
+
+bool ModelViewPO::SetSingleObjectValueToPreObject(IMECPreObject*              pObj,
+                                                  const sdiString&            skeyword,
+                                                  const sdiValue&             value,
+                                                  int                         i) const
+{
+    sdiValueEntity value_loc;
+    bool isOk = value.GetValue(value_loc);
+    EntityType type = ENTITY_TYPE_NONE;
+    if(value_loc.GetEntityFullType().IsTypeNumeric())
+    {
+        type = value_loc.GetEntityFullType().GetTypeNumeric();
+    }
+    else
+    {
+        type = GetEntityType(value_loc.GetEntityFullType().GetTypeNamed());
+    }
+    unsigned int CFGType = GetCFGType(type);
+    const char *otype = HCDI_get_entitystringtype((int) CFGType).c_str();
+    if(i == -1)
+    {
+        pObj->AddObjectValue(skeyword.c_str(), otype, value_loc.GetId());
+    }
+    else
+    {
+        int keywordIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, skeyword);
+        if (keywordIndex == -1)
+        {
+            pObj->AddObjectArray(skeyword.c_str(), i + 1);
+            keywordIndex = pObj->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, skeyword);
+        }
+        else
+        {
+            int arraySize = pObj->GetNbValues(IMECPreObject::VTY_OBJECT, keywordIndex);
+            if (arraySize <= i)
+                pObj->resizeArray(IMECPreObject::VTY_OBJECT, keywordIndex, i + 1);
+        }
+        pObj->SetObjectValue(keywordIndex, i,otype, value_loc.GetId());
     }
     return isOk;
 }

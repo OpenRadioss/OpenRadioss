@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,9 @@ C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
 !||    genani             ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE TORSEUR(IADG  ,IPARG,ITENS,IXT   ,IXP  ,
@@ -38,6 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,15 +65,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF, FAC, A1, A2, A3, THK
       REAL R4(18)
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
-     .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,BUF
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, M, 
+     . N, J, LLT, MLW, NB1,
+     . NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     . BUF
       REAL,DIMENSION(:),ALLOCATABLE :: WAL
 C-----------------------------------------------
        CALL MY_ALLOC(WAL,9*NBF)
@@ -173,7 +171,6 @@ C-----------------------------------------------
         ELSE
         ENDIF
  490   CONTINUE
- 500  CONTINUE
 C-----------------------------------------------
       IF (NSPMD == 1)THEN
         DO N=1,NBF

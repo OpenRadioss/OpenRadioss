@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani                 ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_anim_ply_xyznod   ../engine/source/mpi/anim/spmd_anim_ply_xyznod.F
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -46,10 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPLY,IDPLY,NOD_PXFEM(*),NBF_PXFEMG,NODGLOB(*),EMPSIZPL
+      INTEGER IPLY,IDPLY,NOD_PXFEM(*),NODGLOB(*),EMPSIZPL
       my_real
      .   X(3,*),ZI_PLY(NPLYXFE,*),NORM
-      REAL R4
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------

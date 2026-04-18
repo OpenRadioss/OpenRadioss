@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,19 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    iniebcs                            ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                             ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
-!||    icinvs                 ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iface                  ../starter/source/ale/ale3d/iface.F
+!||    ancmsg                             ../starter/source/output/message/message.F
+!||    ebcs_cyclic_surface_matching       ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    findele                            ../starter/source/boundary_conditions/ebcs/findele.F
+!||    icinvs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    iface                              ../starter/source/ale/ale3d/iface.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    ebcs_cyclic_surface_matching_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    message_mod                        ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
-     .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +45,8 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
+      use element_mod , only : nixs,nixc,nixq,nixtg
+      USE EBCS_CYCLIC_SURFACE_MATCHING_MOD, ONLY : EBCS_CYCLIC_SURFACE_MATCHING
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +62,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER,INTENT(IN),TARGET :: IXS(NIXS,SIXS/NIXS),IXQ(NIXQ,SIXQ/NIXQ),IXTG(NIXTG,SIXTG/NIXTG)
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD)
+      INTEGER,INTENT(IN),TARGET :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
       INTEGER, INTENT(IN) :: IVOLU(NIMV,*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
       INTEGER, INTENT(INOUT) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
@@ -78,6 +83,8 @@ C-----------------------------------------------
       INTEGER IMID, IPID !< material and property iid
       INTEGER, DIMENSION(:, :), POINTER :: IX
       INTEGER :: NIX
+      INTEGER :: ISU2, IDSU2
+      INTEGER :: NELEM
       integer, target :: nothing(1,1) !< dummy for indirection
 C=======================================================================
       EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
@@ -93,6 +100,7 @@ C=======================================================================
          CALL ICINVS(8, NUMELS, NIXS, IXS, MWA, MWA(1+(2+NUMNOD)))
           IX => IXS(1:NIXS, 1:NUMELS)
           NIX = NIXS
+          NELEM = NUMELS
       ELSEIF (NUMELQ /= 0) THEN
          LENMWA = NUMNOD + 2 + 4 * NUMELQ
          ALLOCATE(MWA(LENMWA), STAT=ERR)
@@ -102,6 +110,7 @@ C=======================================================================
          CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD)))
          IX => IXQ(1:NIXQ, 1:NUMELQ)
          NIX = NIXQ
+         NELEM = NUMELQ
       ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          LENMWA = NUMNOD + 2 + 3 * NUMELTG
          ALLOCATE(MWA(LENMWA), STAT=ERR)
@@ -111,6 +120,7 @@ C=======================================================================
          CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))
          IX => IXTG(1:NIXTG, 1:NUMELTG)
          NIX = NIXTG
+         NELEM = NUMELTG
       ENDIF
 
       DO I = 1, NEBCS
@@ -264,6 +274,28 @@ C=======================================================================
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(EBCS%nb_elem))
              EBCS%iface(1:EBCS%nb_elem) = 0
+             IF(.NOT. MULTI_FVM_IS_USED)THEN
+               !     la
+               EBCS%has_la = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
+               EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
+               !     area
+               EBCS%has_area = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%area(EBCS%nb_elem))
+               EBCS%area(1:EBCS%nb_elem) = ZERO
+               !     dvnf
+               EBCS%has_dvnf = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%dvnf(EBCS%nb_elem))
+               EBCS%dvnf(1:EBCS%nb_elem) = ZERO
+               !     ng
+               EBCS%has_ng = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%ng(EBCS%nb_elem))
+               EBCS%ng(1:EBCS%nb_elem) = 0
+               !     iloc
+               EBCS%has_iloc = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%iloc(EBCS%nb_elem))
+               EBCS%iloc(1:EBCS%nb_elem) = 0
+             ENDIF
            TYPE IS (t_ebcs_fluxout)
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(EBCS%nb_elem))
@@ -296,23 +328,10 @@ C=======================================================================
              EBCS%dp0(1:NSEG) = ZERO
 
            TYPE IS (t_ebcs_propellant)
-             IF(EBCS%is_multifluid) THEN
-                SIZ = EBCS%nb_elem
-             ELSE
-                SIZ = EBCS%nb_node
-             ENDIF
              !     iface
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(NSEG))
              EBCS%iface(1:NSEG) = 0 
-             !     vold
-             EBCS%has_vold = .TRUE.
-             IF(IFLAG==0)ALLOCATE(EBCS%vold(SIZ))
-             EBCS%vold(1:SIZ) = 0   
-             !     Pold
-             EBCS%has_Pold = .TRUE.
-             IF(IFLAG==0) ALLOCATE(EBCS%Pold(SIZ))
-             EBCS%Pold(1:SIZ) = 0 
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
@@ -321,42 +340,93 @@ C=======================================================================
              EBCS%has_dp0 = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%dp0(NSEG))
              EBCS%dp0(1:NSEG) = ZERO
+
+          TYPE IS (t_ebcs_cyclic)
+             !     iface
+             EBCS%has_iface = .TRUE.
+             IF(IFLAG==0)ALLOCATE(EBCS%iface(2*NSEG))
+             EBCS%iface(1:2*NSEG) = 0
+             !     la
+             EBCS%has_la = .true.
+             IF(IFLAG==0)ALLOCATE(EBCS%la(3, 2*EBCS%nb_node))
+             EBCS%la(1:3, 1:2*EBCS%nb_node) = ZERO
+             !     ng
+             EBCS%has_ng = .true.
+             IF(IFLAG==0)ALLOCATE(EBCS%ng(2*EBCS%nb_elem))
+             EBCS%ng(1:2*EBCS%nb_elem) = 0
+             !     iloc
+             EBCS%has_iloc = .true.
+             IF(IFLAG==0)ALLOCATE(EBCS%iloc(2*EBCS%nb_elem))
+             EBCS%iloc(1:2*EBCS%nb_elem) = 0
                                                           
         END SELECT
       
         IF(ISU>0)THEN
           IDSU = IGRSURF(ISU)%ID
           IF (N2D == 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU,ID,NSEG,IXS,
+             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU,ID,NSEG,NELEM,IXS,
      .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface, 
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
           ELSEIF (NUMELQ /= 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,IXQ,
+             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,NELEM,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
-          ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,IXTG,
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
+          ELSEIF (NUMELTG /= 0) THEN
+             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,NELEM,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
           ENDIF
+
+          ! second suface treatment for /EBCS/CYCLIC
+          ! use same storage but starting from nseg+1 (allocation done with 2*nseg)
+          IF(EBCS%TYPE == 12)THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+              TYPE IS (t_ebcs_cyclic)
+                ISU2 = twf%surf_id2
+                IF(ISU2>0)THEN
+                  IDSU2 = IGRSURF(ISU2)%ID
+                  IF (N2D == 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU2,ID,NSEG,NELEM,IXS,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1), EBCS%itype(nseg+1),EBCS%iface(nseg+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
+                  ELSEIF (NUMELQ /= 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU2,ID,NSEG,NELEM,IXQ,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
+                  ELSEIF (NUMELTG /= 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU2,ID,NSEG,NELEM,IXTG,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
+                  ENDIF
+                  ! check link between two surfaces and order faces consequently
+                  CALL EBCS_CYCLIC_SURFACE_MATCHING(TWF, EBCS, N2D, NUMNOD, X)
+                  IF(IFLAG/=0)THEN
+                    EBCS%NB_ELEM = 2*EBCS%NB_ELEM
+                    EBCS%NB_NODE = 2*EBCS%NB_NODE
+                  ENDIF
+                ENDIF
+            END SELECT
+          ENDIF
+
+
           
-          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10 .OR. TYP == 11))THEN
+          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 8 .OR. TYP == 10 .OR. TYP == 11 .OR. TYP == 12))THEN
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD
             !-------------------------------------------------                      
-            DO KK=1,EBCS%nb_elem              
+            DO KK=1,size(EBCS%ielem)
               ICELL = EBCS%ielem(KK) 
               K1=0
               IF (EBCS%itype(KK)==4)K1=0
               IF (EBCS%itype(KK)==3)K1=NUMELQ 
               IF (EBCS%itype(KK)==8)K1=NUMELQ+NUMELTG             
               IF(TYP/=10 .AND. TYP /= 11) EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1
-            ENDDO                                                
-            !-------------------------------------------------   
+            ENDDO
+            !-------------------------------------------------
                                                                  
           ENDIF
 
           ! check that based element has ALE or EULER framework
-          DO KK=1,EBCS%NB_ELEM
+          DO KK=1,size(EBCS%ielem)
             ICELL = EBCS%IELEM(KK)
             IMID=IX(1,ICELL)
             IPID=IX(NIX-1,ICELL)

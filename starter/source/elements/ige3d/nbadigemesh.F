@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,10 +43,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE NBADIGEMESH(LSUBMODEL,NUMNUSR)
 C----------------------------------------------------------------------
-C   ROUTINE BASEE SUR NBADMESH MAIS SPECIFIQUE AUX ELEMENTS ISOGEOMETRIQUES
-C   PERMET LA LECTURE ET LA CONSTRUCTION DE TOUT LES TABLEAUX NECESSAIRES
-C   AU RAFFINEMENT DES ELEMENTS IGEO
-C   NB : PEUT ETRE ONE PEU REORGANISEE POUR UNE MEILLEURE LECTURE
+C   ROUTINE BASED ON NBADMESH BUT SPECIFIC TO ISOGEOMETRIC ELEMENTS
+C   allows reading and construction of all the necessary arrays
+C   FOR THE REFINEMENT OF IGEO ELEMENTS
+C   NOTE: CAN BE REORGANIZED FOR BETTER READABILITY
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
@@ -87,10 +87,9 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE   :: KNOTLOCPC,KNOTLOCEL,KNOT
       TYPE(TABCONPATCH_IG3D_), DIMENSION(:), ALLOCATABLE, TARGET :: TABCONPATCH
       TYPE(TABCONPATCH_IG3D_), POINTER :: PTABCONPATCH
-      INTEGER IPART(4,NPART),TABIDS(NUMELIG3D0),
-     .        N,ID,I,J,NLEV,NMUL,J10(10),STAT,NCTRLMAX
-      INTEGER USR2SYS,NUMNUSR1,IDS,NI,NJ,NK,NL,K,L,P,Q,QQ,
-     .        NN,IAD,IDX1,IDY1,IDZ1,NCTRL,BID,NUM,
+      INTEGER :: IPART(4,NPART), N,ID,I,J,J10(10),STAT,NCTRLMAX
+      INTEGER USR2SYS,NUMNUSR1,IDS,K,
+     .        IAD,IDX1,IDY1,IDZ1,NCTRL,BID,NUM,
      .        NRAFX,NRAFY,NRAFZ,NBLINE,D1,D2,D3,N1,N2,N3
       INTEGER IAD_KNOT,IG,UID,SUB_ID,INTRULE,RAFRULE,
      .        NKNOT1,NKNOT2,NKNOT3,ITGEO,PX,PY,PZ,PID,IPID,MAXNUMGEO,
@@ -121,7 +120,7 @@ C------
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUBID_NODES')
       SUBID_NODES(1:NUMNUSR) = 0
 C--------------------------------------
-C     LECTURE DES PROP IGE
+C     reading of ige properties
 C--------------------------------------
       NUMGEO=NSLASH(KPROP)
       ALLOCATE (IGEO(NPROPGI,NUMGEO),STAT=stat)
@@ -174,7 +173,7 @@ C--------------------------------------
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOT')
       KNOT=0
 C--------------------------------------
-C     LECUTRE DES PART
+C     reading of parts
 C--------------------------------------
       KCUR = KPART
       IREC=KOPTAD(KCUR)-1
@@ -185,7 +184,7 @@ C--------------------------------------
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         READ(LINE,ERR=999,FMT=FMT_I)PID
-        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  ICI REND IPID BIZARRE
+        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  HERE MAKES IPID STRANGE
         IPART(2,I)=IPID
         IPART(4,I)=ID
       ENDDO
@@ -197,7 +196,7 @@ C------
       IF(IADMSTAT /= 0) id_limit%admesh=id_limit%global
 C------
 C--------------------------------------
-C     DIMENSIONNEMENT DE KNOT
+C     sizing of knot
 C--------------------------------------
       KCUR = KPROP
       IREC=KOPTAD(KCUR)-1
@@ -271,7 +270,7 @@ C--------------------------------------
         ENDIF
       ENDDO
 C--------------------------------------
-C     PRELECTURE DES IGE3D POUR DIMMENSIONNEMENT IXIG3D ET TABCONPATCH
+C     pre-reading of ige3d for sizing ixig3d and tabconpatch
 C--------------------------------------
 c
       NBIG3D_PATCH = 0
@@ -286,7 +285,7 @@ c
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
       
-c  IL FAUT DIFFERENCIER LES PART IGE3D DES AUTRES
+c  it is necessary to differentiate ige3d parts from the others
    
       DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
      
@@ -321,7 +320,7 @@ c
       ALLOCATE(TABCONPATCH(NBPART_IG3D),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
 C--------------------------------------
-C     NOUVELLE PRELECTURE DES IGE3D POUR DES LISTES D'ELEMENTS DE TABCONPATCH
+C     new pre-reading of ige3d for lists of tabconpatch elements
 C--------------------------------------
 c
       NBIG3D_PATCH = 0
@@ -395,7 +394,7 @@ C--------------------------------------------------
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C--------------------------------------------------
-C     LECTURE DES CNODES
+C     reading of cnodes
 C--------------------------------------------------
       N = NUMNUSR1
       KCUR = KCNODE                                     
@@ -415,12 +414,12 @@ C--------------------------------------------------
         ENDIF                             
       ENDDO 
 C------
-C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     construction of the inverse node array
 C------
 C     NUMNUSR=NUMNUSR1+NUMCNOD !
       CALL CONSTIT(ITAB,ITABM1,NUMNUSR)
 C--------------------------------------
-C     LECTURE DES IGE3D
+C     reading of ige3d
 C--------------------------------------
 c
       ALLOCATE(KXIG3D(NIXIG3D,NUMELIG3D0+ADDELIG3D),STAT=stat)
@@ -455,7 +454,7 @@ c
           ENDDO
           PTABCONPATCH%PID=IDS
          ELSE
-c  ICI ON SAIT DANS QUEL PART IGE ON EST (IDS) NUMGEO MAIS IG3D. ON PEUT DONC POINTER VERS LA BONNE TABCONPATCH_IG3D
+c  HERE WE KNOW IN WHICH IGE PART WE ARE (IDS) NUMGEO BUT IG3D. WE CAN THEREFORE POINT TO THE RIGHT TABCONPATCH_IG3D
 
           I = I + 1
           KXIG3D(1,I) =IPART(1,IDS)  ! ON SE FICHE DU 1 (PM)
@@ -530,13 +529,10 @@ C
       KNOD2ELIG3D(1)=0
 c
 C------
-C   LE TRAVAIL DE RAFFINEMENT COMMENCE ICI, AVANT C'EST SEULEMENT DE LA LECTURE
+C   the refinement work starts here, before this it is only reading
 C------
-
-CC ATTENTION AU DIMENSIONNEMENT DES TABLEAUX BASES SUR LES POINTS CAR IL FAUT PRENDRE EN COMPTE LEE NOMBRE DE POINTS EN PLUS
-CC QUI NE RESTERA PAS, PAS SEULEMENT LES POINTS FINAUX
 c
-      SKNOTLOCPC = DEG_MAX*3*(NUMNODIGE0+2*ADDELIG3D*NCTRLMAX)*MAXNUMGEO ! ON PEUT ENCORE AMELIORER
+      SKNOTLOCPC = DEG_MAX*3*(NUMNODIGE0+2*ADDELIG3D*NCTRLMAX)*MAXNUMGEO ! CAN BE FURTHER IMPROVED
       ALLOCATE (KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOTLOCPC')
       KNOTLOCPC(:)=0

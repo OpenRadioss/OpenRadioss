@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 
 #ifndef MECI_MODEL_SCANNER_H
@@ -33,6 +33,9 @@
 #include <HCDI/hcdi_mec_pre_object.h>
 #include "hcio.h"
 #include "hcioi_solverinf.h"
+
+class IExpressionEvaluator;
+
 /// Base class for creating a model
 class HCIO_DATA_DLL_API MECIModelScanner {
 
@@ -307,6 +310,9 @@ virtual IMECPreObject *GetIniCondData(const char *otype,int comp_index,int i,IME
 
   //@}
   
+
+  /// Get an expression evaluator
+  virtual const IExpressionEvaluator* GetBaseExpressionEvaluator() const { return nullptr; }
 
  
   protected:

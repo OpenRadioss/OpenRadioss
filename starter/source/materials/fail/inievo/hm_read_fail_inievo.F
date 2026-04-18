@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINIEVO,FAILIP,ISHEAR,ILEN,NUPARAM,NUVAR,NTABLE
+      INTEGER J,NINIEVO,FAILIP,ISHEAR,ILEN,NUPARAM,NUVAR,NVARTMP,NTABLE
       INTEGER,DIMENSION(:), ALLOCATABLE :: 
      .    INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL
       my_real :: PTHK,LENGTH_UNIT,RATE_UNIT
@@ -190,7 +190,8 @@ c     Filling buffer tables
 C======================================================================================
       NTABLE = NINIEVO*2
       ! -> Number of user variables
-      NUVAR = 2 + 3*NINIEVO   
+      NUVAR   = 2 + 3*NINIEVO
+      NVARTMP = 2*NTABLE   ! last interpolation position index of tabulated functions 
       ! -> Number of parameters
       NUPARAM = 5 + NINIEVO*14
 c-----------------------------------------------------    
@@ -200,6 +201,7 @@ c-----------------------------------------------------
       FAIL%NUPARAM = NUPARAM
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = NUVAR
+      FAIL%NVARTMP = NVARTMP
       FAIL%NFUNC   = 0
       FAIL%NTABLE  = NTABLE
       FAIL%NMOD    = 0

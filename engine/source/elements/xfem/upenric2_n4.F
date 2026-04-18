@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,12 +26,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPENRIC2_N4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,
      .                       NXLAY  ,CRKEDGE ,XEDGE4N)
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,IR,IAD,NELCRK,ELCRK,ILEV,ILAY,IXEL,ELCUT,LAYCUT,
-     .   IECUT,ENR,IBOUNDEDGE,IED,EDGE,FAC,COUNT,ITIP,ITRI,NUMXEL,NSX
+     .   IECUT,ENR,IBOUNDEDGE,IED,EDGE,FAC,COUNT,ITIP,ITRI,NUMXEL
       INTEGER JCT(MVSIZ),NTAG(4),D(4),NS(4),IADC(4)
       DATA D/2,3,4,1/
 C=======================================================================
@@ -102,11 +104,11 @@ c---------------------------------------
 c               new advancing (or init) crack => LAYCUT = +/- 1
 c---------------------------------------
                 DO K=1,4
-                  IED   = CRKEDGE(ILAY)%IEDGEC(K,ELCRK)   ! = 1,2 => sequence des arretes coupes
+                  IED   = CRKEDGE(ILAY)%IEDGEC(K,ELCRK)   ! = 1.2 => Sequence of the cuts
                   EDGE  = XEDGE4N(K,ELCRK) ! global egdge N 
                   IECUT = CRKEDGE(ILAY)%ICUTEDGE(EDGE)
 c                 Tip edges => NTAG = 2               
-                  IF (IED > 0 .and. IECUT == 2) THEN    ! (cas IECUT=3 traite avant)
+                  IF (IED > 0 .and. IECUT == 2) THEN    ! (IECUT CAS = 3 Treats before)
                     NTAG(K)    = 2
                     NTAG(d(K)) = 2
                     FAC = FAC + 1

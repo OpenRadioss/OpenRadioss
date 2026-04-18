@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,6 +84,7 @@
 !||    spmd_allgatherv_real            ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allgatherv_reals           ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allglob_isum9              ../engine/source/mpi/generic/spmd_allglob_isum9.F
+!||    spmd_allreduce_mod              ../engine/source/mpi/spmd_allreduce.F90
 !||    spmd_alltoall_double            ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_doubles           ../engine/source/mpi/generic/spmd_alltoall.F90
 !||    spmd_alltoall_int               ../engine/source/mpi/generic/spmd_alltoall.F90
@@ -159,7 +160,6 @@
 !||    spmd_exch_idel_seglo            ../engine/source/mpi/interfaces/spmd_exch_idel_seglo.F
 !||    spmd_exch_iedge                 ../engine/source/mpi/elements/spmd_xfem.F
 !||    spmd_exch_inter_18              ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-!||    spmd_exch_min_max               ../engine/source/mpi/ale/spmd_exch_min_max.F
 !||    spmd_exch_mult                  ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_exch_n                     ../engine/source/mpi/generic/spmd_exch_n.F
 !||    spmd_exch_nodarea               ../engine/source/mpi/anim/spmd_exch_nodarea.F
@@ -196,9 +196,7 @@
 !||    spmd_exch_userwi                ../engine/source/mpi/user_interface/spmd_exch_userwi.F
 !||    spmd_exch_v                     ../engine/source/mpi/generic/spmd_exch_v.F
 !||    spmd_exch_vmax                  ../engine/source/mpi/elements/spmd_exch_dttsh.F
-!||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
 !||    spmd_exch_vol                   ../engine/source/mpi/nodes/spmd_exch_vol.F
-!||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exch_work                  ../engine/source/mpi/r2r/spmd_r2r.F
 !||    spmd_exchange_grad              ../engine/source/mpi/fluid/spmd_exchange_grad.F
 !||    spmd_exchi_a_pon                ../engine/source/mpi/forces/spmd_exchi_a_pon.F
@@ -302,6 +300,7 @@
 !||    spmd_i8_irtl                    ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_reduce                  ../engine/source/mpi/interfaces/spmd_i8tool.F
 !||    spmd_i8_updbuf                  ../engine/source/mpi/interfaces/spmd_i8tool.F
+!||    spmd_iallreduce_mod             ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_ibcast                     ../engine/source/mpi/generic/spmd_ibcast.F
 !||    spmd_icol                       ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_ifc1                       ../engine/source/mpi/implicit/imp_spmd.F
@@ -479,4 +478,16 @@
       module spmd_comm_world_mod
         implicit none
         integer :: spmd_comm_world
+#ifndef MPI
+        integer, parameter, public :: MPI_STATUS_IGNORE = 0
+        integer, parameter, public :: MPI_STATUS_SIZE = 1
+        integer, parameter, public :: MPI_REQUEST_NULL = 0
+        integer, parameter, public :: MPI_COMM_WORLD = 0
+        integer, parameter, public :: SPMD_STATUS_IGNORE = 0
+        integer, parameter, public :: SPMD_STATUS_SIZE = 1
+        integer, parameter, public :: SPMD_REQUEST_NULL = 0
+#else
+#include "mpif.h"
+        integer, parameter, public :: SPMD_REQUEST_NULL = MPI_REQUEST_NULL
+#endif
       end module spmd_comm_world_mod

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    xyznod                ../engine/source/output/anim/generate/xyznod.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
@@ -49,13 +49,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   X(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*),NODGLOB(*),NUM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2
+      INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,MSGTYP2
 
       REAL, DIMENSION(:,:), ALLOCATABLE :: BUFSR,XGLOB
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
@@ -82,9 +82,9 @@ C-----------------------------------------------
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -110,7 +110,7 @@ C
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -120,7 +120,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant des adresses NODGLOB
+C   reception of the floating buffer of NODGLOB addresses
 
             MSGTYP2 = MSGOFF 
 

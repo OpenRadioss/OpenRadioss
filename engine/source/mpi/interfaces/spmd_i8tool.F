@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -205,7 +205,7 @@ C Computes INDEX_IN_COMM such that
 C if I is the main local id
 C INDEX_IN_COMM(i) = 
 C                     index of the node in
-C   Communication structure
+C   Communication Structure
 C                     0 if the node is not
 C   shared between processors (considering only this
 C   interface)            
@@ -776,12 +776,11 @@ C     INTEGER :: FLAG,RQ(NSPMD)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,MSGOFF,TAG,NUM
+      INTEGER :: MSGOFF,TAG,NUM
       DATA MSGOFF/15010/
 
 #ifdef MPI
-      INTEGER IERR,POS
-      INTEGER STAT(MPI_STATUS_SIZE)
+      INTEGER IERR
       my_real, DIMENSION(:), ALLOCATABLE :: BUF
       TAG = MSGOFF 
 c     IF(FLAG == 1) THEN

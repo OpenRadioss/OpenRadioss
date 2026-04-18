@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    i22main_tri      ../engine/source/interfaces/intsort/i22main_tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI22VOX0(
@@ -48,6 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,16 +74,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LOC_PROC,IB,NE,I,
-     .        NBX,NBY,NBZ,NEDG,M1,M2,M3,M4,M5,M6,M7,M8,
+      INTEGER LOC_PROC,IB,
+     .        NBX,NBY,NBZ,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ,
      .        BUFBRIC(NBRIC),NBF,NBL,ITASK
       my_real
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
-     .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
-     .        XX1,XX2,XX3,XX4,XX5, XX6, XX7, XX8,
-     .        YY1,YY2,YY3,YY4,YY5, YY6, YY7, YY8,
-     .        ZZ1,ZZ2,ZZ3,ZZ4,ZZ5, ZZ6, ZZ7, ZZ8,
+     .        
+     .           
+     .           
+     .           
      .        DX,DY,DZ
       LOGICAL :: IS_CONTACT
 C-----------------------------------------------
@@ -89,8 +91,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -99,9 +101,9 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 
-      ! Pour chercher les facettes candidats distante,
-      ! On regarde dans l intersection du domaine fluide local avec les domaines lagrangien remote
-      ! Cest ce domaine que l on voxelise pour rechercher les facettes remotes
+      ! to search for distant candidate facets,
+      ! we look at the intersection of the local fluid domain with the remote lagrangian domains
+      ! this is the domain that we voxelize to search for the remote facets
       XMAXB = MIN ( BMINMA_FLU_L(1), BMINMA_LAG_R(1) )
       YMAXB = MIN ( BMINMA_FLU_L(2), BMINMA_LAG_R(2) )
       ZMAXB = MIN ( BMINMA_FLU_L(3), BMINMA_LAG_R(3) )
@@ -113,7 +115,7 @@ C=======================================================================
       DY = YMAXB-YMINB
       DZ = ZMAXB-ZMINB
  
-      !test interection entre domaines (FLUIDE LOCAL / LAG DISTANTS)    
+      !Test Interaction between domains (local / distant fluid)    
       IF ( (DX<=ZERO).OR.(DY<=ZERO).OR.(DZ<=ZERO) ) THEN
         IS_CONTACT = .FALSE.
         RETURN

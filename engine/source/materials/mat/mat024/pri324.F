@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,7 +48,7 @@ C-----------------------------------------------
       DATA FTPI,TTPI / 4.188790205, 2.094395102 /
       DATA IPERM/2,3,1/
 C=======================================================================
-C       DEVIATEUR PRINCIPAL DE CONTRAINTE
+C       principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       DO I=1,6
         VEC(I)=ZERO

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -22,15 +22,23 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C last SPH structures only (see RESTMOD for other SPH structures)
 !||====================================================================
-!||    sph_mod   ../starter/share/modules1/sph_mod.F
+!||    sph_mod        ../starter/share/modules1/sph_mod.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    hm_read_node   ../starter/source/elements/reader/hm_read_node.F
+!||    lectur         ../starter/source/starter/lectur.F
+!||    wrcomr         ../starter/source/restart/ddsplit/wrcomm.F
 !||====================================================================
       MODULE SPH_MOD
 #include "my_real.inc"
 
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      SPH2SOL,SOL2SPH,IRST
+
+        my_real :: XI_RES = 0. !INLET SPH,
+        my_real :: YI_RES = 0.
+        my_real :: ZI_RES = 0.
+
+
 
       END MODULE SPH_MOD
 

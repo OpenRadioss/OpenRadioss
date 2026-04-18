@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -353,12 +353,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L(6), IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, N, L(6), IERROR, MSGOFF, LOC_PROC, MSGTYP, 
      .        STATUS(MPI_STATUS_SIZE),NB(6),OFFSET1
       DATA  MSGOFF/5004/
 C-----------------------------------------------
 C
-C --- Recolte des infos sur les procs : nb d'elements a envoyer, noeuds doubles, etc ...
+C --- gathering information on the processors: number of elements to send, double nodes, etc ...
 C
       LOC_PROC = ISPMD+1
       L(1) = 0
@@ -535,7 +535,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L, IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, L, IERROR, MSGOFF, LOC_PROC, MSGTYP, BUFSIZ, 
      .        STATUS(MPI_STATUS_SIZE)
       DATA  MSGOFF/5006/
 C-----------------------------------------------
@@ -568,7 +568,7 @@ C
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        SPMD_COMM_WORLD,STATUS,IERROR)
   
-C--------------OFFSET de la numerotation des elements----     
+C--------------offset of the element numbering----
             IF ((FLAG==1).OR.(FLAG>2)) THEN
                 DO I=1,BUFSIZ
                   IBUF(L+I)=IBUF(L+I)+OFFSET(P)
@@ -719,8 +719,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, IERROR, MSGOFF,LOC_PROC, MSGTYP,
-     .        STATUS(MPI_STATUS_SIZE),BUFSIZ,BUFA,TOTO
+      INTEGER P, IERROR, MSGOFF, LOC_PROC, MSGTYP, 
+     . STATUS(MPI_STATUS_SIZE),BUFSIZ,TOTO
       DATA  MSGOFF/5008/
 C-----------------------------------------------
 C
@@ -792,12 +792,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,
-     .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
-     .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),DBL,
-     .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
-      my_real
-     .        RBUF(LRBUF)
+      INTEGER I, P, N, L, IERROR, MSGOFF, 
+     . LOC_PROC, MSGTYP, BUFSIZ,
+     . DBL,
+     . STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
       DATA  MSGOFF/5009/
 C-----------------------------------------------
 C
@@ -879,12 +877,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,
-     .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
-     .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
-     .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
-      my_real
-     .        RBUF(LRBUF)
+      INTEGER I, P, N, L, IERROR, MSGOFF, 
+     . LOC_PROC, MSGTYP, BUFSIZ,
+     .
+     . STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
       DATA  MSGOFF/5010/
 C-----------------------------------------------
 C
@@ -969,12 +965,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,DBL,
-     .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
-     .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
-     .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
-      my_real
-     .        RBUF(LRBUF)
+      INTEGER I, P, N, L, IERROR, MSGOFF, DBL, 
+     . LOC_PROC, MSGTYP, BUFSIZ,
+     .
+     . STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
       DATA  MSGOFF/5011/
 C-----------------------------------------------
 C
@@ -1067,12 +1061,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, MSGOFF2, ISHIFT,DBL,
-     .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
-     .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
-     .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)    
+      INTEGER I, P, N, L, IERROR, MSGOFF, MSGOFF2, DBL, 
+     . LOC_PROC, MSGTYP, BUFSIZ,
+     .
+     . STATUS(MPI_STATUS_SIZE)
       my_real
-     .        DF1, DF2, DF3, RBUF(LRBUF), WFB
+     . DF1, DF2, DF3, WFB
       DATA  MSGOFF/5012/
       DATA  MSGOFF2/5013/
 C-----------------------------------------------
@@ -1114,7 +1108,7 @@ C
           A(1,N) = MS(N)*BUFR(1,L)
           A(2,N) = MS(N)*BUFR(2,L)
           A(3,N) = MS(N)*BUFR(3,L)
-C calcul du travail localement
+C local computation of work
           WF = WF + (DF1*V(1,N)+DF2*V(2,N)+DF3*V(3,N))/TWO
           WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(TWO*MS(N))        
           ELSE
@@ -1128,7 +1122,7 @@ C calcul du travail localement
         ENDIF    
       END DO
       
-C Sommation sur les procs de WF
+C summation over the processors of wf
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
@@ -1144,7 +1138,7 @@ C Sommation sur les procs de WF
      G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
-C Sommation sur les procs de WF2
+C summation over the processors of wf2
 
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
@@ -1205,7 +1199,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     . SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF
@@ -1276,7 +1270,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1292,7 +1286,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1388,7 +1382,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     . SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,MSGOFF
@@ -1457,7 +1451,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1473,7 +1467,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1502,7 +1496,7 @@ C   test si msg necessaire a envoyer a completer par test interface
                   IN(NOD)= RBUF(L+7)            
                 ENDIF                                 
                 L = L + SIZE
-C calcul du travail localement                
+C local computation of work
                 IF(WEIGHT(NOD)==1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -1530,7 +1524,7 @@ C calcul du travail localement
                    MS(NOD)= RBUF(L+3)           
                  ENDIF                 
                  L = L + SIZE
-C calcul du travail localement                
+C local computation of work
                  IF(WEIGHT(NOD)==1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -1660,7 +1654,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1676,7 +1670,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -1762,7 +1756,7 @@ C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
       
-C Sommation sur les procs de WF
+C summation over the processors of wf
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
@@ -1778,7 +1772,7 @@ C Sommation sur les procs de WF
      G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
-C Sommation sur les procs de WF2
+C summation over the processors of wf2
 
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
@@ -1830,7 +1824,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L, IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, L, IERROR, MSGOFF, LOC_PROC, MSGTYP, 
      .        STATUS(MPI_STATUS_SIZE)
       DATA  MSGOFF/5018/
 C-----------------------------------------------
@@ -1894,14 +1888,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),
-     .        DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),FLAG,
+     . DD_R2R(NSPMD+1,SDD_R2R),DD_R2R_ELEM(*),
      .        ITAG(*),LENR 
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     . SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,
@@ -1945,7 +1939,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -1961,7 +1955,7 @@ C decompactage
 C
       OFFSET = DD_R2R(NSPMD+1,1)-1
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
         IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
@@ -2027,7 +2021,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     . SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET  
@@ -2153,7 +2147,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     . SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET,

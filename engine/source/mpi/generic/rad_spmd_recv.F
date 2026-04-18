@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad_spmd_recv         ../engine/source/mpi/generic/rad_spmd_recv.F
 !||--- called by ------------------------------------------------------
 !||    aniskewf              ../engine/source/output/anim/generate/aniskewf.F
-!||    printime              ../engine/source/system/timer.F
+!||    printime              ../engine/source/system/printime.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
@@ -50,10 +50,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER INFO,BUFSIZMAX,ADD,LEN,SIZ_I,
-     .        ATID,ATAG,ALEN
+      INTEGER BUFSIZMAX, ADD, LEN, SIZ_I
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-C segment de memoire partagee doit etre superieur a 10 MB
+C shared memory segment must be superior to 10 Mb
       DATA BUFSIZMAX/10000000/
 C-----------------------------------------------
 C   S o u r c e  L i n e s

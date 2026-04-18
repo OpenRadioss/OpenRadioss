@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,12 +55,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod              ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
-!||    outputs_mod                 ../common_source/modules/outputs_mod.F
+!||    output_mod                  ../common_source/modules/output/output_mod.F90
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
 !||    tri7box                     ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I25MAINF(TIMERS,
+      SUBROUTINE I25MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -85,6 +85,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE TRI7BOX
@@ -92,7 +93,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE TRI25EBOX
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -119,6 +119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_) :: TIMERS
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
@@ -387,7 +388,7 @@ C
       DGAPLOADPMAX = INTBUF_TAB%VARIABLES(46)
 C
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   radius of curvature: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 C-----Press-fit 
@@ -412,7 +413,7 @@ C-----Press-fit
          END IF
        END IF
 C----------------------------------------------------------------------
-C     Secnd node previously impacted & Secnd node is leaving the contact
+C     Second node previously impacted & Second node is leaving the contact
 C----------------------------------------------------------------------
       NSNFT= 1+(JTASK-1)*NSN/ NTHREAD
       NSNLT= JTASK*NSN/NTHREAD
@@ -527,7 +528,7 @@ C
         ENDIF
       END DO
 C
-C     filtrer => ne garder que les contacts vrais 
+C     filter => keep only true contacts
       CALL I25KEEPF(
      1  I_STOK   ,INDEX2 ,INTBUF_TAB%CAND_OPT_N,INTBUF_TAB%CAND_OPT_E,NIN    ,
      2  NSN      ,NSNR   ,INACTI ,INTBUF_TAB%MSEGLO ,INTBUF_TAB%IRTLM ,
@@ -539,7 +540,7 @@ C
 C
 C-----------------------------------------------------------------------
 C
-C (re)decoupage statique
+C (re) static decoupage
 C
       I_STOK_GLO = INTBUF_TAB%I_STOK(2)
 C
@@ -553,7 +554,7 @@ C
 
       I_STOK = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
         IF(INTBUF_TAB%CAND_OPT_N(I)>0) THEN
@@ -589,11 +590,11 @@ C     Forces computation
 C-----------------------------------------------------------------------
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
           CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
 C         Extraction of global data to local arrays
           CALL I25COR3_3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
@@ -640,7 +641,7 @@ C
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
      8 PENMIN      ,EPS         ,PENE        ,INTBUF_TAB%PENE_OLD,SUBTRIA,
      9 GAPV        ,IVIS2       ,INTBUF_TAB%IF_ADH,IFADHI ,BASE_ADH      ,
-     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT)
+     A MVOISN      ,IBOUND      ,INTBUF_TAB%VTX_BISECTOR  ,DIST,    TT )
 C
           DO I = 1 ,JLT
 C
@@ -697,7 +698,7 @@ C-------------------------------------------------------------------------------
           ENDIF
         IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
-          CALL I25FOR3(
+          CALL I25FOR3(output,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,MS        ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,
@@ -795,8 +796,8 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(1)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is done in parallel after the calculation of the forces of the elements
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -805,7 +806,7 @@ C decoupage statique
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
 C     WRITE(6,*) "NEDGE=",NEDGE
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 
@@ -837,6 +838,8 @@ C         inbuf == cand_S
           INTBUF_TAB%CANDS_E2E(I) = -INTBUF_TAB%CANDS_E2E(I)
        ELSE ! Reset CAND_P
           INTBUF_TAB%CAND_P(I) = ZERO
+          INTBUF_TAB%PENE_OLD_E(I) = ZERO
+          INTBUF_TAB%STIF_OLD_E(I) = ZERO
        ENDIF
       ENDDO
 C
@@ -861,7 +864,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
           CALL I25CDCOR3(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%CANDM_E2E,INTBUF_TAB%CANDS_E2E,CM_LOC,
      2       CS_LOC)
@@ -883,7 +886,8 @@ C         preparation candidats retenus
      G JAS          ,IBS          ,JBS          ,ITAB         ,EDGE_ID ,
      H INTFRIC      ,INTBUF_TAB%IPARTFRIC_E     ,IPARTFRICSI  ,IPARTFRICMI,
      I IGAP         ,INTBUF_TAB%GAP_E_L,IGSTI   ,KMIN         ,KMAX    ,
-     J ISTIF_MSDT   ,DTSTIF        ,INTBUF_TAB%STIFMSDT_EDG,INTERFACES%PARAMETERS)
+     J ISTIF_MSDT   ,DTSTIF        ,INTBUF_TAB%STIFMSDT_EDG,INTERFACES%PARAMETERS,
+     K TYPEDGS)
           CALL I_COR_EPFIT3(
      1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
      2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
@@ -905,7 +909,8 @@ C         preparation candidats retenus
      .                                      INTBUF_TAB%CAND_P,
      E      IAM   ,JAM    ,IBM    ,JBM   ,IAS   ,
      F      JAS   ,IBS    ,JBS    ,ITAB  ,EDGE_ID,
-     G      DGAPLOADPMAX)
+     G      DGAPLOADPMAX,INTBUF_TAB%PENE_OLD_E,INTBUF_TAB%STIF_OLD_E,
+     .                     INTBUF_TAB%S_PENE_OLD_E,TYPEDGS  )
 
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
@@ -959,8 +964,8 @@ C-------------------------------------------------------------------------------
      I INTBUF_TAB%FTSAVX_E,INTBUF_TAB%FTSAVY_E, INTBUF_TAB%FTSAVZ_E   ,
      .                                          INTBUF_TAB%IFPEN_E    ,
      J TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER, INTBUF_TAB%TYPSUB,
-     K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
-
+     K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER,INTBUF_TAB%PENE_OLD_E,INTBUF_TAB%STIF_OLD_E,
+     L INTBUF_TAB%S_PENE_OLD_E)
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
 
 
@@ -979,8 +984,8 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(2)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is done in parallel after the calculation of the forces of the elements
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -990,7 +995,7 @@ C decoupage statique
 C     WRITE(6,*) "I_STOK_LOC=",I_STOK_LOC
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 C  =========== DEBUG
 #ifdef D_EM
@@ -1018,6 +1023,8 @@ C         inbuf == cand_S
           INTBUF_TAB%CANDS_E2S(I) = -INTBUF_TAB%CANDS_E2S(I)
        ELSE ! Reset CAND_P
           INTBUF_TAB%CAND_PS(4*(I-1)+1:4*(I-1)+4) = ZERO
+          INTBUF_TAB%PENE_OLD_E2S(4*(I-1)+1:4*(I-1)+4) = ZERO
+          INTBUF_TAB%STIF_OLD_E2S(4*(I-1)+1:4*(I-1)+4) = ZERO
        ENDIF
       ENDDO
 C     WRITE(6,*) "INDEX2(1:,",I_STOK,INTBUF_TAB%I_STOK_E(2),LINDMAX
@@ -1044,7 +1051,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
           CALL I25CDCOR3_E2S(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%CANDM_E2S,INTBUF_TAB%CANDS_E2S,
      2       CM_LOC,CS_LOC )
@@ -1085,7 +1092,8 @@ C         preparation candidats retenus
      E      INTBUF_TAB%CAND_PS,TYPEDGS ,IAS ,JAS ,IBS ,
      F      JBS    ,IAM   ,ITAB   ,INDX1,INDX2,
      G      CS_LOC4,CM_LOC4,EDGE_ID, NEDGE, NIN,
-     H      DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2)
+     H      DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2,
+     I      INTBUF_TAB%PENE_OLD_E2S,INTBUF_TAB%STIF_OLD_E2S,INTBUF_TAB%S_PENE_OLD_E2S)
 C
           ASSERT(4*JLT>=JLT_NEW)
 
@@ -1139,7 +1147,8 @@ C-------------------------------------------------------------------------------
      J IFQ          ,INTBUF_TAB%FTSAVX_E2S,INTBUF_TAB%FTSAVY_E2S, INTBUF_TAB%FTSAVZ_E2S ,
      .                                            INTBUF_TAB%IFPEN_E2S    ,
      K TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB,
-     O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
+     O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER,INTBUF_TAB%PENE_OLD_E2S,
+     L INTBUF_TAB%STIF_OLD_E2S,INTBUF_TAB%S_PENE_OLD_E2S)
 
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
           ENDIF

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,17 +80,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,ISF,NN,NS,JLTF,NE,NN1,NN2
+      INTEGER I, J, K, NI, ISF, NN, NS, JLTF, NE, NN1, NN2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),PENE(MVSIZ),
-     .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
-     .   V2, FM2, DT1INV, VISCA,  FAC,  FF,
-     .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS
+     . S2,
+     . FAC,
+     . PPLUS
       my_real
      .   PREC,FACT(MVSIZ),KN(4,MVSIZ),Q(3,3,MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ)
       my_real
-     .   Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
+     . Q11,Q12,Q13,Q22,Q23,Q33,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2,FACF
 C-----------------------------------------------
       IF (IRESP == 1) THEN
@@ -212,7 +212,7 @@ C
       IF(IDESAC>0) RETURN
 C
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
 C---------------------------------
       DO I=1,JLT
         VTX = VX(I) -VN(I)*NX(I)
@@ -300,7 +300,7 @@ c        write(iout,*)'FAC-,VN(I)=',FAC,VN(I),I
        K2J11(2,3,I)=KN(4,I)*Q23
        K2J11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -352,7 +352,7 @@ C
          IF(CS_LOC(I)>NRTS) THEN
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -385,7 +385,7 @@ C---------pour temporairement diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI,NJ
+      INTEGER I, ISF, NI, NJ
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
@@ -463,10 +463,8 @@ C-----------------------------------------------
      .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ), 
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
-     .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),
-     .   KT1,KT2,KT3,KT4,Q1,Q2
-
+     . FX,FY,FZ,FN,FT,FNI,VTX,VTY,VTZ,VT,
+     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ)
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -533,7 +531,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FACT(I)
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*NX(I)
@@ -552,7 +550,7 @@ C--------partie NML-------
         A(2,M2(I))=A(2,M2(I))+FY*HM2(I)
         A(3,M2(I))=A(3,M2(I))+FZ*HM2(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         FX=FNI*NX(I)
@@ -618,7 +616,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,INACTI,NRTS,NIN,LREM,IDESAC
+      INTEGER JLT, INACTI, NRTS, NIN, IDESAC
       INTEGER CS_LOC(MVSIZ), CM_LOC(MVSIZ),N1(MVSIZ), N2(MVSIZ),
      .        M1(MVSIZ), M2(MVSIZ) 
       my_real
@@ -636,7 +634,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,NN,NS,JLTF,NE,NN1,NN2,NM1,NM2
+      INTEGER I, NI, NN, NS, NN1, NN2, NM1, NM2
       my_real
      .   DXM1(MVSIZ),DYM1(MVSIZ),DZM1(MVSIZ),DXM2(MVSIZ),
      .   DYM2(MVSIZ),DZM2(MVSIZ),
@@ -644,9 +642,9 @@ C-----------------------------------------------
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
      .   DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ),DNI(MVSIZ), 
      .   FXI(MVSIZ),FYI(MVSIZ), FZI(MVSIZ),FNI(MVSIZ), 
-     .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
-     .   V2, FM2, VISCA,  FAC,  FF,DXT,T1,T2,T3,FTN,
-     .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS,GAP2,PENE2,PREC
+     . VNX, VNY, VNZ, AA,S2,
+     . V2, FAC,DXT,T1,T2,T3,FTN,
+     . FX, FY, FZ, PPLUS,GAP2,PENE2,PREC
 C-----------------------------------------------
       IF (IRESP == 1) THEN
          PREC = FIVEEM4
@@ -849,7 +847,7 @@ c
         A(2,NM2)=A(2,NM2)+FYI(I)*HM2(I)
         A(3,NM2)=A(3,NM2)+FZI(I)*HM2(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
        DO I=1,JLT
          IF(CS_LOC(I)<=NRTS) THEN
             NN1 = N1(I)
@@ -863,7 +861,7 @@ C--------secnd part-------
            ELSE
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=FFI(1,NN1)-FXI(I)*HS1(I)
             FFI(2,NN1)=FFI(2,NN1)-FYI(I)*HS1(I)

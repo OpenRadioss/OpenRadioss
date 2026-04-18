@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -161,6 +161,7 @@ C-----------------------------------------------
        ! ---ALE GLOBAL
        ! INTEGER NALENOVS
        ! INTEGER ICAA
+       ! INTEGER HLLC_LOWMACH
        ! INTEGER INCOMP
        ! INTEGER ISFINT
        ! INTEGER I_DT_NODA_ALE_ON
@@ -180,6 +181,10 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'ALE%GLOBAL%ICAA'
         TEMP_INT = ALE%GLOBAL%ICAA
         IF(TEMP_INT/=0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)                
+
+        WRITE(VARNAME,'(A)') 'ALE%GLOBAL%HLLC_LOWMACH'
+        TEMP_INT = ALE%GLOBAL%HLLC_LOWMACH
+        IF(TEMP_INT/=0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 
         WRITE(VARNAME,'(A)') 'ALE%GLOBAL%INCOMP'
         TEMP_INT = ALE%GLOBAL%INCOMP

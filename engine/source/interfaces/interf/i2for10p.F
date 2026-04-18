@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -84,7 +84,7 @@ C
           FZI=A(3,I)                              
 C
           IF (IRUPT(II) == 0) THEN                
-C---------  pas de rupture                      - 
+Cno rupture
 C
             IF (WEIGHT(I) == 1) THEN              
               XMSI = MS(I)                        
@@ -128,7 +128,7 @@ C
               A(3,I)=ZERO                         
             ENDIF                                 
           ELSEIF (IRUPT(II) == -1) THEN           
-C---------  rupture partielle                     - 
+C-------- partial break- 
 C
             FXI = FSM(1,II)                       
             FYI = FSM(2,II)                       
@@ -238,7 +238,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, TT, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   SS, TT, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H1, H2,H3,H4,
      .   STF,H21,H22,H23,H24
@@ -254,7 +254,7 @@ C
         IF (I > 0) THEN
 C
           IF (IRUPT(II) == 0) THEN
-C---------  pas de rupture                      - 
+Cno rupture
 C
             IF (WEIGHT(I) == 1) THEN
               L=IRTL(II)
@@ -358,7 +358,7 @@ C
             A(3,I)=ZERO
 C
           ELSEIF (WEIGHT(I) == 1) THEN
-C---------  rupture partielle ou totale                      - 
+Cpartial or total rupture
 C
             I0 = I0 + 1          
             NN = IADI2(1,I0)     

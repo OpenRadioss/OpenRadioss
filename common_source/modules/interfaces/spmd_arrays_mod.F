@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ C---------------------------------------------
 
         TYPE SPMD_ARRAYS_
           INTEGER , DIMENSION(:), ALLOCATABLE :: FR_EDG      ! List of frontier edges of main segments of int25 contacts
-          INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Adress of frontier edges of main segments of int25 contacts per proc spmd
+          INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Address of frontier edges of main segments of int25 contacts per proc spmd
         END TYPE SPMD_ARRAYS_
 
 C

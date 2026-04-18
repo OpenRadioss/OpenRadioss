@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -60,11 +60,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,JF,IH,IHF
+      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,IH,IHF
       my_real
      .   HIJ,DD
 C=======================================================================
-C     stockage creux : diagonale + trangle inf en colonnes:
+C     Hollow storage: Diagonal + Trangle INF in columns:
 C     DIAG(NC)
 C     IADH(NC+1)
 C     JCIH(LENH)
@@ -116,7 +116,7 @@ C---
         ENDDO
       ENDDO
 C----
-C---- partie Fixe
+C---- Fixed part
 C----
       DO IC=NCF_S+1,NCF_E
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -176,7 +176,7 @@ C---
         ENDDO
       ENDDO
 C----
-C     partie Variable - RB
+C     Variable part - RB
 C----
       DO IC=NCF_E+1,NCR
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -341,11 +341,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,JF,IH,IHF,II
+      INTEGER I,J,K,IK,IC,ICF,JCF,IR,IFX,NFIX,NFRE,JC,IH,IHF,II
       my_real
      .   HIJ,DD
 C=======================================================================
-C     stockage creux : diagonale + trangle inf en colonnes:
+C     Hollow storage: Diagonal + Trangle INF in columns:
 C     DIAG(NC)
 C     IADH(NC+1)
 C     JCIH(LENH)
@@ -398,7 +398,7 @@ C---
         ENDDO
       ENDDO
 C----
-C---- partie Fixe
+C---- Fixed part
 C----
       DO IC=NCF_S+1,NCF_E
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -459,7 +459,7 @@ C---
         ENDDO
       ENDDO
 C----
-C     partie Variable - RB
+C     Variable part - RB
 C----
       DO IC=NCF_E+1,NCR
         DO IK=IADLL(IC),IADLL(IC+1)-1

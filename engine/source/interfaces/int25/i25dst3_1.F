@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        CAND_N(*),
      .        CAND_E(*),NSVG(MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ), 
+     . MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
      .        MVOISN(MVSIZ,4), IBOUND(4,*)
       my_real
      .     TIME_S(2,NSN), GAPS(*), GAPM(*), GAPMXL(MVSIZ)
@@ -75,24 +75,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, JJ, INTERSECT, N, ITQ, N4N, IT, IKEEP, MGLOB, NINDX, ITOLD
-      INTEGER I4N(MVSIZ), INDX(MVSIZ), I1, I2, II,
+      INTEGER I, J, K, JJ, N, N4N, IT, ITOLD
+      INTEGER I4N(MVSIZ), I1, I2, 
      .        ITRIA(2,4), INEIGH(3,4), MARQUE(4,MVSIZ),
-     .        SUBTRIA_N(MVSIZ), IT1, IB1, IB2, IB3, IBX, IX, IY, IZ
+     . SUBTRIA_N(MVSIZ), IB1, IB2, IB3, IBX, IX, IY, IZ
       my_real
-     .     XI1(MVSIZ),  XI2(MVSIZ),  XI0V(MVSIZ),  XI5,
-     .     YI1(MVSIZ),  YI2(MVSIZ),  YI0V(MVSIZ),  YI5,
-     .     ZI1(MVSIZ),  ZI2(MVSIZ),  ZI0V(MVSIZ),  ZI5,
+     . XI1(MVSIZ), XI0V(MVSIZ),
+     . YI1(MVSIZ), YI0V(MVSIZ),
+     . ZI1(MVSIZ), ZI0V(MVSIZ),
      .     XIJ(MVSIZ,4),  
      .     YIJ(MVSIZ,4),  
-     .     ZIJ(MVSIZ,4),  
-     .     X51,  X52,  X53, X54,
-     .     Y51,  Y52,  Y53, Y54,
-     .     Z51,  Z52,  Z53, Z54,
-     .     XO1, XO2, XO3, XO4, XO5, XOI,
-     .     YO1, YO2, YO3, YO4, YO5, YOI,
-     .     ZO1, ZO2, ZO3, ZO4, ZO5, ZOI,
-     .     VO12, VO23, VO34, VO41, PENE
+     .     ZIJ(MVSIZ,4)
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP2,
      .     XP, YP, ZP,
@@ -110,10 +103,8 @@ C-----------------------------------------------
      .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ), 
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ, 
      .     LL,NN,PN,
-     .     N1X,N1Y,N1Z,N1N,
-     .     N2X,N2Y,N2Z,N2N,
      .     LX, LAX, LBX, LCX, LD(MVSIZ), DMIN
-      INTEGER ISHEL(MVSIZ)
+ 
       DATA ITRIA/1,2,2,3,3,4,4,1/,
      .     INEIGH/4,3,2,1,4,3,2,1,4,3,2,1/
 C-----------------------------------------------------------------------
@@ -286,7 +277,7 @@ C
         LBP(I,IT) = LB(I,IT)
         LCP(I,IT) = LC(I,IT)
         LAP    = ONE-LBP(I,IT)-LCP(I,IT)
-C       HLA, HLB, HLC necessaires pour triangle angle obtu
+C       HLA, HLB, HLC required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP<ZERO.AND.
@@ -315,7 +306,7 @@ C       HLA, HLB, HLC necessaires pour triangle angle obtu
 
       END DO
 C--------------------------------------------------------
-C     Verifie si penetre vs gap cylindrique ...
+C     Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -345,7 +336,7 @@ C--------------------------------------------------------
 C          
         IF (STIF(I) <= ZERO)CYCLE
 C
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
      .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
@@ -415,7 +406,7 @@ C
 C
             SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))      
 C
-C           Projette a l'exterieur et Hors secteur angulaire (cf bissectrices) <=> Glissement
+C           Projection outside and outside the cornerstone (see bisector) <=> shift
             IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
 C
           END IF
@@ -588,7 +579,7 @@ C
          LBP(I,IT) = LB(I,IT)
          LCP(I,IT) = LC(I,IT)
          LAP     = ONE-LBP(I,IT)-LCP(I,IT)
-C        HLA, HLB, HLC necessaires pour triangle angle obtu
+C        HLA, HLB, HLC required for triangle sharp angle
          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
          HLA= LAP*ABS(LAP) * AAA
          IF(LAP<ZERO.AND.
@@ -617,7 +608,7 @@ C        HLA, HLB, HLC necessaires pour triangle angle obtu
 
         END DO
 C--------------------------------------------------------
-C       Verifie si penetre vs gap cylindrique ...
+C       Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
         DO K=1,N4N
@@ -645,7 +636,7 @@ C--------------------------------------------------------
         DO K=1,N4N
          I=I4N(K)
 C
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
      .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
@@ -698,7 +689,7 @@ C
 C       Cone
         IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO) THEN
 C
-C        tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C        always check if you are in the cone (allows to determine in which cone you are)
 C
            X12(I)=XX(I,I2)-XX(I,I1)
            Y12(I)=YY(I,I2)-YY(I,I1)
@@ -739,7 +730,7 @@ C
               LCX = LC(I,JJ)
               LAX = ONE-LB(I,JJ)-LC(I,JJ)
 C
-C             Privilegier secteur dans lequel on se trouve.
+C             Privilegier sector in which we are.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
@@ -932,7 +923,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IT, I, J, L, N, MGLOB
+      INTEGER IT, I, J
 C--------------------------------------------------------
 C      Back to global arrays
 C--------------------------------------------------------

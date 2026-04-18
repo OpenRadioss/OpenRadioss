@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    finter                        ../engine/source/tools/curve/finter.F
 !||    finter_smooth                 ../engine/source/tools/curve/finter_smooth.F
-!||    sysfus2                       ../engine/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                       ../engine/share/modules/h3d_mod.F
 !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
@@ -65,7 +64,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
 C-----------------------------------------------
-      INTEGER SYSFUS2
       my_real FINTER,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C-----------------------------------------------

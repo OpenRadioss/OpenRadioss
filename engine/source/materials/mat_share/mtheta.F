@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C
        C1PSH   =C1(I)+PSH(I)
 C              ENERGIE ELASTIQUE
        ECOLD   =(C1PSH + HALF*C2MU)*AMU(I)
-C              ENERGIE DE RUPTURE EN TRITENSION (OU CAVITATION)
+C              rupture energy in triaxial tension (or cavitation)
 C              HYP: NE CREEE PAR D'ECHAUFFEMENT
        ECOLD   =ECOLD + HALF*DMU*(C1PSH+C2MU-PC(I))
 C              ENERGIE INITIALE

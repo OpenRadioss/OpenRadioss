@@ -1,5 +1,5 @@
-/*Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    OpenRadioss
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,7 @@
 //Copyright>
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
+//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 #ifndef MECI_MODEL_FACTORY_H
 #define MECI_MODEL_FACTORY_H
@@ -38,6 +38,8 @@
 #endif 
 
 class MvSubset_t;
+class MECMsgManager;
+class IExpressionEvaluator;
 
 typedef const vector<string> MyVecString;
 typedef pair< IMECPreObject*, InputInfos::IdentifierValuePairList *>  MyPairPreobjString;
@@ -90,6 +92,8 @@ public: /** @name Managing current Offset)*/
     void inline SetCurrentOffset(MECOffset* a_offset) { myCurrentOffsetPtr = a_offset; }
 public: /** @name Managing parameter*/
    //@{
+    virtual IParameter* GetParameterObject(const char* param_str, const int file_index, void** ent_ptr=nullptr)
+    { return nullptr; }
     /// Get integer parameter value
     virtual bool SetParameterData(vector<IParameter*>* param_data) = 0;
     /// Get integer parameter value
@@ -100,6 +104,10 @@ public: /** @name Managing parameter*/
     virtual string GetTextParameter(const char* param_str, const int file_index) = 0;
     /// Get parameter type
     virtual IParameter::Type GetParameterValueType(const char* param_str, const int file_index) = 0;
+    /// Evaluate expression parameters, to be called by reader
+    virtual void EvaluateExpressionParameters(const MECMsgManager* pMsgManager) {}
+    /// Get an expression evaluator
+    virtual const IExpressionEvaluator* GetBaseExpressionEvaluator() const { return nullptr; }
 
     virtual IMECPreObject* FindByFullType(const string& fulltype) = 0;
     virtual IMECPreObject* FindByObjectId(int entity_type, int id) = 0;
@@ -107,6 +115,8 @@ public: /** @name Managing parameter*/
 public:
     /// Reserving memory for objects of given type
     virtual void Alloc(const char* otype, int nb_objects) = 0;
+    virtual IMECPreObject* CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                        const char *title = "", int id = 0, int unit_id = 0) = 0;
     virtual int AddObject(const IMECPreObject& pre_object, const InputInfos::IdentifierValuePairList *metaarg=NULL) = 0;
     virtual int AddObjects(const char* otype)=0;
     virtual void PreTreatObject(const char* otype) = 0;

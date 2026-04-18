@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE INTBUF_FRIC_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,7 +112,7 @@ C-----------------------------------------------
       INTEGER NDX, I, INRT, NELS, MT, JJ, JJJ, NELC, J,
      .        MG, NELTG,NELT,NELP,NELR,
      .        IGTYP, IP,N1,N2,K,T,P,R,NELX,IPGMAT,IGMAT,IE,
-     .        JJ1,JJ2,IEC,K1,K2,IPL,IPC,
+     .        JJ1,JJ2,IEC,K1,K2,IPL,
      .        IE1(50,2),IE2(50,2),ISUBSTACK,IPG,N3,N4,N5,N6,N7,N8,ICONTR
       my_real DXM, GAPMX, GAPMN, AREASS, VOL, DX,GAP1,GAPS1,GAPTMP,XL,
      .        SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
@@ -619,7 +620,7 @@ C---------------------------
           ENDIF
           IF ((NINTR<0) .AND. (IT19==0)) WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
-C GAP MINI ET SUP DES GAPS VARIABLES
+C MIN GAP AND MAX OF VARIABLE GAPS
         IF(NINTR>0)THEN
           GAPMIN = GAP1
           GAPMAX = GAPS1
@@ -648,7 +649,7 @@ C---------------------------
       ENDIF
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the actual gap to use during the retri criterion
 C
       IF(IGAP == 0) THEN
         GAPINF=GAPMAX

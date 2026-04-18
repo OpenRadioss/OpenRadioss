@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,20 +30,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf                          ../engine/share/resol/initbuf.F
 !||    my_barrier                       ../engine/source/system/machine.F
 !||    spmd_e1vois                      ../engine/source/mpi/fluid/spmd_cfd.F
-!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F
+!||    spmd_exch_min_max                ../engine/source/mpi/ale/spmd_exch_min_max.F90
 !||    spmd_exchange_grad               ../engine/source/mpi/fluid/spmd_exchange_grad.F
+!||    startime                         ../engine/source/system/timer_mod.F90
+!||    stoptime                         ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
 !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod                      ../engine/share/resol/initbuf.F
 !||    multimat_param_mod               ../common_source/modules/multimat_param_mod.F90
+!||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
+!||    spmd_exch_min_max_mod            ../engine/source/mpi/ale/spmd_exch_min_max.F90
+!||    timer_mod                        ../engine/source/system/timer_mod.F90
 !||    trimat_mod                       ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG   ,ELBUF_TAB,IXQ     ,X       ,ALE_CONNECT,
      .                                          NV46    ,NERCVOIS ,NESDVOIS,LERCVOIS,LESDVOIS   ,LENCOM, ITASK,
-     .                                          IAD_ELEM,FR_ELEM  ,SEGVAR)
+     .                                          IAD_ELEM,FR_ELEM  ,SEGVAR,timers)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Computes limited gradients for volumic fractions
@@ -58,6 +64,10 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      use element_mod , only :nixq
+      use timer_mod
+      use precision_mod , only : WP      
+      use spmd_exch_min_max_mod , only : spmd_exch_min_max      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +93,7 @@ C-----------------------------------------------
       INTEGER :: IAD_ELEM(2, *), FR_ELEM(*)
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,9 +104,16 @@ C-----------------------------------------------
       INTEGER :: K, I, II, JJ, NODE_ID, JMIN, JMAX
       INTEGER :: ELEM_ID
       INTEGER :: FIRST,LAST
+      integer :: grad_size
+      integer :: s_fr_elem      
+      integer :: flag,s_proc_nb,r_proc_nb
+      integer :: buff_size
+      integer, dimension(nspmd) :: s_index,r_index,s_req,r_req
+      real(kind=WP), dimension(:), allocatable :: s_buffer,r_buffer           
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C----------------------------------------------- 
+      s_fr_elem = iad_elem(1,nspmd+1) - iad_elem(1,1)
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
@@ -113,7 +131,7 @@ C     ALE ON / OFF
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               !!! Element centroid
+               !!!centroid element
                ALEMUSCL_Buffer%ELCENTER(II,2) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
                ALEMUSCL_Buffer%ELCENTER(II,3) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
             ENDDO  
@@ -153,6 +171,7 @@ C     ALE ON / OFF
       
       !!! MPI Comm
       IF(NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
@@ -163,6 +182,7 @@ C     ALE ON / OFF
             CALL SPMD_E1VOIS(ALEMUSCL_Buffer%ELCENTER(1,JJ), NERCVOIS, NESDVOIS,LERCVOIS, LESDVOIS, LENCOM)
          ENDDO
 !$OMP END SINGLE
+         if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER 
       
@@ -185,19 +205,32 @@ C     ALE ON / OFF
             ENDDO
          ENDDO
       ENDDO
-      CALL MY_BARRIER 
-       !!! MPI Comm
-      IF(NSPMD > 1)THEN
-!$OMP SINGLE
-         DO ITRIMAT = 1, TRIMAT
-            CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,
-     .                              ALEMUSCL_Buffer%NODE_MIN_VALUE(1,ITRIMAT), ALEMUSCL_Buffer%NODE_MAX_VALUE(1,ITRIMAT) )
-         ENDDO
-!$OMP END SINGLE
-      ENDIF
       CALL MY_BARRIER
 
-      DO NG=ITASK+1,NGROUP,NTHREAD  
+      ! ------------
+      ! MPI comms : iSend & iRecv min/max
+      if(nspmd>1) then
+        if(itask==0) call startime(timers,timer_spmdcfd)
+        if(itask==0) then
+          flag = 0
+          s_proc_nb = 0
+          r_proc_nb = 0
+          s_fr_elem = iad_elem(1,nspmd+1) - iad_elem(1,1)
+          buff_size = iad_elem(1,nspmd+1)
+          allocate(s_buffer(2*buff_size*trimat))
+          allocate(r_buffer(2*buff_size*trimat))
+          call spmd_exch_min_max(flag,nspmd,numnod,buff_size,s_proc_nb,r_proc_nb,             
+     .                           s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
+     .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
+        endif
+        if(itask==0) call stoptime(timers,timer_spmdcfd)
+      endif
+
+      CALL MY_BARRIER      
+      ! ------------
+
+!$omp do schedule(guided)
+      DO NG=1,ngroup
 C     ALE ON / OFF
          IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
          CALL INITBUF(IPARG   ,NG      ,                  
@@ -215,18 +248,35 @@ C     ALE ON / OFF
          DO ITRIMAT = 1, TRIMAT
             CALL GRADIENT_RECONSTRUCTION2(IXQ, X, ALE_CONNECT, NV46, ITRIMAT, SEGVAR)
          ENDDO  !  ITRIMAT = 1, TRIMAT     
-      END DO  !  NG=ITASK+1,NGROUP,NTHREAD 
+      END DO
+!$omp end do      
 
       CALL MY_BARRIER
+      ! ------------
+      ! MPI comms : Wait & Finalize min/max
+      if(nspmd>1) then
+        if(itask==0) call startime(timers,timer_spmdcfd)
+        if(itask==0) then
+          flag = 1
+          call spmd_exch_min_max(flag,nspmd,numnod,lencom,s_proc_nb,r_proc_nb,             
+     .                           s_fr_elem,trimat,s_index,r_index,s_req,r_req,fr_elem,iad_elem,            
+     .                           alemuscl_buffer%node_min_value,alemuscl_buffer%node_max_value,s_buffer,r_buffer)
+          deallocate(s_buffer)
+          deallocate(r_buffer)
+        endif
+         if(itask==0) call stoptime(timers,timer_spmdcfd)
+      endif
+      ! ------------      
 
       IF (NSPMD  >            1) THEN
 C     MPI exchange for gradients
-!$OMP SINGLE
-         DO ITRIMAT = 1, TRIMAT
-            CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,ALEMUSCL_Buffer%GRAD(1,1,ITRIMAT), 
-     .                              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         ENDDO
-!$OMP END SINGLE         
+        if(itask==0) call startime(timers,timer_spmdcfd)
+        if(itask==0) then
+          grad_size = numels+nsvois+numelq+nqvois
+          call spmd_exchange_grad(grad_size,3,TRIMAT,alemuscl_buffer%grad,
+     .                          nercvois,nesdvois,lercvois,lesdvois,lencom)
+        endif
+        if(itask==0) call stoptime(timers,timer_spmdcfd)
       ENDIF
       CALL MY_BARRIER
       

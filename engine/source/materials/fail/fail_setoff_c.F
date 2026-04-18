@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                         THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                         ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                         NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                         IGEO     ,PRINT_FAIL)
+     .                         IGEO     ,PRINT_FAIL,
+     .                         IPART    ,LIPART1  ,IPARTC   ,NPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,8 +64,10 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPG,NUMGEO), INTENT(IN) :: GEO
       INTEGER, DIMENSION(NPROPGI,NUMGEO),INTENT(IN) :: IGEO
       INTEGER,INTENT(IN) :: PID,NEL,NLAY,NPTTOT,IGTYP,ISUBSTACK,
-     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO,NUMSTACK
-      INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL
+     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO,NUMSTACK,LIPART1,
+     .                      NPART
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+      INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL,IPARTC
       my_real, DIMENSION(NEL,NLAY_MAX*LAYNPT_MAX), INTENT(IN) :: THK_LY
       my_real, DIMENSION(NPTTOT*NEL), INTENT(IN)    :: THKLY
       my_real, DIMENSION(NEL), INTENT(INOUT)        :: OFF
@@ -73,11 +76,12 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
       TYPE (MAT_ELEM_) ,INTENT(INOUT)               :: MAT_ELEM
       LOGICAL, DIMENSION(NEL), INTENT(INOUT)        :: PRINT_FAIL
+         
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IPT,NPTT,
-     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY,IMAT,ID_PLY
+     .        NINDXLY,NFAIL,IPWEIGHT,IPTHKLY,IMAT,ID_PLY,IPT_ALL,IT
       my_real
      .        P_THICKG,FAIL_EXP,DFAIL
       INTEGER, DIMENSION(NEL)        :: INDXLY
@@ -85,7 +89,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
       my_real, DIMENSION(NLAY,100)   :: PTHKF
       my_real, DIMENSION(NEL)        :: THFACT,NORM,NPFAIL
-      TYPE(L_BUFEL_) ,POINTER        :: LBUF 
+ 
       CHARACTER(LEN=NCHARTITLE), DIMENSION(NEL) :: FAIL_NAME    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
@@ -114,6 +118,8 @@ c
           PTHKF(IL,IFL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%PTHK
         END DO
       END DO
+      
+      
       !=================================================================
       ! 1 LAYER PROPERTIES - TYPE1/TYPE9
       !=================================================================                                              
@@ -217,16 +223,16 @@ c
               ENDIF   
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))    
-                WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))    
+                WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ! -> Print out layer failure
             ELSE 
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 2000) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I))    
-                WRITE(ISTDO,2100) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 2000) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))    
+                WRITE(ISTDO,2100) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ENDIF
@@ -295,6 +301,7 @@ c
         ENDDO ! |-> IL
 c
         ! Check layer failure
+        IPT_ALL = 0 
         DO IL=1,NLAY
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
           NINDXLY = 0
@@ -307,12 +314,13 @@ c
             THFACT(1:NEL) = ZERO
             NPFAIL(1:NEL) = ZERO
             DO IPT = 1,NPTT
+              IT  = IPT_ALL + IPT       ! count all nptt through all layers
               FOFF => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IPT)%FLOC(IFL)%OFF
-              DO IEL=1,NEL                                                        
+              DO IEL=1,NEL   
+                IPOS =  (IT - 1)*NEL + IEL                                                      
                 IF (OFF(IEL) == ONE) THEN
                   IF (LAY_OFF(IEL) == 1) THEN
                     IF (FOFF(IEL) < ONE) THEN
-                      IPOS = II + IEL
                       THFACT(IEL) = THFACT(IEL) + THKLY(IPOS)/THK_LY(IEL,IL) ! -> Percentage of broken thickness
                       NPFAIL(IEL) = NPFAIL(IEL) + ONE/NPTT                   ! -> Ratio of broken integration points
                     ENDIF
@@ -320,6 +328,7 @@ c
                 ENDIF
               ENDDO ! |-> IEL
             ENDDO ! |-> IPT
+           
             ! Comparison with critical value PTHICKFAIL
             DO IEL=1,NEL
               IF (OFF(IEL) == ONE) THEN
@@ -337,6 +346,7 @@ c
               ENDIF
             ENDDO ! |-> IEL
           ENDDO ! |-> IFL
+          IPT_ALL =IPT_ALL + NPTT ! count all nptt through all layers
           ! Printing out ply failure message
           IF (NINDXLY > 0) THEN  
             IF (IGTYP == 51) THEN 
@@ -346,8 +356,8 @@ c
             ENDIF                                   
             DO I = 1,NINDXLY                                          
 #include     "lockon.inc"                                             
-              WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))                   
-              WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT                
+              WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))                   
+              WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT                
 #include     "lockoff.inc"                                            
             ENDDO ! |-> I                                                  
           ENDIF
@@ -393,10 +403,12 @@ c
       !=======================================================================
  1000 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
- 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
+ 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
+     .       1X,' BELONGING TO PART ID :', I5)
  2100 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
- 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
+     .       1X,' BELONGING TO PART ID :', I5,' AT TIME :',G11.4)
+ 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
+     .       1X,' BELONGING TO PART ID :', I5)
  3100 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
+     .       1X,' BELONGING TO PART ID :', I5,' AT TIME :',G11.4)
       END

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -25,9 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE TEMP3CG(JFT ,JLT   , PM   ,MAT   ,IXTG ,   
      3                  TEMP ,TEMPEL)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +51,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL  
-C --- calcul de la tempurature au CG 
+C --- calculation of temperature at center of gravity
         DO I=JFT,JLT
           TEMPEL(I) = THIRD * ( TEMP(IXTG(2,I)) + TEMP(IXTG(3,I)) + 
      .                          TEMP(IXTG(4,I))  )

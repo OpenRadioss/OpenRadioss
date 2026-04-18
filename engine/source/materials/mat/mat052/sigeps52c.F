@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -115,7 +115,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL0),MAT(NEL0),IPM(NPROPMI,*),NSG
+     .   NGL(NEL0),MAT(NEL0),IPM(NPROPMI,*)
       my_real TIME,TIMESTEP(NEL0),UPARAM(*),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),
@@ -164,19 +164,19 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,NINDX,NMAX,IADBUF,NFUNC,
-     .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
-     .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
-     .        JJ(MVSIZ),INDEX(MVSIZ),NRATEM,
-     .        NRATE1,IFUNC(MFUNC),IADBUFV,
-     .        NFUNCM,ISRATE,IYEILD_TAB,
-     .        ITAB(100),NTABLE,NXH,NDIM,IPOS,NXK,MX
+      INTEGER I,J,IADBUF,
+     .        
+     .        
+     .        
+     .        IADBUFV,
+     .        ISRATE,IYEILD_TAB,
+     .        ITAB(100),NTABLE,NDIM,IPOS,NXK,MX
       my_real 
      .        E,A1,A2,G,G3,
      .        NU
       my_real 
      .        F(MVSIZ), SIGM(MVSIZ), EPSP1(MVSIZ),
-     .        LAMDA(MVSIZ), FSTAR(MVSIZ),P0(MVSIZ),PN(MVSIZ),
+     .        LAMDA(MVSIZ), FSTAR(MVSIZ),PN(MVSIZ),
      .        ET,YEILD0,CSD, 
      .        VISP,  Q1, Q2, Q3, 
      .        SN, EPSN, FI,FN,
@@ -184,13 +184,13 @@ C-----------------------------------------------
      .        SIGXX(MVSIZ),SIGYY(MVSIZ),SIGXY(MVSIZ),
      .        SIGZX(MVSIZ),SIGYZ(MVSIZ),EN
       my_real
-     .        P,VM,R,FAC,
+     .        VM,R,
      .        DP11,DP22,DP33,DP12,DP13,DP23,A22,A11,
      .        D11,D22,D33,D12,D13,D23,DCRF,DCRM, DSEPP,DCD,LAM1,
-     .        C2,DF,COH,SIH,VA,CRIT,CONV,FG(MVSIZ),FN1(MVSIZ),YLDC,
-     .        C11,P1, VAR,C1,NN1,DEZZ,
-     .        DTINV,SQR22, VA1, VA2, VM1, SIGM1, SIGM2, A21,YP1,YP2,
-     .        DF1,DF2, XFAC,YFAC,DX2,XX(2),DFT,YY
+     .        C2,DF,COH,SIH,VA,CRIT,FG(MVSIZ),FN1(MVSIZ),YLDC,
+     .         VAR,C1,NN1,DEZZ,
+     .        DTINV,SQR22, VA1, VA2, VM1, SIGM1, SIGM2, A21,
+     .         XFAC,YFAC,DX2,XX(2),DFT,YY
 C
 c
 C-----------------------------------------------
@@ -331,7 +331,7 @@ C
            IF(VM < YLDC .OR. YLDC == ZERO )THEN
               LAMDA(I)=ZERO
            ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
              LAMDA(I) = ZERO
              SIGXX(I) = SIGNXX(I)
              SIGYY(I) = SIGNYY(I)
@@ -535,7 +535,7 @@ C
          IF(CRIT < ZERO .OR. YLD(I) == ZERO )THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
           SIGXY(I) = SIGNXY(I)
@@ -774,7 +774,7 @@ C
          IF(CRIT < ZERO .OR. YLD(I) == ZERO)THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
           SIGXY(I) = SIGNXY(I)
@@ -1016,7 +1016,7 @@ C
          IF(VM < YLDC .OR. YLDC == ZERO)THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           LAMDA(I) = ZERO
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)

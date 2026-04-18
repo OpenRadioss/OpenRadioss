@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szstraingps          ../engine/source/elements/solid/solidez/szstraingps.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE STRN_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,
@@ -38,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,19 +64,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   GAMA(6),OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .   GAMA(6),
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
-      INTEGER I,II, ISS, ISC,NBGAMA,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(10,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP
-      INTEGER MLW2,NLAY
+      INTEGER I,II,
+     .         N, J,  
+     .        
+     . NN1,K,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(10,MVSIZ),NNOD,ILAY,
+     .        IVISC,JJ(6),IP
+      INTEGER NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real

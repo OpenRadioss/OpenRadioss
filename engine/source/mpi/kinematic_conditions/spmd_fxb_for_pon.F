@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NFX, NMOD, NME, NSN, NVAR, PMAIN, IAD, NSNT, I, J, JJ,
+      INTEGER NFX, NMOD, NME, NSN, PMAIN, IAD, NSNT, I, J, JJ,
      .        ITAG, MSGOFF, NSNP(NSPMD-1), NSNPMAX, LEN, K, KK, AVAR,
      .        IERR, REQ(NSPMD-1), STAT(MPI_STATUS_SIZE,NSPMD-1),
      .        II
@@ -156,7 +156,7 @@ C
 #elif 1 
 
 
-C version simplifiee pour mono non SPMD
+C simplified version for mono non-SPMD
 !||====================================================================
 !||    spmd_fxb_for_pon      ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
 !||--- called by ------------------------------------------------------

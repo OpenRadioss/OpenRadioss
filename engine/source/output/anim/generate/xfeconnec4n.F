@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,12 +26,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xfecut          ../engine/source/output/anim/generate/xfecut.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE XFECONNEC4N(JFT     ,JLT     ,NFT   ,IXC    ,ELCUTC ,
      .                       IEL_CRK ,IADC_CRK,ILEV  ,NODEDGE,CRKEDGE,
      .                       XEDGE4N )
 C----------------------------------------------- 
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,12 +57,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,K1,K2,K3,K4,KK,p1,p2,NOD1,NOD2,IED0,IED1,IED2,                         
-     .   IEDGE,IEDGE1,IEDGE2,EDGE,EDGE1,EDGE2,IXEL,ILAY,ITRI,ILV,
-     .   FAC,OK,SN,ELCUT,ELCRK,IADC1,IADC2,IADC3,IADC4,NX1,NX2,NX3,NX4
+     .   IEDGE,IEDGE1,IEDGE2,EDGE,EDGE1,EDGE2,IXEL,ILAY,ITRI,
+     .   FAC,ELCUT,ELCRK,IADC1,IADC2,IADC3,IADC4,NX1,NX2,NX3,NX4
       INTEGER IFI0(4,MVSIZ),POS(2),
-     .   IED(4),IXI(4),D(4),DX(8),NX(MVSIZ)
+     .   IED(4),D(4),DX(8)
       my_real 
-     .   XINT,YINT,ZINT,XM,YM,ZM,X10,Y10,Z10,X20,Y20,Z20,BETA
+     .   X10,Y10,Z10,X20,Y20,Z20,BETA
       my_real 
      .   XIN(4,MVSIZ),YIN(4,MVSIZ),ZIN(4,MVSIZ),
      .   XX(4,MVSIZ),YY(4,MVSIZ),ZZ(4,MVSIZ)
@@ -68,7 +70,7 @@ c---------------------
       DATA D /2,3,4,1/
       DATA DX/1,2,3,4,1,2,3,4/      
 C=======================================================================
-c     Re-build phantom element connectivities
+c     Re-built phantom connectivities
 C-----------------------------------------------
       IXEL = MOD(ILEV-1, NXEL) + 1
       ILAY = (ILEV-IXEL)/NXEL  + 1
@@ -169,11 +171,11 @@ C     SIMPLE CRACKED ELEMENT
 C     only one crack inside element  
 c-----------------------------------------------
       DO I=JFT,JLT
-        IF (ELCUTC(1,I+NFT) == 0) CYCLE    ! element standard pas coupe         
+        IF (ELCUTC(1,I+NFT) == 0) CYCLE    ! Standard element not cut         
 c
         ELCRK = IEL_CRK(I+NFT)                          
         ELCUT = XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)
-        IF (ELCUT == 0) CYCLE              ! element fantome pas coupe   
+        IF (ELCUT == 0) CYCLE              ! ghost element not cut   
         ITRI = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) 
         NX1  = XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) 
         NX2  = DX(NX1+1)                                                            
@@ -223,7 +225,7 @@ C---
                 FAC = FAC + 1
                 p1 = K
                 p2 = d(p1)
-                IF (IFI0(p1,I) > 0) POS(FAC) = p1  ! save positive nodes
+                IF (IFI0(p1,I) > 0) POS(FAC) = p1  ! Positive Save Nodes
                 IF (IFI0(p2,I) > 0) POS(FAC) = p2
                 IED(FAC) = p1
                 IF (FAC == 2) EXIT

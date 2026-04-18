@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         VOLU ,THICK)
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,21 +56,22 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL
-      INTEGER IXS(NIXS,*),MXT(*),NGL(*),PID(*),
-     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
-C     REAL
-      my_real
-     .   X(3,*),GEO(*),VOLU(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .   E1X(*),E2X(*),E3X(*),E1Y(*),E2Y(*),E3Y(*),E1Z(*),E2Z(*),E3Z(*)
-      my_real, DIMENSION(NEL), INTENT(OUT) :: THICK
+      INTEGER IXS(NIXS,*)
+      INTEGER ,DIMENSION(MVSIZ) :: MXT,NGL,PID
+      INTEGER ,DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8        
+      my_real :: X(3,*)
+      my_real ,DIMENSION(MVSIZ) :: GEO,
+     .   X1, X2, X3, X4, X5, X6, X7, X8,
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .   E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z
+      my_real, DIMENSION(MVSIZ), INTENT(OUT) :: VOLU
+      my_real, DIMENSION(NEL)  , INTENT(OUT) :: THICK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IREP
-      my_real :: XL,YL,ZL,SUM,H1,H2,H3,H4
+      INTEGER :: I,IREP
+      my_real :: XL,YL,ZL,H1,H2,H3,H4
       my_real ::
      .   P1X(MVSIZ), P2X(MVSIZ), P3X(MVSIZ), P4X(MVSIZ),
      .   P1Y(MVSIZ), P2Y(MVSIZ), P3Y(MVSIZ), P4Y(MVSIZ),
@@ -81,9 +83,9 @@ C-----------------------------------------------
       my_real
      .    CHECKVOLUME_8N
 C=======================================================================
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
+C     connectivities and material number and pid
 C--------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         MXT(I) =IXS(1,I)
         IX1(I) =IXS(2,I)
         IX2(I) =IXS(3,I)
@@ -118,7 +120,7 @@ C         renumber connectivity
 C----------------------------
 C     COORDONNEES
 C----------------------------
-      DO I=LFT,LLT         
+      DO I=1,NEL         
         X1(I)=X(1,IX1(I))  
         Y1(I)=X(2,IX1(I))  
         Z1(I)=X(3,IX1(I))  
@@ -144,7 +146,7 @@ C----------------------------
         Y8(I)=X(2,IX8(I))  
         Z8(I)=X(3,IX8(I))
       ENDDO                
-      DO I=LFT,LLT 
+      DO I=1,NEL 
         P1X(I)=(X1(I)+X5(I))*HALF
         P1Y(I)=(Y1(I)+Y5(I))*HALF
         P1Z(I)=(Z1(I)+Z5(I))*HALF
@@ -168,13 +170,13 @@ C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       IREP = 0
-      CALL CLSKEW3(LFT,LLT ,IREP,
+      CALL CLSKEW3(1,NEL ,IREP,
      .             RX, RY, RZ,SX, SY, SZ, 
      .             E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,VOLU)
 C-----------
-C     REPERE CONVECTE
+C     convected frame
 C-----------
-      DO I=LFT,LLT                                                
+      DO I=1,NEL                                                
         XL=E1X(I)*X1(I)+E1Y(I)*Y1(I)+E1Z(I)*Z1(I)                 
         YL=E2X(I)*X1(I)+E2Y(I)*Y1(I)+E2Z(I)*Z1(I)                 
         ZL=E3X(I)*X1(I)+E3Y(I)*Y1(I)+E3Z(I)*Z1(I)                 

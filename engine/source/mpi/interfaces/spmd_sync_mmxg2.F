@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,15 +58,14 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER LOC_PROC,IERROR,I_LEN,myop,
-     .        KK, L, J, NIN, REQ,
-     .        STATUS(MPI_STATUS_SIZE),type_reduc
+      INTEGER LOC_PROC, IERROR, I_LEN, 
+     . KK, L, J, NIN
       PARAMETER (I_LEN = 46)
       my_real
      .        SBUF(NINTC*I_LEN), RBUF(NINTC*I_LEN)
       INTEGER :: MESSAGE_LEN
       my_real SBUF3(NINTC), RBUF3(NINTC) 
-      INTEGER SBUF2(NINTC), RBUF2(NINTC) 
+      INTEGER SBUF2(NINTC)
 
       INTEGER :: I17 !Number of TYPE17 interface 
 
@@ -129,7 +128,7 @@ C NEWFRONT
           SBUF(L+1) = -NEWFRONT(NIN)
           SBUF2(KK) = NEWFRONT(NIN)
           SBUF3(KK) = 0 
-        ELSE     ! interface 17 avec courbure
+        ELSE     ! interface 17 with curvature
 
           SBUF(L+1) = ZERO
 C SIZE
@@ -199,7 +198,7 @@ C    &                   COMM_CONT, ierror)
            L = L + 6
            IF(IPARI(7,NIN)/=17)THEN
              NEWFRONT(NIN) = - NINT(RBUF(L+1))
-           ELSE     ! interface 17 avec courbure
+           ELSE     ! interface 17 with curvature
              SIZE_T(NIN) = RBUF3(KK)
            END IF
            L = L + 1

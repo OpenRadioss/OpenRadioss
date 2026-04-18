@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
-C   Initialisation de la surface nodale
+C   Initialization of the nodal surface
           DO I=1,NOD
             LA(1,I)=ZERO
             LA(2,I)=ZERO
@@ -111,7 +111,7 @@ C
             ENDIF
           ENDDO
 C
-C Calcul pression initiale nodale
+C Calculation pression initiale nodale
 C
           DO I=1,NOD
             P0(I)=ZERO
@@ -124,7 +124,7 @@ C
           KSEG=ABS(ISEG(IS))
           ORIENT=ZERO
           IF(KSEG /= 0)ORIENT=FLOAT(ISEG(IS)/KSEG)
-c         pression voisin
+c         neighboring pressure
           ESEG=IELEM(IS)
           DO N=1,NGROUP
             KTY = IPARG(5,N)

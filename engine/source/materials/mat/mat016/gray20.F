@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,7 +72,7 @@ C-----------------------------------------------
 
       !-----------------------------
       !
-      !     CALCUL DES VARIABLES GRAY
+      ! CALCULATION OF GRAY VARIABLES
       !
       !-----------------------------
 
@@ -206,7 +206,7 @@ C------------------------------------
         ENDIF
       ENDDO
 C------------------------------------
-C     VITESSE DU SON
+C     SPEED OF SOUND
 C------------------------------------
       DO I=1,NEL
         IF(DMU(I)/=ZERO)THEN

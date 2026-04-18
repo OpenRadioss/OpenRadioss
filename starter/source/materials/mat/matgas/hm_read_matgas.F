@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C-----------------------------------------------
       my_real
      .   MW, CPA, CPB, CPC, CPD, CPE, CPF, CV,
      .   FAC_L, FAC_T, FAC_M, R_IGC1, FAC_CP, FAC
-      CHARACTER(LEN = NCHARLINE) :: KEY, USERGAS_NAME, KEY2_TRIM
+      CHARACTER(LEN = NCHARLINE) ::  USERGAS_NAME, KEY2_TRIM
       CHARACTER(LEN = 20) :: GASTYPE
       INTEGER :: IGAS, IMOLE
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED

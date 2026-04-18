@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER I, J, NOLD, K, IWORK(70000)
       INTEGER LELT, NE, IP, NLEV
 C-----------------------------------------------
-C CONSTITUTION DE LIST
+C CONSTITUTION OF THE LIST
 C-----------------------------------------------
       IL   =0
 C
@@ -86,7 +86,7 @@ C
       ENDDO
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DOUBLE Nos
 C-----------------------
       CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
       DO I=1,NLIST
@@ -116,7 +116,7 @@ C-----------------------
         ENDDO
       ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
       I=1
@@ -215,7 +215,7 @@ C-----------------------------------------------
       INTEGER LELT, LELT1, LELT2, NE, KE, IP, LEVEL, NLEV,
      .        LELTMP, NELTMP(NSONTREE**(LEVELMAX+1))
 C-----------------------------------------------
-C CONSTITUTION DE LIST
+C CONSTITUTION OF THE LIST
 C-----------------------------------------------
       IL   =0
 C
@@ -235,7 +235,7 @@ C
       ENDDO
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DOUBLE Nos
 C-----------------------
       CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
       DO I=1,NLIST
@@ -265,7 +265,7 @@ C-----------------------
         ENDDO
       ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
       I=1

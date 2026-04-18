@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sync_data      ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
@@ -47,6 +48,7 @@ C-----------------------------------------------
       USE REMESH_MOD
       USE ELBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -577,7 +579,7 @@ C
 C
       END IF
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
       IF(ITASK==0)THEN
         NTMP   =NSH4ACT
         NSH4ACT=0
@@ -591,7 +593,7 @@ C     compactage de LSH4ACT
 
       END IF
 C
-C     compactage de LSH3ACT
+C     compaction of LSH3ACT
       IF(ITASK==0)THEN
         NTMP   =NSH3ACT
         NSH3ACT=0

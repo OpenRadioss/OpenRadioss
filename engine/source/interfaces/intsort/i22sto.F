@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i22sto       ../engine/source/interfaces/intsort/i22sto.F
+!||    i22sto        ../engine/source/interfaces/intsort/i22sto.F
 !||--- called by ------------------------------------------------------
-!||    i22trivox    ../engine/source/interfaces/intsort/i22trivox.F
+!||    i22trivox     ../engine/source/interfaces/intsort/i22trivox.F
 !||--- uses       -----------------------------------------------------
-!||    i22tri_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    i22tri_mod    ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE I22STO(
      1      J_STOK ,IRECT   ,X       ,II_STOK ,CAND_B,
@@ -36,7 +37,8 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22TRI_MOD !pour le debug uniquement
+      USE I22TRI_MOD !for debugging only
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,8 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NSN, IGAP,NIN, ITASK, IXS(NIXS,*), nbric
-      INTEGER J_STOK,MULNSN,NOINT,INACTI,ESHIFT,BUFBRIC(NBRIC)
+      INTEGER I_MEM, ITASK, IXS(NIXS,*), nbric
+      INTEGER J_STOK,MULNSN,NOINT,ESHIFT,BUFBRIC(NBRIC)
       INTEGER IRECT(4,*),CAND_B(*),CAND_E(*),  NC
       INTEGER PROV_B(MVSIZ),PROV_E(MVSIZ),  II_STOK
       LOGICAL IsSTO
@@ -59,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J
+      INTEGER I,I_STOK
 C-----------------------------------------------
 
       IF(.NOT.IsSTO)THEN         
@@ -71,9 +73,9 @@ c        if(ibug22_trivox==1)print *, "   lockon", ITASK
       I_STOK = II_STOK
 
       IF(I_STOK + J_STOK>MULNSN) THEN
-        I_MEM = 2 ! Pas assez de place allouee  
+        I_MEM = 2 ! Not enough place allocated  
         IsSTO = .FALSE.
-        !II_STOK = ZERO fait dans i22buce     
+        !Ii_stok = zero made in i22buce     
 c        if(ibug22_trivox==1)print *, "   lockoff", ITASK             
 #include "lockoff.inc"  
         RETURN
@@ -81,8 +83,8 @@ c        if(ibug22_trivox==1)print *, "   lockoff", ITASK
 
       DO I=1,J_STOK         
         I_STOK = I_STOK + 1                         
-        CAND_B(I_STOK) = PROV_B(I) !numero de la brique dans le groupe local
-        CAND_E(I_STOK) = PROV_E(I) !est deja un numero global (1:NIRECT_L) pas besoin ESHIFT    
+        CAND_B(I_STOK) = PROV_B(I) !brick number in the local group
+        CAND_E(I_STOK) = PROV_E(I) !is already a global number (1:NIRECT_L) no need ESHIFT    
 c        if(ibug22_trivox==1)WRITE(*,FMT='(A,I8,A,I8,I8)')
 c     .   "   I22sto : ecriture Bric=", 
 c     .   IXS(11,BUFBRIC(PROV_B(I))), " ShellDiag= ",
@@ -92,7 +94,7 @@ c        if(ibug22_trivox==1)print *, ""
 C-----------------------------------------------
       II_STOK = II_STOK + J_STOK
          
-!#include "lockoff.inc"  lockoff seulement losque la brique courante est completement traitee
+!#include "Lockoff.inc" lockoff only losque the current brick is completely treated
 
       RETURN
       END

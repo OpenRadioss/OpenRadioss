@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,13 +27,15 @@
 !||====================================================================
       module shell_offset_ini_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine do the initialization of shell offset treatment
+!!\brief This subroutine performs the initialization of shell offset treatment
 !=======================================================================================================================
 !||====================================================================
 !||    shell_offset_ini   ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
@@ -60,16 +62,16 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                          :: ngroup           !< number of elem group
-          integer, intent (in   )                          :: nparg            !< 1er dim of iparg
-          integer, intent (in   )                          :: npropg           !< 1er dim of geo
+          integer, intent (in   )                          :: nparg            !< first dimension of iparg
+          integer, intent (in   )                          :: npropg           !< first dimension of geo
           integer, intent (in   )                          :: numgeo           !< number of prop
-          integer, intent (in   )                          :: npropgi          !< 1er dim of igeo
+          integer, intent (in   )                          :: npropgi          !< first dimension of igeo
           integer, intent (in   )                          :: numelc           !< number shell 4n element
           integer, intent (in   )                          :: numeltg          !< number shell 3n element
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (inout),dimension(npropgi,numgeo):: igeo             !< property array
           real(kind=WP), intent (inout),dimension(npropg,numgeo) :: geo              !< property array
-          integer, intent (in   ),dimension(numelc+numeltg):: itagsh           !< shell w/ offset
+          integer, intent (in   ),dimension(numelc+numeltg):: itagsh           !< shell with offset
           type (elbuf_struct_),  target, dimension(ngroup) :: elbuf_tab        !< el_buf struct_
           type (shell_defaults_),intent(in)                :: defaults_shell   !< Default values for Shell : /DEF_SHELL option
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,7 +97,7 @@
                   if (itagsh(ie)>0) elbuf_tab(ng)%gbuf%sh_ioffset(i)=1
                   if (itagsh(ie)>0) nn = nn+1
                 end do
-              elseif (ity == 7)then
+              else if (ity == 7)then
                 nnode =3
                 do i=1,nel
                   ie = nft +numelc+ i
@@ -104,7 +106,7 @@
                 end do
               end if
             end do
-          elseif (defaults_shell%ioffset>=3) then
+          else if (defaults_shell%ioffset>=3) then
 !---change offset to zero after projection
             do  ng=1,ngroup
               ity=iparg(5,ng)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,7 +75,7 @@ C
       ENDIF
 
       IF (FVSPMD(IFV)%RANK == 0) THEN
-C Reception des longueurs
+C reception of lengths
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -88,7 +88,7 @@ C Reception des longueurs
 
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          ITABL(1)=FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          ITABL(2)=FVSPMD(IFV)%NNA_L
          ITABL(3)=FVSPMD(IFV)%NNSA_L
          ITABL(4)=FVSPMD(IFV)%NNI_L

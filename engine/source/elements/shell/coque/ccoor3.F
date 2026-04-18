@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ccoor3   ../engine/source/elements/shell/coque/ccoor3.F
+!||    ccoor3        ../engine/source/elements/shell/coque/ccoor3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CCOOR3(JFT ,JLT ,X   ,IXC ,GEO ,OFFG  ,
      2                  OFF ,SIGY,PID,V,VR,VL1,VL2,VL3,VL4,
      3                  VRL1,VRL2,VRL3,VRL4,MAT,DT1C,THKE,THK0,NGL,
      4                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2    ,
      5                  Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, J
+      INTEGER JFT, JLT
       INTEGER NGL(MVSIZ), IXC(NIXC,*),MAT(MVSIZ), PID(MVSIZ)
 C     REAL
       my_real
@@ -156,9 +159,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    ccoort3   ../engine/source/elements/shell/coque/ccoor3.F
+!||    ccoort3       ../engine/source/elements/shell/coque/ccoor3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CCOORT3(JFT     ,JLT   ,X     ,IXC    ,OFFG   ,
      1                    DR     ,PX1   ,PX2   ,PY1    ,PY2    ,
@@ -166,6 +171,7 @@ C
      3                    E2Z    ,E3X   ,E3Y   ,E3Z    ,AREA   , 
      4                    V13X   ,V24X  ,V13Y  ,V24Y   ,SMSTR  ,
      5                    NEL    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -188,7 +194,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II(9),NN(4)
+      INTEGER I, II(9),NN(4)
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),

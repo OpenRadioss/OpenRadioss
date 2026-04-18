@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -127,7 +127,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      . I, J,JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
-     . JPOS0(MVSIZ),JFUNC,JFUNC2,INDEX(MVSIZ),NC
+     . JPOS0(MVSIZ),JFUNC,INDEX(MVSIZ),NC
       my_real
      .   XX(MVSIZ) ,DYDX(MVSIZ) ,YY(MVSIZ),E_SEG,E_T,E_MIN,
      .   X0(MVSIZ),F0(MVSIZ)
@@ -259,7 +259,7 @@ C------compression 1er point
         YN=TF(NPF(IFUNCT)+J1+1)-Y0
         E1 = ZERO
         IF (ABS(XN)>ZERO) E1= YN/XN
-C------traction 1er point
+C----- 1st point traction
         J1=2*(N0-2)
         X=TF(NPF(IFUNCT)+J1)
         IF (X==ZERO) THEN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -58,14 +58,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NSNL, I, J, II, N, IROT
+      INTEGER NSNF,NSNL, I, J, IROT
       my_real
      .   XSLV(6), VSLV(6), XX, YY, ZZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculate criterion to know if we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30
@@ -208,10 +208,10 @@ C
       END IF
 C
 
-C dist calcule une fois pour toutes les interfaces dans I21_ICRIT
+C dist calculated once for all interfaces in I21_ICRIT
 C
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO

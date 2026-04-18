@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    srcoork        ../engine/source/elements/solid/solide8z/srcoork.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8CKE3(
      1   PM,       GEO,      IXS,      X,
@@ -54,7 +55,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD        
+      use element_mod , only : nixs    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,8 +101,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO,NF1,IFLAG,NB3S,I,J,IKSUP,IKORTH,IADBUF,IPREDU
-      INTEGER IR, IS, IT,IL,IP,ICR,ICS,ICT,ICPG,PID,
+      INTEGER NF1, I, IKORTH, IADBUF, IPREDU
+      INTEGER IR, IS, IT, IL, IP, ICPG, PID, 
      .     NPTR,NPTS,NPTT,NLAY,IAD0,NPPT,MX
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IDEG(MVSIZ)
       my_real
@@ -109,28 +111,18 @@ C-----------------------------------------------
      . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) , 
-     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ) 
+     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ)
 C----------------
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
-     .   OFF(MVSIZ) , RHOO(MVSIZ),
+     . OFF(MVSIZ) ,
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .  VX1(MVSIZ),VX2(MVSIZ),VX3(MVSIZ),VX4(MVSIZ),
-     .  VX5(MVSIZ),VX6(MVSIZ),VX7(MVSIZ),VX8(MVSIZ),
-     .  VY1(MVSIZ),VY2(MVSIZ),VY3(MVSIZ),VY4(MVSIZ),
-     .  VY5(MVSIZ),VY6(MVSIZ),VY7(MVSIZ),VY8(MVSIZ),
-     .  VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
-     .  VZ5(MVSIZ),VZ6(MVSIZ),VZ7(MVSIZ),VZ8(MVSIZ),
-     .  HX1(MVSIZ),HX2(MVSIZ),HX3(MVSIZ),HX4(MVSIZ),
-     .  HY1(MVSIZ),HY2(MVSIZ),HY3(MVSIZ),HY4(MVSIZ),
-     .  HZ1(MVSIZ),HZ2(MVSIZ),HZ3(MVSIZ),HZ4(MVSIZ),
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
      .  PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
@@ -172,13 +164,10 @@ C----------------
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
-     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   G1X(MVSIZ),G2X(MVSIZ),G3X(MVSIZ),
-     .   G1Y(MVSIZ),G2Y(MVSIZ),G3Y(MVSIZ),
-     .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
+     .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
       my_real
-     .   BID,WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
-     .   VOLM(MVSIZ),SIGM(MVSIZ),NU1(MVSIZ),GAMA(MVSIZ,6)
+     . BID,WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),
+     . NU1(MVSIZ),GAMA(MVSIZ,6)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       my_real
@@ -423,7 +412,7 @@ C
      3   G33,     DM,      GM,      DGM,
      4   IKORTH,  LBUF%SIG,IR,      IS,
      5   IL,      NEL,     JHBE,    MTN)
-C-----------  check MPT sont memes entre KE et forc3----     
+C-----------  check mpt are the same between ke and forc3----
        CALL S8ZLKE3(
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,

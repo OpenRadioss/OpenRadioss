@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   This subroutine defines & writes nodal Density requested by Engine keywords /ANIM/NODA/DENS or /H3D/NODA/DENS
 C   /INTER/TYPE22   (nodal Density from polyhedra, specific buffer).
 C   /MONVOL/FVMBAG* (nodal Density from polyhedra, specific buffer).
-C   DEFAULT         (nodal PresDensitysure from adjacent elems)
+C   DEFAULT         (nodal Density from adjacent elems)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -92,10 +92,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
-     .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
+      INTEGER   I, ITYP, NEL,
+     .          J, JJ,
      .        IALEL,NNOD,IPOS,IV,NGv,IDLOCv,J1,J2,IBV
-      INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
+      INTEGER  NG, NBF, NBL, IB, ICELL, NIN, MCELL
       INTEGER G_VOL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    

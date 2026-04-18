@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   UVAR,      OFF,       NGL,       ITABLE,
      D   ETSE,      GS,        SIGY,      DPLA1,
      E   EPSP,      TABLE,     VOL,       TEMPEL,
-     F   DIE,       COEF,      NPF,       NFUNC,
+     F   DIE,       NPF,       NFUNC,
      G   IFUNC,     TF,        SHF,       HARDM,
      H   SEQ_OUTPUT,INLOC,     DPLANL,    JTHE,
      I   LOFF)
@@ -79,7 +79,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),SHF(NEL),
-     .   GS(NEL),VOL(NEL),TEMPEL(NEL),DIE(NEL),COEF(NEL),HARDM(*),
+     .   GS(NEL),VOL(NEL),TEMPEL(NEL),DIE(NEL),HARDM(*),
      .   SEQ_OUTPUT(NEL),DPLANL(NEL)
       TYPE(TTABLE) TABLE(*)
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
@@ -107,22 +107,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NXK,J1,J2,N,NINDX,NMAX,
+      INTEGER I,J,N,NINDX,NMAX,
      .        INDEX(MVSIZ),OPTE,IFUNCE,FUNC_TAB
       my_real 
-     .        A,B,S12,FAC,DEZZ,SIGZ,S1,S2,S3,DPLA,VM2,EPST,
+     .        A,B,S12,DEZZ,S1,S2,S3,EPST,
      .        A_1,A_2,A_3,P_1,P_2,P_3,PP1,PP2,PP3,DR,DR0,
      .        E,A1,A2,G,G3,
      .        A01,A02,A03,A12,
      .        AXX(MVSIZ),AYY(MVSIZ),AXY(MVSIZ),A_XY(MVSIZ),
      .        DYDX(MVSIZ),SVM(MVSIZ),
-     .        SVM0(MVSIZ),YLD(MVSIZ),YK(MVSIZ),
+     .        YLD(MVSIZ),YK(MVSIZ),
      .        NNU1,NU,NU2,NU3,NU4,NU5,
      .        JQ(MVSIZ),JQ2(MVSIZ),
      .        EPSMAX,DPLA_I(MVSIZ),DPLA_J(MVSIZ),FAIL(MVSIZ),
      .        EPSR1,EPSR2,S11(MVSIZ),S22(MVSIZ),
      .        B_1(MVSIZ),B_2(MVSIZ),B_3(MVSIZ),Q12(MVSIZ),Q21(MVSIZ),
-     .        ERR,F,DF,PLA_I,YLD_I,H(MVSIZ),
+     .        F,DF,YLD_I,H(MVSIZ),
      .        FISOKIN,HK(MVSIZ),FHK,FA01,FA02,FA03,NU1,XFAC,YFAC,CE,
      .        E1(MVSIZ), A11(MVSIZ),A21(MVSIZ),G1(MVSIZ),G31(MVSIZ),
      .        DYDXE(MVSIZ),ESCALE(MVSIZ),EINF,NORMXX,NORMYY
@@ -206,12 +206,8 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
         IF(JTHE > 0 ) THEN
          DO I=1,NEL     
            TEMP(I) = TEMPEL(I)
@@ -221,8 +217,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
+           TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2)) * RHOCP/VOL0
          ENDDO
         ENDIF
 C
@@ -328,7 +323,7 @@ C---------------------------
        I=INDEX(J)
        DPLA_J(I)=(SVM(I)-YLD(I))/(G31(I)+H(I)) !!!
        ETSE(I)= H(I)/(H(I)+E1(I))  !!!
-C   +++cette partie peut etre neglige quand FHK est tres petit
+C   +++ This part can be Neglige when FHK is very small
        HK(I) = H(I)*FISOKIN
        FHK = FOUR_OVER_3*HK(I)/A11(I)  !!
        FA01 =A01*FHK
@@ -481,12 +476,8 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
         IF(JTHE > 0 ) THEN
          DO I=1,NEL     
            TEMP(I) = TEMPEL(I)
@@ -496,8 +487,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
+           TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2)) * RHOCP/VOL0
          ENDDO
         ENDIF
 C
@@ -536,7 +526,6 @@ C-------------------
 C
         XX(I,1)=PLA (I)
         XX(I,2)=EPSP(I)*XFAC
-c        print *,xx(i,2)
         XX(I,3)=TEMP(I)
       END DO      
 C
@@ -603,7 +592,7 @@ C---------------------------
        I=INDEX(J)
        DPLA_J(I)=(SVM(I)-YLD(I))/(G3+H(I))
        ETSE(I)= H(I)/(H(I)+E)
-C   +++cette partie peut etre neglige quand FHK est tres petit
+C   +++ This part can be Neglige when FHK is very small
        HK(I) = H(I)*FISOKIN
        FHK = FOUR_OVER_3*HK(I)/A1
        FA01 =A01*FHK

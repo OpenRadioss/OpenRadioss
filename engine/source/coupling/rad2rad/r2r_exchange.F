@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -88,7 +88,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,IEX,IDP,IDG,NNG,OLD_ACTIV,BID,LENR,SIZE,NTOP
+        INTEGER IEX, IDP, IDG, NNG, OLD_ACTIV, BID, LENR, SIZE, NTOP
 C
         INTEGER, DIMENSION(:), POINTER :: GRNOD
         my_real, POINTER, DIMENSION(:) :: MSNL,VNL,FNL
@@ -120,7 +120,7 @@ C----------simple precision : DX is replaced by XDP--------------
      .          ADD_RBY(IEX) ,RBYLNK(IEX),KINLNK(IEX),R2R_KINE,DT1,IEX,
      .          OFF_SPH_R2R  ,NUMSPH_GLO_R2R, NRBY)
             ELSE
-C---------double precision---------------------------------------
+C-------- Double precision -----------------------------------------------------------------------------------
               CALL SEND_DATA_C(
      .          IDP    ,NNG    ,GRNOD  ,A      ,AR     ,
      .          STX    ,STR    ,V      ,VR     ,MS     ,IN     ,
@@ -143,7 +143,7 @@ C----------simple precision : DX is replaced by XDP--------------
      .            IN ,XDP ,DD_R2R(1,IEX),DD_R2R(NSPMD+1,IEX),WEIGHT,
      .            TYPLNK(IEX),ROTLNK(IEX),RBYLNK(IEX),RBY,IEX)
             ELSE
-C----------double precision -------------------------------------
+C--------- Double precision ---------------------------------------------------------------------------
               CALL SEND_DATA_SPMD(
      .            IDP,NNG,GRNOD        ,A                    ,AR     ,
      .            STX,STR,V            ,VR                   ,MS     ,
@@ -304,7 +304,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER IDP, NNG, NGLOB,i,TYP,
+        INTEGER IDP, NNG, NGLOB, TYP, 
      .          GRNOD(*),FLAG_ROT, FLAG_RBY,
      .          WEIGHT(*), DD_R2R(*), IEX
 C     REAL
@@ -315,7 +315,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER II,J
+ 
         my_real
      .          BUFR1(3,NGLOB), BUFR2(3,NGLOB), BUFR3(NGLOB),
      .          BUFR4(NGLOB), BUFR5(3,NGLOB), BUFR6(3,NGLOB),
@@ -385,7 +385,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LRBUF,i
+        INTEGER LRBUF
         my_real
      .          BUFR1(NGLOB), BUFR2(NGLOB), BUFR3(NGLOB), BUFR4(NGLOB)
 C
@@ -509,7 +509,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IEX, IDP, IDG, NNG,NMOD_R2R, OFF
+        INTEGER IEX, IDP, IDG, NNG, OFF
         INTEGER, DIMENSION(:), POINTER :: GRNOD
 C=======================================================================
 

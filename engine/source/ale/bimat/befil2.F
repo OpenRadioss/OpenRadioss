@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,11 +74,11 @@ C-----------------------------------------------
         FI3(I)=FILL(NC3(I),1)
         FI4(I)=FILL(NC4(I),1)
         ABF=ABS(FI1(I))+ABS(FI2(I))+ABS(FI3(I))+ABS(FI4(I))
-        N1=NINT(SIGN(ONE,FI1(I)))
-        N2=NINT(SIGN(ONE,FI2(I)))
-        N3=NINT(SIGN(ONE,FI3(I)))
-        N4=NINT(SIGN(ONE,FI4(I)))
-        NP=MAX(0,N1)+MAX(0,N2)+MAX(0,N3)+MAX(0,N4)
+        N1=MERGE(1, 0, FI1(I) > ZERO) ! indicator function
+        N2=MERGE(1, 0, FI2(I) > ZERO) ! indicator function
+        N3=MERGE(1, 0, FI3(I) > ZERO) ! indicator function
+        N4=MERGE(1, 0, FI4(I) > ZERO) ! indicator function
+        NP=N1+N2+N3+N4
         DN=DT1*NP
         IF(DN/=ZERO)THEN
          FA(I)=-DALPH1(I)*ABF/DN
@@ -87,7 +87,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 C-----------------------------------------------
-C     CALCUL PAR NOEUD DE V MATIERE - V MAILLAGE
+C     CALCULATION PER NODE OF V MATERIAL - V MESH
 C-----------------------------------------------
       DO I=LFT,LLT
         VDY1(I)=V(2,NC1(I))
@@ -266,7 +266,7 @@ C
         ENDIF
         DS= MIN(ZERO,TWO*DS)
         DT= MAX(ZERO,TWO*DT)
-        DF2(I)=FOUR*((-TWO*DS       +DS*DT*DT1)*FI1(I)
+        DF2(I)=FOURTH*((-TWO*DS       +DS*DT*DT1)*FI1(I)
      .               +( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
      .               +(        +TWO*DT+DS*DT*DT1)*FI3(I)
      .               +(                -DS*DT*DT1)*FI4(I) )

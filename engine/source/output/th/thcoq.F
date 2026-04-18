@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hist2              ../engine/source/output/th/hist2.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
 !||    stack_mod          ../engine/share/modules/stack_mod.F
@@ -41,6 +42,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE PINCHTYPE_MOD         
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,17 +69,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,II,JJ,N, IH, NG, ITY, MTE,  M2, M3, M5,M8, 
+      INTEGER I,J,K,L,II,N, IH, NG, ITY, MTE, M5,M8, 
      .   NPT,MPT,NPG,NPTR,NPTS,NPTT,NLAY,IP,IR,IS,IT,IL,IPT,
-     .   LWA,NEL,NFT,I1,I2,I3,I4,IUV,IAA,IADR,N16,N16A,
-     .   ISTRAIN,NU,NUVAR,NUVARV,NUVARD,IGTYP,IHBE,NBD1,NBD2,NBD3,
-     .   IFAILURE,IADD,ISROT,IVISC,IPMAT,PTMAT,ISHPLYXFEM,IPMAT_IPLY,
-     .   MAT_IPLY,NBDELM,IWA,NV,NGL,IIGEO,IADI,ISUBSTACK,ITHK,NPT_ALL,
-     .   MATLY,KK(8),IPINCH,IPG,IMAT,MAT_ORTH, IDRAPE
+     .   NEL,NFT,I1,IUV,IAA,IADR,
+     .   ISTRAIN,NU,NUVAR,NUVARV,NUVARD,IGTYP,IHBE,
+     .   IFAILURE,IVISC,IPMAT,ISHPLYXFEM,IPMAT_IPLY,
+     .   MAT_IPLY,ISUBSTACK,ITHK,NPT_ALL,
+     . MATLY,KK(8),IPG,IMAT,MAT_ORTH, IDRAPE
       INTEGER PID(MVSIZ),MAT(MVSIZ)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       my_real :: WWA(50000),FUNC(6),SIG(5),SIGG(5)
-      my_real ,DIMENSION(MVSIZ) :: DAM1,DAM2,WPLA,DMAX,WPMAX,
+      my_real ,DIMENSION(MVSIZ) :: DAM1,DAM2,WPLA,
      .   FAIL,FAIL1,FAIL2,FAIL3
       my_real :: F1,F2,F3,F4,F5,F11,F22,F33,F44,F55,CP,SP,MM1,MM2,MM3,
      .   MM11,MM22,MM33,D1,D2,D11,D12,D22,VAL_LY_IP,VAL_LY_AVERAGE
@@ -102,7 +104,7 @@ C=======================================================================
 !   ------------------------------- 
       II=0
       IH=IAD
-C   specifique spmd
+C   SPECIFIC SPMD
 C decalage IH
       DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
         IH = IH + 1
@@ -237,8 +239,8 @@ c---------
 C
               IF (K == N) THEN
                 IH=IH+1
-C             traitement specifique spmd
-C               recherche du ii correct
+C             SPECT SPMD treatment
+C               search for the correct ii
                 II = ((IH-1) - IAD)*NVAR
                 DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
                   IH = IH + 1

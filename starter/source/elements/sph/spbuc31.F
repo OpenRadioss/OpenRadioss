@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -110,8 +110,8 @@ C-----------------------------------------------
       
       IF(RES8 > LVOXEL8) stop 678  
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of VOXEL
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -165,17 +165,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, KB, JB, NSBT, IB, IL, MM1, MM2, KM, MM, MG,
-     .   JJL, NFT, LLT, JL, JG, JLO, LL1, LL2, LL, LG, N, NN,
-     .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR , ig
+      INTEGER    IL,
+     .     JG,
+     .   NVOIS, K, JK, NVOIS1, NVOIS2, IERROR 
 C     REAL
       my_real
-     .   XJJ, YJJ, ZJJ,DK, DL   
+     .     DK   
 
 
 C-----------------
-C     TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
-C     (COEF DE SECURITE CROISSANT).
+C     SORTING OF THE LIST, KEEPING THE FIRST KVOISPH
+C     (INCREASING SAFETY COEFFICIENT).
 C-----------------
       NVOIS=KXSP(5,IL)
       IF(NVOIS>KVOISPH)THEN
@@ -193,7 +193,7 @@ C-----------------
         DK=DVOIS(KVOISPH)
 
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Selection of cells to keep such that distance < DK to avoid /PARITH/ON problems
         NVOIS=0
         DO K=1,KXSP(5,IL)
           IF(DVOIS(K)<DK)THEN

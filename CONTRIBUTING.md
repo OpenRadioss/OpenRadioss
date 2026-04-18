@@ -99,7 +99,7 @@ See `template/template.F90`
 | Use Fortran 90  |  Runtime polymorphism, type-bound procedures|
 | *.F Fixed length (132), uppercase for legacy files     |   |
 | *.F90 free format for new files                        |   |
-| Filenames: `<subroutine_name>.F`, `<module_name>_mod.F` |`*.f`, `*.F90`   |
+| Filenames: `<subroutine_name>.F`, `<module_name>_mod.F` |`*.f`, `*.f90`   |
 | Indent using 2 spaces | use tabs |
 | Modules and derived type   |`COMMON`, `EQUIVALENCE`, `SAVE`|
 | Pass variables (built-in and derived types) as dummy arguments | use global variables |

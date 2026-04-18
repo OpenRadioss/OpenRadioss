@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CREATE_IPARTM1 (NPART,IPART,IPARTM1 )
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C    m p l  c  t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 !||====================================================================
       INTEGER FUNCTION PART_USRTOS(IU,IPARTM1,NPART)
 C      IDENTIQUE A USR2SYS, SANS GENERER D'ERREUR
-C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU
+C      FONCTION DONNE N0 SYSTEME DU NODE USER IU
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=NPART
       J=MAX(1,NPART/2)
@@ -91,7 +91,7 @@ C
         RETURN
       ENDIF
       IF((IU-IPARTM1(J,1))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          PART_USRTOS=J
          RETURN
       ELSE IF (IU-IPARTM1(J,1)<0) THEN
@@ -153,7 +153,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=NPART
       J=MAX(1,NPART/2)
@@ -167,7 +167,7 @@ C
         RETURN
       ENDIF
       IF((IU-IPARTM1(J,1))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SET_USRTOS=J
          RETURN
       ELSE IF (IU-IPARTM1(J,1)<0) THEN
@@ -224,7 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=SZ
 
@@ -261,7 +261,7 @@ C
         RETURN
       ENDIF
       IF((UI-MAP(J,1))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SET_USRTOS_NEAREST=J
          RETURN
       ELSE IF (UI-MAP(J,1)<0) THEN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -23,23 +23,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    aconv3                 ../engine/source/ale/ale3d/aconv3.F
 !||--- called by ------------------------------------------------------
-!||    aconve                 ../engine/source/ale/aconve.F
+!||    aconve                 ../engine/source/ale/aconve.F90
 !||--- calls      -----------------------------------------------------
 !||    my_barrier             ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
       SUBROUTINE ACONV3(VTOT ,PHI,FLUX,FLU1,IXS,
      .                  ALE_CONNECT,IOFF,QMV,IFLG,
-     .                  TAG22,NVAR,ITASK)
+     .                  TAG22,NVAR,ITASK,s_flux,s_qmv,offset,nv46,
+     .                  nel,nft)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I22TRI_MOD  ! , use only : ibug22_convec
       USE ALEFVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,8 +53,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
+      integer, intent(in) :: s_qmv  !< first dimension of QMV array
+      integer, intent(in) :: offset !< offset for FLUX and QMV arrays
+      integer, intent(in) :: nv46  !< second dimension of FLUX and QMV arrays
+      integer, intent(in) :: nel   !< number of elements of the group
+      integer, intent(in) :: nft   !< first element index of the group
       INTEGER IOFF, IFLG,IXS(NIXS,NUMELS),NVAR,ITASK
-      my_real VTOT(*), PHI(*), FLUX(6,*), FLU1(*), QMV(12,*), TAG22(MVSIZ)
+      my_real VTOT(*), PHI(*), FLUX(s_flux,nv46), FLU1(*), QMV(s_qmv,2*nv46), TAG22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -59,12 +68,11 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, IE, IV,J,IAD2,LGTH
-      my_real :: VALVOIS(6,MVSIZ),VALEL(MVSIZ),VL(6,MVSIZ), DELTA(MVSIZ)
+      my_real :: VALVOIS(MVSIZ,6),VALEL(MVSIZ),VL(MVSIZ,6), DELTA(MVSIZ)
       LOGICAL debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -73,11 +81,11 @@ C-----------------------------------------------
       !---------------------------------------------------------!
       ! CONVECTION                                              !
       !---------------------------------------------------------!
-      DO I=LFT,LLT
+      DO I=1,nel
         IE               = NFT+I
         VALEL(I)         = PHI(IE)
       ENDDO
-      DO I=LFT,LLT
+      DO I=1,nel
          IE             = NFT+I
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(IE+1) - IAD2
@@ -85,53 +93,55 @@ C-----------------------------------------------
             
             IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
             IF(IV > 0)THEN
-               VALVOIS(J,I) = PHI(IV)
+               VALVOIS(I,J) = PHI(IV)
             ELSEIF(IV == 0)THEN
-               VALVOIS(J,I) = PHI(IE)
+               VALVOIS(I,J) = PHI(IE)
             ELSE
                !-IV is segment ID
                ! ebcs PHI(NUMEL + 1:NSEGFLU) is filled in aconve.F using SEGVAR (filled in ebcs[0-9][0-9].F)
-               VALVOIS(J,I) = PHI(-IV+IOFF)
+               VALVOIS(I,J) = PHI(-IV+IOFF)
             ENDIF
          ENDDO
       ENDDO
 
-      DO I=LFT,LLT
-        VL(1,I)          = VALVOIS(1,I)*FLUX(1,I)
-        VL(2,I)          = VALVOIS(2,I)*FLUX(2,I)
-        VL(3,I)          = VALVOIS(3,I)*FLUX(3,I)
-        VL(4,I)          = VALVOIS(4,I)*FLUX(4,I)
-        VL(5,I)          = VALVOIS(5,I)*FLUX(5,I)
-        VL(6,I)          = VALVOIS(6,I)*FLUX(6,I) 
-        DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
+      DO I=1,nel
+        IE               = NFT+I+offset
+        VL(I,1)          = VALVOIS(I,1)*FLUX(IE,1)
+        VL(I,2)          = VALVOIS(I,2)*FLUX(IE,2)
+        VL(I,3)          = VALVOIS(I,3)*FLUX(IE,3)
+        VL(I,4)          = VALVOIS(I,4)*FLUX(IE,4)
+        VL(I,5)          = VALVOIS(I,5)*FLUX(IE,5)
+        VL(I,6)          = VALVOIS(I,6)*FLUX(IE,6) 
+        DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(I,1)-VL(I,2)-VL(I,3)-VL(I,4)-VL(I,5)-VL(I,6))
       ENDDO
 
       IF(ALEFVM_Param%IEnabled/=0)THEN
         IF(NVAR==2)THEN
-          DO I=LFT,LLT
+          DO I=1,nel
             DELTA(I) = DELTA(I) + (ALEFVM_Param%IWFEXT)*DT1*ALEFVM_Buffer%WFEXT_CELL(I+NFT)
           ENDDO
         ENDIF
       ENDIF
 
       IF(INT22==0)THEN
-        DO I=LFT,LLT
+        DO I=1,nel
           VTOT(I) = VTOT(I) + DELTA(I)        
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,nel
           IF(TAG22(I)==ZERO) VTOT(I) = VTOT(I) + DELTA(I)  !can be optimized later (conditional test is currently within the loop)
         ENDDO     
       ENDIF
 
       IF(TRIMAT > 0.AND.IFLG == 1)THEN
-        DO I=LFT,LLT
-          QMV(1,I) = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I) 
-          QMV(2,I) = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I) 
-          QMV(3,I) = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I) 
-          QMV(4,I) = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I) 
-          QMV(5,I) = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I) 
-          QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
+        DO I=1,nel
+          ie = nft+i+offset
+          QMV(ie,1) = QMV(ie,1) - VL(I,1) - VALEL(I)*QMV(ie,07) 
+          QMV(ie,2) = QMV(ie,2) - VL(I,2) - VALEL(I)*QMV(ie,08) 
+          QMV(ie,3) = QMV(ie,3) - VL(I,3) - VALEL(I)*QMV(ie,09) 
+          QMV(ie,4) = QMV(ie,4) - VL(I,4) - VALEL(I)*QMV(ie,10) 
+          QMV(ie,5) = QMV(ie,5) - VL(I,5) - VALEL(I)*QMV(ie,11) 
+          QMV(ie,6) = QMV(ie,6) - VL(I,6) - VALEL(I)*QMV(ie,12)  
         ENDDO
       ENDIF
 C-----------
@@ -155,7 +165,7 @@ C-----------
           
           if(itask==0)then
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -177,7 +187,7 @@ C-----------
 
           if(itask==1)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -199,7 +209,7 @@ C-----------
 
           if(itask==2)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
@@ -221,7 +231,7 @@ C-----------
 
           if(itask==3)then       
             if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
+              do i=1,nel
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
                 if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 

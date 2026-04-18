@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,9 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,ISENS
+      INTEGER :: I,ISENS
       my_real :: E11,E22,NU12,NU21,G12,G23,G31,A11,A12,A22,RCOMP,
-     .           S,D,T,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
+     .           S,D,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
       my_real ,DIMENSION(NEL) :: ET
 C=======================================================================
       ISENS = IPARAM(1)
@@ -101,7 +101,7 @@ c-------------------------
         SIGNZX(I) = G31*EPSZX(I)*SHF(I)
       ENDDO
 C-----------------------------
-C     CONTRAINTES reduites en compression
+C     Reduced compression constraints
 C-----------------------------
       DO  I=1,NEL
        S  = HALF*(SIGNXX(I) + SIGNYY(I))

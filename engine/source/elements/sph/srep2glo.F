@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srep2glo    ../engine/source/elements/sph/srep2glo.F
+!||    srep2glo      ../engine/source/elements/sph/srep2glo.F
 !||--- called by ------------------------------------------------------
-!||    soltosphp   ../engine/source/elements/sph/soltosph.F
+!||    soltosphp     ../engine/source/elements/sph/soltosph.F
 !||--- calls      -----------------------------------------------------
-!||    scortho3    ../engine/source/elements/thickshell/solidec/scortho3.F
-!||    sortho3     ../engine/source/elements/solid/solide/sortho3.F
-!||    srepisot3   ../engine/source/elements/solid/solide/srepisot3.F
+!||    scortho3      ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    sortho3       ../engine/source/elements/solid/solide/sortho3.F
+!||    srepisot3     ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SREP2GLO(
      1   X,       IXS,     GAMA,    RX,
@@ -40,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8   T32,     T33,     JR0,     JS0,
      9   JT0,     NEL,     LFT,     LLT,
      A   JHBE,    JCVT,    ISORTH)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +89,7 @@ C     REAL
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
-     .   S11,S22,S33,S12,S21,S23,S32,S13,S31,RR,XL,YL,ZL
+     .   RR,XL,YL,ZL
       INTEGER NC1, NC2, NC3, NC4, 
      .        NC5, NC6, NC7, NC8, I
 C-----------------------------------------------
@@ -191,7 +194,7 @@ C orthomalized isoparametric system
        SZ(I)=SZ(I)/MAX(EM30,RR)
       END DO
 C-----------
-C       REPERE ORTHOTROPE.
+C       ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH /= 0) THEN
         IF (JCVT == 0) THEN

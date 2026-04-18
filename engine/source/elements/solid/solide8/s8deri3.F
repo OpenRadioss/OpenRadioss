@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -102,10 +102,10 @@ C     REAL
      .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
      .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
      .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), H(8), VLINV,
-     .   DELTA1,DELTA2,DELTA3,
-     .   SPX1,SPX2,SPX3,SPX4,SPX5,SPX6,SPX7,SPX8,
-     .   SPY1,SPY2,SPY3,SPY4,SPY5,SPY6,SPY7,SPY8,
-     .   SPZ1,SPZ2,SPZ3,SPZ4,SPZ5,SPZ6,SPZ7,SPZ8,
+     .   
+     .   
+     .   
+     .   
      .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XX3,YY3,ZZ3,SMAX,VMIN,
      .   P1(8), P2(8), P3(8)
       DO 5 I=1,NEL
@@ -151,7 +151,7 @@ C
 C
       DO 100 IPT=1,8
 C
-C     VALEUR DES FONCTIONS DE FORMES AU POINT D 'INTEGRATION
+C     value of shape functions at the integration point
 C
       CALL BASISF (H,P1,P2,P3,IPT)
 C

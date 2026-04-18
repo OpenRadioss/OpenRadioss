@@ -6,4 +6,4 @@ set (CXX_FLAGS "-Wno-deprecated -fpermissive -DGCC4 -DGCC32 -c -O2 -fPIC -Wno-wr
 # C Compiler Flags
 # --------------
 set (C_PRECOM_DEFINITION "-DNO_GZ_LIB -DTXT_MSG -DUNV -DHC_DATA_DLL_EXPORTS -D_64BITS -DLINUX -DOS_UNIX -DUSE_NAMESPACE -DFORTRAN_CALL_C_ -DBOOST_ALL_NO_LIB -DNDEBUG -DLINUX_PLATFORM" )
-set (C_FLAGS "-ansi  -w -c -O2 -fPIC -Wno-write-strings -m64 " )
+set (C_FLAGS "-std=c11 -w -c -O2 -fPIC -Wno-write-strings -m64 " )

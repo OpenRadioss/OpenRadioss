@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -201,16 +202,16 @@ C
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NSIGI,SIGSP,NSIGS,
-     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG_GR(28))
+     .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG_GR(28),JCVT)
 !
 !     Initialize element temperature from /initemp
 !      
       IF (JTHE == 0 .and. NINTEMP > 0) THEN
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
-     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
-     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
-     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I+NFT)) + TEMP(IXS(3,I+NFT))
+     .                           + TEMP(IXS(4,I+NFT)) + TEMP(IXS(5,I+NFT))        
+     .                           + TEMP(IXS(6,I+NFT)) + TEMP(IXS(7,I+NFT))        
+     .                           + TEMP(IXS(8,I+NFT)) + TEMP(IXS(9,I+NFT))) 
         ENDDO
       ELSE
         TEMPEL(1:NEL) = TEMP0(1:NEL)
@@ -224,7 +225,7 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMSOL    ,PTSOL  ,
      .            IP      ,NGL     ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX  ,TEMPEL     )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
 C
       ! Density perturbation for /MAT/LAW115
       IF (MTN == 115) THEN 
@@ -236,13 +237,13 @@ C
      1                 GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+C     initialization of thermal and turbulence
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT ,PM ,GBUF%TEMP)
       IF(JTUR /=0) CALL ATURI3(IPARG   ,GBUF%RHO,PM  ,IXS  ,X     ,
      .                         GBUF%RK ,GBUF%RE ,VOLU   )
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     initialization of masses
 C----------------------------------------
       IF(JLAG+JALE+JEUL/=0) THEN
 C-------- case /INIBRIS/STRS_FGLO missed         
@@ -287,10 +288,10 @@ c
      4      MSSA       ,IX1       ,IX2     ,IX3     ,IX4    ,
      5      GBUF%FILL, VOLU       ,IMAS_DS ,NINTEMP )
 C------------------------------------------
-C       assemblage des Volumes nodaux et Modules nodaux
-C       (pour rigidites d'interface)
+C       assembly of nodal volumes and nodal modules
+C       (for interface stiffnesses)
 C------------------------------------------
-C       attention : IX1, IX2 ... IX4 sont sous la forme NC(MVSIZ,4)
+C       Please note: IX1, IX2 ... IX4 are in the form NC (MVSIZ, 4)
         IF(I7STIFS/=0)THEN
           NCC=4
           IXT4(1:MVSIZ,1) = IX1(1:MVSIZ)
@@ -321,7 +322,7 @@ C----------------------------------------
          CALL S4JACI3(GBUF%SMSTR,GBUF%JAC_I, GBUF%VOL,NEL  ) 
       END IF
 C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     calculation of elementary timesteps
 c
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -47,7 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G      JAS    ,IBS    ,JBS    ,ITAB   , EDGE_ID,
      H      INTFRIC,IPARTFRIC_E,IPARTFRICSI,IPARTFRICMI,
      I      IGAP   ,GAP_E_L,IGSTI  ,KMIN   ,KMAX   ,
-     J      ISTIF_MSDT,DTSTIF,STIFMSDT_EDG ,PARAMETERS)
+     J      ISTIF_MSDT,DTSTIF,STIFMSDT_EDG ,PARAMETERS,
+     K      TYPEDGS )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
-     .        LBOUND(*), JLT, NRTS, NIN, IEDGE, IGAP0,INTFRIC,IGAP,
+     . LBOUND(*), JLT, NIN, IEDGE, IGAP0,INTFRIC,IGAP,
      .        N1(MVSIZ), N2(MVSIZ), 
      .        M1(MVSIZ), M2(MVSIZ), 
      .        NODNX_SMS(*), NSMS(MVSIZ), 
@@ -106,13 +107,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, 
+      INTEGER I, NN, I1, I2, 
      .        EM, IE, ES, JE, SOL_EDGE, SH_EDGE, 
      .        TYPEDGS(MVSIZ), IM(MVSIZ), IS(MVSIZ)
       INTEGER ::  NOD1S(MVSIZ),NOD2S(MVSIZ)
       INTEGER ::  NOD1M(MVSIZ),NOD2M(MVSIZ)
 
-      INTEGER :: ISR ! orientation SECONDARY edge
+ 
       my_real
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS,DTS
       my_real
@@ -124,16 +125,26 @@ C-----------------------------------------------
 C debug ! global id of MAIN edge
         EDGE_ID(1,I) = LEDGE(8,EM)
 
-        IAM(I) = ABS(LEDGE(1,EM))
-        JAM(I)=LEDGE(2,EM)
-        IBM(I)=LEDGE(3,EM)
-        JBM(I)=LEDGE(4,EM)
-
         M1(I)=LEDGE(5,EM)
         M2(I)=LEDGE(6,EM)
-        IM(I) = LEDGE(10,EM)
-        NOD1M(I) = LEDGE(11,EM)
-        NOD2M(I) = LEDGE(12,EM)
+
+        IF(IABS(LEDGE(7,EM)) /= 3) THEN
+          IAM(I) = ABS(LEDGE(1,EM))
+          JAM(I)=LEDGE(2,EM)
+          IBM(I)=LEDGE(3,EM)
+          JBM(I)=LEDGE(4,EM)
+          IM(I) = LEDGE(10,EM)
+          NOD1M(I) = LEDGE(11,EM)
+          NOD2M(I) = LEDGE(12,EM)
+        ELSE
+          IAM(I) = 0
+          JAM(I) = 0
+          IBM(I) = 0
+          JBM(I) = 0
+          IM(I) = 0
+          NOD1M(I) = 0
+          NOD2M(I) = 0
+        ENDIF
 
 CC        IF(IAM(I) > 0) THEN
 CC          IF(IRECT(JAM(I),IAM(I))==M1(I).AND.IRECT(MOD(JAM(I),4)+1,IAM(I))==M2(I))THEN
@@ -145,7 +156,7 @@ CC            print *,'i25cor3e - internal problem',EM,M1(I),M2(I),
 CC     .                          IRECT(JAM(I),IAM(I)),IRECT(MOD(JAM(I),4)+1,IAM(I))
 CC          END IF
 CC        ELSE
-CCC Faire le cas frontiere
+CCC Make the boundary case
 CC          IM(I) = 1
 CC        ENDIF
 CC         ASSERT(IM(I) == LEDGE(10,EM))
@@ -173,16 +184,26 @@ C
 
           ES    =CAND_S(I)
           EDGE_ID(2,I) = LEDGE(8,ES)
-          IAS(I)=ABS( LEDGE(1,ES) )
-          JAS(I)=LEDGE(2,ES)
-          IBS(I)=LEDGE(3,ES)
-          JBS(I)=LEDGE(4,ES)
           N1(I)=LEDGE(5,ES)
           N2(I)=LEDGE(6,ES)
-          NOD1S(I) = LEDGE(11,ES)
-          NOD2S(I) = LEDGE(12,ES)
 
-          IS(I) = LEDGE(10,ES)
+          IF(IABS(LEDGE(7,ES)) /= 3) THEN
+            IAS(I)=ABS( LEDGE(1,ES) )
+            JAS(I)=LEDGE(2,ES)
+            IBS(I)=LEDGE(3,ES)
+            JBS(I)=LEDGE(4,ES)
+            NOD1S(I) = LEDGE(11,ES)
+            NOD2S(I) = LEDGE(12,ES)
+            IS(I) = LEDGE(10,ES)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+            IBS(I)=0
+            JBS(I)=0
+            NOD1S(I) = 0
+            NOD2S(I) = 0
+            IS(I) = 0
+          ENDIF
 CC          IF(IAS(I) > 0) THEN
 CC            IF(IRECT(JAS(I),IAS(I))==N1(I).AND.IRECT(MOD(JAS(I),4)+1,IAS(I))==N2(I))THEN
 CC              IS(I)= 1
@@ -193,7 +214,7 @@ CC              print *,'i25cor3e - internal problem',ES,N1(I),N2(I),
 CC     .                            IRECT(JAS(I),IAS(I)),IRECT(MOD(JAS(I),4)+1,IAS(I))
 CC            END IF
 CC          ELSE
-CCC faire le SPMD
+Cdo the spmd
 CC            IS(I) = 1
 CC          ENDIF
 CC          ASSERT(IS(I) == LEDGE(10,ES))
@@ -229,7 +250,6 @@ C
           ! IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I) 
 
           NN = CAND_S(I) - NEDGE            
-          IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN) 
 C         IF(IS(i)  == 1) THEN
           N1(I)=2*(NN-1)+1
           N2(I)=2*NN
@@ -237,14 +257,22 @@ c         ELSE
 c           N2(I)=2*(NN-1)+1
 c           N1(I)=2*NN
 c         ENDIF
-
           EDGE_ID(2,I) = LEDGE_FIE(NIN)%P(E_GLOBAL_ID,NN)
-
-          IAS(I)=ABS( LEDGE_FIE(NIN)%P(E_LEFT_SEG  ,NN) )
-          JAS(I)=LEDGE_FIE(NIN)%P(E_LEFT_ID   ,NN)
-          IBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_SEG ,NN)
-          JBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_ID  ,NN)
           TYPEDGS(I)=LEDGE_FIE(NIN)%P(E_TYPE,NN)
+          IF(TYPEDGS(I) /= 3) THEN
+            IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN) 
+            IAS(I)=ABS( LEDGE_FIE(NIN)%P(E_LEFT_SEG  ,NN) )
+            JAS(I)=LEDGE_FIE(NIN)%P(E_LEFT_ID   ,NN)
+            IBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_SEG ,NN)
+            JBS(I)=LEDGE_FIE(NIN)%P(E_RIGHT_ID  ,NN)
+          ELSE
+            IAS(I)=0
+            JAS(I)=0
+            IBS(I)=0
+            JBS(I)=0
+            IS(I) = 0
+          ENDIF
+
           STS=STIFIE(NIN)%P(NN)
           STIF(I)=STS*STM / MAX(EM20,STS+STM)
 c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
@@ -321,11 +349,17 @@ C
 CC BOUNDARY_EDGE :
 C          IF(IAM(I) < 0) CYCLE
 C
-          EX(I) = EDG_BISECTOR(1,JAM(I),IAM(I))
-          EY(I) = EDG_BISECTOR(2,JAM(I),IAM(I))
-          EZ(I) = EDG_BISECTOR(3,JAM(I),IAM(I))
+          IF(IABS(LEDGE(7,CAND_M(I))) /= 3) THEN
+            EX(I) = EDG_BISECTOR(1,JAM(I),IAM(I))
+            EY(I) = EDG_BISECTOR(2,JAM(I),IAM(I))
+            EZ(I) = EDG_BISECTOR(3,JAM(I),IAM(I))
+          ELSE
+            EX(I) = ZERO
+            EY(I) = ZERO
+            EZ(I) = ZERO
+          ENDIF
 C
-          IF(IABS(TYPEDGS(I))/=1)THEN
+          IF(IABS(TYPEDGS(I))/=1.AND.IABS(TYPEDGS(I))/=3)THEN
             IF(CAND_S(I)<=NEDGE) THEN
               FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
               FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
@@ -335,6 +369,10 @@ C
               FY(I) = EDG_BISECTOR_FIE(NIN)%P(2,1,CAND_S(I)-NEDGE)
               FZ(I) = EDG_BISECTOR_FIE(NIN)%P(3,1,CAND_S(I)-NEDGE)
             END IF
+          ELSE
+           FX(I) =ZERO
+           FY(I) =ZERO
+           FZ(I) =ZERO
           END IF
         END DO
       END IF
@@ -365,7 +403,7 @@ C
 C     Always shift MAIN edge toward inner side
       DO I=1,JLT
 
-        IF(IBM(I)/=0)CYCLE
+        IF(IBM(I)/=0.OR.IABS(LEDGE(7,CAND_M(I))) == 3)CYCLE
 
         IE=IAM(I)
         JE=JAM(I)
@@ -417,6 +455,7 @@ C
         XXM1(I) = XXM1(I)-GAPE_M(I)*DX
         XYM1(I) = XYM1(I)-GAPE_M(I)*DY
         XZM1(I) = XZM1(I)-GAPE_M(I)*DZ
+
 C
 C       DX, DY, DZ Direction for shifting
         DX = VTX_BISECTOR(1,1,I2)+VTX_BISECTOR(1,2,I2)
@@ -461,7 +500,7 @@ C       Shift SECONDARY edge toward inner side
         DO I=1,JLT
           DEBUG_E2E(EDGE_ID(1,I) ==  D_EM .AND. EDGE_ID(2,I) == D_ES,IBS(I))
 
-          IF(IBS(I)/=0)CYCLE
+          IF(IBS(I)/=0.OR.TYPEDGS(I) == 3)CYCLE
 
           IF(CAND_S(I)<=NEDGE) THEN
           IE=IAS(I)
@@ -599,7 +638,7 @@ C
         ENDDO
       ENDIF
 C
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
 

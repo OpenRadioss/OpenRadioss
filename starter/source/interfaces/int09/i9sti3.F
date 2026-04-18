@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,8 +95,7 @@ C
           END IF
         ENDIF
 C----------------------
-C     SOLID ELEMS
-C----------------------
+C     SOLID ELEMENTS C----------------------
         CALL INSOL3(X,IRECT,IXS,NINT,NELS,INRT,
      .              AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
      .              IXS16,IXS20)

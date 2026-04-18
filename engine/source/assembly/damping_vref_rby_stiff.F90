@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@
 !||    rbyfor                       ../engine/source/constraints/general/rbody/rbyfor.F
 !||====================================================================
       module damping_vref_rby_stiff_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -44,7 +45,7 @@
 !||    precision_mod            ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine damping_vref_rby_stiff(numnod,nnpby,nrbykin,nrbykin_l,npby,                       &
-          rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l)
+          rby6_c,ms,in,stifn,stifr,size_rby6_c,irbkin_l,nhi)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,6 +65,7 @@
           integer,                                   intent(in) :: npby(nnpby,nrbykin)         !< main structure for rigid bodies
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
           integer,                                   intent(in) :: irbkin_l(nrbykin)           !< local global id of rigid_body
+          integer,                                   intent(in) :: nhi                         !< hierarchy level of Rbody
           real(kind=WP),                                   intent(in) :: ms(numnod)                  !< nodal mass
           real(kind=WP),                                   intent(in) :: in(numnod)                  !< nodal inertia
           real(kind=WP),                                intent(inout) :: stifn(numnod)               !< nodal stiffness
@@ -81,7 +83,7 @@
           do n=1,nrbykin_l
 
             nd = irbkin_l(n)
-            if(npby(7,nd)>0) THEN
+            if(npby(7,nd)>0.and.npby(20,nd)==nhi) THEN
 
               m = npby(1,nd)
 
@@ -96,9 +98,9 @@
               fac = sqrt(one + dd*dd) - dd
               stifr(m) = stifr(m) / fac**2
 !
-            endif
+            end if
 !
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_rby_stiff

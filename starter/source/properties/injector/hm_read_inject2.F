@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    nintri                     ../starter/source/system/nintrr.F
-!||    usr2sys                    ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
 !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
@@ -76,18 +75,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG,I,J,K,NGASES,IFLOW,IJET,NOD1,NOD2,NOD3,
+      INTEGER IG,I,J,NGASES,IFLOW,
      .        ICURPT
       INTEGER MAT_ID(2,100),F_IDMASS(2,100),F_IDTEMP(2,100),
      .        F_IDMF(2,100),MW_MIXTURE,MW_MIXTURE_OK,
-     .        NB_POINTS,NB_POINTS_1,NB_POINTS_OLD,
+     .        NB_POINTS,NB_POINTS_1,
      .        IFUN_REF,IFUN_TMP,IFUN_TMP_USR
       my_real
      .        FSMASS(100),FSTEMP(100),ASTIME,
      .        MOLFR(100),
      .        CPAI_MIX,CPBI_MIX,CPCI_MIX,CPDI_MIX,CPEI_MIX,CPFI_MIX,
      .        MF_TOT,MOL_TOT,MASS_TOT,MASS_INI,MOL_INI,MWI_MIXTURE,
-     .        STP_GAMA_MIX,STP_TEMP,MASS_MOL,INIT_MASS,CPI_MIX,
+     .        STP_GAMA_MIX,STP_TEMP,INIT_MASS,CPI_MIX,
      .        R_IGC1, FAC_M, FAC_T
       CHARACTER MESS*40
       DATA MESS/'INJECTOR PROPERTY SET                   '/
@@ -96,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRI,USR2SYS
+      INTEGER NINTRI
 C=======================================================================
 C
       IS_ENCRYPTED = .FALSE.
@@ -129,7 +128,7 @@ C Initialisation
       CPFI_MIX=0
       FAC_T=ONE
       FAC_M=ONE
-C Lecture carte 1
+C Reading Card 1
       CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)
 C Verification
@@ -149,7 +148,7 @@ C Verification
      .               I1=PROP_ID,
      .               C1=IDTITL)
       END IF
-C Lecture carte 2
+C Reading Card 2
       CALL HM_GET_INTV('FUN_A1',F_IDMASS(1,1),IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('FUN_B1',F_IDTEMP(1,1),IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('F_SCALE_Y',FSMASS(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -202,7 +201,7 @@ C Lecture carte 2
      .                  C1=IDTITL)                                                                
           END IF                                                                                  
           IF (F_IDMF(1,I)/=0) MOLFR(I)=ONE                                                       
-C         Verification existence materiau et functions                                            
+C         Material existence verification and functions                                            
 C ---
 C ---     Materiaux                                                                               
           MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)                                  
@@ -236,10 +235,10 @@ C ---     Fonctions
         ENDDO ! I=1,NGASES                                                                        
       ENDIF                                                                                       
 
-C Conversion d unites ----------------------
+C Units conversion --------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_T
       R_IGC1=PM(27,MAT_ID(2,1))
-C     Verification de la croissance des fonctions de masse
+C     Verification of the growth of mass function
       DO I=1,NGASES
         IFUN_TMP=0
         IFUN_TMP_USR=0
@@ -285,7 +284,7 @@ C     Verification de la croissance des fonctions de masse
 
       MW_MIXTURE=ZERO                                                     
       MW_MIXTURE_OK=0                                                     
-C     Verification du nombre de points des fonctions de fraction molaire  
+C     Verification of the number of points of molar fraction functions
       NB_POINTS_1=-1                                                      
       DO I=1,NGASES                                                       
         IF (F_IDMF(2,I)/=0) THEN                                        
@@ -301,7 +300,7 @@ C     Verification du nombre de points des fonctions de fraction molaire
           END IF                                                          
         END IF                                                            
       END DO                                                              
-C     Verification des abscisses des fonctions de fraction molaire        
+C     Verification of the abscissas of molar fraction functions
       IFUN_REF=-1                                                         
       DO I=1,NGASES                                                       
         IF (F_IDMF(2,I)/=0) THEN                                        
@@ -321,7 +320,7 @@ C     Verification des abscisses des fonctions de fraction molaire
       END DO                                                              
 C     Verification somme des fractions molaires egale a 1                 
       IF (IFUN_REF/=-1) THEN                                            
-C     Dans le cas ou il y a au moins une fonction                         
+C     In the case where there is at least one function
         DO J=NPC(IFUN_REF),NPC(IFUN_REF+1)-1,2                            
           ICURPT=J-NPC(IFUN_REF)                                          
           MF_TOT=ZERO                                                     
@@ -359,12 +358,12 @@ C     Dans le cas ou il y a au moins une fonction
           END IF                                                          
         END DO  
       ELSE
-      !Dans le cas ou il n y a que des fractions molaires
+      !In the case where there are only molar fractions
         MF_TOT=ZERO
         DO I=1,NGASES
           MF_TOT=MF_TOT+MOLFR(I)
         END DO
-      !Si la somme est zero on ne peut rien faire, MF_TOT est positif
+      !If the sum is zero, nothing can be done, MF_TOT is positive
         IF (MF_TOT<EM03) THEN
           CALL ANCMSG(MSGID=717,
      .                MSGTYPE=MSGERROR,
@@ -372,7 +371,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                I1=PROP_ID,
      .                C1=IDTITL)
         ELSE IF (ABS(MF_TOT-ONE)>EM03) THEN
-      !Sinon on normalise par rapport a la somme
+      !Otherwise, we normalize with respect to the sum
           DO I=1,NGASES
             MOLFR(I)=MOLFR(I)/MF_TOT
           END DO
@@ -384,7 +383,7 @@ C     Dans le cas ou il y a au moins une fonction
         END IF    
       END IF                                                          
           
-C Calcul des caracteristiques initiales du melange
+C Calculation of initial characteristics of the mixture
       MWI_MIXTURE=ZERO
       CPAI_MIX=ZERO
       CPBI_MIX=ZERO

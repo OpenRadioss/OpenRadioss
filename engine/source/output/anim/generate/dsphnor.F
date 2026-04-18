@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani       ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_igath   ../engine/source/mpi/anim/spmd_igath.F
-!||    write_s_c    ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c    ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DSPHNOR(KXSP,X,SPBUF,NNSPH)
 C-----------------------------------------------
@@ -48,12 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I3000,NXX,NYY,NZZ
-      INTEGER N, J, INOD
+      INTEGER I3000
+      INTEGER N, INOD
       INTEGER INP(NNSPH*3),CNT,LRECV
       my_real
-     3   XI,YI,ZI,R,NX,NY,NZ,NORMN,
-     4   XQ(3)
+     3 XI,YI,ZI,NX,NY,NZ,NORMN
 C-----------------------------------------------
       IF (NUMSPH+MAXPJET==0) GOTO 100
 C-----------------------------------------------

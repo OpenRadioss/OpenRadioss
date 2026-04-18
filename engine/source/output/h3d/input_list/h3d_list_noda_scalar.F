@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod             ../engine/share/message_module/message_mod.F
 !||    output_mod              ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE H3D_LIST_NODAL_SCALAR(H3D_KEYWORD_NODAL_SCALAR,GEO,NKEY)
+      SUBROUTINE H3D_LIST_NODAL_SCALAR(OUTPUT,H3D_KEYWORD_NODAL_SCALAR,GEO,NKEY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,13 +48,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE (H3D_KEYWORD) H3D_KEYWORD_NODAL_SCALAR(*)
       my_real GEO(NPROPG,NUMGEO)
       INTEGER, INTENT(INOUT) :: NKEY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NIPMAX
+      INTEGER I
 C=========================================================================
       I = 0
 c-----------------------------------------------

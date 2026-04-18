@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -42,11 +42,12 @@ C
 !||    interfaces_mod        ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_I7FCOM_POFF(
+      SUBROUTINE SPMD_I7FCOM_POFF(OUTPUT,
      1   IPARI   ,A       ,STIFN   ,VISCN   ,
      2   INTLIST ,NBINTC  ,ICODT   ,SECFCUM ,NSTRF   ,
      3   ICONTACT,FCONT   ,ISLEN7  ,IRLEN7  ,ISLEN11 ,
@@ -67,6 +68,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE INTERFACES_MOD
+      USE output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IFLAG, NBINTC,ISLEN7, IRLEN7, ISLEN11, IRLEN11,
      .        ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T, IRLEN20E, ISLEN20E,
@@ -111,12 +114,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, MULTIMP, II,
-     .        NIN, IDEB, N, MSGTYP, IERROR, NI, NOD, INTTH,
+      INTEGER P, L, ADD, LL, NB, LEN, SIZ, LOC_PROC, II,
+     . NIN, IDEB, N, MSGTYP, IERROR, INTTH,
      .        IBC, ISECIN, IBAG, NOINT, NTY, LEN11, N1, N2,LENI,INACTI,
-     .        IADM,IALLOCS, IALLOCR, LEN17, IGN, IGE, NMES, NME,  NAD,
+     . IADM,IALLOCS, IALLOCR, LEN17, IGN, IGE, NMES, NME,
      .        LEN7T,LEN20,LEN20T, LEN20E, INC, MSGOFF,LEN11T,
-     .        JD(50), KD(50),  STATUS(MPI_STATUS_SIZE),LEN7TH,
+     . STATUS(MPI_STATUS_SIZE),
      .        DEBUT(NINTER), DEBUTE(NINTER),LL0,
 c parasiz car variable en save
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
@@ -124,7 +127,6 @@ c parasiz car variable en save
       INTEGER, PARAMETER :: LEN25E = 11 
       INTEGER :: NEDGE, INTCAREA
       DATA MSGOFF/143/
-      LOGICAL ITEST
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       my_real
      .   BID
@@ -140,7 +142,7 @@ C
       IF(KDTINT/=0) LEN = LEN+1
       IF(NODADT_THERM == 1) LEN = LEN+1
 
-C type11 => 2 impacts pour une facette
+C type11 => 2 impacts for a facet
       LEN11 = 2*(LEN-1)+1
       LEN11T = 2*LEN+1
 C  type 7 + heat
@@ -172,7 +174,7 @@ C Init
      .          + LEN25E*IRLEN25E
         IERROR=0
         IF(IALLOCS>0)
-     +    ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
+     +    ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD*2),STAT=IERROR) ! NBINTC*NSPMD*2 Majoring supplemental place BUFS
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -186,7 +188,7 @@ C
 
         IERROR=0
         IF(IALLOCR>0)
-     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
+     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD*2),STAT=IERROR) ! NBINTC*NSPMD*2 Majoring supplemental place BUFS
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -200,7 +202,7 @@ C
           ADDR(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NB = NSNSI(NIN)%P(P)
@@ -254,7 +256,7 @@ C
           ADDS(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
@@ -273,7 +275,7 @@ c
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -290,7 +292,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -308,7 +310,7 @@ C noeud generant une force
                    ENDDO
                  ENDIF
 C
-C--- interface 7 + la thermique
+C--- interface 7 + thermal
 C
                 ELSE
 c
@@ -317,7 +319,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -338,7 +340,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -366,7 +368,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -385,7 +387,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -423,7 +425,7 @@ c
                  IF(KDTINT==0)THEN
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -450,7 +452,7 @@ C noeud generant une force
                  ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -491,7 +493,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -527,7 +529,7 @@ C noeud generant une force
 C KINDT /= 0 Broken LENI should be 16
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -572,7 +574,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -604,7 +606,7 @@ C noeud generant une force
 C KINDT /= 0 Broken LENI should be 14
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -653,7 +655,7 @@ C type 17
                   L = L + 1
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI17(NIN)%P(1,1,IDEB+N)
@@ -826,7 +828,7 @@ C type20
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -851,7 +853,7 @@ C
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -876,14 +878,14 @@ C
                    ENDDO
                  ENDIF
 C
-C--- interface 20 + la thermique
+C--- interface 20 + the thermal
 C
                 ELSE
                  LENI = LEN20T
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -909,7 +911,7 @@ C
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -943,7 +945,7 @@ C
 
               END IF
 C
-C Partie supplementaire type 20 edge
+C Supplementary part type 20 Edge
 C
               IF(NTY==20) THEN
                 NB = NSNFIE(NIN)%P(P)
@@ -955,7 +957,7 @@ C
                   IF(KDTINT==0)THEN
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
                         N2 = 2*(N+IDEB)
@@ -995,7 +997,7 @@ C
                   ELSE  ! KDTIN /= 0
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
                         N2 = 2*(N+IDEB)
@@ -1043,7 +1045,7 @@ C
               END IF
 
 C
-C Partie supplementaire type 25 edge
+C Supplementary part type 25 Edge
 C
               IF(NTY==25 .AND. IPARI(58,NIN) > 0) THEN
                 NB = NSNFIE(NIN)%P(P)
@@ -1114,7 +1116,7 @@ C fin edge
         ENDDO
         ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
       ELSEIF(IFLAG==2)THEN
 C
@@ -1142,7 +1144,7 @@ C
      *       .OR.NTY==24.OR.NTY==25 )THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
-                   CALL SPMD_FIADD_POFF(
+                   CALL SPMD_FIADD_POFF(output,
      1              NB      ,LEN     ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
@@ -1152,7 +1154,7 @@ C
      7              INTERFACES%PARAMETERS,NODADT_THERM)
                     L = L + NB*LEN
                   ELSE
-                     CALL SPMD_FIADD_POFF(
+                     CALL SPMD_FIADD_POFF(output,
      1              NB      ,LEN7T   ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
@@ -1165,7 +1167,7 @@ C
                 ELSEIF(NTY==11)THEN
                   INTTH = IPARI(47,NIN)
                  IF(INTTH==0) THEN
-                  CALL SPMD_FIADD11_POFF(
+                  CALL SPMD_FIADD11_POFF(output,
      1              NB      ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,A,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
@@ -1173,7 +1175,7 @@ C
      5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                   L = L + NB*LEN11
                  ELSE
-                  CALL SPMD_FIADD11_POFF(
+                  CALL SPMD_FIADD11_POFF(output,
      1              NB      ,LEN11T   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,A,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
@@ -1187,7 +1189,7 @@ C
                   NME =IGRBRIC(IGE)%NENTITY
                   NMES=IGRBRIC(IGN)%NENTITY
 C
-                  CALL SPMD_FIADD17_POFF(
+                  CALL SPMD_FIADD17_POFF(output,
      1              NB     ,LEN17 ,BBUFR(L),IGRBRIC(IGN)%ENTITY,A             ,
      2              STIFN  ,FCONT ,IXS     ,IXS16       ,INTBUF_TAB(NIN)%FROTS,
      3              H3D_DATA)
@@ -1195,7 +1197,7 @@ C
                 ELSEIF(NTY==20)THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
-                   CALL SPMD_FIADD20_POFF(
+                   CALL SPMD_FIADD20_POFF(output,
      1              NB    ,LEN20 ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A      ,
      2              STIFN ,VISCN ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1203,7 +1205,7 @@ C
      5              BID   ,INTBUF_TAB(NIN)%NLG  ,INTBUF_TAB(NIN)%ALPHAK,H3D_DATA )
                     L = L + NB*LEN20
                   ELSE
-                   CALL SPMD_FIADD20_POFF(
+                   CALL SPMD_FIADD20_POFF(output,
      1              NB    ,LEN20T,BBUFR(L),INTBUF_TAB(NIN)%NSV,A              ,
      2              STIFN ,VISCN ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1214,7 +1216,7 @@ C
                 END IF
               END IF
 C
-C Partie supplementaire type 20 edge
+C Supplementary part type 20 Edge
 C
               IF(NTY==20)THEN
                 IF(NSNSIE(NIN)%P(P)>0)THEN
@@ -1226,7 +1228,7 @@ C
                   ISECIN=IPARI(28,NIN)
                   IBAG  =IPARI(32,NIN)
                   IADM  =IPARI(44,NIN)
-                  CALL SPMD_FIADD20E_POFF(
+                  CALL SPMD_FIADD20E_POFF(output,
      1              NB    ,LEN20E ,BBUFR(L),INTBUF_TAB(NIN)%IXLINS,A           ,
      2              STIFN ,VISCN  ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT  ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1235,7 +1237,7 @@ C
                 ENDIF
               ENDIF
 C
-C Partie supplementaire type 25 edge
+C Supplementary part type 25 Edge
 C
               IF(NTY==25 .AND. IPARI(58,NIN) > 0)THEN
                 IF(NSNSIE(NIN)%P(P)>0)THEN
@@ -1250,7 +1252,7 @@ C
                   INTTH  = IPARI(47,NIN)
                   NEDGE =IPARI(68,NIN)
 
-                  CALL SPMD_FIADD25E_POFF(
+                  CALL SPMD_FIADD25E_POFF(OUTPUT,
      1              NB      ,LEN25E     ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,

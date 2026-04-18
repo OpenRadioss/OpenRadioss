@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,8 +72,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDXOF(MVSIZ)
-      INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,
+ 
+      INTEGER NG, MLW, JFT, JLT, ISOLNOD, IPLA, 
      .        LENCOM,KAD,NEL,NF1,IG
       my_real,
      .   DIMENSION(:), POINTER :: UVAR
@@ -81,7 +81,7 @@ C======================================================================|
 C   
       LENCOM = 0    
       IF(NSPMD > 1)LENCOM=NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1) 
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO 
 
@@ -136,7 +136,7 @@ C-----------------------------
       IF (NSPMD > 1) THEN       
 cc        LENCOMN=NBRCVOIS(MAXPROC+1)+NBSDVOIS(MAXPROC+1)
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
        CALL SPMD_E1VOIS(PHI1     ,NERCVOIS,NESDVOIS,LERCVOIS,
@@ -147,7 +147,7 @@ C
 C       
        CALL SPMD_E1VOIS(POR     ,NERCVOIS,NESDVOIS,LERCVOIS,
      1                     LESDVOIS,LENCOM  )
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE       
       ENDIF
       END

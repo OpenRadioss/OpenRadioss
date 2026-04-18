@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -106,13 +106,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NINDXD,NINDXF,S_FLAG,STRDEF,STRFLAG
-      INTEGER ,DIMENSION(NEL) :: IFLAG,INDXD,INDXF
+      INTEGER ,DIMENSION(NEL) :: INDXD,INDXF
       my_real :: E1,E2,E3,E4,E5,E6,RFAC,RFAC2,E42,E52,E62,C,D,EPST,EPST2,
-     .       R1,R2,Y,YP,DAV,DYDX,IE_SP,P,SCALE,CC,Y1,I1,I2,I3,Q,R,PHI,
+     .       R1,R2,Y,YP,DAV,DYDX,CC,Y1,I1,I2,I3,Q,R,PHI,
      .       R_INTER,EL_REF,SC_EL,EPSP1,EPSP2,FAC,SCALE_TEMP,
      .       E11,E22,E33,EPSF1,EPSF2,LAMBDA,UNIT_T,EPSP_UNIT
       my_real,DIMENSION(NEL) :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
-     .   EPS_MAX,DAMAGE,RIEF1,RIEF2
+     .   EPS_MAX,DAMAGE
 C=======================================================================
       EPSF1   = UPARAM(1)
       EPSF2   = UPARAM(2)
@@ -334,7 +334,7 @@ c!              from: http://www.continuummechanics.org/principalstrain.html
                 I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
 
                 Q  = (THREE*I2 - I1*I1)/NINE
-                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+                R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
            
                 R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
                 PHI = ACOS(MAX(R_INTER,-ONE))
@@ -555,7 +555,7 @@ c-------------------
               I2 = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
               I3 = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
               Q  = (THREE*I2 - I1*I1)/NINE
-              R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+              R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
               
               R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
               PHI = ACOS(MAX(R_INTER,-ONE))

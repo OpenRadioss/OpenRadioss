@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,9 +24,10 @@
 !||    array_reindex_mod           ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton    ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||====================================================================
       module array_reindex_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -74,7 +75,7 @@
 !||====================================================================
 !||    real_array_reindex          ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
-!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod               ../common_source/modules/precision_mod.F90
 !||====================================================================

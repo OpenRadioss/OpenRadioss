@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -149,7 +149,7 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L o c a l   V a r i a b l e s
@@ -164,8 +164,8 @@ C----------------------------------------------------------------
      .   MU(NEL)
       my_real
      .   PS,PE,ALPHAE,ALPHAP,EN,BETA,ETA,XI,UNSURN,
-     .   BULK0,C0,DALPDPE,AA,HH,HH2,G,G2,DAV,
-     .   BULK1, CRIT, TOL, PNEW1, DFDA, DGDA,
+     .   BULK0,AA,HH,HH2,G,G2,DAV,
+     .   BULK1, CRIT, TOL, DFDA, DGDA,
      .   GS, DGDALPHA, BULK
       my_real
      .   RHOS(NEL),RHOS0(NEL),ESPES(NEL),
@@ -200,6 +200,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       XI    =UPARAM(15)
       ETA   =UPARAM(16)
       EOSTYP = MAT_PARAM(MXS)%IEOS  ! LAW 75 uses /EOS defined in another law !!!
+      IPLA(1:NEL)=0
 C
       DO I=1,NEL
          ALPHAOLD(I)= UVAR(I,3)

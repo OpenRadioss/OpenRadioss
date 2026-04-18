@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    checkmp                           ../starter/source/elements/initia/initia.F
 !||    checkrby                          ../starter/source/constraints/general/rbody/checkrby.F
 !||    checksum_option_checksum_file     ../common_source/modules/output/checksum_mod.F90
+!||    checksum_option_out_file          ../common_source/modules/output/checksum_mod.F90
 !||    checksum_output_option_mod        ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_read             ../common_source/modules/output/checksum_mod.F90
 !||    checksum_restart_write            ../common_source/modules/output/checksum_mod.F90
@@ -63,6 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    contrbe2                          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    contrbe3                          ../starter/source/constraints/general/rbe3/contrbe3.F
 !||    contrl                            ../starter/source/starter/contrl.F
+!||    corthdir                          ../starter/source/elements/shell/coque/corthdir.F
 !||    corthini                          ../starter/source/elements/shell/coque/corthini.F
 !||    create_box_clause                 ../starter/source/model/sets/create_box_clause.F
 !||    create_ellipse_clause             ../starter/source/model/sets/create_ellipse_clause.F
@@ -111,6 +113,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ddsplit                           ../starter/source/restart/ddsplit/ddsplit.F
 !||    defbeam_sect                      ../starter/source/properties/beam/hm_read_prop18.F
 !||    desout                            ../starter/source/output/outp/desout.F
+!||    ebcs_cyclic_surface_matching_2d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    ebcs_mod                          ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecrsub2                           ../starter/source/model/assembling/hm_read_subset.F
 !||    eigrline                          ../starter/source/general_controls/computation/hm_read_eig.F
@@ -119,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elt_box                           ../starter/source/model/sets/fill_clause_elt_box.F
 !||    eos_param_mod                     ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eosfun_usr2sys                    ../starter/source/materials/tools/eosfun_usr2sys.F90
+!||    f_anend                           ../starter/source/output/analyse/analyse_arret.F
 !||    facebox                           ../starter/source/model/box/bigbox.F
 !||    fail_param_mod                    ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    fill_buffer_51                    ../starter/source/materials/mat/mat051/fill_buffer_51.F
@@ -174,6 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani1                           ../starter/source/output/anim/genani1.F
 !||    genh3d                            ../engine/source/output/h3d/h3d_results/genh3d.F
 !||    get_skew45                        ../starter/source/elements/joint/rjoint/rini45.F
+!||    get_sort_key_shell3n              ../starter/source/elements/sh3n/get_sort_key_shell3n.F90
 !||    gr_entity_ini                     ../starter/source/model/group/gr_entity_ini.F
 !||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
 !||    h3d_gene_keyword                  ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
@@ -262,12 +268,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_rbe2                   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_rbe3                   ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
 !||    hm_preread_rbody                  ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+!||    hm_preread_skw                    ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_preread_sphio                  ../starter/source/loads/sph/hm_preread_sphio.F
+!||    hm_print_inter_guided_cable       ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_prop_read21                    ../starter/source/properties/thickshell/hm_read_prop21.F
+!||    hm_rbodies_add_main_node          ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    hm_read_activ                     ../starter/source/tools/activ/hm_read_activ.F
 !||    hm_read_ale_link                  ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                       ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_bcs_nrf                   ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                  ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_box                       ../starter/source/model/box/hm_read_box.F
@@ -285,6 +295,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_definter_type24           ../starter/source/general_controls/default_values/hm_read_definter_type24.F
 !||    hm_read_definter_type25           ../starter/source/general_controls/default_values/hm_read_definter_type25.F
 !||    hm_read_drape                     ../starter/source/properties/composite_options/drape/hm_read_drape.F
+!||    hm_read_ebcs_cyclic               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -305,9 +316,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eref                      ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_fail                      ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_biquad               ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F
+!||    hm_read_fail_energy               ../starter/source/materials/fail/energy/hm_read_fail_energy.F
 !||    hm_read_fail_gurson               ../starter/source/materials/fail/gurson/hm_read_fail_gurson.F
 !||    hm_read_fail_johnson              ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
 !||    hm_read_fail_orthbiquad           ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
+!||    hm_read_fail_orthstrain           ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
 !||    hm_read_fail_tab2                 ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
 !||    hm_read_fail_user                 ../starter/source/materials/fail/failuser/hm_read_fail_user.F
 !||    hm_read_friction                  ../starter/source/interfaces/friction/reader/hm_read_friction.F
@@ -338,6 +351,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inject1                   ../starter/source/properties/injector/hm_read_inject1.F
 !||    hm_read_inject2                   ../starter/source/properties/injector/hm_read_inject2.F
 !||    hm_read_inter_fsi                 ../starter/source/interfaces/reader/hm_read_inter_fsi.F
+!||    hm_read_inter_guided_cable        ../starter/source/tools/seatbelts/hm_read_guided_cable.F90
 !||    hm_read_inter_hertz_type17        ../starter/source/interfaces/int17/hm_read_inter_hertz_type17.F
 !||    hm_read_inter_lagdt_type07        ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_lagmul              ../starter/source/interfaces/reader/hm_read_inter_lagmul.F
@@ -374,7 +388,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat00                     ../starter/source/materials/mat/mat000/hm_read_mat00.F
 !||    hm_read_mat01                     ../starter/source/materials/mat/mat001/hm_read_mat01.F
-!||    hm_read_mat02                     ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc                  ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef              ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli             ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                     ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                     ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat05                     ../starter/source/materials/mat/mat005/hm_read_mat05.F
@@ -387,7 +403,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat103                    ../starter/source/materials/mat/mat103/hm_read_mat103.F
 !||    hm_read_mat104                    ../starter/source/materials/mat/mat104/hm_read_mat104.F
 !||    hm_read_mat105                    ../starter/source/materials/mat/mat105/hm_read_mat105.F90
-!||    hm_read_mat106                    ../starter/source/materials/mat/mat106/hm_read_mat106.F
 !||    hm_read_mat107                    ../starter/source/materials/mat/mat107/hm_read_mat107.F
 !||    hm_read_mat108                    ../starter/source/materials/mat/mat108/hm_read_mat108.F
 !||    hm_read_mat109                    ../starter/source/materials/mat/mat109/hm_read_mat109.F
@@ -469,7 +484,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat82                     ../starter/source/materials/mat/mat082/hm_read_mat82.F
 !||    hm_read_mat83                     ../starter/source/materials/mat/mat083/hm_read_mat83.F
 !||    hm_read_mat84                     ../starter/source/materials/mat/mat084/hm_read_mat84.F
-!||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F
 !||    hm_read_mat90                     ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_mat92                     ../starter/source/materials/mat/mat092/hm_read_mat92.F
 !||    hm_read_mat93                     ../starter/source/materials/mat/mat093/hm_read_mat93.F
@@ -644,10 +658,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25pwr3_e2s                       ../starter/source/interfaces/inter3d1/i25pwr3_e2s.F
 !||    i25pwr3e                          ../starter/source/interfaces/inter3d1/i25pwr3e.F
 !||    i25sti3                           ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i25sti_edg                        ../starter/source/interfaces/inter3d1/i25sti_edg.F
 !||    i2buc1                            ../starter/source/interfaces/inter3d1/i2buc1.F
 !||    i2surfs                           ../starter/source/interfaces/inter3d1/i2surfs.F
 !||    i2tid3                            ../starter/source/interfaces/inter3d1/i2tid3.F
-!||    i2tri                             ../starter/source/interfaces/inter3d1/i2tri.F
 !||    i3pen2                            ../starter/source/interfaces/inter2d1/i3pen2.F
 !||    i3pen3                            ../starter/source/interfaces/inter3d1/i3pen3.F
 !||    i3sti2                            ../starter/source/interfaces/inter2d1/i3sti2.F
@@ -664,6 +678,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i7trivox1                         ../starter/source/interfaces/inter3d1/i7trivox1.F
 !||    i9sti2                            ../starter/source/interfaces/int09/i9sti2.F
 !||    i9sti3                            ../starter/source/interfaces/int09/i9sti3.F
+!||    ifrbody_off                       ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    ig3dinit3                         ../starter/source/elements/ige3d/ig3dinit3.F
 !||    ingrbric_dx                       ../starter/source/interfaces/interf1/ingrbric_dx.F
 !||    ini_diff                          ../starter/source/tools/lagmul/ini_diff.F
@@ -673,7 +688,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_msg                           ../engine/source/output/message/ini_msg.F
 !||    ini_rack                          ../starter/source/tools/lagmul/ini_rack.F
 !||    inicrkfill                        ../starter/source/elements/xfem/inicrkfill.F
-!||    iniebcs_propellant_get_cv         ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp         ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniend                            ../starter/source/interfaces/inter3d1/iniend.F
 !||    iniguser                          ../starter/source/system/iniguser.F
 !||    inimap1d_mod                      ../starter/share/modules1/inimap1d_mod.F
@@ -733,9 +748,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law69_nlsqf_auto                  ../starter/source/materials/tools/law69_nlsqf_auto.F
 !||    law69_upd                         ../starter/source/materials/mat/mat069/law69_upd.F
 !||    law70_upd                         ../starter/source/materials/mat/mat070/law70_upd.F
-!||    law76_upd                         ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd                         ../starter/source/materials/mat/mat077/law77_upd.F
-!||    law88_upd                         ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd                         ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_nlsqf                       ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_upd                         ../starter/source/materials/mat/mat092/law92_upd.F
@@ -847,6 +860,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_dfs_detpoint                 ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
 !||    read_dfs_wave_shaper              ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
 !||    read_ebcs                         ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+!||    read_engine_ilist                 ../starter/source/constraints/general/rbody/ifrbody_off.F90
 !||    read_eosparam                     ../engine/source/output/restart/read_eosparam.F90
 !||    read_euler_mat                    ../starter/source/materials/ale/read_euler_mat.F
 !||    read_failparam                    ../engine/source/output/restart/read_failparam.F
@@ -901,6 +915,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4init3                           ../starter/source/elements/solid/solide4/s4init3.F
 !||    s4refsta3                         ../starter/source/elements/solid/solide4/s4refsta3.F
 !||    s6cinit3                          ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zforc3                          ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zinit3                          ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3                          ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3                          ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scaleini                          ../starter/source/elements/initia/scaleini.F

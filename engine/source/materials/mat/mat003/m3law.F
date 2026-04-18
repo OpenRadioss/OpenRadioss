@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,9 +64,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, II, LIST(MVSIZ), K
       my_real
-     .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ), QS(MVSIZ), YLD(MVSIZ), 
+     .       YLD(MVSIZ), 
      .   QH(MVSIZ), AJ2(MVSIZ), DAV(MVSIZ), SJ2(MVSIZ), P(MVSIZ), 
-     .   EPMX(MVSIZ), CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), SIGMX(MVSIZ), 
+     .     
      .   SCALE, DPLA, G11, CA11, CB11, CN11, EPMX11,GDT,GGDT,
      .   SIGMX11
 C-----------------------------------------------
@@ -203,7 +203,7 @@ C---------------------------------
        ENDDO
       ENDIF
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C---------------------------
       DO I=1,NEL
        IF(OFF(I)<EM01) OFF(I)=ZERO

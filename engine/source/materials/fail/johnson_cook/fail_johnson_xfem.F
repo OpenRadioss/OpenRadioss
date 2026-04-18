@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -96,10 +96,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,JJ,ISHELL,NINDX,NINDXP,IADR,LAYXFEM
+      INTEGER I,J,ISHELL,NINDX,NINDXP,IADR,LAYXFEM
       INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)
-      my_real D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,THK_TMP,
-     .    DADV,CC,BB,CR,ORM,SS1,SS2,EPSF_MIN
+      my_real D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM,
+     .    DADV,EPSF_MIN
       CHARACTER (LEN=3) :: XCHAR
 C=======================================================================
       IADR = (IPT-1)*NEL
@@ -429,14 +429,6 @@ C---------Damage for output  0 < DFMAX < 1 --------------------
         DFMAX(I) = MIN(ONE,DFMAX(I))
       ENDDO
 C------------------
- 2000 FORMAT(1X,'FOR SHELL ELEMENT (JOHNS)',I10,1X,'LAYER',I3,':',/
-     .       1X, 'STRESS TENSOR SET TO ZERO')
- 2100 FORMAT(1X,'FOR SHELL ELEMENT (JOHNS)',I10,1X,'LAYER',I3,':',/,
-     .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)
- 2400 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL BROKEN ')
- 2410 FORMAT(1X,1PG20.13,' % OF THICKNESS OF SHELL ',I10,' BROKEN ')
- 2500 FORMAT(1X,'  LOWER SKIN -> UPPER SKIN ')
- 2600 FORMAT(1X,'  UPPER SKIN -> LOWER SKIN ')
 c---  multilayer
  3000 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT',I10,1X,'LAYER',I3)
  3100 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT',I10,1X,'LAYER',I3,/

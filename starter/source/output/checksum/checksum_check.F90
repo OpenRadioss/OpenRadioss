@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,8 @@
 !||    starter0             ../starter/source/starter/starter0.F
 !||====================================================================
       module checksum_check_mod
+
+      implicit none
 
       contains
 !! \brief Grab all checksums from execution directory & write them in output file.
@@ -70,38 +72,38 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          titl_filename=''
-          checksum_file=''
-          runn='0000'
+          titl_filename=""
+          checksum_file=""
+          runn="0000"
           lenr=len_trim(rootname)
 
           call  radioss_title(istdo,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
-          write(istdo,'(A)')' .. CHECKSUMS FROM INPUT DECK AND RESULT FILES'
+          write(istdo,"(A)")" .. CHECKSUMS FROM INPUT DECK AND RESULT FILES"
 
           ! Open checksum file
-          checksum_file  = trim(rootname)//'.report'
-          open(unit=fchecksum,file=trim(checksum_file),access='sequential',form='formatted',status='unknown')
+          checksum_file  = trim(rootname)//".report"
+          open(unit=fchecksum,file=trim(checksum_file),access="sequential",form="formatted",status="unknown")
 
           ! Write checksum file header
           call  radioss_title(fchecksum,cpunam,archtitle,rootname,len_trim(rootname),runn,iresp,1)
 
-          write(fchecksum,'(A)')' '
-          write(fchecksum,'(A)')'    DECK AND OUTPUT CHECKSUM REPORT'
-          write(fchecksum,'(A)')'    -------------------------------'
-          write(fchecksum,'(A)')'    ROOTNAME. . . . . . . . . . . . .     '//trim(rootname)
-          write(fchecksum,'(A)')'    DIRECTORY . . . . . . . . . . . .     '//trim(path)
-          write(fchecksum,'(A)')' '
+          write(fchecksum,"(A)")" "
+          write(fchecksum,"(A)")"    DECK AND OUTPUT CHECKSUM REPORT"
+          write(fchecksum,"(A)")"    -------------------------------"
+          write(fchecksum,"(A)")"    ROOTNAME. . . . . . . . . . . . .     "//trim(rootname)
+          write(fchecksum,"(A)")"    DIRECTORY . . . . . . . . . . . .     "//trim(path)
+          write(fchecksum,"(A)")" "
 
           lenp=len_trim(path)
-          call grab_checksums(fchecksum,rootname,lenr,path,lenp);
+          call grab_checksums(fchecksum,rootname,lenr,path,lenp)
 
           close(unit=fchecksum)
 
           ! Write output file footer
-          write(istdo,'(A)')' .. DONE'
-          write(istdo,'(A)')'------------------------------------------------------------------------'
-          write(istdo,'(A)')' '
-          write(istdo,'(A)')'    CHECKSUMS ARE WRITTEN IN '//trim(checksum_file)
-          write(istdo,'(A)')' '
+          write(istdo,"(A)")" .. DONE"
+          write(istdo,"(A)")"------------------------------------------------------------------------"
+          write(istdo,"(A)")" "
+          write(istdo,"(A)")"    CHECKSUMS ARE WRITTEN IN "//trim(checksum_file)
+          write(istdo,"(A)")" "
         end subroutine checksum_check
       end module checksum_check_mod

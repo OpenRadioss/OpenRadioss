@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -83,18 +83,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
-     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
-     .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
-     .        LC(MVSIZ), INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
+      INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,
+     .        II, IC, NN, IDEB, NR, IFM,
+     .         IPOSC(MVSIZ),
+     .         INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
       my_real :: 
      .   AX, AXI, AOLD, VV, A0, AA, STARTT, STOPT, 
-     .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,RW_SMS(MVSIZ),
+     .   DW,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,RW_SMS(MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP, SKEWGLOB,
-     .   AOLD0(6,MVSIZ),DFJ,QF0(9),EJ(3),DDF,DDR,RF
+     .   DFJ,QF0(9),EJ(3),DDF,DDR
 
-      REAL(KIND=8) :: TSTMP,FAC,FACX,YC0(MVSIZ),YC(MVSIZ),TSC0(MVSIZ),TSC(MVSIZ),DYDXC(MVSIZ)
+      REAL(KIND=8) :: TSTMP,FAC,FACX,YC0(MVSIZ),YC(MVSIZ),TSC0(MVSIZ),TSC(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: ILENC_SMOOTH,IPOSC_SMOOTH,IADC_SMOOTH
       my_real, DIMENSION(MVSIZ) :: YC0_SMOOTH,YC_SMOOTH,TSC0_SMOOTH,TSC_SMOOTH,DYDXC_SMOOTH
       INTEGER :: NINDEX_SMOOTH,NINDEX_SMOOTH_WSENS
@@ -448,7 +448,7 @@ C dw was already counted in WFEXT, in sms_fixvel...
                 ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c-----------------velocity angulaire imposee---------
                 ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------sinon-----------------------------
 c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
@@ -471,7 +471,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               IF(IBFV(7,N)>=1) THEN
                 IF (J == 2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
-c-----------------vitesse angulaire imposee--------
+c-----------------velocity angulaire imposee--------
                    YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                 ELSE
@@ -519,7 +519,7 @@ C             Fixed velocity in moving frame (transl)
               A0 = XFRAME(K1,IFM)*A(1,I)
      .           + XFRAME(K2,IFM)*A(2,I)
      .           + XFRAME(K3,IFM)*A(3,I)
-              YC(II)=(YC(II)-VV+VF)/DT12
+              IF (IBFV(7,N) >= 1) YC(II)=(YC(II)-VV+VF)/DT12
               AA = YC(II) - A0
               A(1,I)=A(1,I)+XFRAME(K1,IFM)*AA
               A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
@@ -559,7 +559,7 @@ C             Fixed velocity in moving frame (transl)
                 ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c---------------vitesse angulaire imposee--------
+c---------------velocity angulaire imposee--------
                 ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------------------------------------
 c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
@@ -584,7 +584,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               A0 = FMDIR(1)*A(1,I) + FMDIR(2)*A(2,I) + FMDIR(3)*A(3,I)
               IF (J == 2) THEN
 c               YC(II)=(YC(II)-VV+VF)/DT12
-c---------------vitesse angulaire imposee--------
+c---------------velocity angulaire imposee--------
                 YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
               ELSE
@@ -722,38 +722,33 @@ C             Fixed velocity in moving frame (rota)
               K2=3*J-1
               K3=3*J
               IF (IBFV(7,N) == 2) THEN
-                QF0(1:9) = XFRAME(19:27,IFM)
-                EJ(1) = QF0(K1)
-                EJ(2) = QF0(K2)
-                EJ(3) = QF0(K3)
-                DDR = EJ(1)*DR(1,I) +EJ(2)*DR(2,I) + EJ(3)*DR(3,I)
-                DDF= EJ(1)*XFRAME(13,IFM)+EJ(2)*XFRAME(14,IFM)+EJ(3)*XFRAME(15,IFM) 
+                DDR = VEL(10,N)
+                VEL(10,N) = YC(II) ! using DR(1:3,)*e_frame will get accumulated error
                 IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
                 ELSE
-                  YC(II) = (YC(II)-DDR)/DT2_DOUBLE + DDF
+                  YC(II) = (YC(II)-DDR)/DT2_DOUBLE 
                 ENDIF
-                VF = ZERO
-              ELSE
-                VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
+              ENDIF
+              VF =   XFRAME(K1,IFM)*XFRAME(13,IFM)
      .             + XFRAME(K2,IFM)*XFRAME(14,IFM)
      .             + XFRAME(K3,IFM)*XFRAME(15,IFM)
-              ENDIF
               VV = XFRAME(K1,IFM)*VR(1,I)
      .           + XFRAME(K2,IFM)*VR(2,I)
-     .           + XFRAME(K3,IFM)*VR(3,I)
+     .           + XFRAME(K3,IFM)*VR(3,I) 
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV+VF)/DT12
               A0 = XFRAME(K1,IFM)*AR(1,I)
      .           + XFRAME(K2,IFM)*AR(2,I)
      .           + XFRAME(K3,IFM)*AR(3,I)
-              AA = (YC(II)-VV+VF)/DT12 - A0
+              AA = YC(II) - A0
               AR(1,I)=AR(1,I)+XFRAME(K1,IFM)*AA
               AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
               AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
               IF(IBFV(6,N) == 0)THEN
-                DW= FOURTH*(YC(II)+VV)*IN(I)*AA*WEIGHT(I)
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*IN(I)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
-                DW= FOURTH*(YC(II)+VV)*WEIGHT(I)*AA*
+                DW= FOURTH*(YC(II)*DT12+TWO*VV)*WEIGHT(I)*AA*
      .             ((RBY(17,NR)*XFRAME(K1,IFM)
      .              +RBY(18,NR)*XFRAME(K2,IFM)
      .              +RBY(19,NR)*XFRAME(K3,IFM))*XFRAME(K1,IFM) +

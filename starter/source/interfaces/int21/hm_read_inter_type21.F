@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER,INTENT(IN)    :: NOM_OPTFRIC(LNOPT1,NINTERFRIC)
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER ISU1,ISU2,ILAGM,NI
+      INTEGER ISU1, ISU2, NI
       INTEGER IPARI(NPARI),NPC1(SNPC1),NPC(SNPC)
       my_real STFAC,XFILTR
       my_real FRIGAP(NPARIR),FRIC_P(10),TF(*)
@@ -92,18 +92,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARTITLE) :: TITR1
-      INTEGER I,J,L,IBC1, IBC2, IBC3, NOINT, NTYP, IBID,INACTI, IBC1M,
-     .    IBC2M, IBC3M, IGSTI,IEULT, IVIS2,IS1, IS2,ILEV, IGAP,MULTIMP,
-     .    HIERA,MFROT,IFQ,MODFR,IADM,UID,NRADM,INTTH,IFORM,IERR1,IKTHE,
-     .    IDEL21,IMOD,IFILTR,IFUNS,IFUNN,IFUNT,IFUN1,IFUN2,HFLAG,NUVAR, 
-     .    IFSTF,KK,II,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IRSTH,INVN,
+
+      INTEGER I,IBC1, IBC2, IBC3, NOINT, NTYP,INACTI, IBC1M,
+     .    IBC2M, IBC3M, IGSTI,IS1, IS2,ILEV, IGAP,MULTIMP,
+     .    MFROT,IFQ,MODFR,IADM,NRADM,INTTH,IFORM,IKTHE,
+     .    IDEL21,IDSENS,IDELKEEP,INTKG,INVN,
      .    IFRICTH,IFTLIM,FCOND,INTFRIC
       my_real
-     .   FRIC,GAP,STARTT,BUMULT,STOPT,FHEAT,FHEATS,FHEATM,RSTH,TINT,PADM, 
+     .   FRIC,GAP,STARTT,BUMULT,STOPT,FHEAT,TINT,PADM, 
      .   ANGLADM, CADM, DEPTH,C1,C2,C3,C4,C5,C6, ALPHA,GAPSCALE,GAPMAX, 
-     .   STMIN,STMAX,STIFF, PMAX,AREA, KTHE, XTHE, FRAD, DRAD,
-     .   VISC,XFRICTH,PTMAX,PSKID,DCOND,XTHE_UNIT,KTHE_UNIT
+     .   STMIN,STMAX, PMAX, KTHE, XTHE, FRAD, DRAD,
+     .   VISC,XFRICTH,PSKID,DCOND,XTHE_UNIT,KTHE_UNIT
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -334,7 +333,7 @@ C.....* CHECKS *........
 C
           IF(GAPSCALE==ZERO)GAPSCALE=ONE
 
-ce flag dit sil faut calculer les epaisseurs nodales dans l'engine
+cE FLAG says if you have to calculate the nodal thickness in the engine
           IF(IGAP==2) INTER_ITHKNOD=1 !defined in interface module (common_source directory)
 C
           IF(IGAP==2)THEN
@@ -698,12 +697,8 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
- 1534 FORMAT(
-     .    '    THERMAL INTERFACE . . . . . . . . . . . . . ',//
-     .    '    THERMAL heat exchange coefficient .. . . . .',1PG20.13/)
  2502 FORMAT('    RUPTURE PARAMETERS '
      .         /10X,'SCAL_F  . . . . . . . . . . . . . . ',1PG20.13
      .         /10X,'SCAL_DISP . . . . . . . . . . . . . ',1PG20.13
@@ -763,10 +758,7 @@ C
  1527 FORMAT(/
      .       '    INTERFACE FRICTION MODEL.  . . . . . . . . ',I10)
 
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
+
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT
-      INTEGER IH3D,NG,ITY,NFT,IKEY,K_LEN,ID_INPUT,ID,NH3D_P
+      INTEGER  J, K   , IP  , IPRT
+      INTEGER NG,ITY,NFT,ID_INPUT,ID,NH3D_P
 
       INTEGER :: NKPART(NPART,3),NOPART(3)
       CHARACTER(LEN=NCHARKEY) :: KEY2

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -93,19 +93,19 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,II,NORDRE,NMAXW,JJ
+      INTEGER    I,J,K,II,NORDRE,JJ
       my_real
      .   MU(100),AL(100),S(MVSIZ,3),DD,PP,GMAX,
      .   D(MVSIZ),AV(MVSIZ,6),RBULK,EV(MVSIZ,3),
      .   EVD(MVSIZ,3),RV(MVSIZ),EVV(MVSIZ,3),
      .   DIRPRV(MVSIZ,3,3),PUI,PUI_TAB(3),LAM_AL(3)
       my_real
-     .    A(3,3),DPRA(3,3),EIGEN(3) ,AMAX ,ETI,P,EFAC
+     .    AMAX ,ETI,P
       my_real ,DIMENSION(NEL,3) :: CII
       my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX  
 C----------------------------------------------------------------
@@ -124,7 +124,7 @@ cc      NU      = UPARAM(1)
 
 cc      RBULK   = TWO/D(1) + TWO*GMAX*THIRD
       RBULK   = TWO/D(1)
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL
@@ -200,7 +200,7 @@ C       EFAC=TWOP5
        ENDDO
       ENDIF
 C----------------
-C deviatorique strecth
+C DEVIATORCE Stretch
 C
       DO I=1,NEL
 C----  RV = RHO0/RHO = RELATIVE VOLUME = DET A (A = GRADIENT OF DEFORMATION)

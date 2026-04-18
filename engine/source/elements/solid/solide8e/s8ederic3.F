@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J ,ICOR,NNEGA,INDEX(MVSIZ)
+      INTEGER NGL(*), I, J ,NNEGA,INDEX(MVSIZ)
       my_real DETT(MVSIZ) ,
      .        AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
      .        AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
@@ -278,7 +278,7 @@ C
         DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
+C     INVERSE OF THE JACOBIAN MATRIX
 C
       DO I=1,NEL
         AJI1(I)=DETT(I)*JAC_59_68(I)
@@ -386,6 +386,4 @@ C----surface max mediane-- *16
        ENDDO
       RETURN
 C
- 1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
       END

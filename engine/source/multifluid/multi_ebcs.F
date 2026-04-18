@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,23 +21,25 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    multi_ebcs              ../engine/source/multifluid/multi_ebcs.F
+!||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
 !||--- called by ------------------------------------------------------
-!||    multi_timeevolution     ../engine/source/multifluid/multi_timeevolution.F
+!||    multi_timeevolution    ../engine/source/multifluid/multi_timeevolution.F
 !||--- calls      -----------------------------------------------------
-!||    multi_inlet_ebcs        ../engine/source/multifluid/multi_inlet_ebcs.F
-!||    multi_nrf_ebcs          ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propellant_ebcs   ../engine/source/multifluid/multi_propellant_ebcs.F90
+!||    arret                  ../engine/source/system/arret.F
+!||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
+!||    multi_nrf_ebcs         ../engine/source/multifluid/multi_nrf_ebcs.F
 !||--- uses       -----------------------------------------------------
-!||    ebcs_mod                ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
-!||    multi_inlet_ebcs_mod    ../engine/source/multifluid/multi_inlet_ebcs.F
-!||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
+!||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
+!||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multi_inlet_ebcs_mod   ../engine/source/multifluid/multi_inlet_ebcs.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
      .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,
-     .     NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM)
+     .     NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM, OUTPUT, PRED)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -45,7 +47,10 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE OUTPUT_MOD , ONLY : OUTPUT_
       USE MULTI_INLET_EBCS_MOD , ONLY : MULTI_INLET_EBCS
+      use element_mod , only : nixs,nixq,nixtg
+      !USE multi_propellant_ebcs_mod , ONLY : MULTI_PROPELLANT_EBCS
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +82,8 @@ C-----------------------------------------------
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF), TIMESTEP
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      LOGICAL, INTENT(IN) :: PRED !< predictor step if true, corrector step if false
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -96,23 +103,28 @@ C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP, MATPARAM)
+     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM)
+     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM)
+     .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_propellant)
-              CALL MULTI_PROPELLANT_EBCS(ITASK, I, MULTI_FVM, NELEM,
-     .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,
-     .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT ,MATPARAM)
+!             work in progress
+              write(6,*) 'MULTI_EBCS: Propellant EBCS not yet implemented'
+              write(6,*) "NUMELS=",NUMELS,"NUMELQ=",NUMELQ,"NUMELTG=",NUMELTG
+              write(6,*) "NUMNOD=",NUMNOD,"NCYCLE=",NCYCLE,"NUMMAT=",NUMMAT
+              CALL ARRET(2)
+!             CALL MULTI_PROPELLANT_EBCS(ITASK, I, MULTI_FVM, NELEM,
+!    .           twf%ielem, twf%iface, twf%fvm_inlet_data,
+!    .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
+!    .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,
+!    .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT ,MATPARAM)
             CLASS DEFAULT
          END SELECT
       ENDDO

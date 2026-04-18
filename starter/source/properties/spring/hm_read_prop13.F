@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,7 +65,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: SUB_INDEX
 C     REAL
       my_real GEO(NPROPG)
-      my_real FAC_M, FAC_L, FAC_T
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       CHARACTER(LEN=NCHARTITLE)::IDTITL
@@ -1243,18 +1242,6 @@ C
 C------------------------
       RETURN
 c-----------
- 1800 FORMAT(
-     & 5X,'SPRING PROPERTY SET (BEAM TYPE)'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
-     & 5X,'SPRING MASS . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SPRING INERTIA. . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SKEW FRAME NUMBER (0:GLOBAL). . . . . .=',I10/,
-     & 5X,'SENSOR NUMBER (0:NOT USED). . . . . . .=',I10/,
-     & 5X,'SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=',I10/,
-     & 5X,'FAILURE FLAG (0:UNCOUPLED 1:COUPLED). .=',I10/,
-     & 5X,'UNIT LENGTH FLAG. . . . . . . . . . . .=',I10/,
-     & 5X,'IF=1 UNIT LENGTH MASS,STIFFNESS AND INPUT',/,
-     & 5X,'     CURVE ARE STRAIN DEPENDING',/)
  1810 FORMAT(
      & 5X,A,/,
      & 5X,'SPRING STIFFNESS. . . . . . . . . . . .=',1PG20.13/,

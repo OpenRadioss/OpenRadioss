@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,16 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c3coor3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+!||    c3coor3       ../engine/source/elements/sh3n/coque3n/c3coor3.F
 !||--- called by ------------------------------------------------------
-!||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3COOR3(JFT      ,JLT      ,X       ,IXTG     ,
      .                   OFFG     ,OFF      ,DT1C    ,
      .                   V        ,VR       ,VL1     ,VL2      ,VL3      ,
      .                   VRL1     ,VRL2     ,VRL3    ,SIGY     ,
      .                   X1       ,X2       ,X3      ,Y1       ,Y2       ,
-     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )  
+     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NC1, NC2, NC3
+      INTEGER I, NC1, NC2, NC3
       my_real OFF_L    
 C=======================================================================
       IF(IRESP == 1)THEN
@@ -175,9 +178,11 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    c3coort3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+!||    c3coort3      ../engine/source/elements/sh3n/coque3n/c3coor3.F
 !||--- called by ------------------------------------------------------
-!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3COORT3(JFT    ,JLT    ,X     ,IXTG   ,OFFG   ,
      1                    DR     ,XL2    ,XL3   ,YL2    ,YL3    ,
@@ -186,6 +191,7 @@ C-----------
      5                    V21X   ,V31X   ,V21Y  ,V31Y   ,RZ13   ,
      6                    RZ23   ,X2_T   ,X3_T  ,Y2_T   ,Y3_T   ,
      7                    AREA   ,SMSTR  ,ISROT )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -211,7 +217,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NC1, NC2, NC3,II(6),NN(3)
+      INTEGER I,II(6),NN(3)
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),Y0G2(MVSIZ),Y0G3(MVSIZ),OFF_L,
      .   Z0G2(MVSIZ),Z0G3(MVSIZ),AXYZ(MVSIZ,3,3),

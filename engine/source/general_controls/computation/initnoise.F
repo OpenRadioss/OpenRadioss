@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,12 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    initnoise   ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise     ../engine/source/general_controls/computation/initnoise.F
 !||--- called by ------------------------------------------------------
-!||    noise       ../engine/source/general_controls/computation/noise.F
+!||    noise         ../engine/source/general_controls/computation/noise.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INITNOISE(IN,NOIADD,IXS,IWA,LENGTH,IXQ)
-C
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------        
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,18 +53,18 @@ C-----------------------------------------------
       INTEGER I,J,LENGTH,K
 C-----------------------------------------------
 C
-C ADRESSE DES NOEUDS SAUVES DS NOISE
+C ADDRESS DES NODES SAUVES DS NOISE
 C
       DO I=0,NUMNOD
        IWA(I)=0
       ENDDO
       DO I=1,NNOISE
-       IWA(IN(I))=I                 ! IN(I)=0 si noeud non present en SPMD
+       IWA(IN(I))=I                 ! In (i) = 0 if not present in SPMD
        NOIADD(I)=0
       ENDDO
       NOIADD(NNOISE+1)=0
 C
-C STOCKE DANS NOIADD(K) LE NOMBRE d'ELEMENTS CONNECTES AU NOEUD K-1
+C STOCKE IN NOIADD(K) LE NUMBER d'ELEMENTS CONNECTES AU NODE K-1
 C
       IF(N2D==0)THEN
         DO I=1,NUMELS
@@ -79,7 +84,7 @@ C
         ENDDO
       ENDIF      
 C
-C ADRESSE PAR NOEUD DANS LE TABLEAU DES ELEMENTS A SAUVER DANS NOEUDS
+C address per node in the array of elements to be saved in nodes
 C
       NOIADD(1)=1
       DO I=2,NNOISE+1
@@ -91,12 +96,17 @@ c-----------
       END
 
 !||====================================================================
-!||    initnoise2   ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise2    ../engine/source/general_controls/computation/initnoise.F
 !||--- called by ------------------------------------------------------
-!||    noise        ../engine/source/general_controls/computation/noise.F
+!||    noise         ../engine/source/general_controls/computation/noise.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,IWA,IPARG,IXQ)
-C
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------        
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,7 +126,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER , DIMENSION (:), ALLOCATABLE :: KN
-      INTEGER I,J,LENGTH,K,II
+      INTEGER I,J,K,II
       INTEGER NG,NEL,ITY,NB2,NFT
 C-----------------------------------------------
       IF(NNOISE>0)THEN
@@ -126,7 +136,7 @@ C-----------------------------------------------
         KN(I)=0
       ENDDO
 C
-C REMPLISSAGE DE ELNOI PAR LES ADRESSES DANS ELBUF
+C filling elnoi with the addresses from elbuf
 C
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)

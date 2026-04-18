@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_buf_law51      ../engine/source/materials/mat/mat051/write_buf_law51.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
 !||====================================================================
@@ -39,6 +40,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD   
       USE I22BUFBRIC_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL, NUPARAM, NUVAR,IXS(NIXS,*)
+      INTEGER :: NEL, NUVAR, IXS(NIXS, *)
       INTEGER :: NFT, UNEPHASE
       my_real :: UVAR(NEL,NUVAR), DD, dbVOLD(4),dbVOLD_f(4),TAG22(MVSIZ),VOLUME(MVSIZ),VOLD, VAR
       my_real :: EPSPXX(MVSIZ), EPSPYY(MVSIZ), EPSPZZ(MVSIZ),BFRAC
@@ -63,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II, ITRIMAT, IPRESENT(4), Q, KK
-      my_real :: P
+ 
 C-----------------------------------------------
 C   S o u r c e L i n e s
 C-----------------------------------------------

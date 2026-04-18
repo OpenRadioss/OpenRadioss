@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,6 +27,7 @@
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_ale_grid_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -75,7 +76,7 @@
             ale%grid%flow_tracking_data%eigenvec(1:3,3) = rtmp(7:9)
             ale%grid%flow_tracking_data%beta0(1:6) = rtmp(10:15)
             ale%grid%flow_tracking_data%ms_elem_mean_0 = rtmp(16)
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

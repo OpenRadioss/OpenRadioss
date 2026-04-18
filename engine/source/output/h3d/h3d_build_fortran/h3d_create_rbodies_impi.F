@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -62,22 +62,23 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
+      INTEGER PMAIN,I,J,K,L,S,B,M,P,
      .        RECOISDE(NSPMD),
-     .        PORBY(SPORBY),II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
+     .        PORBY(SPORBY),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
 C
       INTEGER BUFSPM(SBUFSPM),BUFRECVM(SBUFRECVM+NSPMD+1),
      .        BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
 
-     .        BUFSPO(SBUFSPO),NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
+     .        BUFSPO(SBUFSPO),NBNOD,SIZ,LPO,NN,NR,
      .        SRBY
       INTEGER MAINND(NRBYKIN)
       INTEGER ID_RBY(NRBYKIN)
 
 C   MPI variables
       INTEGER LOC_PROC
-      INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,ATID,ATAG,ALEN
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
+      INTEGER MSGOFF,MSGOFF2,MSGTYP
+      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER ISD(NSPMD)
 
       DATA MSGOFF/7018/
       DATA MSGOFF2/7019/

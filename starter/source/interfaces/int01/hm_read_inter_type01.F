@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -67,11 +67,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FRIC,GAP,STARTT,STOPT !< interface parameters
-      INTEGER ISU1,ISU2 !< surface identifiers
-      INTEGER I,J,L, NTYP,IS1,IS2,IGSTI,ILEV,IVOID
+      INTEGER ISU1,ISU2 !<Identifiers surface
+      INTEGER NTYP,IS1,IS2,IGSTI,ILEV
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL :: IS_AVAILABLE
-      CHARACTER(len=nchartitle) :: MSGTITL
+
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------------
       IF(STFAC == ZERO) STFAC = ONE_FIFTH
 
 C------------------------------------------------------------
-C  Card1 : surface identifiers
+C  Card1: identifier surface
 C------------------------------------------------------------
 
       CALL HM_GET_INTV('surf_IDA', ISU1, IS_AVAILABLE, LSUBMODEL)
@@ -149,7 +149,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

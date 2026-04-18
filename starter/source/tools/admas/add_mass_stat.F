@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS)
+      SUBROUTINE ADD_MASS_STAT(MS,IN,STIFN,STIFR,ITAB,TOTMAS,TOTMAS1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -36,7 +36,7 @@ C-----------------------------------------------
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
-C     TRI DES DT NODAUX ET IMPRESSIONS
+C     TRIANGLE OF NODE DATA AND PRINTINGS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       INTEGER ITAB(*)
       my_real
      .   MS(NUMNOD),IN(NUMNOD),STIFN(NUMNOD),STIFR(NUMNOD),TOTMAS
+      my_real, intent(in) :: TOTMAS1
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,COMPT,K,NVAL
+      INTEGER I,K,NVAL
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
       my_real, DIMENSION(:), ALLOCATABLE,TARGET ::
@@ -72,7 +73,7 @@ C-------------------------------------------------------------------------------
 C
       ALLOCATE(DT(2*NUMNOD))
       CALL MY_ALLOC(PERM,NUMNOD)
-      MASS0_START = TOTMAS
+      MASS0_START = TOTMAS1
       DTSCA = ZEP9
 C
       TMP => DT(NUMNOD+1:NUMNOD*2)

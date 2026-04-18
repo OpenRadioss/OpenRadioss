@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -178,7 +178,7 @@ C-----------------------------------------------
               EXIT
            ENDIF
         ENDDO
-        !initialise la liste des noeuds de la surface
+        !initializes the list of surface node
 !        K1=2*NSEG+1
 !        CALL EBCNODE(IEBCS(K1),NSEG,IGRSURF(ISU)%NODES,NOD)
 !        K2=K1+NOD

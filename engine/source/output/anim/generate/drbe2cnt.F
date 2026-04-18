@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,14 +43,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NERBE2,NERWL,IRBE2(NRBE2L,*),WEIGHT(*),
+      INTEGER NERBE2,IRBE2(NRBE2L,*),WEIGHT(*),
      .        LRBE2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NSN
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
         DO I=1,NRBE2
           NSN = IRBE2(5,I)
           DO N=1,NSN

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -69,7 +69,7 @@ C-----------------------------------------------
       CHARACTER CHANIM*3,FILNAM*12
       INTEGER I, NBF, NBPART, MAGIC, J, FILEN,NNSLAG,
      .        IANIM, NBCSPH, N1, N2,
-     .        CTEXT(81),IB,PROC
+     .        CTEXT(81),PROC
       my_real
      .        CDG(3), S3000, SCALE,BUFEL(1)
       REAL R4
@@ -77,11 +77,11 @@ C
 C      
       S3000 = THREE1000
 C
-Calcul connectivite sph pour A000 domdec
+Calculate sph connectivity for A000 domdec
 C
       NBCSPH = 0
       DO I = 1, NUMSPH
-C maillage hexagonal compact => 12 voisins les + proches
+C Compact hexagonal mesh => 12 neighbors + close
           DO J = 1,MIN(12,KXSP(4,I))
             N1 = KXSP(3,I)
             N2 = IXSP(J,I)

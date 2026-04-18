@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE GROUP_PARAM_MOD            
+      USE GROUP_PARAM_MOD     
+      use element_mod , only : nixc       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,13 +68,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N, IMT, IPMAT, IGTYP,IPPID,IADB,
-     .        I1,I3,IPTHK,IPPOS,I2,MATLY,IGMAT,IPGMAT,IPOS,NIP,MLAWLY
+     .        IGMAT,IPGMAT,IPOS,NIP,MLAWLY
       my_real
      .   SSP(MVSIZ), AL1(MVSIZ),AL(MVSIZ), ALMIN(MVSIZ),
      .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ), AL6(MVSIZ)
       my_real
-     .   VISCMX,A11,A11R,A12,B1,B2,C1,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
-     .   YOUNG,NU,GMAX,THKLY,POSLY,FAC,Z0
+     .   VISCMX,A11,A11R,B1,B2,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
+     .   YOUNG,NU,GMAX,FAC,Z0
        my_real, DIMENSION(MVSIZ) :: ZOFFSET
 C======================================================================|
       IGTYP = NINT(GEO(12,IPROP))
@@ -338,7 +339,8 @@ C
 C
       IF(MTN == 19)THEN
           VISCDEF=FOURTH
-      ELSEIF(MTN == 25.OR.MTN == 27)THEN
+      ELSEIF(MTN == 25 .OR. MTN == 27  .OR. MTN == 123 .OR. MTN == 125 
+     .                  .OR. MTN == 127 .OR. MTN == 132 )THEN
           VISCDEF=FIVEEM2
       ELSE
           VISCDEF=ZERO

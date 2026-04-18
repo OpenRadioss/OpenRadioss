@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6rcoork    ../engine/source/elements/thickshell/solide6c/s6rcoork.F
+!||    s6rcoork      ../engine/source/elements/thickshell/solide6c/s6rcoork.F
 !||--- called by ------------------------------------------------------
-!||    s6cke3      ../engine/source/elements/thickshell/solide6c/s6cke3.F
+!||    s6cke3        ../engine/source/elements/thickshell/solide6c/s6cke3.F
 !||--- calls      -----------------------------------------------------
-!||    s6cortho3   ../engine/source/elements/thickshell/solide6c/s6cortho3.F
-!||    vrrota3     ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||    s6cortho3     ../engine/source/elements/thickshell/solide6c/s6cortho3.F
+!||    vrrota3       ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S6RCOORK(
      1   X,       IXS,     X1,      X2,
@@ -45,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   K33,     K34,     K35,     K36,
      F   K44,     K45,     K46,     K55,
      G   K56,     K66,     NEL,     ISMSTR)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,7 +135,7 @@ C----------------------------
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       DO I=1,NEL
         XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
@@ -169,7 +172,7 @@ C-----------
      9   SZ,      TX,      TY,      TZ,
      A   NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
      .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
@@ -249,7 +252,7 @@ C-----------
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)

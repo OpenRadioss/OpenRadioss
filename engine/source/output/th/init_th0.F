@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod        ../engine/share/modules/cluster_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    stack_mod          ../engine/share/modules/stack_mod.F
 !||    th_mod             ../engine/share/modules/th_mod.F
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE TH_MOD
       USE TIME_HISTORY_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +62,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MBUFFER, NPARTL
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*),IXR(NIXR,*)
       INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT
 C     REAL
@@ -73,7 +74,7 @@ C-----------------------------------------------
       INTEGER :: ID,LOCAL_ID      
       INTEGER, POINTER :: ITHGR,ITHB
       INTEGER, DIMENSION(10) :: ALREADY_DONE
-      INTEGER :: SITHBUF,SITHGRP
+      INTEGER :: SITHBUF
 
 C=======================================================================
 

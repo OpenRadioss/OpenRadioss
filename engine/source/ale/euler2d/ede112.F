@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE EDE112(PM  ,V   ,X   ,IXQ ,ALE_CONNECT ,
      .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ )
@@ -33,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

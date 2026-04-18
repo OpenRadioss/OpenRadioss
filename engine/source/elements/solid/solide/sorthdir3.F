@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20ke3      ../engine/source/elements/solid/solide20/s20ke3.F
 !||    s4forc3     ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s4ke3       ../engine/source/elements/solid/solide4/s4ke3.F
+!||    s6zrcoor3   ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
 !||    srcoor3     ../engine/source/elements/solid/solide/srcoor3.F
 !||    srcoork     ../engine/source/elements/solid/solide8z/srcoork.F
@@ -68,7 +69,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
+     .  UX,UY,UZ,VX,VY,VZ,D1,D2,D3,SUMA
 C=======================================================================
       IF (IREP == 0) THEN 
         DO I=1,NEL                                            
@@ -109,7 +110,7 @@ C         Dir 2
           VZ = VZ*SUMA                 
 C         Orthogonalisation: 
 C         Dir1' = Dir1,  Dir3 = Dir1 x Dir2, Dir2' = Dir3 x Dir1
-C ON VEUT LA 3EME DIRECTION DE GAMA (ELEM -> ORTHO)
+C WE WANT THE 3RD DIRECTION OF GAMA (ELEM -> ORTHO)
           D1 = GAMA(I,2) * VZ - GAMA(I,3) * VY
           D2 = GAMA(I,3) * VX - GAMA(I,1) * VZ
           D3 = GAMA(I,1) * VY - GAMA(I,2) * VX
@@ -121,7 +122,7 @@ C ON VEUT LA 3EME DIRECTION DE GAMA (ELEM -> ORTHO)
 c      ELSEIF (IREP == 2) THEN 
 C       Plan (dir1,dir2) = const
 c        DO I=1,NEL                                            
-C         Dir 1  - normale au plan
+C         Dir 1 - Normal in terms of
 c          D1 = GAMA0(I,1)*RX(I) + GAMA0(I,2)*SX(I) + GAMA0(I,3)*TX(I)     
 c          D2 = GAMA0(I,1)*RY(I) + GAMA0(I,2)*SY(I) + GAMA0(I,3)*TY(I)     
 c          D3 = GAMA0(I,1)*RZ(I) + GAMA0(I,2)*SZ(I) + GAMA0(I,3)*TZ(I)    
@@ -162,7 +163,7 @@ C         Dir 1 = Dir2 x Dir3
 c          UX = VY*WZ - VZ*WY
 c          UY = VZ*WX - VX*WZ
 c          UZ = VX*WY - VY*WX
-C         Orthogonalisation de la base dir2/dir3 : 
+C         Orthogonalization of the dir2/dir3 base :
 C         Dir2'/Dir3' = dir2/dir3 orthogonalize symmetriquement, Dir1=Dir3xDir2
 c          SUMA   = SQRT(S2/S3)                
 c          D1 = VX + (WY*UZ-WZ*UY)*SUMA

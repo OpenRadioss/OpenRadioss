@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -43,7 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   CAND_P ,TYPEDGS,IAS  ,JAS   ,IBS   ,
      F   JBS    ,IAM    ,ITAB ,INDX1 ,INDX2 ,
      G   CS_LOC4,CM_LOC4, EDGE_ID, NEDGE, NIN,
-     H   DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2)
+     H   DGAPLOADPMAX,NORMALN1,NORMALN2,NORMALM1,NORMALM2,
+     I   PENE_OLD_E2S,STIF_OLD_E2S,SIZ_E2S)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,31 +86,33 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: DGAPLOADPMAX
       my_real  , INTENT(IN) :: NORMALN1(3,MVSIZ),NORMALN2(3,MVSIZ),
      .       NORMALM1(3,4,MVSIZ),NORMALM2(3,4,MVSIZ)
+      INTEGER , INTENT(IN) ::SIZ_E2S
+      my_real , INTENT(INOUT) :: PENE_OLD_E2S(4,SIZ_E2S/4),STIF_OLD_E2S(4,SIZ_E2S/4) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
-     .        EJ, I1, I2, I3, I4, I0, IT, EJ_NEW, I_NEW,
+      INTEGER I, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
+     .        EJ, I1, I2, I3, I4, I0, EJ_NEW, I_NEW,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
+     .           
      .        JNDX(MVSIZ), I4A(MVSIZ)
       my_real
-     .     XA0(MVSIZ),XA1(MVSIZ),XA2(MVSIZ),XA3(MVSIZ),XA4(MVSIZ),
-     .     YA0(MVSIZ),YA1(MVSIZ),YA2(MVSIZ),YA3(MVSIZ),YA4(MVSIZ),
-     .     ZA0(MVSIZ),ZA1(MVSIZ),ZA2(MVSIZ),ZA3(MVSIZ),ZA4(MVSIZ),
+     .     
+     .     
+     .     
      .     XA(5,MVSIZ),YA(5,MVSIZ),ZA(5,MVSIZ)
       my_real
      .     PENE2(4,MVSIZ),
      .     XS12(4,MVSIZ),YS12(4,MVSIZ),ZS12(4,MVSIZ),XM12(4,MVSIZ),
      .     YM12(4,MVSIZ),ZM12(4,MVSIZ),XAA,XBB,XS2(4,MVSIZ),XM2(4,MVSIZ),
-     .     XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,AAA,BBB,GAP2,P1,P2,NN(4,MVSIZ),
+     .     XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,AAA,P1,P2,NN(4,MVSIZ),
      .     X0A(MVSIZ,4),Y0A(MVSIZ,4),Z0A(MVSIZ,4),
-     .     X0B(MVSIZ,4),Y0B(MVSIZ,4),Z0B(MVSIZ,4),
+     .     
      .     XNA(MVSIZ,4), YNA(MVSIZ,4), ZNA(MVSIZ,4), XNB(MVSIZ,4), YNB(MVSIZ,4), ZNB(MVSIZ,4), PS,
-     .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DB1, DA2, DB2,
-     .     RZERO, RUN, RDIX, REM30, REP30,
-     .     ALP,XXS,XYS,XZS,XXM,XYM,XZM,
+     .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DA2,
+     .     
+     .     ALP,XXS,XYS,XZS,
      .     XI0,YI0,ZI0,XI1,YI1,ZI1,XI2,YI2,ZI2,
      .     SX1,SY1,SZ1,SX2,SY2,SZ2,
      .     LBA(MVSIZ,4),LCA(MVSIZ,4),
@@ -286,7 +289,7 @@ C
 
           IF(TYPEDGS(I)/=1)CYCLE
 C---------------------------------------
-C         Solid on secnd side !
+C         Solid on second side !
 C---------------------------------------
 
 c          IF(IAS(I)==0 .OR. IBS(I)==0) THEN
@@ -336,7 +339,7 @@ C Computing cross product :
 
            PENE2(EJ,I) = NN(EJ,I)
 
-C Exclusions :
+C Exclusions:
 
            NM(1:3)=H1M(EJ,I)*NORMALM1(1:3,EJ,I)+H2M(EJ,I)*NORMALM2(1:3,EJ,I)
            NS(1:3)=H1S(EJ,I)*NORMALN1(1:3,I)+H2S(EJ,I)*NORMALN2(1:3,I)
@@ -362,13 +365,13 @@ C Exclusions :
       END IF
 
 
-      IF(SOL_EDGE/=0)THEN !  provisoire pour solides
+      IF(SOL_EDGE/=0)THEN ! temporary for solids
 C-----------Keep this condition for the moment (need?) : increase tolerance ( missing contacts )
 
-        LBA(1:JLT,1:4) = -ONE ! cf test LBA, LCA
+        LBA(1:JLT,1:4) = -ONE ! See test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
-C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
+C       extraction of coordinates and pre-filtering of candidates vs main dihedral
 C---------------------------------------
         DO I=1,JLT
 
@@ -530,7 +533,7 @@ C
           ENDDO
         ENDDO
 C---------------------------------------
-C       Calculer uniquement candidats filtres par la suite...
+C       only filter candidates will be calculated afterwards...
 C---------------------------------------
         NJNDX = 0
         N4A   = 0
@@ -562,8 +565,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,1)+(XYS1(1,I)-YA(5,I))*YNA(I,1)+(XZS1(1,I)-ZA(5,I))*ZNA(I,1)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,1)+(XYS2(1,I)-YA(5,I))*YNA(I,1)+(XZS2(1,I)-ZA(5,I))*ZNA(I,1)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         also handles the case where s1 or s2 are exactly on the surface
+C         (except for the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -608,8 +611,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,2)+(XYS1(1,I)-YA(5,I))*YNA(I,2)+(XZS1(1,I)-ZA(5,I))*ZNA(I,2)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,2)+(XYS2(1,I)-YA(5,I))*YNA(I,2)+(XZS2(1,I)-ZA(5,I))*ZNA(I,2)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         also handles the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -654,8 +657,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,3)+(XYS1(1,I)-YA(5,I))*YNA(I,3)+(XZS1(1,I)-ZA(5,I))*ZNA(I,3)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,3)+(XYS2(1,I)-YA(5,I))*YNA(I,3)+(XZS2(1,I)-ZA(5,I))*ZNA(I,3)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -700,8 +703,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,4)+(XYS1(1,I)-YA(5,I))*YNA(I,4)+(XZS1(1,I)-ZA(5,I))*ZNA(I,4)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,4)+(XYS2(1,I)-YA(5,I))*YNA(I,4)+(XZS2(1,I)-ZA(5,I))*ZNA(I,4)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -767,7 +770,11 @@ C---------------------------------------
 C
       DO I=1,JLT
         DO EJ=1,4
-          IF(PENE2(EJ,I)==ZERO) CAND_P(EJ,INDEX(I))=ZERO ! Reset CAND_P
+          IF(PENE2(EJ,I)==ZERO) THEN
+             CAND_P(EJ,INDEX(I))=ZERO ! Reset CAND_P
+             PENE_OLD_E2S(EJ,INDEX(I))=ZERO
+             STIF_OLD_E2S(EJ,INDEX(I))=STIF(EJ,I)
+          ENDIF
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,CAND_P(EJ,INDEX(I)))
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,EJ)
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,I)

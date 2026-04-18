@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -68,9 +68,7 @@ C-----------------------------------------------
       INTEGER IS2,STATUS_IS2
 
       INTEGER ACTI
-      my_real TSTART, INFINITY
 C-----------------------------------------------
-      INFINITY = EP20
       ACTI = 0
 c
       IS1        = SENSOR_TAB(SENS)%IPARAM(1)

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -66,7 +66,7 @@
             max_value_local = huge(res)
           end if
 
-          if( x .ne. x ) then
+          if( x /= x ) then
             res = nan_replacement_local
           else if( x < -max_value_local ) then
             res = -max_value_local
@@ -77,9 +77,9 @@
             res = -huge(res)
           else if( x > huge(res) ) then
             res = huge(res)
-          else if( x < -tiny(res) .and. x .ne. 0) then
+          else if( x < -tiny(res) .and. x /= 0) then
             res = -tiny(res)
-          else if( x > tiny(res) .and. x .ne. 0) then
+          else if( x > tiny(res) .and. x /= 0) then
             res = tiny(res)
 #endif
           else

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -29,8 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_ply_nodid         ../engine/source/output/anim/generate/anin_ply_init.F
 !||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
 !||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -40,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      IADPLYG, PLYNUMC, NBF_PXFEMG)
       USE PLYXFEM_MOD
       USE my_alloc_mod
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,11 +71,10 @@ C-----------------------------------------------
       EXTERNAL GET_PLY_NOD
 C-----------------------------------------------
 C     REAL
-      my_real OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        JJ, K, SH_IH,BUF,ISHPLYXFEM,
+      INTEGER II(4), IE, NG, ITY, LFT, LLT, N, I, 
+     . NEL, IAD, NPAR, NFT,MTN,
+     . NN90,
+     . JJ,BUF,ISHPLYXFEM,
      .        IPT,ELC,PLYS,IPLY,IE_EL2FA,
      .        NPCC,IDPLYN
       INTEGER EMPL
@@ -105,7 +106,7 @@ C-----------------------------------------------
         IE_EL2FA=0
         NPAR = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
          DO 490 NG=1,NGROUP
           MTN   =IPARG(1,NG)
           NEL   =IPARG(2,NG)
@@ -175,7 +176,7 @@ C
       ENDDO
 
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
 
         IF (ISPMD==0) THEN
          CALL SPMD_IGLOB_PARTN(IADPLY,NPLYPART,IADPLYG,NPLYPART)

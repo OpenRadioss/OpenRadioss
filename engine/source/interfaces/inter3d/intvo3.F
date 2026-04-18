@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,8 +39,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE INTVO3(IPARI,X ,A  ,
+      SUBROUTINE INTVO3(output, IPARI,X ,A  ,
      2                  ICODT,FSAV ,MWA  ,V ,MS ,
      3                  FSKYI,ISKY ,FCONT,FNCONT,FTCONT,
      4                  ICONTACT,RCONTACT,NUM_IMP,NS_IMP  ,
@@ -48,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      use output_mod
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
 C-----------------------------------------------
@@ -68,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IPARI(*), ICODT(*), MWA(*), ISKY(*),
      .        ICONTACT(*)
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),ITAB(*)
@@ -83,16 +86,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),I
+ 
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   DIST(MVSIZ)
-      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP, 
-     .        NCI, I_STOK, NSEG, LLT_NEW, IDT, JFI, KFI
-      INTEGER IFQ,MFROT,JD(50),KD(50),IBAG,IADM,IFORM,IFT0
+      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP 
+      INTEGER MFROT, IBAG, IADM, IFORM, IFT0
 
       INTEGER, DIMENSION(MVSIZ) :: IX11,IX12,IX13,IX14
       my_real, DIMENSION(MVSIZ) :: X11,X12,X13,X14,XI
@@ -114,7 +113,7 @@ C     REAL
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, MAXBOX, MINBOX, STOPT, FB_CAM, FB_IMM,
+     . STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,FNOR,DEPTH
       INTEGER :: NMN, NTY, NSN
       INTEGER :: LFT, LLT, NFT
@@ -201,7 +200,7 @@ C
      8   ZP,      H1,      H2,      H3,
      9   H4,      LFT,     LLT)
        IF(IGIMP==0)GOTO 100
-       CALL I3FOR3(LFT   ,LLT   ,NFT   ,
+       CALL I3FOR3(output,LFT   ,LLT   ,NFT   ,
      2      A ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
      3      INTBUF_TAB%STFNS,IBC ,ICODT  ,1   ,FSAV ,
      4      IGIMP     ,FSKYI     ,ISKY      ,FCONT  ,H3D_DATA,
@@ -214,7 +213,7 @@ C
      9      XI2   ,XI3   ,XI4)
        IF(FRIC==0.)GOTO 100
        IF(IGIMP==0)GOTO 100
-       CALL I3FRI3(LFT   ,LLT   ,NFT   ,X ,A  ,
+       CALL I3FRI3(output,LFT   ,LLT   ,NFT   ,X ,A  ,
      2      INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
      3      NTY,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
      4      INTBUF_TAB%VARIABLES(1),1,FSAV,FSKYI,ISKY,
@@ -275,7 +274,7 @@ C
      8   ZP,      H1,      H2,      H3,
      9   H4,      LFT,     LLT)
        IF(IGIMP==0)GOTO 130
-       CALL I3FOR3(LFT   ,LLT   ,NFT   , A  ,
+       CALL I3FOR3(output, LFT   ,LLT   ,NFT   , A  ,
      2      INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,
      3      INTBUF_TAB%STFNM,IBC  ,ICODT        ,-1        ,FSAV      ,
      4      IGIMP  ,FSKYI     ,ISKY      ,FCONT     ,H3D_DATA, 
@@ -289,7 +288,7 @@ C
        IF(FRIC==0.)GOTO 130
        IF(IGIMP==0)GOTO 130
        IPARI(29) = 1
-       CALL I3FRI3(LFT   ,LLT   ,NFT   ,X      ,A    ,
+       CALL I3FRI3(output, LFT   ,LLT   ,NFT   ,X      ,A    ,
      2      INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,
      3      NTY,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
      4      INTBUF_TAB%VARIABLES(1),-1  ,FSAV  ,FSKYI  ,ISKY  ,FCONT,H3D_DATA  ,N1   ,N2    ,N3    ,
@@ -359,7 +358,7 @@ C
      8   ZP,      H1,      H2,      H3,
      9   H4,      LFT,     LLT)
         IF(IGIMP==0)GOTO 150
-        CALL I5FOR3(LFT   ,LLT   ,NFT   , A ,
+        CALL I5FOR3(output, LFT   ,LLT   ,NFT   , A ,
      2          INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
      3          INTBUF_TAB%STFNS,IBC   ,ICODT     ,FSAV      ,IGIMP     ,
      4          FSKYI     ,ISKY     ,FCONT     ,FNCONT    ,ICONTACT  ,
@@ -377,7 +376,7 @@ C
         IF(FRIC==0.AND.MFROT==0)GOTO 150
         IF(IGIMP==0)GOTO 150
         IPARI(29) = 1
-        CALL I5FRI3(LFT    ,LLT    ,NFT    ,IPARI  ,X      ,A      ,
+        CALL I5FRI3(output, LFT    ,LLT    ,NFT    ,IPARI  ,X      ,A      ,
      2          INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
      3          NTY          ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
      4          FRIC         ,1            ,FSAV         ,FSKYI        ,
@@ -395,8 +394,6 @@ C
       ELSEIF(NTY==7.OR.NTY==22)THEN
 C
       ELSEIF(NTY==8)THEN
-
- 180    CONTINUE
 
 C
       ENDIF

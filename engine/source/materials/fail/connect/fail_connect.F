@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER I,J,IDEL,NINDX,NINDXA,NINDXE,NINDXS,FUNN,FUNT,IFAILS,IFAILE,
      .   ISYM
       INTEGER, DIMENSION(NEL) :: INDX,INDXA,INDXE,INDXS
-      my_real C1,C2,C3,C4,CM,DYDX,DAMT,IFLAG,DEFO,DTIME,DSOFT,AREASCALE,
+      my_real C1,C2,C3,C4,CM,DYDX,DAMT,DEFO,DTIME,DSOFT,AREASCALE,
      .   MAXDN,MAXDT,MAXEI,MAXEN,MAXET,FAC1,FAC2,ASCALE,EXPN,EXPT,NN,NT
       my_real, DIMENSION(NEL) :: EI,EN,ET,DAM1,DAM2,DAM3,DAM4
 C-----------------------------------------------
@@ -218,7 +218,7 @@ c-----------------------------
         IF (IFAILS > 0) THEN
           FUNN = IFUNC(1)                                              
           FUNT = IFUNC(2)
-          ! eps2=epszx et eps3 epsxy
+          ! EPS2 = EPSZX and EPS3 Epsxy
           EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)                                     
           C3 = FAC1*EPS1(I)/MAXDN  
           C4 = FAC2*EPST(I)/MAXDT

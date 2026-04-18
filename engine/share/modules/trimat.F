@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE TRIMAT_MOD
 #include "my_real.inc"
-C tableau tempo entier partage
+C integer tempo array sharing
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: N4_VOIS
 C tableau tempo reel partage
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: FLUX_VOIS

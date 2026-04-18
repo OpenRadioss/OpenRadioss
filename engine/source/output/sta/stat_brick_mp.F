@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_orders       ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE STAT_BRICK_MP(ITAB,IPART,IGEO,IXS,IPARTS,
@@ -39,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT0, IPRT, K, STAT_NUMELS_1,N10,N20,N16
+      INTEGER I, N, JJ, IPRT0, IPRT, K,N10,N20,N16
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
       INTEGER WORK(70000)
       INTEGER,DIMENSION(:),ALLOCATABLE :: NP

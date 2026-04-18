@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -65,35 +65,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, INACTI, IGAP, NRTM,
+      INTEGER NIN, NRTM, 
      .        IRECTM(4,NRTM), NSHELR,
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*),
      .        IAD_ELEM(2,*), FR_ELEM(*), ITAB(*) , ITASK
 
       my_real
      .        X(3,*), V(3,*), BMINMAL(6), 
-     .        STIFE(NRTM), TZINF
+     . STIFE(NRTM)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, LOC_PROC, P, IDEB, 
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4,
-     .        J, L, LEN, NB_, NRTMR, IERROR1, IAD,
+     . J, L, LEN, NB_, IERROR1, IAD,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
      .        INDEXI,ISINDEXI(NSPMD),INDEX(NRTM),NBOX(NSPMD),
-     .        NBX,NBY,NBZ,IX,IY,IZ, N1, N2, N3, N4,
-     .        IX1,IY1,IZ1,IX2,IY2,IZ2, NOD
+     . NBX,NBY,NBZ,IX,IY,IZ,
+     . IX1,IY1,IZ1,IX2,IY2,IZ2
       my_real
      .        BMINMA(6,NSPMD),
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
       TYPE(r8_pointer), DIMENSION(NSPMD) :: BUF
       my_real ::
-     .        DX, DY, DZ,
-     .        XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
+     .        DX, DY, DZ
       LOGICAL ::
      .        TEST
       DATA MSGOFF/138/
@@ -260,7 +259,7 @@ C=======================================================================
               BUF(P)%p(L+24)       = SUM(V(1,IRECTM(1:4,I)))/FOUR
               BUF(P)%p(L+25)       = SUM(V(2,IRECTM(1:4,I)))/FOUR
               BUF(P)%p(L+26)       = SUM(V(3,IRECTM(1:4,I)))/FOUR
-              L = L + SIZ_XREM ! attention SIZ_XREM a mettre a jour dans tri22_mod si modif
+              L = L + SIZ_XREM ! Attention siz_xrem to update in tri22_mod if modification
             END DO
             MSGTYP = MSGOFF4
             CALL MPI_ISEND(
@@ -312,7 +311,7 @@ C=======================================================================
             LEN = NSNFI(NIN)%P(P)*SIZ_XREM
             MSGTYP = MSGOFF4 
             IAD = IDEB
-            ! correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
+            ! Correction Address for Passage REM SP Table used in DP DS the commout routine
             IF(IR4R8 == 1) IAD = 2*IDEB-1
             CALL MPI_IRECV(
      1        XREM(1,IAD),LEN,MPI_DOUBLE_PRECISION,IT_SPMD(P),

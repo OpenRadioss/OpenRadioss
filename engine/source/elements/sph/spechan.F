@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,INOD,JS,
+      INTEGER N,INOD,
      .        IS,IC,NC,ISLIDE,ILEV,
      .        NG,NEL,I,II(6),NS,J
       my_real
@@ -129,7 +129,7 @@ C-----------------------------------------------
           DD=(XI-OX)*UX+(YI-OY)*UY+(ZI-OZ)*UZ
           IF(DD<-EM20*DI)THEN
 C--------------------------------
-C          Echange les positions et les vitesses
+C          Exchange positions and velocities
            XS=XI-TWO*DD*UX
            YS=YI-TWO*DD*UY
            ZS=ZI-TWO*DD*UZ
@@ -154,10 +154,10 @@ C          A(1,INOD)=0.
 C          A(2,INOD)=0.
 C          A(3,INOD)=0.
 C--------------------------------
-C          Echange les contraintes 
+C          Exchange stresses
            IF(ISLIDE==1)THEN
 C-----------
-C            Recherche du groupe d'appartenance.
+C            Search for the membership group.
              NG=MOD(KXSP(2,N),NGROUP+1)
              IF(NG>0)THEN
               CALL INITBUF(IPARG    ,NG      ,
@@ -180,7 +180,7 @@ C-----------
               TYZ= GBUF%SIG(II(5)+I)
               TXZ= GBUF%SIG(II(6)+I)
 C----------
-C             Changmnt de repere.
+C             Change of reference frame.
               UXX=TXX*UX+TXY*UY+TXZ*UZ
               UXY=TXX*VX+TXY*VY+TXZ*VZ
               UXZ=TXX*WX+TXY*WY+TXZ*WZ

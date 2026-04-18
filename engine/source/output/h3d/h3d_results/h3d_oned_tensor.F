@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_write_tensor       ../engine/source/output/h3d/h3d_results/h3d_write_tensor.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       SUBROUTINE H3D_ONED_TENSOR(
@@ -41,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,10 +63,9 @@ C     REAL
      .   ANIM(*),ONED_TENSOR(6,*),X(3,*),D(3,*)
       INTEGER IPARG(NPARG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IFUNC,
-     .        NANIM1D_L,
      .        IS_WRITTEN_ONED(*),ID_ELEM(*),ITY_ELEM(*),
      .        IPARTT(*) ,IPARTP(*),IPARTR(*),H3D_PART(*)
-      INTEGER BUF,INFO1,INFO2,IPT_INPUT
+      INTEGER INFO1, INFO2, IPT_INPUT
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       CHARACTER(NCHARLINE100)::KEYWORD
@@ -74,18 +75,14 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   EVAR(6,MVSIZ),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(3),
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
-     .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0
-      INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
-     .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
-     .        NB16, LLL,NUVAR,IGTYP,
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
-     .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IOK_PART(MVSIZ),
-     .        IS_WRITTEN_TENSOR(MVSIZ),N1, N2, IPT
-      REAL R4
+     .   FOR, AREA
+      INTEGER I, NG, NEL, NFT, ITY, NPT, 
+     .        N, MLW,
+     .        IGTYP,
+     .        NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     .        OFFSET,INC,ILAYER,JJ(6),IOK_PART(MVSIZ),
+     .        IS_WRITTEN_TENSOR(MVSIZ), IPT
+ 
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -124,6 +121,7 @@ c
         IF (ITY == 5) OFFSET = NUMELT
         IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
+        IOK_PART(1:NEL) = 0
         DO  I=1,NEL 
           IF (ITY == 4) THEN
             ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)

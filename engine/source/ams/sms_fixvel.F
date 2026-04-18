@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -75,13 +75,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
-     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
+     .        II, IC, NN, IDEB, NR, NSK, NFK, IFM,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ), ICOOR
 C     REAL
       my_real
      .   AX, AXI, AOLD, VV, A0, AA, FAC,FACX,STARTT, STOPT, TS,
-     .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,
+     .   DW,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,
      .   YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ),AOLD0(3,MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP
@@ -127,7 +127,7 @@ C
             ENDIF
           END DO
         ELSE
-C         sans sensor
+C         without sensor
           DO II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
@@ -264,7 +264,7 @@ c ?
                 ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
@@ -287,7 +287,7 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               IF(IBFV(7,N)>=1) THEN
                 IF (J==2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
-c-----------------vitesse angulaire imposee--------
+c-------------- A angular velocity imposed ----------
                   YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                 ELSE
@@ -363,7 +363,7 @@ c ?
                 ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c---------------vitesse angulaire imposee--------
+c------------- A angular velocity imposed ----------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
@@ -388,7 +388,7 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               A0 = FMDIR(1)*A(1,I) + FMDIR(2)*A(2,I) + FMDIR(3)*A(3,I)
               IF (J==2) THEN
 c               YC(II)=(YC(II)-VV+VF)/DT12
-c---------------vitesse angulaire imposee--------
+c------------- A angular velocity imposed ----------
                 YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
               ELSE
@@ -623,7 +623,7 @@ C             Fixed velocity in moving frame (rota)
           VEL(4,N) = DT2*DW
          ENDDO
         ELSE
-C       partie vectorielle
+C       vector part
          NSK=0
          NFK=0
          DO II=1,IC
@@ -831,7 +831,7 @@ c             VEL(6,N) = YC(II)
                ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
@@ -858,7 +858,7 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
              IF(IBFV(7,N)>=1) THEN
                IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                    YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                ELSE
@@ -1212,7 +1212,7 @@ c ?
                  ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
-c--------------------vitesse angulaire imposee--------
+c------------------ angular velocity imposed ------------
                  ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
 c                    ALPHA=-YC(II)*DT2/(TWO*R)
@@ -1244,7 +1244,7 @@ c                    ALPHA=-YC(II)*DT2/(TWO*R)
      &              FMDIR(3)*A(3,I)
                IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV+VF)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                  YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
                ELSE
@@ -1309,7 +1309,7 @@ c               VEL(6,N) = YC(II)
                  ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
@@ -1336,7 +1336,7 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
                IF(IBFV(7,N)>=1) THEN
                  IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                      YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                  ELSE
@@ -1584,7 +1584,7 @@ C
             INDEX(IC) = N
 210       CONTINUE
         ELSE
-C         sans sensor
+C         without sensor
           DO 220 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
@@ -1747,7 +1747,7 @@ C             Fixed velocity in moving frame (transl)
           ENDIF
          ENDDO
         ELSE
-C       partie vectorielle
+C       vector part
          NSK=0
          NFK=0
          DO II=1,IC

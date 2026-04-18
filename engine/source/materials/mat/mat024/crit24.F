@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NIT,IBUG,NINDEX,NINDEX2,ICRIT_OUTP
       INTEGER INDEX(NEL)
-      my_real H1, H2, H3, H4, H5, H6, RO0,ROK0, TOLF,
+      my_real       RO0,ROK0, TOLF,
      .   FC,RT,RC,RCT1,RCT2,AA,AC,BC,BT,TOL
       my_real DS1(NEL),DS2(NEL),DS3(NEL),DS4(NEL),DS5(NEL),DS6(NEL),
      .   FA(NEL), XN(NEL),FN(NEL),SN1(NEL),SN2(NEL),
@@ -66,7 +66,7 @@ C---------------------
       DATA TOLF/0.005/ 
 C=======================================================================
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-C ELIMINE LES DIRECTIONS ENDOMMAGEES POUR TESTER LE CRITERE
+C removes the damaged directions to test the criterion
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DO I=1,NEL
          S1(I)  = S01(I) * SCAL1(I)

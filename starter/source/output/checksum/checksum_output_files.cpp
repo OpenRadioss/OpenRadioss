@@ -1,5 +1,5 @@
 //Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2025 Altair Engineering Inc.
+//Copyright>    Copyright (C) 1986-2026 Altair Engineering Inc.
 //Copyright>
 //Copyright>    This program is free software: you can redistribute it and/or modify
 //Copyright>    it under the terms of the GNU Affero General Public License as published by
@@ -539,33 +539,32 @@ std::list<std::string> CheckSum_Output_Files::Time_History()
 
   // -----------------------------------------------------------------------------------
   // Parse the .out file and extract checksums
-  // Returns a list of checksums
+  // Fills the deck_hash_list and file_hash_list with the filename and checksum tuples found in the .out file
   // The function assumes that the .out file is in the same directory as the input file
   // -----------------------------------------------------------------------------------
   // input:
-  // directory : directory where the .out file is located
-  // rootname  : rootname of the .out file (without run number and extension)
-  // run_number: run number to be used in the .out file name
-  // output:
-  // list of checksums found in the .out file
+  // Input file stream of the .out file to parse
+  // output: (in the class attributes)
+  // deck_hash_list: list to store the filename and checksum tuples for deck files
+  // file_hash_list: list to store the filename and checksum tuples for output files
   // -----------------------------------------------------------------------------------
-  std::list<std::string> CheckSum_Output_Files::Out_File(std::fstream *new_file){
+  void CheckSum_Output_Files::Checksum(std::fstream *new_file,std::list<std::tuple<std::string,std::string>> *deck_hash_list,std::list<std::tuple<std::string,std::string>> *file_hash_list){
     // -----------------------------------------------------------------------------------
-        std::list<std::string> checksum_list;
-        
-        int not_found=1;
+    int not_found;
         std::string line;
-        while (getline(*new_file, line) && not_found) {
+
+        while (getline(*new_file, line)) {
           remove_cr(line); // Remove carriage return characters
-          if (line == " CHECKSUM DIGESTS" || line == "    CHECKSUM DIGESTS") {         // Engine output format has 1 space, Starter 
-             if (getline(*new_file, line)){                              // 2 blank lines
-              if (getline(*new_file, line)){
+          if (line == " CHECKSUM OPTION: DECK FINGERPRINTS") {         // Check for Deck checksum in .out file
+             if (getline(*new_file, line)){                            // 1 line to skip
+                not_found=1;
                 while( not_found && getline(*new_file, line) ){          // Read all lines until "CHECKSUM :" is no more found
-                   std::string comp=line.substr(0, 15);
-                   if (comp == "    CHECKSUM : "){
-                      
-                      std::string checksum = line.substr(15);
-                      checksum_list.push_back(checksum);
+                   std::string comp=line.substr(0, 14);
+                   if (comp == "    CHECKSUM: "){
+                      std::string line_str = line.substr(14);
+                      std::string checksum=line_str.substr(line_str.size() - 32,line_str.size());
+                      std::string filename=line_str.substr(0, line_str.size() - 33);
+                      deck_hash_list->push_back(std::make_tuple(filename, checksum));
   
                       if (debug){
                         cout << "Checksum found: " << checksum << endl;
@@ -575,43 +574,72 @@ std::list<std::string> CheckSum_Output_Files::Time_History()
                       not_found = 0;
                    }
                 }
-              }
-  
              }
              not_found=0; // Stop reading the file, we found the checksum section
           }
-        } 
-        return checksum_list;
-    }
-
-    std::list<std::tuple<std::string,std::string>> CheckSum_Output_Files::Checksum_File(std::fstream *new_file){
-        std::list<std::tuple<std::string,std::string>> checksum_list;
-        int not_found=1;
-        std::string line;
-        while (getline(*new_file, line) && not_found) {
-          remove_cr(line); // Remove carriage return characters
-          if (line == " OUTPUT FILES CHECKSUM DIGESTS") {                // Engine output format has 1 space, Starter 
-
-             if (getline(*new_file, line)){    
-                                          // 1 blank lines
-                while( not_found && getline(*new_file, line) ){          // Read all lines until "CHECKSUM :" is no more found
-                   if (line.length() > 4){
-                      std::string comp=line.substr(4);                   // Remove front blanks
-                      size_t pos =comp.find_last_of(' ');
-                      std::string checksum = comp.substr(pos+1);
-                      std::string filename = comp.substr(0,pos);
-                   
-                      checksum_list.push_back(make_tuple(filename,checksum));
+          if (line == " OUTPUT FILES: CHECKSUM DIGESTS") {              // Check for outputfile checksum in .out file
+            if (getline(*new_file, line)){                              
+                not_found=1;
+                while( not_found && getline(*new_file, line) ){
+                   std::string comp=line.substr(0, 9);
+                   if (comp == "    FILE:"){
+                      std::string line_str = line.substr(10);                   // Remove front blanks
+                      std::string checksum = line_str.substr(line_str.size() - 32,line_str.size());
+                      std::string filename = line_str.substr(0, line_str.size() - 33);
+                      file_hash_list->push_back(std::make_tuple(filename, checksum));
+  
+                      if (debug){
+                        cout << "Checksum found: " << checksum << endl;
+                      }
   
                    }else{
                       not_found = 0;
                    }
                 }
+            }
+          }
+        }
+    }
+  // -----------------------------------------------------------------------------------
+  // Parse the .checksum file and extract checksums
+  // Fills the deck_hash_list and file_hash_list with the filename and checksum tuples found in the .checksum file
+  // The function assumes that the .checksum file is in the same directory as the input file
+  // -----------------------------------------------------------------------------------
+  // input:
+  // Input file stream of the .checksum file to parse
+  // output: (in the class attributes)
+  // deck_hash_list: list to store the filename and checksum tuples for deck files
+  // file_hash_list: list to store the filename and checksum tuples for output files
+  // -----------------------------------------------------------------------------------
+    std::list<std::string> CheckSum_Output_Files::Out(std::fstream *new_file){
+        std::list<std::string> checksum_list;
+        int not_found=1;
+        std::string line;
+        while (getline(*new_file, line)) {
+          remove_cr(line); // Remove carriage return characters
+          if (line == " CHECKSUM OPTION: DECK FINGERPRINTS") {         // Check for Deck checksum in .out file
+             if (getline(*new_file, line)){                            // 1 line to skip
+                not_found=1;
+                while( not_found && getline(*new_file, line) ){          // Read all lines until "CHECKSUM :" is no more found
+                   std::string comp=line.substr(0, 14);
+                   if (comp == "    CHECKSUM: "){
+                      std::string line_str = line.substr(14);
+                      std::string checksum=line_str.substr(line_str.size() - 32,line_str.size());
+                      std::string filename=line_str.substr(0, line_str.size() - 33);
+                      checksum_list.push_back(line_str);
   
+                      if (debug){
+                        cout << "Checksum found: " << line_str << endl;
+                      }
+  
+                   }else{
+                      not_found = 0;
+                   }
+                }
              }
              not_found=0; // Stop reading the file, we found the checksum section
           }
-        } 
+        }
         return checksum_list;
     }
 

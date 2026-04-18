@@ -24,10 +24,11 @@ jobs:
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
     runs-on: ["${{ matrix.build }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-bld:ompi4.1.1-ts11"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -85,6 +86,9 @@ jobs:
             echo "WORKDIR=${{github.base_ref}}" >> $GITHUB_ENV
           fi
 
+          # DEV ONLY #
+          # echo "WORKDIR=main" >> $GITHUB_ENV
+
       - name: Create branch oriented WS directory & integration WS
         run: |
           mkdir -p ${{ env.WORKDIR }}
@@ -97,11 +101,11 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Running build
         working-directory: ${{ env.WORKDIR }}
@@ -117,7 +121,7 @@ jobs:
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
+          source /root/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh 
 
@@ -167,7 +171,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -175,7 +179,7 @@ jobs:
 
       # We upload extlib only once, arbitrary choice
       - name: Upload extlib artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: extlib.zip
           path: ${{ env.WORKDIR }}/extlib.zip
@@ -183,7 +187,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -221,17 +225,18 @@ jobs:
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-cos8-qa:ompi4.1.1"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
     env:
       hm_reader_extlib: ../../extlib/hm_reader
       hm_reader_cfgfiles: ../../hm_cfg_files
-      homeuser: /home/adminqa
+      homeuser: /root
       mpi: ompi
       STATUS_QA: 0
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
@@ -251,9 +256,9 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Clean local exe dir
         run: |
@@ -262,27 +267,27 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_linux64_gf
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
 
@@ -305,9 +310,12 @@ jobs:
           rm -f QA.summary
           chmod 755 or_qa_script or_radioss.pl 
 
+          # Allow root to execute mpi command (we are in docker container as root)
+          export OMPI_ALLOW_RUN_AS_ROOT=1
+          export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
           source ${{ env.homeuser }}/.bashrc
           export LD_LIBRARY_PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$LD_LIBRARY_PATH
-
 
           cmd="./or_qa_script ../../exec/engine_${{ matrix.os }}_gf_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:OMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST_LINUX }}' "
           echo "========================================="
@@ -362,7 +370,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_qa
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -471,11 +479,11 @@ jobs:
 
       # Get last git modifications, don't clean before (way to keep persistent obj files)
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.WORKDIR }}
           clean: 'false'
-          lfs: 'true'
+          lfs: 'false'
 
       - name: Running builds
         working-directory: ${{ env.WORKDIR }}
@@ -533,7 +541,7 @@ jobs:
 
       # Upload artifact (since V4 we can't upload artifact using the same name, each one must be unique)
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
@@ -542,7 +550,7 @@ jobs:
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
       - name: Close the branch if errors
-        uses: octokit/request-action@v2.x
+        uses: octokit/request-action@v3.x
         id: close_branch_build
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -593,13 +601,13 @@ jobs:
 
       # Get git related to the commit
       - name: Checkout git sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
-          lfs: 'true'
+          lfs: 'false'
 
       # Get OpenRadioss extras from dedicated repository
       - name: Checkout git EXTRA sources
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           lfs: 'true'
           clean: 'false'
@@ -618,27 +626,27 @@ jobs:
       # Download artifacts (since V4 we must download all needed artifacts, we could do it using wildcard but it doesn't work ... see https://github.com/actions/download-artifact/issues/337)
       # Using hard name waiting for this issue to be fixed
       # - name: Download artifacts
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v8
       #   with:
       #     name: bins-${{ matrix.os }}-${{ matrix.precision }}-*
       #     path: exec
       #     merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-starter_win64
           path: exec
           merge-multiple: true
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # name: "bins-${{ matrix.os }}-${{ matrix.precision }}-*"
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_win64_impi
           path: exec
           merge-multiple: true
       - name: Download extlib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: extlib.zip
           
@@ -700,7 +708,7 @@ jobs:
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
-      - uses: octokit/request-action@v2.x
+      - uses: octokit/request-action@v3.x
         id: close_branch_qa
         env:
           GITHUB_TOKEN: ${{ env.SERVBOT_PAT }}
@@ -750,10 +758,11 @@ jobs:
     if: ${{ github.repository_owner == 'OpenRadioss' }} 
     runs-on: delivery   
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      # Registry variable can't be a secret but can be a simple variable defined at organization level
+      image: "${{ vars.DOCKER_REGISTRY }}/rd-linux64-common:latest"
       credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWD }}  
       volumes: 
          - /etc/localtime:/etc/localtime:ro
          # DEV ONLY # - /github_download_counter_dev:/github_download_counter 

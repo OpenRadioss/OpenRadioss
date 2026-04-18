@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NSN, NA, NB, I, N
+        INTEGER  NA, NB, I, N
 C     REAL
         my_real :: N1,N2,N3,S,XX, YY, ZZ, RR,A0
         my_real :: MASSE, INER 
@@ -198,7 +198,7 @@ C
         VZZ_6(1:6,ITASK+1) = ZERO  
 
 C----------------------------
-C     CALCUL DU CDG + MASSE
+C     calculation of the center of gravity and mass
 C----------------------------
 !       partial reduction of masse / XCDG / YCDG / ZCDG
 !           --> done by the processor with weight = 1

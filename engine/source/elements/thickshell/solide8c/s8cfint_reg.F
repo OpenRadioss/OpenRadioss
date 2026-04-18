@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -112,11 +112,6 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      . STIFNLTH,DTN
-      ! Safety coefficient for non-local stability vs mechanical stability
-      ! (it has been slightly increased vs nloc_dmg_init.F)
-      my_real, PARAMETER :: CSTA  = 40.0D0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
       my_real
      . ZTH(10,9)      
       ! Position of nodes in the thickshell thickness
@@ -321,8 +316,8 @@ C
                   ENDIF
                 ENDDO
               ENDDO
+              DTNOD = DTMIN1(11)*(SQRT(CSTA))
             ENDIF
-            DTNOD = DTMIN1(11)*(SQRT(CSTA))
           ENDIF
 C
           ! Classical nodal timestep check
@@ -384,7 +379,7 @@ c
         ENDIF 
         WI = HALF*WS(IR,NPTR)*HALF*WS(IS,NPTS)*HALF*WS(K,NLAY)
 c
-        ! Shape functions value  
+        ! Shape Functions Value  
         CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
 c
         ! Integration point number

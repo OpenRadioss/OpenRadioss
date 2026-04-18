@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fxb_mod           ../engine/share/modules/fxb_mod.F
 !||    scratchfile_mod   ../engine/share/modules/scratchfiles_mod.F
@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        IRCS, IRCS0, IRCS1, LREC, I, J
       my_real VV(6)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
       CALL WRITE_I_C(FXBIPM,LEN_IPM)
@@ -67,7 +67,7 @@ C--------------------------------------
       IF (LENELM>0) CALL WRITE_I_C(FXBELM,LENELM)
       IF (LENGRVI>0) CALL WRITE_I_C(FXBGRVI,LENGRVI)
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
       LEN_MOD=LENMOD*6
       IF (LEN_MOD>0) CALL WRITE_DB(FXBMOD,LEN_MOD)
@@ -118,7 +118,7 @@ C
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi            ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr            ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -152,7 +152,7 @@ C-----------------------------------------------
       my_real
      .        VV(6)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQI (EIGIPM,NEIG*NEIPM,IRFORM)
@@ -162,14 +162,14 @@ C--------------------------------------
         CALL WRITE_I_C(EIGIBUF,LEIBUF)
       ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQR (EIGRPM,NEIG*NERPM,IRFORM)
       ELSE
         CALL WRITE_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Ecriture du fichier des modes additionnels
+C writing the additional modes file
       NRECM=0
       IAD=1
       DO I=1,NEIG
@@ -194,7 +194,7 @@ C
 !||    dswrest       ../engine/source/output/restart/wrrest.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -225,7 +225,7 @@ C-----------------------------------------------
       my_real CUTFREQ
       DO I=1,NSPROC
 C--------------------------------------
-C Ecriture des parametres entiers
+C writing integer parameters
 C--------------------------------------
          DSNDDL=GRAPHE(I)%NDDL_INI
          DSLEN=GRAPHE(I)%NSUPEL
@@ -244,7 +244,7 @@ C--------------------------------------
             CALL WRITE_I_C(TN, N)
          ENDIF
 C--------------------------------------
-C Ecriture des parametres reels
+C writing real parameters
 C--------------------------------------
          N=1
          CUTFREQ=GRAPHE(I)%CUTFREQ
@@ -254,7 +254,7 @@ C--------------------------------------
             CALL WRITE_DB(CUTFREQ, N)
          ENDIF
 C--------------------------------------
-C Ecriture du tableau des ddls
+C writing the ddls array
 C--------------------------------------
          DO J=1,2
             IF (IRFORM/5<=1) THEN
@@ -270,7 +270,7 @@ C--------------------------------------
             CALL WRITE_I_C(GRAPHE(I)%LSDDL_GLOB_INI, DSNDDL)
          ENDIF
 C--------------------------------------
-C Ecriture des superelements
+C writing superelements
 C--------------------------------------
          DO J=1,DSLEN
             TN(1)=GRAPHE(I)%DGRAPH(J)%NDDL_I_INI
@@ -313,7 +313,7 @@ C
 !||    wrrestp     ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db    ../common_source/tools/input_output/write_db.F
-!||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE NFWREST(IFLOW, RFLOW)
 C-----------------------------------------------
@@ -372,10 +372,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ND
+      INTEGER  ND
 C--------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
       ND = NUMNOD*3
       CALL WRITE_DB(IMP_RR,NIMPR)
@@ -467,7 +467,7 @@ C
 !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db                 ../common_source/tools/input_output/write_db.F
-!||    write_i_c                ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
@@ -492,7 +492,7 @@ C-----------------------------------------------
       INTEGER LEN, I, NNS, NNTR, LENP, NPOLY, LENH, NPOLH, TABI(11),
      .        LENP_ANIM, NPOLH_ANIM, LENH_ANIM, NNS_ANIM
 C--------------------------------------
-C     ECRITURE DES DIMENSIONS
+C     writing dimensions
 C--------------------------------------
       LEN=1
         CALL WRITE_I_C(NFVBAG,LEN)
@@ -571,7 +571,7 @@ C
          LEN=11
            CALL WRITE_I_C(TABI,LEN)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
          LEN=3*NNS
            CALL WRITE_I_C(FVDATA(I)%IFVNOD,LEN)
@@ -593,7 +593,7 @@ C--------------------------------------
               CALL WRITE_I_C(FVDATA(I)%REDIR_ANIM,NNS_ANIM)
          ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
          LEN = 1
          CALL WRITE_DB(FVDATA(I)%PDISP_OLD,LEN)
@@ -657,7 +657,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (MCP,NUMNOD,IRFORM)
@@ -696,7 +696,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (FORNEQS,3*NUMNOD,IRFORM)
@@ -706,14 +706,14 @@ C--------------------------------------
       RETURN
       END
 C
-C convection flux 
+C convection flow 
 !||====================================================================
 !||    convwrest        ../engine/source/output/restart/wrrest.F
 !||--- called by ------------------------------------------------------
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -742,7 +742,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (FCONV,GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV,IRFORM)
@@ -760,7 +760,7 @@ C radiative flux
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -789,7 +789,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (FRADIA,GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA,IRFORM)
@@ -800,14 +800,14 @@ C--------------------------------------
       ENDIF
       RETURN
       END
-C convection flux 
+C convection flow 
 !||====================================================================
 !||    fxtempwrest      ../engine/source/output/restart/wrrest.F
 !||--- called by ------------------------------------------------------
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -836,7 +836,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (FBFT,GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP,IRFORM)
@@ -854,7 +854,7 @@ C for rigid_ material
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM,WEIGHT_RM)      
 C-----------------------------------------------
@@ -874,7 +874,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       CALL WRITE_DB(RBYM,NFRBYM*NRBYM)
       CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM)
@@ -890,7 +890,7 @@ C for shell composite xfem
 !||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db        ../common_source/tools/input_output/write_db.F
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD,IEL,ICODE,ISKEW,MSZ2)      
 C-----------------------------------------------
@@ -912,7 +912,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------          
          CALL WRITE_DB(MS_PLY,NPLYXFE*NPLYMAX)          
          CALL WRITE_DB(ZI_PLY,NPLYXFE*NPLYMAX)          
@@ -932,7 +932,7 @@ C for shell composite xfem
 !||--- called by ------------------------------------------------------
 !||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod         ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -950,7 +950,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,ELSZ,NDSZ
+      INTEGER K,ELSZ,NDSZ
 C-----------------------------------------------
           CALL WRITE_I_C(NPLYPART,1)
            CALL WRITE_I_C(INDX_PLY,NPLYPART)
@@ -979,7 +979,7 @@ C Writing nodes infos for PLY XFEM
 !||--- called by ------------------------------------------------------
 !||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE CRKXFEM_WREST(INOD,IEL,NODLEVXF)      
 C-----------------------------------------------
@@ -999,7 +999,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing real values
 C--------------------------------------
       CALL WRITE_I_C(INOD,NUMNOD)
       CALL WRITE_I_C(IEL,NUMELC+NUMELTG)
@@ -1013,7 +1013,7 @@ C
 !||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db            ../common_source/tools/input_output/write_db.F
-!||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
 !||    restmod             ../engine/share/modules/restart_mod.F
@@ -1043,7 +1043,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NENR,ELSZ,LEN,ELSZC,ELSZTG,LENLAY,CRKNUMNODS
+      INTEGER K,NENR,ELSZ,LEN,ELSZC,ELSZTG,LENLAY,CRKNUMNODS
 C=======================================================================
       CALL WRITE_I_C(NCRKPART,1)
       CALL WRITE_I_C(NCRKXFE,1)
@@ -1151,7 +1151,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,I,ELSZ,NDSZ
+      INTEGER K,NDSZ
 C-----------------------------------------------
            DO K=1,NPLYMAX
 C Writing U, V A
@@ -1188,7 +1188,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NOSZ
+      INTEGER NOSZ
 C-----------------------------------------------
         NOSZ = 3*NUMNOD
         CALL WRITE_DB(DFLOW, NOSZ)
@@ -1235,7 +1235,7 @@ C STACk PART
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STACK_WREST(IGEO,GEO,PM)
 C-----------------------------------------------
@@ -1271,7 +1271,7 @@ C-----------------------------------------------*
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    drape_mod     ../engine/share/modules/drape_mod.F
 !||====================================================================
@@ -1294,16 +1294,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN,OFF,I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
+      INTEGER I,J,NPT,NDIM,N1,N2,N3,NDIM_INDX_PLY,
      .  NDIM_SLICE,IS,NSLICE,NPT_DRP
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
       my_real, DIMENSION(:)  , ALLOCATABLE :: THK
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
       INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
-     .                                        NPT_ELT,INDEX
+     .                                        NPT_ELT
       INTEGER  , DIMENSION(:), POINTER     :: INDXSH4N,INDXSH3N   
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     reading integers
 C--------------------------------------
       IF(NUMELC_DRAPE > 0) THEN
           NDIM          = DRAPEG%NDIM_SH4N         
@@ -1411,7 +1411,7 @@ C--------------------------------------
 !||--- called by ------------------------------------------------------
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLY_INFO_WREST(PLY_INFO)
 C-----------------------------------------------
@@ -1431,12 +1431,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER LEN
 C--------------------------------------
-C     ERCITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
       LEN = 3 * NUMPLY
       CALL WRITE_I_C(PLY_INFO,LEN)
 C--------------------------------------
-C     LECTURE DES REELS
+C     reading real values
 C--------------------------------------
 C
       RETURN

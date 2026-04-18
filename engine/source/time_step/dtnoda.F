@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -359,7 +359,7 @@ C true dependency
            MASS = RBYM(1,I)
            STI  = RBYM(27,I)
            IF(STI<=ZERO)THEN
-c le rigi materiau
+c the rigid material
               ISTOP = -(I+ NUMNOD)
            ELSEIF(MASS> ZERO)THEN
               K = K + 1

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tribox3         ../engine/stub/fvmbags_stub.F
 !||    tritri3         ../engine/stub/fvmbags_stub.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F
 !||====================================================================
       SUBROUTINE FVMESH1(IBUF , ELEM  , X     , IVOLU, BRIC ,
@@ -50,6 +51,7 @@ C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE FVBAG_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,15 +76,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILVOUT, NLAYER, NFACMAX, NPPMAX, I, J, IEL, N1, N2, N3,
-     .        NN1, NN2, NN3, GRBRIC, IAD, NPOLY, NNS, ITAGB(NBRIC),
-     .        NVMAX, NG, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
+     .        NN1, NN2, NN3, NPOLY, NNS, ITAGB(NBRIC),
+     .        NVMAX, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
      .        NSMAX, NV, K, KK, NNP, NPOLMAX, NRPMAX, N, M, MM, NPOLH,
      .        NPOLB, ITY, NN, NPHMAX, NPOLHMAX, JJ, JJJ, II,
      .        NNS_OLD, NNP_OLD, NPA, JMAX, IMAX, JJMAX, NP, NNTR,
      .        NPOLY_OLD, IPSURF, IC1, IC2, NHOL, NELP, NPOLH_OLD,
      .        L, LL, IFV, NNS2, NPOLY2, NPL, POLC, NSPOLY, NCPOLY,
-     .        NPOLHF, NNB, FILEN, LENP, LENH, IP, JMIN, LENIMAX,
-     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4, IB, IFOUND,
+     .        NPOLHF, LENP, LENH, IP, LENIMAX,
+     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4, IFOUND,
      .        ITAGBA(NBA), IBSA(NBA), NALL, III,
      .        NNS_ANIM, NBZ, NBNEDGE, NNS3, NPOLY_NEW, NNSP, NEDGE,
      .        ITYZ, INZ, J0, NNS1, K0, I1, I2, IDEP, NSTR, NCTR, IIZ,
@@ -101,12 +103,11 @@ C-----------------------------------------------
      .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ, 
      .        V1X, V1Y, V1Z, V2X, V2Y, V2Z, NRM1, VX, VY, VZ, SS,
      .        NORMF(3,4), KSI, ETA, VX1, VY1, VZ1, VX2, VY2, VZ2,
-     .        VMIN, VTMP, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
+     .        VMIN, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
      .        DD2, XN(3), ZLMIN, ZLMAX, ZL, VNORM, VX3, VY3, VZ3, LZ,
-     .        DZ, ALPHA, GAMAI, CPAI, CPBI, CPCI, RMWI, PINI, TI, CPI,
-     .        CVI, RHOI, ZL1, ZL2, ZL3, ZLC, VAL, XXX(3,NNF),
+     .        DZ, ALPHA,
+     .        ZL1, ZL2, ZL3, ZLC, VAL, XXX(3,NNF),
      .        XXXA(3,NNA)
-      CHARACTER CHFVB*7, CHMESH*5, FILNAM*116
 C
       INTEGER, ALLOCATABLE :: FACET(:,:), IPOLY(:,:),
      .                        IELNOD(:,:), POLH(:,:), IPOLY_F(:,:),
@@ -120,9 +121,9 @@ C
       my_real
      .       , ALLOCATABLE :: NORMT(:,:), POLY(:,:), RPOLY(:,:),
      .                        RPOLY_F(:,:), VOLU(:), PNODES(:,:),
-     .                        PHOLES(:,:), RPOLY_OLD(:), VOLUSORT(:),
+     .                        PHOLES(:,:), RPOLY_OLD(:),
      .                        VOLU_OLD(:), RPOLY_F_OLD(:,:),
-     .                        RFVNOD_OLD(:,:), XNEW(:,:), RNEDGE(:,:),
+     .                        RNEDGE(:,:),
      .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:), 
      .                        XNS2(:,:), XXXSA(:,:)
 C
@@ -143,7 +144,7 @@ C
      .           3,5,6,
      .           6,5,1,
      .           1,3,6/
-C liste chainee polygones
+C linked list of polygons
       TYPE POLYGONE
          INTEGER IZ(3), NNSP
          INTEGER, DIMENSION(:), POINTER :: IPOLY, IELNOD
@@ -157,7 +158,7 @@ C liste chainee polygones
       TYPE(POLYGONE), POINTER :: FIRST, PTR_PREC, PTR_CUR, PTR_TMP,
      .                           PTR_OLD, FIRST2, PTR_CUR2, PTR_PREC2,
      .                           PTR_TMP2
-C liste chainee polyhedres
+C linked list of polyhedra
       TYPE POLYHEDRE
          INTEGER RANK
          INTEGER, DIMENSION(:), POINTER :: POLH
@@ -165,30 +166,30 @@ C liste chainee polyhedres
       END TYPE POLYHEDRE
       TYPE(POLYHEDRE), POINTER :: PHFIRST, PH_PREC, PH_CUR, PH_TMP
 C
-C Structure de donnees maillage volumes finis
-C    - NNS   : Nombre de nouveaux noeuds ( = IVOLU(46) )
-C    - NNTR  : Nombre de nouveaux triangles ( = IVOLU(47) )
-C    - NPOLY : Nombre de polygones ( = IVOLU(48) )
-C    - NPOLH : Nombre de polyhedres ( volumes finis) ( = IVOLU(49) )
+C Finished volume meshing data structure
+C    - NNS: Number of new nodes (= IVolu (46))
+C    - NNTR: Number of new triangles (= IVolu (47))
+C    - NPOLY : Number of polygons ( = IVOLU(48) )
+C    - NPOLH: Number of polyhedres (finished volumes) (= IVolu (49))
 C
-C    - IFVNOD(NNS)   : Triangle airbag de reference pour le nouveau noeud
-C    - RFVNOD(2,NNS) : Coordonnees locales du noeud dans le triangle
+C    - IFVNOD(NNS)   : Reference airbag triangle for the new node
+C    - RFVNOD(2,NNS) : Local coordinates of the node in the triangle
 C
-C    - IFVTRI(6,NNTR) : Connectivite nouveaux triangles (1->3)
-C                       Element de reference si appuye sur surface (4)
-C                       Polyhedres connectes si interne (5->6)
+C    - Ifvtri (6, NNTR): Connectivitis new triangles (1-> 3)
+C                       Reference element if supported on surface (4)
+C                       Polyhedra connected if internal (5->6)
 C
-C    - IFVPOLY(NNTR)    : Attribution triangles-polygones
-C    - IFVTADR(NPOLY+1) : Adresses dans le tableau precedent
+C    - IFVPOLY(NNTR)    : Triangle-polygon assignment
+C    - IFVTADR(NPOLY+1) : Addresses in the previous table
 C
-C    - IFVPOLH(NPOLY)   : Attribution polygones-polyhedres
-C    - IFVPADR(NPOLH+1) : Adresses dans le tableau precedent
+C    - IFVPOLH(NPOLY)   : Polygon-polyhedron assignment
+C    - IFVPADR(NPOLH+1) : Addresses in the previous table
 C
       IFV=IVOLU(45)
       NNSA=FVSPMD(IFV)%NNSA
       ALLOCATE(XXXSA(3,NNSA))
       IF (NSPMD == 1) THEN
-C traitement necessaire pour rester p/on
+C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
             I1=FVSPMD(IFV)%IBUF_L(1,I)
             I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -231,7 +232,7 @@ C
          ENDDO
       ENDDO    
 C---------------------------------------------------
-C Normales elementaires et volume de l'airbag
+C Elemental normals and volume of the airbag
 C---------------------------------------------------
       VOLG=ZERO
       DO IEL=1,NEL
@@ -305,7 +306,7 @@ C
          NORMA(3,IEL)=NRZ/AREA2
       ENDDO   
 C---------------------------------------------------
-C Creation de tous les polygones
+C Creation of all polygons
 C---------------------------------------------------
       NPOLY=0
       NNS=0
@@ -320,14 +321,14 @@ C
       DO I=1,NBRIC
          ITAGB(I)=0
       ENDDO
-C 1. Facettes airbag coupees
+C 1. Airbag facets cuts
       IF (ILVOUT/=0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,'(A25,I10,A23)') 
      . ' ** MONITORED VOLUME ID: ',IVOLU(1),' - BUILDING POLYGONS **'
       ENDIF
 C
-C nullify sinon test sur associated vrai second appel fvmesh1
+C nullify otherwise test on associated is true in second call to fvmesh1
       NULLIFY(FIRST2)
       DO I=1,NBRIC
 C        IF (ILVOUT<0) CALL PROGBAR_C(I,NBRIC)
@@ -369,7 +370,7 @@ C
             YC=YC+ONE_OVER_8*YY
             ZC=ZC+ONE_OVER_8*ZZ
          ENDDO
-C Passage repere local brique
+C BRICAL LOCAL PROCESS
          PP(1,1)=SFAC(4,2,I)
          PP(2,1)=SFAC(4,3,I)
          PP(3,1)=SFAC(4,4,I)
@@ -439,7 +440,7 @@ C
             TVERTS(9)=PP(1,3)*(X3-XC)+PP(2,3)*(Y3-YC)+PP(3,3)*(Z3-ZC)
 C
             CALL TRIBOX3(ICUT, BCENTER, BHALFSIZE, TVERTS)
-C Liste elargie pour faces laterales
+C Expanded list for lateral faces
             IF (ICUT==0) THEN
                TOLE=EM5
 *               TOLE=ZERO
@@ -527,7 +528,7 @@ C
                      PTR_PREC => PTR_CUR
                   ENDIF
                ENDIF
-C Facettes coupees (1 quadrangle=2 triangles)
+C Cutting facets (1 quadrangle = 2 triangles)
                TOLE=EM5
 *               TOLE=ZERO
                XG=THIRD*(X1+X2+X3)
@@ -610,7 +611,7 @@ C
                NSMAX=MAX(NSMAX,FACET(J,1))
             ENDDO
             NFACMAX=NSMAX
-C Destruction des polygones crees pour rien
+C Destruction of polygons created for nothing
             IF (NPOLY_OLD>0) THEN
                PTR_CUR => PTR_OLD%PTR
             ELSE
@@ -747,7 +748,7 @@ C
 C
          DEALLOCATE(FACET, TRI, NORMT, POLY)
       ENDDO
-C Concatenation des deux listes
+C Concatenation of the two lists
       PTR_CUR2 => FIRST2
       PTR_PREC => PTR_CUR
       DO I=1,NPOLY2
@@ -791,7 +792,7 @@ C Concatenation des deux listes
 C
       NNS=NNS+NNS2
 C---------------------------------------------------
-C Decoupage des polygones selon la verticale locale
+C Cutting of polygons according to the local vertical
 C---------------------------------------------------
       NBZ=IVOLU(65)
       IF (NBZ>1) THEN
@@ -862,7 +863,7 @@ C
             ZBMAX=MAX(ZBMAX,ZL2)
             ZBMAX=MAX(ZBMAX,ZL3)
          ENDDO
-C Clipping des polygones
+C Clipping of polygons
          X0=X0-LZ*VX3
          Y0=Y0-LZ*VY3
          Z0=Z0-LZ*VZ3
@@ -1048,7 +1049,7 @@ C
             PTR_CUR => PTR_CUR%PTR
          ENDDO
          DEALLOCATE(REDIR)
-C Creation des nouveaux polygones horizontaux
+C Creation of new horizontal polygons
          PTR_CUR => FIRST
          DO I=1,NPOLY
             PTR_PREC => PTR_CUR
@@ -1131,7 +1132,7 @@ C
          ENDDO
       ENDIF
 C---------------------------------------------------
-C Construction des polyhedres
+C Construction of polyhedra
 C---------------------------------------------------
       NPOLH=0
       IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I10,A24)') 
@@ -1141,7 +1142,7 @@ C
          IF (ILVOUT<0) CALL PROGBAR_C(I,NBRIC)
 C
          IF (TBRIC(7,I)/=2) CYCLE
-C Polygones de la brique
+C Brick polygons
          NPOLB=0
          NPPMAX=0
          PTR_CUR => FIRST
@@ -1198,7 +1199,7 @@ C
      .                    NNP,   NRPMAX  , NPHMAX, I,         DXM ,
      .                    INFO , NPOLHMAX, NPPMAX, RVOLU(50))
             IF (INFO==1) GOTO 300
-C Modifications des polygones
+C Modifications of polygons
             PTR_CUR => FIRST
             NPL=1
             POLC=REDIR(POLB(NPL))
@@ -1246,7 +1247,7 @@ C
          DEALLOCATE(IPOLY, RPOLY, POLB, POLH, REDIR)
       ENDDO
 C---------------------------------------------------
-C Passage listes chainees -> tableaux classiques pour la suite des traitements
+C Transition from chained lists to classic arrays for the continuation of processing
 C---------------------------------------------------
   370 CONTINUE     
 C      
@@ -1305,7 +1306,7 @@ c               NNP=0
 c               DO J=1,NFAC
 c                  ITY=TFACA(2*(J-1)+1,I)
 c                  IF (ITY==1) THEN
-cC Face interne brique/brique
+cthis brick/brick internal
 c                     NV=TFACA(2*(J-1)+2,I)
 c                     IF (ITAGBA(NV)==0) THEN
 c                        LENIMAX=MAX(LENIMAX,6+3+1)
@@ -1324,7 +1325,7 @@ c                     ELSEIF (NFAC==6) THEN
 c                        NNP=NNP+2
 c                     ENDIF
 c                  ELSEIF (ITY==2) THEN
-cC Face brique appuyee sur surface
+cthis brick supported on surface
 c                     IF (NFAC==4) THEN
 c                        NPOLY=NPOLY+1
 c                        NNS=NNS+3
@@ -1335,7 +1336,7 @@ c                        NNS=NNS+6
 c                        NNP=NNP+2
 c                     ENDIF
 c                  ELSEIF (ITY==3) THEN
-cC Face interne brique/polyhedres
+cThis brick internal/polyhedres
 c                     PTR_CUR => FIRST
 c                     DO K=1,NPOLY_OLD
 c                        ITY=PTR_CUR%IPOLY(1)
@@ -1391,7 +1392,7 @@ C
                DO J=1,NFAC
                   ITY=TFACA(2*(J-1)+1,I)
                   IF (ITY==1) THEN
-C Face interne brique/brique
+C Internal brick/brick face
                      NV=TFACA(2*(J-1)+2,I)
                      IF (ITAGBA(NV)==0) THEN
                         LENIMAX=MAX(LENIMAX,6+3+1)
@@ -1410,7 +1411,7 @@ C Face interne brique/brique
                         NNP=NNP+2
                      ENDIF
                   ELSEIF (ITY==2) THEN
-C Face brique appuyee sur surface
+C Surface brick face
                      IF (NFAC==4) THEN
                         NPOLY=NPOLY+1
                         NNS=NNS+3
@@ -1421,7 +1422,7 @@ C Face brique appuyee sur surface
                         NNP=NNP+2
                      ENDIF
                   ELSEIF (ITY==3) THEN
-C Face interne brique/polyhedres
+C Internal brick/polyhedres side
                      PTR_CUR => FIRST
                      DO K=1,NPOLY_OLD
                         ITY=PTR_CUR%IPOLY(1)
@@ -1557,7 +1558,7 @@ C
          IFVNOD2(1,I)=N1
          IFVNOD2(2,I)=N2
          IF (IDEP==1) THEN
-C Recalcul des coordonnees barycentriques du point dependant
+C Recalculation of the barycentric coordinates of the dependent point
             II=1
             VAL=ABS(XNS(1,N1)-XNS(1,N2))
             DO J=2,3
@@ -1596,7 +1597,7 @@ C
             DO J=1,NFAC
                ITY=TFACA(2*(J-1)+1,I)
                IF (ITY==1) THEN
-C Face interne brique/brique
+C Internal brick/brick face
                   NV=TFACA(2*(J-1)+2,I)
                   IF (ITAGBA(NV)==0) THEN
                      IF (NFAC==4) THEN
@@ -1809,9 +1810,9 @@ C
                      ENDDO
                   ENDIF
                ELSEIF (ITY==2) THEN        
-C Face brique appuyee sur surface (traitee plus loin)
+C Face brick pressed on surface (treated further)
                ELSEIF (ITY==3) THEN
-C Face interne brique/polyhedres
+C Internal brick/polyhedres side
                   DO K=1,NPOLY_OLD
                      ITY=IPOLY_F(1,K)
                      IF (ITY==1) THEN
@@ -1920,7 +1921,7 @@ C
          ENDDO
       ENDIF   
 C---------------------------------------------------
-C Surface des polygones
+C Surface of the polygons
 C---------------------------------------------------
       DO I=1,NPOLY
          ITY=IPOLY_F(1,I)
@@ -1985,7 +1986,7 @@ C---------------------------------------------------
                AREA=AREA+(NNX*NX+NNY*NY+NNZ*NZ)
             ENDDO
             AREA=ABS(AREA)
-C On retranche la surface des trous
+C The surface of the holes is subtracted
             DO J=1,NHOL
                X1=RPOLY_F(4+3*ADR(J)+1,I)
                Y1=RPOLY_F(4+3*ADR(J)+2,I)
@@ -2018,7 +2019,7 @@ C On retranche la surface des trous
          RPOLY_F(1,I)=HALF*ABS(AREA)
       ENDDO
 C---------------------------------------------------
-C Volume des polyhedres
+C Volume of polyhedra
 C---------------------------------------------------
       DO I=1,NPOLH
          VOLU(I)=ZERO
@@ -2048,7 +2049,7 @@ C---------------------------------------------------
          ENDDO
       ENDDO
 C---------------------------------------------------
-C Elimination des segments de longueur nulle dans les polygones
+C Elimination of zero-length segments in polygons
 C---------------------------------------------------
       NNS_OLD=NNS
       ALLOCATE(IFVNOD_OLD(NNS_OLD), REDIR(NNS_OLD))
@@ -2251,7 +2252,7 @@ C
          IPOLY_F(2,I)=NNP
 C
          IF (NNP<NNP_OLD) THEN
-C Nouvelle aire du polygone
+C New area of the polygon
             AREA=ZERO
             NX=RPOLY_F(2,I)
             NY=RPOLY_F(3,I)
@@ -2347,7 +2348,7 @@ C
 C
       DEALLOCATE(IFVNOD_OLD, REDIR)
 C---------------------------------------------------
-C Fusion des polyhedres a volume infinitesimal a leur voisin
+C Fusion of polyhedres with infinite volume to their neighbor
 C---------------------------------------------------
       NPHMAX=2*NPHMAX
       INFO=0
@@ -2400,7 +2401,7 @@ C
          ENDIF
       ENDDO
 C
-C Volume moyen
+C Average volume
       VM=ZERO
       NPA=0
       DO I=1,NPOLH
@@ -2417,7 +2418,7 @@ C
       DO I=1,NPOLH
          IF (POLH_NEW(2,I)<0) THEN
             II=-POLH_NEW(2,I)
-C On ne merge pas les briques additionnelles qui ont des noeuds a l'interieur de l'airbag
+C do not merge additional bricks that have nodes inside the airbag
             IF(IBSA(II)==0) CYCLE
          ENDIF
 C
@@ -2461,7 +2462,7 @@ C
                JJMAX=POLH_NEW(2+JMAX,I)
                ITY=IPOLY_F(1,JJMAX)
                IF (ITY==2) RPOLY_F(1,JJMAX)=-ONE
-C On merge tous les polyhedres de volume nul avec le polyhedre 1
+C merge all polyhedra with zero volume with polyhedron 1
                IMAX=1
             ENDIF
             IF (IMERGED(IMAX)==1) IMAX=POLH_NEW(2,IMAX)
@@ -2537,7 +2538,7 @@ C---------------------------------------------------
          AREAEL=AREAEL+ELAREA(IEL)
       ENDDO
 C---------------------------------------------------
-C Coordonnees elementaires des nouveaux noeuds
+C Elementary contact details of new nodes
 C---------------------------------------------------
       ALLOCATE(FVDATA(IFV)%IFVNOD(3,NNS+NNS2),
      .         FVDATA(IFV)%RFVNOD(2,NNS+NNS2))
@@ -2622,7 +2623,7 @@ C
          ENDIF
       ENDDO
 C---------------------------------------------------
-C Triangulation des polygones
+C triangulation of polygons
 C---------------------------------------------------
       NNTR=0
       DO I=1,NPOLY
@@ -2677,7 +2678,7 @@ C
             IC2=IPOLY_F(6,I)
          ENDIF 
 C
-C Coordonnees des sommets dans le plan du polygone
+C coordinates of vertices in the polygon plane
          NX=RPOLY_F(2,I)
          NY=RPOLY_F(3,I)
          NZ=RPOLY_F(4,I)
@@ -2784,7 +2785,7 @@ C
             N1=PTRI(1,J)
             N2=PTRI(2,J)
             N3=PTRI(3,J)
-C Verification de la normale
+C verification of the normal
             X1=RPOLY_F(4+3*(N1-1)+1,I)
             Y1=RPOLY_F(4+3*(N1-1)+2,I)
             Z1=RPOLY_F(4+3*(N1-1)+3,I)
@@ -2824,7 +2825,7 @@ C
       ENDDO
       FVDATA(IFV)%IFVTADR(NPOLY+1)=NNTR+1
 C---------------------------------------------------
-C Structure des polyhedres
+C structure of polyhedra
 C---------------------------------------------------
       ALLOCATE(FVDATA(IFV)%IFVPOLH(2*NPOLY),
      .         FVDATA(IFV)%IFVPADR(NPOLH+1),
@@ -2953,7 +2954,7 @@ C
      .                   ' (AREA AIRBAG  : ',AREAEL,')'
        WRITE(IOUT,*)
 C---------------------------------------------------
-C Anim des volumes finis
+C animation of finite volumes
 C---------------------------------------------------
       FVDATA(IFV)%NPOLH_ANIM=NPOLH
       LENP=FVDATA(IFV)%IFVTADR(NPOLY+1)
@@ -2978,7 +2979,7 @@ C---------------------------------------------------
       DO I=1,NPOLH+1
          FVDATA(IFV)%IFVPADR_ANIM(I)=FVDATA(IFV)%IFVPADR(I)
       ENDDO
-C Elimination des noeuds doubles pour anim
+C elimination of duplicate nodes for animation
       TOLE=EM05*FAC_LENGTH
       TOLE2=TOLE**2
       NNS_ANIM=0
@@ -3171,7 +3172,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, IC1, IC2
+      INTEGER I, II
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, SS1, SS2, X12, Y12, Z12,
      .        XA1, YA1, ZA1, ALPHA, XM, YM, ZM, SSN
@@ -3180,7 +3181,7 @@ C
      .        DLAMCH
       EXTERNAL DLAMCH
 C
-C Clipping d'un polygone par un plan
+C clipping a polygon by a plane
       NPOUT=0
       DO I=1,NPIN
          IF (I/=NPIN) THEN
@@ -3305,7 +3306,7 @@ C
       A(1)=QUAD(1,1)
       A(2)=QUAD(2,1)
       A(3)=QUAD(3,1)
-C Recensement des aretes de triangles
+C listing of triangle edges
       NEDGE=0
       DO I=1,NTRI
          DO J=1,3
@@ -3330,7 +3331,7 @@ C Recensement des aretes de triangles
             ENDIF
          ENDDO
       ENDDO
-C Calcul des intersections des aretes avec le plan de la facette
+C calculation of the intersections of the edges with the facet plane
       DO I=1,NEDGE
          N1=EDGE(I,1)
          N2=EDGE(I,2)
@@ -3380,7 +3381,7 @@ C
          XEDGE(I,3)=ZM
          XEDGE(I,4)=SS1*SS2
       ENDDO   
-C Calcul des intersections des triangles avec le plan de la facette (segments)
+C calculation of the intersections of triangles with the facet plane (segments)
       DO I=1,4
          NINTER(I)=0
       ENDDO
@@ -3432,7 +3433,7 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
             SEG(I,2,2)=STMP(2,2)
             SEG(I,3,2)=STMP(3,2)
          ENDIF
-C Intersection (eventuelle) de chaque segment avec les aretes de la facette
+C (possible) intersection of each segment with the edges of the facet
          DO J=1,4
             NPI=NINTER(J)
             IF (J/=4) THEN
@@ -3572,7 +3573,7 @@ C
          YA12=YA2-YA1
          ZA12=ZA2-ZA1
          IF (NINTER(I)==0) CYCLE
-C Tri des points sur les bords de l'arete
+C sorting of points on the edges of the line
          NPI=NINTER(I)
          DO J=1,NPI
             XM=PINTER(I,J,1)
@@ -3596,7 +3597,7 @@ C Tri des points sur les bords de l'arete
                ENDIF
             ENDDO
          ENDDO
-C Identification des doubles
+C identification of duplicates
          DO J=1,NPI
             JJ=REDIR(J)
             IF (JJ>0) THEN
@@ -3617,7 +3618,7 @@ C Identification des doubles
                ENDDO
             ENDIF
          ENDDO
-C Elimination des segments de longueur nulle
+C elimination of zero-length segments
          DO J=1,NPI
            JJ=REDIR(J)
            IF (JJ>0) THEN
@@ -3639,7 +3640,7 @@ C Elimination des segments de longueur nulle
                ENDDO
             ENDIF
          ENDDO
-C Condensation du tableau REDIR
+C condensation of the REDIR table
          DO J=1,NPI
             REDIR_TMP(J)=REDIR(J)
          ENDDO
@@ -3652,7 +3653,7 @@ C Condensation du tableau REDIR
             ENDIF
          ENDDO
          IF (NPI==0) CYCLE
-C Creation des segments sur les aretes
+C creation of segments on the edges
          IF (PINTER(I,REDIR(1),4)==-ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=XA1
@@ -3696,7 +3697,7 @@ C Creation des segments sur les aretes
             ELSEG(NSEG,2)=0
          ENDIF
       ENDDO
-C Recensement des noeuds
+C listing of nodes
       NNO=0
       DO I=1,NSEG
          X1=SEG(I,1,1)
@@ -3746,7 +3747,7 @@ C Recensement des noeuds
          ISEG(3,I)=0
          IF (ID1==ID2) ISEG(3,I)=1
       ENDDO
-C Elimination des segments doubles
+C elimination of duplicate segments
       DO I=1,NSEG
          IF (ISEG(3,I)==1) CYCLE
          ID1=ISEG(1,I)
@@ -3763,7 +3764,7 @@ C
       ENDDO
       IF (NSEGF<=1) RETURN
 C
-C Reconstruction des polygones
+C reconstruction of polygons
       ISTOP=0
       NPOLY=0
       NP=0
@@ -3899,7 +3900,7 @@ C
          ENDDO
       ENDDO
 C
-C Recherche des trous
+C searching for holes
       INFO=0
       DO I=1,NPOLY
 C
@@ -3950,8 +3951,8 @@ C
             ENDDO
 C
             IF (ABS(ALPHA)>=ONE) THEN
-C Le premier point du polygone i est a l'interieur du polygone j
-C On teste tous les autres
+C the first point of polygon i is inside polygon j
+C We test all the others
                IPOUT=0
                DO K=2,LENPOLY(J)
                   X2=RPOLY(4+3*(K-1)+1,J)
@@ -3996,7 +3997,7 @@ C On teste tous les autres
                ENDDO
 C
                IF (IPOUT==1) CYCLE
-C Le polygone j est un trou dans le polygone i
+C polygon j is a hole in polygon i
                IPOLY(1,J)=-1
                NHOL=NHOL+1
                IADHOL(NHOL)=LENPOLY(I)
@@ -4016,7 +4017,7 @@ C Le polygone j est un trou dans le polygone i
                   ENDDO
                ENDIF
                LENPOLY(I)=LENPOLY(I)+LENPOLY(J)
-C Point interieur polygone j
+C Interior polygon j.
                VX1=QUAD(1,2)-QUAD(1,1)
                VY1=QUAD(2,2)-QUAD(2,1)
                VZ1=QUAD(3,2)-QUAD(3,1)
@@ -4246,7 +4247,7 @@ C
                   ENDIF
                ENDIF
             ENDDO
-C Tri par ordre croissant de polh
+C sort in ascending order of polh
             DO J=1,POLH(1,NPOLH)
                JMIN=J
                PMIN=POLH(2+J,NPOLH)
@@ -4336,7 +4337,7 @@ C-----------------------------------------------
      .        TSEG(3,2*NN), NHOL_OLD, ICUT, J, JJ, NSEG_INI, NSEG1,
      .        REDIR(NN), N1, N2, ISTOP, NNP, ICLOSE, ISEG,
      .        POLY(2*NN,NN), IN, IN1, IN2, LENPOLY(NN), K, KK,
-     .        THOL(NHOL), JN, NHOLP, IADHOLP(NHOL), KN, I1, I2,
+     . THOL(NHOL), JN, NHOLP, IADHOLP(NHOL), KN,
      .        ITAG2(2*NN), ITAGN(NN), ITAGS(NN), ISEG_OLD
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, ALPHA, NPX, NPY, NPZ,
@@ -4349,7 +4350,7 @@ C
       TOLE = ZERO
       TOLE = EPSILON(TOLE)
 C
-C Liste des segments
+C list of segments
       IF (NHOL==0) THEN
          NN1=NN
       ELSE
@@ -4371,7 +4372,7 @@ C
          ITAGN(I)=0
          ITAGS(I)=0
       ENDDO
-C Segments du contour exterieur
+C segments of the outer contour
       DO I=1,NN1
          II=I+1
          IF (I==NN1) II=1
@@ -4465,7 +4466,7 @@ C Segments du contour exterieur
          ENDIF
       ENDDO
       TSEG(3,NSEG)=1
-C Segments des trous
+C segments of the holes
       NHOL_OLD=NHOL
       NHOL=0
       DO I=1,NHOL_OLD
@@ -4569,7 +4570,7 @@ C Segments des trous
          TSEG(3,NSEG)=NSEG_INI+1
 C
          IF (ICUT==0) THEN
-C Le trou n'est pas coupe
+C the hole is not cut
             NHOL=NHOL+1
             DO J=NSEG_INI+1,NSEG
                ITAG(J)=-NHOL
@@ -4578,7 +4579,7 @@ C Le trou n'est pas coupe
       ENDDO
 C
       NSEG1=NSEG
-C Creation des nouvelles aretes dans le plan horizontal
+C creation of new edges in the horizontal plane
       NPX=RPOLY_OLD(2)
       NPY=RPOLY_OLD(3)
       NPZ=RPOLY_OLD(4)
@@ -4634,7 +4635,7 @@ C
             II=0
          ENDIF
       ENDDO
-C Nouveaux polygones
+C New polygons
       ISTOP=0
       NPOLY=1
       NNP=0
@@ -4694,7 +4695,7 @@ C
          ENDDO
       ENDDO
       NPOLY=NPOLY-1
-C Attribution des trous
+C attribution of holes
       DO I=1,NHOL
          J=1
          DO WHILE (ITAG(J)/=-I)
@@ -4758,7 +4759,7 @@ C
             IF (ABS(ALPHA)>=ONE) THOL(I)=J
          ENDDO
       ENDDO
-C Creation des tableaux de sortie
+C creation of output tables
       DO I=1,NS
          RNS(2,I)=XNS(1,I)
          RNS(3,I)=XNS(2,I)
@@ -5014,7 +5015,7 @@ C
 C
 *      TOLE=DLAMCH('Epsmach')
       TOLE=EM10   
-C Creation de la liste des noeuds
+C creation of the node list
       NN=0
       LMAX=ZERO
       DO I=1,NEDGE
@@ -5037,7 +5038,7 @@ C Creation de la liste des noeuds
          LMAX=MAX(LMAX,LL)
       ENDDO
 *      TOLE=TOLE*LMAX
-C Elimination des noeuds doubles
+C elimination of duplicate nodes
       NN_OLD=NN
       NN=0
       DO I=1,NN_OLD
@@ -5068,7 +5069,7 @@ C
          TSEG(1,I)=REDIR2(N1)
          TSEG(2,I)=REDIR2(N2)
       ENDDO
-C Elimination des segments de longueur nulle
+C elimination of zero-length segments
       NEDGE_OLD=NEDGE
       NEDGE=0
       DO I=1,NEDGE_OLD
@@ -5082,7 +5083,7 @@ C Elimination des segments de longueur nulle
             TSEG(2,NEDGE)=TSEG_OLD(2,I)
          ENDIF
       ENDDO
-C Construction des polygones
+C construction of polygons
       DO I=1,NN
          ITAG(I)=0
       ENDDO
@@ -5146,7 +5147,7 @@ C
          ENDIF
       ENDDO
       NPOLY=NPOLY-1
-C Creation des tableaux de sortie
+C creation of output tables
       DO I=1,NPOLY
          IPOLY(1,I)=2
          IPOLY(2,I)=LENPOLY(I)
@@ -5173,7 +5174,7 @@ C
          IZ(3,I)=INZ+1
       ENDDO
 C
-C Recherche des trous
+C searching for holes
       DO I=1,NPOLY
 C
          NHOL=0
@@ -5223,8 +5224,8 @@ C
             ENDDO
 C
             IF (ABS(ALPHA)>=ONE) THEN
-C Le premier point du polygone i est a l'interieur du polygone j
-C On teste tous les autres
+C the first point of polygon i is inside polygon j
+C We test all the others
                IPOUT=0
                DO K=2,LENPOLY(J)
                   X2=RPOLY(4+3*(K-1)+1,J)
@@ -5269,7 +5270,7 @@ C On teste tous les autres
                ENDDO
 C
                IF (IPOUT==1) CYCLE
-C Le polygone j est un trou dans le polygone i
+C polygon j is a hole in polygon i
                IPOLY(1,J)=-1
                NHOL=NHOL+1
                IADHOL(NHOL)=LENPOLY(I)
@@ -5284,7 +5285,7 @@ C Le polygone j est un trou dans le polygone i
      .                                   RPOLY(4+3*(K-1)+3,J)
                ENDDO
                LENPOLY(I)=LENPOLY(I)+LENPOLY(J)
-C Point interieur polygone j
+C Interior polygon j.
                VX1=RPOLY(5,J)-RPOLY(8,J)
                VY1=RPOLY(6,J)-RPOLY(9,J)
                VZ1=RPOLY(7,J)-RPOLY(10,J)

@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -91,7 +91,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11)
+          integer :: j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11),ifunc_id(11),ifunce_id(1)
           real(kind=WP) :: rho0,rhor,e,nu,epsmax,epsr1,epsr2,rate(11),yfac(11),    &
             yfac_unit(11),r0,r45,r90,r,h,fisokin,m,einf,ce,asrate,      &
             x1scale,x2scale,x2vect(11),fscale(11)
@@ -106,40 +106,42 @@
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
 !< Card1
-          call hm_get_floatv('MAT_RHO'    ,rho0    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Refer_Rho'  ,rhor    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"    ,rho0    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Refer_Rho"  ,rhor    ,is_available, lsubmodel, unitab)
 !< Card2
-          call hm_get_floatv('MAT_E'      ,e       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_NU'     ,nu      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_E"      ,e       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_NU"     ,nu      ,is_available, lsubmodel, unitab)
 !< Card3
-          call hm_get_intv  ('MAT_fct_IDE',ifunce(1),is_available, lsubmodel)
-          call hm_get_floatv('MAT_EA'     ,einf    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_CE'     ,ce      ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("MAT_fct_IDE",ifunce(1),is_available, lsubmodel)
+          call hm_get_floatv("MAT_EA"     ,einf    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_CE"     ,ce      ,is_available, lsubmodel, unitab)
 !< Card4
-          call hm_get_floatv('MAT_R00'    ,r0      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_R45'    ,r45     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_R90'    ,r90     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_CHARD'  ,fisokin ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_M'      ,m       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_R00"    ,r0      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_R45"    ,r45     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_R90"    ,r90     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_CHARD"  ,fisokin ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_M"      ,m       ,is_available, lsubmodel, unitab)
 !< Card5
-          call hm_get_floatv('MAT_EPS'    ,epsmax  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPST1'  ,epsr1   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPST2'  ,epsr2   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Fcut'       ,asrate  ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('Fsmooth'    ,israte  ,is_available, lsubmodel)
-          call hm_get_intv  ('MAT_VP'     ,vp      ,is_available, lsubmodel)
+          call hm_get_floatv("MAT_EPS"    ,epsmax  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPST1"  ,epsr1   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPST2"  ,epsr2   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Fcut"       ,asrate  ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("Fsmooth"    ,israte  ,is_available, lsubmodel)
+          call hm_get_intv  ("MAT_VP"     ,vp      ,is_available, lsubmodel)
 !< Card6
           nrate = 0
           do j = 1,10
-            call hm_get_int_array_index  ('FunctionIds',ifunc(j),j,is_available,lsubmodel)
-            call hm_get_float_array_index('ABG_cpa',yfac(j),j,is_available,lsubmodel,unitab)
+            call hm_get_int_array_index  ("FunctionIds",ifunc(j),j,is_available,lsubmodel)
+            call hm_get_float_array_index("ABG_cpa",yfac(j),j,is_available,lsubmodel,unitab)
             if (yfac(j) == zero) then
-              call hm_get_float_array_index_dim('ABG_cpa',yfac_unit(j),j,is_available,lsubmodel,unitab)
+              call hm_get_float_array_index_dim("ABG_cpa",yfac_unit(j),j,is_available,lsubmodel,unitab)
               yfac(j) = one*yfac_unit(j)
-            endif
-            call hm_get_float_array_index('ABG_cpb',rate(j),j,is_available,lsubmodel,unitab)
+            end if
+            call hm_get_float_array_index("ABG_cpb",rate(j),j,is_available,lsubmodel,unitab)
             if (ifunc(j) /= 0) nrate = j
-          enddo
+          end do
+          ifunc_id(1:11) = ifunc(1:11)
+          ifunce_id(1) = ifunce(1)
 !
           !-------------------------------------------------------------------------
           !< Data checking
@@ -150,7 +152,7 @@
               anmode = aninfo,                                          &
               i1 = mat_id,                                              &
               c1 = titr)
-          endif
+          end if
 !
           !-------------------------------------------------------------------------
           !< Default values
@@ -176,7 +178,7 @@
             opte = 1
           else
             opte = 0
-          endif
+          end if
           !< Kinematic hardening factor
           fisokin = max(fisokin,zero)
           fisokin = min(fisokin,one)
@@ -194,13 +196,13 @@
                 ! if no filtering frequency and no flag is activated => no filtering
               else
                 asrate  = zero
-              endif
-            endif
+              end if
+            end if
             !< By default, filtering activated with VP = 1
           else
             israte = 1
             if (asrate == zero) asrate = 10000.0d0*unitab%fac_t_work
-          endif
+          end if
 !
           !-------------------------------------------------------------------------
           !< Filling buffer tables
@@ -219,7 +221,7 @@
           else
             nvartmp = 2
             matparam%ntable = 1
-          endif
+          end if
 !
           !< Allocation of material parameters tables
           allocate(matparam%iparam(matparam%niparam))
@@ -273,7 +275,7 @@
             call func_table_copy(matparam%table(2) ,titr     ,mat_id   ,           &
               1        ,ifunce(1),x2vect(1),x1scale  ,x2scale  ,           &
               fscale(1),ntable   ,table    ,ierr2    )
-          endif
+          end if
 !
           !< PARMAT table
           parmat(1)  = matparam%bulk
@@ -310,7 +312,7 @@
           ! -> dmg(nel,2:nmod+1) = Damage modes output
           mtag%g_dmg = 1 + matparam%nmod
           mtag%l_dmg = 1 + matparam%nmod
-          ! -> Modes allocation and definition
+          ! Allocate and define modes
           allocate(matparam%mode(matparam%nmod))
           matparam%mode(1) = "Maximum plastic strain failure"
           matparam%mode(2) = "Tensile failure damage"
@@ -324,7 +326,7 @@
           write(iout,1000) trim(titr),mat_id,ilaw
           write(iout,1001)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)') 'CONFIDENTIAL DATA'
+            write(iout,"(5x,a,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1200) rho0
             write(iout,1300) e,nu,matparam%shear
@@ -332,62 +334,62 @@
             write(iout,1500) m,matparam%uparam(4),matparam%uparam(3),              &
               matparam%uparam(5),matparam%uparam(6)
             write(iout,1700)
-            write(iout,1800) (ifunc(j),yfac(j),rate(j),j=1,nrate)
-            write(iout,1900) epsmax,epsr1,epsr2,ifunce(1),einf,ce,israte,asrate,vp
-          endif
+            write(iout,1800) (ifunc_id(j),yfac(j),rate(j),j=1,nrate)
+            write(iout,1900) epsmax,epsr1,epsr2,ifunce_id(1),einf,ce,israte,asrate,vp
+          end if
 !
 1000      format(/                                                                 &
             5X,A,/,                                                                 &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,                &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . .=",I10/,                &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . .=",I10/)
 1001      format(/                                                                 &
-            5X,'-----------------------------------------------------',/,           &
-            5X,' MATERIAL MODEL: 3 PARAMETERS BARLAT 1989 TABULATED  ',/,           &
-            5X,'-----------------------------------------------------',/)
+            5X,"-----------------------------------------------------",/,           &
+            5X," MATERIAL MODEL: 3 PARAMETERS BARLAT 1989 TABULATED  ",/,           &
+            5X,"-----------------------------------------------------",/)
 1200      format(/                                                                 &
-            5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)
+            5X,"INITIAL DENSITY  . . . . . . . . . . . . . .=",1PG20.13/)
 1300      format(/                                                                 &
-            5X,'ELASTIC PARAMETERS:                          ',/,                   &
-            5X,'-------------------                          ',/,                   &
-            5X,'YOUNG MODULUS . . . . . . . . . . . . . . . =',1PG20.13/            &
-            5X,'POISSON RATIO . . . . . . . . . . . . . . . =',1PG20.13/            &
-            5X,'SHEAR MODULUS . . . . . . . . . . . . . . . =',1PG20.13/)
+            5X,"ELASTIC PARAMETERS:                          ",/,                   &
+            5X,"-------------------                          ",/,                   &
+            5X,"YOUNG MODULUS . . . . . . . . . . . . . . . =",1PG20.13/            &
+            5X,"POISSON RATIO . . . . . . . . . . . . . . . =",1PG20.13/            &
+            5X,"SHEAR MODULUS . . . . . . . . . . . . . . . =",1PG20.13/)
 1400      format(/                                                                 &
-            5X,'PLASTIC PARAMETERS:                          ',/,                   &
-            5X,'-------------------                          ',/,                   &
-            5X,'LANKFORD COEFFICIENT R00 . . . . . . . . . .=',1PG20.13/            &
-            5X,'LANKFORD COEFFICIENT R45 . . . . . . . . . .=',1PG20.13/            &
-            5X,'LANKFORD COEFFICIENT R90 . . . . . . . . . .=',1PG20.13/            &
-            5X,'ISO-KINEMATIC HARDENNING FACTOR. . . . . . .=',1PG20.13/)
+            5X,"PLASTIC PARAMETERS:                          ",/,                   &
+            5X,"-------------------                          ",/,                   &
+            5X,"LANKFORD COEFFICIENT R00 . . . . . . . . . .=",1PG20.13/            &
+            5X,"LANKFORD COEFFICIENT R45 . . . . . . . . . .=",1PG20.13/            &
+            5X,"LANKFORD COEFFICIENT R90 . . . . . . . . . .=",1PG20.13/            &
+            5X,"ISO-KINEMATIC HARDENNING FACTOR. . . . . . .=",1PG20.13/)
 1500      format(/                                                                 &
-            5X,'BARLAT 1989 YIELD CRITERION PARAMETERS:      ',/,                   &
-            5X,'---------------------------------------      ',/,                   &
-            5X,'BARLAT YIELD EXPONENT M . . . . . . . . . . =',1PG20.13/            &
-            5X,'BARLAT COEFFICIENT A . . . . . . . . . . . .=',1PG20.13/            &
-            5X,'BARLAT COEFFICIENT C . . . . . . . . . . . .=',1PG20.13/            &
-            5X,'BARLAT COEFFICIENT H . . . . . . . . . . . .=',1PG20.13/            &
-            5X,'BARLAT COEFFICIENT P . . . . . . . . . . . .=',1PG20.13/)
+            5X,"BARLAT 1989 YIELD CRITERION PARAMETERS:      ",/,                   &
+            5X,"---------------------------------------      ",/,                   &
+            5X,"BARLAT YIELD EXPONENT M . . . . . . . . . . =",1PG20.13/            &
+            5X,"BARLAT COEFFICIENT A . . . . . . . . . . . .=",1PG20.13/            &
+            5X,"BARLAT COEFFICIENT C . . . . . . . . . . . .=",1PG20.13/            &
+            5X,"BARLAT COEFFICIENT H . . . . . . . . . . . .=",1PG20.13/            &
+            5X,"BARLAT COEFFICIENT P . . . . . . . . . . . .=",1PG20.13/)
 1700      format(/                                                                 &
-            5X,'TABULATED YIELD STRESS PARAMETERS:           ',/,                   &
-            5X,'----------------------------------           ',/)
+            5X,"TABULATED YIELD STRESS PARAMETERS:           ",/,                   &
+            5X,"----------------------------------           ",/)
 1800      format(                                                                  &
-            5X,'YIELD STRESS FUNCTION NUMBER . . . . . . . .=',I10/                 &
-            5X,'YIELD SCALE FACTOR . . . . . . . . . . . . .=',1PG20.13/            &
-            5X,'STRAIN RATE. . . . . . . . . . . . . . . . .=',1PG20.13)
+            5X,"YIELD STRESS FUNCTION NUMBER . . . . . . . .=",I10/                 &
+            5X,"YIELD SCALE FACTOR . . . . . . . . . . . . .=",1PG20.13/            &
+            5X,"STRAIN RATE. . . . . . . . . . . . . . . . .=",1PG20.13)
 1900      format(/                                                                 &
-            5X,'OTHER PARAMETERS:                           ',/,                    &
-            5X,'-----------------                           ',/,                    &
-            5X,'MAXIMUM PLASTIC STRAIN. . . . . . . . . . .=',1PG20.13/             &
-            5X,'TENSILE FAILURE STRAIN 1. . . . . . . . . .=',1PG20.13/             &
-            5X,'TENSILE FAILURE STRAIN 2. . . . . . . . . .=',1PG20.13/             &
-            5X,'YOUNG MODULUS SCALE FACTOR FUNCTION . . . .=',I10/                  &
-            5X,'YOUNG MODULUS SATURATION VALUE EINF . . . .=',1PG20.13/             &
-            5X,'YOUNG MODULUS EVOLUTION RATE CE . . . . . .=',1PG20.13/             &
-            5X,'STRAIN RATE FILTERING FLAG. . . . . . . . .=',I10/                  &
-            5X,'STRAIN RATE CUTTING FREQUENCY . . . . . . .=',1PG20.13/             &
-            5X,'STRAIN RATE FORMULATION FLAG. . . . . . . .=',I10/                  &
-            5X,'     = 0: TOTAL EQUIVALENT STRAIN RATE      ',/                     &
-            5X,'     = 1: PLASTIC STRAIN RATE               '/)
+            5X,"OTHER PARAMETERS:                           ",/,                    &
+            5X,"-----------------                           ",/,                    &
+            5X,"MAXIMUM PLASTIC STRAIN. . . . . . . . . . .=",1PG20.13/             &
+            5X,"TENSILE FAILURE STRAIN 1. . . . . . . . . .=",1PG20.13/             &
+            5X,"TENSILE FAILURE STRAIN 2. . . . . . . . . .=",1PG20.13/             &
+            5X,"YOUNG MODULUS SCALE FACTOR FUNCTION . . . .=",I10/                  &
+            5X,"YOUNG MODULUS SATURATION VALUE EINF . . . .=",1PG20.13/             &
+            5X,"YOUNG MODULUS EVOLUTION RATE CE . . . . . .=",1PG20.13/             &
+            5X,"STRAIN RATE FILTERING FLAG. . . . . . . . .=",I10/                  &
+            5X,"STRAIN RATE CUTTING FREQUENCY . . . . . . .=",1PG20.13/             &
+            5X,"STRAIN RATE FORMULATION FLAG. . . . . . . .=",I10/                  &
+            5X,"     = 0: TOTAL EQUIVALENT STRAIN RATE      ",/                     &
+            5X,"     = 1: PLASTIC STRAIN RATE               "/)
 !
         end subroutine hm_read_mat57
       end module hm_read_mat57_mod

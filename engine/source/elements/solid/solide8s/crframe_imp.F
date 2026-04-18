@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -63,7 +63,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J      
+      INTEGER I      
 C=======================================================================
       DOUBLE PRECISION DX_DR,DX_DS,DX_DT,DY_DR,DY_DS,DY_DT,DZ_DR,DZ_DS,DZ_DT
       DOUBLE PRECISION FMAT(3,3),UM(3,3),IC,I2C,I3C,IU,I2U,I3U

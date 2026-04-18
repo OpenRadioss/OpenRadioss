@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multimat_param_mod     ../common_source/modules/multimat_param_mod.F90
@@ -47,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   IXQ,        FV,         X,          BUFMAT,
      4   TF,         NPF,        NERCVOIS,   NESDVOIS,
      5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
-     6   MATPARAM)
+     6   MATPARAM,   s_flux,     nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +76,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
       INTEGER  IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), NPF(*),
      .         NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .         IPM(NPROPMI,NUMMAT), LENCOM
@@ -204,9 +208,9 @@ C------------------------------
         IAD=IPARG(4,NG)
         LFT=1
         IF(N2D == 0)THEN
-          CALL AFIMP3(PM,X,IXS,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,FV)
+          CALL AFIMP3(PM,X,IXS,T,FLUX,VAL2,ALE_CONNECT,FV,s_flux,nv46)
         ELSE
-          CALL AFIMP2(PM,X,IXQ,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,FV)
+          CALL AFIMP2(PM,X,IXQ,T,FLUX,VAL2,ALE_CONNECT,FV,s_flux,nv46)
         ENDIF
       ENDDO
 
@@ -237,15 +241,15 @@ C------------------------------
             GBUF%TEMP(I) = ZERO
           ENDDO
           IF (N2D == 0) THEN                                            
-            CALL ADIFF3(GBUF%TEMP,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
+            CALL ADIFF3(GBUF%TEMP,T,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL,s_flux,nv46)
           ELSE                                                        
-            CALL ADIFF2(GBUF%TEMP,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
+            CALL ADIFF2(GBUF%TEMP,T,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL,s_flux,nv46)
           ENDIF                                                       
         ELSE
           IF (N2D == 0) THEN
-            CALL ADIFF3(GBUF%EINT,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
+            CALL ADIFF3(GBUF%EINT,T,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL,s_flux,nv46)
           ELSE
-            CALL ADIFF2(GBUF%EINT,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
+            CALL ADIFF2(GBUF%EINT,T,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL,s_flux,nv46)
           ENDIF
         ENDIF
       ENDDO!next NG

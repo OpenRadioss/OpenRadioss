@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,ICOR
       my_real
-     .   D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
+     .   D, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
       DOUBLE PRECISION 
      .   DETDP
 C-----------------------------------------------
@@ -332,7 +332,7 @@ c         print *,'dx y z/dt='
 c         print *,DXDT(1),DYDT(1),DZDT(1)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [J]          Inversion of the jacobian
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
@@ -381,8 +381,8 @@ C
 C
       DO I=1,NEL
 C-----------------------------------------------------------------------
-C          -1            Inversion du jacobien suite
-C       [J]              et repere local r,s,t
+C          -1 inversion of the Jacobian suite
+C       [J]              and local frame r,s,t
 C-----------------------------------------------------------------------
         D = ONE/DET(I)
         DRDX(I)=D*DRDX(I)
@@ -504,8 +504,6 @@ c        ENDDO
 c        DELTAX(I) = SQRT(2.*BB/AA)
 c      ENDDO
 C
-C
- 2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
 C
       RETURN
       END

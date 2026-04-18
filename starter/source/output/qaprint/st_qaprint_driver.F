@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -147,6 +147,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
       USE PBLAST_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -424,7 +425,7 @@ C-----------------------------------------------
      2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS ,
      3                                 DAMP_RANGE_PART)
       CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
-     1                           AREASL,GLOB_THERM%INTHEAT)      
+     1                           AREASL,GLOB_THERM%INTHEAT,ITAB)      
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)
       CALL ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM ,ACCELM,LGAUGE,GAUGE)
       CALL ST_QAPRINT_MODEL_TOOLS(NOM_OPT, INOM_OPT, IBOX, IPMAS, NOM_SECT, NSTRF, SECBUF ,

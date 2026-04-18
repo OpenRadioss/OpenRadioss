@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -82,11 +82,11 @@ C-----------------------------------------------
       INTEGER :: NN, II    !< loop
       INTEGER :: ITYP      !< monvol type (refer to read_monvol.F)
       INTEGER :: IH3D_FLAG !< node group identifier
-      INTEGER :: NNODES    !< number of nodes in group
+ 
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
       my_real :: VALUE     !< polyhedron value
       INTEGER :: K_SHIFT   !< shift value for index : sum of previous NPOLH
-      INTEGER :: INDX
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------    

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C-----------------------------------------------
      .  IPARTQ(*),IPARTC(*),IPARTG(*),IPARTT(*),IPARTP(*),IPARTR(*),
      .  KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),NOD2ELS(*),NOD2ELC(*),
      .  NOD2ELTG(*),NOD2ELQ(*),KNOD2ELQ(*)
-      INTEGER  ELTYP,JCLAUSE,OPT_A,OPT_O,OPT_E
+      INTEGER  JCLAUSE, OPT_A, OPT_O, OPT_E
 !
       INTEGER, INTENT(IN), DIMENSION(NUMNOD,2) :: ITABM1
       INTEGER, INTENT(IN), DIMENSION(NRBODY,2) :: IRBODYM
@@ -113,7 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER BOXTYPE,SURF_LIST,LINE_LIST_1D,ELTYP_ALL
+      INTEGER BOXTYPE, SURF_LIST, LINE_LIST_1D
 !
       INTEGER ADMBID
       DATA ADMBID/0/
@@ -222,7 +223,7 @@ C-----------------------------------------------
      *                KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      *                IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      *                KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     *                .FALSE.   )
+     *                .FALSE.   ,IPARTQ   ,OPT_E     )
 !
           ! Line from SURFACE
           CALL CREATE_LINE_FROM_SURFACE(CLAUSE ,KEYSET,OPT_A,OPT_E,DELBUF,

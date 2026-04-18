@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -37,9 +37,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
      2     NPF      ,TABLE    ,TF       ,TIME     ,UPARAM   , 
      3     NGL      ,ALDT     ,DPLA     ,EPSP     ,UVAR     ,     
-     4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
+     4     SIGNXX   ,SIGNYY   ,SIGNXY   ,NVARTMP  ,VARTMP   ,     
      5     TEMP     ,FOFF     ,DFMAX    ,TDELE    ,IPT      ,
-     6     IPG      ,DMG_FLAG ,DMG_SCALE,NTABLF   ,ITABLF   )   
+     6     IPG      ,DMG_FLAG ,DMG_SCALE,NTABLF   ,ITABLF   ,
+     7     NIPARAM  ,IPARAM   ,NOFF     ,OFF      ,NPT      ,
+     8     GVAR     )   
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -59,18 +61,25 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: 
      .        NEL,NUPARAM,NUVAR,NTABLF,NGL(NEL),IPT,IPG
+      INTEGER, INTENT(IN) :: NVARTMP
+      INTEGER, DIMENSION(NEL,NVARTMP), INTENT(IN) :: VARTMP
       INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
       INTEGER, INTENT(INOUT) :: 
      .        DMG_FLAG,FOFF(NEL)
       my_real, INTENT(IN) :: 
      .        TIME,UPARAM(NUPARAM),ALDT(NEL),
      .        DPLA(NEL),EPSP(NEL),TEMP(NEL),
-     .        SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .        SIGNYZ(NEL),SIGNZX(NEL)
+     .        SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL)
       my_real, INTENT(INOUT) :: 
      .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
      .        DMG_SCALE(NEL)
       TYPE (TTABLE), INTENT(IN), DIMENSION(NTABLE) :: TABLE 
+      INTEGER, INTENT(IN) :: NIPARAM
+      INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM
+      INTEGER, INTENT(INOUT) :: NOFF(NEL)
+      my_real, INTENT(INOUT) :: OFF(NEL)
+      INTEGER, INTENT(IN) :: NPT
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: GVAR !< Global element user variables
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -82,27 +91,31 @@ C!-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,INDX(NEL),NINDX,ITAB_EPSF,
-     .        ITAB_INST,ITAB_SIZE,IREG,
-     .        IPOS(NEL,3),NDIM,IPOS2(NEL),
-     .        IAD(NEL),ILEN(NEL),LOG_SCALE1,
-     .        LOG_SCALE2
+      INTEGER :: I,J,NINDX,ITAB_EPSF,ITAB_INST,ITAB_SIZE,IREG,NDIM
+      INTEGER :: LOG_SCALE1,LOG_SCALE2,MIDFAIL
+      INTEGER ,DIMENSION(NEL) :: INDX,IAD,ILEN
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
-     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP
+     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP,
+     .        RGTR1  ,RGTR2
       my_real
-     .        LAMBDA,FAC,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
+     .        LAMBDA,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
      .        DEPSF(NEL)  ,DEPSL(NEL)  ,XVEC(NEL,3) ,DPL_DEF     ,
      .        COS3THETA   ,P           ,SVM         ,SIZEFAC(NEL),
      .        RATEFAC(NEL),DSIZE(NEL)  ,SOFTEXP(NEL),DLIM(NEL)   ,
-     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)
+     .        TEMPFAC(NEL),TEMPFAC2(NEL),DFT(NEL)   ,VAR(NEL)    ,
+     .        RETA
+      LOGICAL IS_MIDPT,COMP_MIDFAIL
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering failure criterion parameters
+      !< Integer parameters
+      MIDFAIL       = IPARAM(1)
+      !< Real parameters
       FCRIT         = UPARAM(1)
       DN            = UPARAM(4)
       DCRIT         = UPARAM(5) 
@@ -123,6 +136,10 @@ C!--------------------------------------------------------------
       FSCALE_TEMP   = UPARAM(20)
       LOG_SCALE1    = NINT(UPARAM(21))
       LOG_SCALE2    = NINT(UPARAM(22))
+      RGTR1         = UPARAM(24)
+      RGTR1         = MAX(RGTR1,EM06)
+      RGTR2         = UPARAM(25)
+      RGTR2         = MIN(RGTR2,TWO_THIRD - EM06)
 c
       ITAB_EPSF = ITABLF(1)
       ITAB_INST = ITABLF(2)
@@ -131,16 +148,33 @@ c
       ! Set flag for stress softening
       DMG_FLAG = 1
 c
+      !< Flag to identify if mid-plane point
+      IS_MIDPT = .FALSE.
+      ! -> Odd number of integration points
+      IF (MOD(NPT,2) == 1) THEN
+        IF (IPT == (NPT/2 + 1)) IS_MIDPT = .TRUE.
+      ! -> Even number of integration points
+      ELSE
+        IF (IPT == NPT/2)       IS_MIDPT = .TRUE.
+        IF (IPT == (NPT/2 + 1)) IS_MIDPT = .TRUE.
+      ENDIF
+c
+      !< Midfail computation flag
+      COMP_MIDFAIL = .TRUE.
+      IF ((MIDFAIL == 4) .AND. (.NOT.IS_MIDPT)) COMP_MIDFAIL = .FALSE.
+c
       ! Checking element failure and recovering user variable
       DO I=1,NEL
         ! If necking control is activated
         IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
-          ! Instability damage
-          INST(I) = UVAR(I,1)
-          ! Necking critical damage 
           IF (UVAR(I,2) == ZERO) UVAR(I,2) = ONE
-          DC(I)   = UVAR(I,2)
-        ENDIF   
+        ELSE
+          IF (UVAR(I,2) == ZERO) UVAR(I,2) = DCRIT
+        ENDIF
+        ! Instability damage
+        INST(I) = UVAR(I,1)
+        ! Necking critical damage 
+        DC(I)   = UVAR(I,2)
       END DO
 c      
       !====================================================================
@@ -187,10 +221,9 @@ c
       ! Compute the temperature dependency factor
       IF (IFUNC(4) > 0) THEN 
         VAR(1:NEL)   = TEMP(1:NEL)/TEMP_REF
-        IPOS2(1:NEL) = 1
         IAD(1:NEL)   = NPF(IFUNC(4)) / 2 + 1
-        ILEN(1:NEL)  = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - IPOS2(1:NEL)
-        CALL VINTER2(TF,IAD,IPOS2,ILEN,NEL,VAR,DFT,TEMPFAC)
+        ILEN(1:NEL)  = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,1)
+        CALL VINTER2(TF,IAD,VARTMP(1:NEL,1),ILEN,NEL,VAR,DFT,TEMPFAC)
         TEMPFAC(1:NEL) = FSCALE_TEMP*TEMPFAC(1:NEL)
         TEMPFAC2(1:NEL) = TEMPFAC(1:NEL)
       ELSE
@@ -208,7 +241,6 @@ c
             CASE(1)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2:3) = ZERO
-              IPOS(1:NEL,1:3) = 1
             ! Scale factor vs element size vs strain rate
             CASE(2)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
@@ -220,7 +252,6 @@ c
                 XVEC(1:NEL,2) = EPSP(1:NEL)/SR_REF1
               ENDIF
               XVEC(1:NEL,3)   = ZERO
-              IPOS(1:NEL,1:3) = 1
           END SELECT
         ELSEIF (IREG == 2) THEN 
           SELECT CASE (NDIM)
@@ -228,30 +259,31 @@ c
             CASE(1)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2:3) = ZERO
-              IPOS(1:NEL,1:3) = 1
             ! Scale factor vs element size vs triaxiality
             CASE(2)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2)   = TRIAX(1:NEL)
               XVEC(1:NEL,3)   = ZERO
-              IPOS(1:NEL,1:3) = 1
               ! Scale factor vs element size vs triaxiality vs Lode parameter
             CASE(3)
               XVEC(1:NEL,1)   = L0(1:NEL)/EL_REF
               XVEC(1:NEL,2)   = TRIAX(1:NEL)
               XVEC(1:NEL,3)   = XI(1:NEL)
-              IPOS(1:NEL,1:3) = 1
-          END SELECT            
+          END SELECT
         ENDIF
-        CALL TABLE_VINTERP(TABLE(ITAB_SIZE),NEL,NEL,IPOS,XVEC,SIZEFAC,DSIZE)
+!
+        CALL TABLE_VINTERP(TABLE(ITAB_SIZE),NEL,NEL,VARTMP(1:NEL,2),XVEC,SIZEFAC,DSIZE)
         SIZEFAC(1:NEL) = SIZEFAC(1:NEL)*FSCALE_EL
         IF (IREG == 1) THEN 
           DO I = 1,NEL
-            IF (TRIAX(I) < SHRF) THEN 
-              SIZEFAC(I) = ONE
-            ELSEIF (TRIAX(I) > BIAXF) THEN 
-              SIZEFAC(I) = ONE
+            IF (TRIAX(I) < THIRD) THEN 
+              RETA =  SHRF*(ONE - MIN(MAX(TRIAX(I),ZERO),RGTR1)/RGTR1)
+            ELSEIF (TRIAX(I) >= THIRD) THEN 
+              RETA = (THREE*BIAXF/(THREE*RGTR2 - TWO))*
+     .               (RGTR2 - MIN(MAX(TRIAX(I),RGTR2),TWO_THIRD))
             ENDIF
+            RETA = MAX(ZERO, MIN(ONE, RETA))
+            SIZEFAC(I) = SIZEFAC(I) + RETA*(ONE - SIZEFAC(I))
           ENDDO
         ENDIF
       ELSE
@@ -267,10 +299,9 @@ c
         ELSE
           VAR(1:NEL) = EPSP(1:NEL)/SR_REF2
         ENDIF
-        IPOS2(1:NEL) = 1
         IAD (1:NEL) = NPF(IFUNC(2)) / 2 + 1
-        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - IPOS2(1:NEL)
-        CALL VINTER2(TF,IAD,IPOS2,ILEN,NEL,VAR,DFT,RATEFAC)
+        ILEN(1:NEL) = NPF(IFUNC(2)+1) / 2 - IAD(1:NEL) - VARTMP(1:NEL,5)
+        CALL VINTER2(TF,IAD,VARTMP(1:NEL,5),ILEN,NEL,VAR,DFT,RATEFAC)
         RATEFAC(1:NEL) = FSCALE_SR*RATEFAC(1:NEL)
       ELSEIF (CJC > ZERO) THEN 
         DO I=1,NEL
@@ -308,22 +339,20 @@ c
           CASE (1)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2:3) = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Failure plastic strain vs triaxiality vs Lode parameter
           CASE (2)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Failure plastic strain vs triaxiality vs Lode parameter vs temperature
           CASE (3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            IPOS(1:NEL,1:3) = 1
             TEMPFAC(1:NEL)  = ONE
         END SELECT
-        CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,IPOS,XVEC,EPSF,DEPSF)
+
+        CALL TABLE_VINTERP(TABLE(ITAB_EPSF),NEL,NEL,VARTMP(1:NEL,6:8),XVEC,EPSF,DEPSF)
         EPSF(1:NEL) = EPSF(1:NEL)*FCRIT
       ELSE 
         EPSF(1:NEL) = FCRIT
@@ -340,22 +369,20 @@ c
           CASE(1)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2:3) = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Instability plastic strain vs triaxiality vs Lode 
           CASE(2)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = ZERO
-            IPOS(1:NEL,1:3) = 1
           ! Instability plastic strain vs triaxiality vs Lode vs temperature
           CASE(3)
             XVEC(1:NEL,1)   = TRIAX(1:NEL)
             XVEC(1:NEL,2)   = XI(1:NEL)
             XVEC(1:NEL,3)   = TEMP(1:NEL)/TEMP_REF
-            IPOS(1:NEL,1:3) = 1  
             TEMPFAC2(1:NEL) = ONE         
         END SELECT
-        CALL TABLE_VINTERP(TABLE(ITAB_INST),NEL,NEL,IPOS,XVEC,EPSL,DEPSL)
+        
+        CALL TABLE_VINTERP(TABLE(ITAB_INST),NEL,NEL,VARTMP(1:NEL,9:11),XVEC,EPSL,DEPSL)
         EPSL(1:NEL) = EPSL(1:NEL)*ECRIT
       ELSEIF (ECRIT > ZERO) THEN 
         EPSL(1:NEL) = ECRIT
@@ -372,7 +399,7 @@ c
       DO I=1,NEL
 c
         ! If the element is not broken
-        IF (FOFF(I) /= 0 .AND. DPLA(I) > ZERO) THEN
+        IF (FOFF(I) /= 0 .AND. DPLA(I) > ZERO .AND. COMP_MIDFAIL) THEN
 c
           ! Needs to initialize damage at a very small value the first time
           IF (DFMAX(I) == ZERO) DFMAX(I) = EM20
@@ -383,10 +410,16 @@ c
           DFMAX(I) = DFMAX(I) + DPL_DEF*DN*(DFMAX(I)**(ONE-(ONE/DN)))
           DFMAX(I) = MIN(DFMAX(I),DLIM(I))
           IF (DFMAX(I) >= ONE) THEN 
-            NINDX       = NINDX + 1
-            INDX(NINDX) = I
-            FOFF(I)     = 0
-            TDELE(I)    = TIME
+            IF ((MIDFAIL /= 1 .AND. MIDFAIL /= 2 .AND. MIDFAIL /= 3).OR.(IS_MIDPT)) THEN
+              NINDX       = NINDX + 1
+              INDX(NINDX) = I
+              FOFF(I)     = 0
+              TDELE(I)    = TIME
+            ENDIF
+            !< Instant failure of all integration points and element deletion
+            IF ((IS_MIDPT).AND.((MIDFAIL == 3).OR.(MIDFAIL == 4))) THEN 
+              OFF(I) = FOUR_OVER_5
+            ENDIF
           ENDIF
 c
           ! Compute the control necking instability damage
@@ -406,29 +439,50 @@ c
       ! - UPDATE UVAR AND THE STRESS TENSOR
       !====================================================================
       DO I = 1,NEL 
-        IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
-          UVAR(I,1) = INST(I)
-          UVAR(I,2) = DC(I)
-          IF (DFMAX(I) >= DC(I)) THEN 
-            IF (DC(I) < ONE) THEN 
-              DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP(I)
-            ELSE
-              DMG_SCALE(I) = ZERO
-            ENDIF
+        !< Save necking instability damage
+        UVAR(I,1) = INST(I)
+        !< Damage criterion for stress softening
+        IF (DFMAX(I) >= DC(I)) THEN
+          !< Flag for mid-point integration point softening
+          IF (MOD(NPT,2) == 1) THEN
+            IF ((IS_MIDPT).AND.(NOFF(I) == 0)) NOFF(I) = 1
           ELSE
-            DMG_SCALE(I) = ONE
+            IF ((IS_MIDPT).AND.(NOFF(I) == 0)) NOFF(I) = IPT
+            IF ((IS_MIDPT).AND.(NOFF(I) /= 0).AND.(IPT /= NOFF(I))) NOFF(I) = 1
+          ENDIF
+          !< Damage softening scale computation
+          IF (DC(I) < ONE) THEN 
+            DMG_SCALE(I) = ONE - ((DFMAX(I)-DC(I))/MAX(ONE-DC(I),EM20))**SOFTEXP(I)
+          ELSE
+            DMG_SCALE(I) = ZERO
+          ENDIF
+          !< Mid-point integration point softening synchronization
+          IF (IS_MIDPT) GVAR(I) = DMG_SCALE(I)
+          !< Synchronization of mid-point softening to other breaking integration points
+          IF ((MIDFAIL == 1).AND.(NOFF(I) == 1).AND.(.NOT.IS_MIDPT)) THEN
+            DMG_SCALE(I) = GVAR(I)
+            IF ((DMG_SCALE(I) == ZERO).AND.(FOFF(I) /= 0)) THEN
+              NINDX       = NINDX + 1
+              INDX(NINDX) = I
+              FOFF(I)     = 0
+              TDELE(I)    = TIME
+            ENDIF
           ENDIF
         ELSE
-          IF (DFMAX(I) >= DCRIT) THEN 
-            IF (DCRIT < ONE) THEN 
-              DMG_SCALE(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**SOFTEXP(I)
-            ELSE
-              DMG_SCALE(I) = ZERO
-            ENDIF
-          ELSE
-            DMG_SCALE(I) = ONE
+          DMG_SCALE(I) = ONE
+        ENDIF
+        !< Synchronization of mid-point softening to all integration points
+        IF (((MIDFAIL == 2).OR.(MIDFAIL == 3)).AND.(NOFF(I) == 1).AND.(.NOT.IS_MIDPT)) THEN
+          DMG_SCALE(I) = GVAR(I)
+          IF ((DMG_SCALE(I) == ZERO).AND.(FOFF(I) /= 0)) THEN
+            NINDX       = NINDX + 1
+            INDX(NINDX) = I
+            FOFF(I)     = 0
+            TDELE(I)    = TIME
           ENDIF
         ENDIF
+        !< Update necking critical damage
+        UVAR(I,2) = DC(I)
       ENDDO
 c
       !====================================================================

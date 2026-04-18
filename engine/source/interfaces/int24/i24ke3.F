@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -78,53 +78,41 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
-     .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
-     .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTKG,
+      INTEGER I, J, I_STOK, JLT, NFT, 
+     . NOINT, IBAG,
+     . IGAP, IFQ, MFROT, IGSTI, NISUB,
+     . INTTH,IFORM,INTKG,
      .        IDNJ,IDHJ
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),KINI(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ) 
+     . NSVG(MVSIZ)
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS
+     . KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,EPS
 C-----------------------------------------------
 C     REAL
       my_real
-     .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
-     .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
-     .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     SUBTRIA(MVSIZ), 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
-     .   GAPV(MVSIZ),MSI(MVSIZ),GAPS(MVSIZ),
+     . MSI(MVSIZ),
      .    KI11(9,MVSIZ),KJ11(9,MVSIZ),OFF(MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
-     .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ),
-     .    LL_SL(MVSIZ),LL_ML(MVSIZ)
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM
+     .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ)
+ 
       INTEGER ICURV,INTKG1
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
       INTEGER :: NSN, NMN
 C---------------------------------------------------- 
-C  Calcul des adresses des buffers d'interfaces. 
-C  Les adresses des buffers J10-JFI et K10-KFI 
-C  sont remplaces systematiquement par des tableaux
+C  calculation of interface buffer addresses
+C  the addresses of the j10-jfi and k10-kfi buffers
+C  are systematically replaced by arrays
 C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C  Les anciens adresses directs Jn, Kn sont modifies
-C  dans la routine sans commentaires additionnels habituels
+C  the old direct addresses jn, kn are modified
+C  in the routine without the usual additional comments
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
@@ -170,12 +158,12 @@ C
       EPS     = INTBUF_TAB%VARIABLES(39)
 C  
 c----------------------------------------------------
-c   Courbure quadratique calcul des normales nodales
+c   Quadratic curvature Calculation of nodal normal
 c----------------------------------------------------
       IF(ICURV==3)THEN
       ENDIF!(ICURV==3)
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   curvature radius: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 c      IF(IADM/=0)THEN
@@ -318,18 +306,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,JG,N,ip
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE, JG, N, ip
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ)
+     . S2,FAC,FACF,FACT(MVSIZ),
+     . KN(4,MVSIZ),Q(3,3,MVSIZ)
       my_real
-     .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
-     .   KT1,KT2,KT3,KT4,Q1,Q2,DPENE(MVSIZ),VNM(MVSIZ)
-      INTEGER NA1,NA2
-      my_real
-     .   A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
+     . PREC,Q11,Q12,Q13,Q22,Q23,Q33,VTX,VTY,VTZ,VT,
+     . KT1,KT2,KT3,KT4,Q1,Q2
 C-----------------------------------------------
       IF (IRESP==1) THEN
            PREC = FIVEEM4
@@ -371,7 +355,7 @@ C---------------------
         END IF !(INCONV < 0 THEN
        END IF !(IGSTI==6) THEN
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
       DO I=1,JLT
         VTX = VX(I) -VN(I)*N1(I)
         VTY = VY(I) -VN(I)*N2(I)
@@ -456,7 +440,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    ----with friction---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -509,7 +493,7 @@ C
          IF(NSVG(I)<0) THEN
                 NN=-NSVG(I)
                 NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+C---------for diag_ss---
                 FFI(1,NS)=ZERO
                 FFI(2,NS)=ZERO
                 FFI(3,NS)=ZERO
@@ -535,7 +519,7 @@ C---  general case----
           N_E(1,NE)=N1(I)
           N_E(2,NE)=N2(I)
           N_E(3,NE)=N3(I)
-C----pour temporairement diag_ss---
+C----for temporary diag_ss---
           FFI(1,NS)=ZERO
           FFI(2,NS)=ZERO
           FFI(3,NS)=ZERO
@@ -587,10 +571,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,NM
+      INTEGER I, J, NS, NM
       my_real
-     .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,
-     .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),LNS,LNS1
+     . FAC,FACF,
+     . KN(4,MVSIZ),LNS,LNS1
       my_real
      .   LMAX,FNI(MVSIZ),AL(4,MVSIZ)
 C-----------------------------------------------

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -27,8 +27,10 @@ C
 !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
 !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
 !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ATURI3(IPARG,RHO,PM,IX,X,RK,RE,VOLU)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -97,7 +99,7 @@ C-----------------------------------------------
                  Y1=X(2,IX(2,J))+X(2,IX(3,J))+X(2,IX(4,J))+X(2,IX(5,J))+X(2,IX(6,J))+X(2,IX(7,J))+X(2,IX(8,J))+X(2,IX(9,J))
                  Z1=X(3,IX(2,J))+X(3,IX(3,J))+X(3,IX(4,J))+X(3,IX(5,J))+X(3,IX(6,J))+X(3,IX(7,J))+X(3,IX(8,J))+X(3,IX(9,J))
                  D2= MIN(D2,(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2)
-               END DO !JJ=LFT2,LLT2
+               END DO !JJ = LFT2, LLT2
              ENDIF
           END DO !NG=1,NGROUP
           XL=XL+ONE_OVER_8*SQRT(D2)

@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srota6_m1   ../starter/source/output/anim/srota6_M1.F
+!||    srota6_m1     ../starter/source/output/anim/srota6_M1.F
 !||--- called by ------------------------------------------------------
-!||    sigin20b    ../starter/source/elements/solid/solide20/s20mass3.F
-!||    sigin3b     ../starter/source/elements/solid/solid8p/sigin3b.F
-!||    userin3     ../starter/source/elements/solid/solide/userin3.F
-!||    ustrsin3    ../starter/source/elements/solid/solide/userin3.F
+!||    sigin20b      ../starter/source/elements/solid/solide20/s20mass3.F
+!||    sigin3b       ../starter/source/elements/solid/solid8p/sigin3b.F
+!||    userin3       ../starter/source/elements/solid/solide/userin3.F
+!||    ustrsin3      ../starter/source/elements/solid/solide/userin3.F
 !||--- calls      -----------------------------------------------------
-!||    scortho31   ../starter/source/elements/thickshell/solidec/scortho31.F
-!||    sortho31    ../starter/source/output/anim/sortho31.F
+!||    scortho31     ../starter/source/elements/thickshell/solidec/scortho31.F
+!||    sortho31      ../starter/source/output/anim/sortho31.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SROTA6_M1(X,IXS,KCVT,                                     
-     .                   TENS,GAMA,KHBE  ,ITYP  )                                     
+     .                   TENS,GAMA,KHBE  ,ITYP  )
+      use element_mod , only : nixs
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
@@ -107,10 +109,10 @@ C----------------------------
         Y8=X(2,NC8)                                                     
         Z8=X(3,NC8)                                                     
 C-----------                                                            
-C     REPERE CONVECTE.                                                  
+C     convected frame.                                                  
 C-----------  
        IF(KHBE/=15)THEN
-C        REPERE CONVECTE
+C        convected frame
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               
@@ -132,7 +134,7 @@ C        REPERE CONVECTE
      .               R11, R12, R13, R21, R22, R23, R31, R32, R33)
        ENDIF  
 C-----------                                                            
-C     REPERE ORTHOTROPE.                                                
+C     ORTHOTROPIC FRAME.                                                
 C-----------                                         
       IF (KCVT==2) THEN 
         IF (ISORTH > 0) THEN                                              

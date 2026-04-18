@@ -1,5 +1,5 @@
 Copyright>        OpenRadioss
-Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -48,10 +48,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on N of CAND_N CAND_E CAND_F
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -66,14 +66,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,NI,
+      INTEGER I,N,NN,K,NI,
      .        IGET(I_STOK),IPUT(I_STOK)
 C=======================================================================
 C
       DO 100 N=1,NSN+3
  100  CAND_A(N) = 0
 C=======================================================================
-C     LES NOEUDS DELETES DEVIENNENT NSN+1 
+C     LES NODES DELETES DEVIENNENT NSN+1 
 C=======================================================================
 C------for travelling nodes detected in imp_solv----- 
       IF(NUM_IMP>0)THEN
@@ -255,25 +255,23 @@ C
         ENDDO
       ENDIF
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NSN+3] : occurrence DES NODES [1:NSN+1] 
 C=======================================================================
       DO 300 I=1,I_STOK
         NN = CAND_N(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
  300  CONTINUE
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NSN+2] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
       DO 400 N=3,NSN+2
  400  CAND_A(N) = CAND_A(N) + CAND_A(N-1)
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NSN+1] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       DO 500 I=1,I_STOK
         NN = CAND_N(I) + 1
@@ -284,7 +282,7 @@ C=======================================================================
  500  CONTINUE
 C=======================================================================
 C     TRI DE CAND_N CAND_E CAND_P
-C     SUR N CROISSANT
+C     on increasing N
 C     PERMUTATION 1 PASSE
 C=======================================================================
       DO N=1,NUM_IMP
@@ -642,7 +640,7 @@ C
 
       ENDIF
 C=======================================================================
-C     CAND_A[NSN+1] : ADRESSE DE NSN+1 
+C     CAND_A[NSN+1] : ADDRESS DE NSN+1 
 C=======================================================================
       I_STOK = CAND_A(NSN+1) - 1
       CAND_A(NSN+2) = CAND_A(NSN+1)
@@ -670,10 +668,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on N of CAND_N CAND_E CAND_F
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -683,7 +681,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_ST0,N,NN,K,E,
+      INTEGER I,N,NN,K,E,
      .        IGET(I_STOK),IPUT(I_STOK),count,i_st_sav,ISH,SYM_SURF
 C=======================================================================
 C
@@ -725,8 +723,7 @@ C On solids, the symmetric is the same
       ENDDO
 
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NSN+3] : occurrence DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 2
@@ -734,8 +731,7 @@ C=======================================================================
       ENDDO
       
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NSN+2] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
@@ -743,9 +739,9 @@ C=======================================================================
         CAND_A(N) = CAND_A(N) + CAND_A(N-1)
       ENDDO
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NSN+1] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 1
@@ -756,7 +752,7 @@ C=======================================================================
       ENDDO
 C=======================================================================
 C     TRI DE CAND_N CAND_E CAND_P
-C     SUR N CROISSANT
+C     on increasing N
 C     PERMUTATION 1 PASSE
 C============================================= 
         DO K=1,I_STOK
@@ -774,7 +770,7 @@ C
           IGET(IPUT(I)) = I
         ENDDO
 C=======================================================================
-C     CAND_A[NSN+1] : ADRESSE DE NSN+1 
+C     CAND_A[NSN+1] : ADDRESS DE NSN+1 
 C=======================================================================
       I_STOK = CAND_A(NSN+1) - 1
       CAND_A(NSN+2) = CAND_A(NSN+1)

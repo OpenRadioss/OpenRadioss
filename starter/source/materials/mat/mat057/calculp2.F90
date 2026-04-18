@@ -1,5 +1,5 @@
 !Copyright>        OpenRadioss
-!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 !Copyright>
 !Copyright>        This program is free software: you can redistribute it and/or modify
 !Copyright>        it under the terms of the GNU Affero General Public License as published by
@@ -21,19 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    calculp2_mod    ../starter/source/materials/mat/mat057/calculp2.F90
+!||    calculp2_mod                         ../starter/source/materials/mat/mat057/calculp2.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_mat57                        ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat78                        ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_yield_criterion_barlat1989   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat1989.F90
+!||    hm_read_yield_criterion_barlat2000   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
 !||====================================================================
       module calculp2_mod
         implicit none
       contains
 !||====================================================================
-!||    calculp2        ../starter/source/materials/mat/mat057/calculp2.F90
+!||    calculp2                             ../starter/source/materials/mat/mat057/calculp2.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_mat57   ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat78   ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_mat57                        ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat78                        ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_yield_criterion_barlat1989   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat1989.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine calculp2(a    ,c    ,h    ,p    ,m    ,r45  )
@@ -86,7 +89,7 @@
             df    = a*((m-one)*(ca-cb)-(ca1-cb1)*(m+(one+r45)*c5/gama)) + m*abg1
             df    = half*df*pp/gama
             pp    = pp - f/df
-          enddo
+          end do
           p = pp
 !
         end subroutine calculp2
