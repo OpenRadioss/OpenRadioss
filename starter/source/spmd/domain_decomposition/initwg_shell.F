@@ -145,7 +145,7 @@ C-----------------------------------------------
         ! -----------------
         NPN = NINT(GEO(6,PID))
         NPT = ABS(NPN) ! get the number of integration points
-        if(iworksh(2,i)>0) npt = iworksh(2,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
+        if(iworksh(1,i)>0) npt = iworksh(1,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
         IHBE = NINT(GEO(171,PID))
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
