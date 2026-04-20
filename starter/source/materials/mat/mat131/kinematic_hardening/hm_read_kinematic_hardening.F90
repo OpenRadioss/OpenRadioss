@@ -81,24 +81,22 @@
           real(kind=WP),           intent(inout) :: chard                 !< Kinematic hardening parameter
 !===============================================================================
 !     
-          !< Select kinematic hardening type
-          select case (type(1:4))
-            !===================================================================
-            !< Prager kinematic hardening parameters
-            !===================================================================
-            case ('PRAG')
-              call hm_read_kinematic_hardening_prager(                         &
-                ikey     ,ikine    ,nupar_kine,chard      ,is_available,       &
-                unitab   ,lsubmodel,iout     ,is_encrypted,mtag      )
-            !===================================================================
-            !< Chaboche-Rousselier kinematic hardening parameters
-            !===================================================================
-            case ('CHAB')
-              call hm_read_kinematic_hardening_chaboche(                       &
-                ikey     ,ikine    ,nupar_kine,upar_kine  ,chard       ,       &
-                is_available,unitab,lsubmodel ,iout       ,is_encrypted,       &
-                mtag     )
-          end select
+          !=====================================================================
+          !< Prager kinematic hardening parameters
+          !=====================================================================
+          if (type(1:6) == 'PRAGER') then
+            call hm_read_kinematic_hardening_prager(                           &
+              ikey     ,ikine    ,nupar_kine,chard      ,is_available,         &
+              unitab   ,lsubmodel,iout     ,is_encrypted,mtag      )
+          !=====================================================================
+          !< Chaboche-Rousselier kinematic hardening parameters
+          !=====================================================================
+          elseif (type(1:8) == 'CHABOCHE') then
+            call hm_read_kinematic_hardening_chaboche(                         &
+              ikey     ,ikine    ,nupar_kine,upar_kine  ,chard       ,         &
+              is_available,unitab,lsubmodel ,iout       ,is_encrypted,         &
+              mtag     )
+          endif
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_kinematic_hardening
       end module hm_read_kinematic_hardening_mod

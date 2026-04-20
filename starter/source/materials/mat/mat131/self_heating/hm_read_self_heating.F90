@@ -91,24 +91,22 @@
           type(mlaw_tag_),         intent(inout) :: mtag                  !< Material tag for internal variables in element buffer
 !===============================================================================
 !    
-          !< Select self heating type
-          select case (type(1:4))
-            !===================================================================
-            !< Taylor-Quinney self heating parameters
-            !===================================================================
-            case ('TAYL')
-              call hm_read_self_heating_taylor(                                &
-                ikey     ,iheat    ,nupar_heat   ,upar_heat   ,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted,matparam    )
-            !===================================================================
-            !<  Tabulated self heating parameters
-            !===================================================================
-            case ('TAB ')    
-              call hm_read_self_heating_tabulated(                             &
-                ikey     ,iheat    ,ntab_heat,itab_heat   ,x2vect ,x3vect   ,  &
-                x4vect   ,fscale   ,nvartmp  ,is_available,unitab ,lsubmodel,  &
-                iout     ,is_encrypted       ,nupar_heat  ,upar_heat,matparam)
-          end select
+          !=====================================================================
+          !< Taylor-Quinney self heating parameters
+          !=====================================================================
+          if (type(1:6) == 'TAYLOR') then
+            call hm_read_self_heating_taylor(                                  &
+              ikey     ,iheat    ,nupar_heat   ,upar_heat   ,is_available,     &
+              unitab   ,lsubmodel,iout         ,is_encrypted,matparam    )
+          !=====================================================================
+          !<  Tabulated self heating parameters
+          !=====================================================================
+          elseif (type(1:3) == 'TAB') then
+            call hm_read_self_heating_tabulated(                               &
+              ikey     ,iheat    ,ntab_heat,itab_heat   ,x2vect ,x3vect   ,    &
+              x4vect   ,fscale   ,nvartmp  ,is_available,unitab ,lsubmodel,    &
+              iout     ,is_encrypted       ,nupar_heat  ,upar_heat,matparam)
+          endif
 !
           !< Set temperature variable tag
           if (mtag%g_temp == 0) mtag%g_temp = 1

@@ -95,41 +95,39 @@
           integer,                 intent(inout) :: nvartmp               !< number of variables used in tabulated strain rate dependency
 !===============================================================================
 !    
-          !< Select strain rate dependency type
-          select case (type(1:4))
-            !===================================================================
-            !< Johnson-Cook strain rate dependency parameters
-            !===================================================================
-            case ('JOHN')
-              call hm_read_srate_dependency_johnsoncook(                       &
-                ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,   &
-                israte   ,parmat   )
-            !===================================================================
-            !< Cowper-Symonds strain rate dependency parameters
-            !===================================================================
-            case ('COWP')
-              call hm_read_srate_dependency_cowpersymonds(                     &
-                ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,   &
-                israte   ,parmat   )
-            !===================================================================
-            !< Tabulated strain rate dependency parameters
-            !===================================================================
-            case ('TAB ')
-              call hm_read_srate_dependency_tabulated(                         &
-                ikey     ,iratedep ,ntab_srate,itab_srate  ,x2vect ,x3vect   , &
-                x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel, &
-                iout     ,is_encrypted,vpflag ,israte      ,parmat )
-            !===================================================================
-            !< Non-linear strain rate dependency parameters
-            !===================================================================
-            case ('NLIN')
-              call hm_read_srate_dependency_nonlinear(                         &
-                ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,   &
-                unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,   &
-                israte   ,parmat   )
-          end select
+          !=====================================================================
+          !< Johnson-Cook strain rate dependency parameters
+          !=====================================================================
+          if (type(1:11) == 'JOHNSONCOOK') then
+            call hm_read_srate_dependency_johnsoncook(                         &
+              ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,     &
+              unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,     &
+              israte   ,parmat   )
+          !=====================================================================
+          !< Cowper-Symonds strain rate dependency parameters
+          !=====================================================================
+          elseif (type(1:6) == 'COWPER') then
+            call hm_read_srate_dependency_cowpersymonds(                       &
+              ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,     &
+              unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,     &
+              israte   ,parmat   )
+          !=====================================================================
+          !< Tabulated strain rate dependency parameters
+          !=====================================================================
+          elseif (type(1:3) == 'TAB') then
+            call hm_read_srate_dependency_tabulated(                           &
+              ikey     ,iratedep ,ntab_srate,itab_srate  ,x2vect ,x3vect   ,   &
+              x4vect   ,fscale   ,nvartmp   ,is_available,unitab ,lsubmodel,   &
+              iout     ,is_encrypted,vpflag ,israte      ,parmat )
+          !=====================================================================
+          !< Non-linear strain rate dependency parameters
+          !=====================================================================
+          elseif (type(1:7) == 'NLINEAR') then
+            call hm_read_srate_dependency_nonlinear(                           &
+              ikey     ,iratedep ,nupar_ratedep,upar_ratedep,is_available,     &
+              unitab   ,lsubmodel,iout         ,is_encrypted,vpflag      ,     &
+              israte   ,parmat   )
+          endif
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_srate_dependency
       end module hm_read_srate_dependency_mod
