@@ -90,7 +90,6 @@ C-----------------------------------------------
       my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
 C-----------------------------------------------
       IKEY = KANIM
-      ANIMCONT = 0
       output%nb_anim_frame = 0
       output%DTANIM_FCT_ID = 0
 C-----------------------------------------------
@@ -224,7 +223,6 @@ C-----------------------------------------------
         NFE_ANI = NFE_ANI + ANIM_FE(I)
       ENDDO
       IF(ANIM_V(12)==1)NV_ANI=NV_ANI+1
-      IF(ANIM_V(4)==1.AND.ANIMCONT == 0) NV_ANI=NV_ANI-1
       IF(ANIM_V(27)==1)NV_ANI=NV_ANI+1
 C-----------------------------------------------
 C     Anim cut not worn in SPMD
