@@ -3484,7 +3484,7 @@ C-----------------------------------------------
           IF(ANIM_V(1)==1) CALL ANI_TXT('Velocity',8)
           IF(ANIM_V(2)==1) CALL ANI_TXT('Displacement',12)
           IF(ANIM_V(3)==1) CALL ANI_TXT('Acceleration',12)
-          IF(ANIM_V(4)==1.AND.ANIMCONT==1) CALL ANI_TXT('Contact Forces',14)
+          IF(ANIM_V(4)==1) CALL ANI_TXT('Contact Forces',14)
           IF(ANIM_V(5)==1) CALL ANI_TXT('Internal Forces',15)
           IF(ANIM_V(6)==1) CALL ANI_TXT('External Forces',15)
           IF(ANIM_V(7)==1) CALL ANI_TXT('Sect.RBY,Wall F.',16)
@@ -3538,7 +3538,7 @@ C     ENDIF
      .   CALL VELVEC(A,A_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .         NNNSRG,NODGLOB,WEIGHT,NFVNOD,3,
      .         NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-        IF(ANIM_V(4)==1.AND.ANIMCONT==1)THEN
+        IF(ANIM_V(4)==1)THEN
           IF(NINTSTAMP==0)THEN
             CALL VELVECC(CONT,CONT_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .          NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,

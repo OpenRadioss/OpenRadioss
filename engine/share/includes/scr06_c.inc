@@ -23,12 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C.../SCR06/
       COMMON /SCR06/ INERI, IPLAST, IOFC0, ISHF, NCINP, 
      .               IREPORT,IH3DREADER,IHTML,
-     .               IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
+     .               IMVW,IMVW_REF,NINTSKIDOLD
       COMMON /SCR06R/ HVISC, HELAS, HVLIN, DT12S,
      .        DMTMXS,DMNMXS,DEMXS,DMTMXK,DMNMXK,DEMXK
       INTEGER INERI, IPLAST, IOFC0, ISHF, NCINP, 
      .        IREPORT,IH3DREADER,IHTML,
-     .        IMVW,IMVW_REF,NINTSKIDOLD,ANIMCONT
+     .        IMVW,IMVW_REF,NINTSKIDOLD
       my_real 
      .        HVISC, HELAS, HVLIN, DT12S,
      .        DMTMXS,DMNMXS,DEMXS,DMTMXK,DMNMXK,DEMXK

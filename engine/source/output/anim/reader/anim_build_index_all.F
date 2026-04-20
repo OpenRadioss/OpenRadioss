@@ -980,7 +980,6 @@ C
         NFE_ANI = NFE_ANI + ANIM_FE(I)
        ENDDO
        IF(ANIM_V(12) == 1)NV_ANI=NV_ANI+1
-       IF(ANIM_V(4)==1.AND.ANIMCONT == 0) NV_ANI=NV_ANI-1
        IF(ANIM_V(27)==1)NV_ANI=NV_ANI+1
       ENDIF
 C-----
