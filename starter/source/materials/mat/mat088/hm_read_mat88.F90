@@ -592,6 +592,8 @@
           !<======================================================================
           !< Young modulus
           e = dydx
+          !< Default bulk modulus
+          if (bulk == zero) bulk = e/(three*(one - two*nu))
           !< Shear modulus
           gs = three*bulk*e/(nine*bulk - e)
           if (gs < zero) then
