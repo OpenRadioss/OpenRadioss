@@ -148,7 +148,7 @@ C-----------------------------------------------
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
         NPT = MAX(ABS(NPN),1)
-        if(iworksh(2,numelc+i)>0) npt = iworksh(2,i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
+        if(iworksh(1,numelc+i)>0) npt = iworksh(1,numelc+i) ! if ply data is available, get the number of integration points from ply data (for composite materials)
         FLAG_NON_LOCAL = 0  
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
