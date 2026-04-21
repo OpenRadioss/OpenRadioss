@@ -98,7 +98,7 @@ C         WRITE(6,*) NIN,NTY,IEDGE
      .                              LOCAL_ID_SEG,
      .                              CEP_EDGE,
      .                              LOCAL_ID_EDG,
-     .                              CEP,SCEP,IPARI(101,NIN))
+     .                              CEP,SCEP)
         
          nbCandE2E = INTBUF_TAB(NIN)%I_STOK_E(1)
          nbCandE2S = INTBUF_TAB(NIN)%I_STOK_E(2)
@@ -238,7 +238,7 @@ CC ==========
      .                                 LOCAL_ID_SEG,
      .                                 CEP_EDGE,
      .                                 LOCAL_ID_EDG,
-     .                                 CEP,SCEP,NEDGE_1D)
+     .                                 CEP,SCEP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -256,7 +256,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) ::  LOCAL_ID_SEG(NRTM)
       INTEGER, INTENT(INOUT) ::  CEP_EDGE(NEDGE)
       INTEGER, INTENT(INOUT) ::  LOCAL_ID_EDG(NEDGE)
-      INTEGER, INTENT(IN) ::  SCEP,NEDGE_1D
+      INTEGER, INTENT(IN) ::  SCEP
       INTEGER, DIMENSION(SCEP), INTENT(IN) :: CEP !< connectivity element --> processor
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -282,7 +282,7 @@ C FREE EDGES
       DO I=1, NEDGE
         E1=LEDGE(1,I)
         E2=LEDGE(3,I)
-        IF(E2 == 0.AND.LEDGE(7,I)/=3) THEN
+        IF(E2 == 0.AND.IABS(LEDGE(7,I))/=3) THEN
           ISPMD = CEP_SEG(E1)
           NB_FREE_EDGES(ISPMD) = NB_FREE_EDGES(ISPMD) + 1
           EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) + 1
@@ -296,7 +296,7 @@ C FREE EDGES
 
 C INTERNAL EDGES 
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           E2=LEDGE(3,I)
           ISPMD = CEP_SEG(E1)
@@ -310,12 +310,24 @@ C INTERNAL EDGES
             LEDGE(9,I) = ISPMD - 1
             LEDGE(10,I) = LOCAL_ID_EDG(I)
           END IF
+        ELSE
+          E1=LEDGE(15,I)
+           IF(E1 /= 0) THEN
+              ISPMD = CEP(E1) + 1
+             NB_INTERNAL_EDGES(ISPMD) = NB_INTERNAL_EDGES(ISPMD) + 1
+              EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) + 1
+              CEP_EDGE(I) = ISPMD - 1
+              LOCAL_ID_EDG(I) = EDGE_LOCAL(ISPMD)
+              ASSERT(LEDGE(9,I) == 0)
+              LEDGE(9,I) = ISPMD - 1
+              LEDGE(10,I) = LOCAL_ID_EDG(I)
+           END IF
         ENDIF
       ENDDO
 
 C BOUNDARY EDGE LOCAL
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           E2=LEDGE(3,I)
           ISPMD = CEP_SEG(E1)
@@ -331,23 +343,6 @@ C BOUNDARY EDGE LOCAL
           END IF
         ENDIF
       ENDDO
-C 1D element EDGES
-      IF(NEDGE_1D >0 ) THEN   
-        DO I=1, NEDGE
-          IF(LEDGE(7,I)==3) THEN
-           E1=LEDGE(15,I)
-           IF(LEDGE(7,I)==3) THEN
-              ISPMD = CEP(E1) + 1
-              EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) + 1
-              CEP_EDGE(I) = ISPMD - 1
-              LOCAL_ID_EDG(I) = EDGE_LOCAL(ISPMD)
-              ASSERT(LEDGE(9,I) == 0)
-              LEDGE(9,I) = ISPMD - 1
-              LEDGE(10,I) = LOCAL_ID_EDG(I)
-           END IF
-          ENDIF
-         ENDDO
-      ENDIF
 
 
 

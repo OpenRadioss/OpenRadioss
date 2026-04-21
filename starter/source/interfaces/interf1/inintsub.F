@@ -69,13 +69,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2NSV,NOD2RTM,NOD2RTMS,NOD2RTMM,KAD,TAGNOD,TAGRTM
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGLINS,TAGLINM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGLINS,TAGLINM,TAGEDG,NOD2EDG
       TARGET NOD2NSV
        INTEGER, DIMENSION(:), POINTER :: IADD
       INTEGER J,K,
      .   NI,NOINT,NTY,NRTS,NRTM,NSN,NMN,MULTIMP,IFQ,NRTM_SH,NRTM0,
      .   NISUB, NISUBS, NISUBM, JSUB, IS,
-     .   IM, N,STAT,NT19,NSNE,NRTSE
+     .   IM, N,STAT,NT19,NSNE,NRTSE,
+     .   NEDGE_1D,MAXEDG,NEDGE,NISUBE
       CHARACTER MESS*40
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -97,11 +98,19 @@ C=======================================================================
       ALLOCATE (NOD2RTM(4*MAXRTM)      ,STAT=stat)
       ALLOCATE (NOD2RTMS(2*MAXRTMS)      ,STAT=stat)
       ALLOCATE (NOD2RTMM(2*MAXRTMS)      ,STAT=stat)  
-      ALLOCATE (KAD(MAX(NUMNOD+MAXNSNE,MAXRTM,MAXRTMS)),STAT=stat)
       ALLOCATE (TAGNOD(NUMNOD)      ,STAT=stat)
       ALLOCATE (TAGRTM(MAXRTM)      ,STAT=stat)
       ALLOCATE (TAGLINS(MAXRTMS)      ,STAT=stat)
       ALLOCATE (TAGLINM(MAXRTMS)      ,STAT=stat)
+      MAXEDG = 0
+      DO NI=1,NINTER
+        NTY  =IPARI(7,NI)
+        NEDGE_1D=IPARI(101,NI)
+        IF (NTY==25) MAXEDG = MAX(MAXEDG,NEDGE_1D)
+      ENDDO
+      ALLOCATE (NOD2EDG(2*MAXEDG)      ,STAT=stat)
+      ALLOCATE (TAGEDG(MAXEDG)      ,STAT=stat)
+      ALLOCATE (KAD(MAX(NUMNOD+MAXNSNE,MAXRTM,MAXRTMS,MAXEDG)),STAT=stat)
 C
       IADD => NOD2NSV(1:NUMNOD+1)
       DO NI=1,NINTER
@@ -134,13 +143,20 @@ C
                NSNE   = IPARI(55,NI)
                NRTSE  = IPARI(55,NI)
             ENDIF
+            NEDGE_1D = 0
+            IF(NTY==25) THEN
+              NEDGE_1D=IPARI(101,NI)
+            ENDIF
+            NEDGE = IPARI(68,NI)
+            NISUBE = IPARI(90,NI)
 C
             IF(NISUB/=0)THEN    
                CALL ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                        NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                        NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
      .                        TAGNOD    ,TAGRTM ,IADD    ,NSNE    ,NTY       ,
-     .                        NRTSE     )   
+     .                        NRTSE     ,NEDGE_1D,NOD2EDG,TAGEDG  ,MAXEDG    ,
+     .                        NEDGE     ,NISUBE  ,NLEDGE)   
             END IF
 
 C------------------------------------------
@@ -349,6 +365,7 @@ C
       DEALLOCATE (TAGRTM)
       DEALLOCATE (TAGNOD)
       DEALLOCATE (TAGLINS,TAGLINM)
+      DEALLOCATE (TAGEDG,NOD2EDG)
 C 
 C-------------------------------------
  1000 FORMAT(    /1X,'   STRUCTURE OF SUB-INTERFACES OUTPUT TO TH'/
