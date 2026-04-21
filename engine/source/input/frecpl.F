@@ -55,10 +55,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, NBC, K, IKEY, NBCCON
-      my_real ULENGTH,UTIME,UMASS,TRAX,TRAY,TRAZ,ROTXX,ROTYY,ROTZZ,ROTXY,ROTXZ,ROTYZ
+      INTEGER NBC, K, IKEY, NBCCON
+      my_real ULENGTH,UTIME,UMASS
       CHARACTER KEY2*5,ONCOD*5
-      CHARACTER(LEN=NCHARLINE100):: CARTE
       PARAMETER (NBCCON=1)
       DATA ONCOD/'ONOFF'/
 C-----------------------------------------------

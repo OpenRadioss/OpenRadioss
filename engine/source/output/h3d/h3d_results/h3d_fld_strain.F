@@ -83,13 +83,15 @@ C-----------------------------------------------
            LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
             IF (MLWI == 12 .OR. MLWI == 14) THEN
               DO I=1,NEL               
-               EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
-               EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
+               EVAR(1,I) = LBUF%EPE(JJ(1) + I)
+               EVAR(2,I) = LBUF%EPE(JJ(2) + I)
+               EVAR(3,I) = HALF*LBUF%EPE(JJ(4) + I)
               ENDDO                   
             ELSEIF (MLWI /= 49 ) THEN                 
               DO I=1,NEL               
-               EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
-               EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
+               EVAR(1,I) = LBUF%STRA(JJ(1) + I)
+               EVAR(2,I) = LBUF%STRA(JJ(2) + I)
+               EVAR(3,I) = HALF*LBUF%STRA(JJ(4) + I)
               ENDDO                   
             END IF               
 C------      
@@ -99,8 +101,9 @@ C------
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
                  DO I=1,NEL               
-                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
-                  EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
+                  EVAR(1,I) = EVAR(1,I)+LBUF%EPE(JJ(1) + I)
+                  EVAR(2,I) = EVAR(2,I)+LBUF%EPE(JJ(2) + I)
+                  EVAR(3,I) = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
                  ENDDO                   
               END DO 
             END DO 
@@ -109,8 +112,9 @@ C------
               DO IS=1,NPTS
                  LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
                  DO I=1,NEL               
-                  EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
-                  EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
+                  EVAR(1,I) = EVAR(1,I)+LBUF%STRA(JJ(1) + I)
+                  EVAR(2,I) = EVAR(2,I)+LBUF%STRA(JJ(2) + I)
+                  EVAR(3,I) = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
                  ENDDO                   
               ENDDO 
             END DO 
@@ -121,7 +125,8 @@ C------
         IF (KCVT==2) THEN
            IF(IOR_TSH==1)THEN
              DO I=1,NEL
-              DIR(I,1:2)= GBUF%GAMA(JJ(1:2) + I)
+              DIR(I,1)= GBUF%GAMA(JJ(1) + I)
+              DIR(I,2)= GBUF%GAMA(JJ(2) + I)
              ENDDO
            ELSEIF(IOR_TSH==2)THEN
              IF(JHBE==14)THEN
@@ -130,7 +135,8 @@ C------
              END IF
              LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)         
              DO I=1,NEL
-              DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
+              DIR(I,1)= LBUF%GAMA(JJ(1) + I)
+              DIR(I,2)= LBUF%GAMA(JJ(2) + I)
              ENDDO
            END IF
            CALL TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)

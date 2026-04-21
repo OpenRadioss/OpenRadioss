@@ -242,7 +242,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, KK, RETRI, NSENSOR,
      .        IAD17, IGN, IGE, NME, NMES,J,K,
-     .        IDUM, IADI, NRTM_T, NME_T, NEDGE_T, ESHIFT, SSHIFT, MULTIMP,
+     .        IDUM, IADI, NRTM_T, NME_T, NEDGE_T, ESHIFT, SSHIFT,
      .        ISENS,NBF,NBL,IB, NIN,NSNE_MAX,L_FIC,NNOD3,NSNE3,
      .        NBINTC21, ITHK
       my_real PCT1, TS,DELTA_PMAX_DGAP(NINTER),LEN

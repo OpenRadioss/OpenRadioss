@@ -907,7 +907,7 @@ C-----------------------------------------------
      +        ICONT(MVSIZ,4)
 C     REAL
       my_real
-     + SI_S(MVSIZ,*),NI_S(MVSIZ,*),RI_S,TI_S ,
+     + SI_S(MVSIZ,*),NI_S(MVSIZ,*),RI_S(MVSIZ,*),TI_S(MVSIZ,*) ,
      + XXS(MVSIZ,*) ,YYS(MVSIZ,*) ,ZZS(MVSIZ,*) ,
      + XX(MVSIZ,*)  ,YY(MVSIZ,*)  ,ZZ(MVSIZ,*) ,
      + R_CM(MVSIZ) ,S_CM(MVSIZ) ,T_CM(MVSIZ),

@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       logical :: condition
-      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL
+      INTEGER NG, I, J, K, NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ)
       INTEGER MAT(MVSIZ)
       integer :: fsky_nb,nnod

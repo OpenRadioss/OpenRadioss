@@ -203,7 +203,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IP,NF1,NF2,IFLAG,IOFFS,IPTR,IPTS,IPTT,ILAY,IMAT
-      INTEGER IBID,IBIDON(1),ITET,ISM12_11,IOFFG,ISUM
+      INTEGER IBID,IBIDON(1),ITET,ISM12_11,IOFFG
 C-----
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),ITAG10(MVSIZ)
       my_real

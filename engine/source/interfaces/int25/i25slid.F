@@ -401,7 +401,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, NI25, NSN, NSNR, NADMSR, NRTM, I_MEM, SIZOPT, K_STOK,
+      INTEGER NIN, NI25, NSN, NSNR, NADMSR, NRTM, SIZOPT, K_STOK,
      .        I_STOK_OPT, FLAGREMN
       INTEGER NSV(*), CAND_N(*),CAND_E(*),ITAB(*),IRECT(4,*), MSEGLO(*),
      .        MSEGTYP(*), ADMSR(4,*), ISLIDE(4,*),
@@ -738,7 +738,7 @@ C-----------------------------------------------
      .        SIZBUFS(NSPMD),NSENDTOT
       INTEGER ITAB(*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*),
-     .        NADD(*), KADD(*), IRTLM(4,NSN), NSV(*)
+     .        NADD(*), KADD(*), NSV(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -821,7 +821,7 @@ C-----------------------------------------------
      .        RSIZ, ISIZ, INTFRIC, IVIS2, SIZBUFS(NSPMD)
       INTEGER ITAB(*), INDEX(*), FR_SLIDE(4,*)
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*),
-     .        NADD(*), KADD(*), IRTLM(4,NSN), NSV(*)
+     .        NADD(*), KADD(*), NSV(*)
       INTEGER , INTENT(INOUT) :: ISTIF_MSDT, IFSUB_CAREA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

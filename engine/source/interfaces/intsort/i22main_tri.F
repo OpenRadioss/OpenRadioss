@@ -113,7 +113,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*),
-     .        IXS(NIXS,*),NSHELL,  COUNT_REMSLV(*)
+     .        IXS(NIXS,*),  COUNT_REMSLV(*)
       INTEGER , INTENT(IN) :: NODADT_THERM
       my_real 
      .   X(3,*), V(3,*), MS(*),TEMP(*)
@@ -128,9 +128,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC, P,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ,
-     .        IAD, J, NF, NL, I1, I2, REM_P(NSPMD-1)
+     .        I, IP1, I_SK_OLD, 
+     .        NB_N_B, NOINT, INACTI, MULTIMP, IFQ,
+     .        J, NF, NL, I1, I2, REM_P(NSPMD-1)
       INTEGER ::
      .        NBRIC_G,  !number of bricks in the whole model
      .        NBRIC_L,  !number of bricks in the domain (not split across threads)
@@ -140,19 +140,19 @@ C-----------------------------------------------
      .        NSHELR_L !number of remote facets in the domain
 ! number of remote facets in the domain (for the current thread)
       INTEGER 
-     .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        ILD, NCONT, NCONTACT, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),
-     .        ISU1, ISU2, NBF, NBL, IBID, COUNT_CAND, CT,INTFRIC
+     .        ISU1, IBID, COUNT_CAND, CT,INTFRIC
       LOGICAL ::
      .        IS_CONTACT
       my_real
      .   GAP,MAXBOX,MINBOX,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
-     .   C_MAXL,BID,
-     .   CURV_MAX(NRTM_T),RDUM1(1), STFE, 
+     .   C_MAXL,
+     .   CURV_MAX(NRTM_T), STFE, 
      .   BMINMA_AND_R(6), !intersection fluid in local domain and remote lag faces
      .   BMINMA_AND(6),  !intersection fluid in local domain and all faces
-     .   vel(4), vel_max
+     .   vel(4)
       INTEGER :: NRTM,NSN,NTY,NMN
       logical :: need_computation
 C-----------------------------------------------
@@ -761,11 +761,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IB, NE, TAB(8*NBRIC)
+      INTEGER IB, NE
       my_real
-     .   XX(8), YY(8), ZZ(8), DIAG(4)
-      CHARACTER*8 KEY
-      INTEGER I,J, NBF, NBL
+     .   XX(8), YY(8), ZZ(8)
+!      CHARACTER*8 KEY
+      INTEGER NBF, NBL
 C-----------------------------------------------
 
 !---------------debug---------------
@@ -841,14 +841,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::
-     .        IE, NE, N(4), NRTMR
+     .        IE, N(4)
 
       my_real ::
      .        XX(4), YY(4), ZZ(4),
      .        XMIN,YMIN,ZMIN,
      .        XMAX,YMAX,ZMAX
-      INTEGER TAB(4*NRTM), J, I,  ITAB(*)
-      CHARACTER*8 KEY
+      INTEGER J, ITAB(*)
+!      CHARACTER*8 KEY
 C-----------------------------------------------
 
 !---------------debug---------------

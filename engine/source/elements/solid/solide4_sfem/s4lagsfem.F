@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       logical :: condition
-      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL,NNOD,ICPRE,IBID,IP
+      INTEGER NG, I, J, K, NEL,NNOD,ICPRE,IP
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC(MVSIZ,10)
       integer :: fsky_nb
       integer :: my_address,my_index

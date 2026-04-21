@@ -141,7 +141,7 @@
             sigdxx,sigdyy,sigdzz,sigdxy,sigdyz,sigdzx,sigdeff,erate,rv,rv_mth,   &
             gmax,ecurent,loadflg_old,gunl,dgunldlam,ratioR,fcrit,                &
             i1,i2,fJ,dfJdx,gJ,dgJdlam,dgJsqrdlam,gJsqr,xhat_dom,xfoam
-          real(kind=WP), dimension(3,3) :: epsp
+          real(kind=WP), dimension(3,3) :: epsp, dirprv_loc
           real(kind=WP), dimension(nel,3) :: lam,evvp,ee,eep,f,dfdlam,t,g,gsqr,&
             dgdlam,dgsqrdlam
           real(kind=WP), dimension(nel,6) :: xvec
@@ -254,8 +254,9 @@
             epsp(3,2) = epsp(2,3)
             epsp(3,1) = epsp(1,3)
             !< Principal strain rate tensor
-            epsp(1:3,1:3) = matmul(epsp(1:3,1:3),dirprv(i,1:3,1:3))
-            epsp(1:3,1:3) = matmul(transpose(dirprv(i,1:3,1:3)),epsp(1:3,1:3))
+            dirprv_loc(1:3,1:3) = dirprv(i,1:3,1:3)
+            epsp(1:3,1:3) = matmul(epsp(1:3,1:3),dirprv_loc(1:3,1:3))
+            epsp(1:3,1:3) = matmul(transpose(dirprv_loc(1:3,1:3)),epsp(1:3,1:3))
             evvp(i,1) = epsp(1,1)
             evvp(i,2) = epsp(2,2)
             evvp(i,3) = epsp(3,3)
@@ -822,23 +823,23 @@
 !
             !< Transform principal stresses t(i,*) back to global coordinates
             signxx(i) = dirprv(i,1,1) * dirprv(i,1,1) * t(i,1) +                 &
-                        dirprv(i,1,2) * dirprv(i,1,2) * t(i,2) +                 &
-                        dirprv(i,1,3) * dirprv(i,1,3) * t(i,3)
+              dirprv(i,1,2) * dirprv(i,1,2) * t(i,2) +                 &
+              dirprv(i,1,3) * dirprv(i,1,3) * t(i,3)
             signyy(i) = dirprv(i,2,1) * dirprv(i,2,1) * t(i,1) +                 &
-                        dirprv(i,2,2) * dirprv(i,2,2) * t(i,2) +                 &
-                        dirprv(i,2,3) * dirprv(i,2,3) * t(i,3)
+              dirprv(i,2,2) * dirprv(i,2,2) * t(i,2) +                 &
+              dirprv(i,2,3) * dirprv(i,2,3) * t(i,3)
             signzz(i) = dirprv(i,3,1) * dirprv(i,3,1) * t(i,1) +                 &
-                        dirprv(i,3,2) * dirprv(i,3,2) * t(i,2) +                 &
-                        dirprv(i,3,3) * dirprv(i,3,3) * t(i,3)
+              dirprv(i,3,2) * dirprv(i,3,2) * t(i,2) +                 &
+              dirprv(i,3,3) * dirprv(i,3,3) * t(i,3)
             signxy(i) = dirprv(i,1,1) * dirprv(i,2,1) * t(i,1) +                 &
-                        dirprv(i,1,2) * dirprv(i,2,2) * t(i,2) +                 &
-                        dirprv(i,1,3) * dirprv(i,2,3) * t(i,3)
+              dirprv(i,1,2) * dirprv(i,2,2) * t(i,2) +                 &
+              dirprv(i,1,3) * dirprv(i,2,3) * t(i,3)
             signyz(i) = dirprv(i,2,1) * dirprv(i,3,1) * t(i,1) +                 &
-                        dirprv(i,2,2) * dirprv(i,3,2) * t(i,2) +                 &
-                        dirprv(i,2,3) * dirprv(i,3,3) * t(i,3)
+              dirprv(i,2,2) * dirprv(i,3,2) * t(i,2) +                 &
+              dirprv(i,2,3) * dirprv(i,3,3) * t(i,3)
             signzx(i) = dirprv(i,3,1) * dirprv(i,1,1) * t(i,1) +                 &
-                        dirprv(i,3,2) * dirprv(i,1,2) * t(i,2) +                 &
-                        dirprv(i,3,3) * dirprv(i,1,3) * t(i,3)
+              dirprv(i,3,2) * dirprv(i,1,2) * t(i,2) +                 &
+              dirprv(i,3,3) * dirprv(i,1,3) * t(i,3)
 !
             !< Estimate effective directional shear modulus for stability
             !  (bulk vs. curve slope)
@@ -880,8 +881,8 @@
             !< New energy increment
             deint(i) = deint0(i) +                                               &
               half*(signxx(i)*depsxx(i) + signyy(i)*depsyy(i)  +                 &
-                    signzz(i)*depszz(i) + signxy(i)*depsxy(i)  +                 &
-                    signyz(i)*depsyz(i) + signzx(i)*depszx(i))
+              signzz(i)*depszz(i) + signxy(i)*depsxy(i)  +                 &
+              signyz(i)*depsyz(i) + signzx(i)*depszx(i))
             !< Update current and maximum energies
             ecurent(i) = max(em20, uvar(i,2) + deint(i))
             emax(i)    = max(uvar(i,1), ecurent(i))
@@ -949,11 +950,11 @@
               !< Invariants of the stretch tensor
               i1(i) = lam(i,1)**2 + lam(i,2)**2 + lam(i,3)**2
               i2(i) = lam(i,1)**2 * lam(i,2)**2 +                                &
-                      lam(i,2)**2 * lam(i,3)**2 +                                &
-                      lam(i,3)**2 * lam(i,1)**2
+                lam(i,2)**2 * lam(i,3)**2 +                                &
+                lam(i,3)**2 * lam(i,1)**2
               !< Failure criterion
               fcrit(i) = (i1(i) - three) + gam1*(i1(i) - three)**2 +             &
-                                           gam2*(i2(i) - three)
+                gam2*(i2(i) - three)
               !< List of elements that can be damaged
               if ((dmg(i) < one).and.(off(i) == one)) then
                 nindx_dam = nindx_dam + 1

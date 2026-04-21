@@ -450,11 +450,11 @@ C
             IPOS2(I) = VARTMP(I,J2+2)
             YFAC(I,1)= UPARAM(6+NRATE+J1) * FACYLDI(I)
             YFAC(I,2)= UPARAM(6+NRATE+J2) * FACYLDI(I)
+            IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
+            ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I) - IPOS1(I)
+            IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1
+            ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I) - IPOS2(I)
           ENDDO
-          IAD1(1:NEL)  = NPF(IFUNC(JJ(1:NEL))) / 2 + 1
-          ILEN1(1:NEL) = NPF(IFUNC(JJ(1:NEL))+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
-          IAD2(1:NEL)  = NPF(IFUNC(JJ(1:NEL)+1)) / 2 + 1
-          ILEN2(1:NEL) = NPF(IFUNC(JJ(1:NEL)+1)+1) / 2 - IAD2(1:NEL) - IPOS2(1:NEL)
 C
           CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
           CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)

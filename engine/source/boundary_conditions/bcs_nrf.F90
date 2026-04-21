@@ -205,7 +205,7 @@
 
                 AREA = HALF*L
 
-                NOD(1:4) = (/NOD1,NOD2,NOD3,NOD4/)
+                NOD(1) = NOD1 ; NOD(2) = NOD2 ; NOD(3) = NOD3 ; NOD(4) = NOD4
                 fx(4) = zero
                 fy(4) = zero
                 fz(4) = zero

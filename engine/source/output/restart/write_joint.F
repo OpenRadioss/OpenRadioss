@@ -63,7 +63,7 @@ C-----------------------------------------------
                 NUMBER_NODE(N) = CYL_JOIN(N)%NUMBER_NODE
             ENDDO
             !   number of node per proc (all proc --> size=nspmd)
-            CALL WRITE_I_C(NUMBER_NODE,NJOINT)
+            CALL WRITE_I_C(NUMBER_NODE(1),NJOINT)
 
             !   ------------------------------        
             DO N=1,NJOINT     

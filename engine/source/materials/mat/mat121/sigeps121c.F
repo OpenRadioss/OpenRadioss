@@ -82,7 +82,8 @@ C-----------------------------------------------
       INTEGER I,J,IRES,Ifail,NINDX,NINDX2,INDX(NEL),INDX2(NEL),
      .        IPOS(NEL),IAD(NEL),ILEN(NEL),IR,IS,IT
       my_real DTMIN,Xscale_FAIL,Yscale_FAIL,S1,S2,Q,S11(NEL),
-     .        S22(NEL),R_INTER,DFDEPSD(NEL),FAIL(NEL),SEQ(NEL)
+     .        S22(NEL),R_INTER,DFDEPSD(NEL),FAIL(NEL),SEQ(NEL),
+     .        EPSD_TMP(NEL)
 C=======================================================================
 c  
       IRES        = NINT(UPARAM(11)) ! Plastic projection method
@@ -139,7 +140,8 @@ c
         IPOS(1:NEL) = 1
         IAD (1:NEL) = NPF(IFUNC(4)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
-        CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_FAIL,DFDEPSD,FAIL)
+        EPSD_TMP(1:NEL) = EPSD(1:NEL) / Xscale_FAIL
+        CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD_TMP,DFDEPSD,FAIL)
         FAIL(1:NEL) = Yscale_FAIL*FAIL(1:NEL)
       ENDIF
 c

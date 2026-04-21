@@ -214,7 +214,7 @@ C
      3                  KI11   ,KI12   ,KJ11  ,KJ12   ,KK11   ,
      4                  KK12   ,KL11   ,KL12  ,OFF    ,SK_INT,
      5                  NIN    ,LREM   ,INTBUF_TAB%STIF_OLD ,
-     +                  INTBUF_TAB_IMP%CAND_N(NFT+1),
+     +                  INTBUF_TAB_IMP%CAND_N(NFT+1:),
      6                  IGSTI  ,INTBUF_TAB%PENE_OLD,NM1    ,NM2    ,
      7                  NM3    )
        IF(INTKG1 > 0) THEN

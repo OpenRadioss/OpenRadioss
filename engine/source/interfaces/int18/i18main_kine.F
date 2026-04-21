@@ -101,7 +101,9 @@ C-----------------------------------------------
       INTEGER NB_JLT(PARASIZ),NB_JLT_NEW(PARASIZ),NB_STOK_N(PARASIZ),
      * P,NODFI,IERROR1,IERROR2,IERROR3,IERROR4
       my_real
-     .    STARTT,STOPT,BID,VBID
+     .    STARTT,STOPT
+      my_real VBID(3,1)
+      INTEGER BID_I(1)
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
 C=======================================================================
 C     initialisation MTF(1:14,1:NUMNOD)
@@ -235,7 +237,7 @@ c   2: accumulate (or min) on secondary 18 boundary nodes
 c   2: accumulate on secondary 18 boundary nodes
       IF (NSPMD > 1)THEN
          CALL SPMD_I18KINE_PENE_COM_POFF(output, IPARI,INTBUF_TAB,VBID,
-     *                                   MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
+     *                                   MTF,A,IAD_ELEM,FR_ELEM,1,BID_I,TAGPENE,ITAB,
      .                                   H3D_DATA  )
 
 c     need accelerations for the second node

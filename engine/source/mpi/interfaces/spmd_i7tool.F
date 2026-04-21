@@ -339,7 +339,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, P, I_STOK, IDEB, JDEB, NI
+      INTEGER I, J, P, IDEB, JDEB
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -405,7 +405,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, P, I_STOK, IDEB, JDEB, NI, IAD,IADM1
+      INTEGER I, J, P, I_STOK, IDEB, JDEB, NI, IAD
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -526,7 +526,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      my_real :: MASS, FSAV29
       INTEGER :: IBRIC
       INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL,NP  
 C-----------------------------------------------
@@ -719,7 +718,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL,NOD1,NOD2,NP
+      INTEGER I, J, II, N, NOD, K0, K1S, NBINTER,PP,PPL,NOD1,NOD2,NP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -1842,8 +1841,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,
-     .        NISKY_SAV,TEMP_SIZ,IERROR,PP,PPL,NP
-      my_real FSAV29
+     .        NISKY_SAV,TEMP_SIZ,PP,PPL,NP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2244,7 +2242,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL,NOD1,NOD2,NP 
+      INTEGER I, J, II, N, NOD, K0, K1S, NBINTER,PP,PPL,NOD1,NOD2,NP 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2580,7 +2578,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER 
+      INTEGER I, J, II, N, NOD, K0, K1S, NBINTER 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2796,7 +2794,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II, IIIS, NOD, IES, NN
+      INTEGER I, II, IIIS, NOD, IES, NN
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2933,7 +2931,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NSN, NMN, ITYP, IERROR, IERROR1, KK, NIN, P,
+      INTEGER I, J, K, NSN, NMN, ITYP, NIN, P,
      .        SCPMAX1,ISD,IRC,MY_RANK,LAST, IGE, IGN, NME, NMES,INTTH,
      .        NRTM, NRTS, NLINM, NLINS,NSNE, NMNE,N,M,
      .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT,NEDGE_1D
@@ -3448,8 +3446,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, P, NSN, NMN, ITYP, IGAP, IERROR, IERROR1, LENS, LENR,
-     .        LSKYFI, INACTI, NBINTC, LENI, J,INTTH, K, L,IEDGE4 ,INTFRIC ,
+      INTEGER I, P, NSN, ITYP, IGAP, IERROR, IERROR1, LENS, LENR,
+     .        LSKYFI, INACTI, NBINTC, LENI, J,INTTH, K, IEDGE4 ,INTFRIC ,
      .        FLAGREMN ,SIZREMNORFI, IVIS2 ,INTNITSCHE,ITIED,IPSTIF
       INTEGER :: LENR_EDGE,LENS_EDGE
 C-----------------------------------------------
@@ -5166,8 +5164,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, P, NSN, NMN, ITYP, IGAP, LENS, LENR, MULTIMP,
-     .        INACTI, LSKYFI, LENI,INTTH,IEDGE4, IVIS2, INTNITSCHE
+      INTEGER I, P, ITYP, IGAP, LENS, LENR,
+     .        INACTI, LENI,INTTH,IEDGE4, IVIS2, INTNITSCHE
       INTEGER INTERACT,ISENS
       my_real TS,STARTT,STOPT
       INTEGER, DIMENSION(NSPMD) :: SAVE_NSNFI,SAVE_NSNSI
@@ -5697,8 +5695,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L, IR, IIA,IIA2
-      my_real
-     .        RRA1, RRA2, RRA3, RRA4, RRA5,PPA
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -6315,7 +6311,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDEB, P, N, NB
+      INTEGER P, NB
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -6568,7 +6564,7 @@ C-----------------------------------------------
       my_real
      .        RRA1, RRA2, RRA3, RRA4, RRA5,
      .        RRA6, RRA7, RRA8, RRA9, RRA10, 
-     .        RRA11,RRA12
+     .        RRA11
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -7012,7 +7008,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N, NFSKYI, ISKY(*)
+      INTEGER N, ISKY(*)
       my_real
      .        FSKYI(40,*)
 C-----------------------------------------------

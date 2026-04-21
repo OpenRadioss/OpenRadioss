@@ -119,7 +119,7 @@ C-----------------------------------------------
      .   EMAJ(NEL),EMIN(NEL),
      .   EM(NEL),EM_DCRIT(NEL),EM_DADV(NEL),DEMAJ(NEL),DEMIN(NEL),
      .   BETA(NEL),ALPHA,FCUT
-      CHARACTER (LEN=3) :: XCHAR
+      CHARACTER (LEN=8) :: XCHAR
 C=======================================================================
       IAD = (IPT-1)*NEL
       XCHAR  = ' '

@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
+      USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100, NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE100) LINE,KEY
+      CHARACTER(LEN=NCHARLINE) LINE
+      CHARACTER(LEN=NCHARLINE100) KEY
       INTEGER I,ID,ITYPE,SBUFMSG
 C predim
       SMESSAGES=1

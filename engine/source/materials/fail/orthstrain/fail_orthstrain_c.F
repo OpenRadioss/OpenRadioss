@@ -118,7 +118,7 @@ C-----------------------------------------------
      .                           EPSM1,EPSM2,EPSM3,EPSM4,EPSM5,EPSM6
       my_real ,DIMENSION(NEL) :: EPDOT,DYDX
       my_real ,DIMENSION(NEL) :: FRATE
-      my_real ,DIMENSION(:), POINTER :: FSIZE
+      my_real ,DIMENSION(:), POINTER, CONTIGUOUS :: FSIZE
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------

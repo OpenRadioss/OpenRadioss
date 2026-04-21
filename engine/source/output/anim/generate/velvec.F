@@ -143,7 +143,7 @@ C
                  PLYVELVEC(3,EMPL) =  PLY(IPLY)%V(3,N)
                ENDDO  
               ENDDO  
-              CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
+              CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
               DEALLOCATE(PLYVELVEC)
 C
             ELSEIF(IFUNC == 2)THEN
@@ -159,7 +159,7 @@ C
                    PLYVELVEC(3,EMPL) = PLY(IPLY)%U(3,N)
                  ENDDO  
                ENDDO  
-               CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
+               CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
                DEALLOCATE(PLYVELVEC)
 
             ELSEIF(IFUNC == 3) THEN
@@ -175,7 +175,7 @@ C
                      PLYVELVEC(3,EMPL) = PLY(IPLY)%A(3,N)
                  ENDDO  
                ENDDO 
-               CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
+               CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
                DEALLOCATE(PLYVELVEC)
             ELSE 
                R4 = ZERO

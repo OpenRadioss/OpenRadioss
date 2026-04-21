@@ -287,6 +287,8 @@ c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ),PID,SZ_IX,NN_DEL
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
+      my_real,
+     .  DIMENSION(:,:), POINTER :: SIG_2D
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -552,8 +554,9 @@ C----for Eint compute----
       ENDIF
 
 
+      SIG_2D(1:NEL,1:6) => GBUF%SIG(1:NEL*6)
       CALL SROTA3(
-     1   GBUF%SIG,S1,      S2,      S3,
+     1   SIG_2D,  S1,      S2,      S3,
      2   S4,      S5,      S6,      WXX,
      3   WYY,     WZZ,     NEL,     MTN,
      4   ISMSTR)

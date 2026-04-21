@@ -640,6 +640,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ELEM_INDEX
       INTEGER :: SHIFT
+      INTEGER :: NTAGEL_WRAP(1)
 C-----------------------------------------------
       ! allocation of local list of deactivated element
       ALLOCATE( LOCAL_ELEM_INDEX(S_ELEM_STATE) )
@@ -1147,8 +1148,9 @@ C       communication partie nodale ITAGq
           CALL SEND_SHMBUF_C(IDEL7NOK,1)
           CALL R2R_EXCH_ITAG(IEXLNK,IGRNOD,ITAG,0)
 C       Tagel Element Party Communication
-          NTAGEL_R2R_SENDG = NTAGEL_R2R_SEND
-          CALL SPMD_ALLGLOB_ISUM9(NTAGEL_R2R_SENDG,1)
+          NTAGEL_WRAP(1) = NTAGEL_R2R_SEND
+          CALL SPMD_ALLGLOB_ISUM9(NTAGEL_WRAP,1)
+          NTAGEL_R2R_SENDG = NTAGEL_WRAP(1)
           IF (NTAGEL_R2R_SENDG > 0) THEN
             IF (NSPMD > 1) THEN
               TAGEL_R2R_ISPMD(:)=0

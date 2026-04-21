@@ -134,7 +134,7 @@ C                                   strand to save:
                                     IST=ITHBUF(IH+3*NN)               
                                     WWA(1) = GBUF%OFF(I)
 C                                   force into strand :
-                                    CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
+                                    CALL XTH(NUVAR,GBUF%VAR(KVAR:),NUVARN,GBUF%VARN(KVARN:),WWA,
      .                                       NX   ,2             ,IST   )
                                     WWA(3) =ZERO
                                     WWA(4) =ZERO
@@ -142,7 +142,7 @@ C                                   force into strand :
                                     WWA(6) =ZERO
                                     WWA(7) =ZERO
 C                                   strand elongation :
-                                    CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
+                                    CALL XTH(NUVAR,GBUF%VAR(KVAR:),NUVARN,GBUF%VARN(KVARN:),WWA,
      .                                       NX   ,8             ,IST   )
     
                                     WWA(9) =ZERO
@@ -151,7 +151,7 @@ C                                   strand elongation :
                                     WWA(12)=ZERO
                                     WWA(13)=ZERO       
 C                                   strand internal energy :
-                                    CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
+                                    CALL XTH(NUVAR,GBUF%VAR(KVAR:),NUVARN,GBUF%VARN(KVARN:),WWA,
      .                                       NX   ,14            ,IST   )
                                     WWA(15)=ZERO
                                     WWA(16)=ZERO

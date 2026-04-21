@@ -382,11 +382,11 @@ C-----------------------------------------------
               write(iout,*)                'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
               write(istdo,*)               'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
               if(n4 == 0 .or. n3 == n4)then
-                write(iout,FMT= '(A,3I11)')'           FACE:',itab((/n1,n2,n3/)),' SEEMS TO BE BELOW THE GROUND'
-                write(istdo,FMT='(A,3I11)')'           FACE:',itab((/n1,n2,n3/)),' SEEMS TO BE BELOW THE GROUND'
+                write(iout,FMT= '(A,3I11)')'           FACE:',itab(n1),itab(n2),itab(n3),' SEEMS TO BE BELOW THE GROUND'
+                write(istdo,FMT='(A,3I11)')'           FACE:',itab(n1),itab(n2),itab(n3),' SEEMS TO BE BELOW THE GROUND'
               else
-                write(iout,FMT= '(A,4I11)')'           FACE:',itab((/n1,n2,n3,n4/)),' SEEMS TO BE BELOW THE GROUND'
-                write(istdo,FMT='(A,4I11)')'           FACE:',itab((/n1,n2,n3,n4/)),' SEEMS TO BE BELOW THE GROUND'
+                write(iout,FMT= '(A,4I11)')'           FACE:',itab(n1),itab(n2),itab(n3),itab(n4),' SEEMS TO BE BELOW THE GROUND'
+                write(istdo,FMT='(A,4I11)')'           FACE:',itab(n1),itab(n2),itab(n3),itab(n4),' SEEMS TO BE BELOW THE GROUND'
               endif
               ANGLE_g = ZERO
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
@@ -394,11 +394,11 @@ C-----------------------------------------------
               write(iout, FMT='(A,I0,A,E10.4)')'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
               write(istdo,FMT='(A,I0,A,E10.4)')'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
               if(n4 == 0 .or. n3 == n4)then
-                write(iout, FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3/))
-                write(istdo,FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3/))
+                write(iout, FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab(n1),itab(n2),itab(n3)
+                write(istdo,FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab(n1),itab(n2),itab(n3)
               else
-                write(iout, FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3,n4/))
-                write(istdo,FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3,n4/))
+                write(iout, FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab(n1),itab(n2),itab(n3),itab(n4)
+                write(istdo,FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab(n1),itab(n2),itab(n3),itab(n4)
               endif
 
               ANGLE_g = 85.00000

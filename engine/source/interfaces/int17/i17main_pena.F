@@ -425,7 +425,7 @@ C-----------------------------------------------
 C     REAL
       my_real 
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(6,*),STIFN(*),
-     .   FSKYI(*), FSAV(*),FCONT(3,*)   
+     .   FSKYI(LSKYI,NFSKYI), FSAV(*),FCONT(3,*)   
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA

@@ -54,6 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,NSEG,LLINT,IAD,NLOAD_CYL
       INTEGER :: MY_SIZE
+      INTEGER ,DIMENSION(1) :: NSEG_ARR
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: ITMP
       my_real, DIMENSION(3) :: RTMP
 C-----------------------------------------------
@@ -71,7 +72,8 @@ c=======================================================================
       ALLOCATE(LOADS%LOAD_CYL(NLOAD_CYL))
 c      
       DO I=1,NLOAD_CYL
-        CALL READ_I_C(NSEG,1)
+        CALL READ_I_C(NSEG_ARR,1)
+        NSEG = NSEG_ARR(1)
         LLINT = 4 + NSEG*4
         ALLOCATE (ITMP(LLINT))
         CALL READ_I_C(ITMP,LLINT)

@@ -70,7 +70,10 @@ C-----------------------------------------------
 C   S o u r c e L i n e s
 C-----------------------------------------------
 
-      RHO0 = ( / RHO01, RHO02, RHO03, RHO04 / )
+      RHO0(1) = RHO01
+      RHO0(2) = RHO02
+      RHO0(3) = RHO03
+      RHO0(4) = RHO04
                                                               
       II = I+ NFT                                                          
       write (*,FMT='(A16,I10)'   ) "LAW51- brick ID=",IXS(NIXS,I+NFT)

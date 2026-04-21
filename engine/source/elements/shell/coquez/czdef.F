@@ -233,7 +233,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
       my_real 
-     .   AA4,BXV2,BYV1,A05,BXRZ,BYRZ,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K
+     .   BXV2,BYV1,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K
 C-----------------------------------------------
         CALL CZDERIRZ(JFT ,JLT  ,AREA ,X13 ,X24   ,
      2               Y13  ,Y24  ,MX13 ,MX23,MX34  ,
@@ -317,7 +317,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
       my_real 
-     .   AA4,BXV2,BYV1,A05,NXY,NYX,A05K(4),A05E(4),
+     .   A05,NXY,NYX,A05K(4),A05E(4),
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4)
 C--------(14,23,32,41)/4---------------------------------------
       DO I=JFT,JLT
@@ -466,9 +466,6 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
-      my_real 
-     .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
-     .   BXV2,BYV1,BXR1,BYR2
 C-----------------------------------------------
       DO I=JFT,JLT
 C---------------
@@ -510,7 +507,6 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
       my_real 
-     .   AA4,BXV2,BYV1,A05,BXRZ,BYRZ,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K,
      .   BM0RZ(MVSIZ,4,4)
 C-----------------------------------------------
         CALL CZDERIRZT(JFT ,JLT  ,AREA ,X13 ,X24   ,
@@ -562,7 +558,6 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
       my_real 
-     .   AA4,BXV2,BYV1,A05,NXY,NYX,A05K(4),A05E(4),
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4),
      .  BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
 C--------(14,23,32,41)/4---------------------------------------
@@ -690,8 +685,8 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
       my_real 
-     .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
-     .   BXV2,BYV1,BXR1,BYR2,KXY,KYX
+     .   R13(2),R24(2),DETA1,
+     .   KXY,KYX
 C-----------------------------------------------
       DO I=JFT,JLT
        DETA1=Z1(I)*FOUR*AA(I)

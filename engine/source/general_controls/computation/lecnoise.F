@@ -350,7 +350,7 @@ C-------GEO DESCRIPTION------------
        CALL EOR_C(44)
       ENDIF
 C-------HIERARCHY DESCRIPTION------------
-      CH40=ROOTNAM
+      CH40=ROOTNAM(1:40)
       READ(CH40,'(10A4)')TIT40
       DO I=1,40
        ITIT40(I)=ICHAR(CH40(I:I))

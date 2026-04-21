@@ -125,7 +125,7 @@ C-----------------------------------------------
      .        NOINT, INACTI, MULTIMP, IGAP, IFQ,
      .        NMN_L, IVIS2, IGAP0, IFSUB_CAREA
       INTEGER 
-     .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INACIMP, INTTH,
+     .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INTTH,
      .        I_MEM,I_MEME(2),CAND_N_OLD,CAND_E_OLD(2),ILEV,FLAGREMN, LREMNORMAX,
      .        ITHK
 

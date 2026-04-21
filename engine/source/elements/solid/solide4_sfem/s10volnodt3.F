@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER IPERM1(10),IPERM2(10)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
-      integer :: j,my_address
+      integer :: my_address
       my_real
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFXZ(MVSIZ),
      .  MFYX(MVSIZ),MFYY(MVSIZ),MFYZ(MVSIZ),

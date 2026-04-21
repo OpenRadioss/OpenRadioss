@@ -48,6 +48,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(TH_),INTENT(INOUT) :: TH   ! TH Type 
 C-----------------------------------------------
+C   E x t e r n a l   F u n c t i o n s
+C-----------------------------------------------
+        EXTERNAL READ_I_C
+C-----------------------------------------------
         CALL READ_I_C(TH%NITHGR,  1)
         CALL READ_I_C(TH%SITHGRP, 1) 
         CALL READ_I_C(TH%SITHBUF, 1)

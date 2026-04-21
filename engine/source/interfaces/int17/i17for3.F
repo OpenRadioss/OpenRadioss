@@ -84,7 +84,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  X(3,*),V(3,*),EMINXM(6,*),EMINXS(6,*),A(3,*),STIFN(*),
-     .  FSKYI   ,FROTM(7,*),FROTS(7,*),KM(*),KS(*),FRIC(*), FSAV(*),
+     .  FSKYI(LSKYI,NFSKYI)   ,FROTM(7,*),FROTS(7,*),KM(*),KS(*),FRIC(*), FSAV(*),
      .  FCONT(3,*), MS(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -302,6 +302,7 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -315,7 +316,7 @@ C     REAL
       my_real
      .   XX(MVSIZ,17),YY(MVSIZ,17),ZZ(MVSIZ,17),X(3,*),
      .   XXS(MVSIZ,16) ,YYS(MVSIZ,16) ,ZZS(MVSIZ,16) ,VIT_MIN,
-     .   STIFN(*) ,FSKYI ,FROTM(7,*),FROTS(7,*),FSAV(*) ,FCONT(3,*)
+     .   STIFN(*) ,FSKYI(LSKYI,NFSKYI) ,FROTM(7,*),FROTS(7,*),FSAV(*) ,FCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
