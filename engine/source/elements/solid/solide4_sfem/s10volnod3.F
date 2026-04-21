@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K,N1,N2,NN,N
+      INTEGER I, N1,N2,NN,N
       integer :: j,my_address
       INTEGER IP,K1,K2,K3,K4,K5,K6,K7,K8,K9,K10
       INTEGER IPERM1(10),IPERM2(10),IPERM(10,4)
@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10), 
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
      .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
-     .   A4,B4,A4M1,B4M1,DET6(6,MVSIZ),VOLDP(MVSIZ)
+     .   A4,B4,A4M1,B4M1,VOLDP(MVSIZ)
       my_real
      .   VOLG(MVSIZ),ALPH,BETA,W
 C----------------------------

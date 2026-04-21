@@ -82,7 +82,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) :: DF,PLA_DAM,SIG0XX,SIG0YY,
      .   SIG0ZZ,SIG0XY,SIG0YZ,SIG0ZX
       my_real, DIMENSION(NEL,1) :: XVEC
-      TYPE(TABLE_4D_),DIMENSION(:),POINTER :: TABLE
+      TYPE(TABLE_4D_),DIMENSION(:),CONTIGUOUS,POINTER :: TABLE
 C=======================================================================
 c
       !====================================================================

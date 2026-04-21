@@ -29,7 +29,7 @@
 !||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       module s8dlenmax_sm_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief compute some geometric parameters of hexahedron in case of small strain
@@ -85,7 +85,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j
+          integer :: i
           real(kind=WP), dimension(mvsiz) ::                  &
             x1,      x2,     x3,     x4,                      &
             y1,      y2,     y3,     y4,                      &
@@ -94,45 +94,45 @@
             y5,      y6,     y7,     y8,                      &
             z5,      z6,     z7,     z8
 ! ======================================================================================================================
-            do i=1,nel
-              x1(i) =x(1,nc1(i))
-              y1(i) =x(2,nc1(i))
-              z1(i) =x(3,nc1(i))
-              x2(i) =x(1,nc2(i))
-              y2(i) =x(2,nc2(i))
-              z2(i) =x(3,nc2(i))
-              x3(i) =x(1,nc3(i))
-              y3(i) =x(2,nc3(i))
-              z3(i) =x(3,nc3(i))
-              x4(i) =x(1,nc4(i))
-              y4(i) =x(2,nc4(i))
-              z4(i) =x(3,nc4(i))
-              x5(i) =x(1,nc5(i))
-              y5(i) =x(2,nc5(i))
-              z5(i) =x(3,nc5(i))
-              x6(i) =x(1,nc6(i))
-              y6(i) =x(2,nc6(i))
-              z6(i) =x(3,nc6(i))
-              x7(i) =x(1,nc7(i))
-              y7(i) =x(2,nc7(i))
-              z7(i) =x(3,nc7(i))
-              x8(i) =x(1,nc8(i))
-              y8(i) =x(2,nc8(i))
-              z8(i) =x(3,nc8(i))
-            enddo
+          do i=1,nel
+            x1(i) =x(1,nc1(i))
+            y1(i) =x(2,nc1(i))
+            z1(i) =x(3,nc1(i))
+            x2(i) =x(1,nc2(i))
+            y2(i) =x(2,nc2(i))
+            z2(i) =x(3,nc2(i))
+            x3(i) =x(1,nc3(i))
+            y3(i) =x(2,nc3(i))
+            z3(i) =x(3,nc3(i))
+            x4(i) =x(1,nc4(i))
+            y4(i) =x(2,nc4(i))
+            z4(i) =x(3,nc4(i))
+            x5(i) =x(1,nc5(i))
+            y5(i) =x(2,nc5(i))
+            z5(i) =x(3,nc5(i))
+            x6(i) =x(1,nc6(i))
+            y6(i) =x(2,nc6(i))
+            z6(i) =x(3,nc6(i))
+            x7(i) =x(1,nc7(i))
+            y7(i) =x(2,nc7(i))
+            z7(i) =x(3,nc7(i))
+            x8(i) =x(1,nc8(i))
+            y8(i) =x(2,nc8(i))
+            z8(i) =x(3,nc8(i))
+          enddo
 !
-           call sdlenmax(l_max,                                    &
-                         x1,      x2,      x3,      x4,            &
-                         x5,      x6,      x7,      x8,            &
-                         y1,      y2,      y3,      y4,            &
-                         y5,      y6,      y7,      y8,            &
-                         z1,      z2,      z3,      z4,            &
-                         z5,      z6,      z7,      z8,            &
-                         nel)
-            do i=1,nel
-              vol(i) = vol0(i)*rho0/max(em20,rho(i))
-              l_min(i) = vol(i)/l_max(i)**2
-            end do  
+          call sdlenmax(l_max,                                    &
+            x1,      x2,      x3,      x4,            &
+            x5,      x6,      x7,      x8,            &
+            y1,      y2,      y3,      y4,            &
+            y5,      y6,      y7,      y8,            &
+            z1,      z2,      z3,      z4,            &
+            z5,      z6,      z7,      z8,            &
+            nel)
+          do i=1,nel
+            vol(i) = vol0(i)*rho0/max(em20,rho(i))
+            l_min(i) = vol(i)/l_max(i)**2
+          end do
 !
         end subroutine s8dlenmax_sm
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -64,7 +64,7 @@ C-----------------------------------------------
         IF(NJOINT>0) THEN
             NUMBER_NODE(1:NJOINT) = 0
             !   number of node per proc (all proc --> size=nspmd)
-            CALL READ_I_C(NUMBER_NODE,NJOINT)
+            CALL READ_I_C(NUMBER_NODE(1),NJOINT)
             !   ------------------------------
             DO N=1,NJOINT     
                 !   number of node and node with weight=1

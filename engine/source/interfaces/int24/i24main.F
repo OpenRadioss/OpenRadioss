@@ -116,7 +116,7 @@ C-----------------------------------------------
       INTEGER NISUBMAX                        ! Max number of SUB INTerfaces
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
-     .        NRTMDIM, IAD17, IPARSENS
+     .        NRTMDIM, IAD17
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), 
      .        IPARG(NPARG,*),INOD_PXFEM(*),NPC(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
@@ -806,7 +806,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,II_STOK,NIN   ,NSN
-      INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*),
+      INTEGER NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .        CAND_E(*),CAND_N(*),SUBTRIA(*),IRTLM(2,*)
 C     REAL
       my_real

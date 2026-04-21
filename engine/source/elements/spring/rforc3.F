@@ -871,10 +871,10 @@ C=======================================================================
      9   NC2,      NEL)
 
         CALL R5DEF3(
-     1   AL,                    GBUF%V_REPCVT(II(1):), GBUF%V_REPCVT(II(2):), GBUF%V_REPCVT(II(3):),
-     2   GBUF%VR_REPCVT(II(1):),GBUF%VR_REPCVT(II(2):),GBUF%VR_REPCVT(II(3):), FR_WAVE,
-     3   FR_W_E,                GBUF%EINT,             GBUF%FOR(II(1):),      GBUF%MOM(II(1):),
-     4   GBUF%MOM(II(2):),      GBUF%MOM(II(3):),      GBUF%FOR(II(2):),      GBUF%FOR(II(3):),
+     1   AL,                    GBUF%V_REPCVT(II(1)), GBUF%V_REPCVT(II(2)), GBUF%V_REPCVT(II(3)),
+     2   GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)), FR_WAVE,
+     3   FR_W_E,                GBUF%EINT,             GBUF%FOR(II(1)),      GBUF%MOM(II(1)),
+     4   GBUF%MOM(II(2)),      GBUF%MOM(II(3)),      GBUF%FOR(II(2)),      GBUF%FOR(II(3)),
      5   PARTSAV,               IPARTR,                EXX,                   EYX,
      6   EZX,                   EXY,                   EYY,                   EZY,
      7   EXZ,                   EYZ,                   EZZ,                   RX1,

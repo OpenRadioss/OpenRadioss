@@ -163,11 +163,7 @@ C-----------------------------------------------
       my_real
      .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),SVM(MVSIZ),
-     .        Y1(MVSIZ),Y2(MVSIZ),EPSMAX(MVSIZ),
-     .        NU1(MVSIZ),
-     .        DPLA_I(MVSIZ),DPLA_J(MVSIZ),
-     .        FAIL(MVSIZ),H(MVSIZ),
-     .        FISOKIN(MVSIZ),
+     .        Y1(MVSIZ),EPSMAX(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),SIGEZX(MVSIZ),
      .        SIGEYZ(MVSIZ),YN1(MVSIZ),YN2(MVSIZ),YP1(MVSIZ),YP2(MVSIZ),
      .        NU(MVSIZ), VISC(MVSIZ), VISCV(MVSIZ),C1(MVSIZ),
@@ -175,8 +171,7 @@ C-----------------------------------------------
      .        YLDMIN(MVSIZ), EPST(MVSIZ), YLDELAS(MVSIZ),NNU(MVSIZ)
       my_real
      .        R,FAC,DEZZ,
-     .        SIGPXX,SIGPYY,SIGPXY,
-     .        DSXX,C11
+     .        C11
       my_real
      .        DEV, DTINV, LAMDA
       INTEGER ITER, MX

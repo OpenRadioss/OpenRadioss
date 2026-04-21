@@ -139,7 +139,7 @@ C----------------------------
            CC =ONE/(ONE+SQRT(ZLLC2(I)))           
            IF (PCOS(I,NG)/=PMAX(I)) PCOS(I,NG) = MIN(PCOS(I,NG),CC)
          ENDDO 
-         CALL SETUVARW(NEL,PCOS(1,NG),UVAR)
+         CALL SETUVARW(NEL,PCOS(:,NG),UVAR)
        END DO !IR = 1,NPTR
       END DO !IR = 1,NPTR
 C----------------------------

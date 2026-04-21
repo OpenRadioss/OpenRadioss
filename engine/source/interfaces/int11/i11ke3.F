@@ -499,6 +499,7 @@ C-----------------------------------------------
       INTEGER  I_STOK,JLT , NFT, IGAP, 
      .        IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
+      INTEGER :: ITAB_BID(1)
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO, GAPMIN, KMIN, KMAX
@@ -559,7 +560,7 @@ C
      C  INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,IBID,BID          ,BID    ,
      D  BID          ,BID          ,BID      ,INTBUF_TAB%AREAS ,BID    ,
      E  BID          ,IBID         ,IBID   ,INTBUF_TAB%IELEC,INTBUF_TAB%IELES  ,
-     F  IBID         ,IBID         ,IBID   ,IBID               ,IBID   ,
+     F  IBID         ,ITAB_BID     ,IBID   ,IBID               ,IBID   ,
      G  IBID         ,IBID         )
          CALL I11CORKP3(JLT   ,
      1                    XXS1   ,XXS2    ,XYS1    ,XYS2   ,XZS1   ,

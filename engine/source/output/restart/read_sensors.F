@@ -122,7 +122,7 @@ c
           DEALLOCATE (RBUF)
 c
 c         read sensor title
-          CALL READ_I_C(ITITLE,LTITR)
+          CALL READ_I_C(ITITLE(1),LTITR)
           CALL FRETITL2(TITLE,ITITLE,LTITR)
           SENSORS%SENSOR_TAB(ISEN)%TITLE = TITLE
 c

@@ -95,7 +95,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) :: DADV,TPROPG,AI,FORMF,SIGP_AKT,DMG_SCALE,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX
  
-      CHARACTER (LEN=3) :: XCHAR
+      CHARACTER (LEN=8) :: XCHAR
 c--------------------------------------------------------------------
 c!  cm(6):  initial crack depth in contact to foil
 c!  cm(7):  initial crack depth in contact to air
@@ -512,8 +512,8 @@ c-----------------------------------------------
      .       1X,'AT TIME ',1PE12.4)
  4000 FORMAT(10X,'CRACK INITIALIZATION')
  4200 FORMAT(10X,'CRACK ADVANCEMENT')
- 4400 FORMAT(1X,'DELETE ',A4,' PHANTOM ELEMENT, SHELL ID=',I10)
- 4500 FORMAT(1X,'DELETE ',A4,' PHANTOM ELEMENT, SHELL ID=',I10,/
+ 4400 FORMAT(1X,'DELETE ',A8,' PHANTOM ELEMENT, SHELL ID=',I10)
+ 4500 FORMAT(1X,'DELETE ',A8,' PHANTOM ELEMENT, SHELL ID=',I10,/
      .       1X,'AT TIME :',1PE12.4)
 c-----------------------------------------------
       RETURN

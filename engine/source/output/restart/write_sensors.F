@@ -111,7 +111,7 @@ c
 c
 c         write sensor title
           CALL FRETITL(TITLE,ITITLE,LTITR)
-          CALL WRITE_I_C(ITITLE,LTITR)
+          CALL WRITE_I_C(ITITLE(1),LTITR)
 c
           IF (TYP==29.OR.TYP==30.OR.TYP==31)THEN
             CALL WRITE_I_C(SENSOR%INTEGER_USERPARAM,NSENPARI)

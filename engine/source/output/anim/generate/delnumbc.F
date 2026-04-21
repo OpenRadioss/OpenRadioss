@@ -113,7 +113,7 @@ C-----------------------------------------------
         DO I=1,NBF
            IDCMAX=MAX(IDCMAX,INUM(I))
         ENDDO
-        CALL WRITE_I_C(INUM,NBF)
+        CALL WRITE_I_C(INUM(1),NBF)
         DO I=1,NELCUT
           CALL WRITE_I_C(0,1)
         ENDDO

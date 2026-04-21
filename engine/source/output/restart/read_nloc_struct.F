@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,LCNE_NL,MATSIZE
-      my_real, DIMENSION(:), POINTER :: FNL
+      my_real, DIMENSION(:), POINTER, CONTIGUOUS :: FNL
       INTEGER, DIMENSION(8)  :: 
      .  HEAD
 C=======================================================================

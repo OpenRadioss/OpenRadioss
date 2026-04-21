@@ -1439,11 +1439,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NBS_INTERF,NBM_INTERF,SIZ,P2
+      INTEGER K,NBS_INTERF,NBM_INTERF,P2
 
       IF(NSPMD > 1) THEN
-         SIZ = T8%S_COMM 
-         CALL WRITE_I_C(SIZ,1)
+         CALL WRITE_I_C(T8%S_COMM,1)
 
          DO K=1,T8%S_COMM 
           CALL WRITE_I_C(T8%SPMD_COMM_PATTERN(K)%NUMLOC,1)

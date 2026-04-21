@@ -49,6 +49,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         TYPE(TH_),INTENT(IN) :: TH   ! TH Type 
 C-----------------------------------------------
+C   E x t e r n a l   F u n c t i o n s
+C-----------------------------------------------
+        EXTERNAL WRITE_I_C
+C-----------------------------------------------
         CALL WRITE_I_C(TH%NITHGR,  1)
         CALL WRITE_I_C(TH%SITHGRP, 1) 
         CALL WRITE_I_C(TH%SITHBUF, 1)
