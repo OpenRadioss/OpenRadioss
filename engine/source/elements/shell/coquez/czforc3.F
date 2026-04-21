@@ -441,7 +441,7 @@ C--------------------
      5             X13     ,X24     ,Y13     ,Y24     ,MX13    ,
      6             MX23    ,MX34    ,MY13    ,MY23    ,MY34    ,
      7             Z1      ,LXYZ    ,DD      ,DB    ,GBUF%SMSTR,
-     9             IREP    ,NPT     ,NLAY    ,ISMSTR  ,
+     9             IREP    ,NPTTOT  ,NLAY    ,ISMSTR  ,
      A             DIR_A   ,DIR_B   ,GBUF%OFF,RLXYZ   ,LXYZ    ,
      B             FACN    ,PY1     ,PX2     ,PY2     ,R11     ,
      C             R12     ,R13     ,R21     ,R22     ,R23     ,
