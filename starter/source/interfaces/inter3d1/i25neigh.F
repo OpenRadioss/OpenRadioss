@@ -109,7 +109,7 @@ C-----------------------------------------------
       INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT,INDEX2
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
      .                                      LISUBN,INFLG_SUBN,IXSUB,EBINFLG_TMP,
-     .                                      IIXYZ
+     .                                      IIXYZ , ADDSUBE_TMP,LISUBE_TMP,INFLG_SUBE_TMP
       INTEGER, DIMENSION(:,:,:),ALLOCATABLE :: MNEIGH_SOLID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -566,6 +566,14 @@ C-----------------------------------------------------------------------
            ALLOCATE(EBINFLG_TMP(NEDGE_L))
             EBINFLG_TMP(1:NEDGE_L) =EBINFLG(1:NEDGE_L)
          ENDIF
+         IF(NISUB > 0) THEN
+           ALLOCATE(ADDSUBE_TMP(NEDGE_L+1))
+           ADDSUBE_TMP(1:NEDGE_L+1) =ADDSUBE(1:NEDGE_L+1)
+           ALLOCATE(LISUBE_TMP(NISUBE))
+           LISUBE_TMP(1:NISUBE) =LISUBE(1:NISUBE)
+           ALLOCATE(INFLG_SUBE_TMP(NISUBE))
+           INFLG_SUBE_TMP(1:NISUBE) =INFLG_SUBE(1:NISUBE) 
+         ENDIF
       ENDIF
 C
       DO I=1,NRTM
@@ -879,7 +887,6 @@ C-----1D element edges -----
       IF(NEDGE_L >0) THEN
          LEDGE(5:6,NEDGE+1:NEDGE+NEDGE_L) = LEDGE_TMP3(1:2,1:NEDGE_L)
          LEDGE(7,NEDGE+1:NEDGE+NEDGE_L) = 3
-         IF(ILEV==2)EBINFLG(NEDGE+1:NEDGE+NEDGE_L) =EBINFLG(1:NEDGE_L)
          NEDGE = NEDGE+NEDGE_L
       ENDIF
 
@@ -896,7 +903,6 @@ C-----1D element edges -----
          K=INDEX2(I)
          LEDGE(1:NLEDGE,I)=LEDGE_TMP(1:NLEDGE,K)
       ENDDO
-
 C
 c      DO I=1,NRTM
 c       print *,'I,MSEGTYP(I)=',I,MSEGTYP(I),itab(irect(1:4,i))
@@ -933,7 +939,7 @@ C-----------------------------------------
         END DO
       END IF
 C
-      IF(NEDGE/=0.AND.NISUB/=0)THEN
+      IF(NEDGE/=0.AND.NISUB/=0.AND.NEDGE /=NEDGE_L)THEN
 
         ALLOCATE (MLOC(NUMNOD),KAD(MAX(NMN,NEDGE)),STAT=stat)
         MLOC(1:NUMNOD)=0
@@ -1062,78 +1068,145 @@ C-----------------------------------------
         INFLG_SUBE(1:NISUBE)=0
 C
         DO NE=1,NEDGE
-          I1  =MLOC(LEDGE(5,NE))
-          I2  =MLOC(LEDGE(6,NE))
+          IF(LEDGE(7,NE)/=3) THEN
+            I1  =MLOC(LEDGE(5,NE))
+            I2  =MLOC(LEDGE(6,NE))
 
-          LL  =ADDSUBN(I1)
-          KK  =ADDSUBN(I2)
-          DO WHILE(LL<ADDSUBN(I1+1))
-            JSUB=LISUBN(LL)
-            DO WHILE(KK<ADDSUBN(I2+1))
-              KSUB=LISUBN(KK)   
-              IF(KSUB==JSUB)THEN
-                ADDSUBE(NE)=ADDSUBE(NE)+1
-                KK=KK+1
-              ELSE IF(KSUB<JSUB)THEN
-                KK=KK+1
-              ELSE
-                GO TO 100
-              END IF
+            LL  =ADDSUBN(I1)
+            KK  =ADDSUBN(I2)
+            DO WHILE(LL<ADDSUBN(I1+1))
+              JSUB=LISUBN(LL)
+              DO WHILE(KK<ADDSUBN(I2+1))
+                KSUB=LISUBN(KK)   
+                IF(KSUB==JSUB)THEN
+                  ADDSUBE(NE)=ADDSUBE(NE)+1
+                  KK=KK+1
+                ELSE IF(KSUB<JSUB)THEN
+                  KK=KK+1
+                ELSE
+                  GO TO 100
+                END IF
+              END DO
+ 100        CONTINUE
+            LL=LL+1
             END DO
- 100      CONTINUE
-          LL=LL+1
-          END DO
+          ELSEIF(NEDGE /=NEDGE_L) THEN
+            ADDSUBE(NE)=ADDSUBE(NE)+(ADDSUBE_TMP(INDEX2(NE)-(NEDGE-NEDGE_L)+1)-ADDSUBE_TMP(INDEX2(NE)-(NEDGE-NEDGE_L)))
+          ENDIF
         END DO
 C
         CUR=1
         DO NE=1,NEDGE
-          NEXT       = CUR+ADDSUBE(NE)
-          ADDSUBE(NE)= CUR
-          CUR        = NEXT
+           NEXT       = CUR+ADDSUBE(NE)
+           ADDSUBE(NE)= CUR
+           CUR        = NEXT
         END DO
         ADDSUBE(1+NEDGE)=CUR
 C
 C       Use Kad (1: Nedge) to fill Lisube, inflg_sube
         DO NE=1,NEDGE
-          KAD(NE)=ADDSUBE(NE)
+           KAD(NE)=ADDSUBE(NE)
         END DO
 
         DO NE=1,NEDGE
-          I1  =MLOC(LEDGE(5,NE))
-          I2  =MLOC(LEDGE(6,NE))
 
-          LL  =ADDSUBN(I1)
-          KK  =ADDSUBN(I2)
-          DO WHILE(LL<ADDSUBN(I1+1))
-            JSUB=LISUBN(LL)
-            IMS1 = BITGET(INFLG_SUBN(LL),0)
-            IMS2 = BITGET(INFLG_SUBN(LL),1)
-            DO WHILE(KK<ADDSUBN(I2+1))
-              KSUB=LISUBN(KK)   
-              IMS3 = BITGET(INFLG_SUBN(KK),0)
-              IMS4 = BITGET(INFLG_SUBN(KK),1)
-              IF(KSUB==JSUB)THEN
-                LISUBE(KAD(NE))=JSUB
-                IF(IMS1==1.AND.IMS3==1) ! edge belongs to S1 is I1 and I2 belong to S1
-     .           INFLG_SUBE(KAD(NE))=
-     .                BITSET(INFLG_SUBE(KAD(NE)),0)
-                IF(IMS2==1.AND.IMS4==1) ! edge belongs to S2 is I1 and I2 belong to S2
-     .           INFLG_SUBE(KAD(NE))=
-     .                BITSET(INFLG_SUBE(KAD(NE)),1)
-                KAD(NE)   =KAD(NE)+1
-                KK=KK+1
-              ELSE IF(KSUB<JSUB)THEN
-                KK=KK+1
-              ELSE
-                GO TO 200
-              END IF
+          IF(LEDGE(7,NE)/=3) THEN
+            I1  =MLOC(LEDGE(5,NE))
+            I2  =MLOC(LEDGE(6,NE))
+
+            LL  =ADDSUBN(I1)
+            KK  =ADDSUBN(I2)
+            DO WHILE(LL<ADDSUBN(I1+1))
+              JSUB=LISUBN(LL)
+              IMS1 = BITGET(INFLG_SUBN(LL),0)
+              IMS2 = BITGET(INFLG_SUBN(LL),1)
+              DO WHILE(KK<ADDSUBN(I2+1))
+                KSUB=LISUBN(KK)   
+                IMS3 = BITGET(INFLG_SUBN(KK),0)
+                IMS4 = BITGET(INFLG_SUBN(KK),1)
+                IF(KSUB==JSUB)THEN
+                  LISUBE(KAD(NE))=JSUB
+                  IF(IMS1==1.AND.IMS3==1) ! edge belongs to S1 is I1 and I2 belong to S1
+     .             INFLG_SUBE(KAD(NE))=
+     .                 BITSET(INFLG_SUBE(KAD(NE)),0)
+                  IF(IMS2==1.AND.IMS4==1) ! edge belongs to S2 is I1 and I2 belong to S2
+     .             INFLG_SUBE(KAD(NE))=
+     .                 BITSET(INFLG_SUBE(KAD(NE)),1)
+                  KAD(NE)   =KAD(NE)+1
+                  KK=KK+1
+                ELSE IF(KSUB<JSUB)THEN
+                  KK=KK+1
+                ELSE
+                  GO TO 200
+                END IF
+              END DO
+ 200        CONTINUE
+            LL=LL+1
             END DO
- 200      CONTINUE
-          LL=LL+1
-          END DO
+          ELSEIF(NEDGE /=NEDGE_L) THEN
+            KK  =ADDSUBE(NE)
+            LL = ADDSUBE_TMP(INDEX2(NE)-(NEDGE-NEDGE_L))
+            DO WHILE(KK<ADDSUBE(NE+1))
+              LISUBE(KK)=LISUBE_TMP(LL)
+              INFLG_SUBE(KK)=INFLG_SUBE_TMP(LL)
+              KK = KK +1
+              LL = LL +1
+            ENDDO
+          ENDIF
         END DO
 
         DEALLOCATE (MLOC,KAD,ADDSUBN_TMP,ADDSUBN,LISUBN,INFLG_SUBN,IXSUB)
+        IF(NISUB > 0.AND.NEDGE_L > 0) DEALLOCATE (ADDSUBE_TMP,INFLG_SUBE_TMP,LISUBE_TMP)
+
+C-------------------------------------
+        IF(IPRI>=6) THEN
+          WRITE(IOUT,1000)
+          WRITE(IOUT,1010)NOINT
+          WRITE(IOUT,'(10I10)')
+     .         (NOM_OPT(1,NINTER+LISUB(JSUB)),JSUB=1,NISUB)
+          WRITE(IOUT,1030)
+          DO NE=1,NEDGE
+            JSUB=ADDSUBE(NE)
+            N   =ADDSUBE(NE+1)-ADDSUBE(NE)
+            IF(N>0)THEN
+              WRITE(IOUT,'(3I10)')NE,ITAB(LEDGE(5,NE)),ITAB(LEDGE(6,NE))
+              WRITE(IOUT,'(30X,2I10)')
+     .          (LISUBE(JSUB-1+K),INFLG_SUBE(JSUB-1+K),K=1,N)
+            END IF
+          END DO
+        END IF
+      ELSEIF(NEDGE/=0.AND.NISUB/=0.AND.NEDGE ==NEDGE_L)THEN
+
+        ADDSUBE(1:NEDGE+1)  = 0 
+        LISUBE(1:NISUBE)=0
+        INFLG_SUBE(1:NISUBE)=0
+C-----------------------------------------
+C       Calculation of ADDSUBN, LISUBN, INFLG_SUBN for the main nodes
+C-----------------------------------------
+        ADDSUBE(1:NEDGE+1)=0
+        DO I=1,NEDGE
+           ADDSUBE(I)=ADDSUBE(I)+ADDSUBE_TMP(INDEX2(I)+1)-ADDSUBE_TMP(INDEX2(I))
+        END DO
+C
+        CUR=1
+        DO I=1,NEDGE
+          NEXT    = CUR+ADDSUBE(I)
+          ADDSUBE(I) = CUR
+          CUR     = NEXT
+        END DO
+        ADDSUBE(1+NEDGE)=CUR
+        DO NE=1,NEDGE
+           KK  =ADDSUBE(NE)
+           LL = ADDSUBE_TMP(INDEX2(NE))
+           DO WHILE(KK<ADDSUBE(NE+1))
+             LISUBE(KK)=LISUBE_TMP(LL)
+             INFLG_SUBE(KK)=INFLG_SUBE_TMP(LL)
+             KK = KK +1
+             LL = LL +1
+           ENDDO
+        ENDDO
+        IF(NISUB > 0.AND.NEDGE_L > 0) DEALLOCATE (ADDSUBE_TMP,INFLG_SUBE_TMP,LISUBE_TMP)
+ 
 C-------------------------------------
         IF(IPRI>=6) THEN
           WRITE(IOUT,1000)
@@ -1152,11 +1225,11 @@ C-------------------------------------
           END DO
         END IF
       END IF ! IF(NEDGE/=0.AND.NISUB/=0)THEN
-        IF(ALLOCATED(IIXYZ))DEALLOCATE(IIXYZ)
-        IF(ALLOCATED(INDEX2))DEALLOCATE(INDEX2)
-        IF(ALLOCATED(LEDGE_TMP))DEALLOCATE(LEDGE_TMP)
-        IF(ALLOCATED(LEDGE_TMP3))DEALLOCATE(LEDGE_TMP3)
-        IF(ALLOCATED(EBINFLG_TMP))DEALLOCATE(EBINFLG_TMP)
+      IF(ALLOCATED(IIXYZ))DEALLOCATE(IIXYZ)
+      IF(ALLOCATED(INDEX2))DEALLOCATE(INDEX2)
+      IF(ALLOCATED(LEDGE_TMP))DEALLOCATE(LEDGE_TMP)
+      IF(ALLOCATED(LEDGE_TMP3))DEALLOCATE(LEDGE_TMP3)
+      IF(ALLOCATED(EBINFLG_TMP))DEALLOCATE(EBINFLG_TMP)
 C-------------------------------------
  1000 FORMAT(    /1X,'   STRUCTURE OF SUB-INTERFACES OUTPUT TO TH'/
      .            1X,'   ----------------------------------------'// )

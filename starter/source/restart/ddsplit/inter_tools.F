@@ -2245,7 +2245,7 @@ C FREE EDGES
 C INTERNAL EDGES 
       NB_INTERNAL_EDGES = 0
       DO I=1, NEDGE
-        IF(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE)/=3) THEN
+        IF(IABS(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE))/=3) THEN
           E1=INTBUF_TAB%LEDGE(1+(I-1)*NLEDGE)
           K1=SEGLOC(E1)
           E2=INTBUF_TAB%LEDGE(3+(I-1)*NLEDGE)
@@ -2262,12 +2262,19 @@ C INTERNAL EDGES
             TAG_EDGE(ID) = I
             ID = ID + 1
           ENDIF
+        ELSE
+          E1=INTBUF_TAB%LEDGE(15+(I-1)*NLEDGE)
+          IF(CEP(E1)==PROC) THEN
+            NB_INTERNAL_EDGES = NB_INTERNAL_EDGES + 1
+            TAG_EDGE(ID) = I
+            ID = ID + 1
+          ENDIF
         ENDIF
       ENDDO
 
       NB_BOUNDARY_EDGES_LOCAL = 0
       DO I=1, NEDGE
-        IF(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE)/=3) THEN
+        IF(IABS(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE))/=3) THEN
           E1=INTBUF_TAB%LEDGE(1+(I-1)*NLEDGE)
           K1=SEGLOC(E1)
           E2=INTBUF_TAB%LEDGE(3+(I-1)*NLEDGE)
@@ -2288,7 +2295,7 @@ C INTERNAL EDGES
 
       NB_BOUNDARY_EDGES_REMOTE = 0
       DO I=1, NEDGE
-        IF(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE)/=3) THEN
+        IF(IABS(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE))/=3) THEN
           E1=INTBUF_TAB%LEDGE(1+(I-1)*NLEDGE)
           K1=SEGLOC(E1)
           E2=INTBUF_TAB%LEDGE(3+(I-1)*NLEDGE)
@@ -2307,22 +2314,10 @@ C INTERNAL EDGES
         ENDIF
       ENDDO
 
-C INTERNAL EDGES 
-      NB_1D_EDGES = 0
-      DO I=1,NEDGE
-        IF(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE)==3) THEN
-          E1=INTBUF_TAB%LEDGE(15+(I-1)*NLEDGE)
-          IF(CEP(E1)==PROC) THEN
-            NB_1D_EDGES = NB_1D_EDGES + 1
-            TAG_EDGE(ID) = I
-            ID = ID + 1
-          ENDIF
-        ENDIF
-      ENDDO
       ALLOCATE(TAG1D(NUMNOD))
       TAG1D(1:NUMNOD)=0
       DO I=1,NEDGE
-        IF(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE)==3) THEN
+        IF(IABS(INTBUF_TAB%LEDGE(7+(I-1)*NLEDGE))==3) THEN
           E1=INTBUF_TAB%LEDGE(15+(I-1)*NLEDGE)
           IF(CEP(E1)==PROC) THEN
             N=INTBUF_TAB%LEDGE(5+(I-1)*NLEDGE)
@@ -6194,7 +6189,7 @@ C-----------------------------------------------
       INTEGER :: ID
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
       INTEGER :: NB_FREE_EDGES
-      INTEGER :: NB_INTERNAL_EDGES,NB_1D_EDGES
+      INTEGER :: NB_INTERNAL_EDGES
       INTEGER :: NB_BOUNDARY_EDGES_LOCAL ! boundary edges treated by current domain 
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
       INTEGER :: IAS,JAS,IS,N1,N2,I1,I2
@@ -6206,7 +6201,7 @@ C ----------------------------------------
       NB_FREE_EDGES = 0
 C FREE EDGES
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           K1=SEGLOC(E1)
           E2=LEDGE(3,I)
@@ -6288,7 +6283,7 @@ C orientation segment 2
 C INTERNAL EDGES 
       NB_INTERNAL_EDGES = 0
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           K1=SEGLOC(E1)
           E2=LEDGE(3,I)
@@ -6385,12 +6380,60 @@ C orientation segment 2
             ASSERT(TAG_SM(I2) > 0)
 
           END IF
+        ELSE
+          E1=LEDGE(15,I)
+          IF(CEP(E1)==PROC) THEN
+            NB_INTERNAL_EDGES = NB_INTERNAL_EDGES + 1
+
+! Internal edge 
+            TAG_EDGE(ID) = I
+C at starter phase 9 and 10 are used to save PROC and local ID
+            ASSERT(LEDGE(9,I) == PROC) 
+            ASSERT(LEDGE(10,I) == ID)
+            LEDGE(9,I) = PROC 
+            LEDGE(10,I) = ID
+
+            ID = ID + 1
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = NODLOCAL(LEDGE(5,I))
+            CMPT=CMPT+1
+            IBUF(CMPT) = NODLOCAL(LEDGE(6,I))
+            CMPT=CMPT+1
+            IBUF(CMPT) = LEDGE(7,I)
+            CMPT=CMPT+1
+            IBUF(CMPT) = I !  + 10000* ITAB(LEDGE(6,I))
+            CMPT=CMPT+1
+            IBUF(CMPT) = 1 !  Weight                         
+C orientation  segment 1
+            CMPT=CMPT+1 
+            IBUF(CMPT) = 0
+            CMPT = CMPT +1 
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+
+C orientation segment 2
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+            CMPT = CMPT +1 
+            IBUF(CMPT) = 0
+            CMPT=CMPT+1
+            IBUF(CMPT) = 0
+          END IF
         ENDIF
       ENDDO
 
       NB_BOUNDARY_EDGES_LOCAL = 0
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           K1=SEGLOC(E1)
           E2=LEDGE(3,I)
@@ -6492,7 +6535,7 @@ C orientation segment 2
 
       NB_BOUNDARY_EDGES_REMOTE = 0
       DO I=1, NEDGE
-        IF(LEDGE(7,I)/=3) THEN
+        IF(IABS(LEDGE(7,I))/=3) THEN
           E1=LEDGE(1,I)
           K1=SEGLOC(E1)
           E2=LEDGE(3,I)
@@ -6586,63 +6629,6 @@ C orientation segment 2
         ENDIF
       ENDDO
 
-C
-C 1D element EDGES
-C INTERNAL EDGES 
-      NB_1D_EDGES = 0
-      DO I=1, NEDGE
-        IF(LEDGE(7,I)==3) THEN
-          E1=LEDGE(15,I)
-          IF(CEP(E1)==PROC) THEN
-            NB_1D_EDGES = NB_1D_EDGES + 1
-
-! Internal edge 
-            TAG_EDGE(ID) = I
-C at starter phase 9 and 10 are used to save PROC and local ID
-            ASSERT(LEDGE(9,I) == PROC) 
-            ASSERT(LEDGE(10,I) == ID)
-            LEDGE(9,I) = PROC 
-            LEDGE(10,I) = ID
-
-            ID = ID + 1
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = NODLOCAL(LEDGE(5,I))
-            CMPT=CMPT+1
-            IBUF(CMPT) = NODLOCAL(LEDGE(6,I))
-            CMPT=CMPT+1
-            IBUF(CMPT) = LEDGE(7,I)
-            CMPT=CMPT+1
-            IBUF(CMPT) = I !  + 10000* ITAB(LEDGE(6,I))
-            CMPT=CMPT+1
-            IBUF(CMPT) = 1 !  Weight                         
-C orientation  segment 1
-            CMPT=CMPT+1 
-            IBUF(CMPT) = 0
-            CMPT = CMPT +1 
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-
-C orientation segment 2
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-            CMPT = CMPT +1 
-            IBUF(CMPT) = 0
-            CMPT=CMPT+1
-            IBUF(CMPT) = 0
-
-
-          END IF
-        ENDIF
-      ENDDO
 C      WRITE(6,*) __FILE__,"NEDGE_L",NEDGE_L
 C      WRITE(6,*) "NB_FREE_EDGES=",NB_FREE_EDGES
 C      WRITE(6,*) "NB_INTERNAL_EDGES=",NB_INTERNAL_EDGES
@@ -6651,7 +6637,7 @@ C      WRITE(6,*) "NB_BOUNDARY_EDGES_REMOTE=",NB_BOUNDARY_EDGES_REMOTE
 
 
 
-      I = NB_FREE_EDGES+NB_INTERNAL_EDGES+NB_BOUNDARY_EDGES_LOCAL + NB_BOUNDARY_EDGES_REMOTE+ NB_1D_EDGES 
+      I = NB_FREE_EDGES+NB_INTERNAL_EDGES+NB_BOUNDARY_EDGES_LOCAL + NB_BOUNDARY_EDGES_REMOTE 
       ASSERT(NEDGE_L == I)
 
       CALL WRITE_I_C(IBUF,NLEDGE*NEDGE_L)
@@ -7382,7 +7368,7 @@ C---  Split of KERMNODE -> IBUF1
       DO IK=1,NEDGE_L
          K = TAG_EDGE(IK)
          IK_LOC = .FALSE.
-         IF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)/=3) THEN
+         IF(IABS(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE))/=3) THEN
            EM1=INTBUF_TAB%LEDGE(1+(K-1)*NLEDGE)
            KM1=0
            IF(EM1/=.0) KM1=SEGLOC(EM1)
@@ -7401,7 +7387,7 @@ C---  Split of KERMNODE -> IBUF1
             SIZ2 = 0
             DO M=1,SIZ
                N = INTBUF_TAB%REMNODE_EDG(L+M-1)
-               IF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)/=3) THEN
+               IF(IABS(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE))/=3) THEN
                   ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
                   KS1=0
                   IF(ES1/=0) KS1=SEGLOC(ES1)
@@ -7415,7 +7401,7 @@ C--           Local segment - local id is stored
 C--           Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                     SIZ2 = SIZ2 + 2
                   ENDIF
-               ELSEIF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)==3) THEN
+               ELSEIF(IABS(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE))==3) THEN
                   ES1=INTBUF_TAB%LEDGE(15+(N-1)*NLEDGE)
                   IF(CEP(ES1)==PROC) THEN
 C--           Local segment - local id is stored
@@ -7441,7 +7427,7 @@ C---  Split of ERMNODE -> IBUF2
       DO IK=1,NEDGE_L
          K = TAG_EDGE(IK)
          IK_LOC = .FALSE.
-         IF(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE)/=3) THEN
+         IF(IABS(INTBUF_TAB%LEDGE(7+(K-1)*NLEDGE))/=3) THEN
             EM1=INTBUF_TAB%LEDGE(1+(K-1)*NLEDGE)
             KM1=0
             IF(EM1/=.0) KM1=SEGLOC(EM1)
@@ -7463,7 +7449,7 @@ C
 C
             DO M=1,SIZ
                N = INTBUF_TAB%REMNODE_EDG(L+M-1)
-               IF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)/=3) THEN
+               IF(IABS(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE))/=3) THEN
                  KS1=0
                  ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
                  IF(ES1/=0) KS1=SEGLOC(ES1)
@@ -7480,7 +7466,7 @@ C-- Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                    IBUF2(SIZ2+1) = ITAB(INTBUF_TAB%LEDGE(6+(N-1)*NLEDGE))
                    SIZ2 = SIZ2+2
                  ENDIF
-               ELSEIF(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE)==3) THEN
+               ELSEIF(IABS(INTBUF_TAB%LEDGE(7+(N-1)*NLEDGE))==3) THEN
                  ES1=INTBUF_TAB%LEDGE(15+(N-1)*NLEDGE)
                  IF(CEP(ES1)==PROC) THEN
 C-- Local segment - local id is stored
