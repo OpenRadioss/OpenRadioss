@@ -533,11 +533,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer iter,i1
-      my_real delta,fc1,etac,guess,pmax,
-     .        trans,transr,transp,trans1,trans2,dbdeta,detar,detap,
+C      integer iter,i1
+      my_real fc1,etac,guess,
+     .        trans,transr,transp,dbdeta,detar,detap,
      .        dedr,dedp,bth,dbdt,detrdt,detpdt,dpdt,dbdf,detrdf,
-     .        detpdf,cvr0,cvp0,slope,tl,tu,a,b,c,
+     .        detpdf,cvr0,cvp0,
      .        bthp,dedvp,preac,pprod,dpdtp,dpdtr,bthr,dedvr,
      .        enp,enr
       my_real :: lower_bound,upper_bound

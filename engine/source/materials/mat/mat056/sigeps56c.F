@@ -170,8 +170,6 @@ C-----------------------------------------------
      .        NFUNCM,IPERF
       INTEGER JST(MVSIZ+1), IC
       my_real
-     . MX234
-      my_real
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
      .        YFAC(MVSIZ,2),
@@ -189,7 +187,6 @@ C-----------------------------------------------
 C
 C -- Added variables for NEC grouping
       my_real
-     . NG_NU3,
      .     NG_NRATES(MVSIZ,100)
  
       INTEGER

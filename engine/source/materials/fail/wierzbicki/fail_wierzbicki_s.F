@@ -87,12 +87,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,IMOY
+      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),NINDX,NINDEX,IMOY
       my_real 
      .        C1,C2,C3,C4,CM,
-     .        CN,P,EPSF,SVM,J3,ETA,XI,SXX,SYY,SZZ,DELTA,
-     .        XI_OLD, ETA_OLD,PLA_OLD,EPSF_OLD
+     .        CN,P,EPSF,SVM,J3,ETA,XI,SXX,SYY,SZZ
 C--------------------------------------------------------------
       C1 = UPARAM(1)
       C2 = UPARAM(2)

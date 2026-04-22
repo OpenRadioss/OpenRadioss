@@ -39,8 +39,8 @@
 !||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine work_hardening_linearvoce(                                     &
-        matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
+        subroutine work_hardening_linearvoce(                                     &
+          matparam ,nel      ,sigy     ,pla      ,dsigy_dpla,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -54,31 +54,30 @@
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-        type(matparam_struct_),        intent(in)    :: matparam   !< Material parameters data
-        integer,                       intent(in)    :: nel        !< Number of elements in the group
-        real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
-        real(kind=WP), dimension(nel), intent(inout) :: pla        !< Cumulated plastic strain
-        real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
-        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for work hardening parameters
+          type(matparam_struct_),        intent(in)    :: matparam   !< Material parameters data
+          integer,                       intent(in)    :: nel        !< Number of elements in the group
+          real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
+          real(kind=WP), dimension(nel), intent(inout) :: pla        !< Cumulated plastic strain
+          real(kind=WP), dimension(nel), intent(inout) :: dsigy_dpla !< Derivative of eq. stress w.r.t. cumulated plastic strain
+          integer,                       intent(in)    :: offset     !< Offset in the material parameters array for work hardening parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i
-        real(kind=WP) :: r0,h,q,b
-        real(kind=WP), dimension(nel) :: exp_term
+          real(kind=WP) :: r0,h,q,b
+          real(kind=WP), dimension(nel) :: exp_term
 !===============================================================================
 !
-        !=======================================================================
-        !< - Voce work hardening model
-        !=======================================================================
-        !< Recover work hardening parameters
-        r0 = matparam%uparam(offset + 1) !< Initial yield stress
-        h  = matparam%uparam(offset + 2) !< Linear hardening modulus
-        q  = matparam%uparam(offset + 3) !< Voce saturation stress
-        b  = matparam%uparam(offset + 4) !< Voce saturation rate
-        exp_term(1:nel) = exp(-b*pla(1:nel))
-        sigy(1:nel) = r0 + h*pla(1:nel) + q*(one - exp_term(1:nel))
-        dsigy_dpla(1:nel) = h + q*b*exp_term(1:nel)
+          !=======================================================================
+          !< - Voce work hardening model
+          !=======================================================================
+          !< Recover work hardening parameters
+          r0 = matparam%uparam(offset + 1) !< Initial yield stress
+          h  = matparam%uparam(offset + 2) !< Linear hardening modulus
+          q  = matparam%uparam(offset + 3) !< Voce saturation stress
+          b  = matparam%uparam(offset + 4) !< Voce saturation rate
+          exp_term(1:nel) = exp(-b*pla(1:nel))
+          sigy(1:nel) = r0 + h*pla(1:nel) + q*(one - exp_term(1:nel))
+          dsigy_dpla(1:nel) = h + q*b*exp_term(1:nel)
 !
         end subroutine work_hardening_linearvoce
       end module work_hardening_linearvoce_mod

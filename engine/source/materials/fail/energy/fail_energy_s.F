@@ -92,12 +92,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),IR,IFAIL,JJ,
-     .        ISOLID
-      my_real :: E1,E2,E3,E4,E5,E6,E42,E52,E62,C,D, EPST,EPST2,
-     .       R1,R2,Y,YP,DAV,IE_SP,P,SCALE,CC,RIEF1,RIEF2
-      my_real :: EPS_MAX(MVSIZ),DAMAGE(MVSIZ),EPSF1(MVSIZ),EPSF2(MVSIZ)
+      INTEGER I,J,INDX(MVSIZ),NINDX
+      my_real :: R1,R2,IE_SP,RIEF1,RIEF2
+      my_real :: DAMAGE(MVSIZ)
       my_real :: RFAC(NEL),DYDX(NEL)
 C--------------------------------------------------------------
       RIEF1 =  FAIL%UPARAM(1)

@@ -56,35 +56,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,NPT,MTN,NSG,IR,IS,NLAY,
+      INTEGER JFT, JLT,NPT,MTN,IR,IS,NLAY,
      .     MAT(MVSIZ),NEL,MATLY(*),IPM(NPROPMI,*),IGTYP,
      .     NPF(*)
 C     REAL
       my_real
      .   FOR(NEL,5), FORTH(NEL,2), EINT(JLT,2), EINTTH(*),
-     .   OFF(*),EINTT(MVSIZ),DIR(NEL,2),THK(*), PM(NPROPM,*),
+     .   OFF(*),DIR(NEL,2),THK(*), PM(NPROPM,*),
      .   THKLY(*),DTEMP(*),TEMPEL(*),TF(*),POSLY(MVSIZ,*),
      .   MOM(NEL,3)
       my_real
      .   EXX(MVSIZ), EYY(MVSIZ), ETH(MVSIZ),THK0(MVSIZ) ,
-     .   AREA(MVSIZ),PLA(MVSIZ),A1(MVSIZ), A2(MVSIZ)
+     .   AREA(MVSIZ),A1(MVSIZ), A2(MVSIZ)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, MX, J,IORTH,IPT,ILAY,II(5),NPTT,IT,
+      INTEGER  I, MX, IORTH,IPT,ILAY,II(5),NPTT,IT,
      .         IORTH_LAY,IFUNC_ALPHA,J1,J2,J3,JJ,IPT_ALL
 C     REAL
       my_real
-     .   DTINV, AMU, FACT, VISC,M12,ANU12,ANU21,S1,S2,
-     .   FSCAL_ALPHA,ALPHA,DEINTTH,DF,WMC,AA,THKLAY,KXX,KYY
+     .   ANU12,ANU21,S1,S2,
+     .   FSCAL_ALPHA,ALPHA,DF,WMC,AA,THKLAY
       my_real
      .   NU(MVSIZ),E(MVSIZ),A12(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ),
-     .   B3(MVSIZ), DEGMB(MVSIZ), DEGFX(MVSIZ),DEGMBTH(MVSIZ),
-     .   EZZ(MVSIZ),EINF(MVSIZ),P(MVSIZ),DEGFXTH(MVSIZ),
+     .   DEGMBTH(MVSIZ),
+     .   P(MVSIZ),
      .   P1(MVSIZ),P2(MVSIZ),ETHKE(MVSIZ),ZI2(MVSIZ),SUMALZ(MVSIZ)
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+C      TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------    
       my_real FINTER 

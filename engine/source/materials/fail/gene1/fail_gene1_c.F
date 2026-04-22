@@ -96,7 +96,7 @@ C!-----------------------------------------------
       my_real 
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
-     .        THIN,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
+     .        THIN,MAXTEMP,Fscale_el,El_ref
       my_real 
      .        E12,P(NEL),SXX,SYY,SZZ,SVM(NEL),SH12(NEL),E1C(NEL),
      .        XVEC(NEL,2),Q,R_INTER,E11(NEL),E22(NEL),VOL_STRAIN(NEL),DAV,

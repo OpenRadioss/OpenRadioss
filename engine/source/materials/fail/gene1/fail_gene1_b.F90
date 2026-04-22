@@ -26,7 +26,7 @@
 !||    fail_beam3         ../engine/source/elements/beam/fail_beam3.F
 !||====================================================================
       module fail_gene1_b_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief   gene1 failure criteria for type3 beam elements
@@ -114,7 +114,7 @@
           real(kind=WP) :: &
             minpres, maxpres, sigp1, tmax, dtmin, epsdot_sm, sigvm, sigth, &
             kf, epsdot_ps, maxeps, effeps, voleps, mineps, epssh, epsdot_fld, &
-            volfrac, maxtemp, fscale_el, el_ref, fac, df, thin
+            volfrac, maxtemp, fscale_el, el_ref, thin
           real(kind=WP) :: &
             e1, e4, e6, e42, e62, i1, i2, q, r, r_inter, phi, dav, e1d, e2d, e3d, e4d, e6d, denom,sxx,syy,szz
           real(kind=WP), dimension(nel) :: p, svm, e11, e22, e33, vol_strain, s11, s22, s33, eff_strain, &
@@ -384,14 +384,14 @@
 !c    ! step4: check the criterion of failure
 !-------------------------------------------------------------------------------
           ! Tag active elements
-          nindx_on = 0  
+          nindx_on = 0
           do i=1,nel
             if (off(i) == one .and. uvar(i,5) == one) then
               nindx_on = nindx_on + 1
-              indx_on(nindx_on) = i  
+              indx_on(nindx_on) = i
             end if
           end do
-          
+
           !====================================================================
           ! - loop over the element to check the erosion criteria
           !====================================================================

@@ -72,9 +72,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,  NVARF,   NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN
+      INTEGER       NEL,  NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN
       my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
+     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
      .      DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
      .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
@@ -108,39 +108,33 @@ C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER,FINTTE,TF(*),FINT2V
+      my_real FINTER,FINTTE,TF(*)
       EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,KK,LL,N
-      INTEGER IE,NROT,IER,NDI,NSHR,NTENS,SIGN
+      INTEGER    I,J
+      INTEGER IE,NROT,IER,NDI,SIGN
  
-      my_real
-     .   ET1,ET2,ET3,G,RBULK,AA,CC,SB, 
-C
-     .   BI1(NEL),BI2(NEL),JDET(NEL),I1(NEL),IP1(NEL),GAMMAOLD(NEL),STIFF(NEL), 
-     .   TEMP(NEL),
-C
-     .   NB(NEL,3),SNINV(NEL,3,3)
+      my_real TEMP(NEL)
 C----------------------------------------------------------------
 
       LOGICAL DEBUG, DEBUG1, DEBUG2, DEBUG3, DEBUG4, DEBUG5
       
       my_real
-     . TIMEA(2),DTIME,F(3,3), F0(3,3), U0(3,3), F1(3,3), U1(3,3), 
+     . DTIME, F0(3,3), U0(3,3), F1(3,3), U1(3,3), 
      . TENSOR1(3,3), TENSOR2(3,3), TENSOR3(3,3), TENSOR4(3,3), 
      . TENSOR5(3,3),
      . TENS0(3,3), TENS1(3,3),
      . RDFGRD(3,3), VGRAD(3,3),
      . D_UMAT(3,3), W_UMAT(3,3),
-     . ROTE0(3,3), ROTE1(3,3), ROT0(3,3), ROT1(3,3),
+     . ROTE0(3,3), ROTE1(3,3), ROT1(3,3),
      . BETAM(3,3), BETAM0(3,3), ALPHAM(3,3),
      . DEV_ALPHAM(3,3), DEV_xM(3,3),
      . TAUM(3,3), SIGMA_Q(3,3),
      . FVM(3,3), FVM_INV(3,3), BP(3,3), 
      . FTHETA(3,3), FTHETA_INV(3,3),
-     . FE0(3,3), FI_INV(3,3), CE0(3,3), UE0(3,3),
+     . FE0(3,3), CE0(3,3), UE0(3,3),
      . UE0_INV(3,3), EE0(3,3), XM(3,3), SIGMAM(3,3),
      . DEV_MEFF(3,3), DV(3,3), TEMP1(3,3), XMEFF(3,3),
      . TEMP1_INV(3,3), TEMP2(3,3), TEMP2_INV(3,3),
@@ -151,19 +145,19 @@ C----------------------------------------------------------------
      . VCE1(3,3), DCE1(3),
      . A(3,3),   
 c
-     . FV(6), SIGMA(6),
+     . FV(6),
      . BETA(6),
      . DEV_MEFF_VEC(6), NV_VEC(6),
-     . DV_VEC(6), TAU(6),
+     . DV_VEC(6),
      . FV_ITER(6), XM_VEC(6), D_UMAT_VEC(6),
 c      
-     . J1, T1, T2, T3,
+C    . J1, T1, T2, T3,
      . DEREF, DE0, DE, DPOISS,
      . DEDOT_REF, DVE1, DVE2,
      . GAMV_REF, DQ, DV1, DC3, DC4, CALPHAK1,
      . CALPHAK2, DC5, DC6, DC7, DC8, DC9, DC10,
      . DC11, DC12, DC13, DC14, DC1, DC2,
-     . THETA0, BETA0, BTHETA, FACTOR, CV, RHO_P,
+     . THETA0, BETA0, FACTOR, CV, RHO_P,
      . THETA, THETADOT, DTHETA_ITER, THETADOTITER,
      . THETAITER, THETAG,
      . D_THETA_OPT, THETAI,
@@ -175,15 +169,15 @@ c
      . DMU_R, DLAMBDA_L, DRS1,
      . TWOMU0, BULKA0,
      . DES1, DESTAR, DES2, DKAPPA1, DKAPPA2,
-     . GAMV, GAMVEQ, DKAPPA, TR_ALPHA,
-     . DET_F0, DET_F1, DET, DET_FE,
-     . DMU_B, KSI_B, DET_BETA,
+     . GAMV, GAMVEQ, DKAPPA,
+     . DET, DET_FE,
+     . DMU_B,
      . EQSTRESS, PRESSURE, NORM_DEVMEFF, TR_M,
      . DGAMV_ITER, DET_VCE0,
      . GAMV_ITER, DET_VCE1, D1, D2, D3,
      . DE1, DE2, DE3,
      . TR_EE1, TR_EE0, COEFF1_A, COEFF1_B,
-     . COEFF1, COEFF2, COEFF3, EXCHANGE, GAMV0, ROT, ps
+     . COEFF2, COEFF3, EXCHANGE, GAMV0, ps
      
       my_real
      . TSEVEN,  SMALL, BIG,  DS32, DS3, DS13, DKB, 
@@ -1973,10 +1967,10 @@ C
       SUBROUTINE COMPEE_TPU(F, FV, ROT, EE, NDI)
 
 #include "implicit_f.inc"
-      INTEGER I, J, NDI
+      INTEGER NDI
       my_real FVM(3,3), FVM_INV(3,3)
       my_real FE(3,3), CE(3,3), UE(3,3), F(3,3)
-      my_real UE_INV(3,3), EE(3,3), XMA(3,3), ROT(3,3)
+      my_real UE_INV(3,3), EE(3,3), ROT(3,3)
       my_real CE2(3,3), PMIDENT(3,3), TEMP(3,3)
       my_real FV(6)
       my_real INV1, INV2, INV3, B, C, M, N, T

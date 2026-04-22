@@ -63,54 +63,54 @@
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-        type(matparam_struct_),        intent(in)    :: matparam !< Material parameters data
-        integer,                       intent(in)    :: nel      !< Number of elements in the group
-        real(kind=WP), dimension(nel), intent(inout) :: seq      !< Equivalent stress
-        real(kind=WP), dimension(nel), intent(in)    :: signxx   !< Current stress xx
-        real(kind=WP), dimension(nel), intent(in)    :: signyy   !< Current stress yy
-        real(kind=WP), dimension(nel), intent(in)    :: signxy   !< Current stress xy
-        real(kind=WP), dimension(nel), intent(inout) :: normxx   !< 1st derivative of equivalent stress wrt stress xx
-        real(kind=WP), dimension(nel), intent(inout) :: normyy   !< 1st derivative of equivalent stress wrt stress yy
-        real(kind=WP), dimension(nel), intent(inout) :: normzz   !< 1st derivative of equivalent stress wrt stress zz
-        real(kind=WP), dimension(nel), intent(inout) :: normxy   !< 1st derivative of equivalent stress wrt stress xy
-        real(kind=WP), dimension(nel), intent(inout) :: normyz   !< 1st derivative of equivalent stress wrt stress yz
-        real(kind=WP), dimension(nel), intent(inout) :: normzx   !< 1st derivative of equivalent stress wrt stress zx
-        integer,                       intent(in)    :: offset   !< Offset in the material parameters array for yield criterion parameters
+          type(matparam_struct_),        intent(in)    :: matparam !< Material parameters data
+          integer,                       intent(in)    :: nel      !< Number of elements in the group
+          real(kind=WP), dimension(nel), intent(inout) :: seq      !< Equivalent stress
+          real(kind=WP), dimension(nel), intent(in)    :: signxx   !< Current stress xx
+          real(kind=WP), dimension(nel), intent(in)    :: signyy   !< Current stress yy
+          real(kind=WP), dimension(nel), intent(in)    :: signxy   !< Current stress xy
+          real(kind=WP), dimension(nel), intent(inout) :: normxx   !< 1st derivative of equivalent stress wrt stress xx
+          real(kind=WP), dimension(nel), intent(inout) :: normyy   !< 1st derivative of equivalent stress wrt stress yy
+          real(kind=WP), dimension(nel), intent(inout) :: normzz   !< 1st derivative of equivalent stress wrt stress zz
+          real(kind=WP), dimension(nel), intent(inout) :: normxy   !< 1st derivative of equivalent stress wrt stress xy
+          real(kind=WP), dimension(nel), intent(inout) :: normyz   !< 1st derivative of equivalent stress wrt stress yz
+          real(kind=WP), dimension(nel), intent(inout) :: normzx   !< 1st derivative of equivalent stress wrt stress zx
+          integer,                       intent(in)    :: offset   !< Offset in the material parameters array for yield criterion parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i
-        real(kind=WP) :: al1,al2,al3,al4,al5,al6,al7,al8,expa
-        real(kind=WP) :: lp11,lp12,lp21,lp22,lp66
-        real(kind=WP) :: lpp11,lpp12,lpp21,lpp22,lpp66
-        real(kind=WP) :: xpxx(nel),xpyy(nel),xpxy(nel)
-        real(kind=WP) :: xppxx(nel),xppyy(nel),xppxy(nel)
-        real(kind=WP),dimension(nel) :: normsig,xp1,xp2,xpp1,xpp2,phip,phipp
-        real(kind=WP) :: mohr_center,mohr_radius,dxp1dxpxx,dxp1dxpyy,dxp1dxpxy,&
-          dxp2dxpxx,dxp2dxpyy,dxp2dxpxy,dphipdsigxx,dphipdsigyy,dphipdsigxy,   &
-          dxpp1dxppxx,dxpp1dxppyy,dxpp1dxppxy,dxpp2dxppxx,dxpp2dxppyy,         &
-          dxpp2dxppxy,dphippdsigxx,dphippdsigyy,dphippdsigxy,                  &
-          dphipdxp1,dphipdxp2,dphippdxpp1,dphippdxpp2,dseqdphip,dseqdphipp,    &
-          dxp1dsigxx,dxp1dsigyy,dxp1dsigxy,dxp2dsigxx,dxp2dsigyy,dxp2dsigxy,   &
-          dxpp1dsigxx,dxpp1dsigyy,dxpp1dsigxy,dxpp2dsigxx,dxpp2dsigyy,         &
-          dxpp2dsigxy
+          integer :: i
+          real(kind=WP) :: expa
+          real(kind=WP) :: lp11,lp12,lp21,lp22,lp66
+          real(kind=WP) :: lpp11,lpp12,lpp21,lpp22,lpp66
+          real(kind=WP) :: xpxx(nel),xpyy(nel),xpxy(nel)
+          real(kind=WP) :: xppxx(nel),xppyy(nel),xppxy(nel)
+          real(kind=WP),dimension(nel) :: normsig,xp1,xp2,xpp1,xpp2,phip,phipp
+          real(kind=WP) :: mohr_center,mohr_radius,dxp1dxpxx,dxp1dxpyy,dxp1dxpxy,&
+            dxp2dxpxx,dxp2dxpyy,dxp2dxpxy,dphipdsigxx,dphipdsigyy,dphipdsigxy,   &
+            dxpp1dxppxx,dxpp1dxppyy,dxpp1dxppxy,dxpp2dxppxx,dxpp2dxppyy,         &
+            dxpp2dxppxy,dphippdsigxx,dphippdsigyy,dphippdsigxy,                  &
+            dphipdxp1,dphipdxp2,dphippdxpp1,dphippdxpp2,dseqdphip,dseqdphipp,    &
+            dxp1dsigxx,dxp1dsigyy,dxp1dsigxy,dxp2dsigxx,dxp2dsigyy,dxp2dsigxy,   &
+            dxpp1dsigxx,dxpp1dsigyy,dxpp1dsigxy,dxpp2dsigxx,dxpp2dsigyy,         &
+            dxpp2dsigxy
 !===============================================================================
 !
-        !=======================================================================
-        !< - Barlat (2000) yield criterion and its derivatives
-        !=======================================================================
-        !< Barlat 2000 coefficients
-        lp11  = matparam%uparam(offset + 1)
-        lp12  = matparam%uparam(offset + 2)
-        lp21  = matparam%uparam(offset + 3)
-        lp22  = matparam%uparam(offset + 4)
-        lp66  = matparam%uparam(offset + 5)
-        lpp11 = matparam%uparam(offset + 6)
-        lpp12 = matparam%uparam(offset + 7)
-        lpp21 = matparam%uparam(offset + 8)
-        lpp22 = matparam%uparam(offset + 9)
-        lpp66 = matparam%uparam(offset + 10)
-        expa  = matparam%uparam(offset + 11)
+          !=======================================================================
+          !< - Barlat (2000) yield criterion and its derivatives
+          !=======================================================================
+          !< Barlat 2000 coefficients
+          lp11  = matparam%uparam(offset + 1)
+          lp12  = matparam%uparam(offset + 2)
+          lp21  = matparam%uparam(offset + 3)
+          lp22  = matparam%uparam(offset + 4)
+          lp66  = matparam%uparam(offset + 5)
+          lpp11 = matparam%uparam(offset + 6)
+          lpp12 = matparam%uparam(offset + 7)
+          lpp21 = matparam%uparam(offset + 8)
+          lpp22 = matparam%uparam(offset + 9)
+          lpp66 = matparam%uparam(offset + 10)
+          expa  = matparam%uparam(offset + 11)
 !
           !< Shell element
           do i = 1,nel

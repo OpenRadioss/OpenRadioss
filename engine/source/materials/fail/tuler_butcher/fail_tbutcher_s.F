@@ -104,12 +104,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),IFAIL,IR,JJ
+      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),NINDX
       my_real
-     .    TBA,TBK,SIGR,SVM,SCALE,SXX,SYY,SZZ,
+     .    TBA,TBK,SIGR,SCALE,
      .    E1,E2,E3,E4,E5,E6,
-     .    EPST2, A, CC1, B, Y ,YP, D, E42, E52, C, E62,P,SIGMAX
+     .    EPST2, CC1, Y ,YP, D, E42, E52, C, E62,P,SIGMAX
 c=======================================================================     
 
       TBA   = UPARAM(1)
