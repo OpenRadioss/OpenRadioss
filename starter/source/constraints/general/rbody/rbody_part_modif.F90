@@ -234,7 +234,7 @@
 ! ======================================================================================================================
           jt_m(1:3)=0
           jr_m(1:3)=0
-          isk_m = iskew(isl(1))
+          isk_m = max(1,iskew(isl(1)))
           do i=1,nsl
             ns = isl(i)
             ic = icode(ns)
@@ -254,12 +254,6 @@
               jt(1) = ict/4
               jt(2) = (ict-4*jt(1))/2
               jt(3) = ict-4*jt(1)-2*jt(2)
-              if ((jt(1)+jt_m(1))>2) jr_m(2:3) = 1
-              if ((jt(2)+jt_m(2))>2) then 
-                jr_m(1) = 1
-                jr_m(3) = 1
-              end if
-              if ((jt(3)+jt_m(3))>2) jr_m(1:2) = 1
               jt_m(1:3) = max(jt_m(1:3),jt(1:3))
             end if
             if (jr_m(1)+jr_m(2)+jr_m(3)<3) then
@@ -267,6 +261,12 @@
               jr(2) = (icr-4*jr(1))/2
               jr(3) = icr-4*jr(1)-2*jr(2)
               jr_m(1:3) = max(jr_m(1:3),jr(1:3))
+              if ((jt(1)+jt_m(1))==2) jr_m(2:3) = 1
+              if ((jt(2)+jt_m(2))==2) then 
+                jr_m(1) = 1
+                jr_m(3) = 1
+              end if
+              if ((jt(3)+jt_m(3))==2) jr_m(1:2) = 1
             end if
             icode(ns) = 0
           end do

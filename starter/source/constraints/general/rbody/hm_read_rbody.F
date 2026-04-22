@@ -316,7 +316,8 @@ C
         NPBY(11,NRB)=K
         NPBY(6,NRB)=ID
         M = NPBY(1,NRB)
-        NSL = NODGRNR6(M,IGU,IGS,LPBY(K+1),IGRNOD,ITABM1,MESS,ID)
+        NSL = 0
+        IF (IGU>0) NSL = NODGRNR6(M,IGU,IGS,LPBY(K+1),IGRNOD,ITABM1,MESS,ID)
         IF (NRB>NRBYKIN0) THEN
           CALL RBODY_PART_MODIF(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,          
      .                           NUMNOD ,NRB   ,NSL   ,LPBY(K+1:K+NSL),
