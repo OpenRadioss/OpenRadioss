@@ -157,34 +157,34 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,NMAX,
+      INTEGER I,J,J1,J2,N,NINDX,NMAX,
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
-     .        JJ(MVSIZ),INDEX(MVSIZ),NRATEM,
+     .        JJ(MVSIZ),INDEX(MVSIZ),
      .        NRATE1
       my_real 
-     .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
+C     .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
      .        YFAC(MVSIZ,2),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
-     .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),SVMO(MVSIZ),H(MVSIZ),
-     .        EPSMAX(MVSIZ),EPSR1(MVSIZ),EPSR2(MVSIZ),FISOKIN(MVSIZ),
+     .        PP(MVSIZ),QQ(MVSIZ),H(MVSIZ),
+C     .        EPSMAX(MVSIZ),EPSR1(MVSIZ),EPSR2(MVSIZ),FISOKIN(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
-     .        HK(MVSIZ),NU(MVSIZ),NNU1(MVSIZ),EPSF(MVSIZ),
+     .        HK(MVSIZ),
      .        SVM2(MVSIZ),YLD2(MVSIZ)
       my_real
-     .        R,UMR,A,B,C,AMU,S11,S22,S12,P,P2,FAC,DEZZ,
-     .        SIGZ,S1,S2,S3,DPLA,VM2,EPST(MVSIZ),NNU2,     
-     .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
+     .        R,UMR,A,P2,FAC,DEZZ,
+     .        S1,S2,S3,EPST(MVSIZ),
+     .        F,DF,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
      .        ALPHA,
-     .        E1,A11,A21,G1,NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
+     .        E1,A11,A21,G1,NNU11,NU11,NU21,NU31,
      .        EPSMAX1,EPSR11,EPSR21,FISOKIN1,G31,
-     .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX, EPSF1, MEPSF
-      my_real
-     .        Y11(MVSIZ),Y21(MVSIZ), ME, MA1, MA2, MG, MNU,
-     .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN
-      INTEGER JST(MVSIZ+1), IC, MNRATE
+     .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX, EPSF1
+C      my_real
+C     .        Y11(MVSIZ),Y21(MVSIZ), ME, MA1, MA2, MG, MNU,
+C     .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN
+C      INTEGER JST(MVSIZ+1), IC, MNRATE
 C
       DATA NMAX/3/
 C-----------------------------------------------

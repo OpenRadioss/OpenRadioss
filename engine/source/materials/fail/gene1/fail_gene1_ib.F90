@@ -26,7 +26,7 @@
 !||    fail_beam18         ../engine/source/elements/beam/fail_beam18.F
 !||====================================================================
       module fail_gene1_ib_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief   gene1 failure criteria for type18 beam elements
@@ -119,7 +119,7 @@
           real(kind=WP) :: &
             minpres, maxpres, sigp1, tmax, dtmin, epsdot_sm, sigvm, sigth, &
             kf, epsdot_ps, maxeps, effeps, voleps, mineps, epssh, epsdot_fld, &
-            volfrac, maxtemp, fscale_el, el_ref, fac, df, e52, e5, e5d, thin
+            volfrac, maxtemp, fscale_el, el_ref, e52, e5, e5d, thin
           real(kind=WP) :: &
             e1, e2, e3, e4, e6, e42, e62, i1, i2, i3, sxx, syy, szz, &
             q, r, r_inter, phi, dav, e1d, e2d, e3d, e4d, e6d, psi, denom
@@ -407,14 +407,14 @@
 !c    !step3: computation of stress and strain
 !-------------------------------------------------------------------------------
           ! Tag active elements
-          nindx_on = 0  
+          nindx_on = 0
           do i=1,nel
             if (off(i) == one .and. foff(i)==one) then
               nindx_on = nindx_on + 1
-              indx_on(nindx_on) = i  
+              indx_on(nindx_on) = i
             end if
           end do
-          
+
           !====================================================================
           ! - loop over the element to check the erosion criteria
           !====================================================================

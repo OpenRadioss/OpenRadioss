@@ -39,51 +39,50 @@
 !||    matparam_def_mod              ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine self_heating_taylor(                                          &
-        matparam ,nel      ,sigy     ,dtemp_dpla,epsd     ,offset   )
+        subroutine self_heating_taylor(                                          &
+          matparam ,nel      ,sigy     ,dtemp_dpla,epsd     ,offset   )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
-        use matparam_def_mod
-        use constant_mod
-        use precision_mod, only : WP
+          use matparam_def_mod
+          use constant_mod
+          use precision_mod, only : WP
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
-        implicit none
+          implicit none
 !----------------------------------------------------------------
 !  I n p u t   A r g u m e n t s
 !----------------------------------------------------------------
-        type(matparam_struct_),        intent(in)    :: matparam   !< Material parameters data
-        integer,                       intent(in)    :: nel        !< Number of elements in the group
-        real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
-        real(kind=WP), dimension(nel), intent(inout) :: dtemp_dpla !< Derivative of temperature w.r.t. cumulated plastic strain
-        real(kind=WP), dimension(nel), intent(in)    :: epsd       !< Equivalent strain rate
-        integer,                       intent(in)    :: offset     !< Offset in the material parameters array for self heating parameters
+          type(matparam_struct_),        intent(in)    :: matparam   !< Material parameters data
+          integer,                       intent(in)    :: nel        !< Number of elements in the group
+          real(kind=WP), dimension(nel), intent(inout) :: sigy       !< Equivalent stress
+          real(kind=WP), dimension(nel), intent(inout) :: dtemp_dpla !< Derivative of temperature w.r.t. cumulated plastic strain
+          real(kind=WP), dimension(nel), intent(in)    :: epsd       !< Equivalent strain rate
+          integer,                       intent(in)    :: offset     !< Offset in the material parameters array for self heating parameters
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-        integer :: i
-        real(kind=WP) :: eta,deis,dead,rhocp
-        real(kind=WP), dimension(nel) :: weight
+          real(kind=WP) :: eta,deis,dead,rhocp
+          real(kind=WP), dimension(nel) :: weight
 !===============================================================================
 !
-        !=======================================================================
-        !< - Taylor-Quinney (extended) self-heating model
-        !=======================================================================
-        !< Recover self heating parameters
-        eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
-        deis  = matparam%uparam(offset + 2) !< Strain rates for the beginning of adiabatic transition
-        dead  = matparam%uparam(offset + 3) !< Strain rates for the end of adiabatic transition
-        rhocp = matparam%therm%rhocp        !< Material thermal inertia
-        !< Strain rate weight factor computation
-        weight(1:nel) = ((epsd(1:nel)-deis)**2) *                               &
-             (three*dead - two*epsd(1:nel) - deis)/((dead-deis)**3)
-        weight(1:nel) = max(zero, min(one, weight(1:nel)))
-        where (epsd(1:nel) < deis) weight(1:nel) = zero
-        where (epsd(1:nel) > dead) weight(1:nel) = one
-        !< Update derivative of temperature w.r.t. cumulated plastic strain
-        dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
+          !=======================================================================
+          !< - Taylor-Quinney (extended) self-heating model
+          !=======================================================================
+          !< Recover self heating parameters
+          eta   = matparam%uparam(offset + 1) !< Taylor-Quinney coefficient
+          deis  = matparam%uparam(offset + 2) !< Strain rates for the beginning of adiabatic transition
+          dead  = matparam%uparam(offset + 3) !< Strain rates for the end of adiabatic transition
+          rhocp = matparam%therm%rhocp        !< Material thermal inertia
+          !< Strain rate weight factor computation
+          weight(1:nel) = ((epsd(1:nel)-deis)**2) *                               &
+            (three*dead - two*epsd(1:nel) - deis)/((dead-deis)**3)
+          weight(1:nel) = max(zero, min(one, weight(1:nel)))
+          where (epsd(1:nel) < deis) weight(1:nel) = zero
+          where (epsd(1:nel) > dead) weight(1:nel) = one
+          !< Update derivative of temperature w.r.t. cumulated plastic strain
+          dtemp_dpla(1:nel) = (eta/rhocp)*sigy(1:nel)*weight(1:nel)
 !
-      end subroutine self_heating_taylor
+        end subroutine self_heating_taylor
       end module self_heating_taylor_mod

@@ -149,33 +149,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IADBUFV,J1,J2,JJ(MVSIZ),NFUNC,
-     .        NRATE(MVSIZ),IPOS1(MVSIZ),IPOS2(MVSIZ),IAD1(MVSIZ),
-     .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),
-     .         NFUNCV(MVSIZ),PFUN(MVSIZ),
-     .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),NFUNCM,NRATEM,
-     .        IPFLAG,IPARAM,NPAR,IYEILD_TAB,IADBUF,
-     ,        ITAB(100),NTABLE,NXH,NDIM,IPOS,NXK
+      INTEGER I,J,IADBUFV,
+     .        IYEILD_TAB,IADBUF,
+     .        ITAB(100),NTABLE,NDIM,IPOS,NXK
       my_real
      .        F(MVSIZ), SIGM(MVSIZ), EPSM(MVSIZ), EPSP1(MVSIZ),
-     .        LAMDA(MVSIZ), FSTAR(MVSIZ),P0(MVSIZ),PN(MVSIZ),
+     .        LAMDA(MVSIZ), FSTAR(MVSIZ),PN(MVSIZ),
      .        ET,YEILD0(MVSIZ),CSD, 
      .        VISP(MVSIZ),  Q1, Q2, Q3, 
      .        SN, EPSN, FI,FN,
      .        FC,FF,FU, N,
      .        SIGXX(MVSIZ),SIGYY(MVSIZ),SIGXY(MVSIZ),
-     .        SIGZX(MVSIZ),SIGYZ(MVSIZ), SIGZZ(MVSIZ),
-     .        SGANXX(MVSIZ), SGANYY(MVSIZ), SGANZZ(MVSIZ),
-     .        SGANXY(MVSIZ), SGANXZ(MVSIZ), SGANYZ(MVSIZ)
+     .        SIGZX(MVSIZ),SIGYZ(MVSIZ), SIGZZ(MVSIZ)
       my_real
-     .        E,NU,P,DAV,VM,R,FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,
-     .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
+     .        E,NU,VM,R,
      .        DP11,DP22,DP33,DP12,DP13,DP23,A1,A2,
      .        D11,D22,D33,D12,D13,D23,DCRF,DCRM, DSEPP,DCD,LAM1,
-     .       C1(MVSIZ),C2(MVSIZ) ,G(MVSIZ),DF,COH,SIH,VA,CRIT,CONV,
-     .        FG(MVSIZ),FN1(MVSIZ),YLD,C11,P1, VAR, DTINV, SQR22,
-     .       SXX,SYY,SZZ, SIGM1, SIGM2, VA1, VM1, VA11,A21,YP1,YP2,
-     .       DF1, DF2, XFAC,YFAC,DX2,XX(2),DFT,YY
+     .       C1(MVSIZ),C2(MVSIZ) ,G(MVSIZ),DF,COH,SIH,VA,CRIT,
+     .        FG(MVSIZ),FN1(MVSIZ),YLD,C11, VAR, DTINV, SQR22,
+     .       SXX,SYY,SZZ, SIGM1, SIGM2, VA1, VM1, VA11,A21,
+     .       XFAC,YFAC,DX2,XX(2),DFT,YY
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------

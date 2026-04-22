@@ -109,11 +109,11 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: fs, i,nfunc,ndx, idx
-          integer , dimension(nel) :: iad,ipos,ilen,indx
+          integer , dimension(nel) :: indx
 
           real(kind=WP)                                                       &
-            :: e1,e2,nu12,nu21,slimt1,slimc1,yt0,slimt2,slimc2,     &
-            slims,gammaf,gammar, tsdm, erods,tsize,e1d,e2d,g12d,d,         &
+            :: e1,e2,nu12,nu21,slimt1,slimc1,slimt2,slimc2,     &
+            slims,gammaf,gammar, tsdm, e1d,e2d,g12d,d,         &
             w11,w22,w12,e12d,invd, limit_sig ,limit_strain, e21d,g12,      &
             eint, deint,a11,tauxy,g13,g23,scale,w13,w23,eps_eq
           !
@@ -122,7 +122,7 @@
           real(kind=WP) , dimension(nel) ::  ef11t,m1t,al1t,ef11c,m1c,al1c
           real(kind=WP) , dimension(nel) ::  ef22t,m2t,al2t,ef22c,m2c,al2c
           real(kind=WP) , dimension(nel) ::  efs,ms,als
-          real(kind=WP) , dimension(nel) ::  yy,epsfailure
+          real(kind=WP) , dimension(nel) ::  epsfailure
 !!======================================================================
 !
           ! FS ! type of failure yield surface loading

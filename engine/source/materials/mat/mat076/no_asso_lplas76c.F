@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER, PARAMETER :: FUNC_COMP  = 2
       INTEGER, PARAMETER :: FUNC_SHEAR = 3
       INTEGER ,PARAMETER :: FUNC_NUP   = 4
-      INTEGER, DIMENSION(NEL)   :: INDX,IAD,ILEN
+      INTEGER, DIMENSION(NEL)   :: INDX
       my_real :: DLAM,DA0,DA1,DA2,
      .  CB,AA,BB,CC,A1S,A1C,A1T,A2S,A2C,A2T,E,NU,NU1,NUPC,XFAC,
      .  DFDSIGDLAM,YLD_NORM,
