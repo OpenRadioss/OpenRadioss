@@ -4369,7 +4369,6 @@ C PRINT /BCS
      .              IGRNOD   ,IBCSLAG ,LAG_NCF ,LAG_NKF ,LAG_NHF,
      .              IKINE1LAG,ISKWN,NOM_OPT(LNOPT1*INOM_OPT(16)+1), NBCSLAG)
       ENDIF
-
 C--------------------------------------
 C
       ALLOCATE(ICODEP(0),ISKEWP(0))
@@ -8038,7 +8037,7 @@ C
      3       SENSORS   ,IMERGE  ,UNITAB  ,ISKWN   ,NOM_OPT   ,
      4       SLRBODY   ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
      5       KNOD2ELQ  ,ITAGND  ,ICNDS10 ,LSUBMODEL,ICFIELD  ,
-     6       LCFIELD   ,SLRBODY ,N_NRBODY,NRBODY_TO_PART)
+     6       LCFIELD   ,SLRBODY ,N_NRBODY,NRBODY_TO_PART,IPART)
         ENDIF
 C--------------------------------------------
 C     Reading rigid body merges
@@ -8074,7 +8073,8 @@ C--------------------------------------------
         CALL RBODY_PART_CHECK(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,       
      .                        NUMNOD  ,ITAB  ,NPART ,IPART   ,LIPART1,       
      .                        ICODE   ,ISKEW ,NFXVEL,NIFV    ,IBFV ,
-     .                        NGRAV   ,NIGRV ,IGRV  ,SLGRAV  ,LGRAV) 
+     .                        NGRAV   ,NIGRV ,IGRV  ,SLGRAV  ,LGRAV,
+     .                        NUMSKW) 
         CALL RPART_INIVEL_CHECK(NRBYKIN ,NNPBY ,NPBY  ,SLPBY    ,LPBY   ,        
      .                        HM_NINVEL ,NUMNOD,ITABM1,LSUBMODEL,UNITAB ,        
      .                        NTRANSF   ,NRTRANS,RTRANS,RBY_INIAXIS,ISKWN,     

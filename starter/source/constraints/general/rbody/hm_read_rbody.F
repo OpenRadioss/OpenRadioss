@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                         SENSORS   ,IMERGE  ,UNITAB  ,ISKN     ,NOM_OPT  ,
      4                         NUMSL     ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,KNOD2EL1D,
      5                         KNOD2ELQ  ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
-     6                         LCFIELD   ,SLRBODY ,N_NRBODY,NRBODY_TO_PART)
+     6                         LCFIELD   ,SLRBODY ,N_NRBODY,NRBODY_TO_PART,IPART)
 C-------------------------------------
 C     READING STRUCTURE RIGIDES 
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C-----------------------------------------------
      .        ITAGND(*),ICDNS10(*), ICFIELD(SIZFIELD,*), LCFIELD(*)
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER ,DIMENSION(LIPART1,NPART),INTENT(IN) :: IPART
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF        
@@ -114,7 +115,7 @@ C-----------------------------------------------
       INTEGER I, J, K, N, NSL, NSL0, NSKEW, IC,
      .   ISPHER, IGU,IGS,ISENS,ID,ICDG,
      .   JC,UID,IFLAGUNIT,SUB_INDEX,NRB,
-     .   IFAIL,NRB_R2R
+     .   IFAIL,NRB_R2R,PART_ID,NP
       INTEGER IDSURF, ISU, NN, IAD, M, IOPT, IEXPAMS, NEL
       INTEGER PARENT_OF(NRBODY),NRBYKIN0
       CHARACTER MESS*40
@@ -320,7 +321,15 @@ C
           CALL RBODY_PART_MODIF(NRBYKIN ,NNPBY ,NPBY  ,SLRBODY ,LPBY  ,          
      .                           NUMNOD ,NRB   ,NSL   ,LPBY(K+1:K+NSL),
      .                           NRBYKIN0,PARENT_OF)
-          NPBY(21,NRB)= NRBODY_TO_PART(NRB-NRBYKIN0) 
+          PART_ID = NRBODY_TO_PART(NRB-NRBYKIN0)
+          NP = 0  
+          DO J=1,NPART
+            IF(PART_ID == IPART(4,J)) THEN
+              NP=J
+              EXIT
+            ENDIF
+          END DO
+          NPBY(21,NRB)= NP 
         ELSE
           NPBY(21,NRB)= 0 
         END IF
