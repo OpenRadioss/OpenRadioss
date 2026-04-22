@@ -1708,9 +1708,10 @@
             &cxx,        lbuf%vol,   lbuf%epsd,  lbuf%pla,&
             &lbuf%stra,  sigl,       lbuf%tsaiwu,&
             &lbuf%off,   ngl,        nel,        nft,&
-            &ilay,       npt,        ipg,&
+            &ilay,       npg,        ipg,&
             &jcvt,       jsph,       isorth,     lbuf%dmg,&
-            &elbuf_tab(ng)%bufly(ilay)%l_dmg,gbuf%ierr)
+            &elbuf_tab(ng)%bufly(ilay)%l_dmg,gbuf%ierr,&
+            &gbuf%noff,  nlay,       igtyp )
 !
             if (jsph == 0) then
               call mqviscb(&

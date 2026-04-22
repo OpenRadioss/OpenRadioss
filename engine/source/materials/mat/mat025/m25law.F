@@ -47,7 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   FLAY,      NGL,       NEL,       NFT,             
      B   ILAY,      NPT,       IPG,
      C   JCVT,      JSPH,      ISORTH,    DMG,
-     D   L_DMG,     OUTV )
+     D   L_DMG,     OUTV,      NOFF,     NLAY,
+     E   IGTYP )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -81,7 +82,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ISORTH
       INTEGER, INTENT(IN) :: L_DMG
       INTEGER NGL(MVSIZ),ILAY,NEL,IPG
+      INTEGER, INTENT(IN) :: NLAY, IGTYP
       INTEGER, INTENT(INOUT) :: OUTV(NEL)
+      INTEGER, INTENT(INOUT) :: NOFF(NEL)
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSD ! local equivalent strain rate
       my_real
      .   PM(NPROPM),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
@@ -99,7 +102,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFIS1(MVSIZ), NFIS2(MVSIZ), NFIS3(MVSIZ), INDX(MVSIZ)
       INTEGER I, J, II, NINDX,
-     .   IOFF,JOFF,IDIR,IFLAG
+     .   IOFF,JOFF,IDIR,IFLAG,NOFF_L,NLAST
 C     REAL
       my_real
      .   
@@ -327,12 +330,49 @@ C----------------------------
         IF(OFF(I) < ONE  ) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 
-      NINDX=0
+      DO  I=1,NEL
+        IF (OFF(I)==ONE) THEN
+          IOFF = mat_param%iparam(2)
+          SELECT CASE (IOFF)
+             CASE(0,1)
+               IF (WPLAR(I) > ZERO) NOFF(I) = NOFF(I) + 1
+             CASE(2)
+               NOFF(I) = NOFF(I) + NFIS1(I)
+             CASE(3)
+               NOFF(I) = NOFF(I) + NFIS2(I)
+             CASE(4)
+               NOFF(I) = NOFF(I) + NFIS1(I) + NFIS2(I)
+             CASE(5)
+               NOFF(I) = NOFF(I) + MAX(NFIS1(I),NFIS2(I)) ! number may be overestimated
+             CASE(6)
+               NOFF(I) = NOFF(I) + NFIS3(I)
+          END SELECT
+        END IF !(OFF(I)==ONE) THEN
+      ENDDO
+      NLAST=0
+      IF (IGTYP <=6) THEN  !solid
+        NOFF_L = NPT
+        IF (IPG == NPT) NLAST = 1
+      ELSE IF (IGTYP >=20.AND.IGTYP<=22) THEN !thick shell
+        NOFF_L = NLAY
+        IF (ILAY == NLAY) NLAST = 1
+      END IF
+      IF (NLAST ==1) THEN  
+       NINDX=0
        DO  I=1,NEL
            IF(OFF(I)==ONE) THEN
              IOFF = mat_param%iparam(2)
              IF(IOFF < 0) IOFF=-(IOFF+1)
              JOFF=0
+             SELECT CASE (IOFF)
+               CASE(0)
+                 IF (NOFF(I) > 0) JOFF=1
+               CASE(1,2,3,5,6)
+                 IF (NOFF(I) >= NOFF_L) JOFF=1
+               CASE(4)
+                 IF (NOFF(I) >= 2*NOFF_L) JOFF=1
+             END SELECT
+             NOFF(I) = 0  ! for F.I. (fully integration) element
 c             IF(IOFF == 0 .AND. WPLAR(I) >= ONE) JOFF=1
 c             IF(IOFF == 1 .AND. NINT(WPLAR(I)) >= NPT) JOFF=1
 c             IF(IOFF == 2 .AND. NFIS1(I) == NPT) JOFF=1
@@ -342,20 +382,23 @@ c     .                     .AND. NFIS2(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS1(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS2(I) == NPT) JOFF=1
 c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
-             IF(JOFF == ONE) THEN
+             IF(JOFF == 1) THEN
                  OFF(I)=OFF(I)*FOUR_OVER_5
-                 II=I+NFT
                  NINDX=NINDX+1
                  INDX(NINDX)=I
-                 IF(IMCONV==1)THEN
+             END IF
+          ENDIF
+       ENDDO
+        IF (NINDX >0 .AND.IMCONV==1) THEN  
+            DO  J=1,NINDX
+                I=INDX(J)
 #include "lockon.inc"
                     WRITE(IOUT,1000)  NGL(I)
                     WRITE(ISTDO,1100) NGL(I),TT
 #include "lockoff.inc"
-                 ENDIF
-             ENDIF
-          ENDIF
-       ENDDO
+            END DO  
+        END IF !(NINDX >0 .AND.IMCONV==1) THEN  
+      END IF !(NLAST ==1) THEN  
       DT5=HALF*DT1
       DO I=1,NEL
         EINT(I)=EINT(I) + DT5*VNEW(I)*
