@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    hm_create_rbodies_from_rigid_parts_mod   ../starter/source/devtools/hm_reader/hm_create_rbodies_from_rigid_parts.F90
+!||--- called by ------------------------------------------------------
+!||    starter0                                 ../starter/source/starter/starter0.F
 !||====================================================================
       module hm_create_rbodies_from_rigid_parts_mod
         implicit none
@@ -33,6 +35,8 @@
 !! \details This routine create a /RBODY for each /PART with Irigid .
 !||====================================================================
 !||    hm_create_rbodies_from_rigid_parts    ../starter/source/devtools/hm_reader/hm_create_rbodies_from_rigid_parts.F90
+!||--- called by ------------------------------------------------------
+!||    starter0                              ../starter/source/starter/starter0.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine hm_create_rbodies_from_rigid_parts(NB_NEWRBODIES,NEW_RBODY_TO_PART,NEW_RBODY_ID)

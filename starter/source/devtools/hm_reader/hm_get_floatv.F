@@ -412,6 +412,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_sensor_time              ../starter/source/tools/sensor/read_sensor_time.F
 !||    read_sensor_vel               ../starter/source/tools/sensor/read_sensor_vel.F
 !||    read_sensor_work              ../starter/source/tools/sensor/read_sensor_work.F
+!||    rpart_inivel_check            ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    set_admesh                    ../starter/source/model/remesh/set_admesh.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------

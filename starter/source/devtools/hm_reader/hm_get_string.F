@@ -68,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_sensor_rbody            ../starter/source/tools/sensor/read_sensor_rbody.F
 !||    read_sensor_rwall            ../starter/source/tools/sensor/read_sensor_rwall.F
 !||    read_sensor_sect             ../starter/source/tools/sensor/read_sensor_sect.F
+!||    rpart_inivel_check           ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    sort_set                     ../starter/source/model/sets/sort_sets.F
 !||    st_qaprint_set               ../starter/source/output/qaprint/st_qaprint_set.F
 !||--- calls      -----------------------------------------------------

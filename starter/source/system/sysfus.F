@@ -129,6 +129,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_sensor_user               ../starter/source/tools/sensor/read_sensor_user.F
 !||    read_sensor_vel                ../starter/source/tools/sensor/read_sensor_vel.F
 !||    read_sensor_work               ../starter/source/tools/sensor/read_sensor_work.F
+!||    rpart_inivel_check             ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    sensor_user_convert_local_id   ../starter/source/tools/sensor/sensor_user_convert_local_id.F
 !||    set_user_window_nodes          ../starter/source/user_interface/user_windows_tools.F
 !||    setrb2on                       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F

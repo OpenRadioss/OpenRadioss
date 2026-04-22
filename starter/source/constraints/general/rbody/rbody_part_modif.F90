@@ -21,6 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    rbody_part_modif_mod   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_rbody          ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||    lectur                 ../starter/source/starter/lectur.F
+!||====================================================================
       module rbody_part_modif_mod
       contains
 ! ======================================================================================================================
@@ -28,6 +33,15 @@
 ! \detail check if slave nodes of rbody_part are also defined as slave nodes of previous rbodies
 !         if yes : remove all these nodes and add their main_id inplace
 ! ======================================================================================================================
+!||====================================================================
+!||    rbody_part_modif   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_rbody      ../starter/source/constraints/general/rbody/hm_read_rbody.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine rbody_part_modif(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
                                     numnod  ,irb   ,nsn   ,isl   ,nrbykin0,          &
                                     parent_of)
@@ -133,6 +147,17 @@
 ! ======================================================================================================================
 ! \brief check rbody by part with bcs(boundary conditions),impvel,gravity,inivel
 ! ======================================================================================================================
+!||====================================================================
+!||    rbody_part_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    lectur             ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    rpart_bcs_check    ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rpart_fv_check     ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rpart_grav_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine rbody_part_check(nrbykin ,nnpby ,npby  ,slpby ,lpby   ,       &
                                     numnod  ,itab  ,npart ,ipart ,lipart1,       &
                                     icode   ,iskew ,nfxvel,nifv  ,ibfv   ,       &
@@ -203,6 +228,15 @@
 ! ======================================================================================================================
 ! \brief check rbody by part with bcs(boundary conditions),replace slave nodes by main_id if needed
 ! ======================================================================================================================
+!||====================================================================
+!||    rpart_bcs_check    ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    rbody_part_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine rpart_bcs_check(m ,nsl ,isl  ,icode ,iskew ,numnod,itab,part_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -284,6 +318,15 @@
 ! ======================================================================================================================
 ! \brief check rbody by part with impvel(/IMPVEL,IMP/DISP...),replace slave nodes by main_id if needed
 ! ======================================================================================================================
+!||====================================================================
+!||    rpart_fv_check     ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    rbody_part_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine rpart_fv_check(m ,itag ,nfxvel,nifv,ibfv,numnod,itab,part_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -341,6 +384,15 @@
 ! ======================================================================================================================
 ! \brief check rbody by part with /GRAV,add main_id if his 2nd nodes inside
 ! ======================================================================================================================
+!||====================================================================
+!||    rpart_grav_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    rbody_part_check   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg             ../starter/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod        ../starter/share/message_module/message_mod.F
+!||====================================================================
         subroutine rpart_grav_check(m ,itag ,ngrav,nigrav,igrav,slgrav,lgrav,numnod,itab,part_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -408,6 +460,26 @@
 ! ======================================================================================================================
 ! \brief check rbody by part with /inivel, add main_id if his 2nd nodes inside
 ! ======================================================================================================================
+!||====================================================================
+!||    rpart_inivel_check         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||--- called by ------------------------------------------------------
+!||    lectur                     ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                     ../starter/source/output/message/message.F
+!||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string              ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    subrotvect                 ../starter/source/model/submodel/subrot.F
+!||    usr2sys                    ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine rpart_inivel_check(nrbykin ,nnpby ,npby  ,slpby    ,lpby   ,        &
                                     hm_ninvel ,numnod,itabm1,lsubmodel,unitab ,        &
                                     ntransf   ,nrtrans,rtrans,rby_iniaxis,iskwn,       &

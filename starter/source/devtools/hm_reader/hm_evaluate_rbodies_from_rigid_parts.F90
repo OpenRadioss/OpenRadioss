@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    hm_evaluate_rbodies_from_rigid_parts_mod   ../starter/source/devtools/hm_reader/hm_evaluate_rbodies_from_rigid_parts.F90
+!||--- called by ------------------------------------------------------
+!||    starter0                                   ../starter/source/starter/starter0.F
 !||====================================================================
       module hm_evaluate_rbodies_from_rigid_parts_mod
         implicit none
@@ -32,7 +34,9 @@
 !! \brief create /RBODY for RIGID parts (/PART with Irigid)
 !! \details This routine create a /RBODY for each /PART with Irigid .
 !||====================================================================
-!||    hm_evaluate_rbodies_from_rigid_parts    ../starter/source/devtools/hm_reader/hm_evaluate_rbodies_from_rigid_parts.F90
+!||    hm_evaluate_rbodies_from_rigid_parts           ../starter/source/devtools/hm_reader/hm_evaluate_rbodies_from_rigid_parts.F90
+!||--- called by ------------------------------------------------------
+!||    starter0                                       ../starter/source/starter/starter0.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine hm_evaluate_rbodies_from_rigid_parts(NPART,NBRBODIES_PER_PART)

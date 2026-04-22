@@ -1062,6 +1062,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rbe2modif1_nd                          ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    rbe2modif_nd                           ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    rbody_box                              ../starter/source/model/sets/fill_clause_rbody_box.F
+!||    rbody_part_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rbody_part_modif                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rcheckmass                             ../starter/source/elements/spring/rcheckmass.F
 !||    read_ale_mat                           ../starter/source/materials/ale/read_ale_mat.F
 !||    read_box_box                           ../starter/source/model/box/read_box_box.F
@@ -1126,6 +1128,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rivet0                                 ../starter/source/elements/reader/rivet0.F
 !||    rkini3                                 ../starter/source/elements/spring/rkini3.F
 !||    rm_cand24                              ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    rpart_bcs_check                        ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rpart_fv_check                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rpart_grav_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rpart_inivel_check                     ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    s10coor3                               ../starter/source/elements/solid/solide10/s10coor3.F
 !||    s10coor3_old                           ../starter/source/elements/solid/solide10/s10coor3.F
 !||    s10deri3                               ../starter/source/elements/solid/solide10/s10deri3.F

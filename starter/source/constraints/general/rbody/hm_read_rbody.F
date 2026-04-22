@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    newdbl                 ../starter/source/system/sysfus.F
 !||    ngr2usr                ../starter/source/system/nintrr.F
 !||    nodgrnr6               ../starter/source/starter/freform.F
+!||    rbody_part_modif       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rigmodif_nd            ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    spmdset                ../starter/source/constraints/general/rbody/spmdset.F
 !||    udouble                ../starter/source/system/sysfus.F
@@ -45,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    r2r_mod                ../starter/share/modules1/r2r_mod.F
+!||    rbody_part_modif_mod   ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_RBODY(RBY       ,NPBY    ,LPBY    ,ITAB     ,ITABM1   ,

@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lecsec42                        ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt                     ../starter/source/tools/sect/lecsec4bolt.F
 !||    lectrans                        ../starter/source/model/transformation/lectrans.F
+!||    rpart_inivel_check              ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||--- calls      -----------------------------------------------------
 !||    euler_vrot                      ../starter/source/model/submodel/euler_vrot.F
 !||--- uses       -----------------------------------------------------

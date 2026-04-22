@@ -909,6 +909,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rinit3                            ../starter/source/elements/spring/rinit3.F
 !||    rkini3                            ../starter/source/elements/spring/rkini3.F
 !||    rm_cand24                         ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    rpart_inivel_check                ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    s10init3                          ../starter/source/elements/solid/solide10/s10init3.F
 !||    s16init3                          ../starter/source/elements/thickshell/solide16/s16init3.F
 !||    s20init3                          ../starter/source/elements/solid/solide20/s20init3.F

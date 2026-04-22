@@ -21,17 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_gene1_c          ../engine/source/materials/fail/gene1/fail_gene1_c.F
+!||    fail_gene1_c            ../engine/source/materials/fail/gene1/fail_gene1_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell           ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
-!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||    table2d_vinterp_log     ../engine/source/tools/curve/table2d_vinterp_log.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_vinterp           ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
-!||    dt_mod                ../engine/source/modules/dt_mod.F
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
-!||    table_mod             ../engine/share/modules/table_mod.F
+!||    dt_mod                  ../engine/source/modules/dt_mod.F
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    interface_table_mod     ../engine/share/modules/table_mod.F
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mod               ../engine/share/modules/table_mod.F
 !||====================================================================
       SUBROUTINE FAIL_GENE1_C (FAIL     ,
      1     NEL      ,NUVAR    ,NVARTMP  ,UVAR     ,VARTMP   ,

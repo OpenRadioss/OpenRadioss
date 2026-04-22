@@ -160,6 +160,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_impdisp_fgeo                        ../starter/source/constraints/general/impvel/read_impdisp_fgeo.F
 !||    read_impvel_fgeo                         ../starter/source/constraints/general/impvel/read_impvel_fgeo.F
 !||    read_sensor_gauge                        ../starter/source/tools/sensor/read_sensor_gauge.F
+!||    rpart_inivel_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    sboxboxsurf                              ../starter/source/model/box/bigbox.F
 !||    set_admesh                               ../starter/source/model/remesh/set_admesh.F
 !||    sort_set                                 ../starter/source/model/sets/sort_sets.F

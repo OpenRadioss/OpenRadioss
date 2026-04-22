@@ -540,6 +540,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol                                    ../engine/source/engine/resol.F
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restmod                                  ../engine/share/modules/restart_mod.F
+!||    rpart_inivel_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    set_admesh                               ../starter/source/model/remesh/set_admesh.F
 !||    sort_logical_sensors                     ../starter/source/tools/sensor/sort_logical_sensors.F
 !||    split_ebcs                               ../starter/source/boundary_conditions/ebcs/split_ebcs.F

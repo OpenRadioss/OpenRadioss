@@ -121,6 +121,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r2r_prelec                               ../starter/source/coupling/rad2rad/r2r_prelec.F
 !||    read_impdisp_fgeo                        ../starter/source/constraints/general/impvel/read_impdisp_fgeo.F
 !||    read_sensor_gauge                        ../starter/source/tools/sensor/read_sensor_gauge.F
+!||    rpart_inivel_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod                              ../starter/share/message_module/message_mod.F

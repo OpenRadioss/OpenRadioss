@@ -97,6 +97,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_engine_driver                ../starter/source/general_controls/engine/read_engine_driver.F
 !||    read_euler_mat                    ../starter/source/materials/ale/read_euler_mat.F
 !||    read_rwall                        ../starter/source/constraints/general/rwall/read_rwall.F
+!||    starter0                          ../starter/source/starter/starter0.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod                       ../starter/share/message_module/message_mod.F

@@ -406,6 +406,8 @@
 !||    rbe3f_pen                                ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||    rbe3fpen_ininp                           ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
 !||    rbe3pen_init                             ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+!||    rbody_part_check                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
+!||    rbody_part_modif                         ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    read_ale_grid                            ../engine/source/output/restart/read_ale_grid.F90
 !||    read_bcs_nrf                             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall                            ../engine/source/output/restart/read_bcs_wall.F90
@@ -435,6 +437,7 @@
 !||    retractor_table_inv                      ../engine/source/tools/seatbelts/retractor_table_inv.F90
 !||    retractor_table_inv2                     ../engine/source/tools/seatbelts/retractor_table_inv2.F90
 !||    rgwal0_pen                               ../engine/source/constraints/general/rwall/rgwall_pen.F90
+!||    rpart_inivel_check                       ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    rwall_fpen                               ../engine/source/constraints/general/rwall/rgwall_pen.F90
 !||    rwall_mod                                ../common_source/modules/constraints/rwall_mod.F90
 !||    s10get_x0                                ../engine/source/elements/solid/solide10/s10get_x0.F90

@@ -565,6 +565,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_init                        ../engine/source/engine/resol_init.F
 !||    rgrhead                           ../starter/source/elements/spring/rgrhead.F
 !||    rgrtails                          ../starter/source/elements/spring/rgrtails.F
+!||    rpart_inivel_check                ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    s10cnidamp                        ../engine/source/elements/solid/solide10/s10cndf.F
 !||    s10cnistat                        ../engine/source/elements/solid/solide10/s10cndf.F
 !||    sboxboxsurf                       ../starter/source/model/box/bigbox.F

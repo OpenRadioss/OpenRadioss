@@ -38,6 +38,10 @@
 !||    fail_energy_ib            ../engine/source/materials/fail/energy/fail_energy_ib.F
 !||    fail_energy_s             ../engine/source/materials/fail/energy/fail_energy_s.F
 !||    fail_fun2sys              ../starter/source/materials/tools/fail_fun2sys.F
+!||    fail_gene1_b              ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+!||    fail_gene1_c              ../engine/source/materials/fail/gene1/fail_gene1_c.F
+!||    fail_gene1_ib             ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
+!||    fail_gene1_s              ../engine/source/materials/fail/gene1/fail_gene1_s.F
 !||    fail_orthstrain           ../engine/source/materials/fail/orthstrain/fail_orthstrain_s.F
 !||    fail_orthstrain_c         ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
 !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F

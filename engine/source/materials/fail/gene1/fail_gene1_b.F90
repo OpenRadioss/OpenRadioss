@@ -33,19 +33,21 @@
 ! \details multiple failure models with different combinations with strain rate, thermal or mesh size dependency.
 ! ======================================================================================================================
 !||====================================================================
-!||    fail_gene1_b          ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+!||    fail_gene1_b            ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||--- called by ------------------------------------------------------
-!||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
+!||    fail_beam3              ../engine/source/elements/beam/fail_beam3.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
-!||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+!||    table2d_vinterp_log     ../engine/source/tools/curve/table2d_vinterp_log.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_vinterp           ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
-!||    constant_mod          ../common_source/modules/constant_mod.F
-!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    interface_table_mod   ../engine/share/modules/table_mod.F
-!||    precision_mod         ../common_source/modules/precision_mod.F90
-!||    table_mod             ../engine/share/modules/table_mod.F
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    fail_param_mod          ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    interface_table_mod     ../engine/share/modules/table_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mod               ../engine/share/modules/table_mod.F
 !||====================================================================
         subroutine fail_gene1_b(fail   ,                       &
           nel      ,nuvar    ,uvar     ,nvartmp  ,vartmp  ,    &

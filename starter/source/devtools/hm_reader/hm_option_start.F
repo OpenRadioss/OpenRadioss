@@ -240,6 +240,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_impvel_fgeo                  ../starter/source/constraints/general/impvel/read_impvel_fgeo.F
 !||    read_impvel_lagmul                ../starter/source/constraints/general/impvel/read_impvel_lagmul.F
 !||    read_monvol                       ../starter/source/airbag/read_monvol.F
+!||    rpart_inivel_check                ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    set_admesh                        ../starter/source/model/remesh/set_admesh.F
 !||    setrb2on                          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    setrbyon                          ../starter/source/constraints/general/rbody/hm_read_rbody.F
