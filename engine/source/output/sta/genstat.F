@@ -178,7 +178,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER CHSTAT*4, FILNAM*100, T10*10, MES*40
+      CHARACTER CHSTAT*4, FILNAM*100
       INTEGER FILEN, I, IERR, J, N
       INTEGER SIZLOC, SIZP0
  

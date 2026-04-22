@@ -121,18 +121,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER 
      .        LOC_PROC,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
-     .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
+     .        I_SK_OLD,
+     .        NB_N_B, NOINT, INACTI, MULTIMP, IFQ, ITIED
         INTEGER 
-     .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
+     .        ILD, NCONT, NCONTACT, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2,NUM_IMP
         my_real
      .   GAP,MAXBOX,MINBOX,TZINF,
-     .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
-     .   C_MAXL,DRAD,MX,MY,MZ,DX,DY,DZ,SX,SY,SZ,SX2,SY2,SZ2,
-     .   CURV_MAX(NRTM_T),RDUM1(1)
+     .   GAPMIN, GAPMAX,
+     .   DRAD,
+     .   CURV_MAX(NRTM_T)
         my_real :: DGAPLOADP
-        REAL T1  !elapsed time in smp
         LOGICAL TYPE18
         INTEGER :: FIRST, LAST
         INTEGER :: NSN,NMN,NTY,NRTM

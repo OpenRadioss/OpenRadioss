@@ -92,12 +92,12 @@ C     REAL
       REAL R4(18)
       INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,
      .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
-     .        IPID,I1,I2,NS1,NS2,ISTRE,INPUT_ERROR,
+     .        IPID,NS1,NS2,ISTRE,INPUT_ERROR,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,BUF,NPG,K,ISROT,NUVARV,IVISC,
-     .        IPMAT,IGTYP,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,IXFEM,IXLAY,
+     .        IHBE,BUF,NPG,ISROT,IVISC,
+     .        IGTYP,ISUBSTACK,IXFEM,IXLAY,
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPLY,IPANG,IPPOS,IPTHK,JJ(8),
-     .        IDX,IDX_MSTRESS,IDX_IDPLY_MSTRESS,IGMAT,IDRAPE,IDIR,IMAT,MAT_ORTH
+     .        IDX,IDX_MSTRESS,IDX_IDPLY_MSTRESS,IGMAT,IDRAPE,IMAT,MAT_ORTH
       INTEGER PID(MVSIZ),MAT(MVSIZ)
       my_real ,DIMENSION(:,:) , ALLOCATABLE :: SIGE
 C
@@ -1517,13 +1517,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   OFF, FAC, A1, A2, A3, THK, EVAR(6,MVSIZ),AREA(MVSIZ)
+     .   A1, A2, A3, EVAR(6,MVSIZ),AREA(MVSIZ)
       INTEGER I, NG, NEL, NFT, ITY, LFT, 
      .        N, J, LLT, MLW,K,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        II, II_L, KK ,INC,IHBE,LEN ,IREP,BUF,NNOD,
-     .        NC(20,MVSIZ),ISROT,JJ(5)
+     .        NS1, NS2,
+     .        II, INC,IHBE,NNOD,
+     .        NC(20,MVSIZ),JJ(5)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
        DO 490 NG=1,NGROUP
@@ -1681,14 +1680,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   OFF, FAC, A1, A2, A3, THK0, EVAR(6,MVSIZ),AREA(MVSIZ),
+     .   OFF, A1, A2, A3, THK0, EVAR(6,MVSIZ),AREA(MVSIZ),
      .   VOL(MVSIZ)
       INTEGER I, NG, NEL, NFT, ITY, LFT, 
      .        N, J, LLT, MLW,K,
-     .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        II, II_L, KK ,INC,IHBE,LEN ,IREP,BUF,NNOD,
-     .        NC(20,MVSIZ),ISROT,JJ(5)
+     .        NS1, NS2,
+     .        II, INC,IHBE,NNOD,
+     .        NC(20,MVSIZ),JJ(5)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
        DO 490 NG=1,NGROUP

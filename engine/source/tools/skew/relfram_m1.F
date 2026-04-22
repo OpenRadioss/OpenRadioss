@@ -50,11 +50,8 @@ C-----------------------------------------------
  
 C     REAL
       my_real
-     .   ROT(9),ROT0(9),ROTDT05(9),ROTT05(9),
-     .   OMEGAX, OMEGAY, OMEGAZ, NN, CS, SN, UX, UY, UZ,
-     .   OMEGAXX, OMEGAXY, OMEGAXZ, OMEGAYY, OMEGAYZ, OMEGAZZ,
      .  O(3), OM(3), W(3), DWDT(3), WOM(3), VE(3), AE(3), AC(3), OM2(3),
-     .  DT05, DREL(3), VREL(3), AG(3), VRREL(3), ARREL(3)
+     .  DT05, VREL(3)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

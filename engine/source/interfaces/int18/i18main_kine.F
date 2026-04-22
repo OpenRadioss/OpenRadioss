@@ -796,7 +796,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, 
-     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . NOINT,NTY,IVIS2,
      . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,
      . JLT, NFT,DEBUT,NB_LOC,IGSTI,ICURV,IADM
       my_real
@@ -1023,7 +1023,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, 
-     . NME_TGNGE,NOINT,NTY,IVIS2,
+     . NOINT,NTY,IVIS2,
      . IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC,DEBUT,
      . JLT, NFT,NB_LOC,IADM
       my_real

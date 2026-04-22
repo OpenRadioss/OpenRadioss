@@ -62,13 +62,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NG, NEL, II(6), JJ, JJ_OLD, NGF, NGL, NN, 
-     .   LEN,RESP0,WRTLEN,RES,COMPTEUR,L,K
+     .   RESP0,WRTLEN,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      my_real
-     .   FUNC(6)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
       IF (ISPMD == 0) THEN
@@ -222,13 +220,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, II(6), JJ, JJ_OLD, 
-     .   NG, NEL, IADD, N,NGF, NGL, NN, LEN,MLW,COMPTEUR,L
+     .   NG, NEL, NGF, NGL, NN, MLW,COMPTEUR,L
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      my_real
-     .   FUNC(6)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
         IF (ISPMD == 0) THEN        
@@ -377,8 +373,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,
-     .        P0ARSZ2,WASZ2
+      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ
 C-----------------------------------------------
       WASZ = 0
       IF (OUTP_SPT( 1) == 1 ) THEN
@@ -430,8 +425,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,
-     .        P0ARSZ2,WASZ2
+      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ
 C-----------------------------------------------
       WASZ = 0
       IF (OUTP_SPT( 1) == 1 ) THEN

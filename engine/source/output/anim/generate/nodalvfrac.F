@@ -80,9 +80,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER                            :: I, ITYP, NEL, K1, K, 
-     .                                      IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
-     .                                      IALEL,NNOD,IPOS,IV,NGv,J1,J2,IBV, MLW,NumNodCell,
-     .                                      NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL,
+     .                                      J, JJ,
+     .                                      IALEL,NNOD,IPOS, MLW,NumNodCell,
+     .                                      NG, NBF, NBL, IB, ICELL, NIN,
      .                                      IPHASE
       TYPE(G_BUFEL_)  ,POINTER           :: GBUF
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    

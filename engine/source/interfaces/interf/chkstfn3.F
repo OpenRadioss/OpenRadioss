@@ -94,7 +94,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL,ND,SE
 C     REAL
-      INTEGER IK1(4),IK2(4),IE1,IE2,IED,NS1,NS2
+      INTEGER IK1(4),IK2(4),IED,NS1,NS2
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
 C-----------------------------------------------
@@ -605,7 +605,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(nodal_arrays_) :: NODES
       INTEGER 
-     .   LINDIDEL, LBUFIDEL,
      .   IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXTG1(4,*),ITAG(*),
@@ -629,14 +628,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NG, K, ITY, MLW, NEL, NFT, ISOLNOD, LFT, LLT,
-     .        KAD, NPT, IHBE, JD(50), KD(50), JFI, KFI, NRTM, NRTS,
-     .        NTY, NSN, ISTRA, N, IDEL, NMN,ILEV,
-     .        N1, N2, N3, N4, SIZE, LENR, IDB, IDBS, INC, IDELKEEP,
-     .        IDEB, OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, ICNOD, IE,
-     .        NLINSA, NLINMA, NSNE, NMNE, IEXPAN, IRSIZE,
-     .        IRECV(NSPMD),SIZ,J,R2R_NUMEL,TAGEL_R2R_ISPMD(NSPMD+1),
+     .        KAD, NPT, IHBE,
+     .        ISTRA, N,
+     .        N1, SIZE, LENR, INC,
+     .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, ICNOD, IE,
+     .        IEXPAN,
+     .        J,R2R_NUMEL,TAGEL_R2R_ISPMD(NSPMD+1),
      .        IPARTR2R,NTAGEL_R2R_RECV,NTAGEL_R2R_SEND,NTAGEL_R2R_SENDG,
-     .        TAGEL_SIZE,LEVEL
+     .        TAGEL_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGEL_R2R_RECV,TAGEL_R2R_SENDG
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ELEM_INDEX
@@ -1302,7 +1301,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(nodal_arrays_), intent(inout) :: NODES
       INTEGER 
-     .   IPARI(NPARI,*), LINDIDEL, LBUFIDEL,
+     .   IPARI(NPARI,*),
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),ITAG(*),
      .   IPARG(NPARG,*), ITASK, NEWFRONT(*),ITAGL (*),
@@ -1318,17 +1317,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NG, K, ITY, MLW, NEL, NFT, ISOLNOD,
-     .        KAD, NPT, IHBE, JD(50), KD(50), JFI, KFI, NRTM, NRTS,
-     .        NTY, NSN, ISTRA, N, IDEL, NMN,ILEV,
-     .        N1, N2, N3, N4, SIZE, LENR, IDB, IDBS, INC, IDELKEEP,
-     .        IDEB, OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, ICNOD, IE,
-     .        NLINSA, NLINMA, NSNE, NMNE, IEXPAN, IRSIZE,
-     .        IRECV(NSPMD),SIZ,J,R2R_NUMEL,TAGEL_R2R_ISPMD(NSPMD+1),
-     .        IPARTR2R,NTAGEL_R2R_RECV,NTAGEL_R2R_SEND,NTAGEL_R2R_SENDG,
-     .        TAGEL_SIZE,LEVEL
+      INTEGER I, NG,
+     .        NRTM, NRTS,
+     .        NTY, NSN, IDEL, NMN,ILEV,
+     .        N1, IDB, IDBS, INC, IDELKEEP,
+     .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR,
+     .        NLINSA, NLINMA, NSNE, NMNE, IRSIZE,
+     .        IRECV(NSPMD),SIZ
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFSEGLO_SAV,INDSEGLO_sav
-      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C
       OFQ=NUMELS
       OFC=OFQ+NUMELQ
@@ -1965,7 +1961,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, N, NIND2, MA_SURF,NIND_SEGLO
+     .        II, IX, K, NIND, N, NIND2, MA_SURF,NIND_SEGLO
       INTEGER,DIMENSION(:),ALLOCATABLE :: NINDL
       INTEGER,DIMENSION(:),ALLOCATABLE :: IND_SEGLO
 C     REAL
@@ -2165,7 +2161,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM),IND_SEGLO(NRTM*2),NIND_SEGLO
+     .        II, IX, K, NIND, NIND2, N, NINDL(NRTM),IND_SEGLO(NRTM*2),NIND_SEGLO
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -2346,7 +2342,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, N, NIND2, N1L, N2L, N3L, N4L,
+     .        II, IX, K, NIND, N, NIND2, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -2506,7 +2502,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, NIND2, N, N1L, N2L, N3L, N4L,
+     .        II, IX, K, NIND, NIND2, N, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -2669,8 +2665,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
+      INTEGER I, NMNF, NMNL, NRTF, NRTL,
+     .        NIND
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -2743,8 +2739,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
+      INTEGER I, NMNF, NMNL, NRTF, NRTL,
+     .        NIND, NIND2
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -2822,7 +2818,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
-     .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
+     .        II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -3003,7 +2999,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
-     .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
+     .        II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -3460,7 +3456,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
-     .        NN, II, NINDEX, J
+     .        NINDEX
 C     REAL
 C-----------------------------------------------
       ICOMP = 0
@@ -3563,7 +3559,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
+     .        II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
@@ -3713,7 +3709,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
+     .        II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD

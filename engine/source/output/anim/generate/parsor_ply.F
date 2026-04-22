@@ -73,7 +73,6 @@ C-----------------------------------------------
 C     REAL
       INTEGER II(4), IE, NG, ITY, LFT, LLT, N, I, 
      . NEL, IAD, NPAR, NFT,MTN,
-     . NN90,
      . JJ,BUF,ISHPLYXFEM,
      .        IPT,ELC,PLYS,IPLY,IE_EL2FA,
      .        NPCC,IDPLYN

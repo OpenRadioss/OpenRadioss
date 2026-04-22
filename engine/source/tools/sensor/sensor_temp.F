@@ -61,7 +61,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: I,IGN,ICRIT,TFLAG
+      INTEGER :: IGN,ICRIT,TFLAG
       my_real :: TSTART,TDELAY,TMIN,TEMP_MAX,TEMP_MIN,TEMP_AVG
 c----------------------------------------------------------
 c     SENSOR%VAR(1)   = TEMP_MAX

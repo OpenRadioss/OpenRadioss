@@ -52,11 +52,10 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
       my_real PM(NPROPM,*),PARTSAV(NPSAV,*)
       INTEGER NPART,IPART(LIPART1,*)
-      INTEGER LEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,USRMID,K,I1,M
+      INTEGER I,USRMID,K,I1,M
       my_real MAS,XM,YM,ZM,IE,KE,PARTSAV2(NPSAV,NPART)
       CHARACTER*100 CARD
 C

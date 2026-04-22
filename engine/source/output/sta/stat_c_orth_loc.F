@@ -74,14 +74,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, JJ, LEN, IOFF, IREP, NG, NEL, NFT, ITY, LFT, NPT, 
      .        LLT, MLW,NDIR,NLAY,IHBE,ISH3N,IDRAPE,NPTT, NPLY_MAX,IPT,
-     .        IGTYP, ID, IPRT0, IPRT,NPG,IPG,IE, FLAGDEG,IDEL,ILAY,ILAW,IFRAM_OLD
+     .        IGTYP, ID, IPRT0, IPRT,NPG,IE, FLAGDEG,IDEL,ILAW,IFRAM_OLD
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       my_real
-     .   THK, EM, EB, H1, H2, H3, ANGLE1,
+     .   ANGLE1,
      .   ANGLE2,DIR1_1,DIR1_2,DIR2_1,DIR2_2,AA,BB,V1,V2,V3,X21,X32,X34,
      .   X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,SUMA,S1,S2,VR,VS,X31,Y31,
-     .   Z31,E11,E12,E13,E21,E22,E23,SUM,AREA
+     .   Z31,SUM,AREA
       my_real 
      .   E1X, E1Y, E1Z, E2X,E2Y, E2Z, E3X, E3Y, E3Z, RX,RY,RZ,SX,SY,SZ,
      .   X2L

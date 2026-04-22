@@ -58,15 +58,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,N1,N2,M1,M2,NI,L,J
+      INTEGER I, N1,N2,M1,M2,NI,L
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
      .     XX,YY,ZZ,ALS,ALM,DET,
      .     GAP2, X11, X12, X13, X21, X22, X23,
      .     XMAX1,YMAX1,ZMAX1,XMAX2,YMAX2,ZMAX2,
      .     XMIN1,YMIN1,ZMIN1,XMIN2,YMIN2,ZMIN2,DD,GAPV(MVSIZ)
-      my_real :: MAXGAPV
 C-----------------------------------------------
       IF(IGAP==0)THEN
         DO I=1,JLT
@@ -249,10 +248,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG,N1,N2,M1,M2,NI,L,J
+      INTEGER I, N1,N2,M1,M2,NI,L
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
      .     XX,YY,ZZ,ALS,ALM,DET,
      .     GAP2, X11, X12, X13, X21, X22, X23,
      .     XMAX1,YMAX1,ZMAX1,XMAX2,YMAX2,ZMAX2,

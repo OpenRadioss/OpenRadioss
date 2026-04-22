@@ -64,12 +64,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, RESP0, WRTLEN, RES
       INTEGER NG, NEL, 
-     .        II,JJ,JJ_OLD, NGF, NGL, NN, LEN,FWAP0,LENWAP0,
+     .        II,JJ,JJ_OLD, NGF, NGL, NN,
      .        COMPTEUR,L,K,KK(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
-      my_real
-     .   FUNC(6)
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -226,10 +224,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, NLAY, NPTR, NPTS, NPTT, IL, IR, IS, IT, IPT, 
-     .        NG, NEL, IADD, MLW,JJ_OLD, NGF, NGL, NN, LEN, ICAS_OLD,
+     .        NG, NEL, MLW,JJ_OLD, NGF, NGL, NN, ICAS_OLD,
      .        ISOLNOD,KHBE,ITENS,TSHELL,COMPTEUR,L,KK(6)
-      my_real
-     .   FUNC(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
@@ -1038,7 +1034,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL, ITY, KHBE, MLW, NPT, ISOLNOD, NGF, NN, NEL, 
-     .        NG,NLAY,NPTR,NPTS,NPTT,NPTG,JJ,
+     .        NG,JJ,
      .        SZP0(3*NSPGROUP+3)
 C=======================================================================
       WASZ = 0

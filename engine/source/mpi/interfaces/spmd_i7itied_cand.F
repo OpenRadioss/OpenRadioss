@@ -75,13 +75,12 @@ C-----------------------------------------------
 #ifdef MPI
         INTEGER :: STATUS(MPI_STATUS_SIZE),REQ_S(PARASIZ),REQ_R(PARASIZ)
         INTEGER :: P,LENSD,LENRV,IADS(PARASIZ+1),IADR(PARASIZ+1),IERROR,
-     *        SIZ,LOC_PROC,MSGTYP,IDEB(NINTER),PROC,MSGOFF
+     *        SIZ,LOC_PROC,MSGTYP,IDEB(NINTER),MSGOFF
         INTEGER :: ITIED
 
-        INTEGER :: I,J,L,NB,NL,NN,K,N,NOD,LEN,ND,NIN,NTY,
-     *        NSN,SN,NBI,NSI,
-     *        I_STOK,IT,LEN_NSNSI,MS,NSNR,
-     *        NI,NII,LL,ILEN,RLEN,LI,NUMERO,P2
+        INTEGER :: L,NB,NN,K,NIN,NTY,
+     *        NSN,SN,
+     *        NI,NII,LL,NUMERO,P2
         INTEGER, DIMENSION(NINTER) :: LLL
         INTEGER, DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
         INTEGER:: LEN_CANDF
@@ -89,7 +88,7 @@ C-----------------------------------------------
         DATA MSGOFF/9000/
 
         SAVE IADS,IADR,BBUFS,BBUFR,REQ_S,
-     *     REQ_R,ILEN,RLEN,LEN,LENSD,LENRV 
+     *     REQ_R,LENSD,LENRV 
 !       ----------------------------------------------     
 !       FI proc send to SI proc the ITIED+CAND_F/=0 
 !       nodes

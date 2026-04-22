@@ -77,14 +77,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI,
-     .        I, J, L, H, I_STOK, JLT_NEW, JLT , NFT, 
-     .         NSEG,  IADM,
+      INTEGER I, L, I_STOK, JLT , NFT, 
+     .         IADM,
      .        IGAP, INACTI,  
      .        NB_LOC, I_STOK_LOC,DEBUT,
-     .        ILAGM, LENR, INTTH,
-     .        I_STOK_GLO, MGLOB, MG, N, NN, IERROR
-      INTEGER  LENT, MAXCC
+     .        INTTH,
+     .        I_STOK_GLO, MG, N
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ISHEL(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),SUBTRIA(MVSIZ),
@@ -107,15 +105,12 @@ C     REAL
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
-     .   GAPV(MVSIZ),MSI(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
-     .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ), GAPS(MVSIZ), GAPM(MVSIZ),
+     .   GAPS(MVSIZ), GAPM(MVSIZ),
      .   PENT(MVSIZ,4), LB(MVSIZ,4), LC(MVSIZ,4), 
      .   LBH(MVSIZ,4), LCH(MVSIZ,4), GAP_NM(4,MVSIZ),
      .   DIST(MVSIZ), GAPMXL(MVSIZ)
       my_real
-     .     RCURVI(MVSIZ), ANGLMI(MVSIZ),  PENMIN,MARGE,DRAD,DGAPLOAD
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT
+     .     PENMIN,MARGE,DRAD,DGAPLOAD
       INTEGER ILEV,NRTM,NSN
 C-----------------------------------------------
 C
