@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN,IOFF,NG, NEL, NFT, ITY, LFT,LLT,IHBE,
      .   MLW, NPTR,NPTS,NPTT,NLAY,NPG,NPT,IR,IS,ID,IPRT0,IPRT,
-     .   IPG,MPT,NPTM,IPT,IE,ITHK,IT,IGTYP,NPT_ALL
+     .   MPT,NPTM,IE,ITHK,IT,IGTYP,NPT_ALL
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   

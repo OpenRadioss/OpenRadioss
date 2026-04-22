@@ -69,16 +69,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   EVAR(MVSIZ),
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
-     .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
+     .   OFF, VALUE
       INTEGER I, NG, NEL, 
-     .        IADD, N, J, MLW, 
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
-     .        N1,N2,N3,N4,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     .        N, MLW, 
+     .        MT, IALEL,
+     .        NN1,NN2,NN3,NN4,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA,
-     .        INOD, ISOLNOD, IPRT
+     .        ISOLNOD, IPRT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       NN1 = 1

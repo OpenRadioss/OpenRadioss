@@ -85,7 +85,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, J, K, JJ, LEN, ISOLNOD0, 
      .   ISOLNOD,ISTRAIN,NG, NEL, MLW, ID, IPRT0, IPRT,IE, 
-     .   NPG,IPG,IPT,IL,IR,IS,IT,IPID,PID,IOFF,KK(8),NC(20),
+     .   IPT,PID,IOFF,KK(8),NC(20),
      .   NN1,NN,NSROT
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0

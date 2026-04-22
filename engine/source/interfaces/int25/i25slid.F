@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, NOR
+      INTEGER I, J, N, NOR
 C
 C preparer TAGFR ds le starter
       INTEGER TAGFR(NADMSR)
@@ -176,10 +176,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, I1, I2, I3, I4,
-     .        FAR1, FAR2, FAR3, FAR4, FARI, MGLOB,
-     .        J1, J2, J3, J4, NOR,
-     .        LOC_PROC, IADLEN, NS, IT, JT, ITRIA(2,4), NSLIDE, ITAG(4)
+      INTEGER J, K, L, N, I1, I2, I3, I4,
+     .        IT, JT, ITRIA(2,4), NSLIDE, ITAG(4)
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C
 C--------------------------------------------------------
@@ -414,7 +412,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, NL, NOR, ISH, NOR1, NOR2, M,
+      INTEGER J, L, N, NL, NOR, ISH, NOR1, NOR2, M,
      .        ITAGM(NRTM)
       INTEGER, DIMENSION(:), ALLOCATABLE ::  PROV_E, PROV_N, TAGMSR
 C--------------------------------------------------------
@@ -649,7 +647,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, IKEEP
+      INTEGER I, J, L, N, IKEEP
 C--------------------------------------------------------
 C      keep only candidate pairs that are actually impacted
 C--------------------------------------------------------
@@ -748,9 +746,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NOR, NOD,
-     .        LOC_PROC, P, IADLEN, NS, IDEB
-      INTEGER LR, LI, RSHIFT, ISHIFT
+      INTEGER I, J, N, NOR,
+     .        LOC_PROC, P
 C     INTEGER, DIMENSION(:), ALLOCATABLE :: TAGSLD
       INTEGER :: TAGSLD(NSN+NSNR)
 C--------------------------------------------------------
@@ -833,9 +830,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NOR, NOD,
-     .        LOC_PROC, P, IADLEN, NS, IDEB
-      INTEGER LR, LI, RSHIFT, ISHIFT, TAGSLD(NSN+NSNR), ILOC(NSN+NSNR)
+      INTEGER I, J, N, NOR,
+     .        LOC_PROC, P, IDEB
+      INTEGER TAGSLD(NSN+NSNR), ILOC(NSN+NSNR)
 C--------------------------------------------------------
 C
 C computation of real and integer sending buffers sizes
@@ -999,8 +996,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NOR, NOD,
-     .        LOC_PROC, P, IADLEN, NS, II, IDEB
+      INTEGER I, J, NOD,
+     .        LOC_PROC, P, II, IDEB
       INTEGER NSEND, LR, LI, RSHIFT, ISHIFT
 C--------------------------------------------------------
 

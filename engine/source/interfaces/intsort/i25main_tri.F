@@ -121,22 +121,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,NEDGE,IGSTI,ITIED,
-     .        I,J, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_SK_OLD_E, I_STOK1, 
-     .        ADD1, NOINT, INACTI, MULTIMP, IGAP, IFQ,
-     .        N, NSNF, NSNL, NSNRF, NSNRL,NMN_L, IVIS2, IGAP0, IFSUB_CAREA
+     .        I_SK_OLD, I_SK_OLD_E,
+     .        NOINT, INACTI, MULTIMP, IGAP, IFQ,
+     .        NMN_L, IVIS2, IGAP0, IFSUB_CAREA
       INTEGER 
-     .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INACTII, INACIMP, INTTH,
+     .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INACIMP, INTTH,
      .        I_MEM,I_MEME(2),CAND_N_OLD,CAND_E_OLD(2),ILEV,FLAGREMN, LREMNORMAX,
-     .        IDUM1(1), ITHK
+     .        ITHK
 
       INTEGER NEDGE_TOTAL,NEDGE_LOCAL
-      INTEGER :: ISENS
+C
 C     REAL
       my_real
      .   GAP,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,DRAD,
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,DGAPLOAD,
-     .   BMINMA_OLD(6),BGAPEMX,BSAV(6)
+     .   BGAPEMX,BSAV(6)
       my_real, dimension(:), allocatable :: CURV_MAX
       INTEGER :: NMN,NRTM,NSN,NTY
       logical :: need_computation

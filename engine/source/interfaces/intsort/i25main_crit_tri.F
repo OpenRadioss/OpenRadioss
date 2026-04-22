@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .    STOPT
-      INTEGER :: ISENS, NMN, NSN, NEDGE_1D,NEDGE
+      INTEGER :: ISENS, NMN, NSN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,II,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,NPT,
-     .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,J1,J2,
+     .   LLT,ITY,MLW,IHBE, ID, IPRT0, IPRT,IR,IS,IT,J1,J2,
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,NF3,
      .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY,IDRAPE,
      .   SEDRAPE,NUMEL_DRAPE
@@ -109,7 +109,7 @@ C-----------------------------------------------
       my_real, 
      .   DIMENSION(:),POINTER  :: DIR_A,DIR_B    
       my_real 
-     .   QT(9,MVSIZ),TENS(6),ZH,THKP ,THK0(MVSIZ)   
+     .   QT(9,MVSIZ),TENS(6),THK0(MVSIZ)   
 
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   
       my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY    
@@ -1100,8 +1100,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
  
       my_real
-     .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
-     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3 
+     .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
+     .   T1,T2,T3,R3R3,S3S3 
 c------------------------------------------------
           IF (IGTYP /= 1) THEN                                                     
 c------------------------------------------------
@@ -1223,7 +1223,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
  
       my_real 
-     .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
+     .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B
 C--convention input MOM : mxx,myy,mxy,0,0,0; output mxx,myy,mzz,mxy,myz,mzx
              TXX = MOM(1)
              TYY = MOM(2)

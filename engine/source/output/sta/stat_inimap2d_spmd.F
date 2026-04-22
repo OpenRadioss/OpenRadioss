@@ -99,12 +99,11 @@ C-----------------------------------------------
       INTEGER NUM_CENTROIDS, IPOS, MLW, NBMAT, NB2, ISUBMAT, NNOD
       INTEGER NUVAR
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      my_real MIN_X,MIN_Y,MIN_Z,MAX_X,MAX_Y,MAX_Z,P0(3),P0_INF(3),P0_SUP(3),LENGTH
+      my_real MIN_X,MIN_Y,MIN_Z,MAX_X,MAX_Y,MAX_Z,P0(3),P0_INF(3),LENGTH
       my_real SHIFT_Cy,SHIFT_Cz
       my_real SHIFT_Ny,SHIFT_NZ
       my_real LX,LY,LZ
-      my_real DX,DY,DZ
-      my_real DOTPROD,TOL,XYZ(3),VEL(3),DIST,VECT(3)
+      my_real VECT(3)
       CHARACTER FILNAM*100, CHSTAT*4
       INTEGER XMIN_CELL_ID,YMIN_CELL_ID,ZMIN_CELL_ID,XMAX_CELL_ID,YMAX_CELL_ID,ZMAX_CELL_ID
       INTEGER IS_ITY_1, IS_ITY_2, IS_ITY_7, IMAT, NPAR, IADBUF

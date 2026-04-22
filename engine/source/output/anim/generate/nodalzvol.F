@@ -74,7 +74,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER                            :: I, ITYP, NEL, 
-     . NNO_L_LJJ,
      . IALEL,NNOD, MLW,
      . NG, NBF, NBL, IB, ICELL, NIN,NCELL,
      . NODE_ID,INEW

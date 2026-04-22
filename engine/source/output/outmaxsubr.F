@@ -237,7 +237,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   S1,T1,DET,R
+     .   T1,DET,R
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -274,7 +274,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   S1,T1,T2,T3,S(6),P1,DETB,DETS,R,ALPHA
+     .   S1,T1,T2,S(6),P1,DETB,DETS,R,ALPHA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -476,8 +476,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IR, IS, IT
-      my_real
-     .   S(6),S1,S2,S3,VONM
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
 C-----------------------------------------------
@@ -584,7 +582,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IR, IS, IT, JJ(6)
       my_real
-     .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
+     .   S(NEL,6),SP2(NEL,2)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -654,7 +652,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IR, IS, IT, JJ(6)
       my_real
-     .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
+     .   S(NEL,6),SP2(NEL,2)
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -713,7 +711,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   S(3),S1,S2,S12,VONM2,VONM
+     .   S1,S2,S12,VONM2,VONM
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -756,8 +754,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IR, IS, IT
-      my_real
-     .   S(3),S1,S2,S3,VONM
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
 C-----------------------------------------------
@@ -813,7 +809,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IR, IS, IT, JJ(3)
       my_real
-     .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
+     .   S(NEL,3),SP2(NEL,2)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
 C-----------------------------------------------
@@ -879,7 +875,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IR, IS, JJ(3), NPG, LENS, NG, PTS
       my_real
-     .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
+     .   S(NEL,3),SP2(NEL,2)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -1016,7 +1012,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT,NFAIL,IIR,IPT,IADR,JJ(3)
       my_real
-     .   VG(5),VLY(5),VE(5)
+     .   VG(5),VLY(5)
       my_real,
      .  DIMENSION(MVSIZ) :: DMAX,WPMAX,EPST1,EPST2,EPSF1,EPSF2
       my_real,
@@ -1157,8 +1153,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     .   S(3),NORM2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -1202,7 +1196,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   S1,T1,T2,T3,S(6),P1,DETB,DETS,R,ALPHA
+     .   S1,T1,T2,S(6),P1,DETB,DETS,R,ALPHA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     

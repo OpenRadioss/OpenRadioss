@@ -150,12 +150,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI,IEDGE,
-     .        I, J, H, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
+      INTEGER IEDGE,
+     .        I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
+     .        IBC, NOINT, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT, I_STOK_GLO,
-     .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTPLY,INTFRIC,
+     .        INTTH,IFORM,INTPLY,INTFRIC,
      .        NSETPRTS ,NPARTFRIC, IERROR, INTNITSCHE, IORTHFRIC,
      .        NFORTH ,NFISOT ,JJ ,ISTIF_MSDT, INTCAREA
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -164,8 +164,7 @@ C-----------------------------------------------
      .        KINI(MVSIZ),IKNON(MVSIZ),
      .        SUBTRIA_OLD(MVSIZ),
 c     .        INDEX2(LINDMAX),SUBTRIA_OLD(MVSIZ),
-     .        ISDSIZ(NSPMD+1),IRCSIZ(NSPMD+1),
-     .        IELECI(MVSIZ), NSMS(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ),
+     .        NSMS(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ),
      .        IPLY(4,MVSIZ),ISPT2_LOC(MVSIZ),
      .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ),INDEXISOT(MVSIZ),
      .        INDEXORTH(MVSIZ),IREP_FRICMI(MVSIZ),IXX3(MVSIZ),IXX4(MVSIZ)
@@ -174,14 +173,11 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,PMAX_GAP,PENREF(MVSIZ),
      .   VISC,VISCF,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS
+     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,EPS
       INTEGER :: IFRIC
 C-----------------------------------------------
 C     REAL
       my_real
-     .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
-     .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
-     .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -194,24 +190,19 @@ C     REAL
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   GAPV(MVSIZ),MSI(MVSIZ),
      .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
-     .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
+     .   TEMPI(MVSIZ),PHI(MVSIZ),
      .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
      .   VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
      .   GAPS(MVSIZ),FORNEQSI(MVSIZ,3),DIST(MVSIZ)
       INTEGER ::   SUBTRIA(MVSIZ)
 
       my_real
-     .     , DIMENSION(:,:),ALLOCATABLE :: SURF
-      my_real
-     .     , DIMENSION(:), ALLOCATABLE ::  PRES
-      my_real
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
-      SAVE SURF,PRES
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM,NCY_PFIT
+      INTEGER NRADM,NCY_PFIT
       my_real
-     .     T_PFIT,FA,FB,F_PFIT,TNCY,FINC,DTSTIF
+     .     T_PFIT,F_PFIT,TNCY,FINC,DTSTIF
       INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
@@ -688,7 +679,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ,NEG,J
+      INTEGER I,NS,NE,ITQ
 C----------------------------------------------------
             DO I = 1 ,JLT
              IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN             
@@ -739,7 +730,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ
+      INTEGER I,NS
 C----------------------------------------------------
             DO I = 1 ,JLT
               NS=CAND_N(I)
@@ -824,7 +815,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ,NEG,J,K_STOK,J_STOK,IC(4,4)
+      INTEGER I,NS,NE,ITQ,K_STOK,J_STOK,IC(4,4)
       DATA IC / 
      1    3, 4, 1, 2, 
      2    4, 1, 2, 3,

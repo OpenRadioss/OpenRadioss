@@ -74,14 +74,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUMMAT
       INTEGER I, N, J, K, L, II, JJ, ID, IE, LEN, NG, NEL, NFT, ITY, LFT, LLT, 
-     .   MLW,IGTYP,IPRT0,IPRT,IVAR,IMAT,
-     .   NPG,IPG,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,IC,IFAIL,NV,
+     .   MLW,IPRT0,IPRT,IMAT,
+     .   NPG,IPG,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IC,IFAIL,NV,
      .   NFAIL,NVAR_RUPT,NPTG,IRUPT,IRUPT_TYPE,ISUBSTACK
  
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
-      double precision   
-     .    THK, EM, EB, H1, H2, H3
+
       CHARACTER*100 DELIMIT,LINE
 C----  
  

@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II,N1,N2
+      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
       my_real
      .        XXX, YYY, ZZZ 
       INTEGER :: INCONV_L

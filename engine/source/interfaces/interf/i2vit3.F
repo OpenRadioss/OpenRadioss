@@ -340,7 +340,6 @@ C     REAL
      . AMX, AMY, AMZ, VMX, VMY, VMZ,
      .   MRX,MRY,MRZ,MGX,MGY,MGZ,DET,ARX,ARY,ARZ,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
-     . ZZXYZ222,
      .   VRX,VRY,VRZ,B1,B2,B3,C1,C2,C3
 C-----------------------------------------------
       NIR=2

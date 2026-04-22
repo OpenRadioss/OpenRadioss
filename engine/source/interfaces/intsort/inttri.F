@@ -210,7 +210,7 @@ C-----------------------------------------------
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       my_real 
      .   WAG(*),
-     .   DT2T,DIST, DRETRI(*), EMINX(*),
+     .   DT2T, DRETRI(*), EMINX(*),
      .        THKNOD(*),DELTA_PMAX_GAP(NINTER),
      .        XSLV(18,NINTER),XMSR(12,NINTER),X21MSR(3,NINTSTAMP),
      .        VSLV(6,NINTER),VMSR(6,NINTER),V21MSR(3,NINTSTAMP),
@@ -240,11 +240,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, KK,LL, RETRI, NBLIST,NSENSOR,
-     .        IAD17, IGN, IGE, NME, NMES,I,J,K,
-     .        IDUM, IADI, ISTAMP, NRTM_T, NME_T, NEDGE_T, ESHIFT, SSHIFT, MULTIMP,
-     .        ISENS,NBF,NBL,IB, NIN,NSNE_MAX,NFIC,L_FIC,NNOD3,NSNE3,
-     .        NBINTC21, SIZE, NRTM_FE_T, NRTM_IGE_T, ITHK
+      INTEGER N, KK, RETRI, NSENSOR,
+     .        IAD17, IGN, IGE, NME, NMES,J,K,
+     .        IDUM, IADI, NRTM_T, NME_T, NEDGE_T, ESHIFT, SSHIFT, MULTIMP,
+     .        ISENS,NBF,NBL,IB, NIN,NSNE_MAX,L_FIC,NNOD3,NSNE3,
+     .        NBINTC21, ITHK
       my_real PCT1, TS,DELTA_PMAX_DGAP(NINTER),LEN
       INTEGER NB_STOK_N(PARASIZ),NB_JLT(PARASIZ),RETRI21(NINTER),NBCUT,
      .        INTLIST21(NINTSTAMP)
@@ -253,10 +253,9 @@ C-----------------------------------------------
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: X_IGE,V_IGE
       my_real, DIMENSION(:),POINTER, contiguous :: PTR_X,PTR_V,PTR_MS
       INTEGER, DIMENSION(:),POINTER, contiguous :: PTR_KINET
-      my_real :: BID
-      INTEGER :: IBRIC, NBRIC, II, INOD, NODEID, ISU1, IAD, INACTI
-      LOGICAL :: M151_ALLOC, TYPE18
-      SAVE XE,VE,M151_ALLOC
+      INTEGER :: INACTI
+      LOGICAL :: TYPE18
+      SAVE XE,VE
       SAVE X_IGE,V_IGE,MAX_IGE,SIZE_X_IGE
       INTEGER :: MAX_IGE,SIZE_X_IGE
       INTEGER :: NB_INTER_SORTED        !   number of interfaces that need to be sorted

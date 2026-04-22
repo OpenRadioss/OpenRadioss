@@ -94,7 +94,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   FAIL(MVSIZ),
      .   VALUE(3)
       my_real
      .   BUFMAT(*)
@@ -103,7 +102,6 @@ C-----------------------------------------------
       INTEGER I, NG, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, 
      .        IR,IS,IT,MLW, NUVAR,
      .        JTURB,
-     .        IHBE,
      .        ISUBSTACK,NERCVOIS(*),NESDVOIS(*),
      .        LERCVOIS(*),LESDVOIS(*),
      .        IVISC

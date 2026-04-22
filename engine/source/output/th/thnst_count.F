@@ -52,7 +52,7 @@ C-----------------------------------------------
       LOGICAL :: BOOL
       INTEGER II, I, J, N, IH, NG, ITY, 
      . K,
-     . NXN,NEL,NFT
+     . NEL,NFT
       INTEGER :: J_FIRST,NITER,IAD,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_NST
 C-------------------------

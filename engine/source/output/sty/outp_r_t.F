@@ -67,9 +67,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,ICAS_OLD,K
       INTEGER NG, NEL, NFT, ITY, 
-     .        JJ_OLD, NGF, NGL, NN, LEN, NUVAR,
-     .        LIAD, IUS, MLW2,NAD,
-     .        MT,IPROP,IGTYP,COMPTEUR,L,II(6),IV
+     .        JJ_OLD, NGF, NGL, NN, NUVAR,
+     .        IPROP,IGTYP,COMPTEUR,L,II(6),IV
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
       my_real
@@ -502,7 +501,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,
-     .        P0ARSZ2,WASZ2,IPROP,NUVAR,IGTYP,NFT,I
+     .        IPROP,NUVAR,IGTYP,NFT
 C-----------------------------------------------
       WASZP = 0
       WASZ = 0

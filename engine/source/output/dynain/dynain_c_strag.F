@@ -84,12 +84,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, JJ, LEN, IOFF, IE, NG, NEL, NFT, LFT, NPT, 
-     .   LLT,ITY,MLW,IH,IHBE, ID, IPRT0, IPRT,IR,IS,IT,
-     .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,
-     .   IGTYP,NPT_ALL,IL,KK(8),LARGE,IREP,IPID,IVISC,
-     .   IPMAT,IXFEM,IXLAY,ISUBSTACK,IPTT,IS_WRITTEN,
+     .   LLT,ITY,MLW,IHBE, ID, IPRT,IT,
+     .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,ITHK,
+     .   IGTYP,NPT_ALL,IL,KK(8),LARGE,IREP,IPID,
+     .   IXFEM,IXLAY,ISUBSTACK,IS_WRITTEN,
      ,   LAYNPT_MAX,NLAY_MAX,IERR,
-     .   JDIR,ILAY,J1,J2,IREL,G_STRA,IPT_ALL,SEDRAPE,NUMEL_DRAPE
+     .   ILAY,IREL,G_STRA,IPT_ALL,SEDRAPE,NUMEL_DRAPE
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: MATLY   !! 
       my_real, DIMENSION(:)   , ALLOCATABLE :: THKLY   !! 
       my_real, DIMENSION(:,:) , ALLOCATABLE :: POSLY,THK_LY  
@@ -97,8 +97,6 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ)
       CHARACTER*80 DELIMIT
       CHARACTER*100 LINE
-      my_real
-     .   SIG(6)
       my_real, 
      .   DIMENSION(:),POINTER  :: STRAIN    
       my_real 

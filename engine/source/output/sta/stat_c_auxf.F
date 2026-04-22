@@ -71,12 +71,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN, IOFF,
      .        NG, NEL, NFT, ITY, LFT,LLT, MLW, ID, IPRT0,IPRT,IE, 
-     .        NPG,NPT,NPTR,NPTS,NPTT,NLAY,IR,IS,IT,IPT,IL,
+     .        NPG,NPT,NPTR,NPTS,NPTT,NLAY,IR,IS,IT,IL,
      .        IVAR,NUVAR,MY_NUVAR,NPT_ALL,IGTYP
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
-      double precision   
-     .   THK, EM, EB, H1, H2, H3
+
       CHARACTER*100 DELIMIT,LINE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     

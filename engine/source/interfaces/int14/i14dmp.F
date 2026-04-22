@@ -67,17 +67,16 @@ C-----------------------------------------------
       INTEGER ADRBUF, I, IL, IN
       INTEGER NDEB, NREST
       INTEGER DGR
-      INTEGER IPT,NPT,II,JJ
+
       my_real
      .   A, B, C, AN, BN, CN, ROT(9),
-     .   X1, X2, X3, N1, N2, N3, N,
-     .   XPVN1, YPVN1, ZPVN1, SGNXN, SGNYN, SGNZN,
+     .   X1, X2, X3,
      .   XM, YM, ZM, XI, YI, ZI,
      .   V1, V2, V3, VXM, VYM, VZM, VRX, VRY, VRZ,
      .   VXP, VYP, VZP,VXI, VYI, VZI,
-     .   DT1INV, FF
+     .   FF
       my_real
-     .   XPV(3,MVSIZ),NV(3,MVSIZ),FNPV(MVSIZ),VIS(MVSIZ),
+     .   NV(3,MVSIZ),FNPV(MVSIZ),VIS(MVSIZ),
      .   VISC1(MVSIZ),VISC2(MVSIZ),VN(MVSIZ)
 C-----------------------------------------------
       ADRBUF=IGRSURF(KSURF)%IAD_BUFR
