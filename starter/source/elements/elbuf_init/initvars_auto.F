@@ -246,7 +246,7 @@ c     global property variables
 c
       IF(IGTYP > 0)THEN
         IF (GBUF%G_OFF    == 0) GBUF%G_OFF    = PTAG%G_OFF
-        IF (IFAIL > 0) GBUF%G_NOFF = 1
+        IF (IFAIL > 0 .OR. GLAW ==25) GBUF%G_NOFF = 1
         IF (GBUF%G_NOFF   == 0) GBUF%G_NOFF   = PTAG%G_NOFF
         GBUF%G_GAMA = MAX(GBUF%G_GAMA, PTAG%G_GAMA)
         GBUF%G_EINT = MAX(GBUF%G_EINT, PTAG%G_EINT)
