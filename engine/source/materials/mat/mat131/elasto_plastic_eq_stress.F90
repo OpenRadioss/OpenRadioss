@@ -78,7 +78,9 @@
         use yield_criterion_hill_mod
         use yield_criterion_barlat1989_mod
         use yield_criterion_barlat2000_mod
+        use yield_criterion_bbc2005_mod
         use elasto_plastic_second_order_numerical_mod
+
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -178,6 +180,14 @@
             else
               N(1:nel,1:6,1:6) = zero
             endif
+          !---------------------------------------------------------------------
+          !< BBC2005 yield criterion
+          !---------------------------------------------------------------------
+          case(6)
+                call yield_criterion_bbc2005(                                  &
+                  matparam ,nel      ,seq      ,signxx   ,signyy   ,signxy   , &
+                  normxx   ,normyy   ,normzz   ,normxy   ,normyz   ,normzx   , &
+                  offset   )
         end select
 !
       end subroutine elasto_plastic_eq_stress

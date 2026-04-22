@@ -67,6 +67,7 @@
           use hm_read_yield_criterion_hill_mod
           use hm_read_yield_criterion_barlat1989_mod
           use hm_read_yield_criterion_barlat2000_mod
+          use hm_read_yield_criterion_bbc2005_mod
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -87,7 +88,7 @@
           integer,                 intent(in)    :: mat_id                !< Material ID
           character(len=nchartitle),intent(in)   :: titr                  !< Material law user title
 !===============================================================================
-!     
+!          
           !=====================================================================
           !< Von Mises criterion parameters
           !=====================================================================
@@ -134,6 +135,13 @@
             call hm_read_yield_criterion_barlat2000(                           &
               ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,   &
               lsubmodel,iout     ,is_encrypted,mat_id ,titr        ,2      )     
+          !=====================================================================
+          !< BBC 2005 criterion parameters
+          !=====================================================================  
+          elseif (type(1:7) == 'BBC2005') then
+              call hm_read_yield_criterion_bbc2005(                           &
+                ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,&
+                lsubmodel,iout     ,is_encrypted)
           endif          
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_yield_criterion
