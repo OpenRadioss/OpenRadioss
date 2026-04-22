@@ -81,11 +81,14 @@
 !----------------------------------------------------------------
           real(kind=WP) :: ca,cb,cn,eps0,sigmax,cb0,rm,ag,cn0,young
 !===============================================================================
-!            
+!
           !=====================================================================
           !< Power law hardening parameters
           !=====================================================================
-          if (iflag == 1) then 
+          ca = -HUGE(ca)
+          cb = -HUGE(cb)
+          cn = -HUGE(cn)
+          if (iflag == 1) then
             call hm_get_float_array_index("HARD_POWERLAW_SIGY"  ,ca,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("HARD_POWERLAW_UTS"   ,cb,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("HARD_POWERLAW_EPSUTS",cn,ikey,is_available,lsubmodel,unitab)
@@ -96,7 +99,7 @@
             cn  = rm*ag / max((rm-ca),em20)
             cb  = rm/max((cn*ag**(cn-one)),em20)
             young = matparam%young
-            if (young == zero) then 
+            if (young == zero) then
               call ancmsg(msgid=3131,                                          &
                 msgtype=msgerror,                                              &
                 anmode=aninfo_blind_2,                                         &
@@ -105,7 +108,7 @@
                 c2=titr,                                                       &
                 c3="HARD_POWERLAW_ENG",                                        &
                 c4="ELASTIC BEHAVIOR IS NOT DEFINED (YOUNG'S MODULUS IS ZERO)" //&
-                   " PLEASE DEFINE ELAS KEY TYPE PRIOR HARD KEY TYPE")
+                " PLEASE DEFINE ELAS KEY TYPE PRIOR HARD KEY TYPE")
             endif
             if (cn > one) then
               cn = one
@@ -118,8 +121,8 @@
                 c2=titr,                                                       &
                 c3="HARD_POWERLAW_ENG",                                        &
                 c4="INPUT DATA NOT VALID FOR AUTOMATIC PARAMETER FITTING" //   &
-                   " N IS SET TO 1.0 AND B IS RECOMPUTED ACCORDINGLY" //       &
-                   " RESULT WILL NOT FIT INPUT VALUES")
+                " N IS SET TO 1.0 AND B IS RECOMPUTED ACCORDINGLY" //       &
+                " RESULT WILL NOT FIT INPUT VALUES")
             endif
             if (cn < zero .and. cb < zero) then
               cn = zero
@@ -132,9 +135,9 @@
                 c2=titr,                                                       &
                 c3="HARD_POWERLAW_ENG",                                        &
                 c4="INPUT DATA NOT VALID FOR AUTOMATIC PARAMETER FITTING " //  &
-                   " N IS SET TO 0.0 AND B IS SET TO 0.0 " //                  &
-                   " RESULT WILL NOT FIT INPUT VALUES")
-            endif            
+                " N IS SET TO 0.0 AND B IS SET TO 0.0 " //                  &
+                " RESULT WILL NOT FIT INPUT VALUES")
+            endif
           elseif (iflag == 2) then
             call hm_get_float_array_index("HARD_POWERLAW_A",ca,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("HARD_POWERLAW_B",cb,ikey,is_available,lsubmodel,unitab)
@@ -159,33 +162,33 @@
           if (is_encrypted)then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            if (iflag == 2) then 
+            if (iflag == 2) then
               write(iout,1000) ca,cb,cn,eps0,sigmax
             elseif (iflag == 1) then
               write(iout,2000) ca,cb0,cn0,eps0,sigmax,cb,cn
             endif
           endif
 ! ------------------------------------------------------------------------------
-1000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"POWER LAW WORK HARDENING                               ",/,      &
-          5X,"-------------------------------------------------------",/,      &
-          5X,"INITIAL YIELD STRESS (A) . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HARDENING MODULUS (B). . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HARDENING EXPONENT (N) . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"INITIAL PLASTIC STRAIN (EPS0). . . . . . . . . . . . .=",1PG20.13/&
-          5X,"MAXIMUM YIELD STRESS (SIGMAX). . . . . . . . . . . . .=",1PG20.13/)
-2000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"POWER LAW WORK HARDENING                               ",/,      &
-          5X,"-------------------------------------------------------",/,      &
-          5X,"INITIAL YIELD STRESS (A) . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"ULTIMATE TENSILE STRENGTH (UTS). . . . . . . . . . . .=",1PG20.13/&
-          5X,"ENGINEERING STRAIN AT UTS (EPS_UTS). . . . . . . . . .=",1PG20.13/&
-          5X,"INITIAL PLASTIC STRAIN (EPS0). . . . . . . . . . . . .=",1PG20.13/&
-          5X,"MAXIMUM YIELD STRESS (SIGMAX). . . . . . . . . . . . .=",1PG20.13/&
-          5X,"COMPUTED HARDENING MODULUS (B) . . . . . . . . . . . .=",1PG20.13/&
-          5X,"COMPUTED HARDENING EXPONENT (N). . . . . . . . . . . .=",1PG20.13/)
+1000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"POWER LAW WORK HARDENING                               ",/,      &
+            5X,"-------------------------------------------------------",/,      &
+            5X,"INITIAL YIELD STRESS (A) . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HARDENING MODULUS (B). . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HARDENING EXPONENT (N) . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"INITIAL PLASTIC STRAIN (EPS0). . . . . . . . . . . . .=",1PG20.13/&
+            5X,"MAXIMUM YIELD STRESS (SIGMAX). . . . . . . . . . . . .=",1PG20.13/)
+2000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"POWER LAW WORK HARDENING                               ",/,      &
+            5X,"-------------------------------------------------------",/,      &
+            5X,"INITIAL YIELD STRESS (A) . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"ULTIMATE TENSILE STRENGTH (UTS). . . . . . . . . . . .=",1PG20.13/&
+            5X,"ENGINEERING STRAIN AT UTS (EPS_UTS). . . . . . . . . .=",1PG20.13/&
+            5X,"INITIAL PLASTIC STRAIN (EPS0). . . . . . . . . . . . .=",1PG20.13/&
+            5X,"MAXIMUM YIELD STRESS (SIGMAX). . . . . . . . . . . . .=",1PG20.13/&
+            5X,"COMPUTED HARDENING MODULUS (B) . . . . . . . . . . . .=",1PG20.13/&
+            5X,"COMPUTED HARDENING EXPONENT (N). . . . . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_work_hardening_powerlaw
       end module hm_read_work_hardening_powerlaw_mod

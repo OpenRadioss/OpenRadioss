@@ -111,6 +111,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
+      NPT_SHEAR = HUGE(NPT_SHEAR)
+      NPT_TENS = HUGE(NPT_TENS)
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------

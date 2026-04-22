@@ -81,12 +81,18 @@
           real(kind=WP) :: rlank,hlank
           real(kind=WP) :: a1,a2,a3,a12
 !===============================================================================
-!  
+          F = -HUGE(1.0_WP)
+          G = -HUGE(1.0_WP)
+          H = -HUGE(1.0_WP)
+          L = -HUGE(1.0_WP)
+          M = -HUGE(1.0_WP)
+          N = -HUGE(1.0_WP)
+!
           !===================================================================
           !< Hill (1948) yield criterion
           !===================================================================
           !< Classic Hill coefficient input
-          if (iflag == 1) then 
+          if (iflag == 1) then
             call hm_get_float_array_index("CRIT_HILL_R11",R11,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_R22",R22,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_R33",R33,ikey,is_available,lsubmodel,unitab)
@@ -107,14 +113,14 @@
             L = (three/(two*(R23**2)))
             M = (three/(two*(R31**2)))
             N = (three/(two*(R12**2)))
-          elseif (iflag == 2) then 
+          elseif (iflag == 2) then
             call hm_get_float_array_index("CRIT_HILL_F",F,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_G",G,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_H",H,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_L",L,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_M",M,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_N",N,ikey,is_available,lsubmodel,unitab)
-          elseif (iflag == 3) then 
+          elseif (iflag == 3) then
             call hm_get_float_array_index("CRIT_HILL_R00",r00,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_R45",r45,ikey,is_available,lsubmodel,unitab)
             call hm_get_float_array_index("CRIT_HILL_R90",r90,ikey,is_available,lsubmodel,unitab)
@@ -126,13 +132,13 @@
             a3  = two*hlank
             a12 = two*hlank*(r45+half)*((one/r00)+(one/r90))
             !< Yield stress measured in direction 1
-            if (idir == 1) then 
+            if (idir == 1) then
               a2  = a2/a1
               a3  = a3/a1
               a12 = a12/a1
               a1  = one
-            !< Yield stress measured in direction 2  
-            elseif (idir == 2) then 
+              !< Yield stress measured in direction 2
+            elseif (idir == 2) then
               a1  = a1/a2
               a3  = a3/a2
               a12 = a12/a2
@@ -141,11 +147,11 @@
             !< Compute Hill parameters
             F = a2 - a3*half
             G = a1 - a3*half
-            H = a3*half   
+            H = a3*half
             L = three*half
             M = three*half
             N = a12*half
-          endif  
+          endif
           !< Yield criterion type
           icrit = 3
           !< Number of parameters
@@ -161,7 +167,7 @@
           if (is_encrypted) then
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
-            write(iout,1000) 
+            write(iout,1000)
             if (iflag == 1) then
               write(iout,1002) R11,R22,R33,R12,R23,R31
             elseif (iflag == 3) then
@@ -170,32 +176,32 @@
             write(iout,1001) F,G,H,L,M,N
           endif
 ! ------------------------------------------------------------------------------
-1000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"HILL (1948) YIELD CRITERION                            ",/,      &
-          5X,"-------------------------------------------------------")
-1001 format(                                                                   &
-          5X,"HILL COEFFICIENT F . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL COEFFICIENT G . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL COEFFICIENT H . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL COEFFICIENT L . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL COEFFICIENT M . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL COEFFICIENT N . . . . . . . . . . . . . . . . . .=",1PG20.13) 
-1002 format(                                                                   &
-          5X,"HILL STRESS RATIO R11. . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL STRESS RATIO R22. . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL STRESS RATIO R33. . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL STRESS RATIO R12. . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL STRESS RATIO R23. . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"HILL STRESS RATIO R31. . . . . . . . . . . . . . . . .=",1PG20.13/)
-1003 format(                                                                   &
-          5X,"LANKFORD COEFFICIENT R00 . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"LANKFORD COEFFICIENT R45 . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"LANKFORD COEFFICIENT R90 . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"DIRECTION OF MEASUREMENT DIR . . . . . . . . . . . . .=",I10/,   &
-          5X,"   = 0: AVERAGE OF 0, 45 AND 90 DEGREES                ",/,      &
-          5X,"   = 1: MEASUREMENT IN 0 DEGREE DIRECTION              ",/,      &
-          5X,"   = 2: MEASUREMENT IN 90 DEGREES DIRECTION            ",/)
+1000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"HILL (1948) YIELD CRITERION                            ",/,      &
+            5X,"-------------------------------------------------------")
+1001      format(                                                                   &
+            5X,"HILL COEFFICIENT F . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL COEFFICIENT G . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL COEFFICIENT H . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL COEFFICIENT L . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL COEFFICIENT M . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL COEFFICIENT N . . . . . . . . . . . . . . . . . .=",1PG20.13)
+1002      format(                                                                   &
+            5X,"HILL STRESS RATIO R11. . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL STRESS RATIO R22. . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL STRESS RATIO R33. . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL STRESS RATIO R12. . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL STRESS RATIO R23. . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"HILL STRESS RATIO R31. . . . . . . . . . . . . . . . .=",1PG20.13/)
+1003      format(                                                                   &
+            5X,"LANKFORD COEFFICIENT R00 . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"LANKFORD COEFFICIENT R45 . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"LANKFORD COEFFICIENT R90 . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"DIRECTION OF MEASUREMENT DIR . . . . . . . . . . . . .=",I10/,   &
+            5X,"   = 0: AVERAGE OF 0, 45 AND 90 DEGREES                ",/,      &
+            5X,"   = 1: MEASUREMENT IN 0 DEGREE DIRECTION              ",/,      &
+            5X,"   = 2: MEASUREMENT IN 90 DEGREES DIRECTION            ",/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_yield_criterion_hill
       end module hm_read_yield_criterion_hill_mod
