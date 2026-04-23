@@ -237,7 +237,6 @@
           !   for each new active segment :
           !     * loop the local segment to compute the criteria (r_buffer)
           !     * loop the remote segment to compute the criteria (r_buffer_2)
-          seg_id = nb_new_segment
           do i=1,nb_new_segment
             segment_id = list_new_segment(permutation(i),3) ! get the global segment id
             local_segment_id = list_new_segment(permutation(i),6) ! get the local segment id
