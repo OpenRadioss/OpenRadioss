@@ -125,6 +125,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE SENSOR_MOD
       use element_mod , only : nixs
+      use s4dlenmax_sm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -266,7 +267,7 @@ C-----------------------------------------------
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      .  MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),BID(MVSIZ),AMU(MVSIZ),
-     .  FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),MU,FQMAX
+     .  FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),MU,FQMAX,VOLGS(MVSIZ),L_MIN(MVSIZ)
       my_real, 
      .  DIMENSION(:), POINTER :: EINT
       my_real, dimension(mvsiz) :: fheat
@@ -281,7 +282,7 @@ C
 
 C----- 
 c     Flag Bolt Preloading
-      INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ),PID,SZ_IX
+      INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ),PID,SZ_IX,NN_DEL
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
@@ -308,6 +309,9 @@ C-----------
       PID = IXS(10,NF1)
       IGTYP = IGEO(11,PID)   
       ISCTL = IGEO(97,PID)
+      NN_DEL =0
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO) NN_DEL=4
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=4
 c
       CALL S4COOR3(
      1   X,         IXS(1,NF1),V,         W,
@@ -700,9 +704,20 @@ C--------------------------
       ENDIF
 C
       IF(JLAG+JALE+JEUL == 0)RETURN
+      IF (NN_DEL >0) THEN
+        IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN 
+          CALL S4DLENMAX_SM(                          
+     1           NEL      ,X        ,L_MIN      ,VOLGS   ,            
+     2           NC1      ,NC2      ,NC3        ,NC4     ,       
+     3           NUMNOD )
+        ELSE
+          VOLGS(1:NEL) =VOLN(1:NEL)
+          L_MIN(1:NEL) =DELTAX(1:NEL)
+        END IF 
+        BID(LFT:LLT)=ZERO
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLGS,L_MIN,GBUF%VOL,GEO(1,NGEO(1)),BID,DT,NEL,IDEL7NOK )
+      END IF !(NN_DEL >0) THEN
       ITET = 1
-      BID(LFT:LLT)=ZERO
-      CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),BID,DT,NEL,IDEL7NOK )
 C-----------------------------
 C     SMALL STRAIN 
 C-----------------------------

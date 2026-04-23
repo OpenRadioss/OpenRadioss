@@ -142,6 +142,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE sz_dt1_mod, only : sz_dt1
       use element_mod , only : nixs
+      use s8dlenmax_sm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -314,7 +315,7 @@ C 8-nodes Solid Connectivities
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ),
      .  STI_C(MVSIZ),LL(MVSIZ),L_MAX(MVSIZ),FLD(MVSIZ),
-     .  CNS2,RHO0_1,NU,FQMAX
+     .  CNS2,RHO0_1,NU,FQMAX,VOLGS(MVSIZ),L_MIN(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
       my_real ,DIMENSION(:), POINTER :: EINT
 C-----
@@ -397,8 +398,8 @@ C
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       CNS2 = ZERO
+      RHO0_1 =PM( 1,IMAT)
       IF (ICP==1.AND.MTN==1.AND.ISMSTR==12) THEN
-         RHO0_1 =PM( 1,IMAT)
          CNS2 = ZEP02
          IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
       END IF
@@ -805,7 +806,15 @@ C
 C
       ITET = 0
       IF (NN_DEL >0) THEN
-        CALL SDLENMAX(L_MAX, 
+        IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN 
+          CALL S8DLENMAX_SM(                          
+     1           NEL      ,RHO0_1   ,GBUF%VOL   ,X       ,       
+     2           NC1      ,NC2      ,NC3        ,NC4     ,       
+     3           NC5      ,NC6      ,NC7        ,NC8     ,       
+     4           L_MAX    ,GBUF%RHO ,VOLGS      ,L_MIN   ,
+     5           NUMNOD )
+        ELSE
+          CALL SDLENMAX(L_MAX, 
      1   X1,      X2,      X3,      X4,      
      2   X5,      X6,      X7,      X8,      
      3   Y1,      Y2,      Y3,      Y4,      
@@ -813,7 +822,10 @@ C
      5   Z1,      Z2,      Z3,      Z4,      
      6   Z5,      Z6,      Z7,      Z8,      
      7   NEL)
-       CALL SGEODEL3(NGL,GBUF%OFF,VOLN,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK )
+         VOLGS(1:NEL) =VOLN(1:NEL)
+         L_MIN(1:NEL) =DELTAX(1:NEL)
+        END IF  
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLGS,L_MIN,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK )
       END IF
 C
 C Small strain formulation is activated:

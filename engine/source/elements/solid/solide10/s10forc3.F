@@ -129,6 +129,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE S10GET_X0_MOD, ONLY : S10GET_X0
       use element_mod , only : nixs
+      use s4dlenmax_sm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -257,12 +258,12 @@ C
      .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
      .    NU(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1,DVM(MVSIZ),
      .    VISP(MVSIZ),FACDB,RBID(MVSIZ),SIGP(NEL,6),
-     .    FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),OFFG(MVSIZ),FQMAX
+     .    FLD(MVSIZ),STI_C(MVSIZ),LL(MVSIZ),OFFG(MVSIZ),FQMAX,VOLGS(MVSIZ)
 c
       my_real VARNL(NEL),DELTAX4(MVSIZ)
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,ISCTL,ISTAB(MVSIZ)
-      INTEGER SZ_IX
+      INTEGER SZ_IX,NN_DEL,PID
       my_real, 
      .  DIMENSION(:), POINTER :: BPRELD
       my_real, dimension(mvsiz) :: fheat
@@ -371,9 +372,9 @@ C-----------
 C     
       IPLAW1 = 0
       CNS2 = ZERO
+      MX = IXS(1,NF1)
+      RHO0_1 =PM( 1,MX)
       IF (ISM12_11>0 .AND.IDTMIN(1)==3) THEN
-         MX = IXS(1,NF1)
-         RHO0_1 =PM( 1,MX)
          IF (PM(21,MX)>0.49) IPLAW1=1
          IF (IPLAW1==1) THEN
            FACDB = ONE- ZEP02
@@ -384,8 +385,6 @@ C
            IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
          END IF 
       ELSEIF (ISMSTR==10.AND.MTN==1) THEN
-         MX = IXS(1,NF1)
-         RHO0_1 =PM( 1,MX)
          IF (PM(21,MX)>0.49) THEN
            VISP(LFT:LLT)=TWO
            CNS2 = ZEP02
@@ -394,6 +393,10 @@ C
       END IF 
       ISCTL = IGEO(97,NGEO(1))
       IF (ISROT == 1) ISCTL = 0 ! uncompatible with itetra4=1
+      NN_DEL =0
+      PID  = NGEO(1)
+      IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO) NN_DEL=4
+      IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=4
 C     
       CALL S10NX3(
      1   NX,      NEL,     NPT)
@@ -815,8 +818,18 @@ c
      .                       SX , SY , SZ ,
      .                       TX , TY , TZ ,DELTAX4,GEO(1,NGEO(1)),
      .                       NEL,NPT,ISMSTR,ISROT,DT)
+      IF (NN_DEL >0) THEN
+        IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN 
+          CALL S4DLENMAX_SM(                          
+     1           NEL      ,X        ,DELTAX4     ,VOLGS   ,       
+     2           NC(1,1)  ,NC(1,2)  ,NC(1,3)     ,NC(1,4) ,       
+     3           NUMNOD )
+        ELSE
+          VOLGS(1:NEL) =VOLG(1:NEL)
+        END IF  
         RBID(LFT:LLT)=ZERO
-        CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX4,GBUF%VOL,GEO(1,NGEO(1)),RBID,DT,NEL,IDEL7NOK)
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLGS,DELTAX4,GBUF%VOL,GEO(1,NGEO(1)),RBID,DT,NEL,IDEL7NOK)
+      END IF  
         CALL SMALLB3(GBUF%OFF,OFF,NEL,ISMSTR)
         CALL SMALLGEO3(NGL, GBUF%OFF ,VOLG ,DELTAX4, GBUF%VOL ,ITET, NEL, ISMSTR,DT)
 C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
