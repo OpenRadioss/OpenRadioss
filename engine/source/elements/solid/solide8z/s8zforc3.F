@@ -137,6 +137,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE sz_dt1_mod, only : sz_dt1
       use element_mod , only : nixs
+      use s8dlenmax_sm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -339,7 +340,7 @@ C   variables used only in solid routines (as arguments)
      .   G1Z(MVSIZ),G2Z(MVSIZ),G3Z(MVSIZ)
       my_real
      .   WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
-     .   DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0
+     .   DTI,BID(MVSIZ),FAC_NU,NU_SP,NU0,VOLGS(MVSIZ),L_MIN(MVSIZ),RHO0
       my_real
      .   SIGY(MVSIZ), SIGN(NEL,6),ET(MVSIZ), NU1(MVSIZ),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),DELTAXI(MVSIZ)
@@ -1441,7 +1442,16 @@ c----------------------
       ENDIF
       ITET = 0
       IF (NN_DEL >0) THEN
-        CALL SDLENMAX(L_MAX, 
+        IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN 
+          RHO0 = PM(1,IMAT)
+          CALL S8DLENMAX_SM(                          
+     1           NEL      ,RHO0     ,GBUF%VOL   ,X       ,       
+     2           NC1      ,NC2      ,NC3        ,NC4     ,       
+     3           NC5      ,NC6      ,NC7        ,NC8     ,       
+     4           L_MAX    ,GBUF%RHO ,VOLGS      ,L_MIN   ,
+     5           NUMNOD )
+        ELSE
+          CALL SDLENMAX(L_MAX, 
      1   X1,      X2,      X3,      X4,      
      2   X5,      X6,      X7,      X8,      
      3   Y1,      Y2,      Y3,      Y4,      
@@ -1449,7 +1459,10 @@ c----------------------
      5   Z1,      Z2,      Z3,      Z4,      
      6   Z5,      Z6,      Z7,      Z8,      
      7   NEL)
-       CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK)
+         VOLGS(1:NEL) =VOLG(1:NEL)
+         L_MIN(1:NEL) =DELTAX(1:NEL)
+       END IF
+       CALL SGEODEL3(NGL,GBUF%OFF,VOLGS,L_MIN,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK)
       END IF
 C-----------------------------
 C     SMALL STRAIN 

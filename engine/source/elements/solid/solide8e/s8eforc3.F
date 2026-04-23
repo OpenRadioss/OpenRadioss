@@ -162,6 +162,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE sz_dt1_mod, only : sz_dt1
       use element_mod , only : nixs
+      use s8dlenmax_sm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -416,7 +417,7 @@ C     variables used for the non-local
       my_real,
      .  DIMENSION(:), POINTER :: DNL
       my_real 
-     .  H(8),PS2(8),PR2(8),PT2(8),ZR,ZS,ZT
+     .  H(8),PS2(8),PR2(8),PT2(8),ZR,ZS,ZT,VOLGS(MVSIZ),L_MIN(MVSIZ)
 C
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
@@ -647,10 +648,10 @@ c------ Sigy of GBUF%SIG is not good, take the ip of min(e_ps)
        ENDDO
       ENDIF 
       CNS2 = ZERO
+      RHO0_1 =PM( 1,MX)
       IF (IINT==2.AND.ICP==1.AND.MTN==1.AND.
      .               (ISMSTR==10.OR.ISMSTR==12)) THEN
         IF (ISMSTR==12) THEN
-          RHO0_1 =PM( 1,MX)
           CNS2 = ZEP02
           IF (IGEO(35,NGEO(1))>0) CNS2=CNS2-ABS(GEO(17,NGEO(1)))
         END IF
@@ -1797,7 +1798,15 @@ c-------------------
       ENDIF
       ITET = 0
       IF (NN_DEL >0) THEN
-        CALL SDLENMAX(L_MAX, 
+        IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN 
+          CALL S8DLENMAX_SM(                          
+     1           NEL      ,RHO0_1   ,GBUF%VOL    ,X      ,       
+     2           NC1      ,NC2      ,NC3        ,NC4     ,       
+     3           NC5      ,NC6      ,NC7        ,NC8     ,       
+     4           L_MAX    ,GBUF%RHO ,VOLGS      ,L_MIN   ,
+     5           NUMNOD )
+        ELSE
+          CALL SDLENMAX(L_MAX, 
      1   X1,      X2,      X3,      X4,      
      2   X5,      X6,      X7,      X8,      
      3   Y1,      Y2,      Y3,      Y4,      
@@ -1805,7 +1814,10 @@ c-------------------
      5   Z1,      Z2,      Z3,      Z4,      
      6   Z5,      Z6,      Z7,      Z8,      
      7   NEL)
-       CALL SGEODEL3(NGL,GBUF%OFF,VOLG,DELTAX,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK)
+         VOLGS(1:NEL) =VOLG(1:NEL)
+         L_MIN(1:NEL) =DELTAX(1:NEL)
+        END IF
+        CALL SGEODEL3(NGL,GBUF%OFF,VOLGS,L_MIN,GBUF%VOL,GEO(1,NGEO(1)),L_MAX,DT,NEL,IDEL7NOK)
       END IF
 C-----------------------------
 C     SMALL STRAIN 
