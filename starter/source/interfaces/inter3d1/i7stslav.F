@@ -46,9 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRTS, NRTM, NSN, NMN,
-     .   I, J,
-     .   INACTI,IGAP,MULTIMP,NSN0,ITY,NSNE,S
+      INTEGER NSN,
+     .   I, J
 C---------------------------------------------
 C     SET A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------

@@ -74,7 +74,6 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: NOSUBMOD,IFATHER,LEVEL,UID_SUB
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: OFFSETS
       INTEGER  NB_BEGIN,SCHAR,SUB_INDEX,NBUNIT_SUB
-      LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

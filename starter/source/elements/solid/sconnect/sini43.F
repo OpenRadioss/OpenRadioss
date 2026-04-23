@@ -65,7 +65,6 @@ C-----------------------------------------------
       INTEGER I,II,JJ,KK(6),IP,IPP,IPSU,IUS,MA,MFLAG,L_PLA,JPS,JPS1,
      .   IFLAGINI,NVAR_TMP,J
       my_real MASS,INER
-      my_real GAMA(6)
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       my_real, DIMENSION(:)  , POINTER  :: UVAR,PLA,EPS,SIG  

@@ -48,7 +48,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  MAT_ID,NFUNC,NUPARAM
-      INTEGER STF,SNPC
       INTEGER ,DIMENSION(NFUNC)   :: IFUNC
       INTEGER :: NPC(*)
       my_real PLD(*)
@@ -58,14 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,II,JJ,NDIM,NLOAD,NULOAD,NPT,NEPSP,FUNC_ID,
-     .           FUNC_T,FUNC_C,FUNC_S,ICAS,ICONV,
-     .           NPT_TRAC,NPT_COMP,NPT_SHEAR,NPTMAX,IFUN_NUP,IFX,IFY,STAT,
-     .           LEN,IX0,IY0,IFLAG,IFLAG0,NF,ITENS,ICHK,IC1,IC2,IBID
-      my_real :: XINT,YINT,EMAX,E0,EPSMAX,EPS0,EPST1,FAC,DERI,
+      INTEGER :: I,K,II,JJ,NLOAD,NULOAD,FUNC_ID,
+     .           IFLAG,IFLAG0,ITENS,ICHK,IC1,IC2,IBID
+      my_real :: EMAX,E0,EPSMAX,EPS0,EPST1,FAC,DERI,
      .           X0,Y0,X1,Y1,DX,DY,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG
-      INTEGER ,DIMENSION(:)  ,ALLOCATABLE :: SIZE
-      my_real ,DIMENSION(:)  ,ALLOCATABLE :: X_COMP,Y_COMP
       my_real ,DIMENSION(NFUNC) :: RATE,YFAC
 C=======================================================================
       NLOAD  = INT(UPARAM(7))

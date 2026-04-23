@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER CEP(*), P, NUMEL, NUMEL_L
+      INTEGER CEP(*), P, NUMEL
       INTEGER, DIMENSION(NUMEL) :: INDX
 C-----------------------------------------------
 C   F u n c t i o n
@@ -45,12 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, EL, J,NPT,NDIM,IDX,NUMELDRP_L,NDIM_SLICE,
-     .        NDIM_INDX_PLY,K,II,IS,NEL,NSLICE,NELDRP_L,NPT_DRP
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITMP
-      INTEGER, DIMENSION(:)  , ALLOCATABLE :: NPTDRP_ELT,ISLICE,INDX_PLY,
-     .                                        NPT_ELT,INDEX
+      INTEGER I, II, NELDRP_L
 C-----------------------------------------------
 !     allocate 2d array
 ! --------------------------------------

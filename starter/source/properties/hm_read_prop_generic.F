@@ -60,7 +60,6 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
-      USE READER_OLD_MOD , ONLY : KLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,7 +100,6 @@ C-----------------------------------------------
       INTEGER I, NPG, JCVT, NUVAR(2)
       my_real PARGEO(100), STIF
       my_real QA,QB
-      CHARACTER FILNAM*512,CLAW*4
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
 c------------------------------

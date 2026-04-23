@@ -61,13 +61,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  
-     .   ISU1,ISU2,IGSTI,INTTH,IGAP,MULTIMP,FLAGREMNOD,IDEL11,IFORM,IDSENS,ITIED,INACTI,
-     .         IPRINT,IASSIGN,INTFRIC,IRECC
+     .   IGSTI,INTTH,IGAP,FLAGREMNOD,IDEL11,IFORM,IDSENS,INACTI,
+     .         IPRINT,IASSIGN,INTFRIC
       my_real
-     .   STMIN,STMAX,PERCENT_SIZE,DTMIN,STFAC,FRIC,GAP,STARTT,STOPT,VISC,
-     .   VISCF,BUMULT
-      CHARACTER(LEN=NCHARFIELD) :: BCFLAG, BCFLAGM
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY1
+     .   PERCENT_SIZE,DTMIN,FRIC,GAP,STARTT,STOPT,VISC,
+     .   VISCF
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE11 (/DEFAULT/INTER/TYPE11)

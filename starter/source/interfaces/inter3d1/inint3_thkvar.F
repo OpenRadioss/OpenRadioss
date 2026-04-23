@@ -99,9 +99,9 @@ C-----------------------------------------------
       INTEGER NRTS, NRTM, NSN, NMN, NTY, NST, MST, NOINT,
      .   I, I_STOK,IRS,IRM,
      .   NSEG, NGROUS, NG, INACTI,IWPENE,
-     .   JLT_NEW,IGAP,MULTIMP,IADM,INTTH,
+     .   IGAP,MULTIMP,IADM,INTTH,
      .   ISU1, ISU2,
-     .   ISK, IROT, J, MSR, IRB, K, NSL, N
+     .   IROT, J, MSR, IRB, K, NSL, N
       INTEGER, DIMENSION(MVSIZ) ::PROV_N,PROV_E
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4
@@ -124,7 +124,7 @@ C     REAL
       my_real
      .   MAXBOX,MINBOX
       my_real
-     .   GAPV(MVSIZ), PENE(MVSIZ),GAP0
+     .   PENE(MVSIZ),GAP0
       CHARACTER MESS*40
       DATA MESS/'/INTER/TYPE21 INITIALIZATIONS           '/
 C-----------------------------------------------
@@ -351,20 +351,8 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  2001 FORMAT(//,1X,'INTERFACE NUMBER. . . . . . . . . . . . . .',I10/
      +      ,1X,'INTERFACE TYPE. . . . . . . . . . . . . . .',I6/)
- 2002 FORMAT(//
-     +'   SECONDARY NEAREST  NEAREST        MAIN NODES            SECONDARY '/
-     +'   NODE   MAIN  SEGMENT                               S     T')
- 2022 FORMAT(//
-     +'   SECONDARY  NEAREST        MAIN NODES            SECONDARY '/
-     +'   NODE   SEGMENT                               ',
-     +'      S      T     DIST')
- 2003 FORMAT(//
-     +'  MAIN NEAREST  NEAREST        SECONDARY  NODES            MAIN'/
-     +'   NODE    SECONDARY  SEGMENT                               S     T')
  2007 FORMAT(//'    IMPACT CANDIDATES',/,
      +'  MAIN        SECONDARY  NODES '/
      +'   NODE ')
- 2011 FORMAT(//'    IMPACT CANDIDATES',/,
-     +'  MAIN   NODES     SECONDARY  NODES ')
 C-----
       END

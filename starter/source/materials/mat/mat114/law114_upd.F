@@ -62,9 +62,8 @@ C-----------------------------------------------
       INTEGER FUNC,NPT, J,J1,IF3,I7,I11,I13,FLAG_NEGATIVE,FUNC_UL,
      .        NPT_UL,J1_UL,J_UL,NEXT
       my_real
-     .        XK,HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,DERI,H,E_OFFSET,
+     .        XK,HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,DERI,E_OFFSET,
      .        X1_UL,X2_UL,Y1_UL,Y2_UL,DERI_UL,Y,Y_UL,EPS,Y_EPS
-      CHARACTER(LEN=NCHARTITLE)  :: TITR1
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 C

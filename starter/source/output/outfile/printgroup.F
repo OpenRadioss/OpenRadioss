@@ -89,10 +89,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,II,KK,NEL,NNOD,NSEG,IAD0,DGR,ITYP,SRFTYP,NE,
-     .        KR,IADR,NSEGIGE,ID
+      INTEGER I,J,L,NEL,NNOD,NSEG,DGR,ITYP,SRFTYP,NE,
+     .        NSEGIGE,ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER MESS*40,FMTT*15
 C-----------------------------------------------
       IF (IPRI >= 0) THEN
 C-----------------------------------------------

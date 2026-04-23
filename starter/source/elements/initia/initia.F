@@ -401,8 +401,8 @@ C-----------------------------------------------
 C remove automatic allocation to reduce stack consumption
 C      INTEGER *8 I8MI(6,NUMNOD)
       INTEGER (KIND=8), DIMENSION(:,:), ALLOCATABLE :: I8MI
-      INTEGER NG, NEL, NVC, K, N, M, NSL, NN1, NN2, NN3, I, K0,NV46,
-     .   ISPH, J, IG, OFFSET,ISOLNOD,IPROP,IGTYP,
+      INTEGER NG, NEL, NVC, K, N, M, NSL, NN1, NN2, NN3, I, NV46,
+     .   ISPH, J, OFFSET,ISOLNOD,IPROP,IGTYP,
      .   I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K,I15ATH,
      .   I15L,NC1_OLD, NC2_OLD, NC3_OLD, NC4_OLD,
      .   NC5_OLD, NC6_OLD, NC7_OLD, NC8_OLD,
@@ -412,16 +412,16 @@ C      INTEGER *8 I8MI(6,NUMNOD)
      .   IADUIN,IADUSM,IADUSR,IADUMV,IADURV, NUVAR,ICNOD, RBYID,
      .   ADRRPM,ALM,ASIG,NELS,NELC,NELTG,AMOD,NBNO,NME,NML,ARPM,LVSIG,
      .   IFILE,IRCS,NELT,NELP,FXBID, ANOD, IRCM, NSNI, NSN, NMANI, IMIN, IMAX,
-     .   NELEMR,CPT_ELTENS,IXFEM,ITG,ISUBSTACK,NCTRL, ITETRA10, KK,PX,PY,PZ,IPID
+     .   NELEMR,CPT_ELTENS,IXFEM,ITG,ISUBSTACK,NCTRL,PX,PY,PZ
 
       INTEGER SOLMAT(0:MAXLAW), COQMAT(0:MAXLAW), TRUMAT(0:MAXLAW),
      .   POUMAT(0:MAXLAW),SPHMAT(0:MAXLAW),
      .   RESMAT(0:MAXLAW),RESPID(0:50), SPHPID(0:50),
      .   SOLPID(0:50), COQPID(0:52), TRUPID(0:50), POUPID(0:50)
-      INTEGER II,NINDX,FLAG_KJ
+      INTEGER NINDX,FLAG_KJ
 
       INTEGER IBOLTP !Bolt preloading
-      my_real DT2S, B1, B2, B3, B6, B5, B9, XG, YG, ZG, XX, YY, ZZ, XY, XZ, YZ,DTNODA,FILL_RATIO
+      my_real DT2S, B1, B2, B3, B6, B5, B9, XG, YG, ZG, XX, YY, ZZ, XY, XZ, YZ
       my_real, DIMENSION(:), ALLOCATABLE ::
      .    MBUFEL_TMP, MDEPL_TMP,PARTSAV,MCPS,MCPSX,
      .    MS_LAYERC,ZI_LAYERC, MSZ2C,ZPLY,PARTSAV1_PON,MCPP
@@ -429,7 +429,7 @@ C      INTEGER *8 I8MI(6,NUMNOD)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRIG_NODE, CONNEC
       my_real, DIMENSION(:), ALLOCATABLE :: PART_AREA,ELE_AREA
 
-      my_real ADDEDMS(NPART),MAS,MAS_1
+      my_real ADDEDMS(NPART),MAS
       INTEGER ID,ISTOT, NF1,NNOD,NSROT,IDRAPE,ICPRE
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: ERROR_THROWN
@@ -443,14 +443,13 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF   
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C-----------------------------------------------
       EXTERNAL UEL2SYS
       INTEGER  UEL2SYS
 c___________________________________________________
       my_real r8_deuxm43
       integer*8  i8_deuxp43
-      data i8_deuxp43 /'80000000000'x/
+      data i8_deuxp43 /Z'80000000000'/
       r8_deuxm43 = 1.d00 / i8_deuxp43
 c___________________________________________________
 C                   1 2 3 4 5 6 7 8 9 10
@@ -2925,12 +2924,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ
       CHARACTER(LEN=NCHARTITLE) :: TEXT
-C======================================================================|
-C
-      WRITE(IOUT,'(//,A)')'PART MASS & INERTIA'
       WRITE(IOUT,'(A,/)') '-------------------'
 C
       DO I=1,NPART
@@ -3122,7 +3118,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NPE1,N,JJ,IIS,IIS0,NN,NC(NEL,4)
+      INTEGER I,N,JJ,IIS,IIS0,NN,NC(NEL,4)
 C     REAL
 C-----------------------------------------------
        IIS0= NUSOLID+4+NVSOLID1 + NVSOLID2 + NVSOLID3 + NVSOLID4 + NVSOLID5
@@ -3193,14 +3189,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG,IPID,IMID,MID,PID,ITY,IGTYP,ETY,N_NOD,ISOLNOD,
+      INTEGER I,NG,IPID,IMID,MID,ITY,IGTYP,ETY,N_NOD,ISOLNOD,
      .        IHBE,ISMSTR,ICPRE,JCVT,IINT,IHKT,ITET4,ITET10,IMATVIS,NPT,NLY,
-     .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,JG,ETYE,
+     .        ICSTR,IDRIL,ITHK,IPLAS,I2GEO(NUMGEO),NG2,NG1,NG0,ETYE,
      .        IH4,IH3,IGMAT,I2GEO1(NUMGEO),I2GEO2(NUMGEO),IHBE0,
      .        IP,NFT,IP2NG1(NPART),IP2NG2(NPART),LST,ICONTROL,IPOS
       my_real
-     .   MAS,SM,XX,YY,ZZ,XY,YZ,ZX,XG,YG,ZG,
-     .   IXX,IXY,IYY,IYZ,IZZ,IZX,EK,VX,VY,VZ,HM,HR,HF,DN,QA,QB,QH,
+     .   DN,QA,QB,QH,
      .   NS_A,NS_B,DM,QF,QM,QR,DF
       CHARACTER(LEN=NCHARTITLE) TEXT
       CHARACTER(LEN=23), DIMENSION(27) :: EL_TYP

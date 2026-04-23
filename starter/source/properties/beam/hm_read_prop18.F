@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(*)
-      INTEGER IGTYP,IG,NBADI 
+      INTEGER IGTYP,IG
       my_real
      .   GEO(*)
       CHARACTER(LEN=NCHARTITLE)::IDTITL
@@ -75,13 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARFIELD) :: STRING
-      CHARACTER CHROT*7
-      INTEGER I,J,IP,INTR,INTS,NIP,NIPMAX,NC,NS,IPY,IPZ,IPA,IREF,ISECT,
+      INTEGER I,IP,INTR,NIP,NIPMAX,IPY,IPZ,IPA,IREF,ISECT,
      .        IRX,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,ISS
-      INTEGER IHBE,ISMSTR,ISHEAR,NB_DIM,ID_FORMAT,INTR_MAX
+      INTEGER ISMSTR,ISHEAR,NB_DIM,INTR_MAX
       my_real
-     .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L(6),PUN
+     .    DM,DR,PY,PZ,AI,AREA,Y0,Z0,L(6),PUN
       my_real
      .    AREA_I,TIXX_I,TIYY_I,TIZZ_I, ARI,INI,RYI,RZI
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -431,7 +429,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA
-      my_real AI,YI,ZI,WI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
+      my_real AI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
       my_real W_GAUSS(9,9),A_GAUSS(9,9),W_LOBATTO(9,9),A_LOBATTO(9,9),LEN(10)
 C-----------------------------------------------
       DATA W_GAUSS / 

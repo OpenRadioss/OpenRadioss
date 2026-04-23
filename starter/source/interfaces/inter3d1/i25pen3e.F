@@ -56,31 +56,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, N4B,
-     .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
-     .        JNDX(MVSIZ), I4A(MVSIZ), I4B(MVSIZ)
+      INTEGER I, SOL_EDGE, SH_EDGE
       my_real
      .     H1S(MVSIZ),H2S(MVSIZ),H1M(MVSIZ),H2M(MVSIZ),NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,AAA,BBB,NN(MVSIZ),P1,P2
-      my_real
-     .     XA0(MVSIZ),XA1(MVSIZ),XA2(MVSIZ),XA3(MVSIZ),XA4(MVSIZ),
-     .     YA0(MVSIZ),YA1(MVSIZ),YA2(MVSIZ),YA3(MVSIZ),YA4(MVSIZ),
-     .     ZA0(MVSIZ),ZA1(MVSIZ),ZA2(MVSIZ),ZA3(MVSIZ),ZA4(MVSIZ),
-     .     XB0(MVSIZ),XB1(MVSIZ),XB2(MVSIZ),XB3(MVSIZ),XB4(MVSIZ),
-     .     YB0(MVSIZ),YB1(MVSIZ),YB2(MVSIZ),YB3(MVSIZ),YB4(MVSIZ),
-     .     ZB0(MVSIZ),ZB1(MVSIZ),ZB2(MVSIZ),ZB3(MVSIZ),ZB4(MVSIZ)
-      my_real
-     .     X0A(MVSIZ,4),Y0A(MVSIZ,4),Z0A(MVSIZ,4),
-     .     X0B(MVSIZ,4),Y0B(MVSIZ,4),Z0B(MVSIZ,4),
-     .     XNA(MVSIZ,4), YNA(MVSIZ,4), ZNA(MVSIZ,4), XNB(MVSIZ,4), YNB(MVSIZ,4), ZNB(MVSIZ,4), 
-     .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DB1, DA2, DB2,
-     .     RZERO, RUN, RDIX, REM30, REP30,
-     .     ALP,XXS,XYS,XZS,
-     .     XI0,YI0,ZI0,XI1,YI1,ZI1,XI2,YI2,ZI2,
-     .     SX1,SY1,SZ1,SX2,SY2,SZ2
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,NN(MVSIZ),P1,P2
       INTEGER NTRIA(3,4)
       DATA NTRIA/1,2,4,2,4,1,0,0,0,4,1,2/
 C-----------------------------------------------

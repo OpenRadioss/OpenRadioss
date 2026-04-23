@@ -64,10 +64,8 @@ C-----------------------------------------------
       INTEGER I, IG, ID, IPNUM
 C     REAL
       my_real
-     .   XL,YL,ZL,SUM,HX,HY,HZ,KX,KY,KZ,
-     .   LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN,
-     .   F3X,F3Y,F3Z,
-     .   G11,G22,G33,G12,G21,G23,G32,G13,G31
+     .   SUM,HX,HY,HZ,KX,KY,KZ,
+     .   LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN
       my_real
      .   SK(6)
       CHARACTER(LEN=NCHARTITLE)::TITR

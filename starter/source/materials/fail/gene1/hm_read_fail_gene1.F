@@ -81,13 +81,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
+      INTEGER I,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
      .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,CRIT,IERROR,
      .        Ismooth,NCRIT_MAX,NTABF,NIPARAM,NUPARAM,NUVAR,NVARTMP,NMODE,FAILIP 
       INTEGER ,PARAMETER :: NFUNC = 6
       INTEGER ,DIMENSION(NFUNC) :: IFUNC
       INTEGER :: NF
-      my_real :: x2scale,x3scale,x4scale
+      my_real :: x2scale
       my_real ,DIMENSION(NFUNC) :: x1scale,YSCALE
       my_real, dimension(1) :: x2vect
       my_real 

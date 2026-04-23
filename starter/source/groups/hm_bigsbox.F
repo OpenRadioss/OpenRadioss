@@ -77,13 +77,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,JJ,K,K1,J,JREC,ISK,BOXTYPE,ISU,TAGN(NUMEL),
-     .    ITYPE,IADBOX,IDB,NBOX,ID,IDBX,BOXSEG,IADISU,
-     .    ICOUNT,ITER,FLAGG,NIXEL
-      MY_REAL
-     .    DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2,NODINB(3)
-      CHARACTER BOX*3
-      LOGICAL BOOL,IS_AVAILABLE, IS_ENCRYPTED
+      INTEGER I,K,J,BOXTYPE,ISU,
+     .    IDB,NBOX,ID,BOXSEG,IADISU,
+     .    ICOUNT,ITER,FLAGG
+      LOGICAL BOOL,IS_AVAILABLE
 C=======================================================================
        DO I=1,NBBOX
          IBOX(I)%NBLEVELS = 0

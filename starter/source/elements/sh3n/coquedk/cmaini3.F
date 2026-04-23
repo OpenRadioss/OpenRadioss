@@ -103,7 +103,6 @@ C-----------------------------------------------
      .   DIMENSION(:),POINTER :: UVAR,DIR1,DIR2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY   
       TYPE(DRAPE_) :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
 C=======================================================================
       COOR1 = ZERO

@@ -67,7 +67,6 @@ C-----------------------------------------------
      .    B1,B2,R1,R2,W,VDET,PCJ,
      .    PEXT,VIS,VISV
       INTEGER :: IBFRAC
-      my_real BID
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s

@@ -65,8 +65,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER    ::     IMARGIN,IENG
-      my_real    ::     RANI,DADV,FACT_MARGIN,FACT_LOOSEMETAL
       INTEGER    ::     IFAIL_SH, IFAIL_SO
       my_real    ::     PC,ALPHA,BETA,DF,PTHKF
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED

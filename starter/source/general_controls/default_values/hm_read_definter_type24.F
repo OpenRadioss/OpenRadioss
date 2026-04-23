@@ -64,10 +64,8 @@ C-----------------------------------------------
      .   IEDGE,IGAP0,IPEN0,INACTI,MFROT,IFQ,
      .   IDSENS,INTFRIC,IPRINT,IASSIGN
       my_real
-     .   ETEN_M,EDG_ANGL,GAPMAX_S,GAPMAX_M,STMIN,STMAX,PENMAX,PENMIN,
-     .   VISC,VISCF,BUMULT,ALPHA,GAP,STARTT,STOPT,STFAC,FRIC
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG, BCFLAGM
-      CHARACTER(LEN=NCHARKEY)::KEY,KEY1
+     .   VISC,VISCF,GAP,STARTT,STOPT,FRIC
+      CHARACTER(LEN=NCHARKEY)::KEY1
       LOGICAL IS_AVAILABLE
 !
 C============================================================================

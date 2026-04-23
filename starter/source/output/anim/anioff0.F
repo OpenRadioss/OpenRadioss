@@ -53,7 +53,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------                        
 C     REAL                                                    
       INTEGER I, NG, NEL, NFT, ITY, LFT,                           
-     .        N, NN1, LLT, MLW, IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)                                         
+     .        N, NN1, LLT, MLW, IOFF_LOC(SIOFF)                                         
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1

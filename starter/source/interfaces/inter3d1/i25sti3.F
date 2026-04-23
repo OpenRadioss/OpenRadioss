@@ -714,7 +714,6 @@ C
       DEALLOCATE(TAGB)
 
       RETURN
- 1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
  1400 FORMAT(2X,'MIN,MAX OF SECONDARY GAP: ',2(1PG20.13))
  1500 FORMAT(2X,'MIN,MAX OF MAIN GAP: ',2(1PG20.13)/)
  2001 FORMAT(2X,'Maximum distance for radiation computation = ',
@@ -1226,8 +1225,6 @@ C   Update option erosion solid : only if /SURF/PART/ALL is defined on solid par
 
 C-----------------------------------------------
       RETURN
- 1400 FORMAT(I10,' MAIN SEGMENTS',' OF INTERFACE',I10,
-     +                      ' ARE REVERSED THE NORMAL DIRECTION')
       END
 !||====================================================================
 !||    i25bord     ../starter/source/interfaces/inter3d1/i25sti3.F

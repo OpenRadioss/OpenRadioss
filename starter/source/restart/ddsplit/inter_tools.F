@@ -1420,7 +1420,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,K,L,M,N,JJ,
+     .        K,L,N,
      .        CNRTM_L,CNSN_L,CNMN_L,MY_NODE
 C ----------------------------------------
       DO K=1,NSN
@@ -1529,7 +1529,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,N
+      INTEGER I,K
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
 C ----------------------------------------
       ALLOCATE(IBUF(DIM1))
@@ -1620,9 +1620,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NMN,
-     .        I,J,K,N,N1,N2,N3,N4,E,
+     .        I,K,N,N1,N2,N3,N4,
      .        CNSN_L,CNRTM_L,CNMN_L,NSN0,
-     .        NSN_FE, NSN_IGE
+     .        NSN_IGE
 C ----------------------------------------
       IF(IPARI(7) == 7) THEN
         NRTM = IPARI(4)
@@ -1808,7 +1808,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,P,E,MULTOK,MSGID,
+      INTEGER I,K,N,P,E,MULTOK,
      .        SPLIST,C_NSNR,MY_NODE
       INTEGER NUMP(NSPMD),WORK(70000)
 
@@ -2072,7 +2072,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,
+      INTEGER K,SIZ,
      .        L,SIZ1,SIZ2,M,N
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
@@ -2200,13 +2200,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,L,M,N1,N2,JJ,N
+      INTEGER :: I,J,K,L,M,JJ,N
       INTEGER :: ID,E1,E2,K1,K2
       INTEGER :: NB_FREE_EDGES            ! number of free edges
       INTEGER :: NB_INTERNAL_EDGES        ! number of edges internal to the domain
       INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain 
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
-      INTEGER :: NEDGE_1D_L, NB_1D_EDGES          ! number of 1D edges
+      INTEGER :: NB_1D_EDGES          ! number of 1D edges
       INTEGER, DIMENSION(:),ALLOCATABLE :: KCANDMS,ICANDMS,CANDMS
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be deactivated 
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG1D
@@ -2529,8 +2529,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,JJ ,ss1,ss2,mm1,mm2 ,s,m
-      INTEGER :: ID,E1,E2,K1,K2
+      INTEGER :: I,J,JJ
+      INTEGER :: ID
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2E,CANDS_E2E
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2S,CANDS_E2S
 
@@ -2651,7 +2651,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,LL,
+      INTEGER I,K,SIZ,
      .        L,SIZ1 ,SIZ2 ,M ,N ,NS
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
@@ -3067,7 +3067,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,N2,NSN_L2,NMN_L2,
+      INTEGER K,L,N,N2,NSN_L2,NMN_L2,
      .        SIZ_XSAV,TAG
 
       my_real, DIMENSION(:),ALLOCATABLE :: RBUF
@@ -3506,7 +3506,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NRTS,NMN,
-     .        I,J,K,N,IE,IE_LOC,PROC2,
+     .        I,K,N,IE,IE_LOC,PROC2,
      .        CNSN_L,CNMN_L,CNRTS_L,CNRTM_L
 C ----------------------------------------
       NRTS = IPARI(3)
@@ -3642,7 +3642,7 @@ C-----------------------------------------------
      .        NSN,NRTM,NMN,NRTS
 
       INTEGER 
-     .        I,J,K,L,M,N,N1,N2,JJ,
+     .        I,K,N,N1,N2,
      .        CNRTM_L,CNRTS_L,CNSN_L,CNMN_L
 C ----------------------------------------
       NRTS = IPARI(3)
@@ -3763,13 +3763,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,N1,N2,P,E,MULTOK,MSGID,
-     .        SPLIST,C_NRTSR
+      INTEGER I,K,L,N,N1,N2,E,
+     .        C_NRTSR
       INTEGER NUMP(NSPMD),WORK(70000)
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
      .  IBUF_E,IBUF_N,NRTSLOCAL,CPULOCAL,CANDR,PLIST,
-     .  INDEX,CANDS
+     .  INDEX
 
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI
 
@@ -3954,9 +3954,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        NSN,NRTM,NRTS,NME,
-     .        J,K,IE,
-     .        IGE,IGN,NAD,EAD,NAS,
+     .        NSN,NRTS,NME,
+     .        K,IE,
+     .        IGE,IGN,
      .        CNME_L,CNSN_L
 
 C ----------------------------------------
@@ -4048,7 +4048,7 @@ C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NMN,NLN,
      .        NLINS,NLINM,NLINSA,NLINMA,NSNE,NMNE,
-     .        I,J,K,L,N,N1,N2,N3,N4,E,
+     .        I,K,L,N,N1,N2,N3,N4,
      .        NL,N1L,N2L,N3L,N4L,
      .        NCONT,NCONT1,NCONT2,
      .        CNSN_L,CNRTM_L,CNMN_L,CNLN_L,
@@ -4410,7 +4410,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I,K
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
 C ----------------------------------------
       ALLOCATE(IBUF(DIM1))
@@ -4512,7 +4512,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,P,E,MULTOK,MSGID,
+      INTEGER I,K,N,P,E,MULTOK,
      .        SPLIST,C_NSNR
       INTEGER NUMP(NSPMD),WORK(70000)
 
@@ -4736,12 +4736,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,P,N1L,N2L,N1,N2,E,MULTOK,MSGID,
-     .        SPLIST,C_NLINSR
+      INTEGER I,K,L,N,P,N1L,N2L,N1,N2,E,
+     .        C_NLINSR
       INTEGER NUMP(NSPMD),WORK(70000)
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
-     .  IBUF_E,IBUF_N,NRTSLOCAL,CPULOCAL,CANDR,PLIST,
+     .  IBUF_E,IBUF_N,NRTSLOCAL,CPULOCAL,CANDR,
      .  INDEX
 
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI
@@ -4954,7 +4954,7 @@ C-----------------------------------------------
      .        NSN,NRTM,NMN,NRTS,INTTH, NMNG,FLAGLOADP
 
       INTEGER 
-     .        I,J,K,L,M,N,N1,N2,N3,N4,JJ,SPLIST,
+     .        I,K,N,SPLIST,
      .        CNRTM_L,CNRTS_L,CNSN_L,CNMN_L
 C ----------------------------------------
       NRTS = IPARI(3)
@@ -5070,7 +5070,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAB(*),TAG_II(*),II_STOK_L,MULTIMP,NCONT,
+      INTEGER TAB(*),TAG_II(*),II_STOK_L,
      .        DIM1,DIM2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -5119,7 +5119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N
+      INTEGER I,K,N
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
 C ----------------------------------------
       ALLOCATE(IBUF(DIM1))
@@ -5256,7 +5256,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NMN,NRTS,
-     .        I,J,K,N,N1,N2,N3,N4,E,IE,IE_LOC,PROC2,
+     .        I,K,N,N1,N2,N3,N4,IE,IE_LOC,
      .        CNSN_L,CNRTM_L,CNMN_L,NRTSE,NSNE,NSN0,NSNE_COUNT,SE1,
      .        CNRTS_L
       INTEGER 
@@ -5533,11 +5533,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAB(5,*),TAG_SEG(*),DIM1,DIM2,NODLOCAL(*)
+      INTEGER TAB(5,*),TAG_SEG(*),DIM1,NODLOCAL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N1,N2,N3,N4,NI
+      INTEGER I,K,N1,N2,N3,N4,NI
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IBUF
 C ----------------------------------------
       ALLOCATE(IBUF(5,DIM1))
@@ -5598,7 +5598,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
-     .        TAG_SCRATCH(*) , II_STOK_L, ITYP 
+     .        TAG_SCRATCH(*) , II_STOK_L
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, INTENT(IN) :: NUMNOD_L
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
@@ -5631,7 +5631,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,P,E,MULTOK,MSGID,
+      INTEGER I,K,N,P,E,MULTOK,
      .        SPLIST,C_NSNR,NN,SE1,MY_NODE
       INTEGER NUMP(NSPMD),WORK(70000)
 
@@ -5640,7 +5640,6 @@ C-----------------------------------------------
      .  INDEX
 
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI
-      LOGICAL CONDITION
 C ----------------------------------------
 C       w to be done :modif w/ edge
 C ----------------------------------------
@@ -5991,7 +5990,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        NSN,NRTM,NMN,
-     .        I,J,K,L,N,N1,N2,N3,N4,E,
+     .        I,K,N,N1,N2,N3,N4,
      .        CNSN_L,CNRTM_L,CNMN_L,NADMSR_L,NRTM_L
 C ----------------------------------------
       NRTM = IPARI(4)
@@ -6695,7 +6694,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
-     .        TAG_SCRATCH(*) , II_STOK_L, ITYP   
+     .        TAG_SCRATCH(*) , II_STOK_L
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
 
@@ -6708,7 +6707,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,P,E,MULTOK,MSGID,
+      INTEGER I,K,N,P,E,MULTOK,
      .        SPLIST,C_NSNR
       INTEGER NUMP(NSPMD),WORK(70000)
 
@@ -7107,7 +7106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,L,SIZ1,SIZ2,M,N,SE1,NS,NUMNODT
+      INTEGER K,SIZ,L,SIZ1,SIZ2,M,N,SE1,NS,NUMNODT
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
      .  IBUF1,IBUF2,NODDEL,NODDELREMOTE
@@ -7231,7 +7230,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NRTM,NRTM_L,
-     .        TAG_SEGM2(*),NREMNODE,NODLOCAL(*),
+     .        TAG_SEGM2(*),NODLOCAL(*),
      .        ITAB(*),TAG_SEGS2(*)
       INTEGER, INTENT(IN) :: NUMNOD_L,NREMNODE_L
 
@@ -7244,7 +7243,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,
+      INTEGER K,SIZ,
      .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
@@ -7362,7 +7361,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,
+      INTEGER K,SIZ,
      .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,IK,
      .        KM1,EM1,KM2,EM2,KS1,ES1,KS2,ES2
 
@@ -7548,9 +7547,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,SIZ,
-     .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,IK,
-     .        KM1,EM1,KM2,EM2,KS1,ES1,KS2,ES2
+      INTEGER K,SIZ,
+     .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,
+     .        ES1
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: 
      .        IBUF1,IBUF2

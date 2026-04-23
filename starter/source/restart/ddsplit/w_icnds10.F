@@ -76,7 +76,6 @@ C-----only edge in front (>0) is tagged
           IFRONT(NODLOCAL(N2))=1
          END IF
          IF (ITAGND(NN) <0) ICNDS10_L(1,N_L)= -ICNDS10_L(1,N_L)
- 100    CONTINUE         
        ENDIF
       ENDDO
       IF (N_L /= NS10E_L) print *,'**error in W_ICNDS10,N_L,NS10E_L=',N_L,NS10E_L

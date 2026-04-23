@@ -58,7 +58,6 @@ C-----------------------------------------------
       my_real                                                           
      .   OFF, VALUE                                                     
       INTEGER I, NG, NEL, N, MT,IALEL, IPRT,NN1                           
-      REAL R4                                                           
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1                                                           

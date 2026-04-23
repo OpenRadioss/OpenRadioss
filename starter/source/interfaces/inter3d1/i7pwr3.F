@@ -263,7 +263,6 @@ C-----------------------------------------------
  
       IF (JWARN /= 0) WRITE(IOUT,'(A)')'REDUCE INITIAL GAP'
       
- 1000 FORMAT(2X,'** INITIAL PENETRATION =',1PG20.13,' POSSIBLE NEW COORDINATES OF SECONDARY NODE')
  1100 FORMAT(2X,'** INITIAL PENETRATION =',E14.7   ,' IMPOSSIBLE TO CALCULATE NEW COORDINATES OF SECONDARY NODE',I8)
 
 C-----------------------------------------------

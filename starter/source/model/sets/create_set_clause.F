@@ -271,11 +271,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDS,NINDX,LIST_SIZE,IDS_MAX,PARTM,GENE_MAX,K,P,P1
+      INTEGER GENE_MAX,K,P,P1
       INTEGER START_GENE,END_GENE,INCR_GENE,PSTART,PSTOP,STACK,STACK_ONE,NB_RESULT
-      INTEGER IWORK(70000)
-!-
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: SET_READ_TMP,SET_READ_ONE,IDEX,RESULT
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: SET_READ_TMP,SET_READ_ONE,RESULT
 C
       INTEGER  SET_USRTOS_NEAREST
       EXTERNAL SET_USRTOS_NEAREST

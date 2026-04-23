@@ -26,7 +26,7 @@
 !||    eikonal_init_start_list   ../starter/source/initial_conditions/detonation/eikonal_init_start_list.F90
 !||====================================================================
       module eikonal_bcs_sym_tag_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    eikonal_bcs_sym_tag       ../starter/source/initial_conditions/detonation/eikonal_bcs_sym_tag.F90
@@ -36,7 +36,7 @@
 !||    detonators_mod            ../starter/share/modules1/detonators_mod.F
 !||====================================================================
         subroutine eikonal_bcs_sym_tag(neldet, elem_list, uelem_list, numnod, x, nix, numel, ix, &
-                                        detonators, idet, itag_boundFaces, ISYM, nvois, Lmax)
+          detonators, idet, itag_boundFaces, ISYM, nvois, Lmax)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Description
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,11 +80,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,allocatable,dimension(:) :: indx
-          integer,allocatable,dimension(:) :: int_tmp_array
-          real(kind=WP),allocatable,dimension(:) :: real_tmp_array
-          integer :: kk
-          integer :: iad,lgth
           integer :: ICT(6,4)
           integer :: listnod(4) !< list of face nodes (2d:2max, 3d:4max)
           integer :: inod !< loop variable to identify face nodes
@@ -106,7 +101,7 @@
           iframe2 = detonators%point(idet)%Iframe2
 
           If(Iframe1 > 0)then
-             ISYM(1) = 1
+            ISYM(1) = 1
           endif
 
           If(Iframe2 > 0)then
@@ -162,7 +157,7 @@
             end do
 
           ELSE
-           do ii=1,2
+            do ii=1,2
               if(isym(ii) == 0)cycle
               do iel=1,neldet
                 ie = elem_list(iel)
@@ -180,7 +175,7 @@
                     if(abs(dotprod) < tol) itag=itag + 1
                   end do
                   if(itag >= 3)then
-                      itag_boundfaces(iel,ifac) = 1
+                    itag_boundfaces(iel,ifac) = 1
                   end if
                 end do
               end do

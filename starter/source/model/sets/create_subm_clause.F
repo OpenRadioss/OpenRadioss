@@ -155,12 +155,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,NINDX,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
-     . LIST_SIZE_S,LIST_SIZE_P,LIST_SIZE_N,NODE
+      INTEGER I,IDS,NINDX,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
+     . LIST_SIZE_S,LIST_SIZE_P,LIST_SIZE_N
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: SUBM_READ_TMP,SORTED_SUBM,INDEXS,
-     . PART_READ_TMP,SORTED_PARTS,INDEXP,NODE_READ_TMP,SORTED_NODES,INDEXN
+     . PART_READ_TMP,SORTED_PARTS,INDEXP
 C
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS

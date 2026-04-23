@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IO_ERR1, IFUND
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER FILNAM*109, KEYA*80
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARLINE) :: LINE1,KEY,KEYST
+      CHARACTER(LEN=NCHARLINE) :: LINE1,KEY
       INTEGER I, J, ID, ITYPE, SBUFMSG
 C predim
       SMESSAGES=1

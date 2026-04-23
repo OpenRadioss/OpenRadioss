@@ -57,14 +57,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,MX,NC,NT,ITER,NITER,FLAGUL
+      INTEGER I,NC,NT,ITER,NITER,FLAGUL
       my_real
      .        KC,KT,KFC,KFT,G0,GT,GB,TAN_LOCK,VISCE,VISCG,LC0,LT0,
      .        KBC,KBT,DC0,DT0,HC0,HT0,ETC,ETT,DC,DT,TRACE,R3R3,S3S3, 
-     .        AC,AT,BC,BT,BC2,BT2,CC,TT,FUNC,FUNT,DERIC,DERIT,
-     .        Y,EC2,ET2,SIGC,SIGT,UDC,UDT,FC,FT,FACT,SIG0,
-     .        FPC,FPT,CCL,TTL,DEC,DET,HC,HT,KF,KMAX,HDC,HDT,
-     .        TAN_PHI,RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
+     .        AC,AT,CC,TT,FUNC,FUNT,DERIC,DERIT,
+     .        Y,EC2,ET2,SIGC,SIGT,UDC,UDT,FC,FT,SIG0,
+     .        FPC,FPT,CCL,TTL,HC,HT,KF,HDC,HDT,
+     .        TAN_PHI,RFAC,RFAT,R1,R2,S1,S2,T1,T2,T3,RS1,RS2,RS3,
      .        R12,S12,R22,S22,ZEROSTRESS,FLEX1,FLEX2,YFAC(6),PHI,GXY,DDEC,DDET,
      .        DCC1,dtt1,DCC,DTT,KKC,KKT
       my_real
@@ -73,13 +73,11 @@ C-----------------------------------------------
      .        DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),
      .        SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),
      .        TENS(3,MVSIZ),EMINCRL(MVSIZ),EMINTRL(MVSIZ),EMINSRL(MVSIZ),
-     .        EPSNC(MVSIZ),EPSNT(MVSIZ),EPSNS(MVSIZ),EMAXSL(MVSIZ),EMAXSRL(MVSIZ),
-     .        EMAXCL(MVSIZ),EMAXCRL(MVSIZ),EMAXTL(MVSIZ),EMAXTRL(MVSIZ),
-     .        EPSMAXC(MVSIZ),EPSMAXRLC(MVSIZ),EPSNRLC (MVSIZ),
+     .        EPSMAXC(MVSIZ),EPSMAXRLC(MVSIZ),
      .        SLMAXRLC(MVSIZ),SLMAXRLT(MVSIZ),SLMAXS(MVSIZ),SLMINS(MVSIZ),
-     .        EPSMAXS(MVSIZ),EPSMAXRLS(MVSIZ),EPSNRLS (MVSIZ),SLMAXRLS(MVSIZ) ,
-     .        SLMAXC(MVSIZ),EPSMAXT(MVSIZ),EPSMAXRLT(MVSIZ),EPSNRLT(MVSIZ),
-     .        SLMAXT(MVSIZ),PHIO(MVSIZ),SLMINC(MVSIZ),SLMINT(MVSIZ)
+     .        EPSMAXS(MVSIZ),EPSMAXRLS(MVSIZ),SLMAXRLS(MVSIZ),
+     .        SLMAXC(MVSIZ),EPSMAXT(MVSIZ),EPSMAXRLT(MVSIZ),
+     .        SLMAXT(MVSIZ),SLMINC(MVSIZ),SLMINT(MVSIZ)
 C=======================================================================
 C---  Initialisations
 C----------------------------------------------------------------------

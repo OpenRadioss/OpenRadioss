@@ -67,13 +67,11 @@ C-----------------------------------------------
      .     XXS1(MVSIZ) ,XXS2(MVSIZ) ,XYS1(MVSIZ) ,XYS2(MVSIZ) ,XZS1(MVSIZ) ,XZS2(MVSIZ) ,
      .     XXM1(MVSIZ) ,XXM2(MVSIZ) ,XYM1(MVSIZ) ,XYM2(MVSIZ) ,XZM1(MVSIZ) ,XZM2(MVSIZ) ,
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
      .     XX,YY,ZZ,ALS,ALM,DET,GAP2, 
      .     XMAX1,YMAX1,ZMAX1,XMAX2,YMAX2,ZMAX2,
      .     XMIN1,YMIN1,ZMIN1,XMIN2,YMIN2,ZMIN2,GAPV(MVSIZ),
-     .     AAA, DX, DY, DZ, DD, EX, EY ,EZ, NNI, NI2, INVCOS
-      my_real 
-     .     MAXGAPV
+     .     DD
 C-----------------------------------------------
       DO I=1,JLT
         IE = CAND_M(I)

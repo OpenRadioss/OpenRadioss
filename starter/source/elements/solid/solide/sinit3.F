@@ -134,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, NF1, NCC, IBID, JHBE, IREP,IGTYP, NUVAR,NUVARR,IDEF,
+      INTEGER I, NF1, NCC, IBID, JHBE, IREP,IGTYP, NUVAR,IDEF,
      .        IR,IS,IT,IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,NDDIM, 
      .        NSPHDIR, NCELF, NCELL,L_PLA,L_SIGB,IBOLTP
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
@@ -177,7 +177,6 @@ C-----------------------------------------------
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_) ,POINTER:: FBUF
-      my_real, DIMENSION(:), POINTER  :: UVARF    
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

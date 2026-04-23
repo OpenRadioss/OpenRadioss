@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IWA(10), I, J, FILEN
+      INTEGER I, FILEN
       CHARACTER (LEN=NCHARTITLE) ::  CARD  !< Host the title to be print in OUTP 
       CHARACTER (LEN=100) :: FILNAM
       INTEGER :: LEN_TMP_NAME

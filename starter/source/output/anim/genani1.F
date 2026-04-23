@@ -160,23 +160,23 @@ C-----------------------------------------------
      .        NESRG, NNSRG, NSURG, NESMD, NNSMD, NSMAD, NESPH, NNSPH,
      .        NNSPHG, NUMELS_T, NUMELS16_T, NUMELT_T, NUMELR_T,
      .        NUMELP_T, MAGIC, IFLAG1D, BUFL, SNNSPHG, SZ16,
-     .        BUF, NESCT1, NERWL1, ISECT, IRWL, NESRG1, ISRG, NESMD1,
+     .        NESCT1, NERWL1, ISECT, IRWL, NESRG1, ISRG, NESMD1,
      .        J, IB, NDMA2, IFUNC, SZNNSPH, SHFTSPH, SHFT16, INSPH, NNN,
      .        NERBY, NB1D_T, IPRT, NERBT(NRBODY), NERBY1, IRBY, LRBUF,
      .        NFACPTX(3,SNFACPTX), IXEDGE(SIXEDGE),
      .        IAD(SIAD), IOFFX1(SOFFX1), INUMX1(SNUMX1), MXSUBS, N1, N2,
      .        N3, K, M3, M4, N0, NESPHG, ISRF, INVERT(SINVERT), M01,
-     .        M1, M2, NNNSRG, M, N, LID, NMFUNC(9)
+     .        M1, M2, NNNSRG, M, N, NMFUNC(9)
       INTEGER FVOFF(2,NFVBAG), INOD(4), INORM(3), NFVTR, NFVNOD,
      .        NFVPART, NFVSUBS, IDMAX, KK, NN, FVIAD, JJ, OFFPART,
-     .        ELOFF, IDCMAX, NND, NBID1, NBID2, NBID3, NFVNODT, IDP,
+     .        ELOFF, IDCMAX, NND, NBID1, NBID2, NBID3, NFVNODT,
      .        NBPART2D, IDPART2DMAX, II
       INTEGER, DIMENSION(:), ALLOCATABLE :: OFFTR, ITAGT, FVEL2FA,
-     .                                      FVINUM, FVPBUF
+     .                                      FVINUM
 C
       my_real
      .        CDG(3), WAFT(SWAFT), XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX,
-     .        XNORM(SXNORM), XFUNC1(SFUNC1), MAS(SMAS), RID
+     .        XNORM(SXNORM), XFUNC1(SFUNC1), MAS(SMAS)
       REAL    R4, WA4(SWA4)
       CHARACTER FILNAM*103, CHANIM*3, CHANIM1*4,  CTMOD*100
       CHARACTER*80 STR
@@ -186,7 +186,6 @@ Cf51e11 +2
       my_real
      .        FUNC(MAX(NELEM,NUMSPH))
       CHARACTER*33 CTITR(MAX(1,NLEVEL))
-      CHARACTER*80 STRZZ
 C
         LTITL = 40
 C        ENDIF
@@ -2715,9 +2714,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .  XX,YY,ZZ
-      REAL R4,R4NP(6*NUMELS16)
-      INTEGER I, J, K,N1,N2,N3,N4,N5,N6,N7,N8,
-     . JJ,BUF
+      REAL R4
+      INTEGER I, J, N1,N2,N3,N4,N5,N6,N7,N8,
+     . JJ
 C-----------------------------------------------
       JJ = 0
       DO J=1,NUMELS16
@@ -2801,10 +2800,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .  XX,YY,ZZ
-      REAL R4
-      INTEGER I, J, K,N1,N2,N3,N4,N5,N6,N7,N8,I3000,SIZ
+      INTEGER J, I3000,SIZ
 C-----------------------------------------------
       I3000 = 3000
       SIZ = NUMELS16

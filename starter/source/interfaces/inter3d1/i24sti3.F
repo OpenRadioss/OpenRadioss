@@ -110,18 +110,18 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,NRT1,NRT2,NSHIF,
+      INTEGER NDX, I, J,
+     .   MG, L, NN, N1,N2,N3,N4,IE,
+     .   IP, NLEV, MYLEV, K, NRT1,NRT2,NSHIF,
      .   NS,IGTYP,NRTT,IPL,IPFMAX,
      .   IPFLMAX,NM,NEL,FC,PERM,NSHIFF,N,IPG
      
       INTEGER JPERM(4) ,FACES(4,6),TAB1(4),TAB2(4),FACES10(3,16)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
-     .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL,GAPS_MN
+     .   DXM, GAPMX, GAPMN, AREA, DX,GAPS1,GAPS2,
+     .   GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
+     .   SLSFAC,GAPS_MN
       INTEGER, DIMENSION(:),ALLOCATABLE ::TAGNOD,TAGB
       DATA JPERM/2,3,4,1/
       DATA FACES/1,2,3,4,
@@ -1129,7 +1129,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,NDX,INTFRIC,IGSTI
+      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDX,INTFRIC,IGSTI
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
@@ -1157,14 +1157,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
+      INTEGER I, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG,  NELTG,
      .   IP, NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG,NINV,ICONTR,NIN25
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
-     .   AREA, VOL, DX, GAPM, DDX, 
+     .   AREA, VOL, DX, GAPM,
      .   ST,BULK
       INTEGER :: IELEM(2)
       LOGICAL :: PRINT_ERROR
@@ -1818,8 +1818,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,IS,BORD,BOLD
-      INTEGER NEXTK(4),IWORK(70000),NL
+      INTEGER J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I1M,I2M,IS,BORD,BOLD
+      INTEGER NEXTK(4),IWORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
      .   LINEIX
       INTEGER, DIMENSION(:), ALLOCATABLE :: 
@@ -2251,8 +2251,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM
+      INTEGER IY(4), JJ, K, NN, KK, IC
 C     REAL
       my_real
      .   N1, N2, N3, DDS

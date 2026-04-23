@@ -59,15 +59,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,FUNC,NUPAR,NPT, J,J1,NUPARAM,
-     . IF1,IF2,IF3,IF4,IC1,IC2,II,JJ,LOAD,UNLOAD,
-     . NP1,NP2,ILENG2,I7,I11,I13,I15,I5,I4,K1,
-     . K2,I14,IFUN
+      INTEGER K,FUNC,NPT, J,J1,
+     . IF1,IF3,IF4,IC1,IC2,II,JJ,LOAD,UNLOAD,
+     . NP1,NP2,I7,I11,I13,I15,I5,K1,
+     . I14,IFUN
       my_real
      .   XK,  HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,YFAC,
      .   X0,EMAX,DX,DY,Y0,DERI,H,XSCALE,ALPHA1,ALPHA2,
      .   S1,S2,T1,T2,TY,SX,XX1,YY1,DYDX,DTDS,F_X0
-      CHARACTER(LEN=NCHARTITLE)  :: TITR1
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
 cc

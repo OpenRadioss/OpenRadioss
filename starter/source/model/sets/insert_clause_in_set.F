@@ -105,8 +105,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: NODES
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF
       INTEGER NEW_SIZE, NS
       logical :: empty_condition
 C-----------------------------------------------

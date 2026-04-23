@@ -557,25 +557,4 @@ C-----------
       IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
 
       RETURN
- 900  CONTINUE
-      CALL ANCMSG(MSGID=189,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            C1='SURFACE',
-     .            C2='SURFACE',
-     .            I1=ID,
-     .            C3='SURFACE',
-     .            C4=TITR,
-     .            C5='SURFACE',
-     .            I2=IGRSURF(IGS)%ID)
-      IF(ALLOCATED(ITRI)) DEALLOCATE(ITRI)
-      IF(ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-      IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
-
-      RETURN
-C-----------
-      IF(ALLOCATED(ITRI)) DEALLOCATE(ITRI)
-      IF(ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-      IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
-      RETURN
       END

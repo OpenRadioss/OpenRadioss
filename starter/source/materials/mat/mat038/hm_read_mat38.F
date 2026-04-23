@@ -98,17 +98,17 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          I,J,MFUNC,IFLAG,KSMSTR
-      INTEGER          ITOTAL,IUNLOAD,IFN,NPCURVE,KCOMPAIR
+      INTEGER          ITOTAL,IUNLOAD,NPCURVE,KCOMPAIR
       INTEGER          IFLOAD(5),IFUNLOAD(5)
-      INTEGER          KDECAY,KRECOVER,IFL(5),IFUNL(5)
+      INTEGER          KDECAY,KRECOVER
 
       my_real :: E,VT,VC,RV, NU
-      my_real :: BETA,HYSTER,RATEDAMP,GRADDAMP,THETA
+      my_real :: BETA,HYSTER,RATEDAMP,THETA
       my_real :: P0,RELAXP,MAXPRES,PHI,GAMMA
       my_real :: FUNLOAD,RUNLOAD,EXPONAS,EXPONBS
       my_real :: TENSIONCUT
       my_real :: EFINAL,EPSFIN,LAMDA,VISCOSITY,TOLERANCE,PSCALE
-      my_real :: GAMA0,FAC,FAC_P,RHO0,RHOR, FSCAL_TAB(5), EPS_TAB(5)
+      my_real :: FAC_P,RHO0,RHOR, FSCAL_TAB(5), EPS_TAB(5)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       
 C-----------------------------------------------

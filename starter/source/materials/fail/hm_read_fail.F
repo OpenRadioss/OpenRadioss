@@ -140,7 +140,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
+      INTEGER I,J,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
      .   ILOC,IRUPT,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM,FAIL_ID_ARRAY
       CHARACTER MESS*40

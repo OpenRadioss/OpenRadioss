@@ -53,7 +53,6 @@ C-----------------------------------------------
      .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*),                         
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,                               
      .   IXTG(NIXTG,*)                                                  
-      REAL WA(3*NBF_L)                                                  
       my_real                                                           
      .   TENS(3,*), X(3,*)                                     
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -62,13 +61,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------                        
 C     REAL                                                    
       my_real                                                           
-     .   OFF, FAC, A1, A2, A3, THK                   
+     .   FAC, A1, A2, A3, THK                   
       REAL R4(18)                                                       
-      INTEGER I,J,I1,I2,N, NG, NEL, NFT, ITY, LFT, NPT, IL,IPT,NLAY,                 
+      INTEGER I,J,I1,N, NG, NEL, NFT, ITY, LFT, NPT, IPT,NLAY,                 
      .  LLT, MLW, ISTRAIN, ISTRE,
      .  N0,NNI,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,II(8)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================                       
       DO J=1,18                                                      

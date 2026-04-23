@@ -59,11 +59,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
       my_real                                                           
-     .   EVAR(MVSIZ),                                                   
-     .   P, VONM2, VONM, S1, S2, S12, S3, VALUE
+     .   P, VONM2, VONM, S1, S2, S3, VALUE
       INTEGER I, II(6), NG, NEL, N, NN1, JTURB, MT, IALEL, IPRT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      REAL R4,WA(NBF)                                                   
+      REAL R4                                                           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
 C=======================================================================                                                                       

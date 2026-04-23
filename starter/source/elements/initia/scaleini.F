@@ -63,15 +63,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER I,J,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,N,IPID1,
-     .        IFLAGINI,NVAR_TMP,IR,IS,IT,NPTT,NPTS,NPTR,PID1,IGTYP,
-     .        IIS,IPT_ALL,ILAY,NLAY,KK,NPT,NPS,NPR,NLAYI,JHBET
+      INTEGER I, II, JJ, N,IPID1,
+     .        IFLAGINI,IR,IS,IT,NPTT,NPTS,NPTR,PID1,IGTYP,
+     .        IIS,ILAY,NLAY,KK,NPT,NPS,NPR,NLAYI,JHBET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MA
-      my_real,
-     .   DIMENSION(:), POINTER :: FACYLD 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C-----------------------------------------------
       DO I=LFT,LLT                               

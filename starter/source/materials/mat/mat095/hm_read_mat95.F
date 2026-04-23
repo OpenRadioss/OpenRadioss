@@ -91,9 +91,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
-      INTEGER :: I,J,NRATE,NPS,OPTE,IFUNCE,ILAW,NFUNC,IFORM
-      my_real :: RHO0, RHOR,E,NU,G,MU,RBULK,   C1,  
+      INTEGER :: ILAW,IFORM
+      my_real :: RHO0, RHOR,E,NU,G,RBULK,
      .           C10,C01,C20,C11,C02 ,TAUREF_UNIT,
      .           C30, C21,C12,C03,SB,D1,D2,D3,A,EXPC,EXPM,KSI,TAUREF
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED

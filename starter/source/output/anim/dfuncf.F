@@ -56,8 +56,7 @@ C     REAL
      .   XFUNC1(10,*)                                                   
       INTEGER IPARG(NPARG,*),EL2FA(*),                                  
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IFUNC,NBF,            
-     .        IADP(*),NBPART,NBF2                             
-      INTEGER BUF                                                       
+     .        IADP(*),NBPART
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------                        
@@ -65,15 +64,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------                        
 C     REAL                                                    
       my_real                                                           
-     .   EVAR(MVSIZ),                                                   
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,                   
+     .   VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,                               
      .   FOR, AREA, FEQ                                                 
-      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, ISS, ISC,            
-     .        IADD, N, J, LLT, MLW,
-     .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,       
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,              
-     .        OFFSET,K,II,II_L,INC,KK,IHBE,JJ(3)
+      INTEGER I, NG, NEL, NFT, ITY, LFT,
+     .        N, J, LLT, MLW,
+     .        NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     .        OFFSET,KK,JJ(3)
       REAL R4                                                           
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF

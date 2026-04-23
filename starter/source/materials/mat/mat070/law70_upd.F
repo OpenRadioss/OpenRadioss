@@ -67,16 +67,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,NDIM,NLOAD,NULOAD,NCURV,IPT,NPT,LMAX,FUNC_N,
-     .           IC1,IC2,IZERO,IERROR,NTABLE,IS_ENCRYPTED,IFLAG0,IFLAG,ICHK
+     .           IC1,IC2,IZERO,NTABLE,IS_ENCRYPTED,IFLAG0,IFLAG
       INTEGER ,PARAMETER :: LOAD   = 1
       INTEGER ,PARAMETER :: UNLOAD = 2
       INTEGER ,PARAMETER :: NPTMAX = 100   ! max number of function input points
       my_real :: E0,EMAX,EPSMAX,STIFFMIN,STIFFMAX,STIFFINI,C1,G,NU,XMAX,
-     .   S1,S2,T1,T2,X1,X2,Y1,Y2,DERI,YY,EPS0,EPST
-      INTEGER ,DIMENSION(NFUNC) :: FUNC,PERM,LEN
+     .   S1,S2,T1,T2,X1,X2,Y1,Y2,DERI,EPS0,EPST
+      INTEGER ,DIMENSION(NFUNC) :: FUNC,LEN
       my_real ,DIMENSION(NFUNC*2) :: RATE,YFAC
-      my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
-      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: XI,YI,YF
+      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: XI,YI
 C=======================================================================
       S2 = -HUGE(S2)
       T2 = -HUGE(T2)

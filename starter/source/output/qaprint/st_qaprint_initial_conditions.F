@@ -123,7 +123,7 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,JJ,MY_ID,MY_NODE,POSI(NINIGRAV+1),IDS(NINIGRAV),IDX(NINIGRAV),
+      INTEGER I,II,JJ,MY_ID,MY_NODE,IDS(NINIGRAV),IDX(NINIGRAV),
      .        IDS2(NINICRACK),IDX2(NINICRACK)
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME

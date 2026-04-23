@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, MX
-      my_real :: RHO0(MVSIZ), VIS(MVSIZ), BULK(MVSIZ),DPDM(MVSIZ), ESPE(MVSIZ), SSP(MVSIZ), TMU(MVSIZ), PSH(MVSIZ)
+      my_real :: RHO0(MVSIZ), VIS(MVSIZ), BULK(MVSIZ), ESPE(MVSIZ), SSP(MVSIZ), TMU(MVSIZ)
 C-----------------------------------------------
       DO I=LFT,LLT
          MX  = MAT(I)

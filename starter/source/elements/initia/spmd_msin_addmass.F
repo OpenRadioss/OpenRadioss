@@ -75,7 +75,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, II, IGTYP, WORK(70000),IP,KAD,IGM,IPM,NMAS,
+      INTEGER I, J, K, N, II, IGTYP, WORK(70000),IP,IGM,IPM,NMAS,
      .   FLAG
 C
       my_real
@@ -529,8 +529,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, II, IGTYP, WORK(70000),IP,KAD,IGM,IPM,NMAS,
-     .   FLAG
+      INTEGER I, J, K, II, IGTYP, WORK(70000),IP
 C-----------------------------------------------
 C
       PARTSAV1_PON(1:NPART)=ZERO

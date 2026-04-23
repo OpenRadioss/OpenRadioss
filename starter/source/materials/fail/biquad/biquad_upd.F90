@@ -26,7 +26,7 @@
 !||    updfail          ../starter/source/materials/updfail.F90
 !||====================================================================
       module biquad_upd_mod
-      implicit none
+        implicit none
       contains
         ! ==========================================================================================
         ! \brief generate diffuse necking curve using static hardening function from material law
@@ -71,8 +71,8 @@
           real(kind=WP) ,parameter :: eta13 = third
           real(kind=WP) :: epsf13                           !< plastic strain failure limit in simple tension
           real(kind=WP) :: eps_neck13                       !< plastic strain at necking pt in simple tension
-          real(kind=WP) :: deps13                           
-          real(kind=WP) :: triax,deri
+          real(kind=WP) :: deps13
+          real(kind=WP) :: deri
           real(kind=WP) ,dimension(npt_eta)    :: eta       ! table of triaxiality values = <0,2/3>
           real(kind=WP) ,dimension(npt_eta)    :: epsf      ! plastic strain at failure
           real(kind=WP) ,dimension(npt_eta)    :: eps_neck  ! plastic strain at necking points
@@ -84,14 +84,14 @@
 !
           eps => fail%table4d(ntable)%x(1)%values(1:npt_eps)  ! plastic strain vector of hardening curve
           sig => fail%table4d(ntable)%y1d(1:npt_eps)          ! yield stress vector of hardening curve
-!          
+!
           epsf13 = fail%uparam(9)                             ! failure strain value in uniaxial tension
-          idebug = fail%iparam(1) - 2  
+          idebug = fail%iparam(1) - 2
 !-----------------------------------------------
           ! calculate nominal failure strain from biquad equations
 
           call biquad_tab(npt_eta, fail%nuparam, fail%uparam, eta, epsf)
-!           
+!
           if (idebug == 1) then
             print*,' '
             print*,'biquad failure strain'
@@ -105,7 +105,7 @@
 
           call diffuse_necking_2d(npt_eps,npt_eta,eps,sig,eta,eps_neck,idebug)
 !
-          ! necking plastic strain in uniaxial tension (triaxiality = 1/3) 
+          ! necking plastic strain in uniaxial tension (triaxiality = 1/3)
           call finter_1d(npt_eta ,eta ,eps_neck,eta13,eps_neck13,deri)
           if (idebug == 1) then
             print*,'simple traction : epsf ,eps_neck'
@@ -119,7 +119,7 @@
             regf_eta(i) = (epsf(i) - eps_neck(i)) / deps13
             regf_eta(i) = min(one, max(regf_eta(i),zero))    ! limit regf_eta range to <0,1>
           end do
-!           
+!
           if (idebug == 1) then
             print*,' '
             print*,'element size regularization factor vs triaxiality'
@@ -135,13 +135,13 @@
           deallocate(fail%table4d(ntable)%y1d)
           allocate(fail%table4d(ntable)%x(1)%values(npt_eta))
           allocate(fail%table4d(ntable)%y1d(npt_eta))
-!           
+!
           fail%table4d(ntable)%ndim = 1
           fail%table4d(ntable)%x(1)%values(1:npt_eta) = eta(1:npt_eta)
           fail%table4d(ntable)%y1d(1:npt_eta)         = regf_eta(1:npt_eta)
 !-----------------------------------------------
-          return 
-          end subroutine biquad_upd
-          end module biquad_upd_mod
+          return
+        end subroutine biquad_upd
+      end module biquad_upd_mod
 
 

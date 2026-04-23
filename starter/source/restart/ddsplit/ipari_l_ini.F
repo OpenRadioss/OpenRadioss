@@ -85,20 +85,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NI, NP, ITY, NRTS, NRTM, NSN, NMN,NMT,NMT_L,
+      INTEGER NI, ITY, NRTS, NRTM, NSN, NMN,NMT,NMT_L,
      .        NLINS, NLINM,NLINSA,NLINMA,NSNE,  NMNE, NLN, NLN_L,
      .        I_STOK_L, NSN_L, NMN_L, NRTM_L, NRTS_L, NLINS_L,
      .        NLINM_L, NSNE_L, NMNE_L, N1L, N2L, N3L, N4L, NL,
-     .        NIR, N, L, K, JJ, M, N1, N2, N3, N4, KK, P, E, I, J,
+     .        N, L, K, JJ, M, N1, N2, N3, N4, P, E, I,
      .        INACTI,L24ADD,L24ADD_L,
      .        MULTIMP, IGAP, IFQ, IFORM, IOK, IEDGE, NCONTE, MULTIMPE, MULTIMPS,
      .        I_STOK, NCONT, NISUB, NISUBS_L, NISUBM_L,NISUBS, NISUBM, NISUBE_L,
-     .        IE, IGN, IGE, NAD, EAD,NUVAR,ILEV,INTTH,NCONT1,NCONT2,
-     .        MTYP,NSNR,ICURV,NRTM0,NRTM_SH,NRTM_SH_L,
+     .        IE, IGN, IGE, NUVAR,ILEV,INTTH,NCONT1,NCONT2,
+     .        MTYP,NSNR,ICURV,NRTM_SH_L,
      .        II_STOK,II_STOK_L,NREMNODE_L,FLAGREMNODE, 
-     .        KD_L(50),JD_L(50),KFI_L,JFI_L,NLINSA_L,NLINMA_L,I22LEN1,
+     .        NLINSA_L,NLINMA_L,I22LEN1,
      .        NRTSE,NRTSE_L,NSN0,NADMSR,NADMSR_L,SE1,NN,
-     .        NRTM_FE,NRTS_FE, NSN_FE ,NMN_FE ,NREMNOR_L,
+     .        NRTM_FE, NSN_FE ,NMN_FE ,NREMNOR_L,
      .        NEDGE, NEDGE_L, II_STOK_E, II_STOK_EL, K1, K2,
      .        INTNITSCHE, MY_NODE,NREMNODE_E2S_L,NEDGE_1D,NEDGE_1D_L,
      .        NSN_IGE,SIZ,NREMNODE_EDG_L,EM1,EM2,ES1,ES2,IK,KM1,KM2,KS1,KS2,NMN_1D_L

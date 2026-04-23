@@ -72,21 +72,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,UID,LEN,BOXID,IUNIT,FLAGUNIT,
+      INTEGER I,II,LEN,BOXID,
      .        IAD,NBOX,NBOX_RECT,NBOX_CYL,NBOX_SPHER,NBOX_BOX,NLIST
-      my_real :: BID
-      INTEGER :: IWORK(70000)
-      INTEGER INDEX(NBBOX*3),IX1(NBBOX),IX2(NBBOX)
       INTEGER, DIMENSION(:)   ,ALLOCATABLE :: BUFTMP,IBOXTMP
-      CHARACTER(LEN=NCHARKEY)    :: KEY,KEY2
       CHARACTER(nchartitle)  :: TITR,MESS
-      LOGICAL :: IS_AVAILABLE
 c
       DATA MESS/'BOX DEFINITION                          '/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER LISTCNT,NBOXLST
+      INTEGER NBOXLST
 C-----------------------------------------------
 C     IBOX(I)%ID       : BOX IDENTIFIER
 C     IBOX(I)%TITLE    : BOX title

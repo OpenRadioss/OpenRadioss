@@ -91,8 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NBMAT  ! Number of declared materials
-      INTEGER :: I,J,ILAW ,EFLAG
+      INTEGER :: ILAW ,EFLAG
       my_real :: RHO0, RHOR,E,NU,G,C1,EPSL,GM,KM,
      .    YLD_ASS,YLD_ASF, YLD_SAS,YLD_SAF,ALPHA,
      .    LAMDA,EMART,CAS,CSA,TSAS,TFAS, TSSA,TFSA,CP,TINI

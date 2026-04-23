@@ -136,7 +136,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF
       TYPE(MLAW_TAG_), POINTER :: MTAG
       CHARACTER(LEN=NCHARTITLE)::TITR, TITLE
-      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE (VISC_PARAM_)     , POINTER :: VISC
       INTEGER :: NFUNC_EOS
 C=======================================================================

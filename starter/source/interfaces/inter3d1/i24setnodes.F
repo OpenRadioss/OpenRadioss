@@ -68,9 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITY,NRTM,N,IED,N1,N2,N3,N4,NRTSE,NSNE
-      INTEGER S1,S2,P1,P2,PP,NEXT,POS
-      INTEGER NI,K,I,PROC,KM1(4),KM2(4),PROC0,IEDGE4
+      INTEGER ITY,NRTM,N,N1,N2,N3,N4,NRTSE,NSNE
+      INTEGER NI,K,I,PROC,KM1(4),KM2(4),IEDGE4
       DATA KM1/1,2,3,4/
       DATA KM2/2,3,4,1/
       INTEGER  INTERSURFL

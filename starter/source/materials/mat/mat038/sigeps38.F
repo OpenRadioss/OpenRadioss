@@ -83,8 +83,7 @@ C----------------------------------------------------------------
      .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
      .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
      .      SOUNDSP(NEL), VISCMAX(NEL), 
-     .      DEN1,DEN2,DEN3,DEN1D,DEN2D,
-     .      DEN3D,OLD1,OLD2,OLD3,OLD4,OLD5,OLD6
+     .      DEN1,DEN2,DEN3
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -109,21 +108,19 @@ C----------------------------------------------------------------
       INTEGER          NFUNC1,NFUNCUL,NFUNCP,NPCURVE,KCOMPAIR
       INTEGER          KRECOVER,KDECAY
       LOGICAL          TOTAL,UNCHANGED,JACOBI,UNLOADING
-      INTEGER          IND1,LD
-      INTEGER          II,JJ,KEN
 C     REAL
       my_real
-     .   STRAIN(MVSIZ,3),RATE(MVSIZ,3),RATEM(MVSIZ),
+     .   STRAIN(MVSIZ,3),RATE(MVSIZ,3),
      .   VISC(MVSIZ,3),
      .   DSIGMA(MVSIZ,3),DECAY,TENSIONCUT,
-     .   AMIN,AMAX,TOLERANCE,LAMDA,EFINAL,EPSFIN,EFACTOR,
+     .   AMIN,AMAX,TOLERANCE,LAMDA,EFINAL,EPSFIN,
      .   A(3,3),SN(3,3),EARJ(3),
      .   PSC(MVSIZ,3),EAR(MVSIZ,3),
      .   EBR(MVSIZ,3),ECR(MVSIZ,3),
      .   PSN(MVSIZ,3),EAN(MVSIZ,3),
      .   EBN(MVSIZ,3),ECN(MVSIZ,3),
      .   EL(MVSIZ,3),
-     .   DPRA(3,3),DPRAO(3,3),DPRAD(3,3),
+     .   DPRA(3,3),DPRAO(3,3),
      .   AV(6,MVSIZ),EARV(3,MVSIZ),DIRPRV(3,3,MVSIZ),
      .   SIGPRV(3,MVSIZ),EI(MVSIZ),
      .   E0,VT,VC,RV,KKK,GGG,
@@ -146,10 +143,9 @@ C     REAL
      .   HUGE,SMALL,TINY,SHIFT,PSCALE   
 c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
       my_real 
-     .   AR1(6),DAR1(6),AR2(6),DAR2(6),DAR3(3),EARJD(3),
-     .   TMP0,TMP1,TMP2,TMP3,TMP4,TMP5,TMP6,AD(3,3),
+     .   TMP0,TMP1,TMP2,TMP3,TMP4,
      .   AA(MVSIZ),SIGMAX(MVSIZ),ESECANT(MVSIZ,3),
-     .   TMP0P,TMP1P,TMP2P,TMP3P,TMP4P,TMP5P,TMP6P, DTI
+     .   DTI
 C=======================================================================
       HUGE = EP30
       SMALL= EM3
@@ -990,7 +986,7 @@ C----------------------------------------------------------------
 #include      "constant.inc"   
       my_real
      . TRAN1(3,3),TRAN2(3,3),ANG(3),AMAX,TOL,AMIN
-      INTEGER I,J,K
+      INTEGER J,K
       LOGICAL UNCHANGED
 C----------------------------------------------------------------
       AMAX=ZERO

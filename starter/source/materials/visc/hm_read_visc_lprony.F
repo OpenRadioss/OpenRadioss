@@ -74,9 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NUPARAM,NIPARAM,NUVAR,NPRONY,IMOD,IVISC_FLAG,FORM
-      INTEGER :: FctID_G,FctID_K,ITAB,ISHAPE,
-     .           FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
+      INTEGER I,NUPARAM,NIPARAM,NUVAR,NPRONY,IVISC_FLAG,FORM
       my_real :: GAMA(100),TAU(100)
 C      
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -154,7 +152,7 @@ C-----------
  1100 FORMAT(
      & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10/)    
  1200 FORMAT(
-     & 5X,'SHEAR RELAXATION RATIO   . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
+     & 5X,'SHEAR RELAXATION RATIO   . . . . . . . . . . . . . . . . . . . . . . .= ',1PG20.13/
      & 5X,'RELAXATION TIME . . . . .  . . . . . . . . . . . . . . . . . . . . . .=',1PG20.13) 
  1300 FORMAT(/
      & 5X,'VISCOUS STRESS FORMULATION . . . . . . . . . . . . . . . . . . . . . . =',I8 /

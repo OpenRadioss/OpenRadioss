@@ -75,16 +75,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,NSTACK,NPLY,IGTYP,ID,JD,IDPLY,NEL,
-     .        IAD,ITY,IDSHEL,PID,IS,IDS,NSH,MODE,NS,JJ,NGEO_STACK,
-     .        IGRTYP,N1,IPMAT,IPANG,IPTHK,IIGEO,NSS,IPPOS,NPT,IIS,NP,
+     .        ITY,IDSHEL,PID,IS,IDS,NSH,MODE,NS,JJ,NGEO_STACK,
+     .        N1,IPMAT,IPANG,IPTHK,IPPOS,NPT,IIS,NP,
      .        JJPID,JSTACK,JPID,ITG,IPMAT_IPLY,ISH3N,J4N,J3N,IPOS,
-     .        MAT_LY,NLAY,NPTT,IPIDL,IT,ILAY,IPTHK_NPTT,IPPOS_NPTT,
-     .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
-     .        II1,II2,JJ1,JJ2,II3,II4,II5,JJ3,JJ4,JJ5, NKEY,IREST,IBIT,IKEY,
+     .        NPTT,ILAY,
+     .        IPDIR ,NS_STACK0 ,NPT_STACK0,JS,PIDS,
+     .        NKEY,IREST,IBIT,IKEY,
      .        NBIT 
       INTEGER :: IJK
       INTEGER  WORK(70000),
-     .         IPTPLY(1000),NBFI,IPPID,ITAG(1000),
+     .         IPTPLY(1000),IPPID,
      .         NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIDPLY
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDGR4N,IDGR3N
@@ -95,7 +95,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: GEO0
 
       my_real
-     .         THICKT,ZSHIFT,TMIN,TMAX,DT,THK_LY,POS_LY,THK_IT(100),
+     .         THICKT,ZSHIFT,TMIN,TMAX,DT,
      .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
      
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI

@@ -27,7 +27,7 @@
 !||====================================================================
       module init_rwall_penalty_mod
 
-      implicit none
+        implicit none
 
       contains
 !=======================================================================================================================
@@ -41,15 +41,15 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine init_rwall_penalty(elbuf_tab,                                 &
-                   numnod,  nparg,  ngroup,  iparg,   nummat,                    &
-                   nrwall,  nnprw,    nprw,   lprw,    slprw,                    &
-                   numelc,numeltg,  numels,numels8, numels10,                    &
-                 numels16,numels20,    ixc,   ixtg,      ixs,                    &
-                    ixs10,   ixs16,  ixs20,   ixt ,      ixp,                    &
-                      ixr,  numelt, numelp, numelr,    stifn,                    &
-                mat_param, sln_pen,stif_pen,nrbykin,  nnpby ,                    &
-                   npby  ,  slpby , lpby  ,  nrbe2,    irbe2,                    &
-                   nrbe2l,  slrbe2,lrbe2)
+          numnod,  nparg,  ngroup,  iparg,   nummat,                    &
+          nrwall,  nnprw,    nprw,   lprw,    slprw,                    &
+          numelc,numeltg,  numels,numels8, numels10,                    &
+          numels16,numels20,    ixc,   ixtg,      ixs,                    &
+          ixs10,   ixs16,  ixs20,   ixt ,      ixp,                    &
+          ixr,  numelt, numelp, numelr,    stifn,                    &
+          mat_param, sln_pen,stif_pen,nrbykin,  nnpby ,                    &
+          npby  ,  slpby , lpby  ,  nrbe2,    irbe2,                    &
+          nrbe2l,  slrbe2,lrbe2)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,ii,mid,mtn,pid,iad,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen,iconst,r_id,nsn,ns1,m
+          integer :: i,j,n,ii,mid,mtn,iad,ity,nn1,nsl,ns,isolnod,ipen,nel,k,n_p,ng,nft,lspen,iconst,r_id,nsn,ns1,m
           integer, dimension(20,mvsiz)  :: nc
           integer, dimension(:)  ,        allocatable :: imnt,itag
           real(kind=WP), dimension(:)  ,  allocatable :: noda_l
@@ -137,94 +137,94 @@
             nft     = iparg(3,ng)
             ity     = iparg(5,ng)
             isolnod = iparg(28,ng)
-            if (ity == 1) then 
-                mid   = ixs(1,1+nft)
-                if (mat_param(mid)%compressibility == 2) mtn = 42 !same than law42
+            if (ity == 1) then
+              mid   = ixs(1,1+nft)
+              if (mat_param(mid)%compressibility == 2) mtn = 42 !same than law42
+              do i = 1, nel
+                ii = nft + i
+                do j = 1, 8
+                  n = ixs(1+j,ii)
+                  if (n>0) imnt(n) = mid
+                end do
+              end do
+              select case (isolnod)
+               case (10)
                 do i = 1, nel
-                  ii = nft + i
-                  do j = 1, 8
-                    n = ixs(1+j,ii)
+                  ii = nft + i -numels8
+                  do j = 1, 6
+                    n = ixs10(j,ii)
                     if (n>0) imnt(n) = mid
                   end do
                 end do
-              select case (isolnod)
-                case (10)
-                 do i = 1, nel
-                   ii = nft + i -numels8
-                   do j = 1, 6
-                     n = ixs10(j,ii)
-                     if (n>0) imnt(n) = mid
-                   end do
-                 end do
-                case (16)
-                 do i = 1, nel
-                   ii = nft + i -numels8 -numels10 -numels20
-                   do j = 1, 8
-                     n = ixs16(j,ii)
-                     if (n>0) imnt(n) = mid
-                   end do
-                 end do
-                case (20)
-                 do i = 1, nel
-                   ii = nft + i -numels8 -numels10
-                   do j = 1, 12
-                     n = ixs20(j,ii)
-                     if (n>0) imnt(n) = mid
-                   end do
-                 end do
+               case (16)
+                do i = 1, nel
+                  ii = nft + i -numels8 -numels10 -numels20
+                  do j = 1, 8
+                    n = ixs16(j,ii)
+                    if (n>0) imnt(n) = mid
+                  end do
+                end do
+               case (20)
+                do i = 1, nel
+                  ii = nft + i -numels8 -numels10
+                  do j = 1, 12
+                    n = ixs20(j,ii)
+                    if (n>0) imnt(n) = mid
+                  end do
+                end do
               end select
             elseif (ity == 3) then
-                mid   = ixc(1,1+nft)
-                do i = 1, nel
-                  ii = nft + i
-                  do j = 1, 4
-                    n = ixc(1+j,ii)
-                    if (n>0) imnt(n) = -mid
-                  end do
+              mid   = ixc(1,1+nft)
+              do i = 1, nel
+                ii = nft + i
+                do j = 1, 4
+                  n = ixc(1+j,ii)
+                  if (n>0) imnt(n) = -mid
                 end do
+              end do
             elseif (ity == 7) then
-                mid   = ixtg(1,1+nft)
-                do i = 1, nel
-                  ii = nft + i
-                  do j = 1, 3
-                    n = ixtg(1+j,ii)
-                    if (n>0) imnt(n) = -mid
-                  end do
+              mid   = ixtg(1,1+nft)
+              do i = 1, nel
+                ii = nft + i
+                do j = 1, 3
+                  n = ixtg(1+j,ii)
+                  if (n>0) imnt(n) = -mid
                 end do
+              end do
             end if
           end do !ng=1,ngroup
 !
-        k = 1
-        n_p = 0
-        do n = 1, nrwall
-          nsl = nprw(n)
-          ipen = nprw(n+8*nrwall)
-          if (ipen > 0) then 
-            do j=1,nsl
-              ns = lprw(k+j-1)
-              mid     = iabs(imnt(ns))
-              mtn     = mat_param(mid)%ilaw
-              select case (mtn)
-                case (42,69)
+          k = 1
+          n_p = 0
+          do n = 1, nrwall
+            nsl = nprw(n)
+            ipen = nprw(n+8*nrwall)
+            if (ipen > 0) then
+              do j=1,nsl
+                ns = lprw(k+j-1)
+                mid     = iabs(imnt(ns))
+                mtn     = mat_param(mid)%ilaw
+                select case (mtn)
+                 case (42,69)
                   sfac = two/hundred
-                case (70,90)
+                 case (70,90)
                   sfac = two*mat_param(mid)%young0/mat_param(mid)%young
-                case (28,50,68)
+                 case (28,50,68)
                   sfac = three_half
-                case (130)
+                 case (130)
                   sfac = fourth*mat_param(mid)%young0/mat_param(mid)%young
-                case default
+                 case default
                   sfac = one
-              end select
-              if (imnt(ns)<0) sfac = half !shell
-              if (imnt(ns)<0.and.mat_param(mid)%compressibility ==3) sfac = zep025 
-              n_p = n_p + 1
-              stif_pen(n_p) = sfac*stifn(ns)
-            end do
-          end if
-          k = k + nsl
-        end do 
-        lspen = n_p
+                end select
+                if (imnt(ns)<0) sfac = half !shell
+                if (imnt(ns)<0.and.mat_param(mid)%compressibility ==3) sfac = zep025
+                n_p = n_p + 1
+                stif_pen(n_p) = sfac*stifn(ns)
+              end do
+            end if
+            k = k + nsl
+          end do
+          lspen = n_p
 ! compute leng_m : thickness for shell
           imnt = 0 ! used to tag number of connection nodes
           do ng=1,ngroup
@@ -233,232 +233,232 @@
             nft     = iparg(3,ng)
             ity     = iparg(5,ng)
             isolnod = iparg(28,ng)
-            if (ity == 1) then 
+            if (ity == 1) then
               select case (isolnod)
-                case (8)
-                 do i = 1, nel
+               case (8)
+                do i = 1, nel
                   ii = i + nft
-                    do j = 1,8
-                      nc(j,i) = ixs(j+1,ii)
-                    enddo
-                 end do
-                case (4)
-                 do i = 1, nel
-                   ii = i + nft
-                    nc(1,i)=ixs(2,ii)
-                    nc(2,i)=ixs(4,ii)
-                    nc(3,i)=ixs(7,ii)
-                    nc(4,i)=ixs(6,ii)
-                 end do
-                case (6)
-                  do i = 1, nel
-                    ii = i + nft
-                    nc(1:3,i)=ixs(2:4,ii)
-                    nc(4:6,i)=ixs(6:8,ii)
-                  end do
-                case (10)
-                  do i = 1, nel
-                    ii = i + nft
-                    nc(1,i)=ixs(2,ii)
-                    nc(2,i)=ixs(4,ii)
-                    nc(3,i)=ixs(7,ii)
-                    nc(4,i)=ixs(6,ii)
-                    nn1 = ii - numels8
-                    do j=1,6
-                      nc(j+4,i) = ixs10(j,nn1)
-                    enddo
-                  end do
-                case (16)
-                  do i = 1, nel
-                    ii = i + nft
-                    do j = 1,8
-                      nc(j,i) = ixs(j+1,ii)
-                    enddo
-                    nn1 = ii - (numels8+numels10+numels20)
-                    do j=1,8
-                      nc(j+8,i) = ixs16(j,nn1)
-                    enddo
-                  end do
-                case (20)
-                  do i = 1, nel
-                    ii = i + nft
-                    do j = 1,8
-                      nc(j,i) = ixs(j+1,ii)
-                    enddo
-                    nn1 = ii - (numels8+numels10)
-                    do j=1,12
-                      nc(j+8,i) = ixs20(j,nn1)
-                    enddo
-                   end do
+                  do j = 1,8
+                    nc(j,i) = ixs(j+1,ii)
+                  enddo
+                end do
+               case (4)
+                do i = 1, nel
+                  ii = i + nft
+                  nc(1,i)=ixs(2,ii)
+                  nc(2,i)=ixs(4,ii)
+                  nc(3,i)=ixs(7,ii)
+                  nc(4,i)=ixs(6,ii)
+                end do
+               case (6)
+                do i = 1, nel
+                  ii = i + nft
+                  nc(1:3,i)=ixs(2:4,ii)
+                  nc(4:6,i)=ixs(6:8,ii)
+                end do
+               case (10)
+                do i = 1, nel
+                  ii = i + nft
+                  nc(1,i)=ixs(2,ii)
+                  nc(2,i)=ixs(4,ii)
+                  nc(3,i)=ixs(7,ii)
+                  nc(4,i)=ixs(6,ii)
+                  nn1 = ii - numels8
+                  do j=1,6
+                    nc(j+4,i) = ixs10(j,nn1)
+                  enddo
+                end do
+               case (16)
+                do i = 1, nel
+                  ii = i + nft
+                  do j = 1,8
+                    nc(j,i) = ixs(j+1,ii)
+                  enddo
+                  nn1 = ii - (numels8+numels10+numels20)
+                  do j=1,8
+                    nc(j+8,i) = ixs16(j,nn1)
+                  enddo
+                end do
+               case (20)
+                do i = 1, nel
+                  ii = i + nft
+                  do j = 1,8
+                    nc(j,i) = ixs(j+1,ii)
+                  enddo
+                  nn1 = ii - (numels8+numels10)
+                  do j=1,12
+                    nc(j+8,i) = ixs20(j,nn1)
+                  enddo
+                end do
               end select
-                do i = 1, nel
-                   ii = nft + i
-                   v = elbuf_tab(ng)%gbuf%vol(i)
-                   l_e = v**(one/three)
-                   do j = 1, isolnod
-                     n = nc(j,i)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                   end do
+              do i = 1, nel
+                ii = nft + i
+                v = elbuf_tab(ng)%gbuf%vol(i)
+                l_e = v**(one/three)
+                do j = 1, isolnod
+                  n = nc(j,i)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
+              end do
             elseif (ity == 3) then
-                do i = 1, nel
-                  l_e = elbuf_tab(ng)%gbuf%thk(i)
-                  ii = nft + i
-                  do j = 1, 4
-                    n = ixc(1+j,ii)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                  end do
+              do i = 1, nel
+                l_e = elbuf_tab(ng)%gbuf%thk(i)
+                ii = nft + i
+                do j = 1, 4
+                  n = ixc(1+j,ii)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
+              end do
             elseif (ity == 7) then
-                do i = 1, nel
-                  l_e = elbuf_tab(ng)%gbuf%thk(i)
-                  ii = nft + i
-                  do j = 1, 3
-                    n = ixtg(1+j,ii)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                  end do
+              do i = 1, nel
+                l_e = elbuf_tab(ng)%gbuf%thk(i)
+                ii = nft + i
+                do j = 1, 3
+                  n = ixtg(1+j,ii)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
+              end do
             elseif (ity == 4 ) then ! truss element
-                do i = 1, nel
-                  l_e = elbuf_tab(ng)%gbuf%length(i)
-                  ii = nft + i
-                  do j = 1, 2
-                    n = ixt(1+j,ii)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                  end do
+              do i = 1, nel
+                l_e = elbuf_tab(ng)%gbuf%length(i)
+                ii = nft + i
+                do j = 1, 2
+                  n = ixt(1+j,ii)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
+              end do
             elseif (ity == 5 ) then ! beam element
-                do i = 1, nel
-                  l_e = elbuf_tab(ng)%gbuf%length(i)
-                  ii = nft + i
-                  do j = 1, 2
-                    n = ixp(1+j,ii)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                  end do
+              do i = 1, nel
+                l_e = elbuf_tab(ng)%gbuf%length(i)
+                ii = nft + i
+                do j = 1, 2
+                  n = ixp(1+j,ii)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
+              end do
             elseif (ity == 6 ) then ! spring element
-                do i = 1, nel
-                  l_e = elbuf_tab(ng)%gbuf%length(i)
-                  ii = nft + i
-                  do j = 1, 2
-                    n = ixr(1+j,ii)
-                     if (n>0) then 
-                       imnt(n) = imnt(n) + 1 
-                       noda_l(n) = noda_l(n) + l_e
-                     end if
-                  end do
+              do i = 1, nel
+                l_e = elbuf_tab(ng)%gbuf%length(i)
+                ii = nft + i
+                do j = 1, 2
+                  n = ixr(1+j,ii)
+                  if (n>0) then
+                    imnt(n) = imnt(n) + 1
+                    noda_l(n) = noda_l(n) + l_e
+                  end if
                 end do
-             end if
+              end do
+            end if
           end do !ng=1,ngroup
-        do n = 1, numnod 
-          if (imnt(n) > 0) then 
-            noda_l(n) = noda_l(n) / imnt(n)
-          end if
-        end do
-        k = 1
-        n_p = 0
-        do n = 1, nrwall
-          nsl = nprw(n)
-          ipen = nprw(n+8*nrwall)
-          if (ipen > 0) then 
-            l_e = zero
-            iconst =0
-            do j=1,nsl
-              ns = lprw(k+j-1)
-              l_e = l_e + noda_l(ns)
-              mid     = iabs(imnt(ns))
-              mtn     = mat_param(mid)%ilaw
-              if (mtn==130.or.mat_param(mid)%compressibility ==3) iconst =1
-            end do
-            n_p = n_p + 1
-            stif_pen(lspen+n_p) = l_e / nsl
-            if (iconst==1) stif_pen(lspen+n_p) = -l_e / nsl !negative length will not use nonlinear stif
-          end if
-          k = k + nsl
-        end do 
+          do n = 1, numnod
+            if (imnt(n) > 0) then
+              noda_l(n) = noda_l(n) / imnt(n)
+            end if
+          end do
+          k = 1
+          n_p = 0
+          do n = 1, nrwall
+            nsl = nprw(n)
+            ipen = nprw(n+8*nrwall)
+            if (ipen > 0) then
+              l_e = zero
+              iconst =0
+              do j=1,nsl
+                ns = lprw(k+j-1)
+                l_e = l_e + noda_l(ns)
+                mid     = iabs(imnt(ns))
+                mtn     = mat_param(mid)%ilaw
+                if (mtn==130.or.mat_param(mid)%compressibility ==3) iconst =1
+              end do
+              n_p = n_p + 1
+              stif_pen(lspen+n_p) = l_e / nsl
+              if (iconst==1) stif_pen(lspen+n_p) = -l_e / nsl !negative length will not use nonlinear stif
+            end if
+            k = k + nsl
+          end do
 ! look at if main node of RBODY or RBE2 are secondary node of RWALL
-        is_found = .false.
-        do i=1,nrbykin
+          is_found = .false.
+          do i=1,nrbykin
             m = npby(1,i)
-            if (itag(m)==0.and.stifn(m)<em12) then 
+            if (itag(m)==0.and.stifn(m)<em12) then
               itag(m) = i
               is_found = .true.
             end if
-        end do 
-      if (is_found) then 
-        k = 1
-        n_p = 0
-        do n = 1, nrwall
-          nsl = nprw(n)
-          ipen = nprw(n+8*nrwall)
-          if (ipen > 0) then 
-            do j=1,nsl
-              ns = lprw(k+j-1)
-              n_p = n_p + 1
-              if (itag(ns)>0) then 
-                r_id = itag(ns)
-                iad = npby(11,r_id)
-                nsn = npby(2,r_id)
-                do ii = 1,nsn
-                  ns1 = lpby(iad+ii)
-                  stif_pen(n_p) = stif_pen(n_p) + stifn(ns1) 
-                end do 
+          end do
+          if (is_found) then
+            k = 1
+            n_p = 0
+            do n = 1, nrwall
+              nsl = nprw(n)
+              ipen = nprw(n+8*nrwall)
+              if (ipen > 0) then
+                do j=1,nsl
+                  ns = lprw(k+j-1)
+                  n_p = n_p + 1
+                  if (itag(ns)>0) then
+                    r_id = itag(ns)
+                    iad = npby(11,r_id)
+                    nsn = npby(2,r_id)
+                    do ii = 1,nsn
+                      ns1 = lpby(iad+ii)
+                      stif_pen(n_p) = stif_pen(n_p) + stifn(ns1)
+                    end do
+                  end if
+                end do
               end if
+              k = k + nsl
             end do
-          end if
-          k = k + nsl
-        end do 
-      end if !(is_found) then 
-! rbe2        
-        itag =0  
-        is_found = .false.
-        do i=1,nrbe2
+          end if !(is_found) then
+! rbe2
+          itag =0
+          is_found = .false.
+          do i=1,nrbe2
             m = irbe2(3,i)
             if (itag(m)==0.and.stifn(m)<em12) then
               itag(m) = i
               is_found = .true.
             end if
-        end do 
-      if (is_found) then 
-        k = 1
-        n_p = 0
-        do n = 1, nrwall
-          nsl = nprw(n)
-          ipen = nprw(n+8*nrwall)
-          if (ipen > 0) then 
-            do j=1,nsl
-              ns = lprw(k+j-1)
-              n_p = n_p + 1
-              if (itag(ns)>0) then 
-                r_id = itag(ns)
-                iad = irbe2(1,r_id)
-                nsn = irbe2(5,r_id)
-                do ii = 1,nsn
-                  ns1 = lrbe2(iad+ii)
-                  stif_pen(n_p) = stif_pen(n_p) + stifn(ns1) 
-                end do 
+          end do
+          if (is_found) then
+            k = 1
+            n_p = 0
+            do n = 1, nrwall
+              nsl = nprw(n)
+              ipen = nprw(n+8*nrwall)
+              if (ipen > 0) then
+                do j=1,nsl
+                  ns = lprw(k+j-1)
+                  n_p = n_p + 1
+                  if (itag(ns)>0) then
+                    r_id = itag(ns)
+                    iad = irbe2(1,r_id)
+                    nsn = irbe2(5,r_id)
+                    do ii = 1,nsn
+                      ns1 = lrbe2(iad+ii)
+                      stif_pen(n_p) = stif_pen(n_p) + stifn(ns1)
+                    end do
+                  end if
+                end do
               end if
+              k = k + nsl
             end do
-          end if
-          k = k + nsl
-        end do 
-      end if !(is_found) then 
-!          
+          end if !(is_found) then
+!
           deallocate(imnt)
           deallocate(itag)
           deallocate(noda_l)

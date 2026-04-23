@@ -60,13 +60,13 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I, IGURSON, INDEX(NEL), NICE
+      INTEGER I, IGURSON, NICE
 c
       my_real 
      .   CDR,KDR,HARD,YLD0,QVOCE,BVOCE,
-     .   Q1,Q2,ED,AN,EPN,KW,FR,FC,F0,NNU
+     .   Q1,Q2,ED,AN,KW,FR,FC,F0,NNU
       my_real 
-     .   SIGVM,YLD2I,OMEGA,FCOSH,FSINH,DSDRDJ2,DSDRDJ3,NORMSIG,
+     .   SIGVM,YLD2I,OMEGA,FSINH,DSDRDJ2,DSDRDJ3,NORMSIG,
      .   DJ3DSXX,DJ3DSYY,DJ3DSXY,DJ3DSZZ,DJ3DSYZ,DJ3DSZX,
      .   NORMXX,NORMYY,NORMXY,NORMZZ,NORMYZ,NORMZX,
      .   SDPLA,DPHI_DTRSIG,SIG_DFDSIG,DPHI_DSIG,DPHI_DFDR

@@ -96,7 +96,6 @@ C     REAL
 
       INTEGER , INTENT(IN) :: NRTMT
       type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
-      integer :: candidate_count
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +121,6 @@ C     REAL
       INTEGER :: NB_LARGE_NODES
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
-      my_real :: xmin_base, ymin_base, zmin_base, xmax_base, ymax_base, zmax_base
 C-----------------------------------------------
       IONE=1
       IHUNDRED=100

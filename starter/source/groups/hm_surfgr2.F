@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMEL,NGRELE,INDX(*),NINDX,
-     .      NEMAX,ID,TAGBUF(*),
+     .      ID,TAGBUF(*),
      .      FLAG
       CHARACTER ELCHAR*(*)
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
@@ -82,9 +82,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,L,IE,IADV,K,ISU, NENTITY, KK ,JJ, NENTITY_POS,NENTITY_NEG
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER,DIMENSION(:),ALLOCATABLE :: TAG_ENTITY_POS, TAG_ENTITY_NEG,LIST_ENTITY
+      INTEGER L,IE,K,ISU, NENTITY, KK ,JJ
+      INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
 !     FLAG_GRBRIC : check if the option is /GCBRIC
 C-----------------------------------------------
       INTERFACE

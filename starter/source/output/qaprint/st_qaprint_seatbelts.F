@@ -49,7 +49,6 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
-      CHARACTER (LEN=255) :: VARNAME
       INTEGER :: I,J
       DOUBLE PRECISION :: TMPVAL
 C-----------------------------------------------

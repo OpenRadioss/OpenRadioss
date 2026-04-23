@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER INTERFACE_ID, IWRN, NSNT, NMNT,SIXINT,
+      INTEGER INTERFACE_ID, IWRN, NSNT, NMNT,
      .   NSNET  ,NMNET, INPENE,IWPENTOT
       INTEGER IXS(NIXS,*), IXC(NIXC,*),
      .   IPARI(*), IXT(NIXT,*) ,IXP(NIXP,*) ,IXR(NIXR,*),
@@ -119,17 +119,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NSN, NMN, NMN0, NTY, NST, MST, IBUC, NOINT,
      .   NSNE, NMNE,NLINS,NLINM,NLN,IWPENE,IWPENEDGE,
-     .   I, I_STOK,I_STOK_E,IRS,IRM,ILEV,IDEL2,
+     .   I_STOK,I_STOK_E,IRS,IRM,ILEV,IDEL2,
      .   NSEG, NGROUS, NG, INACTI,
      .   JLT_NEW,IGAP,MULTIMP,ISEARCH,ITIED,
-     .   IGN,IGE,NME,NMES,NAD,EAD,ISU1,ISU2,
-     .   INTTH,NLINSA,NLINMA,ISS2,IFS2,ISYM
+     .   ISU1,ISU2,
+     .   NLINSA,NLINMA,ISS2,IFS2,ISYM
       INTEGER
      .   N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG
 C     REAL
       my_real
-     .   MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,GAP_TRI,GAPSHMAX,GAPMAX0,
+     .   MAXBOX,MINBOX,GAP0,BID,GAPINF,GAP_TRI,GAPSHMAX,GAPMAX0,
      .   GAPINFS,GAPINFM,GAPE,GAPINPUT,FPENMAX,DRAD
       my_real :: GAP,GAPMIN,GAPMAX,DGAPLOAD
       my_real
@@ -145,10 +145,6 @@ C     REAL
       my_real, DIMENSION(MVSIZ) :: N11,N21,N31
       my_real, DIMENSION(MVSIZ) :: XI,YI,ZI
       my_real, DIMENSION(MVSIZ) :: X0,Y0,Z0
-      my_real, DIMENSION(MVSIZ) :: XX1,YY1,ZZ1
-      my_real, DIMENSION(MVSIZ) :: XX2,YY2,ZZ2
-      my_real, DIMENSION(MVSIZ) :: XX3,YY3,ZZ3
-      my_real, DIMENSION(MVSIZ) :: XX4,YY4,ZZ4
       my_real, DIMENSION(MVSIZ) :: XN1,YN1,ZN1
       my_real, DIMENSION(MVSIZ) :: XN2,YN2,ZN2
       my_real, DIMENSION(MVSIZ) :: XN3,YN3,ZN3

@@ -90,7 +90,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NINDX_B
       INTEGER IDS_MAX, BOXLIST_SIZE,SZ_BOXNDS
-      INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: BOXNDS,BOXLIST
      .                                      

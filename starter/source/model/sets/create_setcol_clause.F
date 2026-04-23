@@ -143,7 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,NINDX,LIST_SIZE,IDS_MAX,PARTM,SETCOL
+      INTEGER I,J,IDS,NINDX,LIST_SIZE,IDS_MAX,SETCOL
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: PART_READ_TMP,INDEX
@@ -269,12 +269,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IGS,IDS,NINDX,LIST_SIZE,IDS_MAX,PARTM,GENE_MAX,K,P,P1
+      INTEGER I,IGS,IDS,GENE_MAX,K,P,P1
       INTEGER START_GENE,END_GENE,INCR_GENE,PSTART,PSTOP,STACK,STACK_ONE,NB_RESULT
-      INTEGER IWORK(70000)
       INTEGER SZ_DICHO
 !-
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: PART_READ_TMP,PART_READ_ONE,IDEX,RESULT
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: PART_READ_TMP,PART_READ_ONE,RESULT
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: SETCOL_DICHO
 C
       INTEGER  SET_USRTOS_NEAREST

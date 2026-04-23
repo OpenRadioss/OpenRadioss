@@ -119,16 +119,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J10(10),ID_SUB
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFTMP ! NUMNOD*2+NPART
-      INTEGER I,J,K,II,KK,N1,N2,ISU,ID,JREC,NNOD,NL,NTRI,IGS,IGRS,
-     .        OK,IT0,IT1,IT2,IT3,IT4,IT5,IT6,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,STAT,IT7,UID,IFLAGUNIT,
-     .        IT8,SUB_ID,IADBOX,NN,LIST_IGR(NGRNOD),IDMIN,IDMAX,OFFSET,
+      INTEGER I,J,K,KK,N1,N2,ID,NNOD,NTRI,IGS,
+     .        IT0,IT1,IT2,IT3,IT4,IT5,IT6,
+     .        STAT,IT7,UID,IFLAGUNIT,
+     .        IT8,IADBOX,NN,LIST_IGR(NGRNOD),IDMIN,IDMAX,OFFSET,
      .        IT9,IDB,NENTITY,NLINES,JJ
       
       MY_REAL
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,FAC_L
+     .        BID,FAC_L
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFTMP2
       CHARACTER(LEN=NCHARTITLE) :: TITR, TITR1
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
@@ -138,7 +137,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT
+      INTEGER USR2SYS,ULIST2S
 C                1234567890123456789012345678901234567890
       DATA MESS/'NODE GROUP DEFINITION                   '/
 C-----------------------------------------------

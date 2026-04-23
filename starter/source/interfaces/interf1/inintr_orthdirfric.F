@@ -71,14 +71,12 @@ c     .        IDFRICORIENT(*),
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N ,NIF ,IREP ,NLAY ,IORTH ,IE ,NRTM ,I ,NELTG ,NELC ,STAT ,
-     .   NRT_SH,J,INRT ,NTY ,IL ,N3 ,N4 ,IP ,IPORTH , IGTYP ,ID   ,ISU2 ,ILEV ,ISU1,NRT1,NRT2,NSHIF,
+      INTEGER N ,NIF ,IREP ,NLAY ,IORTH ,IE ,NRTM ,I ,NELTG ,NELC ,
+     .   NTY ,IL ,IP ,IPORTH , IGTYP ,
      .   PID ,ISK
       my_real
-     .   VX ,VY ,VZ ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
-     .   RX ,RY ,RZ ,SX ,SY ,SZ ,SUMA ,S1 ,S2 ,VR ,VS ,CP , SP ,
-     .   AA ,BB ,D1 ,D2 ,S ,DET ,PHI ,U1X ,U1Y ,U2X ,U2Y ,W1X ,W1Y ,W2X ,W2Y ,
-     .   TORTH , SUM
+     .   VX ,VY ,VZ ,
+     .   PHI
 C-----------------------------------------------
 
 C----
@@ -220,7 +218,7 @@ C-----------------------------------------------
      .   E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
      .   RX ,RY ,RZ ,SX ,SY ,SZ ,SUMA ,S1 ,S2 ,VR ,VS ,CP , SP ,
      .   AA ,BB ,D1 ,D2 ,S ,DET ,U1X ,U1Y ,U2X ,U2Y ,W1X ,W1Y ,W2X ,W2Y ,
-     .   TORTH , SUM ,V
+     .   V
 C-----------------------------------------------
         N1 = IRECTM(1,I)
         N2 = IRECTM(2,I)

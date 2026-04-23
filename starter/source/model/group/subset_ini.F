@@ -44,15 +44,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LEN_IA
 !
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
-     .        PARENT,LEVEL,TH_PART,L_SUB,THIAD
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      INTEGER ID,ISU,NCHILD,NBPART,NBTPART,
+     .        PARENT,LEVEL,L_SUB,THIAD
 C-----------------------------------------------
 !---
 !  Size of SUBSET_ structure

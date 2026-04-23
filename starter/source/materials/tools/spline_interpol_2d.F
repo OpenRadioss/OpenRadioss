@@ -56,7 +56,6 @@ C-----------------------------------------------
       my_real :: DK21,DK32,DK43,DK31,DK42,KT1,KT2,KT3,KT4
       my_real :: TT  ! in [T1,T2]=[KNOT(2),KNOT(3)]
       my_real :: A1X,A1Y,A2X,A2Y,A3X,A3Y,B1X,B1Y,B2X,B2Y
-      my_real :: CX,CY,C_DX,C_DY,C_DDX,C_DDY
       my_real :: A1PX,A1PY,A2PX,A2PY,A3PX,A3PY,B1PX,B1PY,B2PX,B2PY
       my_real :: B1PPX,B1PPY,B2PPX,B2PPY
 C-----------------------------------------------

@@ -70,8 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,VALUE_TYPE,SUB_ID,NBOPTION,OPTION_ID,UNIT_ID,SUBMODEL_INDEX,
-     .        S_KEYWORD,S_TITR,OFFSET_CATEGORY,MY_POSITION,
-     .        OFF_EL,OFF_NOD,OFF_PART,OFF_MAT,OFF_PROP,OFF_DEF
+     .        S_KEYWORD,S_TITR,OFFSET_CATEGORY,MY_POSITION
       CHARACTER(LEN=NCHARLINE) :: KEYWORD,TITR
 C-----------------------------------------------
       OFFSET_CATEGORY = 0 

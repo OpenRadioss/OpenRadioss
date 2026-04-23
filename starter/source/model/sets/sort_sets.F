@@ -97,10 +97,9 @@ C-----------------------------------------------
       
 C-----------------------------------------------
 C     Characters
-      CHARACTER MESS*40
-      CHARACTER(LEN=NCHARFIELD) :: KEYSET,SET_TYPE,KEY_TYPE
-      CHARACTER(LEN=NCHARTITLE) :: TITLE,TITLE2,SET_TITLE
-      CHARACTER(LEN=NCHARKEY) :: KEYPART,KEY
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET,SET_TYPE
+      CHARACTER(LEN=NCHARTITLE) :: SET_TITLE
+      CHARACTER(LEN=NCHARKEY) :: KEY
 C-----------------------------------------------
       IDEBUG=0
 

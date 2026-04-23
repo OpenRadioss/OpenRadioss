@@ -66,7 +66,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IG, IGU1, IGU2, NNI, ID, SUB_INDEX
       CHARACTER(LEN=NCHARTITLE)::TITR
-      CHARACTER(LEN=NCHARKEY)::KEY
       CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C
@@ -197,9 +196,7 @@ C-----------------------------------------------
       my_real
      .        CUTFREQ, SHIFTINI, TOL, FAC_T,FAC_FRE
       CHARACTER(LEN=NCHARTITLE)::TITR
-      CHARACTER(LEN=NCHARFIELD)::STRING
-      CHARACTER :: CODE*7,
-     .          CTYPE*33, CPRE*17, NWLINE*100, MESS*40, MODFILE*2148,
+      CHARACTER :: CTYPE*33, CPRE*17, NWLINE*100, MESS*40, MODFILE*2148,
      .          CIMLS*3 ,CPRSP*4,MODFILE_TMP*2148
       INTEGER, ALLOCATABLE :: NODES(:)
       my_real,

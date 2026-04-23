@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE READER_OLD_MOD , ONLY : IREC, NSLASH
+        USE READER_OLD_MOD , ONLY : NSLASH
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE REFSTA_MOD , ONLY : RS0_FMT

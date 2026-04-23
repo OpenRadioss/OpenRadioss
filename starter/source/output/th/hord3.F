@@ -39,8 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J2, I2, I,J, NEL1,ISK1
-        INTEGER LI,LJ,K,IC1
+        INTEGER I,J
         INTEGER :: MODE,INDICE,INDICE2
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITRI,INDX
         INTEGER, DIMENSION(:), ALLOCATABLE :: IASC_SAVE,ISK_SAVE

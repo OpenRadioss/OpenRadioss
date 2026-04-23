@@ -54,12 +54,9 @@ C-----------------------------------------------
       INTEGER I, K, K1, N, N1, N2, N3, N4, MSR, ITYP
       my_real
      .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
-     .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC, AL4,XWL,YWL,ZWL,
-     .   PMAIN,LOC_PROC
+     .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC, AL4,XWL,YWL,ZWL
 
-      my_real
-     .   XSEC(3,3,NSECT)
-      REAL R4,SBUF(3*NSECT)
+      REAL R4
 CC-----------------------------------------------
       K1=1
 C

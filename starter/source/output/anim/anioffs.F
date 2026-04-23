@@ -54,9 +54,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
-      INTEGER I, NG, NEL, NFT, ITY, LFT, NPT,                      
+      INTEGER I, NG, NEL, NFT, ITY, LFT,                      
      .        N, LLT, MLW,ISOLNOD,NN1,NN2,NN3 
-      INTEGER IOFFBUF(NBF),RBUF                                         
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       NN1 = 1                                                           

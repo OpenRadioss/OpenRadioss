@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXS(NIXS,*)
-      my_real X(3,*),TZINF,XX(8),YY(8), ZZ(8), CoorMIN(3), CoorMAX(3), DDmax
+      my_real X(3,*),TZINF,XX(8),YY(8), ZZ(8), DDmax
       INTEGER BUFBRIC(*), NBRIC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -54,13 +54,7 @@ C-----------------------------------------------
       INTEGER L
       INTEGER NE
       my_real
-     .   DX1,DY1,DZ1,
-     .   DX3,DY3,DZ3,
-     .   DX4,DY4,DZ4,
-     .   DX6,DY6,DZ6,
-     .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,
-     .   XMAX,YMAX,ZMAX,TZINF0,GAPSMAX,
-     .   BID,TZINF_ST,MARGE,MARGE_ST,GAPV(MVSIZ),
+     .   DD,
      .   DIAG(4)
 C-----------------------------------------------
 C   P r e c o n d i t i o n s

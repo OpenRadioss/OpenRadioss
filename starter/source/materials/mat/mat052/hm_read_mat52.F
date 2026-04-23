@@ -93,8 +93,8 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       my_real 
      .      E, NU, YEILD, ET,CSD, VISP, Q1, Q2, Q3, SN, EPSN,
-     .      F1,FN,FC, FF, FU,FI,G,C1,N,FAC_L,FAC_T,FAC_M,FAC_C,
-     .      R,XFAC,YFAC,RHO0,RHOR,FCUT
+     .      FN,FC, FF, FU,FI,G,C1,N,
+     .      XFAC,YFAC,RHO0,RHOR,FCUT
       INTEGER I, NFUNC, IFLAG, IYIELDTAB, ISRATE
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.

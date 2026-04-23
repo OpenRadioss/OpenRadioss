@@ -66,7 +66,6 @@ C-----------------------------------------------
      .        ILAW,IMAT,NUVAR,NUPARAM
       TYPE(BUF_LAY_), POINTER :: BUFLY
       TYPE(L_BUFEL_), POINTER :: LBUF     
-      TYPE(BUF_MAT_), POINTER :: MBUF
       TYPE(G_BUFEL_), POINTER :: GBUF
       my_real, 
      .  DIMENSION(:), POINTER :: UPARAM,UVAR,THKN

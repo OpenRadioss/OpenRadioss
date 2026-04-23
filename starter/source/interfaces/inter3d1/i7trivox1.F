@@ -131,24 +131,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,II,JJ,KK,
-     .        NSNF, NSNL, I_BID,DELNOD
+      INTEGER I,J,
+     .        NN,NE,K,L,JJ,KK
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
+     .   XS,YS,ZS,SX,SY,SZ,S2,
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS,GAPV(MVSIZ)
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GAPV(MVSIZ)
       INTEGER  LAST_NOD(NSN)
-      INTEGER*8 meanjj8
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
+      INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       integer, dimension(mvsiz) :: prov_n,prov_e
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
-     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,TSTART,TSTOP
+     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
       my_real , INTENT(IN) :: DGAPLOAD
-      INTEGER FIRST,NEW,LAST,M
+      INTEGER FIRST,LAST,M
       INTEGER, DIMENSION(MVSIZ) :: IX11,IX12,IX13,IX14,NSVG
       my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ) :: Y1,Y2,Y3,Y4

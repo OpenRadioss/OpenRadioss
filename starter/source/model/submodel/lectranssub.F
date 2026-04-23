@@ -80,23 +80,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,I0,I1,I2,I3,I4,I5,I6,
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
-     .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,ITRANSSUB,IBID,
-     .   NTAG,CTAG,ISU,IDU,IDNOD,
-     .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX
+     .   J,ID,UID,IGU,IGS,NTRANS,ITRANSSUB,
+     .   ISU,K,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB !NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
 !!      INTEGER, ALLOCATABLE, DIMENSION(:) :: ITG
       my_real
-     .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L
+     .   TX,TY,TZ,S,SX,SY,SZ,ANGLE,AT,FAC_L
       my_real
-     .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
-     .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
-     .   SCAL2, SCAL3, EPS,XC(3)
+     .   X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
+     .   ROT(9),PP(3,3),QQ(3,3),NORM1, NORM2, NORM3, SCAL1,
+     .   SCAL2, SCAL3, EPS
       CHARACTER(LEN=NCHARFIELD) :: KEY
-      CHARACTER(LEN=NCHARLINE) ::CART,SOLVERKEYWORD
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE,IS_FOUND
@@ -883,7 +880,6 @@ C-----------------------
      . '                             Y  . . . . . .= ',E20.13/,
      . '                             Z  . . . . . .= ',E20.13)
 
- 3500 FORMAT( 17X,I10,3(5X,E20.13))
 C-----------------------
       RETURN
       END SUBROUTINE LECTRANSSUB

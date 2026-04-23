@@ -55,9 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSL, K, KK, N, NN, NSL_L, J, M, ILP,
+      INTEGER NSL, K, KK, N, NN, NSL_L, M, ILP,
      .        NPBY_L(NIRBYM,NRBYM), LPBY_L(NSLARB_L)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: SECNDNG,INDEX,IWORK
 C
       ILP = 0
       K = 0

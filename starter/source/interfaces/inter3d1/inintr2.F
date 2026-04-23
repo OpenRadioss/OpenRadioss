@@ -99,8 +99,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, JINSCR, NINT, NTY,NRTM,NRTM0,NRTM_SH,INTPLY,KFI,ILEV,SWITCH,NSN,NREMN(NINTER),NINT2
-      INTEGER ID,I,K,J1,J2
+      INTEGER N, JINSCR, NINT, NTY,NRTM,NRTM0,NRTM_SH,INTPLY,ILEV,SWITCH,NSN,NREMN(NINTER),NINT2
+      INTEGER ID,I
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: FLAG_OUTPUT !< flag for output
       INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag to activate only the computation of interface type 25 with edge to edge
@@ -460,13 +460,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,K,J1,J2,J3,J4,J5,J6,J7,J8,J9,J10,J11,J12,NN,ILY
+      INTEGER I, J,K,J1,J5,J6,J7,J8,J9,J10,J11,J12,NN,ILY
       INTEGER IXX(NRTM,12)
       
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
 C=======================================================================  
       DO J=1,NRTM  
           ISEG_PXFEM(J) = 0                      

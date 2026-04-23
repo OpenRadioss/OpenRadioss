@@ -87,21 +87,19 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real,  TARGET :: PLD_INV(NPTS/2,2)
-      INTEGER :: JJ, KK, IAD, NELEM, NG, NFT, NEL, IFIRST, ILAST, IAD1, IAD2, IMID, FUNC,
-     .     FUNC1, FUNC2, MATID, MLW
-      LOGICAL :: CONT
-      INTEGER :: II, IFUNC, NPT, FIRST, LAST, ICOOR, INODE, NODEID, IND, SHIFT,
+      INTEGER :: JJ, KK, NELEM, NG, NFT, NEL, IFIRST, ILAST,
+     .     MATID, MLW
+      INTEGER :: II, IFUNC, NPT, FIRST, INODE, NODEID, IND, SHIFT,
      .     NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8,
      .     ELEMID
       my_real :: X0, Y0, Z0, RADIUS, XC, YC, ZC, VALUE1, VALUE2, NX, NY, NZ, VALUE, 
      .     XNODE, YNODE, ZNODE, RAD1, RAD2, X1, Y1, Z1, XP, YP, ZP
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELEM_LIST
-      INTEGER :: LOCAL_ELEM_LIST(MVSIZ)
       my_real, DIMENSION(:, :), ALLOCATABLE :: PRES, EINT
-      my_real ::  TT, RES, RHO
+      my_real ::  TT, RES
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: NBNODE, NODELIST(8), ITY, ISOLNOD,
-     .     GRBRICID,GRQUADID,GRSH3NID, NBMAT, NBMAT_TARGET, IMAT, KPHASE, NUVAR, IADBUF, NPAR, IFORM, 
+     .     GRBRICID,GRQUADID,GRSH3NID, NBMAT, NBMAT_TARGET, IMAT, KPHASE, NUVAR, IADBUF, IFORM, 
      .     M51_SUBMAT_ID(4),TAG_MAT(NUMMAT)
       my_real, POINTER, DIMENSION(:) :: PTRx, PTRy 
 

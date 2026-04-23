@@ -85,9 +85,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ID,IDAM,ILAW
-      my_real E,NU,G,MU,RBULK,C10,C20,C30,D1,D2,D3
-      CHARACTER(LEN=NCHARFIELD) ::  STRING
+      INTEGER IDAM,ILAW
+      my_real E,NU,G,RBULK,C10,C20,C30,D1,D2,D3
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

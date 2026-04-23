@@ -56,16 +56,16 @@ C     REAL
       INTEGER IPARG(NPARG,*),EL2FA(*),                                  
      .        IXS(NIXS,*),IFUNC,NBF,ISPH3D                         
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      REAL  WAL(NBF)                                                    
+
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE                    
-      INTEGER I, NG, NEL,N, J, MLW,NN, JTURB,MT, IALEL,                    
-     .        NN1,NN2,NN3,OFFSET,II(6),INOD, ISOLNOD,                                
+     .   P, VONM2, VONM, S1, S2, S3, VALUE                    
+      INTEGER I, NG, NEL,N, MLW, JTURB,MT, IALEL,                    
+     .        NN1,NN2,NN3,OFFSET,II(6), ISOLNOD,                                
      .        JHBE, JIVF, JCLOSE, JPLASOL, IREP, IGTYP,          
      .        ICSEN, ISORTHG, IFAILURE, IINT                                                      
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     

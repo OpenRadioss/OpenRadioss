@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE ALEFVM_MOD , only:ALEFVM_Param
+      USE ALEFVM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -72,8 +72,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: FLRD
       INTEGER II,KK,NB_EULERMAT,ILAW,ID
-      CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER :: KEY*80
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s

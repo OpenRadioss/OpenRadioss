@@ -83,10 +83,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .        FCX,FCY,FAC_FCX,FAC_FCY
-      INTEGER I,J,K,K1,K2,NOD, NCUR, IFRA, ISENS,NN,IGU,IGS,
-     .        UID,IAD,ID,IFLAGUNIT,NCURS,TSENS,IFRAS, IVAR, ISU, IDIR,
+      INTEGER J,K, NCUR, IFRA, ISENS,NN,IGU,IGS,
+     .        UID,IAD,ID,IFLAGUNIT,NCURS,TSENS,IFRAS, IVAR, IDIR,
      .        SUB_INDEX, SUB_ID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
       CHARACTER MESS*40,char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
       CHARACTER(LEN=NCHARFIELD) :: XYZ
       CHARACTER(LEN=NCHARTITLE)::TITR

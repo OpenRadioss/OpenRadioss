@@ -81,12 +81,12 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          integer :: i,j,ipiv(6),ipiv2d(3),info
+          integer :: i,ipiv(6),ipiv2d(3),info
           real(kind=WP) :: dmn,dmx,c(6,6),c2(6,6),s(6,6),s2d(3,3),c2d(3,3)
           real(kind=WP) :: sbd(2,2),cbd(2,2),detsbd
           real(kind=WP) :: wr(6),wi(6),vl(6,6),vr(6,6),work(102)
 !===============================================================================
-! 
+!
           !=====================================================================
           !< Elastic anisotropic parameters
           !=====================================================================
@@ -131,31 +131,31 @@
           !< Check that elasticity matrix is positive definite
           c2  = c
           info = 0
-          if (iresp == 0) then 
-            call dgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)  
+          if (iresp == 0) then
+            call dgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)
           else
             call sgeev('N','N',6,c2,6,wr,wi,vl,6,vr,6,work,102,info)
           endif
           if (minval(wr) < -1.0d-6) then
             call ancmsg(msgid=3131,                                            &
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1="ERROR",                                            &
-                        c2=titr,                                               &
-                        c3="ELAS_ANISOTROPIC",                                 &
-                        c4="ELASTIC STIFFNESS MATRIX IS NOT POSITIVE DEFINITE.")
+              msgtype=msgerror,                                      &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1="ERROR",                                            &
+              c2=titr,                                               &
+              c3="ELAS_ANISOTROPIC",                                 &
+              c4="ELASTIC STIFFNESS MATRIX IS NOT POSITIVE DEFINITE.")
           endif
           !< Fill matparam values
-          matparam%bulk  = (one/nine)*(c(1,1) + c(2,2) + c(3,3) +              & 
-                                  two*(c(1,2) + c(1,3) + c(2,3)))
+          matparam%bulk  = (one/nine)*(c(1,1) + c(2,2) + c(3,3) +              &
+            two*(c(1,2) + c(1,3) + c(2,3)))
           matparam%shear = (one/fifteen)*((c(1,1) + c(2,2) + c(3,3)) -         &
-                                          (c(1,2) + c(1,3) + c(2,3)) +         &
-                                    three*(c(4,4) + c(5,5) + c(6,6)))
+            (c(1,2) + c(1,3) + c(2,3)) +         &
+            three*(c(4,4) + c(5,5) + c(6,6)))
           matparam%young = nine*matparam%bulk*matparam%shear/                  &
-                           (three*matparam%bulk + matparam%shear)
+            (three*matparam%bulk + matparam%shear)
           matparam%nu    = (three*matparam%bulk - two*matparam%shear)/         &
-                           (two*(three*matparam%bulk + matparam%shear))
+            (two*(three*matparam%bulk + matparam%shear))
           !< 3D Compliance matrix
           c2  = c
           s = zero
@@ -163,8 +163,8 @@
             s(i,i) = one
           enddo
           info = 0
-          if (iresp == 0) then 
-            call dgesv(6, 6, c2, 6, ipiv, s, 6, info)  
+          if (iresp == 0) then
+            call dgesv(6, 6, c2, 6, ipiv, s, 6, info)
           else
             call sgesv(6, 6, c2, 6, ipiv, s, 6, info)
           endif
@@ -184,7 +184,7 @@
             c2d(i,i) = one
           enddo
           info = 0
-          if (iresp == 0) then 
+          if (iresp == 0) then
             call dgesv(3, 3, s2d, 3, ipiv2d, c2d, 3, info)
           else
             call sgesv(3, 3, s2d, 3, ipiv2d, c2d, 3, info)
@@ -251,35 +251,35 @@
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1000) c(1,1),c(1,2),c(1,3),c(1,4),c(1,5),c(1,6),c(2,2), &
-               c(2,3),c(2,4),c(2,5),c(2,6),c(3,3),c(3,4),c(3,5),c(3,6),c(4,4), &
-               c(4,5),c(4,6),c(5,5),c(5,6),c(6,6)
+              c(2,3),c(2,4),c(2,5),c(2,6),c(3,3),c(3,4),c(3,5),c(3,6),c(4,4), &
+              c(4,5),c(4,6),c(5,5),c(5,6),c(6,6)
           endif
 ! ------------------------------------------------------------------------------
-1000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"ANISOTROPIC ELASTICITY                                 ",/,      &
-          5X,"-------------------------------------------------------",/,      &
-          5X,"ELASTICITY MATRIX COMPONENT C11. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C12. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C13. . . . . . . . . . . .=",1PG20.13/& 
-          5X,"ELASTICITY MATRIX COMPONENT C14. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C15. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C16. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C22. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C23. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C24. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C25. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C26. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C33. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C34. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C35. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C36. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C44. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C45. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C46. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C55. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C56. . . . . . . . . . . .=",1PG20.13/&
-          5X,"ELASTICITY MATRIX COMPONENT C66. . . . . . . . . . . .=",1PG20.13/)
+1000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"ANISOTROPIC ELASTICITY                                 ",/,      &
+            5X,"-------------------------------------------------------",/,      &
+            5X,"ELASTICITY MATRIX COMPONENT C11. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C12. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C13. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C14. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C15. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C16. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C22. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C23. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C24. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C25. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C26. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C33. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C34. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C35. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C36. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C44. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C45. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C46. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C55. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C56. . . . . . . . . . . .=",1PG20.13/&
+            5X,"ELASTICITY MATRIX COMPONENT C66. . . . . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity_anisotropic
       end module hm_read_elasticity_anisotropic_mod

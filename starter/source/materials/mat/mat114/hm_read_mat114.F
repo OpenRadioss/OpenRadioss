@@ -75,17 +75,16 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
+       INTEGER IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
      .         IFAIL,ILENG,IFAIL2,FLGCHK,ILAW,
-     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
+     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,
      .         IF1,IF2,IF3,IF4
 C     REAL
       my_real
-     .   A, B, D, E, F, XK, XC, DN, DX, FWV, LSCALE,
-     .   PUN,VT0, VR0, CC(6), CN(6), XA(6), XB(6),ASRATE,GF3,
-     .   CHECK(13,6),RHO0,A_UNIT,E_UNIT,D_UNIT,
-     .   L_UNIT,GF_UNIT,F_UNIT,LMIN,YOUNG,SAREA,F_MAX,M_MAX,RFAC,IBEND,ITORS,
-     .   K1,K2
+     .   A, B, E, XK, XC, DN, DX, FWV, LSCALE,
+     .   PUN, CC(6), ASRATE,
+     .   RHO0,A_UNIT,
+     .   LMIN,YOUNG,SAREA,F_MAX,M_MAX,RFAC,IBEND,ITORS
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.

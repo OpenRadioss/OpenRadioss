@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NF1, I,II(6), N, JHBE, IREP, IGTYP, ITRS, IBID,
-     .        NITSAV,J,I1,I2,ID,IMAT,MAT_ID
+     .        NITSAV,J,IMAT
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
@@ -130,7 +130,7 @@ C-----------------------------------------------
      .   FAC, XT, YT, ZT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      CHARACTER(LEN=NCHARTITLE):: TITR
+
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -844,7 +844,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       
       DOUBLE PRECISION
      .   X1_COPY(MVSIZ), X2_COPY(MVSIZ), X3_COPY(MVSIZ), X4_COPY(MVSIZ),

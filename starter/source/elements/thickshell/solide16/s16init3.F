@@ -115,10 +115,10 @@ C-----------------------------------------------
       INTEGER ,PARAMETER :: NPE=16
       CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
-     .   BID, FV,WI,AA,BB
+     .   FV,WI,AA,BB
       my_real
      .   MASS(MVSIZ),
-     .  VOLP(MVSIZ,5), STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
+     .  STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .  XX(MVSIZ,16), YY(MVSIZ,16), ZZ(MVSIZ,16),
      .  VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),
      .  PX(MVSIZ,16), PY(MVSIZ,16), PZ(MVSIZ,16),

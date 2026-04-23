@@ -50,12 +50,9 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER J, JJ, LEN, I, K, L, KK, K0, K1, K5, K9, N,               
-     .   N0, N1, N2, N3, N4, N10, NSEG, NSEGC, NSEGTG, ITYP,            
-     .   UNPACK(15,4), II(8), N5, N6, N7, N8, NSEGS, K3,OW              
-      my_real                                                           
-     .   XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,                   
-     .   XX4, YY4, ZZ4, D13, XXC, YYC, ZZC                              
+      INTEGER J, JJ, I, K, L, KK, K0, K5, K9, N,               
+     .   N0, N1, N2, N3, N4, N10, NSEGC, NSEGTG, ITYP,            
+     .   UNPACK(15,4), II(8), N5, N6, N7, N8, NSEGS, K3              
       INTEGER POWER2(8),IPACK                                           
       DATA POWER2/1,2,4,8,16,32,64,128/                                 
 C-----------------------------------------------                        

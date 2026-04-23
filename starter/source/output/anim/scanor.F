@@ -39,7 +39,7 @@ C     REAL
 C     REAL
       my_real
      .   XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DX,DY,DZ
-      INTEGER II(4), N
+      INTEGER N
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

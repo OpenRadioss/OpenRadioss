@@ -50,10 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL                                                    
-      my_real                                                           
-     .   OFF                                                            
-      INTEGER IE, NG, ITY, LFT, LLT, N, I, J,                      
+      INTEGER NG, ITY, LFT, LLT, N, I,                      
      .        NEL, IAD, NFT,                          
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9
 

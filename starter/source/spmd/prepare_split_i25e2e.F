@@ -62,10 +62,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IEDGE
-      INTEGER :: ISPMD
       INTEGER :: NEDGE
       INTEGER :: NIN
-      INTEGER :: I,J,K, NRTM, NTY, CS,CM
+      INTEGER :: I,J,K, NRTM, NTY, CM
       INTEGER :: SH_EDGE,SOL_EDGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: CEP_EDGE,CEPM
       INTEGER, DIMENSION(:), ALLOCATABLE :: LOCAL_ID_EDG
@@ -269,7 +268,7 @@ C-----------------------------------------------
       INTEGER :: NB_BOUNDARY_EDGES_REMOTE(NSPMD) ! boundary edges treated by the other domain 
       INTEGER :: EDGE_LOCAL(NSPMD)
       INTEGER :: ISPMD
-      INTEGER :: I,E1,E2,K1,K2,K
+      INTEGER :: I,E1,E2,K
 C-----------------------------------------------
       NRTM_LOCAL(1:NSPMD) = 0
       EDGE_LOCAL(1:NSPMD) = 0

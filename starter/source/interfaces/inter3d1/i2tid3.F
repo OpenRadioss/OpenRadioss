@@ -889,12 +889,7 @@ C
           ENDDO                      
         ENDIF
 C-----------
- 1000 FORMAT(
-     +  /,
-     + '  SECONDARY NODE        NEAREST SEGMENT                    MAIN NODES',
-     +'                                S                  T                ',
-     +'    DIST'/
-     +  /)
+
  2022 FORMAT(//
      +'     SECONDARY  NEAREST                  MAIN NODES                       SECONDARY '/
      +'     NODE   SEGMENT                                              S       T        DIST')

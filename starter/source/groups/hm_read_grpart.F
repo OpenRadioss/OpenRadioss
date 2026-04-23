@@ -70,17 +70,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,ID,NEL,IGS,JREC,
+      INTEGER J,K,ID,NEL,IGS,
      .        IT0,IT1,IT2,IT3,IT4,IT5,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IBID,N1,N2,OK,NINDX,
+     .        IBID,N1,N2,NINDX,
      .        NN,IDMIN,IDMAX,OFFSET,NENTITY
-      INTEGER J10(10),BUFTMP(NSUBS+NPART),INDX(NSUBS+NPART),
+      INTEGER BUFTMP(NSUBS+NPART),INDX(NSUBS+NPART),
      .        LIST_IGR(NGRPRT),UID,KK
       my_real BID
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
       CHARACTER :: MES*40
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
       DATA MES/' PART GROUP'/
 C-----------------------------------------------

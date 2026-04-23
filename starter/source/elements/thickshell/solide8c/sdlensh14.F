@@ -63,10 +63,10 @@ C-----------------------------------------------
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),
      .   XN(MVSIZ,4) , YN(MVSIZ,4) , ZN(MVSIZ,4) ,AREA(MVSIZ)
       my_real
-     .   AL1,AL2,LL(MVSIZ),COREL(2,4)
+     .   AL1,AL2,COREL(2,4)
       my_real
-     .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
-     .   FAC,VISCE,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FAC11,FACDT
+     .   X13,X24,Y13,Y24,L13,L24,C1,C2,
+     .   FAC,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FACDT
 C=======================================================================
         SELECT CASE(ICS)
           CASE (1)

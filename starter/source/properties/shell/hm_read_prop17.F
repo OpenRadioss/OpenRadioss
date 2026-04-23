@@ -87,20 +87,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER LAW_ID*4
       INTEGER :: IGMAT, IHBE , ISMSTR, ISROT, ISHXFEM  ,ISTRAIN, ITHK, IPLAST, IDSK,
-     .           IORTH, IPOS , LAMIN , NSUB , NISUB , NN, NPLY, IDSUB , I, PLY_ID,
+     .           IORTH, IPOS , LAMIN , NSUB , NISUB , NPLY, IDSUB , I, PLY_ID,
      .           IMID_PI,INTER ,IPID1 , IPID2 , IREP, ISHEAR ,IHBEOUTP ,IPID0,
      .           ISK , J, ISS, N1, IMID, K, NC, KK, II, NPT_SUB, M1, IMAT,
-     .           N,IPID,ISHELL,ISH3N,ID,ID1,IUN,NPLY_SUB,IGTYP,FAIL_SHELL,IS,IRP
+     .           N,ISH3N,IUN,NPLY_SUB,IGTYP,FAIL_SHELL,IS,IRP
       my_real :: 
-     .   AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX,PTHK,CVIS,PUN,ZSHIFT, THK ,
+     .   AN, VX, VY, VZ, PTHK,CVIS,PUN,ZSHIFT, THK ,
      .   ASHEAR, ANG, POS, HM, HF, HR, DN, DM,VISC_INT
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+      INTEGER     IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       INTEGER, DIMENSION(:),ALLOCATABLE :: IDMAT_INTP,IDMAT_SUB
       
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   D a t a

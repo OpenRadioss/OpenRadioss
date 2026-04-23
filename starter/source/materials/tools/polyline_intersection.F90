@@ -26,12 +26,12 @@
 !||    diffuse_necking_2d          ../starter/source/materials/fail/diffuse_necking_2d.F90
 !||    mat_func_deintersect        ../starter/source/materials/tools/mat_func_deintersect.F90
 !||====================================================================
-       module polyline_intersection_mod
-         implicit none
-         private
-         public :: polyline_intersection
+      module polyline_intersection_mod
+        implicit none
+        private
+        public :: polyline_intersection
 
-       contains
+      contains
         !----------------------------------------------------------------------
         ! \brief  Finds one intersection between two tabulated functions treated as
         ! \brief  piecewise-linear curves y(x). Assumes x1 and x2 are strictly increasing.
@@ -68,77 +68,77 @@
 ! --------------------------------------------------------------------------------------------------
 !         Global Arguments
 ! --------------------------------------------------------------------------------------------------
-        integer, intent(in) :: n1, n2
-        real(kind=WP) ,dimension(n1) ,intent(in)  :: x1,y1
-        real(kind=WP) ,dimension(n2) ,intent(in)  :: x2,y2
-        real(kind=WP) ,intent(out) :: xint, yint
-        logical       ,intent(out) :: found
+          integer, intent(in) :: n1, n2
+          real(kind=WP) ,dimension(n1) ,intent(in)  :: x1,y1
+          real(kind=WP) ,dimension(n2) ,intent(in)  :: x2,y2
+          real(kind=WP) ,intent(out) :: xint, yint
+          logical       ,intent(out) :: found
 !-----------------------------------------------
 !         L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: i, j
-        real(kind=WP) :: dx1, dy1, dx2, dy2, m1, m2, b1, b2
-        real(kind=WP) :: x1l, x1r, x2l, x2r, xL, xr
-        real(kind=WP) :: y1l, y1r, y2l, y2r, dL, dr, denom, root
-        real(kind=WP) :: epsx, epsy, slopes_eps, xrange, ymean, yr1,yr2
+          integer :: i, j
+          real(kind=WP) :: dx1, dy1, dx2, dy2, m1, m2, b1, b2
+          real(kind=WP) :: x1l, x1r, x2l, x2r, xL, xr
+          real(kind=WP) :: y1l, y1r, y2l, y2r, dL, dr, denom, root
+          real(kind=WP) :: epsx, epsy, slopes_eps, xrange, yr1,yr2
 !===================================================================================================
-        ! Initialize
-        found = .false.
-        xint  = zero
-        yint  = zero
+          ! Initialize
+          found = .false.
+          xint  = zero
+          yint  = zero
 
-        if (n1 < 2 .or. n2 < 2) return
+          if (n1 < 2 .or. n2 < 2) return
 
-        ! Quick sanity: x must be strictly increasing for both series
-        do i = 1, n1-1
-           if (x1(i+1) <= x1(i)) return
-        end do
-        do j = 1, n2-1
-           if (x2(j+1) <= x2(j)) return
-        end do
+          ! Quick sanity: x must be strictly increasing for both series
+          do i = 1, n1-1
+            if (x1(i+1) <= x1(i)) return
+          end do
+          do j = 1, n2-1
+            if (x2(j+1) <= x2(j)) return
+          end do
 
-        ! Dynamic tolerances scaled to data ranges
-        xrange = max( abs(x1(n1) - x1(1)), abs(x2(n2) - x2(1)), one )
-        yr1  = maxval(abs(y1 - sum(y1)/dble(n1)))
-        yr2  = maxval(abs(y2 - sum(y2)/dble(n2)))
-        epsx = hundred  * epsilon(one) * xrange
-        epsy = em9 * max(yr1, yr2)  ! estimated range of y values * 1.e-9
-        slopes_eps = ep03 * epsilon(one)
+          ! Dynamic tolerances scaled to data ranges
+          xrange = max( abs(x1(n1) - x1(1)), abs(x2(n2) - x2(1)), one )
+          yr1  = maxval(abs(y1 - sum(y1)/dble(n1)))
+          yr2  = maxval(abs(y2 - sum(y2)/dble(n2)))
+          epsx = hundred  * epsilon(one) * xrange
+          epsy = em9 * max(yr1, yr2)  ! estimated range of y values * 1.e-9
+          slopes_eps = ep03 * epsilon(one)
 
-        i = 1
-        j = 1
+          i = 1
+          j = 1
 
-        do while (i <= n1-1 .and. j <= n2-1)
+          do while (i <= n1-1 .and. j <= n2-1)
 
-           ! Segment 1: [x1(i), x1(i+1)]
-           x1l = x1(i)
-           x1r = x1(i+1)
-           dx1 = x1r - x1l
-           dy1 = y1(i+1) - y1(i)
-           if (dx1 <= zero) then
+            ! Segment 1: [x1(i), x1(i+1)]
+            x1l = x1(i)
+            x1r = x1(i+1)
+            dx1 = x1r - x1l
+            dy1 = y1(i+1) - y1(i)
+            if (dx1 <= zero) then
               i = i + 1
               cycle
-           end if
-           m1 = dy1 / dx1
-           b1 = y1(i) - m1 * x1l
+            end if
+            m1 = dy1 / dx1
+            b1 = y1(i) - m1 * x1l
 
-           ! Segment 2: [x2(j), x2(j+1)]
-           x2l = x2(j)
-           x2r = x2(j+1)
-           dx2 = x2r - x2l
-           dy2 = y2(j+1) - y2(j)
-           if (dx2 <= zero) then
+            ! Segment 2: [x2(j), x2(j+1)]
+            x2l = x2(j)
+            x2r = x2(j+1)
+            dx2 = x2r - x2l
+            dy2 = y2(j+1) - y2(j)
+            if (dx2 <= zero) then
               j = j + 1
               cycle
-           end if
-           m2 = dy2 / dx2
-           b2 = y2(j) - m2 * x2l
+            end if
+            m2 = dy2 / dx2
+            b2 = y2(j) - m2 * x2l
 
-           ! Overlap of x-intervals
-           xL = max(x1l, x2l)
-           xr = min(x1r, x2r)
+            ! Overlap of x-intervals
+            xL = max(x1l, x2l)
+            xr = min(x1r, x2r)
 
-           if (xr >= xL - epsx) then
+            if (xr >= xL - epsx) then
               ! Compute y values at overlap endpoints via linear interpolation
               y1l = m1 * xL + b1
               y1r = m1 * xr + b1
@@ -150,61 +150,61 @@
 
               ! Check endpoint hits
               if (abs(dL) <= epsy) then
-                 xint = xL
-                 yint = half * (y1l + y2l)
-                 found = .true.
-                 return
+                xint = xL
+                yint = half * (y1l + y2l)
+                found = .true.
+                return
               else if (abs(dr) <= epsy) then
-                 xint = xr
-                 yint = half * (y1r + y2r)
-                 found = .true.
-                 return
+                xint = xr
+                yint = half * (y1r + y2r)
+                found = .true.
+                return
               end if
 
               ! General crossing in (xL, xr)
               if (dL * dr < zero) then
-                 ! Linear root interpolation for robust bracketing
-                 denom = dr - dL
-                 if (abs(denom) > epsy) then
-                    root = xL - dL * (xr - xL) / denom
-                    ! Clamp root within [xL, xr] for safety
-                    if (root < xL) root = xL
-                    if (root > xr) root = xr
-                    xint = root
-                    yint = m1 * xint + b1
-                    found = .true.
-                    return
-                 end if
+                ! Linear root interpolation for robust bracketing
+                denom = dr - dL
+                if (abs(denom) > epsy) then
+                  root = xL - dL * (xr - xL) / denom
+                  ! Clamp root within [xL, xr] for safety
+                  if (root < xL) root = xL
+                  if (root > xr) root = xr
+                  xint = root
+                  yint = m1 * xint + b1
+                  found = .true.
+                  return
+                end if
               end if
 
               ! Parallel / nearly parallel segments
               if (abs(m1 - m2) <= slopes_eps) then
-                 ! If colinear over the overlap, accept the left overlap point
-                 if (abs((b1 - b2)) <= epsy) then
-                    xint = xL
-                    yint = half * (y1l + y2l)
-                    found = .true.
-                    return
-                 end if
+                ! If colinear over the overlap, accept the left overlap point
+                if (abs((b1 - b2)) <= epsy) then
+                  xint = xL
+                  yint = half * (y1l + y2l)
+                  found = .true.
+                  return
+                end if
               end if
 
-           end if
+            end if
 
-           ! Advance the segment with the smaller right endpoint
-           if (x1r < x2r - epsx) then
+            ! Advance the segment with the smaller right endpoint
+            if (x1r < x2r - epsx) then
               i = i + 1
-           else if (x2r < x1r - epsx) then
+            else if (x2r < x1r - epsx) then
               j = j + 1
-           else
+            else
               ! Endpoints essentially equal; advance both to avoid stalling
               i = i + 1
               j = j + 1
-           end if
+            end if
 
-        end do
+          end do
 
-        ! No intersection found
-        found = .false.
+          ! No intersection found
+          found = .false.
 !-----------------------------------------------
         end subroutine polyline_intersection
-        end module polyline_intersection_mod
+      end module polyline_intersection_mod

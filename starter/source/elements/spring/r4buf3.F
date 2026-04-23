@@ -63,8 +63,7 @@ C-----------------------------------------------
      .   OFF(*), GEO(NPROPG,*), X(3,*), X0(*), Y0(*), Z0(*), SKEW(LSKEW,*)
       my_real
      .   RLOC(3,*),IPOSX(5,*) ,IPOSY(5,*),
-     .   IPOSZ(5,*),IPOSXX(5,*),IPOSYY(5,*),IPOSZZ(5,*), EINT6(6,*),
-     .   X1PHI,Y1PHI,Z1PHI
+     .   IPOSZ(5,*),IPOSXX(5,*),IPOSYY(5,*),IPOSZZ(5,*), EINT6(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

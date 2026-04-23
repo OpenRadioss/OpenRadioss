@@ -80,7 +80,6 @@ c        ENDDO
         N1 = ICNDS10(2,N)
         N2 = ICNDS10(3,N)
         NS10E_L = NS10E_L + 1
- 100    CONTINUE         
        ENDIF
       ENDDO
       IF (NS10E_L==0) RETURN

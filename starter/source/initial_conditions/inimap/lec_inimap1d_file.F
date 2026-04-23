@@ -59,15 +59,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER MESS*40,BUFFER*14
-      CHARACTER(LEN=NCHARLINE) :: ROOTNAME
+      CHARACTER MESS*40
       DATA MESS/'INFILE'/
-      INTEGER NUM_CENTROIDS,N_CYCLE,K,ISUBMAT,NBMAT,NUM_NODE_VEL,INPUT_VERSION
-      my_real X_SCALE,Y_SCALE,X_SHIFT,Y_SHIFT,TT
-      INTEGER PREV, NEXT
+      INTEGER NUM_CENTROIDS,K,ISUBMAT,NBMAT,NUM_NODE_VEL
+      my_real X_SHIFT,TT
       INTEGER :: LEN, LEN_TMP_NAME
       CHARACTER :: TMP_NAME*2048, FILNAM*2048
-      INTEGER :: IFILNAM(2048),II, NCYCLE, NCELL_TOT, INIVERS
+      INTEGER :: IFILNAM(2048),II, NCYCLE, INIVERS
       LOGICAL FILE_EXIST
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -187,8 +185,6 @@ C-----------------------------------------------
         
         RETURN
         
- 999             CALL ANCMSG(MSGID = 1884, ANMODE = ANINFO, MSGTYPE = MSGERROR,
-     .              I1 = INIMAP1D%ID, C1=INIMAP1D%TITLE)
   
 
       END SUBROUTINE LEC_INIMAP1D_FILE

@@ -75,10 +75,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, M, I1, I2, I3, I4, IFU, I, ISENS,NPR0,NN,ISU,IS,
+      INTEGER K, I1, I2, IFU, I, ISENS,NN,ISU,IS,
      .        ID,J,UID,IFLAGUNIT,ITY
       my_real
-     .   FCX, FCY, FAC_L, FAC_T, FAC_M, EMI, SIGMA, TSTART, TSTOP,
+     .   FCX, FCY, FAC_T, FAC_M, EMI, SIGMA, TSTART, TSTOP,
      .   EMISS(NUMRADIA),FCX_DIM,FCY_DIM,TSTOP_DIM
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -86,7 +86,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'RADIATIVE FLUX DEFINITION               '/
 C=======================================================================
       IS_AVAILABLE = .FALSE.                                    
@@ -200,10 +199,6 @@ C
        I2=MIN0(I2+50,NUMRADIA)
        GOTO 90
  200  RETURN
- 300  CALL ANCMSG(MSGID=157,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            I1=K)
 C---
  2000 FORMAT(//
      .'     RADIATION   HEAT  '/

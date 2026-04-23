@@ -45,9 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,NENTITY,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
-     .        R2R_SHARE,L_GROUP,ENTITY,
-     .       NENTITY_L(NGR)
+      INTEGER J,ID,IGU,NENTITY,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
+     .        R2R_SHARE,L_GROUP,ENTITY
       CHARACTER TITR*40
 C-----------------------------------------------
 !
@@ -125,11 +124,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,NENTITY,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
-     .        R2R_SHARE,L_GROUP,ERR,ITITLE(40),ENTITY,NENTITY_L
+      INTEGER J,ID,IGU,NENTITY,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
+     .        R2R_SHARE,L_GROUP,ENTITY
       CHARACTER TITR*40
 !      CHARACTER(LEN=NCHARTITLE)::TITR
-      INTEGER LTITR
 C-----------------------------------------------
 !
       L_GROUP = 0
@@ -226,8 +224,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IGU,NOD,NNOD,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
-     .        R2R_SHARE,L_GROUP,ERR,ITITLE(40),NNOD_LOC(NGR),
+      INTEGER J,ID,IGU,NOD,NNOD,GRTYPE,TRI,GRPGRP,LEVEL,R2R_ALL,
+     .        R2R_SHARE,L_GROUP,
      .        IGU1,IGU2
       my_real
      .        CODE

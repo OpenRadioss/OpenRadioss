@@ -59,8 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM
+      INTEGER IY(4), JJ, K, NN, KK, IC
 C     REAL
       my_real
      .   N1, N2, N3, DDS
@@ -190,8 +189,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM
+      INTEGER IY(4), JJ, K, NN, KK, IC
 C     REAL
       my_real
      .   N1, N2, N3, DDS
@@ -286,8 +284,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
-     .        NUSER, NUSERM, COIN_IGE(8), PX, PY, PZ, IPID
+      INTEGER IY(4), JJ, K, NN, KK, IC,
+     .        COIN_IGE(8), PX, PY, PZ, IPID
 C     REAL
       my_real
      .   N1, N2, N3, DDS

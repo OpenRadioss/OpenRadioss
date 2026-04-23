@@ -97,11 +97,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NI, P, K, L, ITYP, INACTI, NSN, NMN, NRTS, NRTM,
-     .        N, N1, N2, N3, N4, NRTM_L,
-     .        I_STOK, NODFI, E, MULTIMP, IDEB, IFQ,
-     .        NISUB, NISUBS, NISUBM, INTTH, NL, N1L, N2L, N3L, N4L,
+     .        N, N1, N2, NRTM_L,
+     .        I_STOK, NODFI, E, MULTIMP, IFQ,
+     .        NISUB, NISUBS, NISUBM, INTTH, NL, N1L, N2L,
      .        NLINS, NLINM, NSNE,  NMNE, NLN, NN,INTFRIC,        
-     .        WORK(70000),KD(50),JD(50),I,J,IEDGE4,INTNITSCHE,MY_NODE,
+     .        WORK(70000),I,J,IEDGE4,INTNITSCHE,MY_NODE,
      .        CPT1,CPT2,P1,P2,PROC1,PROC2,SE1,PLOC,ND,FLAGREMN,LREMNORMAX
       INTEGER IT,ID
       INTEGER, DIMENSION(:),ALLOCATABLE :: NSNFI

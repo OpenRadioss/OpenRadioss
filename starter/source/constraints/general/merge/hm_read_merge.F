@@ -594,7 +594,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDRB,NBMERGE, TAG2(NRBYKIN),FLAG_BOUCLE
+      INTEGER IDRB, TAG2(NRBYKIN),FLAG_BOUCLE
       INTEGER TABBOUCLE(NRBYKIN+1), IDBOUCLE
       TYPE (RBMERGE_)   , DIMENSION(NRBYKIN)   :: RBMERGE      
 C-----------------------------------------------
@@ -729,9 +729,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,KK,M,N,ID,OFFSET,OFFSETID,FLAG_RB
-      INTEGER IDPILE,INODE, IKREM,ISPHER,
-     .        ICDG,CNT,NN,IAD
+      INTEGER I,J,K,KK,N,OFFSET,OFFSETID
+      INTEGER IDPILE,INODE,NN,IAD
       INTEGER,DIMENSION(:),ALLOCATABLE :: PILE
       INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
       INTEGER,DIMENSION(:),ALLOCATABLE :: LPBY_TMP
@@ -739,12 +738,10 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: NOM_OPT_TMP
       my_real,DIMENSION(:,:),ALLOCATABLE :: RBY_TMP
 
-      my_real BID, DX, DY, DZ, DMSTR, DELT, DTMP
-      INTEGER NBSECONDARY, IDIR, NSL, NSL_XTRA
+      INTEGER NBSECONDARY, NSL_XTRA
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
       INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA 
-      CHARACTER MESS*40
-      CHARACTER(LEN=nchartitle) :: TITR
+
 C-----------------------------------------------
 !   RBMERGE(IRBM)%ID   :: Rigid body identifier
 !   RBMERGE(IRBM)%NBSECONDARY   :: Number of SECONDARY rigid body
@@ -1070,8 +1067,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,OFFSET,OFFSETEND,NRBYKINM,
-     .        NEW_SIZE,CPT_RBY,CPT_RBY_SECONDARY
+      INTEGER I,J,NEW_SIZE,CPT_RBY,CPT_RBY_SECONDARY
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: NPBY_TMP
       INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: NOM_OPT_TMP

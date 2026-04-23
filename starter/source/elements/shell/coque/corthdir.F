@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,I1,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
+      INTEGER I,I2,I3,IL,IGTYP,IPTHK,IPMAT,ILAW,L_DMG,NPTT,
      .        IPT ,IPT_ALL,IT,IPID_PLY,IRP,PID
       my_real R,S,D1,D2,D11,D12,D21,D22,U1X,U1Y,U2X,U2Y,
      .        DET,W1X,W2X,W1Y,W2Y,CSP,SNP,VNR
@@ -93,7 +93,7 @@ C-----------------------------------------------
       !
       CHARACTER(LEN=NCHARTITLE)::TITR1
       !
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C======================================================================|

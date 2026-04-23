@@ -827,7 +827,6 @@ c          GAP_M(I)=GAP_M(I)+TWO*GAP_SH(I)
       ENDDO    
 C------------
       RETURN
- 1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
       END
 !||====================================================================
 !||    i20sti3e               ../starter/source/interfaces/inter3d1/i20sti3.F

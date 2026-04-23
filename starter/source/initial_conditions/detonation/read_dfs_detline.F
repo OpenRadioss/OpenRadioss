@@ -75,18 +75,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER              :: I, MAT, J, NPEM,NPCM,K,IGU,IGS,JJ,MDET,DET_ID,IDET
-      INTEGER              :: IBID,  NODE_ID1, NODE_ID2,uID1,uID2, IOPT, IUNIT, UID
-      INTEGER              :: FLAG_FMT,IMAT,IFLAGUNIT,UNUSED
-      INTEGER              :: STAT
-      my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2, NX, NY, NZ, BID, VCJ
+      INTEGER              :: MAT, MDET, DET_ID, IDET
+      INTEGER              :: NODE_ID1, NODE_ID2, uID1, uID2, UID
+      INTEGER              :: UNUSED
+      my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2
       CHARACTER*40         :: MESS
-      CHARACTER*64         :: chain1,chain2
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
       LOGICAL              :: IS_NODE_DEFINED
-      INTEGER              :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

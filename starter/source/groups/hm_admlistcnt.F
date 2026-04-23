@@ -65,7 +65,6 @@ C-----------------------------------------------
       INTEGER LIST(NLIST), IL, JJ
       INTEGER I, J, NOLD, K, IWORK(70000),II
       INTEGER LELT, NE, IP, NLEV
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
       INTEGER :: NENTITY
 C-----------------------------------------------

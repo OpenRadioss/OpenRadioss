@@ -345,7 +345,6 @@ C--------------------------------------------------------
  5000 FORMAT(/,'         SPRING ELEMENTS TIME STEP')
  5001 FORMAT(/,'   Info : spring TYPE45 (KJOINT2) time step is evaluated at the beginning of the engine')
  6000 FORMAT(/,'         TRIANGULAR SHELL ELEMENTS TIME STEP')
-50000 FORMAT(/,'         USER RNUR ELEMENTS TIME STEP')
  7000 FORMAT(/,'         MULTI-PURPOSE ELEMENTS TIME STEP')
  8000 FORMAT(/,'         SMOOTH PARTICLES TIME STEP')
  9000 FORMAT(/,'         ISO GEOMETRIC ELEMENTS TIME STEP')

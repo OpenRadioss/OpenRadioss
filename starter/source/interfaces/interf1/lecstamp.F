@@ -75,12 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, L, NI, NIN, N,
+      INTEGER J, NI, NIN, N,
      .   NTYP,NOINT,NSTAMP,IROT,
-     .   IFLAGUNIT,UID,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,
-     .   ID_INTDAMP,INTDAMP, IRB, MSR, P, IC, SUB_ID
+     .   UID,
+     .   ID_INTDAMP, IRB, P, IC, SUB_ID
       my_real
-     .   FAC_L,FAC_T,FAC_M,FAC_I,
      .   DAMP, DAMPR
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARKEY) :: KEY
@@ -89,7 +88,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'INTERFACE INPUT                         '/
 C=======================================================================
 

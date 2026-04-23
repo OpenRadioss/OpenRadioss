@@ -95,7 +95,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER HM_THVARC
-      INTEGER R2R_EXIST
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s

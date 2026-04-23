@@ -113,14 +113,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,II,K,L,J,JC,JJ,KK,ISU,ID,NSEG,NSEG0,NSEGV,N1,N2,NUMEL,
-     .        OK,IGS,IGRS,JREC,IAD0,NE,ITYP,
+      INTEGER  I,II,K,J,JJ,KK,ID,NSEG,NSEG0,N1,N2,NUMEL,
+     .        OK,IGS,IGRS,IAD0,
      .        IT0,IT1,IT2,IT3,IT4,IT5,IT6,IT7,SBUFBOX,UID,IFLAGUNIT,
-     .        ISK,BOXTYPE,J2(2),IT8,SUB_ID,IBUFSIZ,NINDX,STAT,
-     .        INTMAX,IADBOX,LIST_LINE(NSLIN),ISEG,IBID,NSEG_TOT,NN,LINE_NSEG0,SUB_INDEX
+     .        IT8,IBUFSIZ,NINDX,STAT,
+     .        INTMAX,IADBOX,LIST_LINE(NSLIN),ISEG,IBID,NSEG_TOT,NN,LINE_NSEG0
       my_real
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,FAC_L,
-     .        DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2
+     .        BID,FAC_L
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1,STRING
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
       CHARACTER MESS*40
@@ -128,7 +127,7 @@ C-----------------------------------------------
       LOGICAL :: FLAG_GRBRIC
       INTEGER :: MODE, NENTITY
       TYPE(PART_TYPE), DIMENSION(:), ALLOCATABLE :: SURF_ELM
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lERROR
+      LOGICAL IS_AVAILABLE, lERROR
 C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
@@ -638,9 +637,5 @@ C=======================================================================
         CALL DEALLOCATE_SURF_ELM(NPART,SURF_ELM,MODE)
         DEALLOCATE( SURF_ELM ) 
       ENDIF
-      RETURN
- 900  CONTINUE
-c  Il n y a pas de label 900 ...
-      CALL ANCMSG(MSGID=189,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IGRSLIN(IGS)%ID)
       RETURN
       END

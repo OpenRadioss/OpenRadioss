@@ -87,11 +87,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ID,ITEST,IDAM
+      INTEGER ITEST,IDAM
       my_real
      .  E,NU,G,MU,LAM,D,RBULK,SCALEFAC,C(5),
-     .  A1,A2,A3,A4,NU0 ,FAC_UNIT  
-      CHARACTER(LEN=NCHARFIELD) ::  STRING
+     .  A1,A2,A3,A4,FAC_UNIT  
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

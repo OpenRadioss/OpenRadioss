@@ -75,15 +75,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG, ISMSTR, NIP, J,K ,NPTS , 
-     .        IHBE,ISH3N,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
+      INTEGER IG, ISMSTR, J,K ,NPTS , 
+     .        IHBE,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
      .        IGFLU ,IHBE_OLD
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
+      INTEGER     IHBE_DS,ISST_DS,IFRAME_DS
      
-      my_real  ANGL,PUN,CVIS,RBID,VX,VY,VZ,FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
-      CHARACTER(LEN=NCHARTITLE)::TITR
+      my_real  PUN,CVIS
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

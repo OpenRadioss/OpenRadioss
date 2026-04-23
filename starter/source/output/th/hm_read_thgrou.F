@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_FXBY,PTR_NOPT_INTER,
      .        PTR_NOPT_RWALL,PTR_NOPT_SECT,PTR_NOPT_JOINT,
      .        PTR_NOPT_MONV,PTR_NOPT_ACC,PTR_NOPT_SKW,PTR_NOPT_GAU,
-     .        PTR_NOPT_CLUS,PTR_NOPT_SPHIO,PTR_NOPT_SURF,PTR_NOPT_RETRACTOR,
+     .        PTR_NOPT_CLUS,PTR_NOPT_SPHIO,PTR_NOPT_RETRACTOR,
      .        PTR_NOPT_SLIPRING
       INTEGER NPBY(*)
       INTEGER, TARGET :: IPARTS(NUMELS),IPARTQ(NUMELQ),IPARTC(NUMELC),
@@ -150,13 +150,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ,II, I,ISU,ID,NOSYS,J10(10),NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,CONT,IAD0,IADV,NTRI,NL,
-     .        IFITMP,IADFIN,NUMEL,NV,NVAR,M,N,IAD2,IAD,NSNE,NNE,ISK,
-     .        NVALL,TAGP,TAGS,IFIX_TMP,IBID,NIN
+      INTEGER J,JJ,II, I,ID,KK,
+     .        OK,IGS,K,L,
+     .        NVAR,N,IAD2,IAD,NSNE,NNE,ISK,
+     .        NVALL,TAGP,TAGS,IBID,NIN
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARLINE) :: KEY,COPT
+      CHARACTER(LEN=NCHARLINE) :: KEY
       INTEGER NVARN,NVARN1,NVARN1A,NVARN2,NVARNPINCH,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
       INTEGER NVARS1,NVARS2,NVARS3,NVARS4,NVARS5,NVARS6,NVARS7,NVARS8,NVARS9,NVARS10,NVARSNLOC
       INTEGER NVARNS,NVARSPH
@@ -262,12 +262,11 @@ C-----------------------------------------------
      .        IVARFLOWG(18,NVARFLOWG),IVARSURFG(18,NVARSURFG),
      .        IVARSLIPG(18,NVARSLIPG),IVARRETG(18,NVARRETG),
      .        IVARCHECKSUMG(18,NVARCHECKSUMG)
-      INTEGER NSMA
-      INTEGER IUN,INODACC,INODFRA
+
+      INTEGER IUN
       INTEGER NNOD, NSHEL, NTRUS, NBEAM, NSPRG, NCHTG, NCHINT, NCHJNT,
-     .     CHNOD, CHELT, CNT1, CNT2, IVSG, IREC_0, OUT_VENT, NG, NEL, 
-     .     NFT, NUMPART, I15ATH, I15A, I15B, I15C, I15D, I15E, I15F, 
-     .     I15G, I15H, I15I, I15J, I15K, I15L, ITY
+     .     CHNOD, CHELT, CNT1, IVSG, NG, NEL, 
+     .     NFT, NUMPART, ITY
       my_real
      .   BID
        INTEGER IVCG
@@ -276,7 +275,7 @@ C-----------------------------------------------
        CHARACTER*10 VARC2(574),VARC1(208),VARCG1(167),VARCG2(407), VAR ,
      .              VAR_TMP,VARC3(500),VARCG3(100),
      .              VARCGPINCH(1),VARCPINCH(7),VARCNLOC(2)
-       CHARACTER*80 STR, MES
+
        LOGICAL :: IS_AVAILABLE
       INTEGER, DIMENSION(:), POINTER :: IPARTEL_P
       CHARACTER THFILE*4
@@ -296,14 +295,13 @@ C-----------------------------------------------
      .                              VARCLUS_TITLE,VARFLOW_TITLE,
      .                              VARSURF_TITLE,VARSENS_TITLE
      
-        INTEGER :: LEN_TITLE
-        INTEGER :: LEN_CHECKSUM
+
         CHARACTER(LEN=NCHARLINE):: CHECKSUM_TITLE
         CHARACTER(LEN=64):: DECK_CHECKSUM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT
+
 C-----------------------------------------------
 C   D a t a
 C-----------------------------------------------

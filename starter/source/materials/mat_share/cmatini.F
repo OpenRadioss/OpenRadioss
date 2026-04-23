@@ -57,10 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,I1,II,J,JJ,N,NPTI,NU,NIP, NPG,IPT, 
+      INTEGER I,II,J,JJ,N,NIP, NPG,IPT, 
      .        IPT_ALL,IT,ILAY,NPTT, PT
-      my_real,
-     .   DIMENSION(:), POINTER :: FACYLD 
+
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C=======================================================================
        !print*, ' in cmatini '

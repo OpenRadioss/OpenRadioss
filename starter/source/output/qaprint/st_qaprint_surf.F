@@ -53,9 +53,8 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
-      CHARACTER (LEN=255) :: VARNAME
       TYPE (SURF_)  , POINTER :: PTR_IGRSURF    
-      INTEGER KK ,NN, IAD_PREV
+      INTEGER KK , IAD_PREV
       CHARACTER :: GROUP_NAME*7
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -116,7 +115,7 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER (LEN=255) :: VARNAME
-      INTEGER KK,ID,LEN_,NEL,NEL_IGE,NN,TMP, IAD_CUR,LEN_BUFSF
+      INTEGER KK,ID,LEN_,NEL,NEL_IGE,TMP, IAD_CUR,LEN_BUFSF
       DOUBLE PRECISION :: RTMP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
