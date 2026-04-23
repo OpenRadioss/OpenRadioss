@@ -56,6 +56,7 @@ C-----------------------------------------------
       INTEGER  LAST_NOD(NSN),NEXT_NOD(NSN)
       INTEGER  NBX,NBY,NBZ,NE,FOUND
       INTEGER  FIRST,LAST,IX1,IY1,IZ1,NN,IX,IY,IZ,IX2,IY2,IZ2
+      INTEGER  IX1_OLD,IY1_OLD,IZ1_OLD,IX2_OLD,IY2_OLD,IZ2_OLD
       INTEGER, DIMENSION(:,:,:),ALLOCATABLE :: VOXEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: KNOD2SEG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2SEG
@@ -121,6 +122,10 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
+
+      NBX = MIN(NBX,256)
+      NBY = MIN(NBY,256)
+      NBZ = MIN(NBZ,256)
 C=======================================================================
 C 1   placing of nodes in boxes
 C=======================================================================
@@ -182,10 +187,21 @@ C=======================================================================
         IZ2=IZ1
 
         FOUND = 0
+C       Initialize old bounds so that nothing is skipped on the first pass
+        IX1_OLD = 0
+        IX2_OLD = -1
+        IY1_OLD = 0
+        IY2_OLD = -1
+        IZ1_OLD = 0
+        IZ2_OLD = -1
         DO WHILE(FOUND == 0)
           DO IZ = IZ1,IZ2
             DO IY = IY1,IY2
               DO IX = IX1,IX2
+C               Skip voxels already searched in the previous iteration
+                IF (IX >= IX1_OLD .AND. IX <= IX2_OLD .AND.
+     .              IY >= IY1_OLD .AND. IY <= IY2_OLD .AND.
+     .              IZ >= IZ1_OLD .AND. IZ <= IZ2_OLD) CYCLE
 
                 JJ = VOXEL(IX,IY,IZ)
 
@@ -196,6 +212,8 @@ C=======================================================================
                   ZS = X(3,NN)
                   DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
                   IF( DIST < MINDIST )  THEN
+!                   write(6,"(A,F12.6,F12.6,F12.6,F12.6,F12.6,F12.6)") "DIST=",X1,Y1,Z1,XS,YS,ZS
+
                     ILOC(NE)=JJ
                     MINDIST = DIST
                   ENDIF
@@ -205,6 +223,13 @@ C=======================================================================
               ENDDO
             ENDDO
           ENDDO
+C         Save current bounds before expanding
+          IX1_OLD = IX1
+          IX2_OLD = IX2
+          IY1_OLD = IY1
+          IY2_OLD = IY2
+          IZ1_OLD = IZ1
+          IZ2_OLD = IZ2
           IX1 = IX1-1
           IY1 = IY1-1
           IZ1 = IZ1-1
