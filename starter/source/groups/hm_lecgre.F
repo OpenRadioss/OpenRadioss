@@ -95,22 +95,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,II,JJ,KK,ISU,ID,NEL,N1,N2,IGS,JREC,
-     .        IAD0,IADC,IADFIN,IT0,IT1,IT2,IT3,IT4,IT5,
-     .        KAD,UID,IFLAGUNIT,
-     .        ISK,BOXTYPE,J2(2),IT6,SUB_ID,IADBOX,NN,IADBOXMAX,
+      INTEGER I,J,K,JJ,KK,ID,NEL,N1,N2,IGS,
+     .        IADC,IT0,IT1,IT2,IT3,IT4,IT5,
+     .        UID,IFLAGUNIT,
+     .        IT6,IADBOX,NN,IADBOXMAX,
      .        IT7, IDB
       INTEGER NLIST,STAT,LIST_IGR(NGRELE)
       INTEGER IP, NLEV, MY_LEV,IDMIN,IDMAX,OFFSET,NLINES
       MY_REAL
-     .        XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,BID,FAC_L,
-     .        DIAM,XP1,YP1,ZP1,XP2,YP2,ZP2
+     .        BID,FAC_L
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       CHARACTER MES*40
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFTMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: BUFBOX
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
       INTEGER, DIMENSION(:), POINTER :: ELEM
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
@@ -127,7 +126,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTLST,NINTLSTN,LISTCNT
+      INTEGER NINTLSTN
 C-----------------------------------------------
 C    IGRELEM(IGS)%ID : GROUP identifier
 C    IGRELEM(IGS)%TITLE : GROUP title

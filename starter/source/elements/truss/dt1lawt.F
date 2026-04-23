@@ -48,8 +48,7 @@ C-----------------------------------------------
       INTEGER I, MX
 C     REAL
       my_real
-     .   RHO0, E, C1, SSP, C, 
-     .   IYY, IZZ
+     .   RHO0, E, SSP
 C
 C
       DO 10 I=LFT,LLT

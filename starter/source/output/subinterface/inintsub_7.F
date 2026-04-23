@@ -66,12 +66,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,JGRN,ISU,ISU1,ISU2,
      .   JSUB, KSUB, NNE, IS, ISV, CUR, ID1,
-     .   NEXT, IM, KM, JAD, IN, II, N,STAT,K1,K2,INOD,IFNRT
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+     .   NEXT, IM, KM, JAD, IN, II, IFNRT
+      CHARACTER(LEN=NCHARTITLE) :: TITR1
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

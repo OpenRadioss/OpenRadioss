@@ -66,12 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,NUVAR, GG1, GG2, GG3, ISFLUID,NL
-      INTEGER  :: NPH,IFLG,IE,IADBUF,NUPARAM, M_UID,M_IID,IGRAV
-      my_real  :: MFRAC, A, MU1P1, MU1P2, RHO1, RHO2, RHO10, RHO20, C1, GAM, PMIN, P0, MU2P1, RHO,P,A1,PSH,DEPTH,Z(3)
-      my_real  :: UPARAM(*),XBAS,YBAS,ZBAS,NX,NY,NZ,GRAV, BZ(3),DOTPROD, DELTA_P, RHO0_LIQ,RHO0_GAS, RHO_LIQ,RHO_GAS
-      my_real  :: POLD,HEIGHT
-      my_real  :: N(3,8)
+      INTEGER  :: I,NUVAR
+      INTEGER  :: IE
+      my_real  :: A, MU1P1, RHO1, RHO2, RHO10, RHO20, C1, GAM, PMIN, P0, MU2P1, RHO,P,A1
+      my_real  :: UPARAM(*)
 C-----------------------------------------------
 
       !---------------------------------!

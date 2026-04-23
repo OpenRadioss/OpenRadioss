@@ -47,12 +47,11 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),                                           
      .        IXT(NIXT,*),IXP(NIXP,*),                                  
      .        IXR(NIXR,*),EL2FA(*),INUM(*),                             
-     .        NBF,INUMX1(*),BUF                                             
+     .        NBF,INUMX1(*)                                                
 C-----------------------------------------------                        
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,                      
-     .        IPID, NEL, IAD, NFT, IMID,IALEL,MLW,                      
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
-     .        NBF2                                                      
+      INTEGER NG, ITY, LFT, LLT, N, I,                                    
+     .        NEL, IAD, NFT, MLW,                                         
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10                   
 C-----------------------------------------------                        
 C                                                                       
       NN1 = 1                                                           

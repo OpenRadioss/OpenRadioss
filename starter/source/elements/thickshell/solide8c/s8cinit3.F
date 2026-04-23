@@ -114,8 +114,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NF1,IBID,IGTYP,IP,IR,IS,IT,IL,NLAY,NPTR,NPTS,NPTT,NCC,
-     .     JHBE,IREP,MPT,NUVAR,NUVARR,IDEF,NREFSTA,
+      INTEGER I,NF1,IGTYP,IP,IR,IS,IT,IL,NLAY,NPTR,NPTS,NPTT,NCC,
+     .     JHBE,IREP,NUVAR,IDEF,NREFSTA,
      .     IPTHK, IPPOS,IG,IM,MTN0,ICSTR,IPID1,L_PLA,L_SIGB
       INTEGER PID(MVSIZ), NGL(MVSIZ),MAT(MVSIZ), MAT0(MVSIZ),
      .     IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -134,7 +134,7 @@ C-----------------------------------------------
      .   AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
      .   AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      .   AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
-     .   HX(4,MVSIZ) , HY(4,MVSIZ), HZ(4,MVSIZ),GAMA(6,MVSIZ),
+     .   HX(4,MVSIZ) , HY(4,MVSIZ), HZ(4,MVSIZ),
      .   SMAX(MVSIZ) , VOLU(MVSIZ), DTX(MVSIZ), DELTAX(MVSIZ),
      .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ),LLSH(MVSIZ)
       my_real

@@ -62,17 +62,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
       my_real                                                           
-     .   EVAR(MVSIZ),                                                   
      .   OFF,VALUE
-      INTEGER I, NG, NEL, ISS, ISC,N, J, MLW,                                          
-     .        NN, K1, K2,JTURB,MT, IALEL,IPID,                     
-     .        N1,N2,N3,N4,NN1,NN2,NN3,       
+      INTEGER I, NG, NEL, N, MLW,                                          
+     .        MT, IALEL,                     
+     .        NN1,NN2,NN3,       
      .        OFFSET,NFT_FA,N_FA,                       
-     .        INOD, ISOLNOD, IPRT,                                      
+     .        ISOLNOD, IPRT,                                      
      .        JHBE, JIVF, JCLOSE, JPLASOL, IREP, IGTYP,          
      .        ICSEN, ISORTHG, IFAILURE, IINT                            
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      REAL R4                                                           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1                                                           
       NN2 = 1                                                           

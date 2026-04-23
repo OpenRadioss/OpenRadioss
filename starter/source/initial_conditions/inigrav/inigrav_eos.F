@@ -61,13 +61,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,K
-      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT, NVAREOS, NVARTMP_EOS
+      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NVAREOS, NVARTMP_EOS
       my_real :: BID(NEL) !bfrac not used int his context
       my_real :: TOL, INCR
       my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
-     .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL), ECOLD(NEL), P0(NEL), 
-     .           GRUN(NEL),PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6),RHO_OLD,V0(NEL)
+     .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL),
+     .           PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6),RHO_OLD,V0(NEL)
 
       LOGICAL :: CONT, CONVERGED(NEL)
       TYPE(G_BUFEL_), POINTER :: GBUF

@@ -53,8 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NN, IAD, IAD_L, J, NB_L, NNOD, IE_L, OFF,
-     .        KXIG3D_L(NIXIG3D,NUMELIG3D_L), IXIG3D_L(ISUMNIG3D_L),DECALGEO,MAXGEO
+      INTEGER I, IAD, J, NNOD, IE_L, OFF,
+     .        KXIG3D_L(NIXIG3D,NUMELIG3D_L),MAXGEO
       my_real
      .        KNOTLOCPC_L(SKNOTLOCPC),KNOTLOCEL_L(SKNOTLOCEL)
 C

@@ -55,12 +55,10 @@ C     REAL
      .        ISPH3D,SHFT16,SHFTSPH ,NNSPHG                             
 C-----------------------------------------------                        
 C     REAL                                                    
-      my_real                                                           
-     .   OFF                                                            
-      INTEGER II(8),IE,NG, ITY, LFT, LLT, KPT, N, I, J,                 
-     .        IPID, NEL, IAD, NPAR, NFT, IPRT,IALEL,MTN,                
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
-     .        JJ, K, INOD, ISOLNOD ,NNN,                                
+      INTEGER II(8),IE,NG, ITY, LFT, LLT, N, I, J,                      
+     .        NEL, IAD, NPAR, NFT, IPRT,                                
+     .        NN1,NN2,NN3,NN4,                                           
+     .        JJ, INOD, ISOLNOD ,NNN,                                   
      .        N9,N10,N11,N12,N13,N14,N15,N16                            
 C-----------------------------------------------                        
 C                                                                       

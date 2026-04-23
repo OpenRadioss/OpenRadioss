@@ -65,9 +65,8 @@ C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
-      INTEGER I,J,II,JJ,KK,N,NPTI,I1,I2,PT,NPGI,NU,NUVAR,NVARS,IPT,NPI,
-     .  IPID1,PID1,C1,IPT_ALL,IT,ILAY,NPTT,L_SIGB
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      INTEGER I,J,II,JJ,KK,N,NPGI,NU,NUVAR,NVARS,IPT,NPI,
+     .  IPID1,PID1,IPT_ALL,IT,ILAY,NPTT,L_SIGB
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       my_real, DIMENSION(:), POINTER :: UVAR,SIGA,SIGB,SIGC
 C--------------------------------------------------------------

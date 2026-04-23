@@ -57,13 +57,11 @@ C-----------------------------------------------
       my_real                                                           
      1   NCOR(3,384),                                                   
      2   NNOR(3,384),                                                   
-     3   XA,XB,XC,LA,LB,LC,                                             
-     4   XL,YL,ZL,E,D,                                                  
+     4   XL,YL,ZL,E,                                                  
      5   XLN,YLN,ZLN,NXL,NYL,NZL,NX,NY,NZ,NORMN                         
       my_real                                                           
      1   XX0,YY0,ZZ0,                                                   
      2   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)    
-      REAL R4                                                           
       DATA DX0/ 0., 0., 0., 0., 0., 0./                                 
       DATA DY0/ 1.,-1., 0., 0., 0., 0./                                 
       DATA DZ0/ 0., 0.,-1., 1., 1.,-1./                                 

@@ -73,8 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,B_ELTS_SIZE,NB_RESULT,
-     .        ID,IB,NB_BOX_OF_BOX,J,CLAUSE_OPERATOR 
-      LOGICAL BOOL
+     .        IB,CLAUSE_OPERATOR 
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT      
 C-----------------------------------------------
       ALLOCATE(B_ELTS(NUMEL))
@@ -181,7 +180,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,B_ELTS_SIZE,NB_RESULT,
      .        NB_BOX_OF_BOX,J,NEW_BOX,CLAUSE_OPERATOR
-      LOGICAL BOOL
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT
       
 C-----------------------------------------------

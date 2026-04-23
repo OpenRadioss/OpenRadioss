@@ -96,19 +96,19 @@ C----------------------------------------------------------------
       my_real
      . GT2,BULKT3,RELVEXP
       my_real
-     . VMU,VLAMDA,VMU2,VLAMDA3
+     . VMU2,VLAMDA3
       my_real
      . C1,C2,C3,PMIN,DPDMU
       my_real
      . P0,PHI,GAMA0
       my_real
-     . ENEW(MVSIZ),EDOT(MVSIZ),DEDOT(MVSIZ)
+     . ENEW(MVSIZ),EDOT(MVSIZ)
       my_real
-     . DPDGAMA(MVSIZ),GAMA(MVSIZ),AMU(MVSIZ)
+     . GAMA(MVSIZ),AMU(MVSIZ)
       my_real
      . SM(MVSIZ),EM(MVSIZ),DEDM(MVSIZ)
       my_real
-     . G2(MVSIZ),BULK(MVSIZ),BULK3(MVSIZ)
+     . G2(MVSIZ),BULK3(MVSIZ)
       my_real
      . DSXX(MVSIZ),DSYY(MVSIZ),DSZZ(MVSIZ)
       my_real

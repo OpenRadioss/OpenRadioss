@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFIRST,ILAST,ISELF_IMPACTANT
+      INTEGER IFIRST,ILAST,ISELF_IMPACTANT
       INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        KNOD2SEG,NOD2SEG,NODDEL,TAGNOD,ID_NOD,TAGSECND,ITAGSEG,NOD2EXPAND
       my_real
@@ -167,9 +167,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,CPT,KMAX
+      INTEGER I,J,K,N,CPT,KMAX
       LOGICAL :: IMS1,IMS2,ISS1,ISS2
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD
 C-----------------------------------------------
 c Build inverse connectivity for segments
 C-----------------------------------------------
@@ -400,7 +399,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IT,IC_CP
+      INTEGER I
 C
 C----add IA--at IC(ID)--------------------------
       IF (ID > N+1 ) RETURN
@@ -447,8 +446,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,NTY,NN,NE2,IE,IE1,IE2,I,NNREM
-      INTEGER II,J,NMN,NSN,NRTS,NRTM,IADA,IEDGE,NSNE,NRTSE
+      INTEGER N,NTY,NN,NE2
+      INTEGER J,NSN,NRTM,IEDGE,NSNE,NRTSE
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IEDGN2
 C-----------------------------------------------
@@ -499,7 +498,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,J,IE1,IE2,IE
+      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,IE1,IE2,IE
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
 C-----
@@ -542,7 +541,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,J,IE1,IE2,IE
+      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,IE1,IE2,IE
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
 C-----
@@ -599,8 +598,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IE,IE1,IE2,I,NNREM,NN,KREMOV_OLD
-      INTEGER NS1,NS2,IED,J,II,IADA,NS,NEW,NR0,IADN
+      INTEGER NNREM,NN,KREMOV_OLD
+      INTEGER NS1,NS2,J,II,IADA,NEW,NR0,IADN
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -703,15 +702,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,NTY,FLAGREMNODE
-      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,LREMNORMAX,K,
-     .        NLINS,NLINM,IWOUT,INCOM,NM,N2,IFLAG,NRE,ip,IACT,
-     .        IF7,IF24,IF25,NN2,NNOD,M1,M2,M3,M4,NNREM,IBIT,NEW,
+      INTEGER II,J,NSN,NRTS,NRTM,LREMNORMAX,K,
+     .        NM,N2,IFLAG,IACT,
+     .        IF7,IF24,IF25,NNOD,NNREM,
      .        KI,KL,JJ,IEDGE,NEDGE
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 
-      INTEGER :: COMPTEUR,I2NODE_SIZE,I,L,L1,IS,IIS,NS,IADA
+      INTEGER :: I2NODE_SIZE,I,L,IS,IIS,NS,IADA
       INTEGER :: TYP25_USE
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: I2NODE,POINTS_I2N
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
@@ -1252,9 +1251,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,NTY
-      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,
-     .        NLINS,NLINM,IWOUT,INCOM,NM,N2,IFLAG,NRE,ip,IACT,
-     .        IF7,IF24,IF25,NN2,NNOD,M1,M2,M3,M4
+      INTEGER ILEV,II,NMN,NSN,NRTS,NRTM,
+     .        M1,M2,M3,M4
 
       INTEGER :: WORK(70000)
       INTEGER :: COMPTEUR,I2NODE_SIZE,I,L,L1
@@ -1387,7 +1385,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II ,I,J  ,IL, L,NM,NNOD
+      INTEGER I,J,L,NM,NNOD
 C-----------------------------------------------
            I=IS
            NNOD=4
@@ -1439,8 +1437,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,NTY,NN,NE2,IE,IE1,IE2,I,NNREM,NNREMEG
-      INTEGER II,J,NMN,NSN,NRTS,NRTM,IADA,IEDGE,NSNE,NRTSE,IACT
+      INTEGER N,NTY,NN,NE2,NNREMEG
+      INTEGER J,NSN,NRTM,IEDGE,NSNE,IACT
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN,TAGE,E2NODE
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: PT_E2NODE
 C-----------------------------------------------
@@ -1510,7 +1508,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,J,IE1,IE2,IE
+      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,IE1,IE2,IE
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
 C-----
@@ -1561,9 +1559,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,J,IE1,IE2,IE
+      INTEGER IK1(4),IK2(4),NS1,NS2,IED,I,IE1,IE2,IE
       INTEGER :: WORK(70000)
-      INTEGER :: COMPTEUR,L,L1
+      INTEGER :: COMPTEUR
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: E2NODE_LOC
       DATA IK1 /1,2,3,4/
@@ -1654,8 +1652,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IE,IE1,IE2,I,NNREM,NN,KREMOV_OLD,NM,NII
-      INTEGER NS1,NS2,IED,J,II,IADA,NS,NEW,NR0,IADN
+      INTEGER I,NN,NM,NII
+      INTEGER J,II,NS,NEW
       INTEGER, DIMENSION(:), ALLOCATABLE :: KREMN_CP,REMN_CP
 C-----
        IF (IFLAG==0) THEN
@@ -1751,7 +1749,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(*),NREMOV(*),IFLAG
+      INTEGER IPARI(NPARI,*), ITAB(*),NREMOV(*)
       INTEGER NOM_OPT(LNOPT1,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)

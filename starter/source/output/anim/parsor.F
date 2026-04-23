@@ -57,10 +57,8 @@ C     REAL
      .        INVERT(*),KXSP(NISP,*), IXSP(KVOISPH,*)
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, N1, N2,
-     .        IPID, NEL, IAD, NPAR, NFT, IMID,IALEL, MTN
+     .        NEL, IAD, NPAR, NFT, IALEL, MTN
       INTEGER PROC, P, jj
 C-----------------------------------------------
 C     NORMALE

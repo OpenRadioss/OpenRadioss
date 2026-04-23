@@ -65,13 +65,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ISU,JREC,PARTID,CUR_SUBMOD,ISELECT,IOK,
-     .        ID_SUB,IDU,ID1,UID1,SUB_INDEX,KK,JJ
+      INTEGER I,K,ISU,CUR_SUBMOD,ISELECT,IOK,
+     .        SUB_INDEX,KK,JJ
       INTEGER  TAGS(NSUBMOD)
-      CHARACTER(LEN=NCHARKEY) :: KEY
-      CHARACTER(LEN=NCHARFIELD) :: VERS_IN
-      CHARACTER(LEN=NCHARLINE) :: TITR2,CART
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ELEM
       INTEGER :: NENTITY      
 C-----------------------------------------------

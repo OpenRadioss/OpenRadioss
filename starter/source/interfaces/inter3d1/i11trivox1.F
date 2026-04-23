@@ -111,7 +111,6 @@ C-----------------------------------------------
      .         NRTM,NRTS,MULTIMP,IADFIN,IGAP,
      .         NSN,NOINT,ITAB(*),NBX,NBY,NBZ,IAUTO,
      .         IRECTS(2,NRTS),IRECTM(2,NRTM),FLAGREMNODE
-      INTEGER ITASK
       INTEGER, INTENT(INOUT) ::
      .         CAND_S(*),CAND_M(*),ADDCM(*),CHAINE(2,*), 
      .         VOXEL(1:NBX+2,1:NBY+2,1:NBZ+2), I_MEM,II_STOK,
@@ -125,19 +124,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I,J,SS1,SS2,IBUG,
-     .        N1,N2,MM1,MM2, iN1, iN2, iM1, iM2, K,L,
+     .        I,J,SS1,SS2,
+     .        N1,N2,MM1,MM2, K,L,
      .        PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),    !Provisional table of candidates sent to i11stok
      .        IX1,IY1,IZ1,IX2,IY2,IZ2, 
      .        IX,IY,IZ, FIRST_ADD,
      .        I_STOK, I_STOK_BAK, IEDG,
      .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !for scanning the chain arrays
-     .        NEDG, DEJA , MAX_ADD ,II_STOK0, M
+     .        NEDG, DEJA , MAX_ADD , M
       my_real
      .        XX1, XX2,
      .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
      .        YY1,YY2,ZZ1,ZZ2,
-     .        AAA, DD,
+     .        AAA,
      .        XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB
       my_real, dimension(:), ALLOCATABLE :: XMAX_EDGS, XMIN_EDGS, YMAX_EDGS, YMIN_EDGS, ZMAX_EDGS, ZMIN_EDGS
       my_real, dimension(:), ALLOCATABLE :: XMAX_EDGM, XMIN_EDGM, YMAX_EDGM, YMIN_EDGM, ZMAX_EDGM, ZMIN_EDGM

@@ -71,12 +71,11 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,JJ,N,NPTI,I1,I2,PT,PID1,IPID1,L_PLA,NLAY,
-     .   ILAY,LAYNPT_MAX,LAY_MAX,NPTT,NPTMX,IP,PTS,LENS,IPT_ALL,
-     .   IPT,PTN,JDIR,ILAW,NPGI,NPG,NPGII
+      INTEGER I,II,J,JJ,N,NPTI,PT,
+     .   IP,NPGI,NPG,NPGII
       INTEGER LI(MVSIZ)
       my_real 
-     .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG,R1
+     .    E1(6),Z1,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG
 C=======================================================================
 !
       NPG=4

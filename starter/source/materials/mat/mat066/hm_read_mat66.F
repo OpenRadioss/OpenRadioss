@@ -95,8 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
-      INTEGER :: I,J,IU,NC,NT,VP,ILAW,ISRATE,IRATE
+      INTEGER :: I,J,NC,NT,VP,ILAW,ISRATE,IRATE
       my_real :: E,EC,NU,G,CP,EPSP0,SIGY,RHO0,RHOR,
      .           FISOKIN,YFAC_UNIT,FCUT,PC,PT,C1,RPCT
       my_real :: RATE(MAXFUNC+1),YFAC(MAXFUNC+1)

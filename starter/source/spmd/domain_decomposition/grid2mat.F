@@ -164,25 +164,23 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NCRITMAX
       PARAMETER (NCRITMAX = 20)
-      INTEGER NSEG, I, J, UTIL, K, NUSE, ELEMD_OLD,
+      INTEGER I, J, K, ELEMD_OLD,
      .        LCNE,IO_ERR1,ISH1,ISH2,II, NNC, IT,
-     .        NEDGES, ELK, OFF,CC1, CC2, NUMG1, NUMG2,
-     .        INED,L,M,N,NEWEDGE,NEDGES_OLD,
-     .        LENWORK,NOD1, NOD2, MODE, NELEM0, MM,
-     .        WORK(70000), NUML, IERROR,
-     .        ELEMD, IMMNUL, NEDDEL, ITYPINT, IWARN1,
-     .        MAXI, MAXJ, MAX, I1, I2, I3, N1, N2, NUMG3, NUMG4,
-     .        NELX,ADDX,MID,PID,JALE,MLN,NSHIFT,NNODE, NN,
-     .        OPTIONS(40),NCOND,NFLAG,IWFLG,NODC,ICUR,IERR1,NEC,
-     .        INWDCOUNT,ICCAND,ICNOD_SMS,ISOLBAR, ICKIN, NK, NKI,
+     .        NEDGES, OFF,CC1, CC2, NUMG1, NUMG2,
+     .        L,M,N,NEWEDGE,NEDGES_OLD,
+     .        WORK(70000), IERROR,
+     .        ELEMD, ITYPINT, IWARN1,
+     .        MAX, I1, I2, I3, N1, N2, NUMG3, NUMG4,
+     .        NELX,ADDX,MID,PID,JALE,MLN,NNODE, NN,
+     .        OPTIONS(40),NCOND,NFLAG,IWFLG,IERR1,NEC,
+     .        ICCAND,ICNOD_SMS,ISOLBAR, ICKIN, NK, NKI,
      .        ICELEM, ICINTS, ICINTM, ICINT2, ICDDL, ICFSI, ICDEL, ICSOL,
      .        ICR2R,NUMEL_R2R, CEPCLUSTER,
      .        NCONNX, CURR, PREV, NEXT, I1OLD, I2OLD, INC, IDB_METIS,
-     .        NELIG3D,NCOND2,LSMS,  
-     .        OFFC,OFFTG,K0,ITYP,                     
-     .        NN_L,IS,IAD,ITY,KAD,JALE_FROM_MAT, JALE_FROM_PROP
+     .        NELIG3D,NCOND2,
+     .        OFFC,OFFTG,ITYP,                     
+     .        NN_L,JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER, DIMENSION(:),ALLOCATABLE :: XADJ, ADJNCY,IWD,IWD2, 
-     .        IENDT,ITRI,INDEX,DOMCLUSTER,ELEMCLUST,
      .        XADJ_OLD, ADJNCY_OLD, COLORS, ROOTS,
      .        POINTER_NEIGH,CONNECT_WEIGHT,TAGELEM,CNE,
      .        IWD_COPY
@@ -204,15 +202,14 @@ C metis5 null pointers
 
       INTEGER 
      .        METIS_SetDefaultOptions
-      INTEGER NNO,NNS,NTG,NNI,NTGT,NTGI
+
       INTEGER NELMIN
       INTEGER NFVMBAG,NB_FVMBAG_TRIM,DD_FVMBAG_TRY
-      INTEGER FVM_ELEM(NVOLU),AVG,MAX_TRY
+      INTEGER FVM_ELEM(NVOLU),MAX_TRY
       INTEGER WD_MAX_FACTOR
       INTEGER NB_ELEM_ALE,MAIN_TARGET
-      CHARACTER (LEN=255) :: STR
+
       LOGICAL :: FVM_DOMDEC,DD_UNBALANCED
-      LOGICAL, DIMENSION(:), ALLOCATABLE :: TAGGED_ELEM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISORT,INDEX_SORT
 
       INTEGER (kind=8) :: NEDGES_8
@@ -220,10 +217,10 @@ C metis5 null pointers
       my_real, DIMENSION(:,:), ALLOCATABLE :: COORDS
       my_real, DIMENSION(:), ALLOCATABLE :: MIN_DIST
       my_real :: DIST
-      my_real :: XMIN(3),XMAX(3)
+
       INTEGER :: CEP_MIN
-      INTEGER :: C1,C2
-      INTEGER :: OFFSET
+
+
       integer, dimension(:), allocatable :: part_id
 
 C ---- statistics for edges added for contact interface
@@ -231,10 +228,10 @@ C ---- statistics for edges added for contact interface
         INTEGER :: refused_cep0, refused_numg,refused_numg0
         INTEGER :: switch_tried, switch_done 
 
-        integer, pointer :: null_int(:)
-        real, pointer :: null_real(:)
-        integer :: int_bidon
-        real :: real_bidon
+
+
+
+
 
         INTEGER :: IJK
         INTEGER :: NSN
@@ -2718,18 +2715,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NEDGES, CC, N, N1, N2, NI, I, J,  ADDX,
+      INTEGER NEDGES, CC, N, N2, NI, I, J,  ADDX,
      .        NUMSPHA, P, NCOND, NNODE, NEC, IERR1, MODE, NOD1, NOD2,
      .        IWFLG, NFLAG, NEWEDGE
       INTEGER(kind=8) :: IW
       INTEGER IWD(NUMSPH), RESERVEP(NBPARTINLET),
      .        WORK(70000), OPTIONS(40), CEPSL(NUMSPH)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IEND, XADJ, ADJNCY,
-     .                                     ITRIM,INDEXM, EDGE
+     .                                     ITRIM,INDEXM
       REAL    UBVEC(15)
 C metis5 null pointers
-      INTEGER, POINTER :: adjwgt(:)=>null(),vsize(:)=>null()
-      REAL, POINTER :: tpwgts(:)=>null()
+
+
       INTEGER METIS_SetDefaultOptions
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -3020,7 +3017,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSV(*), MSR(*), IWCONT(2,*), NSN, NMN, NSNT, NMNT
-      INTEGER :: COST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3703,7 +3699,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAILLE,TAILLE2,MARQUEUR2
+      INTEGER TAILLE,TAILLE2
       INTEGER, DIMENSION(7+6,TAILLE2,2) :: TAB_UMP_LOC2
       INTEGER, DIMENSION(6) :: TAB_SOL
       INTEGER, DIMENSION(NUMMAT) :: POIN_UMP
@@ -3924,7 +3920,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C---------------------------------------------
-      INTEGER K,N,ADDX,NELX,J,NELIG3D,I,ELEM
+      INTEGER K,N,ADDX,NELX,NELIG3D,I,ELEM
 C---------------------------------------------
       NELMIN = 3
       DO I=1,MAX_NB_NODES_PER_ELT 
@@ -4091,11 +4087,11 @@ C   L o c a l   V a r i a b l e s
 C---------------------------------------------
        LOGICAL, DIMENSION(:), ALLOCATABLE :: TAGGED_ELEM
        INTEGER, DIMENSION(:), ALLOCATABLE :: ELTG,MATTG
-       INTEGER :: I,J,K,N,K0,K1,K2,K6
-       INTEGER :: ITYP,S
+       INTEGER :: I,J,K,N,K0
+       INTEGER :: ITYP
        INTEGER :: OFFC,OFFTG
        INTEGER :: NNS,NTG,NNI,NTGI,NNO,NN,NTGT
-       INTEGER :: RADALE, IBID
+       INTEGER :: IBID
        
 C---------------------------------------------
 C                                

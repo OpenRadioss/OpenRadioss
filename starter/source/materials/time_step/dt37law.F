@@ -56,13 +56,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                                :: I, MX, IADBUF,IFLG(MVSIZ)
+      INTEGER                                :: I, IADBUF
       my_real,DIMENSION(:),POINTER           :: UPARAM
       
       my_real
-     .   SSP(MVSIZ)  , DPDM(MVSIZ) , RHO0(MVSIZ)    , 
-     .   BULK , C1   ,  P  ,        
-     .   MAS(MVSIZ), MU1P1(MVSIZ),MU1P2(MVSIZ),RHO1(MVSIZ),RHO2(MVSIZ),
+     .   SSP(MVSIZ)  , RHO0(MVSIZ)    , 
+     .   C1   ,        
+     .   MAS(MVSIZ), RHO1(MVSIZ),RHO2(MVSIZ),
      .   GAM,RHO10,RHO20,P0,VFRAC1,VFRAC2,UVAR1,A1,R1,VISA1,VISB1,VISA2,VISB2,
      .   B1,B2,MAS1,MAS2,SSP1,SSP2,VIS(MVSIZ),A
      

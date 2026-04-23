@@ -60,7 +60,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SSP(MVSIZ),  DPDM(MVSIZ), RHO0(MVSIZ), G(MVSIZ), 
-     .   BULK(MVSIZ), C1(MVSIZ),   G43(MVSIZ),  P(MVSIZ), VIS(MVSIZ)
+     .   BULK(MVSIZ), C1(MVSIZ),   G43(MVSIZ),  VIS(MVSIZ)
 C=======================================================================
       DO I=LFT,LLT
          MX=MAT(I)

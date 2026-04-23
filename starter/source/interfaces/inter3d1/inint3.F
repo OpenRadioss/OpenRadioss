@@ -242,19 +242,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NSN, NMN, NMN0, NTY, NST, NMT, IBUC, NOINT,
-     .   NSNE, NMNE,NLINS,NLINM,NLN,L16,L17,L20,L21,L22,L23,J31P,J36P,
+     .   NSNE, L16,L17,L20,L21,L22,L23,J31P,J36P,
      .   I, I_STOK,IRS,IRM,ILEV,IDEL2,IPROJ,
      .   NSEG, NGROUS, NG, INACTI,IWPENE,ISTOK, 
      .   JLT_NEW,IGAP,MULTIMP,INPENE,ISEARCH,ITIED,
-     .   IGN,IGE,NME,NMES,NAD,EAD,ISU1,ISU2,L30,
-     .   INTTH, IBIDON,NLINSA,NLINMA,ISS2,IFS2,ISYM,IGNORE,NCONT,ICURV,
-     .   DIMFLAG,IPEN0,INTKG,INTPLY,NRTSE,NSN0,ITH, NADMSR, NEDGE, IERROR, IT19,INT_TYP,
-     .   NRTM_FE, NRTM_IGE,NMN_IGE,NMN_FE,NRTS_FE, NRTS_IGE,NSN_IGE,NSN_FE,L,IEDG4,IS1,
+     .   IGN,IGE,NME,NMES,ISU1,ISU2,
+     .   INTTH, IBIDON,IGNORE,NCONT,ICURV,
+     .   IPEN0,INTKG,INTPLY,NRTSE,NSN0, NADMSR, NEDGE, IT19,INT_TYP,
+     .   NRTM_FE, NRTM_IGE,NMN_IGE,NMN_FE,NRTS_FE, NRTS_IGE,NSN_IGE,NSN_FE,IEDG4,IS1,
      .   IVIS2, ISHARP, IEDGE, INACTBID, ITHK25, IGAP0,IGSTI
       INTEGER :: NUMNOD_P ! fake numnod for interface type 7, NUMNOD_P can be = to NUMNOD or NUMNOD+NUMELS
       INTEGER
-     .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,GRBRIC_ID,II,IBRIC,IAD_IXINT,
-     .   NODEID, INOD, MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
+     .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,GRBRIC_ID,
+     .   MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
       INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE, 
      .        CAND_E_OLD(2), I_MEME(2),
      .        I_START, I_MEM_REM, NEW_SIZE,I_FIN
@@ -268,7 +268,6 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTNS,INOD2LIN,TAGSECND,NOD2LIN,PERM,PERMINV
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE
       my_real, DIMENSION(:),POINTER :: PTR_X,PTR_MS
-      INTEGER, POINTER :: pIXINT
       INTEGER, DIMENSION(:),ALLOCATABLE :: IPARTSM
 C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ) ::PROV_N,PROV_E
@@ -295,13 +294,11 @@ C-----------------------------------------------
      .   GAPVE(MVSIZ),
      .   EX(4,MVSIZ), EY(4,MVSIZ), EZ(4,MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
       LOGICAL PRINT_WARNING,LAW151_TYPE18,TYPE18
-      CHARACTER FILNAM*100
       INTEGER :: TOTAL_NUMBER_CANDIDATE
       INTEGER :: SKIP_TYPE25_EDGE_2_EDGE !< flag for interface 25 :( : if edge to edge is used by interface type 25, need to do the computation after the initialization of LEDGE array | (0) no interface 25 with e2e --> nodes can be removed, (1) interface 25 with e2e --> other interfaces can be treated, (2) only the interface type 25 with e2e is treated 
       INTEGER :: FLAG_OUTPUT
       INTEGER, DIMENSION(NINTER) :: NREMN
       LOGICAL :: LOCAL_FLAG_REMOVED_NODE
-      INTEGER :: NN, NNI,ijk
       LOGICAL :: IS_USED_WITH_LAW151
 C=======================================================================
       INPENE   = 0
@@ -2438,13 +2435,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      +'   NODE    SECONDARY  SEGMENT                                      S               T')
  2007 FORMAT(//'    IMPACT CANDIDATES',/,'   SECONDARY        MAIN SEGMENT NODES '/'   NODE ')
  2011 FORMAT(//'    IMPACT CANDIDATES',/,'  MAIN   NODES     SECONDARY  NODES ')
- 2012 FORMAT(2X,'** WARNING ** THIS INTERFACE CONNECTS',' LAGRANGIAN MATERIALS')
  2181 FORMAT(//,1X,'INTERFACE NUMBER. . . . . . . . . . . . . .',I10/
      +         ,1X,'INTERFACE TYPE. . . . . . . . . . . . . . .    18')
- 2200 FORMAT(2X,/,I8,' TINY INITIAL PENETRATIONS WILL BE TAKEN INTO
-     + ACCOUNT')
- 2300 FORMAT(2X,/,I8,' INITIAL PENETRATIONS WILL BE IGNORED ')
- 2400 FORMAT(2X,/,'IPEN_MAX = ',1PG20.13,'HAS BEEN USED')
  2500 FORMAT(/,
      .    'FICTIVE NODES ADDED FOR EDGE . . . . . . . . =',I10/,
      .    'RATIO of Fictive SECONDARY nodes/SECONDARY nodes. .  =',1PG20.13/)

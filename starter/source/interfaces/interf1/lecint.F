@@ -131,11 +131,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,L,IRS,IRM,NI,NSN,NMN,
+      INTEGER I,K,IRS,IRM,NI,NSN,NMN,
      .        NTYP,IS1,IS2,NOINT,NRTS,NRTM,IBUC,ILEV, 
      .        MULTIMP,IGAP,INACTI,NME,LAG_NC16,LAG_NK16,
      .        ILAGM,NCF_I2,NUVAR,
-     .        NIN,NISUB,JSUB,IGR,ISU,ISU1,ISU2,PID,STAT,
+     .        NISUB,JSUB,IGR,ISU,ISU1,ISU2,PID,STAT,
      .        NRTMS,NRTMM,IALLO,NLINSA,NLINMA,NSNE,NLN,
      .        NRTS_NEW, NRTM_NEW,NRTM_FE,
      .        NRTM_IGE,NRTMM_IGE,
@@ -143,7 +143,7 @@ C-----------------------------------------------
      .        NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,IAD_IGE,
      .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF,NIN25,
      .        NEDGE_FE,NEDGE_L,ISU3,ISU4,NMN_1D
-      INTEGER KD(50),JD(50),IBID,NRTM_SH,ETYP,INTPLY
+      INTEGER IBID,NRTM_SH,INTPLY
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECTS,IRECTM,NSV,MSR
       INTEGER ID,ISL, GRBRIC_ID
       CHARACTER(LEN=NCHARTITLE) :: TITR

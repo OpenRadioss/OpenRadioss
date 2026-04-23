@@ -125,7 +125,7 @@ C------------------
          REWIND(IIN4)
          GOTO 130
        ENDIF
-  122  IF(LINE(1:27)/='/SOLID     /SCALAR    /EPSP')GOTO 120
+       IF(LINE(1:27)/='/SOLID     /SCALAR    /EPSP')GOTO 120
        READ(IIN4,FMT='(A)',END=199,ERR=199)LINE
        I = 0
   125  READ(IIN4,FMT='(A)',END=130,ERR=199)LINE
@@ -425,7 +425,7 @@ C--------------------------------------
          REWIND(IIN4)
          GOTO 199
        ENDIF
-  182  IF(LINE(1:33)/='/SOLID     /TENSOR    /STRAIN_FUL')GOTO 180
+       IF(LINE(1:33)/='/SOLID     /TENSOR    /STRAIN_FUL')GOTO 180
        READ(IIN4,FMT='(A)',END=199,ERR=199)LINE
 C
        I = 0
@@ -525,7 +525,7 @@ C----------------------------------------------
          REWIND(IIN4)
          GOTO 350
        ENDIF
-  322  IF(LINE(1:33)/='/SHELL     /TENSOR    /STRESS_FUL')GOTO 320
+       IF(LINE(1:33)/='/SHELL     /TENSOR    /STRESS_FUL')GOTO 320
        READ(IIN4,FMT='(A)',END=399,ERR=399)LINE
        ISIGSH =1
 C
@@ -675,7 +675,7 @@ C--------------------------------
           REWIND(IIN4)
           GO TO 520
         ENDIF
-  422   IF(LINE(1:27)/='/SHELL     /SCALAR    /EPSP')GOTO 420
+        IF(LINE(1:27)/='/SHELL     /SCALAR    /EPSP')GOTO 420
         READ(IIN4,FMT='(A)',END=399,ERR=399)LINE
         ISIGSH =1
 C
@@ -904,7 +904,7 @@ C
          REWIND(IIN4)
          GOTO 630
        ENDIF
-  622  IF(LINE(1:27)/='/SPHCEL    /SCALAR    /EPSP')GOTO 620
+       IF(LINE(1:27)/='/SPHCEL    /SCALAR    /EPSP')GOTO 620
        READ(IIN4,FMT='(A)',END=699,ERR=699)LINE
 C
        I = 0
@@ -1109,7 +1109,7 @@ C
           REWIND(IIN4)
           GOTO 740
         ENDIF
-  722   IF (LINE(1:16) /= '/SPRING    /FULL') GOTO 720
+        IF (LINE(1:16) /= '/SPRING    /FULL') GOTO 720
         READ(IIN4,FMT='(A)',END=740,ERR=899)LINE
 C
         I = 0

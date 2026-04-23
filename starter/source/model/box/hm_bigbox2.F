@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JREC,FLAG,NEL,IGS,
+      INTEGER FLAG,NEL,IGS,
      .        ISKN(LISKN,*),ITABM1(*),ID,NADMESH,
      .        NIX,IX(NIX,*),NIX1,NUMEL,IPARTE(*),IPART(LIPART1,*),
      .        KLEVTREE,KELTREE,ELTREE(KELTREE,*),
@@ -72,11 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ISU,ISK,TAGN(NUMEL),BOXTYPE,
-     . NEGBOX,TAGNEG(NUMEL),TAGPOS(NUMEL),
+      INTEGER I,J,ISU,BOXTYPE,
      . NBOX,BOXELE,ICOUNT,ITER,FLAGG,IADISU
-      my_real XP1,YP1,ZP1,XP2,YP2,ZP2,DIAM,NODINB(3)
-      CHARACTER BOX*3
       LOGICAL BOOL
 C-----------------------------------------------
        DO I=1,NBBOX

@@ -99,14 +99,14 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER I,J,K,KFP,IFORM,NORDER
+      INTEGER I,J,KFP,IFORM,NORDER
       my_real :: TENSIONCUT,GMAX,FFAC
       my_real, DIMENSION(10) :: MU,AL
       my_real
      .  SIGPRV(3,MVSIZ),EV(3,MVSIZ),EVM(3,MVSIZ),DWDL(3,MVSIZ),
      .  T1(3,MVSIZ),SUMDWDL(MVSIZ),RV(MVSIZ),P(MVSIZ),
      .  DWDRV(MVSIZ),RBULK,DPDMU,AV(6,MVSIZ),EVV(3,MVSIZ),
-     .  DIRPRV(3,3,MVSIZ),A(3,3),DPRA(3,3),EIGEN(3)                
+     .  DIRPRV(3,3,MVSIZ)
 C----------------------------------------------------------------
       !=======================================================================
       ! - RECOVERING MATERIAL PARAMETERS

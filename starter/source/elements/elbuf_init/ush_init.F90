@@ -151,7 +151,6 @@
           type(g_bufel_) ,pointer :: gbuf
           character(len=100) :: option
           character(len=10) :: char_pid
-          integer :: size
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

@@ -66,9 +66,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,ID,NEL,IGS,IGRS,JREC,ISU,NONTRI,JJ,KK,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NN,NENTITY
-      INTEGER J10(10)
+      INTEGER I,J,K,L,ID,NEL,IGS,IGRS,NONTRI,JJ,KK,
+     .        SKIPFLAG,UID,NN,NENTITY
       INTEGER,DIMENSION(:),ALLOCATABLE :: BUFTMP
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
       CHARACTER(LEN=NCHARTITLE) :: TITR

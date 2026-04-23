@@ -53,11 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NBOX,NOLD,K,K0,K1,KALL,ID0,
-     .        IWORK(70000),ISIGN(NLIST),ISIGN1(NLIST),
-     .        SIGNOLD,FAC(NLIST+1),INDXOLD,FAC1(NLIST+1),
-     .        FACX,LIST1(NLIST),IDEL(NLIST),IDBL(NLIST)
-      CHARACTER BOX*3
+      INTEGER I,J,NBOX,
+     .        IWORK(70000),ISIGN(NLIST),ISIGN1(NLIST)
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------

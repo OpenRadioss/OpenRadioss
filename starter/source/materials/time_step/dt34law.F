@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real
-     .   RHO0(MVSIZ), G(MVSIZ), C1(MVSIZ), SSP(MVSIZ), B(MVSIZ),
+     .   RHO0(MVSIZ), G(MVSIZ), SSP(MVSIZ), B(MVSIZ),
      .      E(MVSIZ), VIS(MVSIZ)
 C
 C=======================================================================

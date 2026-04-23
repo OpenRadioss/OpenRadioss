@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,NRTS,IDDLEVEL,
+      INTEGER NMN, NRTM, NSN, NOINT,NRTS,IDDLEVEL,
      .        IAUTO, I_MEM, IGAP
       INTEGER IRECTS(2,*),IRECTM(2,*),ADDCM(*),CHAINE(2,*)
       INTEGER CAND_M(*),CAND_S(*)
@@ -86,18 +86,17 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, N1, N2, I_ADD, MAXSIZ,JJ,
-     .        ADD(2,I_ADD_MAX), N
+      INTEGER I, J, N1, N2, I_ADD, MAXSIZ,
+     .        ADD(2,I_ADD_MAX)
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
-      INTEGER NB_OLD(2,I_ADD_MAX+1)
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
       INTEGER (KIND=8) :: IONE,IHUNDRED
       INTEGER NB_N_B
-      INTEGER IADFIN,II,L
+      INTEGER IADFIN,L
       my_real :: XMAX,YMAX,ZMAX
-      my_real :: XMIN,YMIN,ZMIN,XTMP
+      my_real :: XMIN,YMIN,ZMIN
       my_real :: BMINMA(6)
       my_real :: DD,DX1,DY1,DZ1,DD1,MARGE_ST,TZINF_ST
 C Initializing constant
@@ -430,19 +429,16 @@ C-----------------------------------------------
       PARAMETER (I_ADD_MAX = 1001)
 C
       INTEGER PROV_S(2*MVSIZ),PROV_M(2*MVSIZ)
-      INTEGER I, J, L, N1, N2, N3, N4, I_AMAX,IADFIN
-      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,ISTOP, IBID 
-      INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,
+      INTEGER I, J, L, N1, N2, I_AMAX,IADFIN
+      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,ISTOP
+      INTEGER IP1, IP2, IP21, IP22, J_STOK,NB_N_B,
      .        ADD(2,0:I_ADD_MAX)
 C     REAL
       my_real
      .   DX1,DY1,DZ1,
-     .   DX3,DY3,DZ3,
-     .   DX4,DY4,DZ4,
-     .   DX6,DY6,DZ6,
-     .   DD1,DD2,DD3,DD4,DD,XMIN,YMIN,ZMIN,
+     .   DD1,DD,XMIN,YMIN,ZMIN,
      .   XMAX,YMAX,ZMAX,TZINF0,MINBOX0,MAXBOX0,
-     .   BID,MARGE,TZINF_ST,MARGE_ST
+     .   MARGE,TZINF_ST,MARGE_ST
 C
 C
 C

@@ -77,18 +77,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG,I,J,K,NGASES,IFLOW,IJET,NOD1,NOD2,NOD3,
-     .        ICURPT
+      INTEGER IG,I,J,NGASES,IFLOW
       INTEGER MAT_ID(2,100),F_IDMASS(2,100),F_IDTEMP(2,100),
-     .        F_IDMF(2,100),MW_MIXTURE,MW_MIXTURE_OK,
-     .        NB_POINTS,NB_POINTS_1,NB_POINTS_OLD,
-     .        IFUN_REF,IFUN_TMP,IFUN_TMP_USR
+     .        F_IDMF(2,100),
+     .        IFUN_TMP,IFUN_TMP_USR
       my_real
      .        FSMASS(100),FSTEMP(100),ASTIME,
      .        MOLFR(100),
      .        CPAI_MIX,CPBI_MIX,CPCI_MIX,CPDI_MIX,CPEI_MIX,CPFI_MIX,
-     .        MF_TOT,MOL_TOT,MASS_TOT,MASS_INI,MOL_INI,MWI_MIXTURE,
-     .        STP_GAMA_MIX,STP_TEMP,MASS_MOL,INIT_MASS,CPI_MIX,
+     .        MOL_TOT,MASS_TOT,MASS_INI,MOL_INI,MWI_MIXTURE,
+     .        STP_GAMA_MIX,STP_TEMP,INIT_MASS,CPI_MIX,
      .        R_IGC1, FAC_TIME, FAC_MASS, FAC_TEMP
       CHARACTER MESS*40
       DATA MESS/'INJECTOR PROPERTY SET                   '/
@@ -97,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRI,USR2SYS
+      INTEGER NINTRI
 C=======================================================================
 C
       IS_ENCRYPTED = .FALSE.

@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
-      USE READER_OLD_MOD , ONLY : LINE, KLINE, KEY0, KCUR
+      USE READER_OLD_MOD , ONLY : LINE, KLINE, KEY0
       use element_mod , only : nixs,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, II, JJ, KK, CLID, UID, IG, IGR, ISK, IFAIL, IEL, NEL, NNOD, IFLAGUNIT, NNOD0, NELMAX
       INTEGER NOD1(2000),NOD2(2000),SUB_INDEX,ISK_L
-      my_real BID(1),AX(4),NX(4),FMAX(2),MMAX(2)
+      my_real AX(4),NX(4),FMAX(2),MMAX(2)
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARFIELD) :: KEY
       PARAMETER (NELMAX = 500)

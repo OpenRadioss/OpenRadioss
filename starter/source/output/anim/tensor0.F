@@ -54,7 +54,7 @@ C     REAL
      .   NBF,IPART(LIPART1,*),IPARTSP(*)                      
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
-      REAL R4(18),WA(6*NBF)                                                      
+      REAL R4(18)
       INTEGER I, II(6), J, N, NG, NEL, MT1, MLW, NN1, IPRT
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

@@ -699,20 +699,6 @@ C
 C--------------------------------------------------------------
 C------------
       RETURN
- 2502 FORMAT('    RUPTURE PARAMETERS '
-     .         /10X,'SCAL_F  . . . . . . . . . . . . . . ',1PG20.13
-     .         /10X,'SCAL_DISP . . . . . . . . . . . . . ',1PG20.13
-     .         /10X,'SCAL_SR . . . . . . . . . . . . . . ',1PG20.13
-     .         /10X,'FILTERING COEFF . . . . . . . . . . ',1PG20.13
-     .         /10X,'DEFAULT SECONDARY AREA. . . . . . . . . ',1PG20.13
-     .         /10X,'DN_MAX  . . . . . . . . . . . . . . ',1PG20.13
-     .         /10X,'DT_MAX  . . . . . . . . . . . . . . ',1PG20.13
-     .         /10X,'IFUNN   . . . . . . . . . . . . . . ',I10
-     .         /10X,'IFUNT   . . . . . . . . . . . . . . ',I10
-     .         /10X,'IFUNS   . . . . . . . . . . . . . . ',I10
-     .         /10X,'IMOD    . . . . . . . . . . . . . . ',I10
-     .         /10X,'ISYM    . . . . . . . . . . . . . . ',I10
-     .         /10X,'IFILTR  . . . . . . . . . . . . . . ',I10//)
  1515 FORMAT(//
      .    '    FRICTION MODEL 1 (Viscous Polynomial)'/,
      .    '     MU = MUo + C1 p + C2 v + C3 pv + C4 p^2 + C5 v^2'/,

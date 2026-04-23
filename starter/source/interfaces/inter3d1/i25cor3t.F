@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .    JLT,IDT, NOINT, NSN , NRTM,ITYP, IGAP, MSEGTYP(*), ICODE(*), ISKEW(*)
+     .    JLT, NSN , NRTM,ITYP, IGAP, MSEGTYP(*), ICODE(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
       INTEGER , INTENT(IN) :: NRTMT
@@ -73,8 +73,8 @@ C     real or real*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD,
-     .        IBCS, ISKS, IBCM(4), ISKM(4) 
+      INTEGER I ,J  , L, IG,
+     .        IBCS, IBCM(4) 
 C-----------------------------------------------
 C
       IF(IGAP /= 3)THEN

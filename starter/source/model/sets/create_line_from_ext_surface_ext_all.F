@@ -52,15 +52,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,J1,J2,SIZEMAX,NSEG,
      .        NSEG_SURF,LINE_NENTITY,
-     .        ELTYP,IND,NSEG_TEMP
+     .        ELTYP,NSEG_TEMP
       INTEGER IWORK(70000),IPERM(4)
 !
       DATA IPERM /2,3,4,1/
 !
       INTEGER , DIMENSION(:),ALLOCATABLE :: INDEX,IW1,IW2,IW5,IW6
       INTEGER , DIMENSION(:,:),ALLOCATABLE :: ITRI,LINE_ORD
-      INTEGER, ALLOCATABLE, DIMENSION(:) :: CLAUSE_NODE
-      INTEGER, DIMENSION(:),ALLOCATABLE:: IDX,SORT
 C=======================================================================
       SIZEMAX = CLAUSE%NB_LINE_SEG + 8*CLAUSE%NB_SURF_SEG
 !

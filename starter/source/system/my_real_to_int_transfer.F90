@@ -32,7 +32,7 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Convert real(kind=WP) array to integer array by transfer intrinsic function
-!! \details 
+!! \details
 !||====================================================================
 !||    my_real_tot_int_transfer   ../starter/source/system/my_real_to_int_transfer.F90
 !||--- called by ------------------------------------------------------
@@ -74,7 +74,7 @@
 #ifdef MYREAL8
           n_entity = numel/2 + mod(numel,2)
           j = 0
-          do i=1,n_entity        
+          do i=1,n_entity
             mold2_int = transfer(my_real_eani(i),mold2_int)
             j = j + 1
             int_eani(j) = mold2_int(1)
@@ -82,14 +82,14 @@
               j = j + 1
               int_eani(j) = mold2_int(2)
             endif
-          end do      
+          end do
 #else
           n_entity = numel
           do i=1,numel
             mold1_int = transfer(my_real_eani(i),mold1_int)
             int_eani(i) = mold1_int(1)
           end do
-#endif  
+#endif
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine my_real_tot_int_transfer
       end module my_real_tot_int_transfer_mod

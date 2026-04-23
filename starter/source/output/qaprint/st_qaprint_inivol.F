@@ -54,7 +54,6 @@ C-----------------------------------------------
       INTEGER IPHASE,ICUMU,IREVERSED
       DOUBLE PRECISION VFRAC 
       CHARACTER(LEN=NCHARTITLE) :: TITLE
-      DOUBLE PRECISION TEMP_DOUBLE      
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -62,11 +62,10 @@ C-----------------------------------------------
         INTEGER, DIMENSION(N1),INTENT(INOUT) ::  ID_LIST! id of the closest root node
 ! --------------------------------------
 C      LOCAL VARIABLES
-        INTEGER :: I,J,ID,info,JMIN
+        INTEGER :: I,J,ID,JMIN
         INTEGER :: LAST_POSITION
         my_real :: LEADING_SIZE
         my_real :: DELTA,DX,DY,DZ,DXL,DYL,DZL,DL
-        integer :: ijk
 ! --------------------------------------
         LAST_POSITION = 1 
         JMIN = 1

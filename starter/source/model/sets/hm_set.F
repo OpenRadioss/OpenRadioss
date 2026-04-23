@@ -190,10 +190,9 @@ C-----------------------------------------------
       TYPE (SET_SCRATCH) ::  DELBUF
 C-----------------CREATE_SET_ARRAY------------------------------
 C     Characters
-      CHARACTER MESS*40
-      CHARACTER(LEN=NCHARFIELD) :: KEYSET,SET_TYPE,KEY_TYPE
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEYPART
-      CHARACTER(LEN=NCHARTITLE) ::  TITLE,SET_TITLE,TITLE2
+      CHARACTER(LEN=NCHARFIELD) :: KEYSET,SET_TYPE
+      CHARACTER(LEN=NCHARKEY) :: KEY
+      CHARACTER(LEN=NCHARTITLE) ::  SET_TITLE
 
 C-----------------------------------------------
 C Initialization / SET Dependency build

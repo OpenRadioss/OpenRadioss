@@ -80,18 +80,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ISMSTR, NIP, J,
-     .   ISHEAR, IP, ISTRAIN,
-     .   IHBE,IPLAST,ITHK,IBID,IDF,IHBEOUTP,K,N,
-     .   IUNIT,ISEN,ISS,
-     .   PID1,IPID1, IHGFLU, IHBE_OLD,NSTACK,IGMAT,NN,NUMS
-      INTEGER FLAG_FMT,FLAG_FMT_TMP
+      INTEGER ISMSTR, NIP, J,
+     .   ISHEAR, ISTRAIN,
+     .   IHBE,IPLAST,ITHK,IHBEOUTP,
+     .   ISEN,ISS,
+     .   IGMAT
       INTEGER ISH3N,ISROT,SUB_ID,IRP,IDSK,ISK,IUN,IPOS
-      INTEGER    IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+      INTEGER    IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
 
       my_real
-     .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
+     .    PUN,CVIS,VX,VY,VZ,
      .    PTHK, AN, PHI,ZSHIFT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER(LEN=NCHARTITLE) :: TITR

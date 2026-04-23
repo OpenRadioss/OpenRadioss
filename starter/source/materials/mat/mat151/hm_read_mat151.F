@@ -77,7 +77,6 @@ C-----------------------------------------------
       INTEGER :: II
       my_real :: FRAC_VOL, SUM_FRAC_VOL
       my_real :: VFRAC(21)
-      my_real :: FAC
       INTEGER :: IMID(21)
 C-----------------------------------------------
 C     B o d y

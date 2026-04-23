@@ -94,18 +94,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,IP,I1,I2,I3,I4,IPTHK,IPMAT,IPPOS,MATLY,IDPROP,
-     .        IPID,IPPID,IIGEO,IADI,IADR,IPANG,NTHK,IGMAT,ILAY,NPTT,
+      INTEGER I,J,N,IP,I1,I2,I3,I4,IPTHK,IPMAT,IPPOS,MATLY,IDPROP,
+     .        IPID,IPPID,IPANG,NTHK,IGMAT,ILAY,NPTT,
      .        IT,MAX_NPTT,IINT,IPID_LY,IPGMAT,IPOS,IPT,IPT_ALL,NSLICE,IE,
      .        NLAY_MAX
-      INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real XX,YY,ZZ,XY,YZ,ZX,ZSHIFT
       my_real X2(MVSIZ), X3(MVSIZ), Y3(MVSIZ),
      .   RHO(MVSIZ), THK(MVSIZ), EM(MVSIZ), XI(MVSIZ),
      .   P1, P2, P3, AA, BB, CC, A2, B2, C2, XIN, EMS, MSL, XIL,
      .   MST,DMS,INS,POSLY,THKLY,THICKT, ET,EMSCP(MVSIZ),RHOCP(MVSIZ),
-     .   EMS_NPTT,MS_NPTT,POS_0,THINNING,SCALE,THICK_DRAPE,RATIO_SLICE
+     .   EMS_NPTT,MS_NPTT,THINNING,SCALE,THICK_DRAPE,RATIO_SLICE
       my_real, DIMENSION(:)  , ALLOCATABLE ::  THK_IT,   POS_IT
       my_real, DIMENSION(:,:), ALLOCATABLE ::  LAYPOS,   RATIO_THKLY  
 C-----------------------------------------------

@@ -152,11 +152,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,IUN,NDEPAR,IGTYP,IGMAT,NUVAR,IMAT,IPROP,PROPID,
+      INTEGER I,J,K,N,II,NDEPAR,IGTYP,IGMAT,NUVAR,IMAT,IPROP,PROPID,
      .   IPG,NPG,PTF,PTM,PTS,IXEL,IREP,NLAY,NPTR,NPTS,NPTT,IFAIL,
-     .   IL,IR,IS,IT,LENF,LENM,LENS,
+     .   IL,IR,IS,LENF,LENM,LENS,
      .   LENFP,LENMP,LENEPINCHXZ,LENEPINCHYZ,LENEPINCHZZ,
-     .   IPANG,IPTHK,IPPOS, ILAY,I4,MPT,LAYNPT_MAX,LAY_MAX,NPT_ALL
+     .   MPT,LAYNPT_MAX,LAY_MAX,NPT_ALL
       INTEGER JJ(9)
       INTEGER , DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IORTHLOC,MAT,PID,NGL
 c
@@ -174,8 +174,6 @@ c
       INTEGER, DIMENSION(:),ALLOCATABLE::MATLY
       my_real, DIMENSION(:,:),ALLOCATABLE :: POSLY
 C-----------------------------------------------
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
       ! Allocate buffers

@@ -146,7 +146,8 @@ C-----------------------------------------------
        XX3(JJ)=X(3,NN)
        XS1=XS1+FOURTH*X(1,NN)
        YS1=YS1+FOURTH*X(2,NN)
-  100  ZS1=ZS1+FOURTH*X(3,NN)
+       ZS1=ZS1+FOURTH*X(3,NN)
+  100  CONTINUE
 C
        CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
        XC=ZERO
@@ -170,7 +171,8 @@ C
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
-  120   IRECT(KK,I)=IY(4-KK+1)
+        IRECT(KK,I)=IY(4-KK+1)
+  120   CONTINUE
        ENDIF
        RETURN
 C
@@ -398,7 +400,8 @@ C-----------------------------------------------
        XX3(JJ)=X(3,NN)
        XS1=XS1+FOURTH*X(1,NN)
        YS1=YS1+FOURTH*X(2,NN)
-  100  ZS1=ZS1+FOURTH*X(3,NN)       
+       ZS1=ZS1+FOURTH*X(3,NN)
+  100  CONTINUE
 C
        CALL NORMA1D(N1,N2,N3,AREA,XX1,XX2,XX3)
 
@@ -425,7 +428,8 @@ C
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
-  120   IRECT(KK,I)=IY(4-KK+1)
+        IRECT(KK,I)=IY(4-KK+1)
+  120   CONTINUE
        ENDIF
 c       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
 c       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
@@ -575,7 +579,8 @@ C-----------------------------------------------
        XX3(JJ)=X(3,NN)
        XS1=XS1+FOURTH*X(1,NN)
        YS1=YS1+FOURTH*X(2,NN)
-  100  ZS1=ZS1+FOURTH*X(3,NN)       
+       ZS1=ZS1+FOURTH*X(3,NN)
+  100  CONTINUE
 C
        CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)
        XC=ZERO
@@ -597,7 +602,8 @@ C
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
-  120   IRECT(KK,I)=IY(4-KK+1)
+        IRECT(KK,I)=IY(4-KK+1)
+  120   CONTINUE
        ENDIF
 
        RETURN

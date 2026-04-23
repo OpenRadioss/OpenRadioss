@@ -58,15 +58,15 @@ C     REAL
      .   TENS(6,*),PM(NPROPM,*),X(3,*)                         
       INTEGER IPARG(NPARG,*),ITENS, ISPH3D,NBF,                                    
      .   IXS(NIXS,*),EL2FA(*),IPM(NPROPMI,*),IPART(LIPART1,*),IPARTSP(*)                         
-      REAL WA(6*NBF)                                                    
+
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
 C     REAL                                                    
       my_real                                                           
-     .   EVAR(6,MVSIZ),OFF, FAC, A1, A2, A3, THK, GAMA(6)               
+     .   EVAR(6,MVSIZ), GAMA(6)                                          
       REAL R4(18)                                                       
-      INTEGER I, II,NG, NEL, IPT,MT1,NLAY,IL,                                      
-     .   N, J, MLW,IALEL,NN1,NN2,NN3,IPRT, KCVT,ISOLNOD,                                       
+      INTEGER I, NG, NEL, IPT,MT1,NLAY,IL,                                         
+     .   N, J, MLW,NN1,NN2,NN3,IPRT, KCVT,ISOLNOD,                                             
      .   NPTR, NPTS, NPTT,NPTG, IS, IR, IT,                                  
      .   JHBE, JIVF, JCLOSE, JPLASOL, IREP, IGTYP,          
      .   ICSEN, ISORTHG, IFAILURE, IINT,JJ(6)

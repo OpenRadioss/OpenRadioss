@@ -70,10 +70,9 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MY_ID, TEMP_INT, NS, MY_MID, MY_PID, MY_NOD, MY_SKEW,NC
+      INTEGER I, J, MY_ID, NS, MY_MID, MY_PID, MY_NOD, MY_SKEW,NC
       INTEGER :: WORK(70000),NUMEL_KJ
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX,ITR1
-      CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER ITETRA4(4),IPENTA6(6)

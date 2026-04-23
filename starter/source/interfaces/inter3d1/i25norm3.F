@@ -88,7 +88,6 @@ C     REAL
      .     XN2(MVSIZ),YN2(MVSIZ),ZN2(MVSIZ),
      .     XN3(MVSIZ),YN3(MVSIZ),ZN3(MVSIZ),
      .     XN4(MVSIZ),YN4(MVSIZ),ZN4(MVSIZ),
-     .     XS(MVSIZ),YS(MVSIZ),ZS(MVSIZ),
      .     AAA, XAD, S1, S2, S3, S4,
      .     RZERO, RUN, REM30, REP30, RDIX,
      .     NX, NY, NZ, VX, VY, VZ, X12, Y12, Z12

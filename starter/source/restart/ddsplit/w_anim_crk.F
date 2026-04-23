@@ -65,13 +65,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ELEM,ND,NDSZ_L,ELSZ_L,ELPL,NCOUNT,EMPL,ILAY,
-     . ELTYP,IX(4),OFFC,OFFTG,OFF,IDIM,NEXT,ELSZC_L,ELSZTG_L,
-     . SH4N,SH3N,SH4N_L,SH3N_L,CRKSHELLID_L,
+      INTEGER I,J,K,ELEM,ND,NDSZ_L,ELSZ_L,ELPL,NCOUNT,ILAY,
+     . ELTYP,OFFC,OFFTG,IDIM,NEXT,ELSZC_L,ELSZTG_L,
+     . SH4N_L,SH3N_L,CRKSHELLID_L,
      . NELXFE_L,IED,IED_GL,NLAY,LEN,LENLAY,NCOUNTALL,ELEM_GL,ELEM_L,
-     . NENR,XFENUMNODS,IEL_L
-      my_real
-     . REDGE(NUMEDGES_L)
+     . NENR,XFENUMNODS
 c
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG,ELEMTAG,CRKSIZN_L
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ELEMXFEMID,

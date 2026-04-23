@@ -49,12 +49,10 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      INTEGER K,J,DET_IID,I1,I2,I3,I4,I5,I6
-      DOUBLE PRECISION TEMP_DOUBLE      
+      INTEGER K,J
       INTEGER :: NL,K1,K2,IFUNC,ITYP, IFK, MFK, IAFUNC, NCELL
-      DOUBLE PRECISION :: CHALEUR, FSI, XK0, HNUK, DAR_HNUK_2,ONE_TIMESCAL, FI, ALPHA
+      DOUBLE PRECISION :: CHALEUR, XK0, HNUK, DAR_HNUK_2,ONE_TIMESCAL, FI, ALPHA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

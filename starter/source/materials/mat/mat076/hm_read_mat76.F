@@ -98,14 +98,13 @@ C-----------------------------------------------
       INTEGER :: IFORM,ICONV,IQUAD,ICAS,ISRAT,ILAW,IERROR
       INTEGER :: NDIM
       INTEGER :: FUNC_TENS,FUNC_COMP,FUNC_SHEAR,FUNC_NU,FUNC_DMG
-      INTEGER :: NPT,NPT_TENS,NPT_comp,NPT_SHEAR,NPTMAX,NEPSD
+      INTEGER :: NPT_TENS,NPT_comp,NPT_SHEAR,NPTMAX,NEPSD
       INTEGER :: intersections
       real(kind=WP) :: E,NU,G,RHO0,RHOR,FCUT,NUP,C1,A1,A2,EPSR,EPSF,XFAC_UNIT
       real(kind=WP) :: x1scale,x2scale,x3scale,x4scale,xfac
       real(kind=WP) :: EPDT_MIN,EPDT_MAX,EPDC_MIN,EPDC_MAX,EPDS_MIN,EPDS_MAX
       real(kind=WP) :: TFAC(3),YFAC(2),FAC_UNIT(5) 
-      real(kind=WP) ,dimension(:) ,allocatable :: x_comp,y_comp
-      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,FOUND
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

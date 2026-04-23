@@ -76,7 +76,6 @@ C-----------------------------------------------
       my_real :: VFRAC
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF  
-      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

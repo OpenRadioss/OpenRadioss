@@ -94,9 +94,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,CONT,IAD0,IADV,NTRI,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,VARVENT(NVARMVENT),
+      INTEGER J,I,ID,NNE,KK,
+     .        IGS,K,IAD0,
+     .        IFITMP,NVAR,N,IAD1,IAD2,ISK,VARVENT(NVARMVENT),
      .        NBMONVOL,NBVENT,NVAR_TMP,ITYP_MONV,
      .        NVENT(NVOLU),NBVENT_MAX,N_BAK,IDSMAX,
      .        K1,K2,KIBJET,KIBHOL
@@ -107,9 +107,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT,NINTRN,THVARC
       INTEGER,EXTERNAL :: HM_THVARC
-      INTEGER R2R_LISTCNT,R2R_EXIST
+      INTEGER R2R_EXIST
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
 C

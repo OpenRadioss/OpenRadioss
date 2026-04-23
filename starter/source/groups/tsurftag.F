@@ -57,9 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IE,IE10,NNS,ELEM,FACET,IORD,FC,ELEM8,
-     .        MIDNOD(3,4),FACES(6,4),FACES10(3,16),FACE(3),
-     .        FCMID10(3),FC10(3),ISEG,NSEG0
+      INTEGER I,J,K,IE,IE10,NNS,ELEM,FACET,IORD,ELEM8,
+     .        MIDNOD(3,4),FACES(6,4),FACE(3),
+     .        FCMID10(3),ISEG,NSEG0
 
       DATA MIDNOD/1,5,4,
      .            3,2,1,

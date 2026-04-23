@@ -82,19 +82,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER LAW_ID*4
-      CHARACTER ISS*3
       INTEGER NUML(100), NLY, NLYMAX, N, J, IERREL, M1, M2, M3,
-     .   M4, K, N2, N3, ISTRAIN, MLAWLY1,ISHEAR,IHBE,ITHK,IREP,
+     .   M4, K, ISTRAIN, MLAWLY1,ISHEAR,IHBE,ITHK,IREP,
      .   IDSK, ISK, IPANG, IPPHI, IPTHK, IPPOS, IPOS, IPMAT, PID1,
-     .   ISKN(LISKN,*),ISMSTR,ISROT,IHBEOUTP,ISORTH,IHBE_OLD,IPWEIGHT
+     .   ISKN(LISKN,*),ISMSTR,ISROT,IHBEOUTP,ISORTH,IPWEIGHT
 C     REAL
       my_real
-     .    AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX, ASHEAR,PTHK,CVIS,PUN,
+     .    AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX, ASHEAR,PTHK,PUN,
      .    ZSHIFT
       INTEGER ISH3N,IRP
       INTEGER ID,IUN
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+      INTEGER     IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------

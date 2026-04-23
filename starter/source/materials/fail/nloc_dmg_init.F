@@ -75,19 +75,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER FILNAM*109, KEYA*80
       CHARACTER(len=2148) :: TMP_NAME
       LOGICAL :: ENG_FILE
       INTEGER I,J,K,NG,NEL,NFT,ITY,NPTT,ILOC,INOD,NNOD,NDEPAR,IMAT,
      .        L_NLOC,POS,NDD,ISOLID,N,NUMELS_NL,IGTYP,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,NPTR,NPTS,IR,IS,ISOLNOD,IO_ERR1,LEN_TMP_NAME,
-     .        IDEB,IADBUF,MATSIZE,ERROR,NELEN_MAX,POSN
+     .        IDEB,MATSIZE,ERROR,NELEN_MAX,POSN
       INTEGER, DIMENSION(8) :: IDXND,NODE_ID
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNOD,SOLNOD
       INTEGER, DIMENSION(:),   ALLOCATABLE :: INDX,IDXI,NMAT,NDDL,
      .   POSI,ITRI,INDEX,TAGTET,TAGPENT,ISLNOD,NELEN,ITRIN,IDELEM,
      .   IADDN
-      INTEGER, DIMENSION(:,:), POINTER     :: IADS
       my_real
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
      .   Z01(11,11), WF1(11,11), ZN1(12,11),DAMP,WS,LE_MIN,
@@ -98,7 +97,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:)  , ALLOCATABLE ::  
      .   VOLN, VOLU, VOLNOD, VOLSORT
       my_real ,DIMENSION(:)  , POINTER     :: 
-     .   VOL, THCK, UPARAM
+     .   VOL, THCK
       TYPE(BUF_NLOC_), POINTER             :: BUFNL
       TYPE(BUF_NLOCTS_), POINTER           :: BUFNLTS
       my_real, DIMENSION(:,:), POINTER     :: 

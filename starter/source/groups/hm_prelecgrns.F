@@ -63,7 +63,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J10(10)
       INTEGER I, ID, NNOD, IGS, KK, JJ, NENTITY, UID, NN
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2

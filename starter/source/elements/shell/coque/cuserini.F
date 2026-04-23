@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NUMEL,NIX,NFT,NPT,ISTRAIN,IR,IS,NLAY,NSIGSH,
-     .   NEL,NUMSH,ILAW
+     .   NEL,NUMSH
       INTEGER IX(NIX,*),PTSH(*)
       my_real
      .   SIGSH(NSIGSH,*)
@@ -59,9 +59,8 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JJ,KK,N,NPTI,NU,NIP,NUVAR,NVARS,NPG,IPT,
+      INTEGER I,J,II,JJ,KK,N,NU,NIP,NUVAR,NVARS,NPG,IPT,
      .        IPT_ALL,IT,ILAY,NPTT,L_SIGB
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
       my_real, DIMENSION(:), POINTER :: UVAR,SIGA,SIGB,SIGC
 C=======================================================================

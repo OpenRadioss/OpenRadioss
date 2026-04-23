@@ -90,7 +90,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT, IGNORE, NINT,ILEV
       INTEGER IRECT(4,*),NSV(*),NSEG(*),MWA(*)
-      INTEGER MSR(*),IRTL(*),MAXSIZ,KNOD2ELS(*), KNOD2ELC(*), 
+      INTEGER MSR(*),IRTL(*),KNOD2ELS(*), KNOD2ELC(*), 
      .   KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
      .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),
      .   IXS(NIXS,*),IXS10(*), IXS16(*), IXS20(*),IPARTTG(*),IGEO(*),
@@ -122,15 +122,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, L, N1, N2, N3, N4, I_AMAX,I_MEM
-      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,IEL,N
-      INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,IS,IAD,
-     .   MG,IP,NELS,NELC,NELTG,JJ,JJJ,IFLAG
+      INTEGER I, J, L, N1, N2, N3, N4
+      INTEGER IEL
+      INTEGER IS,IAD,MG,IP,NELS,NELC,NELTG,JJ,JJJ,IFLAG
 ! REAL
       my_real
      .   DX1,DY1,DZ1,DX3,DY3,DZ3,DX4,DY4,DZ4,DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,XMIN,YMIN,ZMIN,MAXBOX,MINBOX,XMAX,YMAX,ZMAX,
-     .   BID,TZINFMIN,THKSECND,THKMAIN,AREA,VOL,GAPV(MVSIZ),DSEARCH
+     .   TZINFMIN,THKSECND,THKMAIN,AREA,VOL,DSEARCH
       my_real :: local_thkmain
       integer, dimension(3) :: cell_nb
       my_real, dimension(3) :: distance

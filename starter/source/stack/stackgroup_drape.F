@@ -84,30 +84,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,IGTYP,ID,JD,IDPLY,NEL,
-     .        IAD,ITY,IDSHEL,PID,IS,IDS,NSH,MODE,JJ,NGEO_STACK,
-     .        IGRTYP,N1,IPMAT,IPANG,IPTHK,IIGEO,NSS,IPPOS,NPT,IIS,NP,
-     .        JJPID,JSTACK,JPID,ITG,IPMAT_IPLY,ISH3N,J4N,J3N,IPOS,
-     .        MAT_LY,NLAY,NPTT,IPIDL,IT,ILAY,IPTHK_NPTT,IPPOS_NPTT,
-     .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
-     .        II1,II2,JJ1,JJ2,NSLICE,IE_DRP,NPT_LAY,IPNPT_LAY,
+      INTEGER I,J,II,IGTYP,ID,IDPLY,
+     .        PID,IS,IDS,NSH,MODE,JJ,NGEO_STACK,
+     .        N1,IPMAT,IPANG,IPTHK,IPPOS,NPT,IIS,NP,
+     .        JJPID,JSTACK,JPID,IPMAT_IPLY,IPOS,
+     .        NPTT,ILAY,
+     .        IPDIR ,NS_STACK0 ,NPT_STACK0,JS,PIDS,IP,
+     .        NSLICE,IE_DRP,NPT_LAY,IPNPT_LAY,
      .        IBIT, NKEY, IKEY,IREST,N_PLY,NBIT,NPLY,NS_TOTAL,NS_FIRST,
      .        NS_SUB, NSTACK,I1,I2,IES
       INTEGER , DIMENSION(:), ALLOCATABLE ::  WORK,INDX_SH,PID_SH,
      .                                        NFIRST,NLAST,ISUBSTACK,IPTPLY,
      .                                        NFIRST1,NLAST1,NFIRST2,NLAST2,
      .                                        INDX1,INDX_TOTAL
-      INTEGER  :: NBFI,IPPID,NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3  
+      INTEGER  :: IPPID,NUMS,IPWEIGHT,IPTHKLY
       my_real
-     .         THICKT,ZSHIFT,TMIN,TMAX,DT,THK_LY,POS_LY,THK_IT(100),
-     .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
+     .         THICKT,ZSHIFT,
+     .         POS
      
       INTEGER, DIMENSION(:,:) ,ALLOCATABLE   :: ITRI,ACTIV_PLY
       INTEGER, DIMENSION(:)   ,ALLOCATABLE   ::INDX,IDSTACK,INDX_SUB
       TYPE (STACK_PLY) :: STACK, IWORKS
       TYPE (STACK_INFO_ ) , DIMENSION (1:NPROP_STACK) :: STACK_INFO
       TYPE (DRAPE_PLY_),  POINTER :: DRAPE_PLY
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),W_GAUSS(9,9)

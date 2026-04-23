@@ -68,20 +68,18 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,J,K,N,L,S,NN,NSL,IERROR,NODES,USR,
-     .        IDSK(2),ISK,NSK,ISK2,JTYP,M(2),NOD(2),NODF(3),
-     .        RESET_U_GEO,GET_U_SKEW,SRB(6),NO(3),IDSKRB(2),
-     .        IDRB(2),ERR_FLG,N1,N2,N3,N4,ID_KJ,NUMEL_KJ,IELUSR,
-     .        RB1,RB2,IPID,IDSK2   
+      INTEGER I,IEL,J,K,N,NN,NSL,NODES,
+     .        M(2),NOD(2),
+     .        RESET_U_GEO,GET_U_SKEW,
+     .        IDRB(2),N1,N2,N3,N4,ID_KJ,NUMEL_KJ,IELUSR,
+     .        RB1,RB2,IDSK2
 C
       my_real
-     .   MASS,INER,RM,RI,KNN,KR,L2,U(LSKEW),Q(LSKEW),GET_U_GEO,V(LSKEW),
-     .   XSK1,XSK2,LEN
+     .   MASS,INER,RM,RI,L2,GET_U_GEO,LEN
 C
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
-      INTEGER FIND_RBY
       EXTERNAL GET_U_GEO,RESET_U_GEO,GET_U_SKEW
       DATA NODES/2/
 C=======================================================================

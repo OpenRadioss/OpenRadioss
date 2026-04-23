@@ -321,7 +321,7 @@ C-------------------------------------------------------------------------
 C=======================================================================
 C reset nodes in the boxes to zero
 C=======================================================================
-  100 CONTINUE
+      CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
 C     CALL MY_BARRIER

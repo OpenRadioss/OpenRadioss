@@ -69,7 +69,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
       INTEGER I, IGS, ID
-      CHARACTER(LEN=NCHARLINE) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   P a r a m e t e r s

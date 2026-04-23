@@ -301,9 +301,9 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IERR1,ISK1,ISK2,IP1,IP2, GET_U_SKEW,N1,N2,N3
+      INTEGER I,IERR1,ISK1,ISK2, GET_U_SKEW,N1,N2,N3
       my_real 
-     .        NX,NY,NZ,CO,SI,KSI,    
+     .        NX,CO,SI,
      .        T(3),Q(LSKEW),Q1(LSKEW),Q2(LSKEW),X1(LSKEW),X2(LSKEW)
 C-----------------------------
       EXTERNAL GET_U_SKEW
@@ -418,9 +418,8 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,
-     .        U1,U2,U3, S,C,CI,SI2
+     .        U1,U2,U3, S,C,CI
 C=======================================================================
       CI = ONE - C
       U1 = T(1)
@@ -471,11 +470,10 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      my_real ROT(3), T(3), SKEW(LSKEW), KSI, S, C
+      my_real T(3), SKEW(LSKEW), KSI, S, C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
       my_real E,E11,E22,E33,E12,E21,E13,E31,E23,E32,SI2,NR,
      .        UMI 
       DATA  UMI/-1.0/
@@ -527,7 +525,6 @@ C====================================================
       SUBROUTINE PROD_ABT(A,B,X)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
-      INTEGER I,J
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
       X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7) 

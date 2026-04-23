@@ -74,22 +74,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,IDU,ISU,NTRANS,UID,
-     .           ITRANSSUB,IDSUBOK(NSUBMOD),ISUBOK,IGU,I0,
-     .           I1,N0,N1,IFLAGUNIT,IDNOD,NTAG,CTAG,INUM,SIDTRANS,
-     .           IDSUB,ITY,K,
+      INTEGER I,J,ID,ISU,NTRANS,UID,
+     .           ITRANSSUB,IDSUBOK(NSUBMOD),ISUBOK,
+     .           SIDTRANS,
+     .           ITY,K,
      .           CUR_SUBMOD,SUB_LEVEL,NUMNUSR,NUMNUSR2,ISK,CNT
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB,NODESSUB ! NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
-      CHARACTER(LEN=NCHARKEY) ::  KEY
-      CHARACTER(LEN=NCHARLINE) ::CART,MESS
+      CHARACTER(LEN=NCHARLINE) ::MESS
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
-      MY_REAL
-     .        BID
       my_real
-     .   TX,TY,TZ,ANGLE,FAC_L,X0(3),X1(3),ROT(9),S,XP,YP,ZP,
+     .   TX,TY,TZ,X0(3),X1(3),ROT(9),S,XP,YP,ZP,
      .   XCOLD(3), XCNEW(3), SX, SY, SZ
       DATA MESS/'SUBMODEL DEFINITION                   '/
       LOGICAL IS_AVAILABLE

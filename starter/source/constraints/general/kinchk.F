@@ -60,17 +60,17 @@ C-----------------------------------------------
       INTEGER IKINE(*),NPRW(*), LPRW(*),ITAB(*),KINET(*),
      .        NPBY(NNPBY,*), LPBY(*),IRBE2(NRBE2L,*),LRBE2(*),
      .        IRBE3(NRBE3L,*),LRBE3(*),
-     .        INOPT_RWALL,INOPT_RBE2,INOPT_RBE3,ITAGCYC(*)
+     .        ITAGCYC(*)
       my_real
      .   RWL(NRWLP,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, KK, IKK, IKK2, NK, JWARN, ITYP, NE, NSL,
+      INTEGER I, J, K, L, N, KK, IKK, NK, JWARN, ITYP, NE, NSL,
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,
      .        MARQUEUR(8192),
      .        MARQUEURDOUBLE(13),J1,FLAG_IKCOND,MARQ2,MARQM2,
-     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN,NHIER
+     .        NM,M,IAD,NUN,NIKRW,IPEN,NHIER
       INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -1323,8 +1323,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, KK, IKK, IKK2, NK, JWARN, ITYP, NE, NSL,
-     .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,ICDG,ISEN,M
+      INTEGER I, K, NSL, ICDG, ISEN, M
 C-----------------------------------------------------------------
 C=======================================================================
 C  AUTOMATIC CORRECTIONS FOR INITIAL VELOCITIES
@@ -1438,8 +1437,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
+      INTEGER I, J, N, M, NS ,NML, IAD,IROT,IADS,MAX_M,IROTG,
+     .        JT(3,NRBE3),JR(3,NRBE3),K
 C     REAL
       my_real
      .        VS(3),VRS(3)
@@ -1522,7 +1521,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,NML,IC,ICT,ICR,IROT
+      INTEGER J, N,NML,IC,ICT,ICR,IROT
 C======================================================================|
       MAX_M=0
       IROTG=0
@@ -1616,7 +1615,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,IERR,ng1
+      INTEGER I, J, K, KG,NSNGLR,IELSUB,IERR
 C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
@@ -1636,7 +1635,7 @@ C     REAL
      *                 TMUFX(3), TMUFY(3), TMUFZ(3),
      *                 TFUMX(3), TFUMY(3), TFUMZ(3),
      *                 TMUMX(3), TMUMY(3), TMUMZ(3),
-     *                 A(6,6), C(6,6), T(3,3)
+     *                 A(6,6), C(6,6)
 C
 C     INITIALIZATION
 C
@@ -1958,8 +1957,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, M, NS ,NML, IAD,JJ,ISK,
-     .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,NSL
+      INTEGER N, M, IAD,ISK,
+     .        JT(3,NRBE2),JR(3,NRBE2),NSL
 C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
@@ -2003,7 +2002,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N,NML,IC,ICT,ICR,IROT
+      INTEGER J, N,IC,ICT,ICR
 C======================================================================|
       DO N=1,NRBE2
           IC=IRBE2(4,N)
@@ -2081,7 +2080,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS
+      INTEGER I, J, NS
 C     REAL
       my_real
      .     XS, YS, ZS,VRM(3)

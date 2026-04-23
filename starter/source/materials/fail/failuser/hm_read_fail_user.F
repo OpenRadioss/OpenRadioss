@@ -85,7 +85,6 @@ C-----------------------------------------------
       CHARACTER(LEN=4096) :: SCR_FILE_NAME
       CHARACTER(LEN=ncharline) :: RLINE
       CHARACTER (LEN=4) :: CRUP
-      CHARACTER(LEN=nchartitle) :: TITLE
       LOGICAL :: IS_AVAILABLE
       INTEGER NLINES,J
       INTEGER SCR_FILE_NAME_LEN

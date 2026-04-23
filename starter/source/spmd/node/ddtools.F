@@ -441,7 +441,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAG,INDEX_IN_COMM
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_IN_FRONT
       INTEGER :: S_FRONT8(NSPMD,NSPMD),IDX(NSPMD)
-      INTEGER :: LOCAL_ID,II,JJ,KK,NSN
+      INTEGER :: LOCAL_ID,II,JJ,NSN
 C--------------------------------------------------------------
 
 
@@ -743,9 +743,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITY,NRTM,N,N1,N2,N3,N4,NSN,
+      INTEGER ITY,NRTM,N1,N2,N3,N4,
      .        NRTS,N1L,N2L,N3L,N4L,NLINM,NLINS
-      INTEGER NI,K,I,PROC,IE
+      INTEGER NI,K,PROC,IE
 C--------------------------------------------------------------
       DO NI=1,NINTER
       
@@ -1004,9 +1004,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITY,NRTM,N,N1,N2,N3,N4,NSN,
-     .        NRTS,N1L,N2L,N3L,N4L,NLINM,NLINS
-      INTEGER NI,K,I,PROC
+      INTEGER ITY,NRTM,N1,N2,N3,N4
+      INTEGER NI,K,PROC
 C--------------------------------------------------------------
       DO NI=1,NINTER
       
@@ -1070,7 +1069,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------    
       INTEGER IAD1,IAD2,IAD3,IAD4,
      .        P1,P2,P3,P4,PMAX
-      INTEGER TAB(4),NN 
+
       LOGICAL SEARCH
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1269,7 +1268,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TAILLE
       INTEGER N,ADJNCY(*),XADJ(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

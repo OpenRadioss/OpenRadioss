@@ -48,7 +48,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real          :: BID(1)
       INTEGER          :: NIN, I, J, K, IERR1, ISIZ
-      INTEGER          :: Isectype(14)  
       CHARACTER*14     :: string
 C-----------------------------------------------
 C   S o u r c e   L i n e s

@@ -71,12 +71,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISMSTR,ISHEAR,IHBE,
-     .   IHBE_OLD, 
      .   IR1X, IR1Y, IR1Z, IR2X, IR2Y, IR2Z,IRX 
       my_real
      .    PUN,CVIS
-      CHARACTER(LEN=NCHARFIELD) :: STRING
-      CHARACTER CHROT*7
+
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

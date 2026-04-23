@@ -79,15 +79,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER GRID_DOF, BID, IFORM,  NODE_ID1, NODE_ID2,POS,IAD0,NNOD
-      INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4, 
-     .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J3(3),K,
-     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),IGRNS
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
-      CHARACTER(LEN=NCHARFIELD) :: STRING, CHAR_XYZ
+      INTEGER BID, IFORM,  NODE_ID1, NODE_ID2,POS
+      INTEGER I, IC, N, IGR, IGRS, J3(3), K, IGRNS
+      CHARACTER(LEN=NCHARFIELD) :: CHAR_XYZ
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER :: OPT*8,MESS*40
+      CHARACTER :: MESS*40
       my_real TSTART,TSTOP
       LOGICAL :: IS_AVAILABLE
       INTEGER :: WX, WY, WZ
@@ -97,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
+      INTEGER USR2SYS,NGR2USR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------

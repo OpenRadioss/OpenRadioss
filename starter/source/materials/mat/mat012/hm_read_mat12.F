@@ -89,13 +89,12 @@ C-----------------------------------------------
      .   N12, N23, N31, E11, E22, E33, G12, G23, G31, SIGT1, SIGT2,
      .   SIGT3, DELTA, CA, CB, CN, FMAX, SIGYT1, SIGYT2, SIGYC1,
      .   SIGYC2,SIGYT3,SIGYC3,SIGYT12, SIGYC12, SIGYT23, SIGYC23, 
-     .   SIGY12T,SIGYT13, SIGYC13, F3,F33,
+     .   SIGYT13, SIGYC13, F3,F33,
      .   F6,F66,F13, ALPHA, EFIB, EPSFT,
      .   EPSFC, C11, C22, C33, C12, C13, C23, DETC, D11, D12, D13, D22,
      .   D23, D33, D21, D31, D32, A11, A12, A13, A22, A23, A33, C1, SSP,
      .   F1, F2, F4, F5, F11, F22, F44, F55, F12, F23, FT1, FT2,
      .   CC,EPS0,DMIN,WPLAREF,RHOR,RHO0
-      CHARACTER*64 :: chain      
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -418,11 +417,6 @@ C
      & 5X,'MATRIX TENSILE FAILURE STRESS DIR-2 . .=',1PG20.13/,
      & 5X,'MATRIX TENSILE FAILURE STRESS DIR-3 . .=',1PG20.13/,
      & 5X,'DAMAGE PARAMETER . . . . . . . . . . . =',1PG20.13//)
- 1500 FORMAT(
-     & 5X,'COMPOSITE YIELD STRESS  (A) . . . . . .=',1PG20.13/,
-     & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
-     & 5X,'COMPOSITE HARDENING PARAMETER  (N). . .=',1PG20.13/,
-     & 5X,'COMPOSITE MAXIMUM STRESS. . . . . . . .=',1PG20.13//)
  1510 FORMAT(
      & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
      & 5X,'COMPOSITE HARDENING PARAMETER  (N). . .=',1PG20.13/,
@@ -438,11 +432,6 @@ C
      & 5X,'COMPOSITE YIELD IN SHEAR (-12) . . . . =',1PG20.13/,
      & 5X,'COMPOSITE YIELD IN SHEAR (+23) . . . . =',1PG20.13/,
      & 5X,'COMPOSITE YIELD IN SHEAR (-23) . . . . =',1PG20.13//)
- 1600 FORMAT(
-     & 5X,'FIBER VOLUME FRACTION . . . . . . . . .=',1PG20.13/,
-     & 5X,'FIBER MODULUS . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'FIBER TENSILE FAILURE STRAIN. . . . . .=',1PG20.13/,
-     & 5X,'FIBER COMPRESSIVE FAILURE STRAIN. . . .=',1PG20.13//)
  1610 FORMAT(
      & 5X,'FIBER VOLUME FRACTION . . . . . . . . .=',1PG20.13/,
      & 5X,'FIBER MODULUS . . . . . . . . . . . . .=',1PG20.13//)

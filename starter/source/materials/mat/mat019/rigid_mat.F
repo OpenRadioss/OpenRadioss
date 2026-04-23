@@ -68,8 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, NOSKEW, I, N, NONOD,ICDG,KK,NR,NSL,IR
-      my_real XG(3), XM0(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
+      INTEGER J, I, N, KK,NR,NSL
+      my_real XG(3), XX, XY, XZ, YY, YZ, ZZ, INMIN,
      .        MASRB,DD,TOL, II1,II2,II3,II4,II5,II6,II7,II8,II9,RBY(20)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -258,9 +258,7 @@ C
 C
       RETURN
 C
-1000  FORMAT(//
-     . '      RIGID BODY INITIALIZATION '/
-     . '      ------------------------- ')
+
 1100  FORMAT(/5X,'RIGID BODY ID',I10
      .       /5X,'NUMBER OF SECONDARY NODE' ,I10
      .       /10X,'NEW X,Y,Z            ',3G14.7

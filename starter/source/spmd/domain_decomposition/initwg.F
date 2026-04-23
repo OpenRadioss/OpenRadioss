@@ -105,30 +105,23 @@ C     REAL OR REAL*8
       integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply data for shell & shell3n elements
       type(elm_group_), intent(in) :: elm_group !< element group data structure to store the group id and the number of element in the group for each element   
 C-----------------------------------------------
-      INTEGER OFF, NPN, MID, PID, JHBE, IGT, MLN,
-     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
-     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,
-     .    NFUNC1,NFUNC2,IRUP,II,IRUP2,IRUP_TAB(6),
-     .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
+      INTEGER OFF, MID, PID, MLN,
+     .    I, J, K,
+     .    PUID,MUID,
      .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
      .    I_PRO,ISOL,MID_OLD,PID_OLD,MUID_OLD,PUID_OLD,
-     .    TEST,RECHERCHE,NUMEL_RE,IAD,INDI,
+     .    RECHERCHE,NUMEL_RE,
      .    MAX_ELM_OLD,MAX_ELM,MAX_ELM_OLD_36_2,MAX_ELM_36_2,
      .    K_36_2,I_PRO_36_2,NBR_ELM
      
       INTEGER, DIMENSION(TAILLE) :: CONCORDANCE_MAT
-      REAL
-     .   WTYPE(9),FWIHBE,FAC8,
-     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
-     .   BATOZMULT,TMAT,TABRUP(3),TRUP_LOCAL,TRUP
+      REAL WTYPE(9)
       my_real INVTELT_PRO,TELT_PRO
 
       INTEGER, DIMENSION(NUMMAT) :: PID_SHELL,PID_TRI
       INTEGER, DIMENSION(NUMMAT,7) :: PID_SOL
-      INTEGER :: IPID,ID,IGTYP,MODE
+      INTEGER :: MODE
       
-      my_real
-     .        CC, INVTREF,A,B,A1,A2
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD_2
       INTEGER :: SIZE_IRUP !Maximum number of rupture criteria
 

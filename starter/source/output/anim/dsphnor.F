@@ -46,10 +46,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------                        
       INTEGER I3000
       INTEGER N, INOD
-      INTEGER INP(NNSPH*3), CNT
+      INTEGER CNT
       my_real                                                           
-     3   XI,YI,ZI,R,NX,NY,NZ,NORMN,                                     
-     4   XQ(3)                                                          
+     3   XI,YI,ZI,NX,NY,NZ,NORMN
 C-----------------------------------------------                        
       IF (NUMSPH+MAXPJET==0) GOTO 100                                 
 C-----------------------------------------------                        

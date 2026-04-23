@@ -96,8 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
-      INTEGER :: I,J,NRATE,NPS,ILAW,NFUNC,ITEST,N_NETWORK, FLAG_HE, FLAG_MUL,  EXPPL,
+      INTEGER :: ILAW,NFUNC,ITEST,N_NETWORK, FLAG_HE, EXPPL,
      .           FLAG_PL,NHYPER,NET,N,TAB,SHIFT,
      .           NMUL,NTEMP,NPLAS,NVISC(10),FLAG_VISC(10)     
       my_real :: RHO0, E,NU,G,RBULK,TAUREF_UNIT,  

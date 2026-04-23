@@ -68,15 +68,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,INOD,OK,OK1,OK2,FIRST,LAST
-      INTEGER IPL,IXPL1,IXPL2,IXPL3,IXPL4,OK3,IAD0,IN(4),ITYP,JJ
-      INTEGER IPASSN(NUMNOD),p,r,p1,p2,dd1(4),dd2(4)
-      INTEGER NULL_DIST,IX2,SIZE_X2
+      INTEGER J,K,N,FIRST,LAST
+      INTEGER IAD0,IN(4),ITYP
+      INTEGER IPASSN(NUMNOD),dd1(4),dd2(4)
+      INTEGER IX2,SIZE_X2
 
-      my_real NX,NY,NZ,XFAS(3,4),DIST,DIST_OLD,X0,Y0,Z0,DOT,NSIGN(3),
+      my_real NX,NY,NZ,XFAS(3,4),DIST,
      .        SUM,XP1,YP1,ZP1,XP2,YP2,ZP2,AA,BB,CC,
-     .        DIST_PL(3),VX_NOD_INOD,VY_NOD_INOD,VZ_NOD_INOD,XSIGN(3),
-     .        V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z,V12X,V12Y,V12Z,XN(3),
      .        TMP(3),SKW(9),XG,YG,ZG,DGR,X_PRIME,Y_PRIME,Z_PRIME
       DATA dd1/4,1,2,3/,dd2/2,3,4,1/
       INTEGER , DIMENSION(:), ALLOCATABLE   :: ID_X2_TAGN,CLOSEST_NODE_ID

@@ -48,15 +48,13 @@ C-----------------------------------------------
       my_real
      . ARRAY(*),X_MINVALUE, X_MAXVALUE,Y_MAXVALUE
       CHARACTER*1 ECRIT
-      CHARACTER(len=60) :: FMTA,FMTB,FMTC
+      CHARACTER(len=60) :: FMTA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK,FLAG_FMT,I,J,K,IGS,ID,FLAG_FMT_TMP,IFIX_TMP,
-     .   ISU,NUMA,J10(10),IGAUSS,IFUNC,UID,SUB_ID,MAX_PART,
-     .   CPT_PART,NG,ITY,NEL,NFT,II,DISTRIB(NB_INTERV),MAX_DISTRIB
+      INTEGER J,II,DISTRIB(NB_INTERV),MAX_DISTRIB
       my_real
-     . MEAN,SD,MEAN_INPUT,SD_INPUT,TEMP,INTERV,
+     . INTERV,
      . VALUE,X_MAXVALUE1
       CHARACTER*100 CHAR(100)
       CHARACTER*100 CHAR1(100)

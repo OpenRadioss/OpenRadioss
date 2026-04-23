@@ -101,7 +101,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NVPHAS, N0PHAS, NPH, IFLG,NPAR, 
+      INTEGER I,NPAR, 
      .   IADBUF, NFUNC, IFUNC(100),ISRATE
       my_real
      . EP1(MVSIZ), EP2(MVSIZ), EP3(MVSIZ),E7(MVSIZ),
@@ -113,9 +113,7 @@ C-----------------------------------------------
      . SO1(MVSIZ),SO2(MVSIZ),SO3(MVSIZ),
      . SO4(2*MVSIZ),SO5(2*MVSIZ),SO6(2*MVSIZ),
      .ES1(MVSIZ),ES2(MVSIZ),ES3(MVSIZ),ES4(MVSIZ),ES5(MVSIZ),ES6(MVSIZ),
-     .SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
-     .R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),    
-     .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
+     .SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ)
       my_real RHO0(MVSIZ),VOL_AVG(MVSIZ),ASRATE
       my_real RBID, E1, E2, E3, E4, E5, E6, P2, TIME, TIMESTEP
 C=======================================================================

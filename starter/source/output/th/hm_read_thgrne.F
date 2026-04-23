@@ -90,9 +90,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,CONT,IAD0,IADV,NTRI,NL,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,JC,
+      INTEGER J, I,ID,NNE,
+     .        K,CONT,IAD0,
+     .        IFITMP,NVAR,N,IAD1,IAD2,ISK,IPROC,JC,
      .        IDSMAX,SIZ
       INTEGER :: ID_LOCAL
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT,NINTRN,HM_THVARC
+      INTEGER USR2SYS,HM_THVARC
       INTEGER R2R_SYS,R2R_NIN
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS

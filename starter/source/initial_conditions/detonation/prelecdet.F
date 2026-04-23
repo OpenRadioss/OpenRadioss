@@ -64,8 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, ID, USER_ID, INTERNAL_ID
       INTEGER NNOD_DETCORD, NNOD_WAV_SHA,NUM
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

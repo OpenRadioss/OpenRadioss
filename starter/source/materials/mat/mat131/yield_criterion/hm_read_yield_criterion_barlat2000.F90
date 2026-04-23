@@ -91,12 +91,11 @@
             gamma,delta,fct,yield,dx,dy,g1,g2,g3,g13,g23,g33,g15,g25,g35,      &
             df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,                   &
             dv1a7,dv11a8,dw11a8,r00,r45,r90,rb,s00,s45,s90,sb,                 &
-            x1,x2,x11,x22 ,v1,v11,w11,tal7,tal8,aswift,epso,qvoce,beta,ko,     &
-            alpha,nexp,conjtf4a8,tf4a8,dal78(2),expv,kswift,kvoce,puis,pla,    &
+            x1,x2,x11,x22 ,v1,v11,w11,tal7,tal8,                               &
+            conjtf4a8,tf4a8,dal78(2),                                           &
             residu,g(2),dal(8),dg(2,2),al(8),f(8),df(6,6),                     &
-            dfinv(6,6),dginv(2,2),dyld_dp(1),                                  &
-            xvec(1,2),yld(1),expa,expam2,k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,   &
-            temp0,expo,aexp,atemp,vm0
+            dfinv(6,6),dginv(2,2),                                              &
+            expa,expam2
           double precision :: lp(3,3),lpp(3,3),wr(3),wi(3),work(102),vl(3,3),  &
             vr(3,3)
 !===============================================================================

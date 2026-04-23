@@ -26,7 +26,7 @@
 !||    law02_upd                   ../starter/source/materials/mat/mat002/law02_upd.F90
 !||====================================================================
       module mat_hardening_to_fail_mod
-      implicit none
+        implicit none
       contains
         ! ==========================================================================================
         ! \brief Updating material parameters of /mat/law02
@@ -58,7 +58,7 @@
 ! --------------------------------------------------------------------------------------------------
 !         Local variables
 ! --------------------------------------------------------------------------------------------------
-          integer :: i,j,ndim,ntable
+          integer :: i,ndim,ntable
           type(table_4d_) ,dimension(:) ,allocatable :: table_copy
 ! ==================================================================================================
           ntable = fail%ntable4d
@@ -66,14 +66,14 @@
           do i = 1,ntable
             ! create local copy of failure model function tables
             call copy_table_to(fail%table4d(i), table_copy(i))
-            
+
             ! deallocate original function tables
             ndim = fail%table4d(i)%ndim
             if (allocated (fail%table4d(i)%y1d)) deallocate(fail%table4d(i)%y1d)
             if (allocated (fail%table4d(i)%y2d)) deallocate(fail%table4d(i)%y2d)
             if (allocated (fail%table4d(i)%y3d)) deallocate(fail%table4d(i)%y3d)
             if (allocated (fail%table4d(i)%y4d)) deallocate(fail%table4d(i)%y4d)
-          end do           
+          end do
           if (allocated (fail%table4d)) deallocate(fail%table4d)
 !-------------------------------------------------------------------------------
           ! allocate new function tables and deallocate local copies
@@ -86,7 +86,7 @@
             if (allocated (table_copy(i)%y2d)) deallocate(table_copy(i)%y2d)
             if (allocated (table_copy(i)%y3d)) deallocate(table_copy(i)%y3d)
             if (allocated (table_copy(i)%y4d)) deallocate(table_copy(i)%y4d)
-          end do           
+          end do
 !
           ! add static hardening function to the table list of failure model
 !
@@ -102,5 +102,5 @@
           fail%table4d(ntable)%y1d(1:npt)         = sig(1:npt)
 !-------------------------------------------------------------------------------
           return
-          end subroutine mat_hardening_to_fail
-          end module mat_hardening_to_fail_mod
+        end subroutine mat_hardening_to_fail
+      end module mat_hardening_to_fail_mod

@@ -71,12 +71,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ID, ITYP, II, NINOUT, J, ISU, NN, IAD, ITAG(NUMNOD),
-     .        IAD1, NEL, J1, J2, J3, J4, ISH34, NNO, L, IBID,
-     .        III, IGR, NNN, UID, IFLAGUNIT, IUNIT
+      INTEGER I, ID, ITYP, II, NINOUT, J, ISU, NN, ITAG(NUMNOD),
+     .        NEL, J1, J2, J3, J4, ISH34, NNO,
+     .        III, IGR, NNN
       INTEGER JFORM, FREESURF, NELMAX, HG
-      my_real
-     .        RBID
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
@@ -310,16 +308,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADI, IADR, I, ID, ITYP, II, NINOUT, ISU, J, IPIMP,
-     .        NN, IAD, ITAG(NUMNOD), IAD1, IAD2, J1, J2, J3, J4, ISH34,
+     .        NN, ITAG(NUMNOD), IAD2, J1, J2, J3, J4, ISH34,
      .        NNO, ITABINV(NUMNOD), NEL, IVFREE, IFVEL, IFPRES,
-     .        K, IFUNC, L, IFPA, IADMATI, IADMATR, III, IGR, NNN,
+     .        K, IFUNC, IFPA, IADMATI, IADMATR, III, IGR, NNN,
      .        NBLOC, IFORM, ILVOUT, ITAGIO(NUMNOD), NG1, NG2, NG3, NG4,
      .        N1, N2, N3, N4, PROD, NPROW, NPCOL, ITEST, IVINI, IFVINI,
-     .        IINSIDE, NRMAX, NR, ISUIO,NFLOW0, NBLOCMAX, UID,
-     .        IFLAGUNIT,IUNIT
+     .        IINSIDE, NRMAX, NR, ISUIO,NFLOW0, NBLOCMAX
       INTEGER JFORM, KFORM, II1, II2, II3, II4, II5, II6
       INTEGER IR1, IR2, IR3,IR4, IR5, IR6, IR7, IR8, IR9, IR10, IR11
-      INTEGER IPRES, IWAVE, INTEGR, FREESURF, AFTERFLOW, GRAV_ID, NELMAX, IBID, HG
+      INTEGER IPRES, IWAVE, INTEGR, FREESURF, AFTERFLOW, GRAV_ID, NELMAX, HG
       INTEGER, DIMENSION(:), ALLOCATABLE :: N_SHELL
       my_real SFPA, SFVEL, SFPRES, SCALT, DTSUB, RHO, TOLE, SCALT_PA,
      .        SFVINI, DIRX, DIRY, DIRZ, NORM, RNSPMD, SCALT_VI
@@ -328,7 +325,6 @@ C-----------------------------------------------
       my_real XA, YA, ZA, XD, YD, ZD, TT
       my_real, DIMENSION(:,:), ALLOCATABLE :: CBEM
       my_real :: FAC_GEN
-      CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
@@ -1283,10 +1279,6 @@ C
  3000 FORMAT( 10X,'X-COORDINATE OF EXPLOSIVE CHARGE        ',1PE13.6
      .       /10X,'Y-COORDINATE OF EXPLOSIVE CHARGE        ',1PE13.6
      .       /10X,'Z-COORDINATE OF EXPLOSIVE CHARGE        ',1PE13.6)
- 3100 FORMAT(/10X,'PLANE WAVE DIRECTION                    '
-     .       /10X,'X-DIRECTION                             ',1PE13.6
-     .       /10X,'Y-DIRECTION                             ',1PE13.6
-     .       /10X,'Z-DIRECTION                             ',1PE13.6)
  3500 FORMAT(/10X,'FREE SURFACE                    '
      .       /10X,'X-COORDINATE OF SURFACE POINT A         ',1PE13.6
      .       /10X,'Y-COORDINATE OF SURFACE POINT A         ',1PE13.6

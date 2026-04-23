@@ -78,12 +78,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
-     .          OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
-     .          IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
+        INTEGER J,I,ID,NNE,K,IAD0,
+     .          IFITMP,NVAR,N,IAD1,IAD2,
      .          IDSMAX,IDS,IDS_OBJ1
         CHARACTER(LEN=NCHARTITLE)::TITR
-        CHARACTER, DIMENSION(10) :: VAR
         LOGICAL, DIMENSION(:), ALLOCATABLE :: FOUND
         LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------

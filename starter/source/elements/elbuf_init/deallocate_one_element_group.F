@@ -47,16 +47,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,
-     .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT
-      TYPE(BUF_MAT_)     , POINTER :: MATBUF
+      INTEGER I,IR,IS,IT,NPG,NPTTOT
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
-      TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
-      TYPE(BUF_VISC_)    , POINTER :: VISCBUF
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(L_BUFEL_)     , POINTER :: LBUF
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
-      TYPE(FAIL_LOC_)    , POINTER :: FLOC
 
 C=======================================================================
       IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR. ITY == 101) THEN

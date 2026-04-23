@@ -82,7 +82,7 @@
 !----------------------------------------------------------------
           real(kind=WP) :: et,ec,nu,tt,tc
 !===============================================================================
-! 
+!
           !===================================================================
           !< Elastic isotropic parameters
           !===================================================================
@@ -94,26 +94,26 @@
           !< Check parameters values
           if (nu < zero .or. nu >= half) then
             call ancmsg(msgid=3131,                                            &
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1="ERROR",                                            &
-                        c2=titr,                                               &
-                        c3="ELAS_BIMOD_ISOTROPIC",                             &
-                        c4="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
+              msgtype=msgerror,                                      &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1="ERROR",                                            &
+              c2=titr,                                               &
+              c3="ELAS_BIMOD_ISOTROPIC",                             &
+              c4="POISSON'S RATIO MUST BE IN THE RANGE [0,0.5[.")
           endif
           tt = min(max(tt,-one),one)
           tc = min(max(tc,-one),one)
-          if (tt <= tc) then 
+          if (tt <= tc) then
             call ancmsg(msgid=3131,                                            &
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1="ERROR",                                            &
-                        c2=titr,                                               &
-                        c3="ELAS_BIMOD_ISOTROPIC",                             &
-                        c4="LIMIT TRIAXIALITY IN TENSION MUST BE GREATER THAN  &
-                            OR EQUAL TO LIMIT TRIAXIALITY IN COMPRESSION.")
+              msgtype=msgerror,                                      &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1="ERROR",                                            &
+              c2=titr,                                               &
+              c3="ELAS_BIMOD_ISOTROPIC",                             &
+              c4="LIMIT TRIAXIALITY IN TENSION MUST BE GREATER THAN  "&
+              //"OR EQUAL TO LIMIT TRIAXIALITY IN COMPRESSION.")
           endif
           !< Fill MATPARAM values
           matparam%young = max(et,ec)
@@ -142,15 +142,15 @@
             write(iout,1000) et,ec,nu,tt,tc
           endif
 ! ------------------------------------------------------------------------------
-1000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"ISOTROPIC BIMODULAR ELASTICITY                         ",/,      &
-          5X,"-------------------------------------------------------",/,      &
-          5X,"YOUNG MODULUS IN TENSION (ET). . . . . . . . . . . . .=",1PG20.13/&
-          5X,"YOUNG MODULUS IN COMPRESSION (EC). . . . . . . . . . .=",1PG20.13/&
-          5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"LIMIT TRIAXIALITY IN TENSION (TT). . . . . . . . . . .=",1PG20.13/&
-          5X,"LIMIT TRIAXIALITY IN COMPRESSION (TC). . . . . . . . .=",1PG20.13/)
+1000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"ISOTROPIC BIMODULAR ELASTICITY                         ",/,      &
+            5X,"-------------------------------------------------------",/,      &
+            5X,"YOUNG MODULUS IN TENSION (ET). . . . . . . . . . . . .=",1PG20.13/&
+            5X,"YOUNG MODULUS IN COMPRESSION (EC). . . . . . . . . . .=",1PG20.13/&
+            5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"LIMIT TRIAXIALITY IN TENSION (TT). . . . . . . . . . .=",1PG20.13/&
+            5X,"LIMIT TRIAXIALITY IN COMPRESSION (TC). . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_elasticity_bimod_isotropic
       end module hm_read_elasticity_bimod_isotropic_mod

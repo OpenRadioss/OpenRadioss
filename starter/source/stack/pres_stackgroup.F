@@ -78,20 +78,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,NSTACK,NPLY,IGTYP,ID,JD,IDPLY,NEL,
-     .        IAD,ITY,IDSHEL,PID,IS,IDS,NSH,MODE,NS,JJ,NGEO_STACK,
-     .        IGRTYP,N1,IIGEO,NSS,IPPOS,NPT,IIS,NP,
-     .        JJPID,JSTACK,JPID,ITG,IPMAT_IPLY,ISH3N,J4N,J3N,IPOS,
-     .        MAT_LY,NLAY,NPTT,IPIDL,IT,ILAY,IPTHK_NPTT,IPPOS_NPTT,
-     .        IINT,IPID_LY,IPDIR ,NS_STACK0 ,NPT_STACK0,IS0,JS,PIDS,IP,
-     .        II1,II2,JJ1,JJ2
+     .        ITY,IDSHEL,PID,IS,IDS,
+     .        NPT,ITG,ISH3N,J4N,J3N
      
       INTEGER , DIMENSION(NUMGEO+NUMPLY)  :: IPIDPLY,IDGR4N,IDGR3N
      
       INTEGER NGL, IPID_1, NSHQ4, NSHT3
      
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
-      INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+
 C----------------------------f-------------------    
 C=======================================================================
 C    For Shell

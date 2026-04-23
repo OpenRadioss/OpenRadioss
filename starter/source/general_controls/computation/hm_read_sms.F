@@ -168,7 +168,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IO_ERR1
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
+      CHARACTER FILNAM*109, KEYA*80
       my_real
      .   DTSCA,DTMINI
       INTEGER :: LEN_TMP_NAME
@@ -264,8 +264,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, N, I, IAD, IP, 
-     .        NG, J, ITY, NEL, NFT
+      INTEGER KK, N, I, IP
 C--------------------------------------------------
        IF(IDTGRS/=0)THEN
 C------
@@ -280,7 +279,7 @@ C------
               GO TO 100
             END IF
           END DO
- 200      CALL ANCMSG(MSGID=738,
+           CALL ANCMSG(MSGID=738,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=IDTGRS)

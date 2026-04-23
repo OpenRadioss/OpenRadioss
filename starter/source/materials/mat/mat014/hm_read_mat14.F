@@ -388,11 +388,6 @@ C-----------------------------------------
      & 5X,'MATRIX TENSILE FAILURE STRESS DIR-2 . .=',1PG20.13/,
      & 5X,'MATRIX TENSILE FAILURE STRESS DIR-3 . .=',1PG20.13/,
      & 5X,'DAMAGE PARAMETER . . . . . . . . . . . =',1PG20.13//)
- 1500 FORMAT(
-     & 5X,'COMPOSITE YIELD STRESS  (A) . . . . . .=',1PG20.13/,
-     & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
-     & 5X,'COMPOSITE HARDENING PARAMETER  (N). . .=',1PG20.13/,
-     & 5X,'COMPOSITE MAXIMUM STRESS. . . . . . . .=',1PG20.13//)
  1510 FORMAT(
      & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
      & 5X,'COMPOSITE HARDENING PARAMETER  (N). . .=',1PG20.13/,
@@ -408,11 +403,6 @@ C-----------------------------------------
      & 5X,'COMPOSITE YIELD IN SHEAR (-12) . . . .=',1PG20.13/,
      & 5X,'COMPOSITE YIELD IN SHEAR (+23) . . . .=',1PG20.13/,
      & 5X,'COMPOSITE YIELD IN SHEAR (-23) . . . .=',1PG20.13//)
- 1600 FORMAT(
-     & 5X,'FIBER VOLUME FRACTION . . . . . . . . .=',1PG20.13/,
-     & 5X,'FIBER MODULUS . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'FIBER TENSILE FAILURE STRAIN. . . . . .=',1PG20.13/,
-     & 5X,'FIBER COMPRESSIVE FAILURE STRAIN. . . .=',1PG20.13//)
  1610 FORMAT(
      & 5X,'FIBER VOLUME FRACTION . . . . . . . . .=',1PG20.13/,
      & 5X,'FIBER MODULUS . . . . . . . . . . . . .=',1PG20.13//)

@@ -65,22 +65,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
-     .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J6(6),K,
-     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SUB_ID,
-     .        CHKCOD,ISERR,NOD
+      INTEGER I,JJ(12), IC, N, IS, IC1, IC2, IC3, IC4,
+     .        NOSYS, J, IGRS, J6(6),
+     .        ID
       INTEGER IUN
-      CHARACTER MESS*40,CODE*7,OPT*8
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
-      CHARACTER(LEN=NCHARFIELD) :: STRING
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      CHARACTER MESS*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
-!
-      INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C
 C-----------------------------------------------
 C   D a t a

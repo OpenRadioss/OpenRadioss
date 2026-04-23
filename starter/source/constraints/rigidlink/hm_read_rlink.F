@@ -80,12 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, NSL, NUSER, J, I, IGU,IC,ICR,J10(10),
-     .   IGRS, NOSYS,J6(6),IS,IPOL,IDIR,ISL,IKINE1(3*NUMNOD),NLK
-      CHARACTER MESS*40,CODE*7
-      CHARACTER(LEN=NCHARKEY) :: KEY
+      INTEGER K, N, NSL, NUSER, J, I, IGU,IC,ICR,
+     .   IGRS,J6(6),IS,IPOL,IDIR,IKINE1(3*NUMNOD),NLK
+      CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARFIELD) :: STRING
       my_real BID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

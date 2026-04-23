@@ -93,12 +93,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: ICC,ISRAT1,IFLAG,MFLAG,ILAW
+      INTEGER :: ICC,ILAW
       my_real :: RHOR,RHO0
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, EPSL, EL, G,
      .   E0, C0, C1, E1MN2, EN1N2, SDSP, HL, YLDL
-      CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -55,21 +55,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPASU,NUM,NVG,NID,NVPS,
+      INTEGER NPASU,NUM,NID,NVPS,
      .        IPASU(NPASU,*),ITHBUF(*)
       CHARACTER*10 VARE(*),KEY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,NL,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD2,IAD1,ISK,IPROC
+      INTEGER J,ID,
+     .        NVAR,N,IAD1
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER MESS*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT,NINTRN,THVARC
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
 C
@@ -126,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUM,NVG,NID,NVPS,
+      INTEGER NUM,NID,NVPS,
      .        ITHBUF(*),ITHFLAG
       CHARACTER*10 VARE(*),KEY
 !
@@ -134,15 +132,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,NL,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD2,IAD1,ISK,IPROC
+      INTEGER J,ID,
+     .        NVAR,N,IAD1
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: MESS*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,ULIST2S,LISTCNT,NINTRN,THVARC
       DATA MESS/'TH GROUP DEFINITION                     '/
 C-----------------------------------------------
 C

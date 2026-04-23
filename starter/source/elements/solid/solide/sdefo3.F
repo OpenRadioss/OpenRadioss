@@ -68,11 +68,7 @@ C-----------------------------------------------
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
      .   VX35(MVSIZ), VY35(MVSIZ), VZ35(MVSIZ),
-     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), DT1D2
-      my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P
-      my_real
-     .   AAA,BBB
+     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ)
 C-----------------------------------------------
       DO I=LFT,LLT
        VX17(I)=VX1(I)-VX7(I)

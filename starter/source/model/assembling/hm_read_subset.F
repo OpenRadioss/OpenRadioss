@@ -87,10 +87,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,IDV,IAD,IP,IS,ISU,NSU,NL,NC,NP,NTP,NS,
+      INTEGER I,K,ID,IDV,IAD,IS,ISU,NSU,NC,NP,NTP,NS,
      .   CONT,NIVEAU,NIVMAX,LIST_IGR(NSUBS),UID,SUB_INDEX
-      INTEGER IFIX_TMP,TITLEN,ICHILD
-      INTEGER J10(10)
+      INTEGER ICHILD
       INTEGER, DIMENSION(NPART+NSUBS) :: BUFTMP
       my_real BID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -99,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  LISTCNT,SUBLVL
+      INTEGER  SUBLVL
 c-----------------------------------------------
       DATA MESS/' SUBSET DEFINITION                      '/
 c-----------------------------------------------
@@ -364,7 +363,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NC,IS,IP,NK
+      INTEGER I,J,NC,IS,NK
 c=======================================================================      
       NS = SUBSET(ISU)%NCHILD
       DO J=1,SUBSET(ISU)%NPART                  
@@ -416,7 +415,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,K2,L,LL,NP,IP,ID,NIVEAU,NIVMAX,TITLEN
       INTEGER CNT(0:33)
-      CHARACTER LIGNE*132,LIGN2*132,BAR(33)*10,BLI*21
+      CHARACTER LIGNE*132,BAR(33)*10,BLI*21
       CHARACTER(LEN=NCHARTITLE)::TITR
       DATA BAR /33*'|         '/
       DATA BLI /'|____________________'/

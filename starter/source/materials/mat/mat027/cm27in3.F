@@ -70,7 +70,6 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       my_real, DIMENSION(:), POINTER :: DIR_DMG
 C
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C======================================================================|
       IF(NPT==0)THEN

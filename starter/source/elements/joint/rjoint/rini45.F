@@ -95,7 +95,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDSK1,IDSK2,JTYP,SKFLG,IFKNX,IFKNY,IFKNZ,
+      INTEGER I,IDSK1,IDSK2,JTYP,IFKNX,IFKNY,IFKNZ,
      .        IFKRX,IFKRY,IFKRZ,IFCNX,IFCNY,IFCNZ,IFCRX,IFCRY,IFCRZ,
      .        GET_U_PNU,GET_SKEW45,KFUNC,IL,IFM
       my_real KXX,KYY,KZZ,KRX,KRY,KRZ,KNN,KR,X1,Y1,Z1,LEN2,
@@ -365,11 +365,11 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NNOD,N1,N2,N3,N4,IERR1,IELUSR,NN(6),HH
+      INTEGER I,J,NNOD,N1,N2,N3,N4,IERR1,IELUSR,NN(6),HH
       INTEGER NUMEL_KJ,ID_KJ,NNOD2,NNOD_REQ(9),NB_ROT
       my_real PP1,PP2,PP3,PP4,LEN,SCAL,EXMAX
       my_real VECT1_UPT(LSKEW),VECT2_UPT(LSKEW),Q(LSKEW),NR,T(3),
-     .        COSK,SINK,SI2,E,KSI,UMI,ERR,SCAL_SIGN
+     .        COSK,SINK,SI2,E,KSI,UMI,SCAL_SIGN
       DATA  UMI/-1.0/
 C=======================================================================
 C
@@ -843,11 +843,8 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,GET_U_SKEW,N1,N2,N3,ISK
-      my_real 
-     .        Q(LSKEW),GET_U_GEO,NR,T(3),COSK,SINK,
-     .        SI2,E,KSI,UMI,ERR,STOP_ANGL
-      DATA  UMI/-1.0/
+      INTEGER GET_U_SKEW,N1,N2,N3,ISK
+      my_real GET_U_GEO
 C-----------------------------------------------
       EXTERNAL  GET_U_GEO,GET_U_SKEW 
 C-----------------------------------------------

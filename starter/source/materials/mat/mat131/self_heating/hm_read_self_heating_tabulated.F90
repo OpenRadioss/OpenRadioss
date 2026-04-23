@@ -84,9 +84,9 @@
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
           integer :: func_id
-          real(kind=WP) :: cp,eta,t0,xscale,yscale
+          real(kind=WP) :: cp,eta,t0,xscale
 !===============================================================================
-!       
+!
           !===================================================================
           !< Tabulated self heating parameters
           !===================================================================
@@ -100,7 +100,7 @@
           !< Number of tabulated hardening functions/tables
           ntab_heat = 1
           !< Check default values
-          if (xscale == zero) then 
+          if (xscale == zero) then
             call hm_get_floatv_dim('HEAT_TAB_XSCALE',xscale,is_available,lsubmodel,unitab)
           endif
           !< Number of variables used in tabulated hardening
@@ -125,15 +125,15 @@
             write(iout,1000) t0,eta,cp,func_id,xscale
           endif
 ! ------------------------------------------------------------------------------
-1000 format(/                                                                  &
-          5X,"-------------------------------------------------------",/       &
-          5X,"TABULATED SELF HEATING                                 ",/,      &
-          5X,"-------------------------------------------------------",/,      &
-          5X,"INITIAL TEMPERATURE (T0) . . . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"TAYLOR-QUINNEY COEFFICIENT (ETA) . . . . . . . . . . .=",1PG20.13/&
-          5X,"THERMAL MASSIC CAPACITY (CP) . . . . . . . . . . . . .=",1PG20.13/&
-          5X,"TABULATED FUNCTION ID. . . . . . . . . . . . . . . . .=",I10/&
-          5X,"STRAIN RATE SCALE FACTOR (ETA_XSCALE). . . . . . . . .=",1PG20.13/)
+1000      format(/                                                                  &
+            5X,"-------------------------------------------------------",/       &
+            5X,"TABULATED SELF HEATING                                 ",/,      &
+            5X,"-------------------------------------------------------",/,      &
+            5X,"INITIAL TEMPERATURE (T0) . . . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"TAYLOR-QUINNEY COEFFICIENT (ETA) . . . . . . . . . . .=",1PG20.13/&
+            5X,"THERMAL MASSIC CAPACITY (CP) . . . . . . . . . . . . .=",1PG20.13/&
+            5X,"TABULATED FUNCTION ID. . . . . . . . . . . . . . . . .=",I10/&
+            5X,"STRAIN RATE SCALE FACTOR (ETA_XSCALE). . . . . . . . .=",1PG20.13/)
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_self_heating_tabulated
       end module hm_read_self_heating_tabulated_mod

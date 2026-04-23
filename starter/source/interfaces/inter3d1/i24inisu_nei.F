@@ -56,10 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IW,I1,I2,I3,M,NMAX,N_MAX,E_MAX,E_ID,N_EI,
-     1        ITAG(NUMNOD),N_NI,NE0,NN0,NRTM_SH,NRTM0,
-     2        J1,J2,J3,J4,K1,K2,L1,L2,KPERM1(4),KPERM2(4),IRR,
-     3        NFT,JLT
+      INTEGER I,J,I1,I2,M,NMAX,N_MAX,E_MAX,N_EI,
+     1        ITAG(NUMNOD),N_NI,
+     2        J1,J2,J3,J4,K1,K2,L1,L2,KPERM1(4),KPERM2(4),IRR
       INTEGER, DIMENSION(:),ALLOCATABLE :: MVOI,NVOI
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: EIDNOD
       my_real
@@ -245,7 +244,7 @@ c  O   IE(NE),IN(NN)     - final (reduced) neighbour segment,node arries
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NEW,K,M,NE0,NN0,DNE,IOP
+      INTEGER I,NE0,NN0,DNE,IOP
 C---------------------
        IRR = 0
        NE0=NE
@@ -323,7 +322,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NEW,K,M,LING,NE,NN
+      INTEGER J,NEW,LING,NE
       DATA LING/0/
 C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
@@ -375,7 +374,7 @@ c  O   NN,ICN(NN)        - Number and neighbour node list
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NEW,K,M,LING,NN0
+      INTEGER J,NEW,K,M,LING,NN0
       DATA LING/0/
 C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
@@ -447,7 +446,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IW,I1,I2,I3,MG,M,IP,IGTYP
+      INTEGER I,J,MG,M,IP,IGTYP
       my_real
      .   WA(NUMNOD),DX
 C init 

@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
-     .        EJ, I1, I2, I3, I4, I0, IT,IAM,IAS,JAS,ISENS,
+     .        EJ, I1, I2, I3, I4, I0, IAM,IAS,JAS,ISENS,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        JNDX(MVSIZ), I4A(MVSIZ)
       my_real
@@ -68,18 +68,14 @@ C-----------------------------------------------
      .     NX(4,MVSIZ),NY(4,MVSIZ),NZ(4,MVSIZ),NN(4,MVSIZ),
      .     XS12(4,MVSIZ),YS12(4,MVSIZ),ZS12(4,MVSIZ),XM12(4,MVSIZ),
      .     YM12(4,MVSIZ),ZM12(4,MVSIZ),XAA,XBB,XS2(4,MVSIZ),XM2(4,MVSIZ),
-     .     XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,AAA,BBB,P1,P2
+     .     XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,AAA,P1,P2
       my_real
-     .     XA0(MVSIZ),XA1(MVSIZ),XA2(MVSIZ),XA3(MVSIZ),XA4(MVSIZ),
-     .     YA0(MVSIZ),YA1(MVSIZ),YA2(MVSIZ),YA3(MVSIZ),YA4(MVSIZ),
-     .     ZA0(MVSIZ),ZA1(MVSIZ),ZA2(MVSIZ),ZA3(MVSIZ),ZA4(MVSIZ),
      .     XA(5,MVSIZ),YA(5,MVSIZ),ZA(5,MVSIZ)
       my_real
      .     X0A(MVSIZ,4),Y0A(MVSIZ,4),Z0A(MVSIZ,4),
      .     XNA(MVSIZ,4), YNA(MVSIZ,4), ZNA(MVSIZ,4), XNB(MVSIZ,4), YNB(MVSIZ,4), ZNB(MVSIZ,4), PS,
-     .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DB1, DA2, DB2,
-     .     RZERO, RUN, RDIX, REM30, REP30,
+     .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DA2,
      .     ALP,XXS,XYS,XZS,
      .     XI0,YI0,ZI0,XI1,YI1,ZI1,XI2,YI2,ZI2,
      .     SX1,SY1,SZ1,SX2,SY2,SZ2,

@@ -99,7 +99,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE   :: ISKEW0
       my_real, DIMENSION(:,:),ALLOCATABLE :: WI
       CHARACTER(LEN=NCHARTITLE) ::  TITR
-      CHARACTER(LEN=NCHARFIELD) :: STRING
+
       CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -421,8 +421,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NM, NMT,M,IROT,IMO,ICR,
-     .        J, P,IAD,NS,IADS,IERR1,IC,ICT
+      INTEGER I, NM, NMT,M,IROT,IMO,
+     .        J, P,IAD,NS,IADS,IERR1
       INTEGER ID,IPEN
       CHARACTER(LEN=NCHARTITLE)::TITR
 C
@@ -598,7 +598,7 @@ C     REAL
      *                 TMUFX(3), TMUFY(3), TMUFZ(3),
      *                 TFUMX(3), TFUMY(3), TFUMZ(3),
      *                 TMUMX(3), TMUMY(3), TMUMZ(3),
-     *                 A(6,6), C(6,6), T(3,3),SMIN,SMAX,MMAX,TMAX,
+     *                 A(6,6), C(6,6), SMIN,SMAX,MMAX,TMAX,
      *                 XBAR(3),RN(3),GAMMA(9),WI(NG),GAMMA_MAX,RNDOTRN,DET,ARM
 C
 C     INITIALIZATION

@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER NRTS, NRTM, NSN, NMN, NTY, NST, NMT, IBUC, NOINT,
      .   IWPENE, I, INCREM, P,
      .   ILEV,ICOR,II,JJ,NIR,K,N,L,N1,N2,N3,N4,INACTI,IGSTI
-      integer j
+
 C     REAL
       my_real
      .   XMAS1, XMAS2,STFN,STFR
@@ -153,7 +153,7 @@ C  interface ALE -> c. c. traitees par P0
                GO TO 200
              ENDIF
 c            No optimization possible
- 100         DO JJ=1,NIR
+             DO JJ=1,NIR
                K = INTBUF_TAB%IRECTM((L-1)*4+JJ)
                CALL IFRONTPLUS(K,P)
              ENDDO
@@ -433,7 +433,7 @@ C interface ALE -> c. c. traitees par P0
                GO TO 200
              ENDIF
 C No optimization possible
- 100         DO JJ=1,NIR
+             DO JJ=1,NIR
                K = INTBUF_TAB%IRECTM((L-1)*4+JJ)
                      CALL IFRONTPLUS(K,P)
              ENDDO

@@ -83,8 +83,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER          :: I, J, II, IALEFVM_FLG,IALEL,IVxFUN, IVyFUN, IVzFUN, MX, MLW, ITYP
-      my_real          :: SUBVOL, Vcell(3), Vnod(3,8),
+      INTEGER          :: I, II, IALEL,IVxFUN, IVyFUN, IVzFUN, MX, MLW, ITYP
+      my_real          :: Vcell(3),
      .                    VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ), VX7(MVSIZ), VX8(MVSIZ),
      .                    VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VY7(MVSIZ), VY8(MVSIZ),
      .                    VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), VZ7(MVSIZ), VZ8(MVSIZ),

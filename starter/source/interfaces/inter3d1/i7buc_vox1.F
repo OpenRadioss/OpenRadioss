@@ -98,8 +98,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
-      INTEGER I, J, K, I_ADD, L, LOC_PROC, N, ISZNSNR,
-     .        N1, N2, N3, N4, NCONTACT,I_BID,I_STOK_OLD,
+      INTEGER I, J, K, L, LOC_PROC,
+     .        N1, N2, N3, N4, NCONTACT,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
      .         MARGE, AAA,TZINF_ST,MARGE_ST 
@@ -110,12 +110,10 @@ C-----------------------------------------------
      .   DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,
      .   XMAX_M,YMAX_M,ZMAX_M,XMIN_M,YMIN_M,ZMIN_M,
-     .   XMAX_S,YMAX_S,ZMAX_S,XMIN_S,YMIN_S,ZMIN_S,
      .   XMAX,YMAX,ZMAX,XXX,YYY,ZZZ,
      .   XMINB, YMINB, ZMINB, XMAXB, YMAXB, ZMAXB,
      .   MEAN_X, MEAN_Y, MEAN_Z, DEV_X, DEV_Y, DEV_Z,
-     .   GAPV(MVSIZ),C_MAX,
-     .   TSTART,TSTOP,
+     .   C_MAX,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
         my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX
@@ -447,7 +445,6 @@ C     complete initialization of voxel
         ENDDO
         INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
 C------------------
-  200 CONTINUE
 C------------------
 !$OMP PARALLEL        
         CALL I7TRIVOX1(

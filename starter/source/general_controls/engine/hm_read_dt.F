@@ -281,11 +281,6 @@ C-----------------------------------------------
      .  ' AMS MAXIMUM NUMBER OF ITERATIONS FOR CONVERGENCE.',I10/
      .  ' OUTPUT FREQUENCY OF INFORMATION / CONVERGENCE . .',I10/
      .  ' PART GROUP ID (=0 ALL PARTS) . . . . . . . . . . ',I10//)
- 1113 FORMAT(
-     .  ' GLOBAL TIME STEP IS ON . . . . . . . . . . . . . . .',/
-     .  ' GLOBAL TIME STEP SCALE FACTOR. . . . . . .. . . .',G14.7/
-     .  ' GLOBAL TIME STEP TOLERANCE ON CONVERGENCE. . .. .',G14.7/
-     .  ' NUMBER OF CYCLES FOR GLOBAL TIME STEP UPDATE. . .',I10//)
  1115 FORMAT(
      .  ' BRICK TIME STEP SCALE FACTOR . . . . . . . . . . ',G14.7/
      .  ' BRICK MINIMUM TIME STEP. . . . . . . . . . . . . ',G14.7/

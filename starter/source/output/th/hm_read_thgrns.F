@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIX,ITYP,ITABM1(*),KXX(NIXX,*),IXX(*),
+      INTEGER ITYP,ITABM1(*),KXX(NIXX,*),IXX(*),
      .        ITAB(*),ITHGRP(NITHGR),ITHBUF(*),
      .        IFI,IAD,NV,NVG,IVARG(18,*),NSNE,
      .        IVNS2R(18,*),NV0,ITHVAR(*),FLAGABF,NVARABF
@@ -77,9 +77,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
-     .        OK,IGS,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,NL,
-     .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
+      INTEGER J, I,ID,NNE,
+     .        K,IAD0,
+     .        IFITMP,NVAR,N,IAD1,IAD2,IPROC,
      .        IDNS, INS, IUN, IST, NST, IDST
       CHARACTER(LEN=NCHARTITLE) :: TITLE
       CHARACTER :: MESS*40,CSTRAND1*9,CSTRAND2*13
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN,THVARC,HM_THVARC
+      INTEGER NINTRN,HM_THVARC
       DATA MESS/'TH GROUP DEFINITION                     '/
       DATA IUN/1/,
      .     CSTRAND1/'STRAND_ID'/,CSTRAND2/'STRAND_NUMBER'/

@@ -64,10 +64,9 @@ C     REAL
       my_real
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        JJ, K, SH_IH, IHBE,BUF
-      INTEGER NP((NUMELQ + NUMELC + NUMELTG )*4)
+     .        IPRT, NEL, IAD, NPAR, NFT, MTN,
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,
+     .        JJ, K, SH_IH, IHBE
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------

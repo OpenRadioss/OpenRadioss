@@ -60,15 +60,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  
-     .   IGSTI,IBID,IGAP,IREM25I2,IBAG,IDEL25,IEDGE,
-     .   IGAP0,ISHARP,IVIS2,INACTI,MFROT,IFQ,MODFR,IDSENS,INTFRIC,
+     .   IGSTI,IGAP,IREM25I2,IBAG,IDEL25,IEDGE,
+     .   IGAP0,ISHARP,INACTI,MFROT,IFQ,MODFR,IDSENS,INTFRIC,
      .   IPRINT,IASSIGN,ITHK
       my_real
      .   GAPSCALE,PERCENT_SIZE,
-     .   PENMIN,FRIC,GAP,STARTT,STOPT,VISC,VISCF,
-     .   BUMULT,ALPHA,PMAX
-      CHARACTER(LEN=NCHARFIELD) :: BCFLAG, BCFLAGM
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY1
+     .   FRIC,GAP,STARTT,STOPT,VISC,VISCF,
+     .   PMAX
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 
 C============================================================================

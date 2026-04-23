@@ -70,10 +70,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,LL,NL,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
+      INTEGER I,J,K,L,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
      .        NLINSA,NLINMA,ISYM,IEDGE,NSNE,NMNE,NLN,
-     .        NLINS,NLINM,LINE1,LINE2,STAT,IL,IG
-      INTEGER TAG(NUMNOD),TAGS(NUMNOD),NEXTK(4),IWORK(70000),
+     .        NLINS,NLINM,LINE1,LINE2
+      INTEGER TAG(NUMNOD),TAGS(NUMNOD),NEXTK(4),
      .        LNTAG(NUMNOD),TAGB(NUMNOD)
       my_real EDG_COS
       DATA NEXTK/1,1,1,-3/
@@ -657,13 +657,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IALLO,NSEG,SURF_NODES(NSEG,4),ISU
+      INTEGER NSEG,SURF_NODES(NSEG,4),ISU
       INTEGER TAGB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,IS,BORD,BOLD
-      INTEGER NEXTK(4),IWORK(70000),NL
+      INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I1M,I2M,IS,BORD,BOLD
+      INTEGER NEXTK(4),IWORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
      .   LINEIX
       INTEGER, DIMENSION(:), ALLOCATABLE :: 

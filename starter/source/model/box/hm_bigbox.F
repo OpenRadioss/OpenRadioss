@@ -67,9 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,ISU,JREC,NBOX,BOXTYPE,IADBOX,
-     .        ICOUNT,ITER,FLAGG,INBOX,BOXNODS,IADISU
-      CHARACTER BOX*3
+      INTEGER I,N,ISU,NBOX,
+     .        ICOUNT,ITER,FLAGG,BOXNODS,IADISU
       LOGICAL BOOL
 C-----------------------------------------------
        DO I=1,NBBOX

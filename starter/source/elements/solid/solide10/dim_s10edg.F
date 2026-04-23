@@ -113,8 +113,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NG, NEL, NFT,NF1, NF2, N, ITY,ISOLNOD,ISROT,NC(4)
-      INTEGER IPERM1(6),IPERM2(6),N1,N2,NEDG,ND,II,JJ
+      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N, ITY,ISOLNOD,ISROT,NC(4)
+      INTEGER IPERM1(6),IPERM2(6),N1,N2,NEDG,II,JJ
 C     REAL
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
@@ -188,7 +188,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ICND_CP(3,NS10E),IE,N
+      INTEGER J,ICND_CP(3,NS10E),IE,N
 C     REAL
 C------reordering for P/ON----------------------------
       ICND_CP(1:3,1:NS10E)=ICNDS10(1:3,1:NS10E)
@@ -230,7 +230,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND
+      INTEGER I,N,ND
 C     REAL
 C------remove tagged nodes in INN(*)----------------------------
       ND = 0
@@ -262,7 +262,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND
+      INTEGER I,N,ND
 C     REAL
 C------remove tagged nodes in INN(*) and will be degenerated-----------
       ND = 0
@@ -316,7 +316,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,NNEW,ID,IER1,IER2
+      INTEGER I,N,ND,N1,N2,NNEW,ID,IER1,IER2
       LOGICAL IS1,IS2
 C     REAL
 C------treatment for tagged nodes in INN(*) first passe-
@@ -420,7 +420,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NN
+      INTEGER N,K,KK,NSL,NSL_N,K_N,NN
 C     REAL
 C------removing Nd from LPBY(*)--degenerating--
       K = 0
@@ -480,7 +480,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,NNEW,IER1,ID,IER2,M_1,M_2
+      INTEGER I,N,ND,N1,N2,NNEW,IER1,ID,IER2,M_1,M_2
       LOGICAL IS1,IS2
 C     REAL
 C----- IER >0 warning; <0 error out 
@@ -627,7 +627,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NS
+      INTEGER I,J,K,NSL,NSL_N,NS
       INTEGER ITAG(NUMNOD)
 C     REAL
 C-----
@@ -687,7 +687,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,ID,IPR
+      INTEGER N,ND,N1,N2,ID,IPR
       INTEGER IS1,IS2,ISMIN,NSL,M,K,KK
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ICODEM
 C     REAL
@@ -791,7 +791,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, DIR, N,ND,N1,N2,K,ID,IPR
+      INTEGER I,N,ND,N1,N2,K,ID,IPR
       LOGICAL IS1,IS2
 C-----------------------------------------------
 C   External function
@@ -871,7 +871,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NI,K
+      INTEGER I,NI,K
 C----6---------------------------------------------------------------7---------8
        SAMEFVID=.FALSE.
        DO I =1,NFXVEL
@@ -901,7 +901,6 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -925,11 +924,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NTY,NSN,NMN,ISL,NKIN,NOINT,IMODI,II,N1,N2,ND
+      INTEGER I,N,NTY,NSN,NMN,ISL,NOINT,IMODI,II,N1,N2
       INTEGER K,ILEV,NUVAR,IDEL7N,INTTH,IPR,IML,ICOM
       INTEGER, DIMENSION(NUMNOD) :: ITAGS,ITAGMD
-      CHARACTER(LEN=NCHARTITLE):: TITR
-      LOGICAL IS1,IS2,ISD
 C=======================================================================
 C--------done before : switch to penalty if only ND is secnd (N1,N2 not)
 C-----------NOT necessary after tests---------------
@@ -1200,7 +1197,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, I, IS,IAD, J, KK,  N, NL,NIR,NL_L,P,NI,ICOMP(NSPMD)
+      INTEGER K, I, J, KK,  N, NIR,P,NI,ICOMP(NSPMD)
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
@@ -1309,8 +1306,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, L, K, N, OFF, NTY, NRTS, NRTM, NSN, NMN,
-     .        KK, NIR,ADSKY(NUMNOD+1)
+      INTEGER I, J, K, KK, NIR,ADSKY(NUMNOD+1)
 C-----------------------------------------------
 C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
@@ -1357,7 +1353,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND
+      INTEGER I,ND
 C     REAL
 C------put STIFN(ND)=0 for mscalling dt estimation
       DO I=1,NS10E
@@ -1392,7 +1388,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,N1,N2
+      INTEGER I,ND,N1,N2
 C     REAL
       my_real
      .   STIF 
@@ -1437,7 +1433,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NS,ID,N1,N2
+      INTEGER I,J,K,KK,NSL,NSL_N,ID,N1,N2
 C     REAL
 C------removing Nd from LBCSCYC(*)--
       DO I = 1, NBCSCYC

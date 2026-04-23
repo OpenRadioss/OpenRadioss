@@ -66,17 +66,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NLD,IGU,IGS,ISU,ISS,NN,ID,UID,
-     .        IFU,ISENS,NCUR,IGBR,IBID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I,J,ISU,ISS
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  NGR2USRN
-       my_real
-     .  FACX,FACY,H,FAC1,FAC2
+
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       NUMCONV = 0

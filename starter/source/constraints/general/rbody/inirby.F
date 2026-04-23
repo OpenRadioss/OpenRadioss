@@ -87,7 +87,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSL, J, NOSKEW, I, N, NONOD,ICDG, FLAG,NSL_XTRA
       my_real
-     .   XG(3), XM0(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
+     .   XG(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .   MASRB,DD,TOL,
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,
      .   INMAX,X_MSN0(3),DIST
@@ -1162,9 +1162,9 @@ C-----------------------------------------------
      .        RBLEVEL, OPT_MERGE, M_I, NSL_XTRA
 C     REAL
       my_real
-     .   XG(3), XM0(3), XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
+     .   XG(3), XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,
-     .   MASRB,DD,INMAX, XMG, X_MSN0(3), DIST
+     .   MASRB,INMAX, XMG, X_MSN0(3), DIST
       INTEGER, DIMENSION(:), POINTER  :: LSN, LSN_XTRA 
 C
       MS(M)=ZERO

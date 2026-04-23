@@ -143,7 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IP,IPROC,IF1, IF2, TYP,
+      INTEGER IPROC,IF1, IF2, TYP,
      .        INSNMAX, IPMAX, SUM, INSNP, LASTM,
      .        K, I, IS, NN_S, IAD, J, K1, K3, NN, NL,NL_L,
      .        NSN,NMN,P,N,N1,N2,N3,N4,NTY,NGROU,NEL,NG,L,M,NIR,
@@ -152,8 +152,7 @@ C-----------------------------------------------
      .        IELS(NSPMD), P_SPH, INT2FLAG,INT2FRPLUS,
      .        ILEV,CNT,OFFSET,FINGEO,IAD1,IAD2,NUMLOADP,ITE2FRPLUS
       INTEGER :: ISENS
-      my_real
-     .        ECT_AK,FR_AK
+
       INTEGER :: IJK
       INTEGER :: SURF_ID,NUMBER_NODE,NODE_ID
       INTEGER :: NUMBER_PROC,NUMBER_SEGMENT
@@ -2088,13 +2087,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, IDEB, OFF, OFFC, OFFTG, K1, K3, NL, NUMLOADP,
-     .        N1, N2, N3, N4, NN, P, NL_L, IS, NN_S, IAD, ITY,
+      INTEGER I, J, K, N, IDEB, OFF, OFFC, OFFTG, K1, NL, NUMLOADP,
+     .        N1, N2, N3, N4, NN, P, IS, NN_S, ITY,
      .        WORK(70000)
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY, ITRI, INDEX
       INTEGER :: IJK,NUMBER_NODE
-      INTEGER :: NELEM,ELEM_ID,NODE_ID
+      INTEGER :: ELEM_ID,NODE_ID
       INTEGER :: SURF_ID ! surface id
       INTEGER :: LOCAL_SEGMENT,NUMBER_SEGMENT ! number of segment for /LOAD
       INTEGER :: PROC_ID ! processor id
@@ -3193,7 +3192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN,N1,N2,P,NF,NS,NF0,NFMAX,IPLUS
+      INTEGER N, NN,N1,N2,P,NF,NS,NF0,IPLUS
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGI,NNF
 C-----------------------------------------------
 !     TAGI->N: NNF(N)=MAX_NF

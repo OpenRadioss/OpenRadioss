@@ -88,9 +88,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  ID,ITEST,ILAW
-      my_real ::  E,NU,G,RBULK,SCALEFAC,FAC_UNIT
-      CHARACTER(LEN=NCHARFIELD) :: STRING
+      INTEGER ::  ITEST,ILAW
+      my_real ::  NU,SCALEFAC,FAC_UNIT
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

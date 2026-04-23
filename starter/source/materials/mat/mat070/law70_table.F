@@ -57,10 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,NPTX,NPTM,IPOS,NDIM,FUNC_ID,IERROR,STAT
-      INTEGER ,DIMENSION(NFUNC) :: PERM
+      INTEGER :: I,IPT,NPTX,NPTM,NDIM,STAT
       INTEGER ,PARAMETER :: NPTMAX = 100   ! max number of function points
-      my_real :: X1,X2,Y1,Y2,DERI
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF,XS,YS
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: YF
 C-----------------------------------------------

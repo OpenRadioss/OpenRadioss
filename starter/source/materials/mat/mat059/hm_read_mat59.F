@@ -95,7 +95,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NBMAT  ! Number of declared materials
       INTEGER :: I,J
       INTEGER :: RHOFLAG,ICOMP,NRATE,IFILTR,IFUNN(MAXFUNC),IFUNT(MAXFUNC)
       my_real :: RHO0, RHOR,E,G,ECOMP,FCUT,RATE0,YFAC(MAXFUNC)

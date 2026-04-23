@@ -54,21 +54,11 @@ C     REAL OR REAL*8
      .    PM(NPROPM,*), GEO(NPROPG,*)
       REAL WD(*)
 C-----------------------------------------------
-      INTEGER  NPN, MID, PID, JHBE, IGT, MLN,
-     .    ISTRAIN, ITHK, IHBE, IPLA, ISSN, MTN, I, J, K,L,
-     .    NFUNC,MPT,NPTS,NPTT,NPTR,NPTOT,IFLAG,JSROT,
-     .    I_MID,I_PID,I_MID_OLD,I_PID_OLD,PUID,MUID,
-     .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
-     .    I_PRO,ISOL2,MID_OLD,PID_OLD,MUID_OLD,PUID_OLD,
-     .    TEST,NFUNC1,NFUNC2
+      INTEGER  MID, PID, MLN,
+     .    ISSN, I
 
-      REAL
-     .   WTYPE(9),FWIHBE,FAC8,
-     .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
-     .   BATOZMULT,TMAT
+      REAL WTYPE(9)
       
-      my_real
-     .        CC, INVTREF,A,B,A1,A2
        DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
 C-----------------------------------------------
       DO I = 1, NUMELP
