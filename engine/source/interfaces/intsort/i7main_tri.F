@@ -132,6 +132,7 @@ C-----------------------------------------------
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   C_MAXL,DRAD,MX,MY,MZ,DX,DY,DZ,SX,SY,SZ,SX2,SY2,SZ2,
      .   CURV_MAX(NRTM_T),RDUM1(1)
+      real T1
 
       LOGICAL TYPE18
       INTEGER :: NRTM,NSN,NMN,NTY
