@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S4VOLNOD3(
      1   X,       NC1,     NC2,
      2   NC3,     NC4,     OFFG,    XDP,
-     3   NEL,     ISMSTR,sfem,nft)
+     3   NEL,     ISMSTR,sfem,nft,s_xdp)
 
       use sfem_mod, only : sfem_
 C-----------------------------------------------
@@ -51,7 +51,8 @@ C-----------------------------------------------
       integer, intent(in) :: nft !< address of the first element of this group
       INTEGER, INTENT(IN) :: ISMSTR
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
-      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
+      INTEGER, INTENT(IN) :: s_xdp !< size of the second dimension of xdp
+      DOUBLE PRECISION , DIMENSION(3,s_xdp), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,*),OFFG(*)

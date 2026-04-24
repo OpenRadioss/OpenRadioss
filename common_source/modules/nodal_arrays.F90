@@ -148,6 +148,7 @@
           real(kind=wp), dimension(:), allocatable :: TEMP !< temperature
 
           ! 3*NUMNOD if IRESP == 1, else 3
+          integer :: s_xdp
           double precision, dimension(:,:), allocatable :: DDP !< double precision D
           double precision, dimension(:,:), allocatable :: XDP !< double precision X
           double precision, dimension(:,:), allocatable :: ACC_DP !< double precision acceleration
@@ -357,12 +358,14 @@
             call my_alloc(arrays%TEMP,0)
           end if
 #ifdef MYREAL4
+          arrays%s_xdp = numnod
           call my_alloc(arrays%DDP,3,numnod)
           call my_alloc(arrays%XDP,3,numnod)
           if(iparith==0) then
             call my_alloc(arrays%ACC_DP,3,numnod)
           end if
 #else
+          arrays%s_xdp = 1  
           call my_alloc(arrays%DDP,3,1)
           call my_alloc(arrays%XDP,3,1)
 #endif

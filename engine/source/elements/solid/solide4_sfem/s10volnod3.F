@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S10VOLNOD3(
      1   X,       NC,      OFFG,
      2   VOLG,    XDP,     NEL,     NPT,
-     3   ISMSTR,sfem,nft)
+     3   ISMSTR,sfem,nft,s_xdp)
       use sfem_mod, only: sfem_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -50,14 +50,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) :: ISMSTR
-      integer, intent(in) :: nft !< address of the first element of this group      
+      integer, intent(in) :: nft !< address of the first element of this group
+      integer, intent(in) :: s_xdp !< size of the second dimension of xdp      
       INTEGER NEL,NC(MVSIZ,10)
-      DOUBLE PRECISION
-     .   VOLNOD6(6,2*NUMNOD)
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)
-      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP
+      DOUBLE PRECISION , DIMENSION(3,s_xdp), INTENT(IN) :: XDP
       type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -95,7 +94,7 @@ C----------------------------
             NN = MAX(1,NC(I,N))    
             XX(I,N)=XDP(1,NN)          
             YY(I,N)=XDP(2,NN)          
-            ZZ(I,N)=XDP(3,NN)          
+            ZZ(I,N)=XDP(3,NN)
           ENDDO                      
         ENDDO
       ELSE

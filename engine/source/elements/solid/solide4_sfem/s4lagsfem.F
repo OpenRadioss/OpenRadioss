@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,SFEM_NODVAR,S_SFEM_NODVAR,
-     .                     IXS10,XDP,SXDP,
+     .                     IXS10,XDP,s_xdp,
      .                     NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10, NPARG, NGROUP, IRESP,
      .                     mode,ispmd,sfem)
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: S_SFEM_NODVAR, SXDP !< size for array declaration
+      INTEGER,INTENT(IN) :: S_SFEM_NODVAR, s_xdp !< size for array declaration
       INTEGER,INTENT(IN) :: NUMELS, NUMELS8, NUMELS10 !< number of elements
       INTEGER,INTENT(IN) :: NPARG, NGROUP !< sizes for data structure IPARG
       INTEGER,INTENT(IN) :: NUMNOD !< number of nodes (/NODE)
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),IXS10(6,NUMELS10)
       my_real, INTENT(IN) :: X(3*NUMNOD),V(3*NUMNOD)
       my_real,intent(inout) :: SFEM_NODVAR(S_SFEM_NODVAR)
-      DOUBLE PRECISION , DIMENSION(SXDP), INTENT(IN) :: XDP     
+      DOUBLE PRECISION , DIMENSION(3,s_xdp), INTENT(IN) :: XDP     
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       type(sfem_), intent(inout) :: sfem
 C-----------------------------------------------
@@ -104,15 +104,15 @@ C-----------------------------------------------
 C---------------------------------------------------
 C     COMPUTE NODAL VOLUME FOR ALL TETRAHEDRON
 C---------------------------------------------------
-
       if(mode==0) then
 !$omp parallel default(private)
-!$omp+ shared(iparg,ixs,ixs10,x,v,elbuf_tab,sfem,ngroup,numels8,iresp)
+!$omp+ shared(iparg,ixs,ixs10,x,v,elbuf_tab,sfem,ngroup,numels8,iresp,s_xdp,xdp)
                   
 !$omp do schedule(dynamic,1)
         do ng=1,ngroup
           nnod = iparg(28,ng) ! get the number of node per element for the current group
           icpre = iparg(10,ng) ! get the value of ICPRE for the current group
+          if(iparg(8,ng)==1) cycle 
           if (nnod /= 4 .and. nnod /= 10) cycle ! only tetrahedral elements are supported
           call initbuf(iparg,ng, 
      .                  mtn,llt,nft,iad,ity, 
@@ -139,7 +139,7 @@ C---------------------------------------------------
             call s4volnod3( 
      .            x,       nc1,       nc2, 
      .            nc3,      nc4,     gbuf%off,  xdp, 
-     .            nel,      ismstr,sfem,nft)
+     .            nel,      ismstr,sfem,nft,s_xdp)
 
 
             if(iresp==1)then
@@ -183,7 +183,7 @@ C---------------------------------------------------
               npt = 4
               call s10volnodt3(elbuf_tab(ng),x,nc,
      .                       gbuf%off,gbuf%smstr,xdp,nel,
-     .                       npt,sfem,nft)
+     .                       npt,sfem,nft,s_xdp)
 
               do ip=1,npt
                 lbuf => elbuf_tab(ng)%bufly(1)%lbuf(ip,1,1)
@@ -201,7 +201,7 @@ C---------------------------------------------------
               call s10volnod3(
      .                      x,      nc,     gbuf%off,
      .                      volg,   xdp,     nel,          npt,
-     .                      ismstr,sfem,nft)
+     .                      ismstr,sfem,nft,s_xdp)
 
               do i=1,nel
                 if(gbuf%off(i) == zero) then
@@ -281,7 +281,7 @@ C---------------------------------------------------
           my_address = sfem%node_iad(i) ! get the address of the first Fsky value
           do k=1,sfem%sub_tetra_fsky_dim2(1)
             do j=1,fsky_nb
-              sfem_nodvar(node_id) = sfem_nodvar(node_id) + sfem%tetra_fsky(my_address+j-1,k) ! sum up the Fsky values to get the nodal volume        
+              sfem_nodvar(node_id) = sfem_nodvar(node_id) + sfem%tetra_fsky(my_address+j-1,k) ! sum up the Fsky values to get the nodal volume
             enddo
           enddo
           do k=1,sfem%sub_tetra_fsky_dim2(2)

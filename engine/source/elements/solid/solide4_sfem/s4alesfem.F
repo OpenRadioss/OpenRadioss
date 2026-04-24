@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,SFEM_NODVAR, S_SFEM_NODVAR,PM,
-     .                     ispmd,sfem)
+     .                     ispmd,sfem,s_xdp)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: S_SFEM_NODVAR
       INTEGER IXS(NIXS,*),IPARG(NPARG,*)
-      integer, intent(in) :: ispmd !< mpi processor id      
+      integer, intent(in) :: ispmd !< mpi processor id
+      integer, intent(in) :: s_xdp !< size of the second dimension of xdp      
       my_real X(*),SFEM_NODVAR(S_SFEM_NODVAR),PM(NPROPM,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       type(sfem_), intent(inout) :: sfem      
@@ -94,6 +95,7 @@ C----------------------------------------------------
         do ng=1,ngroup
           nnod = iparg(28,ng) ! get the number of node per element for the current group
           if (nnod /= 4) cycle ! only tetrahedral elements are supported
+          if(iparg(8,ng)==1) cycle           
           call initbuf(iparg,ng, 
      .                  mtn,llt,nft,iad,ity, 
      .                  npt,jale,ismstr,jeul,jtur, 
@@ -121,7 +123,7 @@ C----------------------------------------------------
             call s4volnod3( 
      .            x,       nc1,       nc2, 
      .            nc3,      nc4,     gbuf%off,  gbuf%smstr, 
-     .            nel,      ismstr,sfem,nft)
+     .            nel,      ismstr,sfem,nft,s_xdp)
             do i=1,nel
               mass(i) = gbuf%rho(i)/pm(1,mat(i))
             enddo
