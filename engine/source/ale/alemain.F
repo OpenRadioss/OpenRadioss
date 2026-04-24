@@ -117,7 +117,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS  ,FACE_VOIS  ,EBCS_TAB          ,ALE_CONNECTIVITY,
      N         MAT_ELEM    ,H3D_DATA    ,DT              ,OUTPUT     ,NEED_COMM_INTER18 ,IDTMINS         ,
      O         IDTMIN      ,MAXFUNC     ,IMON_MAT        ,USERL_AVAIL,
-     P         impl_s      ,idyna       ,PYTHON          ,MATPARAM   ,GLOB_THERM  ,SFEM )
+     P         impl_s      ,idyna       ,PYTHON          ,MATPARAM   ,GLOB_THERM  ,SFEM,s_xdp )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -209,6 +209,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDTMINS
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
+      integer, intent(in) :: s_xdp !< size of the second dimension of xdp
       LOGICAL, INTENT(inout) :: NEED_COMM_INTER18 !< true if the mpi comm "exchange of remote XCELL data" is mandatory
       DOUBLE PRECISION XDP(3,*)
       
@@ -810,7 +811,7 @@ C
 !$OMP SINGLE
           IF(SFEM%ISFEM == 1) THEN
             if(itask==0) call startime(timers,timer_sfem)
-            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,sfem%ale%nodvar,SFEM%S_SFEM_NODVAR,PM,ispmd,sfem%ale)
+            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,sfem%ale%nodvar,SFEM%S_SFEM_NODVAR,PM,ispmd,sfem%ale,s_xdp)
             if(itask==0) call stoptime(timers,timer_sfem)
           ENDIF
 !$OMP END SINGLE

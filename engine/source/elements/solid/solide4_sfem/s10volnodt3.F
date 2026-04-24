@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S10VOLNODT3(
      1   ELBUF_TAB,  X,        NC,
      2   OFFG,     SAV,      XDP,      NEL,
-     3   NPT,sfem,nft)
+     3   NPT,sfem,nft,s_xdp)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,10 +58,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPT
       INTEGER, INTENT(IN) ::NEL
       integer, intent(in) :: nft !< address of the first element of this group
+      integer, intent(in) :: s_xdp !< size of the second dimension of xdp       
       INTEGER, DIMENSION(MVSIZ,10),INTENT(IN) :: NC
       DOUBLE PRECISION
      .  SAV(NEL,30)
-      DOUBLE PRECISION , DIMENSION(3,SXDP/3), INTENT(IN) :: XDP     
+      DOUBLE PRECISION , DIMENSION(3,s_xdp), INTENT(IN) :: XDP     
 C     REAL
       my_real
      .   X(3,NUMNOD),OFFG(NEL)

@@ -3133,7 +3133,7 @@ C---------------------------------------------
                   if(imon>0) call startime(timers,timer_sfem)               
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                   CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
-     .                           IXS(L1), NODES%XDP, SXDP,
+     .                           IXS(L1), NODES%XDP, nodes%s_xdp,
      .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
      .                           0,ispmd,sfem%lag)    
                   if(imon>0) call stoptime(timers,timer_sfem)
@@ -3396,7 +3396,7 @@ C
                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                   if(imon>0) call startime(timers,timer_sfem)               
                   CALL S4LAGSFEM(IPARG, IXS, NODES%X, NODES%V, ELBUF_TAB, sfem%lag%nodvar, sfem%S_SFEM_NODVAR,
-     .                           IXS(L1), NODES%XDP, SXDP,
+     .                           IXS(L1), NODES%XDP, nodes%s_xdp,
      .                           NUMNOD, NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP,
      .                           1,ispmd,sfem%lag)  
                   if(imon>0) call stoptime(timers,timer_sfem)
@@ -3459,7 +3459,7 @@ C
      M               IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB           ,ALE_CONNECTIVITY,
      N               MAT_ELEM              ,H3D_DATA ,DT            ,OUTPUT            ,NEED_COMM_INTER18  ,IDTMINS         ,
      O               IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,
-     P               impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM,SFEM )
+     P               impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM,SFEM,nodes%s_xdp )
 
                 IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
