@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    print_block     ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
+!||    sfem_mod        ../common_source/modules/elements/sfem_mod.F90
 !||    timer_mod       ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE PRINT_SUMMARY(FLAG,NTIMAX,TABTIME,TITLES,OUT_ID,ITHERM,sfem)

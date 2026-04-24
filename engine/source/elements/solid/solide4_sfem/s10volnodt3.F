@@ -21,16 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s10volnodt3       ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+!||    s10volnodt3    ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
 !||--- called by ------------------------------------------------------
-!||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||    s4lagsfem      ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||--- calls      -----------------------------------------------------
-!||    foat_to_6_float   ../engine/source/system/parit.F
-!||    jacob_j33         ../engine/source/elements/solid/solide8e/jacob_j33.F
-!||    s10defot3         ../engine/source/elements/solid/solide10/s10defot3.F
-!||    s10pijto3         ../engine/source/elements/solid/solide10/s10pijto3.F
+!||    jacob_j33      ../engine/source/elements/solid/solide8e/jacob_j33.F
+!||    s10defot3      ../engine/source/elements/solid/solide10/s10defot3.F
+!||    s10pijto3      ../engine/source/elements/solid/solide10/s10pijto3.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    sfem_mod       ../common_source/modules/elements/sfem_mod.F90
 !||====================================================================
       SUBROUTINE S10VOLNODT3(
      1   ELBUF_TAB,  X,        NC,

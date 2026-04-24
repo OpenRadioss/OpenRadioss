@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sfem_init_spmd_mod   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    sfem_init            ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||====================================================================
       module sfem_init_spmd_mod
         implicit none
       contains
@@ -28,6 +33,25 @@
 ! ======================================================================================================================
 !! \brief Initiliation of the SFEM data structure, including the initialization of the SPMD communication data structure for SFEM
 !! \details 
+!||====================================================================
+!||    sfem_init_spmd         ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||--- called by ------------------------------------------------------
+!||    sfem_init              ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||--- calls      -----------------------------------------------------
+!||    alloc_int_1d_array     ../common_source/modules/array_mod.F
+!||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
+!||    initbuf                ../engine/share/resol/initbuf.F
+!||    myqsort_int            ../common_source/tools/sort/myqsort_int.F
+!||    spmd_waitall           ../engine/source/mpi/spmd_wait.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod              ../common_source/modules/array_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
+!||    initbuf_mod            ../engine/share/resol/initbuf.F
+!||    nodal_arrays_mod       ../common_source/modules/nodal_arrays.F90
+!||    precision_mod          ../common_source/modules/precision_mod.F90
+!||    sfem_mod               ../common_source/modules/elements/sfem_mod.F90
+!||    spmd_mod               ../engine/source/mpi/spmd_mod.F90
+!||====================================================================
         subroutine sfem_init_spmd(lag_ale,numels,numnod,ngroup, &
                              nparg,ispmd,nspmd,tetra_fsky_dim,fsky_dim2, &
                              iparg,ixs,sfem,nodes,itag_nsfem,local_elm_nb,local_elm_list)

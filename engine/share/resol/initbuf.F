@@ -129,6 +129,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4lagsfem                        ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||    schlieren_buffer_gathering       ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
+!||    sfem_init                        ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sigeps37_single_cell             ../engine/source/interfaces/int22/sigeps37_single_cell.F
 !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
 !||    soltosphp                        ../engine/source/elements/sph/soltosph.F
@@ -231,6 +233,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4alesfem                        ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
 !||    s4lagsfem                        ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||    seggetv                          ../engine/source/interfaces/interf/seggetv.F
+!||    sfem_init                        ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
 !||    soltosphp                        ../engine/source/elements/sph/soltosph.F
 !||    spechan                          ../engine/source/elements/sph/spechan.F

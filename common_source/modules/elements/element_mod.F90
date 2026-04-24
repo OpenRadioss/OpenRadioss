@@ -941,6 +941,8 @@
 !||    setrbyon                            ../starter/source/constraints/general/rbody/hm_read_rbody.F
 !||    sfem_exclude_dim                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    sfem_exclude_ini                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
+!||    sfem_init                           ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                      ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sfint3                              ../engine/source/elements/solid/solide/sfint3.F
 !||    sfint3b                             ../engine/source/elements/solid/solide/sfint3b.F
 !||    sforc3                              ../engine/source/elements/solid/solide/sforc3.F

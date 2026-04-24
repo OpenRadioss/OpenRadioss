@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sfem_init_mod   ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||====================================================================
       module sfem_init_mod
         implicit none
       contains
@@ -31,6 +36,22 @@
 !!        * the second one is related to the ALE part of the SFEM contribution
 !!        The data structure contains 2 parts : the spmd part & the computation part 
 !! \details
+!||====================================================================
+!||    sfem_init            ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||--- called by ------------------------------------------------------
+!||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    initbuf              ../engine/share/resol/initbuf.F
+!||    sfem_init_spmd       ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||--- uses       -----------------------------------------------------
+!||    array_mod            ../common_source/modules/array_mod.F
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
+!||    initbuf_mod          ../engine/share/resol/initbuf.F
+!||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||    sfem_init_spmd_mod   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||    sfem_mod             ../common_source/modules/elements/sfem_mod.F90
+!||====================================================================
         subroutine sfem_init(numels,numels10,numels8,numnod,ngroup, &
                              nparg,ispmd,nspmd, &
                              iparg,ixs,ixs10,sfem,nodes)

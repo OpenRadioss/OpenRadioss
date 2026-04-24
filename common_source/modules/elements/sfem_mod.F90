@@ -21,21 +21,31 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sfem_mod        ../common_source/modules/elements/sfem_mod.F90
+!||    sfem_mod         ../common_source/modules/elements/sfem_mod.F90
 !||--- called by ------------------------------------------------------
-!||    alemain         ../engine/source/ale/alemain.F
-!||    forint          ../engine/source/elements/forint.F
-!||    radioss2        ../engine/source/engine/radioss2.F
-!||    rdcomi          ../engine/source/output/restart/rdcomm.F
-!||    rdresa          ../engine/source/output/restart/rdresa.F
-!||    rdresb          ../engine/source/output/restart/rdresb.F
-!||    resol           ../engine/source/engine/resol.F
-!||    resol_head      ../engine/source/engine/resol_head.F
-!||    restalloc       ../engine/source/output/restart/arralloc.F
-!||    wrcomi          ../engine/source/output/restart/wrcomm.F
-!||    wrrestp         ../engine/source/output/restart/wrrestp.F
+!||    alemain          ../engine/source/ale/alemain.F
+!||    forint           ../engine/source/elements/forint.F
+!||    print_summary    ../engine/source/system/timer.F
+!||    printime         ../engine/source/system/printime.F
+!||    radioss2         ../engine/source/engine/radioss2.F
+!||    rdcomi           ../engine/source/output/restart/rdcomm.F
+!||    rdresa           ../engine/source/output/restart/rdresa.F
+!||    rdresb           ../engine/source/output/restart/rdresb.F
+!||    resol            ../engine/source/engine/resol.F
+!||    resol_head       ../engine/source/engine/resol_head.F
+!||    restalloc        ../engine/source/output/restart/arralloc.F
+!||    s10volnod3       ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
+!||    s10volnodt3      ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+!||    s4alesfem        ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4lagsfem        ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||    s4volnod3        ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+!||    s4volnod_sm      ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
+!||    sfem_init        ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
+!||    wrcomi           ../engine/source/output/restart/wrcomm.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
-!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
       module sfem_mod
         use precision_mod, only: WP

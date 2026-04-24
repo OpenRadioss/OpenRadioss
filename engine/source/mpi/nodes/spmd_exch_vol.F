@@ -23,9 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C
 !||====================================================================
 !||    spmd_exch_vol         ../engine/source/mpi/nodes/spmd_exch_vol.F
-!||--- called by ------------------------------------------------------
-!||    s4alesfem             ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
-!||    s4lagsfem             ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90

@@ -118,6 +118,8 @@
 !||====================================================================
 !||    spmd_waitany                  ../engine/source/mpi/spmd_wait.F90
 !||--- called by ------------------------------------------------------
+!||    s4alesfem                     ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4lagsfem                     ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||    spmd_cell_list_exchange       ../engine/source/mpi/interfaces/spmd_cell_list_exchange.F
 !||    spmd_e1vois                   ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_e4vois                   ../engine/source/mpi/fluid/spmd_cfd.F
@@ -172,6 +174,9 @@
 !||====================================================================
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||--- called by ------------------------------------------------------
+!||    s4alesfem                 ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4lagsfem                 ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||    sfem_init_spmd            ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    spmd_exch_min_max         ../engine/source/mpi/ale/spmd_exch_min_max.F90
 !||    spmd_exch_n_neighbor_2d   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
 !||    spmd_exch_n_neighbor_3d   ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90

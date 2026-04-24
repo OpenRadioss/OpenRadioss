@@ -475,6 +475,8 @@
 !||    self_heating_taylor                      ../engine/source/materials/mat/mat131/self_heating/self_heating_taylor.F90
 !||    sensor_mod                               ../common_source/modules/sensor_mod.F90
 !||    sensor_python                            ../engine/source/tools/sensor/sensor_python.F90
+!||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sfem_mod                                 ../common_source/modules/elements/sfem_mod.F90
 !||    sfor_3n2s3                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_4n2s4                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90

@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s4alesfem         ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4alesfem      ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
 !||--- called by ------------------------------------------------------
-!||    alemain           ../engine/source/ale/alemain.F
+!||    alemain        ../engine/source/ale/alemain.F
 !||--- calls      -----------------------------------------------------
-!||    foat_to_6_float   ../engine/source/system/parit.F
-!||    initbuf           ../engine/share/resol/initbuf.F
-!||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
-!||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    s4volnod3      ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+!||    spmd_waitall   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod       ../common_source/modules/elements/element_mod.F90
-!||    initbuf_mod       ../engine/share/resol/initbuf.F
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||    sfem_mod       ../common_source/modules/elements/sfem_mod.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,SFEM_NODVAR, S_SFEM_NODVAR,PM,
      .                     ispmd,sfem)

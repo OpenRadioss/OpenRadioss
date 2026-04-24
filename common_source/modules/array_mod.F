@@ -46,6 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
 !||    intfop2                                  ../engine/source/interfaces/interf/intfop2.F
 !||    resol                                    ../engine/source/engine/resol.F
+!||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
 !||    spmd_exch_n_neighbor_2d                  ../engine/source/mpi/ale/spmd_exch_n_neighbor.F90
@@ -153,6 +155,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alloc_int_1d_array      ../common_source/modules/array_mod.F
 !||--- called by ------------------------------------------------------
 !||    inter_init_node_color   ../engine/source/interfaces/generic/inter_init_node_color.F90
+!||    sfem_init_spmd          ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||====================================================================
         SUBROUTINE ALLOC_INT_1D_ARRAY(THIS)
           IMPLICIT NONE
@@ -212,6 +215,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         ! ----------------------------
 !||====================================================================
 !||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
+!||--- called by ------------------------------------------------------
+!||    sfem_init_spmd         ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||====================================================================
         SUBROUTINE DEALLOC_INT_1D_ARRAY(THIS)
           IMPLICIT NONE

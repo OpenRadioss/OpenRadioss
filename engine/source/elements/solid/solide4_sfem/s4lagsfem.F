@@ -21,21 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||    s4lagsfem      ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||--- called by ------------------------------------------------------
-!||    resol             ../engine/source/engine/resol.F
+!||    resol          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    foat_to_6_float   ../engine/source/system/parit.F
-!||    initbuf           ../engine/share/resol/initbuf.F
-!||    s10volnod3        ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
-!||    s10volnodt3       ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
-!||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
-!||    s4volnod_sm       ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
-!||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
+!||    initbuf        ../engine/share/resol/initbuf.F
+!||    s10volnod3     ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
+!||    s10volnodt3    ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
+!||    s4volnod3      ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+!||    s4volnod_sm    ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
+!||    spmd_waitall   ../engine/source/mpi/spmd_wait.F90
+!||    spmd_waitany   ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod       ../common_source/modules/elements/element_mod.F90
-!||    initbuf_mod       ../engine/share/resol/initbuf.F
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
+!||    initbuf_mod    ../engine/share/resol/initbuf.F
+!||    sfem_mod       ../common_source/modules/elements/sfem_mod.F90
+!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,SFEM_NODVAR,S_SFEM_NODVAR,
      .                     IXS10,XDP,SXDP,

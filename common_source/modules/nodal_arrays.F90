@@ -71,6 +71,8 @@
 !||    resol_head                               ../engine/source/engine/resol_head.F
 !||    restalloc                                ../engine/source/output/restart/arralloc.F
 !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
+!||    sfem_init                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
+!||    sfem_init_spmd                           ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sortie_main                              ../engine/source/output/sortie_main.F
 !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90

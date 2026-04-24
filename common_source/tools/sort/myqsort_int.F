@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_nodal_state           ../engine/source/interfaces/interf/init_nodal_state.F
 !||    nloc_dmg_init              ../starter/source/materials/fail/nloc_dmg_init.F
 !||    select_s2s                 ../starter/source/interfaces/inter3d1/select_s2s.F90
+!||    sfem_init_spmd             ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    spmd_cell_size_exchange    ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
 !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||====================================================================

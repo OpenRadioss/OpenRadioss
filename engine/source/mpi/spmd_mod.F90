@@ -40,9 +40,12 @@
 !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
 !||    radioss2                        ../engine/source/engine/radioss2.F
 !||    resol                           ../engine/source/engine/resol.F
+!||    s4alesfem                       ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4lagsfem                       ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
 !||    sensor_dist_surf0               ../engine/source/tools/sensor/sensor_dist_surf0.F
 !||    sensor_spmd                     ../engine/source/tools/sensor/sensor_spmd.F
 !||    sensor_temp0                    ../engine/source/tools/sensor/sensor_temp0.F
+!||    sfem_init_spmd                  ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90
 !||    sph_crit_voxel                  ../engine/source/elements/sph/sph_crit_voxel.F90
 !||    sphprep                         ../engine/source/elements/sph/sphprep.F
 !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F

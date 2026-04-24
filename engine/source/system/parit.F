@@ -208,12 +208,6 @@ C-----------------------------------------------
 !||    rbe2f                 ../engine/source/constraints/general/rbe2/rbe2f.F
 !||    rbe2fl                ../engine/source/constraints/general/rbe2/rbe2f.F
 !||    rbe3f                 ../engine/source/constraints/general/rbe3/rbe3f.F
-!||    s10volnod3            ../engine/source/elements/solid/solide4_sfem/s10volnod3.F
-!||    s10volnodt3           ../engine/source/elements/solid/solide4_sfem/s10volnodt3.F
-!||    s4alesfem             ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
-!||    s4lagsfem             ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-!||    s4volnod3             ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
-!||    s4volnod_sm           ../engine/source/elements/solid/solide4_sfem/s4volnod_sm.F
 !||    sms_build_diag        ../engine/source/ams/sms_build_diag.F
 !||    sms_mav_lt            ../engine/source/ams/sms_pcg.F
 !||    sms_mav_lt2           ../engine/source/ams/sms_pcg.F

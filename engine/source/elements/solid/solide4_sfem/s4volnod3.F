@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s4volnod3         ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
+!||    s4volnod3   ../engine/source/elements/solid/solide4_sfem/s4volnod3.F
 !||--- called by ------------------------------------------------------
-!||    s4alesfem         ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
-!||    s4lagsfem         ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-!||--- calls      -----------------------------------------------------
-!||    foat_to_6_float   ../engine/source/system/parit.F
+!||    s4alesfem   ../engine/source/elements/solid/solide4_sfem/s4alesfem.F
+!||    s4lagsfem   ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+!||--- uses       -----------------------------------------------------
+!||    sfem_mod    ../common_source/modules/elements/sfem_mod.F90
 !||====================================================================
       SUBROUTINE S4VOLNOD3(
      1   X,       NC1,     NC2,
