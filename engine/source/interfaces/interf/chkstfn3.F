@@ -1738,8 +1738,8 @@ C
      2      INTBUF_TAB(NG)%IRTLM,ITAG(NUMNOD+1),IXS  ,IXC  ,IXTG      ,
      3      IXQ    ,IPARG       ,ITAGL,MS      ,
      4      IN    ,INTBUF_TAB(NG)%SMAS ,INTBUF_TAB(NG)%SINER,ADM,CNEL      ,
-     5      ADDCNEL  ,OFC         ,OFT  ,OFTG ,OFUR      ,
-     6     TAGEL   ,ILEV     )
+     5      ADDCNEL  ,OFC       ,OFT  ,OFTG ,OFUR      ,
+     6      TAGEL    ,ILEV      ,IRODDL)
          ELSEIF (IDEL == 1) THEN 
            CALL CHK2MSR3NB(
      1      NSN    ,INTBUF_TAB(NG)%NSV ,ITAG  ,ITASK,INTBUF_TAB(NG)%IRECTM,
@@ -1747,9 +1747,8 @@ C
      3      IXQ    ,IPARG       ,ITAGL,MS      ,
      4      IN    ,INTBUF_TAB(NG)%SMAS ,INTBUF_TAB(NG)%SINER,ADM,CNEL      ,
      5      ADDCNEL  ,OFC         ,OFT  ,OFTG ,OFUR      ,
-     6     NINDEX1(NG)  ,IBUFS(IDBS+4) ,IND(IDB),TAGEL,ITAB         ,
-     7     ILEV      )
-
+     6      NINDEX1(NG)  ,IBUFS(IDBS+4) ,IND(IDB),TAGEL,ITAB         ,
+     7      ILEV)
          ENDIF
 C
          IF (NSPMD > 1 .AND. IDEL == 2) THEN
@@ -1869,7 +1868,7 @@ C cote main
         ELSEIF(NTY == 2.AND.IDEL/=0)THEN
          CALL SETMSR2(
      1          NINDEX1(NG)  ,IBUFS(IDB),IND(IDB)     ,INTBUF_TAB(NG)%NSV,MS,
-     2         INTBUF_TAB(NG)%SMAS,IN   ,INTBUF_TAB(NG)%SINER,IDEL)
+     2          INTBUF_TAB(NG)%SMAS,IN   ,INTBUF_TAB(NG)%SINER,IDEL,IRODDL)
          IDB = IDB+NINDEX1(NG)
 C
         ENDIF
@@ -3147,7 +3146,7 @@ C
      3    IXQ    ,IPARG,ITAGL,MS   ,
      4    IN     ,SMAS ,SINER,ADM  ,CNEL ,
      5    ADDCNEL,OFC  ,OFT  ,OFTG ,OFUR ,
-     6    TAGEL  ,ILEV )
+     6    TAGEL  ,ILEV ,IRODDL)
       use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3165,6 +3164,7 @@ C-----------------------------------------------
      .        ITAG2(*), IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*), TAGEL(*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR,ILEV
+      INTEGER,INTENT(IN) :: IRODDL
 C     REAL
       my_real
      .        MS(*),IN(*),SMAS(*),SINER(*),ADM(*)
@@ -3196,7 +3196,7 @@ C
             NSV(I) = -NSV(I)
             IF (ILEV /= 25 .and. ILEV /= 26) THEN
               MS(IS) = SMAS(I)
-              IN(IS) = SINER(I)
+              IF (IRODDL/=0) IN(IS) = SINER(I)
             ENDIF
 C         CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
@@ -3246,7 +3246,7 @@ C
               NSV(I) = -NSV(I)
               IF (ILEV /= 25 .and. ILEV /= 26) THEN
                 MS(IS)  = SMAS(I)
-                IN(IS)  = SINER(I)
+                IF (IRODDL/=0) IN(IS)  = SINER(I)
               ENDIF
               GOTO 400
             END IF
@@ -3329,7 +3329,7 @@ C
             NSV(I) = -NSV(I)
             IF (ILEV /= 25 .and. ILEV /= 26) THEN
               MS(IS) = SMAS(I)
-              IN(IS) = SINER(I)
+              IF(IRODDL/=0) IN(IS) = SINER(I)
             ENDIF
 C         CAUTION> = 1 because cumulative node front of tags at 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
@@ -3384,7 +3384,7 @@ C If no active element: Stif A 0 in SMP or Mono
            NSV(I) = -NSV(I)
            IF (ILEV /= 25 .and. ILEV /= 26) THEN
              MS(IS) = SMAS(I)
-             IN(IS) = SINER(I)
+             IF(IRODDL/=0) IN(IS) = SINER(I)
            ENDIF
 C If no active element: COMM in SPMD
         ELSE
@@ -3944,7 +3944,7 @@ C
 !||    chkstfn3n   ../engine/source/interfaces/interf/chkstfn3.F
 !||====================================================================
       SUBROUTINE SETMSR2(NINDG, BUFS, NINDEX, NSV, MS,
-     2                   SMAS , IN  , SINER ,IDEL)
+     2                   SMAS , IN  , SINER ,IDEL,IRODDL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3959,6 +3959,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IS, NN
+      INTEGER,INTENT(IN) :: IRODDL
 C-----------------------------------------------
       IF(IDEL == 2)THEN
 #include "vectorize.inc"
@@ -3970,7 +3971,7 @@ C-----------------------------------------------
             IF(IS > 0)THEN
               NSV(I)  = -NSV(I)
               MS(IS)  = SMAS(I)
-              IN(IS)  = SINER(I)
+              IF (IRODDL/=0) IN(IS)  = SINER(I)
             ENDIF
           ENDIF
         ENDDO
@@ -3984,7 +3985,7 @@ C-----------------------------------------------
             IF(IS > 0)THEN
               NSV(I)  = -NSV(I)
               MS(IS)  = SMAS(I)
-              IN(IS)  = SINER(I)
+              IF (IRODDL/=0) IN(IS)  = SINER(I)
             ENDIF
           ENDIF
         ENDDO
