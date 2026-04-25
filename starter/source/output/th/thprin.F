@@ -26,9 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_thgrou         ../starter/source/output/th/hm_read_thgrou.F
 !||--- calls      -----------------------------------------------------
 !||    fretitl2               ../starter/source/starter/freform.F
-!||    nintrn                 ../starter/source/system/nintrn.F
-!||    ulist2s                ../starter/source/system/sysfus.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE THPRIN(
@@ -99,10 +96,6 @@ C
 !||    thprin_sub             ../starter/source/output/th/thprin.F
 !||--- called by ------------------------------------------------------
 !||    hm_read_thgrou         ../starter/source/output/th/hm_read_thgrou.F
-!||--- calls      -----------------------------------------------------
-!||    nintrn                 ../starter/source/system/nintrn.F
-!||    ulist2s                ../starter/source/system/sysfus.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE THPRIN_SUB(

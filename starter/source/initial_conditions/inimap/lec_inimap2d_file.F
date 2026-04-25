@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inimap2d       ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    func2d_mod             ../starter/share/modules1/func2d_mod.F
 !||    inimap2d_mod           ../starter/share/modules1/inimap2d_mod.F

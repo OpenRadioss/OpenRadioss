@@ -425,8 +425,6 @@ C-----------------------------------------------------------------------
 !||    i24surf_pxfem   ../starter/source/interfaces/inter3d1/inintr2.F
 !||--- called by ------------------------------------------------------
 !||    inintr2         ../starter/source/interfaces/inter3d1/inintr2.F
-!||--- calls      -----------------------------------------------------
-!||    usr2sys         ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../starter/share/message_module/message_mod.F
 !||====================================================================

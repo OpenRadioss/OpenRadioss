@@ -330,7 +330,6 @@ C
 !||    hm_read_thgrpa         ../starter/source/output/th/hm_read_thgrpa.F
 !||    hm_read_thgrpa_sub     ../starter/source/output/th/hm_read_thgrpa.F
 !||    hm_read_thgrsens       ../starter/source/output/th/hm_read_thgrsens.F
-!||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
 !||    r2r_listcnt            ../starter/source/coupling/rad2rad/routines_r2r.F
 !||--- calls      -----------------------------------------------------
@@ -467,8 +466,6 @@ C-----------GAUGES------------------
 
 !||====================================================================
 !||    r2r_listcnt      ../starter/source/coupling/rad2rad/routines_r2r.F
-!||--- called by ------------------------------------------------------
-!||    hm_thgrki_vent   ../starter/source/output/th/hm_thgrki_vent.F
 !||--- calls      -----------------------------------------------------
 !||    my_exit          ../starter/source/output/analyse/analyse.c
 !||    r2r_exist        ../starter/source/coupling/rad2rad/routines_r2r.F

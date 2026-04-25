@@ -275,7 +275,6 @@ C
 !||    find_rby    ../starter/source/elements/joint/rjoint/rini33_rb.F
 !||--- called by ------------------------------------------------------
 !||    rini33_rb   ../starter/source/elements/joint/rjoint/rini33_rb.F
-!||    rini45_rb   ../starter/source/elements/joint/rjoint/rini45_rb.F
 !||====================================================================
       INTEGER FUNCTION FIND_RBY(IDNOD,NPBY,LPBY)
 C-----------------------------------------------

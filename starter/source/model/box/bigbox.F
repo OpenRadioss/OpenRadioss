@@ -1804,6 +1804,7 @@ C
 !||    checkcyl        ../starter/source/model/box/rdbox.F
 !||    checkpara       ../starter/source/model/box/rdbox.F
 !||    checksphere     ../starter/source/model/box/rdbox.F
+!||    freerr          ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELSTAGBOX(IXS    ,ELSTAG ,X   ,SKEW ,BOXTYPE,
@@ -1931,6 +1932,7 @@ C-----------
 !||    elstagbox                ../starter/source/model/box/bigbox.F
 !||    elstagboxbox             ../starter/source/model/box/boxbox.F
 !||    facebox                  ../starter/source/model/box/bigbox.F
+!||    freerr                   ../starter/source/starter/freform.F
 !||    hm_get_int_array_index   ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
@@ -2110,6 +2112,7 @@ C--------------------------
 !||    sboxboxsurf            ../starter/source/model/box/bigbox.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
+!||    freerr                 ../starter/source/starter/freform.F
 !||    ssurf10tmp             ../starter/source/model/box/bigbox.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F

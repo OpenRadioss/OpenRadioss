@@ -51,7 +51,6 @@
 !||    hm_read_mat10              ../starter/source/materials/mat/mat010/hm_read_mat10.F
 !||    hm_read_mat29_31           ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
 !||    hm_read_mat_99             ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
-!||    hm_read_prop_generic       ../starter/source/properties/hm_read_prop_generic.F
 !||    hm_read_quad               ../starter/source/elements/reader/hm_read_quad.F
 !||    hm_read_rivet              ../starter/source/elements/reader/hm_read_rivet.F
 !||    hm_read_sh3n               ../starter/source/elements/reader/hm_read_sh3n.F

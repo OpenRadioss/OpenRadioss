@@ -33,7 +33,6 @@ CCGW |Lectur /lectur1/lectur.f
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    ifrontplus             ../starter/source/spmd/node/frontplus.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F

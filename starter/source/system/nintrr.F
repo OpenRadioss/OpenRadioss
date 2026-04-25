@@ -68,7 +68,6 @@ C
 !||====================================================================
 !||    nintlst                ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
-!||    hm_lecgre              ../starter/source/groups/hm_lecgre.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
@@ -248,7 +247,6 @@ C
 !||    ngr2usr                       ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
 !||    hm_preread_bcscyc             ../starter/source/constraints/general/bcs/lecbcscyc.F
-!||    hm_preread_load_centri        ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
 !||    hm_preread_pblast             ../starter/source/loads/pblast/hm_preread_pblast.F
 !||    hm_read_ale_link              ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                ../starter/source/constraints/ale/hm_read_alebcs.F
@@ -297,7 +295,6 @@ C
 !||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
 !||    hm_read_intsub                ../starter/source/output/subinterface/hm_read_intsub.F
 !||    hm_read_link                  ../starter/source/constraints/rigidlink/hm_read_rlink.F
-!||    hm_read_nbcs                  ../starter/source/constraints/general/bcs/hm_read_nbcs.F
 !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
 !||    hm_read_pcyl                  ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
 !||    hm_read_rand                  ../starter/source/general_controls/computation/hm_read_rand.F
@@ -312,7 +309,6 @@ C
 !||    hm_read_spcnd                 ../starter/source/constraints/sph/hm_read_spcnd.F
 !||    lectrans                      ../starter/source/model/transformation/lectrans.F
 !||    lectranssub                   ../starter/source/model/submodel/lectranssub.F
-!||    printbcs                      ../starter/source/constraints/general/bcs/printbcs.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../starter/source/output/message/message.F
 !||    hm_get_current_option         ../starter/source/devtools/hm_reader/hm_get_current_option.F
@@ -384,15 +380,11 @@ C
 !||    fail_windshield_init     ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
 !||    hm_pre_read_link         ../starter/source/constraints/rigidlink/hm_pre_read_rlink.F
 !||    hm_preread_cload         ../starter/source/loads/general/cload/hm_preread_cload.F
-!||    hm_preread_convec        ../starter/source/loads/thermic/hm_preread_convec.F
 !||    hm_preread_grav          ../starter/source/loads/general/grav/hm_preread_grav.F
 !||    hm_preread_impacc        ../starter/source/constraints/general/impvel/hm_preread_impacc.F
 !||    hm_preread_impdisp       ../starter/source/constraints/general/impvel/hm_preread_impdisp.F
-!||    hm_preread_impflux       ../starter/source/constraints/thermic/hm_preread_impflux.F
-!||    hm_preread_imptemp       ../starter/source/constraints/thermic/hm_preread_imptemp.F
 !||    hm_preread_impvel        ../starter/source/constraints/general/impvel/hm_preread_impvel.F
 !||    hm_preread_load_centri   ../starter/source/loads/general/load_centri/hm_preread_load_centri.F
-!||    hm_preread_radiation     ../starter/source/loads/thermic/hm_preread_radiation.F
 !||    hm_preread_rbe2          ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_xelem         ../starter/source/elements/reader/hm_preread_xelem.F
 !||    prelecdet                ../starter/source/initial_conditions/detonation/prelecdet.F

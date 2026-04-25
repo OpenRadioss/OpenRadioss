@@ -232,6 +232,8 @@ C-------------------------------------------
 !||    inisms         ../starter/source/general_controls/computation/hm_read_sms.F
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg         ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================

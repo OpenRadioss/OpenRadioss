@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    kinset                   ../starter/source/constraints/general/kinset.F
-!||    ngr2usr                  ../starter/source/system/nintrr.F
 !||    usr2sys                  ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F

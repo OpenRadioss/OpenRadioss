@@ -24,9 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printbcs               ../starter/source/constraints/general/bcs/printbcs.F
 !||--- called by ------------------------------------------------------
 !||    lectur                 ../starter/source/starter/lectur.F
-!||--- calls      -----------------------------------------------------
-!||    ngr2usr                ../starter/source/system/nintrr.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================

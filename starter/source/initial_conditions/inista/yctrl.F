@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur                 ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
+!||    freerr                 ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F

@@ -44,8 +44,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    thprin                        ../starter/source/output/th/thprin.F
 !||    thprin_sub                    ../starter/source/output/th/thprin.F
 !||    udouble                       ../starter/source/system/sysfus.F
-!||    ulist2s                       ../starter/source/system/sysfus.F
-!||    usr2sys                       ../starter/source/system/sysfus.F
 !||    write_thnms1                  ../starter/source/output/th/write_thnms1.F90
 !||--- uses       -----------------------------------------------------
 !||    checksum_starter_option_mod   ../starter/source/output/checksum/checksum_option.F90

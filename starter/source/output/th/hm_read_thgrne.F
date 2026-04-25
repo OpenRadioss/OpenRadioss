@@ -33,12 +33,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_string_index      ../starter/source/devtools/hm_reader/hm_get_string_index.F
 !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
 !||    hord3                    ../starter/source/output/th/hord3.F
-!||    nintrn                   ../starter/source/system/nintrn.F
 !||    r2r_nin                  ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    r2r_sys                  ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    set_usrtos               ../starter/source/model/sets/ipartm1.F
 !||    udouble                  ../starter/source/system/sysfus.F
-!||    ulist2s                  ../starter/source/system/sysfus.F
 !||    usr2sys                  ../starter/source/system/sysfus.F
 !||    zeroin                   ../starter/source/system/zeroin.F
 !||--- uses       -----------------------------------------------------

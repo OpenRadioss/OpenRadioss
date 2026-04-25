@@ -474,6 +474,8 @@ C
 !||====================================================================
 !||    freerr                  ../starter/source/starter/freform.F
 !||--- called by ------------------------------------------------------
+!||    elstagbox               ../starter/source/model/box/bigbox.F
+!||    facebox                 ../starter/source/model/box/bigbox.F
 !||    fredec0                 ../starter/source/starter/freform.F
 !||    fredec4                 ../starter/source/starter/freform.F
 !||    fredec_2key_4id         ../starter/source/starter/freform.F
@@ -491,6 +493,8 @@ C
 !||    hm_read_monvol_type7    ../starter/source/airbag/hm_read_monvol_type7.F
 !||    hm_read_monvol_type8    ../starter/source/airbag/hm_read_monvol_type8.F
 !||    hm_read_monvol_type9    ../starter/source/airbag/hm_read_monvol_type9.F
+!||    sboxboxsurf             ../starter/source/model/box/bigbox.F
+!||    yctrl                   ../starter/source/initial_conditions/inista/yctrl.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                  ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------

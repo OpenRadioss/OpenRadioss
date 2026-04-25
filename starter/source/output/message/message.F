@@ -620,6 +620,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inirby                                 ../starter/source/constraints/general/rbody/inirby.F
 !||    inirbys                                ../starter/source/constraints/general/rbody/inirby.F
 !||    inisen                                 ../starter/source/tools/sensor/inisen.F
+!||    inisms                                 ../starter/source/general_controls/computation/hm_read_sms.F
 !||    inisrf                                 ../starter/source/constraints/general/rbody/inisrf.F
 !||    init_monvol                            ../starter/source/airbag/init_monvol.F
 !||    init_seatbelt_rbodies                  ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90

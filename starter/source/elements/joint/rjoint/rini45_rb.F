@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initia                 ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    find_rby               ../starter/source/elements/joint/rjoint/rini33_rb.F
 !||    fretitl2               ../starter/source/starter/freform.F
 !||    get_u_geo              ../starter/source/user_interface/uaccess.F
 !||    get_u_skew             ../starter/source/user_interface/uaccess.F

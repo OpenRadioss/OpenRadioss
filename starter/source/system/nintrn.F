@@ -23,11 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    nintrn                 ../starter/source/system/nintrn.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_thgrns         ../starter/source/output/th/hm_read_thgrns.F
-!||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
-!||    thprin                 ../starter/source/output/th/thprin.F
-!||    thprin_sub             ../starter/source/output/th/thprin.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------

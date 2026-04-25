@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_thvarc                ../starter/source/output/th/hm_read_thvarc.F
 !||    hord                     ../starter/source/output/th/hord.F
-!||    r2r_exist                ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    zeroin                   ../starter/source/system/zeroin.F
 !||--- uses       -----------------------------------------------------
 !||    format_mod               ../starter/share/modules1/format_mod.F90

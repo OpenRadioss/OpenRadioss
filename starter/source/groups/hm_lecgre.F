@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_submodgre             ../starter/source/groups/hm_submodgr.F
 !||    hm_tagpart               ../starter/source/groups/hm_tagpart.F
-!||    nintlst                  ../starter/source/system/nintrr.F
 !||    nintlstn                 ../starter/source/system/nintrr.F
 !||    udouble_igr              ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------

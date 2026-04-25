@@ -69,7 +69,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss2                     ../engine/source/engine/radioss2.F
 !||    rdcomi                       ../engine/source/output/restart/rdcomm.F
 !||    rdresb                       ../engine/source/output/restart/rdresb.F
-!||    read_ale_mat                 ../starter/source/materials/ale/read_ale_mat.F
 !||    read_euler_mat               ../starter/source/materials/ale/read_euler_mat.F
 !||    resol                        ../engine/source/engine/resol.F
 !||    restalloc                    ../engine/source/output/restart/arralloc.F
