@@ -132,9 +132,6 @@ c provisional
      .   ZMAX_EDGM, ZMIN_EDGM
       INTEGER FIRST_ADD, PREV_ADD, CHAIN_ADD, CURRENT_ADD, MAX_ADD
       INTEGER BITGET
-      INTEGER WORK(70000)
-      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: IIXYZ,LEDGE_TMP
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX
       EXTERNAL BITGET
 C-----------------------------------------------
 C
@@ -166,7 +163,6 @@ C--- IREMGAP - array for tag of deactivated lines
       ALLOCATE(LCHAIN_NEXT(1:MAX_ADD))
       ALLOCATE(LCHAIN_LAST(1:MAX_ADD))
 
-      ALLOCATE(IIXYZ(4,NEDGE),LEDGE_TMP(NLEDGE,NEDGE),INDEX(2*NEDGE))
 C     Barrier to wait init voxel and allocation 
 C     CALL MY_BARRIER
 C
@@ -190,10 +186,6 @@ C 1   placing edges into boxes
 C=======================================================================
       IF(ITASK == 0)THEN
 
-       IIXYZ(1:4,1:NEDGE)=0
-       DO I=1,NEDGE
-        INDEX(I)  =I
-       END DO
 
        DO I=1,NEDGE
 
@@ -250,23 +242,7 @@ C       if(ledge(3,i)/=0) cycle   ! only retaining border edges
         IY2=MAX(1,2+MIN(NBY,IY2))
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
-        IIXYZ(1,I)=MIN(N1,N2)
-        IIXYZ(2,I)=0
-        IIXYZ(3,I)=0
-        IIXYZ(4,I)=0
-
-        INDEX(I)  =I
-
        END DO
-
-       CALL MY_ORDERS(0,WORK,IIXYZ,INDEX,NEDGE,4)
-       LEDGE_TMP(1:NLEDGE,1:NEDGE)=LEDGE(1:NLEDGE,1:NEDGE)
-       DO I=1,NEDGE
-         K=INDEX(I)
-         LEDGE(1:NLEDGE,I)=LEDGE_TMP(1:NLEDGE,K)
-c        write(500,'(3I10)') I,LEDGE(5,I),LEDGE(6,I)
-       END DO
-       DEALLOCATE(IIXYZ,INDEX,LEDGE_TMP)
 
        CURRENT_ADD=1 ! first address
 
