@@ -580,7 +580,7 @@
           end do
           is_available = .false.
 !--------------------------------------------------
-          call hm_option_start('/inivel')
+          call hm_option_start('/INIVEL')
           i = 0
 
           do cpt=1,hm_ninvel
