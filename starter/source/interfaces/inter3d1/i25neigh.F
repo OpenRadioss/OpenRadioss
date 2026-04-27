@@ -92,7 +92,7 @@ C-----------------------------------------------
      7        NISUBN, INFLG, MAXADD, STAT
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
-     .        NA, NB, EA, EB,JM,MJ,DN_EI
+     .        NA, NB, EA, EB,JM,MJ,DN_EI,N1,N2
       INTEGER, DIMENSION(:),ALLOCATABLE :: MVOI
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: EIDNOD
       my_real
@@ -105,10 +105,11 @@ C-----------------------------------------------
      .     X01,Y01,Z01,X02,Y02,Z02,
      .     XNA, YNA, ZNA, XNB, YNB, ZNB, AAA, BBB, ANG
       INTEGER WORK(70000)
-      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2,LEDGE_TMP3
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT
+      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2,LEDGE_TMP3,LEDGE_TMP
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT,INDEX2
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
-     .                                      LISUBN,INFLG_SUBN,IXSUB
+     .                                      LISUBN,INFLG_SUBN,IXSUB,EBINFLG_TMP,
+     .                                      IIXYZ
       INTEGER, DIMENSION(:,:,:),ALLOCATABLE :: MNEIGH_SOLID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -561,6 +562,10 @@ C-----------------------------------------------------------------------
          ALLOCATE(LEDGE_TMP3(2,NEDGE_L))
          LEDGE_TMP3(1:2,1:NEDGE_L) =LEDGE(5:6,1:NEDGE_L)
          LEDGE(5:6,1:NEDGE_L) = 0
+         IF(ILEV==2) THEN
+           ALLOCATE(EBINFLG_TMP(NEDGE_L))
+            EBINFLG_TMP(1:NEDGE_L) =EBINFLG(1:NEDGE_L)
+         ENDIF
       ENDIF
 C
       DO I=1,NRTM
@@ -878,6 +883,20 @@ C-----1D element edges -----
          NEDGE = NEDGE+NEDGE_L
       ENDIF
 
+      ALLOCATE(IIXYZ(NEDGE),LEDGE_TMP(NLEDGE,NEDGE),INDEX2(2*NEDGE))
+       LEDGE_TMP(1:NLEDGE,1:NEDGE)=LEDGE(1:NLEDGE,1:NEDGE)
+      DO I=1,NEDGE
+        N1 = LEDGE(5,I)
+        N2 = LEDGE(6,I)
+        IIXYZ(I)=MIN(N1,N2)
+        INDEX2(I)  =I
+      ENDDO
+       CALL MY_ORDERS(0,WORK,IIXYZ,INDEX2,NEDGE,1)
+      DO I=1,NEDGE
+         K=INDEX2(I)
+         LEDGE(1:NLEDGE,I)=LEDGE_TMP(1:NLEDGE,K)
+      ENDDO
+
 C
 c      DO I=1,NRTM
 c       print *,'I,MSEGTYP(I)=',I,MSEGTYP(I),itab(irect(1:4,i))
@@ -892,21 +911,25 @@ C     Flag of belonging to the areas a S1/S2
 C-----------------------------------------
       IF(NEDGE/=0 .AND. ILEV==2)THEN
         EBINFLG(1:NEDGE)=0
-        DO I=1,NEDGE - NEDGE_L
-          NE   =LEDGE(1,I)
-          INFLG=MBINFLG(NE)
-          IMS1=BITGET(INFLG,0)
-          IMS2=BITGET(INFLG,1)
-          IF(IMS1/=0) EBINFLG(I)=BITSET(EBINFLG(I),0)
-          IF(IMS2/=0) EBINFLG(I)=BITSET(EBINFLG(I),1)
-          NE=LEDGE(3,I)
-          IF(NE/=0)THEN
+        DO I=1,NEDGE 
+          IF(LEDGE(7,I)==3) THEN
+            EBINFLG(I) =EBINFLG_TMP(INDEX2(I)-(NEDGE-NEDGE_L))
+          ELSE
+            NE   =LEDGE(1,I)
             INFLG=MBINFLG(NE)
             IMS1=BITGET(INFLG,0)
             IMS2=BITGET(INFLG,1)
             IF(IMS1/=0) EBINFLG(I)=BITSET(EBINFLG(I),0)
             IF(IMS2/=0) EBINFLG(I)=BITSET(EBINFLG(I),1)
-          END IF
+            NE=LEDGE(3,I)
+            IF(NE/=0)THEN
+              INFLG=MBINFLG(NE)
+              IMS1=BITGET(INFLG,0)
+              IMS2=BITGET(INFLG,1)
+              IF(IMS1/=0) EBINFLG(I)=BITSET(EBINFLG(I),0)
+              IF(IMS2/=0) EBINFLG(I)=BITSET(EBINFLG(I),1)
+            END IF
+          ENDIF
         END DO
       END IF
 C
@@ -1129,6 +1152,11 @@ C-------------------------------------
           END DO
         END IF
       END IF ! IF(NEDGE/=0.AND.NISUB/=0)THEN
+        IF(ALLOCATED(IIXYZ))DEALLOCATE(IIXYZ)
+        IF(ALLOCATED(INDEX2))DEALLOCATE(INDEX2)
+        IF(ALLOCATED(LEDGE_TMP))DEALLOCATE(LEDGE_TMP)
+        IF(ALLOCATED(LEDGE_TMP3))DEALLOCATE(LEDGE_TMP3)
+        IF(ALLOCATED(EBINFLG_TMP))DEALLOCATE(EBINFLG_TMP)
 C-------------------------------------
  1000 FORMAT(    /1X,'   STRUCTURE OF SUB-INTERFACES OUTPUT TO TH'/
      .            1X,'   ----------------------------------------'// )
