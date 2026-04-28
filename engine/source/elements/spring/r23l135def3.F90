@@ -21,22 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r23l135def3_mod    ../engine/source/elements/spring/r23l135def3.F90
+!||    r23l135def3_mod   ../engine/source/elements/spring/r23l135def3.F90
 !||--- called by ------------------------------------------------------
-!||    r23law108          ../engine/source/elements/spring/r23law108.F
-!||--- calls      -----------------------------------------------------
-!||    redef3             ../engine/source/elements/spring/redef3.F90
-!||    repla3             ../engine/source/elements/spring/repla3.F
-!||--- uses       -----------------------------------------------------
-!||    python_funct_mod   ../common_source/modules/python_mod.F90
-!||    redef3_mod         ../engine/source/elements/spring/redef3.F90
+!||    r23law135         ../engine/source/elements/spring/r23law135.F90
 !||====================================================================
       module r23l135def3_mod
       contains
 !||====================================================================
-!||
-!||    r23l135def3
-!||
+!||    r23l135def3        ../engine/source/elements/spring/r23l135def3.F90
+!||--- called by ------------------------------------------------------
+!||    r23law135          ../engine/source/elements/spring/r23law135.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mvsiz_mod          ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||    redef3_mod         ../engine/source/elements/spring/redef3.F90
 !||====================================================================
         subroutine r23l135def3( &
           pid      ,skew     ,  &

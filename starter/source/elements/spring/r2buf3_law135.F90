@@ -21,18 +21,17 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r2buf3_law135_mod   ../starter/source/elements/spring/r2buf3.F90
+!||    r2buf3_law135_mod   ../starter/source/elements/spring/r2buf3_law135.F90
 !||--- called by ------------------------------------------------------
 !||    rinit3              ../starter/source/elements/spring/rinit3.F
-!||--- uses       -----------------------------------------------------
-!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       module r2buf3_law135_mod
       contains
 !||====================================================================
-!||
-!||    r2buf3_law135
-!||
+!||    r2buf3_law135   ../starter/source/elements/spring/r2buf3_law135.F90
+!||--- called by ------------------------------------------------------
+!||    rinit3          ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine r2buf3_law135( &
           off      ,x        ,x0       ,y0       ,      &

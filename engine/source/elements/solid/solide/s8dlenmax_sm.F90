@@ -21,12 +21,33 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    s8dlenmax_sm_mod   ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s8eforc3           ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3           ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3             ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
+!||====================================================================
       module s8dlenmax_sm_mod
       implicit none
       contains
 ! ======================================================================================================================
 ! \brief compute some geometric parameters of hexahedron in case of small strain
 ! ======================================================================================================================
+!||====================================================================
+!||    s8dlenmax_sm    ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s8eforc3        ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3        ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3          ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3         ../engine/source/elements/solid/solidez/szforc3.F
+!||--- calls      -----------------------------------------------------
+!||    sdlenmax        ../engine/source/elements/solid/solide/sdlenmax.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine s8dlenmax_sm(                          &
           nel      ,rho0     ,vol0       ,x       ,       &
           nc1      ,nc2      ,nc3        ,nc4     ,       &

@@ -901,6 +901,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_head                        ../engine/source/engine/resol_head.F
 !||    ri2_int24p_ini                    ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    rigid_mat                         ../starter/source/materials/mat/mat019/rigid_mat.F
+!||    rini135_rb                        ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    rini32                            ../starter/source/properties/spring/hm_read_prop32.F
 !||    rini33_rb                         ../starter/source/elements/joint/rjoint/rini33_rb.F
 !||    rini45                            ../starter/source/elements/joint/rjoint/rini45.F

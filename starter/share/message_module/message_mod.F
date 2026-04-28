@@ -518,6 +518,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat132                         ../starter/source/materials/mat/mat132/hm_read_mat132.F90
 !||    hm_read_mat133                         ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                         ../starter/source/materials/mat/mat134/hm_read_mat134.F90
+!||    hm_read_mat135                         ../starter/source/materials/mat/mat135/hm_read_mat135.F90
 !||    hm_read_mat14                          ../starter/source/materials/mat/mat014/hm_read_mat14.F
 !||    hm_read_mat15                          ../starter/source/materials/mat/mat015/hm_read_mat15.F
 !||    hm_read_mat151                         ../starter/source/materials/mat/mat151/hm_read_mat151.F
@@ -1119,6 +1120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    retrirby                               ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    rigid_mat                              ../starter/source/materials/mat/mat019/rigid_mat.F
 !||    rigmodif_nd                            ../starter/source/elements/solid/solide10/dim_s10edg.F
+!||    rini135_rb                             ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    rini32                                 ../starter/source/properties/spring/hm_read_prop32.F
 !||    rini33                                 ../starter/source/elements/joint/rjoint/rini33.F
 !||    rini33_rb                              ../starter/source/elements/joint/rjoint/rini33_rb.F

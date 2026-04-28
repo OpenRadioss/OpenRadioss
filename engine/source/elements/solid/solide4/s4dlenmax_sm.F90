@@ -21,12 +21,27 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    s4dlenmax_sm_mod   ../engine/source/elements/solid/solide4/s4dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s10forc3           ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s4forc3            ../engine/source/elements/solid/solide4/s4forc3.F
+!||====================================================================
       module s4dlenmax_sm_mod
       implicit none
       contains
 ! ======================================================================================================================
 ! \brief compute some geometric parameters of tetrahedron in case of small strain
 ! ======================================================================================================================
+!||====================================================================
+!||    s4dlenmax_sm    ../engine/source/elements/solid/solide4/s4dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
+!||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine s4dlenmax_sm(                          &
           nel      ,x        ,l_min      ,vol     ,       &
           nc1      ,nc2      ,nc3        ,nc4     ,       &

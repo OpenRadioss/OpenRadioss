@@ -247,6 +247,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r23law108                                    ../engine/source/elements/spring/r23law108.F
 !||    r23law113                                    ../engine/source/elements/spring/r23law113.F
 !||    r23law114                                    ../engine/source/elements/spring/r23law114.F
+!||    r23law135                                    ../engine/source/elements/spring/r23law135.F90
 !||    r2tors                                       ../engine/source/elements/spring/r2tors.F
 !||    r3tors                                       ../engine/source/elements/spring/r3tors.F
 !||    r4tors                                       ../engine/source/elements/spring/r4tors.F

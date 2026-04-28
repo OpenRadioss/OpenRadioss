@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sdlenmax   ../engine/source/elements/solid/solide/sdlenmax.F
+!||    sdlenmax       ../engine/source/elements/solid/solide/sdlenmax.F
 !||--- called by ------------------------------------------------------
-!||    s20forc3   ../engine/source/elements/solid/solide20/s20forc3.F
-!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
+!||    s20forc3       ../engine/source/elements/solid/solide20/s20forc3.F
+!||    s8dlenmax_sm   ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
+!||    s8eforc3       ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3       ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3         ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       SUBROUTINE SDLENMAX(LM_MAX, 
      1   X1,      X2,      X3,      X4,      

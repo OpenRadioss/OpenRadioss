@@ -95,6 +95,9 @@
 !||    pforc3                    ../engine/source/elements/beam/pforc3.F
 !||    q4forc2                   ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                    ../engine/source/elements/solid_2d/quad/qforc2.F
+!||    r23forc3                  ../engine/source/elements/spring/r23forc3.F
+!||    r23law135                 ../engine/source/elements/spring/r23law135.F90
+!||    r2len3law135              ../engine/source/elements/spring/r2len3law135.F90
 !||    radioss2                  ../engine/source/engine/radioss2.F
 !||    rdcomi                    ../engine/source/output/restart/rdcomm.F
 !||    rdresa                    ../engine/source/output/restart/rdresa.F

@@ -21,7 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r23law135_mod      ../engine/source/elements/spring/r23law135.F90
+!||    r23law135_mod   ../engine/source/elements/spring/r23law135.F90
+!||--- called by ------------------------------------------------------
+!||    r23forc3        ../engine/source/elements/spring/r23forc3.F
+!||====================================================================
+      module r23law135_mod
+      contains
+!||====================================================================
+!||    r23law135          ../engine/source/elements/spring/r23law135.F90
 !||--- called by ------------------------------------------------------
 !||    r23forc3           ../engine/source/elements/spring/r23forc3.F
 !||--- calls      -----------------------------------------------------
@@ -31,22 +38,23 @@
 !||    r23sens3           ../engine/source/elements/spring/r23sens3.F
 !||    r2cum3             ../engine/source/elements/spring/r2cum3.F
 !||    r2cum3p            ../engine/source/elements/spring/r2cum3p.F
-!||    r2len3             ../engine/source/elements/spring/r2len3.F
+!||    r2len3law135       ../engine/source/elements/spring/r2len3law135.F90
 !||    r2tors             ../engine/source/elements/spring/r2tors.F
 !||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    mat_elem_mod       ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mvsiz_mod          ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
+!||    prop_param_mod     ../common_source/modules/mat_elem/prop_param_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    r23l135def3_mod    ../engine/source/elements/spring/r23l135def3.F90
+!||    r2len3law135_mod   ../engine/source/elements/spring/r2len3law135.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||    table_mod          ../engine/share/modules/table_mod.F
-!||====================================================================
-      module r23law135_mod
-      contains
-!||====================================================================
-!||
-!||    r23law135
-!||
 !||====================================================================
         subroutine r23law135( &
             elbuf_str , nel       , igeo      , geo       , &

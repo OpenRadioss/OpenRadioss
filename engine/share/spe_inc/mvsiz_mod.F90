@@ -32,9 +32,13 @@
 !||    init_ale_boundary_condition     ../engine/source/ale/init_ale_boundary_condition.F90
 !||    mmain                           ../engine/source/materials/mat_share/mmain.F90
 !||    mulaw8                          ../engine/source/materials/mat_share/mulaw8.F90
+!||    r23l135def3                     ../engine/source/elements/spring/r23l135def3.F90
+!||    r23law135                       ../engine/source/elements/spring/r23law135.F90
+!||    r2len3law135                    ../engine/source/elements/spring/r2len3law135.F90
 !||    redef3                          ../engine/source/elements/spring/redef3.F90
 !||    redef_seatbelt                  ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    s10get_x0                       ../engine/source/elements/solid/solide10/s10get_x0.F90
+!||    s4dlenmax_sm                    ../engine/source/elements/solid/solide4/s4dlenmax_sm.F90
 !||    s6chour_ctl                     ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6fint_reg                      ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor                    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
@@ -50,6 +54,7 @@
 !||    s6zrcoor3                       ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    s6zsav12                        ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||    s6zupd11t12                     ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
+!||    s8dlenmax_sm                    ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
 !||    sdistor_ini                     ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sfor_3n2s3                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_4n2s4                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90

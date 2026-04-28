@@ -805,6 +805,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reset_u_geo                            ../starter/source/user_interface/uaccess.F
 !||    rigid_mat                              ../starter/source/materials/mat/mat019/rigid_mat.F
 !||    rigmodif_nd                            ../starter/source/elements/solid/solide10/dim_s10edg.F
+!||    rini135_rb                             ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    rini32                                 ../starter/source/properties/spring/hm_read_prop32.F
 !||    rini33_rb                              ../starter/source/elements/joint/rjoint/rini33_rb.F
 !||    rini45                                 ../starter/source/elements/joint/rjoint/rini45.F

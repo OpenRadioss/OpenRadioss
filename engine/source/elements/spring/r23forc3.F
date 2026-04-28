@@ -28,11 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r23law108          ../engine/source/elements/spring/r23law108.F
 !||    r23law113          ../engine/source/elements/spring/r23law113.F
 !||    r23law114          ../engine/source/elements/spring/r23law114.F
+!||    r23law135          ../engine/source/elements/spring/r23law135.F90
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    mat_elem_mod       ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
+!||    r23law135_mod      ../engine/source/elements/spring/r23law135.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||    table_mod          ../engine/share/modules/table_mod.F
 !||====================================================================

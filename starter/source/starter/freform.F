@@ -763,6 +763,7 @@ C-----------------------------------------------
 !||    remn_self24                   ../starter/source/interfaces/inter3d1/remn_self24.F
 !||    ri2_int24p_ini                ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    rigid_mat                     ../starter/source/materials/mat/mat019/rigid_mat.F
+!||    rini135_rb                    ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    rini33_rb                     ../starter/source/elements/joint/rjoint/rini33_rb.F
 !||    rini45_rb                     ../starter/source/elements/joint/rjoint/rini45_rb.F
 !||    rinit3                        ../starter/source/elements/spring/rinit3.F

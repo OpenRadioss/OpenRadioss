@@ -21,21 +21,21 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rini135_rb_mod      ../starter/source/elements/joint/rjoint/rini135_rb.F90
+!||    rini135_rb_mod   ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||--- called by ------------------------------------------------------
-!||    initia              ../starter/source/elements/initia/initia.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg              ../starter/source/output/message/message.F
-!||--- uses       -----------------------------------------------------
-!||    message_mod         ../starter/share/message_module/message_mod.F
-!||    element_mod         ../common_source/modules/elements/element_mod.F90
+!||    initia           ../starter/source/elements/initia/initia.F
 !||====================================================================
       module rini135_rb_mod
       contains
 !||====================================================================
-!||
-!||    rini135_rb
-!||
+!||    rini135_rb             ../starter/source/elements/joint/rjoint/rini135_rb.F90
+!||--- called by ------------------------------------------------------
+!||    initia                 ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                 ../starter/source/output/message/message.F
+!||    fretitl2               ../starter/source/starter/freform.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
           subroutine rini135_rb( &
           nel      ,nuvar    ,ixr      ,npby     ,      &

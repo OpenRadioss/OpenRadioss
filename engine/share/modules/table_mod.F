@@ -87,6 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r23law108                  ../engine/source/elements/spring/r23law108.F
 !||    r23law113                  ../engine/source/elements/spring/r23law113.F
 !||    r23law114                  ../engine/source/elements/spring/r23law114.F
+!||    r23law135                  ../engine/source/elements/spring/r23law135.F90
 !||    r3def3                     ../engine/source/elements/spring/r3def3.F
 !||    resol                      ../engine/source/engine/resol.F
 !||    retractor_table_inv        ../engine/source/tools/seatbelts/retractor_table_inv.F90

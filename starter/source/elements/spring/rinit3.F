@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r1buf3                 ../starter/source/elements/spring/r1buf3.F
 !||    r23mass                ../starter/source/elements/spring/rmass.F
 !||    r2buf3                 ../starter/source/elements/spring/r2buf3.F
+!||    r2buf3_law135          ../starter/source/elements/spring/r2buf3_law135.F90
 !||    r3buf3                 ../starter/source/elements/spring/r3buf3.F
 !||    r4buf3                 ../starter/source/elements/spring/r4buf3.F
 !||    r4ini                  ../starter/source/elements/spring/rinit3.F
@@ -53,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    bpreload_mod           ../starter/share/modules1/bpreload_mod.F
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    r2buf3_law135_mod      ../starter/source/elements/spring/r2buf3_law135.F90
 !||====================================================================
       SUBROUTINE RINIT3(ELBUF_STR,
      .                  IXR      ,X        ,GEO      ,XMAS   ,NPC   ,

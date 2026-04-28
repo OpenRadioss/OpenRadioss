@@ -795,8 +795,10 @@
 !||    r23law108                           ../engine/source/elements/spring/r23law108.F
 !||    r23law113                           ../engine/source/elements/spring/r23law113.F
 !||    r23law114                           ../engine/source/elements/spring/r23law114.F
+!||    r23law135                           ../engine/source/elements/spring/r23law135.F90
 !||    r23mass                             ../starter/source/elements/spring/rmass.F
 !||    r2buf3                              ../starter/source/elements/spring/r2buf3.F
+!||    r2buf3_law135                       ../starter/source/elements/spring/r2buf3_law135.F90
 !||    r2coor3                             ../engine/source/elements/spring/r2coor3.F
 !||    r2coork3                            ../engine/source/elements/spring/r2coork3.F
 !||    r2r_check_seg                       ../starter/source/coupling/rad2rad/routines_r2r.F
@@ -847,6 +849,7 @@
 !||    rgwat2                              ../engine/source/interfaces/int09/rgwat2.F
 !||    rgwat3                              ../engine/source/interfaces/int09/rgwat3.F
 !||    rgwath                              ../engine/source/interfaces/int09/rgwath.F
+!||    rini135_rb                          ../starter/source/elements/joint/rjoint/rini135_rb.F90
 !||    rini1u                              ../starter/source/elements/spring/rinit3.F
 !||    rini2u                              ../starter/source/elements/spring/rinit3.F
 !||    rini33_rb                           ../starter/source/elements/joint/rjoint/rini33_rb.F

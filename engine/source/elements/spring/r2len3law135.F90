@@ -21,21 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r2len3law135_mod   ../engine/source/elements/spring/r2len3.F90
+!||    r2len3law135_mod   ../engine/source/elements/spring/r2len3law135.F90
 !||--- called by ------------------------------------------------------
 !||    r23law135          ../engine/source/elements/spring/r23law135.F90
 !||====================================================================
       module r2len3law135_mod
       contains
 !||====================================================================
-!||
-!||    r2len3law135
-!||
+!||    r2len3law135       ../engine/source/elements/spring/r2len3law135.F90
+!||--- called by ------------------------------------------------------
+!||    r23law135          ../engine/source/elements/spring/r23law135.F90
 !||--- uses       -----------------------------------------------------
-!||
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    precision_mod   ../common_source/modules/precision_mod.F90
-!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    constant_mod       ../common_source/modules/constant_mod.F
+!||    mat_elem_mod       ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mvsiz_mod          ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine r2len3law135( &
           nel      ,sti      ,stir     ,      &
