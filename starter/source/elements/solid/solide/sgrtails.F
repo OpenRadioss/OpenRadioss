@@ -111,7 +111,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDDLEVEL
       INTEGER, INTENT(IN) :: PRINT_FLAG                 !< flag to print the element group data
       INTEGER, INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
-      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(INOUT) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
       INTEGER, DIMENSION(2,NUMPRELOAD),INTENT(IN) :: IPRELOAD_FUN
 C-----------------------------------------------
@@ -657,6 +657,8 @@ C
             DO IL=1,NLAY                        
               IMAT  = IGEO(100+IL,PID)           
               NFAIL = MAX(NFAIL,MATPARAM_TAB(IMAT)%NFAIL)
+              ILAW = IPM(2,IMAT)
+              IF(MATPARAM_TAB(IMAT)%NFAIL>0.AND.ILAW==25) MATPARAM_TAB(IMAT)%IPARAM(2)=1000   !IOFF
             ENDDO
           ELSE
             NFAIL = MATPARAM_TAB(MID)%NFAIL
@@ -670,7 +672,9 @@ c
                   IF  (IFAILMODEL == 10 .OR. IFAILMODEL == 4 
      .             .OR.IFAILMODEL == 5  .OR. IFAILMODEL == 6)ISTRAIN = 1
                 ENDDO
-             ENDIF   
+            ELSEIF( MLN == 25 ) THEN
+              MATPARAM_TAB(MID)%IPARAM(2) = 1000   !IOFF
+            ENDIF   
           ENDIF
           IF(IKSNOD0 == 10.OR.
      .      (IKSNOD0 == 4.AND.ITET4 == 1))THEN
