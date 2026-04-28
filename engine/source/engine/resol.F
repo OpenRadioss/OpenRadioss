@@ -6082,7 +6082,7 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
               ENDIF
               ! ----------------------
 #ifdef DNC
-              IF(MDS_AVAIL==1) THEN
+              IF(MDS_AVAIL==1 .and. MDS_NMAT > 0) THEN
                 TSTOP_USER = TSTOP
                 TT_USER = TT
                 MSTOP_USER = 0
