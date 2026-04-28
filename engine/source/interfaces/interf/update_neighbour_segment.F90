@@ -93,7 +93,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,ijk
-          integer :: nin
+          integer :: nin,nin_2
           integer :: nb_new_segment,total_nb_segment,local_nb_new_segment
           integer :: next_segment
           integer :: nb_connected_segment,nb_r_connected_segment
@@ -227,7 +227,6 @@
             end if
           end do
           ! ------------
-
           allocate( segment_pair(total_nb_segment,4,5) )
           allocate( criteria(total_nb_segment,4) )
           segment_pair(1:total_nb_segment,1:4,1:5) = 0
@@ -283,16 +282,15 @@
 
                 ierror = -1
                 call c_hash_find( segment_hash_id,n_segment_id+ &
-                  shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
+                  shoot_struct%shift_interface2(nin) ,ierror ) ! check if "n_segment id" is already in the hash table
                 if(ierror==-1) then  ! no --> need to add it
                   seg_id = seg_id + 1
                   call c_hash_insert( segment_hash_id,n_segment_id+  &
-                    shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
+                    shoot_struct%shift_interface2(nin),seg_id )
                   n_seg_id = seg_id
                 else
                   n_seg_id = ierror
                 endif
-
                 n_normal(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+1)
                 n_normal(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+2)
                 n_normal(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+3)
@@ -300,7 +298,6 @@
                 n_vconvexity(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+1)
                 n_vconvexity(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+2)
                 n_vconvexity(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+3)
-
                 ! -------
                 if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
                   call get_segment_criteria( convexity,normal,n_vconvexity )
@@ -355,9 +352,11 @@
                   my_iedge_2 = my_integer
                   my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 7),my_int_variable) ! get the number of r connected segment
                   nb_r_connected_segment = my_integer
+                  my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address+5),my_int_variable) ! get the interface id
+                  nin_2 = my_integer
 
                   ! check if the segment in the r_buffer_2 is the same new segment
-                  if((segment_id_2==segment_id).and.(my_iedge_2==my_iedge)) then
+                  if((segment_id_2==segment_id).and.(my_iedge_2==my_iedge).and.(nin==nin_2)) then
 
 
                     my_offset_1 = r_address + 7
@@ -390,11 +389,11 @@
 
                       ierror = -1
                       call c_hash_find( segment_hash_id,n_segment_id+ &
-                        shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
+                        shoot_struct%shift_interface2(nin) ,ierror ) ! check if "n_segment id" is already in the hash table
                       if(ierror==-1) then  ! no --> need to add it
                         seg_id = seg_id + 1
                         call c_hash_insert( segment_hash_id,n_segment_id+  &
-                          shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
+                          shoot_struct%shift_interface2(nin),seg_id )
                         n_seg_id = seg_id
                       else
                         n_seg_id = ierror
