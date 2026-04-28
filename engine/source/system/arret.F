@@ -443,6 +443,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE SCRATCHFILE_MOD
       USE OUTPUT_MOD
       USE file_descriptor_mod
+      USE MDS_RESTART_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -615,7 +616,7 @@ C -----------------------------------------------
       ENDIF
       ! ----------------------
 #ifdef DNC
-      IF(MDS_AVAIL==1) THEN
+      IF(MDS_AVAIL==1 .and. MDS_NMAT > 0) THEN
         ISPMD_USER = ISPMD
         CALL MDS_ENGINE_USER_FINALIZE( ISPMD_USER )
       ENDIF
