@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER :: NBSUBMAT, OLDFORMAT
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
-      NFIX = 24
+      NFIX = 25
       NUMMAT = MAT_ELEM%NUMMAT
       LEN    = 0
       LENI   = NFIX*NUMMAT
@@ -96,6 +96,7 @@ C=======================================================================
         IBUF(IAD+22) = MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE
         IBUF(IAD+23) = MAT_ELEM%MAT_PARAM(IMAT)%IXFEM
         IBUF(IAD+24) = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
+        IBUF(IAD+25) = MAT_ELEM%MAT_PARAM(IMAT)%CRIT_PLAS
 
         IAD = IAD + NFIX
       END DO

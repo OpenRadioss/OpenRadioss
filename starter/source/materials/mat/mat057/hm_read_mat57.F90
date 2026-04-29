@@ -318,6 +318,8 @@
           matparam%mode(2) = "Tensile failure damage"
 !
           !< Properties compatibility
+          call init_mat_keyword(matparam,"ELASTO_PLASTIC")
+          call init_mat_keyword(matparam,"BARLAT1989")
           call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
 !
           !-------------------------------------------------------------------------

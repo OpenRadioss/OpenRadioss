@@ -309,6 +309,7 @@ C---- Buffer Size for specific element buffer allocations
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")
 
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"DRUCKER")
 
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")

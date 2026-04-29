@@ -323,6 +323,7 @@ C-----------------------
       MTAG%L_PLA  = 1
 C-----------------------      
       ! Properties compatibility  
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC") 
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH") 
