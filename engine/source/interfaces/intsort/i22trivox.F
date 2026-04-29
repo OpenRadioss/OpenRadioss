@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    i22sto           ../engine/source/interfaces/intsort/i22sto.F
 !||    ireallocate      ../engine/share/modules/realloc_mod.F
-!||    isonsh3n         ../engine/source/interfaces/int22/i22intersect.F
 !||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod      ../common_source/modules/elements/element_mod.F90

@@ -771,7 +771,6 @@ C================================================================
 !||    isonsh3n       ../engine/source/interfaces/int22/i22intersect.F
 !||--- called by ------------------------------------------------------
 !||    i22intersect   ../engine/source/interfaces/int22/i22intersect.F
-!||    i22trivox      ../engine/source/interfaces/intsort/i22trivox.F
 !||====================================================================
       INTEGER FUNCTION ISONSH3N(Z, A, ZA, ZB, P, IFLG_DB)
 C-----------------------------------------------
