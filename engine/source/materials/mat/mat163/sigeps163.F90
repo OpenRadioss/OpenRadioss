@@ -132,7 +132,8 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,ncycle,nrs
-          real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
+          real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a,&
+            denom
           real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst
           real(kind=WP), dimension(mvsiz,6) :: sig,eps
           real(kind=WP), dimension(mvsiz,3) :: sigp,epsp
@@ -302,7 +303,8 @@
           !=====================================================================
           do i = 1,nel
             !< Viscous damping coefficient
-            a = ssp(i)*rho(i)*damp*le(i)/(one + gama(i))
+            denom = sign(max(abs((one + gama(i))),em20),(one + gama(i)))
+            a = ssp(i)*rho(i)*damp*le(i)/denom
             ldav = third*(epspxx(i) + epspyy(i) + epspzz(i))
             !< Viscous stresses
             sigvxx(i) = a*((epspxx(i) - ldav)/(one + nu) + ldav/(one - two*nu))
@@ -313,7 +315,8 @@
             sigvzx(i) = a*epspzx(i)/(two*(one + nu))
             !< Update the soundspeed to include the viscous damping stiffness
             if (timestep > zero) then
-              ssp(i) = sqrt((bulk + four_over_3*g + a/timestep)/min(rho(i),rho0(i)))
+              ssp(i) = sqrt((bulk + four_over_3*g + a/max(timestep,em20))/     &
+                                                      min(rho(i),rho0(i)))
             else
               ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
             end if
