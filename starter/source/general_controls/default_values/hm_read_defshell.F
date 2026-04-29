@@ -89,6 +89,8 @@ C----------------------------------------------
           CALL HM_GET_INTV('ISH3N',DEFAULTS_SHELL%ish3n,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Idrill',DEFAULTS_SHELL%idrill,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Ioffset',DEFAULTS_SHELL%ioffset,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Ithin_drape',DEFAULTS_SHELL%ithin_drape,IS_AVAILABLE,LSUBMODEL)
+          IF(DEFAULTS_SHELL%ithin_drape == 0 )  DEFAULTS_SHELL%ithin_drape = 1
           EXIT
         ENDIF            
       ENDDO

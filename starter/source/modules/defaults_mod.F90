@@ -77,6 +77,7 @@
           integer ::  iplas      !< plastic strain flag       old :IPLA_D
           integer ::  ithick     !< thickness flag
           integer ::  idrill     !< drilling dof flag
+          integer ::  ithin_drape     !< flag for thinning of drape 
 ! old obsolet flags : ISTRA_D: fixed to 1,NPTS_D ,ISHEA_D : fixed to 0
         end type  shell_defaults_
 
@@ -122,13 +123,14 @@
 
           type (defaults_), intent(inout) :: this
 
-          this%shell%ioffset = 0
-          this%shell%ishell  = 0
-          this%shell%ish3n   = 0
-          this%shell%ismstr  = 0
-          this%shell%iplas   = 0
-          this%shell%ithick  = 0
-          this%shell%idrill  = 0
+          this%shell%ioffset     = 0
+          this%shell%ishell      = 0
+          this%shell%ish3n       = 0
+          this%shell%ismstr      = 0
+          this%shell%iplas       = 0
+          this%shell%ithick      = 0
+          this%shell%idrill      = 0
+          this%shell%ithin_drape = 0 
 ! solid
           this%solid%isolid   = 0
           this%solid%ismstr   = 0
@@ -163,6 +165,7 @@
           end if
           if (this%shell%ishell==0) this%shell%ishell  = 1
           if (this%shell%ish3n==0) this%shell%ish3n  = 2
+          if(this%shell%ithin_drape==0) this%shell%ithin_drape =1 
 ! solid
           if (iimplicit == 1) then
             if (this%solid%isolid==0) this%solid%isolid   = 14

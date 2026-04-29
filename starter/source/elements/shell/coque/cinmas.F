@@ -559,7 +559,7 @@ C
         IPOS = IGEO(99,IPROP)                   
         THICKT = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0 ) THEN                                  
           DO I=LFT,LLT
             EMS(I)=ZERO
@@ -736,7 +736,7 @@ C------
                        ENDIF ! IF (IPT ==  1)
                        POS_IT(IT)   = POSLY(IPT)*THK(I)
                      ENDDO  ! nptt
-                ELSEIF(IINT == 2) THEN !  to be removed wait to discuss with erwan
+                ELSEIF(IINT == 2) THEN !  available only with old thinning 
                      THKLY   = STACK%GEO(I3 ,ISUBSTACK)*THICKT ! initial
                      IPID_LY = STACK%IGEO(I1,ISUBSTACK)
                      MATLY   = STACK%IGEO(I2,ISUBSTACK) 
@@ -951,7 +951,7 @@ C----------------------------------------------
         IPOS = IGEO(99,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =ZSHIFT /MAX(THICKT,EM20)       
 C         
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
@@ -1052,7 +1052,7 @@ C
         IINT = IGEO(47,IPROP)                   
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)       
 C       
         IF(IDRAPE == 0) THEN   
           IF(IPOS == 1) THEN
@@ -1291,7 +1291,7 @@ C
                          ENDIF ! IF (IPT == 1)                                                                   
                          POS_IT(IT)   = POSLY(IPT)*THK(I)
                        ENDDO  ! nptt                                                                             
-                    ELSEIF(IINT == 2) THEN ! to be removed wai to discuss with erwan
+                    ELSEIF(IINT == 2) THEN ! available only with old thinning 
                        THICKT = STACK%GEO(1,ISUBSTACK)                              
                        THKLY  = STACK%GEO(I3 ,ISUBSTACK)*THICKT ! initial           
                        DO IT=1,NPTT                                                                                  

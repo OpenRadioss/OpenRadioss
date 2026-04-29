@@ -1257,7 +1257,9 @@ C SPH
       type(constraint_) :: constraint_struct
 C RWALL PENALTY   
       INTEGER :: SLN_PEN
-      my_real, DIMENSION(:), ALLOCATABLE :: RWSTIF_PEN
+      my_real, DIMENSION(:), ALLOCATABLE :: RWSTIF_PEN 
+      ! drape flag
+      INTEGER :: ITHIN_DRAPE
 
       integer, parameter :: nb_key = 8 
       integer :: iwarnhb,n_entity
@@ -3874,9 +3876,11 @@ C-------------------------
      .                   IWORK_T  )
         ENDIF        
       !!   
+       
+         ITHIN_DRAPE = DEFAULTS%SHELL%ithin_drape
          CALL HM_READ_DRAPE(DRAPE_WRK ,IWORK_T       ,IWORKSH   ,IGRSH3N   ,IGRSH4N  ,
      .                     IXC       ,IXTG           ,IGEO       ,IGEO_STACK,LSUBMODEL,
-     .                     UNITAB    ,INDXSH         )
+     .                     UNITAB    ,INDXSH         ,ITHIN_DRAPE )
          IF( NUMELC_DRAPE  > 0) SCDRAPE = NUMELC
          IF( NUMELTG_DRAPE > 0) STDRAPE = NUMELTG
          ALLOCATE(DRAPE(NUMELC_DRAPE +NUMELTG_DRAPE) ) 
