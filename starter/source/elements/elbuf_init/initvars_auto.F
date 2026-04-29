@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAY,NLAY,NPG,NPTT,NPTR,NPTS,IL,IR,IS,IT
+      INTEGER ILAY,NLAY,NPG,NPTT,NPTR,NPTS,IL,IR,IS,IT,IF_LAW
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(MLAW_TAG_)    , POINTER :: MTAG
@@ -245,8 +245,14 @@ c
 c     global property variables                                            
 c
       IF(IGTYP > 0)THEN
+        IF_LAW=GLAW
+        IF (IGTYP==22.AND.IF_LAW/=25) THEN
+          DO IL = 1, NLAY                                                    
+            IF (ELBUF_STR%BUFLY(IL)%ILAW==25) IF_LAW=25                     
+          END DO
+        END IF
         IF (GBUF%G_OFF    == 0) GBUF%G_OFF    = PTAG%G_OFF
-        IF (IFAIL > 0 .OR. GLAW ==25) GBUF%G_NOFF = 1
+        IF (IFAIL > 0 .OR. IF_LAW ==25) GBUF%G_NOFF = 1
         IF (GBUF%G_NOFF   == 0) GBUF%G_NOFF   = PTAG%G_NOFF
         GBUF%G_GAMA = MAX(GBUF%G_GAMA, PTAG%G_GAMA)
         GBUF%G_EINT = MAX(GBUF%G_EINT, PTAG%G_EINT)
