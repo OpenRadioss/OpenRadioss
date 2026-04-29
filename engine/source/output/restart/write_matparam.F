@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
       INTEGER :: OLDFORMAT
 C=======================================================================
-      NFIX = 24
+      NFIX = 25
       NUMMAT = MAT_ELEM%NUMMAT
       LEN    = NFIX*NUMMAT
       ALLOCATE (IBUF(LEN) )
@@ -100,6 +100,7 @@ C=======================================================================
         IBUF(IAD+22) = MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE
         IBUF(IAD+23) = MAT_ELEM%MAT_PARAM(IMAT)%IXFEM
         IBUF(IAD+24) = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
+        IBUF(IAD+25) = MAT_ELEM%MAT_PARAM(IMAT)%CRIT_PLAS
 c
         IAD = IAD + NFIX
       END DO

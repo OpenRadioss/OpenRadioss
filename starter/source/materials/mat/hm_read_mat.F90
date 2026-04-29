@@ -1590,6 +1590,7 @@
 
             mtag%l_ssp = 1                         ! sound speed, always allocated
 
+            if (matparam%crit_plas == 0 .and. matparam%compressibility==3 ) matparam%crit_plas=1 ! only not von mises criterion need to be intialized 
 !---------------------------------------------------------
 ! for qeph (shell formulation)
             if (ipm(2,i) /= 999) then ! if ipm(2,) == 999 possible negative square root with pm(25)=cpe(gas)

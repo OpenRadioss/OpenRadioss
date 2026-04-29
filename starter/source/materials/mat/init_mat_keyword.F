@@ -277,6 +277,18 @@ c
 c       
         CASE ("VISC")      
           MATPARAM%COMPATIBILITY_VISC = 1 ! Compatibility with option /VISC
+        CASE ("VONMISES")      
+          MATPARAM%CRIT_PLAS = 1            ! Plastic criterion VON MISES
+        CASE ("HERSHEY")      
+          MATPARAM%CRIT_PLAS = 2            ! Plastic criterion HERSHEY
+        CASE ("HILL")      
+          MATPARAM%CRIT_PLAS = 3            ! Plastic criterion HILL 
+        CASE ("BARLAT1989")      
+          MATPARAM%CRIT_PLAS = 4            ! Plastic criterion BARLAT 1989 
+        CASE ("BARLAT2000")      
+          MATPARAM%CRIT_PLAS = 5            ! Plastic criterion BARLAT 2000  
+        CASE ("DRUCKER")      
+          MATPARAM%CRIT_PLAS = 6            ! Plastic criterion DRUCKER
         CASE DEFAULT      
           ! write error : keyword not recognized"
 c---

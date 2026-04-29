@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER :: OLDFORMAT,ISUB
 c=======================================================================
 c     read MATPARAM data
-      NFIX   = 24
+      NFIX   = 25
       NUMMAT = MAT_ELEM%NUMMAT
       ALLOCATE(MAT_ELEM%MAT_PARAM(NUMMAT))
       DO IMAT=1,NUMMAT
@@ -110,6 +110,7 @@ c     read MATPARAM data
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE          = IBUF(IAD+22)
         MAT_ELEM%MAT_PARAM(IMAT)%IXFEM              = IBUF(IAD+23)
         MAT_ELEM%MAT_PARAM(IMAT)%NMOD               = IBUF(IAD+24)
+        MAT_ELEM%MAT_PARAM(IMAT)%CRIT_PLAS          = IBUF(IAD+25)
         IAD = IAD + NFIX
       END DO
       DEALLOCATE( IBUF )

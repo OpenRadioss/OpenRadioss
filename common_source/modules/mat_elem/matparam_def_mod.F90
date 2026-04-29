@@ -522,7 +522,8 @@
           integer     :: compressibility      !< "compressible","incompressible","elasto_plastic"
           integer     :: smstr                !< "small_strain", "large_strain"
           integer     :: strain_formulation   !< "total", "incremental"
-          integer     :: ipres                !< "hydrostatic",hydro_eos","hook"
+          integer     :: ipres                !< "hydrostatic","hydro_eos","hook"
+          integer     :: crit_plas            !< "vonmises","hershey","hill", "barlat1989","barlat2000","drucker"
           integer     :: orthotropy           !< "isotropic", "orthotropic", "anisotropic"
           ! ------- compatibility flags - not written in restart file, for starter check only
           integer     :: prop_solid           !< "solid_isotropic","solid_orthotropic","solid_composite","solid_cohesive"   ,"solid_porous","solid_all"

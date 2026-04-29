@@ -270,6 +270,8 @@ c------------------------------------
       NUVAR = 5+NUM_FUNC
 C
       ! MATPARAM keywords
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"HILL")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ORTHOTROPIC")        

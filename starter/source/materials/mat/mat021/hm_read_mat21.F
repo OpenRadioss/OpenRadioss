@@ -211,6 +211,7 @@ c
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"DRUCKER")
 
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")

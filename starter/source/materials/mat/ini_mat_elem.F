@@ -66,6 +66,7 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION = 1  ! incremental
         MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = 1  ! hydrostatic using AMU
         MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = 1  ! isotropic
+        MAT_ELEM%MAT_PARAM(IMAT)%CRIT_PLAS          = 0  ! not elasto-plastic law, no plastic criterion
 c
         MAT_ELEM%MAT_PARAM(IMAT)%NLOC         = 0
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE    = 0
