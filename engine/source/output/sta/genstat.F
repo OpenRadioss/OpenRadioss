@@ -105,7 +105,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
      D                  DRAPE_SH4N ,DRAPE_SH3N,DR,DRAPEG,MAT_PARAM    ,
-     E                  IPARTSPH , OUTPUT ,LENGSPH  ,NUMSPHG ,ITHERM_FE)
+     E                  IPARTSPH , OUTPUT ,LENGSPH  ,NUMSPHG ,ITHERM_FE,
+     F                  IRESP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -175,6 +176,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN)  :: LENGSPH
       INTEGER, INTENT(IN)  :: NUMSPHG
+      INTEGER, INTENT(IN)  :: IRESP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -428,7 +430,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-      CALL STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,NODGLOB,WEIGHT,NODTAG)
+      CALL STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,NODGLOB,WEIGHT,NODTAG,IRESP)
       
       IF(IZIPSTRS /= 0 .AND. IS_FILE_TO_BE_WRITTEN)THEN
         WRITE(IUGEO,'(A)')'/STATE/STR_FILE'
