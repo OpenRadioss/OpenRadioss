@@ -388,7 +388,7 @@
           do i = 1, nel  
             if (mat_param%iparam(1) == 1) then
               xk(i) = uvar(17,i)*mat_param%uparam(1)    
-            else if (mat_param%iparam(1) == 0) then 
+            else ! if (mat_param%iparam(1) == 0) then 
               xk(i) = zero
             end if  
             fx(i) = xk(i) * dx(i) 
@@ -403,7 +403,7 @@
           do i = 1, nel      
             if (mat_param%iparam(2) == 1) then
               yk(i) = uvar(17,i)*mat_param%uparam(1)       
-            else if (mat_param%iparam(2) == 0) then 
+            else !  if (mat_param%iparam(2) == 0) then 
               yk(i) = zero
             end if  
             fy(i) = yk(i) * dy(i)    
@@ -418,7 +418,7 @@
           do i = 1, nel      
             if (mat_param%iparam(3) == 1) then
               zk(i) = uvar(17,i)*mat_param%uparam(1)      
-            else if (mat_param%iparam(3) == 0) then 
+            else !if (mat_param%iparam(3) == 0) then 
               zk(i) = zero
             end if  
             fz(i) = zk(i) * dz(i) 
