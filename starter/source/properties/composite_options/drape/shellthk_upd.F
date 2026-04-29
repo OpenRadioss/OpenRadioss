@@ -174,11 +174,20 @@ C  re-set the thickness of shell according to /DRAPE layer thinning
                     IF(IP > 0) THEN
                        DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
                        NSLICE = DRAPE_PLY%NSLICE
-                       DO K=1,NSLICE
+                       IF(IINT == 1) THEN
+                        DO K=1,NSLICE
                           THINNING = DRAPE_PLY%RDRAPE(K,1)
                           THK_IT = THKLY*THINNING
                           THICKC = THICKC + THK_IT
-                       ENDDO
+                        ENDDO
+                       ELSEIF(IINT == 2) THEN ! only available with old definition Ithinning=1 
+                        DO K=1,NSLICE
+                          THK_IT = HALF*THKLY*W_GAUSS(K,NSLICE)
+                          THINNING = DRAPE_PLY%RDRAPE(K,1)
+                          THK_IT = THK_IT*THINNING
+                          THICKC = THICKC + THK_IT
+                        ENDDO
+                       ENDIF 
                     ELSE ! IP=0 (no drape   
                        THICKC = THICKC + THKLY
                     ENDIF
@@ -243,11 +252,20 @@ C
                     IF(IP > 0) THEN
                        DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)
                        NSLICE = DRAPE_PLY%NSLICE
-                       DO K=1,NSLICE
+                       IF(IINT == 1) THEN
+                        DO K=1,NSLICE
                           THINNING = DRAPE_PLY%RDRAPE(K,1)
                           THK_IT = THKLY*THINNING
                           THICKC = THICKC + THK_IT
-                       ENDDO
+                        ENDDO
+                       ELSEIF(IINT == 2) THEN  
+                        DO K=1,NSLICE
+                          THK_IT = HALF*THKLY*W_GAUSS(K,NSLICE)
+                          THINNING = DRAPE_PLY%RDRAPE(K,1)
+                          THK_IT = THK_IT*THINNING
+                          THICKC = THICKC + THK_IT
+                        ENDDO
+                       ENDIF 
                     ELSE   
                        THICKC = THICKC + THKLY
                     ENDIF

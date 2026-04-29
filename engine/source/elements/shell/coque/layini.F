@@ -289,7 +289,7 @@ c----
           IPOS   = IGEO(99,PID(1))
           THICKT  = STACK%GEO(1,ISUBSTACK)
           ZSHIFT = GEO(199, PID(1))
-          IF (IPOS == 2 ) ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)     
+          IF (IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
              DO N=1,NPT                                
                IADR = (N-1)*JLT                        
@@ -358,7 +358,7 @@ c
           IINT = IGEO(47,PID(1))
           THICKT   = STACK%GEO(1,ISUBSTACK)
           ZSHIFT = GEO(199, PID(1))
-          IF (IPOS == 2 ) ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)     
+          IF (IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)     
           IF(IDRAPE == 0) THEN
               IPT_ALL = 0
               IF(IPOS == 1) THEN

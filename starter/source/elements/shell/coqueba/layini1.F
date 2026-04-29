@@ -169,7 +169,7 @@ c----
           IPOS = IGEO(99,PID(1))
           ZSHIFT  = GEO(199,PID(1))                
           THICKT  = STACK%GEO(1,ISUBSTACK)  
-          IF(IPOS == 2 )  ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)
+          IF(IPOS == 2 )  ZSHIFT = ZSHIFT /MAX(THICKT,EM20)
           IF(IDRAPE == 0 ) THEN
             DO N=1,NPT                                
               IADR = (N-1)*JLT                        
@@ -245,7 +245,7 @@ c         stack addresses
           ZSHIFT  = GEO(199,PID(1))                
           THICKT  = STACK%GEO(1,ISUBSTACK)
           IINT = IGEO(47,PID(1))
-          IF(IPOS == 2 )ZSHIFT = -ZSHIFT /MAX(THICKT,EM20)
+          IF(IPOS == 2 )ZSHIFT = ZSHIFT /MAX(THICKT,EM20)
           IF(IDRAPE == 0) THEN
             IF(IPOS == 1) THEN
               IF(IINT == 1) THEN 
@@ -445,8 +445,8 @@ c         stack addresses
                               IPT = IPT_ALL + IT
                               J = (IPT-1)*JLT + I
                               THINNING = DRAPE_PLY%RDRAPE(IT,1)
-                              THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)*THINNING   ! to be removed 
-                              THK_IT(IPT,I) = THK_IT(IPT,I)/THK(I)  ! slice thickness ratio
+                              THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)*THINNING   
+                              THK_IT(IPT,I) = THK_IT(IPT,I)/THICK_DRAPE  ! slice thickness ratio
                               IF (IPT  == 1 ) THEN
                                 POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio
                               ELSE
@@ -463,7 +463,7 @@ c         stack addresses
                                IPT = IPT_ALL + IT
                                J = (IPT-1)*JLT + I
                                THK_IT(IPT,I) = HALF*THK_LY(I)*W_GAUSS(IT,NPTT)
-                               THK_IT(IPT,I) = THK_IT(IPT,I)/THK(I)  ! slice thickness ratio
+                               THK_IT(IPT,I) = THK_IT(IPT,I)/THICK_DRAPE  ! slice thickness ratio
                                IF (IPT  == 1 ) THEN
                                  POSLY(I,IPT) = ZSHIFT + HALF*THK_IT(IPT,I) ! integr. point "IT" position ratio
                                ELSE

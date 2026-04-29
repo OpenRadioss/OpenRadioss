@@ -429,7 +429,7 @@ C---         Test stability condition for mass
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT = GEO(199,IPROP)
         IINT = IGEO(47,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT =ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            DO I=LFT,LLT
              SCALE = THK(I)/THICKT
@@ -556,7 +556,7 @@ C
                         THINNING     = DRAPE_PLY%RDRAPE(IT,1)    
                         THK_IT(IT)   = THKLY*THINNING    
                      ENDDO  ! nptt                               
-                  ELSEIF(IINT == 2)THEN ! to be removed wait to speack with erwab                                             
+                  ELSEIF(IINT == 2)THEN ! available only with old thinnning defintionn                                            
                      DO IT=1,NPTT                                                                                        
                         THINNING = DRAPE_PLY%RDRAPE(IT,1)                                                                
                         THK_IT(IT)   = HALF*THKLY*W_GAUSS(IT,NPTT)*THINNING ! Gauss distribution of NPTT through layer
@@ -634,7 +634,7 @@ C---      Test stability condition for inertia
         IPOS = IGEO(99,IPROP)                  
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT  = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)       
          IF(IDRAPE == 0 ) THEN
            DO I=LFT,LLT
              XI(I)=ZERO
@@ -750,7 +750,7 @@ C---         Test stability condition for inertia
         IINT =  IGEO(47,IPROP)              
         THICKT  = STACK%GEO(1,ISUBSTACK)
         ZSHIFT  = GEO(199,IPROP)
-        IF(IPOS == 2 ) ZSHIFT =-ZSHIFT /MAX(THICKT,EM20)       
+        IF(IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)       
         IF(IDRAPE == 0) THEN
            THICKT  = STACK%GEO(1,ISUBSTACK)
            IF(IPOS == 1 ) THEN
