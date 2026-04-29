@@ -272,7 +272,7 @@ C------- Second pass
             N = INDEX(JJ)
             L = IBFV(3,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(NCYCLE == 0)THEN 
+            IF(NCYCLE == 0 .OR. (ISENS > 0 .AND. TSC(JJ)>ZERO))THEN 
                 IPOSC_WO_SMOOTH(II) = 0
             ELSE
                 IPOSC_WO_SMOOTH(II) = IBFV(5,N)
@@ -286,7 +286,7 @@ C------- Second pass
             N = INDEX(JJ)
             L = IBFV(3,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(NCYCLE == 0)THEN 
+            IF(NCYCLE == 0 .OR. (ISENS > 0 .AND. TSC(JJ)>ZERO))THEN 
                 IPOSC_SMOOTH(II) = 0
             ELSE
                 IPOSC_SMOOTH(II) = IBFV(5,N)
