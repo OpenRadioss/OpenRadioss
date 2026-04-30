@@ -80,7 +80,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
                     OUTPUT_VARIABLE GCC_VERSION
                     OUTPUT_STRIP_TRAILING_WHITESPACE)
-    if(GCC_VERSION MATCHES "^(11|15)\\.")
+    if(GCC_VERSION MATCHES "^(11|15|16)\\.")
         set(error_uninitialized " -Werror=maybe-uninitialized")
     endif()
 endif()
