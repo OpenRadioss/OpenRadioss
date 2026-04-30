@@ -28,7 +28,7 @@
       module law163_upd_mod
         implicit none
       contains
-!! \brief update material law 190
+!! \brief update material law 163
 !||====================================================================
 !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
 !||--- called by ------------------------------------------------------
@@ -92,4 +92,3 @@
 !
         end subroutine law163_upd
       end module law163_upd_mod
-
