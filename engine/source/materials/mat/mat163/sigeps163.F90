@@ -54,7 +54,6 @@
           nel      ,nuvar    ,uvar     ,matparam ,timestep ,et       ,         &
           rho0     ,sigy     ,ssp      ,nvartmp  ,vartmp   ,mvsiz    ,         &
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &
-          epsxx    ,epsyy    ,epszz    ,epsxy    ,epsyz    ,epszx    ,         &
           epspxx   ,epspyy   ,epspzz   ,epspxy   ,epspyz   ,epspzx   ,         &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   ,         &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,         &
@@ -93,12 +92,6 @@
           real(kind=WP), dimension(nel), intent(in)    :: depsxy     !< strain increment xy
           real(kind=WP), dimension(nel), intent(in)    :: depsyz     !< strain increment yz
           real(kind=WP), dimension(nel), intent(in)    :: depszx     !< strain increment zx
-          real(kind=WP), dimension(nel), intent(in)    :: epsxx      !< strain xx
-          real(kind=WP), dimension(nel), intent(in)    :: epsyy      !< strain yy
-          real(kind=WP), dimension(nel), intent(in)    :: epszz      !< strain zz
-          real(kind=WP), dimension(nel), intent(in)    :: epsxy      !< strain xy
-          real(kind=WP), dimension(nel), intent(in)    :: epsyz      !< strain yz
-          real(kind=WP), dimension(nel), intent(in)    :: epszx      !< strain zx
           real(kind=WP), dimension(nel), intent(in)    :: epspxx     !< strain rate xx
           real(kind=WP), dimension(nel), intent(in)    :: epspyy     !< strain rate yy
           real(kind=WP), dimension(nel), intent(in)    :: epspzz     !< strain rate zz
@@ -132,10 +125,11 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,ncycle,nrs
-          real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
-          real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le,seq,epst
+          real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a,&
+            denom
+          real(kind=WP), dimension(nel) :: dgamdt,gama,dsdgam,le
           real(kind=WP), dimension(mvsiz,6) :: sig,eps
-          real(kind=WP), dimension(mvsiz,3) :: sigp,epsp
+          real(kind=WP), dimension(mvsiz,3) :: sigp
           real(kind=WP), dimension(mvsiz,3,3) :: dirp
           real(kind=WP), dimension(nel,2) :: xvec
 !
@@ -166,7 +160,7 @@
           end if
           le(1:nel) = uvar(1:nel,2)
           !< Coefficient for hourglass control
-          et(1:nel) = zero
+          et(1:nel) = one
 !
           !=====================================================================
           !< - Computation of trial stress tensor and principal stresses
@@ -180,19 +174,6 @@
             signyz(i) = sigoyz(i) +   g*depsyz(i)
             signzx(i) = sigozx(i) +   g*depszx(i)
           end do
-          !< Principal strains  and directions
-          eps(1:nel,1) = epsxx(1:nel)
-          eps(1:nel,2) = epsyy(1:nel)
-          eps(1:nel,3) = epszz(1:nel)
-          eps(1:nel,4) = half*epsxy(1:nel)
-          eps(1:nel,5) = half*epsyz(1:nel)
-          eps(1:nel,6) = half*epszx(1:nel)
-          if (iresp == 1) then
-            call valpvecdp_v(eps,epsp,dirp,nel)
-          else
-            call valpvec_v(eps,epsp,dirp,nel)
-          end if
-          dirp(1:mvsiz,1:3,1:3) = zero
           !< Principal stresses and directions
           sig(1:nel,1) = signxx(1:nel)
           sig(1:nel,2) = signyy(1:nel)
@@ -211,7 +192,7 @@
           !=====================================================================
           do i = 1,nel
             !< Volumetric strain
-            gama(i) = one - rho0(i)/rho(i)
+            gama(i) = one - rho0(i)/max(rho(i),em20)
             !< Volumetric strain rate
             ! -> Engineering strain rate
             if (nrs == 1) then
@@ -227,7 +208,7 @@
               dgamdt(i) = epsd(i) + sign(one,dgamdt(i)-epsd(i))*srclmt*timestep
             end if
             !< Effective volumetric true strain (output purpose)
-            plas(i) = log(rho0(i)/rho(i))
+            plas(i) = log(max(rho0(i)/rho(i),em20))
             !< Volumetric strain rate (output purpose)
             epsd(i) = dgamdt(i)
           end do
@@ -242,6 +223,7 @@
           call table_mat_vinterp(matparam%table(1),nel,nel,vartmp,xvec,sigy,dsdgam)
           do i = 1,nel
             sigy(i) = -abs(sigy(i))
+            dsdgam(i) = max(dsdgam(i),zero)
           end do
 !
           !=====================================================================
@@ -252,39 +234,29 @@
             do j = 1,3
               if (sigp(i,j) < sigy(i)) then
                 sigp(i,j) = sigy(i)
-                et(i) = max(dsdgam(i)/(dsdgam(i) + bulk),et(i))
               else if (sigp(i,j) > tsc) then
                 sigp(i,j) = tsc
-                dsdgam(i) = zero
-                et(i) = one
-              else
-                dsdgam(i) = zero
-                et(i) = one
               end if
             end do
-            !< equivalent stress for hourglass control
-            seq(i)  = sqrt(sigp(i,1)**2 + sigp(i,2)**2 + sigp(i,3)**2)
-            !< equivalent strain for hourglass control
-            epst(i) = sqrt(epsp(i,1)**2 + epsp(i,2)**2 + epsp(i,3)**2)
             !< Update the global stress tensor
             signxx(i) = dirp(i,1,1)*dirp(i,1,1)*sigp(i,1)                      &
-              + dirp(i,1,2)*dirp(i,1,2)*sigp(i,2)                      &
-              + dirp(i,1,3)*dirp(i,1,3)*sigp(i,3)
+                      + dirp(i,1,2)*dirp(i,1,2)*sigp(i,2)                      &
+                      + dirp(i,1,3)*dirp(i,1,3)*sigp(i,3)
             signyy(i) = dirp(i,2,2)*dirp(i,2,2)*sigp(i,2)                      &
-              + dirp(i,2,3)*dirp(i,2,3)*sigp(i,3)                      &
-              + dirp(i,2,1)*dirp(i,2,1)*sigp(i,1)
+                      + dirp(i,2,3)*dirp(i,2,3)*sigp(i,3)                      &
+                      + dirp(i,2,1)*dirp(i,2,1)*sigp(i,1)
             signzz(i) = dirp(i,3,3)*dirp(i,3,3)*sigp(i,3)                      &
-              + dirp(i,3,1)*dirp(i,3,1)*sigp(i,1)                      &
-              + dirp(i,3,2)*dirp(i,3,2)*sigp(i,2)
+                      + dirp(i,3,1)*dirp(i,3,1)*sigp(i,1)                      &
+                      + dirp(i,3,2)*dirp(i,3,2)*sigp(i,2)
             signxy(i) = dirp(i,1,1)*dirp(i,2,1)*sigp(i,1)                      &
-              + dirp(i,1,2)*dirp(i,2,2)*sigp(i,2)                      &
-              + dirp(i,1,3)*dirp(i,2,3)*sigp(i,3)
+                      + dirp(i,1,2)*dirp(i,2,2)*sigp(i,2)                      &
+                      + dirp(i,1,3)*dirp(i,2,3)*sigp(i,3)
             signyz(i) = dirp(i,2,2)*dirp(i,3,2)*sigp(i,2)                      &
-              + dirp(i,2,3)*dirp(i,3,3)*sigp(i,3)                      &
-              + dirp(i,2,1)*dirp(i,3,1)*sigp(i,1)
+                      + dirp(i,2,3)*dirp(i,3,3)*sigp(i,3)                      &
+                      + dirp(i,2,1)*dirp(i,3,1)*sigp(i,1)
             signzx(i) = dirp(i,3,3)*dirp(i,1,3)*sigp(i,3)                      &
-              + dirp(i,3,1)*dirp(i,1,1)*sigp(i,1)                      &
-              + dirp(i,3,2)*dirp(i,1,2)*sigp(i,2)
+                      + dirp(i,3,1)*dirp(i,1,1)*sigp(i,1)                      &
+                      + dirp(i,3,2)*dirp(i,1,2)*sigp(i,2)
           end do
 !
           !=====================================================================
@@ -292,7 +264,11 @@
           !=====================================================================
           do i=1,nel
             !< Sound speed
-            ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
+            if (rho(i) > em20) then
+              ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g)/rho(i))
+            else
+              ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g)/rho0(i))
+            end if
             !< User variables
             uvar(i,1) = gama(i) !< Volumetric strain
           end do
@@ -302,7 +278,8 @@
           !=====================================================================
           do i = 1,nel
             !< Viscous damping coefficient
-            a = ssp(i)*rho(i)*damp*le(i)/(one + gama(i))
+            denom = sign(max(abs((one + gama(i))),em20),(one + gama(i)))
+            a = ssp(i)*max(rho(i),em20)*damp*le(i)/denom
             ldav = third*(epspxx(i) + epspyy(i) + epspzz(i))
             !< Viscous stresses
             sigvxx(i) = a*((epspxx(i) - ldav)/(one + nu) + ldav/(one - two*nu))
@@ -313,9 +290,19 @@
             sigvzx(i) = a*epspzx(i)/(two*(one + nu))
             !< Update the soundspeed to include the viscous damping stiffness
             if (timestep > zero) then
-              ssp(i) = sqrt((bulk + four_over_3*g + a/timestep)/min(rho(i),rho0(i)))
+              if (rho(i) > em20) then
+                ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g +           &
+                                    abs(a)/max(timestep,em20))/rho(i))
+              else
+                ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g +           &
+                                    abs(a)/max(timestep,em20))/rho0(i))    
+              end if            
             else
-              ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
+              if (rho(i) > em20) then
+                ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g)/rho(i))
+              else
+                ssp(i) = sqrt((max(bulk,dsdgam(i)) + four_over_3*g)/rho0(i))
+              end if
             end if
           end do
 !

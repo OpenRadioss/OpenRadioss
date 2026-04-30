@@ -121,6 +121,8 @@
           call hm_get_intv  ("NRSFlag"   ,nrs      ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !
+          !< Poisson's ratio
+          nu = min(max(nu,zero),0.499d0)
           !< Reference strain rate
           if (x2vect(1) == zero) then
             call hm_get_floatv_dim("EPSD_REF",x2vect(1),is_available,lsubmodel,unitab)
@@ -142,6 +144,8 @@
           if (ncycle == zero) ncycle = 12
           !< Default strain rate change limit
           if (srclmt == zero) srclmt = infinity
+          !< Default strain rate flag
+          nrs = max(min(nrs,1),0)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Filling buffer tables
