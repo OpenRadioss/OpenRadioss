@@ -67,6 +67,7 @@
         function intersectPt(P1, P2, Q1, Q2, tol, alpha, beta) result(intersection)
 !! \brief Compute intersection point [P1,P2[ and {Q1,Q2[
 !! \details On [P1 P2[ : position is alpha in \[0,1[ and On [Q1 Q2[ : position is beta in \[0,1[
+!! \details The parallelism test uses a relative tolerance based on the product of edge lengths
           use constant_mod , only : zero, one, ep20
           implicit none
           type(polygon_point_), intent(in) :: P1, P2, Q1, Q2
@@ -74,6 +75,7 @@
           real(kind=WP), intent(in) :: tol
           type(polygon_point_) :: intersection
           real(kind=WP) :: denom, numer_a, numer_b
+          real(kind=WP) :: len_p2, len_q2, scale_factor
 
           intersection%y = ep20  ! Initialize with NaN (or use other convention)
           intersection%z = ep20
@@ -82,7 +84,13 @@
 
           denom = (Q2%z - Q1%z) * (P2%y - P1%y) - (Q2%y - Q1%y) * (P2%z - P1%z)
 
-          if (abs(denom) < tol) then
+          ! absolute tolerance may miss some intersection depending on elem size
+          ! Relative tolerance: compare |denom| against tol * |P1P2| * |Q1Q2|
+          len_p2 = (P2%y - P1%y)**2 + (P2%z - P1%z)**2
+          len_q2 = (Q2%y - Q1%y)**2 + (Q2%z - Q1%z)**2
+          scale_factor = sqrt(len_p2 * len_q2)
+
+          if (abs(denom) < tol * scale_factor) then
             return  ! Segments are parallel or coincident
           end if
 
@@ -206,10 +214,10 @@
 
             if(icur_list == 1)then
               size_ = size1
-              num_pt_on_edge = 2 + list1(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
+              num_pt_on_edge = 2 + list1(jj)%num_inter_pt(1) ! then increment to next point (do not stay on same point)
             else if(icur_list == 2)then
               size_ = size2
-              num_pt_on_edge = 2 + list2(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
+              num_pt_on_edge = 2 + list2(jj)%num_inter_pt(1) ! then increment to next point (do not stay on same point)
             end if
 
             if(kk < num_pt_on_edge)then
@@ -267,7 +275,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod , only : zero, em10, em06, one, ep20
+          use constant_mod , only : zero, em10, em06, em12, one, ep20
           use insertion_sort_mod , only : real_insertion_sort_with_index
           use array_reindex_mod , only : integer_array_reindex
           implicit none
@@ -449,7 +457,7 @@
               Vy = q2%y - q1%y
               Vz = q2%z - q1%z
               dotproduct = Ny * Vy + Nz * Vz
-              list_edges_2(jj)%num_inter_pt  = list_edges_2(jj)%num_inter_pt + 1
+              list_edges_2(jj)%num_inter_pt(1) = list_edges_2(jj)%num_inter_pt(1) + 1
               if (dotproduct > zero)then
                 ! "entering point";
                 list_edges_2(jj)%iorient((icur_2(jj))) = +1
@@ -487,7 +495,7 @@
 
           !sorting intersection points on list_edges_1 (Clipped)
           !  several intersection points might be found on a given edge, they must be ordered
-          allocate(index(num_edges_2))
+          allocate(index(2+num_edges_1))
           do ii=1,num_edges_1
             if (list_edges_1(ii)%numpoints > 3) then   !at least 2 points : segment endpoints ;
               call real_insertion_sort_with_index(list_edges_1(ii)%alpha, index, list_edges_1(ii)%numpoints)
@@ -501,7 +509,7 @@
 
           !sorting intersection points on list_edges_1 (CLipping)
           !  several intersection points might be found on a given edge, they must be ordered
-          allocate(index(num_edges_2))
+          allocate(index(2+num_edges_2))
           do jj=1,num_edges_2
             if(list_edges_2(jj)%numpoints > 3)then   !at least 2 points : segment endpoints ;
               call real_insertion_sort_with_index(list_edges_2(jj)%alpha, index, list_edges_2(jj)%numpoints)
