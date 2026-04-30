@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    mds_restart_mod   ../common_source/modules/mds_rest.mod.F
 !||--- called by ------------------------------------------------------
+!||    arret             ../engine/source/system/arret.F
 !||    radioss2          ../engine/source/engine/radioss2.F
 !||    resol             ../engine/source/engine/resol.F
 !||====================================================================
