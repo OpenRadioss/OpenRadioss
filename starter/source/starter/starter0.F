@@ -114,6 +114,7 @@ C-----------------------------------------------
       use analyse_arret_mod
       use hm_evaluate_rbodies_from_rigid_parts_mod
       use hm_create_rbodies_from_rigid_parts_mod
+      use hm_convert_tetra4_to_tetra10_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -164,7 +165,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K, STAT,INP,OUT
+      INTEGER I,J,K, STAT,INP,OUT,itetra4
       INTEGER IFILNAM(2148),LEN,IDMAX_INTER,
      .        IDMAX_GRNOD,IDMAX_LINE,IDMAX_TABLE,IDMAX_FAIL,IDMAX_FUNCT,
      .        IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
@@ -817,6 +818,11 @@ C-------------------------------------------------------------------
 C Add RBODY master node if not existing in /RBODY cards
 C------------------------------------------------------------------
       CALL hm_rbodies_add_main_node(LSUBMODEL)
+C-------------------------------------------------------------------
+C itetra4=1: convert tetra4 to tretra10 w/ itetra10=2
+C------------------------------------------------------------------
+      itetra4=1
+      CALL hm_convert_tetra4_to_tetra10(itetra4) 
 C------------------------------------------------------------------
       ! Initialisation of glob_therm module
 C------------------------------------------------------------------
