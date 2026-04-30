@@ -98,6 +98,7 @@ C-----------------------------------------------
 C=======================================================================
       NULLIFY(MASS)
       NULLIFY(MASS0)
+      MINMASSCAL = -HUGE(0.0)
       L2     = NLOC_DMG%LEN(IMAT)**2
       XI     = NLOC_DMG%DAMP(IMAT)
       NNOD   = NLOC_DMG%NNOD
@@ -213,7 +214,7 @@ c
             A1 = A1 + VOL(I) * XI * (H(1)*H(1)*VNL(POS1(I)) + H(1)*H(2)*VNL(POS2(I)) + H(1)*H(3)*VNL(POS3(I))
      .         + H(1)*H(4)*VNL(POS4(I)) + H(1)*H(5)*VNL(POS5(I)) + H(1)*H(6)*VNL(POS6(I))
      .         + H(1)*H(7)*VNL(POS7(I)) + H(1)*H(8)*VNL(POS8(I)))
-          ELSE
+          ELSE IF(NODADT >0) THEN
             MINMASSCAL = MIN(SQRT(MASS(POS1(I))/MASS0(POS1(I))),
      .                       SQRT(MASS(POS2(I))/MASS0(POS2(I))),
      .                       SQRT(MASS(POS3(I))/MASS0(POS3(I))),

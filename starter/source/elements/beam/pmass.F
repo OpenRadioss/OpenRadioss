@@ -75,6 +75,7 @@ C=======================================================================
       IPZ = 300  
       IPA = 400
       TEMP0 = PM(79,IMAT)
+      IGTYP = 0
       DO I=LFT,LLT
         IGTYP =  nint(GEO(12,MXG(I)))
         IF (IGTYP == 18) THEN

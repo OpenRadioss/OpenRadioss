@@ -167,13 +167,7 @@ C=======================================================================
         ! Non-local nodal stifness
         ALLOCATE(STI1(NEL,NLAY),STI2(NEL,NLAY),STI3(NEL,NLAY),
      .           STI4(NEL,NLAY),STI5(NEL,NLAY),STI6(NEL,NLAY))
-        ! Non-local mass
-        MASS =>  NLOC_DMG%MASS(1:L_NLOC)
-        ! Initial non-local mass
-        MASS0 => NLOC_DMG%MASS0(1:L_NLOC)
       ELSE
-       NULLIFY(MASS)
-       NULLIFY(MASS0)
        ALLOCATE(STI1(1,1),STI2(1,1),STI3(1,1),
      .           STI4(1,1),STI5(1,1),STI6(1,1))
       ENDIF
@@ -424,12 +418,12 @@ c
             NTN_VNL = (VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + VNL(POS4(I)+K-1)
      .              +  VNL(POS5(I)+K-1) + VNL(POS6(I)+K-1)) / NTN
             IF (NODADT > 0) THEN 
-              NTN_VNL = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)), 
-     .                      SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)), 
-     .                      SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)), 
-     .                      SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1)),
-     .                      SQRT(MASS(POS5(I)+K-1)/MASS0(POS5(I)+K-1)), 
-     .                      SQRT(MASS(POS6(I)+K-1)/MASS0(POS6(I)+K-1)))*NTN_VNL
+              NTN_VNL = MIN(SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1)), 
+     .                      SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1)), 
+     .                      SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1)), 
+     .                      SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1)),
+     .                      SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1)), 
+     .                      SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1)))*NTN_VNL
             ENDIF
 c        
             ! Computation of the product LEN**2 * BtxB
@@ -504,17 +498,17 @@ c
             IF (NODADT > 0) THEN
      
               ! Non-local absorbing forces
-              F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*ZETA*SSPNL*HALF*
+              F1(I,K) = SQRT(NLOC_DMG%MASS(POS1(I)+K-1)/NLOC_DMG%MASS0(POS1(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
-              F2(I,K) = SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*ZETA*SSPNL*HALF*
+              F2(I,K) = SQRT(NLOC_DMG%MASS(POS2(I)+K-1)/NLOC_DMG%MASS0(POS2(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS2(I)+K-1)+VNL0(POS2(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
-              F3(I,K) = SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*ZETA*SSPNL*HALF*
+              F3(I,K) = SQRT(NLOC_DMG%MASS(POS3(I)+K-1)/NLOC_DMG%MASS0(POS3(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS3(I)+K-1)+VNL0(POS3(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
-              F4(I,K) = SQRT(MASS(POS4(I)+K-1)/MASS0(POS4(I)+K-1))*ZETA*SSPNL*HALF*
+              F4(I,K) = SQRT(NLOC_DMG%MASS(POS4(I)+K-1)/NLOC_DMG%MASS0(POS4(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS4(I)+K-1)+VNL0(POS4(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
-              F5(I,K) = SQRT(MASS(POS5(I)+K-1)/MASS0(POS5(I)+K-1))*ZETA*SSPNL*HALF*
+              F5(I,K) = SQRT(NLOC_DMG%MASS(POS5(I)+K-1)/NLOC_DMG%MASS0(POS5(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS5(I)+K-1)+VNL0(POS5(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
-              F6(I,K) = SQRT(MASS(POS6(I)+K-1)/MASS0(POS6(I)+K-1))*ZETA*SSPNL*HALF*
+              F6(I,K) = SQRT(NLOC_DMG%MASS(POS6(I)+K-1)/NLOC_DMG%MASS0(POS6(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS6(I)+K-1)+VNL0(POS6(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
               ! Computing nodal equivalent stiffness
               STI1(I,K) = EM20
