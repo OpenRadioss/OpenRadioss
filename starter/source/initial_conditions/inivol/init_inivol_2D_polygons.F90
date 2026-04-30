@@ -339,12 +339,12 @@
           end if
           !margin Y-dir
           DLy = xyz(5)-xyz(2)
-          xyz(2) = xyz(2) - max(em10,em02*DLy)
-          xyz(5) = xyz(5) + max(em10,em02*DLy)
+          xyz(2) = xyz(2) - abs(em02*DLy)
+          xyz(5) = xyz(5) + abs(em02*DLy)
           !margin Z-dir
           DLz = xyz(6)-xyz(3) !Z-dir
-          xyz(3) = xyz(3) - max(em10,em02*DLz)
-          xyz(6) = xyz(6) + max(em10,em02*DLz)
+          xyz(3) = xyz(3) - abs(em02*DLz)
+          xyz(6) = xyz(6) + abs(em02*DLz)
           !
           user_polygon%diag = max(DLy,Dlz) !reference length used to normalize tolerance value
 
@@ -565,8 +565,8 @@
                     cycle ! no volume fraction to fill
                   else
                     ! clipping required to calculate ratio inside the polygon
-                    icur_q = icur_q +1
-                    list_quad(icur_q) = ielg
+                    icur_t = icur_t +1
+                    list_tria(icur_t) = ielg
                   end if
                 end if
               end do
