@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6cbilan               ../engine/source/elements/thickshell/solide6c/s6cbilan.F
 !||    s6cdefc3               ../engine/source/elements/thickshell/solide6c/s6cdefo3.F
 !||    s6cderi3               ../engine/source/elements/thickshell/solide6c/s6cderi3.F
+!||    s6cdlenmax_sm          ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
 !||    s6cfint3               ../engine/source/elements/thickshell/solide6c/s6cfint3.F
 !||    s6cfint_reg            ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
 !||    s6chour3               ../engine/source/elements/thickshell/solide6c/s6chourg3.F
@@ -70,6 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
+!||    s6cdlenmax_sm_mod      ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
 !||    s6chour_ctl_mod        ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6for_distor_mod       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv_mod           ../engine/source/elements/thickshell/solide6c/s6get_xv.F90

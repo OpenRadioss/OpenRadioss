@@ -39,6 +39,7 @@
 !||    redef_seatbelt                  ../engine/source/tools/seatbelts/redef_seatbelt.F90
 !||    s10get_x0                       ../engine/source/elements/solid/solide10/s10get_x0.F90
 !||    s4dlenmax_sm                    ../engine/source/elements/solid/solide4/s4dlenmax_sm.F90
+!||    s6cdlenmax_sm                   ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
 !||    s6chour_ctl                     ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6fint_reg                      ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor                    ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
@@ -55,6 +56,7 @@
 !||    s6zsav12                        ../engine/source/elements/solid/solide6z/s6zsav12.F90
 !||    s6zupd11t12                     ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    s8dlenmax_sm                    ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
+!||    sc8dlenmax_sm                   ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90
 !||    sdistor_ini                     ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sfor_3n2s3                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_4n2s4                      ../engine/source/elements/solid/solide/sfor_4n2s4.F90

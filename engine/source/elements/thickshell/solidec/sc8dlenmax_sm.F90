@@ -21,12 +21,30 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    sc8dlenmax_sm_mod   ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s8cforc3            ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    scforc3             ../engine/source/elements/thickshell/solidec/scforc3.F
+!||====================================================================
       module sc8dlenmax_sm_mod
       implicit none
       contains
 ! ======================================================================================================================
 ! \brief compute some geometric parameters of hexahedron thick shell in case of small strain
 ! ======================================================================================================================
+!||====================================================================
+!||    sc8dlenmax_sm   ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s8cforc3        ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F
+!||--- calls      -----------------------------------------------------
+!||    sdlensh14       ../engine/source/elements/thickshell/solide8c/sdlensh14.F
+!||    sdlensh2        ../engine/source/elements/thickshell/solidec/sdlensh2.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine sc8dlenmax_sm(                         &
           nel      ,x        ,numnod     ,vol     ,       &
           nc1      ,nc2      ,nc3        ,nc4     ,       &

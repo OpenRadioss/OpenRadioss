@@ -21,12 +21,27 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    s6cdlenmax_sm_mod   ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s6cforc3            ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||====================================================================
       module s6cdlenmax_sm_mod
       implicit none
       contains
 ! ======================================================================================================================
 ! \brief compute some geometric parameters of penta6 thick shell in case of small strain
 ! ======================================================================================================================
+!||====================================================================
+!||    s6cdlenmax_sm   ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
+!||--- called by ------------------------------------------------------
+!||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||--- calls      -----------------------------------------------------
+!||    sdlensh3n2      ../engine/source/elements/thickshell/solide6c/sdlensh3n2.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine s6cdlenmax_sm(                         &
           nel      ,x        ,numnod     ,vol     ,       &
           nc1      ,nc2      ,nc3        ,nc4     ,       &

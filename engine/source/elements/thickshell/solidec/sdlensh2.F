@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sdlensh2   ../engine/source/elements/thickshell/solidec/sdlensh2.F
+!||    sdlensh2        ../engine/source/elements/thickshell/solidec/sdlensh2.F
 !||--- called by ------------------------------------------------------
-!||    s16forc3   ../engine/source/elements/thickshell/solide16/s16forc3.F
-!||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    s16forc3        ../engine/source/elements/thickshell/solide16/s16forc3.F
+!||    sc8dlenmax_sm   ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90
+!||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F
 !||====================================================================
       SUBROUTINE SDLENSH2(
      1   VOLN,    LLSH, AREA, X1,      X2,

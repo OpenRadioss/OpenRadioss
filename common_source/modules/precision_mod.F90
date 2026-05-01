@@ -449,6 +449,7 @@
 !||    s10get_x0                                ../engine/source/elements/solid/solide10/s10get_x0.F90
 !||    s20temp                                  ../starter/source/elements/solid/solide20/s20temp.F90
 !||    s4dlenmax_sm                             ../engine/source/elements/solid/solide4/s4dlenmax_sm.F90
+!||    s6cdlenmax_sm                            ../engine/source/elements/thickshell/solide6c/s6cdlenmax_sm.F90
 !||    s6chour_ctl                              ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6fint_reg                               ../engine/source/elements/solid/solide6z/s6fint_reg.F90
 !||    s6for_distor                             ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
@@ -477,6 +478,7 @@
 !||    s6zsav3                                  ../engine/source/elements/solid/solide6z/s6zsav3.F90
 !||    s6zupd11t12                              ../engine/source/elements/solid/solide6z/s6zupd11t12.F90
 !||    s8dlenmax_sm                             ../engine/source/elements/solid/solide/s8dlenmax_sm.F90
+!||    sc8dlenmax_sm                            ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90
 !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
 !||    self_heating_tabulated                   ../engine/source/materials/mat/mat131/self_heating/self_heating_tabulated.F90
