@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MERGE(
      .              MGRBY,SMGRBY,NPBY,LPBY,SLRBODY,
      .              RBY  ,NOM_OPT ,PTR_NOPT_RBMERGE,IGRNOD,
-     .              ITAB,ITABM1,IBGR,IGRV, LSUBMODEL)
+     .              ITAB,ITABM1,IBGR,IGRV, LSUBMODEL,IPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C-----------------------------------------------
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
       INTEGER IGRV(NIGRV,*),IBGR(*)
+      INTEGER ,DIMENSION(LIPART1,NPART),INTENT(IN) :: IPART
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -87,7 +88,7 @@ C-----------------------------------------------
      .        N,NOPT,UID, II, NOBJ
       INTEGER IMAIN,ISECONDARY,FLAGG_OPT, FLAG_BOUCLE, FLAG_ERROR, 
      .        FLAG_DOUBLON, FLAG_DOUBLEMAIN, M_TYPE, S_TYPE, ID_OPT,
-     .        IDNODE, NN, PRT_OPT, IDBOUCLE, LEVEL
+     .        IDNODE, NN, PRT_OPT, IDBOUCLE, LEVEL,PART_ID
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:) , ALLOCATABLE :: INUM
       INTEGER, DIMENSION(:)   , ALLOCATABLE :: NB_MAIN
@@ -198,7 +199,7 @@ c
         S_TYPE = MGRBY(4,I)
         FLAGG_OPT = MGRBY(5,I)
         ID_OPT = MGRBY(6,I)
-        IF(S_TYPE == 1) THEN ! SECONDARY IS A RBODY   
+        IF(S_TYPE == 1 .OR. S_TYPE == 4) THEN ! SECONDARY IS A RBODY   
 c
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR) 
 c
@@ -210,12 +211,23 @@ C------------------------------------
 c  EXISTENCE TESTS ON MAIN AND SECONDARIES
 C------------------------------------
           IRBM=0
-          DO K=1,NRBYKIN
-            IF (IMAIN == NPBY(6,K)) THEN
-              IRBM=K                     
-              EXIT
-            ENDIF 
-          ENDDO
+          IF (M_TYPE == 4) THEN
+            DO K=1,NRBYKIN
+              PART_ID = NPBY(21,K)
+              IF (PART_ID==0) CYCLE
+              IF (IMAIN == IPART(4,PART_ID)) THEN
+                IRBM=K                     
+                EXIT
+              ENDIF 
+            ENDDO
+          ELSE
+            DO K=1,NRBYKIN
+              IF (IMAIN == NPBY(6,K)) THEN
+                IRBM=K                     
+                EXIT
+              ENDIF 
+            ENDDO
+          END IF  ! (M_TYPE == 4) THEN
           IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
@@ -226,12 +238,23 @@ C------------------------------------
           ENDIF 
          
           IRBS=0                                  
-          DO K=1,NRBYKIN  
-            IF (ISECONDARY == NPBY(6,K)) THEN
-              IRBS=K                     
-              EXIT
-            ENDIF                                                     
-          ENDDO
+          IF (S_TYPE == 4) THEN
+            DO K=1,NRBYKIN  
+              PART_ID = NPBY(21,K)
+              IF (PART_ID==0) CYCLE
+              IF (ISECONDARY == IPART(4,PART_ID)) THEN
+                IRBS=K                     
+                EXIT
+              ENDIF                                                     
+            ENDDO 
+          ELSE
+            DO K=1,NRBYKIN  
+              IF (ISECONDARY == NPBY(6,K)) THEN
+                IRBS=K                     
+                EXIT
+              ENDIF                                                     
+            ENDDO
+          END IF  ! (S_TYPE == 4) THEN
           IF (IRBS == 0)THEN  !  l'ID du rbody n'existe pas    
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
@@ -317,12 +340,23 @@ C------------------------------------
 c  EXISTENCE TESTS ON MAIN AND SECONDARIES
 C------------------------------------
           IRBM=0
-          DO K=1,NRBYKIN
-            IF (IMAIN == NPBY(6,K)) THEN
-              IRBM=K                     
-              EXIT
-            ENDIF 
-          ENDDO
+          IF (M_TYPE == 4) THEN
+            DO K=1,NRBYKIN
+              PART_ID = NPBY(21,K)
+              IF (PART_ID==0) CYCLE
+              IF (IMAIN == IPART(4,PART_ID)) THEN
+                IRBM=K                     
+                EXIT
+              ENDIF 
+            ENDDO
+          ELSE
+            DO K=1,NRBYKIN
+              IF (IMAIN == NPBY(6,K)) THEN
+                IRBM=K                     
+                EXIT
+              ENDIF 
+            ENDDO
+          END IF  ! (M_TYPE == 4) THEN
           IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
