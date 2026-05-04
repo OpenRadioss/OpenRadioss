@@ -70,20 +70,10 @@ C-----------------------------------------------
 C
 C Solver for Tillotson Equation of State.
 C This equation of state depends of material state. It has several region in (P,v) diagram :
-C        REGION=1 / (I)  : compression
-C        REGION=2 / (II) : cold expansion
-C        REGION=3 / (III): transition (currently empty but can be implemented)
-C        REGION=4 / (IV) : hot expansion
-C
-C  in following source code regions are identified with following criteria :
-C         !IF(MU(I) => ZERO)THEN
-C         !  REGION = 1
-C         !ELSEIF(MU(I) < ZERO)THEN
-C         !  REGION = 2
-C         !  IF( V>VSUBL_(I) .OR.  (V<VSUBL .AND. ESPE(I)>=ESUBL_(I)) )THEN
-C         !    REGION=4
-C         !  ENDIF
-C         !ENDIF
+C        REGION=1 : compression
+C        REGION=2 : cold expansion
+C        REGION=3 : transition
+C        REGION=4 : hot expansion
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -99,125 +89,347 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
-      real(kind=WP) :: AA, BB, DVV, ETA, ENEW, OMEGA, XX, EXPA, EXPB,
-     .                 PP, FACC1, FACC2, FACPB,
-     .                 C1,C2,PTIA,PTIB,EZERO,
-     .                 ALPHA,BETA,ESUBL,VSUBL,
-     .                 REGION
+      real(kind=WP) :: A, B, AA, BB, dAA, dBB, DVV, ETA, ETA2, ENEW,  XX, PP,
+     .                 C1,C2(NEL),EREF,
+     .                 ALPHA,BETA,EIV,ECV,VIV,
+     .                 REGION(NEL)
+      real(kind=WP) :: W !< omega
+      real(kind=WP) :: W2 !< omega**2
+      real(kind=WP) :: P12,P3,P4
+      real(kind=WP) :: DE_P12, DE_P3, DE_P4 ! partial derivatives dP/dE at constant mu       -> region 2 same eqns as region 1 with C2=0
+      real(kind=WP) :: DM_P12, DM_P3, DM_P4 ! partial derivatives dP/d(mu) at constant E     -> region 2 same eqns as region 1 with C2=0
+      real(kind=WP) :: DPDM12, DPDM3, DPDM4 ! total derivatives dP/d(mu) at constant E       -> region 2 same eqns as region 1 with C2=0
+      real(kind=WP) :: DE_W  ! partial derivative dW/dE at constant mu
+      real(kind=WP) :: DN_W  ! partial derivative dW/d(mu) at constant E
+      real(kind=WP) :: C1EB, EAX, C1EBEAX, ABW, ABWX, ETAE, DENOM ! tmp variables for cpu cost reduction
+      real(kind=WP) :: KK !< interpolation coefficient for region 3
+      real(kind=WP) :: I12, I4 !< indicator functions for region 1|2 and 4
+      real(kind=WP) :: TMP3
 C--------------------------------------------------------------------
-      C1      = EOS_STRUCT%UPARAM(1)
-      C2      = EOS_STRUCT%UPARAM(2)
-      PTIA    = EOS_STRUCT%UPARAM(3)
-      PTIB    = EOS_STRUCT%UPARAM(4)
-      EZERO   = EOS_STRUCT%UPARAM(5)
-      ESUBL   = EOS_STRUCT%UPARAM(6)
-      VSUBL   = EOS_STRUCT%UPARAM(7)
-      ALPHA   = EOS_STRUCT%UPARAM(8)
-      BETA    = EOS_STRUCT%UPARAM(9)
-      PSH(:)  = EOS_STRUCT%PSH
+      ! -- USER PARAMETERS --
+      C1    = EOS_STRUCT%UPARAM(1)
+      C2(1:NEL) = EOS_STRUCT%UPARAM(2)
+      A     = EOS_STRUCT%UPARAM(3)
+      B     = EOS_STRUCT%UPARAM(4)
+      EREF  = EOS_STRUCT%UPARAM(5)
+      ECV   = EOS_STRUCT%UPARAM(6)
+      VIV   = EOS_STRUCT%UPARAM(7)
+      ALPHA = EOS_STRUCT%UPARAM(8)
+      BETA  = EOS_STRUCT%UPARAM(9)
+      EIV   = EOS_STRUCT%UPARAM(10)
+      PSH(1:NEL) = EOS_STRUCT%PSH
 
-      IF(IFLAG == 0) THEN
+      ! -- AREA CRITERIA FOR REGIONS IDENTIFICATION --
+      ! ------ 1: compression
+      ! ------ 2: cold expansion
+      ! ------ 3: transition (currently empty but can be implemented)
+      ! ------ 4: hot expansion
+      IF(IFLAG /= 1)THEN
+        REGION(1:NEL) = 1
         DO I=1,NEL
-          FACC1=ONE
-          FACC2=ONE
-          FACPB=ONE
-          REGION=1
-          IF(MU(I) < ZERO) THEN
-            REGION=2
-            FACC2=ZERO
-            IF(DF(I) > VSUBL .OR. (DF(I) <= VSUBL .AND. ESPE(I) >= ESUBL)) THEN
-             REGION=4
-             XX=MU(I)/(ONE+MU(I))
-             EXPA=EXP(-ALPHA*XX*XX)
-             EXPB=EXP(BETA*XX)
-             FACC1=EXPA*EXPB
-             FACPB=EXPA
+          IF(MU(I) < ZERO)THEN
+            IF(DF(I) > VIV)THEN
+              REGION(I) = 4
+            ELSEIF(ESPE(I) >= ECV)THEN
+              REGION(I) = 4
+            ELSEIF(ESPE(I) < EIV)THEN
+              REGION(I) = 2
+              C2(I) = ZERO
+            ELSE
+              REGION(I) = 3
+              C2(I) = ZERO
             ENDIF
           ENDIF
-          ETA=ONE+MU(I)
-          OMEGA= ONE+ESPE(I)/(EZERO*ETA**2)
-          AA=FACC1*C1*MU(I)+FACC2*C2*MU2(I)
-          BB=PTIA+FACPB*PTIB/OMEGA
-          PP=MAX(AA+BB*ETA*ESPE(I),PMIN)*OFF(I)
-          DPDM(I)=FACC1*C1+TWO*FACC2*C2*MU(I)+BB*ETA*PP*DF(I)*DF(I)
-     .           +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
-     .           *PTIB*FACPB/(EZERO*ETA*OMEGA**2) )
-          DPDE(I)=BB*ETA
-          VAREOS(I,1)=REGION
-          PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
-
-      ELSEIF(IFLAG == 1) THEN
-
-        DO I=1,NEL
-          DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          ETA=ONE+MU(I)
-          OMEGA= ONE+ESPE(I)/(EZERO*ETA**2)
-          FACC1=ONE
-          FACC2=ONE
-          FACPB=ONE
-          REGION=1
-          IF(MU(I) < ZERO) THEN
-            REGION=2
-            FACC2=ZERO
-            IF(DF(I) > VSUBL .OR. (DF(I) <= VSUBL .AND. ESPE(I) >= ESUBL)) THEN
-              REGION=4
-              XX=MU(I)/(ONE+MU(I))
-              EXPA=EXP(-ALPHA*XX*XX)
-              EXPB=EXP(BETA*XX)
-              FACC1=EXPA*EXPB
-              FACPB=EXPA
-            ENDIF
-          ENDIF
-          AA=FACC1*C1*MU(I)+FACC2*C2*MU2(I)
-          BB=(PTIA+FACPB*PTIB/OMEGA)*ETA
-          PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          ENEW=ESPE(I) - PNEW(I)*DVV
-          !one iteration
-          OMEGA= ONE+ENEW/(EZERO*ETA**2)
-          BB=(PTIA+FACPB*PTIB/OMEGA)*ETA
-          PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          PNEW(I)= MAX(PNEW(I),PMIN)*OFF(I)! P(mu[n+1],E[n+1])
-          EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
-          DPDE(I) = BB
-          VAREOS(I,1)=REGION
-        ENDDO
-
-      ELSEIF(IFLAG == 2) THEN
-
-        DO I=1, NEL
-          REGION=1
-          IF (VNEW(I) > ZERO) THEN
-            FACC1=ONE
-            FACC2=ONE
-            FACPB=ONE
-            REGION=1
-            IF(MU(I)<ZERO) THEN
-               REGION=2
-               FACC2=ZERO
-               IF(DF(I) > VSUBL .OR. (DF(I) <= VSUBL .AND. ESPE(I) >= ESUBL)) THEN
-                  REGION=4
-                  XX  = MU(I)/(ONE+MU(I))
-                  EXPA= EXP(-ALPHA*XX*XX)
-                  EXPB= EXP(BETA*XX)
-                  FACC1=EXPA*EXPB
-                  FACPB=EXPA
-               ENDIF
-            ENDIF
-            ETA=ONE+MU(I)
-            OMEGA= ONE+ESPE(I)/(EZERO*ETA**2)
-            AA=FACC1*C1*MU(I)+FACC2*C2*MU2(I)
-            BB=PTIA+FACPB*PTIB/OMEGA
-            PP=MAX(AA+BB*ETA*ESPE(I),PMIN)*OFF(I)
-            DPDM(I)=FACC1*C1+TWO*FACC2*C2*MU(I)+BB*ETA*PP*DF(I)*DF(I)
-     .             +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
-     .             *PTIB*FACPB/(EZERO*ETA*OMEGA**2) )
-            DPDE(I)=BB*ETA
-            PNEW(I) = PP
-          ENDIF
-          VAREOS(I,1)=REGION
-        ENDDO
+        VAREOS(1:NEL,1) = REGION(1:NEL) ! output
+      ELSE
+        REGION(1:NEL) = VAREOS(1:NEL,1)
       ENDIF
+
+
+      IF(IFLAG == 0) THEN  !P(mu[n+1],E[n]) , Frist Step staggered scheme semi-implicit integration
+
+        DO I=1,NEL
+
+          ETA = ONE+MU(I)
+          ETA2 = ETA*ETA
+          ETAE = ETA*ESPE(I)
+          W = ONE+ESPE(I)/(EREF*ETA2)
+          W2 = W*W
+          ABW = (A+B/W)
+          DE_W = ONE/(EREF*ETA2)
+          DN_W = -TWO*ESPE(I)/(EREF*ETA2*ETA)
+          I12 = ZERO
+          I4 = ZERO
+          TMP3 = ZERO
+          P12 =  ZERO ; P4 = ZERO
+          DPDM12 = ZERO ; DPDM4 = ZERO
+          DE_P12 = ZERO ; DE_P4 = ZERO
+
+          IF(REGION(I) <= 3)THEN
+            P12 = ABW*ETAE+C1*MU(I)+C2(I)*MU2(I)
+            P12 = MAX(P12,PMIN)*OFF(I)
+            DE_P12 = (-b*DE_W*ETAE)/W2 + ABW*ETA
+            DM_P12 = (-B*DN_W*ETAE)/W2 + ABW*ESPE(I) + C1 + TWO*C2(I)*MU(I)
+            DPDM12 = DM_P12 + P12/ETA2*DE_P12
+            I12 = ONE
+          ENDIF
+
+          IF(REGION(I) >= 3)THEN
+            XX = MU(I)/(ONE+MU(I))
+            C1EB = C1*exp(beta*xx)
+            EAX = exp(-alpha*XX*XX)
+            C1EBEAX = C1EB*EAX
+            ABWX = (A+B*EAX/W)
+            P4 = C1EB*EAX*MU(I) + ABWX*ETAE
+            P4 = MAX(P4,PMIN)*OFF(I)
+            DE_P4 = -B*EAX*DE_W*ETAE/W2 + ABWX*ETA
+            DM_P4 = BETA/ETA2*C1EBEAX*MU(I) - TWO*C1EBEAX*ALPHA*XX*MU(I)/ETA2 + C1EBEAX
+     .              +ETAE*(-TWO*B*ALPHA*XX*EAX/W/ETA2 - B*EAX*DN_W/W2) + ABWX*ESPE(I)
+            DPDM4 = DM_P4 + P4/ETA2*DE_P4
+            I4 = ONE
+          END IF
+
+          IF(REGION(I) == 3)THEN
+            DENOM = ECV-EIV
+            KK = (ESPE(I)-EIV)/DENOM
+            !KK = MIN(MAX(ZERO,KK) , ONE)
+            P3 = (ONE-KK)*P12 + KK*P4
+            TMP3 = P4/DENOM - P12/DENOM
+            I12 = (ONE-KK)
+            I4 = KK
+          ENDIF
+
+          PNEW(I) = I12*P12 + I4*P4
+          DPDM(I) = I12*DPDM12 + I4*DPDM4
+          DPDE(I) = I12*DE_P12 + I4*DE_P4 + TMP3
+
+          PNEW(I) = (MAX(PNEW(I), PMIN)-PSH(I))*OFF(I)
+          DPDM(I) = DPDM(I) * OFF(I)
+          DPDE(I) = DPDE(I) * OFF(I)
+
+        ENDDO
+
+       ELSEIF(IFLAG == 1) THEN !P(mu[n+1],E[n]) , Second Step staggered scheme semi-implicit integration
+
+        DO I=1,NEL
+
+          DVV = HALF*DVOL(I)*DF(I) / MAX(EM15, VNEW(I))
+
+          ETA  = ONE + MU(I)
+          ETA2 = ETA*ETA
+
+          I12  = ZERO
+          I4   = ZERO
+          TMP3 = ZERO
+
+          P12 = ZERO ; P4 = ZERO ; P3 = ZERO
+          DE_P12 = ZERO ; DM_P12 = ZERO
+          DE_P4  = ZERO ; DM_P4  = ZERO
+          DPDM12 = ZERO ; DPDM4  = ZERO
+
+          ! ==========================================================
+          ! REGION 1/2/3
+          ! ==========================================================
+          IF (REGION(I) <= 2) THEN
+
+            ETAE = ETA*ESPE(I)
+            W    = ONE + ESPE(I)/(EREF*ETA2)
+            W2   = W*W
+            ABW  = (A + B/W)
+
+            DE_W = ONE/(EREF*ETA2)
+            DN_W = -TWO*ESPE(I)/(EREF*ETA2*ETA)
+
+            ! Raw P* at (mu, E*)
+            P12 = ABW*ETAE + C1*MU(I) + C2(I)*MU2(I)
+
+            ! Partials at (mu, E*)
+            DE_P12 = (-B*DE_W*ETAE)/W2 + ABW*ETA
+            DM_P12 = (-B*DN_W*ETAE)/W2 + ABW*ESPE(I) + C1 + TWO*C2(I)*MU(I)
+
+            DENOM = ONE + DVV*DE_P12
+            DENOM = SIGN(MAX(ABS(DENOM),EM15), DENOM)
+
+            ! CN closure
+            P12    = P12    / DENOM
+            DPDE(I)= DE_P12 / DENOM
+            !DPDM12 = DM_P12 / DENOM
+            DPDM12 = DM_P12 + P12/ETA2 * DE_P12
+
+            I12 = ONE
+          ENDIF
+
+          ! ==========================================================
+          ! REGION 4
+          ! ==========================================================
+          IF (REGION(I) == 4) THEN
+
+            XX = MU(I)/ETA
+            C1EB = C1*EXP(BETA*XX)
+            EAX  = EXP(-ALPHA*XX*XX)
+            C1EBEAX = C1EB*EAX
+
+            ETAE = ETA*ESPE(I)
+            W    = ONE + ESPE(I)/(EREF*ETA2)
+            W2   = W*W
+            ABWX = (A + B*EAX/W)
+
+            ! Raw P* at (mu, E*)
+            P4 = C1EBEAX*MU(I) + ABWX*ETAE
+
+            DE_W = ONE/(EREF*ETA2)
+            DN_W = -TWO*ESPE(I)/(EREF*ETA2*ETA)
+
+            ! Partials at (mu, E*)
+            DE_P4 = -B*EAX*DE_W*ETAE/W2 + ABWX*ETA
+            DM_P4 =  BETA/ETA2*C1EBEAX*MU(I) - TWO*C1EBEAX*ALPHA*XX*MU(I)/ETA2 + C1EBEAX
+     .              + ETAE*(-TWO*B*ALPHA*XX*EAX/W/ETA2 - B*EAX*DN_W/W2) + ABWX*ESPE(I)
+
+            DENOM = ONE + DVV*DE_P4
+            DENOM = SIGN(MAX(ABS(DENOM),EM15), DENOM)
+
+            ! CN closure
+            P4     = P4     / DENOM
+            DPDM4  = DM_P4  + P4/ETA2  * DE_P4
+            DE_P4  = DE_P4  / DENOM
+
+            I4 = ONE
+          ENDIF
+
+          ! ==========================================================
+          ! REGION 3 (transition)
+          ! ==========================================================
+          IF (REGION(I) == 3) THEN
+            XX = MU(I)/ETA
+            C1EB = C1*EXP(BETA*XX)
+            EAX  = EXP(-ALPHA*XX*XX)
+            C1EBEAX = C1EB*EAX
+            ETAE = ETA*ESPE(I)
+            W    = ONE + ESPE(I)/(EREF*ETA2)
+            W2   = W*W
+            ABWX = (A + B*EAX/W)
+            ABW  = (A + B/W)
+
+            DE_W = ONE/(EREF*ETA2)
+            DN_W = -TWO*ESPE(I)/(EREF*ETA2*ETA)
+
+            DENOM = ECV - EIV
+            KK = (ESPE(I) - EIV) / DENOM
+            !KK = MIN(MAX(ZERO,KK) , ONE)
+
+            P12 = ABW*ETAE + C1*MU(I) + C2(I)*MU2(I)
+            DE_P12 = (-B*DE_W*ETAE)/W2 + ABW*ETA
+            DM_P12 = (-B*DN_W*ETAE)/W2 + ABW*ESPE(I) + C1 + TWO*C2(I)*MU(I)
+
+            P4 = C1EBEAX*MU(I) + ABWX*ETAE
+            DE_P4 = -B*EAX*DE_W*ETAE/W2 + ABWX*ETA
+            DM_P4 =  BETA/ETA2*C1EBEAX*MU(I) - TWO*C1EBEAX*ALPHA*XX*MU(I)/ETA2 + C1EBEAX
+     .              + ETAE*(-TWO*B*ALPHA*XX*EAX/W/ETA2 - B*EAX*DN_W/W2) + ABWX*ESPE(I)
+
+            TMP3 = P4/DENOM - P12/DENOM
+            DE_P3 = (ONE-KK)*DE_P12 + KK*DE_P4 + TMP3
+            DM_P3 = (ONE-KK)*DM_P12 + KK*DM_P4
+            P3    = (ONE-KK)*P12    + KK*P4
+
+            DENOM = ONE + DVV*DE_P3
+            DENOM = SIGN(MAX(ABS(DENOM),EM15), DENOM)
+
+            P3     = P3     / DENOM
+            DPDM3  = DM_P3  + P3/ETA2  * DE_P3
+            DE_P3  = DE_P3  / DENOM
+
+            ! For sound-speed derivatives, blend the CN-consistent slopes
+            DPDE(I) = DE_P3
+            DPDM(I) = DPDM3
+            PNEW(I) = P3
+          ELSE
+            ! Non-transition regions
+            PNEW(I) = I12*P12 + I4*P4
+            DPDM(I) = I12*DPDM12 + I4*DPDM4
+            DPDE(I) = I12*DE_P12 + I4*DE_P4
+          ENDIF
+
+          ! ==========================================================
+          ! Apply PMIN/OFF
+          ! ==========================================================
+          PNEW(I) = (MAX(PNEW(I), PMIN)-PSH(I))*OFF(I)
+          DPDM(I) = DPDM(I) * OFF(I)
+          DPDE(I) = DPDE(I) * OFF(I)
+
+          ! Finish CN energy update
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I) + PSH(I))
+
+        ENDDO
+
+      ELSEIF(IFLAG == 2) THEN ! collocated scheme, explicit integration
+
+        DO I=1,NEL
+
+         IF(VNEW(I) > ZERO)THEN
+
+          ETA = ONE+MU(I)
+          ETA2 = ETA*ETA
+          ETAE = ETA*ESPE(I)
+          W = ONE+ESPE(I)/(EREF*ETA2)
+          W2 = W*W
+          ABW = (A+B/W)
+          DE_W = ONE/(EREF*ETA2)
+          DN_W = -TWO*ESPE(I)/(EREF*ETA2*ETA)
+          I12 = ZERO
+          I4 = ZERO
+          P12 =  ZERO ; P4 = ZERO
+          DPDM12 = ZERO ; DPDM4 = ZERO
+          DE_P12 = ZERO ; DE_P4 = ZERO
+          TMP3 = ZERO
+
+          IF(REGION(I) <= 3)THEN
+            P12 = ABW*ETAE+C1*MU(I)+C2(I)*MU2(I)
+            P12 = MAX(P12,PMIN)*OFF(I)
+            DE_P12 = (-b*DE_W*ETAE)/W2 + ABW*ETA
+            DM_P12 = (-B*DN_W*ETAE)/W2 + ABW*ESPE(I) + C1 + TWO*C2(I)*MU(I)
+            DPDM12 = DM_P12 + P12/ETA2*DE_P12
+            I12 = ONE
+          ENDIF
+
+          IF(REGION(I) >= 3)THEN
+            XX = MU(I)/(ONE+MU(I))
+            C1EB = C1*exp(beta*xx)
+            EAX = exp(-alpha*XX*XX)
+            C1EBEAX = C1EB*EAX
+            ABWX = (A+B*EAX/W)
+            P4 = C1EB*EAX*MU(I) + ABWX*ETAE
+            P4 = MAX(P4,PMIN)*OFF(I)
+            DE_P4 = -B*EAX*DE_W*ETAE/W2 + ABWX*ETA
+            DM_P4 = BETA/ETA2*C1EBEAX*MU(I) - TWO*C1EBEAX*ALPHA*XX*MU(I)/ETA2 + C1EBEAX
+     .              +ETAE*(-TWO*B*ALPHA*XX*EAX/W/ETA2 - B*EAX*DN_W/W2) + ABWX*ESPE(I)
+            DPDM4 = DM_P4 + P4/ETA2*DE_P4
+            I4 = ONE
+          END IF
+
+          IF(REGION(I) == 3)THEN
+            DENOM = ECV-EIV
+            KK = (ESPE(I)-EIV)/DENOM
+            P3 = (ONE-KK)*P12 + KK*P4
+            TMP3 = P4/DENOM - P12/DENOM
+            I12 = (ONE-KK)
+            I4 = KK
+          ENDIF
+
+          PNEW(I) = I12*P12 + I4*P4
+          DPDM(I) = I12*DPDM12 + I4*DPDM4
+          DPDE(I) = I12*DE_P12 + I4*DE_P4 + TMP3
+
+          PNEW(I) = (MAX(PNEW(I), PMIN)-PSH(I))*OFF(I)
+          DPDM(I) = DPDM(I) * OFF(I)
+          DPDE(I) = DPDE(I) * OFF(I)
+
+         ENDIF! (VNEW(I) > ZERO)
+
+        ENDDO
+
+      ENDIF
+
       RETURN
       END SUBROUTINE TILLOTSON
       END MODULE TILLOTSON_MOD
