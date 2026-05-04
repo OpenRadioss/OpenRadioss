@@ -57,7 +57,9 @@ C-----------------------------------------------
       INTEGER :: NGR_SENSOR
 C-----------------------------------------------
         NGR_SENSOR = SENSORS%ngr_sensor(ITASK+1)
-        IF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART>0) IPRI = 1
+        IF(NGR_SENSOR <= size(SENSORS%sens_group) .and. NGR_SENSOR > 0) then
+          IF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART>0) IPRI = 1
+        ENDIF
 C-----------
       RETURN
       END
