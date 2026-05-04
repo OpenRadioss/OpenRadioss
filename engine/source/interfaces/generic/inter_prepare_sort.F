@@ -132,8 +132,8 @@ C-----------------------------------------------
  
  
         integer :: nsn, nsnr, nrtm, nmn
-        integer :: DUMMY(1)
         my_real :: tzinf,curv        
+        integer(8) :: t0_clock, t1_clock, clock_rate
 !   ----------------------------------------
         nsn = 0
         nsnr = 0
@@ -250,6 +250,23 @@ C-----------------------------------------------
                 nsnr = IPARI(24,N)
                 nmn = IPARI(6,N)
                 call compute_voxel_dimensions(nmn, nrtm, inter_struct(N))
+                call system_clock(t0_clock, clock_rate)
+                CALL FILL_VOXEL_LOCAL(1, nsn, nsnr,
+     .            inter_struct(N)%nbx, inter_struct(N)%nby,
+     .            inter_struct(N)%nbz,
+     .            nrtm, numnod, intbuf_tab(N)%nsv,
+     .            inter_struct(N)%voxel,
+     .            inter_struct(N)%next_nod,
+     .            inter_struct(N)%size_node,
+     .            inter_struct(N)%nb_voxel_on,
+     .            inter_struct(N)%list_nb_voxel_on,
+     .            inter_struct(N)%last_nod,
+     .            x, intbuf_tab(N)%stfns,
+     .            inter_struct(N)%box_limit_main)
+                call system_clock(t1_clock)
+                inter_struct(N)%t_fill_local =
+     .            inter_struct(N)%t_fill_local +
+     .            dble(t1_clock - t0_clock) / dble(clock_rate)
               endif
               ! -----------------------------
               ! creation of voxel of secondary nodes 
@@ -259,13 +276,7 @@ C-----------------------------------------------
               CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,mode,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ, GOT_PREVIEW,component) !   mpi wait size of cell list
-
-              ! -----------------------------
-              if(GOT_PREVIEW == 1) THEN
-                CALL FILL_VOXEL_LOCAL_PARTIAL(nsn,intbuf_tab(n)%nsv,nsnr,nrtm,numnod,x,intbuf_tab(N)%stfns,INTER_STRUCT(N),
-     .                   sort_comm(n)%request_cell_rcv, sort_comm(n)%NB_REQUEST_CELL_RCV)
-              endif            
+     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ, GOT_PREVIEW,component) !   mpi wait size of cell list            
               ! -----------------------------
               ! wait comm R "send/rcv the colored cells" 
               ! and compute the number of secondary nodes needed by remote proc 
@@ -284,8 +295,23 @@ C-----------------------------------------------
               if(GOT_PREVIEW == 1) THEN
                 nrtm = IPARI(4,N) ;   nsn = IPARI(5,N) ; nsnr = IPARI(24,N) ; nmn = IPARI(6,N)
                 call compute_voxel_dimensions(nmn, nrtm, inter_struct(N))
-                CALL FILL_VOXEL_LOCAL_PARTIAL(nsn,intbuf_tab(n)%nsv,nsnr,nrtm,numnod,x,
-     .                                           intbuf_tab(N)%stfns,INTER_STRUCT(N),DUMMY,0) 
+                call system_clock(t0_clock, clock_rate)
+                CALL FILL_VOXEL_LOCAL(1, nsn, nsnr,
+     .            inter_struct(N)%nbx, inter_struct(N)%nby,
+     .            inter_struct(N)%nbz,
+     .            nrtm, numnod, intbuf_tab(N)%nsv,
+     .            inter_struct(N)%voxel,
+     .            inter_struct(N)%next_nod,
+     .            inter_struct(N)%size_node,
+     .            inter_struct(N)%nb_voxel_on,
+     .            inter_struct(N)%list_nb_voxel_on,
+     .            inter_struct(N)%last_nod,
+     .            x, intbuf_tab(N)%stfns,
+     .            inter_struct(N)%box_limit_main)
+                call system_clock(t1_clock)
+                inter_struct(N)%t_fill_local =
+     .            inter_struct(N)%t_fill_local +
+     .            dble(t1_clock - t0_clock) / dble(clock_rate)
               ENDIF
             ENDDO
           ENDIF
@@ -310,11 +336,7 @@ C-----------------------------------------------
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
      .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ, GOT_PREVIEW,component)
                     ! wait "number of secondary nodes needed by remote proc"
-              if(GOT_PREVIEW == 1) THEN
-                nrtm = IPARI(4,N) ;   nsn = IPARI(5,N) ; nsnr = IPARI(24,N) ; nmn = IPARI(6,N)
-                CALL FILL_VOXEL_LOCAL_PARTIAL(nsn,intbuf_tab(n)%nsv,nsnr,nrtm,numnod,x,intbuf_tab(N)%stfns,INTER_STRUCT(N),
-     .                     SORT_COMM(N)%REQUEST_NB_R, SORT_COMM(N)%NBRECV_NB)
-              endif
+
 
               CALL SPMD_WAIT_NB(IRECVFROM,ISENDTO,N,SORT_COMM)    
             ENDIF

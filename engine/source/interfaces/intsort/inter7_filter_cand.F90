@@ -47,7 +47,7 @@
         SUBROUTINE INTER7_FILTER_CAND(&
         &j_stok,irect  ,x     ,nsv   ,ii_stok,&
         &cand_n,cand_e ,mulnsn,margin  ,&
-        &i_mem ,prov_n ,prov_e,eshift,inacti ,&
+        &prov_n ,prov_e,eshift,inacti ,&
         &ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
         &oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
         &gap_m ,gapmin ,gapmax,curv_max,&
@@ -69,7 +69,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(inout) :: i_mem !< memory error flag
           integer, intent(in) :: nrtm !< number of main segments
           integer, intent(in) :: isznsnr !< size of oldnum
           integer, intent(in) :: nsn  !< number secondary nodes
@@ -187,21 +186,10 @@
             if(pene(i)/=zero) k_stok = k_stok + 1
           end do
           if(k_stok==0)return
-          exit_flag = .false.
 !$omp critical
           i_stok = ii_stok
-          if (i_stok + k_stok > mulnsn) then
-            i_mem = 2
-            exit_flag = .true.
-          else
-            ii_stok = i_stok + k_stok
-          end if
+          ii_stok = i_stok + k_stok
 !$omp end critical
-
-          if (exit_flag) then
-            return
-          end if
-
           inacti_l = inacti
           itied_l = itied
           ifq_l = ifq

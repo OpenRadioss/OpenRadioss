@@ -74,6 +74,7 @@ C-----------------------------------------------
         USE INTBUFDEF_MOD 
         USE INTER7_COLLISION_DETECTION_MOD
         use check_sorting_criteria_mod , only : check_sorting_criteria
+        USE EXTEND_ARRAY_MOD, ONLY : extend_array
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,6 +138,7 @@ C-----------------------------------------------
         INTEGER :: NSN,NMN,NTY,NRTM
         logical :: need_computation
         real:: T1
+        INTEGER :: OLD_NCONTACT
 C-----------------------------------------------
         ! --------------
         ! check if the current interface needs to be sorted
@@ -201,16 +203,23 @@ C -------------------------------------------------------------
         RESULT = 0
         NMN_G = INTER_STRUCT(NIN)%NMN_G
 !$OMP END SINGLE
+        CAND_N_OLD = INTBUF_TAB%I_STOK(1)
+        OLD_NCONTACT = NCONTACT
 
         IF(NSPMD > 1) THEN
         ! ---------------------------
             IF(ITASK==0)THEN
             ! ---------------------------
             ! send/rcv the secondary node data
-                CALL SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IPARI(21,NIN),
+                CALL SPMD_CELL_EXCHANGE(IPARI(23,NIN), TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IPARI(21,NIN),
      1                                   IFQ,INACTI,NSNFIOLD,IPARI(47,NIN),NTY, intbuf_tab%stfns, intbuf_tab%nsv,
-     2                                   NRTM, X,
-     2                                   ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW)
+     2                                   NRTM, X,I_MEM,
+     2                                   ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW,
+     3                                   INTBUF_TAB, ESHIFT, NCONTACT,
+     4                                   NSNROLD, IPARI(63,NIN),
+     5                                   GAP, GAPMIN, GAPMAX,
+     6                                   TZINF, INTBUF_TAB%VARIABLES(bgapsmx_index),
+     7                                   DRAD, DGAPLOADP)
 C
                 IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
      +               IFQ>0.OR.ITIED/=0)THEN
@@ -223,7 +232,6 @@ C
         END IF
         ! Voxel remote secondary nodes
         ! ---------------------------
-        CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40     CONTINUE
 C
         ILD = 0
@@ -235,7 +243,7 @@ C
             ALLOCATE( LIST_REMOTE_S_NODE(NSNR) )
             REMOTE_S_NODE = 0
         ENDIF
-        CALL MY_BARRIER                          
+        CALL MY_BARRIER
 
         IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL 
  
@@ -250,7 +258,8 @@ C
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,30)
 C
         IF(GOT_PREVIEW == 1) THEN
-            CALL INTER7_COLLISION_DETECTION(
+!           IF(I_MEM == 0) THEN
+            CALL INTER7_COLLISION_DETECTION(IPARI(23,NIN) ,
      1      X      ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV       ,INACTI    ,INTBUF_TAB%CAND_P,
      2      NRTM           ,NSN                  ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      3      GAP    ,NOINT            ,INTBUF_TAB%I_STOK(1) ,NCONTACT ,INTER_STRUCT(NIN)%BOX_LIMIT_MAIN,
@@ -265,6 +274,45 @@ C
      F      INTER_STRUCT(NIN)%SIZE_CAND_A,
      .      INTBUF_TAB%S_KREMNODE, INTBUF_TAB%S_REMNODE, NSPMD, NUMNOD, INTER_STRUCT(nin),
      .      INTHEAT, IDT_THERM, NODADT_THERM)
+
+
+      ! -----------------------------------------------
+      ! reallocate other arrays if needed
+      ! (if extend_array was called in collision detection)
+      ! Use SIZE(CAND_N) as authoritative size since
+      ! different threads may have different NCONTACT values
+      ! after the OMP DO in the REMOTE search.
+      ! -----------------------------------------------
+            CALL MY_BARRIER
+            IF (ITASK == 0) THEN
+              NCONTACT = SIZE(INTBUF_TAB%CAND_N)
+              IF (NCONTACT /= OLD_NCONTACT) THEN
+                ! extend ftsavx/ftsavy/ftsavz (only if friction active)
+                IF (IFQ /= 0) THEN
+                  CALL extend_array(INTBUF_TAB%FTSAVX,OLD_NCONTACT,
+     .                              NCONTACT)
+                  CALL extend_array(INTBUF_TAB%FTSAVY,OLD_NCONTACT,
+     .                              NCONTACT)
+                  CALL extend_array(INTBUF_TAB%FTSAVZ,OLD_NCONTACT,
+     .                              NCONTACT)
+                  INTBUF_TAB%S_FTSAVX = NCONTACT
+                  INTBUF_TAB%S_FTSAVY = NCONTACT
+                  INTBUF_TAB%S_FTSAVZ = NCONTACT
+                ENDIF
+                ! update size metadata
+                INTBUF_TAB%S_CAND_N = NCONTACT
+                INTBUF_TAB%S_CAND_E = NCONTACT
+                IF (IFQ /= 0) INTBUF_TAB%S_IFPEN = NCONTACT
+                IF (INACTI==5.OR.INACTI==6.OR.INACTI==7)
+     .            INTBUF_TAB%S_CAND_P = NCONTACT
+                IF (ITIED /= 0) INTBUF_TAB%S_CAND_F = 8*NCONTACT
+                MULTIMP = IPARI(23,NIN)
+              ENDIF
+            ENDIF
+            CALL MY_BARRIER
+            ! All threads sync NCONTACT from actual array size
+            NCONTACT = SIZE(INTBUF_TAB%CAND_N)
+!           ENDIF
 
         ELSE IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
             FIRST = 1 + ITASK*(NRTM/NTHREAD)

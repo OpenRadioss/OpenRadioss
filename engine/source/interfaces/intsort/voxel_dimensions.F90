@@ -134,6 +134,17 @@
             do i=1,inter_struct%voxel_size
               inter_struct%voxel(i)=0
             end do
+            ! Allocate remote voxel (same size as local)
+            if(allocated(inter_struct%voxel_remote) .and. inter_struct%voxel_remote_size < res8) &
+              deallocate(inter_struct%voxel_remote)
+            if(.not.allocated(inter_struct%voxel_remote)) then
+              call my_alloc(inter_struct%voxel_remote,res8)
+              inter_struct%voxel_remote_size = res8
+            end if
+            do i=1,inter_struct%voxel_remote_size
+              inter_struct%voxel_remote(i)=0
+            end do
+            inter_struct%nb_voxel_on_remote = 0
             inter_struct%nbx = nbx
             inter_struct%nby = nby
             inter_struct%nbz = nbz

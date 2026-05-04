@@ -477,4 +477,116 @@
           !deallocate(last_nod)
         END SUBROUTINE FILL_VOXEL_REMOTE
 
+!! \brief Fill a separate remote voxel grid with remote nodes using 1-based indexing
+!! \details Remote nodes are indexed 1..nsnr in voxel_remote/next_nod_remote/last_nod_remote
+!!          The search subroutine maps jj -> nsn+jj for downstream compatibility
+        SUBROUTINE FILL_VOXEL_REMOTE_SEPARATE( &
+        & istart,&
+        & iend,&
+        & nsnr,&
+        & nbx,&
+        & nby,&
+        & nbz,&
+        & s_xrem,&
+        & voxel_remote,&
+        & next_nod_remote,&
+        & size_nod_remote, &
+        & nb_voxel_on_remote,&
+        & list_nb_voxel_on_remote,&
+        & last_nod_remote, &
+        & xrem,&
+        & box_limit_main)
+          USE PRECISION_MOD, ONLY : WP
+          USE CONSTANT_MOD
+          USE EXTEND_ARRAY_MOD, ONLY : extend_array
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in), value :: istart !< starting index (1-based into xrem)
+          integer, intent(in), value :: iend !< ending index (1-based into xrem)
+          integer, intent(in), value :: nsnr !< number of remote secondary nodes
+          integer, intent(in), value :: nbx !< number of cells in x direction
+          integer, intent(in), value :: nby !< number of cells in y direction
+          integer, intent(in), value :: nbz !< number of cells in z direction
+          integer, intent(in), value :: s_xrem !< number of double data for remote nodes
+          integer, intent(inout) :: voxel_remote((nbx+2)*(nby+2)*(nbz+2)) !< remote voxel data structure
+          integer, dimension(:), allocatable, intent(inout) :: next_nod_remote !< next node in the remote voxel
+          integer, intent(inout) :: size_nod_remote !< size of the remote nod arrays
+          integer, intent(inout) :: nb_voxel_on_remote !< number of remote voxels with nodes
+          integer, dimension(:), allocatable, intent(inout) :: list_nb_voxel_on_remote !< list of remote voxels with nodes
+          real(kind=WP), intent(in) :: xrem(s_xrem,nsnr) !< remote node data
+          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments
+          integer, dimension(:), allocatable, intent(inout) :: last_nod_remote
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: j
+          real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
+          real(kind=WP) :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
+          integer :: ix, iy, iz
+          integer :: first, last
+          integer :: cellid
+
+! Bounding box of the model
+          xmin = box_limit_main(4)
+          ymin = box_limit_main(5)
+          zmin = box_limit_main(6)
+          xmax = box_limit_main(1)
+          ymax = box_limit_main(2)
+          zmax = box_limit_main(3)
+
+! Reduced bounding box
+          xminb = box_limit_main(10)
+          yminb = box_limit_main(11)
+          zminb = box_limit_main(12)
+          xmaxb = box_limit_main(7)
+          ymaxb = box_limit_main(8)
+          zmaxb = box_limit_main(9)
+
+! Ensure arrays are large enough
+          call extend_array(last_nod_remote, size_nod_remote, nsnr)
+          call extend_array(next_nod_remote, size_nod_remote, nsnr)
+          call extend_array(list_nb_voxel_on_remote, size_nod_remote, nsnr)
+          size_nod_remote = max(size_nod_remote, nsnr)
+
+! Add remote nodes to the remote voxel grid (1-based indexing: j goes from 1..nsnr)
+          do j = istart, iend
+            if(xrem(1,j) < xmin)  cycle
+            if(xrem(1,j) > xmax)  cycle
+            if(xrem(2,j) < ymin)  cycle
+            if(xrem(2,j) > ymax)  cycle
+            if(xrem(3,j) < zmin)  cycle
+            if(xrem(3,j) > zmax)  cycle
+            ix=int(nbx*(xrem(1,j)-xminb)/(xmaxb-xminb))
+            iy=int(nby*(xrem(2,j)-yminb)/(ymaxb-yminb))
+            iz=int(nbz*(xrem(3,j)-zminb)/(zmaxb-zminb))
+            ix=max(1,2+min(nbx,ix))
+            iy=max(1,2+min(nby,iy))
+            iz=max(1,2+min(nbz,iz))
+
+            cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
+
+            first = voxel_remote(cellid)
+
+            if(first == 0)then
+              nb_voxel_on_remote = nb_voxel_on_remote + 1
+              list_nb_voxel_on_remote(nb_voxel_on_remote) = cellid
+              voxel_remote(cellid) = j ! first (1-based)
+              next_nod_remote(j) = 0   ! last one
+              last_nod_remote(j) = 0   ! no last
+            else if(last_nod_remote(first) == 0)then
+              next_nod_remote(first) = j ! next
+              last_nod_remote(first) = j ! last
+              next_nod_remote(j) = 0     ! last one
+            else
+              last = last_nod_remote(first) ! last node in this voxel
+              next_nod_remote(last) = j    ! next
+              last_nod_remote(first) = j   ! last
+              next_nod_remote(j) = 0       ! last one
+            end if
+          end do
+        END SUBROUTINE FILL_VOXEL_REMOTE_SEPARATE
+
       END MODULE FILL_VOXEL_MOD

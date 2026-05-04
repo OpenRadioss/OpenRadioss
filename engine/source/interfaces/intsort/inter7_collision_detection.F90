@@ -47,7 +47,7 @@
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||    voxel_dimensions_mod         ../engine/source/interfaces/intsort/voxel_dimensions.F90
 !||====================================================================
-        SUBROUTINE INTER7_COLLISION_DETECTION(&
+        SUBROUTINE INTER7_COLLISION_DETECTION(multimp_param,&
         &X        ,IRECT   ,NSV     ,INACTI   ,CAND_P  ,&
         &NRTM    ,NSN     ,CAND_E   ,CAND_N  ,&
         &GAP      ,NOINT   ,II_STOK ,NCONTACT ,BMINMA  ,&
@@ -87,6 +87,7 @@
           INTEGER :: INACTI !< inacti option
           INTEGER :: IFQ !< friction option
           INTEGER :: NSNR !< number of remote nodes
+          integer, intent(inout) :: multimp_param
           INTEGER :: NSNROLD !< number of old secondary nodes
           INTEGER :: RENUM_SIZ !< size of renum array
           INTEGER, INTENT(IN) :: NUMNOD !< global number of nodes
@@ -98,9 +99,9 @@
           INTEGER :: RENUM(RENUM_SIZ) !< ?
           INTEGER :: NUM_IMP           !<
           INTEGER :: ITASK            !< OpenMP task id
-          INTEGER :: CAND_E(NCONTACT) !< segment id of the contact candidate
-          INTEGER :: CAND_N(NCONTACT) !< node id of the contact candidate
-          INTEGER :: IFPEN(NCONTACT)
+          INTEGER, INTENT(INOUT), ALLOCATABLE :: CAND_E(:) !< segment id of the contact candidate
+          INTEGER, INTENT(INOUT), ALLOCATABLE :: CAND_N(:) !< node id of the contact candidate
+          INTEGER, INTENT(INOUT), ALLOCATABLE :: IFPEN(:)
           INTEGER :: KREMNOD(*) !< remnode option
           INTEGER :: REMNOD(*) !< remnode option
           INTEGER :: NCONTACT !< number of contact candidates
@@ -131,17 +132,18 @@
           real(kind=WP) , INTENT(IN) :: DRAD
           real(kind=WP) , INTENT(IN) :: DGAPLOAD
           real(kind=WP) :: X(3,NUMNOD)
-          real(kind=WP) :: CAND_P(NCONTACT)
+          real(kind=WP), INTENT(INOUT), ALLOCATABLE :: CAND_P(:)
           real(kind=WP) :: STF(NRTM)
           real(kind=WP) :: GAP_S(NSN)
           real(kind=WP) :: GAP_M(NRTM)
           real(kind=WP) :: GAP_S_L(NSN)
           real(kind=WP) :: GAP_M_L(NRTM)
-          real(kind=WP) :: CAND_F(NCONTACT)
+          real(kind=WP), INTENT(INOUT), ALLOCATABLE :: CAND_F(:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: S_PREV_REMOTE_NUMBER
+          INTEGER :: S_PREV_REMOTE_NUMBER, I
+          INTEGER(8) :: t0_clock, t1_clock, clock_rate
 !     REAL
           real(kind=WP) :: XYZM(6,2), MARGE
 
@@ -165,7 +167,7 @@
           XYZM(5,2) = BMINMA(8)
           XYZM(6,2) = BMINMA(9)
 
-          I_MEM = 0
+!         I_MEM = 0
 !
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.&
           &IFQ>0.OR.NUM_IMP>0.OR.ITIED/=0) THEN
@@ -234,71 +236,206 @@
 !       &                    xrem,&
 !       &                    inter_struct%box_limit_main)
           END IF
+          ! Build inverse NSV map: global node number -> local secondary index
+          ! Allows fast self-node rejection without nsv(jj) memory access
+          if(.not. allocated(inter_struct%inv_nsv)) then
+            allocate(inter_struct%inv_nsv(numnod))
+            inter_struct%inv_nsv(:) = 0
+            do i = 1, nsn
+              inter_struct%inv_nsv(nsv(i)) = i
+            end do
+          end if
+
 !$OMP END SINGLE
 
 
+          call system_clock(t0_clock, clock_rate)
 
-          CALL INTER7_CANDIDATE_PAIRS( &
-          & NSN, &
-          & PREV_REMOTE_NUMBER, &
-          & NSNR, &
-          & S_PREV_REMOTE_NUMBER, &
-          & I_MEM, &
-          & IRECT, &
-          & X, &
-          & STF, &
-          & XYZM, &
-          & NSV, &
-          & II_STOK, &
-          & CAND_N, &
-          & ESHIFT, &
-          & CAND_E, &
-          & NCONTACT, &
-          & TZINF, &
-          & GAP_S_L, &
-          & GAP_M_L, &
-          & inter_struct%VOXEL, &
-          & inter_struct%NBX, &
-          & inter_struct%NBY, &
-          & inter_struct%NBZ, &
-          & INACTI, &
-          & IFQ, &
-          & CAND_A, &
-          & CAND_P, &
-          & IFPEN, &
-          & NRTM, &
-          & NSNROLD, &
-          & IGAP, &
-          & GAP, &
-          & GAP_S, &
-          & GAP_M, &
-          & GAPMIN, &
-          & GAPMAX, &
-          & MARGE, &
-          & CURV_MAX, &
-          & BGAPSMX, &
-          & S_KREMNOD, &
-          & KREMNOD, &
-          & S_REMNOD, &
-          & REMNOD, &
-          & FLAGREMNODE, &
-          & DRAD, &
-          & ITIED, &
-          & CAND_F, &
-          & DGAPLOAD, &
-          & s_cand_a, &
-          & NUMNOD, &
-          & XREM, &
-          & SIZE(XREM, 1), &
-          & IREM, &
-          & SIZE(IREM, 1), &
-          & inter_struct%NEXT_NOD)
+          if(NSPMD > 1) then
+            ! NSPMD==1: no MPI, do local search here (no remote nodes exist)
+!           CALL INTER7_CANDIDATE_PAIRS_LOCAL(multimp_param,&
+!           & NSN, &
+!           & I_MEM, &
+!           & IRECT, &
+!           & X, &
+!           & STF, &
+!           & XYZM, &
+!           & NSV, &
+!           & II_STOK, &
+!           & CAND_N, &
+!           & ESHIFT, &
+!           & CAND_E, &
+!           & NCONTACT, &
+!           & TZINF, &
+!           & GAP_S_L, &
+!           & GAP_M_L, &
+!           & inter_struct%VOXEL, &
+!           & inter_struct%NBX, &
+!           & inter_struct%NBY, &
+!           & inter_struct%NBZ, &
+!           & INACTI, &
+!           & IFQ, &
+!           & CAND_A, &
+!           & CAND_P, &
+!           & IFPEN, &
+!           & NRTM, &
+!           & IGAP, &
+!           & GAP, &
+!           & GAP_S, &
+!           & GAP_M, &
+!           & GAPMIN, &
+!           & GAPMAX, &
+!           & MARGE, &
+!           & CURV_MAX, &
+!           & BGAPSMX, &
+!           & S_KREMNOD, &
+!           & KREMNOD, &
+!           & S_REMNOD, &
+!           & REMNOD, &
+!           & FLAGREMNODE, &
+!           & DRAD, &
+!           & ITIED, &
+!           & CAND_F, &
+!           & DGAPLOAD, &
+!           & s_cand_a, &
+!           & NUMNOD, &
+!           & inter_struct%NEXT_NOD, &
+!           & inter_struct%INV_NSV)
+
+
+            ! Local search was already done in SPMD_CELL_EXCHANGE (overlapped with MPI)
+            ! Here we only do the remote search using the separate remote voxel
+            CALL INTER7_CANDIDATE_PAIRS_REMOTE(multimp_param,&
+            & NSN, &
+            & PREV_REMOTE_NUMBER, &
+            & NSNR, &
+            & S_PREV_REMOTE_NUMBER, &
+            & I_MEM, &
+            & IRECT, &
+            & X, &
+            & STF, &
+            & XYZM, &
+            & NSV, &
+            & II_STOK, &
+            & CAND_N, &
+            & ESHIFT, &
+            & CAND_E, &
+            & NCONTACT, &
+            & TZINF, &
+            & GAP_S_L, &
+            & GAP_M_L, &
+            & inter_struct%VOXEL_REMOTE, &
+            & inter_struct%NBX, &
+            & inter_struct%NBY, &
+            & inter_struct%NBZ, &
+            & INACTI, &
+            & IFQ, &
+            & CAND_A, &
+            & CAND_P, &
+            & IFPEN, &
+            & NRTM, &
+            & NSNROLD, &
+            & IGAP, &
+            & GAP, &
+            & GAP_S, &
+            & GAP_M, &
+            & GAPMIN, &
+            & GAPMAX, &
+            & MARGE, &
+            & CURV_MAX, &
+            & BGAPSMX, &
+            & S_KREMNOD, &
+            & KREMNOD, &
+            & S_REMNOD, &
+            & REMNOD, &
+            & FLAGREMNODE, &
+            & DRAD, &
+            & ITIED, &
+            & CAND_F, &
+            & DGAPLOAD, &
+            & s_cand_a, &
+            & NUMNOD, &
+            & XREM, &
+            & SIZE(XREM, 1), &
+            & IREM, &
+            & SIZE(IREM, 1), &
+            & inter_struct%NEXT_NOD_REMOTE)
+          else
+            ! NSPMD==1: no MPI, do local search here (no remote nodes exist)
+            CALL INTER7_CANDIDATE_PAIRS_LOCAL(multimp_param, &
+            & NSN, &
+            & I_MEM, &
+            & IRECT, &
+            & X, &
+            & STF, &
+            & XYZM, &
+            & NSV, &
+            & II_STOK, &
+            & CAND_N, &
+            & ESHIFT, &
+            & CAND_E, &
+            & NCONTACT, &
+            & TZINF, &
+            & GAP_S_L, &
+            & GAP_M_L, &
+            & inter_struct%VOXEL, &
+            & inter_struct%NBX, &
+            & inter_struct%NBY, &
+            & inter_struct%NBZ, &
+            & INACTI, &
+            & IFQ, &
+            & CAND_A, &
+            & CAND_P, &
+            & IFPEN, &
+            & NRTM, &
+            & IGAP, &
+            & GAP, &
+            & GAP_S, &
+            & GAP_M, &
+            & GAPMIN, &
+            & GAPMAX, &
+            & MARGE, &
+            & CURV_MAX, &
+            & BGAPSMX, &
+            & S_KREMNOD, &
+            & KREMNOD, &
+            & S_REMNOD, &
+            & REMNOD, &
+            & FLAGREMNODE, &
+            & DRAD, &
+            & ITIED, &
+            & CAND_F, &
+            & DGAPLOAD, &
+            & s_cand_a, &
+            & NUMNOD, &
+            & inter_struct%NEXT_NOD, &
+            & inter_struct%INV_NSV)
+          end if
+
+          call system_clock(t1_clock)
+!$OMP ATOMIC
+          inter_struct%t_candidate_pairs = inter_struct%t_candidate_pairs + &
+            dble(t1_clock - t0_clock) / dble(clock_rate)
+!$OMP ATOMIC
+          inter_struct%n_calls = inter_struct%n_calls + 1
 
           IF(ITASK==0)  THEN
 !           IF(ALLOCATED(inter_struct%NEXT_NOD)) DEALLOCATE(inter_struct%NEXT_NOD)
             IF(ALLOCATED(PREV_REMOTE_NUMBER)) DEALLOCATE(PREV_REMOTE_NUMBER)
 !           if(allocated(inter_struct%list_nb_voxel_on)) deallocate(inter_struct%list_nb_voxel_on)
-
+            ! Print cumulative timing every 1000 sort calls
+            if(mod(inter_struct%n_calls, 100) == 0) then
+              write(6,'(A,I8,A)') ' [PREVIEW TIMING] after ', &
+                inter_struct%n_calls, ' calls (cumulative seconds):'
+              write(6,'(A,F12.4)') '   fill_local      = ', &
+                inter_struct%t_fill_local
+              write(6,'(A,F12.4)') '   mpi_wait        = ', &
+                inter_struct%t_mpi_wait
+              write(6,'(A,F12.4)') '   fill_remote     = ', &
+                inter_struct%t_fill_remote
+              write(6,'(A,F12.4)') '   candidate_pairs = ', &
+                inter_struct%t_candidate_pairs
+            end if
           END IF
 !     I_MEM = 2 ==> Not enough memory
           IF (I_MEM ==2) RETURN

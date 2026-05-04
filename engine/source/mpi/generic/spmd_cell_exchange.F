@@ -41,10 +41,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||    tri7box                    ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,
+      SUBROUTINE SPMD_CELL_EXCHANGE(multimp_param, TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,
      1                               IFQ,INACTI,NSNFIOLD,INTTH,ITYP,STFNS, NSV,
-     2                               NRTM, X,
-     2                               ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW)
+     2                               NRTM, X,I_MEM_LOCAL,
+     2                               ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW,
+     3                               INTBUF_TAB, ESHIFT_ARG, NCONTACT_ARG,
+     4                               NSNROLD_ARG, FLAGREMNODE_ARG,
+     5                               GAP_ARG, GAPMIN_ARG, GAPMAX_ARG,
+     6                               TZINF_ARG, BGAPSMX_ARG, DRAD_ARG,
+     7                               DGAPLOAD_ARG)
 !$COMMENT
 !       SPMD_CELL_EXCHANGE description :
 !       exchange of secondary node data (x, v, temp...)
@@ -63,6 +68,8 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE INTER_SORTING_MOD
         USE INTER_STRUCT_MOD
+        USE INTBUFDEF_MOD
+        USE INTER7_CANDIDATE_PAIRS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +95,7 @@ C-----------------------------------------------
      .        NSNFIOLD(NSPMD),
      .        ISENDTO(NINTER+1,NSPMD+1), IRCVFROM(NINTER+1,NSPMD+1),
      .        ITYP
+        integer :: multimp_param
         INTEGER :: GOT_PREVIEW !< flag to indicate if -preview is available
         INTEGER :: NMN
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
@@ -96,6 +104,16 @@ C-----------------------------------------------
         INTEGER :: NSV(NSN)
         INTEGER :: NRTM
         my_real :: X(3,NUMNOD)
+        TYPE(INTBUF_STRUCT_), INTENT(INOUT) :: INTBUF_TAB
+        INTEGER, INTENT(IN) :: ESHIFT_ARG
+        INTEGER, intent(inout) :: NCONTACT_ARG
+        INTEGER, INTENT(IN) :: NSNROLD_ARG, FLAGREMNODE_ARG
+        my_real, INTENT(IN) :: GAP_ARG, GAPMIN_ARG, GAPMAX_ARG
+        my_real, INTENT(IN) :: TZINF_ARG, BGAPSMX_ARG, DRAD_ARG
+        my_real, INTENT(IN) :: DGAPLOAD_ARG
+        INTEGER :: I_MEM_LOCAL
+
+
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -112,7 +130,10 @@ C-----------------------------------------------
       DATA MSGOFF5/6027/ 
       INTEGER :: SIZE_S
       INTEGER :: OFFSET(NSPMD)
-      INTEGER :: DUMMY(1)
+      INTEGER(8) :: t0_clock, t1_clock, clock_rate
+      INTEGER :: II_STOK_LOCAL
+      my_real :: MARGE_LOCAL
+      my_real :: XYZM_LOCAL(12)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -198,40 +219,135 @@ C================================================================
       ENDDO
 
 
-        ! -----------------------------
-        if(GOT_PREVIEW == 1) THEN
-        ! finish the last groups of secondary nodes, if any
-            CALL FILL_VOXEL_LOCAL_PARTIAL(nsn,nsv,nsnr,nrtm,numnod,x,stfns,INTER_STRUCT(NIN),DUMMY,0) 
-        ENDIF
- 
 
-      ! ---------------------------------------
-      ! wait the rcv comm
+      ! ============================================================
+      ! LOCAL SEARCH: overlap with MPI communication
+      ! All sends posted, receives pending. Use all threads for local search.
+      ! ============================================================
+      IF(GOT_PREVIEW==1 .AND. NRTM > 0) THEN
+        MARGE_LOCAL = TZINF_ARG - MAX(GAP_ARG+DGAPLOAD_ARG,DRAD_ARG)
+        I_MEM_LOCAL = 0
+        II_STOK_LOCAL = INTBUF_TAB%I_STOK(1)
+        ! Remap BOX_LIMIT_MAIN to xyzm layout expected by candidate_pairs
+        ! BOX_LIMIT_MAIN: (1:3)=max, (4:6)=min, (7:9)=reduced_max, (10:12)=reduced_min
+        ! xyzm expected:  (1:3)=min, (4:6)=max, (7:9)=reduced_min, (10:12)=reduced_max
+        XYZM_LOCAL(1) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4)
+        XYZM_LOCAL(2) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(5)
+        XYZM_LOCAL(3) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6)
+        XYZM_LOCAL(4) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(1)
+        XYZM_LOCAL(5) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(2)
+        XYZM_LOCAL(6) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3)
+        XYZM_LOCAL(7) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(10)
+        XYZM_LOCAL(8) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(11)
+        XYZM_LOCAL(9) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)
+        XYZM_LOCAL(10) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(7)
+        XYZM_LOCAL(11) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(8)
+        XYZM_LOCAL(12) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(9)
+        ! Build inverse NSV map if not done yet
+!$OMP PARALLEL
+!$OMP SINGLE
+        if(.not. allocated(inter_struct(nin)%inv_nsv)) then
+          allocate(inter_struct(nin)%inv_nsv(NUMNOD))
+          inter_struct(nin)%inv_nsv(:) = 0
+          do L = 1, NSN
+            inter_struct(nin)%inv_nsv(NSV(L)) = L
+          end do
+        end if
+!$OMP END SINGLE
+        call system_clock(t0_clock, clock_rate)
+         CALL INTER7_CANDIDATE_PAIRS_LOCAL(multimp_param,
+     &    NSN,
+     &    I_MEM_LOCAL,
+     &    INTBUF_TAB%IRECTM,
+     &    X,
+     &    INTBUF_TAB%STFM,
+     &    XYZM_LOCAL,
+     &    NSV,
+     &    II_STOK_LOCAL,
+     &    INTBUF_TAB%CAND_N,
+     &    ESHIFT_ARG,
+     &    INTBUF_TAB%CAND_E,
+     &    NCONTACT_ARG,
+     &    TZINF_ARG,
+     &    INTBUF_TAB%GAP_SL,
+     &    INTBUF_TAB%GAP_ML,
+     &    INTER_STRUCT(NIN)%VOXEL,
+     &    INTER_STRUCT(NIN)%NBX,
+     &    INTER_STRUCT(NIN)%NBY,
+     &    INTER_STRUCT(NIN)%NBZ,
+     &    INACTI,
+     &    IFQ,
+     &    INTER_STRUCT(NIN)%CAND_A,
+     &    INTBUF_TAB%CAND_P,
+     &    INTBUF_TAB%IFPEN,
+     &    NRTM,
+     &    IGAP,
+     &    GAP_ARG,
+     &    INTBUF_TAB%GAP_S,
+     &    INTBUF_TAB%GAP_M,
+     &    GAPMIN_ARG,
+     &    GAPMAX_ARG,
+     &    MARGE_LOCAL,
+     &    INTER_STRUCT(NIN)%CURV_MAX,
+     &    BGAPSMX_ARG,
+     &    INTBUF_TAB%S_KREMNODE,
+     &    INTBUF_TAB%KREMNODE,
+     &    INTBUF_TAB%S_REMNODE,
+     &    INTBUF_TAB%REMNODE,
+     &    FLAGREMNODE_ARG,
+     &    DRAD_ARG,
+     &    ITIED,
+     &    INTBUF_TAB%CAND_F,
+     &    DGAPLOAD_ARG,
+     &    INTER_STRUCT(NIN)%SIZE_CAND_A,
+     &    NUMNOD,
+     &    INTER_STRUCT(NIN)%NEXT_NOD,
+     &    INTER_STRUCT(NIN)%INV_NSV)
+         INTBUF_TAB%I_STOK(1) = II_STOK_LOCAL
+
+        call system_clock(t1_clock)
+!$OMP SINGLE
+        inter_struct(nin)%t_candidate_pairs =
+     .    inter_struct(nin)%t_candidate_pairs +
+     .    dble(t1_clock - t0_clock) / dble(clock_rate)
+!$OMP END SINGLE
+!$OMP END PARALLEL
+      ENDIF
+
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   nmn > 0
        IF(NSNR>0) THEN   !   nsnr>0 only on proc with nmn>0
          DO L = 1, SORT_COMM(NIN)%NBIRECV
+          call system_clock(t0_clock, clock_rate)
           CALL MPI_WAITANY(SORT_COMM(NIN)%NBIRECV,REQ_RD,INDEXI,STATUS,IERROR) !XREM
+          call system_clock(t1_clock)
+          inter_struct(nin)%t_mpi_wait =
+     .      inter_struct(nin)%t_mpi_wait +
+     .      dble(t1_clock - t0_clock) / dble(clock_rate)
 
          ! CALL MPI_WAITANY(SORT_COMM(NIN)%NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
 
           if(GOT_PREVIEW==1) then
-          call fill_voxel_remote(
+          call system_clock(t0_clock)
+          call fill_voxel_remote_separate(
      .                    OFFSET(INDEXI), 
      .                    OFFSET(INDEXI+1)-1, 
-     .                    nsn,
      .                    nsnr,
      .                    inter_struct(nin)%nbx,
      .                    inter_struct(nin)%nby,
      .                    inter_struct(nin)%nbz,
      .                    size(XREM,1),
-     .                    inter_struct(nin)%voxel,
-     .                    inter_struct(nin)%next_nod,
-     .                    inter_struct(nin)%size_node,
-     .                    inter_struct(nin)%nb_voxel_on,
-     .                    inter_struct(nin)%list_nb_voxel_on,
-     .                    inter_struct(nin)%last_nod,
+     .                    inter_struct(nin)%voxel_remote,
+     .                    inter_struct(nin)%next_nod_remote,
+     .                    inter_struct(nin)%size_node_remote,
+     .                    inter_struct(nin)%nb_voxel_on_remote,
+     .                    inter_struct(nin)%list_nb_voxel_on_remote,
+     .                    inter_struct(nin)%last_nod_remote,
      .                    xrem,
      .                    inter_struct(nin)%box_limit_main)
+          call system_clock(t1_clock)
+          inter_struct(nin)%t_fill_remote =
+     .      inter_struct(nin)%t_fill_remote +
+     .      dble(t1_clock - t0_clock) / dble(clock_rate)
           endif
           CALL MPI_WAIT(REQ_RD2(INDEXI),STATUS,IERROR) !IREM
 
@@ -266,12 +382,6 @@ C================================================================
         ENDDO
       ENDIF
       ! ---------------------------------------
-      ELSE 
-
-        if(GOT_PREVIEW == 1) THEN
-        ! finish the last groups of secondary nodes, if any
-            CALL FILL_VOXEL_LOCAL_PARTIAL(nsn,nsv,nsnr,nrtm,numnod,x,stfns,INTER_STRUCT(NIN),DUMMY,0) 
-        ENDIF
 
        ENDIF
 
