@@ -31,7 +31,7 @@
         private :: shrink_array_integer_1d
         private :: shrink_array_real_1d
         private :: shrink_array_double_1d
-        private :: check_error_and_write
+        private :: shrink_check
         public :: shrink_array
 
         !\shrink the array, copy the values
@@ -45,7 +45,7 @@
 
 
 !||====================================================================
-!||    check_error_and_write         ../common_source/tools/memory/my_alloc.F90
+!||    shrink_check         ../common_source/tools/memory/my_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
 !||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
@@ -111,7 +111,7 @@
 !||--- calls      -----------------------------------------------------
 !||    arret                         ../engine/source/system/arret.F
 !||====================================================================
-        subroutine check_error_and_write(stat,msg)
+        subroutine shrink_check(stat,msg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -128,14 +128,14 @@
             end if
             call arret(2)
           end if
-        end subroutine check_error_and_write
+        end subroutine shrink_check
 
 
 !! \brief resize a 1D array of integer, copy the values
 !||====================================================================
 !||    shrink_array_integer_1d   ../common_source/tools/memory/shrink_array.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write     ../common_source/tools/memory/my_alloc.F90
+!||    shrink_check     ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine shrink_array_integer_1d(a,  newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -165,9 +165,9 @@
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
-                call check_error_and_write(ierr, msg=msg)
+                call shrink_check(ierr, msg=msg)
               else
-                call check_error_and_write(ierr)
+                call shrink_check(ierr)
               end if
             end if
             if(present(stat)) stat = ierr
@@ -183,7 +183,7 @@
 !||====================================================================
 !||    shrink_array_real_1d    ../common_source/tools/memory/shrink_array.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write   ../common_source/tools/memory/my_alloc.F90
+!||    shrink_check   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine shrink_array_real_1d(a,  newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -213,9 +213,9 @@
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
-                call check_error_and_write(ierr, msg=msg)
+                call shrink_check(ierr, msg=msg)
               else
-                call check_error_and_write(ierr)
+                call shrink_check(ierr)
               end if
             end if
             if(present(stat)) stat = ierr
@@ -230,7 +230,7 @@
 !||====================================================================
 !||    shrink_array_double_1d   ../common_source/tools/memory/shrink_array.F90
 !||--- calls      -----------------------------------------------------
-!||    check_error_and_write    ../common_source/tools/memory/my_alloc.F90
+!||    shrink_check    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine shrink_array_double_1d(a, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -259,9 +259,9 @@
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
-                call check_error_and_write(ierr, msg=msg)
+                call shrink_check(ierr, msg=msg)
               else
-                call check_error_and_write(ierr)
+                call shrink_check(ierr)
               end if
             end if
             if(present(stat)) stat = ierr
