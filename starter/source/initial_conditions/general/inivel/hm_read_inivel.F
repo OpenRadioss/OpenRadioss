@@ -350,6 +350,12 @@ C--------------------------------------------------
             CALL HM_GET_FLOAT_ARRAY_INDEX('VXRA', VR1, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('VYRA', VR2, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('VZRA', VR3, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            ! Submodel rotation in case no skew is provided 
+            IF(ISK == 0 .AND. SUB_INDEX  /=  0) THEN 
+              CALL SUBROTVECT(VL1,VL2,VL3,RTRANS,SUB_ID,LSUBMODEL)
+              CALL SUBROTVECT(VR1,VR2,VR3,RTRANS,SUB_ID,LSUBMODEL)
+            END IF
+
             IF(N2D /= 0 .AND. ISK == 0)THEN
               IF(VL1 /=0 .OR. VR2 /= 0 .OR. VR3 /= 0)THEN
                 !plane strain warning about X-direction
