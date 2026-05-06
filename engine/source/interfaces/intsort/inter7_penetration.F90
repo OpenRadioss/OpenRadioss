@@ -27,7 +27,7 @@
 !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
 !||====================================================================
       MODULE INTER7_PENETRATION_MOD
-      implicit none
+        implicit none
       contains
 !! \brief computes the penetration between a chuck of secondary nodes and a main surface/segment
 !! \details the candidate for penetration are couple of secondary nodes and the main surface/segment

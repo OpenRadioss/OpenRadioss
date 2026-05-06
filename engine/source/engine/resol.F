@@ -656,6 +656,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+              USE COMMAND_LINE_ARGS_MOD
               USE SPMD_EXCH_WAVE_MOD
               USE GHOST_SHELLS_MOD
               USE CONNECTIVITY_MOD
@@ -776,6 +777,8 @@ C-----------------------------------------------
               use sfem_mod
               use init_global_boundary_list_mod , only : init_global_boundary_list
               use sfem_init_mod , only : sfem_init
+              use shell_internal_forces_mod
+              use shell_gpu_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1369,6 +1372,11 @@ C coupling coupling
               logical :: ongoing
               double precision :: dt2max_coupling
 C-----------------------------------------------------------------------------------
+C GPU
+              type(SHELLS_) :: SHELLS
+              integer :: ipri
+C             
+
               call resol_alloc_phase1(rby6,dxancg,nb25_candt,nb25_impct,nb25_dst1,nb25_dst2,igrouc,igrounc, 
      .                                interfaces,int18add,idamp_rdof_tab,icontact_old, 
      .                                nrbykin,numnod,parasiz,ngroup,ninter,sicontact,nodes,
@@ -2609,6 +2617,18 @@ C
 C===========================================================================
 C                 BEGINNING OF EXPLICIT ITERATION LOOP
 C===========================================================================
+              IF(GPU == 1) THEN
+               CALL FORINTC_PREPARE_GPU( GPU, SHELLS, NUMELC,
+     .           PM , NPROPM,       GEO, NPROPG,  
+     .           NODES, MAT_ELEM  , NSECT, NSLIPRING, NEXMAD, 
+     .           IPARG, nparg     ,ELEMENT%SHELL%IXC       , IPART(K3),
+     .           IGROUC    ,NGROUC, NGROUP, NIXC    ,
+     .           ELBUF_TAB, DTFAC1(3),
+     .           NODADT, IDT1SH, IDTMINS, IDTMIN(3),
+     .           HVISC, HELAS, HVLIN )
+              ENDIF
+
+
  100          CONTINUE
 
               NCYCLE_DEBUG = NCYCLE
@@ -3162,6 +3182,9 @@ C----------------------------------------
                   NATIV_SMS_SIZ = 0
                 ENDIF
 
+C
+
+
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
@@ -3637,6 +3660,16 @@ C----------------------------------------
                   ITYPTST= ITYPTSTT
                 ENDIF
 
+             IF(GPU == 1) THEN
+C     GPU SHELL: launch async pipeline BEFORE CPU element work
+C     so that GPU kernels execute while FORINTC + FORINT run on CPU.
+C     Results are collected later by gpu_shell_sync_scatter.
+                CALL STARTIME(TIMERS,TIMER_GPU_SHELL)
+                CALL gpu_shell_launch_async(NODES,SHELLS,DT1)
+                CALL STOPTIME(TIMERS,TIMER_GPU_SHELL)
+              ENDIF
+
+
 
 C=======================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -4022,7 +4055,6 @@ C     INTERNAL FORCES OF SHELLS, 3-NODE SHELLS
 C-------------------------------
               CALL TRACE_IN(14,0,ZERO)
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ELEMENT)
-
 C -------------------------------------------------------------------
 C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
               GETUNOD_NOCOM=1
@@ -4054,7 +4086,7 @@ C Init var parallel SMP
 
               NDTSKR=NDTSK ; IF(IRODDL == 0)NDTSKR=1
 
-              CALL FORINTC(TIMERS,
+              CALL FORINTC(TIMERS, GPU, IPRI,
      1           PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
      2           NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     ,
      3           WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSKR)    ,ELEMENT%PON%FSKY           ,CRKSKY       ,
@@ -4089,6 +4121,7 @@ C Init var parallel SMP
               END IF
 #include "lockoff.inc"
 !$OMP END PARALLEL
+
               CALL PYTHON_END_OPENMP(PYTHON)
               CALL TRACE_OUT(14)
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
@@ -4187,8 +4220,19 @@ C
 !$OMP END PARALLEL
               CALL PYTHON_END_OPENMP(PYTHON)
               CALL TRACE_OUT(14)
-
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
+
+              IF(GPU == 1) THEN
+C     GPU SHELL: synchronize + scatter results now that FORINTC + FORINT
+C     have completed on the CPU.  By this point the GPU pipeline has had
+C     time to finish, so the sync call should return near-instantly.
+                CALL STARTIME(TIMERS,TIMER_GPU_SHELL)
+                CALL gpu_shell_sync_scatter(
+     .           NODES,SHELLS,DT2T,PARTSAV,NPSAV,NPART,IPRI)
+                CALL STOPTIME(TIMERS,TIMER_GPU_SHELL)
+              ENDIF
+
+
 C-----
               IF(NUMSPHG/=0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,48)

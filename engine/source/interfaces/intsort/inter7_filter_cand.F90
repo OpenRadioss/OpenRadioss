@@ -26,7 +26,7 @@
 !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
 !||====================================================================
       MODULE INTER7_FILTER_CAND_MOD
-      implicit none
+        implicit none
       contains
 !! \brief broad phase filtering of candidate pairs
 !! \details input: nodes and segment sharing the same voxel, output: filtered candidate pairs

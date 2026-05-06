@@ -86,6 +86,12 @@ c       IF(IMONM >= 1)THEN
          ENDIF
          FIELDS(NF) = MACRO_TIMER_ELEMENT
          NF = NF + 1
+         IF(TABTIME(MACRO_TIMER_GPU_SHELL,1) > 0) THEN
+           FIELDS(NF) = MACRO_TIMER_GPU_SHELL
+           NF = NF + 1
+           TITLES(MACRO_TIMER_GPU_SHELL) = 'GPU_SHELL'
+         ENDIF
+
          FIELDS(NF) = MACRO_TIMER_KIN
          NF = NF + 1
          FIELDS(NF) = MACRO_TIMER_INTEG
