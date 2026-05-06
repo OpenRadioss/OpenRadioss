@@ -43,7 +43,7 @@
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine rbody_part_modif(nrbykin ,nnpby ,npby  ,slpby ,lpby  ,            &
-          numnod  ,irb   ,nsn   ,isl   ,nrbykin0,          &
+          numnod  ,irb   ,nsn   ,isl   ,nrbykin0,                                    &
           parent_of)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -162,7 +162,7 @@
           numnod  ,itab  ,npart ,ipart ,lipart1,       &
           icode   ,iskew ,nfxvel,nifv  ,ibfv   ,       &
           ngrav   ,nigrav,igrav ,slgrav,lgrav  ,       &
-          numskw  )
+          numskw  ,x )
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
@@ -199,10 +199,11 @@
           integer, intent(in)                                      :: numskw          !< number of local skew
           integer, dimension(nigrav,ngrav),     intent(inout)      :: igrav           !< gravities data
           integer, dimension(slgrav),           intent(inout)      :: lgrav           !< gravities node list
+          real(kind=WP), intent(inout) ,dimension(3,numnod)        :: x               !< coordinate array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,m,iad,jpart,nsl,part_id
+          integer :: i,m,iad,jpart,nsl,part_id,ns1
           integer, dimension(:), allocatable :: itag
 ! ======================================================================================================================
 !  for BSC remove 2nd nodes & add main_id (tra->rot)
@@ -220,7 +221,11 @@
             nsl = npby(2,i)
             part_id = ipart(4,jpart)
             itag(lpby(iad+1:iad+nsl)) = 1
-            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw)
+            call rpart_bcs_check(m,nsl,lpby(iad+1:iad+nsl),icode,iskew,numnod,itab,part_id,numskw,ns1) 
+            if (ns1>0) then ! special case w/ only one secondary node with bcs
+              x(1:3,m)=x(1:3,ns1)
+              npby(3,i) = 3   ! ICoG is fixed to 3 to respect the boundary conditions
+            end if
             call rpart_fv_check(m,itag,nfxvel,nifv,ibfv,numnod,itab,part_id)
             call rpart_grav_check(m,itag,ngrav,nigrav,igrav,slgrav,lgrav,numnod,itab,part_id)
             itag(lpby(iad+1:iad+nsl)) = 0
@@ -239,7 +244,7 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine rpart_bcs_check(m ,nsl ,isl  ,icode ,iskew ,numnod,itab,part_id,numskw)
+        subroutine rpart_bcs_check(m ,nsl ,isl  ,icode ,iskew ,numnod,itab,part_id,numskw,ns1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -261,10 +266,11 @@
           integer, dimension(numnod),           intent(in)         :: itab            !< node user id
           integer, intent(in)                                      :: part_id         !< part id
           integer, intent(in)                                      :: numskw          !< number of local skew
+          integer, intent(inout)                                   :: ns1             !< secondary node id if only one after check
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ns,jt(3),jr(3),ic,ict,icr,ict_m,icr_m,isk,isk_m,ic_m,jt_m(3),jr_m(3)
+          integer :: i,ns,jt(3),jr(3),ic,ict,icr,ict_m,icr_m,isk,isk_m,ic_m,jt_m(3),jr_m(3),n_ns
 ! ======================================================================================================================
           jt(1:3)=0
           jr(1:3)=0
@@ -272,6 +278,8 @@
           jr_m(1:3)=0
 
           isk_m = max(1,iskew(isl(1)))
+          n_ns = 0
+          ns1 = 0
           do i=1,nsl
             ns = isl(i)
             ic = icode(ns)
@@ -280,20 +288,14 @@
             icr = (ic-512*(ict))/64
             isk = iskew(ns)
             if (isk_m/=isk.and.numskw>0) then
-              call ancmsg(msgid=3143,                      &
+              call ancmsg(msgid=3143,            &
                 msgtype=msgerror,                &
                 anmode=aninfo_blind_1,           &
                 i1=part_id,                      &
                 i2=itab(ns),                     &
                 i3=itab(isl(1)) )
             end if
-            if (jt_m(1)+jt_m(2)+jt_m(3)<3) then
-              jt(1) = ict/4
-              jt(2) = (ict-4*jt(1))/2
-              jt(3) = ict-4*jt(1)-2*jt(2)
-              jt_m(1:3) = max(jt_m(1:3),jt(1:3))
-            end if
-            if (jr_m(1)+jr_m(2)+jr_m(3)<3) then
+            if ((jr_m(1)+jr_m(2)+jr_m(3))<3) then
               jr(1) = icr/4
               jr(2) = (icr-4*jr(1))/2
               jr(3) = icr-4*jr(1)-2*jr(2)
@@ -304,20 +306,37 @@
                 jr_m(3) = 1
               end if
               if ((jt(3)+jt_m(3))==2) jr_m(1:2) = 1
+            end if 
+            if ((jt_m(1)+jt_m(2)+jt_m(3))<3) then
+              jt(1) = ict/4
+              jt(2) = (ict-4*jt(1))/2
+              jt(3) = ict-4*jt(1)-2*jt(2)
+              jt_m(1:3) = max(jt_m(1:3),jt(1:3))
             end if
+            n_ns = n_ns + 1
+            if (n_ns == 1) ns1 = ns
             icode(ns) = 0
           end do
+          if (n_ns>1) ns1 = 0
           ict_m = jt_m(1)*4 + jt_m(2)*2 + jt_m(3)
           icr_m = jr_m(1)*4 + jr_m(2)*2 + jr_m(3)
           ic_m = ict_m*512 + icr_m*64
           if (ic_m>0) then
             icode(m) = ic_m
             iskew(m) = isk_m
-            call ancmsg(msgid=3137,                       &
+            if (ns1==0) then
+              call ancmsg(msgid=3137,          &
               msgtype=msgwarning,              &
               anmode=aninfo_blind_1,           &
               i1=part_id,                      &
-              i2=itab(m))
+              i2=itab(m)) 
+            else 
+              call ancmsg(msgid=3144,          &
+              msgtype=msgwarning,              &
+              anmode=aninfo_blind_1,           &
+              i1=part_id,                      &
+              i2=itab(m)) 
+            end if
           end if
 
         end subroutine rpart_bcs_check

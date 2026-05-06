@@ -8051,7 +8051,7 @@ C--------------------------------------------
      .      MGRBY,SMGRBY ,NPBY,LPBY   ,SLRBODY,
      .      RBY  ,NOM_OPT,INOM_OPT(30),IGRNOD ,
      .      ITAB ,ITABM1 ,LGRAV       ,IGRV   ,
-     .      LSUBMODEL)
+     .      LSUBMODEL,IPART)
       ENDIF
 C--------------------------------------------
 C     rigid body hierarchy
@@ -8078,7 +8078,7 @@ C--------------------------------------------
      .                        NUMNOD  ,ITAB  ,NPART ,IPART   ,LIPART1,       
      .                        ICODE   ,ISKEW ,NFXVEL,NIFV    ,IBFV ,
      .                        NGRAV   ,NIGRV ,IGRV  ,SLGRAV  ,LGRAV,
-     .                        NUMSKW) 
+     .                        NUMSKW  ,X  ) 
         CALL RPART_INIVEL_CHECK(NRBYKIN ,NNPBY ,NPBY  ,SLPBY    ,LPBY   ,        
      .                        HM_NINVEL ,NUMNOD,ITABM1,LSUBMODEL,UNITAB ,        
      .                        NTRANSF   ,NRTRANS,RTRANS,RBY_INIAXIS,ISKWN,     
