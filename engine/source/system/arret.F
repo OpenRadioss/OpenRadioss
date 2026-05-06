@@ -38,7 +38,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_fortran_dgssv                  ../engine/stub/superlu_stub.F
 !||    c_freemem                        ../engine/stub/superlu_stub.F
 !||    c_tricall                        ../engine/stub/fvmbags_stub.F
-!||    check_error_and_write            ../common_source/tools/memory/my_alloc.F90
 !||    cp_ifront                        ../engine/source/implicit/produt_v.F
 !||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 !||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
@@ -86,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    error_alloc                      ../engine/source/system/error_alloc.F
 !||    eulro2                           ../engine/source/ale/euler2d/eulro2.F
 !||    execargcheck                     ../engine/source/engine/execargcheck.F
+!||    extend_check                     ../common_source/tools/memory/extend_array.F90
 !||    facepoly                         ../engine/source/airbag/fvmesh.F
 !||    fixflux                          ../engine/source/constraints/thermic/fixflux.F
 !||    forint                           ../engine/source/elements/forint.F
@@ -268,6 +268,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+!||    my_alloc_check                   ../common_source/tools/memory/my_alloc.F90
 !||    ndof_fv                          ../engine/source/implicit/ind_glob_k.F
 !||    pblast_1                         ../engine/source/loads/pblast/pblast_1.F
 !||    pblast_2                         ../engine/source/loads/pblast/pblast_2.F
@@ -308,6 +309,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    section_read                     ../engine/source/tools/sect/section_read.F
 !||    section_readp                    ../engine/source/tools/sect/section_readp.F
 !||    sensor_base                      ../engine/source/tools/sensor/sensor_base.F
+!||    shrink_check                     ../common_source/tools/memory/shrink_array.F90
 !||    sigeps53                         ../engine/source/materials/mat/mat053/sigeps53.F
 !||    sigeps75                         ../engine/source/materials/mat/mat075/sigeps75.F
 !||    sms_build_mat_2                  ../engine/source/ams/sms_build_mat_2.F
