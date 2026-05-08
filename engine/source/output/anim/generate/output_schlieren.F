@@ -285,12 +285,11 @@ C-----------------------------------------------
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+          VALVOIS(1:6) = WA_L(IE)
           DO J=1,LGTH
              IV(J) = ALE_CONNECTIVITY%ee_connect%connected(IAD2 + J - 1)
             IF(IV(J) > 0)THEN
               VALVOIS(J) = WA_L(IV(J))
-            ELSE
-              VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO            
           RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
@@ -298,7 +297,7 @@ C-----------------------------------------------
           RHO(3) = HALF*( WA_L(IE) + VALVOIS(3) )
           RHO(4) = HALF*( WA_L(IE) + VALVOIS(4) )
           RHO(5) = HALF*( WA_L(IE) + VALVOIS(5) )
-          RHO(6) = HALF*( WA_L(IE) + VALVOIS(6) )                              
+          RHO(6) = HALF*( WA_L(IE) + VALVOIS(6) )
           !-------------------------------------!
           !  FVM GRADIENT (GREEN OSTROGRADSKI)
           !-------------------------------------! 
@@ -309,7 +308,7 @@ C-----------------------------------------------
           GRAD(1:3) = GRAD(1:3) + RHO(4)*N(1:3,4,I)
           GRAD(1:3) = GRAD(1:3) + RHO(5)*N(1:3,5,I)
           GRAD(1:3) = GRAD(1:3) + RHO(6)*N(1:3,6,I)
-          GRAD(1:3) = GRAD(1:3) / VOL(I)        
+          GRAD(1:3) = GRAD(1:3) / MAX(ABS(VOL(I)),EM20)
           !-------------------------------------!
           !             SCHLIEREN
           !-------------------------------------!       
@@ -322,12 +321,11 @@ C-----------------------------------------------
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-IAD2
+          VALVOIS(1:4) = WA_L(IE)
           DO J=1,LGTH
             IV(J)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + J - 1)
             IF(IV(J) > 0)THEN
               VALVOIS(J) = WA_L(IV(J))
-            ELSE
-              VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO
           RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
@@ -342,7 +340,7 @@ C-----------------------------------------------
           GRAD(2:3) = GRAD(2:3) + RHO(2)*N(2:3,2,I)
           GRAD(2:3) = GRAD(2:3) + RHO(3)*N(2:3,3,I)
           GRAD(2:3) = GRAD(2:3) + RHO(4)*N(2:3,4,I)
-          GRAD(2:3) = GRAD(2:3) /  AREA(I)        
+          GRAD(2:3) = GRAD(2:3) / MAX(ABS(AREA(I)),EM20)
           !-------------------------------------!
           !             SCHLIEREN
           !-------------------------------------!       
@@ -355,12 +353,11 @@ C-----------------------------------------------
           IE=I+NFT 
           IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
+          VALVOIS(1:3) = WA_L(IE)
           DO J=1,3
             IV(J)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + J - 1)
             IF(IV(J) > 0)THEN
               VALVOIS(J) = WA_L(IV(J))
-            ELSE
-              VALVOIS(J) = WA_L(IE)
             ENDIF
           ENDDO
           RHO(1) = HALF*( WA_L(IE) + VALVOIS(1) )
@@ -373,7 +370,7 @@ C-----------------------------------------------
           GRAD(2:3) = GRAD(2:3) + RHO(1)*N(2:3,1,I)
           GRAD(2:3) = GRAD(2:3) + RHO(2)*N(2:3,2,I)
           GRAD(2:3) = GRAD(2:3) + RHO(3)*N(2:3,3,I)         
-          GRAD(2:3) = GRAD(2:3) / AREA(I)       
+          GRAD(2:3) = GRAD(2:3) / MAX(ABS(AREA(I)),EM20)
           !-------------------------------------!
           !             SCHLIEREN
           !-------------------------------------!       
