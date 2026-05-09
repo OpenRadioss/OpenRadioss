@@ -276,6 +276,7 @@ C-----------------------------------------------
        DO I=1,NBMAT
          IMID     = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
          MAT_PARAM(INTERNAL_ID)%MULTIMAT%MID(I) = IMID !user ID -> internal ID
+         IPM(20+I,INTERNAL_ID) = IMID
          EOS_TYPE = IPM(4,IMID)
          MLN      = IPM(2,IMID)
          IF(EOS_TYPE == 0 .AND. MLN /= 5)THEN
