@@ -165,7 +165,7 @@ C
        NFUNC = 1
        IF (NU == ZERO) NU= 0.495
       ELSEIF(D == ZERO) THEN
-        NU = 0.495
+        IF (NU==ZERO) NU = 0.495
         RBULK = TWO_THIRD*(ONE + NU)*G/(ONE - TWO*NU)
         D  = TWO/RBULK 
       ELSE
