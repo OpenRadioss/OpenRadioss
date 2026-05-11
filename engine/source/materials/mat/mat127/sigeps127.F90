@@ -366,7 +366,10 @@
               do n=1,ndex
                 i= index(n)
                 ! failure based on max strain
-                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 )
+                eps_ef =  four_over_3* (epsxx(i)**2 + epsyy(i)**2 + epszz(i)**2 +  &
+                                       epsxx(i)*epsyy(i) + epsxx(i)*epszz(i) + epsyy(i)*epszz(i) + &
+                                       epsxy(i)**2 + epsyz(i)**2 + epszx(i)**2 ) 
+                eps_ef = max(zero, eps_ef)
                 eps_ef = sqrt(eps_ef)
                 if(epsxx(i) >= dfailt .or. epsxx(i) <= dfailc .or.  abs(epszz(i)) >=dfailm .or.    &
                   abs(epsyy(i)) >= dfailm .or. abs(epsxy(i)) >= dfails  .or. eps_ef >= efs  ) then
