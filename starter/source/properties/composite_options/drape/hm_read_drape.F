@@ -530,7 +530,7 @@ c                      IGEO(1, JPID)       ! ply pid ID
               IGTYP = IGEO(11,PID)
               NPT = IWORKSH(1,IE)
               NPT_DRP = 0
-              IINT = IGEO(47,PID) ! integration approach reserved only for TYPE51 and TYPE52.
+              IINT = IGEO(47,PID) ! integration approach reserved only for TYPE51.
               IF(ITHIN_DRAPE == 2 .AND. IINT == 2) then
                 IINT = 1
                 IGEO(47,PID) = IINT
@@ -629,6 +629,7 @@ check if SH4N of the DRAPE is inside any plys
                          DRAPE_WRK(IE)%INDX_PLY = 0 
                      ENDIF
                      NPT_DRP = DRAPE_WRK(IE)%NPLY_DRAPE
+                     IINT = IGEO_STACK(47, IWORK_T(IE)%IDSTACK) ! integration flag
                      ! FOt the case  IINT =1 , with thin_drape=1
                       ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                       INV_NSLICE = ONE
@@ -825,7 +826,7 @@ check if SH4N of grshel of the DRAPE is inside any plys
                                  DRAPE_WRK(IDSHEL)%NPLY_DRAPE = 0
                           ENDIF 
                           NPT_DRP  = DRAPE_WRK(IDSHEL)%NPLY_DRAPE
-                         
+                          IINT = IGEO_STACK(47, IWORK_T(IDSHEL)%IDSTACK) ! integration flag
                           ! For  the case  IINT =1 , with Thin_drape = 1
                           ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                            INV_NSLICE = ONE
@@ -1015,7 +1016,8 @@ check if SH3N of grshel of the DRAPE is inside any plys
                          ALLOCATE(DRAPE_WRK(NUMELC + IE)%INDX_PLY(NPT)       )
                           DRAPE_WRK(NUMELC + IE)%INDX_PLY = 0 
                     ENDIF 
-                    NPT_DRP = DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE 
+                    NPT_DRP = DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE
+                    IINT = IGEO_STACK(47,IWORK_T(NUMELC + IE)%IDSTACK) 
                     ! For  the case  IINT =1 , with thin_drape=1
                     ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                     INV_NSLICE = ONE
@@ -1202,6 +1204,7 @@ check if SH3N of grshel of the DRAPE is inside any plys
                            DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                           ENDIF 
                           NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE  
+                          IINT = IGEO_STACK(47,IWORK_T(IDSHEL)%IDSTACK)
                            ! For  the case  IINT =1 ,with ITHIN_DRAPE = 1,
                            ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                            INV_NSLICE = ONE
