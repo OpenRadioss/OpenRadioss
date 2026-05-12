@@ -81,6 +81,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                 integer, dimension(:), allocatable :: next_nod !< next_node(i) is the next node of node i in the same voxel cell
                 integer, dimension(:), allocatable ::  last_nod
                 integer :: istart !< next available space in next_nod and last_nod
+                ! inverse nsv map: inv_nsv(global_node) = local secondary index (0 if not secondary)
+                integer, dimension(:), allocatable :: inv_nsv
+                ! remote voxel structure (separate from local for overlapped search)
+                integer, dimension(:), allocatable :: voxel_remote
+                integer :: voxel_remote_size = 0
+                integer :: size_node_remote = 0 !< size of remote node arrays
+                integer, dimension(:), allocatable :: next_nod_remote !< next node in remote voxel (1-based)
+                integer, dimension(:), allocatable :: last_nod_remote
+                integer :: nb_voxel_on_remote = 0
+                integer, dimension(:), allocatable :: list_nb_voxel_on_remote
+                ! cumulative timing (seconds) for overlap analysis
+                double precision :: t_fill_local = 0.0d0    !< time in FILL_VOXEL_LOCAL
+                double precision :: t_mpi_wait = 0.0d0      !< time waiting in MPI_WAITANY
+                double precision :: t_fill_remote = 0.0d0   !< time in FILL_VOXEL_REMOTE
+                double precision :: t_candidate_pairs = 0.0d0 !< time in INTER7_CANDIDATE_PAIRS
+                integer :: n_calls = 0                       !< number of sort calls (for averaging)
             END TYPE inter_struct_type  
         END MODULE INTER_STRUCT_MOD
 
