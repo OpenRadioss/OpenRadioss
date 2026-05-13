@@ -104,8 +104,9 @@ void GlobalModelSDIIsGroupUsed(char *type,int *id, bool *isUsed);
 void GlobalEntitySDIdeleteEntity();
 void GlobalEntitySDIRbodiesCreateMainNode(int *addedNodeId);
 void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId);
-void GlobalEntitySDIConvertTetra4ToTetra10(int *itetra4toconsider);
-
+void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider);
+void GlobalEntitySDIConvertRigidPartToRbody(int *NewRbodyToPart, int *NewRbodyId);
+void GlobalModelSDIEvaluateAllPartsConnectedComponents(int *nbComponentsPerPart);
 
 
 #endif /* !defined(GlobalModelSDI__INCLUDED_) */

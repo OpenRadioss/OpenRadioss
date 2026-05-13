@@ -20,28 +20,48 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
-#ifndef CDR_RESERVEATTRIBS_H
-#define CDR_RESERVEATTRIBS_H
+#include <string>
+#include "hw_cfg_reader_message_pool.h"
 
-#include <stdio.h>
-#include <string.h>
+static std::string p_emptystring;
 
-namespace cdr
+void HWCFGReaderMessagePool::Add(unsigned int id, const std::string &description,
+                                 const std::string &title, const std::string &solution)
 {
-    const std::string g_AttribParamName =            "_PARAM_NAME";
-    const std::string g_AttribParamValueInteger =    "_PARAM_VALUE_INT";
-    const std::string g_AttribParamValueDouble =     "_PARAM_VALUE_DOUBLE";
-    const std::string g_AttribParamValueString =     "_PARAM_VALUE_STRING";
-    const std::string g_AttribParamScope =           "_PARAM_SCOPE";
-    const std::string g_AttribParamType =            "_PARAM_TYPE";
-    const std::string g_AttribParamExpression =      "_PARAM_EXPRESSION";
-    const std::string g_AttribFileName =             "_FILENAME";
-    const std::string g_AttribFullFileName =         "_FULLFILENAME";
-    const std::string g_AttribFormatType =           "_FORMATTYPE";
-    const std::string g_AttribFileVersion =          "_FILEVERSION";
-    const std::string g_AttribSplitArrayToSingle =   "_SPLIT_ARRAY_TO_SINGLE";
-    const std::string g_AttribFolderpath  =          "_INCLUDE_FOLDERPATH";
-};
+    p_descriptions[id] = description;
+    p_titles[id] = title;
+    p_solutions[id] = solution;
+}
 
+void HWCFGReaderMessagePool::AddDescription(unsigned int id, const std::string &description)
+{
+    p_descriptions[id] = description;
+}
 
-#endif 
+void HWCFGReaderMessagePool::AddTitle(unsigned int id, const std::string &title)
+{
+    p_titles[id] = title;
+}
+
+void HWCFGReaderMessagePool::AddSolution(unsigned int id, const std::string &solution)
+{
+    p_solutions[id] = solution;
+}
+
+const std::string& HWCFGReaderMessagePool::GetDescription(unsigned int id) const
+{
+    if(p_descriptions.count(id)) return p_descriptions.at(id);
+    else return p_emptystring;
+}
+
+const std::string& HWCFGReaderMessagePool::GetTitle(unsigned int id) const
+{
+    if(p_titles.count(id)) return p_titles.at(id);
+    else return p_emptystring;
+}
+
+const std::string& HWCFGReaderMessagePool::GetSolution(unsigned int id) const
+{
+    if(p_solutions.count(id)) return p_solutions.at(id);
+    else return p_emptystring;
+}

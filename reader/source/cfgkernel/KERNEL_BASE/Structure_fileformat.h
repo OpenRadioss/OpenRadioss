@@ -133,7 +133,7 @@ typedef struct ff_condcell_s {
 } ff_condcell_t;
 
 typedef struct ff_if_cell_s {
-  ff_cell_t           cell_part;
+  ff_formated_cell_t  formated_cell_part;
   int                 nb_condcell; 
   ff_condcell_t     **condcell_array;
 } ff_if_cell_t;

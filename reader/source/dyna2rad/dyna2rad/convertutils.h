@@ -144,6 +144,8 @@ namespace sdiD2R
 
         void GetPartIdsFromPartSet(const sdiString& setType, const unsigned int& setId, sdiUIntList& partIdList);
 
+        void GetElementIdsFromElementSet(const sdiString& setType, const unsigned int& setId, sdiUIntList& elementIdList);
+
         void GetPartIdsFromSetGeneral(const sdiString& setType, const unsigned int& setId, sdiUIntList& partIdList);
 
         void GetCurveDetails(const sdi::HandleRead curveHandleRead,

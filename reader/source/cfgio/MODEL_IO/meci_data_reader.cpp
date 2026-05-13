@@ -48,6 +48,7 @@
 #include <cmath>
 #include <assert.h>
 #include <regex>
+#include <optional>
 
 #define BufferSize 2560
 
@@ -67,6 +68,283 @@ typedef deque<const ff_cell_t *> LocCellFormatList_t;
 typedef deque<int>               LocCellIndexList_t;
 
 vector<MYOBJ_INT> g_subobjectMaxID(NB_CONTAINER_MODEL -1, 0);
+
+
+// Returns true if the field up to width or delimiter is a valid integer
+static bool isIntegerField(const char* str, int width, char delimiter = '\0') {
+    int i = 0;
+    // If width==0, scan until delimiter or end
+    int maxlen = width > 0 ? width : INT_MAX;
+    // Skip leading spaces
+    while (i < maxlen && str[i] && str[i] != delimiter && (str[i] == ' ' || str[i] == '\t')) ++i;
+    // Optional sign
+    if (i < maxlen && str[i] && str[i] != delimiter && (str[i] == '-' || str[i] == '+')) ++i;
+    int digit_start = i;
+    while (i < maxlen && str[i] && str[i] != delimiter && str[i] >= '0' && str[i] <= '9') ++i;
+    // Only allow trailing spaces up to width or delimiter
+    while (i < maxlen && str[i] && str[i] != delimiter && (str[i] == ' ' || str[i] == '\t')) ++i;
+    // Accept if at least one digit, and stopped at delimiter, end, or width
+    return (i > digit_start) && (!str[i] || str[i] == delimiter || (width > 0 && i == width));
+}
+
+static void trim_spaces(char* a)
+{
+    if (!a) return;
+
+    // Pointers
+    char* p = a;
+    while (*p && (unsigned char)*p <= ' ') ++p;  // skip leading spaces (<= ' ' faster than isspace)
+
+    // Shift if needed
+    if (p != a) memmove(a, p, strlen(p) + 1);
+
+    // Remove trailing spaces
+    size_t len = strlen(a);
+    while (len && (unsigned char)a[len - 1] <= ' ') --len;
+    a[len] = '\0';
+}
+
+static inline int fast_atoi(const char* str, int& value_out) {
+    const char* p = str;
+    while (*p == ' ' || *p == '\t') ++p; // Skip leading whitespace
+
+    bool negative = false;
+    if (*p == '-') {
+        negative = true;
+        ++p;
+    }
+    else if (*p == '+') {
+        ++p;
+    }
+
+    int value = 0;
+    const char* start = p;
+    while (*p >= '0' && *p <= '9') {
+        value = value * 10 + (*p - '0');
+        ++p;
+    }
+
+    value_out = negative ? -value : value;
+    return static_cast<int>(p - str); // nb_read
+}
+
+
+
+static inline int fast_atof(const char* str, double& out_val) {
+    const char* p = str;
+    while (*p == ' ' || *p == '\t') ++p;
+
+    bool neg = false;
+    if (*p == '-') {
+        neg = true;
+        ++p;
+    }
+    else if (*p == '+') {
+        ++p;
+    }
+
+    double int_part = 0.0;
+    const char* start = p;
+
+    // Parse integer part
+    while (*p >= '0' && *p <= '9') {
+        int_part = int_part * 10.0 + (*p - '0');
+        ++p;
+    }
+
+    // Parse fractional part
+    double frac_part = 0.0;
+    if (*p == '.') {
+        ++p;
+        double base = 0.1;
+        while (*p >= '0' && *p <= '9') {
+            frac_part += (*p - '0') * base;
+            base *= 0.1;
+            ++p;
+        }
+    }
+
+    // Parse exponent part
+    int exp_sign = 1;
+    int exponent = 0;
+    if (*p == 'e' || *p == 'E') {
+        ++p;
+        if (*p == '-') {
+            exp_sign = -1;
+            ++p;
+        }
+        else if (*p == '+') {
+            ++p;
+        }
+
+        while (*p >= '0' && *p <= '9') {
+            exponent = exponent * 10 + (*p - '0');
+            ++p;
+        }
+    }
+
+    double result = int_part + frac_part;
+    if (exp_sign != 0 && exponent != 0) {
+        result *= std::pow(10.0, exp_sign * exponent);
+    }
+
+    out_val = neg ? -result : result;
+    return static_cast<int>(p - str); // number of characters read
+}
+
+
+
+inline bool parse_double_or_blank_fast11(const char* p, int width, double& out, bool& is_blank, int& chars_read) noexcept 
+{
+    out = 0.0;
+    is_blank = false;
+    chars_read = width; // Default to consuming full width, updated on specific errors
+
+    int current_p_idx = 0;
+
+    // Skip leading spaces
+    while (current_p_idx < width && p[current_p_idx] == ' ') {
+        ++current_p_idx;
+    }
+
+
+    if (current_p_idx == width) {
+        is_blank = true;
+        return true; // Blank input
+    }
+
+    std::string num_str;
+    num_str.reserve(width);
+
+
+    bool has_digits = false;
+    bool has_decimal = false;
+    bool has_exponent = false;
+    bool expect_exponent_digits = false; 
+
+
+    for (int i = current_p_idx; i < width; ++i) {
+        char c = p[i];
+
+        if (c >= '0' && c <= '9') {
+            num_str.push_back(c);
+            has_digits = true;
+            expect_exponent_digits = false; 
+        }
+        else if (c == '-' || c == '+') {
+            if (num_str.empty() || (has_exponent && (num_str.back() == 'e' || num_str.back() == 'E'))) {
+                num_str.push_back(c);
+                if (has_exponent) {
+                    expect_exponent_digits = true; // After exponent sign, expect digits
+                }
+            }
+            else {
+                // Invalid sign placement (e.g., "1-2", "1.2+3")
+                chars_read = i;
+                return false;
+            }
+        }
+        else if (c == '.') {
+            if (!has_decimal && !has_exponent) {
+                num_str.push_back(c);
+                has_decimal = true;
+            }
+            else {
+                chars_read = i;
+                return false;
+            }
+        }
+        else if (c == 'e' || c == 'E') {
+            if (!has_exponent && has_digits) {
+                num_str.push_back(c);
+                has_exponent = true;
+                expect_exponent_digits = true; 
+            }
+            else {
+                chars_read = i;
+                return false;
+            }
+        }
+        else if (c == ' ') {
+            continue;
+        }
+        else {
+            chars_read = i; 
+            return false;
+        }
+    }
+
+    if (!has_digits) {
+        is_blank = true;
+        return false;
+    }
+
+    if (has_exponent && expect_exponent_digits) {
+        chars_read = width; // The error is at the end of the field
+        return false;
+    }
+
+    char* endptr;
+    errno = 0; 
+
+    // Convert to C-string for std::strtod.
+    const char* c_str_to_parse = num_str.c_str();
+    out = std::strtod(c_str_to_parse, &endptr);
+
+    if (endptr == c_str_to_parse || errno == ERANGE) {
+        chars_read = width;
+        return false;
+    }
+
+    is_blank = false;
+    return true;
+}
+
+inline bool is_blank_fast(const char* s, int len) {
+    for (int i = 0; i < len; ++i) {
+        if (!std::isspace(static_cast<unsigned char>(s[i])))
+            return false;
+    }
+    return true;
+}
+
+
+std::optional<int> parseInteger(const std::string& s) {
+    if (s.empty()) return std::nullopt;
+
+    bool neg = false;
+    size_t i = 0;
+    if (s[0] == '+' || s[0] == '-') {
+        neg = (s[0] == '-');
+        i = 1;
+        if (i >= s.size()) return std::nullopt; // only sign, no digits
+    }
+
+    int value = 0;
+    for (; i < s.size(); ++i) {
+        char c = s[i];
+        if (c < '0' || c > '9') return std::nullopt; // non-digit
+        int digit = c - '0';
+
+        // overflow check
+        if (value > (INT_MAX - digit) / 10) return std::nullopt;
+
+        value = value * 10 + digit;
+    }
+
+    return neg ? -value : value;
+}
+
+// case-insensitive match
+static bool iequals(const std::string& str1, const std::string& str2)
+{
+    return str1.size() == str2.size() &&
+        std::equal(str1.begin(), str1.end(), str2.begin(), [](char str1, char str2)
+            {
+                return std::tolower(static_cast<unsigned char>(str1)) ==
+                    std::tolower(static_cast<unsigned char>(str2));
+            });
+}
 
 static void DescTypeToPreobjType(attribute_type_e desc_a_type, value_type_e desc_v_type, IMECPreObject::MyAttributeType_e& atype, IMECPreObject::MyValueType_e& vtype)
 {
@@ -99,7 +377,40 @@ static void DescTypeToPreobjType(attribute_type_e desc_a_type, value_type_e desc
     return;
 }
 
-
+static const char* substringBefore(const char* str, char delimiter)
+{
+    static char buffer[256]; // static so it persists after return
+    const char* pos = strchr(str, delimiter);
+    if (!pos) {
+        return str;
+    }
+    size_t len = static_cast<size_t>(pos - str);
+    if (len >= sizeof(buffer)) len = sizeof(buffer) - 1; // avoid overflow
+    std::memcpy(buffer, str, len);
+    buffer[len] = '\0';
+    return buffer;
+}
+// Returns a pointer to a static buffer with a space inserted before the delimiter if not present.
+// If the delimiter is not found, returns the original string. If already spaced, returns the substring before delimiter as before.
+static const char* addSpaceBeforeDelimiter(const char* str, char delimiter)
+{
+    static char buffer[256];
+    const char* pos = strchr(str, delimiter);
+    if (!pos) {
+        return str;
+    }
+    if (pos != str && *(pos - 1) != ' ') {
+        size_t len = static_cast<size_t>(pos - str);
+        if (len + 2 >= sizeof(buffer)) len = sizeof(buffer) - 2;
+        std::memcpy(buffer, str, len);
+        buffer[len] = ' ';
+        buffer[len + 1] = delimiter;
+        strncpy(buffer + len + 2, pos + 1, sizeof(buffer) - len - 2);
+        buffer[sizeof(buffer) - 1] = '\0';
+        return buffer;
+    }
+    return str;
+}
 static bool hasWhitespaceAndLength(const char* input, unsigned int& length) {
     length = 0;
     if (!input) return false;
@@ -673,17 +984,44 @@ bool MECIDataReader::readNextCard(const PseudoFileFormatCard_t *card_format_p,
       if (getSkipHeaderCardReadingState())
           return true;
 
+      string h_cstr = object_p->GetHeaderLine();
       bool issubobjreader = getIsSubobjectReader();
-      if (object_p->GetHeaderLine() == "" && !issubobjreader)
+
+      if (h_cstr.empty() && !issubobjreader)
           myReadContext_p->unreadBuffer();
 
-      if (issubobjreader)
+      if (issubobjreader) 
       {
+          // SetLoadedFlag(true) for this subobject position to avoid loading it again
           const string& a_otype_str = MV_get_type((obj_type_e)object_p->GetEntityType());
           myReadContext_p->updateSubKeywordRead(a_otype_str.c_str());
+          
+          // read header card if it isn't already read
+          char* a_card = readBuffer();
+          if (!a_card) return false;
+
+          myReadContext_p->killNLEnd(a_card);
+          int a_is_header = mySyntaxInfos_p->isHeader(a_card);
+
+          if (a_is_header)
+          {
+              h_cstr = a_card;
+              object_p->SetInputFullType(a_card);
+          }
+          else
+          {
+              myReadContext_p->unreadBuffer();
+          }
       }
 
-      a_ok = readHeaderCard(card_format_p, object_p, model_p, descr_p, -1, 0, &a_do_continue);
+      char aa_card[200];
+      size_t len = h_cstr.length();
+      if (len > 0) {
+          std::memcpy(aa_card, h_cstr.c_str(), len);
+      }
+      aa_card[len] = '\0';
+
+      a_ok = readSingleCard(card_format_p, object_p, model_p, descr_p, -1, 0, &a_do_continue, false, h_cstr.empty() ? nullptr : aa_card);
     }
     break;
   case CARD_PREREAD: 
@@ -1093,10 +1431,23 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             else
             {
                 int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                int a_skey_ind_single = -1;
+                if (a_skey_ind < 0)
+                {
+                    a_skey_ind_single = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword);
+                }
+
                 if (a_skey_ind >= 0)
                     object_p->SetStringValue(a_skey_ind, ind, final_str.c_str());
                 else
-                    object_p->AddStringValue(skeyword.c_str(), ind, final_str.c_str());
+                {
+                    if (a_skey_ind_single >= 0)
+                    {
+                        object_p->SetStringValue(a_skey_ind_single, final_str.c_str());
+                    }
+                    else
+                        object_p->AddStringValue(skeyword.c_str(), ind, final_str.c_str());
+                }
             }
         }
         else if (atype == ASSIGN_FIND)
@@ -1131,10 +1482,22 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             else
             {
                 int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                int a_skey_ind_single = -1;
+                if (a_skey_ind < 0)
+                {
+                    a_skey_ind_single = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword);
+                }
                 if (a_skey_ind >= 0)
                     object_p->SetStringValue(a_skey_ind, ind, first_str.c_str());
                 else
-                    object_p->AddStringValue(skeyword.c_str(), ind, first_str.c_str());
+                {
+                    if (a_skey_ind_single >= 0)
+                    {
+                        object_p->SetStringValue(a_skey_ind_single, first_str.c_str());
+                    }
+                    else
+                        object_p->AddStringValue(skeyword.c_str(), ind, first_str.c_str());
+                }
             }
         }
         return;
@@ -1597,7 +1960,9 @@ int MECIDataReader::getNbFreeLines(int nb_token, char **token) {
       if (nb_token && a_card != NULL)
       {
           myReadContext_p->killNLEnd(a_card);
-          myReadContext_p->completeWithBlanks(a_card, myLineLength);
+          if(myLineLength > 0)
+             myReadContext_p->completeWithBlanks(a_card, myLineLength);
+          
           for (int i = 0; i < nb_token; i++)
           {
               int len = (int)strlen(token[i]);
@@ -1618,6 +1983,8 @@ int MECIDataReader::getNbFreeLines(int nb_token, char **token) {
           }
       }
       a_continue = (a_card != NULL && !mySyntaxInfos_p->isHeader(a_card) && !match_token);
+      if(isEncrypted(a_card))
+          break;
       if (a_continue && !mySyntaxInfos_p->isComment(a_card)) ++a_nb_free_lines;
   }
   //
@@ -1650,7 +2017,8 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
                                     int                           ind,
                                     unsigned int                  offset,
                                     bool                         *do_continue_p,
-                                    bool                          is_next_card_cell_list) 
+                                    bool                          is_next_card_cell_list,
+                                    char                         *card_p)  
 {
   // setObject (object_p); 
   
@@ -1663,12 +2031,26 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
   if (END_ARGS != a_free_ikw) {
       myReadContext_p->pushPosition();
   }
-
+  ff_card_type_e a_card_type = CARD_UNKNOWN;
+  MCDS_get_ff_card_attributes(a_card_format_p, CARD_TYPE, &a_card_type, END_ARGS);
   //
-  char *a_card=readBuffer();
+  char* a_card = nullptr;
+
+  if (!card_p)
+      a_card = readBuffer();
+  else
+  {
+      a_card = card_p;
+      if (getIsSubobjectReader() && a_card_type == CARD_HEADER)
+      {
+          object_p->SetInputFullType(a_card);
+      }
+  }
+
   if(a_card==NULL) return false;
   myReadContext_p->killNLEnd(a_card);
-  myReadContext_p->completeWithBlanks(a_card,myLineLength); 
+  if(myLineLength > 0)
+     myReadContext_p->completeWithBlanks(a_card,myLineLength); 
   int flag = 0;
   const char* a_offset_fmt = NULL;
   const char* a_offset_val = NULL;
@@ -1690,7 +2072,7 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
       string a_free_skw   = a_descr_p->getSKeyword(a_free_ikw);
       value_type_e a_cell_vtype = a_descr_p->getValueType(a_free_ikw);
       bool isencrypted = isEncrypted(a_card);
-      if (a_is_header || isencrypted) { // ... but does not exist
+      if ((a_is_header && a_card_type != CARD_HEADER) || isencrypted) { // ... but does not exist
           if(a_cell_vtype == VTYPE_BOOL)
               object_p->AddBoolValue(a_free_skw.c_str(),false);
           else if(a_cell_vtype == VTYPE_UINT)
@@ -1714,7 +2096,7 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
       // the card is mandatory
       if ((0 == offset) && /* ... we have not yet started reading the card (if we have, that means
                            * it is fine, which is the case for Pam data on header cards) ... */
-          a_is_header)      /* ... but the card does not exist, as we find here the header card
+          ( a_is_header && a_card_type != CARD_HEADER) )      /* ... but the card does not exist, as we find here the header card
                             * of the next object ... */
       {
           if (!getIsFreeArrayCard())
@@ -1779,8 +2161,7 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
       if (strlen (a_card) < offset) return false;
       a_cur_cell = a_card + offset;
   }
-  ff_card_type_e a_card_type = CARD_UNKNOWN;
-  MCDS_get_ff_card_attributes(a_card_format_p, CARD_TYPE, &a_card_type, END_ARGS);
+
   //
   int j = 0;
   int cur_fmt_size = 0;
@@ -1788,21 +2169,115 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
 
     MCDS_get_ff_card_tab(a_card_format_p,CARD_CELL,j,(void *)(&a_cell_format_p));
     //
+    ff_cell_t* a_next_cell_format_p = NULL;
     const char* a_cur_cell_0 = a_cur_cell;
-    a_cur_cell=readCell(a_cur_cell_0,
-			(const PseudoFileFormatCell_t *)a_cell_format_p,
-			object_p,
-			model_p,
-			descr_p,
-            ind, is_free_size_format, a_card_type, (j == a_nb_cells - 1) ? no_end_flag: false, has_offset, a_offset_fmt, a_offset_val, is_next_card_cell_list);
+    int found_h_size = 0;
+    if (a_card_type == CARD_HEADER && j < a_nb_cells - 1)
+    {   //get the next comment for knowing the number of characters
+        
+        const char* a_cell_string = NULL;
+        MCDS_get_ff_card_tab(a_card_format_p, CARD_CELL, j + 1, (void*)(&a_next_cell_format_p));
+        MCDS_get_ff_cell_attributes(a_next_cell_format_p, CELL_STRING, &a_cell_string, END_ARGS);
+            const char* temp = NULL;
+        if (a_cell_string)
+        {
+            int a_size = 0;
+            const char* temp = NULL;
+            char ch = mySyntaxInfos_p->getHeaderSeparator();
+            size_t len = strlen(a_cell_string);
+            if (/*len == 1 && */ch == a_cell_string[0] ) //HEADER("/SURF/%-s/EXT/%d/%-40s",set_Type,_ID_,TITLE);  // "/EXT/"
+            {
+                // If a_cur_cell starts with ch, skip it and search for next ch, return substring up to that position
+                if (a_cur_cell[0] == ch && j ==0) {
+                    static char buffer[256]; // 
+                    // Skip the first separator
+                    const char* next_sep = strchr(a_cur_cell + 1, ch);
+                    if (next_sep) {
+                        size_t len = static_cast<size_t>(next_sep - a_cur_cell);
+                        if (len >= sizeof(buffer)) len = sizeof(buffer) - 1;
+                        std::memcpy(buffer, a_cur_cell, len);
+                        buffer[len] = '\0';
+                        a_cur_cell_0 = buffer;
+                        found_h_size = (int)len;
+                    }
+                }
+                else
+                {
+                    a_cur_cell_0 = substringBefore(a_cur_cell, ch);
+                    if (a_cur_cell_0 != a_cur_cell)
+                    {
+                        found_h_size = (int)strlen(a_cur_cell_0);
+                    }
+                }
+            }
+            //else
+            //{
+            //    ff_cell_type_e  a_cell_type = CELL_UNKNOWN;
+            //    MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_TYPE, &a_cell_type, END_ARGS);
+
+            //    if (a_cell_type == CELL_VALUE)
+            //    {
+            //        int   a_cell_ikw = END_ARGS;
+            //        const char* a_cell_fmt = NULL;
+            //        MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, CELL_IKEYWORD, &a_cell_ikw, END_ARGS);
+            //        if (END_ARGS != a_cell_ikw)
+            //        {
+            //            if (a_cell_fmt)
+            //            {
+            //                const string& fmt = a_cell_fmt;
+            //                int a_size = atoi(fmt.substr(1, fmt.find_first_of(".sdilfeg") - 1).c_str());
+            //                int fmt_size = a_size < 0 ? (-a_size) : a_size;
+            //                //
+            //                if (fmt_size == 0)
+            //                {
+            //                    const  char* a_cell_skw = nullptr;
+            //                    a_descr_p->getSKeyword(a_cell_ikw, &a_cell_skw);
+            //                    value_type_e a_cell_vtype = a_descr_p->getValueType(a_cell_ikw);
+            //                    if (a_cell_vtype == VTYPE_STRING)
+            //                    {
+            //                        a_next_cell_format_p = nullptr;
+            //                        a_cur_cell_0 = addSpaceBeforeDelimiter(a_cur_cell, '='); // scanString needs to stop before '=', add space -> need to do it in a better way
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+        }
+    }
+
+    const char *cur_cell_p = readCell(a_cur_cell_0,
+            (const PseudoFileFormatCell_t*)a_cell_format_p,
+            object_p,
+            model_p,
+            descr_p,
+            ind, is_free_size_format, a_card_type, (j == a_nb_cells - 1) ? no_end_flag: false, has_offset, a_offset_fmt, a_offset_val, is_next_card_cell_list, a_next_cell_format_p);
+
+    if (found_h_size > 0)
+        a_cur_cell = a_cur_cell + found_h_size;
+    else
+        a_cur_cell = cur_cell_p;
+
 
     if (mySyntaxInfos_p->IsFormatSupportedForContinueNextLine())
     {
-        const char* a_cell_fmt = NULL;
-        MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, END_ARGS);
-        const string& fmt = a_cell_fmt;
-        int a_size = atoi(fmt.substr(1, fmt.find_first_of(".sdilfeg") - 1).c_str());
-        int fmt_size = a_size < 0 ? (-a_size) : a_size;
+        const char* a_cell_fmt = NULL, *a_cell_string=NULL;
+        unsigned int a_cell_size = 0;
+        int fmt_size = 0;
+        MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_STRING, &a_cell_string, END_ARGS);
+        if (NULL != a_cell_string) {
+             fmt_size = (int)strlen(a_cell_string);
+        }
+        else
+        {
+            MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, END_ARGS);
+            if (a_cell_fmt)
+            {
+                const string& fmt = a_cell_fmt;
+                int a_size = atoi(fmt.substr(1, fmt.find_first_of(".sdilfeg") - 1).c_str());
+                fmt_size = a_size < 0 ? (-a_size) : a_size;
+            }
+        }
         cur_fmt_size += fmt_size;
 
         //cur_fmt_size += a_cur_cell - a_cur_cell_0;
@@ -1813,7 +2288,8 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
                 return false;
 
             myReadContext_p->killNLEnd(a_card);
-            myReadContext_p->completeWithBlanks(a_card, myLineLength);
+            if(myLineLength > 0)
+               myReadContext_p->completeWithBlanks(a_card, myLineLength);
             a_cur_cell = a_card;
             int a_is_header = mySyntaxInfos_p->isHeader(a_cur_cell);
             if (a_is_header)
@@ -1874,30 +2350,51 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
                   }
                   if (!isFloatVal || (isFloatVal && fVal != 0.0) )
                   {
-                  std::string war_msg = "";
-                  char buffer[BufferSize];
-                  const char* a_cur_full_name = myReadContext_p->getCurrentFullName();
-                  _HC_LONG  a_cur_line = myReadContext_p->getCurrentLine();
-                  if (a_cur_full_name)
-                  {
-                      sprintf(buffer, getMsg(0), a_cur_line, a_cur_full_name);
-                  war_msg.append(buffer);
-                      war_msg.append("\n");
+                      std::string war_msg = "";
+                      char buffer[BufferSize];
+                      const char* a_cur_full_name = myReadContext_p->getCurrentFullName();
+                      _HC_LONG a_cur_line = myReadContext_p->getCurrentLine();
+
+                      if (a_cur_full_name) {
+                          const char* line_msg = getMsg(0);
+                          if (line_msg) {
+                              sprintf(buffer, line_msg, a_cur_line, a_cur_full_name);
+                              war_msg.append(buffer);
+                              war_msg.append("\n");
+                          }
+                      }
+
+                      const char* a_fulltype = object_p->GetKernelFullType();
+                      string substr_key("");
+                      if (a_fulltype) {
+                          string sfulltype(a_fulltype);
+                          substr_key = sfulltype.substr(sfulltype.rfind("/") + 1);
+                      }
+
+                      // Safe buffer handling
+                      char* a_buff = nullptr;
+                      if (myReadContext_p && (a_cur_cell + i) < (a_cur_cell + strlen(a_cur_cell))) {
+                          a_buff = (char*)myReadContext_p->killBlanksBegin(a_cur_cell + i);
+                          if (a_buff) {
+                              myReadContext_p->killBlanksEnd(a_buff);
+                          }
+                      }
+
+                      
+                      const char* error_msg = getMsg(35);
+                      if (error_msg && a_buff) {
+                          sprintf(buffer, error_msg, substr_key.c_str(), a_buff);
+                          war_msg.append(buffer);
+                      }
+                      else {
+                          // Fallback message
+                          sprintf(buffer, "Warning: %s - Invalid data", substr_key.c_str());
+                          war_msg.append(buffer);
+                      }
+
+                      myReadContext_p->displayMessage(myReadContext_p->MSG_WARNING, war_msg.c_str());
+                      break;
                   }
-                  const char *a_fulltype = object_p->GetKernelFullType();
-                  string substr_key("");
-                  if (a_fulltype)
-                  {
-                      string sfulltype(a_fulltype);
-                      substr_key = sfulltype.substr(sfulltype.rfind("/") + 1);
-                  }
-                      char* a_buff = (char*)myReadContext_p->killBlanksBegin(a_cur_cell + i);
-                  myReadContext_p->killBlanksEnd(a_buff);
-                  sprintf(buffer, getMsg(35), substr_key.c_str(), a_buff);
-                  war_msg.append(buffer);
-                  myReadContext_p->displayMessage(myReadContext_p->MSG_WARNING, war_msg.c_str());
-                  break;
-              }
           }
       }
   }
@@ -2031,18 +2528,30 @@ bool MECIDataReader::readHeaderCard(const PseudoFileFormatCard_t *card_format_p,
 
     char *a_card= NULL;
     char aa_card[200];
-    if(object_p->GetHeaderLine() == "") 
+    const char* a_h_card = nullptr;
+
+    string h_str = object_p->GetHeaderLine();
+
+    if (h_str == "")
         a_card = readBuffer();
     else
     {
-        a_card =  (char *)(object_p->GetHeaderLine().c_str());
-        mySyntaxInfos_p->updateLineFormatType(a_card);
+        size_t len = h_str.length();
+        std::memcpy(aa_card, h_str.c_str(), len);
+        aa_card[len] = '\0';
+        a_card = aa_card;
     }
+
+    if (a_card == NULL)
+        return false;
+
+    mySyntaxInfos_p->updateLineFormatType(a_card);
+
     if(a_card==NULL )
         return false;
     
-    strcpy(aa_card, a_card);
-    a_card = aa_card;
+    //strcpy(aa_card, a_card);
+
 
     myReadContext_p->killNLEnd(a_card);
 
@@ -2050,7 +2559,7 @@ bool MECIDataReader::readHeaderCard(const PseudoFileFormatCard_t *card_format_p,
     {
         object_p->SetInputFullType(a_card);
     }
-
+    if(myLineLength > 0)
     myReadContext_p->completeWithBlanks(a_card, myLineLength);
     //
     const char *a_cur_cell = a_card;
@@ -2140,18 +2649,13 @@ bool MECIDataReader::readHeaderCard(const PseudoFileFormatCard_t *card_format_p,
                 memmove(buff, a_cur_cell, a_size*sizeof(char));
                 buff[a_size]='\0';
             }
-            const char* a_buff_0 = buff;
-            const char *a_str = readCell (buff, a_cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format);
-            //cur_fmt_size += a_str - a_buff_0;
-
             const char* a_cell_fmt = NULL;
             MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, END_ARGS);
-            const string& fmt = a_cell_fmt;
-            int a_size1 = atoi(fmt.substr(1, fmt.find_first_of(".sdilfeg") - 1).c_str());
-            int fmt_size = a_size1 < 0 ? (-a_size1) : a_size1;
-            cur_fmt_size += fmt_size;
+            a_cell_fmt = GetFormatSize(a_cell_fmt, is_free_size_format, a_size);
 
+            const char *a_str = readCell (buff, a_cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format);
 
+            cur_fmt_size += a_size;
 
             if(temp == NULL && a_str)
                 a_cur_cell = a_str;
@@ -2168,7 +2672,8 @@ bool MECIDataReader::readHeaderCard(const PseudoFileFormatCard_t *card_format_p,
                     return false;
 
                 myReadContext_p->killNLEnd(a_card);
-                myReadContext_p->completeWithBlanks(a_card, myLineLength);
+                if (myLineLength > 0)
+                   myReadContext_p->completeWithBlanks(a_card, myLineLength);
                 a_cur_cell = a_card;
                 int a_is_header = mySyntaxInfos_p->isHeader(a_cur_cell);
                 if (a_is_header)
@@ -2588,11 +3093,13 @@ bool MECIDataReader::readList(const PseudoFileFormatCard_t *card_format_p,
                   is_free_size_format = isFreeSizeCard(a_card);
                   myReadContext_p->killNLEnd(a_card);
 
-                  if(a_line_length <= myLineLength)
-                      myReadContext_p->completeWithBlanks(a_card, a_line_length);
-                  else
-                      myReadContext_p->completeWithBlanks(a_card, myLineLength);
-
+                  if (myLineLength > 0)
+                  {
+                      if(a_line_length <= myLineLength)
+                         myReadContext_p->completeWithBlanks(a_card, a_line_length);
+                      else
+                         myReadContext_p->completeWithBlanks(a_card, myLineLength);
+                  }
                   a_cell=const_cast<const char *>(a_card);
               }
           }
@@ -2712,7 +3219,10 @@ bool MECIDataReader::readFreeCellList(const PseudoFileFormatCard_t *card_format_
                 {
                     char* a_card_local = a_card;
                     myReadContext_p->killNLEnd(a_card_local);
-                    myReadContext_p->completeWithBlanks(a_card_local, a_line_length);
+
+                    if(myLineLength > 0)
+                       myReadContext_p->completeWithBlanks(a_card_local, a_line_length);
+
                     int len = 0;
                     // For free format, length is being computed using a_pnb_cells of prev card
                     for (int i = 0; i < a_pnb_cells; ++i)
@@ -2764,6 +3274,7 @@ bool MECIDataReader::readFreeCellList(const PseudoFileFormatCard_t *card_format_
         //myReadContext_p->killNLEnd(a_card);
         
         myReadContext_p->killNLEnd(a_card);
+        a_line_length_new = a_line_length;
         int len = (int)strlen(a_card);
         if (len < (card_size + a_prev_card_len))
         {
@@ -2799,7 +3310,15 @@ bool MECIDataReader::readFreeCellList(const PseudoFileFormatCard_t *card_format_
                     if (len < (card_size + a_prev_card_len))
                     {
                         if (a_line_length < (card_size + a_prev_card_len))
-                            myReadContext_p->completeWithBlanks(a_card, a_line_length);
+                        {
+                            if (i != 0 && card_size > a_line_length && len < a_line_length)
+                            {
+                                a_line_length_new = card_size - a_line_length;
+                                myReadContext_p->completeWithBlanks(a_card, a_line_length_new);
+                            }
+                            else
+                                myReadContext_p->completeWithBlanks(a_card, a_line_length);
+                        }
                         else
                         {
                             myReadContext_p->completeWithBlanks(a_card, card_size + a_prev_card_len);
@@ -4354,7 +4873,8 @@ const char* MECIDataReader::readCell(const char* cell,
     bool                          has_offset,
     const char*                   offset_fmt,
     const char*                   offset_val,
-    bool                          is_next_card_cell_list)
+    bool                          is_next_card_cell_list,
+    const PseudoFileFormatCell_t* next_cell_format_p)
 {
 
     string a_cell_skw;
@@ -4375,7 +4895,7 @@ const char* MECIDataReader::readCell(const char* cell,
     case CELL_VALUE:
     {
         
-        a_cur_cell = readCell_VALUE(cell, cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format, END_ARGS, no_end_flag, has_offset, offset_fmt, offset_val, is_next_card_cell_list);
+        a_cur_cell = readCell_VALUE(cell, cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format, END_ARGS, no_end_flag, has_offset, offset_fmt, offset_val, is_next_card_cell_list, next_cell_format_p);
         
     }
     break;
@@ -5079,7 +5599,7 @@ const char* MECIDataReader::readCell(const char* cell,
                     false;
                 string text_param_value = "";
                 IParameter::Type param_type = IParameter::TYPE_UNKNOWN;
-                if (model_p != NULL)
+                if (model_p != NULL && is_param_cell && param_str != "")
                 {
                     MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
                     param_type = nc_model_p->GetParameterValueType(param_str.c_str(), object_p->GetFileIndex());
@@ -5550,23 +6070,52 @@ const char* MECIDataReader::readCell(const char* cell,
                 while (token2)
                 {
                     string skw_to_search = token2;
+                    skw_to_search = (skw_to_search.find_first_not_of(" \t\n\r\f\v") == std::string::npos) ? "" : skw_to_search.substr(skw_to_search.find_first_not_of(" \t\n\r\f\v"), 
+                                        skw_to_search.find_last_not_of(" \t\n\r\f\v") - skw_to_search.find_first_not_of(" \t\n\r\f\v") + 1);
+
                     token2 = strtok(NULL, pair_str);
                     string name_value2 = token2;
                     for (int j = 0; j < nb_cells; j++)
                     {
                         pair <int, string> a_pair = ikw_str_vect.at(j);
-                        if (a_pair.second == skw_to_search)
+                        int k = 1;
+                        int ikey2 = 0;
+                        if (nb_cells == 1)
                         {
-                            int ikw = a_pair.first;
-                            value_type_e a_vtype = a_descr_p->getValueType(ikw);
-                            string a_skw = a_descr_p->getSKeyword(ikw);
-                            int a_nb_read = 0;
-                            string param_str = "";
-                            bool is_param_cell = false, is_parameter_negated = false;
-                            is_param_cell = isParameterCell(name_value2.c_str(), a_cell_size, param_str, &is_parameter_negated);
-                            bool is_text_param_replaced = is_param_cell ?
-                                replaceTextParameter(name_value2.c_str(), a_cell_size, param_str, model_p, object_p->GetFileIndex(), &a_ok) :
-                                false;
+                            ikey2 = a_descr_p->getIKeyword(a_pair.second);
+                            if (ikey2 > 0)
+                                k = 2;
+                        }
+                        for (int l = 0; l < k; l++)
+                        {
+                            //if (a_pair.second == skw_to_search)
+                            if (iequals(a_pair.second, skw_to_search) || k == 2) /*case insensitive compare*/
+                            {
+                                int ikw = 0;
+                                if(k==1)
+                                    ikw = a_pair.first;
+                                else
+                                {
+                                    if (l == 0)
+                                    {
+                                        ikw = ikey2;
+                                        name_value2 = skw_to_search ;
+                                    }
+                                    else
+                                    {
+                                        ikw = a_pair.first;
+                                        name_value2 = token2;
+                                    }
+                                }
+                                value_type_e a_vtype = a_descr_p->getValueType(ikw);
+                                string a_skw = a_descr_p->getSKeyword(ikw);
+                                int a_nb_read = 0;
+                                string param_str = "";
+                                bool is_param_cell = false, is_parameter_negated = false;
+                                is_param_cell = isParameterCell(name_value2.c_str(), a_cell_size, param_str, &is_parameter_negated);
+                                bool is_text_param_replaced = is_param_cell ?
+                                    replaceTextParameter(name_value2.c_str(), a_cell_size, param_str, model_p, object_p->GetFileIndex(), &a_ok) :
+                                    false;
 
                             switch (a_vtype)
                             {
@@ -5726,20 +6275,37 @@ const char* MECIDataReader::readCell(const char* cell,
                                     }
                                     else
                                     {
-                                    MYOBJ_INT a_ovalue = 0;
-                                    a_nb_read = sscanf(name_value2.c_str(), "%u", &a_ovalue);
-                                    if (a_nb_read > 0)
-                                    {
+
+                                        if (auto val = parseInteger(name_value2)) {
+
                                             if (ind >= 0)
-                                                object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), a_ovalue, -1);
+                                                object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), *val, ind);
                                             else
-                                        object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), a_ovalue, -1);
+                                                object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), *val, -1);
+                                        }
+                                        else {
+                                            if (ind >= 0)
+                                                object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), name_value2.c_str(), ind);
+                                            else
+                                                object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), name_value2.c_str(), -1);
+                                        }
+
+                                        //MYOBJ_INT a_ovalue = 0;
+                                        //a_nb_read = sscanf(name_value2.c_str(), "%u", &a_ovalue);
+                                        //if (a_nb_read > 0)
+                                        //{
+                                        //    if (ind >= 0)
+                                        //        object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), a_ovalue, -1);
+                                        //    else
+                                        //        object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), a_ovalue, -1);
+                                        //}
                                     }
                                 }
-                                }
                                 break;
+                                }
+                                if(k==1)
+                                    break;
                             }
-                            break;
                         }
                     }
                     token2 = strtok(NULL, pair_str);
@@ -5972,7 +6538,7 @@ const char* MECIDataReader::readCell(const char* cell,
                     }
                 }
             }
-            if (!is_free_size_format)
+            if (a_cell_size > 0 && !is_free_size_format && a_cur_cell && a_cur_cell[0] != '\0') //added a_cell_size >0 for *DEFINE_CURVE_%s, APPEND_OPTION
             {
                 int pending_spaces = a_cell_size - total_size;
                 if (pending_spaces < 0)
@@ -6021,7 +6587,8 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                                            bool                          has_offset,
                                            const char                    *offset_fmt,
                                            const char                    *offset_val,
-                                           bool                           is_next_card_cell_list)
+                                           bool                          is_next_card_cell_list,
+                                           const PseudoFileFormatCell_t* next_cell_format_p)
 {
     const IDescriptor* a_descr_p = (const MvDescriptor_t*)descr_p;
     const ff_cell_t* a_cell_format_p = (const ff_cell_t*)cell_format_p;
@@ -6059,23 +6626,69 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                   replaceTextParameter(a_cur_cell,a_cell_size,param_str,model_p,object_p->GetFileIndex(), &a_ok) :
                   false;
               if(is_param_cell && !is_text_param_replaced && a_ok)
-        {
-            if (model_p != NULL)
-            {
-                MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
-                a_value = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
-                if (is_parameter_negated)
-                {
-                    a_value = -1 * a_value;
-                }
-            }
-            a_ok = true;
-        }
-              else if(a_ok)
-        {
-            a_value = scanInt(a_cur_cell, a_cell_fmt, a_cell_size, &a_ok,
-                true, &has_empty_field);
-        }
+              {
+                  if (model_p != NULL)
+                  {
+                      MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                      a_value = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                      if (is_parameter_negated)
+                      {
+                          a_value = -1 * a_value;
+                      }
+                  }
+                  a_ok = true;
+              }
+              else if (a_ok)
+              {
+                  //three possible usecase, fixed format, fixed with "%", freeformat
+                  //if (a_cell_size == 0)//free format
+                      a_value = scanInt(a_cur_cell, a_cell_fmt, a_cell_size, &a_ok, true, &has_empty_field);
+                  //else
+                  //{
+                  //    int length_format = (int)strlen(a_cell_fmt);
+                  //    if (1 > length_format) return 0;
+                  //    if ('d' != a_cell_fmt[length_format - 1]) {
+                  //        // the format is not an integer format, so we try to read a float
+                  //        double val_d = 0;
+                  //        bool ret = cfgio_parse_double_or_blank_fast(a_cur_cell, a_cell_size, val_d, has_empty_field, a_cell_size);
+                  //        a_value = (int)val_d;
+                  //    }
+                  //    else
+                  //    {
+                  //        int a_nb_read = 0;
+                  //        bool ret = cfgio_parse_int_or_blank_fast(a_cur_cell, a_cell_size, a_value, has_empty_field, a_nb_read);
+
+                  //        if (!ret) {
+                  //            std::string err_msg = "";
+                  //            char buffer[BufferSize];
+                  //            const char* a_cur_full_name = myReadContext_p->getCurrentFullName();
+                  //            _HC_LONG  a_cur_line = myReadContext_p->getCurrentLine();
+                  //            if (a_cur_full_name)
+                  //            {
+                  //                sprintf(buffer, getMsg(0), a_cur_line, a_cur_full_name);
+                  //                err_msg.append(buffer);
+                  //                err_msg.append("\n");
+                  //            }
+                  //            if (a_cell_size > 0)
+                  //                sprintf(buffer, getMsg(24), a_cell_size);
+                  //            else
+                  //                sprintf(buffer, getMsg(25));
+                  //            err_msg.append(buffer);
+                  //            err_msg.append("(");
+                  //            if (a_cell_size > 0 && a_cell_size <= (int)strlen(cell))
+                  //            {
+                  //                string a_cell(a_cur_cell, a_cell_size);
+                  //                err_msg.append(a_cell);
+                  //            }
+                  //            else
+                  //                err_msg.append(a_cur_cell);
+                  //            err_msg.append(")");
+                  //            //
+                  //            myReadContext_p->displayMessage(myReadContext_p->MSG_ERROR, err_msg.c_str());
+                  //        }
+                  //    }
+                  //}
+              }
         if (a_ok) {
             a_cur_cell += a_cell_size;
             if (ind < 0 && (!has_empty_field || is_param_cell))
@@ -6343,7 +6956,27 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
       }
       if(a_ok)
       {      
-            scanString(a_cur_cell, a_cell_fmt, a_cell_size, a_value, &a_ok);
+          if (!a_cell_size && next_cell_format_p)
+          {
+              const char* a_cell_string = NULL;
+              MCDS_get_ff_cell_attributes((const ff_cell_t*)next_cell_format_p, CELL_STRING, &a_cell_string, END_ARGS);
+              const char* temp = NULL;
+              if (a_cell_string)
+              {
+                  const char* temp = NULL;
+                  char ch = '='; /*need to know the assignment operator, this could be ':' as well. ex: param1=1.5*/
+                  size_t len = strlen(a_cell_string);
+                  if (len == 1 &&  ch == a_cell_string[0])
+                  {   // separator defined as cell string
+                      temp = strchr(a_cur_cell, ch);
+                      if (temp)
+                      {
+                          a_cell_size = (int)(temp - a_cur_cell);
+                      }
+                  }
+              }
+          }
+          scanString(a_cur_cell, a_cell_fmt, a_cell_size, a_value, &a_ok);
         }
 
         if (a_ok) {
@@ -6467,7 +7100,13 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
         int a_cell_size = 0;
         a_cell_fmt = GetFormatSize(a_cell_fmt, is_free_size_format, a_cell_size);// loc_get_fmt_size(a_cell_fmt, is_free_size_format);
 
-        MYOBJ_INT a_id = 0;
+      if (is_free_size_format && !a_cell_size && !IsCellSeparator(a_cur_cell[0]))
+          a_cell_size = GetCellFreeSize(a_cur_cell);
+
+
+
+      MYOBJ_INT a_id = 0;
+      static char a_value[500];
      
         is_param_cell = isParameterCell(a_cur_cell, a_cell_size, param_str, &is_parameter_negated);
       bool is_text_param_replaced = is_param_cell ?
@@ -6494,20 +7133,27 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
         //
         if (a_ok) {
             a_cur_cell += a_cell_size;
-            if ((a_id >= 0 && !has_empty_field) || is_param_cell)
-            {
-                object_type_e  a_cell_otype = a_descr_p->getObjectType(a_cell_ikw);
-                const string& a_cell_otype_str = MV_get_type(a_cell_otype);
-                bool           a_is_treated = false;//model_p->IsTreated(a_cell_otype_str.c_str());
-                //
-                if (a_is_treated) {
+          if (((a_id >= 0 || a_value[0] != '\0') && !has_empty_field) || is_param_cell)
+          {
+             object_type_e  a_cell_otype = a_descr_p->getObjectType(a_cell_ikw);
+             const string& a_cell_otype_str = MV_get_type(a_cell_otype);
+             bool           a_is_treated = false;//model_p->IsTreated(a_cell_otype_str.c_str());
+             //
+             if (a_is_treated) {
 
-	      } else {
+             }
+             else {
                     
-                    if (ind < 0)
-                    {
+                  if (ind < 0)
+                  {
+                     // object_p->AddObjectValue(a_cell_skw, a_cell_otype_str.c_str(), a_value[0] != '\0' ? static_cast<const char*>(a_value) : a_id);
+                      if (a_value[0] != '\0') {
+                          object_p->AddObjectValue(a_cell_skw, a_cell_otype_str.c_str(), a_value);
+                      }
+                      else {
                         object_p->AddObjectValue(a_cell_skw, a_cell_otype_str.c_str(), a_id);
                     }
+                  }
                     //else      object_p->AddObjectValue(a_cell_skw,ind,a_cell_otype_str.c_str(),a_id);
                     else
                     {
@@ -6524,16 +7170,33 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                             if (a_cell_ind < 0)
                                 a_cell_ind = loc_reserve_array(a_cell_ikw, a_cell_skw, IMECPreObject::VTY_OBJECT, a_descr_p, object_p);
 
+                          //object_p->SetObjectValue(a_cell_ind, ind, a_cell_otype_str.c_str(), a_value[0] != '\0' ? static_cast<const char*>(a_value) : a_id);
+
+                          if (a_value[0] != '\0') {
+                              object_p->SetObjectValue(a_cell_ind, ind, a_cell_otype_str.c_str(), a_value);
+                          }
+                          else {
                             object_p->SetObjectValue(a_cell_ind, ind, a_cell_otype_str.c_str(), a_id);
                         }
+
+                      }
                         else
                         {
                             a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, a_cell_skw);
-                            if (a_cell_ind < 0)
+
+                          if (a_cell_ind < 0) {
+                              if (a_value[0] != '\0')
+                                  object_p->AddObjectValue(a_cell_skw, a_cell_otype_str.c_str(), a_value);
+                              else
                                 object_p->AddObjectValue(a_cell_skw, a_cell_otype_str.c_str(), a_id);
+                          }
+                          else {
+                              if (a_value[0] != '\0')
+                                  object_p->SetObjectValue(a_cell_ind, a_cell_otype_str.c_str(), a_value);
                             else
                                 object_p->SetObjectValue(a_cell_ind, a_cell_otype_str.c_str(), a_id);
                         }
+                      }
                     }
                 }
             }
@@ -6634,6 +7297,17 @@ const char *MECIDataReader::readCell_COMMENT(const char                   *cell,
       {
          a_cell_size = (int) strlen (a_cell_string);
       }
+
+      char header_sep = mySyntaxInfos_p->getHeaderSeparator();
+      const char* header = mySyntaxInfos_p->getHeader(0);
+      //IsFormatSupportedForContinueNextLine need to replace with new api 
+       //to respect existing cfg files
+      if(card_type==CARD_HEADER && 
+          ( (header_sep != '\0' && (a_cell_string[0] == header_sep || a_cell_string[a_cell_size - 1] == header_sep)) ||  // check for header separator beg and end
+          (header && header[0] == a_cell_string[0]) ) ) //check for header starting character ex. *MAT_PIECEWISE_LINEAR
+          return cell + a_cell_size;
+
+
       if (0 == strncmp (a_cell_string, cell, a_cell_size)) {
           return cell + a_cell_size;
       }

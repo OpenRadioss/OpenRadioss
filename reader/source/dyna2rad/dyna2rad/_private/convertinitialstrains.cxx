@@ -37,6 +37,8 @@ void sdiD2R::ConvertInitialStrain::ConvertAllInitialStrains()
 void sdiD2R::ConvertInitialStrain::ConvertEntities()
 {
     ConvertInitialStrainsShell();
+
+    ConvertInitialStrainsSolid();
 }
 
 void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
@@ -114,8 +116,9 @@ void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
               // dyna part read
               HandleRead elementdynaHRead;
               p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SHELL"), eid, elementdynaHRead);
-              ElementRead elementdynaRead(p_lsdynaModel, elementdynaHRead);
-              HandleRead partdynaHRead = elementdynaRead.GetOwner();
+              HandleRead partdynaHRead;
+              elementdynaHRead.GetEntityHandle(p_lsdynaModel,sdiIdentifier("PID"), partdynaHRead);
+              
               EntityRead partdynaRead(p_lsdynaModel, partdynaHRead);
               sdiString partCard = partdynaRead.GetKeyword();
 
@@ -434,9 +437,9 @@ void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
               // dyna part read
               HandleRead elementdynaHRead;
               p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SHELL"), eid, elementdynaHRead);
+              HandleRead partdynaHRead;
+              elementdynaHRead.GetEntityHandle(p_lsdynaModel,sdiIdentifier("PID"), partdynaHRead);
               
-              ElementRead elementdynaRead(p_lsdynaModel, elementdynaHRead);
-              HandleRead partdynaHRead = elementdynaRead.GetOwner();
               EntityRead partdynaRead(p_lsdynaModel, partdynaHRead);
               sdiString partCard = partdynaRead.GetKeyword();
 
@@ -759,3 +762,304 @@ void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
     } // while
 }
 
+void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsSolid()
+{
+    SelectionRead selIniStrainSolid(p_lsdynaModel, "*INITIAL_STRAIN_SOLID");
+
+    EntityType radBrickType = p_radiossModel->GetEntityType("/BRICK");
+
+    //EntityType radTetraType = p_radiossModel->GetEntityType("/TETRA4");
+    
+
+    while (selIniStrainSolid.Next())
+    {
+        sdiValue tempValue;
+
+        int nintgr = GetValue<int>(*selIniStrainSolid, "tot_nintegrationpoints");
+        int nrows = GetValue<int>(*selIniStrainSolid, "nrows");
+
+        // only solid element with one integration point is supported in current implementation.
+        if (nintgr != 1)
+            DynaToRad::ShowMessage(sdiMessageHandler::Level::Warning, 43,selIniStrainSolid->GetKeyword().c_str());
+
+        
+        // Translation depends in isolid values in /PROP/SOLID referred by the element
+        HandleElementRead elementSolidHRead;
+
+        //---------------------
+        // create /INIBRI/STRA_F/GLOB entity for each *INITIAL_STRAIN_SOLID entry
+        HandleEdit inistrainHEdit;
+        p_radiossModel->CreateEntity(inistrainHEdit, "/INIBRI/STRA_FGLO");
+
+        sdiString keyWord = selIniStrainSolid->GetKeyword();
+        if (keyWord.find("SET") != keyWord.npos)
+        {
+            sdiValueEntity sidId = GetValue<sdiValueEntity>(*selIniStrainSolid, "eid");
+            unsigned int SID = sidId.GetId();
+
+            sdiUIntList ElementSetList;
+            sdiString setType = "*SET_SOLID_TITLE";
+            p_ConvertUtils.GetElementIdsFromElementSet(setType, SID, ElementSetList);
+
+            int cnt = 0;
+            int cntDyna = 0;
+
+            int rad_nrows = ElementSetList.size();
+            // solid elements
+            EntityEdit inistrainEdit(p_radiossModel, inistrainHEdit);
+            inistrainEdit.SetValue(sdiIdentifier("inibri_stra_fglo_count"), sdiValue(rad_nrows));
+
+            double epsxx = GetValue<double>(*selIniStrainSolid, "EPSxx",cntDyna);
+            double epsyy = GetValue<double>(*selIniStrainSolid, "EPSyy",cntDyna);
+            double epszz = GetValue<double>(*selIniStrainSolid, "EPSzz",cntDyna);
+            double epsxy = GetValue<double>(*selIniStrainSolid, "EPSxy",cntDyna);
+            double epsyz = GetValue<double>(*selIniStrainSolid, "EPSyz",cntDyna);
+            double epszx = GetValue<double>(*selIniStrainSolid, "EPSzx",cntDyna);
+
+            for (int i = 0; i < ElementSetList.size(); ++i)
+            {
+                unsigned int eid = ElementSetList[i];
+
+                // check if the element exists in dyna model and get element type:
+                // (solid element with 4 nodes is TETRA4, solid element with 8 nodes is BRICK)
+
+                p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SOLID"), eid, elementSolidHRead);
+                ElementRead elemRead(p_lsdynaModel, elementSolidHRead);
+
+                //int nodeCount = elemRead.GetNodeCount();
+
+                string destElemType = "UNDEFINED";
+                sdiUIntList elemNodes;
+                elemRead.GetNodeIds(elemNodes);
+
+                int ncount = 0;
+                for(int j = 0; j < elemNodes.size(); ++j)
+                {
+                    if(elemNodes[j] != 0)
+                    {
+                        ncount++;
+                    }
+                }
+                inistrainEdit.SetValue(sdiIdentifier("Isolnod",0,cnt), sdiValue(ncount));
+                //if (ncount == 4)
+                //  destElemType = "TETRA4";
+                //else if (ncount == 8)  
+                //  destElemType = "BRICK";
+
+                //--------
+                int Isolid = 0;
+
+                HandleRead radbrickElementHRead;
+                p_radiossModel->FindById(radBrickType, eid, radbrickElementHRead);
+
+                if (radbrickElementHRead.IsValid())
+                {
+                    inistrainEdit.SetValue(sdiIdentifier("brick_ID",0,cnt),sdiValue(sdiValueEntity(radBrickType, eid)));
+                    HandleRead partHRead;
+                    radbrickElementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+
+                    if (partHRead.IsValid())
+                    {
+                        HandleRead propHRead;
+                        partHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), propHRead);
+
+                        EntityRead propEntityRead(p_radiossModel, propHRead);
+                        tempValue = sdiValue(Isolid);
+                        propEntityRead.GetValue(sdiIdentifier("Isolid"), tempValue);
+                        tempValue.GetValue(Isolid);
+
+                        int itetra4 = GetValue<int>(propEntityRead, "Itetra4");
+                        //---
+                        // need to map the initial stresses from 1 point to 8 points for brick, 
+                        // or from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000),
+                        // or from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+
+                        int map_nint = 0;
+                        if(ncount == 4)
+                        {
+                            if(itetra4 == 0 || itetra4 == 3 || itetra4 == 1000)
+                            {
+                                // from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000)
+                                map_nint = 1;
+                                inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                            }
+                            else if(itetra4 == 1)
+                            {
+                                // from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+                                map_nint = 4;
+                                inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(4));
+                                inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(4));
+                                inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                                inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                            }
+                        }
+                        else if(ncount == 8)
+                        {
+                            // from 1 point to 8 points for brick
+                            map_nint = 8;
+                            inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(18));
+                            inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(8));
+                            inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(2));
+                            inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(2));
+                            inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(2));
+                            inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                        }
+
+                        //----
+                        for(int j = 0; j < map_nint; ++j)
+                        {
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_1",0,cnt,j), sdiValue(epsxx));
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_2",0,cnt,j), sdiValue(epsyy));
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_3",0,cnt,j), sdiValue(epszz));
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_12",0,cnt,j), sdiValue(epsxy));
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_23",0,cnt,j), sdiValue(epsyz));
+                            inistrainEdit.SetValue(sdiIdentifier("EPSILON_31",0,cnt,j), sdiValue(epszx));
+                        }
+                        cnt = cnt + 1;
+                        //---
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(inistrainHEdit.IsValid())
+            {
+                // solid elements
+                EntityEdit inistrainEdit(p_radiossModel, inistrainHEdit);
+                inistrainEdit.SetValue(sdiIdentifier("inibri_stra_fglo_count"), sdiValue(nrows));
+
+                int cnt = 0;
+                int cntDyna = 0;
+                for(int i = 0; i < nrows; ++i)
+                {
+                    sdiValueEntity eidId = GetValue<sdiValueEntity>(*selIniStrainSolid, "eid",cntDyna);
+                    unsigned int eid = eidId.GetId();
+
+                    double epsxx = GetValue<double>(*selIniStrainSolid, "EPSxx",cntDyna);
+                    double epsyy = GetValue<double>(*selIniStrainSolid, "EPSyy",cntDyna);
+                    double epszz = GetValue<double>(*selIniStrainSolid, "EPSzz",cntDyna);
+                    double epsxy = GetValue<double>(*selIniStrainSolid, "EPSxy",cntDyna);
+                    double epsyz = GetValue<double>(*selIniStrainSolid, "EPSyz",cntDyna);
+                    double epszx = GetValue<double>(*selIniStrainSolid, "EPSzx",cntDyna);
+
+                    // check if the element exists in dyna model and get element type:
+                    // (solid element with 4 nodes is TETRA4, solid element with 8 nodes is BRICK)
+
+                    p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SOLID"), eid, elementSolidHRead);
+                    ElementRead elemRead(p_lsdynaModel, elementSolidHRead);
+
+                    //int nodeCount = elemRead.GetNodeCount();
+
+                    string destElemType = "UNDEFINED";
+                    sdiUIntList elemNodes;
+                    elemRead.GetNodeIds(elemNodes);
+
+                    int ncount = 0;
+                    for(int j = 0; j < elemNodes.size(); ++j)
+                    {
+                        if(elemNodes[j] != 0)
+                        {
+                          ncount++;
+                        }
+                    }
+                    inistrainEdit.SetValue(sdiIdentifier("Isolnod",0,cnt), sdiValue(ncount));
+                    //if (ncount == 4)
+                    //  destElemType = "TETRA4";
+                    //else if (ncount == 8)  
+                    //  destElemType = "BRICK";
+
+                    //--------
+                    int Isolid = 0;
+
+                    HandleRead radbrickElementHRead;
+                    p_radiossModel->FindById(radBrickType, eid, radbrickElementHRead);
+
+                    if (radbrickElementHRead.IsValid())
+                    {
+                        inistrainEdit.SetValue(sdiIdentifier("brick_ID",0,cnt),sdiValue(sdiValueEntity(radBrickType, eid)));
+                        HandleRead partHRead;
+                        radbrickElementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+
+                        if (partHRead.IsValid())
+                        {
+                            HandleRead propHRead;
+                            partHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), propHRead);
+
+                            EntityRead propEntityRead(p_radiossModel, propHRead);
+                            tempValue = sdiValue(Isolid);
+                            propEntityRead.GetValue(sdiIdentifier("Isolid"), tempValue);
+                            tempValue.GetValue(Isolid);
+
+                            int itetra4 = GetValue<int>(propEntityRead, "Itetra4");
+                            //---
+                            // need to map the initial stresses from 1 point to 8 points for brick, 
+                            // or from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000),
+                            // or from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+
+                            int map_nint = 0;
+                            if(ncount == 4)
+                            {
+                                if(itetra4 == 0 || itetra4 == 3 || itetra4 == 1000)
+                                {
+                                    // from 1 point to 1 point for tetra4 (if Itetra4 = 0, 3, 1000)
+                                    map_nint = 1;
+                                    inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                                }
+                                else if(itetra4 == 1)
+                                {
+                                    // from 1 point to 4 points for tetra4 (if Itetra4 = 1)
+                                    map_nint = 4;
+                                    inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(4));
+                                    inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(4));
+                                    inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(1));
+                                    inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                                }
+                            }
+                            else if(ncount == 8)
+                            {
+                                // from 1 point to 8 points for brick
+                                map_nint = 8;
+                                inistrainEdit.SetValue(sdiIdentifier("Isolid",0,cnt), sdiValue(18));
+                                inistrainEdit.SetValue(sdiIdentifier("Nb_integr",0,cnt), sdiValue(8));
+                                inistrainEdit.SetValue(sdiIdentifier("nptr",0,cnt), sdiValue(2));
+                                inistrainEdit.SetValue(sdiIdentifier("npts",0,cnt), sdiValue(2));
+                                inistrainEdit.SetValue(sdiIdentifier("nptt",0,cnt), sdiValue(2));
+                                inistrainEdit.SetValue(sdiIdentifier("nlay",0,cnt), sdiValue(1));
+                            }
+
+                            //----
+                            for(int j = 0; j < map_nint; ++j)
+                            {
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_1",0,cnt,j), sdiValue(epsxx));
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_2",0,cnt,j), sdiValue(epsyy));
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_3",0,cnt,j), sdiValue(epszz));
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_12",0,cnt,j), sdiValue(epsxy));
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_23",0,cnt,j), sdiValue(epsyz));
+                                inistrainEdit.SetValue(sdiIdentifier("EPSILON_31",0,cnt,j), sdiValue(epszx));
+                            }
+                            //---
+                        }
+                        cnt = cnt + 1;
+                    }
+                    cntDyna = cntDyna + 1;
+                    //--------
+                }
+            }
+        } // if (keyWord.find("SET")
+    }
+}

@@ -56,6 +56,8 @@ namespace sdiD2R
         void ConvertEntities() override;
 
         void ConvertInitialStrainsShell();
+
+        void ConvertInitialStrainsSolid();
     };
 }
 

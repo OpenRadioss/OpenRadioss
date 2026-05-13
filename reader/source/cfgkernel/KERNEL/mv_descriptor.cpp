@@ -2227,7 +2227,8 @@ const fileformat_t *MvDescriptor_t::getRadiossFileFormatPtr(MvFileFormat_e ff_id
 {
     const fileformat_t *a_ff_p=NULL;
 
-    if (ff_id >= FF_D00_2026)                 a_ff_p = getFileFormatPtr(FF_D00_2026);
+    if (ff_id >= FF_D00_2612)                 a_ff_p = getFileFormatPtr(FF_D00_2612);
+    if (a_ff_p == NULL && ff_id >= FF_D00_2026) a_ff_p = getFileFormatPtr(FF_D00_2026);
     if (a_ff_p == NULL && ff_id >= FF_D00_2025) a_ff_p = getFileFormatPtr(FF_D00_2025);
     if (a_ff_p == NULL && ff_id >= FF_D00_2024) a_ff_p = getFileFormatPtr(FF_D00_2024);
     if (a_ff_p == NULL && ff_id >= FF_D00_2023) a_ff_p = getFileFormatPtr(FF_D00_2023);
@@ -2458,6 +2459,7 @@ int MvDescriptor_t::postTreatFileFormat(ff_cell_t *cell_p, const char *comment, 
   case CELL_DIR_RADIO:
   case CELL_BLANK:
   case CELL_APPEND_OPTIONS:
+  case CELL_LIST:
     {
       length_solver_name = length = loc_get_cell_length(cell_p);
       if (strlen(comment) > position)

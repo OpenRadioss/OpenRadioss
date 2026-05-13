@@ -125,7 +125,7 @@ int MCDS_get_ff_cell_attributes(const ff_cell_t *cell_p,...) {
        cell_p->type!=CELL_FLAGGED_OBJECT &&   
        cell_p->type!=CELL_SCALAR_OR_STRING  &&
        cell_p->type != CELL_ID && cell_p->type != CELL_PAIR && cell_p->type != CELL_BLANK && cell_p->type != CELL_LIST &&
-       cell_p->type!=CELL_APPEND_OPTIONS && cell_p->type!=CELL_NAME_VALUE) {
+       cell_p->type!=CELL_APPEND_OPTIONS && cell_p->type!=CELL_NAME_VALUE && cell_p->type != CELL_COND) {
       va_end(arglist); 
       return 2; 
     }
@@ -267,7 +267,7 @@ int MCDS_set_ff_cell_attributes(ff_cell_t *cell_p,...) {
        cell_p->type!=CELL_SCALAR_OR_STRING && 
        cell_p->type!=CELL_ID && cell_p->type != CELL_BLANK && 
        cell_p->type!=CELL_PAIR && cell_p->type != CELL_LIST &&
-       cell_p->type!=CELL_APPEND_OPTIONS && cell_p->type!=CELL_NAME_VALUE) {
+       cell_p->type!=CELL_APPEND_OPTIONS && cell_p->type!=CELL_NAME_VALUE && cell_p->type != CELL_COND) {
       va_end(arglist);
       return 2;
     }
@@ -672,7 +672,7 @@ int MCDS_new_ff_card(ff_card_t **card_pfp,ff_card_type_e card_type) {
   case CARD_HEADER:  
   case CARD_FREE_FORMAT:	
   case CARD_PREREAD:  
-	  *card_pfp=(ff_card_t *)my_malloc(1,sizeof(ff_single_card_t));    
+	  *card_pfp=(ff_card_t *)my_malloc(1,sizeof(ff_single_card_t));
       ((ff_single_card_t*)*card_pfp)->offset_fmt = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_fmt, "");
       ((ff_single_card_t*)*card_pfp)->offset_value = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_value, "");
 	  break;
@@ -1303,7 +1303,7 @@ int MCDS_delete_ff_card(ff_card_t *card_p) {
           if (cell_type != CELL_APPEND_OPTIONS)
           {
               /*already freed in corresponding delete in MCDS_free_app_opt*/
-          my_free(a_cell_pf);
+              my_free(a_cell_pf);
           }
           
       }

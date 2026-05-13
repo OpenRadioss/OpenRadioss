@@ -302,7 +302,7 @@ extern "C" void my_fitline(char *line)
 {
         int index,charcount;
 /*345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890*/
-        char *blank = "                                                                                ";
+    const char *blank = "                                                                                "; // const-correct for /Zc:strictStrings
 
         index = (int)(strlen(line));
         
@@ -1093,9 +1093,16 @@ double hc_scan_double(const char *str, const char *format, int nb_chars, int* nb
         }
         else
         {
-            char mod_format[10];
-            sprintf(mod_format, "%%%dlf%c", nb_chars,'\0');
-            *nb_read = sscanf(a_cell_begin_p, mod_format, &result);
+            if (nb_chars > 0)
+            {
+                char mod_format[10];
+                sprintf(mod_format, "%%%dlf%c", nb_chars, '\0');
+                *nb_read = sscanf(a_cell_begin_p, mod_format, &result);
+            }
+            else
+            {
+                *nb_read = sscanf(a_cell_begin_p, "%lf", &result);
+            }
         }
     }
     else

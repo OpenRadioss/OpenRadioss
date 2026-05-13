@@ -31,6 +31,8 @@
 //#include <hwSDISelection.h>
 #include <typedef.h>
 #include <sdiModelView.h>
+#include <unordered_map>
+#include <unordered_set>
 
 #include <HCDI/hcdi_mec_pre_object.h>
 #include <HCDI/hcdi_mv_descriptor.h>
@@ -2756,138 +2758,572 @@ void GlobalEntitySDICreateNode(double *x, double *y, double *z, int *newNodeId)
 // In case Itetra4=1 and /TETRA4 , change to /TETRA10
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void GlobalEntitySDIConvertTetra4ToTetra10(int *Itetra4ToConsider)
-{
-    bool isOk = false;
-    int elemId = 0;
+{    
     SelectionElementEdit tetElements(g_pModelViewSDI, "/TETRA4");
-    // Create a map to store existing mid-edge nodes: key = pair of node IDs (sorted), value = mid-node ID
-    std::map<std::pair<unsigned int, unsigned int>, int> edgeToMidNodeMap;
+    
+    // Define edge node pairs for TETRA4
+    static const int edgeNodes[6][2] = {
+        {0, 1},  // edge 1-2
+        {1, 2},  // edge 2-3
+        {2, 0},  // edge 3-1
+        {0, 3},  // edge 1-4
+        {1, 3},  // edge 2-4
+        {2, 3}   // edge 3-4
+    };
 
+    EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
+    EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
+    EntityType radTetra10Type = g_pModelViewSDI->GetEntityType("/TETRA10");
+
+    // Hash function for pair<unsigned int, unsigned int>
+    struct PairHash {
+        std::size_t operator()(const std::pair<unsigned int, unsigned int>& p) const {
+            return std::hash<unsigned long long>{}(((unsigned long long)p.first << 32) | p.second);
+        }
+    };
+
+    // Structure to cache element data
+    struct ElementCache {
+        int elemId;
+        unsigned int partId;
+        unsigned int cornerNodes[4];  // 4 corner nodes
+        int midNodeIndices[6];        // Indices to unique mid-nodes
+    };
+    
+    // Structure to cache unique mid-node data
+    struct MidNodeCache {
+        double x, y, z;
+    };
+    
+    std::vector<ElementCache> elementsToCreate;
+    elementsToCreate.reserve(10000);
+    std::vector<MidNodeCache> midNodesToCreate;
+    midNodesToCreate.reserve(30000);
+    std::unordered_map<std::pair<unsigned int, unsigned int>, int, PairHash> edgeToMidNodeIndex;
+    edgeToMidNodeIndex.reserve(30000);
+    std::vector<int> elementsToDelete;
+    elementsToDelete.reserve(10000);
+    
+    int Itetra4 = 0;
+    HandleRead partHread;
+    unsigned int partId_previous = 0;
+    int elemCount = 0;
+    
+    // Cache for node positions
+    std::unordered_map<unsigned int, sdiTriple> nodePositionCache;
+    nodePositionCache.reserve(40000);
+
+    // Phase 1: Collect all data
+    
     while(tetElements.Next())
     {
-        int id = 0;
-        int uid = 0;
-        int partId = 0;
-        bool found = false;
-        sdiUIntList aNodeId;
-        
-        EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
-        EntityType radnodeType = g_pModelViewSDI->GetEntityType("/NODE");
-        EntityType radTetra10Type = g_pModelViewSDI->GetEntityType("/TETRA10");
-        
-        // Get element Id
-        elemId = tetElements->GetId();
-        
-        // Get part handle from element
-        HandleRead partHread = tetElements->GetComponent();
-        // Get prop handle from part
-        HandleRead propHread;
-        if(partHread.IsValid())
-        {
-            EntityRead partRead(g_pModelViewSDI, partHread);
-            partRead.GetEntityHandle(sdiIdentifier("prop_ID"), propHread);
-        }
+        unsigned int partId = tetElements->GetComponentId();
 
-        // Check if Itetra4 == 1 in the prop
-        int Itetra4 = 0;
-        if(propHread.IsValid())
+        if(partId != partId_previous)
         {
-            EntityRead propRead(g_pModelViewSDI, propHread);
-            sdiValue tempValInt(Itetra4);
-            found = propRead.GetValue(sdiIdentifier("Itetra4"), tempValInt);
-            if(found) tempValInt.GetValue(Itetra4);
-        }
+            
+            HandleRead include = tetElements->ElementRead::GetInclude();
+            g_pModelViewSDI->SetCurrentCollector(include);
 
+            partId_previous = partId;
+            partHread = tetElements->GetComponent();
+            
+            HandleRead propHread;
+            if(partHread.IsValid())
+            {
+                EntityRead partRead(g_pModelViewSDI, partHread);
+                partRead.GetEntityHandle(sdiIdentifier("prop_ID"), propHread);
+            }
+                
+            if(propHread.IsValid())
+            {
+                EntityRead propRead(g_pModelViewSDI, propHread);
+                sdiValue tempValInt(Itetra4);
+                bool found = propRead.GetValue(sdiIdentifier("Itetra4"), tempValInt);
+                if(found) tempValInt.GetValue(Itetra4);
+            }
+        }
+        
         if(Itetra4 == *Itetra4ToConsider)
         {
-            // Get element connectivity (4 nodes for TETRA4)
+            sdiUIntList aNodeId;
             tetElements->GetNodeIds(aNodeId);
-
+            
             if(aNodeId.size() >= 4)
             {
-                // Get node coordinates for the 4 corner nodes
+                ElementCache elemCache;
+                elemCache.elemId = tetElements->GetId();
+                elemCache.partId = partId;
+                
+                // Copy corner nodes
+                for(int i = 0; i < 4; i++)
+                    elemCache.cornerNodes[i] = aNodeId[i];
+                
+                // Get node coordinates (with caching)
                 double x[4], y[4], z[4];
                 for(int i = 0; i < 4; i++)
                 {
-                    HandleRead nodeHread;
-                    if(g_pModelViewSDI->FindById(radnodeType, aNodeId[i], nodeHread))
+                    unsigned int nodeId = aNodeId[i];
+                    auto it = nodePositionCache.find(nodeId);
+                    if(it != nodePositionCache.end())
                     {
-                        NodeRead nodeRead(g_pModelViewSDI, nodeHread);
-                        sdiTriple pos;
-                        pos = nodeRead.GetPosition();
-                        x[i] = pos.GetX();
-                        y[i] = pos.GetY();
-                        z[i] = pos.GetZ();
-                    }
-                }
-                // Create 6 mid-edge nodes (nodes 5-10)
-                int midNodeIds[6];
-                // Define edge node pairs for TETRA4
-                int edgeNodes[6][2] = {
-                    {0, 1},  // edge 1-2
-                    {1, 2},  // edge 2-3
-                    {2, 0},  // edge 3-1
-                    {0, 3},  // edge 1-4
-                    {1, 3},  // edge 2-4
-                    {2, 3}   // edge 3-4
-                };
-                
-                // Calculate mid-edge node coordinates
-                double midX[6], midY[6], midZ[6];
-                for(int i = 0; i < 6; i++)
-                {
-                    int n1 = edgeNodes[i][0];
-                    int n2 = edgeNodes[i][1];
-                    midX[i] = (x[n1] + x[n2]) / 2.0;
-                    midY[i] = (y[n1] + y[n2]) / 2.0;
-                    midZ[i] = (z[n1] + z[n2]) / 2.0;
-                }
-
-
-                // Create the 6 mid-edge nodes, checking for existing nodes at same location
-                for(int i = 0; i < 6; i++)
-                {
-                    // Search for existing node at this position (with tolerance)
-                    bool nodeFound = false;
-                    unsigned int existingNodeId = 0;
-                            
-                    if (edgeToMidNodeMap[std::minmax(aNodeId[edgeNodes[i][0]], aNodeId[edgeNodes[i][1]])] != 0)
-                    {
-                        existingNodeId = edgeToMidNodeMap[std::minmax(aNodeId[edgeNodes[i][0]], aNodeId[edgeNodes[i][1]])];
-                        nodeFound = true;
-                    }
-
-                    if(nodeFound)
-                    {
-                        midNodeIds[i] = existingNodeId;
+                        x[i] = it->second.GetX();
+                        y[i] = it->second.GetY();
+                        z[i] = it->second.GetZ();
                     }
                     else
                     {
-                        GlobalEntitySDICreateNode(&midX[i], &midY[i], &midZ[i], &midNodeIds[i]);
-                        // Store in map
-                        unsigned int n1 = aNodeId[edgeNodes[i][0]];
-                        unsigned int n2 = aNodeId[edgeNodes[i][1]];
-                        edgeToMidNodeMap[std::minmax(n1, n2)] = midNodeIds[i];
+                        HandleRead nodeHread;
+                        if(g_pModelViewSDI->FindById(radnodeType, nodeId, nodeHread))
+                        {
+                            NodeRead nodeRead(g_pModelViewSDI, nodeHread);
+                            sdiTriple pos = nodeRead.GetPosition();
+                            nodePositionCache[nodeId] = pos;
+                            x[i] = pos.GetX();
+                            y[i] = pos.GetY();
+                            z[i] = pos.GetZ();
+                        }
                     }
                 }
-
-                // Create TETRA10 element with same ID
-                HandleElementEdit radTetra10HEdit;
                 
-                // Set all 10 nodes (4 corner + 6 mid-edge)
-                sdiUIntList tetra10Nodes;
-                tetra10Nodes.resize(10);
-                for(int i = 0; i < 4; i++)
-                    tetra10Nodes[i] = aNodeId[i];
+                // Process 6 mid-edge nodes
                 for(int i = 0; i < 6; i++)
-                    tetra10Nodes[i+4] = midNodeIds[i];
-
-                g_pModelViewSDI->CreateElement(radTetra10HEdit,"/TETRA10",tetra10Nodes,partHread,elemId);
+                {
+                    unsigned int n1 = elemCache.cornerNodes[edgeNodes[i][0]];
+                    unsigned int n2 = elemCache.cornerNodes[edgeNodes[i][1]];
+                    auto edgeKey = n1 < n2 ? std::make_pair(n1, n2) : std::make_pair(n2, n1);
+                   
+                    auto it = edgeToMidNodeIndex.find(edgeKey);
+                    if(it != edgeToMidNodeIndex.end())
+                    {
+                        elemCache.midNodeIndices[i] = it->second;
+                    }
+                    else
+                    {
+                        MidNodeCache midNode;
+                        int n1_idx = edgeNodes[i][0];
+                        int n2_idx = edgeNodes[i][1];
+                        midNode.x = (x[n1_idx] + x[n2_idx]) * 0.5;
+                        midNode.y = (y[n1_idx] + y[n2_idx]) * 0.5;
+                        midNode.z = (z[n1_idx] + z[n2_idx]) * 0.5;
+                        
+                        int newIndex = midNodesToCreate.size();
+                        midNodesToCreate.push_back(midNode);
+                        edgeToMidNodeIndex[edgeKey] = newIndex;
+                        elemCache.midNodeIndices[i] = newIndex;
+                    }
+                }
                 
-                // Delete the original TETRA4 element
-                tetElements->SetId(0);
-                
+                elementsToCreate.push_back(elemCache);
+                elementsToDelete.push_back(elemCache.elemId);
+                elemCount++;
             }
+        }
+    }
+     
+    // Phase 2: Create all mid-nodes
+    
+    std::vector<unsigned int> createdMidNodeIds(midNodesToCreate.size());
+    for(size_t i = 0; i < midNodesToCreate.size(); i++)
+    {
+        HandleNodeEdit radnodeHEdit;
+        sdiTriple pos(midNodesToCreate[i].x, midNodesToCreate[i].y, midNodesToCreate[i].z);
+        g_pModelViewSDI->CreateNode(radnodeHEdit, "/NODE", pos, 0);
+        createdMidNodeIds[i] = radnodeHEdit.GetId(g_pModelViewSDI);
+    }
+    
+    // Phase 3: Create all TETRA10 elements
+    sdiUIntList tetra10Nodes;
+    tetra10Nodes.resize(10);
+    
+    for(size_t i = 0; i < elementsToCreate.size(); i++)
+    {
+        const ElementCache& elemCache = elementsToCreate[i];
+        
+        HandleElementEdit radTetra10HEdit;
+        g_pModelViewSDI->CreateElement(radTetra10HEdit, "/TETRA10", elemCache.elemId);
+        
+        for(int j = 0; j < 4; j++)
+            tetra10Nodes[j] = elemCache.cornerNodes[j];
+        for(int j = 0; j < 6; j++)
+            tetra10Nodes[j+4] = createdMidNodeIds[elemCache.midNodeIndices[j]];
+        
+        radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("node_ID"), 
+                                 sdiValue(sdiValueEntityList(radnodeType, tetra10Nodes)));
+        radTetra10HEdit.SetValue(g_pModelViewSDI, sdiIdentifier("part_ID"), 
+                                 sdiValue(sdiValueEntity(radPartType, elemCache.partId)));
+    }
+    
+    // Phase 4: Delete original TETRA4 elements
+
+    SelectionElementEdit tetElementsDel(g_pModelViewSDI, "/TETRA4");
+    std::unordered_set<int> deleteSet(elementsToDelete.begin(), elementsToDelete.end());
+    while(tetElementsDel.Next())
+    {
+        if(deleteSet.count(tetElementsDel->GetId()))
+        {
+            tetElementsDel->SetId(0);
+        }
+    }
+   }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// In case /PART with Irigid=1 create /RBODY and put part nodes in it
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalEntitySDIConvertRigidPartToRbody(int *NewRbodyToPart, int *NewRbodyId)
+{
+    SelectionRead selPart(g_pModelViewSDI, "/PART");
+    EntityType radPartType = g_pModelViewSDI->GetEntityType("/PART");
+    int cpt = 0;
+    
+
+    while(selPart.Next())
+    {
+        HandleRead include = selPart->GetInclude();
+        g_pModelViewSDI->SetCurrentCollector(include);
+
+        bool found = false;
+        unsigned int partId = selPart->GetId();
+
+        // Get Irigid value in /PART
+        int Irigid = 0;
+        sdiValue tempValInt(Irigid);
+        found = selPart->GetValue(sdiIdentifier("Irigid"), tempValInt);
+        if(found) tempValInt.GetValue(Irigid);
+        
+        // Check if part uses /MAT/RIGID
+        int Imatrigid = 0;
+        HandleRead matHread;
+        selPart->GetEntityHandle(sdiIdentifier("materialid"), matHread);
+            
+        if(matHread.IsValid())
+        {
+            EntityRead matRead(g_pModelViewSDI, matHread);
+            const sdiString& matKeyword = matRead.GetKeyword();
+            size_t pos = matKeyword.find("/MAT/LAW13");
+            if(matKeyword.find("/MAT/RIGID") != sdiString::npos || 
+               (pos != sdiString::npos && (pos + 10 >= matKeyword.length() || !isdigit(matKeyword[pos + 10])))) {
+                Imatrigid = 1;
+            }
+        }
+
+        // Create /RBODY if Irigid=1 or if material is rigid, and put all part nodes in it as independent node set
+        if(Irigid == 1|| Imatrigid == 1)
+        {            
+            // Create RBODY
+            HandleEdit rbodyHEdit;
+            g_pModelViewSDI->CreateEntity(rbodyHEdit, "/RBODY", "/RBODY Automatically generated from /PART Id: "+ std::to_string(selPart->GetId()) + " title: " + selPart->GetName() , 0);
+            EntityEdit rbodyEdit(g_pModelViewSDI, rbodyHEdit);
+            
+            // Create Set of part 
+            HandleEdit NodePartSetHedit;
+            g_pModelViewSDI->CreateEntity(NodePartSetHedit, "/SET/GENERAL", "Rigid Part:" + std::to_string(partId));
+            NodePartSetHedit.SetValue(g_pModelViewSDI,sdiIdentifier("clausesmax"), sdiValue(1));
+            NodePartSetHedit.SetValue(g_pModelViewSDI,sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("PART")));
+            NodePartSetHedit.SetValue(g_pModelViewSDI,sdiIdentifier("idsmax", 0, 0), sdiValue(1));
+            NodePartSetHedit.SetValue(g_pModelViewSDI,sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntity(radPartType, partId)));
+            
+
+            // Set the created set as independent node set
+            EntityType radSetType = g_pModelViewSDI->GetEntityType("/SET");
+            unsigned int setId = NodePartSetHedit.GetId(g_pModelViewSDI);
+            rbodyEdit.SetValue(sdiIdentifier("dependentnodeset"), sdiValue(sdiValueEntity(radSetType, setId)));
+ 
+            sdiValue tempVal;
+            bool found = selPart->GetValue(sdiIdentifier("Node_ID"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("node_ID"), tempVal); 
+            found = selPart->GetValue(sdiIdentifier("Skew_ID"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Skew_ID"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Mass"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Mass"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Sens_ID"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("sens_ID"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jxx"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jxx"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jyy"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jyy"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jzz"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jzz"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jxy"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jxy"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jyz"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jyz"), tempVal);
+            found = selPart->GetValue(sdiIdentifier("Jxz"), tempVal);
+            if(found) rbodyEdit.SetValue(sdiIdentifier("Jxz"), tempVal);
+
+            
+
+            NewRbodyToPart[cpt] = partId;
+            NewRbodyId[cpt] = rbodyHEdit.GetId(g_pModelViewSDI);
+            cpt = cpt + 1;
+        }
+        // If Irigid=2, create one /RBODY per connected component of the part, and put nodes of each component in the corresponding /RBODY as independent node set
+        if (Irigid == 2)
+        {
+            // Get all nodes and elements from the part
+            SelectionElementRead elemSelection(*selPart);
+            std::set<unsigned int> allPartNodes;
+            std::map<unsigned int, unsigned int> nodeIdToIndex;
+            std::map<unsigned int, unsigned int> indexToNodeId;
+            std::vector<std::vector<unsigned int>> elementConnectivity;
+            std::vector<unsigned int> elementIds;
+            
+            // Collect all nodes and elements
+            unsigned int nodeIndex = 0;
+            while(elemSelection.Next())
+            {
+                sdiUIntList nodeIds;
+                elemSelection->GetNodeIds(nodeIds);
+                elementIds.push_back(elemSelection->GetId());
+                
+                std::vector<unsigned int> elemNodes;
+                for(unsigned int nodeId : nodeIds)
+                {
+                    if(allPartNodes.find(nodeId) == allPartNodes.end())
+                    {
+                        allPartNodes.insert(nodeId);
+                        nodeIdToIndex[nodeId] = nodeIndex;
+                        indexToNodeId[nodeIndex] = nodeId;
+                        nodeIndex++;
+                    }
+                    elemNodes.push_back(nodeIdToIndex[nodeId]);
+                }
+                elementConnectivity.push_back(elemNodes);
+            }
+            
+            unsigned int NodesNumber = allPartNodes.size();
+            unsigned int ElementsNumber = elementConnectivity.size();
+            
+            if(NodesNumber > 0 && ElementsNumber > 0)
+            {
+                // Build adjacency graph
+                std::vector<std::set<unsigned int>> adjacencyGraph(NodesNumber);
+                
+                for(const auto& element : elementConnectivity)
+                {
+                    for(size_t i = 0; i < element.size(); i++)
+                    {
+                        for(size_t j = i + 1; j < element.size(); j++)
+                        {
+                            unsigned int node1 = element[i];
+                            unsigned int node2 = element[j];
+                            adjacencyGraph[node1].insert(node2);
+                            adjacencyGraph[node2].insert(node1);
+                        }
+                    }
+                }
+                
+                // Find connected components using DFS
+                std::vector<bool> visited(NodesNumber, false);
+                std::vector<std::vector<unsigned int>> components;
+                
+                for(unsigned int i = 0; i < NodesNumber; i++)
+                {
+                    if(!visited[i])
+                    {
+                        std::vector<unsigned int> component;
+                        std::stack<unsigned int> stack;
+                        stack.push(i);
+                        
+                        while(!stack.empty())
+                        {
+                            unsigned int currentNode = stack.top();
+                            stack.pop();
+                            
+                            if(visited[currentNode]) continue;
+                            
+                            visited[currentNode] = true;
+                            component.push_back(currentNode);
+                            
+                            for(unsigned int neighbor : adjacencyGraph[currentNode])
+                            {
+                                if(!visited[neighbor])
+                                {
+                                    stack.push(neighbor);
+                                }
+                            }
+                        }
+                        
+                        components.push_back(component);
+                    }
+                }
+                
+                // Create one RBODY per connected component
+                EntityType radSetType = g_pModelViewSDI->GetEntityType("/SET");
+                EntityType radNodeType = g_pModelViewSDI->GetEntityType("/NODE");
+                
+                for(size_t i = 0; i < components.size(); i++)
+                {
+                    if(!components[i].empty())
+                    {
+                        // Create RBODY
+                        HandleEdit rbodyHEdit;
+                        g_pModelViewSDI->CreateEntity(rbodyHEdit, "/RBODY", 
+                            "/RBODY Automatically generated from /PART Id: " + std::to_string(partId) + 
+                            " component: " + std::to_string(i+1) + "/" + std::to_string(components.size()), 0);
+                        EntityEdit rbodyEdit(g_pModelViewSDI, rbodyHEdit);
+                        
+                        // Create Set with nodes
+                        HandleEdit NodePartSetHedit;
+                        g_pModelViewSDI->CreateEntity(NodePartSetHedit, "/SET/GENERAL", 
+                            "Rigid Part:" + std::to_string(partId) + " Component:" + std::to_string(i+1));
+                        NodePartSetHedit.SetValue(g_pModelViewSDI, sdiIdentifier("clausesmax"), sdiValue(1));
+                        NodePartSetHedit.SetValue(g_pModelViewSDI, sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("NODE")));
+                        NodePartSetHedit.SetValue(g_pModelViewSDI, sdiIdentifier("idsmax", 0, 0), sdiValue((int)components[i].size()));
+                        
+                        for(size_t j = 0; j < components[i].size(); j++)
+                        {
+                            unsigned int nodeId = indexToNodeId[components[i][j]];
+                            NodePartSetHedit.SetValue(g_pModelViewSDI, sdiIdentifier("ids", 0, j), 
+                                sdiValue(sdiValueEntity(radNodeType, nodeId)));
+                        }
+                        
+                        unsigned int setId = NodePartSetHedit.GetId(g_pModelViewSDI);
+                        rbodyEdit.SetValue(sdiIdentifier("dependentnodeset"), sdiValue(sdiValueEntity(radSetType, setId)));
+                        
+                        NewRbodyToPart[cpt] = partId;
+                        NewRbodyId[cpt] = rbodyHEdit.GetId(g_pModelViewSDI);
+                        cpt = cpt + 1;
+                    }
+                }
+            }
+        }
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Evaluate connected components for all parts in the model
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void GlobalModelSDIEvaluateAllPartsConnectedComponents(int *nbComponentsPerPart)
+{
+        
+    // Second pass: evaluate connected components for each part
+    SelectionRead selPart(g_pModelViewSDI, "/PART");
+    int partIndex = 0;
+    
+    while(selPart.Next())
+    {
+        unsigned int partId = selPart->GetId();
+        SelectionElementRead elemSelection(*selPart);
+        
+        // Get Irigid value in /PART
+        int Irigid = 0;
+        sdiValue tempValInt(Irigid);
+        bool found = selPart->GetValue(sdiIdentifier("Irigid"), tempValInt);
+        if(found) tempValInt.GetValue(Irigid);
+        // Check if part uses /MAT/RIGID
+        int Imatrigid = 0;
+        HandleRead matHread;
+        selPart->GetEntityHandle(sdiIdentifier("materialid"), matHread);
+            
+        if(matHread.IsValid())
+        {
+            EntityRead matRead(g_pModelViewSDI, matHread);
+            const sdiString& matKeyword = matRead.GetKeyword();
+            size_t pos = matKeyword.find("/MAT/LAW13");
+            if(matKeyword.find("/MAT/RIGID") != sdiString::npos || 
+               (pos != sdiString::npos && (pos + 10 >= matKeyword.length() || !isdigit(matKeyword[pos + 10])))) {
+                Imatrigid = 1;
+            }
+        }
+
+        if(Irigid == 1 || Imatrigid == 1)
+        {
+            nbComponentsPerPart[partIndex] = 1;
+            partIndex++;
+        }
+        else if(Irigid == 0)
+        {
+            nbComponentsPerPart[partIndex] = 0;
+            partIndex++;
+        }
+        else if(Irigid == 2)
+        {
+        
+          std::set<unsigned int> allPartNodes;
+          std::map<unsigned int, unsigned int> nodeIdToIndex;
+          std::vector<std::vector<unsigned int>> elementConnectivity;
+        
+        // Collect all nodes and elements
+          unsigned int nodeIndex = 0;
+          while(elemSelection.Next())
+          {
+              sdiUIntList nodeIds;
+              elemSelection->GetNodeIds(nodeIds);
+            
+              std::vector<unsigned int> elemNodes;
+              for(unsigned int nodeId : nodeIds)
+              {
+                  if(allPartNodes.find(nodeId) == allPartNodes.end())
+                  {
+                      allPartNodes.insert(nodeId);
+                      nodeIdToIndex[nodeId] = nodeIndex;
+                      nodeIndex++;
+                  }
+                  elemNodes.push_back(nodeIdToIndex[nodeId]);
+              }
+              elementConnectivity.push_back(elemNodes);
+          }
+        
+          unsigned int NodesNumber = allPartNodes.size();
+        
+          if(NodesNumber == 0 || elementConnectivity.empty())
+          {
+              (nbComponentsPerPart)[partIndex] = 0;
+              partIndex++;
+              continue;
+          }
+        
+          // Build adjacency graph
+          std::vector<std::set<unsigned int>> adjacencyGraph(NodesNumber);
+          
+          for(const auto& element : elementConnectivity)
+          {
+              for(size_t i = 0; i < element.size(); i++)
+              {
+                  for(size_t j = i + 1; j < element.size(); j++)
+                  {
+                      unsigned int node1 = element[i];
+                      unsigned int node2 = element[j];
+                      adjacencyGraph[node1].insert(node2);
+                      adjacencyGraph[node2].insert(node1);
+                  }
+              }
+          }
+          
+          // Find connected components using DFS
+          std::vector<bool> visited(NodesNumber, false);
+          int componentCount = 0;
+          
+          for(unsigned int i = 0; i < NodesNumber; i++)
+          {
+              if(!visited[i])
+              {
+                  componentCount++;
+                  std::stack<unsigned int> stack;
+                  stack.push(i);
+                  
+                  while(!stack.empty())
+                  {
+                      unsigned int currentNode = stack.top();
+                      stack.pop();
+                      
+                      if(visited[currentNode]) continue;
+                      
+                      visited[currentNode] = true;
+                      
+                      for(unsigned int neighbor : adjacencyGraph[currentNode])
+                      {
+                          if(!visited[neighbor])
+                          {
+                              stack.push(neighbor);
+                          }
+                      }
+                  }
+              }
+          }
+          
+          (nbComponentsPerPart)[partIndex] = componentCount;
+          partIndex++;
         }
     }
 }

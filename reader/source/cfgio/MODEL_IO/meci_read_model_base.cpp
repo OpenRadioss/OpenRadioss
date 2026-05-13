@@ -42,6 +42,7 @@
 #include "mec_component.h"
 #include "mec_subdeck.h"
 #include "mec_read_file_factory_t.h"
+#include "hw_cfg_reader.h"  // Add this include
 #define MAIN_COMPONENT_TITLE "Main" 
 
 typedef vector<MECReadFile *>     LocFileVect_t;       
@@ -93,6 +94,9 @@ myFileFactoryPtr(factory_p)
     PushComponent(aComponent_p);
     myReadingStatus = READ_STATUS_UNKNOWN;
     if(!myFileFactoryPtr) myFileFactoryPtr = make_shared<ReadFILEFactory>();
+    
+    // Initialize the folder path to preobject map
+    myFolderPathToPreObjectMap.clear();
 }
 MECIReadModelBase::MECIReadModelBase(MECReadFile *file,int buffer_nb_chars,int line_nb_chars,
                                      const ReadFileFactorySP& factory_p) :
@@ -125,6 +129,9 @@ myFileFactoryPtr(factory_p)
     if(!myFileFactoryPtr) myFileFactoryPtr = make_shared<ReadFILEFactory>();
 
     updateFile(file);  
+    
+    // Initialize the folder path to preobject map
+    myFolderPathToPreObjectMap.clear();
 }
 MECIReadModelBase::~MECIReadModelBase() {
     //
@@ -417,17 +424,17 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
             if (headerdata->pdescrp && (!title_p || (title_p && title_p[0] == '\0')))
             {
                 // no other possibility found, so generate a default title
-            string title = headerdata->pdescrp->getKeyword();
-            MYOBJ_INT id = preobj_lst[i]->GetId();
-            if (0 < id && title != "")
-            {
-                title = title + string("_") + std::to_string(id);
+                string title = headerdata->pdescrp->getKeyword();
+                MYOBJ_INT id = preobj_lst[i]->GetId();
+                if (0 < id && title != "")
+                {
+                    title = title + string("_") + std::to_string(id);
+                }
+                if (title != "")
+                {
+                    preobj_lst[i]->SetTitle(title.c_str());
+                }
             }
-            if (title != "")
-            {
-                preobj_lst[i]->SetTitle(title.c_str());
-            }
-        }
 
         if (headerdata->obj_type == HCDI_OBJ_TYPE_CARDS)
         {
@@ -463,6 +470,25 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
         }
     }
     }
+
+    if ( headerdata && headerdata->obj_type == HCDI_OBJ_TYPE_INCLUDES && preobj_lst.size())
+    {
+        string folderpath_skey = GetAttribNameFromDrawable(headerdata->pdescrp, cdr::g_AttribFolderpath);
+        
+        for (int i = 0; i < preobj_lst.size(); i++)
+        {
+            IMECPreObject* pobj = preobj_lst[i];
+            const char* component_name1 = pobj->GetStringValue(folderpath_skey.c_str());
+            if(component_name1 && component_name1[0] != '\0')
+            {
+                std::string folderPath(component_name1);
+                // Store only in the map, no need for the vector
+                myFolderPathToPreObjectMap[folderPath] = pobj;
+            }
+        }
+    }
+
+
     if (a_preobj && headerdata && headerdata->obj_type == HCDI_OBJ_TYPE_ENCRYPTIONS)
     {
         //need to get keyid, ndata, data from DRAWABLES
@@ -577,10 +603,15 @@ void MECIReadModelBase::closeFile()
     if(a_cur_file!=NULL)
         a_cur_file->close();
     // pop file in stack
-    PopFile();
 
-    
+    a_cur_file = PopFile();
     MECSubdeck::PopSubDeck();
+    if (a_cur_file != NULL)
+    {
+        myUnreadPositionPtr->SetLine(getCurrentLine());
+        myUnreadPositionPtr->SetLocation(GetCurrentLocation());
+        myUnReadFileIndex = GetCurrentFileIndex();
+    }
 }
 
 bool MECIReadModelBase::eof() const {
@@ -598,42 +629,32 @@ int MECIReadModelBase::getNbCurrentFiles() const {
     return (int)(a_cur_files.size());
 }
 
-MECReadFile *MECIReadModelBase::GetCurrentFilePtr() const { 
-    
-    int current_index = GetCurrentFileIndex();
-    LocFileVect_t &a_cur_file_vect=(*((LocFileVect_t*)myFileVectPtr));
-    if(current_index<a_cur_file_vect.size())
-        return a_cur_file_vect[current_index];
-    return NULL;
-    
+// Replace raw pointer casts with safer alternatives
+MECReadFile* MECIReadModelBase::GetCurrentFilePtr() const {
+    const int current_index = GetCurrentFileIndex();
+    const auto& file_vector = *static_cast<const LocFileVect_t*>(myFileVectPtr);
+
+    if (current_index >= 0 && current_index < static_cast<int>(file_vector.size())) {
+        return file_vector[current_index];
+    }
+    return nullptr;
 }
 
-const char *MECIReadModelBase::getCurrentFullName() const {
-    
-    MECReadFile          *a_cur_file_p = GetCurrentFilePtr();
-    if(a_cur_file_p!=NULL)
-        return a_cur_file_p->GetFullName();
-    return("");
-    
+const char* MECIReadModelBase::getCurrentFullName() const  {
+    const MECReadFile* current_file = GetCurrentFilePtr();
+    return current_file ? current_file->GetFullName() : "";
 }
 
-
-_HC_LONG MECIReadModelBase::GetCurrentLocation() const {
-
-    MECReadFile          *a_cur_file_p = GetCurrentFilePtr();
-    if(a_cur_file_p!=NULL)
-        return a_cur_file_p->GetCurrentLocation();
-    return -1;
+_HC_LONG MECIReadModelBase::GetCurrentLocation() const  {
+    const MECReadFile* current_file = GetCurrentFilePtr();
+    return current_file ? current_file->GetCurrentLocation() : -1;
 }
 
 
-_HC_LONG MECIReadModelBase::getCurrentLine() const {
-    
-    MECReadFile          *a_cur_file_p = GetCurrentFilePtr();
-    if(a_cur_file_p!=NULL)
-        return a_cur_file_p->GetCurrentLine();
-    return (unsigned long)(-1); //to avoid to redeclare MAXINT
-    
+
+_HC_LONG MECIReadModelBase::getCurrentLine() const  {
+    const MECReadFile* current_file = GetCurrentFilePtr();
+    return current_file ? current_file->GetCurrentLine() : static_cast<_HC_LONG>(-1);
 }
 
 
@@ -928,6 +949,10 @@ int MECIReadModelBase::getCurrentSubdeckIndex()
 
 void MECIReadModelBase::PushFile(MECReadFile* a_read_file)
 {
+    if (!a_read_file) {
+        displayMessage(MSG_ERROR, "Attempting to push null file pointer");
+        return;
+    }
     // insert the file in myFileVectPtr
     LocFileVect_t &a_cur_file_vect=(*((LocFileVect_t*)myFileVectPtr));
     a_cur_file_vect.push_back(a_read_file);
@@ -1135,7 +1160,8 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                 break;
             // Managing comments and include files
             char *a_full_name=NULL;
-            char *a_relative_name=NULL;  //RAR#MGEN_DEV_2006_171#24_09_2006
+            char *a_relative_name=NULL;   
+            char* a_incl_folder_path = NULL;
             killBlanksNLEnd(myLineBuffer);
             bool  a_is_include = false;
             bool is_component = false;
@@ -1144,7 +1170,7 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
             {
                 if (!mySkipIncludeReading)
                 {
-                    a_is_include = IsIncludedFile(myLineBuffer, &a_full_name, &a_relative_name);  //RAR#MGEN_DEV_2006_171#24_09_2006
+                    a_is_include = IsIncludedFile(myLineBuffer, &a_full_name, &a_relative_name, &a_incl_folder_path);  
                     is_component = IsComponent(myLineBuffer);
                 }
             }
@@ -1166,6 +1192,23 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                             {
                                 string filemname_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribFileName);
                                 preobj->AddStringValue(filemname_skey.c_str(), a_relative_name);
+
+                                if (a_incl_folder_path)
+                                {
+                                    string folderrel_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribFolderpath);
+                                    
+                                    // Find the preobject corresponding to the relative path
+                                    IMECPreObject* folderPreObj = FindPreObjectByPath(std::string(a_incl_folder_path));
+                                    if (folderPreObj && folderPreObj->GetId() > 0)
+                                    {
+                                        preobj->AddObjectValue(folderrel_skey.c_str(), "", folderPreObj->GetId());
+                                    }
+                                    else
+                                    {
+                                        // Fallback: add empty object value if preobject not found
+                                        preobj->AddObjectValue(folderrel_skey.c_str(), "", "");
+                                    }
+                                }
                             }
                         }
                     }
@@ -1224,6 +1267,7 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                 a_cur_file_p->SetVersion(fformat);//
                 myfree(a_full_name);
                 myfree(a_relative_name);
+                myfree(a_incl_folder_path);
                 //RAR#MGEN_DEV_2006_171#24_09_2006 (END)
                 a_continue=true;
             }
@@ -1666,4 +1710,39 @@ void SplitArrayToSingleObjects(MECIModelFactory* model_p, const IDescriptor* des
             }
         }
     }
+}
+
+IMECPreObject* MECIReadModelBase::FindPreObjectByPath(const std::string& folderPath) const
+{
+    auto it = myFolderPathToPreObjectMap.find(folderPath);
+    if (it != myFolderPathToPreObjectMap.end())
+    {
+        return it->second;
+    }
+    
+    // If exact match not found, try to find a partial match
+    // This handles cases where the path might have slight variations
+    for (const auto& pathPreObjPair : myFolderPathToPreObjectMap)
+    {
+        if (pathPreObjPair.first.find(folderPath) != std::string::npos ||
+            folderPath.find(pathPreObjPair.first) != std::string::npos)
+        {
+            return pathPreObjPair.second;
+        }
+    }
+    
+    return nullptr; // Return nullptr if no matching preobject found
+}
+
+std::vector<std::string> MECIReadModelBase::GetFolderPaths() const
+{
+    std::vector<std::string> paths;
+    paths.reserve(myFolderPathToPreObjectMap.size());
+    
+    for (const auto& pathPreObjPair : myFolderPathToPreObjectMap)
+    {
+        paths.push_back(pathPreObjPair.first);
+    }
+    
+    return paths;
 }

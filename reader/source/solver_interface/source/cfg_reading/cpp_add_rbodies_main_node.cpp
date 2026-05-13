@@ -37,7 +37,7 @@ CDECL void cpp_add_rbody_main_node_(int *addedNodeId)
     GlobalEntitySDIRbodiesCreateMainNode(addedNodeId);
 }
 
-CDECL void CPP_ADD_RBODY_MAIN_NODE(int *addedNodeId)
+CDECL void CPP_ADD_RBODY_main_NODE(int *addedNodeId)
 {cpp_add_rbody_main_node_ (addedNodeId);}
 
 CDECL void cpp_add_rbody_main_node__(int *addedNodeId)

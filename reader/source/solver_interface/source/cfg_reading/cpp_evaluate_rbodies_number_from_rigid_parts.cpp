@@ -20,28 +20,30 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
-#ifndef CDR_RESERVEATTRIBS_H
-#define CDR_RESERVEATTRIBS_H
+
+#include "GlobalModelSDI.h"
 
 #include <stdio.h>
 #include <string.h>
+#include <dll_settings.h>
 
-namespace cdr
+using namespace std;
+
+extern "C" 
 {
-    const std::string g_AttribParamName =            "_PARAM_NAME";
-    const std::string g_AttribParamValueInteger =    "_PARAM_VALUE_INT";
-    const std::string g_AttribParamValueDouble =     "_PARAM_VALUE_DOUBLE";
-    const std::string g_AttribParamValueString =     "_PARAM_VALUE_STRING";
-    const std::string g_AttribParamScope =           "_PARAM_SCOPE";
-    const std::string g_AttribParamType =            "_PARAM_TYPE";
-    const std::string g_AttribParamExpression =      "_PARAM_EXPRESSION";
-    const std::string g_AttribFileName =             "_FILENAME";
-    const std::string g_AttribFullFileName =         "_FULLFILENAME";
-    const std::string g_AttribFormatType =           "_FORMATTYPE";
-    const std::string g_AttribFileVersion =          "_FILEVERSION";
-    const std::string g_AttribSplitArrayToSingle =   "_SPLIT_ARRAY_TO_SINGLE";
-    const std::string g_AttribFolderpath  =          "_INCLUDE_FOLDERPATH";
-};
 
+CDECL void cpp_evaluate_rbodies_number_from_rigid_parts_(int *nbComponentsPerPart)
+{
+    GlobalModelSDIEvaluateAllPartsConnectedComponents(nbComponentsPerPart);
+}
 
-#endif 
+CDECL void CPP_EVALUATE_RBODIES_NUMBER_FROM_RIGID_PARTS(int *nbComponentsPerPart)
+{cpp_evaluate_rbodies_number_from_rigid_parts_(nbComponentsPerPart);}
+
+CDECL void cpp_evaluate_rbodies_number_from_rigid_parts__(int *nbComponentsPerPart)
+{cpp_evaluate_rbodies_number_from_rigid_parts_(nbComponentsPerPart);}
+
+CDECL void cpp_evaluate_rbodies_number_from_rigid_parts(int *nbComponentsPerPart)
+{cpp_evaluate_rbodies_number_from_rigid_parts_(nbComponentsPerPart);}
+
+}
