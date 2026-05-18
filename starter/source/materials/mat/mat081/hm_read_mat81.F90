@@ -62,6 +62,7 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -229,8 +230,8 @@
           matparam%rezon%num_nuvar_mat = 1
 !
           !< Allocation of material parameters tables
-          allocate (matparam%iparam(matparam%niparam))
-          allocate (matparam%uparam(matparam%nuparam))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
 !
           !< Integer material parameter
           matparam%iparam(1)  = soft_flag

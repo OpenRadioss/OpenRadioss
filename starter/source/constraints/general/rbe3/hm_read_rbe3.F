@@ -125,9 +125,9 @@ C=======================================================================
 ! 2) incompatibility kin
 ! 3) avoid too much added mass : 2 conditions 1)Is>0 2)rR>?
 ! rbe3_mod is used from engine, ini is done in resol_init,internal arrays of pen are added in restart 
-      CALL MY_ALLOC(IKINE1,3*NUMNOD)
-      CALL MY_ALLOC(ISKEW0,SLRBE3/2)
-      CALL MY_ALLOC(WI,6,NUMNOD)
+      CALL MY_ALLOC(IKINE1,3*NUMNOD,"IKINE1")
+      CALL MY_ALLOC(ISKEW0,SLRBE3/2,"ISKEW0")
+      CALL MY_ALLOC(WI,6,NUMNOD,"WI")
 c
       WRITE(IOUT,1000)
 CC
@@ -343,9 +343,9 @@ c        WRITE(IOUT,1103)
       ENDDO
       IF (NSPMD==1) LXINTD = 0
 C
-      DEALLOCATE(IKINE1)
-      DEALLOCATE(ISKEW0)
-      DEALLOCATE(WI)
+      CALL MY_DEALLOC(IKINE1)
+      CALL MY_DEALLOC(ISKEW0)
+      CALL MY_DEALLOC(WI)
       RETURN
 C
  1000 FORMAT(//
@@ -1627,7 +1627,7 @@ C
       my_real FCOPY(SLRBE3*3)
 C========================================================================|
 C-----only one level of hierarchy is allowed
-      CALL MY_ALLOC(ITAG,NUMNOD)
+      CALL MY_ALLOC(ITAG,NUMNOD,"ITAG")
       ITAG(1:NUMNOD)=0
       DO I=1,NRBE3
        NS = IRBE3(3,I)
@@ -1798,8 +1798,7 @@ C----- re-ordering
         ENDDO
       END IF
 C
-      DEALLOCATE(ITAG)
+      CALL MY_DEALLOC(ITAG)
       RETURN
       END SUBROUTINE HIREORBE3
 C========================================================================|
-

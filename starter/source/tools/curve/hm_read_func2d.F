@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +81,8 @@ C-----------------------------------------------.
 
          CALL HM_GET_INTV('FUNC_size', NPT, IS_AVAILABLE, LSUBMODEL)
          FUNC2D(KK)%NPT = NPT
-         ALLOCATE(FUNC2D(KK)%XVAL(2, NPT), FUNC2D(KK)%FVAL(DIM, NPT))
+         call my_alloc(FUNC2D(KK)%XVAL, 2, NPT, "FUNC2D(KK)%XVAL")
+         call my_alloc(FUNC2D(KK)%FVAL, DIM, NPT, "FUNC2D(KK)%FVAL")
 
          SELECT CASE (DIM)
          CASE(1)

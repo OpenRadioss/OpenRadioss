@@ -56,6 +56,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
+      use my_dealloc_mod, only : my_dealloc
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
@@ -159,7 +160,7 @@ C=======================================================================
       IT6 = 0
       IT7 = 0
       TITR1='ELEMENT GROUP'
-      ALLOCATE(BUFTMP(MAX(NUMEL*5,NPART)),STAT=stat)
+      call my_alloc(BUFTMP, MAX(NUMEL*5,NPART), "BUFTMP", stat=stat)
         IF (STAT /= 0) THEN
           CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='BUFTMP')
         ENDIF
@@ -292,7 +293,7 @@ C-------------------------------------
                 IF(FLAG == 0)THEN
                   CALL GROUPS_GET_NENTITY(NEL,LSUBMODEL)
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   
@@ -304,7 +305,7 @@ C-------------------------------------
                         IGRELEM(IGS)%ENTITY(NN) = JJ
                       ENDIF
                   ENDDO! NEXT KK
-                  IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
+                  IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
                   
                   IF ( NUMEL == 0 ) IGRELEM(IGS)%NENTITY = 0
                   NEL = IGRELEM(IGS)%NENTITY
@@ -342,7 +343,7 @@ C-------------------------------------
      .                         KK       ,NEL     ,ELKEY  ,IGRELEM(IGS)%ID,TITR,LSUBMODEL)
                   KK=1
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   NEL = IGRELEM(IGS)%NENTITY
@@ -409,7 +410,7 @@ C-------------------------
                     IF (BUFTMP(J) == 1) NEL=NEL+1
                   ENDDO!next J
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -432,7 +433,7 @@ C-------------------------
                     END IF
                   ENDDO!next J
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -471,10 +472,10 @@ C-------------------------
 C---
 C
         IF (FLAG == 0) THEN
-          ALLOCATE(BUFBOX(1))
+          call my_alloc(BUFBOX, 1, "BUFBOX")
           BUFBOX = 0
         ELSEIF (FLAG == 1) THEN
-          ALLOCATE(BUFBOX(IADBOXMAX))
+          call my_alloc(BUFBOX, IADBOXMAX, "BUFBOX")
           BUFBOX(1:IADBOXMAX) = 0
         ENDIF
 !
@@ -519,7 +520,7 @@ C---
              IADBOXMAX = MAX(IADBOX,IADBOXMAX)
               IF(FLAG == 0)THEN
                 IGRELEM(IGS)%NENTITY=NEL
-                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                 IGRELEM(IGS)%ENTITY = 0
               ELSE IF(FLAG == 1)THEN
                 IGRELEM(IGS)%NENTITY=NEL
@@ -528,7 +529,7 @@ C---
 
 
         ENDDO
-        IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
+        IF(ALLOCATED(BUFBOX))CALL MY_DEALLOC(BUFBOX)
       ENDIF ! IF(IT6 /= 0)
 C-------------------------
 C groups of subsets, share, mat, prop
@@ -558,7 +559,7 @@ C---
                     IF (BUFTMP(IPARTE(J)) == 1) NEL=NEL+1
                   ENDDO
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -580,7 +581,7 @@ C---
                     END IF
                   ENDDO
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -626,7 +627,7 @@ C-------------------------
      .             NN      ,IGS     )
               IF (FLAG == 0) THEN
                 IGRELEM(IGS)%NENTITY=NEL
-                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                 IGRELEM(IGS)%ENTITY = 0
               ENDIF
             ENDIF
@@ -672,7 +673,7 @@ C-------------------------
                     IF (BUFTMP(J) == 1) NEL=NEL+1
                   ENDDO
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -695,7 +696,7 @@ C-------------------------
                     END IF
                   ENDDO
                   IGRELEM(IGS)%NENTITY=NEL
-                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                  CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
                   DO J=1,NUMEL
@@ -717,7 +718,7 @@ C-------------------------
         ENDDO!next I
       ENDIF
 C------------------------------ 
-      IF (ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
+      IF (ALLOCATED(BUFTMP)) CALL MY_DEALLOC(BUFTMP)
 C------------------------------
       RETURN
       END

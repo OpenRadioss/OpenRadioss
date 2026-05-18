@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,11 +114,11 @@ C
 
       ENDDO
 C------
-      ALLOCATE(LIST  (5*NLIST),STAT=IERROR)
+      call my_alloc(LIST, 5*NLIST, "LIST", stat=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='LIST')     
-      ALLOCATE(INDEXL(10*NLIST),STAT=IERROR)
+      call my_alloc(INDEXL, 10*NLIST, "INDEXL", stat=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='INDEXL')     
@@ -276,8 +277,8 @@ C
         ENDIF
       ENDDO
 
-      DEALLOCATE(LIST)
-      DEALLOCATE(INDEXL)
+      CALL MY_DEALLOC(LIST)
+      CALL MY_DEALLOC(INDEXL)
 
 C-----------------------------------------------
 C     3-NODE SHELLS
@@ -314,11 +315,11 @@ C
       ENDDO
 
 C------
-      ALLOCATE(LIST(5*NLIST),STAT=IERROR)
+      call my_alloc(LIST, 5*NLIST, "LIST", stat=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='LIST')     
-      ALLOCATE(INDEXL(10*NLIST),STAT=IERROR)
+      call my_alloc(INDEXL, 10*NLIST, "INDEXL", stat=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='INDEXL')     
@@ -483,8 +484,8 @@ C
 
       ENDDO
 
-      DEALLOCATE(LIST)
-      DEALLOCATE(INDEXL)
+      CALL MY_DEALLOC(LIST)
+      CALL MY_DEALLOC(INDEXL)
 
       RETURN
       END

@@ -105,9 +105,11 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -337,8 +339,10 @@ C
          ENDDO
       ENDIF
 C
-      IF (NFVTR>0)
-     .   ALLOCATE(FVEL2FA(NFVTR), FVINUM(NFVTR))
+      IF (NFVTR>0) THEN
+         call my_alloc(FVEL2FA, NFVTR, "FVEL2FA")
+         call my_alloc(FVINUM, NFVTR, "FVINUM")
+      ENDIF
 C
 C-----------------------------------------------
 C   WRITE CONTROL
@@ -529,7 +533,7 @@ C
       IF (IFVANI==1) THEN
          ELOFF=0
          DO I=1,NFVBAG
-            ALLOCATE(ITAGT(FVDATA(I)%NNTR))
+            call my_alloc(ITAGT, FVDATA(I)%NNTR, "ITAGT")
             DO J=1,FVDATA(I)%NNTR
                ITAGT(J)=0
             ENDDO
@@ -567,7 +571,7 @@ C
                ENDDO
             ENDDO
             ELOFF=ELOFF+FVDATA(I)%NNTR
-            DEALLOCATE(ITAGT)
+            CALL MY_DEALLOC(ITAGT)
          ENDDO
       ENDIF
 C-----------------------------------------------
@@ -580,7 +584,7 @@ C
       ENDDO
 C
       IF (IFVANI==1) THEN
-         ALLOCATE(OFFTR(NFVTR))
+         call my_alloc(OFFTR, NFVTR, "OFFTR")
          DO I=1,NFVTR
             OFFTR(I)=0
          ENDDO
@@ -610,7 +614,7 @@ C
          ENDDO
 C
          CALL WRITE_C_C(OFFTR,NFVTR)
-         DEALLOCATE(OFFTR)
+         CALL MY_DEALLOC(OFFTR)
       ENDIF
 C-----------------------------------------------
 C   PART ADD
@@ -638,7 +642,7 @@ C
       IF (IFVANI==1) THEN
          FVIAD=NELCUT+NBF+NESCT+NERWL+NESRG+NESMD1
          DO I=1,NFVBAG
-            ALLOCATE(ITAGT(FVDATA(I)%NNTR))
+            call my_alloc(ITAGT, FVDATA(I)%NNTR, "ITAGT")
             DO J=1,FVDATA(I)%NNTR
                ITAGT(J)=0
             ENDDO
@@ -659,7 +663,7 @@ C
                CALL WRITE_I_C(FVIAD,1)
             ENDDO
 C
-            DEALLOCATE(ITAGT)
+            CALL MY_DEALLOC(ITAGT)
          ENDDO
       ENDIF
 C-----------------------------------------------
@@ -1127,7 +1131,8 @@ C--------------------
          DO I=1,NFVTR
             CALL WRITE_I_C(IDCMAX+FVINUM(I),1)
          ENDDO
-         DEALLOCATE(FVEL2FA, FVINUM)
+         call my_dealloc(FVEL2FA)
+         call my_dealloc(FVINUM)
       ENDIF
 C-----------------------------------------------
 C   HIERARCHY

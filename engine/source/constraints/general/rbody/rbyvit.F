@@ -42,6 +42,8 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -72,10 +74,10 @@ C     REAL
 C-----------------------------------------------
 !$OMP SINGLE
        IF(NRBFAIL /= 0 .AND. NSPMD > 1)THEN
-         ALLOCATE(CRIT(NRBYKIN))
+         call my_alloc(CRIT, NRBYKIN, "CRIT")
          CRIT(1:NRBYKIN) = ZERO
        ELSE
-         ALLOCATE(CRIT(0))
+         call my_alloc(CRIT, 0, "CRIT")
        END IF
 !$OMP END SINGLE
 !      
@@ -175,7 +177,7 @@ C
           RBY(30,N) = CRIT(N)
         ENDDO
       END IF
-      DEALLOCATE(CRIT)
+      call my_dealloc(CRIT)
 !$OMP END SINGLE
 C
       RETURN

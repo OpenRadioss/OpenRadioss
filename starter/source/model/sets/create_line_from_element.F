@@ -69,9 +69,9 @@ C=======================================================================
       IF (SZELMAX == 0) RETURN
 !
       LINE_NENTITY = 4 ! NOD1, NOD2, ELTYP, ELEM
-      ALLOCATE(BUFTMPLINE(SZELMAX*LINE_NENTITY))
-      ALLOCATE(ITRI(3,SZELMAX))
-      ALLOCATE(INDEX(2*SZELMAX))
+      call my_alloc(BUFTMPLINE, SZELMAX*LINE_NENTITY, "BUFTMPLINE")
+      call my_alloc(ITRI, 3, SZELMAX, "ITRI")
+      call my_alloc(INDEX, 2*SZELMAX, "INDEX")
 !
       IAD_LINE = 1
 !------------------
@@ -104,7 +104,7 @@ C=======================================================================
 ! ----------------------------------------------------------------------------
       IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
         DELBUF%SZ_LINE = NSEG
-        ALLOCATE(DELBUF%LINE(NSEG,4))
+        call my_alloc(DELBUF%LINE, NSEG, 4, "DELBUF%LINE")
         DO I=1,NSEG
           DELBUF%LINE(I,1) = BUFTMPLINE((INDEX(I)-1)*NIX+1)
           DELBUF%LINE(I,2) = BUFTMPLINE((INDEX(I)-1)*NIX+2)
@@ -112,14 +112,14 @@ C=======================================================================
           DELBUF%LINE(I,4) = BUFTMPLINE((INDEX(I)-1)*NIX+4)
         ENDDO
       ELSE
-        IF(ALLOCATED( CLAUSE%LINE_NODES )) DEALLOCATE( CLAUSE%LINE_NODES )
-        IF(ALLOCATED( CLAUSE%LINE_ELTYP )) DEALLOCATE( CLAUSE%LINE_ELTYP )
-        IF(ALLOCATED( CLAUSE%LINE_ELEM ))  DEALLOCATE( CLAUSE%LINE_ELEM )
+        IF(ALLOCATED( CLAUSE%LINE_NODES )) CALL MY_DEALLOC(CLAUSE%LINE_NODES)
+        IF(ALLOCATED( CLAUSE%LINE_ELTYP )) CALL MY_DEALLOC(CLAUSE%LINE_ELTYP)
+        IF(ALLOCATED( CLAUSE%LINE_ELEM ))  CALL MY_DEALLOC(CLAUSE%LINE_ELEM)
 !
         CLAUSE%NB_LINE_SEG = NSEG
-        CALL MY_ALLOC(CLAUSE%LINE_NODES,NSEG,2)
-        CALL MY_ALLOC(CLAUSE%LINE_ELTYP,NSEG)
-        CALL MY_ALLOC(CLAUSE%LINE_ELEM,NSEG)
+        CALL MY_ALLOC(CLAUSE%LINE_NODES,NSEG,2,"CLAUSE%LINE_NODES")
+        CALL MY_ALLOC(CLAUSE%LINE_ELTYP,NSEG,"CLAUSE%LINE_ELTYP")
+        CALL MY_ALLOC(CLAUSE%LINE_ELEM,NSEG,"CLAUSE%LINE_ELEM")
 !
         DO I=1,NSEG
           CLAUSE%LINE_NODES(I,1) = BUFTMPLINE((INDEX(I)-1)*NIX+1)
@@ -129,9 +129,9 @@ C=======================================================================
         ENDDO
       ENDIF ! IF (GO_IN_ARRAY .EQV. .TRUE.)
 !------------------
-      IF(ALLOCATED(ITRI))       DEALLOCATE(ITRI)
-      IF(ALLOCATED(INDEX))      DEALLOCATE(INDEX)
-      IF(ALLOCATED(BUFTMPLINE)) DEALLOCATE(BUFTMPLINE)
+      IF(ALLOCATED(ITRI))       CALL MY_DEALLOC(ITRI)
+      IF(ALLOCATED(INDEX))      CALL MY_DEALLOC(INDEX)
+      IF(ALLOCATED(BUFTMPLINE)) CALL MY_DEALLOC(BUFTMPLINE)
 !------------------
 !-----------
       RETURN

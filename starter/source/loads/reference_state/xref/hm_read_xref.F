@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,8 +106,11 @@ C-----------------------------------------------
       INTEGER USR2SYS,R2R_SYS
 C=======================================================================
       IS_AVAILABLE = .FALSE.
-      ALLOCATE(TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS),TAGNOD(NUMNOD))
-      ALLOCATE(XTMP(3,NUMNOD))
+      call my_alloc(TAGELC, NUMELC, "TAGELC")
+      call my_alloc(TAGELTG, NUMELTG, "TAGELTG")
+      call my_alloc(TAGELS, NUMELS, "TAGELS")
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
+      call my_alloc(XTMP, 3, NUMNOD, "XTMP")
 
 C
       DO IE=1,NUMELC                          
@@ -250,11 +254,14 @@ C
 C
           ! Read nodes new coordinates
           CALL HM_GET_INTV('refnodesmax',NNOD,IS_AVAILABLE,LSUBMODEL)  
-          IF (ALLOCATED(ID)) DEALLOCATE(ID)
-          IF (ALLOCATED(XX)) DEALLOCATE(XX)
-          IF (ALLOCATED(YY)) DEALLOCATE(YY)
-          IF (ALLOCATED(ZZ)) DEALLOCATE(ZZ)
-          ALLOCATE(XX(NNOD),YY(NNOD),ZZ(NNOD),ID(NNOD))
+          IF (ALLOCATED(ID)) CALL MY_DEALLOC(ID)
+          IF (ALLOCATED(XX)) CALL MY_DEALLOC(XX)
+          IF (ALLOCATED(YY)) CALL MY_DEALLOC(YY)
+          IF (ALLOCATED(ZZ)) CALL MY_DEALLOC(ZZ)
+          call my_alloc(XX, NNOD, "XX")
+          call my_alloc(YY, NNOD, "YY")
+          call my_alloc(ZZ, NNOD, "ZZ")
+          call my_alloc(ID, NNOD, "ID")
 C          
           ! Loop over nodes
           DO J = 1,NNOD
@@ -324,13 +331,16 @@ C
       END DO
 C
       ! Table deallocation
-      IF (ALLOCATED(ID)) DEALLOCATE(ID)
-      IF (ALLOCATED(XX)) DEALLOCATE(XX)
-      IF (ALLOCATED(YY)) DEALLOCATE(YY)
-      IF (ALLOCATED(ZZ)) DEALLOCATE(ZZ)
+      IF (ALLOCATED(ID)) CALL MY_DEALLOC(ID)
+      IF (ALLOCATED(XX)) CALL MY_DEALLOC(XX)
+      IF (ALLOCATED(YY)) CALL MY_DEALLOC(YY)
+      IF (ALLOCATED(ZZ)) CALL MY_DEALLOC(ZZ)
 C-----------
-      DEALLOCATE(TAGELC,TAGELTG,TAGELS,TAGNOD)
-      DEALLOCATE(XTMP)
+      CALL MY_DEALLOC(TAGELC)
+      CALL MY_DEALLOC(TAGELTG)
+      CALL MY_DEALLOC(TAGELS)
+      CALL MY_DEALLOC(TAGNOD)
+      CALL MY_DEALLOC(XTMP)
 
       RETURN
  1000 FORMAT(//

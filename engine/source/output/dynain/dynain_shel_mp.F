@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -85,13 +87,13 @@ C--------------------------------------------------------
 C-----------------------
 C    Allocation Tabs
 C-----------------------
-      ALLOCATE(NPC(8*NUMELC),STAT=IERR)
-      ALLOCATE(NPTG(7*NUMELTG),STAT=IERR)
-      ALLOCATE(CLEF(2,MAX(NUMELC,NUMELTG)),STAT=IERR)
-      ALLOCATE(THKC(NUMELC),STAT=IERR)
-      ALLOCATE(THKTG(NUMELTG),STAT=IERR)
-      ALLOCATE(BETAC(NUMELC),STAT=IERR)
-      ALLOCATE(BETATG(NUMELTG),STAT=IERR)
+      call my_alloc(NPC, 8*NUMELC, "NPC", stat=IERR)
+      call my_alloc(NPTG, 7*NUMELTG, "NPTG", stat=IERR)
+      call my_alloc(CLEF, 2, MAX(NUMELC,NUMELTG), "CLEF", stat=IERR)
+      call my_alloc(THKC, NUMELC, "THKC", stat=IERR)
+      call my_alloc(THKTG, NUMELTG, "THKTG", stat=IERR)
+      call my_alloc(BETAC, NUMELC, "BETAC", stat=IERR)
+      call my_alloc(BETATG, NUMELTG, "BETATG", stat=IERR)
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -397,7 +399,13 @@ C--------- Orthotropic elements ------------
 C-----------------------
 C    DEAllocation Tabs
 C-----------------------
-       DEALLOCATE(NPC,NPTG,CLEF,THKC,THKTG,BETAC,BETATG)
+       call my_dealloc(NPC)
+       call my_dealloc(NPTG)
+       call my_dealloc(CLEF)
+       call my_dealloc(THKC)
+       call my_dealloc(THKTG)
+       call my_dealloc(BETAC)
+       call my_dealloc(BETATG)
 C-----------------------------------------------
 
       RETURN

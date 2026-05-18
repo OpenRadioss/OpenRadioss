@@ -48,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -87,22 +88,22 @@ C-----------------------------------------------
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THK0   ! ISPMD=0 : Shell & Triangle Thicknesses after gather.
       TYPE(G_BUFEL_)  ,POINTER :: GBUF   
 C-----------------------------------------------
-      CALL MY_ALLOC(NP,MAX(7*NUMELC,6*NUMELTG))
-      CALL MY_ALLOC(NPGLOB,MAX(7*LENGC,6*LENGTG))
-      CALL MY_ALLOC(CLEF,2,MAX(NUMELCG,NUMELTGG))
-      CALL MY_ALLOC(IADG,NSPMD,NPART)
-      CALL MY_ALLOC(IADD,NPART+1)
+      call my_alloc(NP, MAX(7*NUMELC,6*NUMELTG), "NP")
+      call my_alloc(NPGLOB, MAX(7*LENGC,6*LENGTG), "NPGLOB")
+      call my_alloc(CLEF, 2, MAX(NUMELCG,NUMELTGG), "CLEF")
+      call my_alloc(IADG, NSPMD, NPART, "IADG")
+      call my_alloc(IADD, NPART+1, "IADD")
 C-----------------------------------------------
 C INITIALIZATION
 C-----------------------------------------------
       THK_LEN = MAX(1,MAX(NUMELC,NUMELTG))
-      ALLOCATE(THK(THK_LEN))
+      call my_alloc(THK, THK_LEN, "THK")
       IF (ISPMD == 0) THEN
             THK0_LEN = MAX(1,MAX(NUMELCG,NUMELTGG))
       ELSE
             THK0_LEN=1
       ENDIF
-      ALLOCATE(THK0(THK0_LEN))
+      call my_alloc(THK0, THK0_LEN, "THK0")
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -276,13 +277,13 @@ C-----
         END DO
       ENDIF
 
-      DEALLOCATE(THK)
-      DEALLOCATE(THK0)
-      DEALLOCATE(NP)
-      DEALLOCATE(NPGLOB)
-      DEALLOCATE(CLEF)
-      DEALLOCATE(IADG)
-      DEALLOCATE(IADD)
+      call my_dealloc(THK)
+      call my_dealloc(THK0)
+      call my_dealloc(NP)
+      call my_dealloc(NPGLOB)
+      call my_dealloc(CLEF)
+      call my_dealloc(IADG)
+      call my_dealloc(IADD)
 C-----------------------------------------------
       RETURN
       END

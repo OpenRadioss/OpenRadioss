@@ -40,6 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -119,8 +120,10 @@ C
      . MONVOL(KIA1), MONVOL(KIA2), MONVOL(KIA3), MONVOL(KIA4),
      . MONVOL(KIA5), MONVOL(KIA6), IXS,          NNS         )
 C
-            DEALLOCATE(FVDATA(IFV)%BRIC, FVDATA(IFV)%TBRIC,
-     .                 FVDATA(IFV)%XB,   FVDATA(IFV)%SFAC )
+            call my_dealloc(FVDATA(IFV)%BRIC)
+            call my_dealloc(FVDATA(IFV)%TBRIC)
+            call my_dealloc(FVDATA(IFV)%XB)
+            call my_dealloc(FVDATA(IFV)%SFAC)
           ENDIF
          ENDIF
          K1=K1+NIMV

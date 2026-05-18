@@ -529,6 +529,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -604,8 +606,10 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
         ENDDO  
       ENDIF
       NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
-      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+      call my_alloc(MATLY, MVSIZ*NLAY_MAX, "MATLY")
+      call my_alloc(THKLY, MVSIZ*NLAY_MAX*LAYNPT_MAX, "THKLY")
+      call my_alloc(POSLY, MVSIZ, NLAY_MAX*LAYNPT_MAX, "POSLY")
+      call my_alloc(THK_LY, NEL, NLAY_MAX*LAYNPT_MAX, "THK_LY")
       IF (IGTYP == 11 .OR. IGTYP == 17 ) THEN
            CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
      .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
@@ -979,7 +983,10 @@ C-----------
               ENDIF ! igmat + igtyp == 11
         ENDIF !IF (MTN==19)
       ENDIF    ! IF (IORTH==1) THEN
-      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
+      call my_dealloc(MATLY)
+      call my_dealloc(THKLY)
+      call my_dealloc(POSLY)
+      call my_dealloc(THK_LY)
 C
       RETURN
       END

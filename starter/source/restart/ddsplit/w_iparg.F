@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -49,7 +51,7 @@ C-----------------------------------------------
 C
 ! ---------------------
 !     allocate 2d array
-      ALLOCATE( IPARG_L(NPARG,NGROUP_L) )
+      call my_alloc(IPARG_L, NPARG, NGROUP_L, "IPARG_L")
 ! ---------------------
       NG_L = 0
       NFT_LOC = 0
@@ -87,7 +89,7 @@ C
 C
 ! ---------------------
 !     deallocate 2d array
-      DEALLOCATE( IPARG_L )
+      call my_dealloc(IPARG_L)
 ! ---------------------
       RETURN
       END

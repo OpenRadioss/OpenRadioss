@@ -51,6 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -150,10 +152,10 @@ C --------------------------------
       DATA IK2 /2,3,4,1/
 C-----------------------------------------------
       IF(ITASK == 0)THEN
-        ALLOCATE(NEXT_NOD(NSN+NSNR))
-        ALLOCATE(IIX(NSN+NSNR))
-        ALLOCATE(IIY(NSN+NSNR))
-        ALLOCATE(IIZ(NSN+NSNR))
+        call my_alloc(NEXT_NOD, NSN+NSNR, "NEXT_NOD")
+        call my_alloc(IIX, NSN+NSNR, "IIX")
+        call my_alloc(IIY, NSN+NSNR, "IIY")
+        call my_alloc(IIZ, NSN+NSNR, "IIZ")
       END IF
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
@@ -556,10 +558,10 @@ C=======================================================================
 C
       CALL MY_BARRIER()
       IF(ITASK == 0)THEN
-        DEALLOCATE(NEXT_NOD)
-        DEALLOCATE(IIX)
-        DEALLOCATE(IIY)
-        DEALLOCATE(IIZ)
+        call my_dealloc(NEXT_NOD)
+        call my_dealloc(IIX)
+        call my_dealloc(IIY)
+        call my_dealloc(IIZ)
       ENDIF
 
       RETURN

@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -114,7 +115,7 @@ C
       my_real, DIMENSION(:)  , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
       my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
 C-----------------------------------------------
-      CALL MY_ALLOC(WA,3*NBF_L)
+      call my_alloc(WA, 3*NBF_L, "WA")
 !
       DO J=1,18
         R4(J) = ZERO
@@ -152,8 +153,8 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
           JJ(I) = NEL*(I-1)
         ENDDO
 !
-        IF (ALLOCATED(SIGE)) DEALLOCATE(SIGE)
-        ALLOCATE(SIGE(NEL,3))
+        IF (ALLOCATED(SIGE)) call my_dealloc(SIGE)
+        call my_alloc(SIGE, NEL, 3, "SIGE")
         SIGE(1:NEL,1:3) = ZERO
 !
         IF (MLW /= 13) THEN
@@ -226,10 +227,10 @@ C
             IXFEM = 0 
             IXLAY = 0 
             NLAY_MAX = MAX(NLAY,NPT)
-            ALLOCATE(MATLY(MVSIZ*NLAY_MAX))
-            ALLOCATE(THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX))
-            ALLOCATE(POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX))
-            ALLOCATE(THK_LY(NEL ,NLAY_MAX*LAYNPT_MAX))
+            call my_alloc(MATLY, MVSIZ*NLAY_MAX, "MATLY")
+            call my_alloc(THKLY, MVSIZ*NLAY_MAX*LAYNPT_MAX, "THKLY")
+            call my_alloc(POSLY, MVSIZ, NLAY_MAX*LAYNPT_MAX, "POSLY")
+            call my_alloc(THK_LY, NEL, NLAY_MAX*LAYNPT_MAX, "THK_LY")
             MATLY(:) = 0
             THKLY(:) = ZERO
             POSLY(:,:)  = ZERO
@@ -1431,10 +1432,10 @@ c------------------------------------
           ENDIF   ! IF (MLW /= 13)
         ENDIF    ! IF(ITY == 2)
 c
-        IF(ALLOCATED(MATLY))  DEALLOCATE(MATLY)
-        IF(ALLOCATED(THKLY))  DEALLOCATE(THKLY)
-        IF(ALLOCATED(POSLY))  DEALLOCATE(POSLY)
-        IF(ALLOCATED(THK_LY)) DEALLOCATE(THK_LY)
+        IF(ALLOCATED(MATLY)) call my_dealloc(MATLY)
+        IF(ALLOCATED(THKLY)) call my_dealloc(THKLY)
+        IF(ALLOCATED(POSLY)) call my_dealloc(POSLY)
+        IF(ALLOCATED(THK_LY)) call my_dealloc(THK_LY)
 C-----------------------------------------------
  490  CONTINUE   ! NGROUP
 C-----------------------------------------------
@@ -1472,7 +1473,7 @@ C   check the usefulness of what is done above !!!!!!!!!!!!!!
         ENDIF
       ENDIF
 C
-      DEALLOCATE(WA)
+      call my_dealloc(WA)
       RETURN
       END
 !||====================================================================

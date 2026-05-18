@@ -26,7 +26,7 @@
 !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
 !||====================================================================
       module hm_read_mat127_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /MAT/LAW127
@@ -62,6 +62,7 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
           !-----------------------------------------------
           !   I m p l i c i t   T y p e sXM
           !-----------------------------------------------
@@ -258,8 +259,8 @@
           matparam%nuparam = 49
           matparam%niparam  = 3
 
-          allocate (matparam%uparam(matparam%nuparam))
-          allocate (matparam%iparam(matparam%niparam))
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
 
           ! number of functions
           nfunc   = 5

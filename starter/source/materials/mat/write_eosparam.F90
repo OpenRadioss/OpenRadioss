@@ -40,6 +40,7 @@
         USE EOS_PARAM_MOD
         USE NAMES_AND_TITLES_MOD
         USE PRECISION_MOD, ONLY : WP
+        use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +64,7 @@
 
         !INTEGER parameter
         NFIX = 6
-        ALLOCATE (IBUF(NFIX + 1))
+        call my_alloc(IBUF, NFIX + 1, "IBUF")
         IAD = 1
         IBUF(IAD) = NFIX
         IAD = IAD+1
@@ -80,12 +81,12 @@
         IBUF(IAD) = EOS%EOSTYPE
         IAD = IAD+1
         CALL WRITE_I_C(IBUF,NFIX+1)
-        DEALLOCATE(IBUF)
+        CALL MY_DEALLOC(IBUF)
 
         !REAL parameter
         NFIX = 6
-        ALLOCATE (RBUF(NFIX))
-        ALLOCATE(IBUF(1))
+        call my_alloc(RBUF, NFIX, "RBUF")
+        call my_alloc(IBUF, 1, "IBUF")
         IBUF(1)=NFIX
         IAD = 1
         RBUF(IAD) = EOS%CV
@@ -99,10 +100,10 @@
         RBUF(IAD) = EOS%P0
         IAD = IAD+1
         RBUF(IAD) = EOS%PMIN
-        IAD = IAD+1                        
+        IAD = IAD+1
         CALL WRITE_I_C(IBUF,1)
         CALL WRITE_DB(RBUF,NFIX)
-        DEALLOCATE(RBUF)
+        CALL MY_DEALLOC(RBUF)
 
         ! write eos model title
         DO I=1,NCHARTITLE

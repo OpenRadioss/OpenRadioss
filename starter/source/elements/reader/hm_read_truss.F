@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixt
+      use my_alloc_mod
 C---------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,7 +111,7 @@ C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_TRUSS(NUMELT),STAT=stat)
+      call my_alloc(SUB_TRUSS, NUMELT, "SUB_TRUSS", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_TRUSS') 
@@ -160,7 +161,7 @@ C--------------------------------------------------
             CALL ANODSET(IXT(J,I), CHECK_TRUSS)             
           ENDDO
         ENDDO
-      IF(ALLOCATED(SUB_TRUSS)) DEALLOCATE(SUB_TRUSS)
+      IF(ALLOCATED(SUB_TRUSS)) CALL MY_DEALLOC(SUB_TRUSS)
 C-----------
       CALL ANCMSG(MSGID=402,                 
      .            MSGTYPE=MSGERROR,         

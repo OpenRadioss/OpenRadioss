@@ -44,6 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -102,7 +103,7 @@ C-----------------------------------------------
                 INTER_STRUCT(NIN)%I_SK_OLD = INTBUF_TAB(NIN)%I_STOK(1)
     
                 IF( INTER_STRUCT(NIN)%SIZE_CAND_A<NSN+NSNROLD+3) THEN
-                    IF(ALLOCATED(INTER_STRUCT(NIN)%CAND_A)) DEALLOCATE(INTER_STRUCT(NIN)%CAND_A)
+                    IF(ALLOCATED(INTER_STRUCT(NIN)%CAND_A)) call my_dealloc(INTER_STRUCT(NIN)%CAND_A)
                     ALLOCATE(INTER_STRUCT(NIN)%CAND_A(NSN+NSNROLD+3) )
                     INTER_STRUCT(NIN)%SIZE_CAND_A=NSN+NSNROLD+3
                 ENDIF

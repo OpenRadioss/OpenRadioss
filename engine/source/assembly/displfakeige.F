@@ -39,6 +39,8 @@ C-----------------------------------------------
 C-------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -95,7 +97,9 @@ c
           PY = IGEO(42,IPID)
           PZ = IGEO(43,IPID)
 
-          ALLOCATE (KNOTLOCX(PX+1,NCTRL),KNOTLOCY(PY+1,NCTRL),KNOTLOCZ(PZ+1,NCTRL))
+          call my_alloc(KNOTLOCX, PX+1, NCTRL, "KNOTLOCX")
+          call my_alloc(KNOTLOCY, PY+1, NCTRL, "KNOTLOCY")
+          call my_alloc(KNOTLOCZ, PZ+1, NCTRL, "KNOTLOCZ")
 
           DO J=1,NCTRL
             X_IGEO(J)=X(1,IXIG3D(KXIG3D(4,JS)+J-1))
@@ -175,7 +179,9 @@ c           print*,'R', R(J)
          INTBUF_TAB(N)%VIGE(3*(I-1)+1)=VXI
          INTBUF_TAB(N)%VIGE(3*(I-1)+2)=VYI
          INTBUF_TAB(N)%VIGE(3*(I-1)+3)=VZI
-         DEALLOCATE (KNOTLOCX,KNOTLOCY,KNOTLOCZ)
+         call my_dealloc(KNOTLOCX)
+         call my_dealloc(KNOTLOCY)
+         call my_dealloc(KNOTLOCZ)
          ENDDO
       ENDDO
 C

@@ -35,6 +35,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SETDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,9 +59,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE:: IDX,SORT
 C=======================================================================
 !
-      ALLOCATE(TAGNOD(NUMNOD))
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
       TAGNOD(:) = 0
-      ALLOCATE(CLAUSE_NODE(NUMNOD))
+      call my_alloc(CLAUSE_NODE, NUMNOD, "CLAUSE_NODE")
 
       IND=0
 !
@@ -72,16 +73,16 @@ C=======================================================================
 C-----------
       LIMIT = NUMNOD/2
       IF (IND < LIMIT)THEN     ! cheaper to use Order on small node groups
-        ALLOCATE(IDX(2*IND))
-        ALLOCATE(SORT(IND))
+        call my_alloc(IDX, 2*IND, "IDX")
+        call my_alloc(SORT, IND, "SORT")
         SORT(1:IND) = CLAUSE_NODE(1:IND)
         CALL MY_ORDERS(0,IWORK,SORT,IDX,IND,1)
 
         DO I=1,IND
           CLAUSE_NODE(I) = SORT(IDX(I))
         ENDDO
-        DEALLOCATE(IDX)
-        DEALLOCATE(SORT)
+        CALL MY_DEALLOC(IDX)
+        CALL MY_DEALLOC(SORT)
       ELSE
        IND = 0
        DO I=1,NUMNOD
@@ -97,12 +98,12 @@ C-----------
 ! Example : Clause with delete clause. Nodes must be recreated & merged...
 ! ----------------------------------------------------------------------------
       CLAUSE%NB_NODE = IND
-      IF(ALLOCATED( CLAUSE%NODE )) DEALLOCATE( CLAUSE%NODE )
-      ALLOCATE( CLAUSE%NODE(IND) )
+      IF(ALLOCATED( CLAUSE%NODE )) CALL MY_DEALLOC(CLAUSE%NODE)
+      call my_alloc(CLAUSE%NODE, IND, "CLAUSE%NODE")
       CLAUSE%NODE(1:IND) = CLAUSE_NODE(1:IND)
 C-----------
-      DEALLOCATE(TAGNOD)
-      DEALLOCATE(CLAUSE_NODE)
+      CALL MY_DEALLOC(TAGNOD)
+      CALL MY_DEALLOC(CLAUSE_NODE)
 C-----------
       RETURN
       END

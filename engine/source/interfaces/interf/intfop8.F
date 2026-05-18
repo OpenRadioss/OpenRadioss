@@ -55,6 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -170,7 +172,7 @@ c        IF(ISPMD/=0) GOTO 200 !TO REMOVE
            IF(STARTT<=TT .AND. TT<= STOPT) THEN
              IF(IPARI(48,N) == 2) THEN
                NSLV = IPARI(5,N)         
-               ALLOCATE(FTSAV_BUF(3,NSLV))
+               call my_alloc(FTSAV_BUF, 3, NSLV, "FTSAV_BUF")
                FTSAV_BUF(1:3,1:NSLV) = 0
                DO I = 1, NSLV
                  FTSAV_BUF(1,I) = INTBUF_TAB(N)%FTSAVX(I) 
@@ -184,7 +186,7 @@ c        IF(ISPMD/=0) GOTO 200 !TO REMOVE
                  INTBUF_TAB(N)%FTSAVY(I) = FTSAV_BUF(2,I)
                  INTBUF_TAB(N)%FTSAVZ(I) = FTSAV_BUF(3,I)
                ENDDO
-               DEALLOCATE(FTSAV_BUF)
+               call my_dealloc(FTSAV_BUF)
              ENDIF
            ENDIF
          ENDIF

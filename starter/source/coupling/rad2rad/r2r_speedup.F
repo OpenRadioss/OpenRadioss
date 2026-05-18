@@ -199,7 +199,7 @@ C
       DTFAC1(:) = DTFAC
       NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
      .      +NUMELX+NUMSPH+NUMELIG3D
-      CALL MY_ALLOC( PERM,NUMEL+1)
+      CALL MY_ALLOC( PERM,NUMEL+1," PERM")
   
 C-----------------------------------------------
 C     Computation of index in dtelem for each type of elements
@@ -451,7 +451,7 @@ C
 C
       DT = MIN(DT,DTMAX)
 
-      DEALLOCATE( PERM )
+      CALL MY_DEALLOC(PERM)
                    
 C------------------------------------------- 
       RETURN

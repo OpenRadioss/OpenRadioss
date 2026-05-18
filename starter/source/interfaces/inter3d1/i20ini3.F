@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only :nixs,nixc,nixtg,nixt,nixp,nixr
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,7 +185,7 @@ C
       ISYM  = IPARI(43)
       DRAD = ZERO
 
-      ALLOCATE(TAG(NUMNOD))
+      call my_alloc(TAG, NUMNOD, "TAG")
       TAG(1:NUMNOD)=0
 
       CALL I7ERR3(
@@ -280,7 +281,7 @@ c   IGAP/= 0 for solids (gap = 0)
 c----------------------------------------------------
 c      IF(ICURV==3.or.IGAP/=0)THEN
       IF(IGAP/=0)THEN
-        ALLOCATE(SOLIDN_NORMAL (3,NUMNOD))
+        call my_alloc(SOLIDN_NORMAL, 3, NUMNOD, "SOLIDN_NORMAL")
         CALL I20NORM(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,SOLIDN_NORMAL,
      .         IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG,INTBUF_TAB%GAP_SH)
       ENDIF
@@ -544,11 +545,11 @@ c replace global node by local node in NSV,IRECT,NSVE,LINE...
 
 c      IF(ICURV==3.OR.IADM/=.OR.IGAP/=0)THEN
       IF(IGAP/=0)THEN
-          DEALLOCATE(SOLIDN_NORMAL)
+          CALL MY_DEALLOC(SOLIDN_NORMAL)
       END IF
 
       IWPENTOT = IWPENE + IWPENEDGE
-      DEALLOCATE(TAG)
+      CALL MY_DEALLOC(TAG)
 C-----------
       RETURN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

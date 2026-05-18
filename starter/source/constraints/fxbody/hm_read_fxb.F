@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,10 +106,10 @@ C
       ENDDO
 C
       IF (LENNOD > 0) THEN
-        ALLOCATE(TABSL(2,LENNOD))
-        ALLOCATE(INDEX(3*LENNOD))
-        ALLOCATE(ITAG_DOF(6,SIZE_MAX))
-        ALLOCATE(ITAG(NUMNOD))
+        call my_alloc(TABSL, 2, LENNOD, "TABSL")
+        call my_alloc(INDEX, 3*LENNOD, "INDEX")
+        call my_alloc(ITAG_DOF, 6, SIZE_MAX, "ITAG_DOF")
+        call my_alloc(ITAG, NUMNOD, "ITAG")
         ITAG(1:NUMNOD) = 0
         ITAG_DOF(1:6,1:SIZE_MAX) = 0
         TABSL = 0
@@ -441,7 +442,10 @@ C-------------------------------------
       END IF
 C
 C
-      DEALLOCATE(TABSL,INDEX,ITAG_DOF,ITAG)
+      CALL MY_DEALLOC(TABSL)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(ITAG_DOF)
+      CALL MY_DEALLOC(ITAG)
 C
       RETURN
 1000  CALL ANCMSG(MSGID=565,

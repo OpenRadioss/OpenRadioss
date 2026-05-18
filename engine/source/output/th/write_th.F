@@ -35,6 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -73,7 +75,7 @@ C-----------------------------------------------
 !$ENDCOMMENT
 
 !       allocation + initialization of local array
-        ALLOCATE( WA_LOCAL(NN*NVAR) )
+        call my_alloc(WA_LOCAL, NN*NVAR, "WA_LOCAL")
         WA_LOCAL(1:NN*NVAR) = ZERO
 
 
@@ -111,7 +113,7 @@ C-----------------------------------------------
 !       write the data
         CALL WRTDES(WA_LOCAL,WA_LOCAL,NN*NVAR,ITTYP,1)
 !       deallocation
-        DEALLOCATE( WA_LOCAL )
+        call my_dealloc(WA_LOCAL)
 
 !       ----------------------------------------
         RETURN

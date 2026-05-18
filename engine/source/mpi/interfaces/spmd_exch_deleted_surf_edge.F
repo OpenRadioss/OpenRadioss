@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE SHOOTING_NODE_MOD
         USE INTBUFDEF_MOD 
         use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,7 +200,7 @@ C-----------------------------------------------
      .           2 * REMOTE_SURF_PER_PROC(2,I-1)
             SIZE_BUFFER_R = SIZE_BUFFER_R + 4*REMOTE_SURF_PER_PROC(1,I) + 2*REMOTE_SURF_PER_PROC(2,I)
         ENDDO
-        ALLOCATE( BUFFER_R( SIZE_BUFFER_R ) )
+        call my_alloc(BUFFER_R, SIZE_BUFFER_R, "BUFFER_R")
         ! ----------------
 
         ! ----------------

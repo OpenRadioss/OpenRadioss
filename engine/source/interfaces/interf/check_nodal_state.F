@@ -38,6 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -71,7 +73,7 @@ C-----------------------------------------------
         FIRST = 1 + ITASK * (NUMNOD / NTHREAD)
         LAST = (ITASK + 1) * (NUMNOD / NTHREAD)
         IF(ITASK+1==NTHREAD) LAST = NUMNOD
-        ALLOCATE( LOCAL_INDEX_SECONDARY_NODE( LAST-FIRST+1 ) )
+        call my_alloc(LOCAL_INDEX_SECONDARY_NODE, LAST-FIRST+1, "LOCAL_INDEX_SECONDARY_NODE")
         ! --------------------------
         ! find the deactivated nodes 
         DO I=FIRST,LAST
@@ -97,7 +99,7 @@ C-----------------------------------------------
             ENDDO        
         ENDDO
         ! --------------------------
-        DEALLOCATE( LOCAL_INDEX_SECONDARY_NODE )
+        call my_dealloc(LOCAL_INDEX_SECONDARY_NODE)
 
         RETURN
         END SUBROUTINE CHECK_NODAL_STATE

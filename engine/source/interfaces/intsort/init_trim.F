@@ -37,10 +37,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
       INTEGER, INTENT(IN) :: NINTER 
-        ALLOCATE(TO_TRIM(NINTER))
-        ALLOCATE(FIRST_TEST(NINTER))
+        call my_alloc(TO_TRIM, NINTER, "TO_TRIM")
+        call my_alloc(FIRST_TEST, NINTER, "FIRST_TEST")
         TO_TRIM(1:NINTER) = .TRUE.
         FIRST_TEST(1:NINTER) = .TRUE.
       END

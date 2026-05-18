@@ -165,6 +165,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -196,17 +198,17 @@ C-----------------------------------------------
 
 
       IF(NSPMD > 0) THEN
-        ALLOCATE(SENDBUF(SIZE_METRIC * NBINTC))
+        call my_alloc(SENDBUF, SIZE_METRIC * NBINTC, "SENDBUF")
         SENDBUF(1:SIZE_METRIC*NBINTC) = 0
         IF(ISPMD == 0) THEN
-          ALLOCATE(RECVBUF(SIZE_METRIC*NBINTC,NSPMD))
+          call my_alloc(RECVBUF, SIZE_METRIC*NBINTC, NSPMD, "RECVBUF")
           RECVBUF(1:SIZE_METRIC*NBINTC,1:NSPMD) = 0
-          ALLOCATE(RATIO(NBINTC))
-          ALLOCATE(SUMMARY(SIZE_METRIC,3,NBINTC))
+          call my_alloc(RATIO, NBINTC, "RATIO")
+          call my_alloc(SUMMARY, SIZE_METRIC, 3, NBINTC, "SUMMARY")
         ELSE
-          ALLOCATE(RECVBUF(1,1))
-          ALLOCATE(RATIO(1))
-          ALLOCATE(SUMMARY(1,1,1))
+          call my_alloc(RECVBUF, 1, 1, "RECVBUF")
+          call my_alloc(RATIO, 1, "RATIO")
+          call my_alloc(SUMMARY, 1, 1, 1, "SUMMARY")
         ENDIF
        
         DO I = 1,NBINTC
@@ -300,6 +302,9 @@ C ===========  MAX OVER PROCESSORS
       ENDIF
 
 
-      DEALLOCATE(RATIO,SENDBUF,RECVBUF,SUMMARY)
+      call my_dealloc(RATIO)
+      call my_dealloc(SENDBUF)
+      call my_dealloc(RECVBUF)
+      call my_dealloc(SUMMARY)
       RETURN
       END SUBROUTINE

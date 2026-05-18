@@ -62,6 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -328,9 +330,9 @@ C-----for   NBINFLG
 
       JDEB = 0
       IF(ITYP==25)THEN
-        ALLOCATE(ITAGNSNFI(NUMNOD),STAT=IERROR)
+        call my_alloc(ITAGNSNFI, NUMNOD, "ITAGNSNFI", stat=IERROR)
         ITAGNSNFI(1:NUMNOD) = 0
-        ALLOCATE(INDEX_EDGE(NEDGE),STAT=IERROR)
+        call my_alloc(INDEX_EDGE, NEDGE, "INDEX_EDGE", stat=IERROR)
         INDEX_EDGE(1:NEDGE) = 0 
       END IF
     
@@ -949,8 +951,8 @@ C reset
       ENDIF       
 C
       IF(ITYP==25) THEN
-        DEALLOCATE(ITAGNSNFI)
-        DEALLOCATE(INDEX_EDGE) 
+        call my_dealloc(ITAGNSNFI)
+        call my_dealloc(INDEX_EDGE)
       ENDIF
 C
 C   reception of xrem data
@@ -991,23 +993,23 @@ C Allocate total size
 C
 
        IF(NSNR > 0 .OR. NEDGE_REMOTE > 0 ) THEN
-          ALLOCATE(XREM(RSIZ,NSNR),STAT=IERROR)
+          call my_alloc(XREM, RSIZ, NSNR, "XREM", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
-          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)   
+          call my_alloc(IREM, ISIZ, NSNR, "IREM", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
           IF(IEDGE /= 0) THEN
-            ALLOCATE(IREM_EDGE(E_IBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)   
+            call my_alloc(IREM_EDGE, E_IBUF_SIZE, NEDGE_REMOTE, "IREM_EDGE", stat=IERROR)
             IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            ALLOCATE(XREM_EDGE(E_RBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)   
+            call my_alloc(XREM_EDGE, E_RBUF_SIZE, NEDGE_REMOTE, "XREM_EDGE", stat=IERROR)
             IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -1089,15 +1091,15 @@ C
               CALL SPMD_WAIT(REQ_SD(P))
               IF(NBOX(1,P) > 0) THEN
                 CALL SPMD_WAIT(REQ_SD2(P))
-                DEALLOCATE(RBUF(P)%p)
+                call my_dealloc(RBUF(P)%p)
                 CALL SPMD_WAIT(REQ_SD3(P))
-                DEALLOCATE(IBUF(P)%p)                   
+                call my_dealloc(IBUF(P)%p)
               ENDIF
               IF(NBOX(2,P) > 0) THEN
                 CALL SPMD_WAIT(REQ_SD4(P))
-                DEALLOCATE(IBUF_EDGE(P)%p)                   
+                call my_dealloc(IBUF_EDGE(P)%p)
                 CALL SPMD_WAIT(REQ_SD5(P))
-                DEALLOCATE(RBUF_EDGE(P)%p)                   
+                call my_dealloc(RBUF_EDGE(P)%p)
               END IF
             ENDIF
           ENDIF

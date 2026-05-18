@@ -1713,6 +1713,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1753,8 +1754,8 @@ C-----------------------------------------------
         my_real, DIMENSION(:),ALLOCATABLE :: SBUF
 C-----------------------------------------------
         IF (ITASK == 0)THEN
-           CALL MY_ALLOC(RBUF,3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)))
-           CALL MY_ALLOC(SBUF,3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)))
+           call my_alloc(RBUF, 3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)), "RBUF")
+           call my_alloc(SBUF, 3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)), "SBUF")
         ENDIF
 C-----------------------------
 
@@ -2285,8 +2286,8 @@ C
         END IF
 
         IF (ITASK==0)THEN
-          DEALLOCATE(RBUF)
-          DEALLOCATE(SBUF)
+          call my_dealloc(RBUF)
+          call my_dealloc(SBUF)
         ENDIF
 C--------------------------------------------
         RETURN

@@ -147,6 +147,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -178,10 +179,10 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(RBYM_READ_TMP(IDS_MAX))
+      call my_alloc(RBYM_READ_TMP, IDS_MAX, "RBYM_READ_TMP")
       RBYM_READ_TMP(1:IDS_MAX) = 0
-      ALLOCATE(INDEX(2*IDS_MAX))
-      ALLOCATE(SORT(IDS_MAX))
+      call my_alloc(INDEX, 2*IDS_MAX, "INDEX")
+      call my_alloc(SORT, IDS_MAX, "SORT")
 
       INDEX = 0
 
@@ -237,15 +238,15 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_RBODY = LIST_SIZE  
-      ALLOCATE( CLAUSE%RBODY( LIST_SIZE ) )
+      call my_alloc(CLAUSE%RBODY, LIST_SIZE, "CLAUSE%RBODY")
 
       DO I=1,LIST_SIZE
         CLAUSE%RBODY(I) = RBYM_READ_TMP(I)
       ENDDO
 C-------------------------
-       DEALLOCATE(RBYM_READ_TMP)
-       DEALLOCATE(SORT)
-       DEALLOCATE(INDEX)
+       CALL MY_DEALLOC(RBYM_READ_TMP)
+       CALL MY_DEALLOC(SORT)
+       CALL MY_DEALLOC(INDEX)
 C-------------------------
       RETURN
       END
@@ -288,6 +289,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -319,12 +321,12 @@ C
 C=======================================================================
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(RBYM_READ_TMP(NRBODY))
-      ALLOCATE(RBYM_READ_ONE(NRBODY))
+      call my_alloc(RBYM_READ_TMP, NRBODY, "RBYM_READ_TMP")
+      call my_alloc(RBYM_READ_ONE, NRBODY, "RBYM_READ_ONE")
 
 
       IF (GENE_MAX > 1) THEN
-          ALLOCATE(RESULT(NRBODY))
+          call my_alloc(RESULT, NRBODY, "RESULT")
       ENDIF
 
       STACK=0
@@ -364,12 +366,12 @@ C=======================================================================
       ENDDO
 
       CLAUSE%NB_RBODY = STACK
-      ALLOCATE(CLAUSE%RBODY(STACK))
+      call my_alloc(CLAUSE%RBODY, STACK, "CLAUSE%RBODY")
       CLAUSE%RBODY(1:STACK) = RBYM_READ_TMP(1:STACK)
 C-------------------------
-      DEALLOCATE (RBYM_READ_TMP)
-      DEALLOCATE (RBYM_READ_ONE)
-      IF (ALLOCATED(RESULT)) DEALLOCATE (RESULT)
+      CALL MY_DEALLOC(RBYM_READ_TMP)
+      CALL MY_DEALLOC(RBYM_READ_ONE)
+      IF (ALLOCATED(RESULT)) CALL MY_DEALLOC(RESULT)
 C-------------------------
       END
 

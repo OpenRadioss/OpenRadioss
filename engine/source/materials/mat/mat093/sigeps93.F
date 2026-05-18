@@ -42,6 +42,8 @@ C Orthotropic Hill
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
@@ -133,7 +135,8 @@ C
       ITAB = 0  
       IF (MFUNC > 0) THEN 
         ITAB = 1
-        ALLOCATE(RATE(MFUNC),YFAC(MFUNC))
+        call my_alloc(RATE, MFUNC, "RATE")
+        call my_alloc(YFAC, MFUNC, "YFAC")
         DO I = 1,MFUNC
           RATE(I) = UPARAM(30+I)
           YFAC(I) = UPARAM(30+MFUNC+I)
@@ -469,7 +472,7 @@ C
           EPSP(I)   = UVAR(I,1)
         ENDIF
       ENDDO 
-      IF (ALLOCATED(RATE)) DEALLOCATE(RATE)
-      IF (ALLOCATED(YFAC)) DEALLOCATE(YFAC)      
+      IF (ALLOCATED(RATE)) call my_dealloc(RATE)
+      IF (ALLOCATED(YFAC)) call my_dealloc(YFAC)
 C
       END

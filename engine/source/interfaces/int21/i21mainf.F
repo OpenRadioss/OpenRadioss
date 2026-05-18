@@ -77,6 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -200,7 +201,7 @@ C     REAL
       INTEGER,TARGET, DIMENSION(1):: IFRICORTH_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
 C----------------------------------------------------
-      CALL MY_ALLOC(INDEX2,LINDMAX)
+      call my_alloc(INDEX2, LINDMAX, "INDEX2")
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN) 
@@ -337,7 +338,7 @@ C
           ENDIF
         ENDDO
         IF (SFSAVPARIT /= 0) THEN
-          ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
+          call my_alloc(FSAVPARIT, NISUB+1, 11, I_STOK, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE21)')
@@ -351,7 +352,7 @@ C
             ENDDO
           ENDDO
         ELSE
-          ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
+          call my_alloc(FSAVPARIT, 0, 0, 0, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE21)')
@@ -512,8 +513,8 @@ c
             CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .                            FBSAV6, 12, 6, DIMFB, ISENSINT )
         ENDIF
-        IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
-        DEALLOCATE(INDEX2)
+        IF (ALLOCATED(FSAVPARIT)) call my_dealloc(FSAVPARIT)
+        call my_dealloc(INDEX2)
 C
       RETURN
       END

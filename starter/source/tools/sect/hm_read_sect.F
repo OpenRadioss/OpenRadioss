@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
       USE RESTMOD, ONLY : NSTRF
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -157,10 +158,10 @@ C
 C-----------------------------------------------
 C   S o u r c e   F i l e s
 C-----------------------------------------------
-      ALLOCATE(TAGNODES( NUMNOD*2+NPART))
-      ALLOCATE(TAGNDOUBL(NUMNOD))
-      ALLOCATE(TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG))
-      ALLOCATE(NODTAG(NUMNOD))
+      call my_alloc(TAGNODES, NUMNOD*2+NPART, "TAGNODES")
+      call my_alloc(TAGNDOUBL, NUMNOD, "TAGNDOUBL")
+      call my_alloc(TAGELEMS, 1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG, "TAGELEMS")
+      call my_alloc(NODTAG, NUMNOD, "NODTAG")
       SNSTRF1 = 0
       NOPRINT = 0
       NFRAM = 0
@@ -730,10 +731,10 @@ C-------------------------------------------------------------
 
 C File Rec Length
       NSTRF(6)=LREC*4
-      DEALLOCATE(TAGNODES)
-      DEALLOCATE(TAGNDOUBL)
-      DEALLOCATE(TAGELEMS)
-      DEALLOCATE(NODTAG)
+      CALL MY_DEALLOC(TAGNODES)
+      CALL MY_DEALLOC(TAGNDOUBL)
+      CALL MY_DEALLOC(TAGELEMS)
+      CALL MY_DEALLOC(NODTAG)
 
 
 C-------------------------------------------------------------
@@ -1051,6 +1052,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1080,8 +1082,8 @@ C-----------------------------------------------
 C
 C List nodes related to section.
 C
-        ALLOCATE(TAGNDOUBL(NUMNOD))
-        ALLOCATE(TAGNODES(NUMNOD*2+NPART))
+        call my_alloc(TAGNDOUBL, NUMNOD, "TAGNDOUBL")
+        call my_alloc(TAGNODES, NUMNOD*2+NPART, "TAGNODES")
         PROJX = ZERO
         PROJY = ZERO
         PROJZ = ZERO
@@ -1190,8 +1192,8 @@ c
               ENDIF
             ENDDO
           ENDIF
-      DEALLOCATE(TAGNDOUBL)
-      DEALLOCATE(TAGNODES)
+      CALL MY_DEALLOC(TAGNDOUBL)
+      CALL MY_DEALLOC(TAGNODES)
       RETURN
       END
 C
@@ -1211,6 +1213,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1241,7 +1244,8 @@ C-----------------------------------------------
 C
 C List nodes related to section if frame is used
 C
-        ALLOCATE( TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART) )
+        call my_alloc(TAGNDOUBL, NUMNOD, "TAGNDOUBL")
+        call my_alloc(TAGNODES, NUMNOD*2+NPART, "TAGNODES")
         TAGNDOUBL = 0
           TAGNODES  = 0
           IF (IGU1 /= 0) THEN
@@ -1468,6 +1472,7 @@ c
             ENDDO
           ENDIF
 
-        DEALLOCATE( TAGNDOUBL,TAGNODES )
+        CALL MY_DEALLOC(TAGNDOUBL)
+        CALL MY_DEALLOC(TAGNODES)
       RETURN
       END

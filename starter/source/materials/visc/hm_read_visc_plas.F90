@@ -26,7 +26,7 @@
 !||    hm_read_visc            ../starter/source/materials/visc/hm_read_visc.F
 !||====================================================================
       module hm_read_visc_plas_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /VISC/PLAS
@@ -55,6 +55,7 @@
           use submodel_mod
           use hm_option_read_mod
           use precision_mod, only: WP
+          use MY_ALLOC_MOD, only: my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,8 +90,8 @@
 
           niparam = 0
           nuparam = 2
-          allocate (visc%uparam(nuparam))
-          allocate (visc%iparam(niparam))
+          call my_alloc(visc%uparam, nuparam, "visc%uparam")
+          call my_alloc(visc%iparam, niparam, "visc%iparam")
           visc%nuvar     = 0
           visc%nuparam   = nuparam
           visc%niparam   = niparam

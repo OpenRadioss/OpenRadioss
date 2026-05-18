@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE MONVOL_STRUCT_MOD
       USE SUBMODEL_MOD
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,9 +138,9 @@ C     =======
       T_MONVOLN%IVOLU(11) = NVENT
       T_MONVOLN%NVENT = NVENT
       IF (NVENT > 0) THEN
-         ALLOCATE(T_MONVOLN%IBAGHOL(NIBHOL, NVENT))
+         call my_alloc(T_MONVOLN%IBAGHOL, NIBHOL, NVENT, "T_MONVOLN%IBAGHOL")
          T_MONVOLN%IBAGHOL(1:NIBHOL, 1:NVENT) = 0
-         ALLOCATE(T_MONVOLN%RBAGHOL(NRBHOL, NVENT))
+         call my_alloc(T_MONVOLN%RBAGHOL, NRBHOL, NVENT, "T_MONVOLN%RBAGHOL")
          T_MONVOLN%RBAGHOL(1:NRBHOL, 1:NVENT) = ZERO
       ENDIF
 C     **********

@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -80,7 +81,7 @@ C     REAL
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C=======================================================================
-       CALL my_alloc(WA,6*NBF)
+       call my_alloc(WA, 6*NBF, "WA")
        DO 5 J=1,18
            R4(J) = ZERO
  5     CONTINUE
@@ -307,6 +308,6 @@ C-----------------------------------------------
       ENDIF
 C
 C-------------
-      DEALLOCATE(WA)
+      call my_dealloc(WA)
       RETURN
       END

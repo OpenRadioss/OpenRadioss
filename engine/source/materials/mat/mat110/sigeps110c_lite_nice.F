@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      9     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
      A     SIGA    ,INLOC   ,DPLANL  ,LOFF    )
+      use my_alloc_mod
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -177,9 +178,13 @@ c
       NANGLE  = NINT(UPARAM(26))
       ISMOOTH = NINT(UPARAM(28))
 c
-      ALLOCATE(HIPS(NANGLE,2),HISH(NANGLE,2),
-     .         Q_fUN(NANGLE),Q_HISH(NANGLE,2),Q_HIPS(NANGLE,2),
-     .         Q_WPS(NANGLE),Q_WSH(NANGLE)) 
+      call my_alloc(HIPS, NANGLE, 2, "HIPS")
+      call my_alloc(HISH, NANGLE, 2, "HISH")
+      call my_alloc(Q_fUN, NANGLE, "Q_fUN")
+      call my_alloc(Q_HISH, NANGLE, 2, "Q_HISH")
+      call my_alloc(Q_HIPS, NANGLE, 2, "Q_HIPS")
+      call my_alloc(Q_WPS, NANGLE, "Q_WPS")
+      call my_alloc(Q_WSH, NANGLE, "Q_WSH")
 c      
       DO I = 1, NANGLE
         ! Hinge points

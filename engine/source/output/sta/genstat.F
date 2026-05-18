@@ -127,6 +127,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -207,16 +208,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      CALL MY_ALLOC(ITABG,LENG)
-      CALL MY_ALLOC(NODTAG,NUMNOD)
-      CALL MY_ALLOC(STAT_INDXC,2*LENGC)
-      CALL MY_ALLOC(STAT_INDXTG,2*LENGTG)
-      CALL MY_ALLOC(STAT_INDXQ,2*LENGQ)
-      CALL MY_ALLOC(STAT_INDXS,2*LENGS)
-      CALL MY_ALLOC(STAT_INDXR,2*LENGR)
-      CALL MY_ALLOC(STAT_INDXP,2*LENGP)
-      CALL MY_ALLOC(STAT_INDXT,2*LENGT)
-      CALL MY_ALLOC(STAT_INDXSPH,2*LENGSPH)
+      call my_alloc(ITABG, LENG, "ITABG")
+      call my_alloc(NODTAG, NUMNOD, "NODTAG")
+      call my_alloc(STAT_INDXC, 2*LENGC, "STAT_INDXC")
+      call my_alloc(STAT_INDXTG, 2*LENGTG, "STAT_INDXTG")
+      call my_alloc(STAT_INDXQ, 2*LENGQ, "STAT_INDXQ")
+      call my_alloc(STAT_INDXS, 2*LENGS, "STAT_INDXS")
+      call my_alloc(STAT_INDXR, 2*LENGR, "STAT_INDXR")
+      call my_alloc(STAT_INDXP, 2*LENGP, "STAT_INDXP")
+      call my_alloc(STAT_INDXT, 2*LENGT, "STAT_INDXT")
+      call my_alloc(STAT_INDXSPH, 2*LENGSPH, "STAT_INDXSPH")
 C-----------------------------------------------
       IS_FILE_TO_BE_WRITTEN = ((ISPMD == 0) .AND. (.NOT.IS_STAT_INIMAP_SINGLE))  !/STATE/INIMAP* is using an independent state file
 C===============================================|
@@ -464,9 +465,9 @@ C   ALLOCATION OF TABLES
 C-----------------------------------------------
       IERR = 0
       IF(SIZLOC >= 1) THEN
-        ALLOCATE(WA(SIZLOC),STAT=IERR)
+        call my_alloc(WA, SIZLOC, "WA", stat=IERR)
       ELSE
-        ALLOCATE(WA(1))
+        call my_alloc(WA, 1, "WA")
       ENDIF
       IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
@@ -476,7 +477,7 @@ C-----------------------------------------------
 
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
-      ALLOCATE(WAP0(SIZP0),STAT=IERR)
+      call my_alloc(WAP0, SIZP0, "WAP0", stat=IERR)
       IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
@@ -627,8 +628,8 @@ C-----------------------------------------------
      5                        ELBUF_TAB  ,WA       ,WAP0        ,SPBUF         ,ITAB          , 
      6                        IPM        ,OUTPUT%STATE%STAT_SPH(2),IPART )
 C-----------------------------------------------
-      IF(SIZLOC >= 1) DEALLOCATE(WA)
-      IF(SIZP0 >= 1) DEALLOCATE(WAP0)
+      IF(SIZLOC >= 1) call my_dealloc(WA)
+      IF(SIZP0 >= 1) call my_dealloc(WAP0)
 C-----------------------------------------------
 C   END
 C-----------------------------------------------
@@ -643,16 +644,16 @@ C-----------------------------------------------
         WRITE (ISTDO,1000) FILNAM(1:FILEN)
       ENDIF
 C-----------------------------------------------
-      DEALLOCATE(ITABG)
-      DEALLOCATE(NODTAG)
-      DEALLOCATE(STAT_INDXC)
-      DEALLOCATE(STAT_INDXTG)
-      DEALLOCATE(STAT_INDXQ)
-      DEALLOCATE(STAT_INDXS)
-      DEALLOCATE(STAT_INDXR)
-      DEALLOCATE(STAT_INDXP)
-      DEALLOCATE(STAT_INDXT)
-      DEALLOCATE(STAT_INDXSPH)
+      call my_dealloc(ITABG)
+      call my_dealloc(NODTAG)
+      call my_dealloc(STAT_INDXC)
+      call my_dealloc(STAT_INDXTG)
+      call my_dealloc(STAT_INDXQ)
+      call my_dealloc(STAT_INDXS)
+      call my_dealloc(STAT_INDXR)
+      call my_dealloc(STAT_INDXP)
+      call my_dealloc(STAT_INDXT)
+      call my_dealloc(STAT_INDXSPH)
       
  1000 FORMAT (4X,' STATE FILE:',1X,A,' WRITTEN')
 C

@@ -46,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -584,7 +586,7 @@ c----
      .               MTE==44.OR.MTE==45.OR.MTE==48.OR.MTE>=50) THEN
 c                   
                   NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT 
-                  ALLOCATE (VAR(NUVAR,MAX(1,MPT)))
+                  call my_alloc(VAR, NUVAR, MAX(1,MPT), "VAR")
                   VAR = ZERO                                                   
 C---  
                   IF (MTE == 58 .or. MTE == 158) THEN
@@ -693,7 +695,7 @@ C---
                     ENDDO ! IPT =1,MPT                                                   
                   ENDDO   ! J = 1, NU                                                         
 c
-                  DEALLOCATE (VAR)                                                      
+                  call my_dealloc(VAR)
                 ENDIF       ! MTE user                                                         
 c----
 c------------ Strain

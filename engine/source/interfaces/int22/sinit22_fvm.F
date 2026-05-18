@@ -136,6 +136,8 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       use element_mod , only : nixs,nixt
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -333,11 +335,11 @@ C-----------------------------------------------
       I22LOOP        = 0    !infinite loop detected
       IMERGEL(ITASK) = 0
         IF(TRIMAT<=0)THEN
-          ALLOCATE(UVAR (I22LAW37))
-          ALLOCATE(UVAR_ADV (I22LAW37))
+          call my_alloc(UVAR, I22LAW37, "UVAR")
+          call my_alloc(UVAR_ADV, I22LAW37, "UVAR_ADV")
         ELSE
-          ALLOCATE(UVAR (M51_N0PHAS+TRIMAT*M51_NVPHAS))
-          ALLOCATE(UVAR_ADV (M51_N0PHAS+TRIMAT*M51_NVPHAS))
+          call my_alloc(UVAR, M51_N0PHAS+TRIMAT*M51_NVPHAS, "UVAR")
+          call my_alloc(UVAR_ADV, M51_N0PHAS+TRIMAT*M51_NVPHAS, "UVAR_ADV")
         ENDIF
 
       !------------------------------------------------------------!
@@ -373,14 +375,19 @@ C-----------------------------------------------
       !------------------------------------------------------------!
       ! @04. INIT/ALLOCATION                                       !
       !------------------------------------------------------------!      
-      ALLOCATE (debugMAINSECNDv(NBL-NBF+1,6,9))     
+      ALLOCATE(debugMAINSECNDv(NBL-NBF+1, 6, 9))
 !      ALLOCATE (TARGET_DATA(tNB,9,1:2))          !index1:IB, index2:1:Ntarget<=9, index3:1=localface_2=adjacent_cell
       ALLOCATE (ORIGIN_DATA(NBF:NBL,9,1:3))       !index1:IB, index2:1:Ntarget<=9, index3:1=localface_2=adjacent_cell            
+! TODO: non-default lower bound, convert manually
       ALLOCATE (IsMainV(NBF:NBL,6,9))       
+! TODO: non-default lower bound, convert manually
       ALLOCATE (F(6,NBF:NBL))
+! TODO: non-default lower bound, convert manually
       ALLOCATE (VOL51(NBF:NBL,TRIMAT),VOL51v(NBF:NBL,TRIMAT))
+! TODO: non-default lower bound, convert manually
 c      ALLOCATE (Ntarget(NBF:NBL))       
       ALLOCATE (Norigin(NBF:NBL))       
+! TODO: non-default lower bound, convert manually
       !-------------------!
         CALL MY_BARRIER()
       !-------------------!          
@@ -1245,7 +1252,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
       !------------------------------------------------------------!
       NBL1 = NBL
       IF(I22_DEGENERATED == 1)THEN
-        ALLOCATE (DESTROY_DATA(7,2*NB)) !on each thread
+        call my_alloc(DESTROY_DATA, 7, 2*NB, "DESTROY_DATA") !on each thread
       ELSE
         NBL1 = 0
       ENDIF
@@ -2176,7 +2183,7 @@ c          print *, ""
             enddo                 
           endif!if(DT1>ZERO)
           !print *, "deallocate"
-          deallocate(TMP22ARRAY)
+          call my_dealloc(TMP22ARRAY)
         endif
       endif
       
@@ -2806,7 +2813,8 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
           if (IBUG22_merge==-1)then
             call my_barrier
             if(itask==0 .and. DT1>ZERO)then
-             allocate(order(IN22),value(IN22))
+             call my_alloc(order, IN22, "order")
+             call my_alloc(value, IN22, "value")
              DO Ib=1,in22
                 VALUE(ib)=tmp22array(1,ib)
              ENDDO
@@ -2830,8 +2838,8 @@ c          print *, "demerge-1",  MBUF%VAR((1-1)*LLT_+IDLOC) , UVAR(1)
             endif 
             call my_barrier
             if(itask==0)then
-              if(allocated(tmp22array))deallocate(tmp22array)
-              if(DT1>ZERO .and. allocated(order) )deallocate(order)    
+              if(allocated(tmp22array)) call my_dealloc(tmp22array)
+              if(DT1>ZERO .and. allocated(order) ) call my_dealloc(order)
             endif 
           endif
 
@@ -3417,7 +3425,7 @@ ccc          endif
      
       if(IBUG22_LINK_SWITCH/=0)THEN
         call my_barrier
-        if(itask==0)DEALLOCATE (TMP22ARRAY)
+        if(itask==0) call my_dealloc(TMP22ARRAY)
       endif
                     
       !------------------------------------------------------------!
@@ -4249,13 +4257,13 @@ C     .          "  vold=",brick_list(nin,ib)%vold_scell,"  vnew=",brick_list(ni
       !------------------------------------------------------------!
       ! @50. DEALLOCATE                                            !
       !------------------------------------------------------------!      
-      IF(ALLOCATED(debugMAINSECNDv))DEALLOCATE (debugMAINSECNDv)
-      IF(ALLOCATED(IsMainV))DEALLOCATE (IsMainV)  
-      IF(ALLOCATED(F))DEALLOCATE (F)      
+      IF(ALLOCATED(debugMAINSECNDv)) DEALLOCATE(debugMAINSECNDv)
+      IF(ALLOCATED(IsMainV)) call my_dealloc(IsMainV)
+      IF(ALLOCATED(F)) call my_dealloc(F)
       IF(ALLOCATED(VOL51))DEALLOCATE (VOL51,VOL51v)          
-      IF(ALLOCATED(ORIGIN_DATA))DEALLOCATE (ORIGIN_DATA)      
-      IF(ALLOCATED(DESTROY_DATA))DEALLOCATE (DESTROY_DATA)       
-      IF(ALLOCATED(Norigin))DEALLOCATE (Norigin)  
+      IF(ALLOCATED(ORIGIN_DATA)) call my_dealloc(ORIGIN_DATA)
+      IF(ALLOCATED(DESTROY_DATA)) call my_dealloc(DESTROY_DATA)
+      IF(ALLOCATED(Norigin)) call my_dealloc(Norigin)
 
 
       RETURN

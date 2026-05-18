@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE INTBUFSCRATCH_MOD
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,15 +166,15 @@ C-----------------------------------------------
       I_MEM = 0
       RESORT = 0
 C----
-      ALLOCATE (THKSH4_VAR(NUMELC) ,STAT=stat)
+      call my_alloc(THKSH4_VAR, NUMELC, "THKSH4_VAR", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='THKSH4_VAR')
-      ALLOCATE (THKSH3_VAR(NUMELTG) ,STAT=stat)
+      call my_alloc(THKSH3_VAR, NUMELTG, "THKSH3_VAR", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='THKSH3_VAR')
-      ALLOCATE (THKNOD(NUMNOD) ,STAT=stat)
+      call my_alloc(THKNOD, NUMNOD, "THKNOD", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='THKNOD')
@@ -250,7 +251,8 @@ C
         CLOSE(UNIT=IOU2)
       ENDIF
 C
-      DEALLOCATE (THKSH4_VAR,THKSH3_VAR)
+      CALL MY_DEALLOC(THKSH4_VAR)
+      CALL MY_DEALLOC(THKSH3_VAR)
 C-----------
       RETURN
       END

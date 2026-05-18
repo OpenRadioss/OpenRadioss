@@ -41,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,7 +71,7 @@ C     REAL
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFBUF
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
-      CALL MY_ALLOC(IOFFBUF,NBF)
+      call my_alloc(IOFFBUF, NBF, "IOFFBUF")
       NN1 = 1
       NN2 = 1
       NN3 = NN2 + NUMELS
@@ -179,6 +180,6 @@ C-----------------------------------------------
         CALL SPMD_IGET_PARTN(1,NBF,IOFFBUF,NBPART,IADG,RBUF,2)
       ENDIF
 C
-      DEALLOCATE(IOFFBUF)
+      call my_dealloc(IOFFBUF)
       RETURN
       END

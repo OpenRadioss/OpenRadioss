@@ -35,6 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -171,11 +172,11 @@ c
          BUFLY_IMP%LY_OFFPG  = BUFLY%LY_OFFPG
          BUFLY_IMP%LY_OFF    = BUFLY%LY_OFF
 c
-         ALLOCATE(BUFLY_IMP%DMG(NEL*BUFLY%LY_DMG)      ,STAT=ERR)                            
-         ALLOCATE(BUFLY_IMP%GAMA(NEL*BUFLY%LY_GAMA)    ,STAT=ERR)                            
-         ALLOCATE(BUFLY_IMP%DIRA(NEL*BUFLY%LY_DIRA)    ,STAT=ERR)                            
-         ALLOCATE(BUFLY_IMP%DIRB(NEL*BUFLY%LY_DIRB)    ,STAT=ERR)                            
-         ALLOCATE(BUFLY_IMP%CRKDIR(NEL*BUFLY%LY_CRKDIR),STAT=ERR)                             
+         call my_alloc(BUFLY_IMP%DMG, NEL*BUFLY%LY_DMG, "BUFLY_IMP%DMG", stat=ERR)
+         call my_alloc(BUFLY_IMP%GAMA, NEL*BUFLY%LY_GAMA, "BUFLY_IMP%GAMA", stat=ERR)
+         call my_alloc(BUFLY_IMP%DIRA, NEL*BUFLY%LY_DIRA, "BUFLY_IMP%DIRA", stat=ERR)
+         call my_alloc(BUFLY_IMP%DIRB, NEL*BUFLY%LY_DIRB, "BUFLY_IMP%DIRB", stat=ERR)
+         call my_alloc(BUFLY_IMP%CRKDIR, NEL*BUFLY%LY_CRKDIR, "BUFLY_IMP%CRKDIR", stat=ERR)
          IF (NPG > 1) THEN
            IF (NLAY > 1) THEN
              LEN_PLAPT = NEL*BUFLY%LY_PLAPT
@@ -189,16 +190,16 @@ c
                LEN_SIGPT = NEL*BUFLY%LY_SIGPT*BUFLY%NPTT
              ENDIF
            ENDIF
-           ALLOCATE(BUFLY_IMP%PLAPT(NEL*LEN_PLAPT) ,STAT=ERR)
-           ALLOCATE(BUFLY_IMP%SIGPT(NEL*LEN_SIGPT) ,STAT=ERR)
+           call my_alloc(BUFLY_IMP%PLAPT, NEL*LEN_PLAPT, "BUFLY_IMP%PLAPT", stat=ERR)
+           call my_alloc(BUFLY_IMP%SIGPT, NEL*LEN_SIGPT, "BUFLY_IMP%SIGPT", stat=ERR)
 cc           ALLOCATE(BUFLY_IMP%PLAPT(NEL*BUFLY%LY_PLAPT) ,STAT=ERR)                             
 cc           ALLOCATE(BUFLY_IMP%SIGPT(NEL*BUFLY%LY_SIGPT) ,STAT=ERR)
          ENDIF                             
-         ALLOCATE(BUFLY_IMP%HOURG(NEL*BUFLY%LY_HOURG)   ,STAT=ERR)
-         ALLOCATE(BUFLY_IMP%UELR(NEL*BUFLY%LY_UELR)   ,STAT=ERR)
-         ALLOCATE(BUFLY_IMP%UELR1(NEL*BUFLY%LY_UELR1)   ,STAT=ERR)
-         ALLOCATE(BUFLY_IMP%OFFPG(NEL*BUFLY%LY_OFFPG)   ,STAT=ERR)
-         ALLOCATE(BUFLY_IMP%OFF(NEL*BUFLY%LY_OFF)   ,STAT=ERR)
+         call my_alloc(BUFLY_IMP%HOURG, NEL*BUFLY%LY_HOURG, "BUFLY_IMP%HOURG", stat=ERR)
+         call my_alloc(BUFLY_IMP%UELR, NEL*BUFLY%LY_UELR, "BUFLY_IMP%UELR", stat=ERR)
+         call my_alloc(BUFLY_IMP%UELR1, NEL*BUFLY%LY_UELR1, "BUFLY_IMP%UELR1", stat=ERR)
+         call my_alloc(BUFLY_IMP%OFFPG, NEL*BUFLY%LY_OFFPG, "BUFLY_IMP%OFFPG", stat=ERR)
+         call my_alloc(BUFLY_IMP%OFF, NEL*BUFLY%LY_OFF, "BUFLY_IMP%OFF", stat=ERR)
 c
          BUFLY_IMP%L_OFF     = BUFLY%L_OFF      
          BUFLY_IMP%L_GAMA    = BUFLY%L_GAMA   
@@ -271,66 +272,66 @@ c
            DO IT = 1,NPTT                                                           
             LBUF => ELBUF_IMP(NG)%BUFLY(IL)%LBUF(IR,IS,IT)                             
 c
-            ALLOCATE(LBUF%OFF (NEL*BUFLY%L_OFF)   ,STAT=ERR)                             
-            ALLOCATE(LBUF%GAMA(NEL*BUFLY%L_GAMA)  ,STAT=ERR)                            
-            ALLOCATE(LBUF%STRA  (NEL*BUFLY%L_STRA)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%FRAC (NEL*BUFLY%L_FRAC) ,STAT=ERR)                           
-            ALLOCATE(LBUF%BFRAC(NEL*BUFLY%L_BFRAC)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%EINT(NEL*BUFLY%L_EINT)  ,STAT=ERR)      
-            ALLOCATE(LBUF%EINS(NEL*BUFLY%L_EINS)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%RHO(NEL*BUFLY%L_RHO)   ,STAT=ERR)                              
-            ALLOCATE(LBUF%DP_DRHO(NEL*BUFLY%L_DP_DRHO)   ,STAT=ERR)                     
-            ALLOCATE(LBUF%QVIS(NEL*BUFLY%L_QVIS)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%DELTAX(NEL*BUFLY%L_DELTAX),STAT=ERR)                           
-            ALLOCATE(LBUF%VOL   (NEL*BUFLY%L_VOL)   ,STAT=ERR)                           
-            ALLOCATE(LBUF%EPSA  (NEL*BUFLY%L_EPSA)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%EPSD  (NEL*BUFLY%L_EPSD)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%EPSQ  (NEL*BUFLY%L_EPSQ)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%EPSF  (NEL*BUFLY%L_EPSF)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%PLA   (NEL*BUFLY%L_PLA)   ,STAT=ERR)      
-            ALLOCATE(LBUF%WPLA  (NEL*BUFLY%L_WPLA)  ,STAT=ERR)                                       
-            ALLOCATE(LBUF%TEMP(NEL*BUFLY%L_TEMP), STAT=ERR)                              
-            ALLOCATE(LBUF%TB(NEL*BUFLY%L_TB), STAT=ERR)                                  
-            ALLOCATE(LBUF%RK(NEL*BUFLY%L_RK), STAT=ERR)                                  
-            ALLOCATE(LBUF%RE(NEL*BUFLY%L_RE), STAT=ERR)                                  
-            ALLOCATE(LBUF%VK(NEL*BUFLY%L_VK), STAT=ERR)                                  
-            ALLOCATE(LBUF%SF(NEL*BUFLY%L_SF), STAT=ERR)                                  
-            ALLOCATE(LBUF%ROB(NEL*BUFLY%L_ROB), STAT=ERR)                                
-            ALLOCATE(LBUF%DAM  (NEL*BUFLY%L_DAM)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%DSUM  (NEL*BUFLY%L_DSUM)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%DGLO  (NEL*BUFLY%L_DGLO)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%CRAK  (NEL*BUFLY%L_CRAK)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%ANG  (NEL*BUFLY%L_ANG)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%EPE  (NEL*BUFLY%L_EPE)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%EPC  (NEL*BUFLY%L_EPC)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%XST  (NEL*BUFLY%L_XST)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%SSP  (NEL*BUFLY%L_SSP)  ,STAT=ERR)                             
-            ALLOCATE(LBUF%Z    (NEL*BUFLY%L_Z)    ,STAT=ERR)                                 
-            ALLOCATE(LBUF%VISC  (NEL*BUFLY%L_VISC)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGL  (NEL*BUFLY%L_SIGL)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGV  (NEL*BUFLY%L_SIGV)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGA  (NEL*BUFLY%L_SIGA)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGB  (NEL*BUFLY%L_SIGB)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGC  (NEL*BUFLY%L_SIGC)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGD  (NEL*BUFLY%L_SIGD)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIGF  (NEL*BUFLY%L_SIGF)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%SIG(NEL*BUFLY%L_SIG)   ,STAT=ERR)                              
-            ALLOCATE(LBUF%SIGPLY(NEL*BUFLY%L_SIGPLY)   ,STAT=ERR)                              
-            ALLOCATE(LBUF%FOR (NEL*BUFLY%L_FOR)   ,STAT=ERR)                           
-            ALLOCATE(LBUF%MOM (NEL*BUFLY%L_MOM)   ,STAT=ERR)
-            ALLOCATE(LBUF%THK (NEL*BUFLY%L_THK)   ,STAT=ERR)                           
-            ALLOCATE(LBUF%SMSTR (NEL*BUFLY%L_SMSTR)   ,STAT=ERR)                           
-            ALLOCATE(LBUF%DMG (NEL*BUFLY%L_DMG)   ,STAT=ERR)
-            ALLOCATE(LBUF%FORTH (NEL*BUFLY%L_FORTH)   ,STAT=ERR)                           
-            ALLOCATE(LBUF%EINTTH (NEL*BUFLY%L_EINTTH)   ,STAT=ERR)
-            ALLOCATE(LBUF%SEQ (NEL*BUFLY%L_SEQ)   ,STAT=ERR)
-            ALLOCATE(LBUF%FAC_YLD (NEL*BUFLY%L_FAC_YLD)   ,STAT=ERR)
-            ALLOCATE(LBUF%BFRAC(NEL*BUFLY%L_ABURN)  ,STAT=ERR)
-            ALLOCATE(LBUF%BFRAC(NEL*BUFLY%L_MU)  ,STAT=ERR)
-            ALLOCATE(LBUF%PLANL(NEL*BUFLY%L_PLANL)  ,STAT=ERR)
-            ALLOCATE(LBUF%EPSDNL(NEL*BUFLY%L_EPSDNL)  ,STAT=ERR)
-            ALLOCATE(LBUF%DMGSCL(NEL*BUFLY%L_DMGSCL)  ,STAT=ERR)
-            ALLOCATE(LBUF%TSAIWU(NEL*BUFLY%L_TSAIWU)  ,STAT=ERR)
+            call my_alloc(LBUF%OFF, NEL*BUFLY%L_OFF, "LBUF%OFF", stat=ERR)
+            call my_alloc(LBUF%GAMA, NEL*BUFLY%L_GAMA, "LBUF%GAMA", stat=ERR)
+            call my_alloc(LBUF%STRA, NEL*BUFLY%L_STRA, "LBUF%STRA", stat=ERR)
+            call my_alloc(LBUF%FRAC, NEL*BUFLY%L_FRAC, "LBUF%FRAC", stat=ERR)
+            call my_alloc(LBUF%BFRAC, NEL*BUFLY%L_BFRAC, "LBUF%BFRAC", stat=ERR)
+            call my_alloc(LBUF%EINT, NEL*BUFLY%L_EINT, "LBUF%EINT", stat=ERR)
+            call my_alloc(LBUF%EINS, NEL*BUFLY%L_EINS, "LBUF%EINS", stat=ERR)
+            call my_alloc(LBUF%RHO, NEL*BUFLY%L_RHO, "LBUF%RHO", stat=ERR)
+            call my_alloc(LBUF%DP_DRHO, NEL*BUFLY%L_DP_DRHO, "LBUF%DP_DRHO", stat=ERR)
+            call my_alloc(LBUF%QVIS, NEL*BUFLY%L_QVIS, "LBUF%QVIS", stat=ERR)
+            call my_alloc(LBUF%DELTAX, NEL*BUFLY%L_DELTAX, "LBUF%DELTAX", stat=ERR)
+            call my_alloc(LBUF%VOL, NEL*BUFLY%L_VOL, "LBUF%VOL", stat=ERR)
+            call my_alloc(LBUF%EPSA, NEL*BUFLY%L_EPSA, "LBUF%EPSA", stat=ERR)
+            call my_alloc(LBUF%EPSD, NEL*BUFLY%L_EPSD, "LBUF%EPSD", stat=ERR)
+            call my_alloc(LBUF%EPSQ, NEL*BUFLY%L_EPSQ, "LBUF%EPSQ", stat=ERR)
+            call my_alloc(LBUF%EPSF, NEL*BUFLY%L_EPSF, "LBUF%EPSF", stat=ERR)
+            call my_alloc(LBUF%PLA, NEL*BUFLY%L_PLA, "LBUF%PLA", stat=ERR)
+            call my_alloc(LBUF%WPLA, NEL*BUFLY%L_WPLA, "LBUF%WPLA", stat=ERR)
+            call my_alloc(LBUF%TEMP, NEL*BUFLY%L_TEMP, "LBUF%TEMP", stat=ERR)
+            call my_alloc(LBUF%TB, NEL*BUFLY%L_TB, "LBUF%TB", stat=ERR)
+            call my_alloc(LBUF%RK, NEL*BUFLY%L_RK, "LBUF%RK", stat=ERR)
+            call my_alloc(LBUF%RE, NEL*BUFLY%L_RE, "LBUF%RE", stat=ERR)
+            call my_alloc(LBUF%VK, NEL*BUFLY%L_VK, "LBUF%VK", stat=ERR)
+            call my_alloc(LBUF%SF, NEL*BUFLY%L_SF, "LBUF%SF", stat=ERR)
+            call my_alloc(LBUF%ROB, NEL*BUFLY%L_ROB, "LBUF%ROB", stat=ERR)
+            call my_alloc(LBUF%DAM, NEL*BUFLY%L_DAM, "LBUF%DAM", stat=ERR)
+            call my_alloc(LBUF%DSUM, NEL*BUFLY%L_DSUM, "LBUF%DSUM", stat=ERR)
+            call my_alloc(LBUF%DGLO, NEL*BUFLY%L_DGLO, "LBUF%DGLO", stat=ERR)
+            call my_alloc(LBUF%CRAK, NEL*BUFLY%L_CRAK, "LBUF%CRAK", stat=ERR)
+            call my_alloc(LBUF%ANG, NEL*BUFLY%L_ANG, "LBUF%ANG", stat=ERR)
+            call my_alloc(LBUF%EPE, NEL*BUFLY%L_EPE, "LBUF%EPE", stat=ERR)
+            call my_alloc(LBUF%EPC, NEL*BUFLY%L_EPC, "LBUF%EPC", stat=ERR)
+            call my_alloc(LBUF%XST, NEL*BUFLY%L_XST, "LBUF%XST", stat=ERR)
+            call my_alloc(LBUF%SSP, NEL*BUFLY%L_SSP, "LBUF%SSP", stat=ERR)
+            call my_alloc(LBUF%Z, NEL*BUFLY%L_Z, "LBUF%Z", stat=ERR)
+            call my_alloc(LBUF%VISC, NEL*BUFLY%L_VISC, "LBUF%VISC", stat=ERR)
+            call my_alloc(LBUF%SIGL, NEL*BUFLY%L_SIGL, "LBUF%SIGL", stat=ERR)
+            call my_alloc(LBUF%SIGV, NEL*BUFLY%L_SIGV, "LBUF%SIGV", stat=ERR)
+            call my_alloc(LBUF%SIGA, NEL*BUFLY%L_SIGA, "LBUF%SIGA", stat=ERR)
+            call my_alloc(LBUF%SIGB, NEL*BUFLY%L_SIGB, "LBUF%SIGB", stat=ERR)
+            call my_alloc(LBUF%SIGC, NEL*BUFLY%L_SIGC, "LBUF%SIGC", stat=ERR)
+            call my_alloc(LBUF%SIGD, NEL*BUFLY%L_SIGD, "LBUF%SIGD", stat=ERR)
+            call my_alloc(LBUF%SIGF, NEL*BUFLY%L_SIGF, "LBUF%SIGF", stat=ERR)
+            call my_alloc(LBUF%SIG, NEL*BUFLY%L_SIG, "LBUF%SIG", stat=ERR)
+            call my_alloc(LBUF%SIGPLY, NEL*BUFLY%L_SIGPLY, "LBUF%SIGPLY", stat=ERR)
+            call my_alloc(LBUF%FOR, NEL*BUFLY%L_FOR, "LBUF%FOR", stat=ERR)
+            call my_alloc(LBUF%MOM, NEL*BUFLY%L_MOM, "LBUF%MOM", stat=ERR)
+            call my_alloc(LBUF%THK, NEL*BUFLY%L_THK, "LBUF%THK", stat=ERR)
+            call my_alloc(LBUF%SMSTR, NEL*BUFLY%L_SMSTR, "LBUF%SMSTR", stat=ERR)
+            call my_alloc(LBUF%DMG, NEL*BUFLY%L_DMG, "LBUF%DMG", stat=ERR)
+            call my_alloc(LBUF%FORTH, NEL*BUFLY%L_FORTH, "LBUF%FORTH", stat=ERR)
+            call my_alloc(LBUF%EINTTH, NEL*BUFLY%L_EINTTH, "LBUF%EINTTH", stat=ERR)
+            call my_alloc(LBUF%SEQ, NEL*BUFLY%L_SEQ, "LBUF%SEQ", stat=ERR)
+            call my_alloc(LBUF%FAC_YLD, NEL*BUFLY%L_FAC_YLD, "LBUF%FAC_YLD", stat=ERR)
+            call my_alloc(LBUF%BFRAC, NEL*BUFLY%L_ABURN, "LBUF%BFRAC", stat=ERR)
+            call my_alloc(LBUF%BFRAC, NEL*BUFLY%L_MU, "LBUF%BFRAC", stat=ERR)
+            call my_alloc(LBUF%PLANL, NEL*BUFLY%L_PLANL, "LBUF%PLANL", stat=ERR)
+            call my_alloc(LBUF%EPSDNL, NEL*BUFLY%L_EPSDNL, "LBUF%EPSDNL", stat=ERR)
+            call my_alloc(LBUF%DMGSCL, NEL*BUFLY%L_DMGSCL, "LBUF%DMGSCL", stat=ERR)
+            call my_alloc(LBUF%TSAIWU, NEL*BUFLY%L_TSAIWU, "LBUF%TSAIWU", stat=ERR)
            ENDDO                                                                    
           ENDDO                                                                     
          ENDDO                                                                      
@@ -389,13 +390,13 @@ c-------------------------------
      .            ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)%LF_OFF
                                    
                  FLOC=>ELBUF_IMP(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(K)                   
-                 ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)  
-                 ALLOCATE(FLOC%DAM(NEL*LF_DAM), STAT=ERR)  
-                 ALLOCATE(FLOC%DAMMX(NEL*LF_DAMMX), STAT=ERR)  
-                 ALLOCATE(FLOC%DAMINI(NEL*LF_DAMINI), STAT=ERR)
-                 ALLOCATE(FLOC%TDEL(NEL*LF_TDEL), STAT=ERR)  
-                 ALLOCATE(FLOC%INDX(NEL*LF_INDX), STAT=ERR)  
-                 ALLOCATE(FLOC%OFF(NEL*LF_OFF)  , STAT=ERR)  
+                 call my_alloc(FLOC%VAR, NEL*NUVAR, "FLOC%VAR", stat=ERR)
+                 call my_alloc(FLOC%DAM, NEL*LF_DAM, "FLOC%DAM", stat=ERR)
+                 call my_alloc(FLOC%DAMMX, NEL*LF_DAMMX, "FLOC%DAMMX", stat=ERR)
+                 call my_alloc(FLOC%DAMINI, NEL*LF_DAMINI, "FLOC%DAMINI", stat=ERR)
+                 call my_alloc(FLOC%TDEL, NEL*LF_TDEL, "FLOC%TDEL", stat=ERR)
+                 call my_alloc(FLOC%INDX, NEL*LF_INDX, "FLOC%INDX", stat=ERR)
+                 call my_alloc(FLOC%OFF, NEL*LF_OFF, "FLOC%OFF", stat=ERR)
                               
                 ENDDO                                                         
               ENDDO                                                          
@@ -441,13 +442,13 @@ c-------------------------------
                 ! Pointing the non-local buffer
                 BUFNL => ELBUF_TAB(NG)%NLOC(IR,IS)
                 ! Non-local in-thickness masses
-                ALLOCATE(BUFNL%MASSTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNL%MASSTH, NEL, NONL, "BUFNL%MASSTH", stat=ERR)
                 ! Non-local in-thickness cumulated variables
-                ALLOCATE(BUFNL%UNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNL%UNLTH, NEL, NONL, "BUFNL%UNLTH", stat=ERR)
                 ! Non-local in-thickness velocities
-                ALLOCATE(BUFNL%VNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNL%VNLTH, NEL, NONL, "BUFNL%VNLTH", stat=ERR)
                 ! Non-local in-thickness forces
-                ALLOCATE(BUFNL%FNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNL%FNLTH, NEL, NONL, "BUFNL%FNLTH", stat=ERR)
               ENDDO
             ENDDO  
           ENDIF
@@ -468,13 +469,13 @@ c-------------------------------
                 ! Pointing the non-local buffer
                 BUFNLTS => ELBUF_TAB(NG)%NLOCTS(IR,IS)
                 ! Non-local in-thickness masses
-                ALLOCATE(BUFNLTS%MASSTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNLTS%MASSTH, NEL, NONL, "BUFNLTS%MASSTH", stat=ERR)
                 ! Non-local in-thickness cumulated variables
-                ALLOCATE(BUFNLTS%UNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNLTS%UNLTH, NEL, NONL, "BUFNLTS%UNLTH", stat=ERR)
                 ! Non-local in-thickness velocities
-                ALLOCATE(BUFNLTS%VNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNLTS%VNLTH, NEL, NONL, "BUFNLTS%VNLTH", stat=ERR)
                 ! Non-local in-thickness forces
-                ALLOCATE(BUFNLTS%FNLTH(NEL,NONL), STAT=ERR) 
+                call my_alloc(BUFNLTS%FNLTH, NEL, NONL, "BUFNLTS%FNLTH", stat=ERR)
               ENDDO
             ENDDO  
           ENDIF

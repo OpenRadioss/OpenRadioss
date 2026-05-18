@@ -172,7 +172,7 @@ C=======================================================================
       DATA MESS/'RIGID BODY DEFINITION                   '/
 C=======================================================================
       IF (NUMSL > 0) THEN
-        CALL MY_ALLOC(TABSL,2,NUMSL)
+        CALL MY_ALLOC(TABSL,2,NUMSL,"TABSL")
         TABSL=0
       END IF
 
@@ -183,7 +183,7 @@ C--------------------------------------------------
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/RBODY')
 C
-      CALL MY_ALLOC(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD,"ITAG")
       ITAG(1:NUMNOD) = 0
 C
       K=0
@@ -521,8 +521,8 @@ C
         END DO
       ENDDO 
 C------------------------------------
-      IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
-      IF(ALLOCATED(TABSL))DEALLOCATE(TABSL)
+      IF(ALLOCATED(ITAG)) CALL MY_DEALLOC(ITAG)
+      IF(ALLOCATED(TABSL))CALL MY_DEALLOC(TABSL)
 C------------------------------------
       RETURN
 C
@@ -647,7 +647,7 @@ C
       END DO
 C
 C init a 0 de itag
-      CALL MY_ALLOC(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD,"ITAG")
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO
@@ -760,7 +760,7 @@ C Reinitialize to 0 on the concerned part
 C
       END DO
 C
-      IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
+      IF(ALLOCATED(ITAG)) CALL MY_DEALLOC(ITAG)
 C
       RETURN
       END SUBROUTINE SETRBYON
@@ -830,7 +830,7 @@ C======================================================================|
 C
       IRBYON = 1
 C
-      CALL MY_ALLOC(ITAG,NUMNOD) 
+      CALL MY_ALLOC(ITAG,NUMNOD,"ITAG")
 C Initial initialization on NUMNOD
       DO I=1,NUMNOD
         ITAG(I)=0
@@ -1059,8 +1059,7 @@ C----------------------------------------
          ENDIF
         ENDDO
 C-----------
-      IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
+      IF(ALLOCATED(ITAG)) CALL MY_DEALLOC(ITAG)
 C
       RETURN
       END SUBROUTINE SETELOFF
-

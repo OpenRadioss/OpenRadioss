@@ -40,6 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,7 +69,7 @@ C-----------------------------------------------
       ENDDO ! DO ISU=1,NSURF
 !
       ERR = 0
-      ALLOCATE (ISURFI(LENISURF), STAT=ERR)
+      call my_alloc(ISURFI, LENISURF, "ISURFI", stat=ERR)
       ISURFI(1:LENISURF) = 0  
       L_SURF = 0
 !
@@ -130,7 +132,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(ISURFI,L_SURF)
 !---------
-      DEALLOCATE (ISURFI)
+      call my_dealloc(ISURFI)
 !---------
       RETURN
       END

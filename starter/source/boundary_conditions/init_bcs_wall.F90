@@ -32,7 +32,8 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief This subroutine is initializing the sliding wall boundary conditions
-!! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%wall(id)%list(*)
+!! \details identification of related faces is done. Identified faces are recorded in specific buffer
+!! bcs%wall(id)%list(*)
 !! \details binary comparison (IAND) is done to identify relevant faces
 !||====================================================================
 !||    init_bcs_wall          ../starter/source/boundary_conditions/init_bcs_wall.F90
@@ -52,6 +53,7 @@
           use multi_fvm_mod , only : multi_fvm_struct
           use bcs_mod , only : bcs
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,10 +65,14 @@
           integer, intent(in) :: ipri                                                  !< flag from /IOFLAG input option
           integer, intent(in) :: ngrnod, numnod                                        !< sizes for array definition
           type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for group of nodes
-          TYPE(t_ale_connectivity) :: ale_connectivity                                 !< data buffer for ale connectivities
-          type(multi_fvm_struct), intent(inout) :: multi_fvm                           !< data buffer for collocated scheme (multifluid law 151)
-          integer, intent(in) :: nixs,nixq,nixtg                                       !< size for array definition (elem connectivities)
-          integer, intent(in) :: numels,numelq,numeltg                                 !< size for array definition (elem connectivities)
+          TYPE(t_ale_connectivity) :: ale_connectivity
+          !< data buffer for ale connectivities
+          type(multi_fvm_struct), intent(inout) :: multi_fvm
+          !< data buffer for collocated scheme (multifluid law 151)
+          integer, intent(in) :: nixs,nixq,nixtg
+          !< size for array definition (elem connectivities)
+          integer, intent(in) :: numels,numelq,numeltg
+          !< size for array definition (elem connectivities)
           integer, intent(in) :: ixs(nixs,numels),ixq(nixq,numelq),ixtg(nixtg,numeltg) !< data for elems connectivities
           integer, intent(in) :: n2d                                                   !< flag for 2d/3d analysis
           integer, intent(in) :: ngroup,nparg                                          !< size for array definition
@@ -87,7 +93,7 @@
           integer,allocatable,dimension(:,:) :: itmp
           logical :: l_tagnod(numnod)
           logical :: is_tria
-          ! ----------------------------------------------------------------------------------------------------------------------
+          ! ------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
           if(bcs%num_wall == 0)return        ! if no option /BCS/WALL in input file then return
@@ -148,12 +154,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize/2)=itmp(1,1:isize/2)
                     bcs%iworking_array(2,1:isize/2)=itmp(2,1:isize/2)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify blocked faces
                   kk = 0 !number of identified faces
@@ -187,12 +193,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify blocked faces
                   kk = 0 !number of identified faces
@@ -223,12 +229,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify blocked faces
                   if(03 == IAND(icode,03))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
@@ -256,12 +262,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify blocked faces
                   if(3 == IAND(icode,3))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
@@ -275,10 +281,11 @@
 
             end do!next ng
 
-            allocate(bcs%wall(ii)%list%elem(nseg))
-            allocate(bcs%wall(ii)%list%face(nseg))
-            ! allocate(bcs%wall(ii)%list%adjacent_elem(nseg)) !do not need to store in global datastrucure : printout only => local alloc. / dealloc.
-            allocate(adjacent_elem(nseg)) !Starter printout only (local array)
+            call my_alloc(bcs%wall(ii)%list%elem, nseg, "bcs%wall(ii)%list%elem")
+            call my_alloc(bcs%wall(ii)%list%face, nseg, "bcs%wall(ii)%list%face")
+            ! call my_alloc(bcs%wall(ii)%list%adjacent_elem, nseg, "bcs%wall(ii)%list%adjacent_elem") !do not need to
+            ! store in global datastrucure : printout only => local alloc. / dealloc.
+            call my_alloc(adjacent_elem, nseg, "adjacent_elem") !Starter printout only (local array)
 
             !searching for adjacent elems on related face (and face from this adjacent elem)
             do jj=1,nseg
@@ -336,8 +343,8 @@
               end if
             end if
 
-            deallocate(adjacent_elem)
-            deallocate(bcs%iworking_array)
+            call my_dealloc(adjacent_elem)
+            call my_dealloc(bcs%iworking_array)
 
           end do !next ii
 

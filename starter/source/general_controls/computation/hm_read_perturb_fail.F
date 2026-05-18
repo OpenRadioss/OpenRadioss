@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -171,7 +172,7 @@ c
       ENDDO
 c--------  end first loop over /PERTURB/FAIL
 c      
-      ALLOCATE(TAB_PART(NPERTURB,MAX_PART))
+      call my_alloc(TAB_PART, NPERTURB, MAX_PART, "TAB_PART")
 c
 c-----------------------------------------------------------------------
 c     2nd loop over /PERTURB/FAIL/BIQUAD for reading and computing perturbation
@@ -314,27 +315,27 @@ c         Set up random seed
 c-------------------------------------------------------
           IF( SEED == 0 )THEN                         
             CALL RANDOM_SEED(SIZE=I_SEED)             
-            ALLOCATE(A_SEED(1:I_SEED))                
+            call my_alloc(A_SEED, I_SEED, "A_SEED")
             CALL RANDOM_SEED(GET=A_SEED)              
             CALL DATE_AND_TIME(values=DT_SEED)        
             A_SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)   
             SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)     
             CALL RANDOM_SEED(PUT=A_SEED)              
             SEED_RANDOM = 1                           
-            DEALLOCATE(A_SEED)                        
+            CALL MY_DEALLOC(A_SEED)
           ELSE                                        
             CALL RANDOM_SEED(SIZE=I_SEED)             
-            ALLOCATE(A_SEED(1:I_SEED))                
+            call my_alloc(A_SEED, I_SEED, "A_SEED")
             A_SEED=SEED                               
             CALL RANDOM_SEED(PUT=A_SEED)              
             SEED_RANDOM = 0                           
-            DEALLOCATE(A_SEED)                        
+            CALL MY_DEALLOC(A_SEED)
           ENDIF                                       
 c-------------------------------------------------------
 c         build uniform distributions
 c-------------------------------------------------------
           DISTRIB(1:50) = 0                                  
-          ALLOCATE(ARRAY(NB_RANDOM+2))                       
+          call my_alloc(ARRAY, NB_RANDOM+2, "ARRAY")
           CALL RANDOM_NUMBER(ARRAY) ! Uniform distribution   
 c-------------------------------------------------------
 c         build normal distribution
@@ -408,13 +409,13 @@ c
           IF (SEED_RANDOM == 1) WRITE (IOUT,2100) SEED
           WRITE(IOUT,*) ' '
           WRITE(IOUT,*) ' '
-          IF (ALLOCATED(ARRAY)) DEALLOCATE(ARRAY)
+          IF (ALLOCATED(ARRAY)) CALL MY_DEALLOC(ARRAY)
 c
         END IF  ! biquad
 c------------------------
       ENDDO     ! NPERTURB_FAIL
 c
-      DEALLOCATE(TAB_PART)
+      CALL MY_DEALLOC(TAB_PART)
 C-------------------------------------------------------------
 C-------------------------------------------------------------
  4000 FORMAT(/' PERTURBATION  ID',I10/

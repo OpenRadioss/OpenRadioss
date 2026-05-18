@@ -103,6 +103,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -266,15 +268,15 @@ C
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
 
           IF(INTERFACES%INTBUF_TAB(N)%S_NIGE/=0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)))
+            call my_alloc(XE, 3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE), "XE")
             XE(1:3*NUMNOD) = X(1:3*NUMNOD)
             XE(3*NUMNOD+1:3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)) = 
      *                     INTERFACES%INTBUF_TAB(N)%XIGE(1:3*INTERFACES%INTBUF_TAB(N)%S_NIGE)
-            ALLOCATE(VE(3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)))
+            call my_alloc(VE, 3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE), "VE")
             VE(1:3*NUMNOD) = V(1:3*NUMNOD)
             VE(3*NUMNOD+1:3*(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE)) = 
      *                     INTERFACES%INTBUF_TAB(N)%VIGE(1:3*INTERFACES%INTBUF_TAB(N)%S_NIGE)
-            ALLOCATE(MSE(NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE))
+            call my_alloc(MSE, NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE, "MSE")
             MSE(1:NUMNOD) = MS(1:NUMNOD)
             MSE(NUMNOD+1:NUMNOD+INTERFACES%INTBUF_TAB(N)%S_NIGE) =
      *                     INTERFACES%INTBUF_TAB(N)%MASSIGE(1:INTERFACES%INTBUF_TAB(N)%S_NIGE)
@@ -349,7 +351,9 @@ C
             IAD17 = IAD17+6*(NME+NMES)
           END IF
           IF(INTERFACES%INTBUF_TAB(N)%S_NIGE/=0) THEN
-            DEALLOCATE(XE,VE,MSE)
+            call my_dealloc(XE)
+            call my_dealloc(VE)
+            call my_dealloc(MSE)
           ENDIF
 C-----------------------------------------------------------------------
         ELSEIF(NTY==10)THEN

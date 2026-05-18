@@ -178,6 +178,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -450,7 +452,7 @@ C=======================================================================
       MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
       INLOC = IPARG(78)
-      ALLOCATE(VAR_REG(NEL))
+      call my_alloc(VAR_REG, NEL, "VAR_REG")
       TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
 C
@@ -1807,6 +1809,6 @@ C
        ENDIF   
       ENDIF
 C
-      IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
+      IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
       RETURN
       END

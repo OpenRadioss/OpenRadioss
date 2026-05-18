@@ -104,6 +104,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -259,7 +261,7 @@ C
       ENDDO
       IF (NPT == 0) NPTTOT = NPT  !  compatibility with global integration
       NDDL = NPTTOT
-      ALLOCATE(VAR_REG(NEL,NDDL))
+      call my_alloc(VAR_REG, NEL, NDDL, "VAR_REG")
 c--------------------------------------------
 c     Front wave
 c--------------------------------------------
@@ -281,8 +283,8 @@ c-------------------------------------
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
       IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
-        ALLOCATE(DIRA(NPTTOT*NEL*L_DIRA))
-        ALLOCATE(DIRB(NPTTOT*NEL*L_DIRB))
+        call my_alloc(DIRA, NPTTOT*NEL*L_DIRA, "DIRA")
+        call my_alloc(DIRB, NPTTOT*NEL*L_DIRB, "DIRB")
         IF (L_DIRA == 0) THEN
             CONTINUE
         ELSEIF (IREP == 0) THEN
@@ -306,8 +308,8 @@ c-------------------------------------
       ELSE ! idrape
         SDIR_A=NLAY*NEL*L_DIRA
         SDIR_B=NLAY*NEL*L_DIRB
-        ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-        ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+        call my_alloc(DIRA, NLAY*NEL*L_DIRA, "DIRA")
+        call my_alloc(DIRB, NLAY*NEL*L_DIRB, "DIRB")
         DIRA=ZERO
         DIRB=ZERO
         IF (L_DIRA == 0) THEN
@@ -618,9 +620,9 @@ c
      .       L_DIRA   ,X2L      ,X3L      ,Y2L      ,Y3L      )
       ENDIF
 C------------
-      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
-      IF (ALLOCATED(VAR_REG))    DEALLOCATE(VAR_REG)
+      IF (ALLOCATED(DIRB)) call my_dealloc(DIRB)
+      IF (ALLOCATED(DIRA)) call my_dealloc(DIRA)
+      IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
 C------------
       RETURN
       END

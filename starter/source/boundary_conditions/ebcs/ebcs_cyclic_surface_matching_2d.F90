@@ -54,6 +54,8 @@
           use constant_mod, only : em10,em02, em03, half, zero, one
           use names_and_titles_mod , only : nchartitle
           use message_mod
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -126,16 +128,16 @@
 
           !absolute tolerance first tested
           if (d12 < abs_tol .or. d12_ < abs_tol) then
-              call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title),&
-               C2="NODES DEFINE A NULL OR TOO SHORT VECTOR")
-              lVALID = .FALSE.
-              return
+            call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title),&
+              C2="NODES DEFINE A NULL OR TOO SHORT VECTOR")
+            lVALID = .FALSE.
+            return
           end if
           if(abs(d12-d12_) > tol )then
             lVALID = .FALSE.
             !ERROR MESSAGE : user nodes N1N2 and N1'N2' do not match on both surfaces
             call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title),&
-             C2="NODES DO NOT MATCH ON SURFACE : LENGTHES ARE DIFFERENT")
+              C2="NODES DO NOT MATCH ON SURFACE : LENGTHES ARE DIFFERENT")
             return
           endif
 
@@ -143,7 +145,7 @@
             lVALID = .FALSE.
             !ERROR MESSAGE : N1N2 leads to null vector
             call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title),&
-             C2="NODES DEFINE A NULL VECTOR")
+              C2="NODES DEFINE A NULL VECTOR")
             return
           endif
 
@@ -172,9 +174,9 @@
           NSEG = ebcs%nb_elem  !nseg1=nseg2 (checked by Reader subroutine), allocated to 2*nseg
           NNOD = ebcs%nb_node  !nnod1=nnod2 (checked by Reader subroutine), allocated to 2*nnod
 
-          allocate(NODLIST1(NNOD))
-          allocate(NODLIST2(NNOD))
-          allocate(NODLIST3(NNOD))
+          call my_alloc(NODLIST1,NNOD,"NODLIST1")
+          call my_alloc(NODLIST2,NNOD,"NODLIST2")
+          call my_alloc(NODLIST3,NNOD,"NODLIST3")
           NODLIST1(1:NNOD) = ebcs%node_list(1:NNOD)
           NODLIST2(1:NNOD) = ebcs%node_list(NNOD+1:NNOD+NNOD)
           NODLIST3(1:NNOD) = ebcs%node_list(NNOD+1:NNOD+NNOD) !backup
@@ -201,13 +203,13 @@
                 endif
               end if
             END DO
-             ! NODE I on surface 1 do not match any node on surface 2
-             if(.NOT.lFOUND)then
-               l_ALL_FOUND=.FALSE.
-               !error surface soes not match
-                 call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title), &
-                 C2="SURFACE NODES DO NOT MATCH. CHECK IF N1 AND N2 DO BELONG TO SURFACE.")
-                 exit
+            ! NODE I on surface 1 do not match any node on surface 2
+            if(.NOT.lFOUND)then
+              l_ALL_FOUND=.FALSE.
+              !error surface soes not match
+              call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title), &
+                C2="SURFACE NODES DO NOT MATCH. CHECK IF N1 AND N2 DO BELONG TO SURFACE.")
+              exit
             end if
           END DO
 
@@ -220,18 +222,18 @@
 
           !renumber segment nodes
           DO I=1,NSEG
-              inod1 = ebcs%elem_list(1,nseg+i)
-              inod2 = ebcs%elem_list(2,nseg+i)
-              ebcs%elem_list(1,nseg+i) = -NODLIST2(NODLIST1(INOD1))
-              ebcs%elem_list(2,nseg+i) = -NODLIST2(NODLIST1(INOD2))
+            inod1 = ebcs%elem_list(1,nseg+i)
+            inod2 = ebcs%elem_list(2,nseg+i)
+            ebcs%elem_list(1,nseg+i) = -NODLIST2(NODLIST1(INOD1))
+            ebcs%elem_list(2,nseg+i) = -NODLIST2(NODLIST1(INOD2))
           END DO
 
           !ordering segments
-          allocate(ITAG_ELEM(NSEG))
-          allocate(IFACE(NSEG))
-          allocate(ISEG(NSEG))
-          allocate(IELEM(NSEG))
-          allocate(ELEM_LIST(2,NSEG))
+          call my_alloc(ITAG_ELEM,NSEG,"ITAG_ELEM")
+          call my_alloc(IFACE,NSEG,"IFACE")
+          call my_alloc(ISEG,NSEG,"ISEG")
+          call my_alloc(IELEM,NSEG,"IELEM")
+          call my_alloc(ELEM_LIST,2,NSEG,"ELEM_LIST")
           ITAG_ELEM(1:NSEG)=0
           ELEM_LIST(1,1:NSEG) = ebcs%elem_list(1,nseg+1:nseg+nseg)
           ELEM_LIST(2,1:NSEG) = ebcs%elem_list(2,nseg+1:nseg+nseg)
@@ -246,20 +248,26 @@
               inod4 = ELEM_LIST(2,j)
               if(itag_elem(j) == 0)then
                 if(inod1==inod3 .OR. inod1==inod4)then
-                    if(inod2==inod3 .OR. inod2==inod4)then
-                        ITAG_ELEM(J)=1
-                        ebcs%elem_list(1:2,nseg+i) = ELEM_LIST(1:2,J)
-                        ebcs%iface(nseg+i) = IFACE(J)
-                        ebcs%iseg(nseg+i) = ISEG(J)
-                        ebcs%ielem(nseg+i) = IELEM(J)
-                    end if
+                  if(inod2==inod3 .OR. inod2==inod4)then
+                    ITAG_ELEM(J)=1
+                    ebcs%elem_list(1:2,nseg+i) = ELEM_LIST(1:2,J)
+                    ebcs%iface(nseg+i) = IFACE(J)
+                    ebcs%iseg(nseg+i) = ISEG(J)
+                    ebcs%ielem(nseg+i) = IELEM(J)
+                  end if
                 end if
               end if
             END DO
           END DO
 
-          deallocate(nodlist1,nodlist2,nodlist3)
-          deallocate(ITAG_ELEM,IFACE,IELEM,ELEM_LIST,ISEG)
+          call my_dealloc(nodlist1)
+          call my_dealloc(nodlist2)
+          call my_dealloc(nodlist3)
+          call my_dealloc(ITAG_ELEM)
+          call my_dealloc(IFACE)
+          call my_dealloc(IELEM)
+          call my_dealloc(ELEM_LIST)
+          call my_dealloc(ISEG)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine ebcs_cyclic_surface_matching_2d
       end module ebcs_cyclic_surface_matching_2d_mod

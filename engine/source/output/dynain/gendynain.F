@@ -68,6 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -150,10 +152,10 @@ c
 C-----------------------
 C    Allocation Tabs
 C-----------------------
-      ALLOCATE(NODTAG(NUMNOD),STAT=IERR)
-      ALLOCATE(ITABG(LENG),STAT=IERR)
-      ALLOCATE(DYNAIN_INDXC(2*LENGC),STAT=IERR)
-      ALLOCATE(DYNAIN_INDXTG(2*LENGTG),STAT=IERR)
+      call my_alloc(NODTAG, NUMNOD, "NODTAG", stat=IERR)
+      call my_alloc(ITABG, LENG, "ITABG", stat=IERR)
+      call my_alloc(DYNAIN_INDXC, 2*LENGC, "DYNAIN_INDXC", stat=IERR)
+      call my_alloc(DYNAIN_INDXTG, 2*LENGTG, "DYNAIN_INDXTG", stat=IERR)
 C-----------------------------------------------
 C   CONNECTIVITIES + NODAL COORDINATES
 C-----------------------------------------------
@@ -205,9 +207,9 @@ C   ALLOCATION OF TABLES
 C-----------------------------------------------
       IERR = 0
       IF(SIZLOC >= 1) THEN
-        ALLOCATE(WA(SIZLOC),STAT=IERR)
+        call my_alloc(WA, SIZLOC, "WA", stat=IERR)
       ELSE
-        ALLOCATE(WA(1))
+        call my_alloc(WA, 1, "WA")
       ENDIF
       IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
@@ -217,7 +219,7 @@ C-----------------------------------------------
 
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
-      ALLOCATE(WAP0(SIZP0),STAT=IERR)
+      call my_alloc(WAP0, SIZP0, "WAP0", stat=IERR)
       IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
@@ -249,12 +251,15 @@ C------------------------------------------
 
 C-----------------------------------------------
 
-      IF(SIZLOC >= 1) DEALLOCATE(WA)
-      IF(SIZP0 >= 1) DEALLOCATE(WAP0)
+      IF(SIZLOC >= 1) call my_dealloc(WA)
+      IF(SIZP0 >= 1) call my_dealloc(WAP0)
 C-----------------------
 C    DEAllocation Tabs
 C-----------------------
-      DEALLOCATE(NODTAG,ITABG,DYNAIN_INDXC,DYNAIN_INDXTG)
+      call my_dealloc(NODTAG)
+      call my_dealloc(ITABG)
+      call my_dealloc(DYNAIN_INDXC)
+      call my_dealloc(DYNAIN_INDXTG)
 C-----------------------------------------------
 C   END
 C-----------------------------------------------

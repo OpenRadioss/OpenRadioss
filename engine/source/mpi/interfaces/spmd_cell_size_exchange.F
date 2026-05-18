@@ -60,6 +60,7 @@ C-----------------------------------------------
         USE MESSAGE_MOD
         USE INTER_SORTING_MOD
         USE TRI7BOX
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
+
 #include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -166,7 +168,7 @@ C-----------------------------------------------
 
                 SORT_COMM(NIN)%NB(P) = 0
                 NB = 0
-                ALLOCATE(INDEX(2*NUMNOD))
+                call my_alloc(INDEX, 2*NUMNOD, "INDEX")
                 !   --------------------------
                 IF(ITIED/=0.AND.ITYP==7) THEN
                     !   itied/=0 --> need to send all nodes 
@@ -232,9 +234,9 @@ C-----------------------------------------------
                 !   need to sort the secondary nodes
                 NB_SAVE = NB
                 IF(NB_SAVE>1600) THEN
-                    ALLOCATE( WORK(70000) )
-                    ALLOCATE( ITRI(NB_SAVE) )
-                    ALLOCATE( INDEX_2(2*NB_SAVE) )
+                    call my_alloc(WORK, 70000, "WORK")
+                    call my_alloc(ITRI, NB_SAVE, "ITRI")
+                    call my_alloc(INDEX_2, 2*NB_SAVE, "INDEX_2")
                     DO I=1,NB_SAVE
                        ITRI(I) = INDEX(I)
                        INDEX_2(I) = I
@@ -248,11 +250,11 @@ C-----------------------------------------------
                             INDEX(NB) = ITRI(INDEX_2(I))
                         ENDIF
                     ENDDO
-                    DEALLOCATE( WORK )
-                    DEALLOCATE( ITRI )
-                    DEALLOCATE( INDEX_2 )
+                    call my_dealloc(WORK)
+                    call my_dealloc(ITRI)
+                    call my_dealloc(INDEX_2)
                 ELSEIF(NB_SAVE>0) THEN
-                    ALLOCATE( INDEX_2(NB_SAVE) )
+                    call my_alloc(INDEX_2, NB_SAVE, "INDEX_2")
                     CALL MYQSORT_INT(NB_SAVE, INDEX, INDEX_2, ERROR_SORT)
                     INDEX_2(1:NB_SAVE) = INDEX(1:NB_SAVE)
                     NB = 1
@@ -263,7 +265,7 @@ C-----------------------------------------------
                         ENDIF
                     ENDDO
                     INDEX(1:NB) = INDEX_2(1:NB)
-                    DEALLOCATE( INDEX_2 )
+                    call my_dealloc(INDEX_2)
                 ENDIF
 
                 !   save the number of secondary nodes
@@ -417,7 +419,7 @@ C -- IDTMINS_INT /= 0
                         L2 = L2 + ISIZ
                     END DO  
                 ENDIF   !   if nb/=0
-                DEALLOCATE(INDEX)
+                call my_dealloc(INDEX)
                 !   ------------------------------
             ENDIF      
         ENDIF ! nsn>0 or nmn > 0

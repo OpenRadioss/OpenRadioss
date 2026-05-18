@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -98,10 +99,10 @@ C-----------------------------------------------
       my_real
      .        MSBIG, INBIG, MCPM, MCPN
 C-----------------------------------------------
-      CALL MY_ALLOC(KDIVIDE4,NUMELC)
-      CALL MY_ALLOC(KDIVIDE3,NUMELTG)
-      CALL MY_ALLOC(ITRI,MAX(NUMELC,NUMELTG))
-      CALL MY_ALLOC(INDEX1,2*MAX(NUMELC,NUMELTG))
+      call my_alloc(KDIVIDE4, NUMELC, "KDIVIDE4")
+      call my_alloc(KDIVIDE3, NUMELTG, "KDIVIDE3")
+      call my_alloc(ITRI, MAX(NUMELC,NUMELTG), "ITRI")
+      call my_alloc(INDEX1, 2*MAX(NUMELC,NUMELTG), "INDEX1")
 
  10   CONTINUE 
 
@@ -608,9 +609,9 @@ C     compaction of LSH3ACT
 
       GO TO 10
 C----6---------------------------------------------------------------7---------8
-      DEALLOCATE(KDIVIDE4)
-      DEALLOCATE(KDIVIDE3)
-      DEALLOCATE(ITRI)
-      DEALLOCATE(INDEX1)
+      call my_dealloc(KDIVIDE4)
+      call my_dealloc(KDIVIDE3)
+      call my_dealloc(ITRI)
+      call my_dealloc(INDEX1)
       RETURN
       END     

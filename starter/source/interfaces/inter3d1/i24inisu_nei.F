@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,9 @@ C-----------max number of connected segment per node
        NMAX=MAX(NMAX,ITAG(I))
        ITAG(I)=0
       ENDDO
-      ALLOCATE(MVOI(NMAX+10),NVOI(2*NMAX+10),EIDNOD(NMAX,NUMNOD))
+      call my_alloc(MVOI, NMAX+10, "MVOI")
+      call my_alloc(NVOI, 2*NMAX+10, "NVOI")
+      call my_alloc(EIDNOD, NMAX, NUMNOD, "EIDNOD")
       EIDNOD=0
 C------------ini- E_ids of each node
       DO I=1,NRTM
@@ -189,7 +192,9 @@ c        ELSE  sous-triangle 1
 C
       END DO !I=1,NRTM
 C      
-      DEALLOCATE(MVOI,NVOI,EIDNOD)
+      CALL MY_DEALLOC(MVOI)
+      CALL MY_DEALLOC(NVOI)
+      CALL MY_DEALLOC(EIDNOD)
 C
 c      DO I=1,NRTM
 c       print *,'N_E(I),MSEGTYP(I),I=',N_E(I),MSEGTYP(I),I

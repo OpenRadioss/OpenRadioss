@@ -43,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
+      use my_dealloc_mod, only : my_dealloc
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -83,7 +84,7 @@ C-----------------------------------------------
        END SUBROUTINE  
       END INTERFACE 
 C=======================================================================
-      CALL MY_ALLOC(BUFTMP,NUMNOD*2)
+      CALL MY_ALLOC(BUFTMP,NUMNOD*2,"BUFTMP")
       IS_AVAILABLE = .FALSE.
       IF (FLAG == 0) ICOUNT=0
       IGS =0
@@ -153,7 +154,7 @@ c                         non sorted group
                   ENDIF ! IF (IGRS == 0)
                 ENDIF ! IF (J10(J) /= 0)
               ENDDO ! DO J=1,10
-              IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
+              IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
             ENDIF ! IF (SKIPFLAG == 0)
 C-----
             IF (SKIPFLAG == 0) THEN               
@@ -165,7 +166,7 @@ C                  sorted group
               ENDIF                               
 C
               IGRNOD(IGS)%NENTITY = NEL
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NEL)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NEL,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY = 0
             ENDIF ! IF (SKIPFLAG == 0)
 C-----------                                             
@@ -206,7 +207,7 @@ C                           remove nodes from the group if j10 < 0
                 ENDIF ! IF (IGRS == 0)
               ENDIF ! IF (J10(J) /= 0)
             ENDDO ! DO J=1,10       
-            IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
+            IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
 C-----                                                                          
             IF (NONTRI == 0) THEN                    
 c               sorted group                                                                
@@ -223,7 +224,7 @@ C-----------  end_ flag = 1
         ENDIF ! IF (IGRNOD(IGS)%GRPGRP == 2)
       ENDDO ! DO I=1,NLINE(KCUR)                                                    
 C-----------
-      DEALLOCATE(BUFTMP)
+      CALL MY_DEALLOC(BUFTMP)
       RETURN
  900  CALL ANCMSG(MSGID=176,
      .            MSGTYPE=MSGERROR,

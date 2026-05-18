@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
     !-----------------------------------------------
     !   I m p l i c i t   T y p e s
     !-----------------------------------------------
@@ -98,7 +99,7 @@ C-----------------------------------------------
       !!    the combinations
       MU_INCR_GUESS =0
       
-      ALLOCATE (SIG(1:NPT))
+      call my_alloc(SIG, NPT, "SIG")
       ICOMP=0
       IF(ICHECK < 0) ICOMP= 1
       ICHECK = ABS(ICHECK)
@@ -320,7 +321,7 @@ c       check convergence of LM optimization
        ENDIF
        IF(IFIT_SUCCESS == 1 .OR. IEND_FINDING == 1) EXIT 
       ENDDO  ! IFIT_SUCCESS
-      DEALLOCATE (SIG)
+      CALL MY_DEALLOC(SIG)
        
       IF (IFIT_SUCCESS == 0) THEN
         IF (NPSAVED == 0) THEN

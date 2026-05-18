@@ -48,6 +48,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -124,13 +126,13 @@ c provisional
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE, SAVE :: VOXEL_LOCAL
 C-----------------------------------------------
       IF(ITASK == 0)THEN
-        ALLOCATE(NEXT_NOD(NSN+NSNR))
-        ALLOCATE(IIX(NSN+NSNR))
-        ALLOCATE(IIY(NSN+NSNR))
-        ALLOCATE(IIZ(NSN+NSNR))
-        ALLOCATE(TAB_DK(NUMSPH))
-        ALLOCATE(NEXT_NOD_LOCAL(NSN))
-        ALLOCATE( VOXEL_LOCAL(NBX+2,NBY+2,NBZ+2) )
+        call my_alloc(NEXT_NOD, NSN+NSNR, "NEXT_NOD")
+        call my_alloc(IIX, NSN+NSNR, "IIX")
+        call my_alloc(IIY, NSN+NSNR, "IIY")
+        call my_alloc(IIZ, NSN+NSNR, "IIZ")
+        call my_alloc(TAB_DK, NUMSPH, "TAB_DK")
+        call my_alloc(NEXT_NOD_LOCAL, NSN, "NEXT_NOD_LOCAL")
+        call my_alloc(VOXEL_LOCAL, NBX+2, NBY+2, NBZ+2, "VOXEL_LOCAL")
       END IF
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
@@ -626,13 +628,13 @@ C================================================================
 C
       CALL MY_BARRIER()
       IF(ITASK == 0)THEN
-        DEALLOCATE(NEXT_NOD)
-        DEALLOCATE(IIX)
-        DEALLOCATE(IIY)
-        DEALLOCATE(IIZ)
-        DEALLOCATE(TAB_DK)
-        DEALLOCATE( NEXT_NOD_LOCAL )
-        DEALLOCATE( VOXEL_LOCAL )
+        call my_dealloc(NEXT_NOD)
+        call my_dealloc(IIX)
+        call my_dealloc(IIY)
+        call my_dealloc(IIZ)
+        call my_dealloc(TAB_DK)
+        call my_dealloc(NEXT_NOD_LOCAL)
+        call my_dealloc(VOXEL_LOCAL)
       ENDIF
 
       RETURN

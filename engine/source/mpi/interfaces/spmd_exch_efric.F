@@ -53,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -241,7 +242,7 @@ C
           ENDDO
 C Deallocation R
           IF(IALLOCR>0) THEN
-            DEALLOCATE(BBUFR)
+            call my_dealloc(BBUFR)
           END IF
 C
 C Attente ISEND
@@ -253,7 +254,7 @@ C
           ENDDO
 C Deallocation S
           IF(IALLOCS>0) THEN
-            DEALLOCATE(BBUFS)
+            call my_dealloc(BBUFS)
           END IF
 C
       ENDIF ! IS_EFRIC_COM_NEEDED

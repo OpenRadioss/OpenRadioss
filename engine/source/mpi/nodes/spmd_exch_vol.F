@@ -33,6 +33,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -66,8 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE(RBUF(6,LENR))
-      ALLOCATE(SBUF(6,LENR))
+      call my_alloc(RBUF, 6, LENR, "RBUF")
+      call my_alloc(SBUF, 6, LENR, "SBUF")
 
       LOC_PROC = ISPMD + 1
       SIZ6 = 6

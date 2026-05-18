@@ -564,6 +564,7 @@ C=======================================================================
      $                       ICHECK, NSTART, ERRTOL,ID,TITR,IS_ENCRYPTED)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -651,7 +652,7 @@ c     the combinations
       INTEGER IRET
       INTEGER IRND1
 ! ------------------------------------------------------------------------------       
-      ALLOCATE (SIG(1:NPT))
+      call my_alloc(SIG, NPT, "SIG")
       ERRAVE_MIN = ZERO
 !
       !
@@ -1003,7 +1004,7 @@ c       check convergence of LM optimization
         ENDIF
       ENDIF
 
-      DEALLOCATE (SIG)
+      CALL MY_DEALLOC(SIG)
 
       IF (IFIT_SUCCESS == 0) THEN
         IF (NPSAVED == 0) THEN

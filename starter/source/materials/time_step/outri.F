@@ -74,7 +74,7 @@ C-----------------------------------------------
 C=======================================================================
 C     INITIALIZATION OF INTERNAL NUMBERS OF ELEMENTS BEFORE SORTING
 C
-      CALL MY_ALLOC(PERM,NUMEL)
+      CALL MY_ALLOC(PERM,NUMEL,"PERM")
       ! --------------------
       ! solid and quad
       NUM2 = 0
@@ -333,7 +333,7 @@ c        CALL ANCHECK(93)
            WRITE(IOUT,1002)DTELEM(NUM1+I),KXIG3D(5,NUMELO)
         END DO
       ENDIF
-      DEALLOCATE( PERM )
+      CALL MY_DEALLOC(PERM)
 C--------------------------------------------------------
  1000 FORMAT(//,'         SOLID ELEMENTS TIME STEP')
  1001 FORMAT(  '         ------------------------',//,
@@ -400,8 +400,8 @@ C-----------------------------------------------
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 C=======================================================================
-      CALL MY_ALLOC(PERM,NUMNOD)
-      CALL MY_ALLOC(DT,NUMNOD)
+      CALL MY_ALLOC(PERM,NUMNOD,"PERM")
+      CALL MY_ALLOC(DT,NUMNOD,"DT")
       DTNODA = EP30
 C 
       DO I=1,NUMNOD
@@ -510,8 +510,8 @@ C
      .                  INPUT_TXT_X="NODAL TIME STEP",INPUT_TXT_Y="% OF NODES")
 C
 
-      DEALLOCATE( PERM )
-      DEALLOCATE( DT )
+      CALL MY_DEALLOC(PERM)
+      CALL MY_DEALLOC(DT)
 
 C-----------
  1000 FORMAT(//,'         NODAL TIME STEP (estimation)')

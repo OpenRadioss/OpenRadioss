@@ -67,6 +67,7 @@
           use file_descriptor_mod
           use constant_mod
           use precision_mod, only : wp
+          use MY_ALLOC_MOD, only : my_alloc
 !-----------------------------------------------
           implicit none
 !-----------------------------------------------
@@ -273,9 +274,9 @@
           mat_param%nuparam = nuparam
           mat_param%nfunc   = nfunc
           mat_param%ntable  = ntable
-          allocate (mat_param%iparam(niparam))
-          allocate (mat_param%uparam(nuparam))
-          allocate (mat_param%table(ntable))
+          call my_alloc(mat_param%iparam,niparam,"mat_param%iparam")
+          call my_alloc(mat_param%uparam,nuparam,"mat_param%uparam")
+          allocate(mat_param%table(ntable))
 
           mat_param%iparam(1) = iform
           mat_param%iparam(2) = icc

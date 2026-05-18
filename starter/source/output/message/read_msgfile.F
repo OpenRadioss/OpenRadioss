@@ -74,7 +74,7 @@ C reading the file ...
         END IF
       GOTO 10
    20 CONTINUE
-      ALLOCATE(MESSAGESFILE(NBLINE))
+      allocate(MESSAGESFILE(NBLINE))
       SMESSAGESFILE=NBLINE
       IF (NBLINE<=0) GOTO 900
       REWIND(ISTDEML)

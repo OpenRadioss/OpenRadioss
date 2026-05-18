@@ -37,6 +37,7 @@ C-----------------------------------------------
 !      USE R2R_MOD
       USE MESSAGE_MOD
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,21 +67,21 @@ C-----------------------------------------------
       INTEGER UEL2SYS
       EXTERNAL UEL2SYS
 C=======================================================================
-      ALLOCATE (ITRIS(NUMELS) ,STAT=stat)
+      call my_alloc(ITRIS, NUMELS, "ITRIS", stat=stat)
       IF (STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                      C1='ITRIS')
         RETURN
       END IF
-      ALLOCATE (INDEXS(2*NUMELS) ,STAT=stat)
+      call my_alloc(INDEXS, 2*NUMELS, "INDEXS", stat=stat)
       IF (STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                      C1='INDEXS')
         RETURN
       END IF
-      ALLOCATE (KSYSUSRS(2*NUMELS),STAT=stat)
+      call my_alloc(KSYSUSRS, 2*NUMELS, "KSYSUSRS", stat=stat)
       IF (STAT /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -125,7 +126,9 @@ C       No system in the D00, of the element:
       END DO
 !:::
 C-----------
-      DEALLOCATE(KSYSUSRS,INDEXS,ITRIS)
+      CALL MY_DEALLOC(KSYSUSRS)
+      CALL MY_DEALLOC(INDEXS)
+      CALL MY_DEALLOC(ITRIS)
       RETURN
       END
 

@@ -74,7 +74,7 @@
           ! read eos model parameters (integer)
           call read_i_c(ilen, 1)
           len = ilen(1)
-          allocate (ibuf(len) )
+          call my_alloc(ibuf, len, "ibuf")
           call read_i_c(ibuf, len)
           iad = 0
           iad = iad+1 ; eos%nuparam = ibuf(iad)
@@ -83,12 +83,12 @@
           iad = iad+1 ; eos%ntable  = ibuf(iad)
           iad = iad+1 ; eos%isfluid = ibuf(iad)
           iad = iad+1 ; eos%eostype  = ibuf(iad)
-          deallocate( ibuf )
+          call my_dealloc(ibuf)
 
           ! read eos model parameters (real)
           call read_i_c(ilen, 1)
           len = ilen(1)
-          allocate (rbuf(len))
+          call my_alloc(rbuf, len, "rbuf")
           call read_db(rbuf, len)
           iad = 0
           iad = iad+1 ; eos%cv  = rbuf(iad)
@@ -97,7 +97,7 @@
           iad = iad+1 ; eos%e0 = rbuf(iad)
           iad = iad+1 ; eos%p0 = rbuf(iad)
           iad = iad+1 ; eos%pmin = rbuf(iad)
-          deallocate( rbuf )
+          call my_dealloc(rbuf)
 
           ! read material title
           call read_c_c(name,nchartitle)
@@ -108,8 +108,8 @@
           ! read eos parameter arrays
           nuparam = eos%nuparam
           niparam = eos%niparam
-          call my_alloc(eos%uparam ,nuparam)
-          call my_alloc(eos%iparam ,niparam)
+          call my_alloc(eos%uparam, nuparam, "eos%uparam")
+          call my_alloc(eos%iparam, niparam, "eos%iparam")
 
           if (nuparam > 0) then
             call read_db(eos%uparam  ,nuparam)
@@ -121,7 +121,7 @@
           ! read eos law function
           numfunc  = eos%nfunc
           if (numfunc > 0) then
-            allocate (eos%func(numfunc))
+            call my_alloc(eos%func, numfunc, "eos%func")
             call read_i_c(eos%func, numfunc)
           end if
 

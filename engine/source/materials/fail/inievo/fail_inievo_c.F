@@ -47,6 +47,8 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -102,20 +104,20 @@ C!--------------------------------------------------------------
       ISHEAR  = INT(UPARAM(2))
       ILEN    = INT(UPARAM(3))
       IF (INLOC > 0) ILEN = 1
-      ALLOCATE(INITYPE(NINIEVO))
-      ALLOCATE(EVOTYPE(NINIEVO))
-      ALLOCATE(EVOSHAP(NINIEVO))
-      ALLOCATE(COMPTYP(NINIEVO))
-      ALLOCATE(TAB_ID (NINIEVO))
-      ALLOCATE(SR_REF (NINIEVO))
-      ALLOCATE(FSCALE (NINIEVO))
-      ALLOCATE(INI_P1 (NINIEVO))
-      ALLOCATE(TAB_EL (NINIEVO))
-      ALLOCATE(EL_REF (NINIEVO))
-      ALLOCATE(ELSCAL (NINIEVO))
-      ALLOCATE(DISP   (NINIEVO))
-      ALLOCATE(ENER   (NINIEVO))
-      ALLOCATE(ALPHA2 (NINIEVO))   
+      call my_alloc(INITYPE, NINIEVO, "INITYPE")
+      call my_alloc(EVOTYPE, NINIEVO, "EVOTYPE")
+      call my_alloc(EVOSHAP, NINIEVO, "EVOSHAP")
+      call my_alloc(COMPTYP, NINIEVO, "COMPTYP")
+      call my_alloc(TAB_ID, NINIEVO, "TAB_ID")
+      call my_alloc(SR_REF, NINIEVO, "SR_REF")
+      call my_alloc(FSCALE, NINIEVO, "FSCALE")
+      call my_alloc(INI_P1, NINIEVO, "INI_P1")
+      call my_alloc(TAB_EL, NINIEVO, "TAB_EL")
+      call my_alloc(EL_REF, NINIEVO, "EL_REF")
+      call my_alloc(ELSCAL, NINIEVO, "ELSCAL")
+      call my_alloc(DISP, NINIEVO, "DISP")
+      call my_alloc(ENER, NINIEVO, "ENER")
+      call my_alloc(ALPHA2, NINIEVO, "ALPHA2")
       TAB_ID(1:NINIEVO) = ITABLF(1:NINIEVO)
       TAB_EL(1:NINIEVO) = ITABLF(NINIEVO+1:NINIEVO*2)
 c
@@ -162,9 +164,9 @@ c
       ! Positive stress triaxiality bounded plastic strain
       EPSMOD(1:NEL) = UVAR(1:NEL,2)
       ! Damage initiation and evolution variable
-      ALLOCATE(DMGINI(NEL,NINIEVO))
-      ALLOCATE(DMGEVO(NEL,NINIEVO))
-      ALLOCATE(FCRIT(NEL))
+      call my_alloc(DMGINI, NEL, NINIEVO, "DMGINI")
+      call my_alloc(DMGEVO, NEL, NINIEVO, "DMGEVO")
+      call my_alloc(FCRIT, NEL, "FCRIT")
       DO J = 1,NINIEVO
         DO I=1,NEL
           ! Initiation damage
@@ -454,23 +456,23 @@ c
       !====================================================================
       ! - TABLES DEALLOCATION
       !====================================================================
-      IF (ALLOCATED(INITYPE)) DEALLOCATE(INITYPE)
-      IF (ALLOCATED(EVOTYPE)) DEALLOCATE(EVOTYPE)
-      IF (ALLOCATED(EVOSHAP)) DEALLOCATE(EVOSHAP)
-      IF (ALLOCATED(COMPTYP)) DEALLOCATE(COMPTYP)
-      IF (ALLOCATED(TAB_ID))  DEALLOCATE(TAB_ID)
-      IF (ALLOCATED(SR_REF))  DEALLOCATE(SR_REF)
-      IF (ALLOCATED(FSCALE))  DEALLOCATE(FSCALE)
-      IF (ALLOCATED(INI_P1))  DEALLOCATE(INI_P1)
-      IF (ALLOCATED(TAB_EL))  DEALLOCATE(TAB_EL)
-      IF (ALLOCATED(EL_REF))  DEALLOCATE(EL_REF)
-      IF (ALLOCATED(ELSCAL))  DEALLOCATE(ELSCAL)
-      IF (ALLOCATED(DISP))    DEALLOCATE(DISP)
-      IF (ALLOCATED(ENER))    DEALLOCATE(ENER)
-      IF (ALLOCATED(ALPHA2))  DEALLOCATE(ALPHA2)
-      IF (ALLOCATED(DMGINI))  DEALLOCATE(DMGINI)
-      IF (ALLOCATED(DMGEVO))  DEALLOCATE(DMGEVO)
-      IF (ALLOCATED(FCRIT))   DEALLOCATE(FCRIT)
+      IF (ALLOCATED(INITYPE)) call my_dealloc(INITYPE)
+      IF (ALLOCATED(EVOTYPE)) call my_dealloc(EVOTYPE)
+      IF (ALLOCATED(EVOSHAP)) call my_dealloc(EVOSHAP)
+      IF (ALLOCATED(COMPTYP)) call my_dealloc(COMPTYP)
+      IF (ALLOCATED(TAB_ID)) call my_dealloc(TAB_ID)
+      IF (ALLOCATED(SR_REF)) call my_dealloc(SR_REF)
+      IF (ALLOCATED(FSCALE)) call my_dealloc(FSCALE)
+      IF (ALLOCATED(INI_P1)) call my_dealloc(INI_P1)
+      IF (ALLOCATED(TAB_EL)) call my_dealloc(TAB_EL)
+      IF (ALLOCATED(EL_REF)) call my_dealloc(EL_REF)
+      IF (ALLOCATED(ELSCAL)) call my_dealloc(ELSCAL)
+      IF (ALLOCATED(DISP)) call my_dealloc(DISP)
+      IF (ALLOCATED(ENER)) call my_dealloc(ENER)
+      IF (ALLOCATED(ALPHA2)) call my_dealloc(ALPHA2)
+      IF (ALLOCATED(DMGINI)) call my_dealloc(DMGINI)
+      IF (ALLOCATED(DMGEVO)) call my_dealloc(DMGEVO)
+      IF (ALLOCATED(FCRIT)) call my_dealloc(FCRIT)
 c------------------------
  1000 FORMAT(1X,'FOR SHELL ELEMENT NUMBER ',I10,
      .          ' FAILURE (INIEVO) WITH CRITERION NUMBER ',I3,

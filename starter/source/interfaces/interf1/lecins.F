@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE I2_SURFI_MOD ,         ONLY : I2_SURFI
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       DATA MESS/'INTERFACE INPUT                         '/
 C=======================================================================
-       ALLOCATE(NTAG_TARGET(2*NUMNOD+1), STAT=Stat)
+       call my_alloc(NTAG_TARGET, 2*NUMNOD+1, "NTAG_TARGET", stat=Stat)
 
        NTAG(0:2*NUMNOD) => NTAG_TARGET(1:2*NUMNOD+1)
 
@@ -650,7 +651,7 @@ C-----
       ENDDO
 C-----
        NULLIFY(NTAG)
-       DEALLOCATE(NTAG_TARGET)
+       CALL MY_DEALLOC(NTAG_TARGET)
 
       RETURN
       END

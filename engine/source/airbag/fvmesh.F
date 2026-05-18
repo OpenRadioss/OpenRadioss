@@ -55,6 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -187,7 +189,7 @@ C    - IFVPADR(NPOLH+1) : Addresses in the previous table
 C
       IFV=IVOLU(45)
       NNSA=FVSPMD(IFV)%NNSA
-      ALLOCATE(XXXSA(3,NNSA))
+      call my_alloc(XXXSA, 3, NNSA, "XXXSA")
       IF (NSPMD == 1) THEN
 C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
@@ -337,12 +339,14 @@ C
          NPOLY_OLD=NPOLY
          NNS_OLD=NNS
   100    CONTINUE
-         IF (ALLOCATED(FACET)) DEALLOCATE(FACET)
-         IF (ALLOCATED(TRI))   DEALLOCATE(TRI)
-         IF (ALLOCATED(NORMT)) DEALLOCATE(NORMT)
-         IF (ALLOCATED(POLY))  DEALLOCATE(POLY)
-         ALLOCATE(FACET(6,1+NFACMAX), TRI(NFACMAX,4),
-     .            NORMT(3,NFACMAX), POLY(3,NVMAX))
+         IF (ALLOCATED(FACET)) call my_dealloc(FACET)
+         IF (ALLOCATED(TRI)) call my_dealloc(TRI)
+         IF (ALLOCATED(NORMT)) call my_dealloc(NORMT)
+         IF (ALLOCATED(POLY)) call my_dealloc(POLY)
+         call my_alloc(FACET, 6, 1+NFACMAX, "FACET")
+         call my_alloc(TRI, NFACMAX, 4, "TRI")
+         call my_alloc(NORMT, 3, NFACMAX, "NORMT")
+         call my_alloc(POLY, 3, NVMAX, "POLY")
          DO J=1,6
             FACET(J,1)=0
          ENDDO
@@ -504,9 +508,9 @@ C
                         ALLOCATE(PTR_CUR)
                         PTR_PREC%PTR => PTR_CUR
                      ENDIF
-                     ALLOCATE(PTR_CUR%IPOLY(6+NVERTS),
-     .                        PTR_CUR%IELNOD(NVERTS),
-     .                        PTR_CUR%RPOLY(4+3*NVERTS))
+                     call my_alloc(PTR_CUR%IPOLY, 6+NVERTS, "PTR_CUR%IPOLY")
+                     call my_alloc(PTR_CUR%IELNOD, NVERTS, "PTR_CUR%IELNOD")
+                     call my_alloc(PTR_CUR%RPOLY, 4+3*NVERTS, "PTR_CUR%RPOLY")
                      PTR_CUR%IPOLY(1)=1
                      PTR_CUR%IPOLY(2)=NVERTS
                      PTR_CUR%IPOLY(3)=IEL
@@ -619,8 +623,9 @@ C Destruction of polygons created for nothing
             ENDIF
             DO J=1,NPOLY-NPOLY_OLD
                PTR_TMP => PTR_CUR%PTR
-               DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY, 
-     .                    PTR_CUR%IELNOD)
+               call my_dealloc(PTR_CUR%IPOLY)
+               call my_dealloc(PTR_CUR%RPOLY)
+               call my_dealloc(PTR_CUR%IELNOD)
                DEALLOCATE(PTR_CUR)
                PTR_CUR => PTR_TMP
             ENDDO
@@ -636,7 +641,10 @@ C
          ENDIF
 C 2. Faces laterales
          IF (TBRIC(7,I)<=1) THEN
-           DEALLOCATE(FACET, TRI, NORMT, POLY)
+           call my_dealloc(FACET)
+           call my_dealloc(TRI)
+           call my_dealloc(NORMT)
+           call my_dealloc(POLY)
            CYCLE
          END IF
          DO J=1,6
@@ -683,12 +691,12 @@ C
 C
   200          CONTINUE
                NRPMAX=NPPMAX*3+4
-               IF (ALLOCATED(IPOLY))  DEALLOCATE(IPOLY)
-               IF (ALLOCATED(RPOLY))  DEALLOCATE(RPOLY)
-               IF (ALLOCATED(IELNOD)) DEALLOCATE(IELNOD)
-               ALLOCATE(IPOLY(6+NPPMAX+1+NPOLMAX,NPOLMAX), 
-     .                  RPOLY(NRPMAX+3*NPOLMAX,NPOLMAX),
-     .                  IELNOD(NPPMAX,NPOLMAX))
+               IF (ALLOCATED(IPOLY)) call my_dealloc(IPOLY)
+               IF (ALLOCATED(RPOLY)) call my_dealloc(RPOLY)
+               IF (ALLOCATED(IELNOD)) call my_dealloc(IELNOD)
+               call my_alloc(IPOLY, 6+NPPMAX+1+NPOLMAX, NPOLMAX, "IPOLY")
+               call my_alloc(RPOLY, NRPMAX+3*NPOLMAX, NPOLMAX, "RPOLY")
+               call my_alloc(IELNOD, NPPMAX, NPOLMAX, "IELNOD")
 C
                CALL FACEPOLY(QUAD,   TRI,   NS,     IPOLY,   RPOLY,
      .                       NR,     NORMF, NORMT,  NFACMAX, NNP,
@@ -710,9 +718,9 @@ C
                   ENDIF
                   NN=IPOLY(2,N)
                   NHOL=IPOLY(6+NN+1,N)
-                  ALLOCATE(PTR_CUR2%IPOLY(6+NN+1+NHOL),
-     .                     PTR_CUR2%IELNOD(NN),
-     .                     PTR_CUR2%RPOLY(4+3*NN+3*NHOL))
+                  call my_alloc(PTR_CUR2%IPOLY, 6+NN+1+NHOL, "PTR_CUR2%IPOLY")
+                  call my_alloc(PTR_CUR2%IELNOD, NN, "PTR_CUR2%IELNOD")
+                  call my_alloc(PTR_CUR2%RPOLY, 4+3*NN+3*NHOL, "PTR_CUR2%RPOLY")
                   DO M=1,6
                      PTR_CUR2%IPOLY(M)=IPOLY(M,N)
                   ENDDO
@@ -741,12 +749,17 @@ C
                   PTR_PREC2 => PTR_CUR2
                ENDDO
 C
-               DEALLOCATE(IPOLY, RPOLY, IELNOD)
+               call my_dealloc(IPOLY)
+               call my_dealloc(RPOLY)
+               call my_dealloc(IELNOD)
             ENDIF
          ENDDO
          ITAGB(I)=1
 C
-         DEALLOCATE(FACET, TRI, NORMT, POLY)
+         call my_dealloc(FACET)
+         call my_dealloc(TRI)
+         call my_dealloc(NORMT)
+         call my_dealloc(POLY)
       ENDDO
 C Concatenation of the two lists
       PTR_CUR2 => FIRST2
@@ -757,9 +770,9 @@ C Concatenation of the two lists
          PTR_PREC%PTR => PTR_CUR
          NN=PTR_CUR2%IPOLY(2)
          NHOL=PTR_CUR2%IPOLY(6+NN+1)
-         ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL),
-     .            PTR_CUR%IELNOD(NN),
-     .            PTR_CUR%RPOLY(4+3*NN+3*NHOL))
+         call my_alloc(PTR_CUR%IPOLY, 6+NN+1+NHOL, "PTR_CUR%IPOLY")
+         call my_alloc(PTR_CUR%IELNOD, NN, "PTR_CUR%IELNOD")
+         call my_alloc(PTR_CUR%RPOLY, 4+3*NN+3*NHOL, "PTR_CUR%RPOLY")
          DO J=1,6
             PTR_CUR%IPOLY(J)=PTR_CUR2%IPOLY(J)
          ENDDO
@@ -784,7 +797,9 @@ C Concatenation of the two lists
      .              PTR_CUR2%RPOLY(4+3*NN+3*(J-1)+3)
          ENDDO
          PTR_TMP2 => PTR_CUR2%PTR
-         DEALLOCATE(PTR_CUR2%IPOLY, PTR_CUR2%RPOLY, PTR_CUR2%IELNOD)
+         call my_dealloc(PTR_CUR2%IPOLY)
+         call my_dealloc(PTR_CUR2%RPOLY)
+         call my_dealloc(PTR_CUR2%IELNOD)
          DEALLOCATE(PTR_CUR2)
          PTR_CUR2 => PTR_TMP2
          PTR_PREC => PTR_CUR
@@ -868,7 +883,8 @@ C Clipping of polygons
          Y0=Y0-LZ*VY3
          Z0=Z0-LZ*VZ3
          ZLC=-LZ
-         ALLOCATE(INEDGE(6,NPOLY*NPPMAX), RNEDGE(6,NPOLY*NPPMAX))
+         call my_alloc(INEDGE, 6, NPOLY*NPPMAX, "INEDGE")
+         call my_alloc(RNEDGE, 6, NPOLY*NPPMAX, "RNEDGE")
          NBNEDGE=0
          NNS3=0
          NPOLY_NEW=NPOLY
@@ -899,11 +915,12 @@ C Clipping of polygons
                   NN=PTR_CUR%IPOLY(2)
                   NHOL=0
                   IF (ITY==2) NHOL=PTR_CUR%IPOLY(6+NN+1)
-                  ALLOCATE(IPOLY(6+2*NN+1+NHOL,NN),
-     .                     RPOLY(4+3*2*NN+3*NHOL,NN),
-     .                     IELNOD(2*NN,NN),
-     .                     NREF(2,NN), AREF(4,NN),
-     .                     IZ(3,NN))
+                  call my_alloc(IPOLY, 6+2*NN+1+NHOL, NN, "IPOLY")
+                  call my_alloc(RPOLY, 4+3*2*NN+3*NHOL, NN, "RPOLY")
+                  call my_alloc(IELNOD, 2*NN, NN, "IELNOD")
+                  call my_alloc(NREF, 2, NN, "NREF")
+                  call my_alloc(AREF, 4, NN, "AREF")
+                  call my_alloc(IZ, 3, NN, "IZ")
                   CALL GPOLCUT(
      .    IPOLY,   RPOLY,   PTR_CUR%IPOLY, PTR_CUR%RPOLY,  INEDGE,
      .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,   
@@ -916,8 +933,9 @@ C
                   DO N=1,NNP
                      NPOLY_NEW=NPOLY_NEW+1
                      IF (N==1) THEN
-                        DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY,
-     .                             PTR_CUR%IELNOD)
+                        call my_dealloc(PTR_CUR%IPOLY)
+                        call my_dealloc(PTR_CUR%RPOLY)
+                        call my_dealloc(PTR_CUR%IELNOD)
                      ELSE
                         ALLOCATE(PTR_CUR)
                         PTR_PREC%PTR => PTR_CUR
@@ -925,9 +943,9 @@ C
                      ENDIF
                      NN=IPOLY(2,N)
                      NHOL=IPOLY(6+NN+1,N)
-                     ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL),
-     .                        PTR_CUR%IELNOD(NN),
-     .                        PTR_CUR%RPOLY(4+3*NN+3*NHOL))
+                     call my_alloc(PTR_CUR%IPOLY, 6+NN+1+NHOL, "PTR_CUR%IPOLY")
+                     call my_alloc(PTR_CUR%IELNOD, NN, "PTR_CUR%IELNOD")
+                     call my_alloc(PTR_CUR%RPOLY, 4+3*NN+3*NHOL, "PTR_CUR%RPOLY")
                      DO M=1,6
                         PTR_CUR%IPOLY(M)=IPOLY(M,N)
                      ENDDO
@@ -957,8 +975,8 @@ C
                      PTR_CUR%IZ(2)=IZ(2,N)
                      IF (N==NNP) THEN
                         PTR_CUR%NNSP=NNSP
-                        ALLOCATE(PTR_CUR%NREF(3,NNSP),
-     .                           PTR_CUR%AREF(4,NNSP))
+                        call my_alloc(PTR_CUR%NREF, 3, NNSP, "PTR_CUR%NREF")
+                        call my_alloc(PTR_CUR%AREF, 4, NNSP, "PTR_CUR%AREF")
                         DO M=1,NNSP
                            NNS3=NNS3+1
                            PTR_CUR%NREF(1,M)=NNS3
@@ -974,11 +992,17 @@ C
                      IF (N==NNP) PTR_CUR%PTR => PTR_TMP
                   ENDDO
 C
-                  DEALLOCATE(IPOLY, RPOLY, IELNOD, NREF, AREF, IZ)
+                  call my_dealloc(IPOLY)
+                  call my_dealloc(RPOLY)
+                  call my_dealloc(IELNOD)
+                  call my_dealloc(NREF)
+                  call my_dealloc(AREF)
+                  call my_dealloc(IZ)
                ELSE
                   IF (ZLMIN==ZERO) THEN
                      NN=PTR_CUR%IPOLY(2)
-                     ALLOCATE(NREF(2,2*NN), AREF(4,2*NN))
+                     call my_alloc(NREF, 2, 2*NN, "NREF")
+                     call my_alloc(AREF, 4, 2*NN, "AREF")
                      CALL HORIEDGE(
      .                 PTR_CUR%IPOLY, PTR_CUR%RPOLY, VX3,    VY3,  VZ3,
      .                 NBNEDGE,       INEDGE,        RNEDGE, X0,   Y0,
@@ -986,8 +1010,8 @@ C
      .                 NNSP         )
 C
                      IF (NNSP>0) THEN
-                        ALLOCATE(PTR_CUR%NREF(3,NNSP), 
-     .                           PTR_CUR%AREF(4,NNSP))
+                        call my_alloc(PTR_CUR%NREF, 3, NNSP, "PTR_CUR%NREF")
+                        call my_alloc(PTR_CUR%AREF, 4, NNSP, "PTR_CUR%AREF")
                         PTR_CUR%NNSP=NNSP
                         DO N=1,NNSP
                            NNS3=NNS3+1
@@ -1000,7 +1024,8 @@ C
                            PTR_CUR%AREF(4,N)=AREF(4,N)
                         ENDDO
                      ENDIF
-                     DEALLOCATE(NREF, AREF)   
+                     call my_dealloc(NREF)
+                     call my_dealloc(AREF)
                   ENDIF
                   IF (ZLMIN>=ZERO) THEN 
                      PTR_CUR%IZ(1)=1
@@ -1020,7 +1045,7 @@ C
             ZLC=ZLC+DZ
          ENDDO
 C
-         ALLOCATE(REDIR(NNS))
+         call my_alloc(REDIR, NNS, "REDIR")
          PTR_CUR => FIRST
          NNS=0
          DO I=1,NPOLY
@@ -1048,14 +1073,14 @@ C
             ENDIF
             PTR_CUR => PTR_CUR%PTR
          ENDDO
-         DEALLOCATE(REDIR)
+         call my_dealloc(REDIR)
 C Creation of new horizontal polygons
          PTR_CUR => FIRST
          DO I=1,NPOLY
             PTR_PREC => PTR_CUR
             PTR_CUR => PTR_CUR%PTR
          ENDDO
-         ALLOCATE(LEDGE(NBNEDGE))
+         call my_alloc(LEDGE, NBNEDGE, "LEDGE")
          DO I=1,IIZ
             DO J=1,NBRIC
                NEDGE=0
@@ -1068,9 +1093,10 @@ C Creation of new horizontal polygons
                   LEDGE(NEDGE)=K
                ENDDO
                IF (NEDGE==0) CYCLE
-               ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE), 
-     .                  RPOLY(4+6*NEDGE+3*NEDGE,NEDGE),
-     .                  IZ(3,NEDGE), IELNOD(NEDGE,NEDGE))
+               call my_alloc(IPOLY, 6+2*NEDGE+1+NEDGE, NEDGE, "IPOLY")
+               call my_alloc(RPOLY, 4+6*NEDGE+3*NEDGE, NEDGE, "RPOLY")
+               call my_alloc(IZ, 3, NEDGE, "IZ")
+               call my_alloc(IELNOD, NEDGE, NEDGE, "IELNOD")
 C               
                CALL HORIPOLY(INEDGE, RNEDGE, LEDGE,  NEDGE, IPOLY,
      .                       RPOLY,  IZ,     IELNOD, NNP,   VX3,
@@ -1083,9 +1109,9 @@ C
                   PTR_PREC%PTR => PTR_CUR
                   NN=IPOLY(2,N)
                   NHOL=IPOLY(6+NN+1,N)
-                  ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL), 
-     .                     PTR_CUR%RPOLY(4+3*NN+3*NHOL),
-     .                     PTR_CUR%IELNOD(NN))
+                  call my_alloc(PTR_CUR%IPOLY, 6+NN+1+NHOL, "PTR_CUR%IPOLY")
+                  call my_alloc(PTR_CUR%RPOLY, 4+3*NN+3*NHOL, "PTR_CUR%RPOLY")
+                  call my_alloc(PTR_CUR%IELNOD, NN, "PTR_CUR%IELNOD")
                   PTR_CUR%NNSP=0
                   DO M=1,6
                      PTR_CUR%IPOLY(M)=IPOLY(M,N)
@@ -1117,10 +1143,13 @@ C
                   PTR_PREC => PTR_CUR
                ENDDO
 C
-               DEALLOCATE(IPOLY, RPOLY, IZ, IELNOD)
+               call my_dealloc(IPOLY)
+               call my_dealloc(RPOLY)
+               call my_dealloc(IZ)
+               call my_dealloc(IELNOD)
             ENDDO
          ENDDO
-         DEALLOCATE(LEDGE)
+         call my_dealloc(LEDGE)
       ELSE
          PTR_CUR => FIRST
          DO I=1,NPOLY
@@ -1159,8 +1188,10 @@ C Brick polygons
          IF (NPOLB==0) CYCLE
 C
          NRPMAX=4+3*NPPMAX
-         ALLOCATE(POLB(NPOLB), IPOLY(6+NPPMAX,NPOLB),
-     .            RPOLY(NRPMAX,NPOLB), REDIR(NPOLB))
+         call my_alloc(POLB, NPOLB, "POLB")
+         call my_alloc(IPOLY, 6+NPPMAX, NPOLB, "IPOLY")
+         call my_alloc(RPOLY, NRPMAX, NPOLB, "RPOLY")
+         call my_alloc(REDIR, NPOLB, "REDIR")
          DO INZ=1,IIZ+1
             NPOLB=0
             PTR_CUR => FIRST
@@ -1192,8 +1223,8 @@ C
             NPHMAX=NPOLB
             NPOLHMAX=NLAYER
   300       CONTINUE
-            IF (ALLOCATED(POLH)) DEALLOCATE(POLH)
-            ALLOCATE(POLH(NPHMAX+2,NPOLHMAX))
+            IF (ALLOCATED(POLH)) call my_dealloc(POLH)
+            call my_alloc(POLH, NPHMAX+2, NPOLHMAX, "POLH")
 C
             CALL POLYHEDR(IPOLY, RPOLY   , POLB,   NPOLB,     POLH,
      .                    NNP,   NRPMAX  , NPHMAX, I,         DXM ,
@@ -1233,7 +1264,7 @@ C
                   PH_PREC%PTR => PH_CUR
                ENDIF
                NN=POLH(1,N)
-               ALLOCATE(PH_CUR%POLH(2+NN))
+               call my_alloc(PH_CUR%POLH, 2+NN, "PH_CUR%POLH")
                PH_CUR%RANK=NPOLH
                PH_CUR%POLH(1)=POLH(1,N)
                PH_CUR%POLH(2)=POLH(2,N)
@@ -1244,7 +1275,11 @@ C
             ENDDO
 C
          ENDDO
-         DEALLOCATE(IPOLY, RPOLY, POLB, POLH, REDIR)
+         call my_dealloc(IPOLY)
+         call my_dealloc(RPOLY)
+         call my_dealloc(POLB)
+         call my_dealloc(POLH)
+         call my_dealloc(REDIR)
       ENDDO
 C---------------------------------------------------
 C Transition from chained lists to classic arrays for the continuation of processing
@@ -1368,7 +1403,7 @@ c               IBSA(I)=NALL
 c            ENDDO
 c            DEALLOCATE(ITAGN)
 c         ELSE
-            ALLOCATE(ITAGN(NNSA))
+            call my_alloc(ITAGN, NNSA, "ITAGN")
             NPOLH=NPOLH+NBA
             DO I=1,NBA
                ITAGBA(I)=0
@@ -1454,10 +1489,15 @@ C
 c         ENDIF
       ENDIF
 C
-      ALLOCATE(IPOLY_F(LENIMAX,NPOLY), RPOLY_F(LENRMAX,NPOLY),
-     .         POLH_F(2+NPHMAX,NPOLH), IFVNOD(NNS), VOLU(NPOLH),
-     .         IFVNOD2(2,NNS2), RFVNOD2(4,NNS2), XNS(3,NNS), 
-     .         XNS2(3,NNS2))
+      call my_alloc(IPOLY_F, LENIMAX, NPOLY, "IPOLY_F")
+      call my_alloc(RPOLY_F, LENRMAX, NPOLY, "RPOLY_F")
+      call my_alloc(POLH_F, 2+NPHMAX, NPOLH, "POLH_F")
+      call my_alloc(IFVNOD, NNS, "IFVNOD")
+      call my_alloc(VOLU, NPOLH, "VOLU")
+      call my_alloc(IFVNOD2, 2, NNS2, "IFVNOD2")
+      call my_alloc(RFVNOD2, 4, NNS2, "RFVNOD2")
+      call my_alloc(XNS, 3, NNS, "XNS")
+      call my_alloc(XNS2, 3, NNS2, "XNS2")
 C
       NPOLY=NPOLY_OLD
       NPOLH=NPOLH_OLD
@@ -1526,7 +1566,9 @@ C
             ENDDO
          ENDIF
          PTR_TMP => PTR_CUR%PTR
-         DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY, PTR_CUR%IELNOD)
+         call my_dealloc(PTR_CUR%IPOLY)
+         call my_dealloc(PTR_CUR%RPOLY)
+         call my_dealloc(PTR_CUR%IELNOD)
          IF (NNSP>0) DEALLOCATE(PTR_CUR%NREF, PTR_CUR%AREF)
          DEALLOCATE(PTR_CUR)
          PTR_CUR => PTR_TMP
@@ -1579,7 +1621,7 @@ C
             POLH_F(J,I)=PH_CUR%POLH(J)
          ENDDO
          PH_TMP => PH_CUR%PTR
-         DEALLOCATE(PH_CUR%POLH)
+         call my_dealloc(PH_CUR%POLH)
          DEALLOCATE(PH_CUR)
          PH_CUR => PH_TMP
       ENDDO
@@ -1957,7 +1999,7 @@ C---------------------------------------------------
                AREA=AREA+(NNX*NX+NNY*NY+NNZ*NZ)
             ENDDO
          ELSE
-            ALLOCATE(ADR(NHOL))
+            call my_alloc(ADR, NHOL, "ADR")
             DO J=1,NHOL
                ADR(J)=IPOLY_F(6+NN+1+J,I)
             ENDDO
@@ -2014,7 +2056,7 @@ C The surface of the holes is subtracted
                ENDDO
                AREA=AREA-ABS(AREA2)
             ENDDO
-            DEALLOCATE(ADR)
+            call my_dealloc(ADR)
          ENDIF
          RPOLY_F(1,I)=HALF*ABS(AREA)
       ENDDO
@@ -2052,7 +2094,8 @@ C---------------------------------------------------
 C Elimination of zero-length segments in polygons
 C---------------------------------------------------
       NNS_OLD=NNS
-      ALLOCATE(IFVNOD_OLD(NNS_OLD), REDIR(NNS_OLD))
+      call my_alloc(IFVNOD_OLD, NNS_OLD, "IFVNOD_OLD")
+      call my_alloc(REDIR, NNS_OLD, "REDIR")
       DO I=1,NNS_OLD
          IFVNOD_OLD(I)=IFVNOD(I)
       ENDDO
@@ -2084,8 +2127,10 @@ C
 C
          NHOL=0
          IF (IPOLY_F(1,I)==2) NHOL=IPOLY_F(6+NNP_OLD+1,I)
-         ALLOCATE(IPOLY_OLD(NNP_OLD), RPOLY_OLD(3*NNP_OLD),
-     .            ADR_OLD(NHOL+2), ADR(NHOL+2))
+         call my_alloc(IPOLY_OLD, NNP_OLD, "IPOLY_OLD")
+         call my_alloc(RPOLY_OLD, 3*NNP_OLD, "RPOLY_OLD")
+         call my_alloc(ADR_OLD, NHOL+2, "ADR_OLD")
+         call my_alloc(ADR, NHOL+2, "ADR")
          DO J=1,NNP_OLD
             IPOLY_OLD(J)=IPOLY_F(6+J,I)
          ENDDO
@@ -2335,7 +2380,10 @@ C
             RPOLY_F(1,I)=HALF*ABS(AREA)
          ENDIF
 C
-         DEALLOCATE(IPOLY_OLD, RPOLY_OLD, ADR_OLD, ADR)
+         call my_dealloc(IPOLY_OLD)
+         call my_dealloc(RPOLY_OLD)
+         call my_dealloc(ADR_OLD)
+         call my_dealloc(ADR)
       ENDDO
 C
 C
@@ -2346,14 +2394,16 @@ C
          IFVNOD2(2,I)=REDIR(I2)
       ENDDO
 C
-      DEALLOCATE(IFVNOD_OLD, REDIR)
+      call my_dealloc(IFVNOD_OLD)
+      call my_dealloc(REDIR)
 C---------------------------------------------------
 C Fusion of polyhedres with infinite volume to their neighbor
 C---------------------------------------------------
       NPHMAX=2*NPHMAX
       INFO=0
-      ALLOCATE(VOLU_OLD(NPOLH), RPOLY_F_OLD(LENRMAX,NPOLY),
-     .         IPOLY_F_OLD(LENIMAX,NPOLY))
+      call my_alloc(VOLU_OLD, NPOLH, "VOLU_OLD")
+      call my_alloc(RPOLY_F_OLD, LENRMAX, NPOLY, "RPOLY_F_OLD")
+      call my_alloc(IPOLY_F_OLD, LENIMAX, NPOLY, "IPOLY_F_OLD")
       DO I=1,NPOLH
          VOLU_OLD(I)=VOLU(I)
       ENDDO
@@ -2365,9 +2415,10 @@ C---------------------------------------------------
             RPOLY_F_OLD(J,I)=RPOLY_F(J,I)
          ENDDO
       ENDDO
-  400 IF (ALLOCATED(POLH_NEW)) DEALLOCATE(POLH_NEW)
-      IF (ALLOCATED(IMERGED)) DEALLOCATE(IMERGED)
-      ALLOCATE(POLH_NEW(2+NPHMAX,NPOLH), IMERGED(NPOLH))
+  400 IF (ALLOCATED(POLH_NEW)) call my_dealloc(POLH_NEW)
+      IF (ALLOCATED(IMERGED)) call my_dealloc(IMERGED)
+      call my_alloc(POLH_NEW, 2+NPHMAX, NPOLH, "POLH_NEW")
+      call my_alloc(IMERGED, NPOLH, "IMERGED")
 C
       IF (INFO==1) THEN
          DO I=1,NPOLH
@@ -2509,7 +2560,10 @@ C
             IF (IPOLY_F(5,JJ)==IPOLY_F(6,JJ)) RPOLY_F(1,JJ)=-ONE
          ENDDO
       ENDDO
-      DEALLOCATE(VOLU_OLD, RPOLY_F_OLD, IPOLY_F_OLD, IMERGED)
+      call my_dealloc(VOLU_OLD)
+      call my_dealloc(RPOLY_F_OLD)
+      call my_dealloc(IPOLY_F_OLD)
+      call my_dealloc(IMERGED)
 C---------------------------------------------------
 C Verifications
 C---------------------------------------------------
@@ -2637,7 +2691,7 @@ C
       NNTR=0
       NPOLY_OLD=NPOLY
       NPOLY=0
-      ALLOCATE(REDIR_POLY(NPOLY_OLD))
+      call my_alloc(REDIR_POLY, NPOLY_OLD, "REDIR_POLY")
       DO I=1,NPOLY_OLD
          REDIR_POLY(I)=0
       ENDDO
@@ -2655,8 +2709,11 @@ C
          NNP=IPOLY_F(2,I)
          NHOL=0
          IF (IPOLY_F(1,I)==2) NHOL=IPOLY_F(6+NNP+1,I)
-         ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),
-     .            PTRI(3,NNP), REDIR(NNP))   
+         call my_alloc(PNODES, 2, NNP, "PNODES")
+         call my_alloc(PSEG, 2, NNP, "PSEG")
+         call my_alloc(PHOLES, 2, NHOL, "PHOLES")
+         call my_alloc(PTRI, 3, NNP, "PTRI")
+         call my_alloc(REDIR, NNP, "REDIR")
          PTRI(1:3,1:NNP)=0
 C
          DO J=1,NNP
@@ -2716,7 +2773,7 @@ C
             PSEG(2,NNP)=1
             NSEG=NNP
          ELSE
-            ALLOCATE(ADR(NHOL+1))
+            call my_alloc(ADR, NHOL+1, "ADR")
             DO J=1,NHOL
                ADR(J)=IPOLY_F(6+NNP+1+J,I)
             ENDDO
@@ -2821,7 +2878,11 @@ C
             FVDATA(IFV)%IFVPOLY(NNTR)=NNTR
          ENDDO
 C
-         DEALLOCATE(PNODES, PSEG, PHOLES, PTRI, REDIR)
+         call my_dealloc(PNODES)
+         call my_dealloc(PSEG)
+         call my_dealloc(PHOLES)
+         call my_dealloc(PTRI)
+         call my_dealloc(REDIR)
       ENDDO
       FVDATA(IFV)%IFVTADR(NPOLY+1)=NNTR+1
 C---------------------------------------------------
@@ -2834,7 +2895,7 @@ C---------------------------------------------------
       NNP=0
       NPOLH_OLD=NPOLH
       NPOLH=0
-      ALLOCATE(REDIR_POLH(NPOLH_OLD))
+      call my_alloc(REDIR_POLH, NPOLH_OLD, "REDIR_POLH")
       DO I=1,NPOLH_OLD
          REDIR_POLH(I)=0
       ENDDO
@@ -2896,8 +2957,18 @@ C
          FVDATA(IFV)%VPOLH_INI(II)=VOLU(I)
       ENDDO
 C
-      DEALLOCATE(IPOLY_F, RPOLY_F, POLH_F, VOLU, REDIR_POLY, REDIR_POLH,
-     .           POLH_NEW, IFVNOD, IFVNOD2, RFVNOD2, XNS, XNS2)
+      call my_dealloc(IPOLY_F)
+      call my_dealloc(RPOLY_F)
+      call my_dealloc(POLH_F)
+      call my_dealloc(VOLU)
+      call my_dealloc(REDIR_POLY)
+      call my_dealloc(REDIR_POLH)
+      call my_dealloc(POLH_NEW)
+      call my_dealloc(IFVNOD)
+      call my_dealloc(IFVNOD2)
+      call my_dealloc(RFVNOD2)
+      call my_dealloc(XNS)
+      call my_dealloc(XNS2)
 C---------------------------------------------------
 C Impressions
 C---------------------------------------------------
@@ -2986,7 +3057,7 @@ C elimination of duplicate nodes for animation
       IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I10,A39)')
      . ' ** MONITORED VOLUME ID: ',IVOLU(1),
      . ' - MERGING COINCIDENT NODES FOR ANIM **'
-      ALLOCATE(PNODES(3,NNS+NNS2))
+      call my_alloc(PNODES, 3, NNS+NNS2, "PNODES")
       DO I=1,NNS
          IF (FVDATA(IFV)%IFVNOD(1,I)==1) THEN
             IEL=FVDATA(IFV)%IFVNOD(2,I)
@@ -3087,10 +3158,11 @@ C
          FVDATA(IFV)%IFVTRI_ANIM(6,I)=
      .                   FVDATA(IFV)%IFVTRI(6,I)
       ENDDO
-      DEALLOCATE(PNODES)
+      call my_dealloc(PNODES)
 C
-      DEALLOCATE(REDIR, ITAGT)
-      DEALLOCATE(XXXSA)
+      call my_dealloc(REDIR)
+      call my_dealloc(ITAGT)
+      call my_dealloc(XXXSA)
 C
       RETURN
 C

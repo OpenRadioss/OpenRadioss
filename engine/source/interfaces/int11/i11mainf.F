@@ -72,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -178,7 +179,7 @@ C     REAL
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
       INTEGER :: NRTS, NTY
 C-----------------------------------------------
-      CALL MY_ALLOC(INDEX2,LINDMAX)
+      call my_alloc(INDEX2, LINDMAX, "INDEX2")
 C-----------------------------------------------
 C  calculation of interface buffer addresses
 C  addresses of buffers J10-JFI and K10-KFI
@@ -286,7 +287,7 @@ C
         ENDIF
       ENDDO
       IF (SFSAVPARIT /= 0) THEN
-        ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
+        call my_alloc(FSAVPARIT, NISUB+1, 11, I_STOK, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE11)')
@@ -300,7 +301,7 @@ C
           ENDDO
         ENDDO
       ELSE
-        ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
+        call my_alloc(FSAVPARIT, 0, 0, 0, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE11)')
@@ -434,8 +435,8 @@ C
           CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .        FBSAV6, 12, 6, DIMFB, ISENSINT )
       ENDIF
-      IF(ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
-      IF(ALLOCATED(INDEX2)) DEALLOCATE (INDEX2)
+      IF(ALLOCATED(FSAVPARIT)) call my_dealloc(FSAVPARIT)
+      IF(ALLOCATED(INDEX2)) call my_dealloc(INDEX2)
 
 C
       RETURN

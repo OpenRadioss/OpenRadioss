@@ -27,7 +27,7 @@
 !||    rdresb             ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_bcs_nrf_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -57,6 +57,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -76,7 +78,7 @@
 
             if(.not.allocated(bcs%nrf))allocate(bcs%nrf(bcs%num_nrf))
             if(.not.allocated(bcs%la_nrf))then
-              allocate(bcs%la_nrf(3,numnod))
+              call my_alloc(bcs%la_nrf, 3, numnod, "bcs%la_nrf")
               bcs%la_nrf(1:3,1:numnod) = zero
             end if
 
@@ -110,7 +112,7 @@
             end do
 
             ! --- Build compact list of unique NRF boundary node IDs ---
-            allocate(l_tag(numnod))
+            call my_alloc(l_tag, numnod, "l_tag")
             l_tag(1:numnod) = .false.
             do ii = 1, bcs%num_nrf
               do jj = 1, bcs%nrf(ii)%list%size
@@ -129,7 +131,7 @@
                 bcs%nrf_node_ids(kk) = ii
               end if
             end do
-            deallocate(l_tag)
+            call my_dealloc(l_tag)
           end if
 
 ! ----------------------------------------------------------------------------------------------------------------------

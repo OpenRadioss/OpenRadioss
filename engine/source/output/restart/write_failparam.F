@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -56,7 +58,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       LENI = 11
-      ALLOCATE (IBUF(LENI))
+      call my_alloc(IBUF, LENI, "IBUF")
 c
       IBUF(1)  = FAIL%IRUPT
       IBUF(2)  = FAIL%FAIL_ID
@@ -71,13 +73,13 @@ c
       IBUF(11) = FAIL%FAIL_IP
 c
       CALL WRITE_I_C(IBUF,LENI)
-      DEALLOCATE(IBUF)
+      call my_dealloc(IBUF)
 c
       LENR = 1
-      ALLOCATE (RBUF(LENR))
+      call my_alloc(RBUF, LENR, "RBUF")
       RBUF(1) = FAIL%PTHK
       CALL WRITE_DB(RBUF ,LENR)
-      DEALLOCATE(RBUF)
+      call my_dealloc(RBUF)
 c
 c     write law keyword and keywords of failure modes
 c

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -44,7 +45,8 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: RTMP1,RTMP2,RTMP3
 C-----------------------------------------------
 !      2d array
-       ALLOCATE( RTMP1(3,NUMNOD_L),RTMP2(3,NUMNOD_L) )
+       call my_alloc(RTMP1, 3, NUMNOD_L, "RTMP1")
+       call my_alloc(RTMP2, 3, NUMNOD_L, "RTMP2")
        ALLOCATE( RTMP3(3,NUMNOD_L) )
 ! ------------------------------------
 C
@@ -74,7 +76,8 @@ C grille velocity
 C
 ! ------------------------------------
 !      2d array
-       DEALLOCATE( RTMP1,RTMP2 )
+       CALL MY_DEALLOC(RTMP1)
+       CALL MY_DEALLOC(RTMP2)
        DEALLOCATE( RTMP3 )
 ! ------------------------------------
       RETURN

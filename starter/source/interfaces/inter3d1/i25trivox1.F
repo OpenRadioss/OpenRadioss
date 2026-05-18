@@ -49,6 +49,8 @@ C-----------------------------------------------
       USE TRI7BOX
       use array_mod 
       use intbufdef_mod 
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -187,13 +189,15 @@ C-----------------------------------------------
       ZMAXB = ZMAX
 
 !$OMP MASTER
-      allocate( cand_n_size(nthreads+1),cand_e_size(nthreads+1) )
-      allocate( address_cand_n(nthreads+1),address_cand_e(nthreads+1) )
+      call my_alloc(cand_n_size, nthreads+1, "cand_n_size")
+      call my_alloc(cand_e_size, nthreads+1, "cand_e_size")
+      call my_alloc(address_cand_n, nthreads+1, "address_cand_n")
+      call my_alloc(address_cand_e, nthreads+1, "address_cand_e")
       cand_n_size(1:nthreads+1) = 0 
       cand_e_size(1:nthreads+1) = 0
       address_cand_n(1:nthreads+1) = 0 
       address_cand_e(1:nthreads+1) = 0
-      ALLOCATE(LAST_NOD(NSN))
+      call my_alloc(LAST_NOD, NSN, "LAST_NOD")
 C
 C Initial phase of construction of BPE and BPN moved from I7BUCE => I7TRI
 C
@@ -253,7 +257,7 @@ C=======================================================================
 C 2 Searching boxes concerning each facet
 C     and creation of candidates
 C=======================================================================
-      ALLOCATE( TAGNOD(NUMNOD) )
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
       TAGNOD(1:NUMNOD) = 0
 C-----------------------------------------------
       J_STOK = 0      
@@ -578,9 +582,9 @@ C=======================================================================
 !$OMP SINGLE
       ! ------------
       my_size = cand_n_size(nthreads+1)
-      allocate(my_index(2*my_size))
-      allocate(sort_array(2,my_size))
-      allocate(save_array(2,my_size))
+      call my_alloc(my_index, 2*my_size, "my_index")
+      call my_alloc(sort_array, 2, my_size, "sort_array")
+      call my_alloc(save_array, 2, my_size, "save_array")
       
       my_address = address_cand_n(1) ! get the address of the first pair of candidate
       sort_array(1,1:my_size) = intbuf_tab%cand_n(my_address+1:my_address+my_size)
@@ -601,9 +605,9 @@ C=======================================================================
       do i=1,my_size
         intbuf_tab%cand_e(my_address+i) = save_array(2,my_index(i))
       enddo
-      deallocate(my_index)
-      deallocate(sort_array)
-      deallocate(save_array)
+      call my_dealloc(my_index)
+      call my_dealloc(sort_array)
+      call my_dealloc(save_array)
       ! ------------
 !$OMP END SINGLE    
 
@@ -617,11 +621,13 @@ C=======================================================================
 !$OMP END DO
 C
 !$OMP MASTER
-      DEALLOCATE(LAST_NOD)
-      deallocate( cand_n_size,cand_e_size )
-      deallocate( address_cand_n,address_cand_e )
+      call my_dealloc(LAST_NOD)
+      call my_dealloc(cand_n_size)
+      call my_dealloc(cand_e_size)
+      call my_dealloc(address_cand_n)
+      call my_dealloc(address_cand_e)
 !$OMP END MASTER
-      DEALLOCATE(TAGNOD)
+      call my_dealloc(TAGNOD)
 
 
       RETURN

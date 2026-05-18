@@ -51,6 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -195,7 +197,8 @@ C coordinates and local velocities SPMD
             VL(3,NNO+I)=V(3,II)
          ENDDO
       ELSE
-         ALLOCATE(SBUF(6*(NNO+NNI)), RBUF(6*(NNO+NNI)))
+         call my_alloc(SBUF, 6*(NNO+NNI), "SBUF")
+         call my_alloc(RBUF, 6*(NNO+NNI), "RBUF")
 
          LENBUF=6*(NNO+NNI)
          DO I=1,LENBUF
@@ -235,7 +238,8 @@ C coordinates and local velocities SPMD
             VL(3,I)=RBUF(6*(I-1)+6)
          ENDDO
 C
-         DEALLOCATE(SBUF, RBUF)
+         call my_dealloc(SBUF)
+         call my_dealloc(RBUF)
       ENDIF
 C outgoing unitary normal vectors
       DO I=1,NNO
@@ -753,7 +757,8 @@ C number of Gauss point on the triangle
          ENDIF
       ELSE
 C exchange of POtentials
-         ALLOCATE(SBUF(NNO), RBUF(NNO))
+         call my_alloc(SBUF, NNO, "SBUF")
+         call my_alloc(RBUF, NNO, "RBUF")
          DO I=1,NNO
             SBUF(I)=ZERO
             RBUF(I)=ZERO
@@ -774,7 +779,8 @@ C exchange of POtentials
          DO I=1,NNO
             PHI(I)=RBUF(I)
          ENDDO
-         DEALLOCATE(SBUF, RBUF)
+         call my_dealloc(SBUF)
+         call my_dealloc(RBUF)
          PHI(NNO)=ZERO
          !velocity on surface
          DO I=1,NNO
@@ -1032,7 +1038,8 @@ C number of gauss point on the triangle
                U(3,NNO+I)=U(3,NNO+I)+VGZ
             ENDDO
 C Exchange of potentials and velocities on internal nodes
-            ALLOCATE(SBUF(4*NNI), RBUF(4*NNI))
+            call my_alloc(SBUF, 4*NNI, "SBUF")
+            call my_alloc(RBUF, 4*NNI, "RBUF")
             LENBUF=4*NNI
             DO I=1,LENBUF
                SBUF(I)=ZERO

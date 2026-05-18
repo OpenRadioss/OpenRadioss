@@ -133,6 +133,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,16 +169,16 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(SUBM_READ_TMP(IDS_MAX))
-      ALLOCATE(SORTED_SUBM(IDS_MAX))
+      call my_alloc(SUBM_READ_TMP, IDS_MAX, "SUBM_READ_TMP")
+      call my_alloc(SORTED_SUBM, IDS_MAX, "SORTED_SUBM")
 
-      ALLOCATE(PART_READ_TMP(NPART))
-      ALLOCATE(SORTED_PARTS(NPART))
+      call my_alloc(PART_READ_TMP, NPART, "PART_READ_TMP")
+      call my_alloc(SORTED_PARTS, NPART, "SORTED_PARTS")
 
-      ALLOCATE(INDEXS(2*IDS_MAX)) ! subsets
+      call my_alloc(INDEXS, 2*IDS_MAX, "INDEXS")
       INDEXS = 0
 
-      ALLOCATE(INDEXP(2*NPART)) ! parts of subsets
+      call my_alloc(INDEXP, 2*NPART, "INDEXP")
       INDEXP = 0
 
       NINDX = 0
@@ -266,19 +267,19 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_PART = LIST_SIZE_P
-      ALLOCATE( CLAUSE%PART( LIST_SIZE_P ) )
+      call my_alloc(CLAUSE%PART, LIST_SIZE_P, "CLAUSE%PART")
 
       DO I=1,LIST_SIZE_P
         CLAUSE%PART(I) = SORTED_PARTS(I)
       ENDDO
 !---
 C-------------------------
-       DEALLOCATE(SUBM_READ_TMP)
-       DEALLOCATE(SORTED_SUBM)
-       DEALLOCATE(INDEXS)
-       DEALLOCATE(PART_READ_TMP)
-       DEALLOCATE(SORTED_PARTS)
-       DEALLOCATE(INDEXP)
+       CALL MY_DEALLOC(SUBM_READ_TMP)
+       CALL MY_DEALLOC(SORTED_SUBM)
+       CALL MY_DEALLOC(INDEXS)
+       CALL MY_DEALLOC(PART_READ_TMP)
+       CALL MY_DEALLOC(SORTED_PARTS)
+       CALL MY_DEALLOC(INDEXP)
 C-------------------------
       RETURN
       END
@@ -321,6 +322,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -357,22 +359,22 @@ C
 C=======================================================================
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(SUBM_READ_TMP(NSUBMOD))
-      ALLOCATE(SUBM_READ_ONE(NSUBMOD))
+      call my_alloc(SUBM_READ_TMP, NSUBMOD, "SUBM_READ_TMP")
+      call my_alloc(SUBM_READ_ONE, NSUBMOD, "SUBM_READ_ONE")
 
-      ALLOCATE(PART_READ_TMP(NPART))
-      ALLOCATE(SORTED_PARTS(NPART))
+      call my_alloc(PART_READ_TMP, NPART, "PART_READ_TMP")
+      call my_alloc(SORTED_PARTS, NPART, "SORTED_PARTS")
 
-      ALLOCATE(INDEX(2*NPART))
+      call my_alloc(INDEX, 2*NPART, "INDEX")
       INDEX = 0
 
       IF (GENE_MAX > 1) THEN
-          ALLOCATE(RESULT(NSUBMOD))
+          call my_alloc(RESULT, NSUBMOD, "RESULT")
       ENDIF
 
-      ALLOCATE(TAGNODSUB(NUMNOD))
+      call my_alloc(TAGNODSUB, NUMNOD, "TAGNODSUB")
 
-      ALLOCATE(NODE_READ_TMP(NUMNOD))
+      call my_alloc(NODE_READ_TMP, NUMNOD, "NODE_READ_TMP")
 !!      ALLOCATE(SORTED_NODES(NUMNOD))
 !!      ALLOCATE(INDEXN(2*NUMNOD)) ! nodes of subsets
 !!      INDEXN = 0
@@ -454,7 +456,7 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_PART = LIST_SIZE
-      ALLOCATE(CLAUSE%PART(LIST_SIZE))
+      call my_alloc(CLAUSE%PART, LIST_SIZE, "CLAUSE%PART")
       CLAUSE%PART(1:LIST_SIZE) = SORTED_PARTS(1:LIST_SIZE)
 
 
@@ -484,8 +486,8 @@ C=======================================================================
       ! Sort of TAG Nodes from Readed SUBMODELs and remove eventual duplicates
       ! ---------------------------------------------------- 
 
-      ALLOCATE(SORTED_NODES(NINDX))
-      ALLOCATE(INDEXN(2*NINDX))
+      call my_alloc(SORTED_NODES, NINDX, "SORTED_NODES")
+      call my_alloc(INDEXN, 2*NINDX, "INDEXN")
       INDEXN = 0
 
       IWORK(:) = 0
@@ -505,7 +507,7 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_NODE = LIST_SIZE  
-      ALLOCATE( CLAUSE%NODE( LIST_SIZE ) )
+      call my_alloc(CLAUSE%NODE, LIST_SIZE, "CLAUSE%NODE")
 
       DO I=1,LIST_SIZE
         CLAUSE%NODE(I) = SORTED_NODES(I)
@@ -515,14 +517,15 @@ C=======================================================================
 
 
 !---
-      DEALLOCATE (PART_READ_TMP)
-      DEALLOCATE (SORTED_PARTS)
-      IF (ALLOCATED(RESULT)) DEALLOCATE (RESULT)
-      DEALLOCATE (SUBM_READ_TMP)
-      DEALLOCATE (SUBM_READ_ONE)
-      DEALLOCATE(TAGNODSUB)
-      DEALLOCATE(NODE_READ_TMP)
-      DEALLOCATE(SORTED_NODES)
-      DEALLOCATE(INDEXN)
+      CALL MY_DEALLOC(PART_READ_TMP)
+      CALL MY_DEALLOC(SORTED_PARTS)
+      IF (ALLOCATED(RESULT)) CALL MY_DEALLOC(RESULT)
+      CALL MY_DEALLOC(SUBM_READ_TMP)
+      CALL MY_DEALLOC(SUBM_READ_ONE)
+      CALL MY_DEALLOC(TAGNODSUB)
+      CALL MY_DEALLOC(NODE_READ_TMP)
+      CALL MY_DEALLOC(SORTED_NODES)
+      CALL MY_DEALLOC(INDEXN)
+      CALL MY_DEALLOC(INDEX)
 !---
       END

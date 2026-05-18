@@ -49,6 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -155,7 +157,7 @@ C-----------------------------------------------
      9 0.650000000000000,0.750000000000000,0.850000000000000/
 C-----------------------------------------------
       IF(ITASK==0)THEN
-        ALLOCATE(WPARTSAV(NTHREAD,NPSAV,NPART),STAT=IERROR)
+        call my_alloc(WPARTSAV, NTHREAD, NPSAV, NPART, "WPARTSAV", stat=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='(SOLIDS to SPH)')
@@ -432,7 +434,7 @@ C
 C
       CALL MY_BARRIER
 C
-      IF(ITASK==0) DEALLOCATE(WPARTSAV)
+      IF(ITASK==0) call my_dealloc(WPARTSAV)
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPHA

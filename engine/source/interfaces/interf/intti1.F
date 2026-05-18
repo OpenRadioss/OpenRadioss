@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -115,10 +116,10 @@ C     REAL
       my_real, DIMENSION(:,:),ALLOCATABLE :: SAV_FOR_PENA
       my_real, DIMENSION(:),ALLOCATABLE   :: MS_PENA,SAV_INER_POFF
 C=======================================================================
-      CALL MY_ALLOC(TAGNOD,NUMNOD)
-      CALL MY_ALLOC(FSKYI2,I2SIZE,LCNI2)
-      CALL MY_ALLOC(FTHESKYI2,LCNI2)
-      CALL MY_ALLOC(CONDNSKYI2,LCNI2)
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
+      call my_alloc(FSKYI2, I2SIZE, LCNI2, "FSKYI2")
+      call my_alloc(FTHESKYI2, LCNI2, "FTHESKYI2")
+      call my_alloc(CONDNSKYI2, LCNI2, "CONDNSKYI2")
 C-----------------------------------------------
       I25PENA=0
       SIZE_INER_POFF = 0
@@ -140,22 +141,22 @@ C
         ENDDO
 C
         IF (I25PENA == 2) THEN
-          ALLOCATE(SAV_FOR_PENA(8,NUMNOD))
+          call my_alloc(SAV_FOR_PENA, 8, NUMNOD, "SAV_FOR_PENA")
           SAV_FOR_PENA(1:8,1:NUMNOD) = ZERO
-          ALLOCATE(MS_PENA(NUMNOD))
+          call my_alloc(MS_PENA, NUMNOD, "MS_PENA")
           MS_PENA(1:NUMNOD) = MS(1:NUMNOD)
         ELSEIF (I25PENA == 1) THEN
-          ALLOCATE(SAV_FOR_PENA(4,NUMNOD))
+          call my_alloc(SAV_FOR_PENA, 4, NUMNOD, "SAV_FOR_PENA")
           SAV_FOR_PENA(1:4,1:NUMNOD) = ZERO
-          ALLOCATE(MS_PENA(NUMNOD))
+          call my_alloc(MS_PENA, NUMNOD, "MS_PENA")
           MS_PENA(1:NUMNOD) = MS(1:NUMNOD)
         ELSE
-          ALLOCATE(SAV_FOR_PENA(8,0))
-          ALLOCATE(MS_PENA(0))
+          call my_alloc(SAV_FOR_PENA, 8, 0, "SAV_FOR_PENA")
+          call my_alloc(MS_PENA, 0, "MS_PENA")
         ENDIF
 C
 C-- For parithoff inertia of main and secondary node must be saved
-        ALLOCATE(SAV_INER_POFF(SIZE_INER_POFF))
+        call my_alloc(SAV_INER_POFF, SIZE_INER_POFF, "SAV_INER_POFF")
         IF (SIZE_INER_POFF>0) SAV_INER_POFF(1:NUMNOD) = IN(1:NUMNOD)
 C
       ENDIF
@@ -384,14 +385,17 @@ C
             STIFR(I) = STIFR(I) + SAV_FOR_PENA(8,I)
           ENDDO
         ENDIF
-        DEALLOCATE(SAV_FOR_PENA)
-        DEALLOCATE(MS_PENA)
+        call my_dealloc(SAV_FOR_PENA)
+        call my_dealloc(MS_PENA)
       ENDIF
 C
-      DEALLOCATE(TAGNOD)
-      DEALLOCATE(FSKYI2)
-      DEALLOCATE(FTHESKYI2)
-      DEALLOCATE(CONDNSKYI2)
+      call my_dealloc(TAGNOD)
+      call my_dealloc(FSKYI2)
+      call my_dealloc(FTHESKYI2)
+      call my_dealloc(CONDNSKYI2)
+      if(allocated(SAV_INER_POFF)) THEN
+        call my_dealloc(SAV_INER_POFF)
+      ENDIF
 C
       RETURN
       END

@@ -49,7 +49,7 @@
 !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine init_ale_arezon(n2d,numels,numelq,numeltg,nsvois,nqvois,ntgvois,trimat,nmult,ngroup,nparg, &
-                                        nspmd,iparg,elbuf_tab)
+          nspmd,iparg,elbuf_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,20 +70,20 @@
           integer, intent(in) :: n2d !< 0 : 3D, 1 : 2D
           integer, intent(in) :: numels !< number of solid elements
           integer, intent(in) :: numelq !< number of quad elements
-          integer, intent(in) :: numeltg !< number of triangle elements 
+          integer, intent(in) :: numeltg !< number of triangle elements
           integer, intent(in) :: nsvois !< number of frontier solid elements
           integer, intent(in) :: nqvois !< number of frontier quad elements
-          integer, intent(in) :: ntgvois !< number of frontier triangle elements                   
+          integer, intent(in) :: ntgvois !< number of frontier triangle elements
           integer, intent(in) :: trimat !< number of material (law51)
           integer, intent(in) :: nmult !< number of material
           integer, intent(in) :: ngroup !< number of group of element
           integer, intent(in) :: nparg !< first dimension of iparg array
           integer, intent(in) :: nspmd !< number of mpi tatsks
           integer, dimension(nparg,ngroup), intent(in) :: iparg !< group element data
-          type(elbuf_struct_), dimension(ngroup), intent(in) :: elbuf_tab !< element buffer structure       
+          type(elbuf_struct_), dimension(ngroup), intent(in) :: elbuf_tab !< element buffer structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------        
+! ----------------------------------------------------------------------------------------------------------------------
           integer :: itrimat,mat_number,my_check,flag_mat_eos
           integer :: nm,ijk,nvar,idx_nb,ng,idx,j
           integer :: mtn,llt,nft,iad,ity,npt,jale,ismstr,jeul,jtur
@@ -99,7 +99,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-                                                            
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -118,25 +118,25 @@
           idx_list(1,1) = 6
           idx_list(2,1) = 1
           idx_list(3,1) = ale%rezon%num_nuvar_mat
-          idx_list(4,1) = ale%rezon%num_nuvar_eos          
-          idx_list(5,1) = 1         
+          idx_list(4,1) = ale%rezon%num_nuvar_eos
+          idx_list(5,1) = 1
           do itrimat=1,trimat
             if(itrimat/=4) idx_list(1,itrimat+1) = 6
             idx_list(2,itrimat+1) = 1
             idx_list(3,itrimat+1) = 0
-            idx_list(4,itrimat+1) = ale%rezon%num_nuvar_eos            
-            idx_list(5,itrimat+1) = 1         
+            idx_list(4,itrimat+1) = ale%rezon%num_nuvar_eos
+            idx_list(5,itrimat+1) = 1
           end do
-          
+
           mat_number = max(1,nmult)
           need_to_compute_l(1:5,1:trimat+1,1:mat_number) = 0
           need_to_compute(1:5,1:trimat+1,1:mat_number) = 0
           ! ------------
-          ! loop over the material number and rezoning variables to know if we need to compute it         
+          ! loop over the material number and rezoning variables to know if we need to compute it
           do nm=1,mat_number
             do itrimat=0,trimat
               do ijk=1,5
-                my_check = 0             
+                my_check = 0
                 nvar = nvar_list(ijk)
                 idx_nb = idx_list(ijk,itrimat+1)
                 do idx=1,idx_nb
@@ -148,8 +148,8 @@
                   end if
                   do ng=1,ngroup
                     call initbuf(iparg,ng,mtn,llt,nft,iad,ity,npt,jale,ismstr,jeul,jtur,   &
-                                jthe,jlag,jmult,jhbe,jivf,nvaux,jpor,jcvt,jclose,jplasol, &
-                                irep,iint,igtp,israt,isrot,icsen,isorth,isorthg,ifailure,jsms)
+                      jthe,jlag,jmult,jhbe,jivf,nvaux,jpor,jcvt,jclose,jplasol, &
+                      irep,iint,igtp,israt,isrot,icsen,isorth,isorthg,ifailure,jsms)
                     nuvar_mat = iparg(81,ng)
                     nuvar_eos = iparg(82,ng)
                     if(itrimat>0.and.mtn/=51) cycle
@@ -165,7 +165,7 @@
                       if(flag_mat_eos==1)then
                         if(idx>nuvar_mat) cycle ! rezon uvar( i,  1:nuvar_mat) only
                       elseif (flag_mat_eos==2)then
-                      if(idx>nuvar_eos) cycle ! rezon uvar( i,  1:nuvar_mat) only
+                        if(idx>nuvar_eos) cycle ! rezon uvar( i,  1:nuvar_mat) only
                       endif
                       if(mtn==51 .and. (itrimat==0.or.itrimat==4))cycle
                     endif
@@ -193,7 +193,7 @@
                         ! ok
                       endif
                     endif
-                    
+
                     if(nvar==12) then
                       if(itrimat/=0) then
                         ! ok
@@ -212,29 +212,33 @@
           ! ------------
 
           ! ------------
-          ! mpi reduction          
+          ! mpi reduction
           if(nspmd>1) then
             call spmd_allreduce(need_to_compute_l(:,1,1),need_to_compute(:,1,1),5*(trimat+1)*mat_number,spmd_max)
           else
             need_to_compute(:,:,:) = need_to_compute_l(:,:,:)
           end if
-          ! ------------          
+          ! ------------
 
           ! ------------
-          ! allocation of some arrays          
-          allocate(ale%rezon%nvar_idx_list(5,1,1:mat_number))          
+          ! allocation of some arrays
+          allocate(ale%rezon%nvar_idx_list(5,1,1:mat_number))
+          ! TODO: non-default lower bound, convert manually
           allocate(ale%rezon%nvar_idx_list_51(5,trimat,1:mat_number))
-          allocate(ale%rezon%phi_data(5,1,1:mat_number))          
-          allocate(ale%rezon%phi_51_data(5,trimat,1:mat_number))          
+          ! TODO: non-default lower bound, convert manually
+          allocate(ale%rezon%phi_data(5,1,1:mat_number))
+          ! TODO: non-default lower bound, convert manually
+          allocate(ale%rezon%phi_51_data(5,trimat,1:mat_number))
+          ! TODO: non-default lower bound, convert manually
           ! ------------
-          
+
           ! ------------
-          ! computation of the index of phi array for each rezoning variable   
+          ! computation of the index of phi array for each rezoning variable
           next = 0
           do nm=1,mat_number
             do j=1,5
               if(need_to_compute(j,1,nm)==0) then
-                ale%rezon%nvar_idx_list(j,1,nm) = 0                  
+                ale%rezon%nvar_idx_list(j,1,nm) = 0
               else
                 if(.not.allocated(ale%rezon%phi_data(j,1,nm)%address)) then
                   allocate(ale%rezon%phi_data(j,1,nm)%address(idx_list(j,1)))
@@ -245,23 +249,23 @@
                   ale%rezon%phi_data(j,1,nm)%address(i) = next
                 enddo
               end if
-            end do            
-          end do    
-          ale%rezon%rezone_size = next   
+            end do
+          end do
+          ale%rezon%rezone_size = next
           ! ------------
-          
+
           ! ------------
-          ! computation of the index of phi array for each rezoning variable for law 51 materials  
-          next = 0   
+          ! computation of the index of phi array for each rezoning variable for law 51 materials
+          next = 0
           do nm=1,mat_number
             do itrimat=1,trimat
               do j=1,5
                 if(need_to_compute(j,itrimat+1,nm)==0) then
-                  ale%rezon%nvar_idx_list_51(j,itrimat,nm) = 0                  
+                  ale%rezon%nvar_idx_list_51(j,itrimat,nm) = 0
                 else
                   if(.not.allocated(ale%rezon%phi_51_data(j,itrimat,nm)%address)) then
                     allocate(ale%rezon%phi_51_data(j,itrimat,nm)%address(idx_list(j,itrimat+1)))
-                  end if                  
+                  end if
                   ale%rezon%nvar_idx_list_51(j,itrimat,nm) = idx_list(j,itrimat+1)
                   do i=1,idx_list(j,itrimat+1)
                     next = next + 1
@@ -280,11 +284,11 @@
           phi_size_2 = 0
           do nm=1,mat_number
             do j=1,5
-              phi_size = phi_size + idx_list(j,1) * need_to_compute(j,1,nm) 
+              phi_size = phi_size + idx_list(j,1) * need_to_compute(j,1,nm)
             enddo
             do itrimat=1,trimat
               do j=1,5
-                phi_size_2 = phi_size_2 + idx_list(j,itrimat+1) * need_to_compute(j,itrimat+1,nm) 
+                phi_size_2 = phi_size_2 + idx_list(j,itrimat+1) * need_to_compute(j,itrimat+1,nm)
               enddo
             enddo
           enddo

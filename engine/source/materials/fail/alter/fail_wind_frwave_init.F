@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -53,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        ALLOCATE( INDEX_OVER_50_CYCLES(NGROUP) )
+        call my_alloc(INDEX_OVER_50_CYCLES, NGROUP, "INDEX_OVER_50_CYCLES")
         INDEX_OVER_50_CYCLES(1:NGROUP) = 50      
         RETURN
         END SUBROUTINE FAIL_WIND_FRWAVE_INIT

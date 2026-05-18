@@ -51,9 +51,11 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C----------+---------+---+---+--------------------------------------------
 C   C o m m o n   B l o c k s
@@ -171,12 +173,12 @@ C     EXTRACT DATA
 ! -> Card3
 !---------------
 ! Biquad parameter by angle
-      IF (.NOT.ALLOCATED(C1))   ALLOCATE(C1(NANGLE))
-      IF (.NOT.ALLOCATED(C2))   ALLOCATE(C2(NANGLE))
-      IF (.NOT.ALLOCATED(C3))   ALLOCATE(C3(NANGLE)) 
-      IF (.NOT.ALLOCATED(C4))   ALLOCATE(C4(NANGLE))
+      IF (.NOT.ALLOCATED(C1)) call my_alloc(C1, NANGLE, "C1")
+      IF (.NOT.ALLOCATED(C2)) call my_alloc(C2, NANGLE, "C2")
+      IF (.NOT.ALLOCATED(C3)) call my_alloc(C3, NANGLE, "C3")
+      IF (.NOT.ALLOCATED(C4)) call my_alloc(C4, NANGLE, "C4")
       IF (SFLAG == 3) THEN 
-        IF (.NOT.ALLOCATED(INST)) ALLOCATE(INST(NANGLE))
+        IF (.NOT.ALLOCATED(INST)) call my_alloc(INST, NANGLE, "INST")
         INST = ZERO
       ENDIF
       C5_MIN = INFINITY
@@ -304,8 +306,8 @@ C     EXTRACT DATA
 C======================================================================================
 C    COMPUTING FITTING PARAMETERS
 C======================================================================================
-      IF (.NOT.ALLOCATED(X_1))  ALLOCATE(X_1(NANGLE,3))
-      IF (.NOT.ALLOCATED(X_2))  ALLOCATE(X_2(NANGLE,3))
+      IF (.NOT.ALLOCATED(X_1)) call my_alloc(X_1, NANGLE, 3, "X_1")
+      IF (.NOT.ALLOCATED(X_2)) call my_alloc(X_2, NANGLE, 3, "X_2")
       !================================================
       ! Loop over the angle
       !================================================
@@ -356,8 +358,8 @@ C===============================================================================
 C    COMPUTING COSINE INTERPOLATION
 C======================================================================================
 c      
-      IF (.NOT.ALLOCATED(THETA))     ALLOCATE(THETA(NANGLE))
-      IF (.NOT.ALLOCATED(THETA_RAD)) ALLOCATE(THETA_RAD(NANGLE))
+      IF (.NOT.ALLOCATED(THETA))     call my_alloc(THETA, NANGLE, "THETA")
+      IF (.NOT.ALLOCATED(THETA_RAD)) call my_alloc(THETA_RAD, NANGLE, "THETA_RAD")
 c
       ! Computation of angles and check curves
       DO J = 1, NANGLE
@@ -402,7 +404,8 @@ c
       ENDDO
 c
       ! Allocation of the A-MATRIX and the Pivot vector
-      ALLOCATE (AMAT(NANGLE,NANGLE),IPIV(NANGLE))
+      call my_alloc(AMAT, NANGLE, NANGLE, "AMAT")
+      call my_alloc(IPIV, NANGLE, "IPIV")
 c
       ! Filling the A-MATRIX
       DO J = 1,NANGLE
@@ -415,8 +418,12 @@ c
       ENDDO
 c
       ! Allocation of factors
-      ALLOCATE(Q_X11(NANGLE),Q_X12(NANGLE),Q_X13(NANGLE),
-     .         Q_X21(NANGLE),Q_X22(NANGLE),Q_X23(NANGLE))
+      call my_alloc(Q_X11, NANGLE, "Q_X11")
+      call my_alloc(Q_X12, NANGLE, "Q_X12")
+      call my_alloc(Q_X13, NANGLE, "Q_X13")
+      call my_alloc(Q_X21, NANGLE, "Q_X21")
+      call my_alloc(Q_X22, NANGLE, "Q_X22")
+      call my_alloc(Q_X23, NANGLE, "Q_X23")
 c
       ! Initialization of tables
       Q_X11(1:NANGLE) = ZERO
@@ -426,15 +433,15 @@ c
       Q_X22(1:NANGLE) = ZERO
       Q_X23(1:NANGLE) = ZERO
       IF (SFLAG == 3) THEN 
-        ALLOCATE(Q_INST(NANGLE))
+        call my_alloc(Q_INST, NANGLE, "Q_INST")
         Q_INST(1:NANGLE) = ZERO
       ENDIF
 c
       ! Filling the B vector with experimental points
       IF (SFLAG == 3) THEN 
-        ALLOCATE (BVEC(NANGLE,7))
+        call my_alloc(BVEC, NANGLE, 7, "BVEC")
       ELSE
-        ALLOCATE (BVEC(NANGLE,6))
+        call my_alloc(BVEC, NANGLE, 6, "BVEC")
       ENDIF
       BVEC(1:NANGLE,1) = X_1(1:NANGLE,1)
       BVEC(1:NANGLE,2) = X_1(1:NANGLE,2)
@@ -501,10 +508,10 @@ C===============================================================================
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHK
 c            
-      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
-      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
-      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
-      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
+      call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
+      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
+      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
 c
       FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
 c
@@ -560,24 +567,24 @@ c--------------------------
 c--------------------------
 c     Deallocation
 c--------------------------  
-      IF (ALLOCATED(C1))        DEALLOCATE(C1)
-      IF (ALLOCATED(C2))        DEALLOCATE(C2)
-      IF (ALLOCATED(C3))        DEALLOCATE(C3)
-      IF (ALLOCATED(C4))        DEALLOCATE(C4)
-      IF (ALLOCATED(INST))      DEALLOCATE(INST)
-      IF (ALLOCATED(X_1))       DEALLOCATE(X_1)
-      IF (ALLOCATED(X_2))       DEALLOCATE(X_2)
-      IF (ALLOCATED(THETA))     DEALLOCATE(THETA)
-      IF (ALLOCATED(THETA_RAD)) DEALLOCATE(THETA_RAD)
-      IF (ALLOCATED(Q_X11))     DEALLOCATE(Q_X11)
-      IF (ALLOCATED(Q_X12))     DEALLOCATE(Q_X12)
-      IF (ALLOCATED(Q_X13))     DEALLOCATE(Q_X13)
-      IF (ALLOCATED(Q_X21))     DEALLOCATE(Q_X21)
-      IF (ALLOCATED(Q_X22))     DEALLOCATE(Q_X22)
-      IF (ALLOCATED(Q_X23))     DEALLOCATE(Q_X23)
-      IF (ALLOCATED(Q_INST))    DEALLOCATE(Q_INST)
-      IF (ALLOCATED(AMAT))      DEALLOCATE(AMAT)
-      IF (ALLOCATED(IPIV))      DEALLOCATE(IPIV)
+      IF (ALLOCATED(C1)) call my_dealloc(C1)
+      IF (ALLOCATED(C2)) call my_dealloc(C2)
+      IF (ALLOCATED(C3)) call my_dealloc(C3)
+      IF (ALLOCATED(C4)) call my_dealloc(C4)
+      IF (ALLOCATED(INST)) call my_dealloc(INST)
+      IF (ALLOCATED(X_1)) call my_dealloc(X_1)
+      IF (ALLOCATED(X_2)) call my_dealloc(X_2)
+      IF (ALLOCATED(THETA)) call my_dealloc(THETA)
+      IF (ALLOCATED(THETA_RAD)) call my_dealloc(THETA_RAD)
+      IF (ALLOCATED(Q_X11))     CALL MY_DEALLOC(Q_X11)
+      IF (ALLOCATED(Q_X12))     CALL MY_DEALLOC(Q_X12)
+      IF (ALLOCATED(Q_X13))     CALL MY_DEALLOC(Q_X13)
+      IF (ALLOCATED(Q_X21))     CALL MY_DEALLOC(Q_X21)
+      IF (ALLOCATED(Q_X22))     CALL MY_DEALLOC(Q_X22)
+      IF (ALLOCATED(Q_X23))     CALL MY_DEALLOC(Q_X23)
+      IF (ALLOCATED(Q_INST))    CALL MY_DEALLOC(Q_INST)
+      IF (ALLOCATED(AMAT))      CALL MY_DEALLOC(AMAT)
+      IF (ALLOCATED(IPIV))      CALL MY_DEALLOC(IPIV)
 c-----------------------------------------------------
  1000 FORMAT(
      & 5X,'  ------------------------------------------   ',/

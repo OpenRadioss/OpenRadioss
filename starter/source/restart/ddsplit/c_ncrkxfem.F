@@ -36,6 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -60,6 +61,8 @@ C-----------------------------------------------
 C=======================================================================
 !     1d array
       ALLOCATE( NODTAG(0:NUMNOD_L+1) )
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
 ! ----------------------------------
 c     Phantoma nodes each ply
 C-----------------------------------------------
@@ -142,7 +145,7 @@ C---
 C---
 ! ----------------------------------
 !     1d array
-      DEALLOCATE( NODTAG )
+      call my_dealloc(NODTAG)
 ! ----------------------------------
       RETURN
       END

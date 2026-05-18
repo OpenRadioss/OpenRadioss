@@ -41,6 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -124,7 +126,7 @@ c-------------------------------------------------
 C       allocation of sub-structures of the element buffer
 C=======================================================================
 c------  Allocate and read element data from restart
-        ALLOCATE (RBUF(BUFLEN) ,STAT=ERR)
+        call my_alloc(RBUF, BUFLEN, "RBUF")
         CALL READ_DB(RBUF, BUFLEN)
 c-------------------------------------------------
 C       read element buffer
@@ -180,14 +182,14 @@ c---------------------------------------------------
 C         Damping parameters for frequency range 
 c--------------------------------------------------- 
       IF  (IDAMP_FREQ_RANGE > 0) THEN
-        ALLOCATE (ELBUF_STR%DAMP_RANGE%ALPHA(3) ,STAT=ERR)
-        ALLOCATE (ELBUF_STR%DAMP_RANGE%TAU(3)   ,STAT=ERR)
+        call my_alloc(ELBUF_STR%DAMP_RANGE%ALPHA, 3, "ELBUF_STR%DAMP_RANGE%ALPHA")
+        call my_alloc(ELBUF_STR%DAMP_RANGE%TAU, 3, "ELBUF_STR%DAMP_RANGE%TAU")
         ELBUF_STR%DAMP_RANGE%ALPHA(1:3) = RBUF(IAD+1:IAD+3)
         ELBUF_STR%DAMP_RANGE%TAU(1:3) = RBUF(IAD+4:IAD+6)
         IAD = IAD + 6
       ENDIF         
 c-------------------------------------------------
-      ALLOCATE (ELBUF_STR%BUFLY(NLAY) ,STAT=ERR)                      
+      call my_alloc(ELBUF_STR%BUFLY, NLAY, "ELBUF_STR%BUFLY")
 C
 C   moved below because of various NPTT through each layer for IGTYP = 51
 C
@@ -201,7 +203,7 @@ C        ALLOCATE(ELBUF_STR%BUFLY(IL)%VISC(NPTR,NPTS,NPTT),STAT=ERR)
 C        ALLOCATE(ELBUF_STR%BUFLY(IL)%PORO(NPTR,NPTS,NPTT),STAT=ERR)   
 C      ENDDO                                                 
 c-------------------------------------------------
-      ALLOCATE (ELBUF_STR%INTLAY(NINTLAY) ,STAT=ERR)                      
+      call my_alloc(ELBUF_STR%INTLAY, NINTLAY, "ELBUF_STR%INTLAY")
       DO IL = 1, NINTLAY                                                 
         ALLOCATE(ELBUF_STR%INTLAY(IL)%ILBUF(NPTR,NPTS),STAT=ERR)
         ALLOCATE(ELBUF_STR%INTLAY(IL)%MAT  (NPTR,NPTS),STAT=ERR)       
@@ -511,21 +513,21 @@ c-------------------------------------------------
 c-------------------------------------------------
 C       allocation & read of layer variables
 c-------------------------------------------------
-        ALLOCATE(BUFLY%DMG (NEL*LY_DMG)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%DMG, NEL*LY_DMG, "BUFLY%DMG")
         BUFLY%DMG(1:NEL*LY_DMG)  = RBUF(IAD+1:IAD+NEL*LY_DMG)                 
             IAD = IAD+NEL*LY_DMG                                                
-        ALLOCATE(BUFLY%GAMA (NEL*LY_GAMA)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%GAMA, NEL*LY_GAMA, "BUFLY%GAMA")
           BUFLY%GAMA(1:NEL*LY_GAMA) = RBUF(IAD+1:IAD+NEL*LY_GAMA)            
             IAD = IAD+NEL*LY_GAMA                                                
         IF(IDRAPE == 0 .OR. (IDRAPE > 0 .AND. IGTYP == 17)) THEN
-          ALLOCATE(BUFLY%DIRA (NEL*LY_DIRA)   ,STAT=ERR)                             
+          call my_alloc(BUFLY%DIRA, NEL*LY_DIRA, "BUFLY%DIRA")
           BUFLY%DIRA(1:NEL*LY_DIRA) = RBUF(IAD+1:IAD+NEL*LY_DIRA)                 
             IAD = IAD+NEL*LY_DIRA                                                
-          ALLOCATE(BUFLY%DIRB (NEL*LY_DIRB)   ,STAT=ERR)                             
+          call my_alloc(BUFLY%DIRB, NEL*LY_DIRB, "BUFLY%DIRB")
           BUFLY%DIRB(1:NEL*LY_DIRB) = RBUF(IAD+1:IAD+NEL*LY_DIRB)                 
             IAD = IAD+NEL*LY_DIRB    
         ENDIF                                                
-        ALLOCATE(BUFLY%CRKDIR(NEL*LY_CRKDIR)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%CRKDIR, NEL*LY_CRKDIR, "BUFLY%CRKDIR")
           BUFLY%CRKDIR(1:NEL*LY_CRKDIR) = RBUF(IAD+1:IAD+NEL*LY_CRKDIR)                 
             IAD = IAD+NEL*LY_CRKDIR                                               
 
@@ -542,10 +544,10 @@ c-------------------------------------------------
               LEN_SIGPT = NEL*LY_SIGPT*BUFLY%NPTT
             ENDIF
           ENDIF
-          ALLOCATE(BUFLY%PLAPT(LEN_PLAPT)   ,STAT=ERR)
+          call my_alloc(BUFLY%PLAPT, LEN_PLAPT, "BUFLY%PLAPT")
             BUFLY%PLAPT(1:LEN_PLAPT) = RBUF(IAD+1:IAD+LEN_PLAPT)
               IAD = IAD + LEN_PLAPT
-          ALLOCATE(BUFLY%SIGPT (LEN_SIGPT)   ,STAT=ERR)
+          call my_alloc(BUFLY%SIGPT, LEN_SIGPT, "BUFLY%SIGPT")
             BUFLY%SIGPT(1:LEN_SIGPT) = RBUF(IAD+1:IAD+LEN_SIGPT)
               IAD = IAD+LEN_SIGPT
         ELSEIF (NPG == 1) THEN
@@ -553,19 +555,19 @@ C
 C         must point after  => LBUF%PLA and LBUF%SIG
 C
         ENDIF
-        ALLOCATE(BUFLY%HOURG(NEL*LY_HOURG)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%HOURG, NEL*LY_HOURG, "BUFLY%HOURG")
           BUFLY%HOURG(1:NEL*LY_HOURG)  = RBUF(IAD+1:IAD+NEL*LY_HOURG)                 
             IAD = IAD+NEL*LY_HOURG
-        ALLOCATE(BUFLY%UELR(NEL*LY_UELR)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%UELR, NEL*LY_UELR, "BUFLY%UELR")
           BUFLY%UELR(1:NEL*LY_UELR)  = RBUF(IAD+1:IAD+NEL*LY_UELR)                 
             IAD = IAD+NEL*LY_UELR
-        ALLOCATE(BUFLY%UELR1(NEL*LY_UELR1)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%UELR1, NEL*LY_UELR1, "BUFLY%UELR1")
           BUFLY%UELR1(1:NEL*LY_UELR1)  = RBUF(IAD+1:IAD+NEL*LY_UELR1)                 
             IAD = IAD+NEL*LY_UELR1
-        ALLOCATE(BUFLY%OFFPG(NEL*LY_OFFPG)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%OFFPG, NEL*LY_OFFPG, "BUFLY%OFFPG")
           BUFLY%OFFPG(1:NEL*LY_OFFPG)  = RBUF(IAD+1:IAD+NEL*LY_OFFPG)                 
             IAD = IAD+NEL*LY_OFFPG
-        ALLOCATE(BUFLY%OFF(NEL*LY_OFF)   ,STAT=ERR)                             
+        call my_alloc(BUFLY%OFF, NEL*LY_OFF, "BUFLY%OFF")
           BUFLY%OFF(1:NEL*LY_OFF)  = RBUF(IAD+1:IAD+NEL*LY_OFF)                 
             IAD = IAD+NEL*LY_OFF
 c-------------------------------------------------
@@ -581,194 +583,194 @@ c--------
           LBUF%lawID  = NINT(RBUF(IAD+1))
             IAD = IAD+1                                                  
 c--------
-          ALLOCATE(LBUF%OFF (NEL*L_OFF)   ,STAT=ERR)                             
+          call my_alloc(LBUF%OFF, NEL*L_OFF, "LBUF%OFF")
             LBUF%OFF(1:NEL*L_OFF)    = RBUF(IAD+1:IAD+NEL*L_OFF)                 
               IAD = IAD+NEL*L_OFF                                                
-          ALLOCATE (LBUF%GAMA(NEL*L_GAMA)  ,STAT=ERR)                            
+          call my_alloc(LBUF%GAMA, NEL*L_GAMA, "LBUF%GAMA")
             LBUF%GAMA(1:NEL*L_GAMA)  = RBUF(IAD+1:IAD+NEL*L_GAMA)                
              IAD = IAD+NEL*L_GAMA                                                
-          ALLOCATE(LBUF%STRA  (NEL*L_STRA)  ,STAT=ERR)                           
+          call my_alloc(LBUF%STRA, NEL*L_STRA, "LBUF%STRA")
             LBUF%STRA(1:NEL*L_STRA) = RBUF(IAD+1:IAD+NEL*L_STRA)                 
               IAD = IAD+NEL*L_STRA                                               
-          ALLOCATE(LBUF%FRAC (NEL*L_FRAC)  ,STAT=ERR)                            
+          call my_alloc(LBUF%FRAC, NEL*L_FRAC, "LBUF%FRAC")
             LBUF%FRAC(1:NEL*L_FRAC)  = RBUF(IAD+1:IAD+NEL*L_FRAC)                
               IAD = IAD+NEL*L_FRAC
-          ALLOCATE(LBUF%BFRAC(NEL*L_BFRAC)  ,STAT=ERR)              
+          call my_alloc(LBUF%BFRAC, NEL*L_BFRAC, "LBUF%BFRAC")
             LBUF%BFRAC(1:NEL*L_BFRAC)   = RBUF(IAD+1:IAD+NEL*L_BFRAC)               
               IAD = IAD+NEL*L_BFRAC                                               
-          ALLOCATE(LBUF%EINT(NEL*L_EINT)  ,STAT=ERR)                             
+          call my_alloc(LBUF%EINT, NEL*L_EINT, "LBUF%EINT")
             LBUF%EINT(1:NEL*L_EINT)   = RBUF(IAD+1:IAD+NEL*L_EINT)               
               IAD = IAD+NEL*L_EINT                                               
-          ALLOCATE(LBUF%EINS(NEL*L_EINS)  ,STAT=ERR)                             
+          call my_alloc(LBUF%EINS, NEL*L_EINS, "LBUF%EINS")
             LBUF%EINS(1:NEL*L_EINS)   = RBUF(IAD+1:IAD+NEL*L_EINS)               
               IAD = IAD+NEL*L_EINS                                               
-          ALLOCATE(LBUF%RHO(NEL*L_RHO)   ,STAT=ERR)                              
+          call my_alloc(LBUF%RHO, NEL*L_RHO, "LBUF%RHO")
             LBUF%RHO(1:NEL*L_RHO)    = RBUF(IAD+1:IAD+NEL*L_RHO)                 
               IAD = IAD+NEL*L_RHO    
-          ALLOCATE(LBUF%DP_DRHO(NEL*L_DP_DRHO)   ,STAT=ERR)                      
+          call my_alloc(LBUF%DP_DRHO, NEL*L_DP_DRHO, "LBUF%DP_DRHO")
            LBUF%DP_DRHO(1:NEL*L_DP_DRHO)=RBUF(IAD+1:IAD+NEL*L_DP_DRHO)          
               IAD = IAD+NEL*L_DP_DRHO                                            
-          ALLOCATE(LBUF%QVIS(NEL*L_QVIS)  ,STAT=ERR)                             
+          call my_alloc(LBUF%QVIS, NEL*L_QVIS, "LBUF%QVIS")
             LBUF%QVIS(1:NEL*L_QVIS)   = RBUF(IAD+1:IAD+NEL*L_QVIS)               
               IAD = IAD+NEL*L_QVIS                                               
-          ALLOCATE(LBUF%DELTAX(NEL*L_DELTAX),STAT=ERR)                           
+          call my_alloc(LBUF%DELTAX, NEL*L_DELTAX, "LBUF%DELTAX")
             LBUF%DELTAX(1:NEL*L_DELTAX)=RBUF(IAD+1:IAD+NEL*L_DELTAX)             
               IAD = IAD+NEL*L_DELTAX      
-          ALLOCATE(LBUF%VOL   (NEL*L_VOL)   ,STAT=ERR)                           
+          call my_alloc(LBUF%VOL, NEL*L_VOL, "LBUF%VOL")
             LBUF%VOL(1:NEL*L_VOL)    = RBUF(IAD+1:IAD+NEL*L_VOL)                 
               IAD = IAD+NEL*L_VOL                                                
-          ALLOCATE(LBUF%EPSA  (NEL*L_EPSA)  ,STAT=ERR)                           
+          call my_alloc(LBUF%EPSA, NEL*L_EPSA, "LBUF%EPSA")
             LBUF%EPSA(1:NEL*L_EPSA)  = RBUF(IAD+1:IAD+NEL*L_EPSA)                
               IAD = IAD+NEL*L_EPSA                                               
-          ALLOCATE(LBUF%EPSD  (NEL*L_EPSD)  ,STAT=ERR)                           
+          call my_alloc(LBUF%EPSD, NEL*L_EPSD, "LBUF%EPSD")
             LBUF%EPSD(1:NEL*L_EPSD)   = RBUF(IAD+1:IAD+NEL*L_EPSD)               
               IAD = IAD+NEL*L_EPSD                                               
-          ALLOCATE(LBUF%EPSQ  (NEL*L_EPSQ)  ,STAT=ERR)                           
+          call my_alloc(LBUF%EPSQ, NEL*L_EPSQ, "LBUF%EPSQ")
             LBUF%EPSQ(1:NEL*L_EPSQ)   = RBUF(IAD+1:IAD+NEL*L_EPSQ)               
               IAD = IAD+NEL*L_EPSQ                                               
-          ALLOCATE(LBUF%EPSF  (NEL*L_EPSF)  ,STAT=ERR)                           
+          call my_alloc(LBUF%EPSF, NEL*L_EPSF, "LBUF%EPSF")
             LBUF%EPSF(1:NEL*L_EPSF)  = RBUF(IAD+1:IAD+NEL*L_EPSF)                
               IAD = IAD+NEL*L_EPSF                                               
-          ALLOCATE(LBUF%PLA   (NEL*L_PLA)   ,STAT=ERR)                           
+          call my_alloc(LBUF%PLA, NEL*L_PLA, "LBUF%PLA")
             LBUF%PLA(1:NEL*L_PLA)    = RBUF(IAD+1:IAD+NEL*L_PLA)                 
               IAD = IAD+NEL*L_PLA    
-          ALLOCATE(LBUF%WPLA   (NEL*L_WPLA)   ,STAT=ERR)                           
+          call my_alloc(LBUF%WPLA, NEL*L_WPLA, "LBUF%WPLA")
             LBUF%WPLA(1:NEL*L_WPLA)    = RBUF(IAD+1:IAD+NEL*L_WPLA)                 
               IAD = IAD+NEL*L_WPLA                                                            
-          ALLOCATE(LBUF%TEMP(NEL*L_TEMP), STAT=ERR)                              
+          call my_alloc(LBUF%TEMP, NEL*L_TEMP, "LBUF%TEMP")
             LBUF%TEMP(1:NEL*L_TEMP)   = RBUF(IAD+1:IAD+NEL*L_TEMP)               
               IAD = IAD+NEL*L_TEMP                                               
-          ALLOCATE(LBUF%TB(NEL*L_TB), STAT=ERR)                                  
+          call my_alloc(LBUF%TB, NEL*L_TB, "LBUF%TB")
             LBUF%TB(1:NEL*L_TB)   = RBUF(IAD+1:IAD+NEL*L_TB)                     
               IAD = IAD+NEL*L_TB                                                 
-          ALLOCATE(LBUF%RK(NEL*L_RK), STAT=ERR)    
+          call my_alloc(LBUF%RK, NEL*L_RK, "LBUF%RK")
             LBUF%RK(1:NEL*L_RK)   = RBUF(IAD+1:IAD+NEL*L_RK)                     
               IAD = IAD+NEL*L_RK                                                 
-          ALLOCATE(LBUF%RE(NEL*L_RE), STAT=ERR)                                  
+          call my_alloc(LBUF%RE, NEL*L_RE, "LBUF%RE")
             LBUF%RE(1:NEL*L_RE)   = RBUF(IAD+1:IAD+NEL*L_RE)                     
               IAD = IAD+NEL*L_RE                                                 
-          ALLOCATE(LBUF%VK(NEL*L_VK), STAT=ERR)                                  
+          call my_alloc(LBUF%VK, NEL*L_VK, "LBUF%VK")
             LBUF%VK(1:NEL*L_VK)   = RBUF(IAD+1:IAD+NEL*L_VK)                     
               IAD = IAD+NEL*L_VK                                                 
-          ALLOCATE(LBUF%SF(NEL*L_SF), STAT=ERR)                                  
+          call my_alloc(LBUF%SF, NEL*L_SF, "LBUF%SF")
             LBUF%SF(1:NEL*L_SF)   = RBUF(IAD+1:IAD+NEL*L_SF)                     
               IAD = IAD+NEL*L_SF                                                 
-          ALLOCATE(LBUF%ROB(NEL*L_ROB), STAT=ERR)                                
+          call my_alloc(LBUF%ROB, NEL*L_ROB, "LBUF%ROB")
             LBUF%ROB(1:NEL*L_ROB)    = RBUF(IAD+1:IAD+NEL*L_ROB)                 
               IAD = IAD+NEL*L_ROB                                                
-          ALLOCATE(LBUF%DAM  (NEL*L_DAM)  ,STAT=ERR)                             
+          call my_alloc(LBUF%DAM, NEL*L_DAM, "LBUF%DAM")
             LBUF%DAM(1:NEL*L_DAM)  = RBUF(IAD+1:IAD+NEL*L_DAM)                   
               IAD = IAD+NEL*L_DAM                                                
-          ALLOCATE(LBUF%DSUM  (NEL*L_DSUM)  ,STAT=ERR)                           
+          call my_alloc(LBUF%DSUM, NEL*L_DSUM, "LBUF%DSUM")
             LBUF%DSUM(1:NEL*L_DSUM)  = RBUF(IAD+1:IAD+NEL*L_DSUM)                
               IAD = IAD+NEL*L_DSUM                                               
-          ALLOCATE(LBUF%DGLO  (NEL*L_DGLO)  ,STAT=ERR)                           
+          call my_alloc(LBUF%DGLO, NEL*L_DGLO, "LBUF%DGLO")
             LBUF%DGLO(1:NEL*L_DGLO)  = RBUF(IAD+1:IAD+NEL*L_DGLO)                
               IAD = IAD+NEL*L_DGLO                                               
-          ALLOCATE(LBUF%CRAK  (NEL*L_CRAK)  ,STAT=ERR)                           
+          call my_alloc(LBUF%CRAK, NEL*L_CRAK, "LBUF%CRAK")
             LBUF%CRAK(1:NEL*L_CRAK)  = RBUF(IAD+1:IAD+NEL*L_CRAK)                
               IAD = IAD+NEL*L_CRAK                                               
-          ALLOCATE(LBUF%ANG  (NEL*L_ANG)  ,STAT=ERR)                             
+          call my_alloc(LBUF%ANG, NEL*L_ANG, "LBUF%ANG")
             LBUF%ANG(1:NEL*L_ANG)  = RBUF(IAD+1:IAD+NEL*L_ANG)                   
               IAD = IAD+NEL*L_ANG                                                
-          ALLOCATE(LBUF%EPE  (NEL*L_EPE)  ,STAT=ERR)                             
+          call my_alloc(LBUF%EPE, NEL*L_EPE, "LBUF%EPE")
             LBUF%EPE(1:NEL*L_EPE)  = RBUF(IAD+1:IAD+NEL*L_EPE)                   
               IAD = IAD+NEL*L_EPE                                                
-          ALLOCATE(LBUF%EPC  (NEL*L_EPC)  ,STAT=ERR)                             
+          call my_alloc(LBUF%EPC, NEL*L_EPC, "LBUF%EPC")
             LBUF%EPC(1:NEL*L_EPC)  = RBUF(IAD+1:IAD+NEL*L_EPC)                   
               IAD = IAD+NEL*L_EPC                                                
-          ALLOCATE(LBUF%XST  (NEL*L_XST)  ,STAT=ERR)                             
+          call my_alloc(LBUF%XST, NEL*L_XST, "LBUF%XST")
             LBUF%XST(1:NEL*L_XST)  = RBUF(IAD+1:IAD+NEL*L_XST)                   
               IAD = IAD+NEL*L_XST                                                
-          ALLOCATE(LBUF%SSP  (NEL*L_SSP)  ,STAT=ERR)                             
+          call my_alloc(LBUF%SSP, NEL*L_SSP, "LBUF%SSP")
             LBUF%SSP(1:NEL*L_SSP)  = RBUF(IAD+1:IAD+NEL*L_SSP)                   
               IAD = IAD+NEL*L_SSP                                                
-          ALLOCATE(LBUF%Z  (NEL*L_Z)  ,STAT=ERR)                                 
+          call my_alloc(LBUF%Z, NEL*L_Z, "LBUF%Z")
             LBUF%Z(1:NEL*L_Z)  = RBUF(IAD+1:IAD+NEL*L_Z)                         
               IAD = IAD+NEL*L_Z                                                  
-          ALLOCATE(LBUF%VISC  (NEL*L_VISC)  ,STAT=ERR)                           
+          call my_alloc(LBUF%VISC, NEL*L_VISC, "LBUF%VISC")
             LBUF%VISC(1:NEL*L_VISC)  = RBUF(IAD+1:IAD+NEL*L_VISC)                
               IAD = IAD+NEL*L_VISC                                               
-          ALLOCATE(LBUF%SIGL  (NEL*L_SIGL)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGL, NEL*L_SIGL, "LBUF%SIGL")
             LBUF%SIGL(1:NEL*L_SIGL)  = RBUF(IAD+1:IAD+NEL*L_SIGL)                
               IAD = IAD+NEL*L_SIGL                                               
-          ALLOCATE(LBUF%SIGV  (NEL*L_SIGV)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGV, NEL*L_SIGV, "LBUF%SIGV")
             LBUF%SIGV(1:NEL*L_SIGV)  = RBUF(IAD+1:IAD+NEL*L_SIGV)                
               IAD = IAD+NEL*L_SIGV                                               
-          ALLOCATE(LBUF%SIGA  (NEL*L_SIGA)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGA, NEL*L_SIGA, "LBUF%SIGA")
             LBUF%SIGA(1:NEL*L_SIGA) = RBUF(IAD+1:IAD+NEL*L_SIGA)                 
               IAD = IAD+NEL*L_SIGA                                               
-          ALLOCATE(LBUF%SIGB  (NEL*L_SIGB)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGB, NEL*L_SIGB, "LBUF%SIGB")
             LBUF%SIGB(1:NEL*L_SIGB) = RBUF(IAD+1:IAD+NEL*L_SIGB)                 
               IAD = IAD+NEL*L_SIGB                                               
-          ALLOCATE(LBUF%SIGC  (NEL*L_SIGC)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGC, NEL*L_SIGC, "LBUF%SIGC")
             LBUF%SIGC(1:NEL*L_SIGC) = RBUF(IAD+1:IAD+NEL*L_SIGC)                 
               IAD = IAD+NEL*L_SIGC                                               
-          ALLOCATE(LBUF%SIGD  (NEL*L_SIGD)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGD, NEL*L_SIGD, "LBUF%SIGD")
             LBUF%SIGD(1:NEL*L_SIGD) = RBUF(IAD+1:IAD+NEL*L_SIGD)                 
               IAD = IAD+NEL*L_SIGD                                               
-          ALLOCATE(LBUF%SIGF  (NEL*L_SIGF)  ,STAT=ERR)                           
+          call my_alloc(LBUF%SIGF, NEL*L_SIGF, "LBUF%SIGF")
             LBUF%SIGF(1:NEL*L_SIGF)  = RBUF(IAD+1:IAD+NEL*L_SIGF)                
               IAD = IAD+NEL*L_SIGF                                               
-          ALLOCATE(LBUF%SIG(NEL*L_SIG)   ,STAT=ERR)                              
+          call my_alloc(LBUF%SIG, NEL*L_SIG, "LBUF%SIG")
             LBUF%SIG(1:NEL*L_SIG)  = RBUF(IAD+1:IAD+NEL*L_SIG)                   
               IAD = IAD+NEL*L_SIG                                                
-          ALLOCATE(LBUF%SIGPLY(NEL*L_SIGPLY)   ,STAT=ERR)                              
+          call my_alloc(LBUF%SIGPLY, NEL*L_SIGPLY, "LBUF%SIGPLY")
             LBUF%SIGPLY(1:NEL*L_SIGPLY)  = RBUF(IAD+1:IAD+NEL*L_SIGPLY)                   
               IAD = IAD+NEL*L_SIGPLY                                                
-          ALLOCATE(LBUF%FOR (NEL*L_FOR)  ,STAT=ERR)                            
+          call my_alloc(LBUF%FOR, NEL*L_FOR, "LBUF%FOR")
             LBUF%FOR(1:NEL*L_FOR)  = RBUF(IAD+1:IAD+NEL*L_FOR)                
               IAD = IAD+NEL*L_FOR
-          ALLOCATE(LBUF%MOM (NEL*L_MOM)  ,STAT=ERR)                            
+          call my_alloc(LBUF%MOM, NEL*L_MOM, "LBUF%MOM")
             LBUF%MOM(1:NEL*L_MOM)  = RBUF(IAD+1:IAD+NEL*L_MOM)                
               IAD = IAD+NEL*L_MOM
-          ALLOCATE(LBUF%THK (NEL*L_THK)  ,STAT=ERR)                            
+          call my_alloc(LBUF%THK, NEL*L_THK, "LBUF%THK")
             LBUF%THK(1:NEL*L_THK)  = RBUF(IAD+1:IAD+NEL*L_THK)                
               IAD = IAD+NEL*L_THK
-          ALLOCATE(LBUF%SMSTR (NEL*L_SMSTR)  ,STAT=ERR)                            
+          call my_alloc(LBUF%SMSTR, NEL*L_SMSTR, "LBUF%SMSTR")
             LBUF%SMSTR(1:NEL*L_SMSTR)  = RBUF(IAD+1:IAD+NEL*L_SMSTR)                
               IAD = IAD+NEL*L_SMSTR
-          ALLOCATE(LBUF%DMG (NEL*L_DMG)  ,STAT=ERR)                            
+          call my_alloc(LBUF%DMG, NEL*L_DMG, "LBUF%DMG")
             LBUF%DMG(1:NEL*L_DMG)  = RBUF(IAD+1:IAD+NEL*L_DMG)                
               IAD = IAD+NEL*L_DMG
-          ALLOCATE(LBUF%FORTH (NEL*L_FORTH)  ,STAT=ERR)                            
+          call my_alloc(LBUF%FORTH, NEL*L_FORTH, "LBUF%FORTH")
             LBUF%FORTH(1:NEL*L_FORTH)  = RBUF(IAD+1:IAD+NEL*L_FORTH)                
               IAD = IAD+NEL*L_FORTH
-          ALLOCATE(LBUF%EINTTH (NEL*L_EINTTH)  ,STAT=ERR)                            
+          call my_alloc(LBUF%EINTTH, NEL*L_EINTTH, "LBUF%EINTTH")
             LBUF%EINTTH(1:NEL*L_EINTTH)  = RBUF(IAD+1:IAD+NEL*L_EINTTH)                
               IAD = IAD+NEL*L_EINTTH
-          ALLOCATE(LBUF%SEQ (NEL*L_SEQ)  ,STAT=ERR)
+          call my_alloc(LBUF%SEQ, NEL*L_SEQ, "LBUF%SEQ")
             LBUF%SEQ(1:NEL*L_SEQ)  = RBUF(IAD+1:IAD+NEL*L_SEQ)
               IAD = IAD+NEL*L_SEQ
-          ALLOCATE(LBUF%JAC_I (NEL*L_JAC_I)  ,STAT=ERR)
+          call my_alloc(LBUF%JAC_I, NEL*L_JAC_I, "LBUF%JAC_I")
             LBUF%JAC_I(1:NEL*L_JAC_I)  = RBUF(IAD+1:IAD+NEL*L_JAC_I)
               IAD = IAD+NEL*L_JAC_I
-          ALLOCATE(LBUF%FAC_YLD (NEL*L_FAC_YLD)  ,STAT=ERR)
+          call my_alloc(LBUF%FAC_YLD, NEL*L_FAC_YLD, "LBUF%FAC_YLD")
             LBUF%FAC_YLD(1:NEL*L_FAC_YLD)  = RBUF(IAD+1:IAD+NEL*L_FAC_YLD)
               IAD = IAD+NEL*L_FAC_YLD
-          ALLOCATE(LBUF%ABURN(NEL*L_ABURN)  ,STAT=ERR)              
+          call my_alloc(LBUF%ABURN, NEL*L_ABURN, "LBUF%ABURN")
             LBUF%ABURN(1:NEL*L_ABURN)   = RBUF(IAD+1:IAD+NEL*L_ABURN)               
               IAD = IAD+NEL*L_ABURN                                              
-          ALLOCATE(LBUF%MU(NEL*L_MU)  ,STAT=ERR)              
+          call my_alloc(LBUF%MU, NEL*L_MU, "LBUF%MU")
             LBUF%MU(1:NEL*L_MU)   = RBUF(IAD+1:IAD+NEL*L_MU)               
               IAD = IAD+NEL*L_MU    
-          ALLOCATE(LBUF%PLANL(NEL*L_PLANL)  ,STAT=ERR)              
+          call my_alloc(LBUF%PLANL, NEL*L_PLANL, "LBUF%PLANL")
             LBUF%PLANL(1:NEL*L_PLANL)  = RBUF(IAD+1:IAD+NEL*L_PLANL)               
               IAD = IAD+NEL*L_PLANL            
-          ALLOCATE(LBUF%EPSDNL(NEL*L_EPSDNL)  ,STAT=ERR)              
+          call my_alloc(LBUF%EPSDNL, NEL*L_EPSDNL, "LBUF%EPSDNL")
             LBUF%EPSDNL(1:NEL*L_EPSDNL) = RBUF(IAD+1:IAD+NEL*L_EPSDNL)               
               IAD = IAD+NEL*L_EPSDNL   
-          ALLOCATE(LBUF%DMGSCL(NEL*L_DMGSCL)  ,STAT=ERR)              
+          call my_alloc(LBUF%DMGSCL, NEL*L_DMGSCL, "LBUF%DMGSCL")
             LBUF%DMGSCL(1:NEL*L_DMGSCL) = RBUF(IAD+1:IAD+NEL*L_DMGSCL)               
               IAD = IAD+NEL*L_DMGSCL  
-          ALLOCATE(LBUF%TSAIWU(NEL*L_TSAIWU)  ,STAT=ERR)              
+          call my_alloc(LBUF%TSAIWU, NEL*L_TSAIWU, "LBUF%TSAIWU")
             LBUF%TSAIWU(1:NEL*L_TSAIWU) = RBUF(IAD+1:IAD+NEL*L_TSAIWU)               
               IAD = IAD+NEL*L_TSAIWU 
-          ALLOCATE(LBUF%PIJ(NEL*L_PIJ)  ,STAT=ERR)              
+          call my_alloc(LBUF%PIJ, NEL*L_PIJ, "LBUF%PIJ")
             LBUF%PIJ(1:NEL*L_PIJ)   = RBUF(IAD+1:IAD+NEL*L_PIJ)               
               IAD = IAD+NEL*L_PIJ 
 C---------- size of DP ---             
-          ALLOCATE(LBUF%VOL0DP(NEL*L_VOL0DP)  ,STAT=ERR)              
+          call my_alloc(LBUF%VOL0DP, NEL*L_VOL0DP, "LBUF%VOL0DP")
               SDP_RBUF = SDP_RBUF + NEL*L_VOL0DP
 !----------------------------------------------------------
          ENDDO !next IT
@@ -777,10 +779,10 @@ C---------- size of DP ---
        IF(IDRAPE > 0 .AND. (IGTYP == 51 .OR. IGTYP == 52)) THEN
          DO IT = 1, NPTT                
           LBUF_DIR => ELBUF_STR%BUFLY(IL)%LBUF_DIR(IT)
-          ALLOCATE(LBUF_DIR%DIRA(NEL*LY_DIRA))                        
+          call my_alloc(LBUF_DIR%DIRA, NEL*LY_DIRA, "LBUF_DIR%DIRA")
           LBUF_DIR%DIRA(1:NEL*LY_DIRA) = RBUF(IAD+1:IAD+NEL*LY_DIRA)         
           IAD = IAD + NEL*LY_DIRA                               
-          ALLOCATE(LBUF_DIR%DIRB(NEL*LY_DIRB)) 
+          call my_alloc(LBUF_DIR%DIRB, NEL*LY_DIRB, "LBUF_DIR%DIRB")
           LBUF_DIR%DIRB(1:NEL*LY_DIRB) = RBUF(IAD+1:IAD+NEL*LY_DIRB)         
           IAD = IAD + NEL*LY_DIRB  
         ENDDO !next IT
@@ -855,10 +857,10 @@ c
           DO IS = 1,NPTS                                                  
             DO IT = 1,NPTT                                                
               MATBUF => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)                 
-              ALLOCATE (MATBUF%VAR(NEL*NUVAR), STAT=ERR)                        
+              call my_alloc(MATBUF%VAR, NEL*NUVAR, "MATBUF%VAR")
               MATBUF%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                          
               IAD = IAD+NEL*NUVAR                                         
-              ALLOCATE (MATBUF%VARTMP(NEL*NVARTMP), STAT=ERR)                        
+              call my_alloc(MATBUF%VARTMP, NEL*NVARTMP, "MATBUF%VARTMP")
               MATBUF%VARTMP(1:NEL*NVARTMP) = 0
 c-----                                                                           
             ENDDO                                                             
@@ -918,35 +920,35 @@ c-------------------------------
                 IAD = IAD+1                                                
                 FLOC%LF_OFF = LF_OFF                                           
                                        
-                ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)                    
+                call my_alloc(FLOC%VAR, NEL*NUVAR, "FLOC%VAR")
                 FLOC%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                        
                 IAD = IAD + NEL*NUVAR                                        
                                        
                 NVARTMP = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(K)%NVARTMP                                      
-                ALLOCATE(FLOC%VARTMP(NEL*NVARTMP), STAT=ERR) 
+                call my_alloc(FLOC%VARTMP, NEL*NVARTMP, "FLOC%VARTMP")
                 FLOC%VARTMP(1:NEL*NVARTMP) = 1                 
 
-                ALLOCATE(FLOC%DAM(NEL*LF_DAM), STAT=ERR)                    
+                call my_alloc(FLOC%DAM, NEL*LF_DAM, "FLOC%DAM")
                 FLOC%DAM(1:NEL*LF_DAM) = RBUF(IAD+1:IAD+NEL*LF_DAM)                        
                 IAD = IAD + NEL*LF_DAM    
 
-                ALLOCATE(FLOC%DAMMX(NEL*LF_DAMMX), STAT=ERR)                    
+                call my_alloc(FLOC%DAMMX, NEL*LF_DAMMX, "FLOC%DAMMX")
                 FLOC%DAMMX(1:NEL*LF_DAMMX) = RBUF(IAD+1:IAD+NEL*LF_DAMMX)                        
                 IAD = IAD + NEL*LF_DAMMX     
 
-                ALLOCATE(FLOC%DAMINI(NEL*LF_DAMINI), STAT=ERR)                    
+                call my_alloc(FLOC%DAMINI, NEL*LF_DAMINI, "FLOC%DAMINI")
                 FLOC%DAMINI(1:NEL*LF_DAMINI) = RBUF(IAD+1:IAD+NEL*LF_DAMINI)                        
                 IAD = IAD + NEL*LF_DAMINI 
 
-                ALLOCATE(FLOC%TDEL(NEL*LF_TDEL), STAT=ERR)                    
+                call my_alloc(FLOC%TDEL, NEL*LF_TDEL, "FLOC%TDEL")
                 FLOC%TDEL(1:NEL*LF_TDEL) = RBUF(IAD+1:IAD+NEL*LF_TDEL)                        
                 IAD = IAD + NEL*LF_TDEL                                    
 
-                ALLOCATE(FLOC%INDX(NEL*LF_INDX), STAT=ERR)                    
+                call my_alloc(FLOC%INDX, NEL*LF_INDX, "FLOC%INDX")
                 FLOC%INDX(1:NEL*LF_INDX) = RBUF(IAD+1:IAD+NEL*LF_INDX)                        
                 IAD = IAD + NEL*LF_INDX                                    
 
-                ALLOCATE(FLOC%OFF(NEL*LF_OFF), STAT=ERR)                    
+                call my_alloc(FLOC%OFF, NEL*LF_OFF, "FLOC%OFF")
                 FLOC%OFF(1:NEL*LF_OFF) = RBUF(IAD+1:IAD+NEL*LF_OFF)                        
                 IAD = IAD + NEL*LF_OFF                                    
               ENDDO                                                         
@@ -968,7 +970,7 @@ c-------------------------------
           DO IS = 1,NPTS                                                  
             DO IT = 1,NPTT                                                
               VISCBUF => ELBUF_STR%BUFLY(IL)%VISC(IR,IS,IT)                 
-              ALLOCATE (VISCBUF%VAR(NEL*NUVAR), STAT=ERR)                        
+              call my_alloc(VISCBUF%VAR, NEL*NUVAR, "VISCBUF%VAR")
               VISCBUF%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                          
               IAD = IAD+NEL*NUVAR                                         
 c-----                                                                           
@@ -984,7 +986,7 @@ c-------------------------------
         NPTT = ELBUF_STR%NPTT
         IF ((INLOC>0).AND.(NPTT>1)) THEN
           ! Allocation of the non-local buffer
-          ALLOCATE(ELBUF_STR%NLOC(NPTR,NPTS), STAT=ERR)
+          ALLOCATE(ELBUF_STR%NLOC(NPTR,NPTS))
           ! Number of non-local nodes in the thickness
           IF (NPTT>2) THEN
             NONL = NPTT+1
@@ -997,13 +999,13 @@ c-------------------------------
               ! Pointing the non-local buffer
               BUFNL => ELBUF_STR%NLOC(IR,IS)
               ! Non-local in-thickness masses
-              ALLOCATE(BUFNL%MASSTH(NEL,NONL), STAT=ERR) 
+              call my_alloc(BUFNL%MASSTH, NEL, NONL, "BUFNL%MASSTH")
               ! Non-local in-thickness cumulated variables
-              ALLOCATE(BUFNL%UNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNL%UNLTH, NEL, NONL, "BUFNL%UNLTH")
               ! Non-local in-thickness velocities
-              ALLOCATE(BUFNL%VNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNL%VNLTH, NEL, NONL, "BUFNL%VNLTH")
               ! Non-local in-thickness forces
-              ALLOCATE(BUFNL%FNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNL%FNLTH, NEL, NONL, "BUFNL%FNLTH")
               ! Copying the buffer
               DO I = 1,NEL
                 ! Nodal masses
@@ -1039,13 +1041,13 @@ c-------------------------------
               ! Pointing the non-local buffer
               BUFNLTS => ELBUF_STR%NLOCTS(IR,IS)
               ! Non-local in-thickness masses
-              ALLOCATE(BUFNLTS%MASSTH(NEL,NONL), STAT=ERR) 
+              call my_alloc(BUFNLTS%MASSTH, NEL, NONL, "BUFNLTS%MASSTH")
               ! Non-local in-thickness cumulated variables
-              ALLOCATE(BUFNLTS%UNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNLTS%UNLTH, NEL, NONL, "BUFNLTS%UNLTH")
               ! Non-local in-thickness velocities
-              ALLOCATE(BUFNLTS%VNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNLTS%VNLTH, NEL, NONL, "BUFNLTS%VNLTH")
               ! Non-local in-thickness forces
-              ALLOCATE(BUFNLTS%FNLTH(NEL,NONL) , STAT=ERR) 
+              call my_alloc(BUFNLTS%FNLTH, NEL, NONL, "BUFNLTS%FNLTH")
               ! Copying the buffer
               DO I = 1,NEL
                 ! Nodal masses
@@ -1114,10 +1116,10 @@ C       Interlayer parameters : 4
 c-------------------------------------------------
 C     Interlayer :  allocation & read of local buffer variables
 c-------------------------------------------------
-        ALLOCATE(INTLAY%EINT (NEL*LY_EINT)  ,STAT=ERR)                           
+        call my_alloc(INTLAY%EINT, NEL*LY_EINT, "INTLAY%EINT")
           INTLAY%EINT(1:NEL*LY_EINT) = RBUF(IAD+1:IAD+NEL*LY_EINT)
             IAD = IAD+NEL*LY_EINT                                              
-        ALLOCATE(INTLAY%COUNT (NEL*LY_COUNT)  ,STAT=ERR)                           
+        call my_alloc(INTLAY%COUNT, NEL*LY_COUNT, "INTLAY%COUNT")
           INTLAY%COUNT(1:NEL*LY_COUNT) = RBUF(IAD+1:IAD+NEL*LY_COUNT)
             IAD = IAD+NEL*LY_COUNT                                              
 c
@@ -1125,10 +1127,10 @@ c
           DO IS = 1,NPTS                                                            
             ILBUF => ELBUF_STR%INTLAY(IL)%ILBUF(IR,IS)   
 c--------
-            ALLOCATE(ILBUF%EPS (NEL*L_EPS)   ,STAT=ERR)                             
+            call my_alloc(ILBUF%EPS, NEL*L_EPS, "ILBUF%EPS")
               ILBUF%EPS(1:NEL*L_EPS)    = RBUF(IAD+1:IAD+NEL*L_EPS)                 
                 IAD = IAD+NEL*L_EPS                                                
-            ALLOCATE(ILBUF%SIG (NEL*L_SIG)   ,STAT=ERR)                           
+            call my_alloc(ILBUF%SIG, NEL*L_SIG, "ILBUF%SIG")
               ILBUF%SIG(1:NEL*L_SIG)    = RBUF(IAD+1:IAD+NEL*L_SIG)               
                 IAD = IAD+NEL*L_SIG                                              
 !----------------------------------------------------------
@@ -1144,10 +1146,10 @@ c
         DO IR = 1,NPTR                                                    
           DO IS = 1,NPTS                                                  
               MATBUF => ELBUF_STR%INTLAY(IL)%MAT(IR,IS)                 
-              ALLOCATE (MATBUF%VAR(NEL*NUVAR), STAT=ERR)                        
+              call my_alloc(MATBUF%VAR, NEL*NUVAR, "MATBUF%VAR")
               MATBUF%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                          
               IAD = IAD+NEL*NUVAR                                         
-              ALLOCATE (MATBUF%VARTMP(NEL*NVARTMP), STAT=ERR)                        
+              call my_alloc(MATBUF%VARTMP, NEL*NVARTMP, "MATBUF%VARTMP")
               MATBUF%VARTMP(1:NEL*NVARTMP) = 0                    
           ENDDO                                                              
         ENDDO                                                             
@@ -1171,11 +1173,11 @@ c-------------------------------
                 NUVAR = RBUF(IAD+1)                                        
                 IAD = IAD+1                                                
                 FLOC%NVAR = NUVAR                                          
-                ALLOCATE(FLOC%VAR(NEL*NUVAR), STAT=ERR)                    
+                call my_alloc(FLOC%VAR, NEL*NUVAR, "FLOC%VAR")
                 FLOC%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                        
                 IAD = IAD+NEL*NUVAR                                        
                 NVARTMP =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(K)%NVARTMP                                      
-                ALLOCATE(FLOC%VARTMP(NEL*NVARTMP), STAT=ERR)
+                call my_alloc(FLOC%VARTMP, NEL*NVARTMP, "FLOC%VARTMP")
                 FLOC%VARTMP(1:NEL*NVARTMP)=1                
               ENDDO                                                         
           ENDDO                                                            
@@ -1609,106 +1611,106 @@ C ---H3D/TMAX in BUFLEN
       GBUF%G_TM_STRA  = G_TM_STRA
      
 C------------  ETOTSH Work array used for free shear locking of S17
-      ALLOCATE(ELBUF_STR%GBUF%ETOTSH(NEL*G_ETOTSH)         ,STAT=ERR)                         
+      call my_alloc(ELBUF_STR%GBUF%ETOTSH, NEL*G_ETOTSH, "ELBUF_STR%GBUF%ETOTSH")
       GBUF%ETOTSH = ZERO  
 C------------  Work array GAMA_R : co-rotational local sys
-      ALLOCATE(ELBUF_STR%GBUF%GAMA_R(NEL*G_GAMA_R)         ,STAT=ERR)                         
+      call my_alloc(ELBUF_STR%GBUF%GAMA_R, NEL*G_GAMA_R, "ELBUF_STR%GBUF%GAMA_R")
       GBUF%GAMA_R = ZERO  
 c---
-      ALLOCATE (ELBUF_STR%GBUF%NOFF(NEL*G_NOFF)  ,STAT=ERR)                             
+      call my_alloc(ELBUF_STR%GBUF%NOFF, NEL*G_NOFF, "ELBUF_STR%GBUF%NOFF")
         GBUF%NOFF(1:NEL*G_NOFF)  = NINT(RBUF(IAD+1:IAD+NEL*G_NOFF))                            
           IAD = IAD+NEL*G_NOFF                                                          
-      ALLOCATE (ELBUF_STR%GBUF%IERR(NEL*G_IERR)  ,STAT=ERR)                             
+      call my_alloc(ELBUF_STR%GBUF%IERR, NEL*G_IERR, "ELBUF_STR%GBUF%IERR")
         GBUF%IERR(1:NEL*G_IERR)  = NINT(RBUF(IAD+1:IAD+NEL*G_IERR))                            
           IAD = IAD+NEL*G_IERR                                                          
-      ALLOCATE (ELBUF_STR%GBUF%GAMA(NEL*G_GAMA)  ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%GAMA, NEL*G_GAMA, "ELBUF_STR%GBUF%GAMA")
         GBUF%GAMA(1:NEL*G_GAMA)  = RBUF(IAD+1:IAD+NEL*G_GAMA)                    
           IAD = IAD+NEL*G_GAMA
 C      ALLOCATE (ELBUF_STR%GBUF%SMSTR(NEL*G_SMSTR) ,STAT=ERR)                     
 C        GBUF%SMSTR(1:NEL*G_SMSTR) = RBUF(IAD+1:IAD+NEL*G_SMSTR)                  
 C          IAD = IAD+NEL*G_SMSTR
-      ALLOCATE (ELBUF_STR%GBUF%HOURG(NEL*G_HOURG) ,STAT=ERR)                     
+      call my_alloc(ELBUF_STR%GBUF%HOURG, NEL*G_HOURG, "ELBUF_STR%GBUF%HOURG")
         GBUF%HOURG(1:NEL*G_HOURG) = RBUF(IAD+1:IAD+NEL*G_HOURG)                  
           IAD = IAD+NEL*G_HOURG                                                  
-      ALLOCATE (ELBUF_STR%GBUF%TAG22(NEL*G_TAG22) ,STAT=ERR)                     
+      call my_alloc(ELBUF_STR%GBUF%TAG22, NEL*G_TAG22, "ELBUF_STR%GBUF%TAG22")
         GBUF%TAG22(1:NEL*G_TAG22) = RBUF(IAD+1:IAD+NEL*G_TAG22)                  
           IAD = IAD+NEL*G_TAG22                 
-      ALLOCATE (ELBUF_STR%GBUF%STRA(NEL*G_STRA) ,STAT=ERR)                     
+      call my_alloc(ELBUF_STR%GBUF%STRA, NEL*G_STRA, "ELBUF_STR%GBUF%STRA")
         GBUF%STRA(1:NEL*G_STRA) = RBUF(IAD+1:IAD+NEL*G_STRA)                  
           IAD = IAD+NEL*G_STRA                 
-      ALLOCATE (ELBUF_STR%GBUF%SIGI(NEL*G_SIGI) ,STAT=ERR)                     
+      call my_alloc(ELBUF_STR%GBUF%SIGI, NEL*G_SIGI, "ELBUF_STR%GBUF%SIGI")
         GBUF%SIGI(1:NEL*G_SIGI) = RBUF(IAD+1:IAD+NEL*G_SIGI)                  
           IAD = IAD+NEL*G_SIGI                 
-      ALLOCATE (ELBUF_STR%GBUF%DMG(NEL*G_DMG) ,STAT=ERR)                     
+      call my_alloc(ELBUF_STR%GBUF%DMG, NEL*G_DMG, "ELBUF_STR%GBUF%DMG")
         GBUF%DMG(1:NEL*G_DMG) = RBUF(IAD+1:IAD+NEL*G_DMG)                  
           IAD = IAD+NEL*G_DMG                 
-      ALLOCATE (ELBUF_STR%GBUF%UELR(NEL*G_UELR) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%UELR, NEL*G_UELR, "ELBUF_STR%GBUF%UELR")
         GBUF%UELR(1:NEL*G_UELR) = RBUF(IAD+1:IAD+NEL*G_UELR)
           IAD = IAD+NEL*G_UELR
-      ALLOCATE (ELBUF_STR%GBUF%UELR1(NEL*G_UELR1) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%UELR1, NEL*G_UELR1, "ELBUF_STR%GBUF%UELR1")
         GBUF%UELR1(1:NEL*G_UELR1) = RBUF(IAD+1:IAD+NEL*G_UELR1)
           IAD = IAD+NEL*G_UELR1
-      ALLOCATE (ELBUF_STR%GBUF%DAMDL(NEL*G_DAMDL) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DAMDL, NEL*G_DAMDL, "ELBUF_STR%GBUF%DAMDL")
         GBUF%DAMDL(1:NEL*G_DAMDL) = RBUF(IAD+1:IAD+NEL*G_DAMDL)
           IAD = IAD+NEL*G_DAMDL
-      ALLOCATE (ELBUF_STR%GBUF%FOR (NEL*G_FOR)   ,STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%FOR, NEL*G_FOR, "ELBUF_STR%GBUF%FOR")
         GBUF%FOR(1:NEL*G_FOR)   = RBUF(IAD+1:IAD+NEL*G_FOR)                           
           IAD = IAD+NEL*G_FOR                                                         
-      ALLOCATE (ELBUF_STR%GBUF%MOM (NEL*G_MOM)   ,STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%MOM, NEL*G_MOM, "ELBUF_STR%GBUF%MOM")
         GBUF%MOM(1:NEL*G_MOM)   = RBUF(IAD+1:IAD+NEL*G_MOM)                           
           IAD = IAD+NEL*G_MOM                                                         
-      ALLOCATE (ELBUF_STR%GBUF%THK (NEL*G_THK)   ,STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%THK, NEL*G_THK, "ELBUF_STR%GBUF%THK")
         GBUF%THK(1:NEL*G_THK)   = RBUF(IAD+1:IAD+NEL*G_THK)                           
           IAD = IAD+NEL*G_THK 
-      ALLOCATE (ELBUF_STR%GBUF%STRW(NEL*G_STRW),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%STRW, NEL*G_STRW, "ELBUF_STR%GBUF%STRW")
         GBUF%STRW(1:NEL*G_STRW)=RBUF(IAD+1:IAD+NEL*G_STRW)                   
           IAD = IAD+NEL*G_STRW                                  
-      ALLOCATE (ELBUF_STR%GBUF%THK_I(NEL*G_THK_I),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%THK_I, NEL*G_THK_I, "ELBUF_STR%GBUF%THK_I")
         GBUF%THK_I(1:NEL*G_THK_I)=RBUF(IAD+1:IAD+NEL*G_THK_I)                           
           IAD = IAD+NEL*G_THK_I                                  
-      ALLOCATE (ELBUF_STR%GBUF%JAC_I(NEL*G_JAC_I),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%JAC_I, NEL*G_JAC_I, "ELBUF_STR%GBUF%JAC_I")
         GBUF%JAC_I(1:NEL*G_JAC_I)=RBUF(IAD+1:IAD+NEL*G_JAC_I)                           
           IAD = IAD+NEL*G_JAC_I                                  
-      ALLOCATE (ELBUF_STR%GBUF%DT(NEL*G_DT),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%DT, NEL*G_DT, "ELBUF_STR%GBUF%DT")
         GBUF%DT(1:NEL*G_DT)=RBUF(IAD+1:IAD+NEL*G_DT)                           
           IAD = IAD+NEL*G_DT
-      ALLOCATE (ELBUF_STR%GBUF%ISMS(NEL*G_ISMS),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%ISMS, NEL*G_ISMS, "ELBUF_STR%GBUF%ISMS")
         GBUF%ISMS(1:NEL*G_ISMS)=RBUF(IAD+1:IAD+NEL*G_ISMS)                           
           IAD = IAD+NEL*G_ISMS    
-      ALLOCATE (ELBUF_STR%GBUF%BPRELD(NEL*G_BPRELD),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%BPRELD, NEL*G_BPRELD, "ELBUF_STR%GBUF%BPRELD")
         GBUF%BPRELD(1:NEL*G_BPRELD)=RBUF(IAD+1:IAD+NEL*G_BPRELD)                           
           IAD = IAD+NEL*G_BPRELD    
-      ALLOCATE (ELBUF_STR%GBUF%COR_NF(NEL*G_COR_NF),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%COR_NF, NEL*G_COR_NF, "ELBUF_STR%GBUF%COR_NF")
         GBUF%COR_NF(1:NEL*G_COR_NF)=RBUF(IAD+1:IAD+NEL*G_COR_NF)                           
           IAD = IAD+NEL*G_COR_NF    
-      ALLOCATE (ELBUF_STR%GBUF%COR_FR(NEL*G_COR_FR),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%COR_FR, NEL*G_COR_FR, "ELBUF_STR%GBUF%COR_FR")
         GBUF%COR_FR(1:NEL*G_COR_FR)=RBUF(IAD+1:IAD+NEL*G_COR_FR)                           
           IAD = IAD+NEL*G_COR_FR    
-      ALLOCATE (ELBUF_STR%GBUF%COR_XR(NEL*G_COR_XR),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%COR_XR, NEL*G_COR_XR, "ELBUF_STR%GBUF%COR_XR")
         GBUF%COR_XR(1:NEL*G_COR_XR)=RBUF(IAD+1:IAD+NEL*G_COR_XR)                           
           IAD = IAD+NEL*G_COR_XR 
-      ALLOCATE (ELBUF_STR%GBUF%MAXFRAC(NEL*G_MAXFRAC),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%MAXFRAC, NEL*G_MAXFRAC, "ELBUF_STR%GBUF%MAXFRAC")
         GBUF%MAXFRAC(1:NEL*G_MAXFRAC)=RBUF(IAD+1:IAD+NEL*G_MAXFRAC)                           
           IAD = IAD+NEL*G_MAXFRAC   
-      ALLOCATE (ELBUF_STR%GBUF%MAXEPS(NEL*G_MAXEPS),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%MAXEPS, NEL*G_MAXEPS, "ELBUF_STR%GBUF%MAXEPS")
         GBUF%MAXEPS(1:NEL*G_MAXEPS)=RBUF(IAD+1:IAD+NEL*G_MAXEPS)                           
           IAD = IAD+NEL*G_MAXEPS
-      ALLOCATE (ELBUF_STR%GBUF%BETAORTH (NEL*G_BETAORTH)   ,STAT=ERR)                         
+      call my_alloc(ELBUF_STR%GBUF%BETAORTH, NEL*G_BETAORTH, "ELBUF_STR%GBUF%BETAORTH")
         GBUF%BETAORTH(1:NEL*G_BETAORTH)   = RBUF(IAD+1:IAD+NEL*G_BETAORTH)                         
           IAD = IAD+NEL*G_BETAORTH
-      ALLOCATE (ELBUF_STR%GBUF%AMU(NEL*G_AMU),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%AMU, NEL*G_AMU, "ELBUF_STR%GBUF%AMU")
         GBUF%AMU(1:NEL*G_AMU)=RBUF(IAD+1:IAD+NEL*G_AMU)                           
           IAD = IAD+NEL*G_AMU
-      ALLOCATE (ELBUF_STR%GBUF%SH_IOFFSET(NEL*G_SH_IOFFSET),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%SH_IOFFSET, NEL*G_SH_IOFFSET, "ELBUF_STR%GBUF%SH_IOFFSET")
         GBUF%SH_IOFFSET(1:NEL*G_SH_IOFFSET)=RBUF(IAD+1:IAD+NEL*G_SH_IOFFSET)                           
           IAD = IAD+NEL*G_SH_IOFFSET
-      ALLOCATE (ELBUF_STR%GBUF%EINT_DISTOR(NEL*G_EINT_DISTOR),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%EINT_DISTOR, NEL*G_EINT_DISTOR, "ELBUF_STR%GBUF%EINT_DISTOR")
         GBUF%EINT_DISTOR(1:NEL*G_EINT_DISTOR)=RBUF(IAD+1:IAD+NEL*G_EINT_DISTOR)                           
           IAD = IAD+NEL*G_EINT_DISTOR
-      ALLOCATE (ELBUF_STR%GBUF%FOR_G(NEL*G_FOR_G),STAT=ERR)                           
+      call my_alloc(ELBUF_STR%GBUF%FOR_G, NEL*G_FOR_G, "ELBUF_STR%GBUF%FOR_G")
         GBUF%FOR_G(1:NEL*G_FOR_G)=RBUF(IAD+1:IAD+NEL*G_FOR_G)                           
           IAD = IAD+NEL*G_FOR_G
-      ALLOCATE (ELBUF_STR%GBUF%WPLA (NEL*G_WPLA)   ,STAT=ERR)                         
+      call my_alloc(ELBUF_STR%GBUF%WPLA, NEL*G_WPLA, "ELBUF_STR%GBUF%WPLA")
         GBUF%WPLA(1:NEL*G_WPLA)  = RBUF(IAD+1:IAD+NEL*G_WPLA)                         
           IAD = IAD+NEL*G_WPLA    
 c-------
@@ -1725,42 +1727,42 @@ C
         IF (G_STRPG<=G_STRA) THEN
           ELBUF_STR%GBUF%STRPG => GBUF%STRA
         ELSE
-          ALLOCATE (ELBUF_STR%GBUF%STRPG(NEL*G_STRPG) ,STAT=ERR)                     
+          call my_alloc(ELBUF_STR%GBUF%STRPG, NEL*G_STRPG, "ELBUF_STR%GBUF%STRPG")
           GBUF%STRPG(1:NEL*G_STRPG) = RBUF(IAD+1:IAD+NEL*G_STRPG)                  
           IAD = IAD+NEL*G_STRPG 
         END IF
         ELBUF_STR%GBUF%FORPG_G => GBUF%FOR_G
       ELSEIF (NPG > 1) THEN
-        ALLOCATE (ELBUF_STR%GBUF%FORPG(NEL*G_FORPG) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%FORPG, NEL*G_FORPG, "ELBUF_STR%GBUF%FORPG")
           GBUF%FORPG(1:NEL*G_FORPG) = RBUF(IAD+1:IAD+NEL*G_FORPG)                  
             IAD = IAD+NEL*G_FORPG                 
-        ALLOCATE (ELBUF_STR%GBUF%MOMPG(NEL*G_MOMPG) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%MOMPG, NEL*G_MOMPG, "ELBUF_STR%GBUF%MOMPG")
           GBUF%MOMPG(1:NEL*G_MOMPG) = RBUF(IAD+1:IAD+NEL*G_MOMPG)                  
             IAD = IAD+NEL*G_MOMPG
 C
-        ALLOCATE (ELBUF_STR%GBUF%FORPGPINCH(NEL*G_FORPGPINCH) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%FORPGPINCH, NEL*G_FORPGPINCH, "ELBUF_STR%GBUF%FORPGPINCH")
           GBUF%FORPGPINCH(1:NEL*G_FORPGPINCH) = RBUF(IAD+1:IAD+NEL*G_FORPGPINCH)                  
             IAD = IAD+NEL*G_FORPGPINCH                 
-        ALLOCATE (ELBUF_STR%GBUF%MOMPGPINCH(NEL*G_MOMPGPINCH) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%MOMPGPINCH, NEL*G_MOMPGPINCH, "ELBUF_STR%GBUF%MOMPGPINCH")
           GBUF%MOMPG(1:NEL*G_MOMPGPINCH) = RBUF(IAD+1:IAD+NEL*G_MOMPGPINCH)                  
             IAD = IAD+NEL*G_MOMPGPINCH   
-        ALLOCATE (ELBUF_STR%GBUF%EPGPINCHXZ(NEL*G_EPGPINCHXZ) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%EPGPINCHXZ, NEL*G_EPGPINCHXZ, "ELBUF_STR%GBUF%EPGPINCHXZ")
           GBUF%EPGPINCHXZ(1:NEL*G_EPGPINCHXZ) = RBUF(IAD+1:IAD+NEL*G_EPGPINCHXZ)                  
             IAD = IAD+NEL*G_EPGPINCHXZ 
-        ALLOCATE (ELBUF_STR%GBUF%EPGPINCHYZ(NEL*G_EPGPINCHYZ) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%EPGPINCHYZ, NEL*G_EPGPINCHYZ, "ELBUF_STR%GBUF%EPGPINCHYZ")
           GBUF%EPGPINCHYZ(1:NEL*G_EPGPINCHYZ) = RBUF(IAD+1:IAD+NEL*G_EPGPINCHYZ)                  
             IAD = IAD+NEL*G_EPGPINCHYZ 
-        ALLOCATE (ELBUF_STR%GBUF%EPGPINCHZZ(NEL*G_EPGPINCHZZ) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%EPGPINCHZZ, NEL*G_EPGPINCHZZ, "ELBUF_STR%GBUF%EPGPINCHZZ")
           GBUF%EPGPINCHZZ(1:NEL*G_EPGPINCHZZ) = RBUF(IAD+1:IAD+NEL*G_EPGPINCHZZ)                  
             IAD = IAD+NEL*G_EPGPINCHZZ 
 C                  
-        ALLOCATE (ELBUF_STR%GBUF%STRPG(NEL*G_STRPG) ,STAT=ERR)                     
+        call my_alloc(ELBUF_STR%GBUF%STRPG, NEL*G_STRPG, "ELBUF_STR%GBUF%STRPG")
           GBUF%STRPG(1:NEL*G_STRPG) = RBUF(IAD+1:IAD+NEL*G_STRPG)                  
             IAD = IAD+NEL*G_STRPG  
-        ALLOCATE (ELBUF_STR%GBUF%STRWPG(NEL*G_STRWPG),STAT=ERR)                           
+        call my_alloc(ELBUF_STR%GBUF%STRWPG, NEL*G_STRWPG, "ELBUF_STR%GBUF%STRWPG")
         GBUF%STRWPG(1:NEL*G_STRWPG)=RBUF(IAD+1:IAD+NEL*G_STRWPG)                   
           IAD = IAD+NEL*G_STRWPG                                  
-        ALLOCATE (ELBUF_STR%GBUF%FORPG_G(NEL*G_FORPG_G),STAT=ERR)                           
+        call my_alloc(ELBUF_STR%GBUF%FORPG_G, NEL*G_FORPG_G, "ELBUF_STR%GBUF%FORPG_G")
         GBUF%FORPG_G(1:NEL*G_FORPG_G)=RBUF(IAD+1:IAD+NEL*G_FORPG_G)                   
           IAD = IAD+NEL*G_FORPG_G                                  
       ENDIF
@@ -1791,73 +1793,73 @@ c------------------------------------------------
         ELBUF_STR%GBUF%MU     => LBUF%MU
 
       ELSE  ! NPTTOT  /= 1                                                                
-        ALLOCATE (ELBUF_STR%GBUF%BFRAC(NEL*G_BFRAC)  ,STAT=ERR)
+        call my_alloc(ELBUF_STR%GBUF%BFRAC, NEL*G_BFRAC, "ELBUF_STR%GBUF%BFRAC")
           GBUF%BFRAC(1:NEL*G_BFRAC) = RBUF(IAD+1:IAD+NEL*G_BFRAC)                        
             IAD = IAD+NEL*G_BFRAC                                                      
-        ALLOCATE (ELBUF_STR%GBUF%OFF (NEL*G_OFF)   ,STAT=ERR)                    
+        call my_alloc(ELBUF_STR%GBUF%OFF, NEL*G_OFF, "ELBUF_STR%GBUF%OFF")
           GBUF%OFF(1:NEL*G_OFF)   = RBUF(IAD+1:IAD+NEL*G_OFF)                    
             IAD = IAD+NEL*G_OFF                                                  
-        ALLOCATE (ELBUF_STR%GBUF%EINT(NEL*G_EINT)  ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%EINT, NEL*G_EINT, "ELBUF_STR%GBUF%EINT")
           GBUF%EINT(1:NEL*G_EINT) = RBUF(IAD+1:IAD+NEL*G_EINT)                        
             IAD = IAD+NEL*G_EINT                                                      
-        ALLOCATE (ELBUF_STR%GBUF%EINS(NEL*G_EINS)  ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%EINS, NEL*G_EINS, "ELBUF_STR%GBUF%EINS")
           GBUF%EINS(1:NEL*G_EINS) = RBUF(IAD+1:IAD+NEL*G_EINS)                        
             IAD = IAD+NEL*G_EINS                                                      
-        ALLOCATE (ELBUF_STR%GBUF%RHO (NEL*G_RHO)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%RHO, NEL*G_RHO, "ELBUF_STR%GBUF%RHO")
           GBUF%RHO(1:NEL*G_RHO)   = RBUF(IAD+1:IAD+NEL*G_RHO)                         
             IAD = IAD+NEL*G_RHO                                                       
-        ALLOCATE (ELBUF_STR%GBUF%QVIS(NEL*G_QVIS)  ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%QVIS, NEL*G_QVIS, "ELBUF_STR%GBUF%QVIS")
           GBUF%QVIS(1:NEL*G_QVIS) = RBUF(IAD+1:IAD+NEL*G_QVIS)                        
             IAD = IAD+NEL*G_QVIS                                                      
-        ALLOCATE (ELBUF_STR%GBUF%DELTAX(NEL*G_DELTAX),STAT=ERR)                       
+        call my_alloc(ELBUF_STR%GBUF%DELTAX, NEL*G_DELTAX, "ELBUF_STR%GBUF%DELTAX")
           GBUF%DELTAX(1:NEL*G_DELTAX) = RBUF(IAD+1:IAD+NEL*G_DELTAX)                  
             IAD = IAD+NEL*G_DELTAX                                                    
-        ALLOCATE (ELBUF_STR%GBUF%VOL (NEL*G_VOL)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%VOL, NEL*G_VOL, "ELBUF_STR%GBUF%VOL")
           GBUF%VOL(1:NEL*G_VOL)   = RBUF(IAD+1:IAD+NEL*G_VOL)                         
             IAD = IAD+NEL*G_VOL                                                       
-        ALLOCATE (ELBUF_STR%GBUF%EPSD(NEL*G_EPSD)  ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%EPSD, NEL*G_EPSD, "ELBUF_STR%GBUF%EPSD")
           GBUF%EPSD(1:NEL*G_EPSD)   = RBUF(IAD+1:IAD+NEL*G_EPSD)                      
             IAD = IAD+NEL*G_EPSD                                                      
-        ALLOCATE (ELBUF_STR%GBUF%EPSQ(NEL*G_EPSQ)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%EPSQ, NEL*G_EPSQ, "ELBUF_STR%GBUF%EPSQ")
           GBUF%EPSQ(1:NEL*G_EPSQ)   = RBUF(IAD+1:IAD+NEL*G_EPSQ)                         
             IAD = IAD+NEL*G_EPSQ                                                       
-        ALLOCATE (ELBUF_STR%GBUF%PLA (NEL*G_PLA)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%PLA, NEL*G_PLA, "ELBUF_STR%GBUF%PLA")
           GBUF%PLA(1:NEL*G_PLA)   = RBUF(IAD+1:IAD+NEL*G_PLA)                         
             IAD = IAD+NEL*G_PLA 
-        ALLOCATE (ELBUF_STR%GBUF%TEMP(NEL*G_TEMP)  ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%TEMP, NEL*G_TEMP, "ELBUF_STR%GBUF%TEMP")
           GBUF%TEMP(1:NEL*G_TEMP) = RBUF(IAD+1:IAD+NEL*G_TEMP)                        
             IAD = IAD+NEL*G_TEMP                                                      
-        ALLOCATE (ELBUF_STR%GBUF%TB(NEL*G_TB)  ,STAT=ERR)                             
+        call my_alloc(ELBUF_STR%GBUF%TB, NEL*G_TB, "ELBUF_STR%GBUF%TB")
           GBUF%TB(1:NEL*G_TB) = RBUF(IAD+1:IAD+NEL*G_TB)                              
             IAD = IAD+NEL*G_TB                                                        
-        ALLOCATE (ELBUF_STR%GBUF%RK(NEL*G_RK)  ,STAT=ERR)                             
+        call my_alloc(ELBUF_STR%GBUF%RK, NEL*G_RK, "ELBUF_STR%GBUF%RK")
           GBUF%RK(1:NEL*G_RK) = RBUF(IAD+1:IAD+NEL*G_RK)                              
             IAD = IAD+NEL*G_RK                                                        
-        ALLOCATE (ELBUF_STR%GBUF%RE(NEL*G_RE)  ,STAT=ERR)                             
+        call my_alloc(ELBUF_STR%GBUF%RE, NEL*G_RE, "ELBUF_STR%GBUF%RE")
           GBUF%RE(1:NEL*G_RE) = RBUF(IAD+1:IAD+NEL*G_RE)                              
             IAD = IAD+NEL*G_RE                                                        
-        ALLOCATE (ELBUF_STR%GBUF%SIG (NEL*G_SIG)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%SIG, NEL*G_SIG, "ELBUF_STR%GBUF%SIG")
           GBUF%SIG(1:NEL*G_SIG)   = RBUF(IAD+1:IAD+NEL*G_SIG)                         
             IAD = IAD+NEL*G_SIG                                                       
-        ALLOCATE (ELBUF_STR%GBUF%FORTH (NEL*G_FORTH)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%FORTH, NEL*G_FORTH, "ELBUF_STR%GBUF%FORTH")
           GBUF%FORTH(1:NEL*G_FORTH)   = RBUF(IAD+1:IAD+NEL*G_FORTH)                         
             IAD = IAD+NEL*G_FORTH 
-        ALLOCATE (ELBUF_STR%GBUF%EINTTH (NEL*G_EINTTH)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%EINTTH, NEL*G_EINTTH, "ELBUF_STR%GBUF%EINTTH")
           GBUF%EINTTH(1:NEL*G_EINTTH)   = RBUF(IAD+1:IAD+NEL*G_EINTTH)                         
             IAD = IAD+NEL*G_EINTTH
-        ALLOCATE (ELBUF_STR%GBUF%SEQ (NEL*G_SEQ)   ,STAT=ERR)                         
+        call my_alloc(ELBUF_STR%GBUF%SEQ, NEL*G_SEQ, "ELBUF_STR%GBUF%SEQ")
           GBUF%SEQ(1:NEL*G_SEQ)   = RBUF(IAD+1:IAD+NEL*G_SEQ)                         
             IAD = IAD+NEL*G_SEQ
-        ALLOCATE (ELBUF_STR%GBUF%ABURN(NEL*G_ABURN)  ,STAT=ERR)
+        call my_alloc(ELBUF_STR%GBUF%ABURN, NEL*G_ABURN, "ELBUF_STR%GBUF%ABURN")
           GBUF%ABURN(1:NEL*G_ABURN) = RBUF(IAD+1:IAD+NEL*G_ABURN)                        
             IAD = IAD+NEL*G_ABURN                                                      
-        ALLOCATE (ELBUF_STR%GBUF%MU(NEL*G_MU)  ,STAT=ERR)
+        call my_alloc(ELBUF_STR%GBUF%MU, NEL*G_MU, "ELBUF_STR%GBUF%MU")
           GBUF%MU(1:NEL*G_MU) = RBUF(IAD+1:IAD+NEL*G_MU)                        
             IAD = IAD+NEL*G_MU                                                      
 
       ENDIF  ! NPT   
 c
-      ALLOCATE (ELBUF_STR%GBUF%FILL (NEL*G_FILL)   ,STAT=ERR)                         
+      call my_alloc(ELBUF_STR%GBUF%FILL, NEL*G_FILL, "ELBUF_STR%GBUF%FILL")
         GBUF%FILL(1:NEL*G_FILL)   = RBUF(IAD+1:IAD+NEL*G_FILL)                         
           IAD = IAD+NEL*G_FILL                                                     
 c
@@ -1865,110 +1867,110 @@ c---
 C 1-D elements (TRUSS, BEAM, SPRING)
 c---
       IF(IGTYP == 3 .and. ITY == 5) THEN 
-        ALLOCATE (ELBUF_STR%GBUF%DMGSCL (NEL*G_DMGSCL)   ,STAT=ERR)                    
+        call my_alloc(ELBUF_STR%GBUF%DMGSCL, NEL*G_DMGSCL, "ELBUF_STR%GBUF%DMGSCL")
           GBUF%DMGSCL(1:NEL*G_DMGSCL)   = RBUF(IAD+1:IAD+NEL*G_DMGSCL)                    
             IAD = IAD+NEL*G_DMGSCL         
       ENDIF
-       ALLOCATE (ELBUF_STR%GBUF%AREA(NEL*G_AREA)               ,STAT=ERR)
+       call my_alloc(ELBUF_STR%GBUF%AREA, NEL*G_AREA, "ELBUF_STR%GBUF%AREA")
         GBUF%AREA(1:NEL*G_AREA) = RBUF(IAD+1:IAD+NEL*G_AREA)
           IAD = IAD+NEL*G_AREA
-      ALLOCATE (ELBUF_STR%GBUF%SKEW(NEL*G_SKEW)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SKEW, NEL*G_SKEW, "ELBUF_STR%GBUF%SKEW")
         GBUF%SKEW(1:NEL*G_SKEW) = RBUF(IAD+1:IAD+NEL*G_SKEW)
           IAD = IAD+NEL*G_SKEW
-      ALLOCATE (ELBUF_STR%GBUF%LENGTH(NEL*G_LENGTH)           ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%LENGTH, NEL*G_LENGTH, "ELBUF_STR%GBUF%LENGTH")
         GBUF%LENGTH(1:NEL*G_LENGTH) = RBUF(IAD+1:IAD+NEL*G_LENGTH)
           IAD = IAD+NEL*G_LENGTH
-      ALLOCATE (ELBUF_STR%GBUF%TOTDEPL(NEL*G_TOTDEPL)         ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TOTDEPL, NEL*G_TOTDEPL, "ELBUF_STR%GBUF%TOTDEPL")
         GBUF%TOTDEPL(1:NEL*G_TOTDEPL) = RBUF(IAD+1:IAD+NEL*G_TOTDEPL)
           IAD = IAD+NEL*G_TOTDEPL
-      ALLOCATE (ELBUF_STR%GBUF%TOTROT(NEL*G_TOTROT)           ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TOTROT, NEL*G_TOTROT, "ELBUF_STR%GBUF%TOTROT")
         GBUF%TOTROT(1:NEL*G_TOTROT) = RBUF(IAD+1:IAD+NEL*G_TOTROT) 
           IAD = IAD+NEL*G_TOTROT
-      ALLOCATE (ELBUF_STR%GBUF%FOREP(NEL*G_FOREP)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%FOREP, NEL*G_FOREP, "ELBUF_STR%GBUF%FOREP")
         GBUF%FOREP(1:NEL*G_FOREP) = RBUF(IAD+1:IAD+NEL*G_FOREP)
           IAD = IAD+NEL*G_FOREP
-      ALLOCATE (ELBUF_STR%GBUF%MOMEP(NEL*G_MOMEP)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%MOMEP, NEL*G_MOMEP, "ELBUF_STR%GBUF%MOMEP")
         GBUF%MOMEP(1:NEL*G_MOMEP) = RBUF(IAD+1:IAD+NEL*G_MOMEP)
           IAD = IAD+NEL*G_MOMEP
-      ALLOCATE (ELBUF_STR%GBUF%DEP_IN_TENS(NEL*G_DEP_IN_TENS) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DEP_IN_TENS, NEL*G_DEP_IN_TENS, "ELBUF_STR%GBUF%DEP_IN_TENS")
         GBUF%DEP_IN_TENS(1:NEL*G_DEP_IN_TENS) = RBUF(IAD+1:IAD+NEL*G_DEP_IN_TENS)
           IAD = IAD+NEL*G_DEP_IN_TENS
-      ALLOCATE (ELBUF_STR%GBUF%DEP_IN_COMP(NEL*G_DEP_IN_COMP) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DEP_IN_COMP, NEL*G_DEP_IN_COMP, "ELBUF_STR%GBUF%DEP_IN_COMP")
         GBUF%DEP_IN_COMP(1:NEL*G_DEP_IN_COMP) = RBUF(IAD+1:IAD+NEL*G_DEP_IN_COMP)
           IAD = IAD+NEL*G_DEP_IN_COMP
-      ALLOCATE (ELBUF_STR%GBUF%ROT_IN_TENS(NEL*G_ROT_IN_TENS) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%ROT_IN_TENS, NEL*G_ROT_IN_TENS, "ELBUF_STR%GBUF%ROT_IN_TENS")
         GBUF%ROT_IN_TENS(1:NEL*G_ROT_IN_TENS) = RBUF(IAD+1:IAD+NEL*G_ROT_IN_TENS)
           IAD = IAD+NEL*G_ROT_IN_TENS
-      ALLOCATE (ELBUF_STR%GBUF%ROT_IN_COMP(NEL*G_ROT_IN_COMP) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%ROT_IN_COMP, NEL*G_ROT_IN_COMP, "ELBUF_STR%GBUF%ROT_IN_COMP")
         GBUF%ROT_IN_COMP(1:NEL*G_ROT_IN_COMP) = RBUF(IAD+1:IAD+NEL*G_ROT_IN_COMP)
           IAD = IAD+NEL*G_ROT_IN_COMP
-      ALLOCATE (ELBUF_STR%GBUF%POSX(NEL*G_POSX)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSX, NEL*G_POSX, "ELBUF_STR%GBUF%POSX")
         GBUF%POSX(1:NEL*G_POSX) = RBUF(IAD+1:IAD+NEL*G_POSX)
           IAD = IAD+NEL*G_POSX
-      ALLOCATE (ELBUF_STR%GBUF%POSY(NEL*G_POSY)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSY, NEL*G_POSY, "ELBUF_STR%GBUF%POSY")
         GBUF%POSY(1:NEL*G_POSY) = RBUF(IAD+1:IAD+NEL*G_POSY)
           IAD = IAD+NEL*G_POSY
-      ALLOCATE (ELBUF_STR%GBUF%POSZ(NEL*G_POSZ)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSZ, NEL*G_POSZ, "ELBUF_STR%GBUF%POSZ")
         GBUF%POSZ(1:NEL*G_POSZ) = RBUF(IAD+1:IAD+NEL*G_POSZ)
           IAD = IAD+NEL*G_POSZ
-      ALLOCATE (ELBUF_STR%GBUF%POSXX(NEL*G_POSXX)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSXX, NEL*G_POSXX, "ELBUF_STR%GBUF%POSXX")
         GBUF%POSXX(1:NEL*G_POSXX) = RBUF(IAD+1:IAD+NEL*G_POSXX)
           IAD = IAD+NEL*G_POSXX
-      ALLOCATE (ELBUF_STR%GBUF%POSYY(NEL*G_POSYY)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSYY, NEL*G_POSYY, "ELBUF_STR%GBUF%POSYY")
         GBUF%POSYY(1:NEL*G_POSYY) = RBUF(IAD+1:IAD+NEL*G_POSYY)
           IAD = IAD+NEL*G_POSYY
-      ALLOCATE (ELBUF_STR%GBUF%POSZZ(NEL*G_POSZZ)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%POSZZ, NEL*G_POSZZ, "ELBUF_STR%GBUF%POSZZ")
         GBUF%POSZZ(1:NEL*G_POSZZ) = RBUF(IAD+1:IAD+NEL*G_POSZZ)
           IAD = IAD+NEL*G_POSZZ
-      ALLOCATE (ELBUF_STR%GBUF%YIELD(NEL*G_YIELD)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%YIELD, NEL*G_YIELD, "ELBUF_STR%GBUF%YIELD")
         GBUF%YIELD(1:NEL*G_YIELD) = RBUF(IAD+1:IAD+NEL*G_YIELD)
           IAD = IAD+NEL*G_YIELD
-      ALLOCATE (ELBUF_STR%GBUF%LENGTH_ERR(NEL*G_LENGTH_ERR)   ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%LENGTH_ERR, NEL*G_LENGTH_ERR, "ELBUF_STR%GBUF%LENGTH_ERR")
         GBUF%LENGTH_ERR(1:NEL*G_LENGTH_ERR) = RBUF(IAD+1:IAD+NEL*G_LENGTH_ERR)
           IAD = IAD+NEL*G_LENGTH_ERR
-      ALLOCATE (ELBUF_STR%GBUF%DV(NEL*G_DV)                   ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DV, NEL*G_DV, "ELBUF_STR%GBUF%DV")
         GBUF%DV(1:NEL*G_DV) = RBUF(IAD+1:IAD+NEL*G_DV)
           IAD = IAD+NEL*G_DV
-      ALLOCATE (ELBUF_STR%GBUF%DFS(NEL*G_DFS)                 ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DFS, NEL*G_DFS, "ELBUF_STR%GBUF%DFS")
         GBUF%DFS(1:NEL*G_DFS) = RBUF(IAD+1:IAD+NEL*G_DFS)
           IAD = IAD+NEL*G_DFS
-      ALLOCATE (ELBUF_STR%GBUF%SKEW_ERR(NEL*G_SKEW_ERR)       ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SKEW_ERR, NEL*G_SKEW_ERR, "ELBUF_STR%GBUF%SKEW_ERR")
         GBUF%SKEW_ERR(1:NEL*G_SKEW_ERR) = RBUF(IAD+1:IAD+NEL*G_SKEW_ERR)
           IAD = IAD+NEL*G_SKEW_ERR
-      ALLOCATE (ELBUF_STR%GBUF%E6(NEL*G_E6)                   ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%E6, NEL*G_E6, "ELBUF_STR%GBUF%E6")
         GBUF%E6(1:NEL*G_E6) = RBUF(IAD+1:IAD+NEL*G_E6)
           IAD = IAD+NEL*G_E6
-      ALLOCATE (ELBUF_STR%GBUF%RUPTCRIT(NEL*G_RUPTCRIT)       ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%RUPTCRIT, NEL*G_RUPTCRIT, "ELBUF_STR%GBUF%RUPTCRIT")
         GBUF%RUPTCRIT(1:NEL*G_RUPTCRIT) = RBUF(IAD+1:IAD+NEL*G_RUPTCRIT)
           IAD = IAD+NEL*G_RUPTCRIT
-      ALLOCATE (ELBUF_STR%GBUF%MASS(NEL*G_MASS)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%MASS, NEL*G_MASS, "ELBUF_STR%GBUF%MASS")
         GBUF%MASS(1:NEL*G_MASS) = RBUF(IAD+1:IAD+NEL*G_MASS)
           IAD = IAD+NEL*G_MASS
-      ALLOCATE (ELBUF_STR%GBUF%V_REPCVT(NEL*G_V_REPCVT)       ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%V_REPCVT, NEL*G_V_REPCVT, "ELBUF_STR%GBUF%V_REPCVT")
         GBUF%V_REPCVT(1:NEL*G_V_REPCVT) = RBUF(IAD+1:IAD+NEL*G_V_REPCVT)
           IAD = IAD+NEL*G_V_REPCVT
-      ALLOCATE (ELBUF_STR%GBUF%VR_REPCVT(NEL*G_VR_REPCVT)     ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%VR_REPCVT, NEL*G_VR_REPCVT, "ELBUF_STR%GBUF%VR_REPCVT")
         GBUF%VR_REPCVT(1:NEL*G_VR_REPCVT) = RBUF(IAD+1:IAD+NEL*G_VR_REPCVT)
           IAD = IAD+NEL*G_VR_REPCVT
-      ALLOCATE (ELBUF_STR%GBUF%VAR(NEL*G_NUVAR)               ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%VAR, NEL*G_NUVAR, "ELBUF_STR%GBUF%VAR")
         GBUF%VAR(1:NEL*G_NUVAR) = RBUF(IAD+1:IAD+NEL*G_NUVAR)
           IAD = IAD+NEL*G_NUVAR
-      ALLOCATE (ELBUF_STR%GBUF%VARN(NEL*G_NUVARN)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%VARN, NEL*G_NUVARN, "ELBUF_STR%GBUF%VARN")
         GBUF%VARN(1:NEL*G_NUVARN) = RBUF(IAD+1:IAD+NEL*G_NUVARN)
           IAD = IAD+NEL*G_NUVARN
-      ALLOCATE (ELBUF_STR%GBUF%DEFINI(NEL*G_DEFINI)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DEFINI, NEL*G_DEFINI, "ELBUF_STR%GBUF%DEFINI")
         GBUF%DEFINI(1:NEL*G_DEFINI) = RBUF(IAD+1:IAD+NEL*G_DEFINI)
           IAD = IAD+NEL*G_DEFINI
-      ALLOCATE (ELBUF_STR%GBUF%FORINI(NEL*G_FORINI)             ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%FORINI, NEL*G_FORINI, "ELBUF_STR%GBUF%FORINI")
         GBUF%FORINI(1:NEL*G_FORINI) = RBUF(IAD+1:IAD+NEL*G_FORINI)
           IAD = IAD+NEL*G_FORINI
-      ALLOCATE (ELBUF_STR%GBUF%INIFRIC(NEL*G_INIFRIC)         ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%INIFRIC, NEL*G_INIFRIC, "ELBUF_STR%GBUF%INIFRIC")
         GBUF%INIFRIC(1:NEL*G_INIFRIC) = RBUF(IAD+1:IAD+NEL*G_INIFRIC)
           IAD = IAD+NEL*G_INIFRIC
-      ALLOCATE (ELBUF_STR%GBUF%STRHG(NEL*G_STRHG)         ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%STRHG, NEL*G_STRHG, "ELBUF_STR%GBUF%STRHG")
         GBUF%STRHG(1:NEL*G_STRHG) = RBUF(IAD+1:IAD+NEL*G_STRHG)
           IAD = IAD+NEL*G_STRHG
-      ALLOCATE (ELBUF_STR%GBUF%DT_PITER(NEL*G_DT_PITER)         ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%DT_PITER, NEL*G_DT_PITER, "ELBUF_STR%GBUF%DT_PITER")
       IF(ISNOD==10)THEN
         IF(IDT1TET10 > 1)THEN
           IF(G_DT_PITER_OLD==0)THEN
@@ -1984,13 +1986,13 @@ C needed for batoz shell and /heat/mat
         ELBUF_STR%GBUF%TEMPG => GBUF%TEMP
       ENDIF
 C
-      ALLOCATE (ELBUF_STR%GBUF%SKEW_ID(NEL*G_SKEW_ID)         ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SKEW_ID, NEL*G_SKEW_ID, "ELBUF_STR%GBUF%SKEW_ID")
         GBUF%SKEW_ID(1:NEL*G_SKEW_ID) = NINT(RBUF(IAD+1:IAD+NEL*G_SKEW_ID))
           IAD = IAD+NEL*G_SKEW_ID
-      ALLOCATE (ELBUF_STR%GBUF%YIELD_IN_COMP(NEL*G_YIELD_IN_COMP),STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%YIELD_IN_COMP, NEL*G_YIELD_IN_COMP, "ELBUF_STR%GBUF%YIELD_IN_COMP")
         GBUF%YIELD_IN_COMP(1:NEL*G_YIELD_IN_COMP) = NINT(RBUF(IAD+1:IAD+NEL*G_YIELD_IN_COMP))
           IAD = IAD+NEL*G_YIELD_IN_COMP
-      ALLOCATE (ELBUF_STR%GBUF%XXOLD_IN_COMP(NEL*G_XXOLD_IN_COMP),STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%XXOLD_IN_COMP, NEL*G_XXOLD_IN_COMP, "ELBUF_STR%GBUF%XXOLD_IN_COMP")
         GBUF%XXOLD_IN_COMP(1:NEL*G_XXOLD_IN_COMP) = NINT(RBUF(IAD+1:IAD+NEL*G_XXOLD_IN_COMP))
           IAD = IAD+NEL*G_XXOLD_IN_COMP
 C            
@@ -1998,7 +2000,7 @@ c---
 C         failure model for beams type 3
 c---
       IF (IGTYP == 3 .and. G_NOFF > 0) THEN
-        ALLOCATE(ELBUF_STR%GBUF%FAIL(1) ,STAT=ERR)
+        call my_alloc(ELBUF_STR%GBUF%FAIL, 1, "ELBUF_STR%GBUF%FAIL")
           GBUF%FAIL(1)%ILAWF     = NINT(RBUF(IAD+1))
             IAD = IAD + 1
           GBUF%FAIL(1)%IDFAIL    = NINT(RBUF(IAD+1))
@@ -2043,66 +2045,66 @@ c---
 c---
 C seatbelt elements
 c---
-      ALLOCATE (ELBUF_STR%GBUF%SLIPRING_ID(NEL*G_SLIPRING_ID) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SLIPRING_ID, NEL*G_SLIPRING_ID, "ELBUF_STR%GBUF%SLIPRING_ID")
         GBUF%SLIPRING_ID(1:NEL*G_SLIPRING_ID) = NINT(RBUF(IAD+1:IAD+NEL*G_SLIPRING_ID))
           IAD = IAD+NEL*G_SLIPRING_ID
-      ALLOCATE (ELBUF_STR%GBUF%SLIPRING_FRAM_ID(NEL*G_SLIPRING_FRAM_ID) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SLIPRING_FRAM_ID, NEL*G_SLIPRING_FRAM_ID, "ELBUF_STR%GBUF%SLIPRING_FRAM_ID")
         GBUF%SLIPRING_FRAM_ID(1:NEL*G_SLIPRING_FRAM_ID) = NINT(RBUF(IAD+1:IAD+NEL*G_SLIPRING_FRAM_ID))
           IAD = IAD+NEL*G_SLIPRING_FRAM_ID
-      ALLOCATE (ELBUF_STR%GBUF%SLIPRING_STRAND(NEL*G_SLIPRING_STRAND) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%SLIPRING_STRAND, NEL*G_SLIPRING_STRAND, "ELBUF_STR%GBUF%SLIPRING_STRAND")
         GBUF%SLIPRING_STRAND(1:NEL*G_SLIPRING_STRAND) = NINT(RBUF(IAD+1:IAD+NEL*G_SLIPRING_STRAND))
           IAD = IAD+NEL*G_SLIPRING_STRAND
-      ALLOCATE (ELBUF_STR%GBUF%RETRACTOR_ID(NEL*G_RETRACTOR_ID) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%RETRACTOR_ID, NEL*G_RETRACTOR_ID, "ELBUF_STR%GBUF%RETRACTOR_ID")
         GBUF%RETRACTOR_ID(1:NEL*G_RETRACTOR_ID) = NINT(RBUF(IAD+1:IAD+NEL*G_RETRACTOR_ID))
           IAD = IAD+NEL*G_RETRACTOR_ID
-      ALLOCATE (ELBUF_STR%GBUF%RINGSLIP(NEL*G_RINGSLIP) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%RINGSLIP, NEL*G_RINGSLIP, "ELBUF_STR%GBUF%RINGSLIP")
         GBUF%RINGSLIP(1:NEL*G_RINGSLIP) = RBUF(IAD+1:IAD+NEL*G_RINGSLIP)
           IAD = IAD+NEL*G_RINGSLIP
-      ALLOCATE (ELBUF_STR%GBUF%ADD_NODE(NEL*G_ADD_NODE) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%ADD_NODE, NEL*G_ADD_NODE, "ELBUF_STR%GBUF%ADD_NODE")
         GBUF%ADD_NODE(1:NEL*G_ADD_NODE) = NINT(RBUF(IAD+1:IAD+NEL*G_ADD_NODE))
           IAD = IAD+NEL*G_ADD_NODE
-      ALLOCATE (ELBUF_STR%GBUF%UPDATE(NEL*G_UPDATE) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%UPDATE, NEL*G_UPDATE, "ELBUF_STR%GBUF%UPDATE")
         GBUF%UPDATE(1:NEL*G_UPDATE) = NINT(RBUF(IAD+1:IAD+NEL*G_UPDATE))
           IAD = IAD+NEL*G_UPDATE     
-      ALLOCATE (ELBUF_STR%GBUF%FRAM_FACTOR(NEL*G_FRAM_FACTOR) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%FRAM_FACTOR, NEL*G_FRAM_FACTOR, "ELBUF_STR%GBUF%FRAM_FACTOR")
         GBUF%FRAM_FACTOR(1:NEL*G_FRAM_FACTOR) = RBUF(IAD+1:IAD+NEL*G_FRAM_FACTOR)
           IAD = IAD+NEL*G_FRAM_FACTOR    
-      ALLOCATE (ELBUF_STR%GBUF%INTVAR(NEL*G_INTVAR) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%INTVAR, NEL*G_INTVAR, "ELBUF_STR%GBUF%INTVAR")
         GBUF%INTVAR(1:NEL*G_INTVAR) = RBUF(IAD+1:IAD+NEL*G_INTVAR)
           IAD = IAD+NEL*G_INTVAR
-      ALLOCATE (ELBUF_STR%GBUF%IDT_TSH(NEL*G_IDT_TSH) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%IDT_TSH, NEL*G_IDT_TSH, "ELBUF_STR%GBUF%IDT_TSH")
         GBUF%IDT_TSH(1:NEL*G_IDT_TSH) = NINT(RBUF(IAD+1:IAD+NEL*G_IDT_TSH))
           IAD = IAD+NEL*G_IDT_TSH
       IF (NPG > 1) THEN
-        ALLOCATE (ELBUF_STR%GBUF%TEMPG(NEL*GBUF%G_TEMPG),STAT=ERR) 
+        call my_alloc(ELBUF_STR%GBUF%TEMPG, NEL*GBUF%G_TEMPG, "ELBUF_STR%GBUF%TEMPG")
         GBUF%TEMPG(1:NEL*GBUF%G_TEMPG)=RBUF(IAD+1:IAD+NEL*GBUF%G_TEMPG) 
         IAD = IAD + NEL*GBUF%G_TEMPG
       ENDIF
 c---
 C TMAX(H3D)
 c---
-      ALLOCATE (ELBUF_STR%GBUF%TM_YIELD(NEL*G_TM_YIELD) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_YIELD, NEL*G_TM_YIELD, "ELBUF_STR%GBUF%TM_YIELD")
         GBUF%TM_YIELD(1:NEL*G_TM_YIELD) = RBUF(IAD+1:IAD+NEL*G_TM_YIELD)
           IAD = IAD+NEL*G_TM_YIELD
-      ALLOCATE (ELBUF_STR%GBUF%TM_SEQ(NEL*G_TM_SEQ) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_SEQ, NEL*G_TM_SEQ, "ELBUF_STR%GBUF%TM_SEQ")
         GBUF%TM_SEQ(1:NEL*G_TM_SEQ) = RBUF(IAD+1:IAD+NEL*G_TM_SEQ)
           IAD = IAD+NEL*G_TM_SEQ
-      ALLOCATE (ELBUF_STR%GBUF%TM_EINT(NEL*G_TM_EINT) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_EINT, NEL*G_TM_EINT, "ELBUF_STR%GBUF%TM_EINT")
         GBUF%TM_EINT(1:NEL*G_TM_EINT) = RBUF(IAD+1:IAD+NEL*G_TM_EINT)
           IAD = IAD+NEL*G_TM_EINT
-      ALLOCATE (ELBUF_STR%GBUF%TM_DMG(NEL*G_TM_DMG) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_DMG, NEL*G_TM_DMG, "ELBUF_STR%GBUF%TM_DMG")
         GBUF%TM_DMG(1:NEL*G_TM_DMG) = RBUF(IAD+1:IAD+NEL*G_TM_DMG)
           IAD = IAD+NEL*G_TM_DMG
-      ALLOCATE (ELBUF_STR%GBUF%TM_SIG1(NEL*G_TM_SIG) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_SIG1, NEL*G_TM_SIG, "ELBUF_STR%GBUF%TM_SIG1")
         GBUF%TM_SIG1(1:NEL*G_TM_SIG) = RBUF(IAD+1:IAD+NEL*G_TM_SIG)
           IAD = IAD+NEL*G_TM_SIG
-      ALLOCATE (ELBUF_STR%GBUF%TM_SIG3(NEL*G_TM_SIG) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_SIG3, NEL*G_TM_SIG, "ELBUF_STR%GBUF%TM_SIG3")
         GBUF%TM_SIG3(1:NEL*G_TM_SIG) = RBUF(IAD+1:IAD+NEL*G_TM_SIG)
           IAD = IAD+NEL*G_TM_SIG
-      ALLOCATE (ELBUF_STR%GBUF%TM_STRA1(NEL*G_TM_STRA) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_STRA1, NEL*G_TM_STRA, "ELBUF_STR%GBUF%TM_STRA1")
         GBUF%TM_STRA1(1:NEL*G_TM_STRA) = RBUF(IAD+1:IAD+NEL*G_TM_STRA)
           IAD = IAD+NEL*G_TM_STRA
-      ALLOCATE (ELBUF_STR%GBUF%TM_STRA3(NEL*G_TM_STRA) ,STAT=ERR)
+      call my_alloc(ELBUF_STR%GBUF%TM_STRA3, NEL*G_TM_STRA, "ELBUF_STR%GBUF%TM_STRA3")
         GBUF%TM_STRA3(1:NEL*G_TM_STRA) = RBUF(IAD+1:IAD+NEL*G_TM_STRA)
           IAD = IAD+NEL*G_TM_STRA
 c--- work array
@@ -2110,11 +2112,11 @@ c--- work array
       IF (G_TM_STRA>0) ALLOCATE (ELBUF_STR%GBUF%TM_PSTRA(NEL*2),STAT=ERR)
 c
 C-----
-      IF (ALLOCATED(RBUF)) DEALLOCATE (RBUF)
+      IF (ALLOCATED(RBUF)) call my_dealloc(RBUF)
       SDP_RBUF = SDP_RBUF + GBUF%G_SMSTR * NEL
-      ALLOCATE (ELBUF_STR%GBUF%SMSTR(NEL*G_SMSTR) ,STAT=ERR)  
+      call my_alloc(ELBUF_STR%GBUF%SMSTR, NEL*G_SMSTR, "ELBUF_STR%GBUF%SMSTR")
       IF (SDP_RBUF > 0)THEN
-        ALLOCATE (DP_RBUF(SDP_RBUF))
+        call my_alloc(DP_RBUF, SDP_RBUF, "DP_RBUF")
         CALL READ_DPDB(DP_RBUF,SDP_RBUF)
 c-------------------------------------------------
 C       local buffer variables first
@@ -2142,7 +2144,7 @@ c
       END IF !(L_VOL0DP > 0)THEN
 C      
        GBUF%SMSTR(1:NEL*G_SMSTR) = DP_RBUF(IADP+1:IADP+NEL*G_SMSTR)                  
-       DEALLOCATE(DP_RBUF)
+       call my_dealloc(DP_RBUF)
       ENDIF
 
 C-----------------------------------------------

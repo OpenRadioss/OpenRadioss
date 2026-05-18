@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -138,14 +140,14 @@ C
       CALL MY_BARRIER
 C
       IF (ITASK==0) THEN  
-        IF(ALLOCATED(XSPSYM%BUF)) DEALLOCATE(XSPSYM%BUF)
-        ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+        IF(ALLOCATED(XSPSYM%BUF)) call my_dealloc(XSPSYM%BUF)
+        call my_alloc(XSPSYM%BUF, 3*NSPHSYM, "XSPSYM%BUF", stat=IERROR)
         IF(IERROR==0) XSPSYM%BUF = 0
-        IF(ALLOCATED(VSPSYM%BUF)) DEALLOCATE(VSPSYM%BUF)
-        ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+        IF(ALLOCATED(VSPSYM%BUF)) call my_dealloc(VSPSYM%BUF)
+        call my_alloc(VSPSYM%BUF, 3*NSPHSYM, "VSPSYM%BUF", stat=IERROR)
         IF(IERROR==0) VSPSYM%BUF = 0
-        IF(ALLOCATED(WSMCOMP%BUF)) DEALLOCATE(WSMCOMP%BUF)
-        ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
+        IF(ALLOCATED(WSMCOMP%BUF)) call my_dealloc(WSMCOMP%BUF)
+        call my_alloc(WSMCOMP%BUF, 6*NSPHSYM, "WSMCOMP%BUF", stat=IERROR)
         IF(IERROR==0) WSMCOMP%BUF = 0     
       ENDIF
 C-------------------------------------------

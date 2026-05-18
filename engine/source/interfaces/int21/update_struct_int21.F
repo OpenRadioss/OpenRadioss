@@ -43,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -97,7 +98,7 @@ C
                 ENDIF
             ENDDO 
 
-            IF(ASSOCIATED( NMVFI(NIN)%P )) DEALLOCATE(NMVFI(NIN)%P)
+            IF(ASSOCIATED( NMVFI(NIN)%P )) call my_dealloc(NMVFI(NIN)%P)
             ALLOCATE(NMVFI(NIN)%P(NODFI),STAT=IERROR1)
 C
             IAD(1)=1
@@ -134,7 +135,7 @@ C
                         FTHEFI(NIN)%P(I) = ZERO
                     ENDDO
                 ELSE
-                    IF(ASSOCIATED(FTHESKYFI(NIN)%P)) DEALLOCATE(FTHESKYFI(NIN)%P)
+                    IF(ASSOCIATED(FTHESKYFI(NIN)%P)) call my_dealloc(FTHESKYFI(NIN)%P)
                     LSKYFI = NODFI*MULTIMAX
                     NLSKYFI(NIN) = LSKYFI
                     IF(LSKYFI>0) THEN
@@ -146,7 +147,7 @@ C
 
             IF (IFLAGLOADP > 0) THEN
                 IF(NODFI>0) THEN 
-                  IF(ASSOCIATED( TAGNCONTFI(NIN)%P )) DEALLOCATE(TAGNCONTFI(NIN)%P)
+                  IF(ASSOCIATED( TAGNCONTFI(NIN)%P )) call my_dealloc(TAGNCONTFI(NIN)%P)
                    ALLOCATE(TAGNCONTFI(NIN)%P(NODFI),STAT=IERROR2)   
                      DO I = 1, NODFI
                         TAGNCONTFI(NIN)%P(I) = 0

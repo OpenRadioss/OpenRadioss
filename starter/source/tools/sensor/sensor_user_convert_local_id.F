@@ -44,6 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
@@ -80,8 +81,8 @@ C-----------------------------------------------
         ! sort the list of ID
         MODE=0
         SIZE_LOCAL = POINTER_ENTITY
-        ALLOCATE( INDX(2*SIZE_LOCAL) )
-        ALLOCATE( LOCAL_ARRAY(SIZE_LOCAL) )
+        call my_alloc(INDX, 2*SIZE_LOCAL, "SENSOR_USER_CONVERT_LOCAL_ID/INDX")
+        call my_alloc(LOCAL_ARRAY, SIZE_LOCAL, "LOCAL_ARRAY")
         DO I=1,SIZE_LOCAL
             INDX(I) = I
             LOCAL_ARRAY(I) = LIST_ENTITY(I)
@@ -145,7 +146,7 @@ C-----------------------------------------------
         ENDIF
         ! -------------------
 
-        DEALLOCATE( INDX )
-        DEALLOCATE( LOCAL_ARRAY )
+        CALL MY_DEALLOC(INDX)
+        CALL MY_DEALLOC(LOCAL_ARRAY)
         RETURN
         END SUBROUTINE SENSOR_USER_CONVERT_LOCAL_ID

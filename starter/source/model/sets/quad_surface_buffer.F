@@ -71,7 +71,7 @@ C
       IF(IEXT==1)THEN
 C
 C       External surface only.
-        CALL MY_ALLOC(PART_TAG,NPART)
+        CALL MY_ALLOC(PART_TAG,NPART,"PART_TAG")
         PART_TAG(1:NPART)=0
         DO J=1, CLAUSE%NB_PART
           PART_TAG(CLAUSE%PART(J))=1
@@ -158,7 +158,7 @@ C           check external normal
 
 
         ENDDO
-        IF(ALLOCATED(PART_TAG)) DEALLOCATE(PART_TAG)
+        IF(ALLOCATED(PART_TAG)) CALL MY_DEALLOC(PART_TAG)
       ENDIF
 C-----------
       RETURN

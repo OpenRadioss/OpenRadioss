@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_I, FMT_6I, FMT_5F, FMT_2I
       USE READER_OLD_MOD , ONLY : KPART,KPROP,KCNODE,KIGE3D,KCUR,IREC,NSLASH,KOPTAD,NLINE,LINE,KLINE
       USE USER_ID_MOD , ONLY : id_limit
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,16 +115,17 @@ C-----------------------------------------------
       DEG_MAX=0
       RBID=0
 C------
-      ALLOCATE(ITAB(NUMNUSR),ITABM1(2*NUMNUSR),STAT=stat)
+      call my_alloc(ITAB, NUMNUSR, "ITAB", stat=stat)
+      call my_alloc(ITABM1, 2*NUMNUSR, "ITABM1", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB')
-      ALLOCATE (SUBID_NODES(NUMNUSR),STAT=stat)
+      call my_alloc(SUBID_NODES, NUMNUSR, "SUBID_NODES", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUBID_NODES')
       SUBID_NODES(1:NUMNUSR) = 0
 C--------------------------------------
 C     reading of ige properties
 C--------------------------------------
       NUMGEO=NSLASH(KPROP)
-      ALLOCATE (IGEO(NPROPGI,NUMGEO),STAT=stat)
+      call my_alloc(IGEO, NPROPGI, NUMGEO, "IGEO", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IGEO')
       IGEO = 0
       KCUR = KPROP
@@ -169,7 +171,7 @@ C--------------------------------------
           IREC=IREC-1
         ENDIF
       ENDDO
-      ALLOCATE(KNOT(SKNOT),STAT=stat)
+      call my_alloc(KNOT, SKNOT, "KNOT", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOT')
       KNOT=0
 C--------------------------------------
@@ -313,11 +315,11 @@ c  it is necessary to differentiate ige3d parts from the others
        
       ENDDO
 
-      ALLOCATE(IXIG3D(NUM+ADDELIG3D*NCTRLMAX),STAT=stat)
+      call my_alloc(IXIG3D, NUM+ADDELIG3D*NCTRLMAX, "IXIG3D", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IXIG3D')
       SIXIG3D=NUM 
 c
-      ALLOCATE(TABCONPATCH(NBPART_IG3D),STAT=stat)
+      allocate(TABCONPATCH(NBPART_IG3D), stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
 C--------------------------------------
 C     new pre-reading of ige3d for lists of tabconpatch elements
@@ -346,9 +348,9 @@ c
        
        IF (LINE(1:6) == '/IGE3D')THEN  !  ON A ONE CHANGEMENT DE PART
          PTABCONPATCH%L_TAB_IG3D=NBIG3D_PATCH
-         ALLOCATE(PTABCONPATCH%TAB_IG3D(NBIG3D_PATCH),STAT=stat)
+         call my_alloc(PTABCONPATCH%TAB_IG3D, NBIG3D_PATCH, "PTABCONPATCH%TAB_IG3D", stat=stat)
          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
-         ALLOCATE(PTABCONPATCH%INITIAL_CUT(3,NBIG3D_PATCH),STAT=stat)
+         call my_alloc(PTABCONPATCH%INITIAL_CUT, 3, NBIG3D_PATCH, "PTABCONPATCH%INITIAL_CUT", stat=stat)
          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
          NBPART_IG3D = NBPART_IG3D+1
          PTABCONPATCH => TABCONPATCH(NBPART_IG3D)
@@ -360,9 +362,9 @@ c
       ENDDO
 
       PTABCONPATCH%L_TAB_IG3D=NBIG3D_PATCH
-      ALLOCATE(PTABCONPATCH%TAB_IG3D(NBIG3D_PATCH),STAT=stat)
+      call my_alloc(PTABCONPATCH%TAB_IG3D, NBIG3D_PATCH, "PTABCONPATCH%TAB_IG3D", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
-      ALLOCATE(PTABCONPATCH%INITIAL_CUT(3,NBIG3D_PATCH),STAT=stat)
+      call my_alloc(PTABCONPATCH%INITIAL_CUT, 3, NBIG3D_PATCH, "PTABCONPATCH%INITIAL_CUT", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
 C
 C--------------------------------------------------
@@ -392,7 +394,7 @@ C--------------------------------------------------
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ITAB(I),C1=LINE,C2='/NODE')
           ENDIF        
       ENDDO
-      IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
+      IF(ALLOCATED(SUBID_NODES)) CALL MY_DEALLOC(SUBID_NODES)
 C--------------------------------------------------
 C     reading of cnodes
 C--------------------------------------------------
@@ -422,11 +424,11 @@ C--------------------------------------
 C     reading of ige3d
 C--------------------------------------
 c
-      ALLOCATE(KXIG3D(NIXIG3D,NUMELIG3D0+ADDELIG3D),STAT=stat)
+      call my_alloc(KXIG3D, NIXIG3D, NUMELIG3D0+ADDELIG3D, "KXIG3D", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KXIG3D')
       KXIG3D=0 
 
-      ALLOCATE(IPARTIG3D(NUMELIG3D0+ADDELIG3D),STAT=stat)
+      call my_alloc(IPARTIG3D, NUMELIG3D0+ADDELIG3D, "IPARTIG3D", stat=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPARTIG3D')
       IPARTIG3D=0 
 
@@ -501,11 +503,10 @@ C
 C------
 C     inverse connectivity at level 0
 C------
-      ALLOCATE(KNOD2ELIG3D(NUMNOD+1),STAT=stat)
+      call my_alloc(KNOD2ELIG3D, NUMNOD+1, "KNOD2ELIG3D", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOD2ELIG3D')
       KNOD2ELIG3D=0
-      ALLOCATE(NOD2ELIG3D(NCTRLMAX*NUMELIG3D),
-     .         STAT=stat)
+      call my_alloc(NOD2ELIG3D, NCTRLMAX*NUMELIG3D, "NOD2ELIG3D", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='NOD2ELIG3D')
       NOD2ELIG3D=0
 
@@ -533,12 +534,12 @@ C   the refinement work starts here, before this it is only reading
 C------
 c
       SKNOTLOCPC = DEG_MAX*3*(NUMNODIGE0+2*ADDELIG3D*NCTRLMAX)*MAXNUMGEO ! CAN BE FURTHER IMPROVED
-      ALLOCATE (KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
+      call my_alloc(KNOTLOCPC, SKNOTLOCPC, "KNOTLOCPC", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOTLOCPC')
       KNOTLOCPC(:)=0
 C
       SKNOTLOCEL = 2*3*(NUMELIG3D0+ADDELIG3D)
-      ALLOCATE (KNOTLOCEL(SKNOTLOCEL)    ,STAT=stat)
+      call my_alloc(KNOTLOCEL, SKNOTLOCEL, "KNOTLOCEL", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR,C1='KNOTLOCEL')
       KNOTLOCEL(:)=0
 C
@@ -565,7 +566,18 @@ C-------------------------------------
         IF(TABCONPATCH(I)%L_TAB_IG3D/=0) DEALLOCATE(TABCONPATCH(I)%TAB_IG3D,TABCONPATCH(I)%INITIAL_CUT)
       ENDDO
 
-      DEALLOCATE(ITAB,ITABM1,IGEO,KXIG3D,IXIG3D,IPARTIG3D,KNOT,KNOTLOCPC,KNOTLOCEL,KNOD2ELIG3D,NOD2ELIG3D,TABCONPATCH)
+      CALL MY_DEALLOC(ITAB)
+      CALL MY_DEALLOC(ITABM1)
+      CALL MY_DEALLOC(IGEO)
+      CALL MY_DEALLOC(KXIG3D)
+      CALL MY_DEALLOC(IXIG3D)
+      CALL MY_DEALLOC(IPARTIG3D)
+      CALL MY_DEALLOC(KNOT)
+      CALL MY_DEALLOC(KNOTLOCPC)
+      CALL MY_DEALLOC(KNOTLOCEL)
+      CALL MY_DEALLOC(KNOD2ELIG3D)
+      CALL MY_DEALLOC(NOD2ELIG3D)
+      DEALLOCATE(TABCONPATCH)
 
       RETURN
 C-------------------------------------

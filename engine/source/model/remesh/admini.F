@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -990,10 +991,10 @@ C            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
       ENDIF
 C
 C     working arrays.
-      ALLOCATE(TAGNOD(NUMNOD),STAT=IERR)
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD", stat=IERR)
       IF (IERR /= 0) CALL ARRET(2)
 
-      ALLOCATE(NODNORM(3,NUMNOD),STAT=IERR)
+      call my_alloc(NODNORM, 3, NUMNOD, "NODNORM", stat=IERR)
       IF (IERR /= 0) CALL ARRET(2)
 
       RETURN

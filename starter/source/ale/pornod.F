@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs,nixq
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,7 +128,7 @@ C-----------------------------------------------
       ! Sorting nodes by porosity !
       ! (spmd order)              !
       !---------------------------!
-      ALLOCATE(INDEX(N,3))
+      call my_alloc(INDEX, N, 3, "INDEX")
       DO I=1,N
         INDEX(I,3)=NODPOR(NUMPOR+I)
       ENDDO
@@ -136,7 +137,7 @@ C-----------------------------------------------
         IT = INDEX(I,1)
         NODPOR(NUMPOR+I)=INDEX(IT,3)
       ENDDO
-      DEALLOCATE(INDEX)
+      CALL MY_DEALLOC(INDEX)
       !-----------------------------------------
       !WARNING HONEYCOMB POROUS MEDIUM PID=',IG
       !-----------------------------------------      

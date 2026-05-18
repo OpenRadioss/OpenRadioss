@@ -506,6 +506,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -578,7 +580,8 @@ C
        NSKIN0 = NSKIN
        NSKINP0 = NSKIN0 - NSKIN_I
        IF (NSKINP0 > (NCONLD-NPLOADPINCH)) THEN
-         ALLOCATE(IRECT(4,NSKINP0),ITAGN(NUMNOD),STAT=IERR)
+         call my_alloc(IRECT, 4, NSKINP0, "IRECT", stat=IERR)
+         call my_alloc(ITAGN, NUMNOD, "ITAGN", stat=IERR)
 C
          NP = 0 
          ITAGN = 0         
@@ -730,7 +733,8 @@ C----add only not existing
              ENDDO
            END DO
           NSKIN = NSKIN_I + NP
-          DEALLOCATE(IRECT,ITAGN)
+          call my_dealloc(IRECT)
+          call my_dealloc(ITAGN)
        END IF
 C-----some segs are used > 1 times       
 C

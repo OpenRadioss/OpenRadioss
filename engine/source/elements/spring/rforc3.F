@@ -116,6 +116,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -909,7 +911,7 @@ C
              USER_VR_REPCVTY(I) = GBUF%VR_REPCVT(II(2)+I-1)
              USER_VR_REPCVTZ(I) = GBUF%VR_REPCVT(II(3)+I-1)
           ENDDO
-          ALLOCATE(USER_UVAR(NUVAR*NEL))
+          call my_alloc(USER_UVAR, NUVAR*NEL, "USER_UVAR")
           USER_UVAR(1:NUVAR*NEL)=GBUF%VAR(1:NUVAR*NEL)
         ENDIF
 
@@ -993,7 +995,7 @@ C
              GBUF%VR_REPCVT(II(3)+I-1) = USER_VR_REPCVTZ(I)
           ENDDO
           GBUF%VAR(1:NUVAR*NEL) = USER_UVAR(1:NUVAR*NEL)
-          DEALLOCATE(USER_UVAR)
+          call my_dealloc(USER_UVAR)
         ENDIF
 C
         DO I=JFT,JLT

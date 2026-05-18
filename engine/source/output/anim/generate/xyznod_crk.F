@@ -71,6 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -91,14 +93,14 @@ c     Write phantom node coordinates to ANIM file
 C-----------------------------------------------
       IF (NSPMD == 1) THEN
         NNODE = CRKNOD(ICRK)%CRKNUMNODS
-        ALLOCATE (XNODARRAY(3,NNODE))
+        call my_alloc(XNODARRAY, 3, NNODE, "XNODARRAY")
         DO ND=1,NNODE
            XNODARRAY(1,ND) = CRKAVX(ICRK)%XX(1,ND)
            XNODARRAY(2,ND) = CRKAVX(ICRK)%XX(2,ND)
            XNODARRAY(3,ND) = CRKAVX(ICRK)%XX(3,ND)
         END DO
         CALL WRITE_R_C(XNODARRAY,3*NNODE)
-        DEALLOCATE(XNODARRAY)
+        call my_dealloc(XNODARRAY)
       ELSE
          IF (ISPMD == 0) THEN
            CALL SPMD_WRT_CRK_XYZNOD(ICRK,NFNOD_CRKXFEMG,NODGLOBXFE)

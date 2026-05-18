@@ -43,6 +43,8 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD, NCHARKEY
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,13 +128,13 @@ C-------------------------
      .                  I2=JJ)
         ENDIF                                                
       ENDDO 
-      IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
+      IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
 C--- 
 C-------------------------------------
 C Tag submodel nodes
 C-------------------------------------
       CALL CPP_NODES_COUNT(NBNODES,NBCNODES) 
-      ALLOCATE(TAGNODSUB(NBNODES+NBCNODES))
+      call my_alloc(TAGNODSUB, NBNODES+NBCNODES, "TAGNODSUB")
       TAGNODSUB = 0
       CALL CPP_NODE_SUB_TAG(TAGNODSUB)                             
       IF (FLAG == 0) THEN 
@@ -155,7 +157,7 @@ C-------------------------------------
           ENDIF
         ENDDO 
       ENDIF 
-      IF (ALLOCATED(TAGNODSUB)) DEALLOCATE(TAGNODSUB)
+      IF (ALLOCATED(TAGNODSUB)) CALL MY_DEALLOC(TAGNODSUB)
   
 C-------------------------
       RETURN
@@ -183,6 +185,8 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD, NCHARLINE, NCHARKEY
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -266,7 +270,7 @@ C-------------------------
      .                  I2=JJ)                                                                
           ENDIF                                                                               
       ENDDO! NEXT KK  
-      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)                                                                        
+      IF(ALLOCATED(LIST_ELEM)) call my_dealloc(LIST_ELEM)
                   
       
 C--- -            
@@ -301,7 +305,7 @@ C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
         ELEMTYPE = 103
       ENDIF
 
-      ALLOCATE(TAGELEMSUB(NUMEL))
+      call my_alloc(TAGELEMSUB, NUMEL, "TAGELEMSUB")
       TAGELEMSUB = 0
       CALL CPP_ELEM_SUB_TAG(ELEMTYPE,TAGELEMSUB)
       IF (FLAG == 0) THEN 
@@ -324,7 +328,7 @@ C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
           ENDIF
         ENDDO
       ENDIF 
-      IF (ALLOCATED(TAGELEMSUB)) DEALLOCATE(TAGELEMSUB)
+      IF (ALLOCATED(TAGELEMSUB)) CALL MY_DEALLOC(TAGELEMSUB)
 C-------------------------
       RETURN
       END

@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixq
+      use my_alloc_mod
 C--------------------------------------------------------
 C     READING DES ELEMENTS QUAD 4 NODES
 C     VERSIION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
@@ -121,9 +122,9 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
 C--------------------------------------------------
-      ALLOCATE (SUB_QUAD(NUMELQ),STAT=stat)
+      call my_alloc(SUB_QUAD, NUMELQ, "SUB_QUAD", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_QUAD')
-      ALLOCATE (UID_QUAD(NUMELQ),STAT=stat)
+      call my_alloc(UID_QUAD, NUMELQ, "UID_QUAD", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_QUAD')
       SUB_QUAD(1:NUMELQ) = 0
       UID_QUAD(1:NUMELQ) = 0
@@ -194,8 +195,8 @@ C--------------------------------------------------
 
       ENDDO
 
-      IF(ALLOCATED(SUB_QUAD)) DEALLOCATE(SUB_QUAD)
-      IF(ALLOCATED(UID_QUAD)) DEALLOCATE(UID_QUAD)
+      IF(ALLOCATED(SUB_QUAD)) CALL MY_DEALLOC(SUB_QUAD)
+      IF(ALLOCATED(UID_QUAD)) CALL MY_DEALLOC(UID_QUAD)
 
       I1=1
       I2=MIN0(50,NUMELQ)

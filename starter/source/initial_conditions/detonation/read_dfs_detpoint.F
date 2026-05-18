@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE MATERIAL_IS_HIGH_EXPLOSIVE_MOD , ONLY : MATERIAL_IS_HIGH_EXPLOSIVE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -249,7 +250,7 @@ C-----------------------------------------------
         IF(IS_NODE_DEFINED)THEN
           NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)
           DETONATORS%POINT(IDET)%NNOD = 1
-          ALLOCATE(DETONATORS%POINT(IDET)%NODLIST(1))
+          call my_alloc(DETONATORS%POINT(IDET)%NODLIST, 1, "DETONATORS%POINT(IDET)%NODLIST")
           DETONATORS%POINT(IDET)%NODLIST(1) = NODE_ID1 !internal id
           IF(NODE_ID1 > 0)THEN
             XC = X(1,NODE_ID1)
@@ -271,7 +272,7 @@ C-----------------------------------------------
               internal_ID = I
               NNOD = IGRNOD(I)%NENTITY
               DETONATORS%POINT(IDET)%NNOD = NNOD
-              ALLOCATE(DETONATORS%POINT(IDET)%NODLIST(NNOD))
+              call my_alloc(DETONATORS%POINT(IDET)%NODLIST, NNOD, "DETONATORS%POINT(IDET)%NODLIST")
               !filling nodlist
               NNOD=NODGRNR5(uID1,internal_ID,DETONATORS%POINT(IDET)%NODLIST,IGRNOD,ITABM1,MESS)
               EXIT

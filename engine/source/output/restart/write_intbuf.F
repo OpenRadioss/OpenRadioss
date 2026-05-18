@@ -44,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -63,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,NI,SIZ,L_INTBUF_SIZE
 C=======================================================================
-      ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
+      call my_alloc(INTBUF_SIZE, L_INTBUF_SIZE_MAX, "INTBUF_SIZE")
       INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0
 
       DO NI= 1, NINTER
@@ -1404,7 +1406,7 @@ C=======================================================================
 
       ENDDO !NI=1,NINTER
 
-      DEALLOCATE(INTBUF_SIZE)
+      call my_dealloc(INTBUF_SIZE)
 C-----
       RETURN
 

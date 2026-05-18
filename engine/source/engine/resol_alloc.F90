@@ -108,38 +108,39 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           call prepare_debug(nodes%itab,numnod,ispmd,nspmd)
-          call my_alloc(rby6,8,6,nrbykin)
-          call my_alloc(dxancg,3,numnod)
-          call my_alloc(nb25_candt,parasiz)
-          call my_alloc(nb25_impct,parasiz)
-          call my_alloc(nb25_dst1,parasiz)
-          call my_alloc(nb25_dst2,parasiz)
-          call my_alloc(igrouc,ngroup)
-          call my_alloc(igrounc,ngroup)
+          call my_alloc(rby6, 8, 6, nrbykin, "rby6")
+          call my_alloc(dxancg, 3, numnod, "dxancg")
+          call my_alloc(nb25_candt, parasiz, "nb25_candt")
+          call my_alloc(nb25_impct, parasiz, "nb25_impct")
+          call my_alloc(nb25_dst1, parasiz, "nb25_dst1")
+          call my_alloc(nb25_dst2, parasiz, "nb25_dst2")
+          call my_alloc(igrouc, ngroup, "igrouc")
+          call my_alloc(igrounc, ngroup, "igrounc")
           allocate(interfaces%pon%adskyi(0:numnod+1))
-          call my_alloc(int18add,ninter+1)
+          ! TODO: non-default lower bound, convert manually
+          call my_alloc(int18add, ninter+1, "int18add")
           int18add(1) = 1
           int18add(ninter+1) = 0
-          allocate(idamp_rdof_tab(sicontact))
-          allocate(icontact_old(sicontact))
-          allocate(isendto(ninter+1,nspmd+1))
-          allocate(ircvfrom(ninter+1,nspmd+1))
+          call my_alloc(idamp_rdof_tab, sicontact, "idamp_rdof_tab")
+          call my_alloc(icontact_old, sicontact, "icontact_old")
+          call my_alloc(isendto, ninter+1, nspmd+1, "isendto")
+          call my_alloc(ircvfrom, ninter+1, nspmd+1, "ircvfrom")
           isendto(1:ninter+1, 1:nspmd+1) = 0
           ircvfrom(1:ninter+1, 1:nspmd+1) = 0
-          allocate(intlist(2*ninter))
-          allocate(intlist25(ninter25))
-          allocate(niskyfi(ninter))
-          allocate(niskyfie(ninter))
-          allocate(count_remslv(ninter))
-          allocate(count_remslve(ninter))
+          call my_alloc(intlist, 2*ninter, "intlist")
+          call my_alloc(intlist25, ninter25, "intlist25")
+          call my_alloc(niskyfi, ninter, "niskyfi")
+          call my_alloc(niskyfie, ninter, "niskyfie")
+          call my_alloc(count_remslv, ninter, "count_remslv")
+          call my_alloc(count_remslve, ninter, "count_remslve")
           count_remslv(1:ninter)=0
           count_remslve(1:ninter)=0
-          allocate(fr_nbcc  (2,nspmd+1))
-          allocate(fr_nbcci2(2,nspmd+1))
-          allocate(dretri(5*ninter))
-          allocate(xsec(3*4*nsect))
-          allocate(ibrkin_l(nrbykin))
-          allocate(fr_nbcc1(2,nspmd+1))
+          call my_alloc(fr_nbcc, 2, nspmd+1, "fr_nbcc")
+          call my_alloc(fr_nbcci2, 2, nspmd+1, "fr_nbcci2")
+          call my_alloc(dretri, 5*ninter, "dretri")
+          call my_alloc(xsec, 3*4*nsect, "xsec")
+          call my_alloc(ibrkin_l, nrbykin, "ibrkin_l")
+          call my_alloc(fr_nbcc1, 2, nspmd+1, "fr_nbcc1")
         end subroutine resol_alloc_phase1
 !||====================================================================
 !||    resol_alloc_phase2   ../engine/source/engine/resol_alloc.F90
@@ -201,11 +202,17 @@
               lirecvp_crk)
           endif
           allocate(element%pon%isendp(min(lisendp,1):lisendp))
+          ! TODO: non-default lower bound, convert manually
           allocate(element%pon%irecvp(min(lirecvp,1):lirecvp))
+          ! TODO: non-default lower bound, convert manually
           allocate(isendp_pxfem(min(lisendp_pxfem,1):lisendp_pxfem))
+          ! TODO: non-default lower bound, convert manually
           allocate(irecvp_pxfem(min(lirecvp_pxfem,1):lirecvp_pxfem))
+          ! TODO: non-default lower bound, convert manually
           allocate(isendp_crk(min(lisendp_crk,1):lisendp_crk))
+          ! TODO: non-default lower bound, convert manually
           allocate(irecvp_crk(min(lirecvp_crk,1):lirecvp_crk))
+          ! TODO: non-default lower bound, convert manually
         end subroutine resol_alloc_phase2
 
 
@@ -242,7 +249,7 @@
           integer :: k
           nloadp_hyd_inter = 0
           if(nintloadp > 0 ) then
-            call my_alloc(loadp_hyd_inter,nloadp_hyd)
+            call my_alloc(loadp_hyd_inter, nloadp_hyd, "loadp_hyd_inter")
             do k=1,nloadp_hyd
               if(iloadp(sizloadp*(k-1)+5) > 0 ) then
                 nloadp_hyd_inter = nloadp_hyd_inter + 1
@@ -251,10 +258,10 @@
             enddo
           endif
           if(nloadp_hyd_inter > 0) then
-            call my_alloc(tagncont,nloadp_hyd_inter,numnod)
+            call my_alloc(tagncont, nloadp_hyd_inter, numnod, "tagncont")
             tagncont = 0
           else
-            call my_alloc(tagncont,0,0)
+            call my_alloc(tagncont, 0, 0, "tagncont")
           endif
           s_loadpinter = ninter*nloadp_hyd
           npresload = 0
@@ -262,10 +269,10 @@
             do  k=1,nloadp_hyd
               npresload = npresload + iloadp(sizloadp*(k-1)+1)/4
             enddo
-            call my_alloc(loadp_tagdel,npresload)
+            call my_alloc(loadp_tagdel, npresload, "loadp_tagdel")
             loadp_tagdel(1:npresload) =0
           else
-            call my_alloc(loadp_tagdel,0)
+            call my_alloc(loadp_tagdel, 0, "loadp_tagdel")
           endif
 
 
@@ -292,6 +299,7 @@
           use pblast_mod, only : pblast_
           use ALEMUSCL_MOD, only : alemuscl_param_, alemuscl_buffer_
           use constant_mod, only : zero
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -333,10 +341,10 @@
           integer :: k,neleml
 
           if(nsurf > 0) then
-            allocate(output%th%th_surf%channels(th_surf_num_channel,nsurf))
+            call my_alloc(output%th%th_surf%channels, th_surf_num_channel, nsurf, "output%th%th_surf%channels")
             output%th%th_surf%channels(1:th_surf_num_channel,1:nsurf)=zero
           else
-            allocate(output%th%th_surf%channels(0,0))
+            call my_alloc(output%th%th_surf%channels, 0, 0, "output%th%th_surf%channels")
           endif
           if(output%th%th_surf%iok > 0 ) then
             if(output%th%th_surf%loadp_flag > 0 ) then
@@ -365,22 +373,27 @@
             s_elem_state = 0
           endif
           allocate(cnel(0:size_cnel))
+          ! TODO: non-default lower bound, convert manually
           allocate(addcnel(0:size_addcnel))
+          ! TODO: non-default lower bound, convert manually
           if((idel7ng>0).or.(irad2r/=0).or.(alemuscl_param%ialemuscl>0).or.(pdel>0))then
 ! allocation of inverse connectivity array
             allocate(addtmpl(0:numnod+1))
+            ! TODO: non-default lower bound, convert manually
             neleml = numels+numelq+numelc+numelt+numelp+numelr+numeltg
             allocate(tagel(1:neleml))
+            ! TODO: non-default lower bound, convert manually
             tagel(:) = 0
             alemuscl_buffer%pcnel => cnel
             alemuscl_buffer%paddcnel => addcnel
             alemuscl_buffer%paddtmpl => addtmpl
           else
-            allocate(addtmpl(0),tagel(0))
+            call my_alloc(addtmpl, 0, "addtmpl")
+            call my_alloc(tagel, 0, "tagel")
           end if
-          allocate(ipartl(npart))
-          allocate(partsav2(2,npart))
-          allocate( elem_state(s_elem_state) )
+          call my_alloc(ipartl, npart, "ipartl")
+          call my_alloc(partsav2, 2, npart, "partsav2")
+          call my_alloc(elem_state, s_elem_state, "elem_state")
           elem_state(1:s_elem_state) = .true.
         end subroutine resol_alloc_phase4
 
@@ -401,6 +414,7 @@
           use precision_mod, only : wp
           use glob_therm_mod, only : glob_therm_
           use constant_mod, only : zero
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -431,14 +445,14 @@
             if(ninter>0.or.nodadt>0) glob_therm%nodadt_therm = 1 ! flag for nodal thermal time step
           endif
           if(glob_therm%idt_therm == 1) then
-            allocate(icodt0(numnod)) ! tabs for storing initial kinimatic when thermal time step
-            allocate(icodr0(numnod))
+            call my_alloc(icodt0, numnod, "icodt0") ! tabs for storing initial kinimatic when thermal time step
+            call my_alloc(icodr0, numnod, "icodr0")
           else
-            allocate(icodt0(0))
-            allocate(icodr0(0))
+            call my_alloc(icodt0, 0, "icodt0")
+            call my_alloc(icodr0, 0, "icodr0")
           endif
 
-          allocate(mcp_off(numnod))
+          call my_alloc(mcp_off, numnod, "mcp_off")
           mcp_off(1:numnod) = 1.0
 
           ifthe  = 1
@@ -446,53 +460,59 @@
           if(glob_therm%itherm_fe > 0 ) then
             if(iparit == 3 ) then
               ifthe = numnod+3*numnod*nthread
-              allocate(fthe(ifthe), fthesky(lsky))
+              call my_alloc(fthe, ifthe, "fthe")
+              call my_alloc(fthesky, lsky, "fthesky")
             elseif(iparit /= 0 ) then
               ifthe = numnod
-              allocate(fthe(ifthe), fthesky(lsky))
+              call my_alloc(fthe, ifthe, "fthe")
+              call my_alloc(fthesky, lsky, "fthesky")
             else
               ifthe = numnod*nthread
-              allocate(fthe(ifthe), fthesky(0))
+              call my_alloc(fthe, ifthe, "fthe")
+              call my_alloc(fthesky, 0, "fthesky")
             endif
-            allocate(qfricint(ninter))
+            call my_alloc(qfricint, ninter, "qfricint")
             qfricint(1:ninter) = zero
             if (glob_therm%nodadt_therm == 1) then
               if(iparit == 0 ) then
                 icondn = numnod*nthread
-                allocate (condn(icondn), condnsky(0))
+                call my_alloc(condn, icondn, "condn")
+                call my_alloc(condnsky, 0, "condnsky")
               else
                 icondn = numnod
-                allocate (condn(icondn))
-                allocate (condnsky(lsky))
+                call my_alloc(condn, icondn, "condn")
+                call my_alloc(condnsky, lsky, "condnsky")
               endif
             endif
           else
             ifthe  = 1
             icondn = 1
-            allocate(fthe(ifthe), fthesky(0))
-            allocate(qfricint(ninter))
+            call my_alloc(fthe, ifthe, "fthe")
+            call my_alloc(fthesky, 0, "fthesky")
+            call my_alloc(qfricint, ninter, "qfricint")
             qfricint(1:ninter) = zero
-            allocate(condn(icondn),condnsky(0))
+            call my_alloc(condn, icondn, "condn")
+            call my_alloc(condnsky, 0, "condnsky")
           endif
           if (glob_therm%intheat > 0  ) then
             if(iparit /= 0 )then
-              allocate(ftheskyi(lskyi))
+              call my_alloc(ftheskyi, lskyi, "ftheskyi")
               ftheskyi(1:lskyi) = 0
             else
-              allocate(ftheskyi(0))
+              call my_alloc(ftheskyi, 0, "ftheskyi")
             endif
             if (glob_therm%nodadt_therm == 1) then
               if(iparit /= 0 )then
-                allocate(condnskyi(lskyi))
+                call my_alloc(condnskyi, lskyi, "condnskyi")
               else
-                allocate(condnskyi(0))
+                call my_alloc(condnskyi, 0, "condnskyi")
               endif
             else
-              allocate(condnskyi(0))
+              call my_alloc(condnskyi, 0, "condnskyi")
             endif
           else
-            allocate(ftheskyi(0))
-            allocate(condnskyi(0))
+            call my_alloc(ftheskyi, 0, "ftheskyi")
+            call my_alloc(condnskyi, 0, "condnskyi")
           endif
 
           if(.not.allocated(icodt0)) allocate(icodt0(1))
@@ -523,6 +543,7 @@
           use plyxfem_mod, only : ply_data
           use constant_mod, only : zero
           use precision_mod, only : wp
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -570,10 +591,10 @@
               allocate(plysky(0))
             endif
             if(anim_ply > 0) then
-              allocate(vn_nod(3,nplyxfe))
+              call my_alloc(vn_nod, 3, nplyxfe, "vn_nod")
               vn_nod = zero
             else
-              allocate(vn_nod(0,0))
+              call my_alloc(vn_nod, 0, 0, "vn_nod")
             endif
           else
             allocate(ply(0),plysky(0))
@@ -583,7 +604,7 @@
             if(iparit /= 0 ) then
               allocate(plyskyi)
               nullify(plyskyi%fskyi)
-              allocate(plyskyi%fskyi(lskyi,5))
+              call my_alloc(plyskyi%fskyi, lskyi, 5, "plyskyi%fskyi")
               plyskyi%fskyi = zero
             else
               allocate(plyskyi)
@@ -591,13 +612,19 @@
           else
           endif
           if(irigid_mat > 0 ) then
-            allocate(vrbym(3*nrbym),vrrbym(3*nrbym), arbym(3*nrbym),arrbym(3*nrbym))
+            call my_alloc(vrbym, 3*nrbym, "vrbym")
+            call my_alloc(vrrbym, 3*nrbym, "vrrbym")
+            call my_alloc(arbym, 3*nrbym, "arbym")
+            call my_alloc(arrbym, 3*nrbym, "arrbym")
             vrbym  = zero
             vrrbym = zero
             arbym  = zero
             arrbym = zero
           else
-            allocate(vrbym(0),vrrbym(0),arbym(0),arrbym(0))
+            call my_alloc(vrbym, 0, "vrbym")
+            call my_alloc(vrrbym, 0, "vrrbym")
+            call my_alloc(arbym, 0, "arbym")
+            call my_alloc(arrbym, 0, "arrbym")
           endif
         end subroutine resol_alloc_phase6
 
@@ -613,6 +640,7 @@
           aflow,vflow,dflow,wflow,ffsky,ifoam,ifoam_cont)
           use constant_mod, only : zero
           use precision_mod, only : wp
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -635,15 +663,15 @@
 
           if( ialelag > 0) then
             if(iparit == 0) then
-              allocate (aflow(3*numnod*nthread))
-              allocate(ffsky(0))
-              allocate(ifoam(numnod*nthread))
-              allocate(ifoam_cont(numnod*nthread))
+              call my_alloc(aflow, 3*numnod*nthread, "aflow")
+              call my_alloc(ffsky, 0, "ffsky")
+              call my_alloc(ifoam, numnod*nthread, "ifoam")
+              call my_alloc(ifoam_cont, numnod*nthread, "ifoam_cont")
             else
-              allocate (aflow(3*numnod))
-              allocate(ffsky(3*lsky))
-              allocate(ifoam(numnod))
-              allocate(ifoam_cont(numnod))
+              call my_alloc(aflow, 3*numnod, "aflow")
+              call my_alloc(ffsky, 3*lsky, "ffsky")
+              call my_alloc(ifoam, numnod, "ifoam")
+              call my_alloc(ifoam_cont, numnod, "ifoam_cont")
               ffsky = zero
             endif
             aflow = zero
@@ -651,7 +679,13 @@
             ifoam_cont =0
             msf(1:numnod) =  msnf(1:numnod)
           else
-            allocate(aflow(0),vflow(0),dflow(0),wflow(0),ffsky(0),ifoam(0),ifoam_cont(0))
+            call my_alloc(aflow, 0, "aflow")
+            call my_alloc(vflow, 0, "vflow")
+            call my_alloc(dflow, 0, "dflow")
+            call my_alloc(wflow, 0, "wflow")
+            call my_alloc(ffsky, 0, "ffsky")
+            call my_alloc(ifoam, 0, "ifoam")
+            call my_alloc(ifoam_cont, 0, "ifoam_cont")
           endif
         end subroutine resol_alloc_phase7
 !||====================================================================
@@ -668,6 +702,7 @@
           acnd,arcnd,stcnd,strcnd,stifr_tmp,stifn_tmp,nthread)
           use precision_mod, only : wp
           use h3d_mod, only : h3d_database
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -706,33 +741,50 @@
           real(kind=wp), allocatable, intent(inout) :: stifn_tmp(:)
 ! ----------------------------------------------------------------------------------------------------------------------
           if(nadmesh/=0)then
-            allocate(lsh4act(numelc),lsh4kin(numelc))
+            call my_alloc(lsh4act, numelc, "lsh4act")
+            call my_alloc(lsh4kin, numelc, "lsh4kin")
             allocate(psh4act(0:levelmax+1),psh4kin(0:levelmax+1))
-            allocate(lsh3act(numeltg),lsh3kin(numeltg))
+            ! TODO: non-default lower bound, convert manually
+            call my_alloc(lsh3act, numeltg, "lsh3act")
+            call my_alloc(lsh3kin, numeltg, "lsh3kin")
             allocate(psh3act(0:levelmax+1),psh3kin(0:levelmax+1))
+            ! TODO: non-default lower bound, convert manually
             if (iparit/=0) then
-              allocate(msh4sky(numelc),msh3sky(numeltg))
+              call my_alloc(msh4sky, numelc, "msh4sky")
+              call my_alloc(msh3sky, numeltg, "msh3sky")
             else
-              allocate(msh4sky(0),msh3sky(0))
+              call my_alloc(msh4sky, 0, "msh4sky")
+              call my_alloc(msh3sky, 0, "msh3sky")
             end if
             allocate(ilevnod(0:numnod))
+            ! TODO: non-default lower bound, convert manually
           end if
           if(istatcnd /= 0)then
             allocate(lsh4upl(numelc),lsh3upl(numeltg),psh4upl(0:levelmax),psh3upl(0:levelmax))
-            allocate(acnd(3,numnod),arcnd(3,numnod),stcnd(nthread*numnod) ,strcnd(numnod))
+            ! TODO: non-default lower bound, convert manually
+            call my_alloc(acnd, 3, numnod, "acnd")
+            call my_alloc(arcnd, 3, numnod, "arcnd")
+            call my_alloc(stcnd, nthread*numnod, "stcnd")
+            call my_alloc(strcnd, numnod, "strcnd")
           else
-            allocate(lsh4upl(0),lsh3upl(0),psh4upl(0),psh3upl(0))
-            allocate(acnd(0,0),arcnd(0,0),stcnd(0) ,strcnd(0) )
+            call my_alloc(lsh4upl, 0, "lsh4upl")
+            call my_alloc(lsh3upl, 0, "lsh3upl")
+            call my_alloc(psh4upl, 0, "psh4upl")
+            call my_alloc(psh3upl, 0, "psh3upl")
+            call my_alloc(acnd, 0, 0, "acnd")
+            call my_alloc(arcnd, 0, 0, "arcnd")
+            call my_alloc(stcnd, 0, "stcnd")
+            call my_alloc(strcnd, 0, "strcnd")
           end if
           if( (anim_n(18) /= 0 .or. h3d_data%n_scal_stifr /= 0) .and. iroddl /= 0) then
-            allocate(stifr_tmp(numnod))
+            call my_alloc(stifr_tmp, numnod, "stifr_tmp")
           else
-            allocate(stifr_tmp(0))
+            call my_alloc(stifr_tmp, 0, "stifr_tmp")
           endif
           if( anim_n(19) /= 0 .or. h3d_data%n_scal_stifn /= 0) then
-            allocate(stifn_tmp(numnod))
+            call my_alloc(stifn_tmp, numnod, "stifn_tmp")
           else
-            allocate(stifn_tmp(0))
+            call my_alloc(stifn_tmp, 0, "stifn_tmp")
           endif
 
         end subroutine resol_alloc_phase8
@@ -787,36 +839,38 @@
           real(kind=wp), allocatable, intent(inout) :: admerr_THICK_NOD(:)
 ! ----------------------------------------------------------------------------------------------------------------------
           IF(ANIM_CE(2156)/=0 .OR. IADMERRT/=0 .OR. H3D_DATA%SH_SCAL_ERR_THK /= 0)THEN
-            ALLOCATE(ERR_THK_SH4(NUMELC))
-            ALLOCATE(ERR_THK_SH3(NUMELTG))
+            call my_alloc(ERR_THK_SH4, NUMELC, "ERR_THK_SH4")
+            call my_alloc(ERR_THK_SH3, NUMELTG, "ERR_THK_SH3")
             ERR_THK_SH4(1:NUMELC) = ZERO
             ERR_THK_SH3(1:NUMELTG) = ZERO
           ELSE
-            ALLOCATE(ERR_THK_SH4(0))
-            ALLOCATE(ERR_THK_SH3(0))
+            call my_alloc(ERR_THK_SH4, 0, "ERR_THK_SH4")
+            call my_alloc(ERR_THK_SH3, 0, "ERR_THK_SH3")
           END IF
           IF(INTER_ITHKNOD/=0)THEN
-            ALLOCATE(THKSH4(NUMELC),THKSH3(NUMELTG),THKNOD(NUMNOD))
+            call my_alloc(THKSH4, NUMELC, "THKSH4")
+            call my_alloc(THKSH3, NUMELTG, "THKSH3")
+            call my_alloc(THKNOD, NUMNOD, "THKNOD")
           ELSE
-            ALLOCATE(THKSH4(0))
-            ALLOCATE(THKSH3(0))
-            ALLOCATE(THKNOD(0))
+            call my_alloc(THKSH4, 0, "THKSH4")
+            call my_alloc(THKSH3, 0, "THKSH3")
+            call my_alloc(THKNOD, 0, "THKNOD")
           END IF
           IF( ANIM_CE(2156)/=0 .OR. H3D_DATA%SH_SCAL_ERR_THK /=0) THEN
-            CALL MY_ALLOC(AREA_SH4,NUMELC)
-            CALL MY_ALLOC(AREA_SH3,NUMELTG)
-            CALL MY_ALLOC(AREA_NOD,NUMNOD)
-            CALL MY_ALLOC(THICK_SH4,NUMELC)
-            CALL MY_ALLOC(THICK_SH3,NUMELTG)
-            CALL MY_ALLOC(THICK_NOD,NUMNOD)
+            call my_alloc(AREA_SH4, NUMELC, "AREA_SH4")
+            call my_alloc(AREA_SH3, NUMELTG, "AREA_SH3")
+            call my_alloc(AREA_NOD, NUMNOD, "AREA_NOD")
+            call my_alloc(THICK_SH4, NUMELC, "THICK_SH4")
+            call my_alloc(THICK_SH3, NUMELTG, "THICK_SH3")
+            call my_alloc(THICK_NOD, NUMNOD, "THICK_NOD")
           ENDIF
           IF (IADMERRT/=0) THEN
-            CALL MY_ALLOC(admerr_AREA_SH4,NUMELC)
-            CALL MY_ALLOC(admerr_AREA_SH3,NUMELTG)
-            CALL MY_ALLOC(admerr_AREA_NOD,NUMNOD)
-            CALL MY_ALLOC(admerr_THICK_SH4,NUMELC)
-            CALL MY_ALLOC(admerr_THICK_SH3,NUMELTG)
-            CALL MY_ALLOC(admerr_THICK_NOD,NUMNOD)
+            call my_alloc(admerr_AREA_SH4, NUMELC, "admerr_AREA_SH4")
+            call my_alloc(admerr_AREA_SH3, NUMELTG, "admerr_AREA_SH3")
+            call my_alloc(admerr_AREA_NOD, NUMNOD, "admerr_AREA_NOD")
+            call my_alloc(admerr_THICK_SH4, NUMELC, "admerr_THICK_SH4")
+            call my_alloc(admerr_THICK_SH3, NUMELTG, "admerr_THICK_SH3")
+            call my_alloc(admerr_THICK_NOD, NUMNOD, "admerr_THICK_NOD")
           ENDIF
         end subroutine resol_alloc_phase9
 
@@ -828,7 +882,8 @@
 !||    constant_mod          ../common_source/modules/constant_mod.F
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine resol_alloc_phase10(ngroup,idtmins, idtmins_int,tagnod_sms,nativ_sms,tagprt_sms,tagrel_sms,indx1_sms,indx2_sms, &
+        subroutine resol_alloc_phase10(ngroup,idtmins, idtmins_int,tagnod_sms,nativ_sms,tagprt_sms,tagrel_sms, &
+        &indx1_sms,indx2_sms, &
           tagslv_rby_sms,tagmsr_rby_sms,kad_sms,jad_sms,iad_sms,lad_sms, &
           jadc_sms,jads_sms,jads10_sms,jadt_sms,jadp_sms,jadr_sms,jadtg_sms, &
           x_sms,p_sms,y_sms,z_sms,prec_sms,xmom_sms,prec_sms3,diag_sms3, &
@@ -838,6 +893,7 @@
           npart,numelc,numels,numels10,numelt,numelp,numelr,numeltg,numnod)
           use precision_mod, only : wp
           use constant_mod, only : one
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -901,84 +957,132 @@
           real(kind=wp), allocatable, intent(inout) :: lti_sms(:)
 ! ----------------------------------------------------------------------------------------------------------------------
           if(idtmins /= 0)then
-            allocate(tagnod_sms(numnod),nativ_sms(numnod),&
-              tagprt_sms(npart),tagrel_sms(ngroup),&
-              indx1_sms(numnod),indx2_sms(numnod),&
-              tagslv_rby_sms(numnod),tagmsr_rby_sms(numnod),&
-              kad_sms(numnod+1), jad_sms(numnod+1), iad_sms(numnod+1), lad_sms(numnod+1),&
-              jadc_sms(4*numelc),&
-              jads_sms(8*numels), jads10_sms(6*numels10),&
-              jadt_sms(2*numelt),&
-              jadp_sms(2*numelp),&
-              jadr_sms(3*numelr),&
-              jadtg_sms(3*numeltg),&
-              x_sms(3,numnod), p_sms(3,numnod),&
-              y_sms(3,numnod), z_sms(3,numnod),&
-              prec_sms(numnod), xmom_sms(3,numnod),&
-              prec_sms3(3,numnod),diag_sms3(3,numnod),&
-              t2main_sms(6,numnod),&
-              t2fac_sms(numnod))
+            call my_alloc(tagnod_sms, numnod, "tagnod_sms")
+            call my_alloc(nativ_sms, numnod, "nativ_sms")
+            call my_alloc(tagprt_sms, npart, "tagprt_sms")
+            call my_alloc(tagrel_sms, ngroup, "tagrel_sms")
+            call my_alloc(indx1_sms, numnod, "indx1_sms")
+            call my_alloc(indx2_sms, numnod, "indx2_sms")
+            call my_alloc(tagslv_rby_sms, numnod, "tagslv_rby_sms")
+            call my_alloc(tagmsr_rby_sms, numnod, "tagmsr_rby_sms")
+            call my_alloc(kad_sms, numnod+1, "kad_sms")
+            call my_alloc(jad_sms, numnod+1, "jad_sms")
+            call my_alloc(iad_sms, numnod+1, "iad_sms")
+            call my_alloc(lad_sms, numnod+1, "lad_sms")
+            call my_alloc(jadc_sms, 4*numelc, "jadc_sms")
+            call my_alloc(jads_sms, 8*numels, "jads_sms")
+            call my_alloc(jads10_sms, 6*numels10, "jads10_sms")
+            call my_alloc(jadt_sms, 2*numelt, "jadt_sms")
+            call my_alloc(jadp_sms, 2*numelp, "jadp_sms")
+            call my_alloc(jadr_sms, 3*numelr, "jadr_sms")
+            call my_alloc(jadtg_sms, 3*numeltg, "jadtg_sms")
+            call my_alloc(x_sms, 3, numnod, "x_sms")
+            call my_alloc(p_sms, 3, numnod, "p_sms")
+            call my_alloc(y_sms, 3, numnod, "y_sms")
+            call my_alloc(z_sms, 3, numnod, "z_sms")
+            call my_alloc(prec_sms, numnod, "prec_sms")
+            call my_alloc(xmom_sms, 3, numnod, "xmom_sms")
+            call my_alloc(prec_sms3, 3, numnod, "prec_sms3")
+            call my_alloc(diag_sms3, 3, numnod, "diag_sms3")
+            call my_alloc(t2main_sms, 6, numnod, "t2main_sms")
+            call my_alloc(t2fac_sms, numnod, "t2fac_sms")
             fr_rms(1:nspmd+1)=0
             fr_sms(1:nspmd+1)=0
             t2main_sms = 0
             t2fac_sms = one
           elseif(idtmins_int/=0)then
-            allocate(tagnod_sms(numnod),nativ_sms(0),&
-              tagprt_sms(0),tagrel_sms(0),&
-              indx1_sms(numnod),indx2_sms(numnod),&
-              tagslv_rby_sms(numnod),tagmsr_rby_sms(numnod),&
-              kad_sms(0), jad_sms(0), lad_sms(0),&
-              jadc_sms(0),&
-              jads_sms(0), jads10_sms(0),&
-              jadt_sms(0),&
-              jadp_sms(0),&
-              jadr_sms(0),&
-              jadtg_sms(0),&
-              x_sms(3,numnod), p_sms(3,numnod),&
-              y_sms(3,numnod), z_sms(3,numnod),&
-              prec_sms(numnod), xmom_sms(3,numnod),&
-              prec_sms3(3,numnod),diag_sms3(3,numnod),&
-              t2main_sms(6,numnod),&
-              t2fac_sms(numnod))
+            call my_alloc(tagnod_sms, numnod, "tagnod_sms")
+            call my_alloc(nativ_sms, 0, "nativ_sms")
+            call my_alloc(tagprt_sms, 0, "tagprt_sms")
+            call my_alloc(tagrel_sms, 0, "tagrel_sms")
+            call my_alloc(indx1_sms, numnod, "indx1_sms")
+            call my_alloc(indx2_sms, numnod, "indx2_sms")
+            call my_alloc(tagslv_rby_sms, numnod, "tagslv_rby_sms")
+            call my_alloc(tagmsr_rby_sms, numnod, "tagmsr_rby_sms")
+            call my_alloc(kad_sms, 0, "kad_sms")
+            call my_alloc(jad_sms, 0, "jad_sms")
+            call my_alloc(lad_sms, 0, "lad_sms")
+            call my_alloc(jadc_sms, 0, "jadc_sms")
+            call my_alloc(jads_sms, 0, "jads_sms")
+            call my_alloc(jads10_sms, 0, "jads10_sms")
+            call my_alloc(jadt_sms, 0, "jadt_sms")
+            call my_alloc(jadp_sms, 0, "jadp_sms")
+            call my_alloc(jadr_sms, 0, "jadr_sms")
+            call my_alloc(jadtg_sms, 0, "jadtg_sms")
+            call my_alloc(x_sms, 3, numnod, "x_sms")
+            call my_alloc(p_sms, 3, numnod, "p_sms")
+            call my_alloc(y_sms, 3, numnod, "y_sms")
+            call my_alloc(z_sms, 3, numnod, "z_sms")
+            call my_alloc(prec_sms, numnod, "prec_sms")
+            call my_alloc(xmom_sms, 3, numnod, "xmom_sms")
+            call my_alloc(prec_sms3, 3, numnod, "prec_sms3")
+            call my_alloc(diag_sms3, 3, numnod, "diag_sms3")
+            call my_alloc(t2main_sms, 6, numnod, "t2main_sms")
+            call my_alloc(t2fac_sms, numnod, "t2fac_sms")
             tagnod_sms(1:numnod)=0
             fr_rms(1:nspmd+1)=0
             fr_sms(1:nspmd+1)=0
             t2main_sms = 0
             t2fac_sms = one
           else
-            allocate(tagnod_sms(0),nativ_sms(0),&
-              tagprt_sms(0),tagrel_sms(0),&
-              indx1_sms(0),indx2_sms(0),&
-              tagslv_rby_sms(0),tagmsr_rby_sms(0),&
-              kad_sms(0), jad_sms(0), lad_sms(0),&
-              jadc_sms(0),&
-              jads_sms(0), jads10_sms(0),&
-              jadt_sms(0),&
-              jadp_sms(0),&
-              jadr_sms(0),&
-              jadtg_sms(0),&
-              x_sms(0,0), p_sms(0,0),&
-              y_sms(0,0), z_sms(0,0), prec_sms(0),&
-              xmom_sms(0,0), prec_sms3(0,0),diag_sms3(0,0),&
-              t2main_sms(0,0),&
-              t2fac_sms(0))
+            call my_alloc(tagnod_sms, 0, "tagnod_sms")
+            call my_alloc(nativ_sms, 0, "nativ_sms")
+            call my_alloc(tagprt_sms, 0, "tagprt_sms")
+            call my_alloc(tagrel_sms, 0, "tagrel_sms")
+            call my_alloc(indx1_sms, 0, "indx1_sms")
+            call my_alloc(indx2_sms, 0, "indx2_sms")
+            call my_alloc(tagslv_rby_sms, 0, "tagslv_rby_sms")
+            call my_alloc(tagmsr_rby_sms, 0, "tagmsr_rby_sms")
+            call my_alloc(kad_sms, 0, "kad_sms")
+            call my_alloc(jad_sms, 0, "jad_sms")
+            call my_alloc(lad_sms, 0, "lad_sms")
+            call my_alloc(jadc_sms, 0, "jadc_sms")
+            call my_alloc(jads_sms, 0, "jads_sms")
+            call my_alloc(jads10_sms, 0, "jads10_sms")
+            call my_alloc(jadt_sms, 0, "jadt_sms")
+            call my_alloc(jadp_sms, 0, "jadp_sms")
+            call my_alloc(jadr_sms, 0, "jadr_sms")
+            call my_alloc(jadtg_sms, 0, "jadtg_sms")
+            call my_alloc(x_sms, 0, 0, "x_sms")
+            call my_alloc(p_sms, 0, 0, "p_sms")
+            call my_alloc(y_sms, 0, 0, "y_sms")
+            call my_alloc(z_sms, 0, 0, "z_sms")
+            call my_alloc(prec_sms, 0, "prec_sms")
+            call my_alloc(xmom_sms, 0, 0, "xmom_sms")
+            call my_alloc(prec_sms3, 0, 0, "prec_sms3")
+            call my_alloc(diag_sms3, 0, 0, "diag_sms3")
+            call my_alloc(t2main_sms, 0, 0, "t2main_sms")
+            call my_alloc(t2fac_sms, 0, "t2fac_sms")
             ptr_sms => nativ_sms
           end if
           if(idtmins == 2 .and. nintstamp /=0)then
-            allocate(jadi21_sms(nintstamp),tagslv_i21_sms(numnod),tagmsr_i21_sms(numnod))
+            call my_alloc(jadi21_sms, nintstamp, "jadi21_sms")
+            call my_alloc(tagslv_i21_sms, numnod, "tagslv_i21_sms")
+            call my_alloc(tagmsr_i21_sms, numnod, "tagmsr_i21_sms")
           else
-            allocate(jadi21_sms(0),tagslv_i21_sms(0),tagmsr_i21_sms(0))
+            call my_alloc(jadi21_sms, 0, "jadi21_sms")
+            call my_alloc(tagslv_i21_sms, 0, "tagslv_i21_sms")
+            call my_alloc(tagmsr_i21_sms, 0, "tagmsr_i21_sms")
           end if
           if(idtmins /= 0 .or. idtmins_int /= 0)then
-            allocate(nodxi_sms(numnod),nodii_sms(numnod))
+            call my_alloc(nodxi_sms, numnod, "nodxi_sms")
+            call my_alloc(nodii_sms, numnod, "nodii_sms")
           else
-            allocate(nodxi_sms(0),nodii_sms(0))
+            call my_alloc(nodxi_sms, 0, "nodxi_sms")
+            call my_alloc(nodii_sms, 0, "nodii_sms")
           end if
           if(idtmins == 2 .or. idtmins_int /= 0)then
-            allocate(mskyi_sms(lskyi_sms),iskyi_sms(lskyi_sms,3),&
-              jadi_sms(numnod+1),jdii_sms(2*lskyi_sms),lti_sms(2*lskyi_sms))
+            call my_alloc(mskyi_sms, lskyi_sms, "mskyi_sms")
+            call my_alloc(iskyi_sms, lskyi_sms, 3, "iskyi_sms")
+            call my_alloc(jadi_sms, numnod+1, "jadi_sms")
+            call my_alloc(jdii_sms, 2*lskyi_sms, "jdii_sms")
+            call my_alloc(lti_sms, 2*lskyi_sms, "lti_sms")
           else
-            allocate(mskyi_sms(0),iskyi_sms(0,0),jadi_sms(0),jdii_sms(0),lti_sms(0))
+            call my_alloc(mskyi_sms, 0, "mskyi_sms")
+            call my_alloc(iskyi_sms, 0, 0, "iskyi_sms")
+            call my_alloc(jadi_sms, 0, "jadi_sms")
+            call my_alloc(jdii_sms, 0, "jdii_sms")
+            call my_alloc(lti_sms, 0, "lti_sms")
           end if
 
         end subroutine resol_alloc_phase10
@@ -998,10 +1102,11 @@
           NVOLU,NUMELC,NUMELS)
           use precision_mod, only : wp
           use constant_mod, only : ZERO
+          use my_alloc_mod
           implicit none
-  ! ----------------------------------------------------------------------------------------------------------------------
-  !                                                     arguments
-  ! ----------------------------------------------------------------------------------------------------------------------
+          ! ------------------------------------------------------------------------------------------------------------
+          !                                                     arguments
+          ! ------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: IREAC
           integer, intent(in) :: IGRELEM
           integer, intent(in) :: NUMNOD
@@ -1032,52 +1137,52 @@
           integer, allocatable, intent(inout) :: IGROUPTG(:)
           integer, allocatable, intent(inout) :: IGROUPS(:)
           integer, intent(in) :: IPM(NPROPMI,*)
-  ! ----------------------------------------------------------------------------------------------------------------------
+          ! ------------------------------------------------------------------------------------------------------------
           integer :: I
-            IF (IREAC == 1 ) THEN
-                ALLOCATE(NODREAC(NUMNOD))
-              ELSE
-                ALLOCATE(NODREAC(0))
-              ENDIF
-              IF (IGRELEM == 1) THEN
-                NGPE = NTHPART
-                NGRTH = NTHPART
-                NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+NUMELCG+NUMELTGG+NUMELQG+NUMELTG+NUMELPG+2*NUMELRG
-              ELSE
-                NGPE = 0
-                NGRTH = 0
-                NELEM = 0
-              ENDIF
-              IF (IGRELEM == 1 ) THEN
-                ALLOCATE(GRTH(NELEM+NGRTH+1))
-                ALLOCATE(IGRTH(NELEM+1))
-              ELSE
-                ALLOCATE(GRTH(1))
-                ALLOCATE(IGRTH(1))
-              ENDIF
-              IGRTH = 0
-              GRTH = 0
-              DXANCG = ZERO
+          IF (IREAC == 1 ) THEN
+            call my_alloc(NODREAC, NUMNOD, "NODREAC")
+          ELSE
+            call my_alloc(NODREAC, 0, "NODREAC")
+          ENDIF
+          IF (IGRELEM == 1) THEN
+            NGPE = NTHPART
+            NGRTH = NTHPART
+            NELEM=NUMELSG+3*NUMELS16G+NUMSPHG+NUMELCG+NUMELTGG+NUMELQG+NUMELTG+NUMELPG+2*NUMELRG
+          ELSE
+            NGPE = 0
+            NGRTH = 0
+            NELEM = 0
+          ENDIF
+          IF (IGRELEM == 1 ) THEN
+            call my_alloc(GRTH, NELEM+NGRTH+1, "GRTH")
+            call my_alloc(IGRTH, NELEM+1, "IGRTH")
+          ELSE
+            call my_alloc(GRTH, 1, "GRTH")
+            call my_alloc(IGRTH, 1, "IGRTH")
+          ENDIF
+          IGRTH = 0
+          GRTH = 0
+          DXANCG = ZERO
 !------------------------------------------
 !     ALLOCATION IGROUPC AND IGROUPTG
 !     TABLE GIVING GROUP NUMBER FOR SHELLS
 !     ALLOCATION IGROUPS FOR BRICKS
 !------------------------------------------
-              IGROUPFLG(1:2)=0
-              IF(NVOLU > 0) IGROUPFLG(1) = 1
-              DO I=1,NUMMAT
-                IF(IPM(2,I)/=19.AND.IPM(2,I)/=58) CYCLE
-                IF(IPM(4,I) >= 4) IGROUPFLG(1)=1
-              ENDDO
-              IF(IGROUPFLG(1) == 1) THEN
-                ALLOCATE(IGROUPC(NUMELC))
-                ALLOCATE(IGROUPTG(NUMELTG))
-              ELSE
-                ALLOCATE(IGROUPC(0))
-                ALLOCATE(IGROUPTG(0))
-              ENDIF
-              IGROUPFLG(2)=1
-              ALLOCATE(IGROUPS(NUMELS))
+          IGROUPFLG(1:2)=0
+          IF(NVOLU > 0) IGROUPFLG(1) = 1
+          DO I=1,NUMMAT
+            IF(IPM(2,I)/=19.AND.IPM(2,I)/=58) CYCLE
+            IF(IPM(4,I) >= 4) IGROUPFLG(1)=1
+          ENDDO
+          IF(IGROUPFLG(1) == 1) THEN
+            call my_alloc(IGROUPC, NUMELC, "IGROUPC")
+            call my_alloc(IGROUPTG, NUMELTG, "IGROUPTG")
+          ELSE
+            call my_alloc(IGROUPC, 0, "IGROUPC")
+            call my_alloc(IGROUPTG, 0, "IGROUPTG")
+          ENDIF
+          IGROUPFLG(2)=1
+          call my_alloc(IGROUPS, NUMELS, "IGROUPS")
         end subroutine resol_alloc_phase11
 
 !||====================================================================
@@ -1092,6 +1197,7 @@
           STRESSMEAN, FORNEQSKY)
           use constant_mod, only : ZERO
           use precision_mod, only : wp
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -1106,29 +1212,29 @@
           real(kind=wp), allocatable, intent(inout) :: FORNEQSKY(:)
 ! ----------------------------------------------------------------------------------------------------------------------
 ! NITSCHE METHOD
-              NFACNIT =0
-              IF (NITSCHE > 0 ) THEN
+          NFACNIT =0
+          IF (NITSCHE > 0 ) THEN
 !  Element mean stress
-                ALLOCATE(STRESSMEAN(6,NUMELS))
+            call my_alloc(STRESSMEAN, 6, NUMELS, "STRESSMEAN")
 !  Equivalent nodal force
-                IF(IPARIT /= 0 ) THEN
-                  IF(NUMELS10G ==0) THEN
-                    NFACNIT = 6
-                    ALLOCATE(FORNEQSKY(18*LSKY))
-                    FORNEQSKY(1:18*LSKY) = ZERO
-                  ELSE
-                    NFACNIT = 16
-                    ALLOCATE(FORNEQSKY(48*LSKY))
-                    FORNEQSKY(1:48*LSKY) = ZERO
-                  ENDIF
-                ELSE
-                  ALLOCATE(FORNEQSKY(0))
-                ENDIF
-                STRESSMEAN(1:6,1:NUMELS)=ZERO
+            IF(IPARIT /= 0 ) THEN
+              IF(NUMELS10G ==0) THEN
+                NFACNIT = 6
+                call my_alloc(FORNEQSKY, 18*LSKY, "FORNEQSKY")
+                FORNEQSKY(1:18*LSKY) = ZERO
               ELSE
-                ALLOCATE(STRESSMEAN(0,0))
-                ALLOCATE( FORNEQSKY(0))
+                NFACNIT = 16
+                call my_alloc(FORNEQSKY, 48*LSKY, "FORNEQSKY")
+                FORNEQSKY(1:48*LSKY) = ZERO
               ENDIF
+            ELSE
+              call my_alloc(FORNEQSKY, 0, "FORNEQSKY")
+            ENDIF
+            STRESSMEAN(1:6,1:NUMELS)=ZERO
+          ELSE
+            call my_alloc(STRESSMEAN, 0, 0, "STRESSMEAN")
+            call my_alloc(FORNEQSKY, 0, "FORNEQSKY")
+          ENDIF
         end subroutine resol_alloc_nitsche
 
 !||====================================================================
@@ -1231,7 +1337,7 @@
           integer, intent(in) :: npropgi             !< number of integers in geo array
           integer, intent(in) :: npropm              !< number of properties in pm array
           integer, intent(in) :: npropmi             !< number of integers in pm array
-          integer, intent(in) :: seani                                   
+          integer, intent(in) :: seani
           integer, intent(in) :: M51_N0PHAS !< law 51 phases
           integer, intent(in) :: M51_nvphas !< law 51 phases
           integer, intent(in) :: sthke               !< size of thke array
@@ -1245,7 +1351,7 @@
           integer, intent(inout) :: ipart(*) !< part array
           integer, intent(inout) :: ipm(npropmi,nummat) !< property array
           integer, intent(inout) :: igeo(npropgi,numgeo) !< property array
-          integer, intent(inout) :: snercvois 
+          integer, intent(inout) :: snercvois
           integer, intent(inout) :: snesdvois
           integer, intent(inout) :: slercvois
           integer, intent(inout) :: slesdvois
@@ -1264,52 +1370,52 @@
 
 ! ------------------------------------------------------------------------------------------------------
           integer :: K1,K2,K3,K4,K5,K6,K7,K8,K9
-              CALL PYTHON_REGISTER(PYTHON,NODES,NUMNOD, &
-                                   IXS, NIXS, NUMELS, &
-                                   ELEMENT%SHELL%IXC, NIXC, NUMELC, &
-                                   IXP, NIXP, NUMELP, &
-                                   IXT, NIXT, NUMELT, &
-                                   IXQ, NIXQ, NUMELQ, &
-                                   IXTG, NIXTG, NUMELTG, &
-                                   IXR, NIXR, NUMELR, &
-                                   IPARG, NGROUP, NPARG, MVSIZ)
+          CALL PYTHON_REGISTER(PYTHON,NODES,NUMNOD, &
+            IXS, NIXS, NUMELS, &
+            ELEMENT%SHELL%IXC, NIXC, NUMELC, &
+            IXP, NIXP, NUMELP, &
+            IXT, NIXT, NUMELT, &
+            IXQ, NIXQ, NUMELQ, &
+            IXTG, NIXTG, NUMELTG, &
+            IXR, NIXR, NUMELR, &
+            IPARG, NGROUP, NPARG, MVSIZ)
 
-             IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_SHARE_MEMORY(PYTHON,NODES,NUMNOD, &
-                                   IXS, NIXS, NUMELS, &
-                                   ELEMENT%SHELL%IXC, NIXC, NUMELC, &
-                                   IXP, NIXP, NUMELP, &
-                                   IXT, NIXT, NUMELT, &
-                                   IXQ, NIXQ, NUMELQ, &
-                                   IXTG, NIXTG, NUMELTG, &
-                                   IXR, NIXR, NUMELR, &
-                                   IPARG, NGROUP, NPARG)
+          IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_SHARE_MEMORY(PYTHON,NODES,NUMNOD, &
+            IXS, NIXS, NUMELS, &
+            ELEMENT%SHELL%IXC, NIXC, NUMELC, &
+            IXP, NIXP, NUMELP, &
+            IXT, NIXT, NUMELT, &
+            IXQ, NIXQ, NUMELQ, &
+            IXTG, NIXTG, NUMELTG, &
+            IXR, NIXR, NUMELR, &
+            IPARG, NGROUP, NPARG)
 
-              K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
-              K2=K1+NUMELS
-              K3=K2+NUMELQ
-              K4=K3+NUMELC
-              K5=K4+NUMELT
-              K6=K5+NUMELP
-              K7=K6+NUMELR
-              K8=K7
-              K9=K8+NUMELTG
-              CALL python_dummy_active_node(PYTHON)
-              CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD, &
-                       N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ, &
-                       NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD, &
-                       NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI, &
-                       SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS, &
-                       STHKE, SEANI, NPART, &
-                       ELBUF_TAB   ,IPARG       ,GEO        , &
-                       ELEMENT%SHELL%IXC ,IXTG, IXS, IXQ, PM,BUFMAT, &
-                       EANI, &
-                       IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3, &
-                       NODES                  ,W           ,ALE_CONNECTIVITY,  &
-                       NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS, &
-                       M51_N0PHAS, M51_NVPHAS, STACK,& 
-                       IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), &
-                       MULTI_FVM , &
-                       MAT_ELEM%MAT_PARAM , OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
+          K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+          K2=K1+NUMELS
+          K3=K2+NUMELQ
+          K4=K3+NUMELC
+          K5=K4+NUMELT
+          K6=K5+NUMELP
+          K7=K6+NUMELR
+          K8=K7
+          K9=K8+NUMELTG
+          CALL python_dummy_active_node(PYTHON)
+          CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD, &
+            N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ, &
+            NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD, &
+            NPARG, NPROPG, NPROPM, NPROPMI, NPROPGI, &
+            SNERCVOIS, SNESDVOIS, SLERCVOIS, SLESDVOIS, &
+            STHKE, SEANI, NPART, &
+            ELBUF_TAB   ,IPARG       ,GEO        , &
+            ELEMENT%SHELL%IXC ,IXTG, IXS, IXQ, PM,BUFMAT, &
+            EANI, &
+            IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3, &
+            NODES                  ,W           ,ALE_CONNECTIVITY,  &
+            NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS, &
+            M51_N0PHAS, M51_NVPHAS, STACK,&
+            IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), &
+            MULTI_FVM , &
+            MAT_ELEM%MAT_PARAM , OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
 
         end subroutine resol_alloc_python
       end module resol_alloc_mod

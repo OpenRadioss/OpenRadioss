@@ -34,6 +34,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -55,7 +57,7 @@ C-----------------------------------------------
      .   RTMP0,RTMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: FAC
 C=======================================================================
-      ALLOCATE(FAC(IENRNOD))
+      call my_alloc(FAC, IENRNOD, "FAC")
 c---------------------------
       DO N = NODFT,NODLT                                                
         NN = INOD_CRK(N)                                                
@@ -96,7 +98,7 @@ C
         END DO ! DO ILEV=1,NLEVMAX                                      
       END DO  ! N = NODFT,NODLT                                         
 c-----------
-      DEALLOCATE(FAC)
+      call my_dealloc(FAC)
 c-----------
       RETURN
       END

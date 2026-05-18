@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
       use element_mod , only : nixs      
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,7 +141,8 @@ C     PYRAMIDE indirection
          REDIRPY(K) = K
       ENDDO
 
-      ALLOCATE(ADDCNEL(NB_NODE + 1), ADSKY(NB_NODE + 1))
+      call my_alloc(ADDCNEL, NB_NODE + 1, "ADDCNEL")
+      call my_alloc(ADSKY, NB_NODE + 1, "ADSKY")
       DO I = 1, NB_NODE
          ADDCNEL(I) = 0
          TAGNODBR(I) = 0
@@ -222,7 +224,7 @@ C
 C     ============================
 C     Node -> element connectivity
 C     ============================
-      ALLOCATE(CNE(ADDCNEL(NB_NODE + 1)))
+      call my_alloc(CNE, ADDCNEL(NB_NODE + 1), "CNE")
 
       DO I = 1, NBRIC
          NG = TBRIC(1, I)
@@ -399,8 +401,9 @@ C     ===================
 C     Memory deallocation
 C     ===================
 
-      DEALLOCATE(ADSKY, ADDCNEL)
-      DEALLOCATE(CNE)
+      CALL MY_DEALLOC(ADSKY)
+      CALL MY_DEALLOC(ADDCNEL)
+      CALL MY_DEALLOC(CNE)
 
 C     ===
 C     End

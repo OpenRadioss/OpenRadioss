@@ -52,6 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -98,14 +100,14 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C-----------------------------------------------
-        ALLOCATE( LIST_SURFACE_R_PROC(4*NB_SURFACE) )
+        call my_alloc(LIST_SURFACE_R_PROC, 4*NB_SURFACE, "LIST_SURFACE_R_PROC")
         NB_SURFACE_R_PROC = 0
 
         ! --------------------------
         ! working array : surface
-        ALLOCATE( RESULT_INTERSECT( SHOOT_STRUCT%MAX_SURF_NB ) )
-        ALLOCATE( INTERSECT_1( SHOOT_STRUCT%MAX_SURF_NB ) )
-        ALLOCATE( INTERSECT_2( SHOOT_STRUCT%MAX_SURF_NB ) )
+        call my_alloc(RESULT_INTERSECT, SHOOT_STRUCT%MAX_SURF_NB, "RESULT_INTERSECT")
+        call my_alloc(INTERSECT_1, SHOOT_STRUCT%MAX_SURF_NB, "INTERSECT_1")
+        call my_alloc(INTERSECT_2, SHOOT_STRUCT%MAX_SURF_NB, "INTERSECT_2")
 
 
         DO I=1,NB_SURFACE
@@ -142,12 +144,12 @@ C-----------------------------------------------
                 ! -----------------------
             ENDDO
             IF(NB_SURFACE_R_PROC + NB_RESULT_INTERSECT > SIZE(LIST_SURFACE_R_PROC) ) THEN                
-                ALLOCATE( TMP_ARRAY(NB_SURFACE_R_PROC) )
+                call my_alloc(TMP_ARRAY, NB_SURFACE_R_PROC, "TMP_ARRAY")
                 TMP_ARRAY(1:NB_SURFACE_R_PROC) = LIST_SURFACE_R_PROC(1:NB_SURFACE_R_PROC)
-                DEALLOCATE( LIST_SURFACE_R_PROC )
-                ALLOCATE( LIST_SURFACE_R_PROC( (NB_SURFACE_R_PROC+NB_RESULT_INTERSECT) * 2 ) )
+                call my_dealloc(LIST_SURFACE_R_PROC)
+                call my_alloc(LIST_SURFACE_R_PROC, (NB_SURFACE_R_PROC+NB_RESULT_INTERSECT) * 2, "LIST_SURFACE_R_PROC")
                 LIST_SURFACE_R_PROC(1:NB_SURFACE_R_PROC) = TMP_ARRAY(1:NB_SURFACE_R_PROC)
-                DEALLOCATE( TMP_ARRAY )
+                call my_dealloc(TMP_ARRAY)
             ENDIF
             
             LIST_SURFACE_R_PROC(1+NB_SURFACE_R_PROC:NB_SURFACE_R_PROC+NB_RESULT_INTERSECT) = 
@@ -160,10 +162,10 @@ C-----------------------------------------------
      .                            IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                            ADDCNEL,CNEL,TAG_NODE,TAG_ELEM,SHOOT_STRUCT )
 
-        DEALLOCATE( LIST_SURFACE_R_PROC )
-        DEALLOCATE( RESULT_INTERSECT )
-        DEALLOCATE( INTERSECT_1 )
-        DEALLOCATE( INTERSECT_2 )
+        call my_dealloc(LIST_SURFACE_R_PROC)
+        call my_dealloc(RESULT_INTERSECT)
+        call my_dealloc(INTERSECT_1)
+        call my_dealloc(INTERSECT_2)
 
         RETURN
         END SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC

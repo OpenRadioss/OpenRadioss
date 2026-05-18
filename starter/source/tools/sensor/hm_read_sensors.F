@@ -138,8 +138,8 @@ c---------------------------------------------
       END IF
 c---------------------------------------------
       IF (ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB)
-      ALLOCATE(SENSORS%SENSOR_TAB(HM_NSENS))
-      CALL MY_ALLOC (SID,HM_NSENS)
+      allocate(SENSORS%SENSOR_TAB(HM_NSENS))
+      CALL MY_ALLOC(SID,HM_NSENS,"SID")
       SENSORS%NSENSOR = HM_NSENS
 c
       CALL SENSOR_TAB_INIT(SENSORS)
@@ -278,7 +278,7 @@ c-------------------------------------
         END IF
       END DO
       CALL UDOUBLE(SID,1,SENSORS%NSENSOR,MESS,0,BID)
-      DEALLOCATE(SID)
+      CALL MY_DEALLOC(SID)
 c-----------
       RETURN
       END

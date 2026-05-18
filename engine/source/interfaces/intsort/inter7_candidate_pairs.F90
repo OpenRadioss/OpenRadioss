@@ -103,6 +103,8 @@
           USE INTER7_FILTER_CAND_MOD
           USE CONSTANT_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -215,7 +217,7 @@
 ! ======================================================================================================================
           j_stok = 0
           if(flagremnode == 2) then
-            allocate(tagremnode(numnod))
+            call my_alloc(tagremnode, numnod, "tagremnode")
             do i=1,numnod
               tagremnode(i) = 0
             end do
@@ -439,7 +441,7 @@
 ! 7   DEALLOCATE
 ! ======================================================================================================================
           if(flagremnode == 2) then
-            if(allocated(tagremnode)) deallocate(tagremnode)
+            if(allocated(tagremnode)) call my_dealloc(tagremnode)
           end if
 !         if(itask == 0) deallocate(list_nb_voxel_on)
 
@@ -753,6 +755,7 @@
         &                                    total_nb_nrtm,&
         &                                    numnod       )
           USE PRECISION_MOD, ONLY : WP
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -862,20 +865,20 @@
           write(6,*)  "nbz          ",nbz
 
 
-          allocate(nsv(nsn))
-          allocate(oldnum(isznsnr))
-          allocate(kremnod(s_kremnod))
-          allocate(remnod(s_remnod))
-          allocate(irect(4, nrtm))
-          allocate(cand_a(s_cand_a))
-          allocate(x(3, numnod))
-          allocate(gap_s(nsn))
-          allocate(gap_m(nrtm))
-          allocate(gap_s_l(nsn))
-          allocate(gap_m_l(nrtm))
-          allocate(curv_max(nrtm))
-          allocate(stf(nrtm))
-          allocate(stfn(nsn))
+          call my_alloc(nsv, nsn, "nsv")
+          call my_alloc(oldnum, isznsnr, "oldnum")
+          call my_alloc(kremnod, s_kremnod, "kremnod")
+          call my_alloc(remnod, s_remnod, "remnod")
+          call my_alloc(irect, 4, nrtm, "irect")
+          call my_alloc(cand_a, s_cand_a, "cand_a")
+          call my_alloc(x, 3, numnod, "x")
+          call my_alloc(gap_s, nsn, "gap_s")
+          call my_alloc(gap_m, nrtm, "gap_m")
+          call my_alloc(gap_s_l, nsn, "gap_s_l")
+          call my_alloc(gap_m_l, nrtm, "gap_m_l")
+          call my_alloc(curv_max, nrtm, "curv_max")
+          call my_alloc(stf, nrtm, "stf")
+          call my_alloc(stfn, nsn, "stfn")
 
           read(unitNum) nsv(1:nsn) !< global secondary node numbers
           read(unitNum) oldnum(1:isznsnr) !< renumbering ?
@@ -911,8 +914,8 @@
           !relevant output
           !mumnsn is the maximum number of candidates, ii_stok is the number of candidates found
           read(unitNum) ii_stok !< number of candidates found
-          allocate(cand_n(mulnsn))
-          allocate(cand_e(mulnsn))
+          call my_alloc(cand_n, mulnsn, "cand_n")
+          call my_alloc(cand_e, mulnsn, "cand_e")
           cand_n = 0
           cand_e = 0
           read(unitNum) cand_n(1:ii_stok) !< list of candidates (secondary)

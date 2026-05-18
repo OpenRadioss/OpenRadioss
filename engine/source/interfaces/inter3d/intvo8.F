@@ -60,6 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -163,43 +165,96 @@ C
       IF(NTY==3)THEN
 C
       ELSEIF(NTY==8)THEN
-        ALLOCATE(
-     .  DISTANCE(NSN),
-     .  DIST(NSN),
-     .  IX1(NSN),
-     .  IX2(NSN),
-     .  IX3(NSN),
-     .  IX4(NSN),
-     .  X1(NSN), X2(NSN), X3(NSN), X4(NSN),
-     .  Y1(NSN), Y2(NSN), Y3(NSN), Y4(NSN),
-     .  Z1(NSN), Z2(NSN), Z3(NSN), Z4(NSN),
-     .  XI(NSN), XI_A(NSN),
-     .  YI(NSN), YI_A(NSN),
-     .  ZI(NSN), ZI_A(NSN),
-     .  XP(NSN), N1(NSN),
-     .  YP(NSN), N2(NSN),
-     .  ZP(NSN), N3(NSN), 
-     .  ANS(NSN),SSC(NSN),TTC(NSN),
-     .  H1(NSN),H2(NSN),H3(NSN),H4(NSN),
-     .  FACE(NSN),FACE_A(NSN),
-     .  STIF(NSN), 
-     .  X0(NSN), XX1(NSN), XX2(NSN),
-     .  Y0(NSN), YY1(NSN), YY2(NSN),
-     .  Z0(NSN), ZZ1(NSN), ZZ2(NSN),
-     .  XX3(NSN), XX4(NSN), XI1(NSN),
-     .  YY3(NSN), YY4(NSN), YI1(NSN),
-     .  ZZ3(NSN), ZZ4(NSN), ZI1(NSN),
-     .  XI2(NSN), XI3(NSN), XI4(NSN),
-     .  YI2(NSN), YI3(NSN), YI4(NSN),
-     .  ZI2(NSN), ZI3(NSN), ZI4(NSN),
-     .  XN1(NSN), XN2(NSN), XN3(NSN), XN4(NSN),
-     .  YN1(NSN), YN2(NSN), YN3(NSN), YN4(NSN),
-     .  ZN1(NSN), ZN2(NSN), ZN3(NSN), ZN4(NSN),
-     .  THK(NSN), AREA(NSN),ALP(NSN),
-     .  HAS_MOVED(NSN),
-     .  TAB_RMAX(NSN),TAB_RMAX_UID(4,NSN),
-     .  IRTL_A(NSN),NSV_A(NSN),NSV2(NSN),
-     .  INDEX_IN_COMM(NMN),DISTLIN(NSN))
+        call my_alloc(DISTANCE, NSN, "DISTANCE")
+        call my_alloc(DIST, NSN, "DIST")
+        call my_alloc(IX1, NSN, "IX1")
+        call my_alloc(IX2, NSN, "IX2")
+        call my_alloc(IX3, NSN, "IX3")
+        call my_alloc(IX4, NSN, "IX4")
+        call my_alloc(X1, NSN, "X1")
+        call my_alloc(X2, NSN, "X2")
+        call my_alloc(X3, NSN, "X3")
+        call my_alloc(X4, NSN, "X4")
+        call my_alloc(Y1, NSN, "Y1")
+        call my_alloc(Y2, NSN, "Y2")
+        call my_alloc(Y3, NSN, "Y3")
+        call my_alloc(Y4, NSN, "Y4")
+        call my_alloc(Z1, NSN, "Z1")
+        call my_alloc(Z2, NSN, "Z2")
+        call my_alloc(Z3, NSN, "Z3")
+        call my_alloc(Z4, NSN, "Z4")
+        call my_alloc(XI, NSN, "XI")
+        call my_alloc(XI_A, NSN, "XI_A")
+        call my_alloc(YI, NSN, "YI")
+        call my_alloc(YI_A, NSN, "YI_A")
+        call my_alloc(ZI, NSN, "ZI")
+        call my_alloc(ZI_A, NSN, "ZI_A")
+        call my_alloc(XP, NSN, "XP")
+        call my_alloc(N1, NSN, "N1")
+        call my_alloc(YP, NSN, "YP")
+        call my_alloc(N2, NSN, "N2")
+        call my_alloc(ZP, NSN, "ZP")
+        call my_alloc(N3, NSN, "N3")
+        call my_alloc(ANS, NSN, "ANS")
+        call my_alloc(SSC, NSN, "SSC")
+        call my_alloc(TTC, NSN, "TTC")
+        call my_alloc(H1, NSN, "H1")
+        call my_alloc(H2, NSN, "H2")
+        call my_alloc(H3, NSN, "H3")
+        call my_alloc(H4, NSN, "H4")
+        call my_alloc(FACE, NSN, "FACE")
+        call my_alloc(FACE_A, NSN, "FACE_A")
+        call my_alloc(STIF, NSN, "STIF")
+        call my_alloc(X0, NSN, "X0")
+        call my_alloc(XX1, NSN, "XX1")
+        call my_alloc(XX2, NSN, "XX2")
+        call my_alloc(Y0, NSN, "Y0")
+        call my_alloc(YY1, NSN, "YY1")
+        call my_alloc(YY2, NSN, "YY2")
+        call my_alloc(Z0, NSN, "Z0")
+        call my_alloc(ZZ1, NSN, "ZZ1")
+        call my_alloc(ZZ2, NSN, "ZZ2")
+        call my_alloc(XX3, NSN, "XX3")
+        call my_alloc(XX4, NSN, "XX4")
+        call my_alloc(XI1, NSN, "XI1")
+        call my_alloc(YY3, NSN, "YY3")
+        call my_alloc(YY4, NSN, "YY4")
+        call my_alloc(YI1, NSN, "YI1")
+        call my_alloc(ZZ3, NSN, "ZZ3")
+        call my_alloc(ZZ4, NSN, "ZZ4")
+        call my_alloc(ZI1, NSN, "ZI1")
+        call my_alloc(XI2, NSN, "XI2")
+        call my_alloc(XI3, NSN, "XI3")
+        call my_alloc(XI4, NSN, "XI4")
+        call my_alloc(YI2, NSN, "YI2")
+        call my_alloc(YI3, NSN, "YI3")
+        call my_alloc(YI4, NSN, "YI4")
+        call my_alloc(ZI2, NSN, "ZI2")
+        call my_alloc(ZI3, NSN, "ZI3")
+        call my_alloc(ZI4, NSN, "ZI4")
+        call my_alloc(XN1, NSN, "XN1")
+        call my_alloc(XN2, NSN, "XN2")
+        call my_alloc(XN3, NSN, "XN3")
+        call my_alloc(XN4, NSN, "XN4")
+        call my_alloc(YN1, NSN, "YN1")
+        call my_alloc(YN2, NSN, "YN2")
+        call my_alloc(YN3, NSN, "YN3")
+        call my_alloc(YN4, NSN, "YN4")
+        call my_alloc(ZN1, NSN, "ZN1")
+        call my_alloc(ZN2, NSN, "ZN2")
+        call my_alloc(ZN3, NSN, "ZN3")
+        call my_alloc(ZN4, NSN, "ZN4")
+        call my_alloc(THK, NSN, "THK")
+        call my_alloc(AREA, NSN, "AREA")
+        call my_alloc(ALP, NSN, "ALP")
+        call my_alloc(HAS_MOVED, NSN, "HAS_MOVED")
+        call my_alloc(TAB_RMAX, NSN, "TAB_RMAX")
+        call my_alloc(TAB_RMAX_UID, 4, NSN, "TAB_RMAX_UID")
+        call my_alloc(IRTL_A, NSN, "IRTL_A")
+        call my_alloc(NSV_A, NSN, "NSV_A")
+        call my_alloc(NSV2, NSN, "NSV2")
+        call my_alloc(INDEX_IN_COMM, NMN, "INDEX_IN_COMM")
+        call my_alloc(DISTLIN, NSN, "DISTLIN")
 
         DIST = 0
         DISTLIN(1:NSN) = ZERO
@@ -360,44 +415,96 @@ C
 
       
       
-        DEALLOCATE(
-     .  DISTANCE,
-     .  DIST,
-     .  IX1,
-     .  IX2,
-     .  IX3,
-     .  IX4,
-     .  X1, X2, X3, X4,
-     .  Y1, Y2, Y3, Y4,
-     .  Z1, Z2, Z3, Z4,
-     .  XI, XI_A,
-     .  YI, YI_A,
-     .  ZI, ZI_A,
-     .  XP, N1,
-     .  YP, N2,
-     .  ZP, N3, 
-     .  ANS,SSC,TTC,
-     .  H1,H2,H3,H4,
-     .  FACE,FACE_A,
-     .  STIF, 
-     .  X0, XX1, XX2,
-     .  Y0, YY1, YY2,
-     .  Z0, ZZ1, ZZ2,
-     .  XX3, XX4, XI1,
-     .  YY3, YY4, YI1,
-     .  ZZ3, ZZ4, ZI1,
-     .  XI2, XI3, XI4,
-     .  YI2, YI3, YI4,
-     .  ZI2, ZI3, ZI4,
-     .  XN1, XN2, XN3, XN4,
-     .  YN1, YN2, YN3, YN4,
-     .  ZN1, ZN2, ZN3, ZN4,
-     .  THK, AREA,ALP,
-     .  HAS_MOVED,
-     .  TAB_RMAX,TAB_RMAX_UID,
-     .  IRTL_A,NSV_A,NSV2,
-     .  INDEX_IN_COMM,
-     .  DISTLIN)
+        call my_dealloc(DISTANCE)
+        call my_dealloc(DIST)
+        call my_dealloc(IX1)
+        call my_dealloc(IX2)
+        call my_dealloc(IX3)
+        call my_dealloc(IX4)
+        call my_dealloc(X1)
+        call my_dealloc(X2)
+        call my_dealloc(X3)
+        call my_dealloc(X4)
+        call my_dealloc(Y1)
+        call my_dealloc(Y2)
+        call my_dealloc(Y3)
+        call my_dealloc(Y4)
+        call my_dealloc(Z1)
+        call my_dealloc(Z2)
+        call my_dealloc(Z3)
+        call my_dealloc(Z4)
+        call my_dealloc(XI)
+        call my_dealloc(XI_A)
+        call my_dealloc(YI)
+        call my_dealloc(YI_A)
+        call my_dealloc(ZI)
+        call my_dealloc(ZI_A)
+        call my_dealloc(XP)
+        call my_dealloc(N1)
+        call my_dealloc(YP)
+        call my_dealloc(N2)
+        call my_dealloc(ZP)
+        call my_dealloc(N3)
+        call my_dealloc(ANS)
+        call my_dealloc(SSC)
+        call my_dealloc(TTC)
+        call my_dealloc(H1)
+        call my_dealloc(H2)
+        call my_dealloc(H3)
+        call my_dealloc(H4)
+        call my_dealloc(FACE)
+        call my_dealloc(FACE_A)
+        call my_dealloc(STIF)
+        call my_dealloc(X0)
+        call my_dealloc(XX1)
+        call my_dealloc(XX2)
+        call my_dealloc(Y0)
+        call my_dealloc(YY1)
+        call my_dealloc(YY2)
+        call my_dealloc(Z0)
+        call my_dealloc(ZZ1)
+        call my_dealloc(ZZ2)
+        call my_dealloc(XX3)
+        call my_dealloc(XX4)
+        call my_dealloc(XI1)
+        call my_dealloc(YY3)
+        call my_dealloc(YY4)
+        call my_dealloc(YI1)
+        call my_dealloc(ZZ3)
+        call my_dealloc(ZZ4)
+        call my_dealloc(ZI1)
+        call my_dealloc(XI2)
+        call my_dealloc(XI3)
+        call my_dealloc(XI4)
+        call my_dealloc(YI2)
+        call my_dealloc(YI3)
+        call my_dealloc(YI4)
+        call my_dealloc(ZI2)
+        call my_dealloc(ZI3)
+        call my_dealloc(ZI4)
+        call my_dealloc(XN1)
+        call my_dealloc(XN2)
+        call my_dealloc(XN3)
+        call my_dealloc(XN4)
+        call my_dealloc(YN1)
+        call my_dealloc(YN2)
+        call my_dealloc(YN3)
+        call my_dealloc(YN4)
+        call my_dealloc(ZN1)
+        call my_dealloc(ZN2)
+        call my_dealloc(ZN3)
+        call my_dealloc(ZN4)
+        call my_dealloc(THK)
+        call my_dealloc(AREA)
+        call my_dealloc(ALP)
+        call my_dealloc(HAS_MOVED)
+        call my_dealloc(TAB_RMAX)
+        call my_dealloc(TAB_RMAX_UID)
+        call my_dealloc(IRTL_A)
+        call my_dealloc(NSV_A)
+        call my_dealloc(NSV2)
+        call my_dealloc(INDEX_IN_COMM)
+        call my_dealloc(DISTLIN)
 
       ENDIF ! TYPE 8
 

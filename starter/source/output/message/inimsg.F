@@ -44,7 +44,7 @@ C-----------------------------------------------
       IMSG=0
       IWARN=0
       IERR=0
-      ALLOCATE(MESSAGESFILE(SMESSAGESFILE))
+      allocate(MESSAGESFILE(SMESSAGESFILE))
       DO I=1,SMESSAGESFILE
         MESSAGESFILE(I)=MESSAGESDATA(I)
       END DO

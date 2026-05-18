@@ -45,6 +45,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs, bcs_struct_
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +73,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           do p=1,nspmd
-            allocate( bcs_per_proc(p)%wall(bcs%num_wall) )
+            allocate(bcs_per_proc(p)%wall(bcs%num_wall))
           end do
 
           ! --- filling global parameters for bcs wall data structure on each domain
@@ -104,9 +105,12 @@
             !---allcoation of local data structure (on each domain)
             do p=1,nspmd
               bcs_per_proc(p)%wall(ii)%list%size = size_on_proc(p)
-              allocate( bcs_per_proc(p)%wall(ii)%list%elem(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%wall(ii)%list%face(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%wall(ii)%list%adjacent_elem(size_on_proc(p)))
+              call my_alloc(bcs_per_proc(p)%wall(ii)%list%elem, size_on_proc(p), &
+              &                      "bcs_per_proc(p)%wall(ii)%list%elem")
+              call my_alloc(bcs_per_proc(p)%wall(ii)%list%face, size_on_proc(p), &
+              &                      "bcs_per_proc(p)%wall(ii)%list%face")
+              call my_alloc(bcs_per_proc(p)%wall(ii)%list%adjacent_elem, size_on_proc(p), &
+              &                      "bcs_per_proc(p)%wall(ii)%list%adjacent_elem")
             end do
 
             !--filling local data structure

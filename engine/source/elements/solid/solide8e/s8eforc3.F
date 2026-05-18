@@ -168,6 +168,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -498,7 +500,7 @@ C
       SZ_IX=NUMELQ+NUMELS+NSVOIS
       IBOLTP = IPARG(72,NG)
       INLOC   = IPARG(78,NG)
-      ALLOCATE(VAR_REG(NEL,NPTR*NPTS*NPTT))
+      call my_alloc(VAR_REG, NEL, NPTR*NPTS*NPTT, "VAR_REG")
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
@@ -2068,6 +2070,6 @@ C----------------------------
      J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-----------
-      IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
+      IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
       RETURN
       END

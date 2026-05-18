@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -77,6 +79,7 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4
       my_real, POINTER, DIMENSION(:) :: 
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
+      my_real, target :: DUMMY(1)
 c-----------------------------------------------------------------------
 c     VAR_REG :  variable a regulariser (local cumulated plastic strain)
 c     NTVAR  =  NT * VAR_REG
@@ -90,18 +93,40 @@ C=======================================================================
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
       NTN    = FOUR*FOUR
       LC(1:NEL) = ZERO
-      ALLOCATE(BTB11(NEL),BTB12(NEL),BTB13(NEL),BTB14(NEL),BTB22(NEL),
-     . BTB23(NEL),BTB24(NEL),BTB33(NEL),BTB34(NEL),BTB44(NEL),POS1(NEL),
-     . POS2(NEL),POS3(NEL),POS4(NEL))
+      call my_alloc(BTB11, NEL, "BTB11")
+      call my_alloc(BTB12, NEL, "BTB12")
+      call my_alloc(BTB13, NEL, "BTB13")
+      call my_alloc(BTB14, NEL, "BTB14")
+      call my_alloc(BTB22, NEL, "BTB22")
+      call my_alloc(BTB23, NEL, "BTB23")
+      call my_alloc(BTB24, NEL, "BTB24")
+      call my_alloc(BTB33, NEL, "BTB33")
+      call my_alloc(BTB34, NEL, "BTB34")
+      call my_alloc(BTB44, NEL, "BTB44")
+      call my_alloc(POS1, NEL, "POS1")
+      call my_alloc(POS2, NEL, "POS2")
+      call my_alloc(POS3, NEL, "POS3")
+      call my_alloc(POS4, NEL, "POS4")
       ! For nodal timestep
       IF (NODADT > 0) THEN
         ! Non-local nodal stifness
-        ALLOCATE(STI1(NEL),STI2(NEL),STI3(NEL),STI4(NEL))
+        call my_alloc(STI1, NEL, "STI1")
+        call my_alloc(STI2, NEL, "STI2")
+        call my_alloc(STI3, NEL, "STI3")
+        call my_alloc(STI4, NEL, "STI4")
         ! Non-local mass
         MASS =>  NLOC_DMG%MASS(1:L_NLOC)
         ! Initial non-local mass
         MASS0 => NLOC_DMG%MASS0(1:L_NLOC)
+      ELSE
+        call my_alloc(STI1, 1, "STI1")
+        call my_alloc(STI2, 1, "STI2")
+        call my_alloc(STI3, 1, "STI3")
+        call my_alloc(STI4, 1, "STI4")
+        MASS => DUMMY
+        MASS0 => DUMMY
       ENDIF
+      STIFNL => DUMMY
       VNL  => NLOC_DMG%VNL(1:L_NLOC)
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC)
       UNL  => NLOC_DMG%UNL(1:L_NLOC)
@@ -302,23 +327,23 @@ c
 c
 c-----------
       ! Deallocation of tables
-      IF (ALLOCATED(BTB11)) DEALLOCATE(BTB11)
-      IF (ALLOCATED(BTB12)) DEALLOCATE(BTB12)
-      IF (ALLOCATED(BTB13)) DEALLOCATE(BTB13)
-      IF (ALLOCATED(BTB14)) DEALLOCATE(BTB14)
-      IF (ALLOCATED(BTB22)) DEALLOCATE(BTB22)
-      IF (ALLOCATED(BTB23)) DEALLOCATE(BTB23)      
-      IF (ALLOCATED(BTB24)) DEALLOCATE(BTB24)
-      IF (ALLOCATED(BTB33)) DEALLOCATE(BTB33)
-      IF (ALLOCATED(BTB34)) DEALLOCATE(BTB34)
-      IF (ALLOCATED(BTB44)) DEALLOCATE(BTB44)
-      IF (ALLOCATED(POS1))  DEALLOCATE(POS1)
-      IF (ALLOCATED(POS2))  DEALLOCATE(POS2) 
-      IF (ALLOCATED(POS3))  DEALLOCATE(POS3)
-      IF (ALLOCATED(POS4))  DEALLOCATE(POS4)
-      IF (ALLOCATED(STI1))  DEALLOCATE(STI1)
-      IF (ALLOCATED(STI2))  DEALLOCATE(STI2) 
-      IF (ALLOCATED(STI3))  DEALLOCATE(STI3)
-      IF (ALLOCATED(STI4))  DEALLOCATE(STI4) 
+      IF (ALLOCATED(BTB11)) call my_dealloc(BTB11)
+      IF (ALLOCATED(BTB12)) call my_dealloc(BTB12)
+      IF (ALLOCATED(BTB13)) call my_dealloc(BTB13)
+      IF (ALLOCATED(BTB14)) call my_dealloc(BTB14)
+      IF (ALLOCATED(BTB22)) call my_dealloc(BTB22)
+      IF (ALLOCATED(BTB23)) call my_dealloc(BTB23)
+      IF (ALLOCATED(BTB24)) call my_dealloc(BTB24)
+      IF (ALLOCATED(BTB33)) call my_dealloc(BTB33)
+      IF (ALLOCATED(BTB34)) call my_dealloc(BTB34)
+      IF (ALLOCATED(BTB44)) call my_dealloc(BTB44)
+      IF (ALLOCATED(POS1)) call my_dealloc(POS1)
+      IF (ALLOCATED(POS2)) call my_dealloc(POS2)
+      IF (ALLOCATED(POS3)) call my_dealloc(POS3)
+      IF (ALLOCATED(POS4)) call my_dealloc(POS4)
+      IF (ALLOCATED(STI1)) call my_dealloc(STI1)
+      IF (ALLOCATED(STI2)) call my_dealloc(STI2)
+      IF (ALLOCATED(STI3)) call my_dealloc(STI3)
+      IF (ALLOCATED(STI4)) call my_dealloc(STI4)
 c
       END

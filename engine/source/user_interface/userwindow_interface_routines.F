@@ -56,6 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,9 +82,9 @@ C-----------------------------------------------
              CALL READ_I_C(USER_WINDOWS%S_USER,1)
              CALL READ_I_C(USER_WINDOWS%N_USERNODS,1)
 
-             ALLOCATE(USER_WINDOWS%IUSER(USER_WINDOWS%S_IUSER))
-             ALLOCATE(USER_WINDOWS%USER(USER_WINDOWS%S_USER))
-             ALLOCATE(USER_WINDOWS%USERNODS(USER_WINDOWS%N_USERNODS))
+             call my_alloc(USER_WINDOWS%IUSER, USER_WINDOWS%S_IUSER, "USER_WINDOWS%IUSER")
+             call my_alloc(USER_WINDOWS%USER, USER_WINDOWS%S_USER, "USER_WINDOWS%USER")
+             call my_alloc(USER_WINDOWS%USERNODS, USER_WINDOWS%N_USERNODS, "USER_WINDOWS%USERNODS")
 
              CALL READ_I_C(USER_WINDOWS%IUSER,USER_WINDOWS%S_IUSER)
              CALL READ_DB(USER_WINDOWS%USREINT,1)
@@ -92,25 +93,25 @@ C-----------------------------------------------
 
              ! SPMD Structures
              CALL READ_I_C(USER_WINDOWS%S_FR_USERW,1)
-             ALLOCATE(USER_WINDOWS%IAD_USERW(NSPMD+1))
-             ALLOCATE(USER_WINDOWS%FR_USERW(USER_WINDOWS%S_FR_USERW))
+             call my_alloc(USER_WINDOWS%IAD_USERW, NSPMD+1, "USER_WINDOWS%IAD_USERW")
+             call my_alloc(USER_WINDOWS%FR_USERW, USER_WINDOWS%S_FR_USERW, "USER_WINDOWS%FR_USERW")
 
              CALL READ_I_C(USER_WINDOWS%IAD_USERW,NSPMD+1)
              CALL READ_I_C(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
 
              ! SAV & AR_SAV on ispmd==0
-             ALLOCATE(USER_WINDOWS%A_SAV(3,NUMNOD))
-             ALLOCATE(USER_WINDOWS%AR_SAV(3,NUMNOD))
+             call my_alloc(USER_WINDOWS%A_SAV, 3, NUMNOD, "USER_WINDOWS%A_SAV")
+             call my_alloc(USER_WINDOWS%AR_SAV, 3, NUMNOD, "USER_WINDOWS%AR_SAV")
              CALL READ_DB(USER_WINDOWS%A_SAV,3*NUMNOD)
              CALL READ_DB(USER_WINDOWS%AR_SAV,3*NUMNOD)
 
              ! ALLOCATE WA to 3x NUMNOD
              USER_WINDOWS%S_WA = 3*NUMNOD
-             ALLOCATE(USER_WINDOWS%WA(3*NUMNOD))
+             call my_alloc(USER_WINDOWS%WA, 3*NUMNOD, "USER_WINDOWS%WA")
          ELSE
              CALL READ_I_C(USER_WINDOWS%S_FR_USERW,1)
 
-             ALLOCATE(USER_WINDOWS%FR_USERW(USER_WINDOWS%S_FR_USERW))
+             call my_alloc(USER_WINDOWS%FR_USERW, USER_WINDOWS%S_FR_USERW, "USER_WINDOWS%FR_USERW")
 
              CALL READ_I_C(USER_WINDOWS%FR_USERW,USER_WINDOWS%S_FR_USERW)
 

@@ -45,6 +45,8 @@ c    FLD failure model for XFEM
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -198,7 +200,7 @@ c
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
-        ALLOCATE(XF(LENF))
+        call my_alloc(XF, LENF, "XF")
         DO I = 1,LENF
           XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
@@ -546,7 +548,7 @@ c               delete phantom
 c-----------------
       END SELECT ! LAYXFEM
 c
-      IF (IENG == 1) DEALLOCATE(XF)
+      IF (IENG == 1) call my_dealloc(XF)
 c-----------------------------------------------
 c---  multilayer xfem
  3000 FORMAT(1X,'CRACK INITIALIZATION IN SHELL ELEMENT',I10,1X,'LAYER',I3)

@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -93,8 +94,8 @@ C-----------------------------------------------
      .   DTNOD1, DTNOD2, DT2P, MAS, INER,
      .    DT2S
 C----------------------------------------------------------
-      CALL MY_ALLOC(TAG,NUMNOD)
-      CALL MY_ALLOC(TAGR,NUMNOD)
+      call my_alloc(TAG, NUMNOD, "TAG")
+      call my_alloc(TAGR, NUMNOD, "TAGR")
 C----------------------------------------------------------
 C     TAG NODAL GROUP 
 C----------------------------------------------------------
@@ -528,8 +529,8 @@ C--------------------------------
          ENDIF
        ENDIF
 C
-      DEALLOCATE(TAG)
-      DEALLOCATE(TAGR)
+      call my_dealloc(TAG)
+      call my_dealloc(TAGR)
 
       RETURN
       END

@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,10 +97,10 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(MODE==1) THEN
 C Parts
-          ALLOCATE( MAP_TABLES%IPARTM(NPART,2))
+          call my_alloc(MAP_TABLES%IPARTM, NPART, 2, "MAP_TABLES%IPARTM")
 
-          ALLOCATE(ISORT(NPART))
-          ALLOCATE(INDEX_SORT(2*NPART))
+          call my_alloc(ISORT, NPART, "ISORT")
+          call my_alloc(INDEX_SORT, 2*NPART, "INDEX_SORT")
     
           DO I=1,NPART
              ISORT(I)=IPART(4,I)
@@ -112,22 +113,22 @@ C Parts
              MAP_TABLES%IPARTM(I,2)=INDEX_SORT(I)
           ENDDO
     
-          DEALLOCATE (ISORT)
-          DEALLOCATE (INDEX_SORT)
+          CALL MY_DEALLOC(ISORT)
+          CALL MY_DEALLOC(INDEX_SORT)
     
 C Sets
           NSET_G = 0
           NSET_COL = 0
 
           ! ISORT & INDEX_SORT are used for /SET/GENERAL
-          ALLOCATE(ISORT(NSETS))
-          ALLOCATE(SAV(NSETS))
-          ALLOCATE(INDEX_SORT(2*NSETS))
+          call my_alloc(ISORT, NSETS, "ISORT")
+          call my_alloc(SAV, NSETS, "SAV")
+          call my_alloc(INDEX_SORT, 2*NSETS, "INDEX_SORT")
     
           ! ISORT2 & INDEX_SORT2 are used for /SET/COLLECT
-          ALLOCATE(ISORT2(NSETS))
-          ALLOCATE(SAV2(NSETS))
-          ALLOCATE(INDEX_SORT2(2*NSETS))
+          call my_alloc(ISORT2, NSETS, "ISORT2")
+          call my_alloc(SAV2, NSETS, "SAV2")
+          call my_alloc(INDEX_SORT2, 2*NSETS, "INDEX_SORT2")
 
           CALL HM_OPTION_START('/SET')
           DO I=1,NSETS
@@ -156,7 +157,7 @@ C Sets
           ! Sorting SET/GENERAL
           ! -------------------
           CALL MY_ORDERS(0,IWORK,ISORT,INDEX_SORT,NSET_G,1)
-          ALLOCATE( MAP_TABLES%ISETM(NSET_G,2))
+          call my_alloc(MAP_TABLES%ISETM, NSET_G, 2, "MAP_TABLES%ISETM")
           
           DO I=1,NSET_G
              MAP_TABLES%ISETM(I,1)=ISORT(INDEX_SORT(I))
@@ -187,7 +188,7 @@ C Sets
           ! Sorting SET/COLLECT
           ! -------------------
           CALL MY_ORDERS(0,IWORK,ISORT2,INDEX_SORT2,NSET_COL,1)
-          ALLOCATE( MAP_TABLES%ISETCOLM(NSET_COL,2))
+          call my_alloc(MAP_TABLES%ISETCOLM, NSET_COL, 2, "MAP_TABLES%ISETCOLM")
           
           DO I=1,NSET_COL
              MAP_TABLES%ISETCOLM(I,1)=ISORT2(INDEX_SORT2(I))
@@ -204,18 +205,18 @@ C Sets
           ! ENDDO
           ! print*,'--------------------------------------------------------'
 
-          DEALLOCATE (ISORT)
-          DEALLOCATE (INDEX_SORT)
-          DEALLOCATE (SAV)
+          CALL MY_DEALLOC(ISORT)
+          CALL MY_DEALLOC(INDEX_SORT)
+          CALL MY_DEALLOC(SAV)
 
-          DEALLOCATE (ISORT2)
-          DEALLOCATE (INDEX_SORT2)
-          DEALLOCATE (SAV2) 
+          CALL MY_DEALLOC(ISORT2)
+          CALL MY_DEALLOC(INDEX_SORT2)
+          CALL MY_DEALLOC(SAV2)
 C Subset
-          ALLOCATE( MAP_TABLES%ISUBSM(NSUBS,2))
+          call my_alloc(MAP_TABLES%ISUBSM, NSUBS, 2, "MAP_TABLES%ISUBSM")
 
-          ALLOCATE(ISORT(NSUBS))
-          ALLOCATE(INDEX_SORT(2*NSUBS))
+          call my_alloc(ISORT, NSUBS, "ISORT")
+          call my_alloc(INDEX_SORT, 2*NSUBS, "INDEX_SORT")
     
           DO I=1,NSUBS
              ISORT(I)=SUBSET(I)%ID
@@ -228,13 +229,13 @@ C Subset
              MAP_TABLES%ISUBSM(I,2)=INDEX_SORT(I)
           ENDDO
 
-          DEALLOCATE (ISORT)
-          DEALLOCATE (INDEX_SORT)
+          CALL MY_DEALLOC(ISORT)
+          CALL MY_DEALLOC(INDEX_SORT)
 C Submodel
-          ALLOCATE( MAP_TABLES%ISUBMM(NSUBMOD,2))
+          call my_alloc(MAP_TABLES%ISUBMM, NSUBMOD, 2, "MAP_TABLES%ISUBMM")
     
-          ALLOCATE(ISORT(NSUBMOD))
-          ALLOCATE(INDEX_SORT(2*NSUBMOD))
+          call my_alloc(ISORT, NSUBMOD, "ISORT")
+          call my_alloc(INDEX_SORT, 2*NSUBMOD, "INDEX_SORT")
 
           DO I=1,NSUBMOD
              ISORT(I) = LSUBMODEL(I)%NOSUBMOD
@@ -247,13 +248,13 @@ C Submodel
              MAP_TABLES%ISUBMM(I,2)=INDEX_SORT(I)
           ENDDO
 
-          DEALLOCATE (ISORT)
-          DEALLOCATE (INDEX_SORT)
+          CALL MY_DEALLOC(ISORT)
+          CALL MY_DEALLOC(INDEX_SORT)
 C Rbody
-          ALLOCATE( MAP_TABLES%IRBODYM(NRBODY,2))
+          call my_alloc(MAP_TABLES%IRBODYM, NRBODY, 2, "MAP_TABLES%IRBODYM")
 
-          ALLOCATE(ISORT(NRBODY))
-          ALLOCATE(INDEX_SORT(2*NRBODY))
+          call my_alloc(ISORT, NRBODY, "ISORT")
+          call my_alloc(INDEX_SORT, 2*NRBODY, "INDEX_SORT")
     
           DO I=1,NRBODY
              ISORT(I)=RBY_MSN(1,I)
@@ -266,43 +267,44 @@ C Rbody
              MAP_TABLES%IRBODYM(I,2)=INDEX_SORT(I)
           ENDDO
 
-          DEALLOCATE (ISORT)
-          DEALLOCATE (INDEX_SORT)
+          CALL MY_DEALLOC(ISORT)
+          CALL MY_DEALLOC(INDEX_SORT)
         ENDIF
 !   ------------------------------------------------------------
 !                       Element
 C Solid
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ISOLM(NUMELS,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ISOLM, NUMELS, 2, "MAP_TABLES%ISOLM")
         CALL MAP_ORDER(IXS,NIXS,NIXS,NUMELS,MAP_TABLES%ISOLM)       
 C Quad
-        IF(MODE==1) ALLOCATE( MAP_TABLES%IQUADM(NUMELQ,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%IQUADM, NUMELQ, 2, "MAP_TABLES%IQUADM")
         CALL MAP_ORDER(IXQ,NIXQ,NIXQ,NUMELQ,MAP_TABLES%IQUADM)           
 C Shell
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ISH4NM(NUMELC,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ISH4NM, NUMELC, 2, "MAP_TABLES%ISH4NM")
         CALL MAP_ORDER(IXC,NIXC,NIXC,NUMELC,MAP_TABLES%ISH4NM)  
 C Sh3n
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ISH3NM(NUMELTG,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ISH3NM, NUMELTG, 2, "MAP_TABLES%ISH3NM")
         CALL MAP_ORDER(IXTG,NIXTG,NIXTG,NUMELTG,MAP_TABLES%ISH3NM)      
 C Tria
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ITRIAM(NUMELTG,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ITRIAM, NUMELTG, 2, "MAP_TABLES%ITRIAM")
         CALL MAP_ORDER(IXTG,NIXTG,NIXTG,NUMELTG,MAP_TABLES%ITRIAM)
 C Truss
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ITRUSSM(NUMELT,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ITRUSSM, NUMELT, 2, "MAP_TABLES%ITRUSSM")
         CALL MAP_ORDER(IXT,NIXT,NIXT,NUMELT,MAP_TABLES%ITRUSSM)
 C Beam
-        IF(MODE==1) ALLOCATE( MAP_TABLES%IBEAMM(NUMELP,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%IBEAMM, NUMELP, 2, "MAP_TABLES%IBEAMM")
         CALL MAP_ORDER(IXP,NIXP,NIXP,NUMELP,MAP_TABLES%IBEAMM)     
 C Spring
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ISPRINGM(NUMELR,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ISPRINGM, NUMELR, 2, "MAP_TABLES%ISPRINGM")
         CALL MAP_ORDER(IXR,NIXR,NIXR,NUMELR,MAP_TABLES%ISPRINGM)    
 C SPH 
-        IF(MODE==1) ALLOCATE( MAP_TABLES%ISPHM(NUMSPH,2))
+        IF(MODE==1) call my_alloc(MAP_TABLES%ISPHM, NUMSPH, 2, "MAP_TABLES%ISPHM")
         MAP_TABLES%ISPHM(1:NUMSPH,1:2) = 0
         CALL MAP_ORDER(KXSP,NISP,NISP,NUMSPH,MAP_TABLES%ISPHM)
 !   ------------------------------------------------------------
         IF(MODE==2) THEN
 C Rivet 
-          ALLOCATE( MAP_TABLES%IRIVETM(NRIVET,2))
+          if(allocated(MAP_TABLES%IRIVETM)) CALL MY_DEALLOC(MAP_TABLES%IRIVETM)
+          call my_alloc(MAP_TABLES%IRIVETM, NRIVET, 2, "MAP_TABLES%IRIVETM")
           CALL MAP_ORDER(LRIVET,4,4,NRIVET,MAP_TABLES%IRIVETM)
         ENDIF
 !---

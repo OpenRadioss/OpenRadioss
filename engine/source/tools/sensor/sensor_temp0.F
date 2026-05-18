@@ -50,6 +50,8 @@ c-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -86,9 +88,9 @@ c     SENSOR_TEMP%VAR(3)   = TEMP_AVG
 C=======================================================================
         ! -----------------
         ! local arrays for min/max/mean
-        ALLOCATE( TEMP_MAX(COMM_SENS17%NUM_SENS) )
-        ALLOCATE( TEMP_MIN(COMM_SENS17%NUM_SENS) )
-        ALLOCATE( TEMP_AVG(COMM_SENS17%NUM_SENS) )
+        call my_alloc(TEMP_MAX, COMM_SENS17%NUM_SENS, "TEMP_MAX")
+        call my_alloc(TEMP_MIN, COMM_SENS17%NUM_SENS, "TEMP_MIN")
+        call my_alloc(TEMP_AVG, COMM_SENS17%NUM_SENS, "TEMP_AVG")
 
         TEMP_MAX(1:COMM_SENS17%NUM_SENS) = ZERO
         TEMP_MIN(1:COMM_SENS17%NUM_SENS) = ZERO
@@ -107,7 +109,7 @@ c
           TEMP_MAX(IJK) = SENSOR_TAB(ISENS)%VAR(1)
           TEMP_MIN(IJK) = SENSOR_TAB(ISENS)%VAR(2)
           TEMP_AVG(IJK) = ZERO
-          ALLOCATE( TEMP_NODE(NNOD) )
+          call my_alloc(TEMP_NODE, NNOD, "TEMP_NODE")
           INDEX_SUM6FLOAT = 0
           !   -----------------
           !   loop over the local nodes
@@ -130,17 +132,17 @@ c
              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) = TEMP_AVG(IJK)
            ENDIF
           !   -----------------
-          DEALLOCATE( TEMP_NODE )    
+          call my_dealloc(TEMP_NODE)
         ENDDO
         !   --------------------------
 
         !   --------------------------
         !   communication for min/max sensor
         IF (COMM_SENS17%BUFFER_SIZE_MIN_MAX > 0) THEN
-            ALLOCATE( SBUFF_MIN(COMM_SENS17%BUFFER_SIZE_MIN_MAX) )
-            ALLOCATE( RBUFF_MIN(COMM_SENS17%BUFFER_SIZE_MIN_MAX) )
-            ALLOCATE( SBUFF_MAX(COMM_SENS17%BUFFER_SIZE_MIN_MAX) )
-            ALLOCATE( RBUFF_MAX(COMM_SENS17%BUFFER_SIZE_MIN_MAX) )
+            call my_alloc(SBUFF_MIN, COMM_SENS17%BUFFER_SIZE_MIN_MAX, "SBUFF_MIN")
+            call my_alloc(RBUFF_MIN, COMM_SENS17%BUFFER_SIZE_MIN_MAX, "RBUFF_MIN")
+            call my_alloc(SBUFF_MAX, COMM_SENS17%BUFFER_SIZE_MIN_MAX, "SBUFF_MAX")
+            call my_alloc(RBUFF_MAX, COMM_SENS17%BUFFER_SIZE_MIN_MAX, "RBUFF_MAX")
             INDEX_MIN_MAX = 0
             !   --------------------
             !   initialize the buffer for mpi comm
@@ -172,16 +174,16 @@ c
               SENSOR_TAB(ISENS)%VAR(2) =-RBUFF_MIN(INDEX_MIN_MAX) ! min temp 
             ENDDO
             !   --------------------
-            DEALLOCATE( SBUFF_MAX )
-            DEALLOCATE( RBUFF_MAX )
-            DEALLOCATE( SBUFF_MIN )
-            DEALLOCATE( RBUFF_MIN )
+            call my_dealloc(SBUFF_MAX)
+            call my_dealloc(RBUFF_MAX)
+            call my_dealloc(SBUFF_MIN)
+            call my_dealloc(RBUFF_MIN)
         ENDIF
         !   --------------------------
         !   mpi communication for mean temperature
         IF (COMM_SENS17%BUFFER_SIZE_MEAN > 0) THEN
-          ALLOCATE( SBUFF_MEAN(COMM_SENS17%BUFFER_SIZE_MEAN) )
-          ALLOCATE( RBUFF_MEAN(COMM_SENS17%BUFFER_SIZE_MEAN) )
+          call my_alloc(SBUFF_MEAN, COMM_SENS17%BUFFER_SIZE_MEAN, "SBUFF_MEAN")
+          call my_alloc(RBUFF_MEAN, COMM_SENS17%BUFFER_SIZE_MEAN, "RBUFF_MEAN")
           !   parith/on : 6 values per sensor / parith/off : only 1 value
           IF (IPARIT > 0) THEN
               DIM_FOR_MEAN = 6
@@ -234,14 +236,14 @@ c
             ENDDO
           ENDDO            
           !   ----------------
-          DEALLOCATE( SBUFF_MEAN )
-          DEALLOCATE( RBUFF_MEAN )
+          call my_dealloc(SBUFF_MEAN)
+          call my_dealloc(RBUFF_MEAN)
         ENDIF
         !   --------------------------
 
-        DEALLOCATE( TEMP_MAX )
-        DEALLOCATE( TEMP_MIN )
-        DEALLOCATE( TEMP_AVG )
+        call my_dealloc(TEMP_MAX)
+        call my_dealloc(TEMP_MIN)
+        call my_dealloc(TEMP_AVG)
 c----------------------------------------------------------
       RETURN
       END SUBROUTINE SENSOR_TEMP0

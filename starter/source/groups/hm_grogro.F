@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
+      use my_dealloc_mod, only : my_dealloc
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
@@ -82,7 +83,7 @@ C-----------------------------------------------
        END SUBROUTINE  
       END INTERFACE     
 C=======================================================================
-      CALL MY_ALLOC(BUFTMP,NUMEN*2)
+      CALL MY_ALLOC(BUFTMP,NUMEN*2,"BUFTMP")
       IF (FLAG == 0) ICOUNT=0
       IGS = 0
 C     loop over the groups
@@ -150,7 +151,7 @@ C-----------
                      ENDIF
                    ENDIF                                                                        
                ENDDO! NEXT KK      
-               IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)                                                             
+               IF(ALLOCATED(LIST_ELEM)) call my_dealloc(LIST_ELEM)
               ENDIF      
               
 C-----
@@ -163,7 +164,7 @@ C                  sorted group
                 ENDIF                               
 C
                 IGRELEM(IGS)%NENTITY = NEL
-                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL)
+                CALL MY_ALLOC(IGRELEM(IGS)%ENTITY,NEL,"IGRELEM(IGS)%ENTITY")
                 IGRELEM(IGS)%ENTITY = 0
               ENDIF                                 
 C-----------                                             
@@ -207,7 +208,7 @@ C                           add nodes to group if JJ > 0 and node not removed
                     ENDIF 
                   ENDIF
               ENDDO! NEXT KK
-              IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)
+              IF(ALLOCATED(LIST_ELEM)) call my_dealloc(LIST_ELEM)
                   
                                                                           
 
@@ -228,7 +229,7 @@ C-----------  end_ flag = 1
                                                                   
       ENDDO                                                                        
 
-      DEALLOCATE(BUFTMP)
+      CALL MY_DEALLOC(BUFTMP)
                                   
 C-----------
       RETURN

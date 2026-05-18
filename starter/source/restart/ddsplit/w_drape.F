@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE W_DRAPE(DRAPE,INDX, CEP,P,NUMEL,NUMEL_L,NELDRP_L,LEN_IA,LEN_AM)          
          USE DRAPE_MOD
+         use my_alloc_mod
 C---------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +63,10 @@ C-----------------------------------------------
 !     allocate 2d array
 ! --------------------------------------
 C
-      ALLOCATE(NPT_ELT(NUMEL_L),NPTDRP_ELT(NUMEL_L), INDEX(NUMEL_L),THK(NUMEL_L)) 
+      call my_alloc(NPT_ELT, NUMEL_L, "NPT_ELT")
+      call my_alloc(NPTDRP_ELT, NUMEL_L, "NPTDRP_ELT")
+      call my_alloc(INDEX, NUMEL_L, "INDEX")
+      call my_alloc(THK, NUMEL_L, "THK")
 C    
       INDEX = 0
       NPTDRP_ELT =0
@@ -98,7 +102,10 @@ C
       ENDDO
       IF(NELDRP_L > 0) THEN
 C      
-          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+          call my_alloc(ITMP, NDIM, 2, "ITMP")
+          call my_alloc(RTMP, NDIM, 2, "RTMP")
+          call my_alloc(ISLICE, NDIM_SLICE, "ISLICE")
+          call my_alloc(INDX_PLY, NDIM_INDX_PLY, "INDX_PLY")
 C
           NDIM_SLICE = 0
           NDIM_INDX_PLY = 0
@@ -147,7 +154,14 @@ C
           LEN_AM = LEN_AM + 2*NDIM   +   NELDRP_L      
           LEN_IA = LEN_IA + 2*NDIM +  NUMEL_L   + 2*NELDRP_L    
      .                    + NDIM_SLICE + NDIM_INDX_PLY  + 3   
-           DEALLOCATE(ITMP,RTMP,ISLICE,INDX_PLY,NPT_ELT,NPTDRP_ELT, INDEX,THK) 
+           CALL MY_DEALLOC(ITMP)
+           CALL MY_DEALLOC(RTMP)
+           CALL MY_DEALLOC(ISLICE)
+           CALL MY_DEALLOC(INDX_PLY)
+           CALL MY_DEALLOC(NPT_ELT)
+           CALL MY_DEALLOC(NPTDRP_ELT)
+           CALL MY_DEALLOC(INDEX)
+           CALL MY_DEALLOC(THK)
        ENDIF
 ! --------------------------------------
       RETURN

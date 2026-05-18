@@ -92,6 +92,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -190,18 +192,18 @@
             !-----------------------------------------------------------!
             idmds = 0
             imdsvar = 0
-            allocate(mds_matid(0))
+            call my_alloc(mds_matid, 0, "mds_matid")
             ipt_input = -2
             layer_input = -2
             ply_input = -2
             iuvar_input = -2
             id = -1
             mode = -1
-            allocate(h3d_part(npart))
-            allocate(scalar_results(MVSIZ))
-            allocate(id_elem(MVSIZ))
-            allocate(ity_elem(MVSIZ))
-            allocate(is_written(MVSIZ))
+            call my_alloc(h3d_part, npart, "h3d_part")
+            call my_alloc(scalar_results, MVSIZ, "scalar_results")
+            call my_alloc(id_elem, MVSIZ, "id_elem")
+            call my_alloc(ity_elem, MVSIZ, "ity_elem")
+            call my_alloc(is_written, MVSIZ, "is_written")
             is_written(1:MVSIZ) = 0
             !-------------------------------------------------------!
             !     LOOP OVER ELEM GROUPS & OUTPUT DATA               !
@@ -271,16 +273,16 @@
 
             end do
 
-            deallocate(scalar_results)
-            deallocate(id_elem)
-            deallocate(ity_elem)
-            deallocate(is_written)
+            call my_dealloc(scalar_results)
+            call my_dealloc(id_elem)
+            call my_dealloc(ity_elem)
+            call my_dealloc(is_written)
 
             call python_element_sync(py%elements)
 
 
 
-            deallocate(h3d_part)
+            call my_dealloc(h3d_part)
           end if
           return
         end subroutine funct_python_update_elements

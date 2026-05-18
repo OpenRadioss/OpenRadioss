@@ -43,6 +43,7 @@
 !                                                     Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use python_funct_mod, only : python_get_number_of_nodes, python_get_nodes
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +64,7 @@
 
           call python_get_number_of_nodes(number_of_nodes_in_python)
           !write(6,*) "number of nodes = ", number_of_nodes_in_python, " numnod = ", numnod
-          allocate(nodes_global_ids(number_of_nodes_in_python))
+          call my_alloc(nodes_global_ids, number_of_nodes_in_python, "nodes_global_ids")
           call python_get_nodes(nodes_global_ids)
 
           ! the number of nodes in python should be very small, so we can do a double loop

@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,10 +79,10 @@ C-----------------------------------------------
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: RATIOLS
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
-      ALLOCATE(KNOD2ELC(NUMNOD+1))
-      ALLOCATE(TAGSKYC(4,NUMELC))
-      ALLOCATE(TAGSKYTG(3,NUMELTG))
-      ALLOCATE(TAGEDGE(NUMEDGES))
+      call my_alloc(KNOD2ELC, NUMNOD+1, "KNOD2ELC")
+      call my_alloc(TAGSKYC, 4, NUMELC, "TAGSKYC")
+      call my_alloc(TAGSKYTG, 3, NUMELTG, "TAGSKYTG")
+      call my_alloc(TAGEDGE, NUMEDGES, "TAGEDGE")
       KNOD2ELC = 0
       TAGSKYC  = 0
       TAGSKYTG = 0
@@ -110,9 +111,9 @@ c-----------------
         NXSEG   = NXNOD - 1
 C---
         IF (NXSEG > 0) THEN
-          ALLOCATE(NODLS(2,NXNOD))
-          ALLOCATE(NTAG(NUMNOD))
-          ALLOCATE(RATIOLS(NXNOD))
+          call my_alloc(NODLS, 2, NXNOD, "NODLS")
+          call my_alloc(NTAG, NUMNOD, "NTAG")
+          call my_alloc(RATIOLS, NXNOD, "RATIOLS")
           NODLS = 0
           NTAG = 0
           RATIOLS = ZERO
@@ -131,12 +132,17 @@ C---
      .          TAGEDGE ,CRKLVSET,CRKSHELL,CRKEDGE          ,XFEM_PHANTOM,
      .          ITAB    ,ID      ,TITR    )
 C---
-          DEALLOCATE(NODLS,NTAG,RATIOLS)
+          CALL MY_DEALLOC(NODLS)
+          CALL MY_DEALLOC(NTAG)
+          CALL MY_DEALLOC(RATIOLS)
         END IF
 C---
       ENDDO ! DO ICRK=1,NINICRACK
 C---
-      DEALLOCATE(TAGSKYC,TAGSKYTG,KNOD2ELC,TAGEDGE)
+      CALL MY_DEALLOC(TAGSKYC)
+      CALL MY_DEALLOC(TAGSKYTG)
+      CALL MY_DEALLOC(KNOD2ELC)
+      CALL MY_DEALLOC(TAGEDGE)
 C-----------
       RETURN
       END

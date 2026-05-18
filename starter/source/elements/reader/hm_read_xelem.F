@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C----------------------------------------------------------
 C      XELEM ELEMENT READ
 C----------------------------------------------------------
@@ -114,17 +115,17 @@ C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_XELEM(NUMELX),STAT=stat)
+      call my_alloc(SUB_XELEM, NUMELX, "SUB_XELEM", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_XELEM') 
       SUB_XELEM(1:NUMELX) = 0
-      ALLOCATE (IDEX(NUMELX),STAT=stat)
+      call my_alloc(IDEX, NUMELX, "IDEX", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='IDEX') 
       IDEX(1:NUMELX) = 0
-      ALLOCATE (IDGU(NUMELX),STAT=stat)
+      call my_alloc(IDGU, NUMELX, "IDGU", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='IDGU') 

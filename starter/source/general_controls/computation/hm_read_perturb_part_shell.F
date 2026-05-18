@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
       USE FORMAT_MOD , ONLY : LFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,7 +185,7 @@ c
         MAX_PART = MAX (MAX_PART,CPT_PART)
       ENDDO
       ! Allocation of tables
-      ALLOCATE(TAB_PART(NPERTURB,MAX_PART))
+      call my_alloc(TAB_PART, NPERTURB, MAX_PART, "TAB_PART")
 c
       !----------------------------------------------------------------------
       ! 2nd Loop over /PERTURB/PART for reading and computing perturbation
@@ -307,21 +308,21 @@ C
         ! Set up random seed
         IF( SEED == 0 )THEN
           CALL RANDOM_SEED(SIZE=I_SEED)
-          ALLOCATE(A_SEED(1:I_SEED))
+          call my_alloc(A_SEED, I_SEED, "A_SEED")
           CALL RANDOM_SEED(GET=A_SEED)
           CALL DATE_AND_TIME(values=DT_SEED)
           A_SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)
           SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)
           CALL RANDOM_SEED(PUT=A_SEED)
           SEED_RANDOM = 1
-          DEALLOCATE(A_SEED)
+          CALL MY_DEALLOC(A_SEED)
         ELSE
           CALL RANDOM_SEED(SIZE=I_SEED)
-          ALLOCATE(A_SEED(1:I_SEED))
+          call my_alloc(A_SEED, I_SEED, "A_SEED")
           A_SEED=SEED
           CALL RANDOM_SEED(PUT=A_SEED)
           SEED_RANDOM = 0
-          DEALLOCATE(A_SEED) 
+          CALL MY_DEALLOC(A_SEED)
         ENDIF
 C
         ! Build uniform distribution
@@ -329,7 +330,7 @@ C
         CHAR1=''
         CHAR2=''
         DISTRIB(1:50) = 0
-        ALLOCATE(ARRAY(NB_RANDOM+2))
+        call my_alloc(ARRAY, NB_RANDOM+2, "ARRAY")
         CALL RANDOM_NUMBER(ARRAY)
 C
         ! Build normal distribution
@@ -393,9 +394,9 @@ c
         IF(SEED_RANDOM == 1) WRITE (IOUT,2100) SEED
         WRITE(IOUT,*) ' '
         WRITE(IOUT,*) ' '
-        IF (ALLOCATED(ARRAY)) DEALLOCATE(ARRAY)        
+        IF (ALLOCATED(ARRAY)) CALL MY_DEALLOC(ARRAY)
       ENDDO
-      DEALLOCATE(TAB_PART)      
+      CALL MY_DEALLOC(TAB_PART)
 C-------------------------------------------------------------
  1000 FORMAT(/' PERTURBATION  ID',I10/
      +        ' ---------------'/

@@ -1042,6 +1042,8 @@ C
      6                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
      .                     VQ  ,JFT  ,JLT  ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -1073,8 +1075,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: P,KE
 C-------------------------------------------------------------
-        ALLOCATE(P(24,24,MVSIZ))
-        ALLOCATE(KE(24,24,MVSIZ))
+        call my_alloc(P, 24, 24, MVSIZ, "P")
+        call my_alloc(KE, 24, 24, MVSIZ, "KE")
 
 C---Save Mij(3,3) prevent singularity-----
         DO EP=JFT,JLT 
@@ -1521,8 +1523,8 @@ C---prevent singularity-----
         CALL CZTRANK33(JFT   ,JLT  ,VQ  ,MZ24,M24 ,IAS) 
         CALL CZTRANK33(JFT   ,JLT  ,VQ  ,MZ34,M34 ,IAS) 
 C-----------
-        DEALLOCATE(P)
-        DEALLOCATE(KE)
+        call my_dealloc(P)
+        call my_dealloc(KE)
       RETURN
       END
 !||====================================================================
@@ -1600,6 +1602,8 @@ C
 !||====================================================================
       SUBROUTINE TRANQIKQJ(JFT   ,JLT    ,VQI   ,KK,VQJ ,ND ,ISYM) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -1615,7 +1619,7 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: KD
 C--------------QI^tKKQJ---------------------------------
-        ALLOCATE(KD(ND,ND,MVSIZ))
+        call my_alloc(KD, ND, ND, MVSIZ, "KD")
        IF (ISYM==1) THEN
         DO I=1,ND 
         DO J=I,ND 
@@ -1661,7 +1665,7 @@ C
         ENDDO
        ENDIF
 C       
-        DEALLOCATE(KD)
+        call my_dealloc(KD)
       RETURN
       END
 !||====================================================================
@@ -1837,6 +1841,8 @@ C
      7                     DRZ   ,RZ1     ,RZ2   ,RZ3     ,RZ4    ,
      .                     VQ  ,JFT  ,JLT  ,QN1 ,QN2 ,QN3 ,QN4 ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -1867,8 +1873,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: P,KE
 C-------------------------------------------------------------
-        ALLOCATE(P(24,24,MVSIZ))
-        ALLOCATE(KE(24,24,MVSIZ))
+        call my_alloc(P, 24, 24, MVSIZ, "P")
+        call my_alloc(KE, 24, 24, MVSIZ, "KE")
 C-----------P11Q---------
        CALL TRANQIKQJ67(JFT   ,JLT    ,R1  ,DR , R1 ,KL, IS) 
        CALL TRANKL1(JFT   ,JLT    ,KL  ,IS ) 
@@ -2295,8 +2301,8 @@ C-----------K34
         ENDDO
         ENDDO
 C-----------
-        DEALLOCATE(P)
-        DEALLOCATE(KE)
+        call my_dealloc(P)
+        call my_dealloc(KE)
       RETURN
       END
 !||====================================================================
@@ -2494,6 +2500,8 @@ C
      6                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
      .                     VQ  ,JFT  ,JLT  ,QN1 ,QN2 ,QN3 ,QN4 ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -2524,8 +2532,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: P,KE
 C-------------------------------------------------------------
-        ALLOCATE(P(24,24,MVSIZ))
-        ALLOCATE(KE(24,24,MVSIZ))
+        call my_alloc(P, 24, 24, MVSIZ, "P")
+        call my_alloc(KE, 24, 24, MVSIZ, "KE")
 
 C-----------P11=Pr11Q(QN1)
        CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R1 ,KL, IS) 
@@ -2937,8 +2945,8 @@ C-----------K34
         ENDDO
         ENDDO
 C-----------
-        DEALLOCATE(P)
-        DEALLOCATE(KE)
+        call my_dealloc(P)
+        call my_dealloc(KE)
       RETURN
       END
 !||====================================================================

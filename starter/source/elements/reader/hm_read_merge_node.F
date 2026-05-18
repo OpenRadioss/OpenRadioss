@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,9 @@ C
 C
       TOL_DEF = ZERO
       FLAG_FULL_MERGE = 0
-      ALLOCATE(TAGNOD1(NUMNOD),TAGNOD2(NUMNOD),TAGNOD_TEMP(NUMNOD))
+      call my_alloc(TAGNOD1, NUMNOD, "TAGNOD1")
+      call my_alloc(TAGNOD2, NUMNOD, "TAGNOD2")
+      call my_alloc(TAGNOD_TEMP, NUMNOD, "TAGNOD_TEMP")
       TAGNOD1(1:NUMNOD) = 0
       TAGNOD2(1:NUMNOD) = 0
 C
@@ -194,7 +197,9 @@ C
 C
       ENDDO
 C
-      DEALLOCATE(TAGNOD1,TAGNOD2,TAGNOD_TEMP)
+      CALL MY_DEALLOC(TAGNOD1)
+      CALL MY_DEALLOC(TAGNOD2)
+      CALL MY_DEALLOC(TAGNOD_TEMP)
 C
 C-----------
       RETURN

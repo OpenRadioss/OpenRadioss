@@ -88,9 +88,9 @@ C=======================================================================
       NFACES = 6  ! HEXA_8
       IF (NUMELS > NUMELS8) NFACES = 16 ! TETRA_10
 !
-      ALLOCATE(BUFTMPSURF(SZELMAX*NFACES*6))
-      ALLOCATE(ITRI(5,SZELMAX*NFACES))
-      ALLOCATE(INDEX(2*SZELMAX*NFACES))
+      call my_alloc(BUFTMPSURF, SZELMAX*NFACES*6, "BUFTMPSURF")
+      call my_alloc(ITRI, 5, SZELMAX*NFACES, "ITRI")
+      call my_alloc(INDEX, 2*SZELMAX*NFACES, "INDEX")
 !
       IAD_SURF = 1
 !------------------
@@ -137,7 +137,7 @@ C=======================================================================
 ! ----------------------------------------------------------------------------
       IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
         DELBUF%SZ_SURF = NSEG
-        ALLOCATE(DELBUF%SURF(NSEG,6))
+        call my_alloc(DELBUF%SURF, NSEG, 6, "DELBUF%SURF")
         DO L=1,NSEG
           DELBUF%SURF(L,1) = BUFTMPSURF((INDEX(L)-1)*NIX+1)
           DELBUF%SURF(L,2) = BUFTMPSURF((INDEX(L)-1)*NIX+2)
@@ -147,14 +147,14 @@ C=======================================================================
           DELBUF%SURF(L,6) = BUFTMPSURF((INDEX(L)-1)*NIX+6)
         ENDDO
       ELSE
-        IF (ALLOCATED(CLAUSE%SURF_NODES)) DEALLOCATE(CLAUSE%SURF_NODES)
-        IF (ALLOCATED(CLAUSE%SURF_ELTYP)) DEALLOCATE(CLAUSE%SURF_ELTYP)
-        IF (ALLOCATED(CLAUSE%SURF_ELEM))  DEALLOCATE(CLAUSE%SURF_ELEM)
+        IF (ALLOCATED(CLAUSE%SURF_NODES)) CALL MY_DEALLOC(CLAUSE%SURF_NODES)
+        IF (ALLOCATED(CLAUSE%SURF_ELTYP)) CALL MY_DEALLOC(CLAUSE%SURF_ELTYP)
+        IF (ALLOCATED(CLAUSE%SURF_ELEM))  CALL MY_DEALLOC(CLAUSE%SURF_ELEM)
 !
         CLAUSE%NB_SURF_SEG = NSEG
-        CALL MY_ALLOC(CLAUSE%SURF_NODES,NSEG,4)
-        CALL MY_ALLOC(CLAUSE%SURF_ELTYP,NSEG)
-        CALL MY_ALLOC(CLAUSE%SURF_ELEM,NSEG)
+        CALL MY_ALLOC(CLAUSE%SURF_NODES,NSEG,4,"CLAUSE%SURF_NODES")
+        CALL MY_ALLOC(CLAUSE%SURF_ELTYP,NSEG,"CLAUSE%SURF_ELTYP")
+        CALL MY_ALLOC(CLAUSE%SURF_ELEM,NSEG,"CLAUSE%SURF_ELEM")
 !
         DO L=1,NSEG
           CLAUSE%SURF_NODES(L,1) = BUFTMPSURF((INDEX(L)-1)*NIX+1)
@@ -166,9 +166,9 @@ C=======================================================================
         ENDDO
       ENDIF ! IF (GO_IN_ARRAY .EQV. .TRUE.)
 !------------------
-      IF(ALLOCATED(ITRI))       DEALLOCATE(ITRI)
-      IF(ALLOCATED(INDEX))      DEALLOCATE(INDEX)
-      IF(ALLOCATED(BUFTMPSURF)) DEALLOCATE(BUFTMPSURF)
+      IF(ALLOCATED(ITRI))       CALL MY_DEALLOC(ITRI)
+      IF(ALLOCATED(INDEX))      CALL MY_DEALLOC(INDEX)
+      IF(ALLOCATED(BUFTMPSURF)) CALL MY_DEALLOC(BUFTMPSURF)
 C-----------
 !-----------
       RETURN

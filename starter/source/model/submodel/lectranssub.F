@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,26 +104,26 @@ C-----------------------------------------------
       INTEGER  NGR2USR,USRTOS
       EXTERNAL NGR2USR,USRTOS
 C=======================================================================
-      ALLOCATE(TAGNODSUB(NUMNOD))
+      call my_alloc(TAGNODSUB, NUMNOD, "TAGNODSUB")
       ISU = 0
       TAGNODSUB = 0
       NUMNUSR = 0
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_COUNT(NUMNUSR)
-        ALLOCATE( INDEX(2*NUMNUSR) )
+        call my_alloc(INDEX, 2*NUMNUSR, "INDEX")
         DO I=1,2*NUMNUSR
          INDEX(I)=I
         ENDDO
-        ALLOCATE( INDEX1(2*NUMNOD) )
+        call my_alloc(INDEX1, 2*NUMNOD, "INDEX1")
         DO I=1,2*NUMNOD
          INDEX1(I)=I
         ENDDO
-        ALLOCATE( TAGNODSUB_TMP(NUMNUSR) )
+        call my_alloc(TAGNODSUB_TMP, NUMNUSR, "TAGNODSUB_TMP")
         DO I=1,NUMNUSR
          TAGNODSUB_TMP(I)=I
         ENDDO
-        ALLOCATE( IDNODSUB(NUMNUSR) )
+        call my_alloc(IDNODSUB, NUMNUSR, "IDNODSUB")
         DO I=1,NUMNUSR
          IDNODSUB(I)=I
         ENDDO 
@@ -795,13 +796,13 @@ C----
       ENDDO
 C-------------------------
       IF(IS_DYNA /= 0)THEN
-        IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-        IF (ALLOCATED(INDEX1)) DEALLOCATE(INDEX1)
-        IF (ALLOCATED(TAGNODSUB_TMP)) DEALLOCATE(TAGNODSUB_TMP)
-        IF (ALLOCATED(IDNODSUB)) DEALLOCATE(IDNODSUB)
+        IF (ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+        IF (ALLOCATED(INDEX1)) CALL MY_DEALLOC(INDEX1)
+        IF (ALLOCATED(TAGNODSUB_TMP)) CALL MY_DEALLOC(TAGNODSUB_TMP)
+        IF (ALLOCATED(IDNODSUB)) CALL MY_DEALLOC(IDNODSUB)
       ENDIF
 C-----------------------
-      DEALLOCATE(TAGNODSUB)
+      CALL MY_DEALLOC(TAGNODSUB)
       RETURN
 C-----------------------
  100  FORMAT(//

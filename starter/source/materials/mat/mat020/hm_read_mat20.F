@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTIMAT_PARAM_MOD , ONLY : M20_DISCRETE_FILL
+      use my_alloc_mod, only : my_alloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,8 +112,12 @@ C     Material proportions
 
       ! Multimaterial data
       MATPARAM%multimat%nb = 2
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(2))
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(2))
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac)) THEN
+        call my_alloc(MATPARAM%multimat%vfrac, 2, "MATPARAM%multimat%vfrac")
+      ENDIF
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid)) THEN
+        call my_alloc(MATPARAM%multimat%mid, 2, "MATPARAM%multimat%mid")
+      ENDIF
       MATPARAM%multimat%nb = 2
       MATPARAM%multimat%vfrac(1:2) = AMAT(1:2)
       MATPARAM%multimat%mid(1:2) = MAT(1:2)

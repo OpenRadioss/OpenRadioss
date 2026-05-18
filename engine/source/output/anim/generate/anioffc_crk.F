@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -74,7 +75,7 @@ C-----------------------------------------------
       my_real  OFFG
       my_real, DIMENSION(:) ,POINTER  ::  XOFF
 C=======================================================================
-      CALL MY_ALLOC(IOFFBUF,NBF_L)
+      call my_alloc(IOFFBUF, NBF_L, "IOFFBUF")
       NEL_CRK = 0
 C
       DO CRKS = 1,NCRKPART
@@ -179,6 +180,6 @@ C
         END IF
       ENDIF
 C-----------
-      DEALLOCATE(IOFFBUF)
+      call my_dealloc(IOFFBUF)
       RETURN
       END

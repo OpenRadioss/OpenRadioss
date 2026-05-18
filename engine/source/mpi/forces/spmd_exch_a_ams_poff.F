@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C--------------------------------------
       USE H3D_MOD
       USE GLOB_THERM_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE(SAV_A(SIZE+NFACNIT+LENC,NB_FR))
+      call my_alloc(SAV_A, SIZE+NFACNIT+LENC, NB_FR, "SAV_A")
       SHIFT=0
       
       LOC_PROC = ISPMD + 1
@@ -470,7 +471,7 @@ C
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
-      DEALLOCATE(SAV_A)
+      call my_dealloc(SAV_A)
 C
 #endif
       RETURN

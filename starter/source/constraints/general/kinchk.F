@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD, ONLY : FMW_A_I_A, FMW_10I
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,9 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------------------------
-      ALLOCATE(NKINDOUBLE(NUMNOD),NKIN(NUMNOD),IKRW(NUMNOD))
+      call my_alloc(NKINDOUBLE, NUMNOD, "NKINDOUBLE")
+      call my_alloc(NKIN, NUMNOD, "NKIN")
+      call my_alloc(IKRW, NUMNOD, "IKRW")
       MARQ2  = 0
       MARQM2 = 0
 C=======================================================================
@@ -1167,7 +1170,9 @@ C reset flag impact / wall
 ccc        IF(IWL(IKINE(I))==1)IKINE(I) = IKINE(I) - 4
         KINET(I)=IKINE(I)
       ENDDO
-      DEALLOCATE(NKINDOUBLE,NKIN,IKRW)
+      CALL MY_DEALLOC(NKINDOUBLE)
+      CALL MY_DEALLOC(NKIN)
+      CALL MY_DEALLOC(IKRW)
 
 C
 Cls
@@ -1419,6 +1424,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1448,7 +1454,7 @@ C     REAL
 C======================================================================|
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(3,6,MAX_M))
+      call my_alloc(FDSTNB, 3, 6, MAX_M, "FDSTNB")
       IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -1493,7 +1499,7 @@ C======================================================================|
         ENDIF
       ENDDO
 C
-      DEALLOCATE(FDSTNB)
+      CALL MY_DEALLOC(FDSTNB)
       IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN

@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
         USE GROUPDEF_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C-----------------------------------------------
         LEN_IA = LEN_IA + NSURF
 !
         ERR = 0
-        ALLOCATE (IGRSURF_L(LENISURF_L), STAT=ERR)
+        call my_alloc(IGRSURF_L, LENISURF_L, "IGRSURF_L", stat=ERR)
 !
 ! COUNT LOCAL SEGMENTS "NSEG_L"
 !
@@ -166,7 +167,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(IGRSURF_L,L_SURF)
 !---------
-      DEALLOCATE (IGRSURF_L)
+      CALL MY_DEALLOC(IGRSURF_L)
 !---------
       LEN_IA = LEN_IA + L_SURF
 !---------

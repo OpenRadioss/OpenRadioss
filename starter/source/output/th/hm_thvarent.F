@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -71,6 +72,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       ! Tag must start from 0
       ALLOCATE(TAG(0:NV))
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
       NVAR=0
       TRU=1
       
@@ -135,7 +138,7 @@ C SELECTED VARIABLES SAVED
         ENDIF 
       ENDDO
 
-      DEALLOCATE(TAG)
+      call my_dealloc(TAG)
 
       RETURN
       END

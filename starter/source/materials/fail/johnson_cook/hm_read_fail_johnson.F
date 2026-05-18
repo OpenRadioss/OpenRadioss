@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,10 +153,10 @@ c----------------------------------
       FAIL%NMOD    = 0
       FAIL%PTHK    = PTHKF
 c            
-      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
-      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
-      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
-      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
+      call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
+      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
+      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
 c
       FAIL%UPARAM(1) = D1
       FAIL%UPARAM(2) = D2

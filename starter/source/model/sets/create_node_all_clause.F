@@ -43,6 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_NODE = NUMNOD
-      ALLOCATE( CLAUSE%NODE( NUMNOD ) )
+      call my_alloc(CLAUSE%NODE, NUMNOD, "CLAUSE%NODE")
 
       DO I=1,NUMNOD
         CLAUSE%NODE(I) = I

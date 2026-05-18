@@ -109,8 +109,8 @@ C-----------------------------------------------
       DATA ZZ /'ZZ'/
       DATA MESS/'IMPOSED DISPLACEMENT DEFINITION  '/
 C======================================================================|
-      CALL MY_ALLOC(IKINE1,3*NUMNOD)
-      CALL MY_ALLOC(NODENUM,NFXVEL)
+      CALL MY_ALLOC(IKINE1,3*NUMNOD,"IKINE1")
+      CALL MY_ALLOC(NODENUM,NFXVEL,"NODENUM")
 c
       IS_AVAILABLE = .FALSE.
 c
@@ -349,8 +349,8 @@ c
 c
       ENDDO ! DO I=1,NFDISP
 c
-      DEALLOCATE(IKINE1)
-      DEALLOCATE(NODENUM)
+      CALL MY_DEALLOC(IKINE1)
+      CALL MY_DEALLOC(NODENUM)
 c
 c--------------------------------------------------
  1000 FORMAT(//

@@ -149,12 +149,12 @@ C--------------------------------------------------
         SUBSET(ISU)%NPART  = 0
         SUBSET(ISU)%NCHILD = NSU
         SUBSET(ISU)%TH_FLAG = 0
-        CALL MY_ALLOC(SUBSET(ISU)%NVARTH,10) 
+        CALL MY_ALLOC(SUBSET(ISU)%NVARTH,10,"SUBSET(ISU)%NVARTH")
 c        /iTH , i=A,,B, ... I 
 c     (  /iTH --> 9 additional time history files + 1 for /TH )
         SUBSET(ISU)%NVARTH(1:10) = 0
         SUBSET(ISU)%THIAD = 0
-        CALL MY_ALLOC(SUBSET(ISU)%CHILD,NSU)
+        CALL MY_ALLOC(SUBSET(ISU)%CHILD,NSU,"SUBSET(ISU)%CHILD")
         DO K=1,NSU
           SUBSET(ISU)%CHILD(K) = 0
         ENDDO
@@ -229,7 +229,7 @@ c
       SUBSET(NSUBS)%NCHILD = 0
       SUBSET(NSUBS)%NPART  = 0
       SUBSET(NSUBS)%TH_FLAG = 0
-      CALL MY_ALLOC(SUBSET(NSUBS)%NVARTH,10) !  /iTH , i=A,,B, ... I 
+      CALL MY_ALLOC(SUBSET(NSUBS)%NVARTH,10,"SUBSET%NVARTH") !  /iTH , i=A,,B, ... I 
 !     (  /iTH --> 9 additional time history files + 1 for /TH )
       SUBSET(NSUBS)%NVARTH(1:10) = 0
       SUBSET(NSUBS)%THIAD = 0
@@ -244,7 +244,7 @@ c
       ENDDO
 !==================================================
       SUBSET(NSUBS)%NCHILD = NSU
-      CALL MY_ALLOC(SUBSET(NSUBS)%CHILD,NSU)
+      CALL MY_ALLOC(SUBSET(NSUBS)%CHILD,NSU,"SUBSET(NSUBS)%CHILD")
       DO I=1,NSU
         SUBSET(NSUBS)%CHILD(I) = BUFTMP(I)
       ENDDO
@@ -264,7 +264,7 @@ C-------------------------------------
           ENDIF
         ENDDO
         SUBSET(ISU)%NPART = NP   
-        CALL MY_ALLOC(SUBSET(ISU)%PART,NP)
+        CALL MY_ALLOC(SUBSET(ISU)%PART,NP,"SUBSET(ISU)%PART")
         DO K=1,NP
           SUBSET(ISU)%PART(K) = BUFTMP(K) 
         ENDDO
@@ -314,7 +314,7 @@ C-------------------------------------
           NC = SUBLVL(SUBSET,NSUBS,ISU,NTP,BUFTMP)               
         ENDDO
         SUBSET(ISU)%NTPART = NTP
-        CALL MY_ALLOC(SUBSET(ISU)%TPART,NTP)
+        CALL MY_ALLOC(SUBSET(ISU)%TPART,NTP,"SUBSET(ISU)%TPART")
         DO I=1,NTP
           SUBSET(ISU)%TPART(I) = BUFTMP(I)
         ENDDO

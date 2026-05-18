@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,9 +117,9 @@ c
       SENSOR_PTR%NPARR  = NPARRS
       SENSOR_PTR%NVAR   = NVAR
 c
-      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
-      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
-      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      call my_alloc(SENSOR_PTR%IPARAM, NPARIS, "SENSOR_PTR%IPARAM")
+      call my_alloc(SENSOR_PTR%RPARAM, NPARRS, "SENSOR_PTR%RPARAM")
+      call my_alloc(SENSOR_PTR%VAR, NVAR, "SENSOR_PTR%VAR")
       SENSOR_PTR%VAR(:) = ZERO
 
       SENSOR_PTR%IPARAM(1) = RWALL_ID

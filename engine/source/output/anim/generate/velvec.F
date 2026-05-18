@@ -41,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -131,7 +132,7 @@ C
        IF (NSPMD == 1) THEN 
          IF (NFNOD_PXFEM>0) THEN
             IF(IFUNC == 1) THEN    
-              ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
+              call my_alloc(PLYVELVEC, 3, NFNOD_PXFEM, "PLYVELVEC")
               DO JJ =1,NPLYPART
                IPLY = INDX(JJ) 
                DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
@@ -144,10 +145,10 @@ C
                ENDDO  
               ENDDO  
               CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
-              DEALLOCATE(PLYVELVEC)
+              call my_dealloc(PLYVELVEC)
 C
             ELSEIF(IFUNC == 2)THEN
-              ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
+              call my_alloc(PLYVELVEC, 3, NFNOD_PXFEM, "PLYVELVEC")
               DO JJ =1,NPLYPART
                  IPLY = INDX(JJ)              
                  DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
@@ -160,10 +161,10 @@ C
                  ENDDO  
                ENDDO  
                CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
-               DEALLOCATE(PLYVELVEC)
+               call my_dealloc(PLYVELVEC)
 
             ELSEIF(IFUNC == 3) THEN
-                ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
+                call my_alloc(PLYVELVEC, 3, NFNOD_PXFEM, "PLYVELVEC")
                 DO JJ =1,NPLYPART
                   IPLY = INDX(JJ) 
                   DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
@@ -176,7 +177,7 @@ C
                  ENDDO  
                ENDDO 
                CALL WRITE_R_C(PLYVELVEC(1,1),3*NFNOD_PXFEM)
-               DEALLOCATE(PLYVELVEC)
+               call my_dealloc(PLYVELVEC)
             ELSE 
                R4 = ZERO
                DO I=1,NFNOD_PXFEM
@@ -274,9 +275,9 @@ C----------------------------------------------
       my_real, DIMENSION(:,:),ALLOCATABLE :: V
       INTEGER LOC_PROC,PMAIN
 C=======================================================================
-      CALL MY_ALLOC(RWA,3,NSECT)
-      CALL MY_ALLOC(RWAL,3,NRWALL)
-      CALL MY_ALLOC(V,3,NUMNOD)
+      call my_alloc(RWA, 3, NSECT, "RWA")
+      call my_alloc(RWAL, 3, NRWALL, "RWAL")
+      call my_alloc(V, 3, NUMNOD, "V")
       LOC_PROC = ISPMD + 1
 C
       DO I=1,NUMNOD
@@ -469,9 +470,9 @@ c----------------------------
       ENDIF
  300  CONTINUE
 C-----------
-      DEALLOCATE(RWA)
-      DEALLOCATE(RWAL)
-      DEALLOCATE(V)
+      call my_dealloc(RWA)
+      call my_dealloc(RWAL)
+      call my_dealloc(V)
       RETURN
       END
 
@@ -519,7 +520,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       REAL, DIMENSION(:,:), ALLOCATABLE :: VG
 C-----------------------------------------------
-      CALL MY_ALLOC(VG,3,NUMNODG)
+      call my_alloc(VG, 3, NUMNODG, "VG")
       S3000 = 3000.
       S     = ZERO
 
@@ -628,7 +629,7 @@ c----------------------------
         ENDIF
       ENDIF!(ISPMD==0) 
 c----------------------------  
-      DEALLOCATE(VG)
+      call my_dealloc(VG)
       RETURN
       END
 
@@ -646,6 +647,7 @@ c----------------------------
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -695,7 +697,7 @@ C
         ENDDO
        ENDIF
       ELSE
-        ALLOCATE(V_TMP(3,NUMNODG))
+        call my_alloc(V_TMP, 3, NUMNODG, "V_TMP")
         DO I=1,NUMNODG
            V_TMP(1,I) =VG21(1,I)
            V_TMP(2,I) =VG21(2,I)
@@ -721,7 +723,7 @@ C
              CALL WRITE_R_C(R4,1)
           ENDDO
         ENDIF
-        DEALLOCATE(V_TMP)
+        call my_dealloc(V_TMP)
       ENDIF
 C
 C option non parallelisee !
@@ -956,7 +958,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: VGLOBAL
 C-----------------------------------------------
-      CALL MY_ALLOC(VGLOBAL,3,NUMNOD)
+      call my_alloc(VGLOBAL, 3, NUMNOD, "VGLOBAL")
       S3000 = 3000.
       S = 0.
 C
@@ -1043,7 +1045,7 @@ c----------------------------
       ENDIF
 C-------------
  300  CONTINUE
-      DEALLOCATE(VGLOBAL)
+      call my_dealloc(VGLOBAL)
       RETURN
       END
 
@@ -1086,6 +1088,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1114,7 +1117,7 @@ C-----------------------------------------------
        NBL = NB                                                                                                                                      
        NIN = 1              
        !---------------------------------------------------------!  
-       ALLOCATE(BUFFER(3,NUMNOD))
+       call my_alloc(BUFFER, 3, NUMNOD, "BUFFER")
        BUFFER(:,:)           = ZERO  
              
        DO IB=NBF,NBL    
@@ -1187,7 +1190,7 @@ C-----------------------------------------------
          CALL WRITE_R_C(R4,1)
        ENDDO!next I
           
-       DEALLOCATE(BUFFER)   
+       call my_dealloc(BUFFER)
       !---------------------------------------------------------! 
 
       RETURN

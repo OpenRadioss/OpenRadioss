@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE SENSOR_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -139,15 +140,21 @@ C
 
       ! Allocation done once for all
       IF(.NOT. ALLOCATED(PROC_LIST)) THEN
-        ALLOCATE(PROC_LIST(NSPMD) )
-        ALLOCATE(ICOMM2(NSPMD), REQ_SEND_SIZ(NSPMD), REQ_SEND_MSG(NSPMD))
-        ALLOCATE(REQ_RECV_SIZ(NSPMD), REQ_RECV_MSG(NSPMD))
-        ALLOCATE(IRCOM(NSPMD), ISCOM(NSPMD), ISCOMS(NSPMD))
+        call my_alloc(PROC_LIST, NSPMD, "PROC_LIST")
+        call my_alloc(ICOMM2, NSPMD, "ICOMM2")
+        call my_alloc(REQ_SEND_SIZ, NSPMD, "REQ_SEND_SIZ")
+        call my_alloc(REQ_SEND_MSG, NSPMD, "REQ_SEND_MSG")
+        call my_alloc(REQ_RECV_SIZ, NSPMD, "REQ_RECV_SIZ")
+        call my_alloc(REQ_RECV_MSG, NSPMD, "REQ_RECV_MSG")
+        call my_alloc(IRCOM, NSPMD, "IRCOM")
+        call my_alloc(ISCOM, NSPMD, "ISCOM")
+        call my_alloc(ISCOMS, NSPMD, "ISCOMS")
         ALLOCATE(SIZBUF_R(NSPMD))
         ALLOCATE(SIZBUF_S(NSPMD))
         ALLOCATE(MSGBUF_R(NSPMD))
         ALLOCATE(MSGBUF_S(NSPMD))
-        ALLOCATE(ICOMM2_SEND(NSPMD),ICOMM2_RCV(NSPMD))
+        call my_alloc(ICOMM2_SEND, NSPMD, "ICOMM2_SEND")
+        call my_alloc(ICOMM2_RCV, NSPMD, "ICOMM2_RCV")
 c       ALLOCATE(MSGBUF_S_LEN(NSPMD))
 c       MSGBUF_S_LEN(1:NSPMD) = 0
 c       ALLOCATE(MSGBUF_R_LEN(NSPMD))
@@ -429,7 +436,7 @@ C MAJ STRUCTURES D ECHANGES
 C interface retriee ?
         IF(NEWFRONT(NIN)==2) THEN
           IDEB = 0
-          IF(ASSOCIATED(NSVSI(NIN)%P))DEALLOCATE(NSVSI(NIN)%P)
+          IF(ASSOCIATED(NSVSI(NIN)%P)) call my_dealloc(NSVSI(NIN)%P)
           LEN = 0
           DO P = 1, NSPMD
             LEN = LEN + NSNSI(NIN)%P(P)
@@ -451,7 +458,7 @@ C test if proc has sent something
 C
           IF(IPARI(7,NIN) == 20 .OR. (IPARI(7,NIN) == 25.AND. IPARI(58,NIN) > 0) )THEN
             IDEB = 0
-            IF(ASSOCIATED(NSVSIE(NIN)%P))DEALLOCATE(NSVSIE(NIN)%P)
+            IF(ASSOCIATED(NSVSIE(NIN)%P)) call my_dealloc(NSVSIE(NIN)%P)
             LEN = 0
             DO P = 1, NSPMD
               LEN = LEN + NSNSIE(NIN)%P(P)
@@ -478,11 +485,11 @@ C               WRITE(6,*) __FILE__,ISPMD,"SEND",P-1,LEN
 C Waiting for message reception
       DO P = 1, NSPMD
         IF(IRCOM(P)>0) THEN
-          DEALLOCATE(MSGBUF_R(P)%P)
+          call my_dealloc(MSGBUF_R(P)%P)
         ENDIF
         IF(ISCOM(P)>0) THEN
           CALL MPI_WAIT(REQ_SEND_MSG(P),STATUS,IERROR)
-          DEALLOCATE(MSGBUF_S(P)%P)
+          call my_dealloc(MSGBUF_S(P)%P)
         ENDIF   
       ENDDO
 
@@ -737,7 +744,7 @@ C
 C interface stripped with sub-interfaces ?
           IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +       IPARI(7,NIN)/=17) THEN
-            IF(ASSOCIATED(LISUBSFI(NIN)%P))DEALLOCATE(LISUBSFI(NIN)%P)
+            IF(ASSOCIATED(LISUBSFI(NIN)%P)) call my_dealloc(LISUBSFI(NIN)%P)
             LEN = 0
             DO P = 1, NSPMD
               LEN = LEN + NISUBSFI(NIN)%P(P)
@@ -746,12 +753,11 @@ C interface stripped with sub-interfaces ?
             IF(.TRUE.) THEN
               ALLOCATE(LISUBSFI(NIN)%P(LEN))
               IF(IPARI(7,NIN) == 7.OR.IPARI(7,NIN) == 11.OR.IPARI(7,NIN) == 24.OR.IPARI(7,NIN) == 25) THEN
-                IF(ASSOCIATED(INFLG_SUBSFI(NIN)%P))DEALLOCATE(INFLG_SUBSFI(NIN)%P)
+                IF(ASSOCIATED(INFLG_SUBSFI(NIN)%P)) call my_dealloc(INFLG_SUBSFI(NIN)%P)
                 ALLOCATE(INFLG_SUBSFI(NIN)%P(LEN))
               END IF
               LEN = 1
-              IF(ASSOCIATED(ADDSUBSFI(NIN)%P))
-     .          DEALLOCATE(ADDSUBSFI(NIN)%P)
+              IF(ASSOCIATED(ADDSUBSFI(NIN)%P)) call my_dealloc(ADDSUBSFI(NIN)%P)
               DO P = 1, NSPMD
                 LEN = LEN + NSNFI(NIN)%P(P)
               END DO
@@ -788,7 +794,7 @@ C interface stripped with sub-interfaces ?
             END IF
             IF(IPARI(7,NIN) == 25 .AND. IPARI(58,NIN) > 0) THEN
               !type 25 edge part
-              IF(ASSOCIATED(LISUBSFIE(NIN)%P))DEALLOCATE(LISUBSFIE(NIN)%P)
+              IF(ASSOCIATED(LISUBSFIE(NIN)%P)) call my_dealloc(LISUBSFIE(NIN)%P)
               LEN = 0
               DO P = 1, NSPMD
                 LEN = LEN + NISUBSFIE(NIN)%P(P)
@@ -798,11 +804,11 @@ C             WRITE(6,*) NIN,"SIZE LISUBSFIE=",LEN
               IF(.TRUE.) THEN
                 ALLOCATE(LISUBSFIE(NIN)%P(LEN))
                 IF(IPARI(7,NIN)==25)THEN
-                  IF(ASSOCIATED(INFLG_SUBSFIE(NIN)%P))DEALLOCATE(INFLG_SUBSFIE(NIN)%P)
+                  IF(ASSOCIATED(INFLG_SUBSFIE(NIN)%P)) call my_dealloc(INFLG_SUBSFIE(NIN)%P)
                   ALLOCATE(INFLG_SUBSFIE(NIN)%P(LEN))
                 END IF
                 LEN = 1
-                IF(ASSOCIATED(ADDSUBSFIE(NIN)%P))  DEALLOCATE(ADDSUBSFIE(NIN)%P)
+                IF(ASSOCIATED(ADDSUBSFIE(NIN)%P)) call my_dealloc(ADDSUBSFIE(NIN)%P)
                 DO P = 1, NSPMD
                   LEN = LEN + NSNFIE(NIN)%P(P)
                 END DO
@@ -846,10 +852,10 @@ C
         DO P = 1, NSPMD
           IF(IRCOM(P)>0) THEN
             CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
-            DEALLOCATE(MSGBUF_S(P)%P)
+            call my_dealloc(MSGBUF_S(P)%P)
           END IF
           IF(ISCOM(P)>0) THEN
-            DEALLOCATE(MSGBUF_R(P)%P)
+            call my_dealloc(MSGBUF_R(P)%P)
           END IF
         END DO
 C

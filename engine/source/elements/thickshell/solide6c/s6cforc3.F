@@ -123,6 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -371,7 +372,7 @@ C=======================================================================
       IS = 1
       IT = 1
       INLOC = IPARG(78,NG)
-      ALLOCATE(VAR_REG(NEL,NLAY))
+      call my_alloc(VAR_REG, NEL, NLAY, "VAR_REG")
       SZ_R1_FREE=MVSIZ
       SZ_IX=NUMELQ+NUMELS+NSVOIS
 C-----------

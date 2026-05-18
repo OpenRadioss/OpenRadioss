@@ -70,6 +70,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         use init_hashtable_for_neighbour_segment_mod , only : init_hashtable_for_neighbour_segment
         use get_hashtable_for_neighbour_segment_mod , only : get_hashtable_for_neighbour_segment
         use element_mod , only : nixs,nixc,nixq,nixt,nixp,nixr,nixtg
+       use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -197,8 +199,8 @@ C-----------------------------------------------
 
         !   SHIFT_S_NODE(i) = index to INTER_SEC_NODE/SEC_NODE_ID for node_id = i
         !   SHIFT_S_NODE(i+1) - SHIFT_S_NODE(i) = number of interface per node
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE(NUMNOD+1) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE) ) call my_dealloc(SHOOT_STRUCT%SHIFT_S_NODE)
+        call my_alloc(SHOOT_STRUCT%SHIFT_S_NODE, NUMNOD+1, "SHOOT_STRUCT%SHIFT_S_NODE")
         SHOOT_STRUCT%SHIFT_S_NODE(1:NUMNOD+1) = 0
         DO NIN=1,NINTER
           ITY = IPARI(7,NIN)  ! interface id
@@ -223,13 +225,13 @@ C-----------------------------------------------
         SHOOT_STRUCT%SIZE_SEC_NODE = SHOOT_STRUCT%SHIFT_S_NODE(NUMNOD+1)
 
         ! allocation
-        IF(ALLOCATED(SHOOT_STRUCT%INTER_SEC_NODE) )DEALLOCATE( SHOOT_STRUCT%INTER_SEC_NODE )
-        ALLOCATE( SHOOT_STRUCT%INTER_SEC_NODE(SHOOT_STRUCT%SIZE_SEC_NODE) )
-        IF(ALLOCATED(SHOOT_STRUCT%SEC_NODE_ID) )DEALLOCATE( SHOOT_STRUCT%SEC_NODE_ID )
-        ALLOCATE( SHOOT_STRUCT%SEC_NODE_ID(SHOOT_STRUCT%SIZE_SEC_NODE) )
+        IF(ALLOCATED(SHOOT_STRUCT%INTER_SEC_NODE) ) call my_dealloc(SHOOT_STRUCT%INTER_SEC_NODE)
+        call my_alloc(SHOOT_STRUCT%INTER_SEC_NODE, SHOOT_STRUCT%SIZE_SEC_NODE, "SHOOT_STRUCT%INTER_SEC_NODE")
+        IF(ALLOCATED(SHOOT_STRUCT%SEC_NODE_ID) ) call my_dealloc(SHOOT_STRUCT%SEC_NODE_ID)
+        call my_alloc(SHOOT_STRUCT%SEC_NODE_ID, SHOOT_STRUCT%SIZE_SEC_NODE, "SHOOT_STRUCT%SEC_NODE_ID")
 
 
-        ALLOCATE( WORK_ARRAY(NUMNOD) )
+        call my_alloc(WORK_ARRAY, NUMNOD, "WORK_ARRAY")
         WORK_ARRAY(1:NUMNOD) = 0
         DO NIN=1,NINTER
           ITY = IPARI(7,NIN)
@@ -249,15 +251,15 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 
-        DEALLOCATE( WORK_ARRAY )
+        call my_dealloc(WORK_ARRAY)
         ! --------------------------------
 
 
         ! --------------------------------
         ! MAIN NODES
         ! --------------------------------
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_PROC) ) DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_PROC )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_PROC(NUMNOD+1) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_PROC) ) call my_dealloc(SHOOT_STRUCT%SHIFT_M_NODE_PROC)
+        call my_alloc(SHOOT_STRUCT%SHIFT_M_NODE_PROC, NUMNOD+1, "SHOOT_STRUCT%SHIFT_M_NODE_PROC")
         SHOOT_STRUCT%SHIFT_M_NODE_PROC(2:NUMNOD+1) = 1
         SHOOT_STRUCT%SHIFT_M_NODE_PROC(1) = 0
         ! ---------------------
@@ -279,10 +281,10 @@ C-----------------------------------------------
 
         ! ---------------------
         ! compute the list of processor for each node
-        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_PROC) )DEALLOCATE( SHOOT_STRUCT%M_NODE_PROC )
-        ALLOCATE( SHOOT_STRUCT%M_NODE_PROC( SHOOT_STRUCT%SIZE_M_NODE_PROC ) )
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_PROC) ) call my_dealloc(SHOOT_STRUCT%M_NODE_PROC)
+        call my_alloc(SHOOT_STRUCT%M_NODE_PROC, SHOOT_STRUCT%SIZE_M_NODE_PROC, "SHOOT_STRUCT%M_NODE_PROC")
         SHOOT_STRUCT%M_NODE_PROC(1:SHOOT_STRUCT%SIZE_M_NODE_PROC) = -1
-        ALLOCATE( WORK_ARRAY(NUMNOD) )
+        call my_alloc(WORK_ARRAY, NUMNOD, "WORK_ARRAY")
         WORK_ARRAY(1:NUMNOD) = 0
 
         ! loop over the nodes to save the proc ID        
@@ -307,11 +309,13 @@ C-----------------------------------------------
           NB_PROC = SHOOT_STRUCT%SHIFT_M_NODE_PROC(I+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(I)
           SHOOT_STRUCT%MAX_PROC_NB = MAX(SHOOT_STRUCT%MAX_PROC_NB,NB_PROC)
           IF(NB_PROC>2) THEN
-            ALLOCATE( SORT_ARRAY(NB_PROC),PERM(NB_PROC) )
+            call my_alloc(SORT_ARRAY, NB_PROC, "SORT_ARRAY")
+            call my_alloc(PERM, NB_PROC, "PERM")
             SORT_ARRAY(1:NB_PROC) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC )
             CALL MYQSORT_INT(NB_PROC, SORT_ARRAY, PERM, MY_ERROR)
             SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC ) = SORT_ARRAY(1:NB_PROC)
-            DEALLOCATE( SORT_ARRAY,PERM )
+            call my_dealloc(SORT_ARRAY)
+            call my_dealloc(PERM)
           ELSEIF(NB_PROC==2) THEN
             IF(SHOOT_STRUCT%M_NODE_PROC(SHIFT+1)>SHOOT_STRUCT%M_NODE_PROC(SHIFT+2)) THEN
               TMP_ = SHOOT_STRUCT%M_NODE_PROC(SHIFT+2)
@@ -324,14 +328,14 @@ C-----------------------------------------------
 
         ! ---------------------
         ! compute the index for the surface/edge array
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_SURF) )DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_SURF )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_SURF(NUMNOD+1) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_SURF) ) call my_dealloc(SHOOT_STRUCT%SHIFT_M_NODE_SURF)
+        call my_alloc(SHOOT_STRUCT%SHIFT_M_NODE_SURF, NUMNOD+1, "SHOOT_STRUCT%SHIFT_M_NODE_SURF")
         SHOOT_STRUCT%SHIFT_M_NODE_SURF(1:NUMNOD+1) = 0
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_EDGE )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NUMNOD+1) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_EDGE) ) call my_dealloc(SHOOT_STRUCT%SHIFT_M_NODE_EDGE)
+        call my_alloc(SHOOT_STRUCT%SHIFT_M_NODE_EDGE, NUMNOD+1, "SHOOT_STRUCT%SHIFT_M_NODE_EDGE")
         SHOOT_STRUCT%SHIFT_M_NODE_EDGE(1:NUMNOD+1) = 0
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE_EDGE )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE_EDGE) ) call my_dealloc(SHOOT_STRUCT%SHIFT_S_NODE_EDGE)
+        call my_alloc(SHOOT_STRUCT%SHIFT_S_NODE_EDGE, NUMNOD+1, "SHOOT_STRUCT%SHIFT_S_NODE_EDGE")
         SHOOT_STRUCT%SHIFT_S_NODE_EDGE(1:NUMNOD+1) = 0
 
         DO NIN=1,NINTER
@@ -399,14 +403,14 @@ C-----------------------------------------------
           SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I+1) = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I+1) + SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I)
         ENDDO
         SHOOT_STRUCT%SIZE_M_NODE_SURF = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NUMNOD+1)
-        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_SURF) )DEALLOCATE( SHOOT_STRUCT%M_NODE_SURF )
-        ALLOCATE( SHOOT_STRUCT%M_NODE_SURF( SHOOT_STRUCT%SIZE_M_NODE_SURF) )
-        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%M_NODE_EDGE )
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_SURF) ) call my_dealloc(SHOOT_STRUCT%M_NODE_SURF)
+        call my_alloc(SHOOT_STRUCT%M_NODE_SURF, SHOOT_STRUCT%SIZE_M_NODE_SURF, "SHOOT_STRUCT%M_NODE_SURF")
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_EDGE) ) call my_dealloc(SHOOT_STRUCT%M_NODE_EDGE)
         SHOOT_STRUCT%SIZE_M_NODE_EDGE = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NUMNOD+1)
-        ALLOCATE( SHOOT_STRUCT%M_NODE_EDGE( SHOOT_STRUCT%SIZE_M_NODE_EDGE) )
+        call my_alloc(SHOOT_STRUCT%M_NODE_EDGE, SHOOT_STRUCT%SIZE_M_NODE_EDGE, "SHOOT_STRUCT%M_NODE_EDGE")
         SHOOT_STRUCT%SIZE_S_NODE_EDGE = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1)
-        IF(ALLOCATED(SHOOT_STRUCT%S_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%S_NODE_EDGE )
-        ALLOCATE( SHOOT_STRUCT%S_NODE_EDGE( SHOOT_STRUCT%SIZE_S_NODE_EDGE) )
+        IF(ALLOCATED(SHOOT_STRUCT%S_NODE_EDGE) ) call my_dealloc(SHOOT_STRUCT%S_NODE_EDGE)
+        call my_alloc(SHOOT_STRUCT%S_NODE_EDGE, SHOOT_STRUCT%SIZE_S_NODE_EDGE, "SHOOT_STRUCT%S_NODE_EDGE")
         ! ---------------------
         ! compute the max number of surface/edge
         SHOOT_STRUCT%MAX_SURF_NB = 0
@@ -423,14 +427,14 @@ C-----------------------------------------------
         ! ---------------------
         ! save the surface/edge ID for each node
         WORK_ARRAY(1:NUMNOD) = 0
-        ALLOCATE( WORK_ARRAY_2(NUMNOD) )
+        call my_alloc(WORK_ARRAY_2, NUMNOD, "WORK_ARRAY_2")
         WORK_ARRAY_2(1:NUMNOD) = 0
-        ALLOCATE( WORK_ARRAY_3(NUMNOD) )
+        call my_alloc(WORK_ARRAY_3, NUMNOD, "WORK_ARRAY_3")
         WORK_ARRAY_3(1:NUMNOD) = 0
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE ) 
-        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE2) )DEALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE2 )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) )
-        ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE2(NINTER) )
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE) ) call my_dealloc(SHOOT_STRUCT%SHIFT_INTERFACE)
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE2) ) call my_dealloc(SHOOT_STRUCT%SHIFT_INTERFACE2)
+        call my_alloc(SHOOT_STRUCT%SHIFT_INTERFACE, NINTER+1, 2, "SHOOT_STRUCT%SHIFT_INTERFACE")
+        call my_alloc(SHOOT_STRUCT%SHIFT_INTERFACE2, NINTER, "SHOOT_STRUCT%SHIFT_INTERFACE2")
         NEXT_INTER = 0
         SHIFT_INTER = 1
         SHIFT_INTER2 = 0
@@ -519,11 +523,11 @@ C-----------------------------------------------
         SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) = NEXT_INTER
 
 
-        DEALLOCATE( WORK_ARRAY )
+        call my_dealloc(WORK_ARRAY)
 
-        ALLOCATE( INTERSECT_1(NSPMD) )
-        ALLOCATE( INTERSECT_2(NSPMD) )
-        ALLOCATE( RESULT_INTERSECT(NSPMD) )
+        call my_alloc(INTERSECT_1, NSPMD, "INTERSECT_1")
+        call my_alloc(INTERSECT_2, NSPMD, "INTERSECT_2")
+        call my_alloc(RESULT_INTERSECT, NSPMD, "RESULT_INTERSECT")
 
         SIZE_BUFFER_MAIN(1:NSPMD) = 0
         SIZE_BUFFER_SECOND(1:NSPMD) = 0
@@ -544,7 +548,7 @@ C-----------------------------------------------
           ! ----------------------------------------
           IF((TYPE_INTER.AND.(IDEL==1)).OR.(ITY==25.AND.IPARI(100,NIN)/=0)) THEN
             IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
-            IF(ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) DEALLOCATE(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)
+            IF(ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) call my_dealloc(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)
             IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) THEN
               ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(NRTM+NEDGE_1D) )
             ENDIF
@@ -639,14 +643,14 @@ C-----------------------------------------------
                   IF(PROC_ID/=ISPMD+1) THEN
                     IF(SIZE_BUFFER_MAIN(PROC_ID)+CHUNK>BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D) THEN 
                       OLD_SIZE = BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D
-                      ALLOCATE( WORK_ARRAY(OLD_SIZE) )
+                      call my_alloc(WORK_ARRAY, OLD_SIZE, "WORK_ARRAY")
                       WORK_ARRAY(1:OLD_SIZE) = 
      .                BUFFER_MAIN(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE)
                       CALL DEALLOC_1D_ARRAY(BUFFER_MAIN(PROC_ID))
                       BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D = CHUNK * (OLD_SIZE + CHUNK)
                       CALL ALLOC_1D_ARRAY(BUFFER_MAIN(PROC_ID))
                       BUFFER_MAIN(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE) = WORK_ARRAY(1:OLD_SIZE)
-                      DEALLOCATE( WORK_ARRAY )
+                      call my_dealloc(WORK_ARRAY)
                     ENDIF
                     ! 1 : interface id
                     SIZE_BUFFER_MAIN(PROC_ID) = SIZE_BUFFER_MAIN(PROC_ID) + 1
@@ -709,14 +713,14 @@ C-----------------------------------------------
                       IF(PROC_ID/=ISPMD+1) THEN
                        IF(SIZE_BUFFER_MAIN(PROC_ID)+CHUNK>BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D) THEN 
                           OLD_SIZE = BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D
-                          ALLOCATE( WORK_ARRAY(OLD_SIZE) )
+                          call my_alloc(WORK_ARRAY, OLD_SIZE, "WORK_ARRAY")
                           WORK_ARRAY(1:OLD_SIZE) = 
      .                    BUFFER_MAIN(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE)
                           CALL DEALLOC_1D_ARRAY(BUFFER_MAIN(PROC_ID))
                           BUFFER_MAIN(PROC_ID)%SIZE_INT_ARRAY_1D = CHUNK * (OLD_SIZE + CHUNK)
                           CALL ALLOC_1D_ARRAY(BUFFER_MAIN(PROC_ID))
                           BUFFER_MAIN(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE) = WORK_ARRAY(1:OLD_SIZE)
-                          DEALLOCATE( WORK_ARRAY )
+                          call my_dealloc(WORK_ARRAY)
                         ENDIF
                        ! 1 : interface id
                         SIZE_BUFFER_MAIN(PROC_ID) = SIZE_BUFFER_MAIN(PROC_ID) + 1
@@ -771,7 +775,7 @@ C-----------------------------------------------
                       IF(PROC_ID/=ISPMD+1) THEN
                         IF(SIZE_BUFFER_SECOND(PROC_ID)+CHUNK>BUFFER_SECOND(PROC_ID)%SIZE_INT_ARRAY_1D) THEN 
                           OLD_SIZE = BUFFER_SECOND(PROC_ID)%SIZE_INT_ARRAY_1D
-                          ALLOCATE( WORK_ARRAY(OLD_SIZE) )
+                          call my_alloc(WORK_ARRAY, OLD_SIZE, "WORK_ARRAY")
                           WORK_ARRAY(1:OLD_SIZE) = 
      .                         BUFFER_SECOND(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE)
                           CALL DEALLOC_1D_ARRAY(BUFFER_SECOND(PROC_ID))
@@ -779,7 +783,7 @@ C-----------------------------------------------
      .                         CHUNK * (BUFFER_SECOND(PROC_ID)%SIZE_INT_ARRAY_1D + CHUNK)
                           CALL ALLOC_1D_ARRAY(BUFFER_SECOND(PROC_ID))
                           BUFFER_SECOND(PROC_ID)%INT_ARRAY_1D(1:OLD_SIZE) = WORK_ARRAY(1:OLD_SIZE)
-                          DEALLOCATE( WORK_ARRAY )
+                          call my_dealloc(WORK_ARRAY)
                         ENDIF
                         ! 1 : interface id
                         SIZE_BUFFER_SECOND(PROC_ID) = SIZE_BUFFER_SECOND(PROC_ID) + 1
@@ -928,12 +932,12 @@ C-----------------------------------------------
         ENDIF
         ! ---------------------------
 
-        DEALLOCATE( WORK_ARRAY_2 )
-        DEALLOCATE( WORK_ARRAY_3 )
+        call my_dealloc(WORK_ARRAY_2)
+        call my_dealloc(WORK_ARRAY_3)
 
-        DEALLOCATE( INTERSECT_1 )
-        DEALLOCATE( INTERSECT_2 )
-        DEALLOCATE( RESULT_INTERSECT )
+        call my_dealloc(INTERSECT_1)
+        call my_dealloc(INTERSECT_2)
+        call my_dealloc(RESULT_INTERSECT)
 
         DEALLOCATE( BUFFER_SECOND )
         DEALLOCATE( BUFFER_MAIN )
@@ -943,23 +947,23 @@ C-----------------------------------------------
         ! WORKING ARRAY
         ! --------------------------------
         IF(.NOT.ALLOCATED(SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)) THEN
-          ALLOCATE( SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF(NTHREAD) )    ! number of deactivated element for each thread
+          call my_alloc(SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF, NTHREAD, "SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF")
         ENDIF
 
         ! ---------------------------
         ! Only for interface type 24 & 25
         SHOOT_STRUCT%NUMBER_REMOTE_SURF = 0 ! number of deactivated potential remote surface for interface type 24 & 25
         SHOOT_STRUCT%SIZE_REMOTE_SURF = 0 ! size of array of REMOTE_SURF (list of potential remote deactivated surfaces)
-        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) DEALLOCATE( SHOOT_STRUCT%REMOTE_SURF )
-        ALLOCATE( SHOOT_STRUCT%REMOTE_SURF( SHOOT_STRUCT%SIZE_REMOTE_SURF ) ) ! list of potential remote deactivated surfaces
+        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) call my_dealloc(SHOOT_STRUCT%REMOTE_SURF)
+        call my_alloc(SHOOT_STRUCT%REMOTE_SURF, SHOOT_STRUCT%SIZE_REMOTE_SURF, "SHOOT_STRUCT%REMOTE_SURF")
         ! ---------------------------
 
         ! ---------------------------
         ! Only for interface type 25
         SHOOT_STRUCT%NUMBER_NEW_SURF = 0 ! number of new active segment/surface for interface type 25
         SHOOT_STRUCT%SIZE_NEW_SURF = 0 ! size of array of NEW_SURF 
-        IF(ALLOCATED(SHOOT_STRUCT%NEW_SURF)) DEALLOCATE( SHOOT_STRUCT%NEW_SURF )
-        ALLOCATE( SHOOT_STRUCT%NEW_SURF( SHOOT_STRUCT%SIZE_NEW_SURF ) ) ! list of new active segment/surface
+        IF(ALLOCATED(SHOOT_STRUCT%NEW_SURF)) call my_dealloc(SHOOT_STRUCT%NEW_SURF)
+        call my_alloc(SHOOT_STRUCT%NEW_SURF, SHOOT_STRUCT%SIZE_NEW_SURF, "SHOOT_STRUCT%NEW_SURF")
         ! ---------------------------
 
 

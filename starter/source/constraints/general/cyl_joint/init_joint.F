@@ -39,6 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE JOINT_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C=======================================================================
             CYL_JOIN(I)%PROC_MAIN = -1        !   proc main
             CYL_JOIN(I)%NUMBER_PROC = 0         !   number of proc 
             CYL_JOIN(I)%NB_SECONDARY_NODE = 0   !   number of secondary node
-            ALLOCATE( CYL_JOIN(I)%NB_NODE(NSPMD) )
+            call my_alloc(CYL_JOIN(I)%NB_NODE, NSPMD, "CYL_JOIN(I)%NB_NODE")
             CYL_JOIN(I)%NB_NODE(1:NSPMD) = 0    !   number of node per proc
         ENDDO
 

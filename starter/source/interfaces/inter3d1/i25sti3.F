@@ -136,7 +136,7 @@ C           A BRICK AND A SHELL, WE CHOOSE THE STIFFNESS OF THE SHELL
 C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 C      NRT->NRT0
-      ALLOCATE(TAGB(NUMNOD))
+      call my_alloc(TAGB, NUMNOD, "TAGB")
       SLSFAC = STFAC
 C
       IF(IGAP==3)THEN
@@ -166,7 +166,7 @@ C-----
       IF(INTTH > 0)THEN
         NELEM = NUMELC+NUMELTG+NUMELS+NUMELR
      +      + NUMELP+NUMELT+NUMELQ+NUMELR+NUMELX+NUMELIG3D
-        ALLOCATE(INRTIE(NELEM),STAT=stat)
+        call my_alloc(INRTIE, NELEM, "INRTIE", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='INRTIE')
@@ -709,9 +709,9 @@ C
         END IF
       END IF
 
-      IF(INTTH > 0) DEALLOCATE(INRTIE)
+      IF(INTTH > 0) CALL MY_DEALLOC(INRTIE)
 
-      DEALLOCATE(TAGB)
+      CALL MY_DEALLOC(TAGB)
 
       RETURN
  1400 FORMAT(2X,'MIN,MAX OF SECONDARY GAP: ',2(1PG20.13))
@@ -825,9 +825,9 @@ C
 C
 
       IF(NUMELS > 0) THEN
-        CALL MY_ALLOC(TAGELEMS,NUMELS)
+        CALL MY_ALLOC(TAGELEMS,NUMELS,"TAGELEMS")
         TAGELEMS = 0
-        CALL MY_ALLOC(INDEXE,NUMELS)
+        CALL MY_ALLOC(INDEXE,NUMELS,"INDEXE")
         INDEXE = 0
       ENDIF
 
@@ -1177,7 +1177,8 @@ C      In SPMD you need an element associated with the edge otherwise error
         ENDIF
       END DO
 C
-      IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
+      IF(NUMELS > 0) CALL MY_DEALLOC(TAGELEMS)
+      IF(NUMELS > 0) CALL MY_DEALLOC(INDEXE)
 C
       CALL ANCMSG(MSGID=3022,
      .             MSGTYPE=MSGWARNING,
@@ -1237,6 +1238,7 @@ C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1257,7 +1259,7 @@ C-----------------------------------------------
 C=======================================================================
       NLMAX = 4*NRTM
 
-      ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
+      call my_alloc(LINEIX, 2, NLMAX, "LINEIX", stat=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
 c       search for all lines on the surface
@@ -1335,8 +1337,7 @@ c         last edge is an edge
 
 
       DEALLOCATE (INDEX)
-      DEALLOCATE (LINEIX)
+      CALL MY_DEALLOC(LINEIX)
 C-----------
       RETURN
       END
-

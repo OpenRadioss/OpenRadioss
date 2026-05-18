@@ -43,6 +43,7 @@ C-----------------------------------------------
         USE NOD2EL_MOD
         USE R2R_MOD
         USE GROUPDEF_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +105,7 @@ C------Precounting of internal and external surfaces of the domain---C
 C--------------------------------------------------------------------C
 
         IF (PASSE==0) THEN
-          ALLOCATE(ISURF_R2R(5,NSURF))
+          call my_alloc(ISURF_R2R, 5, NSURF, "ISURF_R2R")
           DO I=1,NSURF
             COMPT = 0
             DO J=1,IGRSURF(I)%NSEG
@@ -194,7 +195,7 @@ C------Precounting of internal and external lines of the domain------C
 C--------------------------------------------------------------------C
 
         IF (PASSE==0) THEN
-          ALLOCATE(ISLIN_R2R(2,NSLIN))
+          call my_alloc(ISLIN_R2R, 2, NSLIN, "ISLIN_R2R")
         ENDIF
 
 C-------At each pass - number of added lined is counted--------------C
@@ -223,7 +224,7 @@ C------Precounting of grbric and external lines of the domain--------C
 C--------------------------------------------------------------------C
 
         IF (PASSE==0) THEN
-          ALLOCATE(IGRBRIC_R2R(5,NGRBRIC))
+          call my_alloc(IGRBRIC_R2R, 5, NGRBRIC, "IGRBRIC_R2R")
           DO I=1,NGRBRIC
             COMPT = 0
             DO J=1,IGRBRIC(I)%NENTITY

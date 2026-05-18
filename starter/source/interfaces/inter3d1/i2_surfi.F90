@@ -26,7 +26,7 @@
 !||    lecins         ../starter/source/interfaces/interf1/lecins.F
 !||====================================================================
       module i2_surfi_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -62,6 +62,8 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use groupdef_mod
+          use MY_ALLOC_MOD,     only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           use select_s2s_mod,   only : select_s2s
           use message_mod
           use constant_mod,     only : nine,ep20
@@ -137,9 +139,9 @@
           isu2  = ipari(46)
           nsu1  = igrsurf(isu1)%nseg
           nsu2  = igrsurf(isu2)%nseg
-          allocate(itags1(nsu1))
-          allocate(itags2(nsu2))
-          allocate(igrelem(nrtm))
+          call my_alloc(itags1, nsu1, "itags1")
+          call my_alloc(itags2, nsu2, "itags2")
+          call my_alloc(igrelem, nrtm, "igrelem")
           itags1 = 1
           itags2 = 1
 !
@@ -189,7 +191,7 @@
           end if
 !    if (l/=nrtm) print *,'error dimensionning: l,nrtm',l,nrtm
 ! nsn
-          allocate(itagn(numnod))
+          call my_alloc(itagn, numnod, "itagn")
           itagn = 0
           ns = 0
           do i=1,igrsurf(isu1)%nseg
@@ -287,10 +289,10 @@
 !    if (nsn/=ns) print *,'***error dimensionning: nsn,ns',nsn,ns
 !    if (nsn/=nmn) print *,'***error dimensionning: nsn,nmn',nsn,nmn
           msr(1:nsn) = nsv(1:nsn)
-          deallocate(itags1)
-          deallocate(itags2)
-          deallocate(itagn)
-          deallocate(igrelem)
+          call my_dealloc(itags1)
+          call my_dealloc(itags2)
+          call my_dealloc(itagn)
+          call my_dealloc(igrelem)
 1000      FORMAT(/1X,"SURFACE 1: Number of remain seg and % = ",I10,F10.1)
 2000      FORMAT(/1X,"SURFACE 2: Number of remain seg and % = ",I10,F10.1)
 

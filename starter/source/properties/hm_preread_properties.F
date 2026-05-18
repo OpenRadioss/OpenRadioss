@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY, NCHARLINE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
 !!      TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO
 C=======================================================================
 
-      ALLOCATE(NUMGEOSTACK(NUMGEO + NUMSTACK))
+      call my_alloc(NUMGEOSTACK, NUMGEO + NUMSTACK, "NUMGEOSTACK")
       NUMGEOSTACK(:) = 0     ! global variable - STACK_VAR_MOD
       NPROP_STACK = 0        ! global variable - STACK_VAR_MOD
 C
@@ -245,7 +246,7 @@ C
 C Table allocation for type17,51 and 52
 C 
       IF(NPROP_STACK > 0) THEN
-         ALLOCATE(STACK_INFO(NPROP_STACK))
+         allocate(STACK_INFO(NPROP_STACK))
          DO NUMS=1,NPROP_STACK
             NN  = NPLY(NUMS)
             NS  = NSUB(NUMS)
@@ -258,11 +259,15 @@ C
      .                STACK_INFO(NUMS)%THKLY,STACK_INFO(NUMS)%WEIGHT)
     
              IF(NN > 0 ) THEN
-                 ALLOCATE(STACK_INFO(NUMS)%PID(NN),STACK_INFO(NUMS)%MID(NN),
-     .                     STACK_INFO(NUMS)%MID_IP(NN),
-     .                     STACK_INFO(NUMS)%THK(NN),STACK_INFO(NUMS)%ANG(NN),
-     .                     STACK_INFO(NUMS)%POS(NN),STACK_INFO(NUMS)%DIR(NN),
-     .                     STACK_INFO(NUMS)%THKLY(NN),STACK_INFO(NUMS)%WEIGHT(NN)) 
+                 call my_alloc(STACK_INFO(NUMS)%PID, NN, "STACK_INFO(NUMS)%PID")
+                 call my_alloc(STACK_INFO(NUMS)%MID, NN, "STACK_INFO(NUMS)%MID")
+                 call my_alloc(STACK_INFO(NUMS)%MID_IP, NN, "STACK_INFO(NUMS)%MID_IP")
+                 call my_alloc(STACK_INFO(NUMS)%THK, NN, "STACK_INFO(NUMS)%THK")
+                 call my_alloc(STACK_INFO(NUMS)%ANG, NN, "STACK_INFO(NUMS)%ANG")
+                 call my_alloc(STACK_INFO(NUMS)%POS, NN, "STACK_INFO(NUMS)%POS")
+                 call my_alloc(STACK_INFO(NUMS)%DIR, NN, "STACK_INFO(NUMS)%DIR")
+                 call my_alloc(STACK_INFO(NUMS)%THKLY, NN, "STACK_INFO(NUMS)%THKLY")
+                 call my_alloc(STACK_INFO(NUMS)%WEIGHT, NN, "STACK_INFO(NUMS)%WEIGHT")
                  STACK_INFO(NUMS)%PID(1:NN)= 0     
                  STACK_INFO(NUMS)%MID(1:NN)= 0
                  STACK_INFO(NUMS)%MID_IP(1:NN)= 0
@@ -273,16 +278,16 @@ C
                  STACK_INFO(NUMS)%WEIGHT(1:NN)= ONE 
              ENDIF
              IF(NS  > 0)THEN
-               ALLOCATE(STACK_INFO(NUMS)%SUB(2*NS))
+               call my_alloc(STACK_INFO(NUMS)%SUB, 2*NS, "STACK_INFO(NUMS)%SUB")
                STACK_INFO(NUMS)%SUB(1:2*NS)= 0  
              ENDIF  
              IF(NIS > 0)THEN
-              ALLOCATE(STACK_INFO(NUMS)%ISUB(3*NIS))
+              call my_alloc(STACK_INFO(NUMS)%ISUB, 3*NIS, "STACK_INFO(NUMS)%ISUB")
               STACK_INFO(NUMS)%ISUB(1:3*NIS)= 0
              ENDIF 
           ENDDO 
          ELSE
-            ALLOCATE(STACK_INFO(0))
+            allocate(STACK_INFO(0))
          ENDIF ! NPROP_STACK       
       RETURN
       END

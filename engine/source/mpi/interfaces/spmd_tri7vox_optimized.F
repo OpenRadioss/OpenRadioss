@@ -55,6 +55,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+       use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -292,7 +294,7 @@ C-----for   NBINFLG
 
       JDEB = 0
       IF(ITYP==25)THEN
-        ALLOCATE(ITAGNSNFI(NUMNOD),STAT=IERROR)
+        call my_alloc(ITAGNSNFI, NUMNOD, "ITAGNSNFI", stat=IERROR)
         ITAGNSNFI(1:NUMNOD) = 0
       END IF
       TAB_NB(1:NSPMD) = 0 
@@ -659,7 +661,7 @@ C reset old tag for next P
         ENDDO
       ENDIF       
 C
-      IF(ITYP==25) DEALLOCATE(ITAGNSNFI)
+      IF(ITYP==25) call my_dealloc(ITAGNSNFI)
 C
 C   reception of XREM data
 C
@@ -688,8 +690,8 @@ C
 
        IF(NSNR>0) THEN
         
-          ALLOCATE(XREM(RSIZ,NSNR),STAT=IERROR)
-          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)          
+          call my_alloc(XREM, RSIZ, NSNR, "XREM", stat=IERROR)
+          call my_alloc(IREM, ISIZ, NSNR, "IREM", stat=IERROR)
           
         
           IF(IERROR/=0) THEN
@@ -749,9 +751,9 @@ C
               CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
               IF(NBOX(P)/=0) THEN
                 CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
-                DEALLOCATE(RBUF(P)%p)
+                call my_dealloc(RBUF(P)%p)
                 CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
-                DEALLOCATE(IBUF(P)%p)                        
+                call my_dealloc(IBUF(P)%p)
               END IF
             ENDIF
           ENDIF

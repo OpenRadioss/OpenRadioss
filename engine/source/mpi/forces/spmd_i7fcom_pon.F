@@ -88,6 +88,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "macro.inc"
 #include      "assert.inc"
@@ -235,16 +237,16 @@ C
             IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23.OR.
      .         NTY==24.OR.NTY==25) THEN
      
-              ALLOCATE(INDEX(NI),STAT=IERROR)
+              call my_alloc(INDEX, NI, "INDEX", stat=IERROR)
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
               
               IF(INTTH > 0)THEN
-                 ALLOCATE( TEMPO(LEN7T,NI),STAT=IERROR)
+                 call my_alloc(TEMPO, LEN7T, NI, "TEMPO", stat=IERROR)
               ELSE
-                 ALLOCATE( TEMPO(LEN,NI),STAT=IERROR)
+                 call my_alloc(TEMPO, LEN, NI, "TEMPO", stat=IERROR)
               ENDIF
               
               IF(IERROR/=0) THEN
@@ -389,7 +391,8 @@ C
           IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23.OR.
      .       NTY==24.OR.NTY==25) THEN
              IF (NI > 0 ) THEN
-               DEALLOCATE(TEMPO,INDEX)
+               call my_dealloc(TEMPO)
+               call my_dealloc(INDEX)
              ENDIF
           ENDIF
 
@@ -1347,7 +1350,7 @@ C Fin type 20 edge
             ENDDO
           ENDIF
         ENDDO
-        IF(IALLOCR>0) DEALLOCATE(BBUFR)
+        IF(IALLOCR>0) call my_dealloc(BBUFR)
 C
 C Attente ISEND
 C
@@ -1361,7 +1364,7 @@ C
             END IF
           END IF
         END DO
-        IF(IALLOCS>0) DEALLOCATE(BBUFS)
+        IF(IALLOCS>0) call my_dealloc(BBUFS)
       ENDIF
 C
 #endif

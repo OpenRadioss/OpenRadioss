@@ -110,6 +110,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -130,7 +132,7 @@ C-----------------------------------------------
       INTEGER NG,NEL,ITY,NB2,NFT
 C-----------------------------------------------
       IF(NNOISE>0)THEN
-        ALLOCATE(KN(NNOISE))
+        call my_alloc(KN, NNOISE, "KN")
       ENDIF
       DO I=1,NNOISE
         KN(I)=0
@@ -175,7 +177,7 @@ C
       ENDDO
 C
       IF(NNOISE>0)THEN
-        DEALLOCATE(KN)
+        call my_dealloc(KN)
       ENDIF
 C-----------
       RETURN

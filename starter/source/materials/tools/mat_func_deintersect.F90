@@ -25,9 +25,9 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat76              ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
-       module mat_func_deintersect_mod
-       contains
-       
+      module mat_func_deintersect_mod
+      contains
+
 !||====================================================================
 !||    mat_func_deintersect        ../starter/source/materials/tools/mat_func_deintersect.F90
 !||--- called by ------------------------------------------------------
@@ -38,20 +38,22 @@
 !||--- uses       -----------------------------------------------------
 !||    polyline_intersection_mod   ../starter/source/materials/tools/polyline_intersection.F90
 !||====================================================================
-       subroutine mat_func_deintersect(func1 ,func2  ,ierror, intersections)
+        subroutine mat_func_deintersect(func1 ,func2  ,ierror, intersections)
 
- ! \brief check intersection between 1d or 2d function tables
- ! \details in case of 1d function intersection, the functions are deintersected automatically 
- ! \details if one of the functions is 2d,  only the 1st dim is deintersected 
- ! \details Input:
- ! \details   func1 ,func2 : two function tables (1d or 2d) 
- ! \details Output:
- ! \details   deintersected functions replace the original one in table structure 
+          ! \brief check intersection between 1d or 2d function tables
+          ! \details in case of 1d function intersection, the functions are deintersected automatically
+          ! \details if one of the functions is 2d,  only the 1st dim is deintersected
+          ! \details Input:
+          ! \details   func1 ,func2 : two function tables (1d or 2d)
+          ! \details Output:
+          ! \details   deintersected functions replace the original one in table structure
 
           ! ---------------------------------------------------------------------------------
           !                modules
           ! ---------------------------------------------------------------------------------
           use table4d_mod
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           use polyline_intersection_mod
           use precision_mod, only : WP
           use constant_mod , only : zero,one,em9
@@ -82,11 +84,11 @@
           ndim2 = func2%ndim
           npt1  = size(func1%x(1)%values)
           npt2  = size(func2%x(1)%values)
-!                    
-          allocate (x1(npt1))
-          allocate (y1(npt1))
-          allocate (x2(npt2))
-          allocate (y2(npt2))
+!
+          call my_alloc(x1, npt1, "x1")
+          call my_alloc(y1, npt1, "y1")
+          call my_alloc(x2, npt2, "x2")
+          call my_alloc(y2, npt2, "y2")
           x1(1:npt1) = func1%x(1)%values(1:npt1)
           x2(1:npt2) = func2%x(1)%values(1:npt2)
           if (ndim1 == 1) then
@@ -107,17 +109,17 @@
           yr2 = maxval(abs(y2 - sum(y2)/dble(npt2)))
 !
           ! check intersections between static func1 and func2
-!          
+!
           call polyline_intersection(npt1, npt2, x1, y1, x2, y2, xint, yint, found)
 !
-!---------------------------------------------------------------------------------------------------            
+!---------------------------------------------------------------------------------------------------
           if (found) then         ! deintersect functions func1 and func2
 !
             ! create sorted common absissa
             nptx  = npt1 + npt2
-            allocate (xf(nptx))
-            allocate (xtmp(nptx))
-            allocate (perm(nptx))
+            call my_alloc(xf, nptx, "xf")
+            call my_alloc(xtmp, nptx, "xtmp")
+            call my_alloc(perm, nptx, "perm")
             xtmp(1:npt1)      = x1(1:npt1)
             xtmp(npt1+1:nptx) = x2(1:npt2)
             call myqsort(nptx,xtmp,perm,ierror)
@@ -129,16 +131,16 @@
                 xf(npt) = xtmp(i)
               end if
             end do
-            deallocate(perm)
-            deallocate(xtmp)
-!---------------------------------------------------------          
+            call my_dealloc(perm)
+            call my_dealloc(xtmp)
+!---------------------------------------------------------
             ! reallocate both functions and interpolate all values using common abscissa
-            deallocate(func2%x(1)%values)
-            deallocate(func1%x(1)%values)
-            allocate(func1%x(1)%values(npt))
-            allocate(func2%x(1)%values(npt))
-            allocate (yf1(npt,nxd1))
-            allocate (yf2(npt,nxd2))
+            call my_dealloc(func2%x(1)%values)
+            call my_dealloc(func1%x(1)%values)
+            call my_alloc(func1%x(1)%values, npt, "func1%x(1)%values")
+            call my_alloc(func2%x(1)%values, npt, "func2%x(1)%values")
+            call my_alloc(yf1, npt, nxd1, "yf1")
+            call my_alloc(yf2, npt, nxd2, "yf2")
             func1%x(1)%values(1:npt) = xf(1:npt)
             func2%x(1)%values(1:npt) = xf(1:npt)
 !
@@ -148,7 +150,7 @@
               do j = 1,nxd1
                 y1(1:npt1) = func1%y2d(1:npt1,j)
                 call table_values_2d(npt1 ,npt ,x1 ,y1 ,xf ,yf1(1:npt,j))
-              end do              
+              end do
             end if
 !
             if (ndim2 == 1) then
@@ -157,11 +159,11 @@
               do j = 1,nxd2
                 y2(1:npt2) = func2%y2d(1:npt2,j)
                 call table_values_2d(npt2 ,npt ,x2 ,y2 ,xf ,yf2(1:npt,j))
-              end do              
+              end do
             end if
-!---------------------------------------------------------          
+!---------------------------------------------------------
             ! deintersect 1 dim of functions func1 and func2
-                
+
             epsy = em9 * max(yr1, yr2)  ! estimated range of y values * 1.e-9
 !
             do j = 1,npt
@@ -175,44 +177,44 @@
                   yf1(i,1) = yf2(i,1) + epsy
                   intersections = 1
                 end if
-              end do 
+              end do
             else
               do i = j,npt
                 if (yf2(i,1) < yf1(i,1)) then
                   yf2(i,1) = yf1(i,1) + epsy
                   intersections = 1
                 end if
-              end do 
+              end do
             end if
 !
             if (ndim1 == 1) then
-              deallocate(func1%y1d)
-              allocate(func1%y1d(npt))
+              call my_dealloc(func1%y1d)
+              call my_alloc(func1%y1d, npt, "func1%y1d")
               func1%y1d(1:npt) = yf1(1:npt,1)
             else
-              deallocate(func1%y2d)
-              allocate(func1%y2d(npt,nxd1))
+              call my_dealloc(func1%y2d)
+              call my_alloc(func1%y2d, npt, nxd1, "func1%y2d")
               func1%y2d(1:npt,1:nxd1) = yf1(1:npt,1:nxd1)
-            end if                            
+            end if
             if (ndim2 == 1) then
-              deallocate(func2%y1d)
-              allocate(func2%y1d(npt))
+              call my_dealloc(func2%y1d)
+              call my_alloc(func2%y1d, npt, "func2%y1d")
               func2%y1d(1:npt) = yf2(1:npt,1)
             else
-              deallocate(func2%y2d)
-              allocate(func2%y2d(npt,nxd2))
+              call my_dealloc(func2%y2d)
+              call my_alloc(func2%y2d, npt, nxd2, "func2%y2d")
               func2%y2d(1:npt,1:nxd2) = yf1(1:npt,1:nxd2)
-            end if                            
+            end if
 !
-            deallocate(yf1)
-            deallocate(yf2)
-            deallocate(xf)
-            deallocate(y2)
-            deallocate(x2)
-            deallocate(x1)
-            deallocate(y1)
-!---------------------------------------------------------          
+            call my_dealloc(yf1)
+            call my_dealloc(yf2)
+            call my_dealloc(xf)
+            call my_dealloc(y2)
+            call my_dealloc(x2)
+            call my_dealloc(x1)
+            call my_dealloc(y1)
+!---------------------------------------------------------
           end if  ! found intersection
-!-----------------------------------------------------------         
-          end subroutine mat_func_deintersect
-          end module     mat_func_deintersect_mod
+!-----------------------------------------------------------
+        end subroutine mat_func_deintersect
+      end module     mat_func_deintersect_mod

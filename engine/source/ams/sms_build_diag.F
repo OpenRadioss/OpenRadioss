@@ -61,6 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -114,9 +115,9 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: NADI_SMS
       DATA ILOC4/2,4,6,8/
 C-----------------------------------------------
-      CALL MY_ALLOC(NOD2ADD,NUMNOD)
-      CALL MY_ALLOC(KADI_SMS,NUMNOD)
-      CALL MY_ALLOC(NADI_SMS,NUMNOD)
+      call my_alloc(NOD2ADD, NUMNOD, "NOD2ADD")
+      call my_alloc(KADI_SMS, NUMNOD, "KADI_SMS")
+      call my_alloc(NADI_SMS, NUMNOD, "NADI_SMS")
 
       NODII_SMS(NODFT:NODLT)=0
       DO N=NODFT,NODLT
@@ -732,9 +733,9 @@ C
 C
       CALL MY_BARRIER
 C 
-      DEALLOCATE(NOD2ADD)
-      DEALLOCATE(KADI_SMS)
-      DEALLOCATE(NADI_SMS)
+      call my_dealloc(NOD2ADD)
+      call my_dealloc(KADI_SMS)
+      call my_dealloc(NADI_SMS)
 
       RETURN
       END

@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 #include "scr07_c.inc"
 #include "scr17_c.inc"
@@ -71,7 +73,7 @@ c
           TITLE = SENSOR%TITLE
           
           LEN = NFIX + NPARI + NPARR + NVAR
-          ALLOCATE (RBUF(LEN) )
+          call my_alloc(RBUF, LEN, "RBUF")
 c
           IAD = 0
           RBUF(IAD+1) = SENSOR%TYPE    
@@ -107,7 +109,7 @@ c
           END IF
 c
           CALL WRITE_DB (RBUF,LEN)
-          DEALLOCATE (RBUF)
+          call my_dealloc(RBUF)
 c
 c         write sensor title
           CALL FRETITL(TITLE,ITITLE,LTITR)

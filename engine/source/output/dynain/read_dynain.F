@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -75,7 +77,7 @@ C
      .        CLEFC ,CLEFTG ,INDXC ,INDXTG ,IDWARN ,NELIDCG ,
      .        NELIDTGG 
 C-----------------------------------------------
-      ALLOCATE( DYNAIN_DATA%IPART_DYNAIN(NPART))
+      call my_alloc(DYNAIN_DATA%IPART_DYNAIN, NPART, "DYNAIN_DATA%IPART_DYNAIN")
       DYNAIN_DATA%IPART_DYNAIN(1:NPART) = 0 
       IF (DYNAIN_DATA%NDYNAINPRT /= 0) THEN
             DO I=1,DYNAIN_DATA%NDYNAINPRT
@@ -184,8 +186,8 @@ C-------------------------------------------------------------------------------
             NELTGG = NELTGG + SIZETG_P0(NSPMD)
           ENDIF
 
-           ALLOCATE(NELIDCG(NELCG),STAT=IERR)
-           ALLOCATE(NELIDTGG(NELTGG),STAT=IERR)
+           call my_alloc(NELIDCG, NELCG, "NELIDCG", stat=IERR)
+           call my_alloc(NELIDTGG, NELTGG, "NELIDTGG", stat=IERR)
 
           !   send the local NUMELC to PROC0
 
@@ -199,11 +201,11 @@ C-------------------------------------------------------------------------------
           NELCG = NELC
           NELTGG = NELTG
           IF(NELCG/=0) THEN
-            ALLOCATE(NELIDCG(NELCG),STAT=IERR)
+            call my_alloc(NELIDCG, NELCG, "NELIDCG", stat=IERR)
             NELIDCG(1:NELCG) = NELIDC(1:NELC)
           ENDIF
           IF(NELTGG/=0) THEN     
-            ALLOCATE(NELIDTGG(NELTGG),STAT=IERR)     
+            call my_alloc(NELIDTGG, NELTGG, "NELIDTGG", stat=IERR)
             NELIDTGG(1:NELTGG) = NELIDTG(1:NELTG)  
           ENDIF  
 
@@ -220,8 +222,8 @@ C-------------------------------------------------------------------------------
 
               IS_CHECK = 0
    
-              ALLOCATE(CLEFC(NELCG),STAT=IERR)
-              ALLOCATE(INDXC(2*NELCG),STAT=IERR)
+              call my_alloc(CLEFC, NELCG, "CLEFC", stat=IERR)
+              call my_alloc(INDXC, 2*NELCG, "INDXC", stat=IERR)
 
               DO N=1,NELCG
                 INDXC(N)=N
@@ -229,8 +231,8 @@ C-------------------------------------------------------------------------------
               END DO
               CALL MY_ORDERS(0,WORK,CLEFC,INDXC,NELCG,1)     
 
-              ALLOCATE(CLEFTG(NELTGG),STAT=IERR)
-              ALLOCATE(INDXTG(2*NELTGG),STAT=IERR)
+              call my_alloc(CLEFTG, NELTGG, "CLEFTG", stat=IERR)
+              call my_alloc(INDXTG, 2*NELTGG, "INDXTG", stat=IERR)
 
               DO N=1,NELTGG
                 INDXTG(N)=N
@@ -259,7 +261,7 @@ C-------------------------------------------------------------------------------
                  NELMIN = MAX(NELIDCG(INDXC(1)),NELIDTGG(INDXTG(1)))
                  NELMAX = MIN(NELIDCG(INDXC(NELCG)),NELIDTGG(INDXTG(NELTGG)))
 
-                 ALLOCATE(IDWARN(MIN(NELCG,NELTGG)),STAT=IERR)
+                 call my_alloc(IDWARN, MIN(NELCG,NELTGG), "IDWARN", stat=IERR)
 
                  JWARN = 0
                  DO I=1,NELCG
@@ -288,18 +290,22 @@ C-------------------------------------------------------------------------------
                   CALL ARRET(0)
                  ENDIF
 
-                DEALLOCATE(IDWARN)
+                call my_dealloc(IDWARN)
 
               ENDIF
 C
-              DEALLOCATE(CLEFC,CLEFTG,INDXC,INDXTG)
+              call my_dealloc(CLEFC)
+              call my_dealloc(CLEFTG)
+              call my_dealloc(INDXC)
+              call my_dealloc(INDXTG)
 C
           ENDIF
         ENDIF
 
         IF(NUMELC/=0) DEALLOCATE(NELIDC,STAT=IERR)
         IF(NUMELTG/=0) DEALLOCATE(NELIDTG,STAT=IERR)
-        DEALLOCATE(NELIDCG,NELIDTGG)
+        call my_dealloc(NELIDCG)
+        call my_dealloc(NELIDTGG)
 
       ENDIF
 

@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE I7I10SPLITMOD 
       USE FRONT_MOD   
       USE INTBUFDEF_MOD    
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +91,7 @@ C domain than MAIN surface
           IF (IEDGE4 > 0 ) THEN
             IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
 C             In Type24 INTERCEP(2) gives Edge MPI Domain
-              ALLOCATE(INTERCEP(2,NI)%P(NRTSE))
+              call my_alloc(INTERCEP(2,NI)%P, NRTSE, "INTERCEP(2,NI)%P")
             ENDIF    
 C 
             DO I=1,NRTSE

@@ -90,6 +90,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -274,7 +276,7 @@ c----------------------------------------------------
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
         IF(JTASK==1)THEN
-          ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL (3,NUMNOD))
+          call my_alloc(INTBUF_TAB%SOLIDN_NORMAL, 3, NUMNOD, "INTBUF_TAB%SOLIDN_NORMAL")
           CALL I20NORMS(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%SOLIDN_NORMAL,
      2           IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG,INTBUF_TAB%GAP_SH,
      3           IAD_ELEM,FR_ELEM,INTBUF_TAB%NSV,NSN)
@@ -284,9 +286,9 @@ c----------------------------------------------------
             CALL SPMD_I20EXCH_N(INTBUF_TAB%SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
 C Normal supplementary communication on proc remote in SPMD
 C NSNR Size NSNR (NB NODES STEND remote) allowance allowance
-            ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F (3,IPARI(24)))
+            call my_alloc(INTBUF_TAB%SOLIDN_NORMAL_F, 3, IPARI(24), "INTBUF_TAB%SOLIDN_NORMAL_F")
 C EDGE Party allowance on size n line (nb second remote lines)
-            ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE(3,2*IPARI(57)))
+            call my_alloc(INTBUF_TAB%SOLIDN_NORMAL_FE, 3, 2*IPARI(57), "INTBUF_TAB%SOLIDN_NORMAL_FE")
       CALL SPMD_I20NORMF(
      1 INTBUF_TAB%SOLIDN_NORMAL,INTBUF_TAB%SOLIDN_NORMAL_F,INTBUF_TAB%SOLIDN_NORMAL_FE,NIN     ,IRLEN20 ,
      2 ISLEN20      ,IRLEN20T     ,ISLEN20T      ,IRLEN20E,ISLEN20E,
@@ -303,7 +305,7 @@ c----------------------------------------------------
       IF(ICURV==3)THEN
         CALL MY_BARRIER()
         IF(JTASK==1)THEN
-          ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
+          call my_alloc(INTBUF_TAB%NODNORM_NORMAL, 3, NUMNOD, "INTBUF_TAB%NODNORM_NORMAL")
           IF(IPARIT==0)THEN
             CALL I20NORM(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%NODNORM_NORMAL,
      .                  IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
@@ -343,8 +345,9 @@ c----------------------------------------------------
       IF(IADM/=0)THEN
          CALL MY_BARRIER()
          IF(JTASK==1)THEN
-           ALLOCATE(INTBUF_TAB%MODRCURV(NRTMDIM),INTBUF_TAB%MODANGLM(NRTMDIM))
-           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
+           call my_alloc(INTBUF_TAB%MODRCURV, NRTMDIM, "INTBUF_TAB%MODRCURV")
+           call my_alloc(INTBUF_TAB%MODANGLM, NRTMDIM, "INTBUF_TAB%MODANGLM")
+           call my_alloc(INTBUF_TAB%NODNORM_NORMAL, 3, NUMNOD, "INTBUF_TAB%NODNORM_NORMAL")
 
            IF(IPARIT==0)THEN
        CALL I20NORMN(
@@ -433,7 +436,7 @@ C
           ENDIF
         ENDDO
         IF (SFSAVPARIT /= 0) THEN
-          ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
+          call my_alloc(FSAVPARIT, NISUB+1, 11, I_STOK, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE20)')
@@ -447,7 +450,7 @@ C
             ENDDO
           ENDDO
         ELSE
-          ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
+          call my_alloc(FSAVPARIT, 0, 0, 0, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE20)')
@@ -574,7 +577,7 @@ c
           CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .        FBSAV6, 12, 6, DIMFB, ISENSINT )
       ENDIF
-      IF(ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
+      IF(ALLOCATED(FSAVPARIT)) call my_dealloc(FSAVPARIT)
 C----------------------------------------------------------------------
 C     2- EDGES
 C----------------------------------------------------------------------
@@ -612,7 +615,7 @@ C
           ENDIF
         ENDDO
         IF (SFSAVPARIT /= 0) THEN
-          ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
+          call my_alloc(FSAVPARIT, NISUB+1, 11, I_STOK, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE20)')
@@ -626,7 +629,7 @@ C
             ENDDO
           ENDDO
         ELSE
-          ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
+          call my_alloc(FSAVPARIT, 0, 0, 0, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .           C1='(/INTER/TYPE20)')
@@ -706,7 +709,7 @@ C         preparation CANDIDATES retenus
             CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .                            FBSAV6, 12, 6, DIMFB, ISENSINT )
         ENDIF
-        IF(ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
+        IF(ALLOCATED(FSAVPARIT)) call my_dealloc(FSAVPARIT)
       ENDIF
 
 C----------------------------------------------------------------------
@@ -731,16 +734,16 @@ C----------------------------------------------------------------------
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
         IF(JTASK == 1) THEN
-          DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL)
+          call my_dealloc(INTBUF_TAB%SOLIDN_NORMAL)
           IF(NSPMD > 1) THEN
-            DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F)
-            DEALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE)
+            call my_dealloc(INTBUF_TAB%SOLIDN_NORMAL_F)
+            call my_dealloc(INTBUF_TAB%SOLIDN_NORMAL_FE)
           END IF
         END IF
       END IF
       IF(ICURV==3.OR.IADM/=0)THEN
           CALL MY_BARRIER()
-          IF(JTASK == 1)DEALLOCATE(INTBUF_TAB%NODNORM_NORMAL)
+          IF(JTASK == 1) call my_dealloc(INTBUF_TAB%NODNORM_NORMAL)
       END IF
       IF(IADM/=0)THEN
           CALL MY_BARRIER()

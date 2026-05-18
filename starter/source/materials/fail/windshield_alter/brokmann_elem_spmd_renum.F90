@@ -31,7 +31,7 @@
 !||    lectur                    ../starter/source/starter/lectur.F
 !||====================================================================
       module brokmann_elem_renum_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief renumber local element numbers in randomd element list after domain decomposition
@@ -53,6 +53,8 @@
           use constant_mod ,only : zero,one
           use reorder_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,10 +82,10 @@
 !
           do ifail = 1,fail_brokmann%nfail
             nelem = fail_brokmann%brokmann(ifail)%nelem
-            allocate(tag_elem(nelem))
-            allocate(tag_nix(nelem))
-            allocate(tag_id(nelem))
-            allocate(tag_rand(nelem,6))
+            call my_alloc(tag_elem, nelem, "tag_elem")
+            call my_alloc(tag_nix, nelem, "tag_nix")
+            call my_alloc(tag_id, nelem, "tag_id")
+            call my_alloc(tag_rand, nelem, 6, "tag_rand")
             tag_rand(:,:) = zero
             tag_elem(:) = 0
             tag_nix(:)  = 0
@@ -136,10 +138,10 @@
               fail_brokmann%brokmann(ifail)%brokmann_elem(i)%random(5) = tag_rand(i,5)
               fail_brokmann%brokmann(ifail)%brokmann_elem(i)%random(6) = tag_rand(i,6)
             end do
-            deallocate(tag_rand)
-            deallocate(tag_id)
-            deallocate(tag_nix)
-            deallocate(tag_elem)
+            call my_dealloc(tag_rand)
+            call my_dealloc(tag_id)
+            call my_dealloc(tag_nix)
+            call my_dealloc(tag_elem)
           end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return

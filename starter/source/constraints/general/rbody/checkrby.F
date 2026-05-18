@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ifrbody_off_mod , ONLY : ifrbody_off
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,8 +102,8 @@ C   NPBY(16,N) = NUMBER OF XTRA_NODE with Iflag=3
 C=======================================================================
       NUMSL1 = NPBY(2,NRBYKIN) + NPBY(11,NRBYKIN) ! effective number<allocated size due to reductions
       IF (NUMSL1 > 0) THEN
-        ALLOCATE(TABSL(2,NUMSL1))
-        ALLOCATE(INDEX(3*NUMSL1))
+        call my_alloc(TABSL, 2, NUMSL1, "TABSL")
+        call my_alloc(INDEX, 3*NUMSL1, "INDEX")
         TABSL=0
         INDEX=0
       END IF
@@ -111,7 +112,7 @@ C=======================================================================
       KK=0
       NRB = 0
 C
-      ALLOCATE(IKINE1(3*NUMNOD))
+      call my_alloc(IKINE1, 3*NUMNOD, "IKINE1")
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -225,9 +226,9 @@ C-------------------------------------
       END IF
 C
 C------------------------------------
-      IF(ALLOCATED(TABSL))DEALLOCATE(TABSL)
-      IF(ALLOCATED(INDEX))DEALLOCATE(INDEX)
-      IF(ALLOCATED(IKINE1)) DEALLOCATE(IKINE1)
+      IF(ALLOCATED(TABSL))CALL MY_DEALLOC(TABSL)
+      IF(ALLOCATED(INDEX))CALL MY_DEALLOC(INDEX)
+      IF(ALLOCATED(IKINE1)) CALL MY_DEALLOC(IKINE1)
 C------------------------------------
       RETURN
 C

@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------      
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -103,9 +104,9 @@ C     REAL
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGR
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGPRT_SMS
 C-----------------------------------------------------
-      CALL MY_ALLOC(TAGN,NUMNOD)
-      CALL MY_ALLOC(TAGR,NUMELR)
-      CALL MY_ALLOC(TAGPRT_SMS,NPART)
+      call my_alloc(TAGN, NUMNOD, "TAGN")
+      call my_alloc(TAGR, NUMELR, "TAGR")
+      call my_alloc(TAGPRT_SMS, NPART, "TAGPRT_SMS")
 C-----------------------------------------------------
 C     Check for springs with stiffness but no mass
 C     ... Switch for cohesive elements should also be done here ...
@@ -310,9 +311,9 @@ C------------------------------------------
         END IF
       END IF
 C------------------------------------------
-      DEALLOCATE(TAGN)
-      DEALLOCATE(TAGR)
-      DEALLOCATE(TAGPRT_SMS)
+      call my_dealloc(TAGN)
+      call my_dealloc(TAGR)
+      call my_dealloc(TAGPRT_SMS)
 C-----------------------------------------------------
       RETURN
       END      

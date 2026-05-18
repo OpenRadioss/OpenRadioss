@@ -58,10 +58,10 @@ C-----------------------------------------------
       END IF
       IF (SBUFMSG==0) THEN
         MESSAGES(ITYPE,ID)%SMESSAGE=1
-        ALLOCATE(MESSAGES(ITYPE,ID)%MESSAGE(1))
+        allocate(MESSAGES(ITYPE,ID)%MESSAGE(1))
         MESSAGES(ITYPE,ID)%MESSAGE(1)=' '
       ELSE
-        ALLOCATE(MESSAGES(ITYPE,ID)%MESSAGE(SBUFMSG))
+        allocate(MESSAGES(ITYPE,ID)%MESSAGE(SBUFMSG))
         MESSAGES(ITYPE,ID)%SMESSAGE=SBUFMSG
         DO I=1,SBUFMSG
           JDX=1

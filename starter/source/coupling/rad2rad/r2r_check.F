@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE RESTMOD
         USE R2R_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C----- Check if Id of subdomains-----------------------------------C
 
 C----- Check of parts of subdomains-------------------------------C
 
-        ALLOCATE(TAGPART(NPART))
+        call my_alloc(TAGPART, NPART, "TAGPART")
         TAGPART = 0
 
         DO N=1,NSUBDOM

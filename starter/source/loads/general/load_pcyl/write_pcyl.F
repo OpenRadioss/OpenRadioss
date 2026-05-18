@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE PLOAD_CYL_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +68,7 @@ c=======================================================================
       DO I=1,NLOAD_CYL        
         NSEG = LOAD_CYL(I)%NSEG ! get the number of segment 
         LINT = 5 + NSEG*4
-        ALLOCATE(ITMP(LINT))
+        call my_alloc(ITMP, LINT, "ITMP")
         RTMP(1) = LOAD_CYL(I)%XSCALE_R
         RTMP(2) = LOAD_CYL(I)%XSCALE_T
         RTMP(3) = LOAD_CYL(I)%YSCALE
@@ -106,7 +107,7 @@ c
         CALL WRITE_I_C(LOAD_CYL(I)%SEGMENT_ADRESS,4*LOAD_CYL(I)%S_SEGMENT_ADRESS)
         ! --------------
                 
-        DEALLOCATE(ITMP)
+        CALL MY_DEALLOC(ITMP)
       ENDDO
       ! --------------
 

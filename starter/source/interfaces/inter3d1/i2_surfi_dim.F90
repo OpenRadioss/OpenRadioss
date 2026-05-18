@@ -26,7 +26,7 @@
 !||    lecint             ../starter/source/interfaces/interf1/lecint.F
 !||====================================================================
       module i2_surfi_dim_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -51,6 +51,8 @@
           use groupdef_mod
           use select_s2s_mod, only : select_s2s
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,13 +90,13 @@
           nsu1  = igrsurf(isu1)%nseg
           nsu2  = igrsurf(isu2)%nseg
           id  = ipari(15)
-          allocate(itags1(nsu1))
-          allocate(itags2(nsu2))
+          call my_alloc(itags1,nsu1,"itags1")
+          call my_alloc(itags2,nsu2,"itags2")
           itags1 = 1
           itags2 = 1
 !
           call select_s2s(nsu1,nsu2,igrsurf(isu1)%nodes,igrsurf(isu2)%nodes,itags1,itags2,x,numnod,dsearch)
-          allocate(itagn(numnod))
+          call my_alloc(itagn,numnod,"itagn")
           itagn = 0
           l = 0
           do i=1,igrsurf(isu1)%nseg
@@ -132,9 +134,9 @@
           end do
           nsn = nsn + ns
           nmn = nsn
-          deallocate(itags1)
-          deallocate(itags2)
-          deallocate(itagn)
+          call my_dealloc(itags1)
+          call my_dealloc(itags2)
+          call my_dealloc(itagn)
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine i2_surfi_dim

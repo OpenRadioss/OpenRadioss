@@ -159,10 +159,10 @@ C         functions are stored in table and in case  of null slope a small slope
               NPT=(NPC(RETRACTOR(I)%IFUNC(J)+1)-NPC(RETRACTOR(I)%IFUNC(J)))/2
               RETRACTOR(I)%S_TABLE(J) = NPT
               RETRACTOR(I)%TABLE(J)%NDIM = 1 
-              ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1),STAT=stat)  
-              ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1)%VALUES(NPT),STAT=stat) 
+              allocate(RETRACTOR(I)%TABLE(J)%X(1), stat=stat)
+              call my_alloc(RETRACTOR(I)%TABLE(J)%X(1)%VALUES, NPT, "RETRACTOR(I)%TABLE(J)%X(1)%VALUES", stat=stat)
               ALLOCATE (RETRACTOR(I)%TABLE(J)%Y,STAT=stat) 
-              ALLOCATE (RETRACTOR(I)%TABLE(J)%Y%VALUES(NPT),STAT=stat) 
+              call my_alloc(RETRACTOR(I)%TABLE(J)%Y%VALUES, NPT, "RETRACTOR(I)%TABLE(J)%Y%VALUES", stat=stat)
 C             first pass to find minimum slope 
               MIN_SLOPE = EP20
               MIN_SLOPE_ABS = EP20
@@ -199,7 +199,7 @@ C
      .                      I1=RETRACTOR(I)%ID,
      .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1))
               ENDIF  
-C             functions must be monotoninc if (Fmax > 0 and pretens=1 or 5) or pretens=3 - table_inv is used in material_flow            
+C functions must be monotoninc if (Fmax > 0 and pretens=1 or 5) or pretens=3 - table_inv is used in material_flow
               IF ((((((RETRACTOR(I)%TENS_TYP==1).or.(RETRACTOR(I)%TENS_TYP==5)).and.(RETRACTOR(I)%FORCE>zero)))
      .            .or.(RETRACTOR(I)%TENS_TYP==3)).and.(MIN_SLOPE<zero)) THEN
                 CALL ANCMSG(MSGID=3072,
@@ -244,8 +244,8 @@ C--   Need to check bifurcation in seatbelt and to tag elements on same cpu for 
 C
 C-----------------------------------------------
 C
-      CALL MY_ALLOC(TAG_NOD_SHELL,NUMNOD)
-      CALL MY_ALLOC(TAG_PROP_2D,NUMGEO)
+      CALL MY_ALLOC(TAG_NOD_SHELL,NUMNOD,"TAG_NOD_SHELL")
+      CALL MY_ALLOC(TAG_PROP_2D,NUMGEO,"TAG_PROP_2D")
       TAG_NOD_SHELL(1:NUMNOD) = 0
       TAG_PROP_2D(1:NUMGEO) = 0
       NB_ELEM_2D = 0
@@ -270,9 +270,9 @@ C-        tag of prop type 9 to -2 for error message if conflict with non seatbe
 C
       NB_ELEM_1D = 0
       N_COMN_1D2D = 0
-      CALL MY_ALLOC(TAG_NOD_SPRING,NUMNOD)
-      CALL MY_ALLOC(TAG_NOD_SPRI2D,NUMNOD)
-      CALL MY_ALLOC(TAG_SPRING_2D,NUMELR)
+      CALL MY_ALLOC(TAG_NOD_SPRING,NUMNOD,"TAG_NOD_SPRING")
+      CALL MY_ALLOC(TAG_NOD_SPRI2D,NUMNOD,"TAG_NOD_SPRI2D")
+      CALL MY_ALLOC(TAG_SPRING_2D,NUMELR,"TAG_SPRING_2D")
       TAG_NOD_SPRING(1:NUMNOD) = 0
       TAG_NOD_SPRI2D(1:NUMNOD) = 0
       TAG_SPRING_2D(1:NUMELR) = 0
@@ -371,7 +371,7 @@ C-        check of nodes 1 and 2 of skew - must be on the same element
           ENDIF
         ENDDO
 C
-        DEALLOCATE(TAG_PROP_2D)
+        CALL MY_DEALLOC(TAG_PROP_2D)
 C
 C----------------------------------------------------------------------------
 C---  Loop on elements on edges of seatbelt
@@ -383,8 +383,8 @@ C--     if nshell = 0 and nspring = 1     -> node at end of 1D belt
 C--     if nspring = 2 and nspring_2D = 1 -> node common between 1D and 2D seatblet
 C
 C       common nodes between 1D and 2D seatblet are tagged and stored in list 
-        IF (IDDLEVEL == 0) CALL MY_ALLOC(COMN_1D2D,N_COMN_1D2D)
-        CALL MY_ALLOC(TAG_COMN_1D_2D,NUMNOD)
+        IF (IDDLEVEL == 0) CALL MY_ALLOC(COMN_1D2D,N_COMN_1D2D,"COMN_1D2D")
+        CALL MY_ALLOC(TAG_COMN_1D_2D,NUMNOD,"TAG_COMN_1D_2D")
         COMN_1D2D(1:N_COMN_1D2D) = 0
         TAG_COMN_1D_2D(1:NUMNOD) = 0
         J = 0
@@ -395,9 +395,9 @@ C       common nodes between 1D and 2D seatblet are tagged and stored in list
             TAG_COMN_1D_2D(I) = 1
           ENDIF   
         ENDDO 
-        DEALLOCATE(TAG_NOD_SPRI2D)
+        CALL MY_DEALLOC(TAG_NOD_SPRI2D)
 C
-        CALL MY_ALLOC(TAG_NOD,NUMNOD)
+        CALL MY_ALLOC(TAG_NOD,NUMNOD,"TAG_NOD")
         TAG_NOD(1:NUMNOD) = 0
         COMPT_BELT_END = 0
         COMPT_FRAM = 0
@@ -435,10 +435,10 @@ C--                     next node on transverse edge of seatbelt
         ENDDO
 C
         TAG_NOD(1:NUMNOD) = 0
-        CALL MY_ALLOC(BELT_END_NFRAM,COMPT_BELT_END)
-        CALL MY_ALLOC(BELT_END_ADDR,COMPT_BELT_END)
-        CALL MY_ALLOC(FRAM_TAB,COMPT_FRAM)
-        CALL MY_ALLOC(BELT_END_SECTION,COMPT_BELT_END)
+        CALL MY_ALLOC(BELT_END_NFRAM,COMPT_BELT_END,"BELT_END_NFRAM")
+        CALL MY_ALLOC(BELT_END_ADDR,COMPT_BELT_END,"BELT_END_ADDR")
+        CALL MY_ALLOC(FRAM_TAB,COMPT_FRAM,"FRAM_TAB")
+        CALL MY_ALLOC(BELT_END_SECTION,COMPT_BELT_END,"BELT_END_SECTION")
         BELT_END_NFRAM(1:COMPT_BELT_END) = 0
         BELT_END_ADDR(1:COMPT_BELT_END) = 0
         BELT_END_SECTION(1:COMPT_BELT_END) = ZERO
@@ -472,7 +472,7 @@ C--           determination of longitudinal direction using spring connected to 
                   ENDIF
                 ENDIF
               ENDDO
-              DIST2 = (X(1,I)-X(1,NODE_LONGI))**2+(X(2,I)-X(2,NODE_LONGI))**2+(X(3,I)-X(3,NODE_LONGI))**2                  
+      DIST2 = (X(1,I)-X(1,NODE_LONGI))**2+(X(2,I)-X(2,NODE_LONGI))**2+(X(3,I)-X(3,NODE_LONGI))**2
               LONGI_DIRECTION(1) = (X(1,I)-X(1,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
               LONGI_DIRECTION(2) = (X(2,I)-X(2,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
               LONGI_DIRECTION(3) = (X(3,I)-X(3,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
@@ -509,7 +509,7 @@ C--               seatbelt section is incremented
      .                  +LONGI_DIRECTION(3)*EDGE_DIRECTION(3)
                   DIST2 = DIST2*(ONE-SCAL*SCAL)
                   IPID = IXC(6,ELEM_CUR)
-                  BELT_END_SECTION(COMPT_BELT_END) = BELT_END_SECTION(COMPT_BELT_END) + SQRT(MAX(EM20,DIST2))*GEO(1,IPID)
+      BELT_END_SECTION(COMPT_BELT_END) = BELT_END_SECTION(COMPT_BELT_END) + SQRT(MAX(EM20,DIST2))*GEO(1,IPID)
                 ENDIF       
               ENDDO
               BELT_END_NFRAM(COMPT_BELT_END) = COMPT_FRAM - BELT_END_ADDR(COMPT_BELT_END) + 1                
@@ -525,11 +525,12 @@ C          ENDDO
 C          print *,"SECTION",BELT_END_SECTION(I)
 C        ENDDO
 C
-        DEALLOCATE(TAG_NOD_SPRING,TAG_COMN_1D_2D)
+        CALL MY_DEALLOC(TAG_NOD_SPRING)
+        CALL MY_DEALLOC(TAG_COMN_1D_2D)
 C
-        CALL MY_ALLOC(TAG_RES,NUMELR)
-        CALL MY_ALLOC(TAG_FRAM_SEATBELT,COMPT_BELT_END)
-        CALL MY_ALLOC(NNOD_FRAM_SEATBELT,COMPT_BELT_END)
+        CALL MY_ALLOC(TAG_RES,NUMELR,"TAG_RES")
+        CALL MY_ALLOC(TAG_FRAM_SEATBELT,COMPT_BELT_END,"TAG_FRAM_SEATBELT")
+        CALL MY_ALLOC(NNOD_FRAM_SEATBELT,COMPT_BELT_END,"NNOD_FRAM_SEATBELT")
         TAG_NOD(1:NUMNOD) = 0
         TAG_RES(1:NUMELR) = 0
         SEATBELT_ID = 0
@@ -542,7 +543,7 @@ C----------------------------------------------------------------------------
 C---  Loop on seatblet elements in longitudinal direction
 C----------------------------------------------------------------------------
 C
-        CALL MY_ALLOC(BRANCH_TAB,2*NB_ELEM_1D)
+        CALL MY_ALLOC(BRANCH_TAB,2*NB_ELEM_1D,"BRANCH_TAB")
 C
         DO I=1,COMPT_BELT_END
 C
@@ -631,8 +632,8 @@ C       Couting number of 1D elements not tagged - possible number of loops
             ENDIF
           ENDIF  
         ENDDO   
-        ALLOCATE(TAG_LOOP_SEATBELT(NB_ELEM_1D_NOT_TAGED)) 
-        ALLOCATE(NNOD_LOOP_SEATBELT(NB_ELEM_1D_NOT_TAGED))
+        call my_alloc(TAG_LOOP_SEATBELT, NB_ELEM_1D_NOT_TAGED, "TAG_LOOP_SEATBELT")
+        call my_alloc(NNOD_LOOP_SEATBELT, NB_ELEM_1D_NOT_TAGED, "NNOD_LOOP_SEATBELT")
         NLOOP_1D = 0
         DO I=1,NUMELR
           MID = IXR(5,I)
@@ -675,7 +676,9 @@ C               Start of 1D seatbelt loop
           ENDIF
         ENDDO
 C
-        DEALLOCATE(BRANCH_TAB,TAG_SPRING_2D,TAG_NOD_SHELL)
+        CALL MY_DEALLOC(BRANCH_TAB)
+        CALL MY_DEALLOC(TAG_SPRING_2D)
+        CALL MY_DEALLOC(TAG_NOD_SHELL)
 C
         IF (FLAG_ERR_LOOP_2D > 0) THEN
           CALL ANCMSG(MSGID=2099,
@@ -692,18 +695,18 @@ C       SEATBELT_TAB reallocation for iddlevel=1 - needed for loop (order change
         IF (ALLOCATED(SEATBELT_TAB)) THEN
           DO I = 1, SIZE(SEATBELT_TAB)
             IF (ALLOCATED(SEATBELT_TAB(I)%SPRING)) THEN
-              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
+              CALL MY_DEALLOC(SEATBELT_TAB(I)%SPRING)
             ENDIF
           ENDDO
           DEALLOCATE(SEATBELT_TAB)
         ENDIF
 C        
-        ALLOCATE(SEATBELT_TAB(N_SEATBELT))
-        CALL MY_ALLOC(TAG_MAT_2D,NUMMAT)
+        allocate(SEATBELT_TAB(N_SEATBELT))
+        CALL MY_ALLOC(TAG_MAT_2D,NUMMAT,"TAG_MAT_2D")
         TAG_MAT_2D(1:NUMMAT) = 0
         IF (NB_2D_SEATBELT > 0) THEN
-          CALL MY_ALLOC(TAG_SHELL,NUMELC)
-          CALL MY_ALLOC(SECTION_MAT,NUMMAT)
+          CALL MY_ALLOC(TAG_SHELL,NUMELC,"TAG_SHELL")
+          CALL MY_ALLOC(SECTION_MAT,NUMMAT,"SECTION_MAT")
           TAG_SHELL(1:NUMELC) = 0
           SECTION_MAT(1:NUMMAT) = ZERO
         ENDIF
@@ -768,7 +771,7 @@ C               FLAG_SHELL needed in case of 1D/2D connection
           ENDDO        
           SEATBELT_TAB(I)%NSPRING = COMPT
           SEATBELT_TAB(I)%NSHELL = COMPT_2D
-          CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
+          CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT,"SEATBELT_TAB(I)%SPRING")
           COMPT = 0
           DO J=1,NUMELR
             IF (TAG_RES(J) == I) THEN
@@ -778,8 +781,15 @@ C               FLAG_SHELL needed in case of 1D/2D connection
           ENDDO    
         ENDDO
 C
-        DEALLOCATE(BELT_END_NFRAM,BELT_END_SECTION,BELT_END_ADDR,FRAM_TAB,TAG_RES,TAG_FRAM_SEATBELT,NNOD_FRAM_SEATBELT)
-        DEALLOCATE(NNOD_LOOP_SEATBELT,TAG_LOOP_SEATBELT)
+        CALL MY_DEALLOC(BELT_END_NFRAM)
+        CALL MY_DEALLOC(BELT_END_SECTION)
+        CALL MY_DEALLOC(BELT_END_ADDR)
+        CALL MY_DEALLOC(FRAM_TAB)
+        CALL MY_DEALLOC(TAG_RES)
+        CALL MY_DEALLOC(TAG_FRAM_SEATBELT)
+        CALL MY_DEALLOC(NNOD_FRAM_SEATBELT)
+        CALL MY_DEALLOC(NNOD_LOOP_SEATBELT)
+        CALL MY_DEALLOC(TAG_LOOP_SEATBELT)
 C
 C----------------------------------------------------------------------------
 C---  Computation of elem_size from retractor
@@ -788,18 +798,19 @@ C
         DO I=1,NRETRACTOR
           SEATBELT_ID = TAG_NOD(RETRACTOR(I)%NODE(1))
           RETRACTOR(I)%INACTI_NNOD_MAX = SEATBELT_TAB(SEATBELT_ID)%NNOD
-          IF (IDDLEVEL == 0) CALL MY_ALLOC(RETRACTOR(I)%INACTI_NODE,SEATBELT_TAB(SEATBELT_ID)%NNOD)
-          SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE =  MAX(SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE,RETRACTOR(I)%ELEMENT_SIZE)        
+      IF (IDDLEVEL == 0) CALL MY_ALLOC(RETRACTOR(I)%INACTI_NODE,SEATBELT_TAB(SEATBELT_ID)%NNOD,
+     &"RETRACTOR(I)%INACTI_NODE")
+      SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE =  MAX(SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE,RETRACTOR(I)%ELEMENT_SIZE)
         ENDDO
 C
 C----------------------------------------------------------------------------
 C---  Computation of default lmin and default critical damping
 C----------------------------------------------------------------------------
 C
-        CALL MY_ALLOC(CPT_MAT,NUMMAT)
-        CALL MY_ALLOC(AV_LEN_MAT,NUMMAT)
-        CALL MY_ALLOC(AV_AREA_MAT,NUMMAT)
-        CALL MY_ALLOC(ELEMSIZE_MAT,NUMMAT)
+        CALL MY_ALLOC(CPT_MAT,NUMMAT,"CPT_MAT")
+        CALL MY_ALLOC(AV_LEN_MAT,NUMMAT,"AV_LEN_MAT")
+        CALL MY_ALLOC(AV_AREA_MAT,NUMMAT,"AV_AREA_MAT")
+        CALL MY_ALLOC(ELEMSIZE_MAT,NUMMAT,"ELEMSIZE_MAT")
         COMPT = 0
         CPT_MAT(1:NUMMAT) = 0
         AV_LEN_MAT(1:NUMMAT) = ZERO
@@ -859,7 +870,8 @@ C--           default damping is 30% of critical damping
             ENDIF
             BUFMAT(IADBUF+71) = 0.1*XC  
             BUFMAT(IADBUF+72) = 0.1*XC         
-C--         for 2D_seatbelt mass is applied on shell - rho set to 0 - rho is stored int UPARAM(128) for elementary time step
+C --         for 2D_seatbelt mass is applied on shell - rho set to 0 - rho is stored int UPARAM(128) for elementary time
+C step
             IF ((TAG_MAT_2D(MID) > 0).AND.(IDDLEVEL==0)) THEN
               BUFMAT(IADBUF+127-1) = ONE
               BUFMAT(IADBUF+128-1) = 0.9*PM(1,MID)
@@ -875,7 +887,11 @@ C--             specific non linear formulation for 2d seatblets
           ENDIF  
         ENDDO
 C
-        DEALLOCATE(CPT_MAT,AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,TAG_MAT_2D)
+        CALL MY_DEALLOC(CPT_MAT)
+        CALL MY_DEALLOC(AV_LEN_MAT)
+        CALL MY_DEALLOC(AV_AREA_MAT)
+        CALL MY_DEALLOC(ELEMSIZE_MAT)
+        CALL MY_DEALLOC(TAG_MAT_2D)
 C
 C----------------------------------------------------------------------------
 C---  Update of mat119 variables after section computation
@@ -964,7 +980,7 @@ C--           printout
           ENDDO
         ENDIF
 C
-        IF (NB_2D_SEATBELT > 0) DEALLOCATE(SECTION_MAT)
+        IF (NB_2D_SEATBELT > 0) CALL MY_DEALLOC(SECTION_MAT)
 C
         IF (NSPMD > 1) THEN
 C
@@ -979,7 +995,7 @@ C
 C
             IF (SEATBELT_TAB(I)%NFRAM == 1) THEN
 C--           1D SEATBELT
-              CALL MY_ALLOC(CC_ELEM,SEATBELT_TAB(I)%NSPRING)
+              CALL MY_ALLOC(CC_ELEM,SEATBELT_TAB(I)%NSPRING,"CC_ELEM")
               CC_ELEM(1:SEATBELT_TAB(I)%NSPRING) = 0
               COMPT = 0
               DO J=1,SEATBELT_TAB(I)%NSPRING
@@ -991,7 +1007,7 @@ C
             ELSEIF (SEATBELT_TAB(I)%NFRAM > 1) THEN
 C--           2D SEATBELT
               NB_ELEM = SEATBELT_TAB(I)%NSPRING + SEATBELT_TAB(I)%NSHELL
-              CALL MY_ALLOC(CC_ELEM,NB_ELEM)
+              CALL MY_ALLOC(CC_ELEM,NB_ELEM,"CC_ELEM")
               CC_ELEM(1:NB_ELEM) = 0
               COMPT = 0
               DO J=1,SEATBELT_TAB(I)%NSPRING
@@ -1008,7 +1024,7 @@ C
             ENDIF
 C
             CALL C_PREVENT_DECOMPOSITION(NB_ELEM,CC_ELEM)
-            DEALLOCATE(CC_ELEM)
+            CALL MY_DEALLOC(CC_ELEM)
 C
           ENDDO
 C
@@ -1016,12 +1032,15 @@ C
 C      
       ENDIF
 C
-      IF (NB_2D_SEATBELT > 0) DEALLOCATE(TAG_SHELL)
+      IF (NB_2D_SEATBELT > 0) CALL MY_DEALLOC(TAG_SHELL)
 C
 C     if setbelt elts in model array ar deallocated before      
       IF ((NB_ELEM_1D==0).and.(NB_ELEM_2D == 0)) THEN
-        DEALLOCATE(TAG_NOD_SHELL,TAG_NOD_SPRING,TAG_NOD_SPRI2D)
-        DEALLOCATE(TAG_PROP_2D,TAG_SPRING_2D)
+        CALL MY_DEALLOC(TAG_NOD_SHELL)
+        CALL MY_DEALLOC(TAG_NOD_SPRING)
+        CALL MY_DEALLOC(TAG_NOD_SPRI2D)
+        CALL MY_DEALLOC(TAG_PROP_2D)
+        CALL MY_DEALLOC(TAG_SPRING_2D)
       ENDIF
 C             
       RETURN
@@ -1042,4 +1061,3 @@ C
      . '         MAT ID   SEATBELT SECTION      E11              E22              G12'/)
 C
       END SUBROUTINE CREATE_SEATBELT
-

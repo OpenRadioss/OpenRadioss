@@ -254,6 +254,8 @@
           use reader_old_mod     ,only : key0
           use multimat_param_mod ,only : m51_ssp0max,m51_lc0max,m51_tcp_ref,m51_lset_iflg6,m20_discrete_fill
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! -------------------------------------------------------------------------------------------------------
           implicit none
 ! -------------------------------------------------------------------------------------------------------
@@ -309,7 +311,7 @@
 !-----------------------------------------------
           data mess/'MATERIAL DEFINITION                     '/
 !==============================================================================
-          allocate( uparam(maxuparam) )
+          call my_alloc(uparam,maxuparam,"uparam")
 
           ilaw          = 0
           iuser_law     = 0
@@ -887,9 +889,9 @@
              case ('LAW76','SAMP')
               ilaw  = 76
               call hm_read_mat76(mat_param(mat_number),           &
-               maxuparam,nuparam  ,uparam   ,nuvar    ,nvartmp  , &
-               mtag     ,parmat   ,unitab   ,lsubmodel,israte   , &
-               iout     ,ntable   ,table    ,npropm   ,pm(1,i)  )
+                maxuparam,nuparam  ,uparam   ,nuvar    ,nvartmp  , &
+                mtag     ,parmat   ,unitab   ,lsubmodel,israte   , &
+                iout     ,ntable   ,table    ,npropm   ,pm(1,i)  )
 !-------
              case ('LAW77')
               ilaw  = 77
@@ -1180,21 +1182,21 @@
               &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
               &matparam )
 !-------
-          case ('LAW122','MODIFIED_LADEVEZE')
-            ilaw = 122
-            call hm_read_mat122(&
-            &uparam   ,maxuparam,nuparam  ,nuvar    ,maxfunc  ,&
-            &nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,&
-            &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
-            &matparam ,nvartmp  )
+             case ('LAW122','MODIFIED_LADEVEZE')
+              ilaw = 122
+              call hm_read_mat122(&
+              &uparam   ,maxuparam,nuparam  ,nuvar    ,maxfunc  ,&
+              &nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,&
+              &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
+              &matparam ,nvartmp  )
 
-          case ('LAW123','LAMINATED_FRACTURE_DAIMLER_PINHO')
-            ilaw = 123
-            call hm_read_mat123(                              &
-           &nuvar    ,maxfunc  ,npropm  , iout   ,            & 
-           & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
-           &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
-           &matparam ,nvartmp )     
+             case ('LAW123','LAMINATED_FRACTURE_DAIMLER_PINHO')
+              ilaw = 123
+              call hm_read_mat123(                              &
+              &nuvar    ,maxfunc  ,npropm  , iout   ,            &
+              & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
+              &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
+              &matparam ,nvartmp )
 !-------
              case ('LAW124','CDPM2')
               ilaw  = 124
@@ -1206,10 +1208,10 @@
              case ('LAW125','LAMINATED_COMPOSITE')
               ilaw = 125
               call hm_read_mat125(&
-           &nuvar    ,maxfunc  ,npropm  , iout   ,            & 
-           & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
-           &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
-           &matparam ,nvartmp ,iunit)     
+              &nuvar    ,maxfunc  ,npropm  , iout   ,            &
+              & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
+              &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
+              &matparam ,nvartmp ,iunit)
 !-------
              case ('LAW126','JOHNSON_HOLMQUIST_CONCRETE')
               ilaw = 126
@@ -1245,7 +1247,7 @@
                 parmat   ,unitab   ,lsubmodel,israte   ,mat_id   ,&
                 titr     ,table    ,ntable   ,nvartmp  ,imatvis  ,&
                 iunit    )
-!-------  
+!-------
              case ('LAW131','ELASTO_PLASTIC')
               ilaw  = 131
               call hm_read_elasto_plastic(&
@@ -1254,12 +1256,12 @@
               &ilaw     ,israte   ,ntable   ,table    ,iresp    )
 !-------
              case('LAW132', 'LAMINATED_FRACTURE_DAIMLER_CAMANHO')
-               ilaw = 132
-               call hm_read_mat132(                              &
-                nuvar    ,maxfunc  ,npropm  , iout   ,           & 
+              ilaw = 132
+              call hm_read_mat132(                              &
+                nuvar    ,maxfunc  ,npropm  , iout   ,           &
                 mtag     ,parmat   ,unitab  ,ntable   ,table,    &
                 pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
-                matparam ,nvartmp )   
+                matparam ,nvartmp )
 !-------
              case ('LAW133','GRANULAR')
               ilaw = 133
@@ -1276,8 +1278,8 @@
               &mat_id    ,titr       ,iout     )
 !-------
              case ('LAW135','GENERAL_JOINT')
-               ilaw  = 135 
-               call hm_read_mat135(matparam ,                      &
+              ilaw  = 135
+              call hm_read_mat135(matparam ,                      &
                 mtag     ,nuvar    ,                              &
                 iout     ,unitab   ,lsubmodel, mat_id)
 !-------
@@ -1559,7 +1561,8 @@
             if (pm(80,i) == zero) pm(80,i) = matparam%therm%tmelt
             if (pm(69,i) == zero) pm(69,i) = matparam%therm%rhocp
 !---------------------------------------------------------
-            if (matparam%young0==zero) matparam%young0= matparam%young  ! initial E0 will be updated in upd_mat (tabulated E)
+            if (matparam%young0==zero) matparam%young0= matparam%young
+            ! initial E0 will be updated in upd_mat (tabulated E)
             !  pm(100)=bulk
             !  for interface type 7  k=pm(32) ...
             !  for interface type 20 k=pm(100)...
@@ -1590,7 +1593,8 @@
 
             mtag%l_ssp = 1                         ! sound speed, always allocated
 
-            if (matparam%crit_plas == 0 .and. matparam%compressibility==3 ) matparam%crit_plas=1 ! only not von mises criterion need to be intialized 
+            if (matparam%crit_plas == 0 .and. matparam%compressibility==3 ) matparam%crit_plas=1
+            ! only not von mises criterion need to be intialized
 !---------------------------------------------------------
 ! for qeph (shell formulation)
             if (ipm(2,i) /= 999) then ! if ipm(2,) == 999 possible negative square root with pm(25)=cpe(gas)
@@ -1639,11 +1643,12 @@
               !already done
               !law37  : see hm_read_mat37.f
               !law51  : see hm_read_mat51.f & fill_buffer_51.f
-              !law151 : see m20dcod.f (user material ids are first converted into internal material ids in mat_param()%multimat%mid(1:nbmat)
+              ! law151 : see m20dcod.f (user material ids are first converted into internal material ids in
+              ! mat_param()%multimat%mid(1:nbmat)
             endif
           end do
 
-          deallocate( uparam )
+          call my_dealloc(uparam)
 !------------------------------
           return
 !------------------------------

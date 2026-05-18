@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,7 +127,7 @@ C ----------------------------------
 C----------------------------------------------------------------------------------------------------
 C IRTLM & TIME_S are put to ZERO when the local second nodes are not candidates
 C----------------------------------------------------------------------------------------------------
-           ALLOCATE(ISCAND(NUMNOD+I24MAXNSNE))
+           call my_alloc(ISCAND, NUMNOD+I24MAXNSNE, "ISCAND")
            ISCAND(1:NUMNOD+I24MAXNSNE)=0
            DO NI=1,NBINTC
                NIN = INTLIST(NI)
@@ -199,7 +200,7 @@ C counting buffer sizes for reception and sending
 
 C preparation of send
       IF(LENSD>0)THEN
-          ALLOCATE(BBUFS(LENSD),STAT=IERROR)
+          call my_alloc(BBUFS, LENSD, "BBUFS", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -209,7 +210,7 @@ C preparation of send
 C ---------------------------------------------
 C preparation of receive
       IF(LENRV>0)THEN
-          ALLOCATE(BBUFR(LENRV),STAT=IERROR)
+          call my_alloc(BBUFR, LENRV, "BBUFR", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -425,8 +426,8 @@ C end of send
           ENDIF
       ENDDO
 
-      IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
-      IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
+      IF (ALLOCATED(BBUFS)) call my_dealloc(BBUFS)
+      IF (ALLOCATED(BBUFR)) call my_dealloc(BBUFR)
 
 C -------------------
 C T24 E2E Merge ISPT2
@@ -479,10 +480,10 @@ C-----------------------------------------------------------
 C preparation of send
       ILEN=4
       RLEN=8
-      ALLOCATE(ISENDBUF(4,SFR_I24))
-      ALLOCATE(IRECBUF(ILEN*SFR_I24))
-      ALLOCATE(RSENDBUF(8,SFR_I24))
-      ALLOCATE(RRECBUF(RLEN*SFR_I24))
+      call my_alloc(ISENDBUF, 4, SFR_I24, "ISENDBUF")
+      call my_alloc(IRECBUF, ILEN*SFR_I24, "IRECBUF")
+      call my_alloc(RSENDBUF, 8, SFR_I24, "RSENDBUF")
+      call my_alloc(RRECBUF, RLEN*SFR_I24, "RRECBUF")
 
 C implementation of the IRECIEVE
       DO P=1,NSPMD
@@ -735,10 +736,10 @@ C Treat PENE_OLD(5
              ENDIF
            ENDDO
 
-      IF(ALLOCATED(ISENDBUF))DEALLOCATE(ISENDBUF)
-      IF(ALLOCATED(IRECBUF))DEALLOCATE(IRECBUF)
-      IF(ALLOCATED(RSENDBUF))DEALLOCATE(RSENDBUF)
-      IF(ALLOCATED(RRECBUF))DEALLOCATE(RRECBUF)
+      IF(ALLOCATED(ISENDBUF)) call my_dealloc(ISENDBUF)
+      IF(ALLOCATED(IRECBUF)) call my_dealloc(IRECBUF)
+      IF(ALLOCATED(RSENDBUF)) call my_dealloc(RSENDBUF)
+      IF(ALLOCATED(RRECBUF)) call my_dealloc(RRECBUF)
 
 C ------------------------------------------------------------------
 C Third part we send back the globalized values to the remote procs
@@ -765,7 +766,7 @@ C counting buffer sizes for reception and sending
       IADR(NSPMD+1)=LENRV+1
 
       IF(LENSD>0)THEN
-          ALLOCATE(BBUFS(LENSD),STAT=IERROR)
+          call my_alloc(BBUFS, LENSD, "BBUFS", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -774,7 +775,7 @@ C counting buffer sizes for reception and sending
 
 C preparation of receive
       IF(LENRV>0)THEN
-          ALLOCATE(BBUFR(LENRV),STAT=IERROR)
+          call my_alloc(BBUFR, LENRV, "BBUFR", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -942,8 +943,8 @@ C end of send
       ENDDO
 
 
-      IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
-      IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
+      IF (ALLOCATED(BBUFS)) call my_dealloc(BBUFS)
+      IF (ALLOCATED(BBUFR)) call my_dealloc(BBUFR)
 
 C Fourth part of Comm routine has been done      
       I24COM4=0

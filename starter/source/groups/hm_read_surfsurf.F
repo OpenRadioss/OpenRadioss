@@ -129,17 +129,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SURFACES FORMED OF SURFACES
 C=======================================================================
-      ALLOCATE(ITRI(5,INSEG),STAT=IERROR)
+      call my_alloc(ITRI, 5, INSEG, "ITRI", stat=IERROR)
       IF(IERROR/=0)CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                         MSGTYPE=MSGERROR,
      .                         C1='SURFSURF')
 
-      ALLOCATE(INDEX(2*INSEG),STAT=IERROR)
+      call my_alloc(INDEX, 2*INSEG, "INDEX", stat=IERROR)
       IF(IERROR/=0)CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                         MSGTYPE=MSGERROR,
      .                         C1='SURFSURF')
 
-      ALLOCATE(BUFTMP(INSEG),STAT=IERROR)
+      call my_alloc(BUFTMP, INSEG, "BUFTMP", stat=IERROR)
       IF(IERROR/=0)CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                         MSGTYPE=MSGERROR,
      .                         C1='SURFSURF')
@@ -167,7 +167,7 @@ C     loop over the surfaces
             CALL HM_GET_INTV('idsmax', NB_IDS, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INTV('negativeIdsmax', NB_NEG_IDS, IS_AVAILABLE, LSUBMODEL)
             IF (NB_IDS + NB_NEG_IDS == 0) CYCLE
-            ALLOCATE(IDS(NB_IDS + NB_NEG_IDS))
+            call my_alloc(IDS, NB_IDS + NB_NEG_IDS, "IDS")
             DO II = 1, NB_IDS
                CALL HM_GET_INT_ARRAY_INDEX('ids', IDS(II), II, IS_AVAILABLE, LSUBMODEL)
             ENDDO
@@ -197,9 +197,9 @@ C-----------
                         CALL ANCMSG(MSGID=189, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                       C1='SURFACE', C2='SURFACE', C3='SURFACE', C4=TITR, C5='SURFACE',
      .                       I1=ID, I2=IGRSURF(IGS)%ID)
-                        IF(ALLOCATED(ITRI)) DEALLOCATE(ITRI)
-                        IF(ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-                        IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
+                        IF(ALLOCATED(ITRI)) CALL MY_DEALLOC(ITRI)
+                        IF(ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+                        IF(ALLOCATED(BUFTMP)) CALL MY_DEALLOC(BUFTMP)
                         RETURN
                      ENDIF
                      IGRSURF(IGS)%NSEG=-1
@@ -217,11 +217,11 @@ C-----
                IF (SKIPFLAG == 0) THEN             
                   INSEG=INSEG+NISX*NSEG    
                   IGRSURF(IGS)%NSEG=NSEG
-                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4)
+                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4,"IGRSURF(IGS)%NODES")
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
-                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG,"IGRSURF(IGS)%ELTYP")
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
-                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG,"IGRSURF(IGS)%ELEM")
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
                ENDIF                                 
 C-----------
@@ -279,14 +279,14 @@ C-----------
                ENDDO
                IGRSURF(IGS)%LEVEL=1
             ENDIF    
-            DEALLOCATE(IDS)
+            CALL MY_DEALLOC(IDS)
          ELSEIF (KEY(1:5) == 'DSURF') THEN                  
             NB_IDS = 0
             NB_NEG_IDS = 0
             CALL HM_GET_INTV('idsmax', NB_IDS, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INTV('negativeIdsmax', NB_NEG_IDS, IS_AVAILABLE, LSUBMODEL)
             IF (NB_IDS + NB_NEG_IDS == 0) CYCLE
-            ALLOCATE(IDS(NB_IDS + NB_NEG_IDS))
+            call my_alloc(IDS, NB_IDS + NB_NEG_IDS, "IDS")
             DO II = 1, NB_IDS
                CALL HM_GET_INT_ARRAY_INDEX('ids', IDS(II), II, IS_AVAILABLE, LSUBMODEL)
             ENDDO
@@ -316,9 +316,9 @@ C-----------
                         CALL ANCMSG(MSGID=189, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                       C1='SURFACE', C2='SURFACE', C3='SURFACE', C4=TITR, C5='SURFACE',
      .                       I1=ID, I2=IGRSURF(IGS)%ID)
-                        IF(ALLOCATED(ITRI)) DEALLOCATE(ITRI)
-                        IF(ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-                        IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
+                        IF(ALLOCATED(ITRI)) CALL MY_DEALLOC(ITRI)
+                        IF(ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+                        IF(ALLOCATED(BUFTMP)) CALL MY_DEALLOC(BUFTMP)
                         RETURN
                      ENDIF
                      IGRSURF(IGS)%NSEG=-1
@@ -336,11 +336,11 @@ C-----------
                IF (SKIPFLAG == 0) THEN               
                   INSEG=INSEG+NISX*NSEG    
                   IGRSURF(IGS)%NSEG=NSEG
-                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4)
+                  CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEG,4,"IGRSURF(IGS)%NODES")
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
-                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELTYP,NSEG,"IGRSURF(IGS)%ELTYP")
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
-                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG)
+                  CALL MY_ALLOC(IGRSURF(IGS)%ELEM,NSEG,"IGRSURF(IGS)%ELEM")
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
                ENDIF  
 C-----------
@@ -526,8 +526,8 @@ C------ for re-allocation %NODES
                 ENDIF 
               ENDDO             
               IF (NSEGV /= NSEG) THEN               
-                DEALLOCATE(IGRSURF(IGS)%NODES)
-                CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEGV,4)
+                CALL MY_DEALLOC(IGRSURF(IGS)%NODES)
+                CALL MY_ALLOC(IGRSURF(IGS)%NODES,NSEGV,4,"IGRSURF(IGS)%NODES")
                 IGRSURF(IGS)%NODES(1:NSEGV,1:4) = 0
               ENDIF  
               DO L=1,NSEG
@@ -548,13 +548,13 @@ C------ for re-allocation %NODES
               IGRSURF(IGS)%LEVEL=1
 C-----------                                        
             ENDIF
-           DEALLOCATE(IDS)
+           CALL MY_DEALLOC(IDS)
          ENDIF                   ! IF (FLAG == 0 .AND. ISURF(2,IGS) == -1)
       ENDDO                     ! DO I=1,NSURF
 C-----------
-      IF(ALLOCATED(ITRI)) DEALLOCATE(ITRI)
-      IF(ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-      IF(ALLOCATED(BUFTMP)) DEALLOCATE(BUFTMP)
+      IF(ALLOCATED(ITRI)) CALL MY_DEALLOC(ITRI)
+      IF(ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+      IF(ALLOCATED(BUFTMP)) CALL MY_DEALLOC(BUFTMP)
 
       RETURN
       END
