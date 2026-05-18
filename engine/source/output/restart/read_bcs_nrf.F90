@@ -85,6 +85,7 @@
                 allocate(bcs%nrf(ii)%list%face(ilen)) ; call read_i_c(bcs%nrf(ii)%list%face(1),ilen)
                 allocate(bcs%nrf(ii)%list%rCp(ilen)) ; call read_db(bcs%nrf(ii)%list%rCp(1),ilen)
                 allocate(bcs%nrf(ii)%list%rCs(ilen)) ; call read_db(bcs%nrf(ii)%list%rCs(1),ilen)
+                allocate(bcs%nrf(ii)%list%iadsky(4,ilen)) ; call read_i_c(bcs%nrf(ii)%list%iadsky,4*ilen)
               end if
 
             end do

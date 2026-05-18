@@ -83,6 +83,7 @@
             call write_i_c(bcsnrf%list%face,ilen)
             call write_db(bcsnrf%list%rCp,ilen)
             call write_db(bcsnrf%list%rCs,ilen)
+            call write_i_c(bcsnrf%list%iadsky,4*ilen)
           end if
 
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -337,7 +337,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
      F   LOADS_PER_PROC, PYTHON    ,DPL0CLD         ,VEL0CLD     ,NAMES_AND_TITLES,
      G   BCS_PER_PROC,constraint_struct,glob_therm  ,PBLAST      ,RWSTIF_PEN,SLN_PEN,
-     H   IN_SFEM     , NE_SFEM )
+     H   IN_SFEM     , NE_SFEM , bcs)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -648,11 +648,12 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
         TYPE(LOADS_),INTENT(IN)    :: LOADS ! initial structure of load cyl
         TYPE(LOADS_),INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
-        TYPE(BCS_STRUCT_),INTENT(INOUT) :: BCS_PER_PROC
+        TYPE(BCS_STRUCT_),INTENT(INOUT) :: BCS_PER_PROC !< bcs data structure for the current proc P
         TYPE(NAMES_AND_TITLES_),INTENT(IN) :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
         type(constraint_), intent(inout) :: constraint_struct !< constraint structure for the splitting
         TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
         TYPE(glob_therm_) ,intent(inout) :: glob_therm
+        type(bcs_struct_), intent(in) :: bcs !< bcs data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2599,7 +2600,8 @@ C--------------------------------------
      O      IBFFLUX   ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L   ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
      Q      IGRSURF_PROC ,NEBCS_PARALLEL, EBCS_TAB_LOC_2,
-     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM)
+     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM,
+     S      bcs,bcs_per_proc)
 
       ! -------------------
       CALL EBCS_TAB_LOC_2%destroy()

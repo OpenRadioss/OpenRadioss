@@ -2974,7 +2974,8 @@ C----------------------
      .                         IXS            , IXTG     , IXQ       ,
      .                         IPARIT         , LSKY     , ELEMENT%PON%FSKY,
      .                         OUTPUT%TH%WFEXT, NODA_FEXT, DT1       ,
-     .                         ANIM_V         , OUTP_V   , H3D_DATA  )
+     .                         ANIM_V         , OUTP_V   , H3D_DATA  ,
+     .                         bcs)
                 ENDIF
 C----------------------
 

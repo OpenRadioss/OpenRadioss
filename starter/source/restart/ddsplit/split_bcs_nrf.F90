@@ -95,6 +95,7 @@
               size_on_proc(p) = size_on_proc(p) + 1
             end do
 
+            allocate(bcs%nrf(ii)%list%global_2_local(bcs%nrf(ii)%list%size))
             !---allcoation of local data structure (on each domain)
             do p=1,nspmd
               bcs_per_proc(p)%nrf(ii)%list%size = size_on_proc(p)
@@ -102,8 +103,8 @@
               allocate( bcs_per_proc(p)%nrf(ii)%list%face(size_on_proc(p)))
               allocate( bcs_per_proc(p)%nrf(ii)%list%rCp(size_on_proc(p)))
               allocate( bcs_per_proc(p)%nrf(ii)%list%rCs(size_on_proc(p)))
+              allocate( bcs_per_proc(p)%nrf(ii)%list%iadsky(4,size_on_proc(p)))
             end do
-
             !--filling local data structure
             do jj=1,bcs%nrf(ii)%list%size
               p = 1 + cep( bcs%nrf(ii)%list%elem(jj) )
@@ -112,6 +113,8 @@
               bcs_per_proc(p)%nrf(ii)%list%face( proc_index(p) ) = bcs%nrf(ii)%list%face(jj)
               bcs_per_proc(p)%nrf(ii)%list%rCp( proc_index(p) ) = bcs%nrf(ii)%list%rCp(jj)
               bcs_per_proc(p)%nrf(ii)%list%rCs( proc_index(p) ) = bcs%nrf(ii)%list%rCs(jj)
+              bcs_per_proc(p)%nrf(ii)%list%iadsky( 1:4,proc_index(p) ) = 0 ! default value, updated in w_pon
+              bcs%nrf(ii)%list%global_2_local(jj) = proc_index(p) ! global to local index for the segment jj
             end do
 
           end do

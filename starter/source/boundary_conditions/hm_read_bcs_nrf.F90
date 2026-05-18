@@ -96,6 +96,7 @@
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
           ! if no option /BCS/NRF in input file then return
+          bcs%nrf_cont_nb = 0
           if(bcs%num_nrf == 0)return
           ! compatible only with FEM
           if(multi_fvm%is_used)then

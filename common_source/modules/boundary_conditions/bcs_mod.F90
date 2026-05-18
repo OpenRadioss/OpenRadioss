@@ -62,6 +62,10 @@
           integer, dimension(:), allocatable :: elem
           integer, dimension(:), allocatable :: face
           integer, dimension(:), allocatable :: adjacent_elem
+          integer, dimension(:), allocatable :: elem_type !< type of element : hexa (3d), quad or tria (2d)
+          integer, dimension(:,:), allocatable :: iadsky !< address of each contributions
+          integer, dimension(:,:), allocatable :: node_list !< list of nodes for each segment (max 4 for hexa, 3 for quad, 2 for tria)
+          integer, dimension(:), allocatable :: global_2_local !< global to local index for the segment (local = local to the proc P)
           real(kind=WP), dimension(:) ,allocatable ::  rCp
           real(kind=WP), dimension(:) ,allocatable ::  rCs
         end type bcs_face_data_
@@ -90,6 +94,8 @@
         type bcs_struct_
           integer :: num_wall
           integer :: num_nrf
+          integer :: nrf_cont_nb !< total number of contribution to bcs nrf (for memory allocation purpose)
+          integer, dimension(:,:), allocatable :: nrf_bound
           type(bcs_wall_struct_),dimension(:),allocatable :: wall
           type(bcs_nrf_struct_),dimension(:),allocatable :: nrf
           integer, allocatable, dimension(:,:) :: iworking_array
@@ -150,12 +156,17 @@
                 if(allocated(this%nrf(ii)%list%adjacent_elem)) deallocate(this%nrf(ii)%list%adjacent_elem)
                 if(allocated(this%nrf(ii)%list%rCp)) deallocate(this%nrf(ii)%list%rCp)
                 if(allocated(this%nrf(ii)%list%rCs)) deallocate(this%nrf(ii)%list%rCs)
+                if(allocated(this%nrf(ii)%list%elem_type)) deallocate(this%nrf(ii)%list%elem_type)
+                if(allocated(this%nrf(ii)%list%iadsky)) deallocate(this%nrf(ii)%list%iadsky)
+                if(allocated(this%nrf(ii)%list%node_list)) deallocate(this%nrf(ii)%list%node_list)
+                if(allocated(this%nrf(ii)%list%global_2_local)) deallocate(this%nrf(ii)%list%global_2_local)              
               end if
             end do
             if(allocated(this%nrf))deallocate(this%nrf)
           end if
 
           if(allocated(this%iworking_array))deallocate(this%iworking_array)
+          if(allocated(this%nrf_bound)) deallocate(this%nrf_bound)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine deallocate
