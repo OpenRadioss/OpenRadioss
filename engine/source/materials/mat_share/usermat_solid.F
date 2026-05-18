@@ -154,6 +154,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -998,7 +999,7 @@ c
       ELSE IF (MTN == 200) THEN  ! MDS MATERIAL LAW INTERFACE (in construction)
 
         IF(MDS_AVAIL == 1 )THEN
-          ALLOCATE(ISMSTR10_FP(15,NEL))
+          call my_alloc(ISMSTR10_FP, 15, NEL, "ISMSTR10_FP")
 
           IF (ISMSTR == 10) THEN
              DO I=LFT,LLT

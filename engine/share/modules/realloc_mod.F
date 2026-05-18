@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I n c l u d e s
 C-----------------------------------------------      
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"      
 C-----------------------------------------------
 C   D u m m y  a r g u m e n t s 
@@ -62,11 +63,12 @@ C-----------------------------------------------
       
       !There remains enough memory
       ALLOCATE(IREALLOCATE(1:new_size), STAT=ierr)
+! TODO: non-default lower bound, convert manually
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
        IREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! Do not forget    
+       call my_dealloc(ptr) ! Do not forget
             
       END FUNCTION IREALLOCATE
 C-----------------------------------------------
@@ -82,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I n c l u d e s
 C-----------------------------------------------      
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"      
 C-----------------------------------------------
 C   D u m m y  a r g u m e n t s 
@@ -101,11 +104,12 @@ C-----------------------------------------------
       
       !There remains enough memory
       ALLOCATE(JREALLOCATE(1:new_size), STAT=ierr)
+! TODO: non-default lower bound, convert manually
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
        JREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! Do not forget    
+       call my_dealloc(ptr) ! Do not forget
             
       END FUNCTION JREALLOCATE
 C-----------------------------------------------

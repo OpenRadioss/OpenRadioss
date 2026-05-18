@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -71,8 +73,8 @@ C=======================================================================
         ENDIF 
       ENDDO
 
-      ALLOCATE (ICLTAB(ILCLUSTER_MAX)) ! Integer CLuster TABle
-      ALLOCATE (RCLTAB(RLCLUSTER_MAX)) ! Real CLuster TABle
+      call my_alloc(ICLTAB, ILCLUSTER_MAX, "ICLTAB") ! Integer CLuster TABle
+      call my_alloc(RCLTAB, RLCLUSTER_MAX, "RCLTAB") ! Real CLuster TABle
 
       DO I = 1, NCLUSTER
         RCLTAB = ZERO
@@ -140,8 +142,8 @@ C=======================================================================
         ENDIF
       ENDDO  !  I = 1, NCLUSTER_L
 
-      DEALLOCATE (RCLTAB)
-      DEALLOCATE (ICLTAB)
+      call my_dealloc(RCLTAB)
+      call my_dealloc(ICLTAB)
 
 C-----------
       RETURN

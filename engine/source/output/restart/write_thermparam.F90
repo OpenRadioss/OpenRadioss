@@ -31,7 +31,7 @@
 !||    write_matparam         ../engine/source/output/restart/write_matparam.F
 !||====================================================================
       module write_therpmaram_mod
-      implicit none
+        implicit none
       contains
 
 !||====================================================================
@@ -54,6 +54,8 @@
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -73,17 +75,17 @@
 ! --------------------------------------------------------------------------------------------------
           ! write integer parameters
           ifix = 2
-          allocate (ibuf(ifix))
+          call my_alloc(ibuf, ifix, "ibuf")
 !
           ibuf(1) = therm%iform
           ibuf(2) = therm%func_thexp
 !
           call write_i_c(ibuf,ifix)
-          deallocate(ibuf)
+          call my_dealloc(ibuf)
 
           ! write real value parameters
           rfix = 10
-          allocate (rbuf(rfix))
+          call my_alloc(rbuf, rfix, "rbuf")
 !
           rbuf(1)  = therm%tini
           rbuf(2)  = therm%tref
@@ -97,7 +99,7 @@
           rbuf(10) = therm%scale_thexp
 !
           call write_db(rbuf,rfix)
-          deallocate(rbuf)
+          call my_dealloc(rbuf)
 !-----------
           return
         end subroutine write_thermparam

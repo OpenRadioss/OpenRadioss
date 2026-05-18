@@ -36,6 +36,7 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixs,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(TAG(NUMEL))
+      call my_alloc(TAG, NUMEL, "TAG")
       TAG(1:NUMEL) = 0
 
       ICOUNT = 0
@@ -158,7 +159,7 @@ C-----------------------------------------------
 
       ENDDO
       
-      DEALLOCATE(TAG)
+      CALL MY_DEALLOC(TAG)
       END SUBROUTINE C_IDGLOB
 C
 !||====================================================================

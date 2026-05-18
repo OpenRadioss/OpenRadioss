@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD            
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod, only : my_alloc
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,11 +88,11 @@ c
       ! Allocation for non-local computation
       IF ((NNLOC > 0).OR.(NLOC_DMG%IMOD>0)) THEN 
         NLOC_DMG%IMOD = 1
-        IF (.NOT.ALLOCATED(NLOC_DMG%LEN))    ALLOCATE(NLOC_DMG%LEN(NUMMAT))
-        IF (.NOT.ALLOCATED(NLOC_DMG%LE_MAX)) ALLOCATE(NLOC_DMG%LE_MAX(NUMMAT))
-        IF (.NOT.ALLOCATED(NLOC_DMG%DENS))   ALLOCATE(NLOC_DMG%DENS(NUMMAT))
-        IF (.NOT.ALLOCATED(NLOC_DMG%DAMP))   ALLOCATE(NLOC_DMG%DAMP(NUMMAT))
-        IF (.NOT.ALLOCATED(NLOC_DMG%SSPNL))  ALLOCATE(NLOC_DMG%SSPNL(NUMMAT))
+        IF (.NOT.ALLOCATED(NLOC_DMG%LEN))    call my_alloc(NLOC_DMG%LEN, NUMMAT, "NLOC_DMG%LEN")
+        IF (.NOT.ALLOCATED(NLOC_DMG%LE_MAX)) call my_alloc(NLOC_DMG%LE_MAX, NUMMAT, "NLOC_DMG%LE_MAX")
+        IF (.NOT.ALLOCATED(NLOC_DMG%DENS))   call my_alloc(NLOC_DMG%DENS, NUMMAT, "NLOC_DMG%DENS")
+        IF (.NOT.ALLOCATED(NLOC_DMG%DAMP))   call my_alloc(NLOC_DMG%DAMP, NUMMAT, "NLOC_DMG%DAMP")
+        IF (.NOT.ALLOCATED(NLOC_DMG%SSPNL))  call my_alloc(NLOC_DMG%SSPNL, NUMMAT, "NLOC_DMG%SSPNL")
         NLOC_DMG%LEN(1:NUMMAT)    = ZERO
         NLOC_DMG%LE_MAX(1:NUMMAT) = ZERO
         NLOC_DMG%DENS(1:NUMMAT)   = ZERO

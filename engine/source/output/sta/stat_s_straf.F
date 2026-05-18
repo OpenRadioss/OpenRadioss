@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -94,8 +95,9 @@ C----
 C-----------------------------------------------
 C     8 NODES BRICK
 C======================================================================|
-      CALL MY_ALLOC(PTWA,STAT_NUMELS)
+      call my_alloc(PTWA, STAT_NUMELS, "PTWA")
       ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELS_G)))
+! TODO: non-default lower bound, convert manually
 C-----------------------------------------------
       JJ = 0
       IF(STAT_NUMELS==0) GOTO 200
@@ -799,7 +801,7 @@ c---
         ENDDO        
       ENDIF
 c-----------
-      DEALLOCATE(PTWA)
-      DEALLOCATE(PTWA_P0)
+      call my_dealloc(PTWA)
+      call my_dealloc(PTWA_P0)
       RETURN
       END

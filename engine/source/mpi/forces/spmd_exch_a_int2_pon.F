@@ -37,6 +37,8 @@ C
      4   FNCONTP,FTCONTP,H3D_DATA ,IDT_THERM)
 C-----------------------------------------------
        USE H3D_MOD
+       use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,8 +93,8 @@ C
       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
          ISIZOUT = ISIZOUT + 6
       ENDIF 
-      ALLOCATE(SBUF(LENS*I2SIZE+ISIZOUT*LCOMI2M))    
-      ALLOCATE(RBUF(LENR*I2SIZE+ISIZOUT*LCOMI2M)) 
+      call my_alloc(SBUF, LENS*I2SIZE+ISIZOUT*LCOMI2M, "SBUF")
+      call my_alloc(RBUF, LENR*I2SIZE+ISIZOUT*LCOMI2M, "RBUF")
 
 C
       NBIRECV = 0
@@ -432,8 +434,8 @@ C
         CALL MPI_WAITANY(NBISEND,REQ_S,INDEXI,STATUS,IERROR)
       ENDDO
 C
-      DEALLOCATE(RBUF)
-      DEALLOCATE(SBUF)
+      call my_dealloc(RBUF)
+      call my_dealloc(SBUF)
 
 C
 #endif

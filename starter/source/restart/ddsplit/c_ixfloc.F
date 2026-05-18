@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixs,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,9 +90,9 @@ C-----------------------------------------------
           NUMEL_L = NUMEL_L + NEL
         ENDIF
       ENDDO
-      ALLOCATE(ee_connect_l%iad_connect(NUMEL_L + 1))
+      call my_alloc(ee_connect_l%iad_connect, NUMEL_L + 1, "ee_connect_l%iad_connect")
       ee_connect_l%iad_connect(1:NUMEL_L + 1) = 0
-      ALLOCATE(nb_connect_l(NUMEL_L))
+      call my_alloc(nb_connect_l, NUMEL_L, "nb_connect_l")
       nb_connect_l(1:NUMEL_L) = 0
 
 !     Counting elements connected to local elements
@@ -129,11 +130,11 @@ C-----------------------------------------------
          ee_connect_l%iad_connect(I) = ee_connect_l%iad_connect(I - 1) + nb_connect_l(I - 1)
       ENDDO
       TMP = ee_connect_l%iad_connect(NUMEL_L + 1) - 1
-      ALLOCATE(ee_connect_l%connected(TMP)) ; ee_connect_l%connected(1:TMP) = 0
-      ALLOCATE(ee_connect_l%type(TMP)) ; ee_connect_l%type(1:TMP) = 0
-      ALLOCATE(ee_connect_l%iface2(TMP)) ; ee_connect_l%iface2(1:TMP) = 0
+      call my_alloc(ee_connect_l%connected, TMP, "ee_connect_l%connected") ; ee_connect_l%connected(1:TMP) = 0
+      call my_alloc(ee_connect_l%type, TMP, "ee_connect_l%type") ; ee_connect_l%type(1:TMP) = 0
+      call my_alloc(ee_connect_l%iface2, TMP, "ee_connect_l%iface2") ; ee_connect_l%iface2(1:TMP) = 0
 C
-      ALLOCATE(TAGE(NUMEL))
+      call my_alloc(TAGE, NUMEL, "TAGE")
       DO I = 1, NUMEL
         TAGE(I) = 0
       ENDDO
@@ -314,7 +315,7 @@ C   element interne
          ENDIF
        ENDIF
       ENDDO
-      DEALLOCATE(TAGE)
-      DEALLOCATE(nb_connect_l)
+      CALL MY_DEALLOC(TAGE)
+      CALL MY_DEALLOC(nb_connect_l)
       RETURN
       END

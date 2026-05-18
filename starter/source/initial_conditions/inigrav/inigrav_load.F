@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       use element_mod , only : nixs,nixc,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,7 +152,7 @@ C-----------------------------------------------
         !READING GRPART DATA
         IF(IGRP/=0)THEN
          NPART_IN_GROUP = IGRPART(IGRP)%NENTITY
-         ALLOCATE(IP(NPART_IN_GROUP),STAT=IERROR)
+         call my_alloc(IP, NPART_IN_GROUP, "IP", stat=IERROR)
          IF(IERROR/=0)CALL ANCMSG(MSGID   = 268,
      .                            ANMODE  = ANINFO,
      .                            MSGTYPE = MSGERROR,
@@ -171,7 +172,10 @@ C-----------------------------------------------
           l_USER_SURF=.TRUE.
           NSEG = IGRSURF(ISURF)%NSEG
           !STORING DATA FROM USER SURFACE (BOX,NORMAL,CENTROID)
-          ALLOCATE(MAX_COOR(3,NSEG),MIN_COOR(3,NSEG),N_SURF(3,NSEG),ZF(3,NSEG))
+          call my_alloc(MAX_COOR, 3, NSEG, "MAX_COOR")
+          call my_alloc(MIN_COOR, 3, NSEG, "MIN_COOR")
+          call my_alloc(N_SURF, 3, NSEG, "N_SURF")
+          call my_alloc(ZF, 3, NSEG, "ZF")
           DO ISEG=1,NSEG
             lTRIA=.FALSE.
             IF(IGRSURF(ISURF)%NODES(ISEG,4)==0)lTRIA=.TRUE.
@@ -517,12 +521,12 @@ C-----------------------------------------------
           ENDIF !(ITY == 1. .OR. ITY == 2) .AND.MLW /= 0)
         ENDDO   !next NG
             
-        IF(ALLOCATED(MAX_COOR))DEALLOCATE(MAX_COOR)
-        IF(ALLOCATED(MIN_COOR))DEALLOCATE(MIN_COOR)
-        IF(ALLOCATED(N_SURF))DEALLOCATE(N_SURF)
-        IF(ALLOCATED(ZF))DEALLOCATE(ZF)
+        IF(ALLOCATED(MAX_COOR))CALL MY_DEALLOC(MAX_COOR)
+        IF(ALLOCATED(MIN_COOR))CALL MY_DEALLOC(MIN_COOR)
+        IF(ALLOCATED(N_SURF))CALL MY_DEALLOC(N_SURF)
+        IF(ALLOCATED(ZF))CALL MY_DEALLOC(ZF)
         IF(IGRP/=0)THEN
-          IF(ALLOCATED(IP))DEALLOCATE(IP)  
+          IF(ALLOCATED(IP))CALL MY_DEALLOC(IP)
         ENDIF
 
       ENDDO    !next K

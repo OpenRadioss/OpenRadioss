@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,11 +129,12 @@ C=======================================================================
 !       NVSOLID5 = 0
 !cc       NPSOLID = 0
 !cc       NVSOLID = 0
-      ALLOCATE (KSYSUSR(2*NUMELC))
-      ALLOCATE (KSYSUSRTG(2*NUMELTG))
-      ALLOCATE (WORK(70000))
+      call my_alloc(KSYSUSR, 2*NUMELC, "KSYSUSR")
+      call my_alloc(KSYSUSRTG, 2*NUMELTG, "KSYSUSRTG")
+      call my_alloc(WORK, 70000, "WORK")
       NELT = MAX(NUMELC, NUMELTG)
-      ALLOCATE(ITRI(NELT),INDEX(2*NELT))
+      call my_alloc(ITRI, NELT, "ITRI")
+      call my_alloc(INDEX, 2*NELT, "INDEX")
       KTRIELC = 0
       KTRIELTG = 0
       KSYSUSR = 0

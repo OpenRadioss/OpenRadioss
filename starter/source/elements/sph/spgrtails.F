@@ -99,9 +99,9 @@ C-----------------------------------------------
 C--------------------------------------------------------------
 C         bounding of MVSIZ groups
 C--------------------------------------------------------------
-      CALL MY_ALLOC(INUM,13,NUMSPH)
-      CALL MY_ALLOC(INDEX,2*NUMSPH)
-      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH)
+      CALL MY_ALLOC(INUM,13,NUMSPH,"INUM")
+      CALL MY_ALLOC(INDEX,2*NUMSPH,"INDEX")
+      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH,"RNUM")
       NEL = 0
       DO N=1,ND
         NEL = NEL + EADD(N+1)-EADD(N)
@@ -436,9 +436,9 @@ C
      +'         MATERIAL   NUMBER    CELL     ADDRESS  TYPE     TYPE'/)
  1001 FORMAT(7(1X,I7,1X))
 C-----------
-      DEALLOCATE(INUM)
-      DEALLOCATE(INDEX)
-      DEALLOCATE(RNUM)
+      CALL MY_DEALLOC(INUM)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(RNUM)
 C-----------
       RETURN
       END

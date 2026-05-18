@@ -432,9 +432,9 @@ C-----------Multidomains: we cannot split the mass in this case--------------
           IF (FLAG == 0) THEN
             CALL HM_GET_INTV('entityidsmax'   ,ENTITYMAX ,IS_AVAILABLE ,LSUBMODEL)
 !
-            ALLOCATE(AMAS_MULTI(ENTITYMAX))
+            call my_alloc(AMAS_MULTI, ENTITYMAX, "AMAS_MULTI")
             AMAS_MULTI(1:ENTITYMAX) = ZERO
-            ALLOCATE(ENTITY_MULTI(ENTITYMAX))
+            call my_alloc(ENTITY_MULTI, ENTITYMAX, "ENTITY_MULTI")
             ENTITY_MULTI(1:ENTITYMAX) = 0
             DO J=1,ENTITYMAX
               CALL HM_GET_FLOAT_ARRAY_INDEX('masses'  ,AMAS_MULTI(J)   ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -466,8 +466,8 @@ C-----------multidomains: common nodes are only processed in one domain---------
               TOTADDMAS = TOTADDMAS + AMAS_MULTI(J)
  170          CONTINUE
             ENDDO ! DO J=1,ENTITYMAX
-            IF (ALLOCATED(AMAS_MULTI)) DEALLOCATE(AMAS_MULTI)
-            IF (ALLOCATED(ENTITY_MULTI)) DEALLOCATE(ENTITY_MULTI)
+            IF (ALLOCATED(AMAS_MULTI)) CALL MY_DEALLOC(AMAS_MULTI)
+            IF (ALLOCATED(ENTITY_MULTI)) CALL MY_DEALLOC(ENTITY_MULTI)
           ENDIF ! IF (FLAG == 0)
 !------
         ELSEIF (ITYPE == 6 .or. ITYPE == 7) THEN
@@ -476,11 +476,11 @@ C-----------multidomains: common nodes are only processed in one domain---------
 !---
           CALL HM_GET_INTV('entityidsmax'   ,ENTITYMAX ,IS_AVAILABLE ,LSUBMODEL)
 !
-          ALLOCATE(AMAS_MULTI(ENTITYMAX))
+          call my_alloc(AMAS_MULTI, ENTITYMAX, "AMAS_MULTI")
           AMAS_MULTI(1:ENTITYMAX) = ZERO
-          ALLOCATE(ENTITY_MULTI(ENTITYMAX))
+          call my_alloc(ENTITY_MULTI, ENTITYMAX, "ENTITY_MULTI")
           ENTITY_MULTI(1:ENTITYMAX) = 0
-          ALLOCATE(IFLAG_MULTI(ENTITYMAX))
+          call my_alloc(IFLAG_MULTI, ENTITYMAX, "IFLAG_MULTI")
           IFLAG_MULTI(1:ENTITYMAX) = 0
 !
           IF (FLAG == 0) THEN
@@ -549,9 +549,9 @@ C-----------multidomains: parts that do not belong to the domain are ignored----
               ENDIF ! IF (FLAG == 1)
 
           ENDDO ! DO J=1,ENTITYMAX
-          IF (ALLOCATED(AMAS_MULTI))   DEALLOCATE(AMAS_MULTI)
-          IF (ALLOCATED(ENTITY_MULTI)) DEALLOCATE(ENTITY_MULTI)
-          IF (ALLOCATED(IFLAG_MULTI))  DEALLOCATE(IFLAG_MULTI)
+          IF (ALLOCATED(AMAS_MULTI))   CALL MY_DEALLOC(AMAS_MULTI)
+          IF (ALLOCATED(ENTITY_MULTI)) CALL MY_DEALLOC(ENTITY_MULTI)
+          IF (ALLOCATED(IFLAG_MULTI))  CALL MY_DEALLOC(IFLAG_MULTI)
 !------
         ELSE IF (ITYPE == 10) THEN
           !------

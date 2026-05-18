@@ -50,6 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -120,7 +122,7 @@ C
 
       IF(FLAGREMN == 2 ) THEN
 c
-        ALLOCATE(TAGMSR(NRTM))
+        call my_alloc(TAGMSR, NRTM, "TAGMSR")
         TAGMSR(1:NRTM) = 0
 c
 !$omp do schedule(guided)
@@ -443,7 +445,7 @@ C     force calculation of normals vs boundary nodes
 C
       CALL MY_BARRIER() 
 
-      IF(FLAGREMN == 2) DEALLOCATE(TAGMSR)
+      IF(FLAGREMN == 2) call my_dealloc(TAGMSR)
 C
       RETURN
       END

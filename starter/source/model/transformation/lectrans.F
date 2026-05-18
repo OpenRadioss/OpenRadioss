@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE min_dist_grnod_to_surface_mod, ONLY : min_dist_grnod_to_surface
       USE min_dist_grnod_to_xyzpos_mod, ONLY : min_dist_grnod_to_xyzpos
       USE transform_translate_in_local_skew_mod, ONLY : transform_translate_in_local_skew
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -931,9 +932,9 @@ C
           !
           ! create a list of nodes from the surface group
           !
-            ALLOCATE(INO(1:4*IGRSURF(ISURF)%NSEG))
+            call my_alloc(INO, 4*IGRSURF(ISURF)%NSEG, "INO")
             INO(1:4*IGRSURF(ISURF)%NSEG)=0
-            ALLOCATE(TAGNODE(1:NUMNOD))
+            call my_alloc(TAGNODE, NUMNOD, "TAGNODE")
             TAGNODE(1:NUMNOD)=0
           !
             DO J=1,IGRSURF(ISURF)%NSEG
@@ -972,8 +973,8 @@ C
           !
           !---------------------------
           !
-          IF(ALLOCATED(INO)) DEALLOCATE(INO)
-          IF(ALLOCATED(TAGNODE)) DEALLOCATE(TAGNODE)
+          IF(ALLOCATED(INO)) CALL MY_DEALLOC(INO)
+          IF(ALLOCATED(TAGNODE)) CALL MY_DEALLOC(TAGNODE)
           !
           WRITE(IOUT,2000) ID,IGU   
           WRITE(IOUT,2100) IGSURF,ISK0,DIR(1:1),GAP,PFLAG0,

@@ -86,11 +86,11 @@ C-----------------------------------------------
 C======================================================================|
 C  GENERAL SORTING : ALL CRITERIA, ALL ELEMENTS
 C----------------------------------------------------------
-      CALL MY_ALLOC(ITRI,7,NUMSPH)
-      CALL MY_ALLOC(INDEX,2*NUMSPH)
-      CALL MY_ALLOC(INUM,13,NUMSPH)
-      CALL MY_ALLOC(XEP,NUMSPH)
-      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH)
+      CALL MY_ALLOC(ITRI,7,NUMSPH,"ITRI")
+      CALL MY_ALLOC(INDEX,2*NUMSPH,"INDEX")
+      CALL MY_ALLOC(INUM,13,NUMSPH,"INUM")
+      CALL MY_ALLOC(XEP,NUMSPH,"XEP")
+      CALL MY_ALLOC(RNUM,NSPBUF,NUMSPH,"RNUM")
       
       DO I=1,NUMSPH
         IF(NSPHSOL==0)THEN
@@ -286,11 +286,11 @@ C--------------------------------------------------------------
       DO N=1,ND
         NE = NE + EADD(N+1)-EADD(N)
       ENDDO
-      DEALLOCATE(ITRI)
-      DEALLOCATE(INDEX)
-      DEALLOCATE(INUM)
-      DEALLOCATE(XEP)
-      DEALLOCATE(RNUM)
+      CALL MY_DEALLOC(ITRI)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(INUM)
+      CALL MY_DEALLOC(XEP)
+      CALL MY_DEALLOC(RNUM)
 
 C-----------
       RETURN

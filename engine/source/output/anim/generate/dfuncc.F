@@ -69,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -152,7 +153,7 @@ C-----------------------------------------------
       LOGICAL detected
       INTEGER :: IDX0,IDX1,IDX2
 C-----------------------------------------------
-      CALL MY_ALLOC(WAL,NBF_L)
+      call my_alloc(WAL, NBF_L, "WAL")
       NN1  = 1
       NN3  = 1
       NN4  = NN3 + NUMELQ
@@ -5177,8 +5178,8 @@ C
           CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,WAL,BUF)
       ENDIF
 c-----------
-      IF(ALLOCATED(WA_L))DEALLOCATE(WA_L)
-      DEALLOCATE(WAL)
+      IF(ALLOCATED(WA_L)) call my_dealloc(WA_L)
+      call my_dealloc(WAL)
       RETURN
       END
 !||====================================================================

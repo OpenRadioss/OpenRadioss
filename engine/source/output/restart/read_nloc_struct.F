@@ -38,6 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
@@ -91,62 +92,62 @@ C--       multidomains - original nummat is used
           MATSIZE = NUMMAT 
         ENDIF
 c
-        ALLOCATE (NLOC_DMG%LEN(MATSIZE))
-        ALLOCATE (NLOC_DMG%LE_MAX(MATSIZE))
-        ALLOCATE (NLOC_DMG%DENS(MATSIZE))
-        ALLOCATE (NLOC_DMG%DAMP(MATSIZE))
-        ALLOCATE (NLOC_DMG%SSPNL(MATSIZE))
-        ALLOCATE (NLOC_DMG%INDX(NNOD))
-        ALLOCATE (NLOC_DMG%POSI(NNOD+1))
-        ALLOCATE (NLOC_DMG%IDXI(NUMNOD))
-        ALLOCATE (NLOC_DMG%MASS(L_NLOC))
-        ALLOCATE (NLOC_DMG%MASS0(L_NLOC))
-        ALLOCATE (NLOC_DMG%VNL(L_NLOC))
-        ALLOCATE (NLOC_DMG%VNL_OLD(L_NLOC))
-        ALLOCATE (NLOC_DMG%DNL(L_NLOC))
-        ALLOCATE (NLOC_DMG%UNL(L_NLOC))
-        ALLOCATE (NLOC_DMG%CNE(0))
+        call my_alloc(NLOC_DMG%LEN, MATSIZE, "NLOC_DMG%LEN")
+        call my_alloc(NLOC_DMG%LE_MAX, MATSIZE, "NLOC_DMG%LE_MAX")
+        call my_alloc(NLOC_DMG%DENS, MATSIZE, "NLOC_DMG%DENS")
+        call my_alloc(NLOC_DMG%DAMP, MATSIZE, "NLOC_DMG%DAMP")
+        call my_alloc(NLOC_DMG%SSPNL, MATSIZE, "NLOC_DMG%SSPNL")
+        call my_alloc(NLOC_DMG%INDX, NNOD, "NLOC_DMG%INDX")
+        call my_alloc(NLOC_DMG%POSI, NNOD+1, "NLOC_DMG%POSI")
+        call my_alloc(NLOC_DMG%IDXI, NUMNOD, "NLOC_DMG%IDXI")
+        call my_alloc(NLOC_DMG%MASS, L_NLOC, "NLOC_DMG%MASS")
+        call my_alloc(NLOC_DMG%MASS0, L_NLOC, "NLOC_DMG%MASS0")
+        call my_alloc(NLOC_DMG%VNL, L_NLOC, "NLOC_DMG%VNL")
+        call my_alloc(NLOC_DMG%VNL_OLD, L_NLOC, "NLOC_DMG%VNL_OLD")
+        call my_alloc(NLOC_DMG%DNL, L_NLOC, "NLOC_DMG%DNL")
+        call my_alloc(NLOC_DMG%UNL, L_NLOC, "NLOC_DMG%UNL")
+        call my_alloc(NLOC_DMG%CNE, 0, "NLOC_DMG%CNE")
 c
         ! If starter PARITH/ON
         IF (IPARI0 == 1) THEN
-          ALLOCATE (NLOC_DMG%ADDCNE(NNOD+1))
-          ALLOCATE (NLOC_DMG%PROCNE(LCNE_NL))
-          ALLOCATE (NLOC_DMG%IADS(8,NUMELS_NL))
-          ALLOCATE (NLOC_DMG%IADC(4,NUMELC_NL))
-          ALLOCATE (NLOC_DMG%IADTG(3,NUMELTG_NL))     
+          call my_alloc(NLOC_DMG%ADDCNE, NNOD+1, "NLOC_DMG%ADDCNE")
+          call my_alloc(NLOC_DMG%PROCNE, LCNE_NL, "NLOC_DMG%PROCNE")
+          call my_alloc(NLOC_DMG%IADS, 8, NUMELS_NL, "NLOC_DMG%IADS")
+          call my_alloc(NLOC_DMG%IADC, 4, NUMELC_NL, "NLOC_DMG%IADC")
+          call my_alloc(NLOC_DMG%IADTG, 3, NUMELTG_NL, "NLOC_DMG%IADTG")
 c
         ! If starter PARITH/OFF
         ELSE
-          ALLOCATE (NLOC_DMG%ADDCNE(0))
-          ALLOCATE (NLOC_DMG%PROCNE(0))
-          ALLOCATE (NLOC_DMG%IADS(0,0))
-          ALLOCATE (NLOC_DMG%IADC(0,0))
-          ALLOCATE (NLOC_DMG%IADTG(0,0))
-          ALLOCATE (NLOC_DMG%FSKY(0,0))
-          ALLOCATE (NLOC_DMG%STSKY(0,0))
+          call my_alloc(NLOC_DMG%ADDCNE, 0, "NLOC_DMG%ADDCNE")
+          call my_alloc(NLOC_DMG%PROCNE, 0, "NLOC_DMG%PROCNE")
+          call my_alloc(NLOC_DMG%IADS, 0, 0, "NLOC_DMG%IADS")
+          call my_alloc(NLOC_DMG%IADC, 0, 0, "NLOC_DMG%IADC")
+          call my_alloc(NLOC_DMG%IADTG, 0, 0, "NLOC_DMG%IADTG")
+          call my_alloc(NLOC_DMG%FSKY, 0, 0, "NLOC_DMG%FSKY")
+          call my_alloc(NLOC_DMG%STSKY, 0, 0, "NLOC_DMG%STSKY")
         ENDIF
 c
         ! If engine PARITH/ON
         IF (IPARIT == 1) THEN 
-          ALLOCATE (NLOC_DMG%FNL(L_NLOC,1))
+          call my_alloc(NLOC_DMG%FNL, L_NLOC, 1, "NLOC_DMG%FNL")
           NLOC_DMG%FNL(1:L_NLOC,1)    = ZERO
           ! Non-local nodal stiffness
           IF (NODADT > 0) THEN
-            ALLOCATE (NLOC_DMG%STIFNL(L_NLOC,1))
+            call my_alloc(NLOC_DMG%STIFNL, L_NLOC, 1, "NLOC_DMG%STIFNL")
             NLOC_DMG%STIFNL(1:L_NLOC,1) = ZERO
           ELSE
-            ALLOCATE (NLOC_DMG%STIFNL(0,0))
+            call my_alloc(NLOC_DMG%STIFNL, 0, 0, "NLOC_DMG%STIFNL")
           ENDIF
         ! If engine PARITH/OFF
         ELSE
-          ALLOCATE (NLOC_DMG%FNL(L_NLOC,NTHREAD))
+          call my_alloc(NLOC_DMG%FNL, L_NLOC, NTHREAD, "NLOC_DMG%FNL")
           NLOC_DMG%FNL(1:L_NLOC,1:NTHREAD) = ZERO
           ! Non-local nodal stiffness
           IF (NODADT > 0) THEN
-            ALLOCATE (NLOC_DMG%STIFNL(L_NLOC,NTHREAD))
+            call my_alloc(NLOC_DMG%STIFNL, L_NLOC, NTHREAD, "NLOC_DMG%STIFNL")
             NLOC_DMG%STIFNL(1:L_NLOC,1:NTHREAD) = ZERO
           ELSE
-            ALLOCATE (NLOC_DMG%STIFNL(0,0))
+            call my_alloc(NLOC_DMG%STIFNL, 0, 0, "NLOC_DMG%STIFNL")
           ENDIF
         ENDIF
 c
@@ -185,15 +186,15 @@ c
           CALL READ_I_C(NLOC_DMG%IADTG,3*NUMELTG_NL)
 c
           ! FSKY vector
-          ALLOCATE (NLOC_DMG%FSKY(NLOC_DMG%ADDCNE(NNOD+1),NDDMAX))
+          call my_alloc(NLOC_DMG%FSKY, NLOC_DMG%ADDCNE(NNOD+1), NDDMAX, "NLOC_DMG%FSKY")
           NLOC_DMG%FSKY(1:NLOC_DMG%ADDCNE(NNOD+1),1:NDDMAX) = ZERO
 c
           ! STSKY vector
           IF (NODADT > 0) THEN
-            ALLOCATE (NLOC_DMG%STSKY(NLOC_DMG%ADDCNE(NNOD+1),NDDMAX))
+            call my_alloc(NLOC_DMG%STSKY, NLOC_DMG%ADDCNE(NNOD+1), NDDMAX, "NLOC_DMG%STSKY")
             NLOC_DMG%STSKY(1:NLOC_DMG%ADDCNE(NNOD+1),1:NDDMAX) = ZERO
           ELSE
-            ALLOCATE (NLOC_DMG%STSKY(0,0))
+            call my_alloc(NLOC_DMG%STSKY, 0, 0, "NLOC_DMG%STSKY")
           ENDIF
 c
         ENDIF
@@ -221,33 +222,33 @@ c
         NLOC_DMG%NUMELTG_NL = 0
         NLOC_DMG%NDDMAX     = 0
         NLOC_DMG%LCNE_NL    = 0
-        ALLOCATE (NLOC_DMG%DENS(0))
-        ALLOCATE (NLOC_DMG%DAMP(0))
-        ALLOCATE (NLOC_DMG%LEN(0))
-        ALLOCATE (NLOC_DMG%LE_MAX(0))
-        ALLOCATE (NLOC_DMG%SSPNL(0))
-        ALLOCATE (NLOC_DMG%INDX(0))
-        ALLOCATE (NLOC_DMG%POSI(0))
-        ALLOCATE (NLOC_DMG%IDXI(0))
-        ALLOCATE (NLOC_DMG%ADDCNE(0))
-        ALLOCATE (NLOC_DMG%CNE(0))
-        ALLOCATE (NLOC_DMG%PROCNE(0))
-        ALLOCATE (NLOC_DMG%IADS(0,0))
-        ALLOCATE (NLOC_DMG%IADC(0,0))
-        ALLOCATE (NLOC_DMG%IADTG(0,0))
-        ALLOCATE (NLOC_DMG%MASS(0))
-        ALLOCATE (NLOC_DMG%MASS0(0))
-        ALLOCATE (NLOC_DMG%FNL(0,0))
-        ALLOCATE (NLOC_DMG%VNL(0))
-        ALLOCATE (NLOC_DMG%VNL_OLD(0))
-        ALLOCATE (NLOC_DMG%DNL(0))
-        ALLOCATE (NLOC_DMG%UNL(0))
-        ALLOCATE (NLOC_DMG%STIFNL(0,0))
-        ALLOCATE (NLOC_DMG%FSKY(0,0))
-        ALLOCATE (NLOC_DMG%STSKY(0,0))
-        ALLOCATE (NLOC_DMG%IAD_ELEM(0))
-        ALLOCATE (NLOC_DMG%IAD_SIZE(0))
-        ALLOCATE (NLOC_DMG%FR_ELEM(0))
+        call my_alloc(NLOC_DMG%DENS, 0, "NLOC_DMG%DENS")
+        call my_alloc(NLOC_DMG%DAMP, 0, "NLOC_DMG%DAMP")
+        call my_alloc(NLOC_DMG%LEN, 0, "NLOC_DMG%LEN")
+        call my_alloc(NLOC_DMG%LE_MAX, 0, "NLOC_DMG%LE_MAX")
+        call my_alloc(NLOC_DMG%SSPNL, 0, "NLOC_DMG%SSPNL")
+        call my_alloc(NLOC_DMG%INDX, 0, "NLOC_DMG%INDX")
+        call my_alloc(NLOC_DMG%POSI, 0, "NLOC_DMG%POSI")
+        call my_alloc(NLOC_DMG%IDXI, 0, "NLOC_DMG%IDXI")
+        call my_alloc(NLOC_DMG%ADDCNE, 0, "NLOC_DMG%ADDCNE")
+        call my_alloc(NLOC_DMG%CNE, 0, "NLOC_DMG%CNE")
+        call my_alloc(NLOC_DMG%PROCNE, 0, "NLOC_DMG%PROCNE")
+        call my_alloc(NLOC_DMG%IADS, 0, 0, "NLOC_DMG%IADS")
+        call my_alloc(NLOC_DMG%IADC, 0, 0, "NLOC_DMG%IADC")
+        call my_alloc(NLOC_DMG%IADTG, 0, 0, "NLOC_DMG%IADTG")
+        call my_alloc(NLOC_DMG%MASS, 0, "NLOC_DMG%MASS")
+        call my_alloc(NLOC_DMG%MASS0, 0, "NLOC_DMG%MASS0")
+        call my_alloc(NLOC_DMG%FNL, 0, 0, "NLOC_DMG%FNL")
+        call my_alloc(NLOC_DMG%VNL, 0, "NLOC_DMG%VNL")
+        call my_alloc(NLOC_DMG%VNL_OLD, 0, "NLOC_DMG%VNL_OLD")
+        call my_alloc(NLOC_DMG%DNL, 0, "NLOC_DMG%DNL")
+        call my_alloc(NLOC_DMG%UNL, 0, "NLOC_DMG%UNL")
+        call my_alloc(NLOC_DMG%STIFNL, 0, 0, "NLOC_DMG%STIFNL")
+        call my_alloc(NLOC_DMG%FSKY, 0, 0, "NLOC_DMG%FSKY")
+        call my_alloc(NLOC_DMG%STSKY, 0, 0, "NLOC_DMG%STSKY")
+        call my_alloc(NLOC_DMG%IAD_ELEM, 0, "NLOC_DMG%IAD_ELEM")
+        call my_alloc(NLOC_DMG%IAD_SIZE, 0, "NLOC_DMG%IAD_SIZE")
+        call my_alloc(NLOC_DMG%FR_ELEM, 0, "NLOC_DMG%FR_ELEM")
       ENDIF
 c-----------
       RETURN

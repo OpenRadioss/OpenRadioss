@@ -37,6 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -61,7 +62,7 @@ c      1) size of elbuf array for restart
 c      2) allocation of elbuf_str structure
 C=======================================================================
       ERR = 0
-      ALLOCATE (MAT_ELEM%ELBUF(NGROUP), STAT=ERR)
+      call my_alloc(MAT_ELEM%ELBUF, NGROUP, "MAT_ELEM%ELBUF", stat=ERR)
       IF (ERR /= 0) THEN
       ENDIF 
 c-------------------------------------------------

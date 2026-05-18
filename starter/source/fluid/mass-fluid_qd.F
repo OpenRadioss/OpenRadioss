@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,7 +89,7 @@ C Collocation BEM
       WI(2,2)=THIRD
       WI(3,2)=ONE_OVER_6
       WI(4,2)=ONE_OVER_6
-      ALLOCATE(BBEM(NEL,NEL), STAT = AERR)
+      call my_alloc(BBEM, NEL, NEL, "BBEM", stat=AERR)
       IF (AERR /= 0) THEN
          CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
       ENDIF
@@ -345,7 +346,7 @@ C---------------------------------------------------
 C 2- Compute fluid mass matrix MFLE
 C---------------------------------------------------
       IF (ILVOUT>=1) WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX'
-      ALLOCATE(EBEM(NEL,NEL), STAT = AERR)
+      call my_alloc(EBEM, NEL, NEL, "EBEM", stat=AERR)
       IF (AERR /= 0) THEN
          CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
       ENDIF
@@ -467,8 +468,8 @@ C
            ENDDO
         ENDDO
       ENDIF
-      IF (ALLOCATED(BBEM)) DEALLOCATE(BBEM)
-      IF (ALLOCATED(EBEM))DEALLOCATE(EBEM)    
+      IF (ALLOCATED(BBEM)) CALL MY_DEALLOC(BBEM)
+      IF (ALLOCATED(EBEM))CALL MY_DEALLOC(EBEM)
             
       RETURN
       END

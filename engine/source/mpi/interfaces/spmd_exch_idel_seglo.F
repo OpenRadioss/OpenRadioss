@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +101,7 @@ C-----------------------------------------------
              
                SIZ = RSEGLO(NINTER+1)-RSEGLO(1)
                IF(SIZ>0)THEN
-                 ALLOCATE(RBUF(SIZ))
+                 call my_alloc(RBUF, SIZ, "RBUF")
                  MSGTYP = MSGOFF2
                  CALL MPI_RECV(
      .             RBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -121,7 +122,7 @@ C-----------------------------------------------
                         END IF
                       ENDIF   ! IF(IND_SEG >0)
                    ENDDO     ! DO NG=1,NINTER
-                 DEALLOCATE(RBUF)
+                 call my_dealloc(RBUF)
                ENDIF       ! IF(SIZ>0)THEN
            ENDIF           ! IF(I/=LOC_PROC) THEN
          ENDDO

@@ -41,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
@@ -70,10 +71,10 @@ C-----------------------------------------------
      .                                        PROCNE_L
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IADS,IADC,IADTG
 C=======================================================================
-      CALL MY_ALLOC(INDX_L,NUMNOD_L)
-      CALL MY_ALLOC(NDDL,NUMNOD_L)
-      CALL MY_ALLOC(IDXI_L,NUMNOD_L)
-      CALL MY_ALLOC(POSI,NUMNOD_L+1)
+      CALL MY_ALLOC(INDX_L,NUMNOD_L,"INDX_L")
+      CALL MY_ALLOC(NDDL,NUMNOD_L,"NDDL")
+      CALL MY_ALLOC(IDXI_L,NUMNOD_L,"IDXI_L")
+      CALL MY_ALLOC(POSI,NUMNOD_L+1,"POSI")
 
       ! Flag for non-local computation 
       LCNENL_L = 0
@@ -139,21 +140,21 @@ c
           ENDDO  
 c
           ! Allocation of the local ADDCNE_L table
-          ALLOCATE(ADDCNE_L(NNOD_L + 1))
+          call my_alloc(ADDCNE_L, NNOD_L + 1, "ADDCNE_L")
           ADDCNE_L(1:NNOD_L + 1) = 0
-          ALLOCATE(PROCNE_L(LCNENL_L))
+          call my_alloc(PROCNE_L, LCNENL_L, "PROCNE_L")
           PROCNE_L(1:LCNENL_L)   = 0
-          ALLOCATE(IADS(8,NUMELS_L))
+          call my_alloc(IADS, 8, NUMELS_L, "IADS")
           IADS(1:8,1:NUMELS_L)   = 0
-          ALLOCATE(IADC(4,NUMELC_L))
+          call my_alloc(IADC, 4, NUMELC_L, "IADC")
           IADC(1:4,1:NUMELC_L)   = 0
-          ALLOCATE(IADTG(3,NUMELTG_L))
+          call my_alloc(IADTG, 3, NUMELTG_L, "IADTG")
           IADTG(1:3,1:NUMELTG_L) = 0
-          ALLOCATE(SOLTAG(NUMELS))
+          call my_alloc(SOLTAG, NUMELS, "SOLTAG")
           SOLTAG(1:NUMELS)       = 0
-          ALLOCATE(SHTAG(NUMELC))
+          call my_alloc(SHTAG, NUMELC, "SHTAG")
           SHTAG(1:NUMELC)        = 0
-          ALLOCATE(TGTAG(NUMELTG))
+          call my_alloc(TGTAG, NUMELTG, "TGTAG")
           TGTAG(1:NUMELTG)       = 0
 c
           ! Filling the ADDCNE_L table
@@ -293,27 +294,27 @@ c
 c
         CALL WRITE_DB(MASS0,LNLOC_L)                ! MASS0
 c
-        IF (.NOT.ALLOCATED(ZERO_VEC)) ALLOCATE(ZERO_VEC(4*LNLOC_L))
+        IF (.NOT.ALLOCATED(ZERO_VEC)) call my_alloc(ZERO_VEC, 4*LNLOC_L, "ZERO_VEC")
         ZERO_VEC(1:4*LNLOC_L) = ZERO
         CALL WRITE_DB(ZERO_VEC,4*LNLOC_L)           ! FNL (ZERO), VNL (ZERO), VNL_OLD (ZERO), DNL (ZERO)
 c
         CALL WRITE_DB(UNL,LNLOC_L)                  ! UNL
 c
         ! Deallocation of tables
-        IF (ALLOCATED(SOLTAG))   DEALLOCATE(SOLTAG)
-        IF (ALLOCATED(SHTAG))    DEALLOCATE(SHTAG)
-        IF (ALLOCATED(TGTAG))    DEALLOCATE(TGTAG)
-        IF (ALLOCATED(ADDCNE_L)) DEALLOCATE(ADDCNE_L)
-        IF (ALLOCATED(PROCNE_L)) DEALLOCATE(PROCNE_L)
-        IF (ALLOCATED(IADS))     DEALLOCATE(IADS)
-        IF (ALLOCATED(IADC))     DEALLOCATE(IADC)
-        IF (ALLOCATED(IADTG))    DEALLOCATE(IADTG)
-        IF (ALLOCATED(ZERO_VEC)) DEALLOCATE(ZERO_VEC)
+        IF (ALLOCATED(SOLTAG))   CALL MY_DEALLOC(SOLTAG)
+        IF (ALLOCATED(SHTAG))    CALL MY_DEALLOC(SHTAG)
+        IF (ALLOCATED(TGTAG))    CALL MY_DEALLOC(TGTAG)
+        IF (ALLOCATED(ADDCNE_L)) CALL MY_DEALLOC(ADDCNE_L)
+        IF (ALLOCATED(PROCNE_L)) CALL MY_DEALLOC(PROCNE_L)
+        IF (ALLOCATED(IADS))     CALL MY_DEALLOC(IADS)
+        IF (ALLOCATED(IADC))     CALL MY_DEALLOC(IADC)
+        IF (ALLOCATED(IADTG))    CALL MY_DEALLOC(IADTG)
+        IF (ALLOCATED(ZERO_VEC)) call my_dealloc(ZERO_VEC)
 c
-        DEALLOCATE(INDX_L)
-        DEALLOCATE(NDDL)
-        DEALLOCATE(IDXI_L)
-        DEALLOCATE(POSI)
+        CALL MY_DEALLOC(INDX_L)
+        CALL MY_DEALLOC(NDDL)
+        CALL MY_DEALLOC(IDXI_L)
+        CALL MY_DEALLOC(POSI)
       ENDIF
 c--------------------------------
       RETURN

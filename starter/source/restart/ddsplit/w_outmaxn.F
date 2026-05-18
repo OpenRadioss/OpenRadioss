@@ -36,6 +36,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -51,13 +53,13 @@ C-----------------------------------------------
 C-----will take into account initial state later
       LW = (2*(LMAX_NSIG+LMAX_NSTRA))*NUMNOD_L
       IF (LW>0) THEN
-        ALLOCATE( RTMP(LW) )
+        call my_alloc(RTMP, LW, "RTMP")
 ! --------------------------------
         RTMP=ZERO
 C
         CALL WRITE_DB(RTMP,LW)
         LEN_AM = LEN_AM + LW
-        DEALLOCATE( RTMP )
+        call my_dealloc(RTMP)
       END IF 
 ! --------------------------------
       RETURN

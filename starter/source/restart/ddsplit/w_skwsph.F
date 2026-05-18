@@ -31,6 +31,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -53,7 +55,7 @@ C-----------------------------------------------
 C
 ! -----------------------------
 !     allocate 2d array
-      ALLOCATE( SKEW_L(LSKEW,NUMSPH_L) )
+      call my_alloc(SKEW_L, LSKEW, NUMSPH_L, "SKEW_L")
 ! -----------------------------
       IE_L = 0
 C
@@ -79,7 +81,7 @@ C
       LEN_AM = LEN_AM + LSKEW*NUMSPH_L
 ! -----------------------------
 !     deallocate 2d array
-      DEALLOCATE( SKEW_L )
+      call my_dealloc(SKEW_L)
 ! -----------------------------
 C
       RETURN

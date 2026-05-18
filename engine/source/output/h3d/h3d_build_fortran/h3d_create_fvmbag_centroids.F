@@ -48,6 +48,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -105,10 +107,10 @@ C-----------------------------------------------
               
               IF(NPOLH > 0)THEN ! if there are any polyhedron
 
-                 ALLOCATE(ITAB_FVMBAG(NPOLH))
-                 ALLOCATE(TAGNOD_FVMBAG(NPOLH))
-                 ALLOCATE(XYZ_FVMBAG(3,NPOLH))
-                 ALLOCATE(DISP_FVMBAG(3,NPOLH))
+                 call my_alloc(ITAB_FVMBAG, NPOLH, "ITAB_FVMBAG")
+                 call my_alloc(TAGNOD_FVMBAG, NPOLH, "TAGNOD_FVMBAG")
+                 call my_alloc(XYZ_FVMBAG, 3, NPOLH, "XYZ_FVMBAG")
+                 call my_alloc(DISP_FVMBAG, 3, NPOLH, "DISP_FVMBAG")
                  
                  DO II=1, FVDATA(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                    
@@ -127,10 +129,10 @@ C-----------------------------------------------
 
                  CALL C_H3D_CREATE_NODES(ITAB_FVMBAG,NPOLH,XYZ_FVMBAG,TAGNOD_FVMBAG,DISP_FVMBAG)
                  
-                 DEALLOCATE(ITAB_FVMBAG)
-                 DEALLOCATE(TAGNOD_FVMBAG)
-                 DEALLOCATE(XYZ_FVMBAG)
-                 DEALLOCATE(DISP_FVMBAG)
+                 call my_dealloc(ITAB_FVMBAG)
+                 call my_dealloc(TAGNOD_FVMBAG)
+                 call my_dealloc(XYZ_FVMBAG)
+                 call my_dealloc(DISP_FVMBAG)
                  NNODES = NNODES + FVDATA(IFV)%NPOLH
 
               ENDIF !NNODES>0

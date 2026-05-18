@@ -45,6 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SETDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C=======================================================================
       !  SOLID
       IF (NUMELS > 0) THEN
         CLAUSE%NB_SOLID = NUMELS
-        ALLOCATE( CLAUSE%SOLID(NUMELS) )
+        call my_alloc(CLAUSE%SOLID, NUMELS, "CLAUSE%SOLID")
         DO I=1,NUMELS
          CLAUSE%SOLID(I) = I
         ENDDO
@@ -76,7 +77,7 @@ C=======================================================================
       !  QUAD
       IF (NUMELQ > 0) THEN
         CLAUSE%NB_QUAD = NUMELQ
-        ALLOCATE( CLAUSE%QUAD(NUMELQ) )
+        call my_alloc(CLAUSE%QUAD, NUMELQ, "CLAUSE%QUAD")
         DO I=1,NUMELQ
          CLAUSE%QUAD(I) = I
         ENDDO
@@ -85,7 +86,7 @@ C=======================================================================
       !  SHELL (4N)
       IF (NUMELC > 0) THEN
         CLAUSE%NB_SH4N = NUMELC
-        ALLOCATE( CLAUSE%SH4N(NUMELC) )
+        call my_alloc(CLAUSE%SH4N, NUMELC, "CLAUSE%SH4N")
         DO I=1,NUMELC
          CLAUSE%SH4N(I) = I
         ENDDO
@@ -95,7 +96,7 @@ C=======================================================================
       !  SHELL (3N)
       IF (NUMELTG > 0) THEN
         CLAUSE%NB_SH3N = NUMELTG
-        ALLOCATE( CLAUSE%SH3N(NUMELTG) )
+        call my_alloc(CLAUSE%SH3N, NUMELTG, "CLAUSE%SH3N")
         DO I=1,NUMELTG
           CLAUSE%SH3N(I) = I
         ENDDO
@@ -105,7 +106,7 @@ C=======================================================================
       !  TRIA
       IF (NUMELTRIA > 0) THEN
         CLAUSE%NB_TRIA = NUMELTRIA
-        ALLOCATE( CLAUSE%TRIA(NUMELTRIA) )
+        call my_alloc(CLAUSE%TRIA, NUMELTRIA, "CLAUSE%TRIA")
         DO I=1,NUMELTRIA
           CLAUSE%TRIA(I) = I
         ENDDO
@@ -114,7 +115,7 @@ C=======================================================================
       !  TRUSS
       IF (NUMELT > 0) THEN
         CLAUSE%NB_TRUSS = NUMELT
-        ALLOCATE( CLAUSE%TRUSS(NUMELT) )
+        call my_alloc(CLAUSE%TRUSS, NUMELT, "CLAUSE%TRUSS")
         DO I=1,NUMELT
           CLAUSE%TRUSS(I) = I
         ENDDO
@@ -124,7 +125,7 @@ C=======================================================================
       !  BEAM
       IF (NUMELP > 0) THEN
         CLAUSE%NB_BEAM = NUMELP
-        ALLOCATE( CLAUSE%BEAM(NUMELP) )
+        call my_alloc(CLAUSE%BEAM, NUMELP, "CLAUSE%BEAM")
         DO I=1,NUMELP
           CLAUSE%BEAM(I) = I
         ENDDO
@@ -133,7 +134,7 @@ C=======================================================================
       !  SPRING
       IF (NUMELR > 0) THEN
         CLAUSE%NB_SPRING = NUMELR
-        ALLOCATE( CLAUSE%SPRING(NUMELR) )
+        call my_alloc(CLAUSE%SPRING, NUMELR, "CLAUSE%SPRING")
         DO I=1,NUMELR
           CLAUSE%SPRING(I) = I
         ENDDO

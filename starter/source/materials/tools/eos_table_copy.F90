@@ -27,7 +27,7 @@
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||====================================================================
       module eos_table_copy_mod
-      implicit none
+        implicit none
       contains
 
 !! \brief  see mat_table_copy  (adapted for type eosparam_struct_)
@@ -51,6 +51,8 @@
           use table_mod , only : ttable
           use constant_mod , only : one, ep10
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,8 +90,8 @@
 !--------------------------------------------------------------------------
           idebug = 0
           nfunc = eos_param%ntable
-          allocate (ifunc(nfunc))
-          allocate (ierr_f(nfunc))
+          call my_alloc(ifunc,nfunc,"ifunc")
+          call my_alloc(ierr_f,nfunc,"ierr_f")
           ierr = 0
           ierr_f(1:nfunc) = 0
           do itab = 1,nfunc
@@ -116,21 +118,23 @@
             end if
             eos_param%table(itab)%notable = func_id
             eos_param%table(itab)%ndim = ndim
-            allocate (eos_param%table(itab)%x(ndim))
+            allocate(eos_param%table(itab)%x(ndim))
 !
             if (ndim == 1) then
 
               if(ierr_f(itab) == 0)then
                 lx1 = size(table(func_n)%x(1)%values)      ! number of abscissa points
-                allocate (eos_param%table(itab)%x(1)%values(lx1))
-                allocate (eos_param%table(itab)%y1d(lx1))
+                call my_alloc(eos_param%table(itab)%x(1)%values,lx1,                         &
+                &                        "eos_param%table(itab)%x(1)%values")
+                call my_alloc(eos_param%table(itab)%y1d,lx1,"eos_param%table(itab)%y1d")
                 eos_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
                 eos_param%table(itab)%y1d(1:lx1) = fscale(itab)*table(func_n)%y%values(1:lx1)
               else
                 ! function unity if user did not provide function identifier f[-1e10:+1e10] = [1:1]
                 lx1 = 2
-                allocate (eos_param%table(itab)%x(1)%values(lx1))
-                allocate (eos_param%table(itab)%y1d(lx1))
+                call my_alloc(eos_param%table(itab)%x(1)%values,lx1,                         &
+                &                        "eos_param%table(itab)%x(1)%values")
+                call my_alloc(eos_param%table(itab)%y1d,lx1,"eos_param%table(itab)%y1d")
                 eos_param%table(itab)%x(1)%values(1) = -x1scale*ep10
                 eos_param%table(itab)%x(1)%values(2) = +x1scale*ep10
                 eos_param%table(itab)%y1d(1:lx1) = fscale(itab)*one
@@ -145,9 +149,11 @@
             else if (ndim == 2) then
               lx1 = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
-              allocate (eos_param%table(itab)%x(1)%values(lx1))
-              allocate (eos_param%table(itab)%x(2)%values(lx2))
-              allocate (eos_param%table(itab)%y2d(lx1,lx2))
+              call my_alloc(eos_param%table(itab)%x(1)%values,lx1,                         &
+              &                        "eos_param%table(itab)%x(1)%values")
+              call my_alloc(eos_param%table(itab)%x(2)%values,lx2,                         &
+              &                        "eos_param%table(itab)%x(2)%values")
+              call my_alloc(eos_param%table(itab)%y2d,lx1,lx2,"eos_param%table(itab)%y2d")
               eos_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               eos_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               do i=1,lx1
@@ -160,10 +166,13 @@
               lx1  = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
-              allocate (eos_param%table(itab)%x(1)%values(lx1))
-              allocate (eos_param%table(itab)%x(2)%values(lx2))
-              allocate (eos_param%table(itab)%x(3)%values(lx3))
-              allocate (eos_param%table(itab)%y3d(lx1,lx2,lx3))
+              call my_alloc(eos_param%table(itab)%x(1)%values,lx1,                         &
+              &                        "eos_param%table(itab)%x(1)%values")
+              call my_alloc(eos_param%table(itab)%x(2)%values,lx2,                         &
+              &                        "eos_param%table(itab)%x(2)%values")
+              call my_alloc(eos_param%table(itab)%x(3)%values,lx3,                         &
+              &                        "eos_param%table(itab)%x(3)%values")
+              call my_alloc(eos_param%table(itab)%y3d,lx1,lx2,lx3,"eos_param%table(itab)%y3d")
               eos_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               eos_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               eos_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
@@ -181,11 +190,15 @@
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
               lx4 = size(table(func_n)%x(4)%values)
-              allocate (eos_param%table(itab)%x(1)%values(lx1))
-              allocate (eos_param%table(itab)%x(2)%values(lx2))
-              allocate (eos_param%table(itab)%x(3)%values(lx3))
-              allocate (eos_param%table(itab)%x(4)%values(lx4))
-              allocate (eos_param%table(itab)%y4d(lx1,lx2,lx3,lx4))
+              call my_alloc(eos_param%table(itab)%x(1)%values,lx1,                         &
+              &                        "eos_param%table(itab)%x(1)%values")
+              call my_alloc(eos_param%table(itab)%x(2)%values,lx2,                         &
+              &                        "eos_param%table(itab)%x(2)%values")
+              call my_alloc(eos_param%table(itab)%x(3)%values,lx3,                         &
+              &                        "eos_param%table(itab)%x(3)%values")
+              call my_alloc(eos_param%table(itab)%x(4)%values,lx4,                         &
+              &                        "eos_param%table(itab)%x(4)%values")
+              allocate(eos_param%table(itab)%y4d(lx1,lx2,lx3,lx4))
               eos_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               eos_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               eos_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
@@ -205,7 +218,7 @@
           end do     ! nfunc
           !end if       ! ierr
 !
-          deallocate (ifunc)
+          call my_dealloc(ifunc)
 !------------------------------
           return
         end subroutine eos_table_copy

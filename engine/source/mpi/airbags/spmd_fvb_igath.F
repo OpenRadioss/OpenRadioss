@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -80,7 +82,7 @@ C
             IADI(II)=LEN+1
             LEN=LEN+2*ITAB(II)
          ENDDO
-         ALLOCATE(IBUF(LEN))
+         call my_alloc(IBUF, LEN, "IBUF")
 C reception of integers
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
@@ -110,7 +112,7 @@ C
                ITABG(J1)=J2
             ENDDO
          ENDDO
-         DEALLOCATE(IBUF)
+         call my_dealloc(IBUF)
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          PMAIN=FVSPMD(IFV)%PMAIN
          NNT=FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
@@ -121,7 +123,7 @@ C
          CALL MPI_WAIT(REQ(1), STAT, IERR)
 C
          LEN=2*NNT
-         ALLOCATE(IBUF(LEN))
+         call my_alloc(IBUF, LEN, "IBUF")
          DO I=1,NNT
             IBUF(I)=FVSPMD(IFV)%IBUF_L(1,I)
             II=FVSPMD(IFV)%IBUF_L(2,I)
@@ -133,7 +135,7 @@ C
      .                  ITAG, FVSPMD(IFV)%MPI_COMM, REQ(2), IERR)
 C
          CALL MPI_WAIT(REQ(2), STAT, IERR)
-         DEALLOCATE(IBUF)
+         call my_dealloc(IBUF)
       ENDIF
 C
 #endif

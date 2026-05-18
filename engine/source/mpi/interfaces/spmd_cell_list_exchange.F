@@ -62,6 +62,8 @@ C-----------------------------------------------
         USE INTER_STRUCT_MOD
         USE TRI7BOX
         use spmd_mod
+        use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -294,7 +296,7 @@ C-----------------------------------------------
 
             TOTAL_SEND_SIZE = SORT_COMM(NIN)%SIZE_CELL_LIST(1)
 
-            IF(ALLOCATED(SORT_COMM(NIN)%CELL) ) DEALLOCATE(SORT_COMM(NIN)%CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%CELL) ) call my_dealloc(SORT_COMM(NIN)%CELL)
             ALLOCATE( SORT_COMM(NIN)%CELL(TOTAL_RCV_SIZE) )
 
             ITIED = IPARI(85,NIN)
@@ -353,9 +355,9 @@ C-----------------------------------------------
             IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
                 CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED,component)  
             ENDIF
-            ALLOCATE( ALREADY_SEND(NB_CELL_X,NB_CELL_Y,NB_CELL_Z) )
+            call my_alloc(ALREADY_SEND, NB_CELL_X, NB_CELL_Y, NB_CELL_Z, "ALREADY_SEND")
             IF(ISENDTO(NIN,LOC_PROC)/=0) ALREADY_SEND(1:NB_CELL_X,1:NB_CELL_Y,1:NB_CELL_Z) = .FALSE.
-            ALLOCATE( INDEX_ALREADY_SEND(NB_CELL_X*NB_CELL_Y*NB_CELL_Z) )
+            call my_alloc(INDEX_ALREADY_SEND, NB_CELL_X*NB_CELL_Y*NB_CELL_Z, "INDEX_ALREADY_SEND")
             !   -------------------------
             if(GOT_PREVIEW == 1) THEN
             CALL MPI_WAITALL( SORT_COMM(NIN)%NB_REQUEST_CELL_RCV, SORT_COMM(NIN)%REQUEST_CELL_RCV,MPI_STATUSES_IGNORE,IERROR )
@@ -387,8 +389,8 @@ C-----------------------------------------------
                 !   ------------------------- 
             ENDDO
             !   -------------------------
-            DEALLOCATE( ALREADY_SEND )
-            DEALLOCATE( INDEX_ALREADY_SEND )
+            call my_dealloc(ALREADY_SEND)
+            call my_dealloc(INDEX_ALREADY_SEND)
         ENDIF
         !   ----------------------------
 
@@ -401,11 +403,11 @@ C-----------------------------------------------
                 CALL MPI_WAITALL( SORT_COMM(NIN)%NB_REQUEST_CELL_SEND,
      .                            SORT_COMM(NIN)%REQUEST_CELL_SEND,MPI_STATUSES_IGNORE,IERROR )
       
-            IF(ALLOCATED(SORT_COMM(NIN)%SEND_SIZE_CELL)) DEALLOCATE(SORT_COMM(NIN)%SEND_SIZE_CELL)
-            IF(ALLOCATED(SORT_COMM(NIN)%SEND_DISPLS_CELL)) DEALLOCATE(SORT_COMM(NIN)%SEND_DISPLS_CELL)
-            IF(ALLOCATED(SORT_COMM(NIN)%RCV_SIZE_CELL)) DEALLOCATE(SORT_COMM(NIN)%RCV_SIZE_CELL)
-            IF(ALLOCATED(SORT_COMM(NIN)%RCV_DISPLS_CELL)) DEALLOCATE(SORT_COMM(NIN)%RCV_DISPLS_CELL)
-            IF(ALLOCATED(SORT_COMM(NIN)%CELL)) DEALLOCATE(SORT_COMM(NIN)%CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%SEND_SIZE_CELL)) call my_dealloc(SORT_COMM(NIN)%SEND_SIZE_CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%SEND_DISPLS_CELL)) call my_dealloc(SORT_COMM(NIN)%SEND_DISPLS_CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%RCV_SIZE_CELL)) call my_dealloc(SORT_COMM(NIN)%RCV_SIZE_CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%RCV_DISPLS_CELL)) call my_dealloc(SORT_COMM(NIN)%RCV_DISPLS_CELL)
+            IF(ALLOCATED(SORT_COMM(NIN)%CELL)) call my_dealloc(SORT_COMM(NIN)%CELL)
         ENDIF
         !   ----------------------------
 

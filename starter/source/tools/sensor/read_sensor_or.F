@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,9 +78,9 @@ c--------------------------------------------------
       NPARRS = 0
       NVAR   = 0
 c
-      ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
-      ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
-      ALLOCATE (SENSOR_PTR%VAR(NVAR))
+      call my_alloc(SENSOR_PTR%IPARAM, NPARIS, "SENSOR_PTR%IPARAM")
+      call my_alloc(SENSOR_PTR%RPARAM, NPARRS, "SENSOR_PTR%RPARAM")
+      call my_alloc(SENSOR_PTR%VAR, NVAR, "SENSOR_PTR%VAR")
 c
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID

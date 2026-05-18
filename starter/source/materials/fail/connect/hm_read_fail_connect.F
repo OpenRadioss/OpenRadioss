@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
       USE ELBUFTAG_MOD            
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,14 +159,14 @@ c-----------------------------------------------------------------------
       FAIL%NTABLE  = 0
       FAIL%NMOD    = 7
 c            
-      ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
-      ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
-      ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
-      ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      call my_alloc(FAIL%UPARAM, FAIL%NUPARAM, "FAIL%UPARAM")
+      call my_alloc(FAIL%IPARAM, FAIL%NIPARAM, "FAIL%IPARAM")
+      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
+      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
 c
       ! Modes of failure
       FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
-      ALLOCATE (FAIL%MODE(FAIL%NMOD))
+      allocate(FAIL%MODE(FAIL%NMOD))
       FAIL%MODE(1) = "Normal direction displ. damage"
       FAIL%MODE(2) = "Shear plane displ. damage"
       FAIL%MODE(3) = "Displacement based damage"

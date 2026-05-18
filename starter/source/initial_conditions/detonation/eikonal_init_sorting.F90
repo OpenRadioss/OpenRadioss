@@ -26,7 +26,7 @@
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_init_sorting_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    eikonal_init_sorting           ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
@@ -41,6 +41,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero, ep21
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,9 +69,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(int_tmp_array(neldet))
-          allocate(real_tmp_array(neldet))
-          allocate(indx(neldet))
+          call my_alloc(int_tmp_array, neldet, "int_tmp_array")
+          call my_alloc(real_tmp_array, neldet, "real_tmp_array")
+          call my_alloc(indx, neldet, "eikonal_init_sorting/indx")
 
           indx(1:neldet) = [(kk, kk=1,neldet)]
           call stlsort_int_int(neldet, indx, uelem_list)
@@ -89,9 +91,9 @@
             elem_list_bij(elem_list(kk)) = kk
           end do
 
-          deallocate(int_tmp_array)
-          deallocate(real_tmp_array)
-          deallocate(indx)
+          call my_dealloc(int_tmp_array)
+          call my_dealloc(real_tmp_array)
+          call my_dealloc(indx)
 
         end subroutine eikonal_init_sorting
 ! ----------------------------------------------------------------------------------------------------------------------

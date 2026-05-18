@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                            IPARTC  ,IPARTTG,IPARTT  ,IPARTP ,IPARTR  ,
      3                            SURF_ELM,MODE )
         USE SURF_MOD
+        use my_alloc_mod, only : my_alloc
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* 
 !       INIT_SURF_ELM initializes the structure SURF_ELM
 !       SURF_ELM gathers the element ID for each /PART
@@ -95,10 +96,14 @@ C-----------------------------------------------
                 ENDDO
                 !       --------------------
                 DO ID_PART=1,NPART                
-                        IF(NBR_SOL_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%SOL_PART( NBR_SOL_PART(ID_PART) ) )
-                        IF(NBR_SOL10_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%SOL10_PART( NBR_SOL10_PART(ID_PART) ) )
-                        IF(NBR_SHELL_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%SHELL_PART( NBR_SHELL_PART(ID_PART) ) )
-                        IF(NBR_TRI_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%TRI_PART( NBR_TRI_PART(ID_PART) ) )
+      IF(NBR_SOL_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%SOL_PART, NBR_SOL_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%SOL_PART")
+      IF(NBR_SOL10_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%SOL10_PART, NBR_SOL10_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%SOL10_PART")
+      IF(NBR_SHELL_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%SHELL_PART, NBR_SHELL_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%SHELL_PART")
+      IF(NBR_TRI_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%TRI_PART, NBR_TRI_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%TRI_PART")
                         SURF_ELM(ID_PART)%NSOL = NBR_SOL_PART(ID_PART)
                         SURF_ELM(ID_PART)%NSOL10 = NBR_SOL10_PART(ID_PART)
                         SURF_ELM(ID_PART)%NSHELL = NBR_SHELL_PART(ID_PART)
@@ -154,9 +159,12 @@ C-----------------------------------------------
                 ENDDO
                 !       --------------------
                 DO ID_PART=1,NPART                
-                        IF(NBR_TRUSS_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%TRUSS_PART( NBR_TRUSS_PART(ID_PART) ) )
-                        IF(NBR_BEAM_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%BEAM_PART( NBR_BEAM_PART(ID_PART) ) )
-                        IF(NBR_SPRING_PART(ID_PART)>0) ALLOCATE( SURF_ELM(ID_PART)%SPRING_PART( NBR_SPRING_PART(ID_PART) ) )
+      IF(NBR_TRUSS_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%TRUSS_PART, NBR_TRUSS_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%TRUSS_PART")
+      IF(NBR_BEAM_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%BEAM_PART, NBR_BEAM_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%BEAM_PART")
+      IF(NBR_SPRING_PART(ID_PART)>0) call my_alloc(SURF_ELM(ID_PART)%SPRING_PART, NBR_SPRING_PART(ID_PART),
+     &"SURF_ELM(ID_PART)%SPRING_PART")
                         SURF_ELM(ID_PART)%NTRUSS = NBR_TRUSS_PART(ID_PART)
                         SURF_ELM(ID_PART)%NBEAM = NBR_BEAM_PART(ID_PART)
                         SURF_ELM(ID_PART)%NSPRING = NBR_SPRING_PART(ID_PART)
@@ -208,6 +216,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -229,18 +238,18 @@ C-----------------------------------------------
         IF(MODE==1) THEN
         !       --------------------
                 DO I=1,NPART                
-                        IF(SURF_ELM(I)%NSOL>0) DEALLOCATE( SURF_ELM(I)%SOL_PART )
-                        IF(SURF_ELM(I)%NSOL10>0) DEALLOCATE( SURF_ELM(I)%SOL10_PART )
-                        IF(SURF_ELM(I)%NSHELL>0) DEALLOCATE( SURF_ELM(I)%SHELL_PART )
-                        IF(SURF_ELM(I)%NTRI>0) DEALLOCATE( SURF_ELM(I)%TRI_PART )
+                        IF(SURF_ELM(I)%NSOL>0) call my_dealloc(SURF_ELM(I)%SOL_PART)
+                        IF(SURF_ELM(I)%NSOL10>0) call my_dealloc(SURF_ELM(I)%SOL10_PART)
+                        IF(SURF_ELM(I)%NSHELL>0) call my_dealloc(SURF_ELM(I)%SHELL_PART)
+                        IF(SURF_ELM(I)%NTRI>0) call my_dealloc(SURF_ELM(I)%TRI_PART)
                 ENDDO
         !       --------------------
         ELSEIF(MODE==2) THEN
         !       --------------------
                 DO I=1,NPART                
-                        IF(SURF_ELM(I)%NTRUSS>0) DEALLOCATE( SURF_ELM(I)%TRUSS_PART )
-                        IF(SURF_ELM(I)%NBEAM>0) DEALLOCATE( SURF_ELM(I)%BEAM_PART )
-                        IF(SURF_ELM(I)%NSPRING>0) DEALLOCATE( SURF_ELM(I)%SPRING_PART )
+                        IF(SURF_ELM(I)%NTRUSS>0) call my_dealloc(SURF_ELM(I)%TRUSS_PART)
+                        IF(SURF_ELM(I)%NBEAM>0) call my_dealloc(SURF_ELM(I)%BEAM_PART)
+                        IF(SURF_ELM(I)%NSPRING>0) call my_dealloc(SURF_ELM(I)%SPRING_PART)
                 ENDDO
         !       --------------------
         ENDIF

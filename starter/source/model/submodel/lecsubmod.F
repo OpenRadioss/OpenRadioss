@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY, NCHARFIELD
       USE transform_translate_in_local_skew_mod, ONLY : transform_translate_in_local_skew
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,31 +96,31 @@ C-----------------------------------------------
       INTEGER  USRTOS
       EXTERNAL USRTOS
 C=======================================================================
-      ALLOCATE(TAGNODSUB(NUMNOD))
+      call my_alloc(TAGNODSUB, NUMNOD, "TAGNODSUB")
       ISU = 0
       IS_AVAILABLE = .FALSE.
       UID = 0
       TAGNODSUB = 0
       NUMNUSR = 0
 
-      ALLOCATE(NODESSUB(NUMNOD))
+      call my_alloc(NODESSUB, NUMNOD, "NODESSUB")
       NODESSUB = 0
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODES_COUNT(NUMNUSR,NUMNUSR2)
-        ALLOCATE( INDEX(2*NUMNUSR))
+        call my_alloc(INDEX, 2*NUMNUSR, "INDEX")
         DO I=1,2*NUMNUSR
          INDEX(I)=I
         ENDDO
-        ALLOCATE( INDEX1(2*NUMNOD) )
+        call my_alloc(INDEX1, 2*NUMNOD, "INDEX1")
         DO I=1,2*NUMNOD
          INDEX1(I)=I
         ENDDO
-        ALLOCATE( TAGNODSUB_TMP(NUMNUSR) )
+        call my_alloc(TAGNODSUB_TMP, NUMNUSR, "TAGNODSUB_TMP")
         DO I=1,NUMNUSR
          TAGNODSUB_TMP(I)=I
         ENDDO
-        ALLOCATE( IDNODSUB(NUMNUSR) )
+        call my_alloc(IDNODSUB, NUMNUSR, "IDNODSUB")
         DO I=1,NUMNUSR
          IDNODSUB(I)=I
         ENDDO 
@@ -186,7 +187,7 @@ C-------------------------
       ENDDO
       DO I=1,NSUBMOD
         SIDTRANS = LSUBMODEL(I)%NBTRANS
-        ALLOCATE(LSUBMODEL(I)%IDTRANS(SIDTRANS)) 
+        call my_alloc(LSUBMODEL(I)%IDTRANS, SIDTRANS, "LSUBMODEL(I)%IDTRANS")
         LSUBMODEL(I)%IDTRANS = 0
       ENDDO   
 C----
@@ -353,13 +354,13 @@ C-------------------------
       ENDDO
 C-------------------------
       IF(IS_DYNA /= 0)THEN
-        IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-        IF (ALLOCATED(INDEX1)) DEALLOCATE(INDEX1)
-        IF (ALLOCATED(TAGNODSUB_TMP)) DEALLOCATE(TAGNODSUB_TMP)
-        IF (ALLOCATED(IDNODSUB)) DEALLOCATE(IDNODSUB)
+        IF (ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+        IF (ALLOCATED(INDEX1)) CALL MY_DEALLOC(INDEX1)
+        IF (ALLOCATED(TAGNODSUB_TMP)) CALL MY_DEALLOC(TAGNODSUB_TMP)
+        IF (ALLOCATED(IDNODSUB)) CALL MY_DEALLOC(IDNODSUB)
       ENDIF
-      DEALLOCATE(TAGNODSUB)
-      IF(ALLOCATED(NODESSUB)) DEALLOCATE(NODESSUB)
+      CALL MY_DEALLOC(TAGNODSUB)
+      IF(ALLOCATED(NODESSUB)) CALL MY_DEALLOC(NODESSUB)
 C-------------------------
 c MAKE TRANSFORMATION ON SUBMODEL NODES
 C-------------------------   

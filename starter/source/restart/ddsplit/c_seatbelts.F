@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C---------------------------------------------     
       USE SEATBELT_MOD
       USE ELBUFDEF_MOD     
+      use my_alloc_mod
 C---------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,12 +171,12 @@ C
 C
 C---  Pass 2 : construction of arrays for remote anchor nodes-------------------------
 C
-      ALLOCATE(ANCHOR_REMOTE_L%ADD_PROC(NSPMD+1))
-      ALLOCATE(ANCHOR_REMOTE_L%NODE(N_ANCHOR_REMOTE_L))
+      call my_alloc(ANCHOR_REMOTE_L%ADD_PROC, NSPMD+1, "ANCHOR_REMOTE_L%ADD_PROC")
+      call my_alloc(ANCHOR_REMOTE_L%NODE, N_ANCHOR_REMOTE_L, "ANCHOR_REMOTE_L%NODE")
       COMPT = 0
 C
-      ALLOCATE(ANCHOR_REMOTE_SEND_L%ADD_PROC(NSPMD+1))
-      ALLOCATE(ANCHOR_REMOTE_SEND_L%NODE(N_ANCHOR_REMOTE_SEND_L))
+      call my_alloc(ANCHOR_REMOTE_SEND_L%ADD_PROC, NSPMD+1, "ANCHOR_REMOTE_SEND_L%ADD_PROC")
+      call my_alloc(ANCHOR_REMOTE_SEND_L%NODE, N_ANCHOR_REMOTE_SEND_L, "ANCHOR_REMOTE_SEND_L%NODE")
 C
       IF (N_ANCHOR_REMOTE_L > 0) THEN
         ANCHOR_REMOTE_L%ADD_PROC(1) = 1
@@ -292,7 +293,7 @@ C
           IF (TAG_PROC(1,PP) + TAG_PROC(2,PP) > 0) NSEATBELT_TH_PROC = NSEATBELT_TH_PROC + 1
         ENDDO
 C
-        ALLOCATE(SEATBELT_TH_EXCH(NSEATBELT_TH_PROC+1))
+        allocate(SEATBELT_TH_EXCH(NSEATBELT_TH_PROC+1))
 C
         COMPT = 0
         SEATBELT_TH_EXCH(1)%ADD_PROC = 1

@@ -41,6 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -50,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,M,N,LEN,NPT,NDIM,STAT
+      INTEGER I,J,K,L,M,N,LEN,NPT,NDIM
       INTEGER LDIM(4)
       my_real, DIMENSION(:) ,ALLOCATABLE :: YTMP
 c===============================================
@@ -61,22 +63,22 @@ c===============================================
         LEN = 1
         CALL READ_I_C(NDIM,LEN)
         TABLE(N)%NDIM = NDIM
-        ALLOCATE(TABLE(N)%X(NDIM),STAT=stat)
+        ALLOCATE(TABLE(N)%X(NDIM))
 c
         DO K=1,NDIM
           CALL READ_I_C(NPT,LEN)
-          ALLOCATE(TABLE(N)%X(K)%VALUES(NPT) ,STAT=stat)
+          ALLOCATE(TABLE(N)%X(K)%VALUES(NPT))
           CALL READ_DB(TABLE(N)%X(K)%VALUES,NPT)
           LDIM(K) = NPT
         END DO
         NPT = LDIM(1)
         IF (NDIM == 1) THEN
-          ALLOCATE(TABLE(N)%Y1D(NPT) ,STAT=stat)
+          ALLOCATE(TABLE(N)%Y1D(NPT))
           CALL READ_DB(TABLE(N)%Y1D,NPT)
         ELSE IF (NDIM == 2) THEN
           LEN = LDIM(1)*LDIM(2)
-          ALLOCATE(YTMP(LEN))
-          ALLOCATE(TABLE(N)%Y2D(LDIM(1),LDIM(2)) ,STAT=stat)
+          call my_alloc(YTMP, LEN, "YTMP")
+          ALLOCATE(TABLE(N)%Y2D(LDIM(1),LDIM(2)))
           CALL READ_DB(YTMP,LEN)
           M = 0
           DO J=1,LDIM(2)
@@ -87,8 +89,8 @@ c
           END DO
         ELSE IF (NDIM == 3) THEN
           LEN = LDIM(1)*LDIM(2)*LDIM(3)
-          ALLOCATE(YTMP(LEN))
-          ALLOCATE(TABLE(N)%Y3D(LDIM(1),LDIM(2),LDIM(3)),STAT=stat)
+          call my_alloc(YTMP, LEN, "YTMP")
+          ALLOCATE(TABLE(N)%Y3D(LDIM(1),LDIM(2),LDIM(3)))
           CALL READ_DB(YTMP,LEN)
           M = 0
           DO K=1,LDIM(3)
@@ -101,8 +103,8 @@ c
           END DO
         ELSE IF (NDIM == 4) THEN
           LEN = LDIM(1)*LDIM(2)*LDIM(3)*LDIM(4)
-          ALLOCATE(YTMP(LEN))
-          ALLOCATE(TABLE(N)%Y4D(LDIM(1),LDIM(2),LDIM(3),LDIM(4)),STAT=stat)
+          call my_alloc(YTMP, LEN, "YTMP")
+          ALLOCATE(TABLE(N)%Y4D(LDIM(1),LDIM(2),LDIM(3),LDIM(4)))
           CALL READ_DB(YTMP,LEN)
           M = 0
           DO L=1,LDIM(4)
@@ -116,7 +118,7 @@ c
             END DO
           END DO
         END IF          
-        IF (ALLOCATED(YTMP)) DEALLOCATE(YTMP)
+        IF (ALLOCATED(YTMP)) call my_dealloc(YTMP)
       END DO
 c-----------
       RETURN

@@ -83,6 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -146,7 +148,7 @@ C-----------------------------------------------
       call check_sorting_criteria( need_computation,nin,npari,nspmd,  
      .                             itask,ipari(1,nin),tt,intbuf_tab )
       if( .not.need_computation ) return
-      allocate(curv_max(nrtm_t)     )
+      call my_alloc(curv_max, nrtm_t, "curv_max")
       ! --------------
       I_MEM = 0
 !$OMP SINGLE
@@ -232,7 +234,8 @@ C
 
 
           NEDGE_TOTAL = NEDGE + NEDGE_REMOTE_OLD
-          ALLOCATE(INTBUF_TAB%I25_CAND_A(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          call my_alloc(INTBUF_TAB%I25_CAND_A, NEDGE_TOTAL + 3, "INTBUF_TAB%I25_CAND_A")
+! attention SPMD : NEDGE + NEDGEROLD + 3
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(1)
           CALL I25TRC_EDG(
@@ -242,7 +245,8 @@ C
      4      INTBUF_TAB%PENE_OLD_E  ,INTBUF_TAB%STIF_OLD_E   ,INTBUF_TAB%S_PENE_OLD_E )
           INTBUF_TAB%I_STOK_E(1)=I_SK_OLD_E
 
-          ALLOCATE(INTBUF_TAB%I25_CAND_B(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          call my_alloc(INTBUF_TAB%I25_CAND_B, NEDGE_TOTAL + 3, "INTBUF_TAB%I25_CAND_B")
+! attention SPMD : NEDGE + NEDGEROLD + 3
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(2)
           CALL I25TRC_E2S(
@@ -338,6 +342,7 @@ C
 
         IF(ITASK==0) THEN 
           ALLOCATE(CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,1:NSPMD))
+! TODO: non-default lower bound, convert manually
           CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,LOC_PROC) = 0
         ENDIF
 
@@ -582,18 +587,18 @@ C
 C
         IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
         IF(IEDGE /= 0) THEN
-            DEALLOCATE(RENUM_EDGE)
-            DEALLOCATE(OLDNUM_EDGE)
+            call my_dealloc(RENUM_EDGE)
+            call my_dealloc(OLDNUM_EDGE)
         ENDIF
 !$OMP END SINGLE
       END IF
         IF(IEDGE /= 0) THEN
 !$OMP SINGLE
-            DEALLOCATE(NSNFIEOLD)
+            call my_dealloc(NSNFIEOLD)
 !$OMP END SINGLE
         ENDIF
 C
       CALL MY_BARRIER
-      if(allocated(curv_max)) deallocate(curv_max)
+      if(allocated(curv_max)) call my_dealloc(curv_max)
       RETURN
       END

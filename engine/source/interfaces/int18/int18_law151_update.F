@@ -55,6 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 #include      "com04_c.inc"
@@ -122,8 +124,8 @@ C-----------------------------------------------
                     INDEX_THREADS(I) = 1 + 3*(I-1)*NSN/NTHREAD
                 ENDDO
 !$OMP SINGLE
-                ALLOCATE( VEL(3*NSN) )
-                ALLOCATE( VEL_DP(6,3*NSN) )
+                call my_alloc(VEL, 3*NSN, "VEL")
+                call my_alloc(VEL_DP, 6, 3*NSN, "VEL_DP")
                 DO II = 1,NSN
                     IBRIC = IGRBRIC(ISU1)%ENTITY(II)    ! id of the phantom element
                     GROUP_ID = IGROUPS(IBRIC)       ! id of the element group
@@ -160,8 +162,8 @@ C-----------------------------------------------
                     MULTI_FVM%VEL(1:3,IBRIC) = MULTI_FVM%VEL(1:3,IBRIC) + LOCAL_FORCE_INT_DP(1:3)              
                 ENDDO
 
-                DEALLOCATE( VEL )
-                DEALLOCATE( VEL_DP )
+                call my_dealloc(VEL)
+                call my_dealloc(VEL_DP)
 !$OMP END SINGLE
             ENDDO  
         ! -------------------------------------

@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -646,7 +647,7 @@ C-------------------------------------------------------------------------
      8              CAND_F ,DGAPLOAD)
 C-------------------------------------------------------------------------
       IF(FLAGREMNODE==2) THEN
-        DEALLOCATE(TAGREMNODE)
+        call my_dealloc(TAGREMNODE)
       ENDIF
       RETURN
       END

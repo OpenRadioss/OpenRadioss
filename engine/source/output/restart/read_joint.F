@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -92,7 +94,7 @@ C-----------------------------------------------
                     CALL READ_I_C(CYL_JOIN(N)%WEIGHT,CYL_JOIN(N)%NUMBER_NODE)
                     !   -----------
                     !   weight array index for the current joint                 
-                    ALLOCATE( NODE_WEIGHT( CYL_JOIN(N)%NUMBER_NODE ) )
+                    call my_alloc(NODE_WEIGHT, CYL_JOIN(N)%NUMBER_NODE, "NODE_WEIGHT")
                     DO  I=1,CYL_JOIN(N)%NUMBER_NODE
                         IF(CYL_JOIN(N)%WEIGHT(I)==1) THEN
                             CYL_JOIN(N)%NUMBER_NODE_WEIGHT = CYL_JOIN(N)%NUMBER_NODE_WEIGHT + 1
@@ -103,7 +105,7 @@ C-----------------------------------------------
                     DO I=1,CYL_JOIN(N)%NUMBER_NODE_WEIGHT
                         CYL_JOIN(N)%NODE_WEIGHT(I) = NODE_WEIGHT(I)
                     ENDDO                 
-                    DEALLOCATE( NODE_WEIGHT )
+                    call my_dealloc(NODE_WEIGHT)
                     !   -----------
                 ENDIF
                 !   ------------------------------

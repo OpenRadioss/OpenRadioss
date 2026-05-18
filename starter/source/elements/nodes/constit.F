@@ -38,6 +38,7 @@ C    ITABM1(J)=NO USER ITABM1(NUMNOD+J)=NO SYSTEME
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -53,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE(INDX(2*NUMNOD))
+      call my_alloc(INDX, 2*NUMNOD, "CONSTIT/INDX")
       DO I = 1, NUMNOD
         INDX(I) = I
       END DO
@@ -77,7 +78,7 @@ C    .                I1=ITABM1(I))
         END IF
         ITABM1(NUMNOD+I) = INDX(I)
       END DO
-      DEALLOCATE(INDX)
+      CALL MY_DEALLOC(INDX)
 
       RETURN
       END

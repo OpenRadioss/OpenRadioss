@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +52,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
       NFIX = 6
-      ALLOCATE (IBUF(NFIX + 1))
+      call my_alloc(IBUF, NFIX + 1, "IBUF")
 c
       IAD = 1
       IBUF(IAD) = NFIX
@@ -71,7 +72,7 @@ c
       IAD = IAD+1
 c
       CALL WRITE_I_C(IBUF,NFIX+1)
-      DEALLOCATE(IBUF)
+      CALL MY_DEALLOC(IBUF)
       
 c     write viscosity model title
 

@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
         INTEGER, INTENT(in) :: DIM1
         INTEGER, INTENT(in) :: DIM2
@@ -46,8 +48,8 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 
         ! ---------------------
-        ALLOCATE( B(DIM1,DIM2) )
-        ALLOCATE( Z(DIM1,DIM2) )
+        call my_alloc(B, DIM1, DIM2, "B")
+        call my_alloc(Z, DIM1, DIM2, "Z")
         DO IZ=1,DIM2
             DO IS=1,DIM2
                 IF(IZ>IS) THEN 
@@ -162,8 +164,8 @@ C----------------------------------------------------------------
             ! ---------------------
         ENDDO
 
-        DEALLOCATE( B )
-        DEALLOCATE( Z )
+        call my_dealloc(B)
+        call my_dealloc(Z)
 
         RETURN
         END SUBROUTINE JACOBIEW_V  

@@ -50,6 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -132,7 +134,7 @@ C
       DGAPLOAD    = INTBUF_TAB%VARIABLES(46)
 
       ILEV  = IPARI(20,NIN)
-      ALLOCATE(INDEX2(LINDMAX))
+      call my_alloc(INDEX2, LINDMAX, "INDEX2")
 
 c----------------------------------------------------
 c   radius of curvature: calculation of nodal normals (normalized)
@@ -321,7 +323,7 @@ C pmax_gap..
       INTBUF_TAB%VARIABLES(23) = ZERO
 #include "lockoff.inc"
 C-----------------------------------------------------------------------
-      DEALLOCATE(INDEX2)
+      call my_dealloc(INDEX2)
       RETURN
       END
 

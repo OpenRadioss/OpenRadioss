@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -56,7 +58,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       LENI = 11
-      ALLOCATE (IBUF(LENI))
+      call my_alloc(IBUF, LENI, "IBUF")
       CALL READ_I_C(IBUF,LENI)
 c
       FAIL%IRUPT   = IBUF(1)
@@ -71,13 +73,13 @@ c
       FAIL%NMOD    = IBUF(10)
       FAIL%FAIL_IP = IBUF(11)
 c
-      DEALLOCATE(IBUF)
+      call my_dealloc(IBUF)
 c
       LENR = 1
-      ALLOCATE (RBUF(LENR))
+      call my_alloc(RBUF, LENR, "RBUF")
       CALL READ_DB(RBUF,LENR)
       FAIL%PTHK = RBUF(1)
-      DEALLOCATE(RBUF)
+      call my_dealloc(RBUF)
 c
       NUPARAM = FAIL%NUPARAM
       NIPARAM = FAIL%NIPARAM
@@ -92,7 +94,7 @@ c     read law keyword and keywords of failure modes
         FAIL%KEYWORD(I:I) = CHAR(NAME(I))
       END DO
 c           
-      ALLOCATE (FAIL%MODE(NMOD))
+      ALLOCATE(FAIL%MODE(NMOD))
       IF (NMOD > 0) THEN
         DO J = 1,NMOD
           CALL READ_C_C(NAME,NCHARTITLE)
@@ -104,25 +106,25 @@ c
 c
 c     read model parameters
 c
-      ALLOCATE (FAIL%UPARAM(NUPARAM))
+      call my_alloc(FAIL%UPARAM, NUPARAM, "FAIL%UPARAM")
       IF (NUPARAM > 0) THEN
         CALL READ_DB (FAIL%UPARAM ,NUPARAM)
       END IF
-      ALLOCATE (FAIL%IPARAM(NIPARAM))
+      call my_alloc(FAIL%IPARAM, NIPARAM, "FAIL%IPARAM")
       IF (NIPARAM > 0) THEN
         CALL READ_I_C(FAIL%IPARAM ,NIPARAM)
       END IF
 c      
 c     read functions
 c
-      ALLOCATE (FAIL%IFUNC(NFUNC))
+      call my_alloc(FAIL%IFUNC, NFUNC, "FAIL%IFUNC")
       IF (NFUNC > 0) THEN
         CALL READ_I_C(FAIL%IFUNC,NFUNC)
       END IF
 c      
 c     read function tables
 c
-      ALLOCATE (FAIL%TABLE(NUMTABL))
+      call my_alloc(FAIL%TABLE, NUMTABL, "FAIL%TABLE")
       IF (NUMTABL > 0) THEN
         CALL READ_I_C(FAIL%TABLE,NUMTABL)
       END IF

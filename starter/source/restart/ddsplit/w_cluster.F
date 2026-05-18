@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -65,9 +67,9 @@ C=======================================================================
       ESHIFT(1) = 0                                   ! brick  cluster                                  
       ESHIFT(2) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP  ! spring cluster
       ESHIFT(3) = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP  ! spring cluster special 
-      ALLOCATE(INDX(NCLUSTER_L)) ! INDeXes of local clusters 
-      ALLOCATE(ILCLUSTER(NCLUSTER_L)) ! Integer Lengths of local CLUSTERs
-      ALLOCATE(RLCLUSTER(NCLUSTER_L)) ! Real Lengths of local CLUSTERs
+      call my_alloc(INDX, NCLUSTER_L, "INDX") ! INDeXes of local clusters
+      call my_alloc(ILCLUSTER, NCLUSTER_L, "ILCLUSTER") ! Integer Lengths of local CLUSTERs
+      call my_alloc(RLCLUSTER, NCLUSTER_L, "RLCLUSTER") ! Real Lengths of local CLUSTERs
       J = 0
       ILCLUSTER(1:NCLUSTER_L)  = 0 
       RLCLUSTER(1:NCLUSTER_L) =  0
@@ -100,8 +102,8 @@ c-----
       CALL WRITE_I_C(RLCLUSTER,NCLUSTER_L)
       LEN_IA = LEN_IA + NCLUSTER_L   
 c-----
-      ALLOCATE (ICLTAB(ILCLUSTER_MAX)) ! Integer CLuster TABle
-      ALLOCATE (RCLTAB(RLCLUSTER_MAX)) ! Real CLuster TABle
+      call my_alloc(ICLTAB, ILCLUSTER_MAX, "ICLTAB") ! Integer CLuster TABle
+      call my_alloc(RCLTAB, RLCLUSTER_MAX, "RCLTAB") ! Real CLuster TABle
       DO I = 1, NCLUSTER_L
         II = INDX(I) ! global number of the cluster
 
@@ -182,11 +184,11 @@ c-----
 
 c-----
       ENDDO  !  I = 1, NCLUSTER_L
-      DEALLOCATE (INDX)
-      DEALLOCATE (ILCLUSTER)
-      DEALLOCATE (RLCLUSTER)
-      DEALLOCATE (RCLTAB)
-      DEALLOCATE (ICLTAB)
+      call my_dealloc(INDX)
+      call my_dealloc(ILCLUSTER)
+      call my_dealloc(RLCLUSTER)
+      call my_dealloc(RCLTAB)
+      call my_dealloc(ICLTAB)
 
 C-----------
       RETURN

@@ -98,16 +98,17 @@ C-----------------------------------------------
 !||    segvar_destroy   ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE SEGVAR_DESTROY(this)
+      use my_dealloc_mod, only : my_dealloc
       IMPLICIT NONE
       CLASS(T_SEGVAR), INTENT(INOUT) :: this
-        IF(ALLOCATED(this%RHO)) DEALLOCATE(this%RHO)
-        IF(ALLOCATED(this%EINT)) DEALLOCATE(this%EINT)
-        IF(ALLOCATED(this%RK)) DEALLOCATE(this%RK)
-        IF(ALLOCATED(this%RE)) DEALLOCATE(this%RE)                
-        IF(ALLOCATED(this%UVAR)) DEALLOCATE(this%UVAR)
-        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_ALPHA) 
-        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_RHO) 
-        IF(ALLOCATED(this%PHASE_ALPHA)) DEALLOCATE(this%PHASE_EINT)                 
+        IF(ALLOCATED(this%RHO)) call my_dealloc(this%RHO)
+        IF(ALLOCATED(this%EINT)) call my_dealloc(this%EINT)
+        IF(ALLOCATED(this%RK)) call my_dealloc(this%RK)
+        IF(ALLOCATED(this%RE)) call my_dealloc(this%RE)
+        IF(ALLOCATED(this%UVAR)) call my_dealloc(this%UVAR)
+        IF(ALLOCATED(this%PHASE_ALPHA)) call my_dealloc(this%PHASE_ALPHA)
+        IF(ALLOCATED(this%PHASE_ALPHA)) call my_dealloc(this%PHASE_RHO)
+        IF(ALLOCATED(this%PHASE_ALPHA)) call my_dealloc(this%PHASE_EINT)
       END SUBROUTINE SEGVAR_DESTROY
       
 !||====================================================================
@@ -119,6 +120,7 @@ C-----------------------------------------------
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      
       USE constant_mod, ONLY: ZERO
+      use my_alloc_mod
       IMPLICIT NONE
 #include "../includes/com04_c.inc" 
       CLASS(T_SEGVAR), INTENT(INOUT) :: this
@@ -132,34 +134,34 @@ C-----------------------------------------------
           IF(ALE%GLOBAL%NVCONV >= 4)this%HAS_RE=.TRUE.
           IF(ALE%GLOBAL%NVCONV >= 5)this%HAS_UVAR=.TRUE.                                
           IF(this%HAS_RHO)THEN
-            ALLOCATE(this%RHO(this%NSEG))
+            call my_alloc(this%RHO, this%NSEG, "this%RHO")
             this%RHO(1:this%NSEG)=ZERO
           ENDIF
           IF(this%HAS_EINT)THEN
-            ALLOCATE(this%EINT(this%NSEG))
+            call my_alloc(this%EINT, this%NSEG, "this%EINT")
             this%EINT(1:this%NSEG)=ZERO
           ENDIF
           IF(this%HAS_RK)THEN
-            ALLOCATE(this%RK(this%NSEG))
+            call my_alloc(this%RK, this%NSEG, "this%RK")
             this%RK(1:this%NSEG)=ZERO            
           ENDIF
           IF(this%HAS_RE)THEN
-            ALLOCATE(this%RE(this%NSEG))
+            call my_alloc(this%RE, this%NSEG, "this%RE")
             this%RE(1:this%NSEG)=ZERO
           ENDIF
           IF(this%HAS_UVAR)THEN
-            ALLOCATE(this%UVAR(this%NSEG))
+            call my_alloc(this%UVAR, this%NSEG, "this%UVAR")
             this%UVAR(1:this%NSEG)=ZERO 
           ENDIF
           IF(NBMAT > 0)THEN
             this%HAS_PHASE_ALPHA = .TRUE.
-            ALLOCATE(this%PHASE_ALPHA(this%NBMAT,this%NSEG))
+            call my_alloc(this%PHASE_ALPHA, this%NBMAT, this%NSEG, "this%PHASE_ALPHA")
             this%PHASE_ALPHA(1:this%NBMAT,1:this%NSEG) = ZERO
             this%HAS_PHASE_RHO = .TRUE.
-            ALLOCATE(this%PHASE_RHO(this%NBMAT,this%NSEG))
+            call my_alloc(this%PHASE_RHO, this%NBMAT, this%NSEG, "this%PHASE_RHO")
             this%PHASE_RHO(1:this%NBMAT,1:this%NSEG) = ZERO
             this%HAS_PHASE_EINT = .TRUE.
-            ALLOCATE(this%PHASE_EINT(this%NBMAT,this%NSEG))
+            call my_alloc(this%PHASE_EINT, this%NBMAT, this%NSEG, "this%PHASE_EINT")
             this%PHASE_EINT(1:this%NBMAT,1:this%NSEG) = ZERO                        
           ENDIF
         ENDIF                               

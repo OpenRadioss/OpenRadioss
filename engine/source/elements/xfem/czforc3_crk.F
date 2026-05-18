@@ -107,6 +107,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G L O B A L   P A R A M E T E R S
@@ -268,7 +270,7 @@ C=======================================================================
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
       NPTTOT = 1
-      ALLOCATE(VARNL(NEL,1))
+      call my_alloc(VARNL, NEL, 1, "VARNL")
       VARNL = ZERO
 C -----will put it in starter     
       IF (ISMST R>= 10) ISMSTR=4
@@ -297,9 +299,9 @@ C
 C-----------------------------------------
       IXFEM2 = 1               ! flag for CZCORC1 and BALANCE
 C
-      ALLOCATE(ELCRKINI(NXLAY*NEL))
-      ALLOCATE(DIR1_CRK(NXLAY*NEL))
-      ALLOCATE(DIR2_CRK(NXLAY*NEL))
+      call my_alloc(ELCRKINI, NXLAY*NEL, "ELCRKINI")
+      call my_alloc(DIR1_CRK, NXLAY*NEL, "DIR1_CRK")
+      call my_alloc(DIR2_CRK, NXLAY*NEL, "DIR2_CRK")
       ELCRKINI = 0
       DIR1_CRK = ZERO
       DIR2_CRK = ZERO
@@ -307,8 +309,8 @@ C
       L_DIRA = XFEM_STR%BUFLY(1)%LY_DIRA
       L_DIRB = XFEM_STR%BUFLY(1)%LY_DIRB
 C
-      ALLOCATE(DIRA(NXLAY*NEL*L_DIRA))
-      ALLOCATE(DIRB(NXLAY*NEL*L_DIRB))
+      call my_alloc(DIRA, NXLAY*NEL*L_DIRA, "DIRA")
+      call my_alloc(DIRB, NXLAY*NEL*L_DIRB, "DIRB")
       DIRA = ZERO
       DIRB = ZERO
       SDIR_A = NXLAY*NEL*L_DIRA
@@ -633,12 +635,12 @@ C--------------------------
 C-------------------------
       ENDDO  !  DO IXLAY=1,NXLAY
 C-------------------------
-      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
-      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)
-      IF (ALLOCATED(ELCRKINI)) DEALLOCATE(ELCRKINI)
-      IF (ALLOCATED(DIR1_CRK)) DEALLOCATE(DIR1_CRK)
-      IF (ALLOCATED(DIR2_CRK)) DEALLOCATE(DIR2_CRK)
-      IF (ALLOCATED(VARNL))    DEALLOCATE(VARNL)
+      IF (ALLOCATED(DIRA)) call my_dealloc(DIRA)
+      IF (ALLOCATED(DIRB)) call my_dealloc(DIRB)
+      IF (ALLOCATED(ELCRKINI)) call my_dealloc(ELCRKINI)
+      IF (ALLOCATED(DIR1_CRK)) call my_dealloc(DIR1_CRK)
+      IF (ALLOCATED(DIR2_CRK)) call my_dealloc(DIR2_CRK)
+      IF (ALLOCATED(VARNL)) call my_dealloc(VARNL)
 C-------------------------
       RETURN
       END

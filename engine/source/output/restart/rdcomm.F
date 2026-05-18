@@ -89,6 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
       INTEGER TABVINT(*)
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
@@ -1717,10 +1718,10 @@ C  Pinching
         SENSORS%NSTAT = SENS_NSTAT
         SENSORS%NOUTP = SENS_NOUTP
         SENSORS%NANIM = SENS_NANIM
-        ALLOCATE (SENSORS%STOP(SENSORS%NSTOP))
-        ALLOCATE (SENSORS%OUTP(SENSORS%NOUTP))
-        ALLOCATE (SENSORS%STAT(SENSORS%NSTAT))
-        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+        call my_alloc(SENSORS%STOP, SENSORS%NSTOP, "SENSORS%STOP")
+        call my_alloc(SENSORS%OUTP, SENSORS%NOUTP, "SENSORS%OUTP")
+        call my_alloc(SENSORS%STAT, SENSORS%NSTAT, "SENSORS%STAT")
+        call my_alloc(SENSORS%ANIM, SENSORS%NANIM, "SENSORS%ANIM")
         SENSORS%STOP = 0  
         SENSORS%OUTP = 0 
         SENSORS%STAT = 0 

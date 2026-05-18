@@ -64,6 +64,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -118,7 +120,7 @@ C-----------------------------------------------
          !---------------------------------------------------------!         
          !         ALE STANDARD FORMULATION  : 3D                  !
          !---------------------------------------------------------!       
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
+           call my_alloc(COUNT_VOL, NUMNOD, "COUNT_VOL")
            COUNT_VOL(:) = 0                           
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
@@ -177,7 +179,7 @@ C-----------------------------------------------
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
            ENDDO                 
-           DEALLOCATE(COUNT_VOL)             
+           call my_dealloc(COUNT_VOL)
 
            END
         

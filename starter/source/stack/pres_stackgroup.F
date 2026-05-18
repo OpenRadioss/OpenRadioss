@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -238,8 +239,8 @@ C #####################################################"
              IGTYP = IGEO(11,PID) 
              NPT   = IWORKSH(1,I)    
              IF(IGTYP == 17 .OR. IGTYP == 51  .AND. NPT > 0) THEN
-               ALLOCATE(IWORK_T(I)%PLYID(NPT))
-               ALLOCATE(IWORK_T(I)%PLYNUM(NPT))
+               call my_alloc(IWORK_T(I)%PLYID, NPT, "IWORK_T(I)%PLYID")
+               call my_alloc(IWORK_T(I)%PLYNUM, NPT, "IWORK_T(I)%PLYNUM")
                IWORK_T(I)%PLYID = 0
                IWORKSH(1,I)     = 0
                IWORK_T(I)%PLYNUM    = 0
@@ -252,8 +253,8 @@ C #####################################################"
              II    = NUMELC + I
              NPT   = IWORKSH(1,II)
              IF((IGTYP == 17 .OR. IGTYP == 51) .AND. NPT > 0) THEN
-               ALLOCATE(IWORK_T(II)%PLYID(NPT))
-               ALLOCATE(IWORK_T(II)%PLYNUM(NPT))
+               call my_alloc(IWORK_T(II)%PLYID, NPT, "IWORK_T(II)%PLYID")
+               call my_alloc(IWORK_T(II)%PLYNUM, NPT, "IWORK_T(II)%PLYNUM")
                IWORK_T(II)%PLYID = 0
                IWORKSH(1,II)     = 0
                IWORK_T(II)%PLYNUM    = 0
@@ -472,8 +473,8 @@ C
              IGTYP = IGEO(11,PID) 
              NPT   = IWORKSH(1,I)
              IF(IGTYP == 52 .AND. NPT > 0) THEN
-               ALLOCATE(IWORK_T(I)%PLYID(NPT))
-               ALLOCATE(IWORK_T(I)%PLYNUM(NPT))
+               call my_alloc(IWORK_T(I)%PLYID, NPT, "IWORK_T(I)%PLYID")
+               call my_alloc(IWORK_T(I)%PLYNUM, NPT, "IWORK_T(I)%PLYNUM")
                IWORK_T(I)%PLYID   = 0
                IWORK_T(I)%IDSTACK = 0
                IWORKSH(1,I)       = 0
@@ -486,8 +487,8 @@ C
              II    = NUMELC + I
              NPT   = IWORKSH(1,II)
              IF(IGTYP == 52 .AND. NPT > 0) THEN
-                ALLOCATE(IWORK_T(II)%PLYID(NPT) )
-               ALLOCATE(IWORK_T(II)%PLYNUM(NPT))
+                call my_alloc(IWORK_T(II)%PLYID, NPT, "IWORK_T(II)%PLYID")
+               call my_alloc(IWORK_T(II)%PLYNUM, NPT, "IWORK_T(II)%PLYNUM")
                 IWORK_T(II)%PLYID   = 0
                 IWORK_T(II)%IDSTACK = 0
                 IWORKSH(1,II)       = 0

@@ -44,6 +44,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD 
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,8 +78,8 @@ C-----------------------------------------------
      .        IB,CLAUSE_OPERATOR 
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT      
 C-----------------------------------------------
-      ALLOCATE(B_ELTS(NUMEL))
-      ALLOCATE(RESULT(NUMEL))
+      call my_alloc(B_ELTS, NUMEL, "B_ELTS")
+      call my_alloc(RESULT, NUMEL, "RESULT")
 
 !
       ! Tag nodes from boxes
@@ -103,7 +105,8 @@ C-----------------------------------------------
          BOXELTS(1:NB_RESULT) = RESULT(1:NB_RESULT)
          SZ_BOXELTS = NB_RESULT        
       ENDDO ! DO I=1,BOXLIST_SIZE
-
+      call my_dealloc(B_ELTS)
+      call my_dealloc(RESULT)
 C-------
       RETURN
       END
@@ -151,6 +154,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD,SET_DELETE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,8 +203,8 @@ C-----------------------------------------------
      .                BOXTYPE    )
 
       ELSE
-          ALLOCATE(B_ELTS(NUMEL))
-          ALLOCATE(RESULT(NUMEL))
+          call my_alloc(B_ELTS, NUMEL, "B_ELTS")
+          call my_alloc(RESULT, NUMEL, "RESULT")
 
 
           DO I=1,NB_BOX_OF_BOX
@@ -230,6 +234,9 @@ C-----------------------------------------------
             BOXELTS(1:NB_RESULT) = RESULT(1:NB_RESULT)
             SZ_BOXELTS = NB_RESULT
           ENDDO
+
+          call my_dealloc(B_ELTS)
+          call my_dealloc(RESULT)
 
        ENDIF
 

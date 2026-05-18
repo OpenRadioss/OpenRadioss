@@ -52,6 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -167,10 +169,10 @@ C
 c
       ! Plasticity specific tables
       IPLA = ELBUF_STR%BUFLY(1)%L_PLA
-      ALLOCATE (DPLA(NEL*IPLA,NPT*IPLA))
-      ALLOCATE (SIGY(NEL*IPLA,NPT*IPLA)) 
-      ALLOCATE (VM0(NEL*IPLA,NPT*IPLA))   
-      ALLOCATE (VM(NEL*IPLA,NPT*IPLA))  
+      call my_alloc(DPLA, NEL*IPLA, NPT*IPLA, "DPLA")
+      call my_alloc(SIGY, NEL*IPLA, NPT*IPLA, "SIGY")
+      call my_alloc(VM0, NEL*IPLA, NPT*IPLA, "VM0")
+      call my_alloc(VM, NEL*IPLA, NPT*IPLA, "VM")
       IF (IPLA > 0) THEN
         DO J=1,NPT
           DO I = 1,NEL
@@ -336,7 +338,7 @@ c--------------------------------------------------------
         ENDIF
       ENDDO      
 c
-      DEALLOCATE (DPLA)
+      call my_dealloc(DPLA)
 C------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)

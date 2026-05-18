@@ -9474,11 +9474,21 @@ C--- //0 ----------------
                   CALL ADD_ELAPSED_TIME_MON_OFF(TIMERS)
                 ENDIF
                 CALL TRACE_OUT(3)
+              DO I = 0, NSPMD-1
+                IF(ISPMD == I) THEN
+                  call report_alloc()
+                ENDIF
+                CALL SPMD_BARRIER()  ! ensure all processes reach this point before any process can finalize
+              END DO
+
+
+
                 RETURN
               ENDIF
 C-------------------------------
  500          CONTINUE
 C-------------------------------
+              
 !             CALL PYTHON_FINALIZE()
               IF(MSTOP/=0) THEN
                 PARALLEL_SECTION = 0
@@ -9703,6 +9713,12 @@ C
                 IF (ALLOCATED(SPH_WORK%VOXEL%DXMAX)) DEALLOCATE(SPH_WORK%VOXEL%DXMAX)                
                 IF (ALLOCATED(SPH_WORK%VOXEL%DYMAX)) DEALLOCATE(SPH_WORK%VOXEL%DYMAX)
                 IF (ALLOCATED(SPH_WORK%VOXEL%DZMAX)) DEALLOCATE(SPH_WORK%VOXEL%DZMAX)
+                DO I = 0, NSPMD-1
+                  IF(ISPMD == I) THEN
+                    call report_alloc()
+                  ENDIF
+                  CALL SPMD_BARRIER()  ! ensure all processes reach this point before any process can finalize
+                END DO
                 RETURN
               ENDIF    ! MSTOP/=0
 
@@ -9724,6 +9740,15 @@ C                Deallocate indexing arrays
                  IF(ALLOCATED(VIPER%IXEM1))DEALLOCATE(VIPER%IXEM1)
                  CLOSE(VIPER%io_dt)
               ENDIF
+
+              DO I = 0, NSPMD-1
+                IF(ISPMD == I) THEN
+                  call report_alloc()
+                ENDIF
+                CALL SPMD_BARRIER()  ! ensure all processes reach this point before any process can finalize
+              END DO
+
+
 c-----------
               RETURN
             END

@@ -36,6 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF, IBUFA,ITAG,REDIR,IBUFSA
 C-----------------------------------------------
 !     1d array
-      ALLOCATE( ITAG(NB_NODE),REDIR(NB_NODE) )
-      ALLOCATE( IBUFSA(NB_NODE) )
+      call my_alloc(ITAG, NB_NODE, "ITAG")
+      call my_alloc(REDIR, NB_NODE, "REDIR")
+      call my_alloc(IBUFSA, NB_NODE, "IBUFSA")
 
 !     and deallocated in fvwrestp
       ALLOCATE( FVSPMD(NFVBAG) )
@@ -105,7 +107,8 @@ C
             KI1 =K2+MONVOL(K1-1+31)
             KIA1=K2+MONVOL(K1-1+20)-1
 C Nod
-            ALLOCATE(IBUF(NN+NNI), IBUFA(NNA))
+            call my_alloc(IBUF, NN+NNI, "IBUF")
+            call my_alloc(IBUFA, NNA, "IBUFA")
             DO J=1,NN+NNI
                IBUF(J)=MONVOL(KI1-1+J)
             ENDDO
@@ -174,8 +177,8 @@ C Local nodes
             FVSPMD(IFV)%NNI_L=NNI_L
             FVSPMD(IFV)%NNA_L=NNA_L
 
-            ALLOCATE(FVSPMD(IFV)%IBUF_L(2,NN_L+NNI_L),
-     .               FVSPMD(IFV)%IBUFA_L(2,NNA_L))
+            call my_alloc(FVSPMD(IFV)%IBUF_L, 2, NN_L+NNI_L, "FVSPMD(IFV)%IBUF_L")
+            call my_alloc(FVSPMD(IFV)%IBUFA_L, 2, NNA_L, "FVSPMD(IFV)%IBUFA_L")
             NN_L=0
             DO J=1,NN+NNI
                JJ=IBUF(J)
@@ -194,7 +197,8 @@ C Local nodes
                   FVSPMD(IFV)%IBUFA_L(2,NNA_L)=NODLOCAL(JJ)
                ENDIF
             ENDDO
-            DEALLOCATE(IBUF, IBUFA)
+            CALL MY_DEALLOC(IBUF)
+            CALL MY_DEALLOC(IBUFA)
 C Additional solids
             FVSPMD(IFV)%NSA=NBA
             FVSPMD(IFV)%NNSA=0
@@ -233,7 +237,7 @@ C Additional solids
                   ENDDO
 C
                   FVSPMD(IFV)%NELSA=NTG
-                  ALLOCATE(FVSPMD(IFV)%ELEMSA(3,NTG))
+                  call my_alloc(FVSPMD(IFV)%ELEMSA, 3, NTG, "FVSPMD(IFV)%ELEMSA")
                   KI2=KI1+NN+NNI
                   DO J=1,NTG
                      DO K=1,3
@@ -254,7 +258,7 @@ C
                   IF (NODLOCAL(JJ)/=0) NNSA_L=NNSA_L+1
                ENDDO
                FVSPMD(IFV)%NNSA_L=NNSA_L
-               ALLOCATE(FVSPMD(IFV)%IBUFSA_L(2,NNSA_L))
+               call my_alloc(FVSPMD(IFV)%IBUFSA_L, 2, NNSA_L, "FVSPMD(IFV)%IBUFSA_L")
                NNSA_L=0
                DO J=1,NNSA
                   JJ=IBUFSA(J)
@@ -270,8 +274,9 @@ C
       ENDDO
 C
 !     1d array
-      DEALLOCATE( ITAG,REDIR )
-      DEALLOCATE( IBUFSA )
+      CALL MY_DEALLOC(ITAG)
+      CALL MY_DEALLOC(REDIR)
+      CALL MY_DEALLOC(IBUFSA)
 ! ---------------------------------
       RETURN
       END

@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,7 @@ C-----------------------------------------------
         CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL)                 
         CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)
         NENTITY = NENTITY_POS + NENTITY_NEG 
-        ALLOCATE(LIST_ENTITY(NENTITY))    
+        call my_alloc(LIST_ENTITY, NENTITY, "LIST_ENTITY")
         DO KK=1,NENTITY_POS                                                             
          CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
          LIST_ENTITY(KK)=JJ

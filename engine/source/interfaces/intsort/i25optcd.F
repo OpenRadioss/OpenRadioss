@@ -46,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -103,10 +105,10 @@ C-----------------------------------------------
       ELSE
          PREC = EM8
       ENDIF
-      allocate(cand_index(i_stok))
+      call my_alloc(cand_index, i_stok, "cand_index")
 !$omp single 
-      allocate(local_cand_nb(nthread))
-      allocate(offset(nthread+1))
+      call my_alloc(local_cand_nb, nthread, "local_cand_nb")
+      call my_alloc(offset, nthread+1, "offset")
       local_cand_nb(:) = 0
 !$omp end single
       my_local_cand_nb = 0 
@@ -409,13 +411,13 @@ C
         end if
       end do
 
-      deallocate(cand_index)
+      call my_dealloc(cand_index)
       
       call my_barrier()
 
 !$omp single 
-      deallocate(local_cand_nb)
-      deallocate(offset)
+      call my_dealloc(local_cand_nb)
+      call my_dealloc(offset)
 !$omp end single     
 C
       RETURN

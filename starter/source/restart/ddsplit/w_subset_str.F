@@ -34,6 +34,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE GROUPDEF_MOD , ONLY : SUBSET_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,7 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + NSUBS
 !
       ERR = 0
-      ALLOCATE (ISUBSET(LENSUBS), STAT=ERR)
+      call my_alloc(ISUBSET, LENSUBS, "ISUBSET", stat=ERR)
       ISUBSET(1:LENSUBS) = 0  
 !
       L_SUB = 0
@@ -128,7 +129,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(ISUBSET,L_SUB)
 !---------
-      DEALLOCATE (ISUBSET)
+      CALL MY_DEALLOC(ISUBSET)
 !---------
       LEN_IA = LEN_IA + L_SUB
 !---------

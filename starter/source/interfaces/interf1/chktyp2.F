@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +66,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
-      ALLOCATE(TAGHIER(NUMNOD))
+      call my_alloc(TAGHIER, NUMNOD, "TAGHIER")
       TAGHIER(1:NUMNOD) = 0
 C
       DO N=1,NINTER
@@ -400,7 +401,7 @@ C
            END IF
         END DO
       END IF
-      DEALLOCATE(TAGHIER)
+      CALL MY_DEALLOC(TAGHIER)
 C
       RETURN
       END

@@ -151,6 +151,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -265,9 +267,13 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       integer :: fake_size = 0
 C======================================================================|
-       ALLOCATE(FX(MVSIZ,64),FY(MVSIZ,64),FZ(MVSIZ,64),STAT=IERROR)
-       ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
-       ALLOCATE(JFAC(MVSIZ,729)) ! for solid 8z
+       call my_alloc(FX, MVSIZ, 64, "FX", stat=IERROR)
+       call my_alloc(FY, MVSIZ, 64, "FY", stat=IERROR)
+       call my_alloc(FZ, MVSIZ, 64, "FZ", stat=IERROR)
+       call my_alloc(MX, MVSIZ, 4, "MX", stat=IERROR)
+       call my_alloc(MY, MVSIZ, 4, "MY", stat=IERROR)
+       call my_alloc(MZ, MVSIZ, 4, "MZ", stat=IERROR)
+       call my_alloc(JFAC, MVSIZ, 729, "JFAC") ! for solid 8z
        SBID=1
 !
        IF(IERROR/=0)THEN
@@ -1570,7 +1576,13 @@ C             ROTATION IF COROTA SYSTEM
   250   CONTINUE
       END DO
 C
-      DEALLOCATE(FX,FY,FZ,MX,MY,MZ,JFAC)
+      call my_dealloc(FX)
+      call my_dealloc(FY)
+      call my_dealloc(FZ)
+      call my_dealloc(MX)
+      call my_dealloc(MY)
+      call my_dealloc(MZ)
+      call my_dealloc(JFAC)
 
 C-----------
       RETURN

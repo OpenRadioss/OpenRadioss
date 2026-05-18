@@ -40,6 +40,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
       USE MESSAGE_MOD
+      use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,23 +130,23 @@ C
       NSPHR = NN
 C
       IERROR = 0
-      IF(ALLOCATED(XSPHR))DEALLOCATE(XSPHR)
+      IF(ALLOCATED(XSPHR)) call my_dealloc(XSPHR)
 C reallocation with new nsphr on the total size
-      ALLOCATE(XSPHR(SIZSPC,NSPHR),STAT=IERROR1)
+      call my_alloc(XSPHR, SIZSPC, NSPHR, "XSPHR", stat=IERROR1)
       IERROR = IERROR + IERROR1
-      IF(ALLOCATED(WACOMPR))DEALLOCATE(WACOMPR)
+      IF(ALLOCATED(WACOMPR)) call my_dealloc(WACOMPR)
 C reallocation WACOMPR en prevision echange spforcp et splissv
-      ALLOCATE(WACOMPR(SIZSPW,NSPHR),STAT=IERROR1)
+      call my_alloc(WACOMPR, SIZSPW, NSPHR, "WACOMPR", stat=IERROR1)
       IERROR = IERROR + IERROR1
 C reallocation des tags cellule active a recevoir
-      IF(ALLOCATED(ISPHR))DEALLOCATE(ISPHR)
+      IF(ALLOCATED(ISPHR)) call my_dealloc(ISPHR)
          
-      ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
+      call my_alloc(ISPHR, NSPHR, "ISPHR", stat=IERROR1)
       IERROR = IERROR + IERROR1
       IF(NSPCOND>0) THEN
 C reallocation of the array managing the symmetrized particles
-        IF(ALLOCATED(ISPSYMR))DEALLOCATE(ISPSYMR)
-        ALLOCATE(ISPSYMR(NSPCOND,NSPHR),STAT=IERROR1)
+        IF(ALLOCATED(ISPSYMR)) call my_dealloc(ISPSYMR)
+        call my_alloc(ISPSYMR, NSPCOND, NSPHR, "ISPSYMR", stat=IERROR1)
         IERROR = IERROR + IERROR1
       END IF
       IF(IERROR/=0) THEN
@@ -254,11 +256,11 @@ C
         END IF
       END DO
 C reallocation liste cellule a envoyer
-      IF(ALLOCATED(LSPHS))DEALLOCATE(LSPHS)
-      ALLOCATE(LSPHS(NSPHS),STAT=IERROR)
+      IF(ALLOCATED(LSPHS)) call my_dealloc(LSPHS)
+      call my_alloc(LSPHS, NSPHS, "LSPHS", stat=IERROR)
 C reallocation of active cell tags to send
-      IF(ALLOCATED(ISPHS))DEALLOCATE(ISPHS)
-      ALLOCATE(ISPHS(NSPHS),STAT=IERROR1)
+      IF(ALLOCATED(ISPHS)) call my_dealloc(ISPHS)
+      call my_alloc(ISPHS, NSPHS, "ISPHS", stat=IERROR1)
       IERROR = IERROR + IERROR1
       IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)

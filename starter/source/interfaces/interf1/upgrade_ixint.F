@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        use my_alloc_mod
         USE INTER_CAND_MOD
 C-------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -49,6 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER(KIND=8) :: ALLOC_SIZE
+        integer(KIND=8) :: S
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: TEMP
 C-----------------------------------------------
 C       Update logical size
@@ -60,10 +62,10 @@ C
 C       Oversize: use at least double the current allocated size
         ALLOC_SIZE = MAX(INT(INTER_CAND%S_IXINT_2,KIND=8), 2*INT(SIZE(INTER_CAND%IXINT,2),KIND=8))
         ALLOC_SIZE = MAX(ALLOC_SIZE, 32000_8) ! Ensure at least one element is allocated to avoid zero-size allocation
-C
-        ALLOCATE(TEMP(INTER_CAND%S_IXINT_1,ALLOC_SIZE))
+        S = INT(SIZE(INTER_CAND%IXINT,1),KIND=8)
+        call my_alloc(TEMP,S, ALLOC_SIZE,"Upgrade IXINT")
         TEMP(1:INTER_CAND%S_IXINT_1,1:NELEMINT) = INTER_CAND%IXINT(1:INTER_CAND%S_IXINT_1,1:NELEMINT)
-        CALL MOVE_ALLOC(FROM=TEMP, TO=INTER_CAND%IXINT)
+        CALL my_move_alloc(TEMP, INTER_CAND%IXINT)
         RETURN
 
         END SUBROUTINE UPGRADE_IXINT

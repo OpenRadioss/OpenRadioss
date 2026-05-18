@@ -36,6 +36,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -65,7 +67,7 @@ C=======================================================================
 C
       IF (NSPMD == 1) THEN
         ARSZ = CRKNOD(ICRK)%CRKNUMNODS
-        ALLOCATE(INORMAR(3,ARSZ))
+        call my_alloc(INORMAR, 3, ARSZ, "INORMAR")
         DO ND=1,ARSZ
 C          EMPL = ND
 C          S = SQRT(XNORM(1,ND)**2 + XNORM(2,ND)**2 + XNORM(3,ND)**2)
@@ -82,7 +84,7 @@ c           INORMAR(3,EMPL) = XNORM(3,I) * S
           END IF
         END DO
         CALL WRITE_S_C(INORMAR,3*ARSZ)
-        DEALLOCATE(INORMAR)
+        call my_dealloc(INORMAR)
       ELSE
          IF (ISPMD==0) THEN
            CALL SPMD_WRT_CRK_XYZNOR(ICRK,XNORM,NFNOD_CRKXFEMG)

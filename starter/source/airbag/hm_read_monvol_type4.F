@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -149,16 +150,32 @@ C     Injectors
       T_MONVOLN%NJET = NJET
       T_MONVOLN%IVOLU(8) = NJET
       IF (NJET > 0) THEN
-         ALLOCATE(T_MONVOLN%IBAGJET(NIBJET, NJET))
+         call my_alloc(T_MONVOLN%IBAGJET, NIBJET, NJET, "T_MONVOLN%IBAGJET")
          T_MONVOLN%IBAGJET(1:NIBJET, 1:NJET) = 0
-         ALLOCATE(T_MONVOLN%RBAGJET(NRBJET, NJET))
+         call my_alloc(T_MONVOLN%RBAGJET, NRBJET, NJET, "T_MONVOLN%RBAGJET")
          T_MONVOLN%RBAGJET(1:NRBJET, 1:NJET) = ZERO
       ENDIF
       IF (NJET > 0) THEN
-         ALLOCATE(GAMA(NJET), CPA(NJET), CPB(NJET), CPC(NJET))
-         ALLOCATE(IMASS(NJET), IFLU(NJET), FMASS(NJET), ITEMP(NJET), FTEMP(NJET), ISENS(NJET))
-         ALLOCATE(IJET(NJET), NJ1(NJET), NJ2(NJET), NJ3(NJET))
-         ALLOCATE(IPT(NJET), IPA(NJET), IPZ(NJET), FPT(NJET), FPA(NJET), FPZ(NJET))
+         call my_alloc(GAMA, NJET, "GAMA")
+         call my_alloc(CPA, NJET, "CPA")
+         call my_alloc(CPB, NJET, "CPB")
+         call my_alloc(CPC, NJET, "CPC")
+         call my_alloc(IMASS, NJET, "IMASS")
+         call my_alloc(IFLU, NJET, "IFLU")
+         call my_alloc(FMASS, NJET, "FMASS")
+         call my_alloc(ITEMP, NJET, "ITEMP")
+         call my_alloc(FTEMP, NJET, "FTEMP")
+         call my_alloc(ISENS, NJET, "ISENS")
+         call my_alloc(IJET, NJET, "IJET")
+         call my_alloc(NJ1, NJET, "NJ1")
+         call my_alloc(NJ2, NJET, "NJ2")
+         call my_alloc(NJ3, NJET, "NJ3")
+         call my_alloc(IPT, NJET, "IPT")
+         call my_alloc(IPA, NJET, "IPA")
+         call my_alloc(IPZ, NJET, "IPZ")
+         call my_alloc(FPT, NJET, "FPT")
+         call my_alloc(FPA, NJET, "FPA")
+         call my_alloc(FPZ, NJET, "FPZ")
          DO II = 1, NJET
             CALL HM_GET_FLOAT_ARRAY_INDEX('GAMMAj', GAMA(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('cpa', CPA(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -197,19 +214,35 @@ C     Ventholes
       T_MONVOLN%IVOLU(11) = NVENT
       T_MONVOLN%NVENT = NVENT
       IF (NVENT > 0) THEN
-         ALLOCATE(T_MONVOLN%IBAGHOL(NIBHOL, NVENT))
+         call my_alloc(T_MONVOLN%IBAGHOL, NIBHOL, NVENT, "T_MONVOLN%IBAGHOL")
          T_MONVOLN%IBAGHOL(1:NIBHOL, 1:NVENT) = 0
-         ALLOCATE(T_MONVOLN%RBAGHOL(NRBHOL, NVENT))
+         call my_alloc(T_MONVOLN%RBAGHOL, NRBHOL, NVENT, "T_MONVOLN%RBAGHOL")
          T_MONVOLN%RBAGHOL(1:NRBHOL, 1:NVENT) = ZERO
       ENDIF
       IF (NVENT > 0) THEN
-         ALLOCATE(TVENT(NVENT), DPDEF(NVENT), DTPDEF(NVENT), FVDP(NVENT), AVENT(NVENT), 
-     .        BVENT(NVENT), TSTOPE(NVENT))
-         ALLOCATE(IPVENT(NVENT), IVDP(NVENT), IDTPDEF(NVENT), IFVENT(NVENT))
-         ALLOCATE(IPORT(NVENT), IPORP(NVENT), IPORA(NVENT), IPORT1(NVENT), 
-     .        IPORP1(NVENT), IPORA1(NVENT))
-         ALLOCATE(FPORT(NVENT), FPORP(NVENT), FPORA(NVENT), FPORT1(NVENT), 
-     .        FPORP1(NVENT), FPORA1(NVENT))
+         call my_alloc(TVENT, NVENT, "TVENT")
+         call my_alloc(DPDEF, NVENT, "DPDEF")
+         call my_alloc(DTPDEF, NVENT, "DTPDEF")
+         call my_alloc(FVDP, NVENT, "FVDP")
+         call my_alloc(AVENT, NVENT, "AVENT")
+         call my_alloc(BVENT, NVENT, "BVENT")
+         call my_alloc(TSTOPE, NVENT, "TSTOPE")
+         call my_alloc(IPVENT, NVENT, "IPVENT")
+         call my_alloc(IVDP, NVENT, "IVDP")
+         call my_alloc(IDTPDEF, NVENT, "IDTPDEF")
+         call my_alloc(IFVENT, NVENT, "IFVENT")
+         call my_alloc(IPORT, NVENT, "IPORT")
+         call my_alloc(IPORP, NVENT, "IPORP")
+         call my_alloc(IPORA, NVENT, "IPORA")
+         call my_alloc(IPORT1, NVENT, "IPORT1")
+         call my_alloc(IPORP1, NVENT, "IPORP1")
+         call my_alloc(IPORA1, NVENT, "IPORA1")
+         call my_alloc(FPORT, NVENT, "FPORT")
+         call my_alloc(FPORP, NVENT, "FPORP")
+         call my_alloc(FPORA, NVENT, "FPORA")
+         call my_alloc(FPORT1, NVENT, "FPORT1")
+         call my_alloc(FPORP1, NVENT, "FPORP1")
+         call my_alloc(FPORA1, NVENT, "FPORA1")
          DO II = 1, NVENT
             IFVENT(II) = 0
             CALL HM_GET_INT_ARRAY_INDEX('surf_IDv', IPVENT(II), II,IS_AVAILABLE, LSUBMODEL)
@@ -728,16 +761,51 @@ C     ===========
 C     Memory free
 C     ===========
       IF (NJET > 0) THEN
-         DEALLOCATE(GAMA, CPA, CPB, CPC)
-         DEALLOCATE(IMASS, IFLU, FMASS, ITEMP, FTEMP, ISENS)
-         DEALLOCATE(IJET, NJ1, NJ2, NJ3)
-         DEALLOCATE(IPT, IPA, IPZ, FPT, FPA, FPZ)
+         CALL MY_DEALLOC(GAMA)
+         CALL MY_DEALLOC(CPA)
+         CALL MY_DEALLOC(CPB)
+         CALL MY_DEALLOC(CPC)
+         CALL MY_DEALLOC(IMASS)
+         CALL MY_DEALLOC(IFLU)
+         CALL MY_DEALLOC(FMASS)
+         CALL MY_DEALLOC(ITEMP)
+         CALL MY_DEALLOC(FTEMP)
+         CALL MY_DEALLOC(ISENS)
+         CALL MY_DEALLOC(IJET)
+         CALL MY_DEALLOC(NJ1)
+         CALL MY_DEALLOC(NJ2)
+         CALL MY_DEALLOC(NJ3)
+         CALL MY_DEALLOC(IPT)
+         CALL MY_DEALLOC(IPA)
+         CALL MY_DEALLOC(IPZ)
+         CALL MY_DEALLOC(FPT)
+         CALL MY_DEALLOC(FPA)
+         CALL MY_DEALLOC(FPZ)
       ENDIF
       IF (NVENT > 0) THEN
-         DEALLOCATE(TVENT, DPDEF, DTPDEF, FVDP, AVENT, BVENT, TSTOPE)
-         DEALLOCATE(IPVENT, IVDP, IDTPDEF, IFVENT)
-         DEALLOCATE(IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1)
-         DEALLOCATE(FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1)
+         CALL MY_DEALLOC(TVENT)
+         CALL MY_DEALLOC(DPDEF)
+         CALL MY_DEALLOC(DTPDEF)
+         CALL MY_DEALLOC(FVDP)
+         CALL MY_DEALLOC(AVENT)
+         CALL MY_DEALLOC(BVENT)
+         CALL MY_DEALLOC(TSTOPE)
+         CALL MY_DEALLOC(IPVENT)
+         CALL MY_DEALLOC(IVDP)
+         CALL MY_DEALLOC(IDTPDEF)
+         CALL MY_DEALLOC(IFVENT)
+         CALL MY_DEALLOC(IPORT)
+         CALL MY_DEALLOC(IPORP)
+         CALL MY_DEALLOC(IPORA)
+         CALL MY_DEALLOC(IPORT1)
+         CALL MY_DEALLOC(IPORP1)
+         CALL MY_DEALLOC(IPORA1)
+         CALL MY_DEALLOC(FPORT)
+         CALL MY_DEALLOC(FPORP)
+         CALL MY_DEALLOC(FPORA)
+         CALL MY_DEALLOC(FPORT1)
+         CALL MY_DEALLOC(FPORP1)
+         CALL MY_DEALLOC(FPORA1)
       ENDIF
 C-----------------------------------------------
 C     E n d   o f   s o u r c e

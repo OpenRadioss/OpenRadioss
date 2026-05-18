@@ -67,6 +67,7 @@
           use unitab_mod
           use message_mod
           use submodel_mod
+          use MY_ALLOC_MOD
           use constant_mod ,only : half,one,zero,two,four,pi,em3,em20,ep20
           use constant_mod ,only : onep1,onep2,zep999,four,six_over_5,five_over_6
           use precision_mod, only : WP
@@ -405,10 +406,10 @@
           mat_param%ntable  = 0
           mat_param%nfunc   = 0
 !
-          allocate (mat_param%uparam(mat_param%nuparam))
-          allocate (mat_param%iparam(mat_param%niparam))
-          allocate (mat_param%table (mat_param%ntable))
-!      allocate (mat_param%ifunc (mat_param%nfunc))  ! to be added
+          call my_alloc(mat_param%uparam, mat_param%nuparam, "mat_param%uparam")
+          call my_alloc(mat_param%iparam, mat_param%niparam, "mat_param%iparam")
+          allocate(mat_param%table(mat_param%ntable))
+!      allocate(mat_param%ifunc (mat_param%nfunc))  ! to be added
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           ! integer material flags

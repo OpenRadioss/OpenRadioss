@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -89,7 +91,7 @@ C-----------------------------------------------
       OFTG=OFR+NUMELR
       OFUR=OFTG+NUMELTG
 C
-      ALLOCATE(NINDL(2,NCONLD+NPRESLOAD))      
+      call my_alloc(NINDL, 2, NCONLD+NPRESLOAD, "NINDL")
 C
       CALL MY_BARRIER()
 C
@@ -307,7 +309,7 @@ C Fin Partie non parallele
       ENDIF 
 
 C
-      DEALLOCATE(NINDL)      
+      call my_dealloc(NINDL)
 C
       RETURN
       END

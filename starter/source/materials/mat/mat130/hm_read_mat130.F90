@@ -64,6 +64,7 @@
           use constant_mod
           use mat_table_copy_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -230,9 +231,9 @@
           endif
 !
           !< Allocation of material parameters tables
-          allocate (matparam%iparam(matparam%niparam))
-          allocate (matparam%uparam(matparam%nuparam))
-          allocate (matparam%table (matparam%ntable ))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          allocate(matparam%table(matparam%ntable))
 !
           !< Integer material parameter
           matparam%iparam(1)  = itype
@@ -275,7 +276,7 @@
           x3vect(1:14) = zero
           x4vect(1:14) = zero
           fscale(1:3)  = unit_pressure
-          if (itype == 1) then 
+          if (itype == 1) then
             fscale(4:6) = unit_pressure
           else
             fscale(4:6) = one
@@ -307,7 +308,7 @@
 !
           !< Include unit conversion for strain rate
           if (lcsrtmp > 0) then
-            do i = 1, size(matparam%table(7)%x(1)%values) 
+            do i = 1, size(matparam%table(7)%x(1)%values)
               matparam%table(7)%x(1)%values(i) = matparam%table(7)%x(1)%values(i)/unit_time
             enddo
           endif

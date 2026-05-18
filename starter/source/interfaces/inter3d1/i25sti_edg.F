@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only :nixt,nixp,nixr,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,7 +141,7 @@ C
 
       BGAPEMX_L=ZERO        
       IF(IGAP==3)THEN
-        ALLOCATE(TAGSLAV(NUMNOD))
+        call my_alloc(TAGSLAV, NUMNOD, "TAGSLAV")
         TAGSLAV (1:NUMNOD)   = 0
         DO I=1,NSN
            TAGSLAV(NSV(I)) = I
@@ -155,7 +156,7 @@ C
             BGAPEMX_L   = MAX(BGAPEMX_L,GAP_E_L(I)) ! BGAPEMX_L overall the model 
           ENDIF
         END DO
-        DEALLOCATE(TAGSLAV)
+        CALL MY_DEALLOC(TAGSLAV)
       END IF
 
       IF(INTFRIC > 0) THEN

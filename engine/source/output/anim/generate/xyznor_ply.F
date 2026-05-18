@@ -36,6 +36,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -63,7 +65,7 @@ C-----------------------------------------------
 C
       IF(NSPMD == 1 ) THEN
         ARSZ = PLYNOD(IPLY)%PLYNUMNODS
-        ALLOCATE(INORMAR(3,ARSZ))
+        call my_alloc(INORMAR, 3, ARSZ, "INORMAR")
 
         DO N=1,PLYNOD(IPLY)%PLYNUMNODS
           I = PLYNOD(IPLY)%NODES(N)
@@ -81,7 +83,7 @@ C
           END IF
         END DO
         CALL WRITE_S_C(INORMAR,3*ARSZ)
-        DEALLOCATE(INORMAR)
+        call my_dealloc(INORMAR)
         EMPSIZPL = EMPSIZPL + PLYNOD(IPLY)%PLYNUMNODS
       ELSE
         CALL SPMD_ANIM_PLY_XYZNOR( NODGLOB,IPLY,XNORM,EMPSIZPL)

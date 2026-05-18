@@ -37,6 +37,7 @@ C-----------------------------------------------
       USE WRITE_MOD, ONLY : WRITE_INTEGER
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE PYTHON_FUNCT_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +69,7 @@ c
           NPARR = SENSOR%NPARR
           NVAR  = SENSOR%NVAR
           TITLE = SENSOR%TITLE
-          ALLOCATE (LTEMP(NPARI))
+          call my_alloc(LTEMP, NPARI, "LTEMP")
           LTEMP(1:NPARI) = SENSOR%IPARAM(1:NPARI)
 c         update node system number after renumbering for sensors using nodes
           IF (TYP == 2) THEN   ! /sens/disp
@@ -97,7 +98,7 @@ c         update node system number after renumbering for sensors using nodes
           END IF
 c
           LEN = NFIX + NPARI + NPARR + NVAR
-          ALLOCATE (RBUF(LEN) )
+          call my_alloc(RBUF, LEN, "RBUF")
 c
           IAD = 0
           RBUF(IAD+1) = SENSOR%TYPE
@@ -133,8 +134,8 @@ c
           END IF
 c
           CALL WRITE_DB(RBUF,LEN)
-          DEALLOCATE(RBUF)
-          DEALLOCATE(LTEMP)
+          CALL MY_DEALLOC(RBUF)
+          CALL MY_DEALLOC(LTEMP)
 c
 c         write sensor title
           CALL FRETITL(TITLE,ITITLE,LTITR)

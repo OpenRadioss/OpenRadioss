@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -73,7 +74,8 @@ C
       DRAD2 = ZERO !no thermal exchange for E2E 
       IF (I_START ==1) THEN
 C
-        ALLOCATE(KNOD2LIN(NUMNOD+1),GAP_E_SORT(NEDGE))
+        call my_alloc(KNOD2LIN, NUMNOD+1, "KNOD2LIN")
+        call my_alloc(GAP_E_SORT, NEDGE, "GAP_E_SORT")
 C
         KREMNODE(1) = 1
         NOD2LIN(1:2*NEDGE)    = 0
@@ -94,7 +96,7 @@ C       edges are sorted by increasing gap
            GAP_E_SORT(I) = GAP_E(I)
         ENDDO  
         CALL STLSORT_REAL_INT(NEDGE,GAP_E_SORT,PERM)
-        IF(ALLOCATED(GAP_E_SORT)) DEALLOCATE(GAP_E_SORT) 
+        IF(ALLOCATED(GAP_E_SORT)) CALL MY_DEALLOC(GAP_E_SORT)
         DO II=1,NEDGE
           I=PERM(NEDGE - II + 1)
           PERM_INV(I) =II
@@ -126,7 +128,7 @@ C
             KNOD2LIN(N) = KNOD2LIN(N) + 1
           END DO
 C
-          DEALLOCATE(KNOD2LIN)
+          CALL MY_DEALLOC(KNOD2LIN)
 C
       ENDIF
 C
@@ -137,11 +139,16 @@ C-----------------------------------------------
 C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
 C
-        ALLOCATE(TAGNOD(NUMNOD),ORIGIN(NUMNOD),DIST1(NUMNOD))
+        call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
+        call my_alloc(ORIGIN, NUMNOD, "ORIGIN")
+        call my_alloc(DIST1, NUMNOD, "DIST1")
         TAGNOD(1:NUMNOD) = 0
         ORIGIN(1:NUMNOD)     = 0
         DIST1(1:NUMNOD) = EP30
-        ALLOCATE(ITAG(NEDGE),LISTLIN(NEDGE),LISTLINTMP(NEDGE),LISTLINTOTAL(NEDGE))
+        call my_alloc(ITAG, NEDGE, "ITAG")
+        call my_alloc(LISTLIN, NEDGE, "LISTLIN")
+        call my_alloc(LISTLINTMP, NEDGE, "LISTLINTMP")
+        call my_alloc(LISTLINTOTAL, NEDGE, "LISTLINTOTAL")
 
         ITAG(1:NEDGE) = 0
         LISTLIN(1:NEDGE) = 0
@@ -324,7 +331,7 @@ CC END DO NEDGE
 C
         IF (I_MEM_REM == 0) THEN
 C         Symmetry check                    
-          ALLOCATE(TAG_SYM(2,NEDGE))
+          call my_alloc(TAG_SYM, 2, NEDGE, "TAG_SYM")
           TAG_SYM(1:2,1:NEDGE) = 0
           TOT_SYM = 0
           DO I=1,NEDGE
@@ -357,7 +364,8 @@ C--         Not enough memory to store missing symetrised connections - upgrade_
 c
         IF (I_MEM_REM == 0) THEN           
 C
-          ALLOCATE(REM_TMP(NREMNODE),KREM_TMP(NEDGE+1))
+          call my_alloc(REM_TMP, NREMNODE, "REM_TMP")
+          call my_alloc(KREM_TMP, NEDGE+1, "KREM_TMP")
           REM_TMP(1:NREMNODE) = REMNODE(1:NREMNODE)
           KREM_TMP(1:NEDGE+1) = KREMNODE(1:NEDGE+1)
           KREMNODE(1) = 1
@@ -402,17 +410,21 @@ C           Missing connections are added for symetrization
             ENDDO  
           ENDIF  
 C            
-          DEALLOCATE(REM_TMP,KREM_TMP,TAG_SYM) 
+          CALL MY_DEALLOC(REM_TMP)
+          CALL MY_DEALLOC(KREM_TMP)
+          CALL MY_DEALLOC(TAG_SYM)
 
         ENDIF
 C
       ENDIF
 C
-      DEALLOCATE(DIST1,TAGNOD,ORIGIN)
-      IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
-      IF(ALLOCATED(LISTLINTOTAL)) DEALLOCATE(LISTLINTOTAL)
-      IF(ALLOCATED(LISTLIN)) DEALLOCATE(LISTLIN)
-      IF(ALLOCATED(LISTLINTMP)) DEALLOCATE(LISTLINTMP)
+      CALL MY_DEALLOC(DIST1)
+      CALL MY_DEALLOC(TAGNOD)
+      CALL MY_DEALLOC(ORIGIN)
+      IF(ALLOCATED(ITAG)) CALL MY_DEALLOC(ITAG)
+      IF(ALLOCATED(LISTLINTOTAL)) CALL MY_DEALLOC(LISTLINTOTAL)
+      IF(ALLOCATED(LISTLIN)) CALL MY_DEALLOC(LISTLIN)
+      IF(ALLOCATED(LISTLINTMP)) CALL MY_DEALLOC(LISTLINTMP)
 C
       RETURN
       END
@@ -443,6 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_move_alloc_mod, only : my_move_alloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
@@ -509,8 +522,9 @@ C-----------------------------------------------
         IEDGE = IPARI(58,N)
         NRTM = IPARI(4,N)
 C
-        ALLOCATE(INOD2LIN(NUMNOD+1),NOD2LIN(2*NEDGE))
-        ALLOCATE(KNOD2LIN(NUMNOD+1))
+        call my_alloc(INOD2LIN, NUMNOD+1, "INOD2LIN")
+        call my_alloc(NOD2LIN, 2*NEDGE, "NOD2LIN")
+        call my_alloc(KNOD2LIN, NUMNOD+1, "KNOD2LIN")
 C
         NOD2LIN(1:2*NEDGE)    = 0
         KNOD2LIN(1:NUMNOD+1) = 0
@@ -541,7 +555,7 @@ C
            KNOD2LIN(NN) = KNOD2LIN(NN) + 1
         END DO
 
-        ALLOCATE(TAGD_EDG(NEDGE))
+        call my_alloc(TAGD_EDG, NEDGE, "TAGD_EDG")
 
         SOL_EDGE =IEDGE/10 ! solids
         SH_EDGE  =IEDGE-10*SOL_EDGE ! shells
@@ -558,10 +572,10 @@ C--------------------------------------------------------------------
               MAX_INSERTED_EDG = MAX(MAX_INSERTED_EDG,DIFF_INT8) 
            ENDDO
 
-           ALLOCATE( NBR_INSERT_II(NRTM) )
-           ALLOCATE( KREMNODE_EDG_SAVE(NRTM+1) )
+           call my_alloc(NBR_INSERT_II, NRTM, "NBR_INSERT_II")
+           call my_alloc(KREMNODE_EDG_SAVE, NRTM+1, "KREMNODE_EDG_SAVE")
            SIZE_INSERTED_EDG = MAX_INSERTED_EDG*IPARI(62,N)
-           CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG)
+           CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG,"INSERTED_EDG")
            TAGD_EDG(1:NEDGE)=0
            KREMNODE_EDG_SAVE(1:NRTM+1) = 0
            NBR_INSERT_II(1:NRTM) = 0
@@ -606,7 +620,9 @@ C--------------------------------------------------------------------
               INTBUF_TAB(N)%KREMNODE_E2S(II) =INTBUF_TAB(N)%KREMNODE_E2S(II)+1
            ENDDO
 
-           DEALLOCATE(NBR_INSERT_II,KREMNODE_EDG_SAVE,INSERTED_EDG)
+           CALL MY_DEALLOC(NBR_INSERT_II)
+           CALL MY_DEALLOC(KREMNODE_EDG_SAVE)
+           CALL MY_DEALLOC(INSERTED_EDG)
 
            ! ---------
            IF(FLAG_OUTPUT>0) THEN
@@ -628,13 +644,13 @@ C--------------------------------------------------------------------
         IF(SH_EDGE > 0) THEN
 
 
-          ALLOCATE(TAG_ND(NUMNOD))
-          ALLOCATE(IDX_ND(NUMNOD))
-          ALLOCATE(TAG_NDE(NUMNOD))
+          call my_alloc(TAG_ND, NUMNOD, "TAG_ND")
+          call my_alloc(IDX_ND, NUMNOD, "IDX_ND")
+          call my_alloc(TAG_NDE, NUMNOD, "TAG_NDE")
 
-          ALLOCATE( NBR_INSERT_II(NEDGE) )
-          ALLOCATE( ADRESS_II(NEDGE) )
-          ALLOCATE( KREMNODE_EDG_SAVE(NEDGE+1) )
+          call my_alloc(NBR_INSERT_II, NEDGE, "NBR_INSERT_II")
+          call my_alloc(ADRESS_II, NEDGE, "ADRESS_II")
+          call my_alloc(KREMNODE_EDG_SAVE, NEDGE+1, "KREMNODE_EDG_SAVE")
           NBR_INSERT_II(1:NEDGE) = 0
           ADRESS_II(1:NEDGE) = 0
           KREMNODE_EDG_SAVE(1:NEDGE+1) = 0
@@ -679,7 +695,7 @@ C---------
             SIZE_INSERTED_EDG =  8 * NEDGE *MAX_INSERTED_EDG *MAX_INSERTED_I2
           ENDIF
 
-          CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG) 
+          CALL MY_ALLOC(INSERTED_EDG,SIZE_INSERTED_EDG,"INSERTED_EDG")
 
           DO II=1,NEDGE
             NNREM_EDG_SAVE = NNREM_EDG
@@ -699,10 +715,10 @@ C
 C extend INSERTED_EDG if needed
                OLDSIZE = SIZE_INSERTED_EDG
                SIZE_INSERTED_EDG = SIZE_INSERTED_EDG  + MAX(NEDGE,MAX_INSERTED_EDG*MAX_INSERTED_I2)
-               CALL MY_ALLOC(TMP_EDG,SIZE_INSERTED_EDG)
+               CALL MY_ALLOC(TMP_EDG,SIZE_INSERTED_EDG,"TMP_EDG")
                TMP_EDG(1:OLDSIZE) = INSERTED_EDG(1:OLDSIZE)
 !              move_alloc deallocates TMP
-               CALL MOVE_ALLOC(TMP_EDG,INSERTED_EDG)
+               call my_move_alloc(TMP_EDG, INSERTED_EDG, "INSERTED_EDG")
             ENDIF
 
             ND_TAG = 0
@@ -911,7 +927,7 @@ C
                TOTAL_INSERTED = TOTAL_INSERTED + NBR_INSERT_II(II)
             ENDDO
           !       allocate the buffer array
-            ALLOCATE( REMNODE_EDG(NREMOV_EDG+TOTAL_INSERTED) )
+            call my_alloc(REMNODE_EDG, NREMOV_EDG+TOTAL_INSERTED, "REMNODE_EDG")
        
             J = 0
             I = 0
@@ -976,20 +992,24 @@ C
 C----------used for Iedge=1     
             NREMOV_EDG = NNREM_EDG
           END IF !IF (NNREM_EDG>0) THEN
-          IF(ALLOCATED(REMNODE_EDG)) DEALLOCATE( REMNODE_EDG )  
-          IF(ALLOCATED(INSERTED_EDG)) DEALLOCATE( INSERTED_EDG )  
+          IF(ALLOCATED(REMNODE_EDG)) CALL MY_DEALLOC(REMNODE_EDG)
+          IF(ALLOCATED(INSERTED_EDG)) CALL MY_DEALLOC(INSERTED_EDG)
  
         !   ------------------------------------------------
 
-          DEALLOCATE( NBR_INSERT_II )
-          DEALLOCATE( ADRESS_II )
-          DEALLOCATE( KREMNODE_EDG_SAVE )     
+          CALL MY_DEALLOC(NBR_INSERT_II)
+          CALL MY_DEALLOC(ADRESS_II)
+          CALL MY_DEALLOC(KREMNODE_EDG_SAVE)
 
-          DEALLOCATE(TAGD_EDG,TAG_ND,IDX_ND,TAG_NDE)
+          CALL MY_DEALLOC(TAGD_EDG)
+          CALL MY_DEALLOC(TAG_ND)
+          CALL MY_DEALLOC(IDX_ND)
+          CALL MY_DEALLOC(TAG_NDE)
 
         ENDIF ! SHELL_EDG
 
-        DEALLOCATE(INOD2LIN,NOD2LIN)
+        CALL MY_DEALLOC(INOD2LIN)
+        CALL MY_DEALLOC(NOD2LIN)
 C----
         RETURN
         END

@@ -46,6 +46,7 @@
 ! --------------------------------------------------------------------------------------------------
           use fail_param_mod
           use precision_mod ,only : WP
+          use MY_ALLOC_MOD
 ! --------------------------------------------------------------------------------------------------
           implicit none
 ! --------------------------------------------------------------------------------------------------
@@ -62,7 +63,7 @@
           type(table_4d_) ,dimension(:) ,allocatable :: table_copy
 ! ==================================================================================================
           ntable = fail%ntable4d
-          allocate (table_copy(ntable+1))
+          allocate(table_copy(ntable+1))
           do i = 1,ntable
             ! create local copy of failure model function tables
             call copy_table_to(fail%table4d(i), table_copy(i))
@@ -78,7 +79,7 @@
 !-------------------------------------------------------------------------------
           ! allocate new function tables and deallocate local copies
 
-          allocate (fail%table4d(ntable+1))
+          allocate(fail%table4d(ntable+1))
           do i = 1,ntable
             call copy_table_to(table_copy(i) ,fail%table4d(i))
             ndim = table_copy(i)%ndim
@@ -94,9 +95,9 @@
           fail%ntable4d = ntable
           fail%table4d(ntable)%notable = 1
           fail%table4d(ntable)%ndim    = 1
-          allocate (fail%table4d(ntable)%x(1))
-          allocate (fail%table4d(ntable)%x(1)%values(npt))
-          allocate (fail%table4d(ntable)%y1d(npt))
+          allocate(fail%table4d(ntable)%x(1))
+          call my_alloc(fail%table4d(ntable)%x(1)%values, npt, "fail%table4d(ntable)%x(1)%values")
+          call my_alloc(fail%table4d(ntable)%y1d, npt, "fail%table4d(ntable)%y1d")
 
           fail%table4d(ntable)%x(1)%values(1:npt) = eps(1:npt)
           fail%table4d(ntable)%y1d(1:npt)         = sig(1:npt)

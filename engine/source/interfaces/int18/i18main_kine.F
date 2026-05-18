@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -144,16 +145,15 @@ C
           END DO
 
           IF(NODFI > 0)THEN
-            IF(ASSOCIATED(MTFI_PENE(N)%P)) DEALLOCATE(MTFI_PENE(N)%P)
+            IF(ASSOCIATED(MTFI_PENE(N)%P)) call my_dealloc(MTFI_PENE(N)%P)
             ALLOCATE(MTFI_PENE(N)%P(NODFI),STAT=IERROR1)
             MTFI_PENE(N)%P(1:NODFI)=ZERO
 c
-            IF(ASSOCIATED(MTFI_PENEMIN(N)%P))
-     *                                     DEALLOCATE(MTFI_PENEMIN(N)%P)
+            IF(ASSOCIATED(MTFI_PENEMIN(N)%P)) call my_dealloc(MTFI_PENEMIN(N)%P)
             ALLOCATE(MTFI_PENEMIN(N)%P(NODFI),STAT=IERROR2)
             MTFI_PENEMIN(N)%P(1:NODFI)=ZERO
 
-            IF(ASSOCIATED(MTFI_V(N)%P)) DEALLOCATE(MTFI_V(N)%P)
+            IF(ASSOCIATED(MTFI_V(N)%P)) call my_dealloc(MTFI_V(N)%P)
             ALLOCATE(MTFI_V(N)%P(6,NODFI),STAT=IERROR3)
             MTFI_V(N)%P(1,1:NODFI)=ZERO
             MTFI_V(N)%P(2,1:NODFI)=ZERO
@@ -162,7 +162,7 @@ c
             MTFI_V(N)%P(5,1:NODFI)=ZERO
             MTFI_V(N)%P(6,1:NODFI)=ZERO
 
-            IF(ASSOCIATED(MTFI_A(N)%P)) DEALLOCATE(MTFI_A(N)%P)
+            IF(ASSOCIATED(MTFI_A(N)%P)) call my_dealloc(MTFI_A(N)%P)
             ALLOCATE(MTFI_A(N)%P(7,NODFI),STAT=IERROR4)
             MTFI_A(N)%P(1,1:NODFI)=ZERO
             MTFI_A(N)%P(2,1:NODFI)=ZERO
@@ -172,13 +172,13 @@ c
             MTFI_A(N)%P(6,1:NODFI)=ZERO
             MTFI_A(N)%P(7,1:NODFI)=ZERO
 
-            IF(ASSOCIATED(MTFI_N(N)%P)) DEALLOCATE(MTFI_N(N)%P)
+            IF(ASSOCIATED(MTFI_N(N)%P)) call my_dealloc(MTFI_N(N)%P)
             ALLOCATE(MTFI_N(N)%P(3,NODFI),STAT=IERROR4)
             MTFI_N(N)%P(1,1:NODFI)=ZERO
             MTFI_N(N)%P(2,1:NODFI)=ZERO
             MTFI_N(N)%P(3,1:NODFI)=ZERO
 
-            IF(ASSOCIATED(I18KAFI(N)%P)) DEALLOCATE(I18KAFI(N)%P)
+            IF(ASSOCIATED(I18KAFI(N)%P)) call my_dealloc(I18KAFI(N)%P)
             ALLOCATE(I18KAFI(N)%P(3,NODFI),STAT=IERROR4)
             I18KAFI(N)%P(1,1:NODFI)=ZERO
             I18KAFI(N)%P(2,1:NODFI)=ZERO
@@ -341,6 +341,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -374,10 +376,10 @@ C=======================================================================
 C     initialisation MTF(1:14,1:NUMNOD)
 C=======================================================================
       IF (NSPMD > 1)THEN
-         ALLOCATE(SLVNDTAG(NUMNOD))
+         call my_alloc(SLVNDTAG, NUMNOD, "SLVNDTAG")
          SLVNDTAG = 0
       ELSE
-         ALLOCATE(SLVNDTAG(1))
+         call my_alloc(SLVNDTAG, 1, "SLVNDTAG")
          SLVNDTAG = 0
       ENDIF
 C=======================================================================
@@ -491,7 +493,7 @@ c   1: send to the proc that owns the node that overwrites the acceleration
 
 C=======================================================================
 
-      DEALLOCATE(SLVNDTAG)
+      call my_dealloc(SLVNDTAG)
 !$OMP END SINGLE
 
       RETURN

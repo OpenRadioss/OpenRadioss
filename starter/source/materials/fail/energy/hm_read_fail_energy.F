@@ -54,6 +54,7 @@ C-----------------------------------------------
       use table_mod
       use func_table_copy_mod
       use names_and_titles_mod , only : nchartitle
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -136,11 +137,11 @@ c---------------------------
       FAIL%PTHK    = PTHK
       FAIL%FAIL_IP = FAILIP
 c            
-      ALLOCATE (FAIL%UPARAM(NUPARAM))
-      ALLOCATE (FAIL%IPARAM(NIPARAM))
-      ALLOCATE (FAIL%IFUNC(FAIL%NFUNC))
-      ALLOCATE (FAIL%TABLE(FAIL%NTABLE))
-      ALLOCATE (FAIL%TABLE4D(FAIL%NTABLE4D))
+      call my_alloc(FAIL%UPARAM, NUPARAM, "FAIL%UPARAM")
+      call my_alloc(FAIL%IPARAM, NIPARAM, "FAIL%IPARAM")
+      call my_alloc(FAIL%IFUNC, FAIL%NFUNC, "FAIL%IFUNC")
+      call my_alloc(FAIL%TABLE, FAIL%NTABLE, "FAIL%TABLE")
+      allocate(FAIL%TABLE4D(FAIL%NTABLE4D))
 
       FAIL%IPARAM(1) = DMG_FLAG   
 !

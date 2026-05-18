@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_I_3F
       USE USER_ID_MOD , ONLY : ID_LIMIT
       USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,13 +131,13 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
       CALL CPP_NODES_COUNT(NUMNUSR1,NUMNUSR2)
-      ALLOCATE (SUB_NOD(NUMNUSR1),STAT=stat)
+      call my_alloc(SUB_NOD, NUMNUSR1, "SUB_NOD", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_NOD')
-      ALLOCATE (UID_NOD(NUMNUSR1),STAT=stat)
+      call my_alloc(UID_NOD, NUMNUSR1, "UID_NOD", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_NOD')
-      ALLOCATE (HM_X(3,NUMNUSR1),STAT=stat)
+      call my_alloc(HM_X, 3, NUMNUSR1, "HM_X", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='HM_X')
-      ALLOCATE (DMERGE(NUMNUSR2),STAT=stat)
+      call my_alloc(DMERGE, NUMNUSR2, "DMERGE", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DMERGE')
       SUB_NOD(1:NUMNUSR1) = 0
       UID_NOD(1:NUMNUSR1) = 0
@@ -197,11 +198,11 @@ C----------------------------------------------------
       ELSE ! IF(IS_DYNA==0)THEN
 C
 C       Possible nodes merging!
-        ALLOCATE (ITAB_TMP(NUMNUSR1),STAT=stat)
+        call my_alloc(ITAB_TMP, NUMNUSR1, "ITAB_TMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB_TMP')
-        ALLOCATE (ITABM1_TMP(2*NUMNUSR1),STAT=stat)
+        call my_alloc(ITABM1_TMP, 2*NUMNUSR1, "ITABM1_TMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITABM1_TMP')
-        ALLOCATE (X_TMP(3,NUMNUSR1),STAT=stat)
+        call my_alloc(X_TMP, 3, NUMNUSR1, "X_TMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='X_TMP')
 C--------------------------------------------------
 C        READING NODES INPUTS IN HM STRUCTURE
@@ -271,26 +272,26 @@ C       Compaction of ITAB and X (cf /MERGE/NODE) - Nodes are sorted by ID
         ENDDO
         NUMNUSR1 = NUMNAUX
 C--------------------------------------------------
-        IF(ALLOCATED(ITAB_TMP))   DEALLOCATE(ITAB_TMP)
-        IF(ALLOCATED(ITABM1_TMP)) DEALLOCATE(ITABM1_TMP)
-        IF(ALLOCATED(X_TMP))      DEALLOCATE(X_TMP)
+        IF(ALLOCATED(ITAB_TMP))   CALL MY_DEALLOC(ITAB_TMP)
+        IF(ALLOCATED(ITABM1_TMP)) CALL MY_DEALLOC(ITABM1_TMP)
+        IF(ALLOCATED(X_TMP))      CALL MY_DEALLOC(X_TMP)
       END IF ! IF(IS_DYNA==0)THEN
 C--------------------------------------------------
-      IF(ALLOCATED(SUB_NOD)) DEALLOCATE(SUB_NOD)
-      IF(ALLOCATED(UID_NOD)) DEALLOCATE(UID_NOD)
-      IF(ALLOCATED(HM_X))    DEALLOCATE(HM_X)
+      IF(ALLOCATED(SUB_NOD)) CALL MY_DEALLOC(SUB_NOD)
+      IF(ALLOCATED(UID_NOD)) CALL MY_DEALLOC(UID_NOD)
+      IF(ALLOCATED(HM_X))    CALL MY_DEALLOC(HM_X)
 C--------------------------------------------------
 C        READING CNODES INPUTS IN HM STRUCTURE
 C--------------------------------------------------
 C
       IF(NUMNUSR2 /= 0) THEN
-        ALLOCATE (ITAB_TMP(NUMNUSR2),STAT=stat)
+        call my_alloc(ITAB_TMP, NUMNUSR2, "ITAB_TMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB_TMP')
-        ALLOCATE (SUB_NOD(NUMNUSR2),STAT=stat)
+        call my_alloc(SUB_NOD, NUMNUSR2, "SUB_NOD", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_NOD')
-        ALLOCATE (UID_NOD(NUMNUSR2),STAT=stat)
+        call my_alloc(UID_NOD, NUMNUSR2, "UID_NOD", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='UID_NOD')
-        ALLOCATE (HM_X(3,NUMNUSR2),STAT=stat)
+        call my_alloc(HM_X, 3, NUMNUSR2, "HM_X", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='HM_X')
 
         ITAB_TMP(1:NUMNUSR2) = 0
@@ -338,10 +339,10 @@ C---------------------------------------------------
           YMAX=MAX(YMAX,X(2,N))
           ZMAX=MAX(ZMAX,X(3,N))
         ENDDO
-        IF(ALLOCATED(ITAB_TMP))   DEALLOCATE(ITAB_TMP)
-        IF(ALLOCATED(SUB_NOD)) DEALLOCATE(SUB_NOD)
-        IF(ALLOCATED(UID_NOD)) DEALLOCATE(UID_NOD)
-        IF(ALLOCATED(HM_X))    DEALLOCATE(HM_X)
+        IF(ALLOCATED(ITAB_TMP))   CALL MY_DEALLOC(ITAB_TMP)
+        IF(ALLOCATED(SUB_NOD)) CALL MY_DEALLOC(SUB_NOD)
+        IF(ALLOCATED(UID_NOD)) CALL MY_DEALLOC(UID_NOD)
+        IF(ALLOCATED(HM_X))    CALL MY_DEALLOC(HM_X)
       END IF
       NUMNUSR = N
 C     Here : NUMNUSR == NUMNOD0 !

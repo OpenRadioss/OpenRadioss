@@ -45,6 +45,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD  
       USE OUTPUT_MOD   
       USE ALE_MOD
+      use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,17 +113,17 @@ C-----------------------------------------------
         NEW_D = 0
       ENDIF
       E_LEN = 7 + IRODDL*3 + DT_CST*2 + NEW_D*3
-      ALLOCATE(SRBUF(ISIZXV * MAX(ILENXV,E_LEN)))
+      call my_alloc(SRBUF, ISIZXV * MAX(ILENXV,E_LEN), "SRBUF")
       LEN_DP = 3
       
       IF(IRESP==1)THEN
-        ALLOCATE(SRBUFDP(ISIZXV*LEN_DP),STAT=IERROR1)
+        call my_alloc(SRBUFDP, ISIZXV*LEN_DP, "SRBUFDP", stat=IERROR1)
           IF(IERROR1/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
       ELSE
-         ALLOCATE(SRBUFDP(1),STAT=IERROR1)
+         call my_alloc(SRBUFDP, 1, "SRBUFDP", stat=IERROR1)
       ENDIF
       
       IF(ISPMD==0) THEN
@@ -649,7 +651,7 @@ Cfrom and w to receive
             ENDIF      
         END IF
       ENDIF
-      DEALLOCATE(SRBUF)
+      call my_dealloc(SRBUF)
 C
 #endif
       RETURN

@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DETONATORS_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,9 +203,11 @@ C-----------------------------------------------
         NPTS = NNOD    !number of point composing the cord path
         NSEG = NNOD-1  !number of segment composing the cord path
         ALLOCATE(USER_SPLINE_PATH%control_point(0:NPTS+1,3))
-        ALLOCATE(USER_SPLINE_PATH%length(NPTS-1))
-        ALLOCATE(USER_SPLINE_PATH%cumulative_length(NPTS-1))
-        ALLOCATE(USER_SPLINE_PATH%knots(NPTS-1,4) )
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
+        call my_alloc(USER_SPLINE_PATH%length, NPTS-1, "USER_SPLINE_PATH%length")
+        call my_alloc(USER_SPLINE_PATH%cumulative_length, NPTS-1, "USER_SPLINE_PATH%cumulative_length")
+        call my_alloc(USER_SPLINE_PATH%knots, NPTS-1, 4, "USER_SPLINE_PATH%knots")
         !PT(0    ,1:3)= will be defined by energy minimum
         !PT(NPTS+1,1:3)= will be defined by energy minimum
 

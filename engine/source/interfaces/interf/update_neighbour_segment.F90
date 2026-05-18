@@ -74,6 +74,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -148,14 +150,14 @@
 
           ! ------------
           ! allocate some arrays + initialization
-          allocate( list_new_segment(nb_new_segment,6) )
+          call my_alloc(list_new_segment, nb_new_segment, 6, "list_new_segment")
           list_new_segment(1:nb_new_segment,1:6) = 0
-          allocate( new_segment_id(nb_new_segment) )
-          allocate( permutation(nb_new_segment) )
+          call my_alloc(new_segment_id, nb_new_segment, "new_segment_id")
+          call my_alloc(permutation, nb_new_segment, "permutation")
           new_segment_id(1:nb_new_segment) = 0
           permutation(1:nb_new_segment) = 0
           updated_interface_bool = .false. ! global flag to know if the neighbourhood is changing
-          allocate( updated_interface(ninter) ) ! flag per interfaces
+          call my_alloc(updated_interface, ninter, "updated_interface") ! flag per interfaces
           updated_interface(1:ninter) = .false.
           ! ------------
 
@@ -227,8 +229,8 @@
             end if
           end do
           ! ------------
-          allocate( segment_pair(total_nb_segment,4,5) )
-          allocate( criteria(total_nb_segment,4) )
+          call my_alloc(segment_pair, total_nb_segment, 4, 5, "segment_pair")
+          call my_alloc(criteria, total_nb_segment, 4, "criteria")
           segment_pair(1:total_nb_segment,1:4,1:5) = 0
           criteria(1:nb_new_segment,1:4) = -ONEP01
           ! --------------------------
@@ -515,10 +517,10 @@
           endif
           ! ---------------------------
 
-          deallocate( list_new_segment )
-          deallocate( new_segment_id )
-          deallocate( permutation )
-          deallocate( criteria )
+          call my_dealloc(list_new_segment)
+          call my_dealloc(new_segment_id)
+          call my_dealloc(permutation)
+          call my_dealloc(criteria)
 
           call c_delete_hash( segment_hash_id )
 

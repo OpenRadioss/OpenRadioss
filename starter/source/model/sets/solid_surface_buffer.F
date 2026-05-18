@@ -82,10 +82,10 @@ C-----------------------------------------------
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
 C=======================================================================
-      CALL MY_ALLOC(SOLID_TAG,NUMELS)
-      CALL MY_ALLOC(PART_TAG,NPART)
-      CALL MY_ALLOC(NODTAG,NUMNOD)
-      CALL MY_ALLOC(FASTAG,NUMELS)
+      CALL MY_ALLOC(SOLID_TAG,NUMELS,"SOLID_TAG")
+      CALL MY_ALLOC(PART_TAG,NPART,"PART_TAG")
+      CALL MY_ALLOC(NODTAG,NUMNOD,"NODTAG")
+      CALL MY_ALLOC(FASTAG,NUMELS,"FASTAG")
 
       SOLID_TAG(1:NUMELS)=0
       PART_TAG(1:NPART)=0
@@ -413,8 +413,10 @@ C---
           END DO ! DO JJ=3,6
         END DO ! DO IND=1,NB_SOLID
 C-----------
-        DEALLOCATE(NODTAG)
-        DEALLOCATE(FASTAG)
+        CALL MY_DEALLOC(NODTAG)
+        CALL MY_DEALLOC(FASTAG)
+        CALL MY_DEALLOC(SOLID_TAG)
+        CALL MY_DEALLOC(PART_TAG)
       RETURN
       END
 !||====================================================================

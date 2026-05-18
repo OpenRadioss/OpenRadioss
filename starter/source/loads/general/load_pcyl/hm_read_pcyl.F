@@ -117,7 +117,7 @@ C     START BROWSING MODEL /PCYL
 C--------------------------------------------------
       CALL HM_OPTION_COUNT('/LOAD/PCYL',NLOAD_CYL)
       LOADS%NLOAD_CYL = NLOAD_CYL
-      ALLOCATE(LOADS%LOAD_CYL(NLOAD_CYL))
+      allocate(LOADS%LOAD_CYL(NLOAD_CYL))
 
       CALL HM_OPTION_START('/LOAD/PCYL')
 C--------------------------------------------------
@@ -168,7 +168,7 @@ c        internal_SURF_ID =  NGR2USR(SURF_ID,INGR2USR,NSURF)
           ENDDO 
           LOADS%LOAD_CYL(I)%ID   = LOAD_ID
           LOADS%LOAD_CYL(I)%NSEG = NSEG
-          CALL MY_ALLOC(LOADS%LOAD_CYL(I)%SEGNOD,NSEG,4)
+          CALL MY_ALLOC(LOADS%LOAD_CYL(I)%SEGNOD,NSEG,4,"LOADS%LOAD_CYL(I)%SEGNOD")
           DO J=1,NSEG
             LOADS%LOAD_CYL(I)%SEGNOD(J,1) = IGRSURF(ISS)%NODES(J,1)
             LOADS%LOAD_CYL(I)%SEGNOD(J,2) = IGRSURF(ISS)%NODES(J,2)

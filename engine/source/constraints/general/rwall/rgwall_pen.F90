@@ -105,7 +105,7 @@
 ! initialization at T=0
 !$OMP SINGLE
           if (ncycle == 0) then ! initialization of stifm
-            call my_alloc(rwall%pen%pen_old,rwall%pen%lnspen)
+            call my_alloc(rwall%pen%pen_old, rwall%pen%lnspen, "rwall%pen%pen_old")
             if (rwall%pen%lnspen>0) rwall%pen%pen_old = zero
             nm = 0
             do n = 1, nrwall
@@ -114,7 +114,7 @@
               if (ipen > 0 .and. msr > 0) nm = nm + 1
             end do
             rwall%pen%lrwmove = nm
-            call my_alloc(rwall%pen%stifm,rwall%pen%lrwmove)
+            call my_alloc(rwall%pen%stifm, rwall%pen%lrwmove, "rwall%pen%stifm")
             if (nm>0) rwall%pen%stifm = zero
           end if
 !$OMP END SINGLE
@@ -230,6 +230,7 @@
           use my_alloc_mod
           use velrot_explicit_mod,   only : cross_product
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                    Included files
@@ -444,17 +445,17 @@
           end select
 ! if any impact, compute forces
           if (nindex > 0) then
-            call my_alloc(f1, nindex)
-            call my_alloc(f2, nindex)
-            call my_alloc(f3, nindex)
-            call my_alloc(f4, nindex)
-            call my_alloc(f5, nindex)
-            call my_alloc(f6, nindex)
-            call my_alloc(f7, nindex)
-            call my_alloc(fn, nindex)
-            call my_alloc(vn, nindex)
-            call my_alloc(stif, nindex)
-            call my_alloc(stif_kt, nindex)
+            call my_alloc(f1, nindex, "f1")
+            call my_alloc(f2, nindex, "f2")
+            call my_alloc(f3, nindex, "f3")
+            call my_alloc(f4, nindex, "f4")
+            call my_alloc(f5, nindex, "f5")
+            call my_alloc(f6, nindex, "f6")
+            call my_alloc(f7, nindex, "f7")
+            call my_alloc(fn, nindex, "fn")
+            call my_alloc(vn, nindex, "vn")
+            call my_alloc(stif, nindex, "stif")
+            call my_alloc(stif_kt, nindex, "stif_kt")
 ! nonlinear stiffness update
             penref = one_fifth*leng_m
             p_min = em02*penref
@@ -618,17 +619,17 @@
               frwl6(1:7,k) = frwl6(1:7,k)+frwl6_l(1:7,k)
             end do
 !$OMP END CRITICAL
-            deallocate(f1)
-            deallocate(f2)
-            deallocate(f3)
-            deallocate(f4)
-            deallocate(f5)
-            deallocate(f6)
-            deallocate(f7)
-            deallocate(stif)
-            deallocate(fn)
-            deallocate(vn)
-            deallocate(stif_kt)
+            call my_dealloc(f1)
+            call my_dealloc(f2)
+            call my_dealloc(f3)
+            call my_dealloc(f4)
+            call my_dealloc(f5)
+            call my_dealloc(f6)
+            call my_dealloc(f7)
+            call my_dealloc(stif)
+            call my_dealloc(fn)
+            call my_dealloc(vn)
+            call my_dealloc(stif_kt)
           end if !(nindex > 0)
 !
         end subroutine rwall_fpen

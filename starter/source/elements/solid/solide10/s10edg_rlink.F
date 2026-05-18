@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       ITAGND,ICNDS10,ITAB,IPRI,NUMNOD,NS10E)
 C=======================================================================
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,7 +139,7 @@ C----removed from INN directly----------
        END DO
 C-------nodes removed from       
        IF (NNEW>0) THEN
-         ALLOCATE(LL_TMP(NUMLINK))
+         call my_alloc(LL_TMP, NUMLINK, "LL_TMP")
          LL_TMP = LNLINK
          K = 0
          NN = 0
@@ -156,7 +157,7 @@ C-------nodes removed from
            K = K + NSL
            NN = NN + NNSL
          END DO
-         DEALLOCATE(LL_TMP)
+         CALL MY_DEALLOC(LL_TMP)
        END IF
 C       
       RETURN

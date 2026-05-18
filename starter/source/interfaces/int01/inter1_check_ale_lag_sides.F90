@@ -54,6 +54,7 @@
           use names_and_titles_mod , only : nchartitle
           use message_mod
           use inter1_seg_utils_mod , only : sort_shape, normalize_shape
+          use MY_ALLOC_MOD, only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -109,8 +110,10 @@
           if(n2d > 0) npt=2
 
           !remove duplicated segments
-          allocate(norm1(4, nseg1), norm2(4, nseg2))
-          allocate(key1(4, nseg1), key2(4, nseg2))
+          call my_alloc(norm1, 4, nseg1, "norm1")
+          call my_alloc(norm2, 4, nseg2, "norm2")
+          call my_alloc(key1, 4, nseg1, "key1")
+          call my_alloc(key2, 4, nseg2, "key2")
           do ii = 1, nseg1
             call sort_shape(IRECT1(1,ii), key1(1,ii))
             call normalize_shape(IRECT1(1,ii), norm1(1,ii))

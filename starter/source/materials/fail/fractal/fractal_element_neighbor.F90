@@ -53,8 +53,10 @@
           use groupdef_mod
           use setdef_mod
           use random_walk_def_mod
+          use MY_ALLOC_MOD
           use stack_mod
           use constant_mod ,only : zero,one
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,8 +92,8 @@
           data nextk4/2,3,4,1/
           data nextk3/2,3,1/
 ! ======================================================================================================================
-          allocate (elmat(numelc+numeltg))
-          allocate (nixel(numelc+numeltg))
+          call my_alloc(elmat,numelc+numeltg,"elmat")
+          call my_alloc(nixel,numelc+numeltg,"nixel")
           nixel(:)  = 0
 
           ! create list of shell elements with material law
@@ -175,7 +177,7 @@
           ! initialize random_walk structure
 
           fractal%nelem = nshell
-          allocate (fractal%random_walk(nshell))
+          allocate(fractal%random_walk(nshell))
           do i = 1,nshell
             fractal%random_walk(i)%elnum = elmat(i)
             nix = nixel(i)
@@ -186,7 +188,7 @@
             else
               fractal%random_walk(i)%id =ixtg(nixtg,i-nshell_4n)
             end if
-            allocate (fractal%random_walk(i)%neighbor(nix))
+            call my_alloc(fractal%random_walk(i)%neighbor,nix,"fractal%random_walk(i)%neighbor")
             fractal%random_walk(i)%neighbor(:) = 0
           end do
 
@@ -194,9 +196,9 @@
           ! build list of edges
 ! ----------------------------------------------------------------------------------------------------------------------
           max_nedge = 4*nshell_4n + 3*nshell_3n
-          allocate (indx  (2*max_nedge))
-          allocate (edge1(2,max_nedge))
-          allocate (edge2(2,max_nedge))
+          call my_alloc(indx,2*max_nedge,"fractal_element_neighbor/indx")
+          call my_alloc(edge1,2,max_nedge,"edge1")
+          call my_alloc(edge2,2,max_nedge,"edge2")
           indx(:)     = 0
           edge1(:,:) = 0
           edge2(:,:) = 0
@@ -272,11 +274,11 @@
             elem1 = elem2
           end do
 !
-          deallocate(edge2)
-          deallocate(edge1)
-          deallocate(indx)
-          deallocate(nixel)
-          deallocate(elmat)
+          call my_dealloc(edge2)
+          call my_dealloc(edge1)
+          call my_dealloc(indx)
+          call my_dealloc(nixel)
+          call my_dealloc(elmat)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine fractal_element_neighbor

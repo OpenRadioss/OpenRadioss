@@ -2108,6 +2108,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -2144,11 +2146,13 @@ C-----------------------------------------------
       IERR = 0
       SMLEIG = EM8
       IF(IAUTSPC>1) THEN
-        ALLOCATE(ILT(NUMNOD),SKEWT(6,NUMNOD),STAT=IER1)
+        call my_alloc(ILT, NUMNOD, "ILT", stat=IER1)
+        call my_alloc(SKEWT, 6, NUMNOD, "SKEWT", stat=IER1)
         ILT=0
         SKEWT=ZERO
        IF (IRODDL/=0) THEN
-        ALLOCATE(ILR(NUMNOD),SKEWR(6,NUMNOD),STAT=IER2)
+        call my_alloc(ILR, NUMNOD, "ILR", stat=IER2)
+        call my_alloc(SKEWR, 6, NUMNOD, "SKEWR", stat=IER2)
         ILR=0
         SKEWR=ZERO
        ENDIF
@@ -2249,11 +2253,12 @@ C
       ENDIF
 C
       IF (NSPCL>0) THEN
-        IF(ALLOCATED(IN_SPC)) DEALLOCATE(IN_SPC)
-        IF(ALLOCATED(IC_SPC)) DEALLOCATE(IC_SPC)
-        ALLOCATE(IN_SPC(NSPCL),IC_SPC(NSPCL),STAT=IER1)
-        IF(ALLOCATED(SKEW_SPC)) DEALLOCATE(SKEW_SPC)
-        ALLOCATE(SKEW_SPC(6*NSPCL),STAT=IER2)
+        IF(ALLOCATED(IN_SPC)) call my_dealloc(IN_SPC)
+        IF(ALLOCATED(IC_SPC)) call my_dealloc(IC_SPC)
+        call my_alloc(IN_SPC, NSPCL, "IN_SPC", stat=IER1)
+        call my_alloc(IC_SPC, NSPCL, "IC_SPC", stat=IER1)
+        IF(ALLOCATED(SKEW_SPC)) call my_dealloc(SKEW_SPC)
+        call my_alloc(SKEW_SPC, 6*NSPCL, "SKEW_SPC", stat=IER2)
        IC_SPC =0
        IN_SPC =0
        SKEW_SPC=ZERO
@@ -2296,7 +2301,8 @@ C
 C
  900  CONTINUE
       IF(IAUTSPC>1) THEN
-       DEALLOCATE(ILT,SKEWT)
+       call my_dealloc(ILT)
+       call my_dealloc(SKEWT)
        IF (IRODDL/=0) DEALLOCATE(ILR,SKEWR)
       ENDIF
       IF (IERR>0) THEN
@@ -2322,6 +2328,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -2343,13 +2351,15 @@ C-----------------------------------------------
 C-----------------------------------------------
        IF (NSPMD>1) THEN
          NZ = IADK(NDDL+1)-IADK(1)
-         ALLOCATE(DIAG_KP(NDDL),LT_KP(NZ),STAT=IERR)
+         call my_alloc(DIAG_KP, NDDL, "DIAG_KP", stat=IERR)
+         call my_alloc(LT_KP, NZ, "LT_KP", stat=IERR)
          CALL CP_REAL(NDDL,DIAG_K,DIAG_KP)
          CALL CP_REAL(NZ,LT_K,LT_KP)
          CALL SPMD_SUMF_K(DIAG_KP  ,LT_KP     )
          CALL UPD_ASPC0(NDDL  ,NDOF  ,IDDL  ,IKC    ,ITAB  ,
      .                  IADK  ,JDIK  ,DIAG_KP,LT_KP   )
-         DEALLOCATE(DIAG_KP,LT_KP)
+         call my_dealloc(DIAG_KP)
+         call my_dealloc(LT_KP)
        ELSE
            CALL UPD_ASPC0(NDDL  ,NDOF  ,IDDL  ,IKC    ,ITAB  ,
      .                    IADK  ,JDIK  ,DIAG_K,LT_K   )

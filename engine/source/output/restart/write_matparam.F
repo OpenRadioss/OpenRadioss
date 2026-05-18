@@ -52,6 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -71,7 +73,7 @@ C=======================================================================
       NFIX = 25
       NUMMAT = MAT_ELEM%NUMMAT
       LEN    = NFIX*NUMMAT
-      ALLOCATE (IBUF(LEN) )
+      call my_alloc(IBUF, LEN, "IBUF")
 
       ! write integer parameters and flags
       IAD = 0
@@ -106,13 +108,13 @@ c
       END DO
 
       CALL WRITE_I_C(IBUF,LEN)
-      DEALLOCATE(IBUF)
+      call my_dealloc(IBUF)
 
       ! write real parameters
       NFIXR = 9
       LENR  = NFIXR*NUMMAT
       IAD   = 0
-      ALLOCATE (RBUF(LENR) )
+      call my_alloc(RBUF, LENR, "RBUF")
 !
       DO IMAT = 1,NUMMAT
         RBUF(IAD + 1) = MAT_ELEM%MAT_PARAM(IMAT)%RHO
@@ -127,7 +129,7 @@ c
         IAD = IAD + NFIXR
       END DO
       CALL WRITE_DB(RBUF ,LENR)
-      DEALLOCATE(RBUF)
+      call my_dealloc(RBUF)
 
       ! write material title
       DO IMAT = 1,NUMMAT      
@@ -203,8 +205,8 @@ c
       END DO
 
       ! Write multimaterial buffer
-      ALLOCATE (IBUF(21) ) !< max is 21 submaterials
-      ALLOCATE (RBUF(21) )
+      call my_alloc(IBUF, 21, "IBUF") !< max is 21 submaterials
+      call my_alloc(RBUF, 21, "RBUF")
       DO IMAT = 1,NUMMAT
         NBSUBMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB
         OLDFORMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%old_data_format
@@ -224,8 +226,8 @@ c
           ENDIF
         ENDIF
       ENDDO
-      DEALLOCATE(IBUF)
-      DEALLOCATE(RBUF)
+      call my_dealloc(IBUF)
+      call my_dealloc(RBUF)
 
       
       ! write ALE rezoning parameters

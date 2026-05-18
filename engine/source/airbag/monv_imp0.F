@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -117,7 +118,8 @@ C-------IMONV(NMONV)--number of nodes in each mv.----------------------
 C--------allocation------
       IF (NMONV == 0) RETURN
 C
-      ALLOCATE(IN_MV(NUMN_MV),ID_MV(3,NUMN_MV),STAT=IERR1)
+      call my_alloc(IN_MV, NUMN_MV, "IN_MV", stat=IERR1)
+      call my_alloc(ID_MV, 3, NUMN_MV, "ID_MV", stat=IERR1)
       DO I=1,NUMNOD
        J = ITAG(I)
        IF (J>0) IN_MV(J) = I
@@ -128,16 +130,19 @@ C
      3    NI2_MV    ,IRBE3     ,NRBE3_MV  ,IRBE2     ,LRBE2     ,
      4    NRBE2_MV  )
       IF (NI2_MV>0) THEN
-       ALLOCATE(II2_MV(2,NI2_MV),ID_MVM2(6,4,NI2_MV),STAT=IERR2)
+       call my_alloc(II2_MV, 2, NI2_MV, "II2_MV", stat=IERR2)
+       call my_alloc(ID_MVM2, 6, 4, NI2_MV, "ID_MVM2", stat=IERR2)
       ENDIF
       IF (NRB_MV>0) THEN
-       ALLOCATE(IRB_MV(2,NRB_MV),ID_MVM(6,NRB_MV),STAT=IERR4)
+       call my_alloc(IRB_MV, 2, NRB_MV, "IRB_MV", stat=IERR4)
+       call my_alloc(ID_MVM, 6, NRB_MV, "ID_MVM", stat=IERR4)
       ENDIF
       IF (NRBE3_MV>0) THEN
-        ALLOCATE(IRBE3_MV(NRBE3_MV),STAT=IERR3)
+        call my_alloc(IRBE3_MV, NRBE3_MV, "IRBE3_MV", stat=IERR3)
       ENDIF
       IF (NRBE2_MV>0) THEN
-        ALLOCATE(IRBE2_MV(2,NRBE2_MV),ID_MVM4(6,NRBE2_MV),STAT=IERR3)
+        call my_alloc(IRBE2_MV, 2, NRBE2_MV, "IRBE2_MV", stat=IERR3)
+        call my_alloc(ID_MVM4, 6, NRBE2_MV, "ID_MVM4", stat=IERR3)
         ID_MVM4=0
       ENDIF
       CALL INI_KINMV(
@@ -157,27 +162,27 @@ C-----------ini RBE3
          NMT = NMT + NUMN
          IROT=MAX(IROT,IRBE3(6,N))
         ENDDO
-        ALLOCATE(ID_MVM3(6,IAD,NRBE3_MV),STAT=IERR3)
+        call my_alloc(ID_MVM3, 6, IAD, NRBE3_MV, "ID_MVM3", stat=IERR3)
            ID_MVM3=0
            R3M_MAX=IAD
-        ALLOCATE(FCDI_MV(18*NMT),STAT=IERR5)
+        call my_alloc(FCDI_MV, 18*NMT, "FCDI_MV", stat=IERR5)
            FCDI_MV=ZERO
         IF (IROT>0) THEN
-           ALLOCATE(MCDI_MV(18*NMT),STAT=IERR5)
+           call my_alloc(MCDI_MV, 18*NMT, "MCDI_MV", stat=IERR5)
            MCDI_MV=ZERO
         ENDIF
       ENDIF
       IF (IPREC >= 2) THEN
-       ALLOCATE(DIAG_MV(3,NUMN_MV),STAT=IERR2)
+       call my_alloc(DIAG_MV, 3, NUMN_MV, "DIAG_MV", stat=IERR2)
        DIAG_MV=ZERO
        IF (NI2_MV>0) ALLOCATE(DIAG_MVM2(6,4,NI2_MV),STAT=IERR5)
        IF (NRB_MV>0) ALLOCATE(DIAG_MVM(6,NRB_MV),STAT=IERR6)
        IF (NRBE3_MV>0) THEN
-        ALLOCATE(DIAG_MVM3(6,R3M_MAX,NRBE3_MV),STAT=IERR5)
+        call my_alloc(DIAG_MVM3, 6, R3M_MAX, NRBE3_MV, "DIAG_MVM3", stat=IERR5)
            DIAG_MVM3=ZERO
        ENDIF
        IF (NRBE2_MV>0) THEN
-        ALLOCATE(DIAG_MVM4(6,NRBE2_MV),STAT=IERR5)
+        call my_alloc(DIAG_MVM4, 6, NRBE2_MV, "DIAG_MVM4", stat=IERR5)
            DIAG_MVM4=ZERO
        ENDIF
       ENDIF
@@ -443,6 +448,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -472,8 +479,8 @@ C-----------------------------------------------
         ENDIF
       ENDDO
       IF (NBC_MV>0) THEN
-       IF(ALLOCATED(IBC_MV)) DEALLOCATE(IBC_MV)
-       ALLOCATE(IBC_MV(3,NBC_MV),STAT=IERR1)
+       IF(ALLOCATED(IBC_MV)) call my_dealloc(IBC_MV)
+       call my_alloc(IBC_MV, 3, NBC_MV, "IBC_MV", stat=IERR1)
        NBC_MV = 0
        DO N=1,NUMNOD
         IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
@@ -492,8 +499,8 @@ C-----AUTOSPC----
        IF (ITAG(N)>0)NSPC_MV = NSPC_MV + 1
       ENDDO
       IF (NSPC_MV>0) THEN
-       IF(ALLOCATED(ISPC_MV)) DEALLOCATE(ISPC_MV)
-       ALLOCATE(ISPC_MV(NSPC_MV),STAT=IERR1)
+       IF(ALLOCATED(ISPC_MV)) call my_dealloc(ISPC_MV)
+       call my_alloc(ISPC_MV, NSPC_MV, "ISPC_MV", stat=IERR1)
        NSPC_MV = 0
        DO N=1,NSPCL
          IF (ITAG(N)>0) THEN
@@ -511,8 +518,8 @@ C
         ENDIF
       ENDDO
       IF (NFX_MV>0) THEN
-       IF(ALLOCATED(IFX_MV)) DEALLOCATE(IFX_MV)
-       ALLOCATE(IFX_MV(2,NFX_MV),STAT=IERR2)
+       IF(ALLOCATED(IFX_MV)) call my_dealloc(IFX_MV)
+       call my_alloc(IFX_MV, 2, NFX_MV, "IFX_MV", stat=IERR2)
        NFX_MV = 0
        DO J=1,NFXVEL
         IF (LJ(J)>0.AND.LJ(J)<=3) THEN
@@ -531,8 +538,8 @@ C
        IF (ITAG(N)>0) NRW_MV = NRW_MV + 1
       ENDDO
       IF (NRW_MV>0) THEN
-       IF(ALLOCATED(IRW_MV)) DEALLOCATE(IRW_MV)
-       ALLOCATE(IRW_MV(NRW_MV),STAT=IERR3)
+       IF(ALLOCATED(IRW_MV)) call my_dealloc(IRW_MV)
+       call my_alloc(IRW_MV, NRW_MV, "IRW_MV", stat=IERR3)
        NRW_MV = 0
        DO J=1,N_RWL
          N=IN_RWL(J)

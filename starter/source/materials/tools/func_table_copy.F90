@@ -39,7 +39,7 @@
 !||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||====================================================================
       module func_table_copy_mod
-      implicit none
+        implicit none
       contains
 
 !! \brief  creates local 2d table in material parameter structure from input function list
@@ -72,9 +72,11 @@
 !     M o d u l e s
 ! --------------------------------------------------------------------------------------------------------------
           use table4d_mod
+          use MY_ALLOC_MOD
           use names_and_titles_mod , only : nchartitle
           use constant_mod         , only : zero
           use precision_mod, only : WP
+          use my_dealloc_mod, only : my_dealloc
 ! --------------------------------------------------------------------------------------------------------------
           implicit none
 !-----------------------------------------------
@@ -128,16 +130,16 @@
             ndim = 2
           end if
           mat_table%ndim = ndim
-          allocate (mat_table%x(ndim))
+          allocate(mat_table%x(ndim))
 !--------------------------------------------------------
           if (ndim == 1) then                       !  just need to copy original function to mat_table
             func_n = ifunc_id(1)
             npi = size(table(func_n)%x(1)%values)
-            allocate (mat_table%x(1)%values(npi) )
-            allocate (mat_table%y1d(npi))
-            allocate (mat_table%y2d(0,0))
-            allocate (mat_table%y3d(0,0,0))
-            allocate (mat_table%y4d(0,0,0,0))
+            call my_alloc(mat_table%x(1)%values, npi, "mat_table%x(1)%values")
+            call my_alloc(mat_table%y1d, npi, "mat_table%y1d")
+            call my_alloc(mat_table%y2d, 0, 0, "mat_table%y2d")
+            call my_alloc(mat_table%y3d, 0, 0, 0, "mat_table%y3d")
+            allocate(mat_table%y4d(0,0,0,0))
             mat_table%x(1)%values(1:npi) = x1scale   * table(func_n)%x(1)%values(1:npi)
             mat_table%y1d(1:npi)         = fscale(1) * table(func_n)%y%values(1:npi)
 !
@@ -146,7 +148,7 @@
             !--------------------------------------------------------
             !     create X,Y vectors for all curves and unify all abscissas
             !--------------------------------------------------------
-            allocate (len(nfunc))
+            call my_alloc(len, nfunc, "len")
             nptx = 0
             lmax = 0
             do i = 1,nfunc
@@ -155,10 +157,10 @@
               nptx = nptx + len(i)
               lmax = max(lmax,len(i))
             end do
-            allocate (xf(nptx))
-            allocate (yf(nptx,nfunc))
-            allocate (xi(lmax,nfunc))
-            allocate (yi(lmax,nfunc))
+            call my_alloc(xf, nptx, "xf")
+            call my_alloc(yf, nptx, nfunc, "yf")
+            call my_alloc(xi, lmax, nfunc, "xi")
+            call my_alloc(yi, lmax, nfunc, "yi")
             xi(:,:) = zero
             yi(:,:) = zero
 !
@@ -176,23 +178,23 @@
             end do
             len(1:nfunc) = nptx
 !
-            allocate (mat_table%x(1)%values(nptx) )
-            allocate (mat_table%x(2)%values(nfunc) )
-            allocate (mat_table%y2d(nptx,nfunc) )
-            allocate (mat_table%y1d(0))
-            allocate (mat_table%y3d(0,0,0))
-            allocate (mat_table%y4d(0,0,0,0))
+            call my_alloc(mat_table%x(1)%values, nptx, "mat_table%x(1)%values")
+            call my_alloc(mat_table%x(2)%values, nfunc, "mat_table%x(2)%values")
+            call my_alloc(mat_table%y2d, nptx, nfunc, "mat_table%y2d")
+            call my_alloc(mat_table%y1d, 0, "mat_table%y1d")
+            call my_alloc(mat_table%y3d, 0, 0, 0, "mat_table%y3d")
+            allocate(mat_table%y4d(0,0,0,0))
             mat_table%x(1)%values(1:nptx)  = xf(1:nptx)
             mat_table%x(2)%values(1:nfunc) = x2scale * x2vect(1:nfunc)
             do i = 1,nfunc
               mat_table%y2d(1:nptx,i) = yf(1:nptx,i)
             end do
             !--------------------
-            deallocate (yi)
-            deallocate (xi)
-            deallocate (yf)
-            deallocate (xf)
-            deallocate (len)
+            call my_dealloc(yi)
+            call my_dealloc(xi)
+            call my_dealloc(yf)
+            call my_dealloc(xf)
+            call my_dealloc(len)
             !--------------------
 !
           end if  ! end of 2d table treatment

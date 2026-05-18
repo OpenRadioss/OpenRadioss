@@ -37,6 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -53,7 +55,7 @@ c     allocation of element group parameters
       ALLOCATE (MAT_ELEM%GROUP_PARAM(NGROUP) )
 
       LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
+      call my_alloc(RBUF, NGROUP, LEN, "RBUF")
       CALL READ_DB(RBUF, LEN*NGROUP)
 c
       DO NG = 1, NGROUP
@@ -61,7 +63,7 @@ c
         MAT_ELEM%GROUP_PARAM(NG)%VISC_DN = RBUF(NG,2)
       ENDDO
 c
-      DEALLOCATE( RBUF )
+      call my_dealloc(RBUF)
 c-----------
       RETURN
       END

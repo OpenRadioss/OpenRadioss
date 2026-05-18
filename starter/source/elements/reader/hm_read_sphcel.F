@@ -153,20 +153,20 @@ C--------------------------------------------------
 C      ALLOCS & INITS
 c      use NUMELQ IN PLACE OF NUMELC ( NBADMESH routine is modifying NUMELC )
 C--------------------------------------------------
-      CALL MY_ALLOC(ITAG,NUMNOD)
-      ALLOCATE (SUB_SPH(NUMSPH),STAT=stat)
+      CALL MY_ALLOC(ITAG,NUMNOD,"ITAG")
+      call my_alloc(SUB_SPH, NUMSPH, "SUB_SPH", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SPH')
-      ALLOCATE (UID_SPH(NUMSPH),STAT=stat)
+      call my_alloc(UID_SPH, NUMSPH, "UID_SPH", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='UID_SPH') 
-      ALLOCATE (TYPE(NUMSPH),STAT=stat)
+      call my_alloc(TYPE, NUMSPH, "TYPE", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='TYPE') 
-      ALLOCATE (HM_MASS(NUMSPH),STAT=stat)
+      call my_alloc(HM_MASS, NUMSPH, "HM_MASS", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='HM_MASS') 
@@ -256,10 +256,10 @@ C--------------------------------------------------
         ENDIF
       ENDDO
 C-------------------------------------
-       IF(ALLOCATED(SUB_SPH)) DEALLOCATE(SUB_SPH)
-       IF(ALLOCATED(UID_SPH)) DEALLOCATE(UID_SPH)
-       IF(ALLOCATED(TYPE)) DEALLOCATE(TYPE)
-       IF(ALLOCATED(HM_MASS)) DEALLOCATE(HM_MASS)
+       IF(ALLOCATED(SUB_SPH)) CALL MY_DEALLOC(SUB_SPH)
+       IF(ALLOCATED(UID_SPH)) CALL MY_DEALLOC(UID_SPH)
+       IF(ALLOCATED(TYPE)) CALL MY_DEALLOC(TYPE)
+       IF(ALLOCATED(HM_MASS)) CALL MY_DEALLOC(HM_MASS)
 C-------------------------------------
        FIRST_SPHRES=NCELL+1
        IF(NSPHRES/=0)THEN
@@ -466,7 +466,7 @@ C
         WRITE (IOUT,'(A)') 'END OF CELL TRACEBACK'
       ENDIF
 
-       DEALLOCATE(ITAG)
+       CALL MY_DEALLOC(ITAG)
 C
  300  FORMAT(/' SPH CELLS             '/
      +        ' ----------------------'/

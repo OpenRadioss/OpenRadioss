@@ -36,6 +36,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,8 +75,13 @@ C=======================================================================
 C       
        NORDRE  = NINT(UPARAM(2))
        NPRONY  = NINT(UPARAM(3))
-       ALLOCATE ( MU(NORDRE),AL(NORDRE),BETA(NORDRE), 
-     .            MUOVERAL(NORDRE),ALBETA(NORDRE),MUBETA(NORDRE),NU(NORDRE) )
+       call my_alloc(MU, NORDRE, "MU")
+       call my_alloc(AL, NORDRE, "AL")
+       call my_alloc(BETA, NORDRE, "BETA")
+       call my_alloc(MUOVERAL, NORDRE, "MUOVERAL")
+       call my_alloc(ALBETA, NORDRE, "ALBETA")
+       call my_alloc(MUBETA, NORDRE, "MUBETA")
+       call my_alloc(NU, NORDRE, "NU")
        DO J= 1,NORDRE
          MU(J) = UPARAM(6 + J)/GAMA_INF
          AL(J) = UPARAM(6 + NORDRE + J)
@@ -109,10 +115,10 @@ C     Formulation for solid elements time step computation.
           PM(105) = GS/(BULK + TWO_THIRD*GS) 
        ENDIF
 C
-       ALLOCATE (STRETCH(NDATA))                              
-       ALLOCATE (STRESS(NDATA))                                  
-       ALLOCATE (ITAB_ON_A(NDATA))                                    
-       ALLOCATE (INDEX(NDATA))                                                                       
+       call my_alloc(STRETCH, NDATA, "STRETCH")
+       call my_alloc(STRESS, NDATA, "STRESS")
+       call my_alloc(ITAB_ON_A, NDATA, "ITAB_ON_A")
+       call my_alloc(INDEX, NDATA, "INDEX")
        STRETCH(1)=LAM_MIN
        ITAB_ON_A = 0
        DO K= 2,NDATA
@@ -322,11 +328,16 @@ C         ! bi-axial  Lam1=LAM, lam2= ONE, lam3 (find lam3 corresponding to (T3(
          ENDIF
        ENDIF 
 C             
-        DEALLOCATE (STRETCH)                                                 
-        DEALLOCATE (STRESS)                                 
-        DEALLOCATE (ITAB_ON_A)                                    
-        DEALLOCATE (INDEX) 
-        DEALLOCATE ( MU,AL,BETA,  MUOVERAL,ALBETA,MUBETA)
+        CALL MY_DEALLOC(STRETCH)
+        CALL MY_DEALLOC(STRESS)
+        CALL MY_DEALLOC(ITAB_ON_A)
+        CALL MY_DEALLOC(INDEX)
+        CALL MY_DEALLOC(MU)
+        CALL MY_DEALLOC(AL)
+        CALL MY_DEALLOC(BETA)
+        CALL MY_DEALLOC(MUOVERAL)
+        CALL MY_DEALLOC(ALBETA)
+        CALL MY_DEALLOC(MUBETA)
       RETURN
  1000 FORMAT
      & (//5X, 'MODIFIED  MATERIAL RIGIDITY    ' ,/,

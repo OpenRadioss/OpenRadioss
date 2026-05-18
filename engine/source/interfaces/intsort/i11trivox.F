@@ -52,6 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -158,7 +160,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       IF(FLAGREMNODE==2) THEN
-        ALLOCATE(TAGREMLINE(NRTS))
+        call my_alloc(TAGREMLINE, NRTS, "TAGREMLINE")
         TAGREMLINE(1:NRTS) = 0
       ENDIF
 C  
@@ -177,8 +179,11 @@ C
       IF(ITASK == 0)THEN
         MAX_ADD = max(1,4*(NRTS+NRTSR))
         ALLOCATE(LCHAIN_ELEM(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
         ALLOCATE(LCHAIN_NEXT(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
         ALLOCATE(LCHAIN_LAST(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
       END IF   
       
             CALL MY_BARRIER      !all threads wait for allocation       
@@ -684,10 +689,10 @@ C=======================================================================
           END DO
         END DO   
         !CHAINED LIST DEALLOCATION
-        DEALLOCATE(LCHAIN_NEXT)
-        DEALLOCATE(LCHAIN_ELEM)
-        DEALLOCATE(LCHAIN_LAST)
-        IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)          
+        call my_dealloc(LCHAIN_NEXT)
+        call my_dealloc(LCHAIN_ELEM)
+        call my_dealloc(LCHAIN_LAST)
+        IF(FLAGREMNODE==2) call my_dealloc(TAGREMLINE)
       END IF    
   
 C___________________________________________________________________________________________________________

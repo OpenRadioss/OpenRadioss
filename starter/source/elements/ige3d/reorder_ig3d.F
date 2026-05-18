@@ -43,6 +43,7 @@ C----------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -79,26 +80,26 @@ c ------------------------------------------------------------------------------
 Csort the remove and newfct arrays in ascending order
 c ------------------------------------------------------------------------------------------
 c
-      ALLOCATE(TAB_REMOVE_TRI(L_TAB_REMOVE)) 
+      call my_alloc(TAB_REMOVE_TRI, L_TAB_REMOVE, "TAB_REMOVE_TRI")
       TAB_REMOVE_TRI(:) = 0
-      ALLOCATE(INDEX(2*L_TAB_REMOVE))
+      call my_alloc(INDEX, 2*L_TAB_REMOVE, "INDEX")
       CALL MY_ORDERS(0, WORK, TAB_REMOVE, INDEX, L_TAB_REMOVE , 1)
       DO I=1,L_TAB_REMOVE
         TAB_REMOVE_TRI(I)=TAB_REMOVE(INDEX(I))
       ENDDO
-      DEALLOCATE(INDEX)
+      CALL MY_DEALLOC(INDEX)
       DO I=1,L_TAB_REMOVE
         TAB_REMOVE(I) = 0
       ENDDO
 C
-      ALLOCATE(TAB_NEWFCT_TRI(L_TAB_NEWFCT)) 
+      call my_alloc(TAB_NEWFCT_TRI, L_TAB_NEWFCT, "TAB_NEWFCT_TRI")
       TAB_NEWFCT_TRI(:) = 0
-      ALLOCATE(INDEX(2*L_TAB_NEWFCT))
+      call my_alloc(INDEX, 2*L_TAB_NEWFCT, "INDEX")
       CALL MY_ORDERS(0, WORK, TAB_NEWFCT, INDEX, L_TAB_NEWFCT , 1)
       DO I=1,L_TAB_NEWFCT
         TAB_NEWFCT_TRI(I)=TAB_NEWFCT(INDEX(I))
       ENDDO
-      DEALLOCATE(INDEX)
+      CALL MY_DEALLOC(INDEX)
       DO I=1,L_TAB_NEWFCT
         TAB_NEWFCT(I) = 0
       ENDDO
@@ -263,8 +264,8 @@ C  note2: do not delete duplicates from the model: they are only deactivated
 c ------------------------------------------------------------------------------------------
 c
         IF(NBPART_IG3D>1) THEN ! and if points have been kept (condition coming from rafig3d.f)
-          ALLOCATE(PERMIGE(NUMNOD))
-          ALLOCATE(X_TRIE(3,NUMNOD))
+          call my_alloc(PERMIGE, NUMNOD, "PERMIGE")
+          call my_alloc(X_TRIE, 3, NUMNOD, "X_TRIE")
           DO I=1,NUMNOD
             X_TRIE(:,I) = X_TMP(:,I)
           ENDDO      
@@ -342,14 +343,14 @@ C  change to not write in ascending order but simply eliminate duplicate points
 c
 c        IF(NDOUBLONIGE>0) print*, 'J AI TROUVE ET SUPPRIME DES CONNECTIVITES :',NDOUBLONIGE,' DOUBLONS !'
 c
-        DEALLOCATE(PERMIGE)
-        DEALLOCATE(X_TRIE)
+        CALL MY_DEALLOC(PERMIGE)
+        CALL MY_DEALLOC(X_TRIE)
       ENDIF
 c ------------------------------------------------------------------------------------------
       ENDIF
 c
-      DEALLOCATE(TAB_REMOVE_TRI)
-      DEALLOCATE(TAB_NEWFCT_TRI)
+      CALL MY_DEALLOC(TAB_REMOVE_TRI)
+      CALL MY_DEALLOC(TAB_NEWFCT_TRI)
 c
       IF(FLAG_PRE==1) THEN   
 c

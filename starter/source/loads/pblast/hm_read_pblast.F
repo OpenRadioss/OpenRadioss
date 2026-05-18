@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,7 +128,9 @@ C-----------------------------------------------
       INTEGER curve_id1,curve_id2,SEG_UNDERGROUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER :: ISHAPE
-      INTEGER :: NWARN !< number of segment for which it is not possible to correlate the positive impulse. It may happen that for a given Pmax and dt0 value even building a triangle shape leads to a lower impulse that the targeted one.
+      INTEGER :: NWARN
+! < number of segment for which it is not possible to correlate the positive impulse. It may happen that for a given
+! Pmax and dt0 value even building a triangle shape leads to a lower impulse that the targeted one.
       TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
 C-----------------------------------------------
 C   C o n s t a n t   V a l u e s
@@ -153,8 +156,8 @@ C-------------------------------------------------------------------------------
 C                         /LOAD/PFLUID     /LOAD/PBLAST
 C
 C     LLOADP(1,K)   :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  SEGMENT STORAGE (surface)
-C     ILOADP(1,K)   :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  INTEGER STORAGE (option parameters)
-C     FACLOADP(1,K) :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  REAL STORAGE    (option parameters)
+C ILOADP(1,K)   :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  INTEGER STORAGE (option parameters)
+C FACLOADP(1,K) :    K=1,NLOADP_F     K=1+NLOADP_F,NLOADP_F+NLOADP_B  :    . . .  REAL STORAGE    (option parameters)
 C
 C----------------------------------------------------------------------------------
 C                     /LOAD/PFLUID                                     /LOAD/PBLAST
@@ -231,7 +234,7 @@ C-----------------------------------------------
       IS_ITA_SHIFT = .FALSE.
       NWARN = 0
 
-      ALLOCATE( OUTPUT_USER_PARAMS(6,PBLAST%NLOADP_B))
+      call my_alloc(OUTPUT_USER_PARAMS, 6, PBLAST%NLOADP_B, "OUTPUT_USER_PARAMS")
       OUTPUT_USER_PARAMS(:,:) = ZERO
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
@@ -380,7 +383,8 @@ C-----------------------------------------------
 
         !ITA_SHIFT : BLAST ARRIVAL
         !---1:no shift (default)
-        !---2:shift    loading starts from the first cycle T=0 is shift to time on which first targeted segment is reached (within all pblast options)
+! ---2:shift    loading starts from the first cycle T=0 is shift to time on which first targeted segment is reached
+! (within all pblast options)
         IF(ITA_SHIFT==0) ITA_SHIFT = 2
         IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
         IF(ITA_SHIFT == 2)IS_ITA_SHIFT=.TRUE.
@@ -520,7 +524,7 @@ C-----------------------------------------------
                     MSGOUT1='EXPECTED TYPE FOR GROUND SURFACE IS /SURF/PLANE.'
                     MSGOUT2=''
                     MSGOUT2='ASSUMING GROUND WITH BASIS=(0,0,0) AND NORMAL=(0,0,ZDET)'
-                    CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)
+      CALL ANCMSG(MSGID=1907, MSGTYPE=MSGWARNING, ANMODE=ANINFO,C1=TRIM(TITR), I1=ID, C2=MSGOUT1,C3=MSGOUT2)
                   ENDIF
                   IADPL = 0
                   lfound = .TRUE.
@@ -650,7 +654,7 @@ C-----------------------------------------------
               alpha_zc = ZERO
             ELSE
               alpha_zc = (ZC - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1)) /
-     .                          ( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
+     .( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
             ENDIF
           ELSE
             itmp = INT( ZC+3. )
@@ -661,10 +665,11 @@ C-----------------------------------------------
               alpha_zc = ZERO
             ELSE
               alpha_zc = (ZC - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1)) /
-     .                       ( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
+     .( PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id2) - PBLAST%PBLAST_DATA%Curve_val_2_13(curve_id1) )
             ENDIF
           ENDIF
-          alpha_zc = curve_id1+alpha_zc     !integer part is curve id1,  digits are standing for interpolation factor between curve_id1 & curve_id2
+          alpha_zc = curve_id1+alpha_zc
+! integer part is curve id1,  digits are standing for interpolation factor between curve_id1 & curve_id2
         ENDIF
         ZC = tmp(1)
 
@@ -697,7 +702,9 @@ C-----------------------------------------------
           FACLOADP(10,K) = Nz_SURF
           HC = ABS(HC)
           FACLOADP(11,K) = HC
-          FACLOADP(12,K) = alpha_zc ! inteprolation factor for curve if on figure 2_13 in [0,1[  +  curve_id1   (no matter are units ft/lb**1/3  or cm/g**1/3)
+          FACLOADP(12,K) = alpha_zc
+! inteprolation factor for curve if on figure 2_13 in [0,1[  +  curve_id1   (no matter are units ft/lb**1/3  or
+! cm/g**1/3)
           FACLOADP(13,K) = TSTOP
         ENDIF
 
@@ -708,17 +715,18 @@ C-----------------------------------------------
           NUMSEG = IGRSURF(internal_SURF_ID)%NSEG
           IAD = ILOADP(4,K)
           ILD_PBLAST = ILD_PBLAST + 1
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%cos_theta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%P_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%P_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%ta(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%t0(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_inci(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_refl(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
-          ALLOCATE (PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(NUMSEG) ,STAT=IERR1); IF (IERR1 /= 0) GOTO 1000
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%cos_theta, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%cos_theta")
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%P_inci, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%P_inci") 
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%P_refl, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%P_refl") 
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%ta, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%ta")     
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%t0, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%t0")     
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_inci, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_inci")
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_refl, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%decay_refl")
+         call my_alloc(PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG, NUMSEG, "PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG") ;
           PBLAST%PBLAST_TAB(ILD_PBLAST)%SIZ=NUMSEG
 
-          !  Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary vector of the plane
+! Coordinates of detonation point projection = DETPOINT + HC*n     !N_SURF is here -HC*n  where n is normal unitary
+! vector of the plane
           IF(IABAC == 3)THEN
             ProjDet(1)=Xdet+ Nx_SURF
             ProjDet(2)=Ydet+ Ny_SURF
@@ -916,7 +924,7 @@ C-----------------------------------------------
                       Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
                       !Angle from Detonation Point
                       !   is here cos between (Det-ProjZ) and normal
-                      cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG + (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
+      cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG + (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
                       cos_theta = cos_theta/MAX(EM20,LG*NORM_)
                   END SELECT
 
@@ -975,7 +983,7 @@ C-----------------------------------------------
                 !--- Determine Height of centroid (structure face) : HZ
 
                 !Height is length Proj->Det. Storing Det->Proj into NN array
-                HZ=-(Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*ProjDet(1)-Ny_SURF*ProjDet(2)-Nz_SURF*ProjDet(3))/HC
+      HZ=-(Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*ProjDet(1)-Ny_SURF*ProjDet(2)-Nz_SURF*ProjDet(3))/HC
 
                 IF(HZ < ZERO)THEN
 
@@ -1010,10 +1018,11 @@ C-----------------------------------------------
                   tmp(2) = (ProjZ(2)-ProjDet(2))
                   tmp(3) = (ProjZ(3)-ProjDet(3))
                   LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))
-                  ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground) ; same unit system as hardcoded tables {g,cm,mus,Mbar}
+                  ZG = LG*FAC_L_bb/W13
+! scaled horizontal distance (ground) ; same unit system as hardcoded tables {g,cm,mus,Mbar}
 
                   !Angle of structural face (mach wave is planar wave)
-                  cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG +  (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
+      cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG +  (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
                   cos_theta = cos_theta/MAX(EM20,LG*NORM_)
 
                   !determine angle of incidence at ground (AANGLE_g) and interpolation factor (alpha_angle)
@@ -1021,7 +1030,8 @@ C-----------------------------------------------
                   tmp(2)=Ydet-ProjZ(2)
                   tmp(3)=Zdet-ProjZ(3)
                   tmp_var=SQRT( tmp(1)*tmp(1) + tmp(2)*tmp(2) + tmp(3)*tmp(3) )
-                  ANGLE_g = -( Nx_SURF*tmp(1) + Ny_SURF*tmp(2) + Nz_SURF*tmp(3) ) /Hc/tmp_var  !must be between [-PI_,PI_]
+                  ANGLE_g = -( Nx_SURF*tmp(1) + Ny_SURF*tmp(2) + Nz_SURF*tmp(3) ) /Hc/tmp_var
+! must be between [-PI_,PI_]
                   ANGLE_g = min(ONE,max(-ONE,ANGLE_g)) ! bound it to expected range (epsilon)
                   ANGLE_g = acos(ANGLE_g)
                   ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose
@@ -1102,7 +1112,8 @@ C-----------------------------------------------
            PBLAST%PBLAST_TAB(ILD_PBLAST)%DTMIN = DTMIN
 
            FACLOADP(7,K) = TA_PBLAST ! min(TDET+T_A, I=1..NUMSEG)
-           PBLAST%PBLAST_DT%TA_INF = MIN(PBLAST%PBLAST_DT%TA_INF, TA_PBLAST)!   min( [min(TDET+T_A, I=1..NUMSEG)] , K=1..'numpblast')
+           PBLAST%PBLAST_DT%TA_INF = MIN(PBLAST%PBLAST_DT%TA_INF, TA_PBLAST)
+! min( [min(TDET+T_A, I=1..NUMSEG)] , K=1..'numpblast')
            OUTPUT_USER_PARAMS(3,K_BLAST) = b_min
            OUTPUT_USER_PARAMS(4,K_BLAST) = b_max
            OUTPUT_USER_PARAMS(6,K_BLAST) = TA_PBLAST
@@ -1119,7 +1130,8 @@ C-----------------------------------------------
      .       ' SEGMENT(S) HAS EXCESSIVE POSITIVE IMPULSE REGARDING THE PEAK PRESSURE AND POSITIVE DURATION.'
              MSGOUT2=''
              MSGOUT2=
-     .       'A TRIANGULAR WAVEFORM WILL BE USED INSTEAD TO MAXIMIZE THE IMPULSE. DEFINING A PMIN VALUE IS STRONGLY RECOMMENDED'
+     .'A TRIANGULAR WAVEFORM WILL BE USED INSTEAD TO MAXIMIZE THE IMPULSE. DEFINING A PMIN VALUE IS STRONGLY RECOMMENDED
+     &'
              CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
            ENDIF
 
@@ -1222,7 +1234,7 @@ C---------------------------------
 
 
 C--------------------------------------------------------------------------------C
-      DEALLOCATE( OUTPUT_USER_PARAMS)
+      CALL MY_DEALLOC(OUTPUT_USER_PARAMS)
       RETURN
 C--------------------------------------------------------------------------------C
  2000 FORMAT(

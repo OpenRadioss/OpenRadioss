@@ -44,6 +44,7 @@ C-----------------------------------------------
         USE R2R_MOD
         USE GROUPDEF_MOD
         USE INOUTFILE_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,7 +99,7 @@ C-----------only 1 subdomain
 
         IF (FLAG == 1) THEN
 C-------------------------------------
-          ALLOCATE(PLIST(NSPMD))
+          call my_alloc(PLIST, NSPMD, "PLIST")
           PLIST(1:NSPMD) = -1
 C------ Information for FSI
           WRITE(REF,1303,IOSTAT=ERR) FLG_FSI
@@ -135,7 +136,7 @@ C
           END DO
 C
           CLOSE(UNIT=REF,STATUS='KEEP')
-          DEALLOCATE(PLIST)
+          CALL MY_DEALLOC(PLIST)
 
         ELSEIF (FLAG == 0) THEN
 C------ Information for FSI

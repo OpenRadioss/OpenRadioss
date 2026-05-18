@@ -110,9 +110,11 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE INTBUF_FRIC_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -218,8 +220,8 @@ C ----------------------------------------
 !            
        FLAG_INIT_24_25 = .TRUE.
        IF(FLAG_24_25) THEN
-                ALLOCATE( NODLOCAL24(NUMNOD+I24MAXNSNE) )
-                ALLOCATE( INDX_NDLOCAL24(NUMNOD+I24MAXNSNE) )
+                call my_alloc(NODLOCAL24, NUMNOD+I24MAXNSNE, "NODLOCAL24")
+                call my_alloc(INDX_NDLOCAL24, NUMNOD+I24MAXNSNE, "INDX_NDLOCAL24")
        ENDIF
 C Care TYPE24 + E2E
 C Edge to Edge Nodes fictive Nodes are numbered over NUMNOD 
@@ -400,8 +402,11 @@ C=======================================================================
 C=======================================================================
         ELSEIF(ITYP == 2)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_SEGM2(NRTM),TAG(NRTM),TAG_IRTL(NMN_L))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG, NRTM, "TAG")
+          call my_alloc(TAG_IRTL, NMN_L, "TAG_IRTL")
 !       useless initialization
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -590,7 +595,11 @@ C smas & siner (ZERO)
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CSTS_BIS,NSN_L,2,TAG_NODE_2RY)
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,TAG,TAG_IRTL)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG)
+          CALL MY_DEALLOC(TAG_IRTL)
 
 C=======================================================================
         ELSEIF(ITYP == 3)THEN
@@ -759,10 +768,13 @@ C=======================================================================
 C=======================================================================
         ELSEIF(ITYP == 7)THEN ! (ITYP == 18)
 C=======================================================================
-           ALLOCATE(TAG_NODE_2RY(NSN_FE_L),TAG_SEGM(NRTM_FE_L),
-     .          TAG_NODE_MSR(NMN_FE_L),TAG_SEGM2(NRTM_FE),TAG_II(II_STOK))
+           call my_alloc(TAG_NODE_2RY, NSN_FE_L, "TAG_NODE_2RY")
+           call my_alloc(TAG_SEGM, NRTM_FE_L, "TAG_SEGM")
+           call my_alloc(TAG_NODE_MSR, NMN_FE_L, "TAG_NODE_MSR")
+           call my_alloc(TAG_SEGM2, NRTM_FE, "TAG_SEGM2")
+           call my_alloc(TAG_II, II_STOK, "TAG_II")
 
-           ALLOCATE(I710XSAV(NMN))
+           call my_alloc(I710XSAV, NMN, "I710XSAV")
            I710XSAV(1:NMN)=ZERO
                          
            TAG_NODE_2RY(1:NSN_FE_L) = 0
@@ -1049,17 +1061,26 @@ c
               ENDIF
 
            ENDIF                ! NOT LAW151
-           DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .          TAG_NODE_MSR,TAG_II)
-           DEALLOCATE(I710XSAV)
+           CALL MY_DEALLOC(TAG_NODE_2RY)
+           CALL MY_DEALLOC(TAG_SEGM)
+           CALL MY_DEALLOC(TAG_SEGM2)
+           CALL MY_DEALLOC(TAG_NODE_MSR)
+           CALL MY_DEALLOC(TAG_II)
+           CALL MY_DEALLOC(I710XSAV)
 C=======================================================================
         ELSEIF(ITYP == 8)THEN
 C=======================================================================
           NBT8 = NBT8 + 1
-          ALLOCATE(TAG_NODE_2RY(NSN),TAG_SEGM(NRTM_L),TAG_NODE_MSR2(NMN),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK),
-     .             TAG_LMSR(NMT_L), TAG_NSEG(NMN_L+1), 
-     .             TAG_LMSR2(NMT), TAG_NSEG2(NMN+1))
+          call my_alloc(TAG_NODE_2RY, NSN, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR2, NMN, "TAG_NODE_MSR2")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(TAG_LMSR, NMT_L, "TAG_LMSR")
+          call my_alloc(TAG_NSEG, NMN_L+1, "TAG_NSEG")
+          call my_alloc(TAG_LMSR2, NMT, "TAG_LMSR2")
+          call my_alloc(TAG_NSEG2, NMN+1, "TAG_NSEG2")
 
           TAG_NODE_2RY(1:NSN) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -1149,15 +1170,24 @@ c           CALL COPY_RVAL(INTBUF_TAB(NI)%STF8,NSN,1) !JD(32)
             IF(NSPMD > 1) CALL W_TYPE8(PROC,T8(PROC+1,NBT8))
 
 !         ENDIF 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_NODE_MSR2,
-     .             TAG_NODE_MSR,TAG_SEGM2,TAG_II,
-     .             TAG_NSEG2,TAG_NSEG, TAG_LMSR2,TAG_LMSR)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_NODE_MSR2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(TAG_NSEG2)
+          CALL MY_DEALLOC(TAG_NSEG)
+          CALL MY_DEALLOC(TAG_LMSR2)
+          CALL MY_DEALLOC(TAG_LMSR)
 
 C=======================================================================
         ELSEIF(ITYP == 9)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L), TAG_NODE_MSR(NMN_L),
-     .             TAG_IELES(NRTS_L)  , TAG_IELEM(NRTM_L) )
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_IELES, NRTS_L, "TAG_IELES")
+          call my_alloc(TAG_IELEM, NRTM_L, "TAG_IELEM")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_NODE_MSR(1:NMN_L) = 0
@@ -1215,16 +1245,22 @@ cc     .                          TAG_IELES) !KD(24)
             CALL COPY_RVAL(INTBUF_TAB(NI)%S_FTSAV,NSN,3) !JD(27) COPY_IVAL
           ENDIF
 
-          DEALLOCATE(TAG_NODE_2RY, TAG_NODE_MSR, TAG_IELES, TAG_IELEM)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_IELES)
+          CALL MY_DEALLOC(TAG_IELEM)
 
 C=======================================================================
         ELSEIF(ITYP == 10)THEN
 C=======================================================================
 
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
 
-          ALLOCATE(I710XSAV(NMN))
+          call my_alloc(I710XSAV, NMN, "I710XSAV")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -1305,16 +1341,23 @@ c split and write on disk floating arrays
             CALL COPY_RVAL(INTBUF_TAB(NI)%CAND_F,SIZ,1)
           ENDIF
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .              TAG_NODE_MSR,TAG_II)
-          DEALLOCATE(I710XSAV)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(I710XSAV)
       
 C=======================================================================
         ELSEIF(ITYP == 11)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .               TAG_SEGM2(NRTM),TAG_SEGS(NRTS_L),
-     .               TAG_II(II_STOK),TAG_NODE_MSR(NMN_L),TAG_SEG2S(NRTS))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_SEGS, NRTS_L, "TAG_SEGS")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEG2S, NRTS, "TAG_SEG2S")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -1443,8 +1486,13 @@ c split and write on disk floating arrays
      .                           II_STOK_L,TAG_II,MULTIMP,NCONT)
           ENDIF
 C
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,TAG_SEGS,
-     .              TAG_NODE_MSR,TAG_II,TAG_SEG2S)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_SEGS)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(TAG_SEG2S)
 
 C=======================================================================
         ELSEIF(ITYP == 12)THEN
@@ -1539,7 +1587,8 @@ C=======================================================================
 C=======================================================================
         ELSEIF(ITYP == 17)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L), TAG_NODE_MSR(NME_L))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_NODE_MSR, NME_L, "TAG_NODE_MSR")
 
           NCONT = NSN_L
           TAG_NODE_2RY(1:NSN_L) = 0
@@ -1569,7 +1618,8 @@ C=======================================================================
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FROTS,NSN_L,7,TAG_NODE_2RY) !JD(18)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FROTM,NME_L,7,TAG_NODE_MSR) !JD(19)
 
-          DEALLOCATE(TAG_NODE_2RY, TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
 
 C=======================================================================
         ELSEIF(ITYP == 18)THEN
@@ -1581,12 +1631,22 @@ C=======================================================================
         ELSEIF(ITYP == 20)THEN
 C=======================================================================
 
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),TAG_NODE_MSR(NMN_L),
-     .             TAG_SEGM2(NRTM),TAG_II(II_STOK), TAGE_II(II_STOK_E),
-     .             TAG_NLINS(NLINS_L),TAG_NLINM(NLINM_L),
-     .             TAG_NLINS2(NLINS),TAG_NLINM2(NLINM),
-     .             TAG_NLG(NLN_L),TAG_NLG2(NUMNOD), TAG_NSNE(NSNE_L),
-     .             TAG_NMNE(NMNE_L),TAG_NSVE(NSNE_L),TAG_MSRE(NMNE_L) )
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(TAGE_II, II_STOK_E, "TAGE_II")
+          call my_alloc(TAG_NLINS, NLINS_L, "TAG_NLINS")
+          call my_alloc(TAG_NLINM, NLINM_L, "TAG_NLINM")
+          call my_alloc(TAG_NLINS2, NLINS, "TAG_NLINS2")
+          call my_alloc(TAG_NLINM2, NLINM, "TAG_NLINM2")
+          call my_alloc(TAG_NLG, NLN_L, "TAG_NLG")
+          call my_alloc(TAG_NLG2, NUMNOD, "TAG_NLG2")
+          call my_alloc(TAG_NSNE, NSNE_L, "TAG_NSNE")
+          call my_alloc(TAG_NMNE, NMNE_L, "TAG_NMNE")
+          call my_alloc(TAG_NSVE, NSNE_L, "TAG_NSVE")
+          call my_alloc(TAG_MSRE, NMNE_L, "TAG_MSRE")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L)    = 0
@@ -1672,7 +1732,7 @@ c split candidates
           CALL SPLIT_NODE_NODLOC(INTBUF_TAB(NI)%NLG,NLN_L,TAG_NLG,NODLOCAL) !KD(35)
 
           SIZ = INTBUF_TAB_L(NI)%S_DAANC6
-          ALLOCATE(IBUF8_L(SIZ))
+          call my_alloc(IBUF8_L, SIZ, "IBUF8_L")
           IBUF8_L(1:SIZ)=0
           DO K=1,NLN
              N = INTBUF_TAB(NI)%NLG(K) ! N noeud global
@@ -1684,7 +1744,7 @@ C 36 integer 18 doubles
              ENDIF
            ENDDO
           CALL WRITE_I_C(IBUF8_L,SIZ)     
-          DEALLOCATE(IBUF8_L)      
+          CALL MY_DEALLOC(IBUF8_L)
 
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ISLINS,NLINS_L,2,TAG_NLINS) !KD(36)
           CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%ISLINM,NLINM_L,2,TAG_NLINM) !KD(37)
@@ -1781,19 +1841,35 @@ c split and write on disk floating arrays
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_SE,NLINS_L,1,TAG_NLINS) !JD(34)
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENISE,NLINS_L,2,TAG_NLINS) !JD(40)
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .               TAG_NODE_MSR,TAG_II,TAGE_II,TAG_NLINS,TAG_NLINM,
-     .               TAG_NLINS2,TAG_NLINM2,TAG_NLG,TAG_NLG2,TAG_NSNE,TAG_NMNE,
-     .               TAG_NSVE,TAG_MSRE )
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(TAGE_II)
+          CALL MY_DEALLOC(TAG_NLINS)
+          CALL MY_DEALLOC(TAG_NLINM)
+          CALL MY_DEALLOC(TAG_NLINS2)
+          CALL MY_DEALLOC(TAG_NLINM2)
+          CALL MY_DEALLOC(TAG_NLG)
+          CALL MY_DEALLOC(TAG_NLG2)
+          CALL MY_DEALLOC(TAG_NSNE)
+          CALL MY_DEALLOC(TAG_NMNE)
+          CALL MY_DEALLOC(TAG_NSVE)
+          CALL MY_DEALLOC(TAG_MSRE)
 
 C=======================================================================
         ELSEIF(ITYP == 21)THEN
 c=====================================================================      
          NMNG = IPARI(8,NI)
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .               TAG_NODE_2RY2(NSN),TAG_SEGS(NRTS_L),
-     .               TAG_NODE_MSR(NMN_L),TAG_II(II_STOK) ,
-     .               MSR_L_I21(NMNG),MNDD_I21(NMNG))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_2RY2, NSN, "TAG_NODE_2RY2")
+          call my_alloc(TAG_SEGS, NRTS_L, "TAG_SEGS")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(MSR_L_I21, NMNG, "MSR_L_I21")
+          call my_alloc(MNDD_I21, NMNG, "MNDD_I21")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -1834,10 +1910,10 @@ c split and write on disk integers arrays
             CALL SPLIT_CAND_IVAL_I21(INTBUF_TAB(NI)%IRTLM,
      .            II_STOK_L,TAG_II,NSN_L,2) !KD(16)
           ELSE
-            ALLOCATE(TABI_ZERO(2*NSN_L))
+            call my_alloc(TABI_ZERO, 2*NSN_L, "TABI_ZERO")
             TABI_ZERO(1:2*NSN_L)=0
             CALL COPY_IVAL(TABI_ZERO,NSN_L,2)
-            DEALLOCATE(TABI_ZERO)
+            CALL MY_DEALLOC(TABI_ZERO)
           ENDIF
 
           CALL COPY_IVAL(INTBUF_TAB(NI)%IELES,NRTS_L,1)
@@ -1850,11 +1926,11 @@ c split Secnd candidates
             CALL SPLIT_2RY_CAND_IVAL_I21(INTBUF_TAB(NI)%CAND_N,
      .            II_STOK_L,TAG_II,TAG_NODE_2RY2,MULTIMP*NCONT) !KD(15)
           ELSE
-            ALLOCATE(TABI_ZERO(MULTIMP*NCONT))
+            call my_alloc(TABI_ZERO, MULTIMP*NCONT, "TABI_ZERO")
             TABI_ZERO(1:MULTIMP*NCONT)=0
             CALL COPY_IVAL(TABI_ZERO,MULTIMP*NCONT,1)
             CALL COPY_IVAL(TABI_ZERO,MULTIMP*NCONT,1)
-            DEALLOCATE(TABI_ZERO)
+            CALL MY_DEALLOC(TABI_ZERO)
           ENDIF
 
           CALL COPY_IVAL(II_STOK_L,1,1)
@@ -1863,10 +1939,10 @@ c split Secnd candidates
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IFPEN,NSN_L,1,
      .                          TAG_NODE_2RY2) !KD(25)
           ELSE
-            ALLOCATE(TABI_ZERO(NSN_L))
+            call my_alloc(TABI_ZERO, NSN_L, "TABI_ZERO")
             TABI_ZERO(1:NSN_L)=0            
             CALL COPY_IVAL(TABI_ZERO,NSN_L,1)
-            DEALLOCATE(TABI_ZERO)
+            CALL MY_DEALLOC(TABI_ZERO)
           ENDIF
 
          IF(INTFRIC>0)THEN
@@ -1907,10 +1983,10 @@ c split and write on disk floating arrays
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%PENIS,NSN_L,1,
      .                         TAG_NODE_2RY) !JD(18)
           ELSE
-            ALLOCATE(TABR_ZERO(NSN_L))
+            call my_alloc(TABR_ZERO, NSN_L, "TABR_ZERO")
             TABR_ZERO(1:NSN_L)=0
             CALL COPY_RVAL(TABR_ZERO,NSN_L,1) 
-            DEALLOCATE(TABR_ZERO)
+            CALL MY_DEALLOC(TABR_ZERO)
           ENDIF
 
           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%GAP_S,NSN_L,1,TAG_NODE_2RY) ! Gap_S : JD(16)
@@ -1933,12 +2009,12 @@ c split and write on disk floating arrays
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVZ,NSN_L,1,
      .                         TAG_NODE_2RY) !JD(29) 
           ELSE
-             ALLOCATE(TABR_ZERO(NSN_L))
+             call my_alloc(TABR_ZERO, NSN_L, "TABR_ZERO")
              TABR_ZERO(1:NSN_L)=0
              CALL COPY_RVAL(TABR_ZERO,NSN_L,1)
              CALL COPY_RVAL(TABR_ZERO,NSN_L,1)       
              CALL COPY_RVAL(TABR_ZERO,NSN_L,1)
-             DEALLOCATE(TABR_ZERO)
+             CALL MY_DEALLOC(TABR_ZERO)
           ENDIF
 
           CALL COPY_RVAL(INTBUF_TAB(NI)%STF,NRTM_L,1) 
@@ -1965,16 +2041,25 @@ c split and write on disk floating arrays
           SIZ = INTBUF_TAB_L(NI)%S_NOD_NORMAL
           CALL COPY_RVAL(INTBUF_TAB(NI)%NOD_NORMAL,SIZ,1)
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_NODE_2RY2,TAG_SEGS,
-     .             TAG_NODE_MSR,TAG_II,MSR_L_I21,MNDD_I21)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_NODE_2RY2)
+          CALL MY_DEALLOC(TAG_SEGS)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(MSR_L_I21)
+          CALL MY_DEALLOC(MNDD_I21)
 
 C=======================================================================
         ELSEIF(ITYP == 22)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
 
-          ALLOCATE(I710XSAV(NMN))
+          call my_alloc(I710XSAV, NMN, "I710XSAV")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L)    = 0
@@ -2088,15 +2173,21 @@ c
      .                           II_STOK_L,TAG_II,MULTIMP,NCONT)
           ENDIF
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .              TAG_NODE_MSR,TAG_II)
-          DEALLOCATE(I710XSAV)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(I710XSAV)
 C=======================================================================
         ELSEIF(ITYP == 23)THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
-           ALLOCATE(I710XSAV(NMN))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+           call my_alloc(I710XSAV, NMN, "I710XSAV")
 
           TAG_NODE_2RY(1:NSN_L) = 0
           TAG_SEGM(1:NRTM_L) = 0
@@ -2174,23 +2265,33 @@ c split and write on disk floating arrays
           CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVZ,
      .                         II_STOK_L,TAG_II,MULTIMP,NCONT)
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .              TAG_NODE_MSR,TAG_II )
-          DEALLOCATE(I710XSAV)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(I710XSAV)
 
 C=======================================================================
         ELSEIF(ITYP == 24) THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK))
-          ALLOCATE(TAG_SEGS(NRTSE_L),TAG_SEG2S(NRTSE),TAG_NSNE_L(NSNE_L))
-          ALLOCATE(TAG_NODE_2RY2(NSN),TAG_IELEM(NRTS_L),TAG_SEGSS(NRTS_L))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(TAG_SEGS, NRTSE_L, "TAG_SEGS")
+          call my_alloc(TAG_SEG2S, NRTSE, "TAG_SEG2S")
+          call my_alloc(TAG_NSNE_L, NSNE_L, "TAG_NSNE_L")
+          call my_alloc(TAG_NODE_2RY2, NSN, "TAG_NODE_2RY2")
+          call my_alloc(TAG_IELEM, NRTS_L, "TAG_IELEM")
+          call my_alloc(TAG_SEGSS, NRTS_L, "TAG_SEGSS")
 
 
           IF(IEDGE4 > 0) THEN
-               ALLOCATE(TAG_2RY_INV(NSN))
+               call my_alloc(TAG_2RY_INV, NSN, "TAG_2RY_INV")
           ELSE
-               ALLOCATE(TAG_2RY_INV(1))
+               call my_alloc(TAG_2RY_INV, 1, "TAG_2RY_INV")
           ENDIF
 
           TAG_NODE_2RY(1:NSN_L) = 0
@@ -2456,20 +2557,31 @@ c split and write on disk floating arrays
           ENDIF
           NINDX_NDLOCAL24 = 0
 
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .              TAG_NODE_MSR,TAG_II,TAG_SEGS)
-          DEALLOCATE(TAG_SEG2S)
-          DEALLOCATE(TAG_NSNE_L)
-          DEALLOCATE(TAG_2RY_INV)
-          DEALLOCATE(TAG_NODE_2RY2,TAG_IELEM,TAG_SEGSS)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(TAG_SEGS)
+          CALL MY_DEALLOC(TAG_SEG2S)
+          CALL MY_DEALLOC(TAG_NSNE_L)
+          CALL MY_DEALLOC(TAG_2RY_INV)
+          CALL MY_DEALLOC(TAG_NODE_2RY2)
+          CALL MY_DEALLOC(TAG_IELEM)
+          CALL MY_DEALLOC(TAG_SEGSS)
 
 C=======================================================================
         ELSEIF(ITYP == 25) THEN
 C=======================================================================
-          ALLOCATE(TAG_NODE_2RY(NSN_L),TAG_SEGM(NRTM_L),
-     .             TAG_NODE_MSR(NMN_L),TAG_SEGM2(NRTM),TAG_II(II_STOK),
-     .             TAG_SM(NADMSR),KNOR2MSR(NADMSR_L+1),NOR2MSR(4*NRTM_L),
-     .             TAG_NODE_2RY2(NSN))
+          call my_alloc(TAG_NODE_2RY, NSN_L, "TAG_NODE_2RY")
+          call my_alloc(TAG_SEGM, NRTM_L, "TAG_SEGM")
+          call my_alloc(TAG_NODE_MSR, NMN_L, "TAG_NODE_MSR")
+          call my_alloc(TAG_SEGM2, NRTM, "TAG_SEGM2")
+          call my_alloc(TAG_II, II_STOK, "TAG_II")
+          call my_alloc(TAG_SM, NADMSR, "TAG_SM")
+          call my_alloc(KNOR2MSR, NADMSR_L+1, "KNOR2MSR")
+          call my_alloc(NOR2MSR, 4*NRTM_L, "NOR2MSR")
+          call my_alloc(TAG_NODE_2RY2, NSN, "TAG_NODE_2RY2")
 !          ALLOCATE(NODLOCAL24(NUMNOD))
 
           TAG_NODE_2RY(1:NSN_L) = 0
@@ -2486,10 +2598,10 @@ C=======================================================================
                 FLAG_INIT_24_25 = .FALSE.
           ENDIF
           IF(NEDGE_1D >0) THEN
-            ALLOCATE( TAG_NODE_MSR_1D(NMN_1D))
+            call my_alloc(TAG_NODE_MSR_1D, NMN_1D, "TAG_NODE_MSR_1D")
             TAG_NODE_MSR_1D(1:NMN_1D) = 0
           ELSE
-            ALLOCATE( TAG_NODE_MSR_1D(0))
+            call my_alloc(TAG_NODE_MSR_1D, 0, "TAG_NODE_MSR_1D")
           ENDIF
 
 !          NODLOCAL24(1:NUMNOD) = NODLOCAL(1:NUMNOD)
@@ -2508,15 +2620,15 @@ C=======================================================================
      .                             TAG_II )
           ENDIF
 
-          ALLOCATE(TAG_EDGE(NEDGE_L)) ! local to global
-          ALLOCATE(TAG_EDGE2(NEDGE))  ! global to local
+          call my_alloc(TAG_EDGE, NEDGE_L, "TAG_EDGE") ! local to global
+          call my_alloc(TAG_EDGE2, NEDGE, "TAG_EDGE2") ! global to local
           II_STOK_S_L = 0
           II_STOK_E_L = 0
           IF(IEDGE/=0)THEN
-            ALLOCATE(TAG_II_E2E(II_STOK_E))       
-            ALLOCATE(TAG_II_E2S(II_STOK_S))
-            ALLOCATE(TAG_JJ_E2E(II_STOK_E))
-            ALLOCATE(TAG_JJ_E2S(II_STOK_S))
+            call my_alloc(TAG_II_E2E, II_STOK_E, "TAG_II_E2E")
+            call my_alloc(TAG_II_E2S, II_STOK_S, "TAG_II_E2S")
+            call my_alloc(TAG_JJ_E2E, II_STOK_E, "TAG_JJ_E2E")
+            call my_alloc(TAG_JJ_E2S, II_STOK_S, "TAG_JJ_E2S")
             CALL PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB(NI),TAG_SEGM2,
      .                               TAG_EDGE,  NEDGE_L,  TAG_EDGE2, NEDGE,
      .                               II_STOK_E, II_STOK_E_L, TAG_II_E2E,
@@ -2872,13 +2984,22 @@ c          CALL COPY_RVAL(INTBUF_TAB(NI)%LBM  ,4*MULTIMP*NCONT,1)
 c          CALL COPY_RVAL(INTBUF_TAB(NI)%LCM  ,4*MULTIMP*NCONT,1)
 C----------No need for VTX_BISECTOR in restart file
 C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
-          DEALLOCATE(TAG_NODE_2RY,TAG_SEGM,TAG_SEGM2,
-     .              TAG_NODE_MSR,TAG_II,TAG_SM,
-     .              KNOR2MSR,NOR2MSR,TAG_NODE_2RY2,TAG_NODE_MSR_1D)
-          DEALLOCATE(TAG_EDGE)
-          DEALLOCATE(TAG_EDGE2)
-          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2S,TAG_JJ_E2S)
-          IF(IEDGE /=0)  DEALLOCATE(TAG_II_E2E,TAG_JJ_E2E)
+          CALL MY_DEALLOC(TAG_NODE_2RY)
+          CALL MY_DEALLOC(TAG_SEGM)
+          CALL MY_DEALLOC(TAG_SEGM2)
+          CALL MY_DEALLOC(TAG_NODE_MSR)
+          CALL MY_DEALLOC(TAG_II)
+          CALL MY_DEALLOC(TAG_SM)
+          CALL MY_DEALLOC(KNOR2MSR)
+          CALL MY_DEALLOC(NOR2MSR)
+          CALL MY_DEALLOC(TAG_NODE_2RY2)
+          CALL MY_DEALLOC(TAG_NODE_MSR_1D)
+          call my_dealloc(TAG_EDGE)
+          call my_dealloc(TAG_EDGE2)
+          IF(IEDGE /=0)  CALL MY_DEALLOC(TAG_II_E2S)
+          IF(IEDGE /=0)  CALL MY_DEALLOC(TAG_JJ_E2S)
+          IF(IEDGE /=0)  CALL MY_DEALLOC(TAG_II_E2E)
+          IF(IEDGE /=0)  CALL MY_DEALLOC(TAG_JJ_E2E)
         ENDIF !ENDIF (ALL ITYP) 
 
 !       ----------------------------------
@@ -2894,8 +3015,8 @@ C          CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%VTX_BISECTOR,NADMSR_L,6,TAG_SM)
       ENDDO !END DO NI= 1, NINTER
 
       IF(FLAG_24_25) THEN
-                DEALLOCATE( NODLOCAL24 )
-                DEALLOCATE( INDX_NDLOCAL24 )
+                CALL MY_DEALLOC(NODLOCAL24)
+                CALL MY_DEALLOC(INDX_NDLOCAL24)
       ENDIF
 
 

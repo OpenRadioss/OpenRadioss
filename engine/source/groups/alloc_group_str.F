@@ -40,6 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,7 +72,7 @@ C-----------------------------------------------
         NEW_TITLE(IGU) = TITR(1:LEN)
       ENDDO ! DO IGU=1,NGR
 !------  Allocate and read subset data from restart
-      ALLOCATE (IGROUP(LENIGR) ,STAT=ERR)
+      call my_alloc(IGROUP, LENIGR, "IGROUP", stat=ERR)
       CALL READ_I_C(IGROUP, LENIGR)
 !=======================================================================
 !
@@ -120,7 +122,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO ! DO IGU=1,NGR
 !---------
-      DEALLOCATE (IGROUP)
+      call my_dealloc(IGROUP)
 !---------
       RETURN
       END

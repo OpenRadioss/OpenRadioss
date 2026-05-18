@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE SEATBELT_MOD
       use element_mod , only : nixr
+      use my_alloc_mod
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -212,12 +213,12 @@ C
         CLUSTER_TYP = CLUSTERS(I)%TYPE
         IF(CLUSTER_TYP==2.OR.CLUSTER_TYP==3) THEN
             CLUSTER_NEL = CLUSTERS(I)%NEL
-            ALLOCATE( SAVE_CLUSTER( CLUSTER_NEL ) )
+            call my_alloc(SAVE_CLUSTER, CLUSTER_NEL, "SAVE_CLUSTER")
             SAVE_CLUSTER( 1:CLUSTER_NEL ) = CLUSTERS(I)%ELEM( 1:CLUSTER_NEL )
             DO J=1,CLUSTER_NEL
                 CLUSTERS(I)%ELEM(J) = ITR1( SAVE_CLUSTER( J ) )
             ENDDO
-            DEALLOCATE( SAVE_CLUSTER )
+            CALL MY_DEALLOC(SAVE_CLUSTER)
         ENDIF
       ENDDO
 !   -----------------------

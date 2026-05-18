@@ -37,6 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -60,9 +61,9 @@ c=======================================================================
       NPTS = NPT0 + 2
       NSEG = NPT0 - 1
 
-      ALLOCATE (CTRL_PTX(NPTS))
-      ALLOCATE (CTRL_PTY(NPTS))
-      ALLOCATE (SPLINE_KNOTS(NSEG,4))
+      call my_alloc(CTRL_PTX, NPTS, "CTRL_PTX")
+      call my_alloc(CTRL_PTY, NPTS, "CTRL_PTY")
+      call my_alloc(SPLINE_KNOTS, NSEG, 4, "SPLINE_KNOTS")
 
 c     calculate spline control points
       CTRL_PTX(2:NPTS-1) = XF(1:NPT0)
@@ -116,9 +117,9 @@ c      CALL SPLINE_INTERPOL_2D(PTX, PTY ,KNOTS, TT,  NX  ,NY  )
 c      XX(K) = NX
 c      YY(K) = NY
 c
-      DEALLOCATE (SPLINE_KNOTS)
-      DEALLOCATE (CTRL_PTY)
-      DEALLOCATE (CTRL_PTX)
+      CALL MY_DEALLOC(SPLINE_KNOTS)
+      CALL MY_DEALLOC(CTRL_PTY)
+      CALL MY_DEALLOC(CTRL_PTX)
 c-----------
       RETURN
       END SUBROUTINE

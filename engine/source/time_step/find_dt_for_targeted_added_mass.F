@@ -46,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -82,7 +84,7 @@ C     DERIVED FROM ADD_MS_L_STAT in starter - computation of time step according
 C--------------------------------------------------------------------------------------
 C 
       SIZ = 0
-      ALLOCATE(TAGN(NUMNOD))
+      call my_alloc(TAGN, NUMNOD, "TAGN")
       TAGN(1:NUMNOD) = 0
 C
 C---  Condensed nodes of TETRA10 are excluded
@@ -125,12 +127,16 @@ C---  Counstruction of arrays
         CALL SPMD_GLOB_IMAX9(SIZ_MAX,1)
         CALL SPMD_GLOB_ISUM9(SIZG,1)
         IF (ISPMD == 0) THEN
-          ALLOCATE(DT2_L(2*SIZG),STF_L(SIZG),MS_L(SIZG))
+          call my_alloc(DT2_L, 2*SIZG, "DT2_L")
+          call my_alloc(STF_L, SIZG, "STF_L")
+          call my_alloc(MS_L, SIZG, "MS_L")
           SIZ = SIZ_MAX
         ENDIF
         CALL SPMD_GATHER_DTNODA(TAGN,STIFN,MS,WEIGHT,SIZ,DT2_L,STF_L,MS_L)
       ELSE
-        ALLOCATE(DT2_L(2*SIZG),STF_L(SIZG),MS_L(SIZG))
+        call my_alloc(DT2_L, 2*SIZG, "DT2_L")
+        call my_alloc(STF_L, SIZG, "STF_L")
+        call my_alloc(MS_L, SIZG, "MS_L")
         COMPT = 0
         DO I=1,NUMNOD
           IF (TAGN(I) > 0) THEN
@@ -142,12 +148,12 @@ C---  Counstruction of arrays
         ENDDO
       ENDIF
 C
-      DEALLOCATE(TAGN)
+      call my_dealloc(TAGN)
 C
       IF (ISPMD == 0) THEN     
 C
         TMP => DT2_L(SIZG+1:SIZG*2)
-        ALLOCATE( PERM(SIZG ))
+        call my_alloc(PERM, SIZG, "PERM")
 C
 C  --- Sorting
 C
@@ -163,7 +169,7 @@ C
         CALL MYQSORT(SIZG,DT2_L,PERM,IERROR)
         TMP(1:SIZG) = PERM(1:SIZG)
 
-        DEALLOCATE( PERM )
+        call my_dealloc(PERM)
 C
 C----- determination of target time step
 C
@@ -178,7 +184,9 @@ C
         NVAL = 1
         CALL FIND_DT_TARGET(MS_L,STF_L,TARGET_DT,TARGET_PERCENT,DT2_L,TMP,DTSCA,TOTMAS,NVAL,SIZG)
 C
-        DEALLOCATE(DT2_L,STF_L,MS_L)  
+        call my_dealloc(DT2_L)
+        call my_dealloc(STF_L)
+        call my_dealloc(MS_L)
 C
       ENDIF
 C

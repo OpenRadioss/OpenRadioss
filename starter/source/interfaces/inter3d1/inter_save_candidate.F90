@@ -26,7 +26,7 @@
 !||    i7trivox1                  ../starter/source/interfaces/inter3d1/i7trivox1.F
 !||====================================================================
       module inter_save_candidate_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -48,9 +48,11 @@
           use constant_mod
           use array_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_move_alloc_mod, only : my_move_alloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -99,14 +101,14 @@
             if(local_i_stok+k_stok>local_cand_n%size_int_array_1d) then
               my_old_size = local_cand_n%size_int_array_1d
               my_size = nint((my_old_size+k_stok) * 1.25)
-              allocate( tmp_array_1( my_size ) )
-              allocate( tmp_array_2( my_size ) )
+              call my_alloc(tmp_array_1, my_size, "tmp_array_1")
+              call my_alloc(tmp_array_2, my_size, "tmp_array_2")
               tmp_array_1(1:my_old_size) = local_cand_n%int_array_1d(1:my_old_size)
               tmp_array_2(1:my_old_size) = local_cand_e%int_array_1d(1:my_old_size)
               call dealloc_1d_array(local_cand_n)
               call dealloc_1d_array(local_cand_e)
-              call move_alloc(tmp_array_1,local_cand_n%int_array_1d)
-              call move_alloc(tmp_array_2,local_cand_e%int_array_1d)
+              call my_move_alloc(tmp_array_1, local_cand_n%int_array_1d, "local_cand_n%int_array_1d")
+              call my_move_alloc(tmp_array_2, local_cand_e%int_array_1d, "local_cand_e%int_array_1d")
               local_cand_n%size_int_array_1d = my_size
               local_cand_e%size_int_array_1d = my_size
             end if

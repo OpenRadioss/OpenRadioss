@@ -58,6 +58,7 @@ C-----------------------------------------------
         USE SENSOR_MOD
         USE PBLAST_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -148,9 +149,9 @@ C-------------------------------------------------------------------------------
 
 C*******   Interface reading  **************
 
-        ALLOCATE (ID_INTER(HM_NINTER ),STAT=stat)
+        call my_alloc(ID_INTER, HM_NINTER, "ID_INTER", stat=stat)
         ID_INTER(1:HM_NINTER ) = 0
-        ALLOCATE (INTER_TYP(HM_NINTER),STAT=stat)
+        call my_alloc(INTER_TYP, HM_NINTER, "INTER_TYP", stat=stat)
         INTER_TYP(1:HM_NINTER ) = 0
 C
         CALL HM_OPTION_START('/INTER')
@@ -450,7 +451,8 @@ C--------------
 
         ENDIF
 
-        DEALLOCATE (ID_INTER,INTER_TYP)
+        CALL MY_DEALLOC(ID_INTER)
+        CALL MY_DEALLOC(INTER_TYP)
 
 C-------------------------------------------------------------------------------C
         RETURN

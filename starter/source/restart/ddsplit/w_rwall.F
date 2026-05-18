@@ -38,6 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -65,7 +66,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: LPRW_L, NPRW_L
 C
       IF(NRWALL>0) THEN
-        ALLOCATE(NPRW_L(NNPRW*NRWALL))
+        call my_alloc(NPRW_L, NNPRW*NRWALL, "NPRW_L")
         DO N = 1, NRWALL
           NPRW_L(N) = 0
           DO KK = 1, NNPRW-1
@@ -84,7 +85,7 @@ C node not present on the proc, MSR set to 0 to avoid comms.
         ENDDO
 C
         IF(NSLAW_L+NESLAW_L>0) THEN
-          ALLOCATE(LPRW_L(NSLAW_L+NESLAW_L))
+          call my_alloc(LPRW_L, NSLAW_L+NESLAW_L, "LPRW_L")
           K = 0
           ILP = 0
           DO N = 1, NRWALL
@@ -126,8 +127,8 @@ C
         CALL WRITE_I_C(NPRW_L,NNPRW*NRWALL)
         CALL WRITE_I_C(LPRW_L,NSLAW_L+NESLAW_L)
         LEN_IA = LEN_IA + NNPRW*NRWALL + NSLAW_L+NESLAW_L
-        IF(NSLAW_L+NESLAW_L>0)DEALLOCATE(LPRW_L)
-        DEALLOCATE(NPRW_L)
+        IF(NSLAW_L+NESLAW_L>0)CALL MY_DEALLOC(LPRW_L)
+        CALL MY_DEALLOC(NPRW_L)
 C
       ENDIF
 C

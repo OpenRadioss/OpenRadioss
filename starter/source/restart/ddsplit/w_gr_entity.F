@@ -35,6 +35,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + NGR
 !
       ERR = 0
-      ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
+      call my_alloc(IGROUP_L, LENIGR, "IGROUP_L", stat=ERR)
       IGROUP_L(1:LENIGR) = 0  
 !
       DO IGU=1,NGR
@@ -128,7 +129,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(IGROUP_L,L_GROUP)
 !---------
-      DEALLOCATE (IGROUP_L)
+      CALL MY_DEALLOC(IGROUP_L)
 !---------
       LEN_IA = LEN_IA + L_GROUP
 !---------
@@ -148,6 +149,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,7 +181,7 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + NGR
 !
       ERR = 0
-      ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
+      call my_alloc(IGROUP_L, LENIGR, "IGROUP_L", stat=ERR)
       IGROUP_L(1:LENIGR) = 0  
 !
       L_GROUP = 0
@@ -230,7 +232,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(IGROUP_L,L_GROUP)
 !---------
-      DEALLOCATE (IGROUP_L)
+      CALL MY_DEALLOC(IGROUP_L)
 !---------
       LEN_IA = LEN_IA + L_GROUP
 !---------
@@ -251,6 +253,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE GROUPDEF_MOD , ONLY : GROUP_
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -299,7 +302,7 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + NGR
 !
       ERR = 0
-      ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
+      call my_alloc(IGROUP_L, LENIGR, "IGROUP_L", stat=ERR)
       IGROUP_L(1:LENIGR) = 0  
 !
       DO IGU=1,NGR
@@ -383,7 +386,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(IGROUP_L,L_GROUP)
 !---------
-      DEALLOCATE (IGROUP_L)
+      CALL MY_DEALLOC(IGROUP_L)
 !---------
       LEN_IA = LEN_IA + L_GROUP
 !---------

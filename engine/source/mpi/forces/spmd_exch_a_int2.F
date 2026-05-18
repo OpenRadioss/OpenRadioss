@@ -43,6 +43,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -91,8 +93,8 @@ C
       IF (H3D_DATA%N_VECT_PCONT2_MAX > 0.OR.H3D_DATA%N_VECT_PCONT2_MIN > 0) THEN
          ISIZE2 = ISIZE2 + 6
       ENDIF 
-      ALLOCATE(SBUF(LCOMI2M*ISIZE2))    
-      ALLOCATE(RBUF(LCOMI2M*ISIZE2))          
+      call my_alloc(SBUF, LCOMI2M*ISIZE2, "SBUF")
+      call my_alloc(RBUF, LCOMI2M*ISIZE2, "RBUF")
 C
 !      PRINT*,'SPMD_EXCH_A_INT2 : LOCPROC = ', LOC_PROC
       IDEB = 1
@@ -387,8 +389,8 @@ C
         CALL MPI_WAITANY(NBINDEX,REQ_S,INDEX,STATUS,IERROR)
       ENDDO
 C
-      DEALLOCATE(RBUF)
-      DEALLOCATE(SBUF)
+      call my_dealloc(RBUF)
+      call my_dealloc(SBUF)
 C
 #endif
       RETURN

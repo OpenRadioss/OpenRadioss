@@ -72,9 +72,11 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       use constraint_mod , only : constraint_
       use element_mod , only : nixs,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -274,94 +276,98 @@ C---------------------------------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISOM_R2R_S_NL  !(NSPMD)
       INTEGER, POINTER, DIMENSION(:) :: IDXI,POSI
 
-      ALLOCATE(ACCKIN(NBDDACC+NBDDKIN))
-      ALLOCATE(ADDCSRECT_L(NUMNOR_L+1))
-      ALLOCATE(CPULOCALER(NERVOIS))
-      ALLOCATE(CPULOCALES(NESVOIS))
-      ALLOCATE(CPULOCALF(NSEGFL_L))
-      ALLOCATE(CPULOCALR(NRCVVOIS))
-      ALLOCATE(CPULOCALS(NSNDVOIS))
-      ALLOCATE(DD_CJ(NBDDNCJ))
-      ALLOCATE(DD_CNDM(NBDDCNDM))
-      ALLOCATE(DD_CUT(NNODT_L))
-      ALLOCATE(DD_ELEM(NBDDACC+NBDDKIN))
-      ALLOCATE(DD_I2M(NBDDI2M))
-      ALLOCATE(DD_P(NSPMD))
-      ALLOCATE(DD_RBE2(NBDDRBE2))
-      ALLOCATE(DD_RBE3M(NBDDRBE3M))
-      ALLOCATE(DD_RBM(NBDDNRBM))
-      ALLOCATE(DD_RBY(NBDDNRB))
-      ALLOCATE(DD_RBYM(NBDDNRBYM))
-      ALLOCATE(DP_RBE3M(NBDDRBE3M))
-      ALLOCATE(D_RBY(NSPMD+1))
-      ALLOCATE(FR_NOR(NBDDNORT))
-      ALLOCATE(IAD_CNDM(NSPMD+1))
-      ALLOCATE(IAD_I2M(NSPMD+1))
-      ALLOCATE(IAD_RBE2(NSPMD+1))
-      ALLOCATE(IAD_RBE3(NSPMD+1))
-      ALLOCATE(IAD_RBE3M(NSPMD+1))
-      ALLOCATE(IAD_RBM(NSPMD+1))
-      ALLOCATE(IAD_RBY(NSPMD+1))
-      ALLOCATE(IAD_RBYM(NSPMD+1))
-      ALLOCATE(INDEX(2*(NBDDACC+NBDDKIN)))
-      ALLOCATE(INDEX2(2*(NBDDNRB)))
-      ALLOCATE(INDEX3(2*NBDDNCJ))
-      ALLOCATE(INDEX4(2*NBCFD))
-      ALLOCATE(INDEX5(2*(NBDDNRBYM)))
-      ALLOCATE(ISOM(NSPMD))
-      ALLOCATE(ISOM_R2R_R(NSPMD))
-      ALLOCATE(ISOM_R2R_S(NSPMD))
-      ALLOCATE(LERCVOIS(NERVOIS))
-      ALLOCATE(LESDVOIS(NESVOIS))
-      ALLOCATE(LLAGF(NLAGF_L))
-      ALLOCATE(LNODPOR(NUMPOR_L))
-      ALLOCATE(LNRCVOIS(NRCVVOIS))
-      ALLOCATE(LNSDVOIS(NSNDVOIS))
-      ALLOCATE(LSEGCOM(NSEGFL_L))
-      ALLOCATE(NBRCVOIS(NSPMD+1))
-      ALLOCATE(NBSDVOIS(NSPMD+1))
-      ALLOCATE(NERCVOIS(NSPMD+1))
-      ALLOCATE(NESDVOIS(NSPMD+1))
-      ALLOCATE(NPORGEO(NUMGEO))
-      ALLOCATE(NPSEGCOM(NSPMD+1))
-      ALLOCATE(PROCNOR(NBCCNOR))
-      ALLOCATE(PROC_REM(NBDDACC+NBDDKIN))
-      ALLOCATE(PROC_REM1(NBDDNRBYM))
-      ALLOCATE(RG_CUT(NNODL_L))
-      ALLOCATE(SECVU(NSPMD))
-      ALLOCATE(WORK(70000))
-      ALLOCATE(DD_I18(NSPMD+2,NBI18_L))
-      ALLOCATE(DD_LL(NSPMD+2,NLINK))
-      ALLOCATE(DD_MAD(5,NSPMD+1))
-      ALLOCATE(DD_MV(NSPMD+2,NVOLU))
-      ALLOCATE(DD_R2R(NSPMD+1,NL_DDR2R))
-      ALLOCATE(DD_SEC(NSPMD+1,NSECT))
-      ALLOCATE(DD_WALL(NSPMD+2,NRWALL))
-      ALLOCATE(FR_EDG(2,NBDDEDGT))
-      ALLOCATE(FR_SAV(2,NBDDEDG_MAX))
-      ALLOCATE(IAD_CJ(NSPMD+1,NJOINT))
-      ALLOCATE(IAD_CUT(NSPMD+2,NSECT*ISECUT*ISP0))
-      ALLOCATE(IAD_ELEM(2,NSPMD+1))
-      ALLOCATE(IAD_FREDG(NINTER25,NSPMD+1))
-      ALLOCATE(IAD_FRNOR(NINTER25,NSPMD+1))
-      ALLOCATE(IAD_RBM2(4,NSPMD+1))
-      ALLOCATE(IAD_RBY2(4,NSPMD+1))
-      ALLOCATE(IAD_RBYM2(4,NSPMD+1))
-      ALLOCATE(IAD_SEC(4,NSPMD+1))
-      ALLOCATE(INDEX25(2*MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
-      ALLOCATE(ITRI(3,NBDDACC+NBDDKIN)) 
-      ALLOCATE(ITRI2(2,NBDDNRB))
-      ALLOCATE(ITRI25(3,MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
-      ALLOCATE(ITRI25_NORMAL(5,MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
-      ALLOCATE(ITRI3(2,NBDDNCJ))
-      ALLOCATE(ITRI4(2,NBCFD))
-      ALLOCATE(ITRI5(2,NBDDNRBYM))
-      ALLOCATE(PROC_REM25(MAX(NBDDNOR_MAX,NBDDEDG_MAX)))
-      ALLOCATE(TAGS(NSPMD,SEGINDX))
-      ALLOCATE( WEIGHT(NUMNOD_L),TAGE(NUMEL) )
-      ALLOCATE( NEWFRONT(NINTER),TAG(NUMNOD) )
-      ALLOCATE( TAGER(NERVOIS),TAGES(NESVOIS) )
-      ALLOCATE( TAGE_L(NSPMD,NUMEL_L),TAG_L(NSPMD,NUMNOD_L) )
+      call my_alloc(ACCKIN, NBDDACC+NBDDKIN, "ACCKIN")
+      call my_alloc(ADDCSRECT_L, NUMNOR_L+1, "ADDCSRECT_L")
+      call my_alloc(CPULOCALER, NERVOIS, "CPULOCALER")
+      call my_alloc(CPULOCALES, NESVOIS, "CPULOCALES")
+      call my_alloc(CPULOCALF, NSEGFL_L, "CPULOCALF")
+      call my_alloc(CPULOCALR, NRCVVOIS, "CPULOCALR")
+      call my_alloc(CPULOCALS, NSNDVOIS, "CPULOCALS")
+      call my_alloc(DD_CJ, NBDDNCJ, "DD_CJ")
+      call my_alloc(DD_CNDM, NBDDCNDM, "DD_CNDM")
+      call my_alloc(DD_CUT, NNODT_L, "DD_CUT")
+      call my_alloc(DD_ELEM, NBDDACC+NBDDKIN, "DD_ELEM")
+      call my_alloc(DD_I2M, NBDDI2M, "DD_I2M")
+      call my_alloc(DD_P, NSPMD, "DD_P")
+      call my_alloc(DD_RBE2, NBDDRBE2, "DD_RBE2")
+      call my_alloc(DD_RBE3M, NBDDRBE3M, "DD_RBE3M")
+      call my_alloc(DD_RBM, NBDDNRBM, "DD_RBM")
+      call my_alloc(DD_RBY, NBDDNRB, "DD_RBY")
+      call my_alloc(DD_RBYM, NBDDNRBYM, "DD_RBYM")
+      call my_alloc(DP_RBE3M, NBDDRBE3M, "DP_RBE3M")
+      call my_alloc(D_RBY, NSPMD+1, "D_RBY")
+      call my_alloc(FR_NOR, NBDDNORT, "FR_NOR")
+      call my_alloc(IAD_CNDM, NSPMD+1, "IAD_CNDM")
+      call my_alloc(IAD_I2M, NSPMD+1, "IAD_I2M")
+      call my_alloc(IAD_RBE2, NSPMD+1, "IAD_RBE2")
+      call my_alloc(IAD_RBE3, NSPMD+1, "IAD_RBE3")
+      call my_alloc(IAD_RBE3M, NSPMD+1, "IAD_RBE3M")
+      call my_alloc(IAD_RBM, NSPMD+1, "IAD_RBM")
+      call my_alloc(IAD_RBY, NSPMD+1, "IAD_RBY")
+      call my_alloc(IAD_RBYM, NSPMD+1, "IAD_RBYM")
+      call my_alloc(INDEX, 2*(NBDDACC+NBDDKIN), "INDEX")
+      call my_alloc(INDEX2, 2*(NBDDNRB), "INDEX2")
+      call my_alloc(INDEX3, 2*NBDDNCJ, "INDEX3")
+      call my_alloc(INDEX4, 2*NBCFD, "INDEX4")
+      call my_alloc(INDEX5, 2*(NBDDNRBYM), "INDEX5")
+      call my_alloc(ISOM, NSPMD, "ISOM")
+      call my_alloc(ISOM_R2R_R, NSPMD, "ISOM_R2R_R")
+      call my_alloc(ISOM_R2R_S, NSPMD, "ISOM_R2R_S")
+      call my_alloc(LERCVOIS, NERVOIS, "LERCVOIS")
+      call my_alloc(LESDVOIS, NESVOIS, "LESDVOIS")
+      call my_alloc(LLAGF, NLAGF_L, "LLAGF")
+      call my_alloc(LNODPOR, NUMPOR_L, "LNODPOR")
+      call my_alloc(LNRCVOIS, NRCVVOIS, "LNRCVOIS")
+      call my_alloc(LNSDVOIS, NSNDVOIS, "LNSDVOIS")
+      call my_alloc(LSEGCOM, NSEGFL_L, "LSEGCOM")
+      call my_alloc(NBRCVOIS, NSPMD+1, "NBRCVOIS")
+      call my_alloc(NBSDVOIS, NSPMD+1, "NBSDVOIS")
+      call my_alloc(NERCVOIS, NSPMD+1, "NERCVOIS")
+      call my_alloc(NESDVOIS, NSPMD+1, "NESDVOIS")
+      call my_alloc(NPORGEO, NUMGEO, "NPORGEO")
+      call my_alloc(NPSEGCOM, NSPMD+1, "NPSEGCOM")
+      call my_alloc(PROCNOR, NBCCNOR, "PROCNOR")
+      call my_alloc(PROC_REM, NBDDACC+NBDDKIN, "PROC_REM")
+      call my_alloc(PROC_REM1, NBDDNRBYM, "PROC_REM1")
+      call my_alloc(RG_CUT, NNODL_L, "RG_CUT")
+      call my_alloc(SECVU, NSPMD, "SECVU")
+      call my_alloc(WORK, 70000, "WORK")
+      call my_alloc(DD_I18, NSPMD+2, NBI18_L, "DD_I18")
+      call my_alloc(DD_LL, NSPMD+2, NLINK, "DD_LL")
+      call my_alloc(DD_MAD, 5, NSPMD+1, "DD_MAD")
+      call my_alloc(DD_MV, NSPMD+2, NVOLU, "DD_MV")
+      call my_alloc(DD_R2R, NSPMD+1, NL_DDR2R, "DD_R2R")
+      call my_alloc(DD_SEC, NSPMD+1, NSECT, "DD_SEC")
+      call my_alloc(DD_WALL, NSPMD+2, NRWALL, "DD_WALL")
+      call my_alloc(FR_EDG, 2, NBDDEDGT, "FR_EDG")
+      call my_alloc(FR_SAV, 2, NBDDEDG_MAX, "FR_SAV")
+      call my_alloc(IAD_CJ, NSPMD+1, NJOINT, "IAD_CJ")
+      call my_alloc(IAD_CUT, NSPMD+2, NSECT*ISECUT*ISP0, "IAD_CUT")
+      call my_alloc(IAD_ELEM, 2, NSPMD+1, "IAD_ELEM")
+      call my_alloc(IAD_FREDG, NINTER25, NSPMD+1, "IAD_FREDG")
+      call my_alloc(IAD_FRNOR, NINTER25, NSPMD+1, "IAD_FRNOR")
+      call my_alloc(IAD_RBM2, 4, NSPMD+1, "IAD_RBM2")
+      call my_alloc(IAD_RBY2, 4, NSPMD+1, "IAD_RBY2")
+      call my_alloc(IAD_RBYM2, 4, NSPMD+1, "IAD_RBYM2")
+      call my_alloc(IAD_SEC, 4, NSPMD+1, "IAD_SEC")
+      call my_alloc(INDEX25, 2*MAX(NBDDNOR_MAX,NBDDEDG_MAX), "INDEX25")
+      call my_alloc(ITRI, 3, NBDDACC+NBDDKIN, "ITRI")
+      call my_alloc(ITRI2, 2, NBDDNRB, "ITRI2")
+      call my_alloc(ITRI25, 3, MAX(NBDDNOR_MAX,NBDDEDG_MAX), "ITRI25")
+      call my_alloc(ITRI25_NORMAL, 5, MAX(NBDDNOR_MAX,NBDDEDG_MAX), "ITRI25_NORMAL")
+      call my_alloc(ITRI3, 2, NBDDNCJ, "ITRI3")
+      call my_alloc(ITRI4, 2, NBCFD, "ITRI4")
+      call my_alloc(ITRI5, 2, NBDDNRBYM, "ITRI5")
+      call my_alloc(PROC_REM25, MAX(NBDDNOR_MAX,NBDDEDG_MAX), "PROC_REM25")
+      call my_alloc(TAGS, NSPMD, SEGINDX, "TAGS")
+      call my_alloc(WEIGHT, NUMNOD_L, "WEIGHT")
+      call my_alloc(TAGE, NUMEL, "TAGE")
+      call my_alloc(NEWFRONT, NINTER, "NEWFRONT")
+      call my_alloc(TAG, NUMNOD, "TAG")
+      call my_alloc(TAGER, NERVOIS, "TAGER")
+      call my_alloc(TAGES, NESVOIS, "TAGES")
+      call my_alloc(TAGE_L, NSPMD, NUMEL_L, "TAGE_L")
+      call my_alloc(TAG_L, NSPMD, NUMNOD_L, "TAG_L")
 ! -----------------------------------
 
 C
@@ -370,7 +376,7 @@ C
       NBDDNOD = 0
       NBDDBOUN= 0
       ISBOUND = 0      
-      ALLOCATE(PLIST(NSPMD)) 
+      call my_alloc(PLIST, NSPMD, "PLIST")
       PLIST(1:NSPMD) = -1
       
       DO II = 1, NUMNOD_L
@@ -400,7 +406,7 @@ C
           NBDDBOUN = NBDDBOUN + ISBOUND
       ENDDO
       
-      DEALLOCATE(PLIST)                              
+      CALL MY_DEALLOC(PLIST)
 C
       DO I = 1, NBDDNOD
         ITRI(1,I) =  PROC_REM(I)
@@ -464,8 +470,8 @@ C--     specific exhcanges for Nlocal dof
         IF (NLOC_DMG%IMOD > 0) THEN
           IDXI => NLOC_DMG%IDXI(1:NUMNOD)
           POSI => NLOC_DMG%POSI(1:NLOC_DMG%NNOD)
-          ALLOCATE(ISOM_R2R_R_NL(NSPMD))
-          ALLOCATE(ISOM_R2R_S_NL(NSPMD))
+          call my_alloc(ISOM_R2R_R_NL, NSPMD, "ISOM_R2R_R_NL")
+          call my_alloc(ISOM_R2R_S_NL, NSPMD, "ISOM_R2R_S_NL")
           ISOM_R2R_S_NL = 0
           ISOM_R2R_R_NL = 0
           COMPTR_NL = 0
@@ -492,7 +498,8 @@ C--     specific exhcanges for Nlocal dof
             DD_R2R(P+1,3) = DD_R2R(P,3) + ISOM_R2R_S_NL(P)
             DD_R2R(P+1,4) = DD_R2R(P,4) + ISOM_R2R_R_NL(P)
           ENDDO
-          DEALLOCATE(ISOM_R2R_R_NL,ISOM_R2R_S_NL)
+          CALL MY_DEALLOC(ISOM_R2R_R_NL)
+          CALL MY_DEALLOC(ISOM_R2R_S_NL)
         ELSE
           DO P = 1, NSPMD
             DD_R2R(P+1,3) = 0
@@ -500,7 +507,7 @@ C--     specific exhcanges for Nlocal dof
           ENDDO
         ENDIF
 c
-        ALLOCATE (DD_R2R_ELEM(SDD_R2R_ELEM),STAT=IERR)
+        call my_alloc(DD_R2R_ELEM, SDD_R2R_ELEM, "DD_R2R_ELEM", stat=IERR)
         DD_R2R_ELEM(1:SDD_R2R_ELEM) = 0
         IF (IERR /= 0) THEN
           WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
@@ -998,7 +1005,7 @@ C
         NBCJ = NBCJ + NSN
         K = K + NSN + 1
       ENDDO
-      ALLOCATE( PROC_REM_CYL_JOINT(NBCJ) )
+      call my_alloc(PROC_REM_CYL_JOINT, NBCJ, "PROC_REM_CYL_JOINT")
       K = 1
       NAD = 1
       DO N = 1, NJOINT
@@ -1051,7 +1058,7 @@ C
         NAD = NAD + IAD_CJ(NSPMD+1,N) - IAD_CJ(1,N)
         K = K + NSN + 1
       ENDDO
-      DEALLOCATE( PROC_REM_CYL_JOINT )
+      CALL MY_DEALLOC(PROC_REM_CYL_JOINT)
 C
 C Specific Mou Rby (POFF)
 C
@@ -2342,10 +2349,10 @@ C
 C  tag front edges (local)
 C
         IF(NBDDEDGE_L > 0)THEN
-          ALLOCATE(TAG_IED_FR0(2,NBDDEDGE_L))
+          call my_alloc(TAG_IED_FR0, 2, NBDDEDGE_L, "TAG_IED_FR0")
           TAG_IED_FR0 = 0
         ELSE
-          ALLOCATE(TAG_IED_FR0(0,0))
+          call my_alloc(TAG_IED_FR0, 0, 0, "TAG_IED_FR0")
         ENDIF
 C
         IED_FR = 0
@@ -2377,10 +2384,10 @@ C
 cc        IF(NB_FREDGE == 0)GOTO 113
 C
         IF(NB_FREDGE > 0)THEN
-          ALLOCATE(FR_EDGE(NB_FREDGE))
+          call my_alloc(FR_EDGE, NB_FREDGE, "FR_EDGE")
           FR_EDGE = 0
         ELSE
-          ALLOCATE(FR_EDGE(0))
+          call my_alloc(FR_EDGE, 0, "FR_EDGE")
         ENDIF
 C
         IF(NB_FREDGE == 0)GOTO 113      
@@ -2415,7 +2422,7 @@ C
 C
 cc 113  CONTINUE
 C
-        IF(ALLOCATED(TAG_IED_FR0))DEALLOCATE(TAG_IED_FR0)
+        IF(ALLOCATED(TAG_IED_FR0))CALL MY_DEALLOC(TAG_IED_FR0)
       ENDIF  !  IF(ICRACK3D > 0)
 
 C
@@ -2439,7 +2446,8 @@ C     Frontiers vs vertices
           NI25=NI25+1
           NRTM  =IPARI(4,NI)
           NADMSR=IPARI(67,NI)
-          ALLOCATE(TAG_SM(NADMSR),TAG_MS(NADMSR))
+          call my_alloc(TAG_SM, NADMSR, "TAG_SM")
+          call my_alloc(TAG_MS, NADMSR, "TAG_MS")
           TAG_SM(1:NADMSR)=0
 
           NADMSR_L=0
@@ -2522,7 +2530,8 @@ C
             IAD_FRNOR(NI25,P+1) = IAD_FRNOR(NI25,P) + ISOM(P)
           ENDDO
 
-          DEALLOCATE(TAG_SM,TAG_MS)
+          CALL MY_DEALLOC(TAG_SM)
+          CALL MY_DEALLOC(TAG_MS)
 
           ISHIFT=ISHIFT+NADMSR
           LSHIFT=LSHIFT+NBDDNOR
@@ -2545,7 +2554,8 @@ C     Frontiers vs edges
 
           NI25=NI25+1
           NRTM  =IPARI(4,NI)
-          ALLOCATE(TAG_SM(NRTM),TAG_MS(NRTM))
+          call my_alloc(TAG_SM, NRTM, "TAG_SM")
+          call my_alloc(TAG_MS, NRTM, "TAG_MS")
           TAG_SM(1:NRTM)=0
 
           NRTM_L=0
@@ -2614,7 +2624,8 @@ C
             IAD_FREDG(NI25,P+1) = IAD_FREDG(NI25,P) + ISOM(P)
           ENDDO
 
-          DEALLOCATE(TAG_SM,TAG_MS)
+          CALL MY_DEALLOC(TAG_SM)
+          CALL MY_DEALLOC(TAG_MS)
 
           LSHIFT=LSHIFT+NBDDEDG
         END DO
@@ -2781,7 +2792,7 @@ C
       LEN_IA = LEN_IA + NLAGF_L
 C
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
-        DEALLOCATE(DD_R2R_ELEM)      
+        CALL MY_DEALLOC(DD_R2R_ELEM)
       ENDIF
 C
       IF(ICRACK3D > 0)THEN
@@ -2791,7 +2802,7 @@ C
         LEN_IA = LEN_IA + NB_FREDGE
         CALL WRITE_I_C(FR_NBEDGE,NSPMD+1)
         LEN_IA = LEN_IA + NSPMD+1
-        IF(ALLOCATED(FR_EDGE))DEALLOCATE(FR_EDGE)
+        IF(ALLOCATED(FR_EDGE))CALL MY_DEALLOC(FR_EDGE)
       ENDIF
 C     
         CALL WRITE_I_C(IAD_CNDM,NSPMD+1)
@@ -2799,98 +2810,102 @@ C
         CALL WRITE_I_C(DD_CNDM,NBDDCNDM) ! ISKY
         LEN_IA = LEN_IA + NBDDCNDM
 C
-        DEALLOCATE( ACCKIN  )!(NBDDACC+NBDDKIN)
-        DEALLOCATE( ADDCSRECT_L  )!(NUMNOR_L+1)
-        DEALLOCATE( CPULOCALER  )!(NERVOIS)
-        DEALLOCATE( CPULOCALES  )!(NESVOIS)
-        DEALLOCATE( CPULOCALF  )!(NSEGFL_L)
-        DEALLOCATE( CPULOCALR  )!(NRCVVOIS)
-        DEALLOCATE( CPULOCALS  )!(NSNDVOIS)
-        DEALLOCATE( DD_CJ  )!(NBDDNCJ)
-        DEALLOCATE( DD_CNDM  )!(NBDDCNDM)
-        DEALLOCATE( DD_CUT  )!(NNODT_L)
-        DEALLOCATE( DD_ELEM  )!(NBDDACC+NBDDKIN)
-        DEALLOCATE( DD_I2M  )!(NBDDI2M)
-        DEALLOCATE( DD_P  )!(NSPMD)
-        DEALLOCATE( DD_RBE2  )!(NBDDRBE2)
-        DEALLOCATE( DD_RBE3M  )!(NBDDRBE3M)
-        DEALLOCATE( DD_RBM  )!(NBDDNRBM)
-        DEALLOCATE( DD_RBY  )!(NBDDNRB)
-        DEALLOCATE( DD_RBYM  )!(NBDDNRBYM)
-        DEALLOCATE( DP_RBE3M  )!(NBDDRBE3M)
-        DEALLOCATE( D_RBY  )!(NSPMD+1)
-        DEALLOCATE( FR_NOR  )!(NBDDNORT)
-        DEALLOCATE( IAD_CNDM  )!(NSPMD+1)
-        DEALLOCATE( IAD_I2M  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBE2  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBE3  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBE3M  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBM  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBY  )!(NSPMD+1)
-        DEALLOCATE( IAD_RBYM  )!(NSPMD+1)
-        DEALLOCATE( INDEX  )!(2*(NBDDACC+NBDDKIN))
-        DEALLOCATE( INDEX2  )!(2*(NBDDNRB))
-        DEALLOCATE( INDEX3  )!(2*NBDDNCJ)
-        DEALLOCATE( INDEX4  )!(2*NBCFD)
-        DEALLOCATE( INDEX5  )!(2*(NBDDNRBYM))
-        DEALLOCATE( ISOM  )!(NSPMD)
-        DEALLOCATE( ISOM_R2R_R  )!(NSPMD)
-        DEALLOCATE( ISOM_R2R_S  )!(NSPMD)
-        DEALLOCATE( LERCVOIS  )!(NERVOIS)
-        DEALLOCATE( LESDVOIS  )!(NESVOIS)
-        DEALLOCATE( LLAGF  )!(NLAGF_L)
-        DEALLOCATE( LNODPOR  )!(NUMPOR_L)
-        DEALLOCATE( LNRCVOIS  )!(NRCVVOIS)
-        DEALLOCATE( LNSDVOIS  )!(NSNDVOIS)
-        DEALLOCATE( LSEGCOM  )!(NSEGFL_L)
-        DEALLOCATE( NBRCVOIS  )!(NSPMD+1)
-        DEALLOCATE( NBSDVOIS  )!(NSPMD+1)
-        DEALLOCATE( NERCVOIS  )!(NSPMD+1)
-        DEALLOCATE( NESDVOIS  )!(NSPMD+1)
-        DEALLOCATE( NPORGEO  )!(NUMGEO)
-        DEALLOCATE( NPSEGCOM  )!(NSPMD+1)
-        DEALLOCATE( PROCNOR  )!(ADDCSRECT(NUMNOR+1))
-        DEALLOCATE( PROC_REM  )!(NBDDACC+NBDDKIN)
-        DEALLOCATE( PROC_REM1  )!(NBDDNRBYM)
-        DEALLOCATE( RG_CUT  )!(NNODL_L)
-        DEALLOCATE( SECVU  )!(NSPMD)
-        DEALLOCATE( WORK  )!(70000)
-        DEALLOCATE( DD_I18  )!(NSPMD+2,NBI18_L)
-        DEALLOCATE( DD_LL  )!(NSPMD+2,NLINK)
-        DEALLOCATE( DD_MAD  )!(5,NSPMD+1)
-        DEALLOCATE( DD_MV  )!(NSPMD+2,NVOLU)
-        DEALLOCATE( DD_R2R  )!(NSPMD+1,NL_DDR2R)
-        DEALLOCATE( DD_SEC  )!(NSPMD+1,NSECT)
-        DEALLOCATE( DD_WALL  )!(NSPMD+2,NRWALL)
-        DEALLOCATE( FR_EDG  )!(2,NBDDEDGT)
-        DEALLOCATE( FR_SAV  )!(2,NBDDEDG_MAX)
-        DEALLOCATE( IAD_CJ  )!(NSPMD+1,NJOINT)
-        DEALLOCATE( IAD_CUT  )!(NSPMD+2,NSECT*ISECUT*ISP0)
-        DEALLOCATE( IAD_ELEM  )!(2,NSPMD+1)
-        DEALLOCATE( IAD_FREDG  )!(NINTER25,NSPMD+1)
-        DEALLOCATE( IAD_FRNOR  )!(NINTER25,NSPMD+1) 
-        DEALLOCATE( IAD_RBM2  )!(4,NSPMD+1)
-        DEALLOCATE( IAD_RBY2  )!(4,NSPMD+1)
-        DEALLOCATE( IAD_RBYM2  )!(4,NSPMD+1)
-        DEALLOCATE( IAD_SEC  )!(4,NSPMD+1)
-        DEALLOCATE( INDEX25  )!(2*MAX(NBDDNOR_MAXNBDDEDG_MAX))
-        DEALLOCATE( ITRI  )!(3,NBDDACC+NBDDKIN) 
-        DEALLOCATE( ITRI2  )!(2,NBDDNRB)
-        DEALLOCATE( ITRI25  )!(3,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
-        DEALLOCATE( ITRI25_NORMAL  )!(5,MAX(NBDDNOR_MAX,NBDDEDG_MAX))
-        DEALLOCATE( ITRI3  )!(2,NBDDNCJ)
-        DEALLOCATE( ITRI4  )!(2,NBCFD)
-        DEALLOCATE( ITRI5  )!(2,NBDDNRBYM)
-        DEALLOCATE( PROC_REM25  )!(MAX(NBDDNOR_MAXNBDDEDG_MAX))
+        CALL MY_DEALLOC(ACCKIN)
+        CALL MY_DEALLOC(ADDCSRECT_L)
+        CALL MY_DEALLOC(CPULOCALER)
+        CALL MY_DEALLOC(CPULOCALES)
+        CALL MY_DEALLOC(CPULOCALF)
+        CALL MY_DEALLOC(CPULOCALR)
+        CALL MY_DEALLOC(CPULOCALS)
+        CALL MY_DEALLOC(DD_CJ)
+        CALL MY_DEALLOC(DD_CNDM)
+        CALL MY_DEALLOC(DD_CUT)
+        CALL MY_DEALLOC(DD_ELEM)
+        CALL MY_DEALLOC(DD_I2M)
+        CALL MY_DEALLOC(DD_P)
+        CALL MY_DEALLOC(DD_RBE2)
+        CALL MY_DEALLOC(DD_RBE3M)
+        CALL MY_DEALLOC(DD_RBM)
+        CALL MY_DEALLOC(DD_RBY)
+        CALL MY_DEALLOC(DD_RBYM)
+        CALL MY_DEALLOC(DP_RBE3M)
+        CALL MY_DEALLOC(D_RBY)
+        CALL MY_DEALLOC(FR_NOR)
+        CALL MY_DEALLOC(IAD_CNDM)
+        CALL MY_DEALLOC(IAD_I2M)
+        CALL MY_DEALLOC(IAD_RBE2)
+        CALL MY_DEALLOC(IAD_RBE3)
+        CALL MY_DEALLOC(IAD_RBE3M)
+        CALL MY_DEALLOC(IAD_RBM)
+        CALL MY_DEALLOC(IAD_RBY)
+        CALL MY_DEALLOC(IAD_RBYM)
+        CALL MY_DEALLOC(INDEX)
+        CALL MY_DEALLOC(INDEX2)
+        CALL MY_DEALLOC(INDEX3)
+        CALL MY_DEALLOC(INDEX4)
+        CALL MY_DEALLOC(INDEX5)
+        CALL MY_DEALLOC(ISOM)
+        CALL MY_DEALLOC(ISOM_R2R_R)
+        CALL MY_DEALLOC(ISOM_R2R_S)
+        CALL MY_DEALLOC(LERCVOIS)
+        CALL MY_DEALLOC(LESDVOIS)
+        CALL MY_DEALLOC(LLAGF)
+        CALL MY_DEALLOC(LNODPOR)
+        CALL MY_DEALLOC(LNRCVOIS)
+        CALL MY_DEALLOC(LNSDVOIS)
+        CALL MY_DEALLOC(LSEGCOM)
+        CALL MY_DEALLOC(NBRCVOIS)
+        CALL MY_DEALLOC(NBSDVOIS)
+        CALL MY_DEALLOC(NERCVOIS)
+        CALL MY_DEALLOC(NESDVOIS)
+        CALL MY_DEALLOC(NPORGEO)
+        CALL MY_DEALLOC(NPSEGCOM)
+        CALL MY_DEALLOC(PROCNOR)
+        CALL MY_DEALLOC(PROC_REM)
+        CALL MY_DEALLOC(PROC_REM1)
+        CALL MY_DEALLOC(RG_CUT)
+        CALL MY_DEALLOC(SECVU)
+        CALL MY_DEALLOC(WORK)
+        CALL MY_DEALLOC(DD_I18)
+        CALL MY_DEALLOC(DD_LL)
+        CALL MY_DEALLOC(DD_MAD)
+        CALL MY_DEALLOC(DD_MV)
+        CALL MY_DEALLOC(DD_R2R)
+        CALL MY_DEALLOC(DD_SEC)
+        CALL MY_DEALLOC(DD_WALL)
+        CALL MY_DEALLOC(FR_EDG)
+        CALL MY_DEALLOC(FR_SAV)
+        CALL MY_DEALLOC(IAD_CJ)
+        CALL MY_DEALLOC(IAD_CUT)
+        CALL MY_DEALLOC(IAD_ELEM)
+        CALL MY_DEALLOC(IAD_FREDG)
+        CALL MY_DEALLOC(IAD_FRNOR)
+        CALL MY_DEALLOC(IAD_RBM2)
+        CALL MY_DEALLOC(IAD_RBY2)
+        CALL MY_DEALLOC(IAD_RBYM2)
+        CALL MY_DEALLOC(IAD_SEC)
+        CALL MY_DEALLOC(INDEX25)
+        CALL MY_DEALLOC(ITRI)
+        CALL MY_DEALLOC(ITRI2)
+        CALL MY_DEALLOC(ITRI25)
+        CALL MY_DEALLOC(ITRI25_NORMAL)
+        CALL MY_DEALLOC(ITRI3)
+        CALL MY_DEALLOC(ITRI4)
+        CALL MY_DEALLOC(ITRI5)
+        CALL MY_DEALLOC(PROC_REM25)
 
 C
 ! -----------------------------------
 !     deallocate 1d arrays
-      DEALLOCATE( WEIGHT,TAGE )
-      DEALLOCATE( NEWFRONT,TAG )
-      DEALLOCATE( TAGER,TAGES )
+      CALL MY_DEALLOC(WEIGHT)
+      CALL MY_DEALLOC(TAGE)
+      CALL MY_DEALLOC(NEWFRONT)
+      CALL MY_DEALLOC(TAG)
+      CALL MY_DEALLOC(TAGER)
+      CALL MY_DEALLOC(TAGES)
 !     deallocate 2d arrays 
-      DEALLOCATE( TAGE_L,TAG_L )
+      call my_dealloc(TAGE_L)
+      call my_dealloc(TAG_L)
 ! -----------------------------------
       RETURN
       END

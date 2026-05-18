@@ -118,6 +118,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -444,7 +446,7 @@ C=======================================================================
       TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
       INLOC = IPARG(78,NG)
-      ALLOCATE(VAR_REG(NEL,NLAY))
+      call my_alloc(VAR_REG, NEL, NLAY, "VAR_REG")
 !
       DO J=1,6
         JJ(J) = NEL*(J-1)
@@ -1188,6 +1190,6 @@ C----------------------------
      2   NC3,     NC4,     NC5,     NC6,
      3   NC7,     NC8,     NEL)
 C-----------
-      IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
+      IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
       RETURN
       END

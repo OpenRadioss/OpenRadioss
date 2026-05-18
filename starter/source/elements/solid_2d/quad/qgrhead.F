@@ -63,6 +63,8 @@ C     IQUAOFF(NUMELQ)   FLAG ELEM RBY ON/OFF                       E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C O M M O N   B L O C K S
@@ -117,7 +119,7 @@ C----------------------------------------------------------
 C   GLOBAL SORT ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
-      allocate(index2(numelq))
+      call my_alloc(index2, numelq, "index2")
       index2(1:numelq) = permutation%quad(1:numelq)
       
       DO I=1,NUMELQ
@@ -307,7 +309,7 @@ C--------------------------------------------------------------
         ENDIF
       ENDDO
       EADD(ND+1) = NUMELQ+1
-      deallocate(index2)
+      call my_dealloc(index2)
 C
       RETURN
       END

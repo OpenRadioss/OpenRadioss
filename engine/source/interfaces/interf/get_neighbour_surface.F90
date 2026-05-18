@@ -26,7 +26,7 @@
 !||    resol                       ../engine/source/engine/resol.F
 !||====================================================================
       module get_neighbour_surface_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -103,6 +103,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -192,25 +194,25 @@
 !
           ! --------------------------
           ! working array : surface
-          allocate( result_intersect_0( shoot_struct%max_surf_nb ) )
-          allocate( result_intersect_1( shoot_struct%max_surf_nb ) )
-          allocate( intersect_1( shoot_struct%max_surf_nb ) )
-          allocate( intersect_2( shoot_struct%max_surf_nb ) )
-          allocate( index_neighbour( 4,shoot_struct%number_new_surf ) )
+          call my_alloc(result_intersect_0, shoot_struct%max_surf_nb, "result_intersect_0")
+          call my_alloc(result_intersect_1, shoot_struct%max_surf_nb, "result_intersect_1")
+          call my_alloc(intersect_1, shoot_struct%max_surf_nb, "intersect_1")
+          call my_alloc(intersect_2, shoot_struct%max_surf_nb, "intersect_2")
+          call my_alloc(index_neighbour, 4, shoot_struct%number_new_surf, "index_neighbour")
           index_neighbour( 1:4,1:shoot_struct%number_new_surf ) = 0
           ! working array : processor
-          allocate( result_intersect_2( shoot_struct%max_proc_nb ) )
-          allocate( intersect_3( shoot_struct%max_proc_nb ) )
-          allocate( intersect_4( shoot_struct%max_proc_nb ) )
+          call my_alloc(result_intersect_2, shoot_struct%max_proc_nb, "result_intersect_2")
+          call my_alloc(intersect_3, shoot_struct%max_proc_nb, "intersect_3")
+          call my_alloc(intersect_4, shoot_struct%max_proc_nb, "intersect_4")
           ! working array : list of potential neighbour segment
 
           normal(1:3) = zero
           v_convexity(1:3) = zero
           ! mpi buffer
-          allocate( s_buffer(nspmd) )
-          allocate( r_buffer(nspmd) )
-          allocate( s_buffer_2(nspmd) )
-          allocate( r_buffer_2(nspmd) )
+          allocate(s_buffer( nspmd))
+          allocate(r_buffer( nspmd))
+          allocate(s_buffer_2( nspmd))
+          allocate(r_buffer_2( nspmd))
           do i=1,nspmd
             s_buffer(i)%size_my_real_array_1d = 13*shoot_struct%max_surf_nb
             r_buffer(i)%size_my_real_array_1d = 0
@@ -346,11 +348,11 @@
 
                           ! ---------------
                           ! only consider the segments of the interface NIN
-                          allocate( n_normal(3,nb_result_intersect_0) )
-                          allocate( n_vconvexity(3,nb_result_intersect_0) )
-                          allocate( n_iedge(nb_result_intersect_0) )
-                          allocate( my_reduced_list(nb_result_intersect_0,2) )
-                          allocate( my_reduced_neighbour(nb_result_intersect_0,4) )
+                          call my_alloc(n_normal, 3, nb_result_intersect_0, "n_normal")
+                          call my_alloc(n_vconvexity, 3, nb_result_intersect_0, "n_vconvexity")
+                          call my_alloc(n_iedge, nb_result_intersect_0, "n_iedge")
+                          call my_alloc(my_reduced_list, nb_result_intersect_0, 2, "my_reduced_list")
+                          call my_alloc(my_reduced_neighbour, nb_result_intersect_0, 4, "my_reduced_neighbour")
 
                           call get_segment_interface_id( ninter,nb_result_intersect_0,result_intersect_0, &
                             nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
@@ -406,13 +408,13 @@
                             my_size = 8 + 13*my_reduced_nb + nb_result_intersect_2 +  3 + 3! get the mpi buffer size for the current new segment
                             if(my_address_proc(proc_id)+my_size>s_buffer(proc_id)%size_my_real_array_1d) then
                               old_size = s_buffer(proc_id)%size_my_real_array_1d
-                              allocate( my_real_tmp_array(old_size) )
+                              call my_alloc(my_real_tmp_array, old_size, "my_real_tmp_array")
                               my_real_tmp_array(1:old_size) = s_buffer(proc_id)%my_real_array_1d(1:old_size)
                               call dealloc_my_real_1d_array(s_buffer(proc_id))
                               s_buffer(proc_id)%size_my_real_array_1d = 2*(s_buffer(proc_id)%size_my_real_array_1d + my_size) + 1
                               call alloc_my_real_1d_array(s_buffer(proc_id))
                               s_buffer(proc_id)%my_real_array_1d(1:old_size) = my_real_tmp_array(1:old_size)
-                              deallocate( my_real_tmp_array )
+                              call my_dealloc(my_real_tmp_array)
                             end if
                             ! -----------
 
@@ -505,11 +507,11 @@
                             s_buffer_size(1,proc_id) = my_offset ! size of mpi buffer (send)
                             s_buffer_size(2,proc_id) = s_buffer_size(2,proc_id) + 1 ! number of segment
                           end do
-                          deallocate( n_normal )
-                          deallocate( n_iedge )
-                          deallocate( my_reduced_list )
-                          deallocate( my_reduced_neighbour )
-                          deallocate( n_vconvexity )
+                          call my_dealloc(n_normal)
+                          call my_dealloc(n_iedge)
+                          call my_dealloc(my_reduced_list)
+                          call my_dealloc(my_reduced_neighbour)
+                          call my_dealloc(n_vconvexity)
                           ! -----------
                         end if
                       end if
@@ -556,14 +558,14 @@
 
           ! --------------------------
           ! working array : surface
-          deallocate( result_intersect_0 )
-          deallocate( intersect_1 )
-          deallocate( intersect_2 )
-          deallocate( index_neighbour )
+          call my_dealloc(result_intersect_0)
+          call my_dealloc(intersect_1)
+          call my_dealloc(intersect_2)
+          call my_dealloc(index_neighbour)
           ! working array : processor
-          deallocate( result_intersect_2 )
-          deallocate( intersect_3 )
-          deallocate( intersect_4 )
+          call my_dealloc(result_intersect_2)
+          call my_dealloc(intersect_3)
+          call my_dealloc(intersect_4)
 
           ! mpi buffer
           do i=1,nspmd

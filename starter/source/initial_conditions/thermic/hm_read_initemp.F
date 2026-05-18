@@ -53,6 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
+      use my_alloc_mod, only : my_alloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -119,9 +121,9 @@ C--------------------------------------------------
         IF (TYP == 1) THEN
           CALL HM_GET_INTV('grnd_ID',IGR,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('distribution_table_count',NB_LINE,IS_AVAILABLE,LSUBMODEL)
-          IF(.NOT.ALLOCATED(LIST_NOD)) ALLOCATE(LIST_NOD(NB_LINE))
+          IF(.NOT.ALLOCATED(LIST_NOD)) call my_alloc(LIST_NOD, NB_LINE, "LIST_NOD")
           LIST_NOD(1:NB_LINE) = 0
-          IF(.NOT.ALLOCATED(LIST_TEMP0)) ALLOCATE(LIST_TEMP0(NB_LINE))
+          IF(.NOT.ALLOCATED(LIST_TEMP0)) call my_alloc(LIST_TEMP0, NB_LINE, "LIST_TEMP0")
           LIST_TEMP0(1:NB_LINE) = ZERO
           DO J=1,NB_LINE
             CALL HM_GET_INT_ARRAY_INDEX('location_unit_node',LIST_NOD(J),J,IS_AVAILABLE,LSUBMODEL)
@@ -192,8 +194,8 @@ C--------------------------------------------------
             IF (NODSYS /= 0) TEMP(NODSYS)= LIST_TEMP0(J)
           ENDDO 
         ENDIF 
-        IF(ALLOCATED(LIST_TEMP0)) DEALLOCATE(LIST_TEMP0) 
-        IF(ALLOCATED(LIST_NOD)) DEALLOCATE(LIST_NOD) 
+        IF(ALLOCATED(LIST_TEMP0)) call my_dealloc(LIST_TEMP0)
+        IF(ALLOCATED(LIST_NOD)) call my_dealloc(LIST_NOD)
        ENDDO  
 C---                                                           
       CALL UDOUBLE(INITIDS,1,NBTEMP,MESS,0,BID)

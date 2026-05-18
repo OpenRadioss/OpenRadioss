@@ -164,7 +164,7 @@ C    IGRNOD(IGS)%LEVEL  : Hierarchy level
 C    IGRNOD(IGS)%R2R_ALL   ! Multidomaines -> number of node(elems, parts) before split
 C    IGRNOD(IGS)%R2R_SHARE ! shared on boundary subdomain
 C-----------------------------------------------
-      ALLOCATE(BUFTMP(2*NUMNOD + NPART))
+      call my_alloc(BUFTMP, 2*NUMNOD + NPART, "BUFTMP")
       IS_AVAILABLE = .FALSE.
       IT0=0
       IT1=0
@@ -249,7 +249,7 @@ c          non sorted nodes
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
             IF (.NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
-     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
           ELSE 
@@ -274,7 +274,7 @@ C         group of nodes
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
             IF( .NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
-     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+     .                CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
           ELSE
@@ -354,7 +354,7 @@ C Replacement of user node n0 by system n0 (NODE type)
 C=======================================================================
       IF (IT1 /= 0 .AND. FLAG == 1)THEN
 !
-        ALLOCATE(BUFTMP2(MAXNNOD*2),STAT=stat)
+        call my_alloc(BUFTMP2, MAXNNOD*2, "BUFTMP2", stat=stat)
         IF (STAT /= 0) THEN
           CALL ANCMSG(MSGID=727,
      .                MSGTYPE=MSGERROR,
@@ -384,7 +384,7 @@ C Algo optimized for non -negligeable size group in front of n nod
             ENDIF
           ENDIF
         ENDDO
-        DEALLOCATE (BUFTMP2)
+        CALL MY_DEALLOC(BUFTMP2)
       ENDIF ! IF (IT1 /= 0 .AND. FLAG == 1)THEN
 C=======================================================================
 C BOX, GENERATION
@@ -434,7 +434,7 @@ C---
                 IF (BUFTMP(J) == 1) NNOD = NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
@@ -462,10 +462,10 @@ C-------------------------
       IF(IT8 /= 0)THEN
 C
         IF (FLAG == 0) THEN
-          ALLOCATE(BUFBOX(1))
+          call my_alloc(BUFBOX, 1, "BUFBOX")
           BUFBOX = 0
         ELSEIF (FLAG == 1) THEN
-          ALLOCATE(BUFBOX(IADBOXMAX))
+          call my_alloc(BUFBOX, IADBOXMAX, "BUFBOX")
           BUFBOX(1:IADBOXMAX) = 0
         ENDIF
 C
@@ -509,7 +509,7 @@ C---
             IADBOXMAX = MAX(IADBOX,IADBOXMAX)
             IF (FLAG == 0) THEN
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY = 0
             ELSEIF (FLAG == 1) THEN
               IGRNOD(IGS)%NENTITY=NNOD
@@ -517,7 +517,7 @@ C---
           ENDIF
         ENDDO
 C---
-        IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
+        IF(ALLOCATED(BUFBOX))CALL MY_DEALLOC(BUFBOX)
       ENDIF ! IF(IT8 /= 0)
 C=======================================================================
 C groups of subsets, share, mat, prop
@@ -557,7 +557,7 @@ C---
                 IF (BUFTMP(J+NPART) /= 0) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
@@ -594,7 +594,7 @@ c
      .                        TITR1   ,LSUBMODEL  ,IGRNOD(IGS),NN     )
             IF (FLAG == 0) THEN
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY = 0
             ENDIF
           ENDIF
@@ -662,7 +662,7 @@ C---
                 IF (BUFTMP(J) /= 0) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY = 0
             ELSE
               DO J=1,NUMNOD
@@ -720,7 +720,7 @@ C---
                 IF (BUFTMP(J) == 1) NNOD=NNOD+1
               ENDDO
               IGRNOD(IGS)%NENTITY=NNOD
-              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD)
+              CALL MY_ALLOC(IGRNOD(IGS)%ENTITY,NNOD,"IGRNOD(IGS)%ENTITY")
               IGRNOD(IGS)%ENTITY=0
             ELSE
               DO J=1,NUMNOD
@@ -735,6 +735,6 @@ C---
         ENDDO
       ENDIF
 C-----
-      DEALLOCATE(BUFTMP)
+      CALL MY_DEALLOC(BUFTMP)
       RETURN
       END

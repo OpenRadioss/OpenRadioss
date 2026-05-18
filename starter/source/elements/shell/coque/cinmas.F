@@ -101,11 +101,13 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixc
+      use my_alloc_mod
 C----------------------------------------------
 C     initialization of nodal masses and inertias
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -237,12 +239,15 @@ C
           DO ILAY=1,NLAY   !  NPT  
               MAX_NPTT = MAX(MAX_NPTT ,ELBUF_STR%BUFLY(ILAY)%NPTT)
           ENDDO
-          ALLOCATE(THK_IT(MAX_NPTT),POS_IT(MAX_NPTT))
+          call my_alloc(THK_IT, MAX_NPTT, "THK_IT")
+          call my_alloc(POS_IT, MAX_NPTT, "POS_IT")
        ELSE
-          ALLOCATE(THK_IT(0),POS_IT(0))  
+          call my_alloc(THK_IT, 0, "THK_IT")
+          call my_alloc(POS_IT, 0, "POS_IT")
        ENDIF 
        NLAY_MAX = MAX(NLAY, NPT)
-       ALLOCATE(POSLY(NLAY_MAX*MAX_NPTT),RATIO_THKLY(NLAY_MAX*MAX_NPTT)) 
+       call my_alloc(POSLY, NLAY_MAX*MAX_NPTT, "POSLY")
+       call my_alloc(RATIO_THKLY, NLAY_MAX*MAX_NPTT, "RATIO_THKLY")
 c-----------------------------
       IF ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT < 0 ) THEN
 c-----------------------------
@@ -1752,7 +1757,10 @@ C----------------------------------------------
            ENDDO
          ENDIF
       ENDIF ! igmat      
-      DEALLOCATE(POSLY,RATIO_THKLY,THK_IT,POS_IT ) 
+      call my_dealloc(POSLY)
+      call my_dealloc(RATIO_THKLY)
+      call my_dealloc(THK_IT)
+      call my_dealloc(POS_IT)
 C-----------
       RETURN
       END

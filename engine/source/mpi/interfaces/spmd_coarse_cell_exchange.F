@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -163,8 +164,8 @@ C-----------------------------------------------
                 ITIED = IPARI(85,NIN)
                 CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM,ITIED)
 
-                DEALLOCATE( SORT_COMM(NIN)%GLOBAL_COARSE_CELL )
-                DEALLOCATE( SORT_COMM(NIN)%COARSE_GRID )
+                call my_dealloc(SORT_COMM(NIN)%GLOBAL_COARSE_CELL)
+                call my_dealloc(SORT_COMM(NIN)%COARSE_GRID)
             ENDDO 
             NB_REQUEST_COARSE_CELL = 0                   
         ENDIF

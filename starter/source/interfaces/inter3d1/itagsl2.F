@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,8 +79,10 @@ C-----------------------------------------------
       LOGICAL INTAB
       EXTERNAL INTAB
 C=======================================================================
-      ALLOCATE( PENTAG(NUMNOD),TAGNOS(NUMNOD),ITAGMD(NUMNOD) )
-      ALLOCATE( IKINE1(3*NUMNOD) )
+      call my_alloc(PENTAG, NUMNOD, "PENTAG")
+      call my_alloc(TAGNOS, NUMNOD, "TAGNOS")
+      call my_alloc(ITAGMD, NUMNOD, "ITAGMD")
+      call my_alloc(IKINE1, 3*NUMNOD, "IKINE1")
       PENTAG(1:NUMNOD) = 0
       TAGNOS(1:NUMNOD) = 0
       IKINE1(1:3*NUMNOD) = 0
@@ -260,8 +263,10 @@ C             kinematic node - set kine flag for RWALL deactivation in Kinchk
       ENDDO
 C
       WRITE(IOUT,*)''
-      DEALLOCATE( PENTAG,TAGNOS,ITAGMD )
-      DEALLOCATE( IKINE1 )
+      CALL MY_DEALLOC(PENTAG)
+      CALL MY_DEALLOC(TAGNOS)
+      CALL MY_DEALLOC(ITAGMD)
+      CALL MY_DEALLOC(IKINE1)
 c-----------
       RETURN
       END

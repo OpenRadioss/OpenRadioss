@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE SURF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
       use element_mod , only : nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +116,8 @@ C-----------------------------------------------
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
 C=======================================================================
-      ALLOCATE(NODTAG(NUMNOD),FASTAG(NUMELS))
+      call my_alloc(NODTAG, NUMNOD, "NODTAG")
+      call my_alloc(FASTAG, NUMELS, "FASTAG")
 
       FASTAG=0
 C
@@ -508,7 +510,8 @@ C---
         ENDDO   !       end of JS_ELM=1,NUM_ELM
       ENDDO     !       end JS_PART=1,NUM_PART
 C-----------
-      DEALLOCATE(NODTAG,FASTAG)
+      CALL MY_DEALLOC(NODTAG)
+      CALL MY_DEALLOC(FASTAG)
       RETURN
       END
 
@@ -548,6 +551,7 @@ C-----------------------------------------------
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -580,7 +584,7 @@ C-----------------------------------------------
      .             4,5,1/
       DATA PWR/1,2,4,8,16,32,64/
 Co=======================================================================
-        ALLOCATE(NODTAG(NUMNOD))
+        call my_alloc(NODTAG, NUMNOD, "NODTAG")
         FASTAG=0
 C       Tag nodes External surface (solid)
         DO JS=1,NUMELS
@@ -682,7 +686,7 @@ C                    Factag (JS) Less Face JJ
           END DO
         END DO
 C-----------
-      DEALLOCATE(NODTAG)
+      CALL MY_DEALLOC(NODTAG)
       RETURN
       END
 

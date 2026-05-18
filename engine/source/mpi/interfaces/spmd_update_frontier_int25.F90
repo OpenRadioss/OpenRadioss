@@ -56,6 +56,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -125,13 +127,13 @@
             end if
           end do
           !     frontiers vs edges  : update fr_edg array
-          if(allocated(spmd_arrays%fr_edg))  deallocate(spmd_arrays%fr_edg)
-          allocate(spmd_arrays%fr_edg(2*nbddedgt))
-          allocate(fr_sav(2,nbddedg_max))
-          allocate(proc_rem25(nbddedg_max))
-          allocate(itri25(5,nbddedg_max))
-          allocate(index25(2*nbddedg_max))
-          allocate(work(70000))
+          if(allocated(spmd_arrays%fr_edg)) call my_dealloc(spmd_arrays%fr_edg)
+          call my_alloc(spmd_arrays%fr_edg, 2*nbddedgt, "spmd_arrays%fr_edg")
+          call my_alloc(fr_sav, 2, nbddedg_max, "fr_sav")
+          call my_alloc(proc_rem25, nbddedg_max, "proc_rem25")
+          call my_alloc(itri25, 5, nbddedg_max, "itri25")
+          call my_alloc(index25, 2*nbddedg_max, "index25")
+          call my_alloc(work, 70000, "work")
 
           spmd_arrays%iad_fredg(1:ninter25*(nspmd+1))=0
           ni25=0
@@ -193,11 +195,11 @@
             end if
           end do
 
-          deallocate(fr_sav)
-          deallocate(proc_rem25)
-          deallocate(itri25)
-          deallocate(index25)
-          deallocate(work)
+          call my_dealloc(fr_sav)
+          call my_dealloc(proc_rem25)
+          call my_dealloc(itri25)
+          call my_dealloc(index25)
+          call my_dealloc(work)
           ! --------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------

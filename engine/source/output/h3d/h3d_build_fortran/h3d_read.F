@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -148,7 +149,7 @@ c           ENDDO
             READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE
             H3D_DATA%N_SENS_H3D = H3D_DATA%N_SENS_H3D + NVAR(CARTE)
           ENDDO
-          ALLOCATE(H3D_DATA%LSENS_H3D(H3D_DATA%N_SENS_H3D))
+          call my_alloc(H3D_DATA%LSENS_H3D, H3D_DATA%N_SENS_H3D, "H3D_DATA%LSENS_H3D")
           NBSENS = 0
           DO I=1,NBC
             READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE
@@ -170,7 +171,7 @@ c           ENDDO
           READ(IUSC2,*,ERR=9990)H3D_DATA%COMP_LEVEL
         ELSEIF(KEY2=='TITLE')THEN
           H3D_DATA%N_TITLE = NBC
-          ALLOCATE(H3D_DATA%ITITLE(NBC))
+          call my_alloc(H3D_DATA%ITITLE, NBC, "H3D_DATA%ITITLE")
           ALLOCATE(H3D_DATA%TITLE(NBC))
           DO I=1,NBC
             READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE

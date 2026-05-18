@@ -73,6 +73,7 @@
           USE SUBMODEL_MOD
           USE HM_OPTION_READ_MOD
           USE PYTHON_FUNCT_MOD
+          USE MY_ALLOC_MOD
           USE PRECISION_MOD, only : WP
           USE NAMES_AND_TITLES_MOD, only : ncharline, nchartitle
           use, intrinsic :: iso_c_binding , only : c_char, c_null_char
@@ -174,8 +175,8 @@
                 table(l)%ndim = -1
                 allocate(table(l)%X(1))
                 allocate(table(l)%Y)
-                allocate(table(l)%X(1)%values(funct_python_nsamples))
-                allocate(table(l)%Y%values(funct_python_nsamples))
+                call my_alloc(table(l)%X(1)%values, funct_python_nsamples, "table(l)%X(1)%values")
+                call my_alloc(table(l)%Y%values, funct_python_nsamples, "table(l)%Y%values")
                 !write(6,*) "Python test: funct_id",func_id,"name is",array_to_string(python%functs(i)%name)
                 if(array_to_string(python%functs(i)%name) =="sync"//C_NULL_CHAR) then
                   !write(6,*) "Python test: funct_id",func_id,"is sync"

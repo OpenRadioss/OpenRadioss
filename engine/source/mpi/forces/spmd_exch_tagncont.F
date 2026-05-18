@@ -39,6 +39,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -72,9 +74,9 @@ C-----------------------------------------------
 
 
       IERROR = 0
-      ALLOCATE( RBUF(NLOADP_HYD_INTER*LENR),STAT=IERROR2)
+      call my_alloc(RBUF, NLOADP_HYD_INTER*LENR, "RBUF", stat=IERROR2)
       IERROR = IERROR + IERROR2
-      ALLOCATE( SBUF(NLOADP_HYD_INTER*LENR),STAT=IERROR2)
+      call my_alloc(SBUF, NLOADP_HYD_INTER*LENR, "SBUF", stat=IERROR2)
       IERROR = IERROR + IERROR2
               
       IF(IERROR/=0) THEN
@@ -164,7 +166,8 @@ C
         ENDIF
       ENDDO
 
-      DEALLOCATE(RBUF,SBUF)
+      call my_dealloc(RBUF)
+      call my_dealloc(SBUF)
 C
 #endif
       RETURN

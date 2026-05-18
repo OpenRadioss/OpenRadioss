@@ -69,6 +69,8 @@ C     ITR1(NSELQ)        TABLEAU DE TRAVAIL                         E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C O M M O N   B L O C K S
@@ -113,7 +115,7 @@ C-----------------------------------------------
 C--------------------------------------------------------------
 C         bounding of MVSIZ groups
 C--------------------------------------------------------------
-      allocate(index2(numelq))
+      call my_alloc(index2, numelq, "index2")
       index2(1:numelq) = permutation%quad(1:numelq)
       NGR1 = NGROUP + 1
 C
@@ -495,6 +497,6 @@ C
      +'       MID    MEDIUM      FLAG      FLAG      TYPE   '/)
  1001 FORMAT(17(I10))
 C
-      deallocate(index2)
+      call my_dealloc(index2)
       RETURN
       END

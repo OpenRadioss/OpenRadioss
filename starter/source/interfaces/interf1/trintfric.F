@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD                     
+      use my_alloc_mod
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,16 +70,16 @@ C-----------------------------------------------
 C
 C--------------------------------------------
 
-      ALLOCATE(INDEX(2*NSETMAX), STAT=Stat)
-      ALLOCATE(ITRI(2,NSETMAX), STAT=Stat)
+      call my_alloc(INDEX, 2*NSETMAX, "INDEX", stat=Stat)
+      call my_alloc(ITRI, 2, NSETMAX, "ITRI", stat=Stat)
       IF(IORTHFRICMAX == 0 ) THEN
-        ALLOCATE(TRICOEF(NSETMAX,8), STAT=Stat)
+        call my_alloc(TRICOEF, NSETMAX, 8, "TRICOEF", stat=Stat)
       ELSE
-        ALLOCATE(TRICOEF(NSETMAX,16), STAT=Stat)
+        call my_alloc(TRICOEF, NSETMAX, 16, "TRICOEF", stat=Stat)
       ENDIF
-      ALLOCATE(ITRI2(2*NSETMAX), STAT=Stat)
-      ALLOCATE(INDEX2(4*NSETMAX), STAT=Stat)
-      ALLOCATE(TRIFRIORTH(NSETMAX), STAT=Stat)    
+      call my_alloc(ITRI2, 2*NSETMAX, "ITRI2", stat=Stat)
+      call my_alloc(INDEX2, 4*NSETMAX, "INDEX2", stat=Stat)
+      call my_alloc(TRIFRIORTH, NSETMAX, "TRIFRIORTH", stat=Stat)
 
 C
        DO NIF=1,NINTERFRIC
@@ -194,11 +195,12 @@ C------Coefs-----------------------------
           ENDIF
        ENDDO
 C
-       DEALLOCATE(INDEX)
-       DEALLOCATE(ITRI)
-       DEALLOCATE(TRICOEF)
-       DEALLOCATE(ITRI2,INDEX2)
-       DEALLOCATE(TRIFRIORTH)    
+       CALL MY_DEALLOC(INDEX)
+       CALL MY_DEALLOC(ITRI)
+       CALL MY_DEALLOC(TRICOEF)
+       CALL MY_DEALLOC(ITRI2)
+       CALL MY_DEALLOC(INDEX2)
+       CALL MY_DEALLOC(TRIFRIORTH)
 C
        RETURN
       END SUBROUTINE TRIINTFRIC

@@ -68,6 +68,7 @@
           use constant_mod , only : infinity,ep20
           use mat_table_copy_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -196,7 +197,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ndim = 0
           if (func_id > 0) then
-            allocate (mat_param%table(1))           ! allocate material table array
+            allocate(mat_param%table(1))           ! allocate material table array
             mat_param%ntable  = 1
             mat_param%table(1)%notable = func_id
             x1scale   = one
@@ -230,8 +231,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%niparam = 0
           mat_param%nuparam = 19
-          allocate (mat_param%iparam(mat_param%niparam))
-          allocate (mat_param%uparam(mat_param%nuparam))
+          call my_alloc(mat_param%iparam,mat_param%niparam,"mat_param%iparam")
+          call my_alloc(mat_param%uparam,mat_param%nuparam,"mat_param%uparam")
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%uparam(1)  = sigy
           mat_param%uparam(2)  = qr1
@@ -314,7 +315,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 ! ----------------------------------------------------------------------------------------------------------------------
-1000  format(                                                          &
+1000      format(                                                          &
             5x,a,/,                                                      &
             5x,'  ELASTOPLASTIC ORTHOTROPIC HILL MATERIAL',/,           &
             5x,'  -----------------------------------   ',//)

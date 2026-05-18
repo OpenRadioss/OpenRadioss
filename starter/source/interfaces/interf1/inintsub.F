@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,23 +95,23 @@ C-----------------------------------------------
       INTEGER BITSET
       EXTERNAL BITSET
 C=======================================================================
-      ALLOCATE (NOD2NSV(NUMNOD+1)      ,STAT=stat) 
-      ALLOCATE (NOD2RTM(4*MAXRTM)      ,STAT=stat)
-      ALLOCATE (NOD2RTMS(2*MAXRTMS)      ,STAT=stat)
-      ALLOCATE (NOD2RTMM(2*MAXRTMS)      ,STAT=stat)  
-      ALLOCATE (TAGNOD(NUMNOD)      ,STAT=stat)
-      ALLOCATE (TAGRTM(MAXRTM)      ,STAT=stat)
-      ALLOCATE (TAGLINS(MAXRTMS)      ,STAT=stat)
-      ALLOCATE (TAGLINM(MAXRTMS)      ,STAT=stat)
+      call my_alloc(NOD2NSV, NUMNOD+1, "NOD2NSV", stat=stat)
+      call my_alloc(NOD2RTM, 4*MAXRTM, "NOD2RTM", stat=stat)
+      call my_alloc(NOD2RTMS, 2*MAXRTMS, "NOD2RTMS", stat=stat)
+      call my_alloc(NOD2RTMM, 2*MAXRTMS, "NOD2RTMM", stat=stat)
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD", stat=stat)
+      call my_alloc(TAGRTM, MAXRTM, "TAGRTM", stat=stat)
+      call my_alloc(TAGLINS, MAXRTMS, "TAGLINS", stat=stat)
+      call my_alloc(TAGLINM, MAXRTMS, "TAGLINM", stat=stat)
       MAXEDG = 0
       DO NI=1,NINTER
         NTY  =IPARI(7,NI)
         NEDGE_1D=IPARI(101,NI)
         IF (NTY==25) MAXEDG = MAX(MAXEDG,NEDGE_1D)
       ENDDO
-      ALLOCATE (NOD2EDG(2*MAXEDG)      ,STAT=stat)
-      ALLOCATE (TAGEDG(MAXEDG)      ,STAT=stat)
-      ALLOCATE (KAD(MAX(NUMNOD+MAXNSNE,MAXRTM,MAXRTMS,MAXEDG)),STAT=stat)
+      call my_alloc(NOD2EDG, 2*MAXEDG, "NOD2EDG", stat=stat)
+      call my_alloc(TAGEDG, MAXEDG, "TAGEDG", stat=stat)
+      call my_alloc(KAD, MAX(NUMNOD+MAXNSNE,MAXRTM,MAXRTMS,MAXEDG), "KAD", stat=stat)
 C
       IADD => NOD2NSV(1:NUMNOD+1)
       DO NI=1,NINTER
@@ -358,14 +359,16 @@ C
 C
       END DO
 C
-      DEALLOCATE (KAD) 
-      DEALLOCATE (NOD2RTM)
-      DEALLOCATE (NOD2RTMS) 
-      DEALLOCATE (NOD2NSV)
-      DEALLOCATE (TAGRTM)
-      DEALLOCATE (TAGNOD)
-      DEALLOCATE (TAGLINS,TAGLINM)
-      DEALLOCATE (TAGEDG,NOD2EDG)
+      CALL MY_DEALLOC(KAD)
+      CALL MY_DEALLOC(NOD2RTM)
+      CALL MY_DEALLOC(NOD2RTMS)
+      CALL MY_DEALLOC(NOD2NSV)
+      CALL MY_DEALLOC(TAGRTM)
+      CALL MY_DEALLOC(TAGNOD)
+      CALL MY_DEALLOC(TAGLINS)
+      CALL MY_DEALLOC(TAGLINM)
+      CALL MY_DEALLOC(TAGEDG)
+      CALL MY_DEALLOC(NOD2EDG)
 C 
 C-------------------------------------
  1000 FORMAT(    /1X,'   STRUCTURE OF SUB-INTERFACES OUTPUT TO TH'/

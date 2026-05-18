@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 C-----------------------------------------------
 C   C O M M O N
@@ -88,11 +90,11 @@ C SET INITIAL MATERIAL CONSTANTS
       NORDER = IPARAM(1)
       NPRONY = IPARAM(2)
       IF (NPRONY>0) THEN 
-        ALLOCATE(AA(NEL,NPRONY)) 
-        ALLOCATE(BB(NEL,NPRONY)) 
-        ALLOCATE(H11(6,NPRONY)) 
-        ALLOCATE(GI(NPRONY)) 
-        ALLOCATE(BETA(NPRONY)) 
+        call my_alloc(AA, NEL, NPRONY, "AA")
+        call my_alloc(BB, NEL, NPRONY, "BB")
+        call my_alloc(H11, 6, NPRONY, "H11")
+        call my_alloc(GI, NPRONY, "GI")
+        call my_alloc(BETA, NPRONY, "BETA")
       ENDIF
       SV(1:NEL,1:3) = ZERO
 !
@@ -323,11 +325,11 @@ C     Strain definition
         SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO
       IF (NPRONY>0) THEN 
-        DEALLOCATE(AA) 
-        DEALLOCATE(BB) 
-        DEALLOCATE(H11) 
-        DEALLOCATE(GI) 
-        DEALLOCATE(BETA) 
+        call my_dealloc(AA)
+        call my_dealloc(BB)
+        call my_dealloc(H11)
+        call my_dealloc(GI)
+        call my_dealloc(BETA)
       ENDIF
 C-----------
       RETURN

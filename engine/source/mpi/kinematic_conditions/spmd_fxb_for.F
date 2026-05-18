@@ -34,6 +34,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -71,7 +73,7 @@ C
          AVAR=FXBIPM(13,NFX)
          PMAIN=FXBIPM(39,NFX)
          IF (ISPMD==PMAIN) THEN
-            ALLOCATE(FF(LEN,NSPMD-1))
+            call my_alloc(FF, LEN, NSPMD-1, "FF")
             II=0
             DO I=1,NSPMD
                IF (ISPMD==I-1) CYCLE
@@ -87,7 +89,7 @@ C
                   MFEXTP(AVAR+J-1)=MFEXTP(AVAR+J-1)+FF(J,I)
                ENDDO
             ENDDO
-            DEALLOCATE(FF)
+            call my_dealloc(FF)
          ELSE
             ITAG=MSGOFF
             CALL MPI_ISEND(MFEXTP(AVAR), LEN, REAL, IT_SPMD(PMAIN+1),

@@ -27,7 +27,7 @@
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||====================================================================
       module spmd_exch_vnpon_mod
-      implicit none
+        implicit none
       contains
 !=======================================================================================================================
 !!\brief This subroutine performs nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
@@ -48,6 +48,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use spmd_mod
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -82,8 +83,8 @@
 #ifndef MPI
           return
 #endif
-          allocate(rbuf(ndim1,lenr))
-          allocate(sbuf(ndim1,lenr))
+          call my_alloc(rbuf, ndim1, lenr, "rbuf")
+          call my_alloc(sbuf, ndim1, lenr, "sbuf")
 
           siz6 = ndim1
 

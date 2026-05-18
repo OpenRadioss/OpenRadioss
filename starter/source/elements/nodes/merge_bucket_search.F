@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               LIST2_NBMERGE)
 C
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,14 +90,14 @@ C - --> LIST1 / NN1 : list of nodes candidate for merging
 C - --> LIST2 / NN2 : list of destinations
 C=======================================================================
 C 
-      ALLOCATE(NOBX(NUMNOD))
-      ALLOCATE(NOBY(NUMNOD))
-      ALLOCATE(NOBZ(NUMNOD))
-      ALLOCATE(NOBCX(NN2))
-      ALLOCATE(NOBCY(NN2))
-      ALLOCATE(NOBCZ(NN2))
-      ALLOCATE(TABS(NB_MERGE_NODE))
-      ALLOCATE(TABC(NB_MERGE_NODE))
+      call my_alloc(NOBX, NUMNOD, "NOBX")
+      call my_alloc(NOBY, NUMNOD, "NOBY")
+      call my_alloc(NOBZ, NUMNOD, "NOBZ")
+      call my_alloc(NOBCX, NN2, "NOBCX")
+      call my_alloc(NOBCY, NN2, "NOBCY")
+      call my_alloc(NOBCZ, NN2, "NOBCZ")
+      call my_alloc(TABS, NB_MERGE_NODE, "TABS")
+      call my_alloc(TABC, NB_MERGE_NODE, "TABC")
       DBUC = TWO*DBUC
       EPS=EM3*DBUC 
       XMIN=EP30
@@ -165,12 +166,17 @@ C- Are Nodes
 C  
       NBAND = MAX(NBX, NBY,NBZ) + 1
 C      
-      ALLOCATE( NPX(0:NN1+NBAND  ) , NPY(0:3*(NN1+NBAND)), 
-     .         NPZ(0:9*(NN1+NBAND)) , IPX(NN1+NBAND)   ,
-     .         IPY(NN1+NBAND)     , IPZ(NN1+NBAND),
-     .         NPCX(0:NN2+NBAND) , NPCY(0:NN2+NBAND) ,
-     .         NPCZ(0:NN2+NBAND)       , IPCX(NN2+NBAND)   , 
-     .         IPCY(NN2+NBAND)   , IPCZ(NN2+NBAND))
+      call my_alloc(IPX, NN1+NBAND, "IPX")
+      call my_alloc(IPY, NN1+NBAND, "IPY")
+      call my_alloc(IPZ, NN1+NBAND, "IPZ")
+      call my_alloc(IPCX, NN2+NBAND, "IPCX")
+      call my_alloc(IPCY, NN2+NBAND, "IPCY")
+      call my_alloc(IPCZ, NN2+NBAND, "IPCZ")
+      ALLOCATE(NPX(0:NN1+NBAND  ), NPY(0:3*(NN1+NBAND)), NPZ(0:9*(NN1+NBAND)), NPCX(0:NN2+NBAND), NPCY(0:NN2+NBAND),
+     &NPCZ(0:NN2+NBAND))
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
 
 C--------------------------------------------------
 C     sorting of x buckets
@@ -439,14 +445,14 @@ C
               ENDDO
             ENDIF 
           ENDDO
-       DEALLOCATE(NOBX)
-       DEALLOCATE(NOBY)
-       DEALLOCATE(NOBZ)
-       DEALLOCATE(NOBCX)
-       DEALLOCATE(NOBCY)
-       DEALLOCATE(NOBCZ)
-       DEALLOCATE(TABS)
-       DEALLOCATE(TABC)
+       CALL MY_DEALLOC(NOBX)
+       CALL MY_DEALLOC(NOBY)
+       CALL MY_DEALLOC(NOBZ)
+       CALL MY_DEALLOC(NOBCX)
+       CALL MY_DEALLOC(NOBCY)
+       CALL MY_DEALLOC(NOBCZ)
+       CALL MY_DEALLOC(TABS)
+       CALL MY_DEALLOC(TABC)
 C--------
       RETURN
       END

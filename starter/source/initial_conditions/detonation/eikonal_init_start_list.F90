@@ -26,7 +26,7 @@
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_init_start_list_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -55,6 +55,8 @@
           use precision_mod, only : WP
           use insertion_sort_mod , only : integer_insertion_sort_with_index
           use eikonal_bcs_sym_tag_mod , only : eikonal_bcs_sym_tag
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           !use RESTMOD , only : itab  !for debug prurpose (user identifiers of nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -115,9 +117,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           nstart = 0
           if(neldet == 0)return
-          allocate(itag_elem(numel)) !tag to check if elem was already found
-          allocate(tmp_tdet(neldet))
-          allocate(adjacent_elem(numel))
+          call my_alloc(itag_elem, numel, "itag_elem") !tag to check if elem was already found
+          call my_alloc(tmp_tdet, neldet, "tmp_tdet")
+          call my_alloc(adjacent_elem, numel, "adjacent_elem")
           tmp_tdet(:) = ep21
           ! loop over detonation point with shadowing option (I_shadow_flag=1)
           ! and build ADJACENT NEIGHBORHOOD (3-STAGE-PROCESS)
@@ -159,7 +161,7 @@
 
                 ! --- FIRST STAGE
                 ! loop over attached elems
-                 do ii=Knod2el(nod_id)+1,Knod2el(nod_id+1) ! loop over elems connected to nod_id
+                do ii=Knod2el(nod_id)+1,Knod2el(nod_id+1) ! loop over elems connected to nod_id
                   ielem = nod2el(abs(ii))
                   if(itag_elem(ielem) == 0)then
                     if(mat_det /=0 .and. ix(1,ielem) /= mat_det)cycle
@@ -242,7 +244,7 @@
                     if(itag_elem(iev) < 2 )then
                       if(mat_det /=0 .and. ix(1,iev) /= mat_det)cycle
                       itag_elem(iev) = itag_elem(iev) + 1
-                     end if
+                    end if
                   end do
                 end do
                 ! --- LAST STAGE
@@ -255,27 +257,27 @@
                 end do
 
               elseif(r0 /= zero)then
-              ! INIT METHOD : SPHERICAL WAVE WITHIN RADIUS
-              ! SELECT ALL THE ELEMENTS WITHIN A RADIUS R0 FROM THE DETONATION POINT
-                 adjacent_elem(1:numel) = 0
-                 num_adj = 0
-                 itag_elem(:) = 0
-                 !select all in the given radius, set itag_elem to 2
-                 !matid = detonators%point(idet)%mat
-                 xdet = x(1,nod_id)
-                 ydet = x(2,nod_id)
-                 zdet = x(3,nod_id)
-                 do ii=1,neldet
-                     dx = xdet - xel(1,ii)
-                     dy = ydet - xel(2,ii)
-                     dz = zdet - xel(3,ii)
-                     dl = sqrt(dx*dx + dy*dy + dz*dz)
-                     if(dl <= r0)then
-                        itag_elem(ii) = 1
-                        num_adj = num_adj + 1
-                        adjacent_elem(num_adj) = ii
-                     end if
-                 end do
+                ! INIT METHOD : SPHERICAL WAVE WITHIN RADIUS
+                ! SELECT ALL THE ELEMENTS WITHIN A RADIUS R0 FROM THE DETONATION POINT
+                adjacent_elem(1:numel) = 0
+                num_adj = 0
+                itag_elem(:) = 0
+                !select all in the given radius, set itag_elem to 2
+                !matid = detonators%point(idet)%mat
+                xdet = x(1,nod_id)
+                ydet = x(2,nod_id)
+                zdet = x(3,nod_id)
+                do ii=1,neldet
+                  dx = xdet - xel(1,ii)
+                  dy = ydet - xel(2,ii)
+                  dz = zdet - xel(3,ii)
+                  dl = sqrt(dx*dx + dy*dy + dz*dz)
+                  if(dl <= r0)then
+                    itag_elem(ii) = 1
+                    num_adj = num_adj + 1
+                    adjacent_elem(num_adj) = ii
+                  end if
+                end do
 
               end if
 
@@ -311,11 +313,11 @@
 
             end do ! next inod
 
-             ! symmetry condition (one per detonator, not per det point comosing the detonator)
+            ! symmetry condition (one per detonator, not per det point comosing the detonator)
             If(I_frame1 > 0 .or. I_frame2 > 0)then
               ! we do have a plane of symmetry => defining tags for mirror elements
               call eikonal_bcs_sym_tag(neldet, elem_list, uelem_list, numnod, x, nix, numel, ix, &
-                                        detonators, idet, itag_boundFaces, isym, nvois, Lmax)
+                detonators, idet, itag_boundFaces, isym, nvois, Lmax)
             endif
 
           end do !next idet
@@ -329,9 +331,9 @@
           end do
 
           !sorting them in expected data structure for FMM
-          allocate(start_elem_list(nstart))
-          allocate(start_elem_tdet(nstart))
-          allocate(start_elem_uid(nstart))
+          call my_alloc(start_elem_list, nstart, "start_elem_list")
+          call my_alloc(start_elem_tdet, nstart, "start_elem_tdet")
+          call my_alloc(start_elem_uid, nstart, "start_elem_uid")
 
           nstart = 0
           do ii=1,neldet
@@ -345,9 +347,9 @@
 
           ! SORTING (SPMD & PARITH/ON)
           ! ensuring same order of treatment
-          allocate(indx(nstart))
-          allocate(int_tmp_array(nstart))
-          allocate(real_tmp_array(nstart))
+          call my_alloc(indx, nstart, "eikonal_init_start_list/indx")
+          call my_alloc(int_tmp_array, nstart, "int_tmp_array")
+          call my_alloc(real_tmp_array, nstart, "real_tmp_array")
           int_tmp_array(1:nstart) = start_elem_list(1:nstart)
           real_tmp_array(1:nstart) = start_elem_tdet(1:nstart)
           indx(1:nstart)= [(ii, ii=1,nstart)]
@@ -357,15 +359,15 @@
             start_elem_list(ii) = int_tmp_array(indx(ii))
             start_elem_tdet(ii) = real_tmp_array(indx(ii))
           end do
-          deallocate(int_tmp_array)
-          deallocate(real_tmp_array)
-          deallocate(indx)
-          deallocate(start_elem_uid)
+          call my_dealloc(int_tmp_array)
+          call my_dealloc(real_tmp_array)
+          call my_dealloc(indx)
+          call my_dealloc(start_elem_uid)
 
           !remaing deallocate
-          deallocate(itag_elem)
-          deallocate(tmp_tdet)
-          deallocate(adjacent_elem)
+          call my_dealloc(itag_elem)
+          call my_dealloc(tmp_tdet)
+          call my_dealloc(adjacent_elem)
 
         end subroutine eikonal_init_start_list
 ! ----------------------------------------------------------------------------------------------------------------------

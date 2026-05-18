@@ -39,6 +39,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -71,7 +73,7 @@ c
           LEN = NPT
         ELSE IF (NDIM == 2) THEN
           LEN = LDIM(1)*LDIM(2)
-          ALLOCATE(YTMP(LEN))
+          call my_alloc(YTMP, LEN, "YTMP")
           M = 0
           DO J=1,LDIM(2)
             DO I=1,NPT
@@ -82,7 +84,7 @@ c
           CALL WRITE_DB(YTMP, LEN)
         ELSE IF (NDIM == 3) THEN
           LEN = LDIM(1)*LDIM(2)*LDIM(3)
-          ALLOCATE(YTMP(LEN))
+          call my_alloc(YTMP, LEN, "YTMP")
           M = 0
           DO K=1,LDIM(3)
             DO J=1,LDIM(2)
@@ -95,7 +97,7 @@ c
           CALL WRITE_DB(YTMP, LEN)
         ELSE IF (NDIM == 4) THEN
           LEN = LDIM(1)*LDIM(2)*LDIM(3)*LDIM(4)
-          ALLOCATE(YTMP(LEN))
+          call my_alloc(YTMP, LEN, "YTMP")
           M = 0
           DO L=1,LDIM(4)
             DO K=1,LDIM(3)
@@ -109,7 +111,7 @@ c
           END DO
           CALL WRITE_DB(YTMP, LEN)
         END IF
-        IF (ALLOCATED(YTMP)) DEALLOCATE(YTMP)
+        IF (ALLOCATED(YTMP)) call my_dealloc(YTMP)
       END DO
 c-----------
       RETURN

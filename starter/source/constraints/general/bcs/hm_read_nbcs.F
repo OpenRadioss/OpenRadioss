@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +101,7 @@ C
       IS_AVAILABLE = .FALSE.
       FLAG_FMT = 0
 C
-      ALLOCATE(IKINE1(3*NUMNOD))
+      call my_alloc(IKINE1, 3*NUMNOD, "IKINE1")
       DO I=1,3*NUMNOD
         IKINE1(I) = 0
       ENDDO
@@ -201,6 +202,6 @@ C
 C
       ENDDO
    
-      DEALLOCATE(IKINE1)
+      CALL MY_DEALLOC(IKINE1)
       RETURN
       END

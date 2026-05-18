@@ -308,7 +308,7 @@ c
       MTAG%G_DMG = 1 + MATPARAM%NMOD
       MTAG%L_DMG = 1 + MATPARAM%NMOD
       ! -> Modes allocation and definition
-      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      allocate(MATPARAM%MODE(MATPARAM%NMOD))
       MATPARAM%MODE(1) = "Tension damage"
       MATPARAM%MODE(2) = "Compression damage"
 c

@@ -31,6 +31,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -51,7 +52,7 @@ C-----------------------------------------------
       my_real,
      .    DIMENSION(:),ALLOCATABLE :: ELBUF_L
 
-      ALLOCATE(ELBUF_L(LBUFEL_L))
+      call my_alloc(ELBUF_L, LBUFEL_L, "ELBUF_L")
 C
       LB_L = 0
       DO NG=1,NGROUP
@@ -73,7 +74,7 @@ C
       CALL WRITE_DB(ELBUF_L,LBUFEL_L)
       LEN_AM = LEN_AM + LBUFEL_L
 
-      DEALLOCATE(ELBUF_L)
+      CALL MY_DEALLOC(ELBUF_L)
 C
       RETURN
       END

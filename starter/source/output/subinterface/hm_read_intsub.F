@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE R2R_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,9 +99,9 @@ C-----------------------------------------------
 C
       NI   =0
       INDEX_NOM_OPT = 0
-      ALLOCATE (ID_INTER(HM_NINTER),STAT=stat)
+      call my_alloc(ID_INTER, HM_NINTER, "ID_INTER", stat=stat)
       ID_INTER(1:(HM_NINTER)) = 0
-      ALLOCATE (FLAG_INTER(HM_NINTER),STAT=stat)
+      call my_alloc(FLAG_INTER, HM_NINTER, "FLAG_INTER", stat=stat)
       FLAG_INTER(1:(HM_NINTER)) = 0
 C
       CALL HM_OPTION_START('/INTER')
@@ -547,7 +548,8 @@ C-------------------------------------
         ENDIF
       END DO
 C-------------------------------------
-      DEALLOCATE(ID_INTER,FLAG_INTER)
+      CALL MY_DEALLOC(ID_INTER)
+      CALL MY_DEALLOC(FLAG_INTER)
 C-------------------------------------
  1000 FORMAT(    /1X,'   SUB-INTERFACES               ' /
      .            1X,'   --------------               '// )

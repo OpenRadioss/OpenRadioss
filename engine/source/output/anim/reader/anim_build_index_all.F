@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -73,7 +74,7 @@ C-------------------------------------------
       NPTR= 1
       NPTT_PLY = 0
       IF (MCHECK == 0) THEN
-        ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
+        call my_alloc(SENSORS%ANIM, SENSORS%NANIM, "SENSORS%ANIM")
         SENSORS%ANIM(:) = 0
       END IF
 

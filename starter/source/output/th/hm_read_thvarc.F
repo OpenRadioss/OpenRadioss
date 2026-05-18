@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +78,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       ! Tag must start from 0
       ALLOCATE(TAG(0:NV))
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
 C
       ! Number of variables indicated by the user
       CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
@@ -169,6 +172,6 @@ C---------  --------------------------------------------------------------------
       
       HM_THVARC=NVAR
        
-      DEALLOCATE(TAG)
+      call my_dealloc(TAG)
       RETURN
       END

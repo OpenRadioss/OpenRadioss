@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD 
       USE JOINT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,7 +138,7 @@ C
         WRITE (IOUT,1100) (ITAB(LJOINT(K+J)),J=1,NS)                   
 
         !   allocation of cyl_joint%secondary_node : ns = secondary node + main node
-        ALLOCATE( CYL_JOIN(I)%SECONDARY_NODE(NS) )
+        call my_alloc(CYL_JOIN(I)%SECONDARY_NODE, NS, "CYL_JOIN(I)%SECONDARY_NODE")
         DO LJ=1,NS
             NU = ITAB(LJOINT(K+LJ))
             CYL_JOIN(I)%SECONDARY_NODE(LJ) = LJOINT(K+LJ)
@@ -152,7 +153,7 @@ C
         ! save the number of secondary nodes 
         CYL_JOIN(I)%NB_SECONDARY_NODE = NS
         ! save the main nodes 
-        ALLOCATE( CYL_JOIN(I)%MAIN_NODE(2) )
+        call my_alloc(CYL_JOIN(I)%MAIN_NODE, 2, "CYL_JOIN(I)%MAIN_NODE")
         CYL_JOIN(I)%MAIN_NODE(1:2) = LJOINT(K+1:K+2)
         K=K+NS+1
 

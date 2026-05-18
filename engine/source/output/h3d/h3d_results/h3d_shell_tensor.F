@@ -61,6 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -294,8 +296,10 @@ c
               ENDDO  
             ENDIF
              NLAY_MAX   = MAX(NLAY,NPT)
-             ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+             call my_alloc(MATLY, MVSIZ*NLAY_MAX, "MATLY")
+             call my_alloc(THKLY, MVSIZ*NLAY_MAX*LAYNPT_MAX, "THKLY")
+             call my_alloc(POSLY, MVSIZ, NLAY_MAX*LAYNPT_MAX, "POSLY")
+             call my_alloc(THK_LY, NEL, NLAY_MAX*LAYNPT_MAX, "THK_LY")
                MATLY = 0
                THKLY = ZERO
                POSLY = ZERO
@@ -348,7 +352,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 c
               ISELECT = 0
-              ALLOCATE (SIGE(NEL,3))
+              call my_alloc(SIGE, NEL, 3, "SIGE")
               SIGE(1:NEL,1:3) = ZERO
 c
               IF (MPT == 0) THEN !  ILAYER=NULL, NPT=NULL
@@ -515,12 +519,12 @@ c---
      .               IS_WRITTEN_SHELL,SHELL_TENSOR,SIGE     ) 
               END IF       
 c
-              DEALLOCATE (SIGE)
+              call my_dealloc(SIGE)
 c--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/MSTRESS') THEN    ! stress output in material (orthotropic) coordinates
 c--------------------------------------------------
               ISELECT = 0
-              ALLOCATE (SIGM(NEL,3))
+              call my_alloc(SIGM, NEL, 3, "SIGM")
               SIGM(1:NEL,1:3) = ZERO
 c
               IF (ILAY == -1 .AND. IPLY > 0 .AND. IPT > 0) THEN 
@@ -632,7 +636,7 @@ c---
      .             IOK_PART  ,ISELECT   ,NEL    ,OFFSET   ,NFT     ,        
      .             IS_WRITTEN_SHELL,SHELL_TENSOR,SIGM     )
 
-              DEALLOCATE (SIGM)
+              call my_dealloc(SIGM)
 C--------------------------------------------------
             ELSE IF (KEYWORD == 'TENS/STRAIN/MEMB') THEN
 C--------------------------------------------------
@@ -822,11 +826,14 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                  ENDIF ! NPG
                 ENDIF
               ENDIF
-              DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
+              call my_dealloc(MATLY)
+              call my_dealloc(THKLY)
+              call my_dealloc(POSLY)
+              call my_dealloc(THK_LY)
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/MSTRAIN') THEN  ! strain tensor output in material coordinate system
 C--------------------------------------------------
-              ALLOCATE (EPSM(NEL,3))
+              call my_alloc(EPSM, NEL, 3, "EPSM")
               EPSM(:,:) = ZERO
 c
               IF (IPLY > 0 .AND. IPT > 0) THEN     
@@ -978,8 +985,11 @@ c---
      .             IOK_PART  ,ISELECT   ,NEL    ,OFFSET   ,NFT     ,        
      .             IS_WRITTEN_SHELL,SHELL_TENSOR,EPSM     )
 
-              DEALLOCATE (EPSM)
-              DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
+              call my_dealloc(EPSM)
+              call my_dealloc(MATLY)
+              call my_dealloc(THKLY)
+              call my_dealloc(POSLY)
+              call my_dealloc(THK_LY)
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/EPSDOT/MEMB') THEN  
 C--------------------------------------------------

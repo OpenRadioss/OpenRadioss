@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,8 +133,8 @@ C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
 C=======================================================================
-      ALLOCATE(TAGELEMS(1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG))
-      ALLOCATE(NODTAG(NUMNOD))
+      call my_alloc(TAGELEMS, 1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG, "TAGELEMS")
+      call my_alloc(NODTAG, NUMNOD, "NODTAG")
 
       NOPRINT = 1
       FLAG_FMT = 0
@@ -513,7 +514,7 @@ C File Rec Length
       NSTRF(6)=LREC*4
       
 C-------------------------------------------------------------
-      DEALLOCATE(NODTAG)  
-      DEALLOCATE(TAGELEMS)
+      CALL MY_DEALLOC(NODTAG)
+      CALL MY_DEALLOC(TAGELEMS)
       RETURN
       END

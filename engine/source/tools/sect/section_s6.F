@@ -42,6 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -108,7 +110,7 @@ C
        ENDDO
 C
        IF(IPARSENS/=0) THEN
-         ALLOCATE(FSTPARIT(12,NSA))
+         call my_alloc(FSTPARIT, 12, NSA, "FSTPARIT")
          DO J=1,NSA
            DO I=1,12
             FSTPARIT(I,J) = ZERO
@@ -274,7 +276,7 @@ C
 C
         CALL SUM_6_FLOAT_SECT(FSTPARIT,12,NSA,1,NSA,FBSAV6,12,6)
 C
-       DEALLOCATE(FSTPARIT)
+       call my_dealloc(FSTPARIT)
        ENDIF
 C
 #include "lockon.inc"

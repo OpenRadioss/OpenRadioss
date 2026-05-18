@@ -81,7 +81,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 C-----Reset of TAG_RES from SEATBELT_TAB structure----------------------------------
-      CALL MY_ALLOC(TAG_RES,NUMELR)
+      CALL MY_ALLOC(TAG_RES,NUMELR,"TAG_RES")
       TAG_RES(1:NUMELR) = 0
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
@@ -120,8 +120,8 @@ C
 
 C-----------------------------------------------------------------------------------
 
-      CALL MY_ALLOC(TAG_RETRACTOR,NUMELR)
-      CALL MY_ALLOC(TAGN_RETRACTOR,NUMNOD)
+      CALL MY_ALLOC(TAG_RETRACTOR,NUMELR,"TAG_RETRACTOR")
+      CALL MY_ALLOC(TAGN_RETRACTOR,NUMNOD,"TAGN_RETRACTOR")
       TAG_RETRACTOR(1:NUMELR) = 0
       TAGN_RETRACTOR(1:NUMNOD) = 0
       FLAG = 1
@@ -444,7 +444,8 @@ C
 C
       ENDDO         
 C
-      DEALLOCATE(TAG_RES,TAG_RETRACTOR,TAGN_RETRACTOR)
+      CALL MY_DEALLOC(TAG_RES)
+      CALL MY_DEALLOC(TAG_RETRACTOR)
+      CALL MY_DEALLOC(TAGN_RETRACTOR)
 C
       END SUBROUTINE INI_SEATBELT
-

@@ -81,6 +81,8 @@
           use matparam_def_mod , only : matparam_struct_
           use glob_therm_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use MY_DEALLOC_MOD, only : my_dealloc
           use init_inivol_2d_polygons_mod , only : init_inivol_2d_polygons
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -159,8 +161,8 @@
               ntrace0 = 3
               ntrace0 = 2*ntrace0+1
               ntrace  = ntrace0**3
-              allocate( cell_position(3,numnod) )
-              allocate( list_ale_node(numnod) )
+              call my_alloc(cell_position,3,numnod,"cell_position")
+              call my_alloc(list_ale_node,numnod,"list_ale_node")
             end if
 
             !pre-treatment 2D for /SURF/PLANE
@@ -224,14 +226,14 @@
               !----------------------------------------------------------------------------!
               if(n2d == 0)then
 
-                allocate(iphase(inivol(ii)%size),stat=stat) ; iphase(:) = 0
-                allocate(nbip(nbsubmat,numel_tot),stat=stat) ; nbip(:,:) = 0
-                allocate(itagnsol(numnod), stat=stat) ; itagnsol(:) = 0
-                allocate(knod2surf(numnod+1),stat=stat) ; knod2surf(:) = 0
-                allocate(part_fill(npart),stat=stat) ; part_fill(:) = 0
-                allocate(ivolsurf(nsurf),stat=stat); ivolsurf(:) = 0
-                allocate(itagsurf(nsurf),stat=stat) ; itagsurf(:) = 0
-                allocate(swiftsurf(nsurf),stat=stat) ; swiftsurf(:) = 0
+                call my_alloc(iphase,inivol(ii)%size,"iphase",stat=stat) ; iphase(:) = 0
+                call my_alloc(nbip,nbsubmat,numel_tot,"nbip",stat=stat) ; nbip(:,:) = 0
+                call my_alloc(itagnsol,numnod,"itagnsol",stat=stat) ; itagnsol(:) = 0
+                call my_alloc(knod2surf,numnod+1,"knod2surf",stat=stat) ; knod2surf(:) = 0
+                call my_alloc(part_fill,npart,"part_fill",stat=stat) ; part_fill(:) = 0
+                call my_alloc(ivolsurf,nsurf,"ivolsurf",stat=stat); ivolsurf(:) = 0
+                call my_alloc(itagsurf,nsurf,"itagsurf",stat=stat) ; itagsurf(:) = 0
+                call my_alloc(swiftsurf,nsurf,"swiftsurf",stat=stat) ; swiftsurf(:) = 0
 
                 !  fill background ale mesh with phase
                 do ng=1,ngroup
@@ -296,11 +298,11 @@
                   end if
                 end do
 !---
-                allocate(nsoltosf(nb_container,numnod),stat=stat) ; nsoltosf(:,:) = 0
-                allocate(inod2surf(nnod2surf*numnod),stat=stat) ; inod2surf(:) = 0
-                allocate(dis(nsurf_invol,numnod),stat=stat) ; dis(:,:) = zero
-                allocate(nod_norm(3*numnod),stat=stat) ; nod_norm(1:3*numnod) = zero
-                allocate(segtosurf(nseg_used),stat=stat) ; segtosurf(1:nseg_used) = 0
+                call my_alloc(nsoltosf,nb_container,numnod,"nsoltosf",stat=stat) ; nsoltosf(:,:) = 0
+                call my_alloc(inod2surf,nnod2surf*numnod,"inod2surf",stat=stat) ; inod2surf(:) = 0
+                call my_alloc(dis,nsurf_invol,numnod,"dis",stat=stat) ; dis(:,:) = zero
+                call my_alloc(nod_norm,3*numnod,"nod_norm",stat=stat) ; nod_norm(1:3*numnod) = zero
+                call my_alloc(segtosurf,nseg_used,"segtosurf",stat=stat) ; segtosurf(1:nseg_used) = 0
 !---
                 ! -----------------
                 ! compute the min / max position of ale elements
@@ -322,7 +324,7 @@
                   leading_dimension,size_cell)
                 ! -----------------
                 ! coloration of cell with nodes of surface
-                allocate( cell(nb_container) )
+                allocate(cell(nb_container))
 
                 call ale_box_coloration(nsurf,numnod,&
                   nb_cell_x,nb_cell_y,nb_cell_z,nb_container,               &
@@ -330,7 +332,7 @@
                   ale_node_number,list_ale_node)
                 ! -----------------
 
-                allocate( nodal_phase(nb_container) )
+                allocate(nodal_phase(nb_container))
                 nodal_phase(1:nb_container)%size_int_array_1d = numnod
                 itagsurf(1:nsurf) = 0
                 nseg_swift_surf = 0
@@ -342,7 +344,7 @@
                   ireversed = inivol(ii)%container(idc)%ireversed
                   icumu     = inivol(ii)%container(idc)%icumu
                   nsegsurf  = igrsurf(idsurf)%nseg
-                  allocate(tagn(numnod),stat=stat)
+                  call my_alloc(tagn,numnod,"tagn",stat=stat)
                   tagn(1:numnod) = 0
                   if (itagsurf(idsurf) == 0) then
                     itagsurf(idsurf) = 1  !distances,node to surf, are now already calculated with idsurf
@@ -358,7 +360,7 @@
                       iparg                   ,ixs                 ,ixq          ,ixtg           ,&
                       cell(idc)%int_array_3d  ,cell_position       ,nodal_phase(idc)%int_array_1d,nb_box_limit)
                   end if
-                  deallocate(tagn)
+                  call my_dealloc(tagn)
                   call dealloc_1d_array(nodal_phase(idc))
                   call dealloc_3d_array(cell(idc))
                 end do ! do idc=1,nb_container
@@ -380,7 +382,7 @@
                     cycle
                   end if
                   ! loop over containers
-                  allocate(inphase(ntrace,nel) ,stat=stat)
+                  call my_alloc(inphase,ntrace,nel,"inphase",stat=stat)
                   inphase(1:ntrace,1:nel) = 1
                   numel_tot= max(numeltg,max(numels,numelq))
                   do idc=1,nb_container
@@ -418,7 +420,7 @@
                     nuvar =  elbuf_tab(ng)%bufly(1)%nvar_mat
                     nf1   =  nft+1
                   end do ! do idc=1,nb_container
-                  deallocate(inphase)
+                  call my_dealloc(inphase)
                 end do ! next ng=1,ngroup
 !---
               end if ! (n2d == 0)
@@ -471,22 +473,22 @@
               end if
 !-------------
 
-              if(allocated(iphase))   deallocate(iphase)
-              if(allocated(nbip))     deallocate(nbip)
-              if(allocated(itagnsol)) deallocate(itagnsol)
-              if(allocated(knod2surf))deallocate(knod2surf)
-              if(allocated(part_fill))deallocate(part_fill)
-              if(allocated(ivolsurf)) deallocate(ivolsurf)
-              if(allocated(swiftsurf))deallocate(swiftsurf)
-              if(allocated(nsoltosf)) deallocate(nsoltosf)
-              if(allocated(inod2surf))deallocate(inod2surf)
-              if(allocated(dis))      deallocate(dis)
-              if(allocated(nod_norm)) deallocate(nod_norm)
-              if(allocated(segtosurf))deallocate(segtosurf)
+              call my_dealloc(iphase)
+              call my_dealloc(nbip)
+              call my_dealloc(itagnsol)
+              call my_dealloc(knod2surf)
+              call my_dealloc(part_fill)
+              call my_dealloc(ivolsurf)
+              call my_dealloc(swiftsurf)
+              call my_dealloc(nsoltosf)
+              call my_dealloc(inod2surf)
+              call my_dealloc(dis)
+              call my_dealloc(nod_norm)
+              call my_dealloc(segtosurf)
 !---
             end do ! next ii=1,num_inivol
-            if(allocated(cell_position))deallocate( cell_position )
-            if(allocated(list_ale_node))deallocate( list_ale_node )
+            call my_dealloc(cell_position)
+            call my_dealloc(list_ale_node)
 
           end if ! if (num_inivol > 0)
 

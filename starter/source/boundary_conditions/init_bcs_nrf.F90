@@ -52,6 +52,7 @@
           use multi_fvm_mod , only : multi_fvm_struct
           use bcs_mod , only : bcs
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod , only : WP
           use matparam_def_mod, only: matparam_struct_
           use constant_mod , only : four_over_3, zero
@@ -75,12 +76,12 @@
           integer, dimension(numels), intent(in) :: isolnod                            !< flag for solid elements
 
           integer, intent(in) :: npropgi !< number of integer property parameters
-          integer, intent(in) :: numgeo !< total number of properties in the model          
+          integer, intent(in) :: numgeo !< total number of properties in the model
           integer, intent(in) :: npropm !< number of real material parameters
-          integer, dimension(npropgi,numgeo), intent(in) :: igeo !< property parameters array          
+          integer, dimension(npropgi,numgeo), intent(in) :: igeo !< property parameters array
           integer,intent(in) :: nummat
           type(matparam_struct_), dimension(nummat), intent(in) :: mat_param !< material parameters
-          real(kind=WP), dimension(npropm,nummat), intent(in) :: pm !< material parameters array          
+          real(kind=WP), dimension(npropm,nummat), intent(in) :: pm !< material parameters array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -159,7 +160,7 @@
                 jale_from_mat = nint(pm(72,mid))
                 jale_from_prop = igeo(62,pid)
                 jale = max(jale_from_mat, jale_from_prop)
-                if(jale==0) then                
+                if(jale==0) then
                   if(isolnod(jj)==8) then
                     ! tag switched on for node in user list
                     icode = 0
@@ -178,12 +179,12 @@
                       call my_alloc(itmp,2,isize)
                       itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                       itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                      deallocate(bcs%iworking_array)
+                      CALL MY_DEALLOC(bcs%iworking_array)
                       isize=isize+numnod
                       call my_alloc(bcs%iworking_array,2,isize)
                       bcs%iworking_array(1,1:isize/2)=itmp(1,1:isize/2)
                       bcs%iworking_array(2,1:isize/2)=itmp(2,1:isize/2)
-                      deallocate(itmp)
+                      CALL MY_DEALLOC(itmp)
                     end if
                     !test binary codes to identify boundary faces
                     kk = 0 !number of identified faces
@@ -194,7 +195,7 @@
                     if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
                     if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
                     bcs%iworking_array(1,nseg+1:nseg+kk) = jj
-                    nseg = nseg + kk                  
+                    nseg = nseg + kk
                   elseif(isolnod(jj)==4) then
                     ! tag switched on for node in user list
                     icode = 0
@@ -213,12 +214,12 @@
                       call my_alloc(itmp,2,isize)
                       itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                       itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                      deallocate(bcs%iworking_array)
+                      CALL MY_DEALLOC(bcs%iworking_array)
                       isize=isize+numnod
                       call my_alloc(bcs%iworking_array,2,isize)
                       bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                       bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                      deallocate(itmp)
+                      CALL MY_DEALLOC(itmp)
                     end if
                     !test binary codes to identify boundary faces
                     kk = 0 !number of identified faces
@@ -239,7 +240,7 @@
                 jale_from_mat = nint(pm(72,mid))
                 jale_from_prop = igeo(62,pid)
                 jale = max(jale_from_mat, jale_from_prop)
-                if(jale==0) then                      
+                if(jale==0) then
                   ! tag switched on for node in user list
                   icode = 0
                   kk = 0 ! number of identified nodes
@@ -254,12 +255,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify boundary faces
                   if(03 == IAND(icode,03))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
@@ -277,7 +278,7 @@
                 jale_from_mat = nint(pm(72,mid))
                 jale_from_prop = igeo(62,pid)
                 jale = max(jale_from_mat, jale_from_prop)
-                if(jale==0) then                  
+                if(jale==0) then
                   is_tria = .true.
                   ! tag switched on for node in user list
                   icode = 0
@@ -292,12 +293,12 @@
                     call my_alloc(itmp,2,isize)
                     itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
                     itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
-                    deallocate(bcs%iworking_array)
+                    call my_dealloc(bcs%iworking_array)
                     isize=isize+numnod
                     call my_alloc(bcs%iworking_array,2,isize)
                     bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
-                    deallocate(itmp)
+                    call my_dealloc(itmp)
                   end if
                   !test binary codes to identify boundary faces
                   if(3 == IAND(icode,3))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
@@ -309,19 +310,19 @@
               enddo
             endif
 
-            allocate(bcs%nrf(ii)%list%elem(nseg))
-            allocate(bcs%nrf(ii)%list%face(nseg))
-            allocate(bcs%nrf(ii)%list%rCp(nseg))
-            allocate(bcs%nrf(ii)%list%rCs(nseg))
-            allocate(bcs%nrf(ii)%list%elem_type(nseg))
-            allocate(bcs%nrf(ii)%list%node_list(4,nseg))
+            call my_alloc(bcs%nrf(ii)%list%elem, nseg, "bcs%nrf(ii)%list%elem")
+            call my_alloc(bcs%nrf(ii)%list%face, nseg, "bcs%nrf(ii)%list%face")
+            call my_alloc(bcs%nrf(ii)%list%rCp, nseg, "bcs%nrf(ii)%list%rCp")
+            call my_alloc(bcs%nrf(ii)%list%rCs, nseg, "bcs%nrf(ii)%list%rCs")
+            call my_alloc(bcs%nrf(ii)%list%elem_type, nseg, "bcs%nrf(ii)%list%elem_type")
+            call my_alloc(bcs%nrf(ii)%list%node_list, 4, nseg, "bcs%nrf(ii)%list%node_list")
 
             if(ii>1) then
               bcs%nrf_bound(1,ii) = 1 + bcs%nrf_bound(2,ii-1)
               bcs%nrf_bound(2,ii) = nseg +  bcs%nrf_bound(2,ii-1)
             else
               bcs%nrf_bound(1,ii) = 1
-              bcs%nrf_bound(2,ii) = nseg 
+              bcs%nrf_bound(2,ii) = nseg
             endif
             do jj=1,nseg
               ie = bcs%iworking_array(1,jj)
@@ -393,7 +394,8 @@
 
           end do !next ii
 
-          deallocate(bcs%iworking_array)
+          call my_dealloc(bcs%iworking_array)
+
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

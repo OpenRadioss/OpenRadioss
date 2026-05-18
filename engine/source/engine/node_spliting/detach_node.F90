@@ -706,6 +706,8 @@
           USE interfaces_mod
           USE elbufdef_mod
           use extend_array_mod
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -760,11 +762,14 @@
 
           numnodg0 = numnodg
           allocate(detach_shell(0:numelc))
+          ! TODO: non-default lower bound, convert manually
           detach_shell = 0.0d0
           if(.not. allocated(element%shell%damage)) then
             allocate(element%shell%damage(1:numelc))
+            ! TODO: non-default lower bound, convert manually
             element%shell%damage = 0.0d0
             allocate(element%shell%dist_to_center(1:numelc))
+            ! TODO: non-default lower bound, convert manually
             do i = 1, numelc
               n1 = element%shell%ixc(2,i)
               n2 = element%shell%ixc(3,i)
@@ -824,12 +829,12 @@
 
           ! Exchange the detach_shell values on ghost shells
           nghostshells = size(element%ghost_shell%nodes,2)
-          allocate(ghostshelldamage(nghostshells))
+          call my_alloc(ghostshelldamage, nghostshells, "ghostshelldamage")
           ghostshelldamage = 0.0d0
           call spmd_exchange_ghost_shells(element,ispmd,nspmd,1,detach_shell,ghostshelldamage)
 
           numnod0 = numnod
-          allocate(nodal_damage(numnod))
+          call my_alloc(nodal_damage, numnod, "nodal_damage")
 
           ! cumulate the damage of the shells on the nodes
           nodal_damage = 0.0d0
@@ -857,12 +862,12 @@
             end do
           end do
 
-          deallocate(ghostshelldamage)
+          call my_dealloc(ghostshelldamage)
 
-          allocate(detached_nodes_local(numnod))
+          call my_alloc(detached_nodes_local, numnod, "detached_nodes_local")
           nb_detached_nodes_local = 0
 
-          allocate(shell_list(numelc))
+          call my_alloc(shell_list, numelc, "shell_list")
           shell_list = 0
           shells_to_detach = 0
 
@@ -918,8 +923,8 @@
           end do
 
           ! list nodes that are detached from the shells at this timestep
-          allocate(nb_detached_nodes(nspmd))
-          allocate(nb_detached_nodes_global(nspmd))
+          call my_alloc(nb_detached_nodes, nspmd, "nb_detached_nodes")
+          call my_alloc(nb_detached_nodes_global, nspmd, "nb_detached_nodes_global")
           nb_detached_nodes_global = 0
           nb_detached_nodes(1:nspmd) = 0
           nb_detached_nodes(ispmd+1) = numnod - numnod0
@@ -933,7 +938,7 @@
           total_new_nodes = sum(nb_detached_nodes_global(1:nspmd))
           if(total_new_nodes > 0) new_crack = total_new_nodes
           !allocate(detached_nodes_local(nb_detached_nodes_global(ispmd+1)))
-          allocate(detached_nodes(total_new_nodes))
+          call my_alloc(detached_nodes, total_new_nodes, "detached_nodes")
           if(nb_detached_nodes_global(ispmd+1) /= nb_detached_nodes_local) then
           end if
 
@@ -968,8 +973,8 @@
           !Not finalized: new nodes may be boundary nodes (i.e. new node attached to two shells from different processors)
 
           k = sum(nb_detached_nodes_global(1:nspmd))
-          allocate(processor(k))
-          allocate(local_pos(k))
+          call my_alloc(processor, k, "processor")
+          call my_alloc(local_pos, k, "local_pos")
           k = 0
           do P = 1, nspmd
             do i = 1, nb_detached_nodes_global(P)
@@ -984,7 +989,7 @@
           end do
 
           k = sum(nb_detached_nodes_global(1:nspmd))
-          allocate(permutation(k))
+          call my_alloc(permutation, k, "permutation")
           do i = 1,k
             permutation(i) = i
           end do
@@ -1019,19 +1024,19 @@
 !           write(6,*) "old_max_uid",old_max_uid,"nodes%max_uid",nodes%max_uid
 !         endif
           nodes%max_uid = old_max_uid
-          deallocate(permutation)
-          deallocate(processor)
-          deallocate(local_pos)
+          call my_dealloc(permutation)
+          call my_dealloc(processor)
+          call my_dealloc(local_pos)
 
           numnodg = numnodg0
 
-          if (allocated(is_unique)) deallocate(is_unique)
-          if (allocated(nb_detached_nodes)) deallocate(nb_detached_nodes)
-          if (allocated(detached_nodes_local)) deallocate(detached_nodes_local)
-          if (allocated(nb_detached_nodes_global)) deallocate(nb_detached_nodes_global)
-          if (allocated(detach_shell)) deallocate(detach_shell)
-          if (allocated(shell_list)) deallocate(shell_list)
-          if (allocated(nodal_damage)) deallocate(nodal_damage)
+          if (allocated(is_unique)) call my_dealloc(is_unique)
+          if (allocated(nb_detached_nodes)) call my_dealloc(nb_detached_nodes)
+          if (allocated(detached_nodes_local)) call my_dealloc(detached_nodes_local)
+          if (allocated(nb_detached_nodes_global)) call my_dealloc(nb_detached_nodes_global)
+          if (allocated(detach_shell)) call my_dealloc(detach_shell)
+          if (allocated(shell_list)) call my_dealloc(shell_list)
+          if (allocated(nodal_damage)) call my_dealloc(nodal_damage)
           ! if (allocated(ghostShellCoordinates)) deallocate(ghostShellCoordinates)
           ! if (allocated(shellCoordinates)) deallocate(shellCoordinates)
 

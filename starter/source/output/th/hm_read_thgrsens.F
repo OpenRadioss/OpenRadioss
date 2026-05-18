@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ c
           IAD2      = IAD + 3*NNE
           ITHGRP(8) = IAD2
           CALL ZEROIN(IAD,IAD + 43*NNE-1,ITHBUF)      
-          ALLOCATE (FOUND(SENSORS%NSENSOR))
+          call my_alloc(FOUND, SENSORS%NSENSOR, "FOUND")
           FOUND(1:SENSORS%NSENSOR) = .FALSE.
           NNE = 0
 C
@@ -181,7 +182,7 @@ c-----------------------------------------------------------------------
           IFI       = IFI+3*NNE+40*NNE
           IAD       = ITHGRP(5)     
 c
-          DEALLOCATE(FOUND)
+          CALL MY_DEALLOC(FOUND)
 c
           CALL HORD(ITHBUF(IAD),NNE)
 C
@@ -244,7 +245,7 @@ c
           IAD2      = IAD + 3*NNE
           ITHGRP(8) = IAD2
           CALL ZEROIN(IAD,IAD + 43*NNE-1,ITHBUF)      
-          ALLOCATE (FOUND(SENSORS%NSENSOR))
+          call my_alloc(FOUND, SENSORS%NSENSOR, "FOUND")
           FOUND(1:SENSORS%NSENSOR) = .FALSE.
           NNE = 0
 C
@@ -296,7 +297,7 @@ c-----------------------------------------------------------------------
           IFI       = IFI+3*NNE+40*NNE
           IAD       = ITHGRP(5)     
 c
-          DEALLOCATE(FOUND)
+          CALL MY_DEALLOC(FOUND)
 c
           CALL HORD(ITHBUF(IAD),NNE)
 C

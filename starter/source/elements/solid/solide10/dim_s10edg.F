@@ -665,6 +665,7 @@ C
      .                       NPBY ,LPBY   ,IRBE2  ,LRBE2 )
 C=======================================================================
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -693,7 +694,7 @@ C-----------------------------------------------
 C     REAL
 C------treatment for /BCS ----------------------------
 ! case of BCS by RBODY or RBE2
-      ALLOCATE(ICODEM(NUMNOD))
+      call my_alloc(ICODEM, NUMNOD, "ICODEM")
       ICODEM(1:NUMNOD) = ICODE(1:NUMNOD)
       K = 0
       DO N = 1, NRBYKIN
@@ -756,7 +757,7 @@ C----remove Nd from /BCS +degenerating
      .                C2='Boundary conditions',
      .                PRMOD=MSG_PRINT)
       END IF 
-      DEALLOCATE(ICODEM)
+      CALL MY_DEALLOC(ICODEM)
 C
       RETURN
       END

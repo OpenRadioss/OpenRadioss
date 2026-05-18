@@ -171,7 +171,7 @@ C     NRT_SH nb of shells before symetrization, NRT nb of MAIN segments before s
 C------------------------------------
 C     GAP NODES SECONDS
 C------------------------------------
-      ALLOCATE(TAGB(NUMNOD))
+      call my_alloc(TAGB, NUMNOD, "TAGB")
       DO I=1,NUMNOD
         WA(I)=ZERO
       ENDDO
@@ -466,7 +466,7 @@ C -----NITSCHE method for contact : construction of tabs needed to compute equiv
 C IRECTS tab : case NRTS=NRTM, similar to irect 
 C                   but irects  (seg -> SECONDARY or MAIN node) / irect (seg -> local node)
 
-          ALLOCATE(TAGNOD(NUMNOD))
+          call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
           TAGNOD(1:NUMNOD)=0
           DO NM=1,NMN
             TAGNOD(MSR(NM))=NM
@@ -479,7 +479,7 @@ C                   but irects  (seg -> SECONDARY or MAIN node) / irect (seg -> 
             ENDDO
           ENDDO
 
-          DEALLOCATE(TAGNOD)
+          CALL MY_DEALLOC(TAGNOD)
 
 C IELENRTS tab : Element number for each SECONDARY segment
           IF (ILEV==2) THEN
@@ -942,7 +942,7 @@ C-------shell elements
        END DO
       END IF
 
-      DEALLOCATE(TAGB)
+      CALL MY_DEALLOC(TAGB)
       RETURN
 
  1400 FORMAT(2X,'MIN,MAX OF SECONDARY GAP: ',2(1PG20.13))
@@ -1173,9 +1173,9 @@ C----------------------
       NREV=0
       IPGMAT = 700
       IF(NUMELS > 0) THEN
-        CALL MY_ALLOC(TAGELEMS,NUMELS)
+        CALL MY_ALLOC(TAGELEMS,NUMELS,"TAGELEMS")
         TAGELEMS = 0
-        CALL MY_ALLOC(INDEXE,NUMELS)
+        CALL MY_ALLOC(INDEXE,NUMELS,"INDEXE")
         INDEXE = 0
       ENDIF
       NINV = 0
@@ -1760,7 +1760,8 @@ C      In SPMD you need an element associated with the edge otherwise error
        ENDIF
       END DO
 C
-      IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
+      IF(NUMELS > 0) CALL MY_DEALLOC(TAGELEMS)
+      IF(NUMELS > 0) CALL MY_DEALLOC(INDEXE)
 C
       CALL ANCMSG(MSGID=3022,
      .             MSGTYPE=MSGWARNING,
@@ -1810,6 +1811,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1827,7 +1829,7 @@ C-----------------------------------------------
       DATA NEXTK/2,3,4,1/
 C=======================================================================
       NLMAX = 4*NSEG
-      ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
+      call my_alloc(LINEIX, 2, NLMAX, "LINEIX", stat=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
 c       search for all lines on the surface
@@ -1894,7 +1896,7 @@ c         last edge is a border
 
 
       DEALLOCATE (INDEX)
-      DEALLOCATE (LINEIX)
+      CALL MY_DEALLOC(LINEIX)
 C-----------
       RETURN
       END
@@ -1913,6 +1915,7 @@ C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1935,7 +1938,8 @@ C     REAL
       my_real, DIMENSION(:,:), ALLOCATABLE :: NORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG  
 C=======================================================================
-       ALLOCATE(NORM(3,NUMNOD),ITAG(NUMNOD))
+       call my_alloc(NORM, 3, NUMNOD, "NORM")
+       call my_alloc(ITAG, NUMNOD, "ITAG")
        DO I=1,NUMNOD
         NORM(1,I) = ZERO
         NORM(2,I) = ZERO
@@ -2005,7 +2009,8 @@ C
         PEN_OLD(3,I) = NORM(3,NS)
       ENDDO
 C-----------
-       DEALLOCATE(NORM,ITAG)
+       CALL MY_DEALLOC(NORM)
+       CALL MY_DEALLOC(ITAG)
       RETURN
       END
 !||====================================================================
@@ -2513,4 +2518,3 @@ C
 C-----------------------------------------------
       RETURN
       END
-

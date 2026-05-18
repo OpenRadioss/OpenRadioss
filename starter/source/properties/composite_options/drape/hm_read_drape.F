@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,7 +180,8 @@ C======================================================================|
       NUMELC_DRAPE = 0
       NUMELTG_DRAPE = 0
 C
-      ALLOCATE(TAGSH(NUMELC+NUMELTG), INDX_TMP(NUMELC + NUMELTG))
+      call my_alloc(TAGSH, NUMELC+NUMELTG, "TAGSH")
+      call my_alloc(INDX_TMP, NUMELC + NUMELTG, "INDX_TMP")
       INDX_TMP = 0
 C
       !====================================================================================
@@ -215,10 +217,18 @@ C
            SLICELISTMAX= MAX(SLICELISTMAX,SLICELIST)
         ENDDO  
         !!
-        ALLOCATE(ISH4N(LISTMAX,SLICELISTMAX,2) ,ISH4N_GR(LISTMAX,SLICELISTMAX,2),
-     .           ISH3N(LISTMAX,SLICELISTMAX,2) ,ISH3N_GR(LISTMAX,SLICELISTMAX,2),
-     .           ISH4N_DRP(LISTMAX,3),IGRSH4N_DRP(LISTMAX,3),ISH3N_DRP(LISTMAX,3),IGRSH3N_DRP(LISTMAX,3),
-     .           ITMP_SH4N(2,LISTMAX),ITMP_SH3N(2,LISTMAX),ITMP_GRSH4N(2,LISTMAX),ITMP_GRSH3N(2,LISTMAX))
+        call my_alloc(ISH4N, LISTMAX, SLICELISTMAX, 2, "ISH4N")
+        call my_alloc(ISH4N_GR, LISTMAX, SLICELISTMAX, 2, "ISH4N_GR")
+        call my_alloc(ISH3N, LISTMAX, SLICELISTMAX, 2, "ISH3N")
+        call my_alloc(ISH3N_GR, LISTMAX, SLICELISTMAX, 2, "ISH3N_GR")
+        call my_alloc(ISH4N_DRP, LISTMAX, 3, "ISH4N_DRP")
+        call my_alloc(IGRSH4N_DRP, LISTMAX, 3, "IGRSH4N_DRP")
+        call my_alloc(ISH3N_DRP, LISTMAX, 3, "ISH3N_DRP")
+        call my_alloc(IGRSH3N_DRP, LISTMAX, 3, "IGRSH3N_DRP")
+        call my_alloc(ITMP_SH4N, 2, LISTMAX, "ITMP_SH4N")
+        call my_alloc(ITMP_SH3N, 2, LISTMAX, "ITMP_SH3N")
+        call my_alloc(ITMP_GRSH4N, 2, LISTMAX, "ITMP_GRSH4N")
+        call my_alloc(ITMP_GRSH3N, 2, LISTMAX, "ITMP_GRSH3N")
         ISH4N = 0
         ISH3N = 0
         ISH4N_GR = 0
@@ -231,8 +241,10 @@ C
         ITMP_SH3N =0
         ITMP_GRSH4N = 0
         ITMP_GRSH3N = 0
-        ALLOCATE(RSH4N(LISTMAX,SLICELISTMAX,2),RSH3N(LISTMAX,SLICELISTMAX,2),RSH4N_GR(LISTMAX,SLICELISTMAX,2),
-     .             RSH3N_GR(LISTMAX, SLICELISTMAX,2))
+        call my_alloc(RSH4N, LISTMAX, SLICELISTMAX, 2, "RSH4N")
+        call my_alloc(RSH3N, LISTMAX, SLICELISTMAX, 2, "RSH3N")
+        call my_alloc(RSH4N_GR, LISTMAX, SLICELISTMAX, 2, "RSH4N_GR")
+        call my_alloc(RSH3N_GR, LISTMAX, SLICELISTMAX, 2, "RSH3N_GR")
          RSH4N = ZERO
          RSH3N = ZERO
          RSH4N_GR = ZERO
@@ -371,7 +383,7 @@ C
      .                         I2=GRSHEL_ID)                                                                     
                 ENDIF                                                                                            
                 IF (IPRI == 5)                                                                                   
-     .                WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,7X,I10,2(15X,1PG20.13))')                                           
+     .WRITE(IOUT,'(10X,I10,14X,A6,7X,I10,7X,I10,2(15X,1PG20.13))')
      .              ID,DRAPE_ENTITY(1:6),GRSHEL_ID,JJ,THINNING,THETA_DRAPE                                          
                 ! Converting angle from deg to rad                                                               
                 THETA_DRAPE=THETA_DRAPE*PI/HUNDRED80                                                             
@@ -542,7 +554,7 @@ c tag of sh4n to check doubles within  the DRAPE
                   TAGSH(IE) = ISH
                   NIS = 0
                   IF (.NOT.ALLOCATED(DRAPE_WRK(IE)%DRAPE_PLY)) THEN
-                     ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(NPT))
+                     allocate(DRAPE_WRK(IE)%DRAPE_PLY(NPT))
                      NUMELC_DRAPE = NUMELC_DRAPE + 1
                      INDX_TMP(IE) = NUMELC_DRAPE
                      DRAPE_WRK(IE)%NPLY_DRAPE = 0 
@@ -554,7 +566,7 @@ C
                   IF (IGTYP == 17 ) THEN
                     IPPID = 2
                    IF (.NOT.ALLOCATED(DRAPE_WRK(IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(IE)%INDX_PLY(NPT)  )
+                         call my_alloc(DRAPE_WRK(IE)%INDX_PLY, NPT, "DRAPE_WRK(IE)%INDX_PLY")
                          DRAPE_WRK(IE)%INDX_PLY = 0 
                     ENDIF
                     NPT_DRP = DRAPE_WRK(IE)%NPLY_DRAPE
@@ -564,8 +576,8 @@ c                            IGEO(1, JPID)       ! ply pid ID
                       IF (JPID > 0) THEN
                         JDRP = IGEO(48,JPID)
                         IF (IDRP == JDRP)THEN
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2))
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2))
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE")
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE = ZERO
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE = 0
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -587,12 +599,12 @@ check if SH4N of the DRAPE is inside any plys
                  ELSEIF (IGTYP == 51) THEN
                     IPPID = 2
                     IF (.NOT.ALLOCATED(DRAPE_WRK(IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(IE)%INDX_PLY(NPT)  )
+                         call my_alloc(DRAPE_WRK(IE)%INDX_PLY, NPT, "DRAPE_WRK(IE)%INDX_PLY")
                          DRAPE_WRK(IE)%INDX_PLY = 0 
                     ENDIF
                     NPT_DRP = DRAPE_WRK(IE)%NPLY_DRAPE
                     ! For the case  IINT =1 , within thin_drape = 1
-                    ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                     ! Thinning according to ply thickness keep it as it is in the DRAPE entity
                     INV_NSLICE = ONE
                     IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
@@ -602,8 +614,8 @@ c                            IGEO(1, JPID)       ! ply pid ID
                         IF (JPID > 0) THEN
                            JDRP = IGEO(48,JPID)
                            IF (IDRP == JDRP)THEN
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2))
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2))
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE")
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE = ZERO
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE = 0
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -625,13 +637,13 @@ check if SH4N of the DRAPE is inside any plys
                   ELSEIF (IGTYP == 52) THEN
                      IPPID = 2
                      IF (.NOT.ALLOCATED(DRAPE_WRK(IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(IE)%INDX_PLY(NPT)  )
+                         call my_alloc(DRAPE_WRK(IE)%INDX_PLY, NPT, "DRAPE_WRK(IE)%INDX_PLY")
                          DRAPE_WRK(IE)%INDX_PLY = 0 
                      ENDIF
                      NPT_DRP = DRAPE_WRK(IE)%NPLY_DRAPE
                      IINT = IGEO_STACK(47, IWORK_T(IE)%IDSTACK) ! integration flag
                      ! FOt the case  IINT =1 , with thin_drape=1
-                      ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                       INV_NSLICE = ONE
                       IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                        DO IP=1,NPT
@@ -640,8 +652,8 @@ c                                   IGEO(1, JPID)       ! ply pid ID
                         IF (JPID > 0) THEN
                           JDRP = IGEO_STACK(48,JPID)
                           IF (IDRP==JDRP)THEN
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                             ALLOCATE(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE")
                               DRAPE_WRK(IE)%DRAPE_PLY(IP)%RDRAPE = ZERO
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%IDRAPE = 0
                              DRAPE_WRK(IE)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -734,7 +746,7 @@ C element type Q4
                       TAGSH(IDSHEL) = IDSHEL  
                       NIS = 0
                       IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%DRAPE_PLY)) THEN
-                          ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(NPT))
+                          allocate(DRAPE_WRK(IDSHEL)%DRAPE_PLY(NPT))
                           NUMELC_DRAPE = NUMELC_DRAPE + 1
                           INDX_TMP(IDSHEL) = NUMELC_DRAPE
                           DRAPE_WRK(IDSHEL)%NPLY_DRAPE = 0 
@@ -745,7 +757,7 @@ C  count DRAPE entities for printing out
                       IPPID = 2
                       IF (IGTYP == 17 ) THEN
                        IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                          ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                          call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                           DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                         ENDIF 
                         NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE    
@@ -755,8 +767,8 @@ c                           IGEO(1, JPID)       ! ply pid ID
                           IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                             ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                             ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -781,12 +793,12 @@ check if SH4N of grshel of the DRAPE is inside any plys
                         ENDDO
                       ELSEIF(IGTYP == 51) THEN
                          IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                          ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                          call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                           DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                         ENDIF 
                         NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE   
                           ! FOt the case  IINT =1 with default drape flag ithin_drape = 1 
-                         ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                           INV_NSLICE = ONE
                          IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                          DO IP=1,NPT
@@ -795,8 +807,8 @@ c                          IGEO(1, JPID)       ! ply pid ID
                            IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                             ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                             ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                              DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -821,14 +833,14 @@ check if SH4N of grshel of the DRAPE is inside any plys
                         ENDDO
                       ELSEIF (IGTYP == 52) THEN
                           IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                                 ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                                 call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                                  DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                                  DRAPE_WRK(IDSHEL)%NPLY_DRAPE = 0
                           ENDIF 
                           NPT_DRP  = DRAPE_WRK(IDSHEL)%NPLY_DRAPE
                           IINT = IGEO_STACK(47, IWORK_T(IDSHEL)%IDSTACK) ! integration flag
                           ! For  the case  IINT =1 , with Thin_drape = 1
-                          ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                            INV_NSLICE = ONE
                            IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                            DO IP=1,NPT
@@ -836,8 +848,8 @@ check if SH4N of grshel of the DRAPE is inside any plys
                             IF (JPID > 0) THEN
                               JDRP = IGEO_STACK(48,JPID)
                               IF (IDRP==JDRP)THEN
-                               ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                               ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                                DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                                DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                                DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -850,7 +862,8 @@ check if SH4N of grshel of the DRAPE is inside any plys
                                  DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2) =  RSH4N_GR(J,ISL,2)               
                                  DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1) =  ISH4N_GR(J,ISL,1)  !! Mat_id    
                                  DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) =  ISH4N_GR(J,ISL,2)  !! NPT_SLICE
-                               ENDDO ! nbre of slice                                                                                  
+                               ENDDO
+! nbre of slice
 C  count DRAPE entities for printing out
 c                                DRP_SHEL(I) = DRP_SHEL(I) + 1
 C
@@ -927,7 +940,7 @@ c   tag of SH3N to check doubles within grshel of the DRAPE
                   TAGSH(IE+NUMELC) = ISH
                   NIS = 0
                   IF (.NOT.ALLOCATED(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY)) THEN
-                     ALLOCATE(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(NPT))
+                     allocate(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(NPT))
                      NUMELTG_DRAPE = NUMELTG_DRAPE + 1
                      INDX_TMP(NUMELC + IE) = NUMELTG_DRAPE
                      DRAPE_WRK(IE + NUMELC)%NPLY_DRAPE = 0 
@@ -937,7 +950,7 @@ C  count DRAPE entities for printing out
                   IPPID = 2
                   IF (IGTYP == 17 ) THEN
                     IF (.NOT.ALLOCATED(DRAPE_WRK(NUMELC + IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(NUMELC + IE)%INDX_PLY(NPT)       )
+                         call my_alloc(DRAPE_WRK(NUMELC + IE)%INDX_PLY, NPT, "DRAPE_WRK(NUMELC + IE)%INDX_PLY")
                            DRAPE_WRK(NUMELC + IE)%INDX_PLY = 0 
                     ENDIF 
                     NPT_DRP = DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE  
@@ -947,8 +960,8 @@ c                            IGEO(1, JPID)       ! ply pid ID
                       IF (JPID > 0) THEN
                         JDRP = IGEO(48,JPID)
                         IF (IDRP==JDRP)THEN
-                               ALLOCATE(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                               ALLOCATE(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE")
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE = ZERO
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE = 0
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -973,12 +986,12 @@ check if SH3N of grshel of the DRAPE is inside any plys
                     ENDDO ! DO IP=1,NPT
                   ELSEIF (IGTYP == 51) THEN
                     IF (.NOT.ALLOCATED(DRAPE_WRK(NUMELC + IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(NUMELC + IE)%INDX_PLY(NPT)       )
+                         call my_alloc(DRAPE_WRK(NUMELC + IE)%INDX_PLY, NPT, "DRAPE_WRK(NUMELC + IE)%INDX_PLY")
                            DRAPE_WRK(NUMELC + IE)%INDX_PLY = 0 
                     ENDIF 
                     NPT_DRP = DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE  
                      ! For  the case  IINT =1 , with ithin_drape = 1 
-                     ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                     INV_NSLICE = ONE
                     IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                     DO IP=1,NPT
@@ -987,8 +1000,8 @@ c                            IGEO(1, JPID)       ! ply pid ID
                       IF (JPID > 0) THEN
                         JDRP = IGEO(48,JPID)
                         IF (IDRP==JDRP)THEN
-                               ALLOCATE(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                               ALLOCATE(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE")
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%RDRAPE = ZERO
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%IDRAPE = 0
                                DRAPE_WRK(IE+NUMELC)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -1013,13 +1026,13 @@ check if SH3N of grshel of the DRAPE is inside any plys
                    ENDDO ! DO IP=1,NPT 
                   ELSEIF (IGTYP == 52) THEN
                     IF (.NOT.ALLOCATED(DRAPE_WRK(NUMELC + IE)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(NUMELC + IE)%INDX_PLY(NPT)       )
+                         call my_alloc(DRAPE_WRK(NUMELC + IE)%INDX_PLY, NPT, "DRAPE_WRK(NUMELC + IE)%INDX_PLY")
                           DRAPE_WRK(NUMELC + IE)%INDX_PLY = 0 
                     ENDIF 
                     NPT_DRP = DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE
                     IINT = IGEO_STACK(47,IWORK_T(NUMELC + IE)%IDSTACK) 
                     ! For  the case  IINT =1 , with thin_drape=1
-                    ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                     INV_NSLICE = ONE
                     IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                     DO IP=1,NPT
@@ -1028,8 +1041,10 @@ c                              IGEO(1, JPID)       ! ply pid ID
                         IF (JPID > 0) THEN
                           JDRP = IGEO_STACK(48,JPID)
                           IF (IDRP==JDRP)THEN
-                           ALLOCATE(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                           ALLOCATE(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2,
+     &"DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2,
+     &"DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%IDRAPE")
                            DRAPE_WRK(NUMELC + IE)%DRAPE_PLY(IP)%NSLICE = NSLICE                                  
                            NPT_DRP = NPT_DRP + 1
                            DRAPE_WRK(NUMELC + IE)%NPLY_DRAPE = NPT_DRP
@@ -1117,7 +1132,7 @@ C element type T3
                      TAGSH(IDSHEL) =  IXTG(NIXTG,IDSH3N)
                      NIS = 0
                      IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%DRAPE_PLY)) THEN
-                      ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(NPT))
+                      allocate(DRAPE_WRK(IDSHEL)%DRAPE_PLY(NPT))
                       NUMELTG_DRAPE = NUMELTG_DRAPE + 1
                       INDX_TMP(IDSHEL) = NUMELTG_DRAPE
                       DRAPE_WRK(IDSHEL)%NPLY_DRAPE = 0
@@ -1128,7 +1143,7 @@ C  count DRAPE entities for printing out
                        IPPID = 2
                        IF (IGTYP == 17 ) THEN
                         IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                         call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                            DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                         ENDIF 
                         NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE                          
@@ -1138,8 +1153,8 @@ c                           IGEO(1, JPID)       ! ply pid ID
                           IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2))
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2))
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -1162,12 +1177,12 @@ check if SH3N of grshel of the DRAPE is inside any plys
                         ENDDO ! DO IP=1,N1
                       ELSEIF (IGTYP == 51) THEN
                         IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                         ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                         call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                            DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                         ENDIF 
                         NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE    
                          ! For  the case  IINT =1 , with ITHIN_DRAPE = 1,
-                         ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                          INV_NSLICE = ONE
                          IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                          DO IP=1,NPT
@@ -1176,8 +1191,8 @@ c                           IGEO(1, JPID)       ! ply pid ID
                           IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2))
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2))
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE
@@ -1186,7 +1201,7 @@ c                           IGEO(1, JPID)       ! ply pid ID
                               DRAPE_WRK(IDSHEL)%INDX_PLY(NPT_DRP)= IP
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IPID =  IDRP                  
                               DO ISL = 1,NSLICE                                                            
-                                DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1) =  RSH3N_GR(J,ISL,1) * INV_NSLICE           
+      DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1) =  RSH3N_GR(J,ISL,1) * INV_NSLICE
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2) =  RSH3N_GR(J,ISL,2)              
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1) =  ISH3N_GR(J,ISL,1)  !! Mat_id    
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) =  ISH3N_GR(J,ISL,2)  !! NPT_SLICE 
@@ -1200,13 +1215,13 @@ check if SH3N of grshel of the DRAPE is inside any plys
                        ENDDO ! DO IP=1,N1   
                       ELSEIF (IGTYP == 52) THEN
                           IF (.NOT.ALLOCATED(DRAPE_WRK(IDSHEL)%INDX_PLY)) THEN
-                           ALLOCATE(DRAPE_WRK(IDSHEL)%INDX_PLY(NPT)       )
+                           call my_alloc(DRAPE_WRK(IDSHEL)%INDX_PLY, NPT, "DRAPE_WRK(IDSHEL)%INDX_PLY")
                            DRAPE_WRK(IDSHEL)%INDX_PLY = 0 
                           ENDIF 
                           NPT_DRP = DRAPE_WRK(IDSHEL)%NPLY_DRAPE  
                           IINT = IGEO_STACK(47,IWORK_T(IDSHEL)%IDSTACK)
                            ! For  the case  IINT =1 ,with ITHIN_DRAPE = 1,
-                           ! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
+! we convert the thining to be according to ply  sum(th_i*th_ply/slice) = sum((thp_i/nslice) * th_ply
                            INV_NSLICE = ONE
                            IF(IINT == 1 .AND. ITHIN_DRAPE == 1) INV_NSLICE = ONE/NSLICE 
                             DO IP=1,NPT
@@ -1215,8 +1230,8 @@ c                             IGEO(1, JPID)       ! ply pid ID
                              IF (JPID > 0) THEN
                               JDRP = IGEO_STACK(48,JPID)
                               IF (IDRP==JDRP)THEN
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(NSLICE,2)       )
-                              ALLOCATE(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(NSLICE,2)       )
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE")
+      call my_alloc(DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE, NSLICE, 2, "DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE")
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE = ZERO
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE = 0
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%NSLICE = NSLICE 
@@ -1225,7 +1240,7 @@ c                             IGEO(1, JPID)       ! ply pid ID
                               DRAPE_WRK(IDSHEL)%INDX_PLY(NPT_DRP)= IP 
                               DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IPID =  IDRP 
                               DO ISL = 1,NSLICE                                                            
-                                DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1) =  RSH3N_GR(J,ISL,1) * INV_NSLICE            
+      DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,1) =  RSH3N_GR(J,ISL,1) * INV_NSLICE
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%RDRAPE(ISL,2) =  RSH3N_GR(J,ISL,2)               
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,1) =  ISH3N_GR(J,ISL,1)  !! Mat_id    
                                 DRAPE_WRK(IDSHEL)%DRAPE_PLY(IP)%IDRAPE(ISL,2) =  ISH3N_GR(J,ISL,2)  !! NPT_SLICE 
@@ -1286,10 +1301,22 @@ C---
         IF (IPRI < 5) WRITE(IOUT,'(10X,I10,2(15X,I10))')
      .                      ID,DRP_SHEL(I),DRP_SH3N(I)
 C---
-         DEALLOCATE(ISH4N,ISH4N_GR,ISH3N ,ISH3N_GR, 
-     .               ISH4N_DRP,IGRSH4N_DRP,ISH3N_DRP,IGRSH3N_DRP,
-     .               ITMP_SH4N,ITMP_SH3N, ITMP_GRSH4N, ITMP_GRSH3N)
-         DEALLOCATE(RSH4N,RSH3N,RSH4N_GR,   RSH3N_GR)
+         CALL MY_DEALLOC(ISH4N)
+         CALL MY_DEALLOC(ISH4N_GR)
+         CALL MY_DEALLOC(ISH3N)
+         CALL MY_DEALLOC(ISH3N_GR)
+         CALL MY_DEALLOC(ISH4N_DRP)
+         CALL MY_DEALLOC(IGRSH4N_DRP)
+         CALL MY_DEALLOC(ISH3N_DRP)
+         CALL MY_DEALLOC(IGRSH3N_DRP)
+         CALL MY_DEALLOC(ITMP_SH4N)
+         CALL MY_DEALLOC(ITMP_SH3N)
+         CALL MY_DEALLOC(ITMP_GRSH4N)
+         CALL MY_DEALLOC(ITMP_GRSH3N)
+         CALL MY_DEALLOC(RSH4N)
+         CALL MY_DEALLOC(RSH3N)
+         CALL MY_DEALLOC(RSH4N_GR)
+         CALL MY_DEALLOC(RSH3N_GR)
       ENDDO ! DO I=1,NDRAPE
 !
       IF(NUMELC_DRAPE > 0) THEN
@@ -1305,7 +1332,7 @@ C---
           IF(II > 0) INDXSH(NUMELC_DRAPE + II) = I+ NUMELC
          ENDDO
       ENDIF
-      DEALLOCATE(INDX_TMP)
+      CALL MY_DEALLOC(INDX_TMP)
       !====================================================================================
       ! End reading /DRAPE
       !====================================================================================

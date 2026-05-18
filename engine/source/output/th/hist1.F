@@ -57,6 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -285,7 +287,7 @@ C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME
         ENDIF
       END IF      
 C-------HIERARCHY INFO------------
-      ALLOCATE(IWA(6))
+      call my_alloc(IWA, 6, "IWA")
       IWA(1)=NPART+NTHPART
       IWA(2)=NUMMAT
       IWA(3)=NUMGEO
@@ -302,8 +304,8 @@ c
       
       CALL WRTDES(IWA,IWA,6,ITTYP,0)
       J = IWA(6)
-      IF(ALLOCATED(IWA)) DEALLOCATE(IWA) 
-      ALLOCATE(IWA(NGLOBTH)) 
+      IF(ALLOCATED(IWA)) call my_dealloc(IWA)
+      call my_alloc(IWA, NGLOBTH, "IWA")
       DO I=1,J      
           IWA(I)=I
       ENDDO
@@ -313,8 +315,8 @@ c
       DO N=1,NPART+NTHPART
         NVAR=MAX(NVAR,IPARTH(NVPARTH,N))
       ENDDO
-      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
-      ALLOCATE(IWA(NVAR))
+      IF(ALLOCATED(IWA)) call my_dealloc(IWA)
+      call my_alloc(IWA, NVAR, "IWA")
 C-------PART DESCRIPTION------------
       DO N=1,NPART+NTHPART
         NVAR=IPARTH(NVPARTH,N)
@@ -435,12 +437,12 @@ C-------GEO DESCRIPTION------------
         ENDIF
       ENDDO
 C-------HIERARCHY DESCRIPTION------------
-      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      IF(ALLOCATED(IWA)) call my_dealloc(IWA)
       NVAR = 0
       DO N=1,NSUBS
         NVAR=MAX(NVAR,SUBSET(N)%NVARTH(ITHFLAG))
       ENDDO
-      ALLOCATE(IWA(NVAR))
+      call my_alloc(IWA, NVAR, "IWA")
       DO N=1,NSUBS
 !!        NVAR=ISUBTH(NVSUBTH,N)
 !!        IAD =ISUBTH(NVSUBTH+1,N)
@@ -594,8 +596,8 @@ C (nstrands elements are treated as a spring group)
         ENDIF
       ENDDO
 C-------TH GROUP + 1 section fluide------------
-      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
-      ALLOCATE(IWA(6))
+      IF(ALLOCATED(IWA)) call my_dealloc(IWA)
+      call my_alloc(IWA, 6, "IWA")
       IF(NSECT==0.AND.NSFLSW/=0) THEN
         NVAR=6
         TITL='FLUID SECTION'
@@ -668,6 +670,6 @@ C
 C
       IF(TH_TITLES == 1) CLOSE(IFILTITL)
 C
-      DEALLOCATE(IWA)
+      call my_dealloc(IWA)
       RETURN
       END

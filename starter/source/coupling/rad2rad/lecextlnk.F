@@ -47,6 +47,7 @@ C-----------------------------------------------
         USE HM_OPTION_READ_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
         USE READER_OLD_MOD , ONLY : IREC
+        use my_alloc_mod
 C-------------------------------------
 C     Read radioss link for external process coupling.
 C-----------------------------------------------
@@ -130,8 +131,8 @@ C------------------------------------------------------------------
 C
           IS_AVAILABLE = .FALSE.
           CALL HM_OPTION_START('/SUBDOMAIN')
-          ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)
-          ALLOCATE (ID_SUB_TEMP(NB_PART_SUB),STAT=stat)
+          call my_alloc(ISUBDOM_PART, NB_PART_SUB, "ISUBDOM_PART", stat=stat)
+          call my_alloc(ID_SUB_TEMP, NB_PART_SUB, "ID_SUB_TEMP", stat=stat)
           SET = 0
           R2R_FLAG_ERR_OFF = 0
 
@@ -183,8 +184,8 @@ C------------------------------------------------------------------
               ID_SUB_TEMP(I) = ISUBDOM_PART(I)
             END DO
 
-            DEALLOCATE (ISUBDOM_PART)
-            ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)
+            CALL MY_DEALLOC(ISUBDOM_PART)
+            call my_alloc(ISUBDOM_PART, NB_PART_SUB, "ISUBDOM_PART", stat=stat)
             COMPT = 0
             DO I=1,NPART
               FOUND = 0
@@ -199,7 +200,7 @@ C------------------------------------------------------------------
 
           ENDIF
 
-          DEALLOCATE (ID_SUB_TEMP)
+          CALL MY_DEALLOC(ID_SUB_TEMP)
 
         ENDIF
 

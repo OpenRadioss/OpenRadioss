@@ -230,6 +230,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -298,15 +299,17 @@ C
             IAD1=IAD1+ITAB(2,II)
             IAD2=IAD2+6*ITAB(2,II)
          ENDDO
-         DEALLOCATE(FVSPMD(IFV)%IBUF, FVSPMD(IFV)%RBUF)
+         call my_dealloc(FVSPMD(IFV)%IBUF)
+         call my_dealloc(FVSPMD(IFV)%RBUF)
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          CALL MPI_WAITALL(2, FVSPMD(IFV)%REQ, STAT, IERR)
-         DEALLOCATE(FVSPMD(IFV)%IBUF, FVSPMD(IFV)%RBUF)
+         call my_dealloc(FVSPMD(IFV)%IBUF)
+         call my_dealloc(FVSPMD(IFV)%RBUF)
       ENDIF
 C
-      DEALLOCATE(FVSPMD(IFV)%REQ)
-      DEALLOCATE(FVSPMD(IFV)%IADR)
-      DEALLOCATE(FVSPMD(IFV)%IADI)
+      call my_dealloc(FVSPMD(IFV)%REQ)
+      call my_dealloc(FVSPMD(IFV)%IADR)
+      call my_dealloc(FVSPMD(IFV)%IADI)
 
 #endif
       RETURN

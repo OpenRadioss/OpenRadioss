@@ -144,18 +144,18 @@ C-----------------------------------------------
 C--------------------------------------------------------------
 C         GROUPING BY MVSIZ GROUPS
 C--------------------------------------------------------------
-      CALL MY_ALLOC(INDEXS2,NUMELS)
+      CALL MY_ALLOC(INDEXS2,NUMELS,"INDEXS2")
       nullify(MATPARAM)
       INDEXS2(1:NUMELS)=PERMUTATION%SOLID(1:NUMELS)
       NGR1 = NGROUP + 1
 C
       IF (NPERTURB > 0) THEN
-        ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELS),STAT=stat)
+        call my_alloc(XNUM_RNOISE, NPERTURB, NUMELS, "XNUM_RNOISE", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='XNUM_RNOISE')
       ELSE
-        ALLOCATE(XNUM_RNOISE(0,0))
+        call my_alloc(XNUM_RNOISE, 0, 0, "XNUM_RNOISE")
       ENDIF
 C
 C Phase 1: Domain Decomposition
@@ -426,12 +426,12 @@ C
         CLUSTER_TYP = CLUSTERS(I)%TYPE
         IF(CLUSTER_TYP==1) THEN
             CLUSTER_NEL = CLUSTERS(I)%NEL
-            ALLOCATE( SAVE_CLUSTER( CLUSTER_NEL ) )
+            call my_alloc(SAVE_CLUSTER, CLUSTER_NEL, "SAVE_CLUSTER")
             SAVE_CLUSTER( 1:CLUSTER_NEL ) = CLUSTERS(I)%ELEM( 1:CLUSTER_NEL )
             DO J=1,CLUSTER_NEL
                 CLUSTERS(I)%ELEM(J) = ITR1( SAVE_CLUSTER( J ) )
             ENDDO
-            DEALLOCATE( SAVE_CLUSTER )
+            CALL MY_DEALLOC(SAVE_CLUSTER)
         ENDIF
       ENDDO
 !   -----------------------
@@ -1685,8 +1685,8 @@ C-----------
      .                  ANMODE=ANINFO_BLIND_2,
      .                  PRMOD=MSG_PRINT)
 c-----
-      DEALLOCATE(INDEXS2)
-      IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
+      CALL MY_DEALLOC(INDEXS2)
+      IF (ALLOCATED(XNUM_RNOISE)) CALL MY_DEALLOC(XNUM_RNOISE)
 c------------------------------------------------------------
  1010 FORMAT(//,
      + 7X,'8-NODE ELEMENT GROUPS'/

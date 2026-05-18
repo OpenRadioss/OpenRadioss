@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INTBUFDEF_MOD 
       use margin_reduction_mod
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -319,7 +320,9 @@ C
 C--------------------------------
 C     Initializations case of IDDLEVEL=0 or INACTI/=5 and INACTI/=-1
 C--------------------------------
-      ALLOCATE(NPARTNS(NSN+1),IELEM(NRTM),EDGE_L2(NSN))
+      call my_alloc(NPARTNS, NSN+1, "NPARTNS")
+      call my_alloc(IELEM, NRTM, "IELEM")
+      call my_alloc(EDGE_L2, NSN, "EDGE_L2")
 
       NPARTNS(1:NSN+1) = 0
       IELEM(1:NRTM)    = 0
@@ -330,9 +333,9 @@ C--------------------------------
  
 
        NB_LARGE_NODES = 0
-       ALLOCATE(LARGE_NODE(NSN))
-       ALLOCATE(IS_LARGE_NODE(NSN))
-       ALLOCATE(TAGNOD(NUMNOD))
+       call my_alloc(LARGE_NODE, NSN, "LARGE_NODE")
+       call my_alloc(IS_LARGE_NODE, NSN, "IS_LARGE_NODE")
+       call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
        IS_LARGE_NODE(1:NSN) = 0
        LARGE_NODE(1:NSN) = 0
        NB_LARGE_NODES = 0
@@ -354,7 +357,7 @@ C
 C
         IF(INACTI==5.OR.INACTI==-1)THEN 
 
-          ALLOCATE(EDGE_L2_TMP(NUMNOD))
+          call my_alloc(EDGE_L2_TMP, NUMNOD, "EDGE_L2_TMP")
           EDGE_L2_TMP(1:NUMNOD)=ZERO
           N_SOL = 0
           DO IE=1,NRTM
@@ -395,7 +398,7 @@ C
           IF(N_SOL > 0) LEDGMAX=HALF*LEDGMAX/N_SOL
 
  
-          DEALLOCATE(EDGE_L2_TMP)
+          CALL MY_DEALLOC(EDGE_L2_TMP)
 
         ENDIF
 
@@ -427,7 +430,7 @@ C
           END DO
           NPARTNS(1)=0
 C
-          ALLOCATE(LPARTNS(NPARTNS(NSN+1)))
+          call my_alloc(LPARTNS, NPARTNS(NSN+1), "LPARTNS")
 C
           DO I=1,NSN
             N=NSV(I)
@@ -456,7 +459,7 @@ c        ELSE
 c          ALLOCATE(LPARTNS(0))
 c        END IF
       ELSE
-        ALLOCATE(LPARTNS(0))
+        call my_alloc(LPARTNS, 0, "LPARTNS")
       END IF
 C
 
@@ -470,10 +473,10 @@ C
 C
       I_STOK = 0
 
-      ALLOCATE(LOCAL_NEXT_NOD(NSN))
-      ALLOCATE(IIX(NSN))
-      ALLOCATE(IIY(NSN))
-      ALLOCATE(IIZ(NSN))
+      call my_alloc(LOCAL_NEXT_NOD, NSN, "LOCAL_NEXT_NOD")
+      call my_alloc(IIX, NSN, "IIX")
+      call my_alloc(IIY, NSN, "IIY")
+      call my_alloc(IIZ, NSN, "IIZ")
 C
 !$OMP PARALLEL
       CALL I25TRIVOX1(
@@ -491,13 +494,18 @@ C
      C   IELEM_M,LOCAL_NEXT_NOD,IIX,IIY,IIZ,
      D   intbuf_tab,ipari,nin)
 !$OMP END PARALLEL
-      DEALLOCATE(LOCAL_NEXT_NOD)
-      DEALLOCATE(IIX)
-      DEALLOCATE(IIY)
-      DEALLOCATE(IIZ)
+      CALL MY_DEALLOC(LOCAL_NEXT_NOD)
+      CALL MY_DEALLOC(IIX)
+      CALL MY_DEALLOC(IIY)
+      CALL MY_DEALLOC(IIZ)
 
-      DEALLOCATE(EDGE_L2,NPARTNS,IELEM,LPARTNS)
-      DEALLOCATE(IS_LARGE_NODE,LARGE_NODE,TAGNOD)
+      CALL MY_DEALLOC(EDGE_L2)
+      CALL MY_DEALLOC(NPARTNS)
+      CALL MY_DEALLOC(IELEM)
+      CALL MY_DEALLOC(LPARTNS)
+      CALL MY_DEALLOC(IS_LARGE_NODE)
+      CALL MY_DEALLOC(LARGE_NODE)
+      CALL MY_DEALLOC(TAGNOD)
 C
       IF(NSN/=0)THEN
        WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER, NSN:',I_STOK,NSN

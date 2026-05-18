@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE INIVOL_DEF_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod, only : my_alloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,8 +97,9 @@ C-----------------------------------------------
       PM(20) = NBMAT + EM01
       MATPARAM%MULTIMAT%NB = NBMAT
       ! Multimaterial data
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(NBMAT))
-      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(NBMAT))
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))CALL my_alloc(MATPARAM%multimat%vfrac, NBMAT,
+     &"MATPARAM%multimat%vfrac")
+      IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  CALL my_alloc(MATPARAM%multimat%mid, NBMAT, "MATPARAM%multimat%mid")
 
       ! Reading submaterial IDS and corresponding volumic fractions
       SUM_FRAC_VOL = ZERO
@@ -111,9 +113,10 @@ C-----------------------------------------------
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
          IF (FRAC_VOL < ZERO .OR. FRAC_VOL > ONE) THEN
             IF (NUM_INIVOL == 0) THEN
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
+      CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
             ELSE
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
+      CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 =
+     &FRAC_VOL)
             ENDIF
          ENDIF
       ENDDO

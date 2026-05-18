@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,14 +124,14 @@ C      WRITE(6,*) __FILE__,__LINE__ ; CALL FLUSH(6)
        ASSERT(.NOT.(ALLOCATED(IADR)))
        ASSERT(.NOT.(ALLOCATED(IADS)))
 
-       ALLOCATE(REQ_SI(NSPMD))
-       ALLOCATE(REQ_RI(NSPMD))
-       ALLOCATE(REQ_S(NSPMD))
-       ALLOCATE(REQ_S2(NSPMD))
-       ALLOCATE(REQ_R(NSPMD))
-       ALLOCATE(REQ_R2(NSPMD))
-       ALLOCATE(IADR(NSPMD+1))
-       ALLOCATE(IADS(NSPMD+1))
+       call my_alloc(REQ_SI, NSPMD, "REQ_SI")
+       call my_alloc(REQ_RI, NSPMD, "REQ_RI")
+       call my_alloc(REQ_S, NSPMD, "REQ_S")
+       call my_alloc(REQ_S2, NSPMD, "REQ_S2")
+       call my_alloc(REQ_R, NSPMD, "REQ_R")
+       call my_alloc(REQ_R2, NSPMD, "REQ_R2")
+       call my_alloc(IADR, NSPMD+1, "IADR")
+       call my_alloc(IADS, NSPMD+1, "IADS")
 
 C--------------------------------------------------------
 
@@ -168,7 +169,7 @@ C counting buffer sizes for reception and sending
 
 C preparation of send
       IF(LENSD>0)THEN
-          ALLOCATE(BBUFS(LENSD),STAT=IERROR)
+          call my_alloc(BBUFS, LENSD, "BBUFS", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -178,7 +179,7 @@ C preparation of send
 C ---------------------------------------------
 C preparation of receive
       IF(LENRV>0)THEN
-          ALLOCATE(BBUFR(LENRV),STAT=IERROR)
+          call my_alloc(BBUFR, LENRV, "BBUFR", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -390,8 +391,8 @@ C end of send
           ENDIF
       ENDDO
 
-      IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
-      IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
+      IF (ALLOCATED(BBUFS)) call my_dealloc(BBUFS)
+      IF (ALLOCATED(BBUFR)) call my_dealloc(BBUFR)
 C-----------------------------------------------------------
 C Second part - exchanges on the secondary boundary nodes
 C               for all interface type 25.
@@ -409,10 +410,10 @@ C preparation of send
       ILEN=5
       RLEN=2
       ASSERT(SFR_I25 >= 0) 
-      ALLOCATE(ISENDBUF(ILEN,SFR_I25))
-      ALLOCATE(IRECBUF(ILEN*SFR_I25))
-      ALLOCATE(RSENDBUF(RLEN,SFR_I25))
-      ALLOCATE(RRECBUF(RLEN*SFR_I25))
+      call my_alloc(ISENDBUF, ILEN, SFR_I25, "ISENDBUF")
+      call my_alloc(IRECBUF, ILEN*SFR_I25, "IRECBUF")
+      call my_alloc(RSENDBUF, RLEN, SFR_I25, "RSENDBUF")
+      call my_alloc(RRECBUF, RLEN*SFR_I25, "RRECBUF")
 
 C implementation of the IRECIEVE
       DO P=1,NSPMD
@@ -647,10 +648,10 @@ C Fin send
         ENDIF
       ENDDO
 
-      IF(ALLOCATED(ISENDBUF))DEALLOCATE(ISENDBUF)
-      IF(ALLOCATED(IRECBUF))DEALLOCATE(IRECBUF)
-      IF(ALLOCATED(RSENDBUF))DEALLOCATE(RSENDBUF)
-      IF(ALLOCATED(RRECBUF))DEALLOCATE(RRECBUF)
+      IF(ALLOCATED(ISENDBUF)) call my_dealloc(ISENDBUF)
+      IF(ALLOCATED(IRECBUF)) call my_dealloc(IRECBUF)
+      IF(ALLOCATED(RSENDBUF)) call my_dealloc(RSENDBUF)
+      IF(ALLOCATED(RRECBUF)) call my_dealloc(RRECBUF)
 
 C ------------------------------------------------------------------
 C Third part we send back the globalized values to the remote procs
@@ -677,7 +678,7 @@ C counting buffer sizes for reception and sending
       IADR(NSPMD+1)=LENRV+1
 
       IF(LENSD>0)THEN
-          ALLOCATE(BBUFS(LENSD),STAT=IERROR)
+          call my_alloc(BBUFS, LENSD, "BBUFS", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -686,7 +687,7 @@ C counting buffer sizes for reception and sending
 
 C preparation of receive
       IF(LENRV>0)THEN
-          ALLOCATE(BBUFR(LENRV),STAT=IERROR)
+          call my_alloc(BBUFR, LENRV, "BBUFR", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -802,16 +803,16 @@ C end of send
 
 
 C     WRITE(6,*) __FILE__,__LINE__
-      IF(ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
-      IF(ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
-      IF(ALLOCATED( REQ_SI )) DEALLOCATE(REQ_SI)
-      IF(ALLOCATED( REQ_RI )) DEALLOCATE(REQ_RI)
-      IF(ALLOCATED( REQ_S  )) DEALLOCATE(REQ_S)
-      IF(ALLOCATED( REQ_S2 )) DEALLOCATE(REQ_S2)
-      IF(ALLOCATED( REQ_R  )) DEALLOCATE(REQ_R)
-      IF(ALLOCATED( REQ_R2 )) DEALLOCATE(REQ_R2)
-      IF(ALLOCATED( IADR   )) DEALLOCATE(IADR)
-      IF(ALLOCATED( IADS   )) DEALLOCATE(IADS)
+      IF(ALLOCATED(BBUFS)) call my_dealloc(BBUFS)
+      IF(ALLOCATED(BBUFR)) call my_dealloc(BBUFR)
+      IF(ALLOCATED( REQ_SI )) call my_dealloc(REQ_SI)
+      IF(ALLOCATED( REQ_RI )) call my_dealloc(REQ_RI)
+      IF(ALLOCATED( REQ_S  )) call my_dealloc(REQ_S)
+      IF(ALLOCATED( REQ_S2 )) call my_dealloc(REQ_S2)
+      IF(ALLOCATED( REQ_R  )) call my_dealloc(REQ_R)
+      IF(ALLOCATED( REQ_R2 )) call my_dealloc(REQ_R2)
+      IF(ALLOCATED( IADR   )) call my_dealloc(IADR)
+      IF(ALLOCATED( IADS   )) call my_dealloc(IADS)
 
       ENDIF    ! fi iflag=4
 #endif

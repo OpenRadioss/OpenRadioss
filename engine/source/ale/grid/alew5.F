@@ -62,6 +62,8 @@ C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usuall
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
@@ -150,7 +152,7 @@ C-----------------------------------------------
                   IAD2 = ALE_NN_CONNECT%IAD_CONNECT(I + 1) - 1
                   NUM = 0
                   VEC(1:3) = ZERO
-                  ALLOCATE(DIST(IAD2 - IAD1 + 1))                        
+                  call my_alloc(DIST, IAD2 - IAD1 + 1, "DIST")
                   DO IAD = IAD1, IAD2
                      NUM = NUM + 1
                      NODE_ID = ALE_NN_CONNECT%CONNECTED(IAD)
@@ -191,7 +193,7 @@ C-----------------------------------------------
                   W(2,I)=WA(2,I)
                   W(3,I)=WA(3,I)     
                ENDIF
-               DEALLOCATE(DIST)
+               call my_dealloc(DIST)
             ENDDO        
          ENDIF
          

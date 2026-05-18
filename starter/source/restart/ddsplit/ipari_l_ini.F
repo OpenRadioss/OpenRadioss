@@ -43,9 +43,11 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD  
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -121,8 +123,8 @@ C-----------------------------------------------
 !         ALLOCATE(INDEX0(NUMNOD+I24MAXNSNE))
 !         TAG(1:NUMNOD+I24MAXNSNE) = 0
 !      ENDIF
-      ALLOCATE(TAGI2(NUMNOD))
-      ALLOCATE(TAGG(NUMNOD))
+      call my_alloc(TAGI2, NUMNOD, "TAGI2")
+      call my_alloc(TAGG, NUMNOD, "TAGG")
 C-----------------------------------------------
 C Construction of iPari_L - Initial copy
 C-----------------------------------------------
@@ -178,7 +180,7 @@ C calculation IMAXIMP_L according to interface
           NMN    = IPARI(6,NI)
           ILEV   = IPARI(20,NI)
 
-          ALLOCATE(TAGE(NRTM))
+          call my_alloc(TAGE, NRTM, "TAGE")
           DO I = 1, NRTM
             TAGE(I) = 0
           ENDDO
@@ -235,7 +237,7 @@ C
           ENDDO
           IPARI_L(4,NI) = NRTM_L
 C
-          DEALLOCATE(TAGE)
+          CALL MY_DEALLOC(TAGE)
 C
           NSNT2_L = NSNT2_L + NSN_L
           NMNT2_L = NMNT2_L + NMN_L
@@ -315,7 +317,7 @@ C
             NMN_FE = NMN
           ENDIF
 C
-          ALLOCATE(TAGE(NRTM))
+          call my_alloc(TAGE, NRTM, "TAGE")
 C
           DO K=1,NRTM
 C Flag tage used for inactive
@@ -648,7 +650,7 @@ C compute IPARI_L(42,NI) = NRTM_SH_L
             ENDDO
             IPARI_L(42,NI)= NRTM_SH_L
 
-            ALLOCATE(TAG_SM(NADMSR))
+            call my_alloc(TAG_SM, NADMSR, "TAG_SM")
             TAG_SM(1:NADMSR)=0
             DO K=1,NRTM
               IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
@@ -726,7 +728,7 @@ C compute IPARI_L(42,NI) = NRTM_SH_L
               END IF
               ENDIF
             ENDDO 
-            DEALLOCATE(TAG_SM)
+            CALL MY_DEALLOC(TAG_SM)
 
 C
             NCONTE   = 0
@@ -915,7 +917,7 @@ C
 
           END IF ! ELSEIF(ITY==25)THEN
 C
-          DEALLOCATE(TAGE)
+          CALL MY_DEALLOC(TAGE)
 C
           NSN_L = NSN_L + NSNE_L
               
@@ -1028,7 +1030,7 @@ C
             ENDIF
           ENDDO
 C
-          ALLOCATE(TAGE(NRTM))
+          call my_alloc(TAGE, NRTM, "TAGE")
 C
           DO K=1,NRTM
 C Flag tage used for inactive
@@ -1127,7 +1129,7 @@ C
             END DO
           END IF
 C
-          DEALLOCATE(TAGE)
+          CALL MY_DEALLOC(TAGE)
 
           IF(NMN/=0) THEN
             RCONT = NMN_L
@@ -1245,7 +1247,7 @@ C
             TAGG(I) = 0
           END DO
 C
-          ALLOCATE(TAGE(NRTM))
+          call my_alloc(TAGE, NRTM, "TAGE")
 
           DO K=1,NRTM
             TAGE(K) = 0
@@ -1333,7 +1335,7 @@ C
             END DO
           END IF
 C
-          DEALLOCATE(TAGE)
+          CALL MY_DEALLOC(TAGE)
 C
 c          IF(NMN/=0) THEN
 C            NCONT = NSN*NMN_L/NMN
@@ -1398,7 +1400,7 @@ C
             ENDIF
           ENDDO
 C
-          ALLOCATE(TAGE2(NLINM))
+          call my_alloc(TAGE2, NLINM, "TAGE2")
 C
           NLINMA_L= 0
           NINDEX0 = 0
@@ -1463,7 +1465,7 @@ c              ENDIF
 c            ENDDO
 c          ENDIF
 C
-          DEALLOCATE(TAGE2)
+          CALL MY_DEALLOC(TAGE2)
 C
 C Calculation of NCONT by taking the max of edge and non-edge
 C
@@ -1652,7 +1654,7 @@ C
         ENDIF
       ENDDO
 C
-      DEALLOCATE(TAGI2)
-      DEALLOCATE(TAGG)
+      CALL MY_DEALLOC(TAGI2)
+      call my_dealloc(TAGG)
       RETURN
       END

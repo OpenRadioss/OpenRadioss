@@ -174,8 +174,8 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX)
-      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX)
+      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX,"MATLY")
+      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX,"POSLY")
       GBUF  => ELBUF_STR%GBUF
 c
       IMAT  = IXC(1,1+NFT)         ! mat N
@@ -208,35 +208,35 @@ C
       IF(NPT_ALL == 0 ) NPT_ALL = NLAY
 C----- NPT=0 for some cases      
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
-         ALLOCATE(PHI1(MVSIZ*NPT_ALL))
-         ALLOCATE(PHI2(NVSIZ*NPT_ALL))
-         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
-         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
+         call my_alloc(PHI1, MVSIZ*NPT_ALL, "PHI1")
+         call my_alloc(PHI2, NVSIZ*NPT_ALL, "PHI2")
+         call my_alloc(DIR_A, NPT_ALL*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NPT_ALL*NEL*2, "DIR_B")
          PHI1  = ZERO
          PHI2  = ZERO
          DIR_A = ZERO
          DIR_B = ZERO
-         ALLOCATE(COOR1(NPT_ALL*MVSIZ))
-         ALLOCATE(COOR2(NPT_ALL*MVSIZ))
-         ALLOCATE(COOR3(NPT_ALL*MVSIZ))
-         ALLOCATE(COOR4(NPT_ALL*MVSIZ))
+         call my_alloc(COOR1, NPT_ALL*MVSIZ, "COOR1")
+         call my_alloc(COOR2, NPT_ALL*MVSIZ, "COOR2")
+         call my_alloc(COOR3, NPT_ALL*MVSIZ, "COOR3")
+         call my_alloc(COOR4, NPT_ALL*MVSIZ, "COOR4")
          COOR1 = ZERO
          COOR2 = ZERO
          COOR3 = ZERO
          COOR4 = ZERO
       ELSE
-         ALLOCATE(PHI1(NLAY*MVSIZ))
-         ALLOCATE(PHI2(NLAY*MVSIZ))
-         ALLOCATE(DIR_A(NLAY*NEL*2))
-         ALLOCATE(DIR_B(NLAY*NEL*2))
+         call my_alloc(PHI1, NLAY*MVSIZ, "PHI1")
+         call my_alloc(PHI2, NLAY*MVSIZ, "PHI2")
+         call my_alloc(DIR_A, NLAY*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NLAY*NEL*2, "DIR_B")
          PHI1  = ZERO
          PHI2  = ZERO
          DIR_A = ZERO
          DIR_B = ZERO
-         ALLOCATE(COOR1(NLAY*MVSIZ))
-         ALLOCATE(COOR2(NLAY*MVSIZ))
-         ALLOCATE(COOR3(NLAY*MVSIZ))
-         ALLOCATE(COOR4(NLAY*MVSIZ))
+         call my_alloc(COOR1, NLAY*MVSIZ, "COOR1")
+         call my_alloc(COOR2, NLAY*MVSIZ, "COOR2")
+         call my_alloc(COOR3, NLAY*MVSIZ, "COOR3")
+         call my_alloc(COOR4, NLAY*MVSIZ, "COOR4")
          COOR1 = ZERO
          COOR2 = ZERO
          COOR3 = ZERO
@@ -649,11 +649,16 @@ C------------
         ENDDO
       ENDIF
 C---
-      IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)                                                          
-      IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)  
-      DEALLOCATE(PHI1,PHI2,COOR1,COOR2,COOR3,COOR4)  
-      DEALLOCATE(MATLY)
-      DEALLOCATE(POSLY)
+      IF (ALLOCATED(DIR_B))    CALL MY_DEALLOC(DIR_B)                                                          
+      IF (ALLOCATED(DIR_A))    CALL MY_DEALLOC(DIR_A)  
+      CALL MY_DEALLOC(PHI1)
+      CALL MY_DEALLOC(PHI2)
+      CALL MY_DEALLOC(COOR1)
+      CALL MY_DEALLOC(COOR2)
+      CALL MY_DEALLOC(COOR3)
+      CALL MY_DEALLOC(COOR4)
+      CALL MY_DEALLOC(MATLY)
+      CALL MY_DEALLOC(POSLY)
 C-----------------------------
       RETURN
       END SUBROUTINE CINIT3      

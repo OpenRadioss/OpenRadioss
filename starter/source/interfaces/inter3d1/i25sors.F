@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +56,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITRI, INDEX, LISUBS, INFLG_SUBS, ADDSUBS
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ISAV
 C-----------------------------------------------
-      ALLOCATE (ITRI(NSN),ISAV(3,NSN),INDEX(2*NSN),STAT=IERROR)
+      call my_alloc(ITRI, NSN, "ITRI", stat=IERROR)
+      call my_alloc(ISAV, 3, NSN, "ISAV", stat=IERROR)
+      call my_alloc(INDEX, 2*NSN, "INDEX", stat=IERROR)
       IF (IERROR /= 0) 
      .  CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                     MSGTYPE=MSGERROR,
@@ -73,7 +76,9 @@ C
        NISUB = IPARI(36)
        NISUBS =IPARI(37)
        IF(NISUB > 0)THEN
-         ALLOCATE (LISUBS(NISUBS),INFLG_SUBS(NISUBS),ADDSUBS(NSN+1),STAT=IERROR)
+         call my_alloc(LISUBS, NISUBS, "LISUBS", stat=IERROR)
+         call my_alloc(INFLG_SUBS, NISUBS, "INFLG_SUBS", stat=IERROR)
+         call my_alloc(ADDSUBS, NSN+1, "ADDSUBS", stat=IERROR)
          IF (IERROR /= 0) 
      .     CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                     MSGTYPE=MSGERROR,
@@ -110,8 +115,12 @@ C
          END DO
        END DO
 C
-      DEALLOCATE (ITRI,ISAV,INDEX)
-      IF(NISUB > 0)DEALLOCATE (LISUBS,INFLG_SUBS,ADDSUBS)
+      CALL MY_DEALLOC(ITRI)
+      CALL MY_DEALLOC(ISAV)
+      CALL MY_DEALLOC(INDEX)
+      IF(NISUB > 0)CALL MY_DEALLOC(LISUBS)
+      IF(NISUB > 0)CALL MY_DEALLOC(INFLG_SUBS)
+      IF(NISUB > 0)CALL MY_DEALLOC(ADDSUBS)
 C--------------------------------------------------------------
       RETURN
       END

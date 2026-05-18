@@ -26,7 +26,7 @@
 !||    lectur                ../starter/source/starter/lectur.F
 !||====================================================================
       module iniebcs_propellant_
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -122,7 +122,9 @@
           use constant_mod , only : em06, zero, one
           use array_reindex_mod, only : real_array_reindex
           use precision_mod, only : WP
-          use element_mod , only : nixs,nixq,nixtg          
+          use element_mod , only : nixs,nixq,nixtg
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -153,9 +155,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate (tmp(ebcs%nb_elem))
-          allocate (tmp2(ebcs%nb_elem))
-          allocate (indx(ebcs%nb_elem))
+          call my_alloc(tmp, ebcs%nb_elem, "tmp")
+          call my_alloc(tmp2, ebcs%nb_elem, "tmp2")
+          call my_alloc(indx, ebcs%nb_elem, "iniebcs_propellant_get_cp/indx")
           do kk = 1, ebcs%nb_elem
             indx(kk) = kk
           end do
@@ -229,9 +231,9 @@
 
 
 
-          if (allocated(tmp)) deallocate(tmp)
-          if (allocated(tmp2)) deallocate(tmp2)
-          if (allocated(indx)) deallocate(indx)
+          if (allocated(tmp)) call my_dealloc(tmp)
+          if (allocated(tmp2)) call my_dealloc(tmp2)
+          if (allocated(indx)) call my_dealloc(indx)
 
         end subroutine iniebcs_propellant_get_cp
 

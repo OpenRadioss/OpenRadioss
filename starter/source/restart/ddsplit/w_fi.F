@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "assert.inc"
 C-----------------------------------------------
@@ -124,9 +125,9 @@ C-----------------------------------------------
       INTEGER :: INTER_LAW151
       LOGICAL :: INTER18_LAW151
 C-----------------------------------------------
-      CALL MY_ALLOC(NSNFI,NSPMD)
-      CALL MY_ALLOC(NUMP,NSPMD)
-      CALL MY_ALLOC(NMNFI,NSPMD)
+      CALL MY_ALLOC(NSNFI,NSPMD,"NSNFI")
+      CALL MY_ALLOC(NUMP,NSPMD,"NUMP")
+      CALL MY_ALLOC(NMNFI,NSPMD,"NMNFI")
 C
 
       DO NI =1, NINTER
@@ -183,15 +184,16 @@ C   write nsnfi : 0 if inacti # 5, 6 and 7
 !               ALLOCATE(TAG(NUMNOD+NSNE))
 !               TAG(1:NUMNOD+NSNE) = 0
 !            ENDIF
-            ALLOCATE(NSNLOCAL(NSN))
-            ALLOCATE(NSNP(NSN))
-            ALLOCATE(NSVFI(NSN))
-            ALLOCATE(PFI(NSN))
-            ALLOCATE(ITAFI(NSN))
-            ALLOCATE(TAGE(NRTM))
-            IF (ITYP==24) ALLOCATE(IRTLMFI(2,NSN))
-            IF (ITYP==25) THEN
-              ALLOCATE(IRTLMFI(4,NSN))
+            call my_alloc(NSNLOCAL, NSN, "NSNLOCAL")
+            call my_alloc(NSNP, NSN, "NSNP")
+            call my_alloc(NSVFI, NSN, "NSVFI")
+            call my_alloc(PFI, NSN, "PFI")
+            call my_alloc(ITAFI, NSN, "ITAFI")
+            call my_alloc(TAGE, NRTM, "TAGE")
+            IF(ITYP==24) THEN
+              call my_alloc(IRTLMFI, 2, NSN, "IRTLMFI")
+            ELSEIF (ITYP==25) THEN
+              call my_alloc(IRTLMFI, 4, NSN, "IRTLMFI")
               IRTLMFI(1:4,1:NSN)=0
             END IF
             DO P = 1, NSPMD
@@ -201,7 +203,7 @@ C
 C
 C
 ! optimize loop with PLIST tool
-            ALLOCATE(PLIST(NSPMD)) 
+            call my_alloc(PLIST, NSPMD, "PLIST")
             PLIST(1:NSPMD) = -1
                DO K=1,NSN
                   N = INTBUF_TAB(NI)%NSV(K)
@@ -246,7 +248,7 @@ C     T24 E2E Fictive nodes are only on 1 domain (But they are not nodes
                   ENDIF
                ENDDO
 
-            DEALLOCATE(PLIST) 
+            CALL MY_DEALLOC(PLIST)
 
             NRTM_L = 0
             DO K=1,NRTM
@@ -311,11 +313,14 @@ C process nodes only once
 C
 
             IF(NODFI>0) THEN
-              ALLOCATE(INDEX(2*NODFI))
-              ALLOCATE(CLEF(2,NODFI))
-              IF(ITYP==24)ALLOCATE(IRTLMFI2(2,NODFI))
-              IF(ITYP==25)ALLOCATE(IRTLMFI2(4,NODFI))
-              ALLOCATE(ITAFI2(NODFI))
+              call my_alloc(INDEX, 2*NODFI, "INDEX")
+              call my_alloc(CLEF, 2, NODFI, "CLEF")
+              IF(ITYP==24) THEN
+                call my_alloc(IRTLMFI2, 2, NODFI, "IRTLMFI2")
+              ELSEIF(ITYP==25) THEN
+                call my_alloc(IRTLMFI2, 4, NODFI, "IRTLMFI2")
+              ENDIF
+              call my_alloc(ITAFI2, NODFI, "ITAFI2")
               DO K = 1, NODFI
                 CLEF(1,K)=PFI(K)
                 CLEF(2,K)=NSVFI(K)
@@ -347,12 +352,12 @@ C
                   IRTLMFI(4,K)=IRTLMFI2(4,INDEX(K))
                 ENDIF
               END DO
-              DEALLOCATE(INDEX)
-              DEALLOCATE(CLEF)
-              DEALLOCATE(ITAFI2)
-              IF(ITYP==24.OR.ITYP==25) DEALLOCATE(IRTLMFI2)
+              CALL MY_DEALLOC(INDEX)
+              CALL MY_DEALLOC(CLEF)
+              CALL MY_DEALLOC(ITAFI2)
+              IF(ITYP==24.OR.ITYP==25) call my_dealloc(IRTLMFI2)
             END IF
-            DEALLOCATE(PFI)
+            CALL MY_DEALLOC(PFI)
 C
             CALL WRITE_I_C(NSNFI,NSPMD) ! NSNFI
             LEN_IA = LEN_IA + NSPMD
@@ -423,37 +428,38 @@ C   Write dummy ICONT_I_FI
               LEN_IA = LEN_IA + NODFI
 C   Write dummy KREMNORF REMNORFI
               IF(FLAGREMN == 2.AND.NODFI>0) THEN
-                 ALLOCATE(TABZERO(NODFI+1))  
+                 call my_alloc(TABZERO, NODFI+1, "TABZERO")
                  TABZERO(1:NODFI+1) = 0
                  CALL WRITE_I_C(TABZERO,NODFI+1)
                  LEN_IA = LEN_IA + NODFI + 1
-                 DEALLOCATE(TABZERO)
+                 CALL MY_DEALLOC(TABZERO)
               ENDIF
 
             ENDIF
 C
 !            DEALLOCATE(TAG)
-            DEALLOCATE(NSNLOCAL)
-            DEALLOCATE(NSNP)
-            DEALLOCATE(NSVFI)
-            DEALLOCATE(ITAFI)
-            DEALLOCATE(TAGE)
-            IF (ITYP==24.OR.ITYP==25)DEALLOCATE(IRTLMFI)
+            CALL MY_DEALLOC(NSNLOCAL)
+            CALL MY_DEALLOC(NSNP)
+            CALL MY_DEALLOC(NSVFI)
+            CALL MY_DEALLOC(ITAFI)
+            CALL MY_DEALLOC(TAGE)
+            IF (ITYP==24.OR.ITYP==25)CALL MY_DEALLOC(IRTLMFI)
 C end type 7
 ! +++++++++++++++++++++++++++++++++++++++++++++++
            ELSEIF(ITYP==11)THEN
 
             I_STOK = INTBUF_TAB(NI)%I_STOK(1)
-            ALLOCATE(NRTSLOCAL(NRTS))
-            ALLOCATE(NRTSP(NRTS))
-            ALLOCATE(NSVFI(NRTS))
-            ALLOCATE(PFI(NRTS))
-            ALLOCATE(TAGE(NRTM))
+            call my_alloc(NRTSLOCAL, NRTS, "NRTSLOCAL")
+            call my_alloc(NRTSP, NRTS, "NRTSP")
+            call my_alloc(NSVFI, NRTS, "NSVFI")
+            call my_alloc(PFI, NRTS, "PFI")
+            call my_alloc(TAGE, NRTM, "TAGE")
             DO P = 1, NSPMD
               NUMP(P) = 0
             END DO
 !
-            ALLOCATE(TAB1(NSPMD),TAB2(NSPMD))
+            call my_alloc(TAB1, NSPMD, "TAB1")
+            call my_alloc(TAB2, NSPMD, "TAB2")
             DO K=1,NRTS
               N1 = INTBUF_TAB(NI)%IRECTS(2*(K-1)+1)
               N2 = INTBUF_TAB(NI)%IRECTS(2*(K-1)+2)
@@ -481,7 +487,8 @@ C end type 7
               ENDIF                 
 C
             END DO
-            DEALLOCATE(TAB1,TAB2)
+            CALL MY_DEALLOC(TAB1)
+            CALL MY_DEALLOC(TAB2)
 C
             NRTM_L = 0
             DO K=1,NRTM
@@ -518,8 +525,8 @@ C
             END DO
 C
             IF(NODFI>0) THEN
-              ALLOCATE(INDEX(2*NODFI))
-              ALLOCATE(CLEF(2,NODFI))
+              call my_alloc(INDEX, 2*NODFI, "INDEX")
+              call my_alloc(CLEF, 2, NODFI, "CLEF")
               DO K = 1, NODFI
                 CLEF(1,K)=PFI(K)
                 CLEF(2,K)=NSVFI(K)
@@ -529,10 +536,10 @@ C
                 NSVFI(K) = CLEF(2,INDEX(K))
                 PFI(K) = CLEF(1,INDEX(K)) 
               END DO
-              DEALLOCATE(INDEX)
-              DEALLOCATE(CLEF)
+              CALL MY_DEALLOC(INDEX)
+              CALL MY_DEALLOC(CLEF)
             END IF
-            DEALLOCATE(PFI)
+            CALL MY_DEALLOC(PFI)
 C
             CALL WRITE_I_C(NSNFI,NSPMD)
             CALL WRITE_I_C(NSVFI,NODFI)
@@ -551,10 +558,10 @@ C   Void writing for IPARTSFI
                LEN_IA = LEN_IA + NODFI
             ENDIF
 C
-            DEALLOCATE(NRTSLOCAL)
-            DEALLOCATE(NRTSP)
-            DEALLOCATE(NSVFI)
-            DEALLOCATE(TAGE)
+            CALL MY_DEALLOC(NRTSLOCAL)
+            CALL MY_DEALLOC(NRTSP)
+            CALL MY_DEALLOC(NSVFI)
+            CALL MY_DEALLOC(TAGE)
 C end type 11
            ELSEIF(ITYP==20)THEN
 C type 20 (partie non edge)
@@ -566,11 +573,11 @@ C type 20 (partie non edge)
             INTTH  = IPARI(47,NI)
 C
             I_STOK = INTBUF_TAB(NI)%I_STOK(1)
-            ALLOCATE(NSNLOCAL(NSN))
-            ALLOCATE(NSNP(NSN))
-            ALLOCATE(NSVFI(NSN))
-            ALLOCATE(PFI(NSN))
-            ALLOCATE(TAGE(NRTM))
+            call my_alloc(NSNLOCAL, NSN, "NSNLOCAL")
+            call my_alloc(NSNP, NSN, "NSNP")
+            call my_alloc(NSVFI, NSN, "NSVFI")
+            call my_alloc(PFI, NSN, "PFI")
+            call my_alloc(TAGE, NRTM, "TAGE")
 
             DO P = 1, NSPMD
               NUMP(P) = 0
@@ -639,8 +646,8 @@ C process nodes only once
             END DO
 C
             IF(NODFI>0) THEN
-              ALLOCATE(INDEX(2*NODFI))
-              ALLOCATE(CLEF(2,NODFI))
+              call my_alloc(INDEX, 2*NODFI, "INDEX")
+              call my_alloc(CLEF, 2, NODFI, "CLEF")
               DO K = 1, NODFI
                 CLEF(1,K)=PFI(K)
                 CLEF(2,K)=NSVFI(K)
@@ -650,10 +657,10 @@ C
                 NSVFI(K) = CLEF(2,INDEX(K))
                 PFI(K) = CLEF(1,INDEX(K))
               END DO
-              DEALLOCATE(INDEX)
-              DEALLOCATE(CLEF)
+              CALL MY_DEALLOC(INDEX)
+              CALL MY_DEALLOC(CLEF)
             END IF
-            DEALLOCATE(PFI)
+            CALL MY_DEALLOC(PFI)
 C
             CALL WRITE_I_C(NSNFI,NSPMD)
             LEN_IA = LEN_IA + NSPMD
@@ -674,10 +681,10 @@ C   Void writing for MATSFI
                LEN_IA = LEN_IA + NODFI
             ENDIF
 C
-            DEALLOCATE(NSNLOCAL)
-            DEALLOCATE(NSNP)
-            DEALLOCATE(NSVFI)
-            DEALLOCATE(TAGE)
+            CALL MY_DEALLOC(NSNLOCAL)
+            CALL MY_DEALLOC(NSNP)
+            CALL MY_DEALLOC(NSVFI)
+            CALL MY_DEALLOC(TAGE)
            END IF ! end type20
 C end inactive contact interface
           END IF
@@ -712,11 +719,11 @@ C
                NMNE   = IPARI(56,NI)
 C
                I_STOK = INTBUF_TAB(NI)%I_STOK_E(1)
-               ALLOCATE(NRTSLOCAL(NLINS))
-               ALLOCATE(NRTSP(NLINS))
-               ALLOCATE(NSVFI(NLINS))
-               ALLOCATE(PFI(NLINS))
-               ALLOCATE(TAGE(NLINM))
+               call my_alloc(NRTSLOCAL, NLINS, "NRTSLOCAL")
+               call my_alloc(NRTSP, NLINS, "NRTSP")
+               call my_alloc(NSVFI, NLINS, "NSVFI")
+               call my_alloc(PFI, NLINS, "PFI")
+               call my_alloc(TAGE, NLINM, "TAGE")
                DO P = 1, NSPMD
                  NUMP(P) = 0
                END DO
@@ -785,8 +792,8 @@ C
                END DO
 C
                IF(NODFI>0) THEN
-                 ALLOCATE(INDEX(2*NODFI))
-                 ALLOCATE(CLEF(2,NODFI))
+                 call my_alloc(INDEX, 2*NODFI, "INDEX")
+                 call my_alloc(CLEF, 2, NODFI, "CLEF")
                  DO K = 1, NODFI
                    CLEF(1,K)=PFI(K)
                    CLEF(2,K)=NSVFI(K)
@@ -796,10 +803,10 @@ C
                    NSVFI(K) = CLEF(2,INDEX(K))
                    PFI(K) = CLEF(1,INDEX(K))
                  END DO
-                 DEALLOCATE(INDEX)
-                 DEALLOCATE(CLEF)
+                 CALL MY_DEALLOC(INDEX)
+                 CALL MY_DEALLOC(CLEF)
                END IF
-               DEALLOCATE(PFI)
+               CALL MY_DEALLOC(PFI)
 C
                CALL WRITE_I_C(NSNFI,NSPMD)
                CALL WRITE_I_C(NSVFI,NODFI)
@@ -808,10 +815,10 @@ C   dummy write itafi n1
 C   dummy write itafi n2
                CALL WRITE_I_C(NSVFI,NODFI)
 C
-               DEALLOCATE(NRTSLOCAL)
-               DEALLOCATE(NRTSP)
-               DEALLOCATE(NSVFI)
-               DEALLOCATE(TAGE)
+               CALL MY_DEALLOC(NRTSLOCAL)
+               CALL MY_DEALLOC(NRTSP)
+               CALL MY_DEALLOC(NSVFI)
+               CALL MY_DEALLOC(TAGE)
              END IF ! fin inacti
           END IF   ! Type 20 edge
 
@@ -826,7 +833,7 @@ C
             CALL WRITE_I_C(I25_FIE(NI,PROC+1)%NEDGE(1:NSPMD),NSPMD) ! NSNFIE 
             NEDGE_KEPT = I25_FIE(NI,PROC+1)%NEDGE_TOT
             NODFI = 2 * NEDGE_KEPT
-            ALLOCATE(LEDGE_FIE(NODFI*E_IBUF_SIZE)) !working array, max size 
+            call my_alloc(LEDGE_FIE, NODFI*E_IBUF_SIZE, "LEDGE_FIE") !working array, max size
             LEDGE_FIE(1:NODFI*E_IBUF_SIZE) = 0
             IF(NEDGE_KEPT > 0) THEN
               CALL WRITE_I_C(I25_FIE(NI,PROC+1)%ID(1:NEDGE_KEPT),NEDGE_KEPT) ! NSVFIE
@@ -867,7 +874,7 @@ C   Void writing for IPARTFRIC_FIE
                   CALL WRITE_I_C(I25_FIE(NI,PROC+1)%ID(1:NEDGE_KEPT),NEDGE_KEPT)
                ENDIF
             ENDIF
-            DEALLOCATE(LEDGE_FIE)
+            call my_dealloc(LEDGE_FIE)
            
           ENDIF ! TYPE25+EDGE
 C
@@ -913,9 +920,9 @@ C
 
       END DO
 C
-      DEALLOCATE(NSNFI)
-      DEALLOCATE(NUMP)
-      DEALLOCATE(NMNFI)
+      CALL MY_DEALLOC(NSNFI)
+      CALL MY_DEALLOC(NUMP)
+      CALL MY_DEALLOC(NMNFI)
 
       RETURN
       END

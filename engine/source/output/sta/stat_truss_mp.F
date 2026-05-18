@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,8 +71,8 @@ C-----------------------------------------------
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
-      CALL MY_ALLOC(NP,5*NUMELT)
-      CALL MY_ALLOC(CLEF,2,NUMELT)
+      call my_alloc(NP, 5*NUMELT, "NP")
+      call my_alloc(CLEF, 2, NUMELT, "CLEF")
 C-----------------------------------------------
 C     TRUSS
 C-----------------------------------------------
@@ -138,8 +139,8 @@ C----
       ENDDO ! DO N=1,STAT_NUMELT
 C----
 C-----------------------------------------------
-      DEALLOCATE(NP)
-      DEALLOCATE(CLEF)
+      call my_dealloc(NP)
+      call my_dealloc(CLEF)
 C-----------------------------------------------
       RETURN
       END

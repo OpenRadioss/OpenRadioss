@@ -410,6 +410,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
       USE FRONT_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -471,7 +472,7 @@ C
         NRTM  = IPARI(4,NIN)
         NSN   = IPARI(5,NIN)
 
-        ALLOCATE(IRTLM_L(NRTM),STAT=IERROR)
+        call my_alloc(IRTLM_L, NRTM, "IRTLM_L", stat=IERROR)
         IF (IERROR /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .     MSGTYPE=MSGERROR,
      .     C1='Prepare data related to /INTER/TYPE25')
@@ -493,7 +494,7 @@ C         IRTLM(3,-) <=> local segment number on IRTLM(4,-)
           END IF
         END DO
 
-        DEALLOCATE(IRTLM_L)
+        CALL MY_DEALLOC(IRTLM_L)
       END DO
 
       RETURN

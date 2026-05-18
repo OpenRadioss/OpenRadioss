@@ -117,6 +117,7 @@ C-----------------------------------------------
       USE CREATE_NODENS_CLAUSE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -207,7 +208,7 @@ C-----------------------------------------------
 C-------------------------------------------
 C Reorder Sets to take care of dependencies
 C-------------------------------------------
-      ALLOCATE(SET_LIST(NSETS))
+      call my_alloc(SET_LIST, NSETS, "SET_LIST")
       CALL SORT_SET(LSUBMODEL ,MAP_TABLES, SET_LIST,SET,CLAUSE)
 
 C-----------------------------------------------
@@ -599,7 +600,7 @@ C-----------------------------------------------
 
               CASE ('SET')
 
-                  ALLOCATE(SETL(NSETS))
+                  call my_alloc(SETL, NSETS, "SETL")
                   SETL_SIZE=0
             
                   CALL CREATE_SET_ARRAY(SETL ,SETL_SIZE,      ! Read the clause & compute the list of SETs
@@ -619,11 +620,11 @@ C-----------------------------------------------
      *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
      *                                    NUMELQ    )
 
-                  DEALLOCATE(SETL)
+                  CALL MY_DEALLOC(SETL)
 
               CASE ('SETCOL')
 
-                  ALLOCATE(SETL(NSETS))
+                  call my_alloc(SETL, NSETS, "SETL")
                   SETL_SIZE=0
 
                   CALL CREATE_SETCOL_ARRAY(SET,SETL, SETL_SIZE ,

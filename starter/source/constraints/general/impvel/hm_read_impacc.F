@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,7 +123,7 @@ c     COUNT /IMPACC Options
 c--------------------------------------------------
       CALL HM_OPTION_COUNT('/IMPACC',NIMPACC)
 !
-      ALLOCATE(IACCIDS(NIMPACC))
+      call my_alloc(IACCIDS, NIMPACC, "IACCIDS")
       IACCIDS(1:NIMPACC) = 0
 !
       IS_AVAILABLE = .FALSE.
@@ -281,7 +282,7 @@ c
       NIMPACC = NACC
 !
 C-----
-      DEALLOCATE(IACCIDS)
+      CALL MY_DEALLOC(IACCIDS)
 C-----
  1000 FORMAT(//
      .'     IMPOSED ACCELERATIONS   '/

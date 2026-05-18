@@ -100,6 +100,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -156,7 +158,7 @@ C-----------------------------------------------
       if(n2d/=0) s_bhole = max(1,nmult)*numelq
 
       if(itask==0) then
-        ALLOCATE(FLUX_SAV(s_flux,NV46))
+        call my_alloc(FLUX_SAV, s_flux, NV46, "FLUX_SAV")
       endif    
       if(n2d==0) then
         n_entity = numels
@@ -271,7 +273,7 @@ C-----------------------
      5                    s_flux,s_qmv)
         ENDIF
         if(itask==0) then
-          allocate(phi_arezon(ale%rezon%phi_dim1,ale%rezon%phi_dim2(1)))
+          call my_alloc(phi_arezon, ale%rezon%phi_dim1, ale%rezon%phi_dim2(1), "phi_arezon")
         endif
         call my_barrier()
         call arezon(n2d,numelq, 
@@ -318,10 +320,10 @@ C----------------------
 
         if(trimat>0) then
           if(itask==0) then
-            allocate(flux_mat(s_flux,NV46,trimat))
-            allocate(qmv_mat(s_qmv,2*nv46,trimat))
-            allocate(alpha_mat(s_alpha_mat,trimat))
-            allocate(val2_mat(s_flux,trimat))
+            call my_alloc(flux_mat, s_flux, NV46, trimat, "flux_mat")
+            call my_alloc(qmv_mat, s_qmv, 2*nv46, trimat, "qmv_mat")
+            call my_alloc(alpha_mat, s_alpha_mat, trimat, "alpha_mat")
+            call my_alloc(val2_mat, s_flux, trimat, "val2_mat")
           endif         
 
           call my_barrier
@@ -346,7 +348,7 @@ C----------------------
           call my_barrier()
          endif
 
-        if(itask==0) deallocate(phi_arezon)
+        if(itask==0) call my_dealloc(phi_arezon)
 
         if(trimat>0) then
           if(int22/=0) then
@@ -382,13 +384,13 @@ C----------------------
       call my_barrier
       if(itask==0) then      
         if(trimat>0) then
-            deallocate(flux_mat)
-            deallocate(qmv_mat)
-            deallocate(alpha_mat)
-            deallocate(val2_mat)
+            call my_dealloc(flux_mat)
+            call my_dealloc(qmv_mat)
+            call my_dealloc(alpha_mat)
+            call my_dealloc(val2_mat)
         endif
-        deallocate(flux_sav)
-        deallocate(phi_conv)
+        call my_dealloc(flux_sav)
+        call my_dealloc(phi_conv)
       endif
 
       RETURN

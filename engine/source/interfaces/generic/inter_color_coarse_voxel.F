@@ -49,6 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -83,7 +85,7 @@ C-----------------------------------------------
         ! ------------------
         ! allocation of global omp array 
         IF(ITASK==0) THEN
-            ALLOCATE(CELL_BOOL(NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID))
+            call my_alloc(CELL_BOOL, NB_BOX_COARSE_GRID, NB_BOX_COARSE_GRID, NB_BOX_COARSE_GRID, "CELL_BOOL")
             CELL_BOOL(1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID) = .FALSE.
         ENDIF
         CALL MY_BARRIER()
@@ -151,7 +153,7 @@ C-----------------------------------------------
 
         CALL MY_BARRIER()
         IF(ITASK==0) THEN
-            DEALLOCATE(CELL_BOOL)
+            call my_dealloc(CELL_BOOL)
         ENDIF
         !   ------------------
         RETURN

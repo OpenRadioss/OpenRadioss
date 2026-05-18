@@ -65,6 +65,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -112,7 +114,7 @@ C------------------------------------------------------------------
 C        DEFAULT - ALL ELEMS (HEXA,PENTA, SHELL, QUAD, ..)
 C           expand elem temperature to its nodes
 C------------------------------------------------------------------      
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
+           call my_alloc(COUNT_VOL, NUMNOD, "COUNT_VOL")
            COUNT_VOL(:) = 0                           
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
@@ -146,7 +148,7 @@ C------------------------------------------------------------------
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
            ENDDO                 
-           DEALLOCATE(COUNT_VOL)             
+           call my_dealloc(COUNT_VOL)
          
 C------------------------------------------------------------------
 C        CUT CELLS (INTER TYPE 22)
@@ -160,7 +162,7 @@ C------------------------------------------------------------------
          !     NOT INTERSECTED : NODAL T COMPUTED FROM GLOBAL BUF  !
          !         INTERSECTED : NODAL T COMPUTED FROM SUBVOLUME   !
          !---------------------------------------------------------!                 
-           ALLOCATE(COUNT_VOL(NUMNOD))      
+           call my_alloc(COUNT_VOL, NUMNOD, "COUNT_VOL")
            COUNT_VOL = 0
            NBF = 1
            NBL = NB
@@ -239,7 +241,7 @@ C------------------------------------------------------------------
                WA4(I)=WA4(I)/COUNT_VOL(I)                    
              ENDIF
            ENDDO
-           DEALLOCATE(COUNT_VOL)                  
+           call my_dealloc(COUNT_VOL)
          ENDIF
                   
 C------------------------------------------------------------------

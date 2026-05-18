@@ -90,6 +90,7 @@
           use precision_mod, only : WP
           use mat_table_copy_mod
           use message_mod
+          use MY_ALLOC_MOD, only : my_alloc
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -227,7 +228,7 @@
 !
           !< Check encryption option
           call hm_option_is_encrypted(is_encrypted)
-!          
+!
           !=====================================================================
           !< Read and print elasto-plastic material common parameters
           !=====================================================================
@@ -255,7 +256,7 @@
           !< Number of bricks
           call hm_get_intv('clausesmax',nkeys,is_available,lsubmodel)
           !< Loop over bricks/keys
-          do ikey = 1,nkeys  
+          do ikey = 1,nkeys
             !< Read keyset
             call hm_get_string_index('KEY_type',key_raw,ikey,ncharline,        &
               is_available)
@@ -266,121 +267,121 @@
             !-------------------------------------------------------------------
             select case (key(1:4))
               !< Elasticity
-              case ('ELAS')
-                !< Check if elastic model is already defined for the material
-                if (ielas /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="ELAS")
-                endif 
-                type = key(6:len(key))
-                call hm_read_elasticity(                                       &
-                  ikey     ,type  ,ielas    ,nupar_elas,upar_elas,is_available,&
-                  unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
-                  mat_id   ,titr  ,iresp    ,ntab_elas,itab_elas ,x2vect_elas ,&
-                  x3vect_elas,x4vect_elas,fscale_elas,nvartmp_elas,israte     ,&
-                  vpflag   ,mtag  ,nuvar_elas)
+             case ('ELAS')
+              !< Check if elastic model is already defined for the material
+              if (ielas /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="ELAS")
+              endif
+              type = key(6:len(key))
+              call hm_read_elasticity(                                       &
+                ikey     ,type  ,ielas    ,nupar_elas,upar_elas,is_available,&
+                unitab,lsubmodel,matparam ,parmat    ,iout     ,is_encrypted,&
+                mat_id   ,titr  ,iresp    ,ntab_elas,itab_elas ,x2vect_elas ,&
+                x3vect_elas,x4vect_elas,fscale_elas,nvartmp_elas,israte     ,&
+                vpflag   ,mtag  ,nuvar_elas)
               !< Yield criterion
-              case ('CRIT')
-                if (icrit /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="CRIT")
-                endif 
-                type = key(6:len(key))
-                call hm_read_yield_criterion(                                  &
-                  ikey     ,type  ,icrit    ,nupar_crit,upar_crit,is_available,&
-                  unitab,lsubmodel,iout     ,is_encrypted,mat_id ,titr        )
+             case ('CRIT')
+              if (icrit /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="CRIT")
+              endif
+              type = key(6:len(key))
+              call hm_read_yield_criterion(                                  &
+                ikey     ,type  ,icrit    ,nupar_crit,upar_crit,is_available,&
+                unitab,lsubmodel,iout     ,is_encrypted,mat_id ,titr        )
               !< Isotropic work-hardening
-              case ('HARD')
-                if (ihard /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="HARD")
-                endif 
-                type = key(6:len(key))
-                call hm_read_work_hardening(                                   &
-                  ikey     ,type  ,ihard    ,nupar_hard,upar_hard,ntab_hard ,  &
-                  itab_hard,x2vect_hard     ,x3vect_hard   ,x4vect_hard     ,  &
-                  fscale_hard,nvartmp_hard  ,is_available  ,unitab,lsubmodel,  &
-                  iout  ,is_encrypted       ,vpflag        ,israte          ,  &
-                  parmat   ,titr  ,mat_id   ,matparam      )   
+             case ('HARD')
+              if (ihard /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="HARD")
+              endif
+              type = key(6:len(key))
+              call hm_read_work_hardening(                                   &
+                ikey     ,type  ,ihard    ,nupar_hard,upar_hard,ntab_hard ,  &
+                itab_hard,x2vect_hard     ,x3vect_hard   ,x4vect_hard     ,  &
+                fscale_hard,nvartmp_hard  ,is_available  ,unitab,lsubmodel,  &
+                iout  ,is_encrypted       ,vpflag        ,israte          ,  &
+                parmat   ,titr  ,mat_id   ,matparam      )
               !< Strain rate dependency
-              case ('SRAT')
-                if (iratedep /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="SRATE")
-                endif 
-                type = key(7:len(key))
-                call hm_read_srate_dependency(                                 &
-                  ikey     ,type  ,iratedep ,nupar_ratedep,upar_ratedep,       &
-                  is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
-                  vpflag   ,israte ,parmat  ,ntab_srate  ,itab_srate   ,       &
-                  x2vect_srate,x3vect_srate ,x4vect_srate,fscale_srate ,       &
-                  nvartmp_srate)     
+             case ('SRAT')
+              if (iratedep /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="SRATE")
+              endif
+              type = key(7:len(key))
+              call hm_read_srate_dependency(                                 &
+                ikey     ,type  ,iratedep ,nupar_ratedep,upar_ratedep,       &
+                is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
+                vpflag   ,israte ,parmat  ,ntab_srate  ,itab_srate   ,       &
+                x2vect_srate,x3vect_srate ,x4vect_srate,fscale_srate ,       &
+                nvartmp_srate)
               !< Thermal softening
-              case ('THER')
-                if (itherm /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="THERM")
-                endif 
-                type = key(7:len(key))
-                call hm_read_therm_softening(                                  &
-                  ikey     ,type  ,itherm   ,nupar_therm ,upar_therm   ,       &
-                  is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
-                  ntab_therm  ,itab_therm   ,x2vect_therm,x3vect_therm ,       &
-                  x4vect_therm,fscale_therm ,nvartmp_therm,mtag        ,       &
-                  matparam     ) 
+             case ('THER')
+              if (itherm /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="THERM")
+              endif
+              type = key(7:len(key))
+              call hm_read_therm_softening(                                  &
+                ikey     ,type  ,itherm   ,nupar_therm ,upar_therm   ,       &
+                is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
+                ntab_therm  ,itab_therm   ,x2vect_therm,x3vect_therm ,       &
+                x4vect_therm,fscale_therm ,nvartmp_therm,mtag        ,       &
+                matparam     )
               !< Self-heating
-              case ('HEAT')
-                if (iheat /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="HEAT")
-                endif 
-                type = key(6:len(key))
-                call hm_read_self_heating(                                     &
-                  ikey     ,type  ,iheat    ,nupar_heat  ,upar_heat    ,       &
-                  is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
-                  ntab_heat   ,itab_heat    ,x2vect_heat ,x3vect_heat  ,       &
-                  x4vect_heat ,fscale_heat  ,nvartmp_heat,matparam     ,       &
-                  mtag        )
+             case ('HEAT')
+              if (iheat /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="HEAT")
+              endif
+              type = key(6:len(key))
+              call hm_read_self_heating(                                     &
+                ikey     ,type  ,iheat    ,nupar_heat  ,upar_heat    ,       &
+                is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
+                ntab_heat   ,itab_heat    ,x2vect_heat ,x3vect_heat  ,       &
+                x4vect_heat ,fscale_heat  ,nvartmp_heat,matparam     ,       &
+                mtag        )
               !< Kinematic hardening
-              case ('KINE')
-                if (ikine /= 0) then 
-                  call ancmsg(msgid=3123,                                      &                    
-                              msgtype=msgerror,                                &
-                              anmode=aninfo_blind_2,                           &
-                              i1=mat_id,                                       &
-                              c1=titr,                                         &
-                              c2="KINE")
-                endif 
-                type = key(6:len(key))
-                call hm_read_kinematic_hardening(                              &
-                  ikey     ,type  ,ikine    ,nupar_kine  ,upar_kine    ,       &
-                  is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
-                  mtag     ,chard  )  
-                chard = min(max(chard,zero),one)               
+             case ('KINE')
+              if (ikine /= 0) then
+                call ancmsg(msgid=3123,                                      &
+                  msgtype=msgerror,                                &
+                  anmode=aninfo_blind_2,                           &
+                  i1=mat_id,                                       &
+                  c1=titr,                                         &
+                  c2="KINE")
+              endif
+              type = key(6:len(key))
+              call hm_read_kinematic_hardening(                              &
+                ikey     ,type  ,ikine    ,nupar_kine  ,upar_kine    ,       &
+                is_available,unitab,lsubmodel,iout     ,is_encrypted ,       &
+                mtag     ,chard  )
+              chard = min(max(chard,zero),one)
             end select
           enddo
           !=====================================================================
@@ -388,46 +389,46 @@
           ! --------------------------------------------------------------------
           !< Error if no elastic law is defined
           ! --------------------------------------------------------------------
-          if (ielas == 0) then 
-            call ancmsg(msgid=3133,                                            &                    
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr)
+          if (ielas == 0) then
+            call ancmsg(msgid=3133,                                            &
+              msgtype=msgerror,                                      &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1=titr)
           endif
 !
           ! --------------------------------------------------------------------
           !< Default Von Mises yield criterion if no yield criterion is defined
-          ! --------------------------------------------------------------------          
-          if (icrit == 0) then 
+          ! --------------------------------------------------------------------
+          if (icrit == 0) then
             icrit = 1
-            call ancmsg(msgid=3134,                                            &                    
-                        msgtype=msgwarning,                                    &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr)
+            call ancmsg(msgid=3134,                                            &
+              msgtype=msgwarning,                                    &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1=titr)
           endif
 !
           ! --------------------------------------------------------------------
           !< Error if no hardening is defined
-          ! --------------------------------------------------------------------  
-          if (ihard == 0) then 
-            call ancmsg(msgid=3132,                                            &                    
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_2,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr)
+          ! --------------------------------------------------------------------
+          if (ihard == 0) then
+            call ancmsg(msgid=3132,                                            &
+              msgtype=msgerror,                                      &
+              anmode=aninfo_blind_2,                                 &
+              i1=mat_id,                                             &
+              c1=titr)
           endif
 !
           ! --------------------------------------------------------------------
           !< Default strain rate treatment
           ! --------------------------------------------------------------------
           !< Switch to filtered plastic strain rate
-          if (vpflag == 0) then 
+          if (vpflag == 0) then
             vpflag = 1
             israte = 1
             parmat(4) = israte
-            parmat(5) = 10000.0d0*unitab%fac_t_work       
+            parmat(5) = 10000.0d0*unitab%fac_t_work
           endif
 !
           ! --------------------------------------------------------------------
@@ -437,10 +438,10 @@
           matparam%niparam = 33
           !< Number of real material parameters
           matparam%nuparam = nupar_elas + nupar_crit +                         &
-                             nupar_hard + nupar_ratedep +                      &
-                             nupar_therm + nupar_heat + (nupar_kine + 1)
+            nupar_hard + nupar_ratedep +                      &
+            nupar_therm + nupar_heat + (nupar_kine + 1)
           !< Initial number of user variables
-          if (ires == 1) then 
+          if (ires == 1) then
             nuvar = 7
           else
             nuvar = 1
@@ -452,12 +453,12 @@
             nvartmp_therm + nvartmp_heat
 !
           !< Allocation of material parameters tables
-          allocate(matparam%iparam(matparam%niparam))
-          allocate(matparam%uparam(matparam%nuparam))
-          allocate(matparam%table (matparam%ntable ))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          allocate(matparam%table(matparam%ntable))
 !
           !< Integer material parameter
-          ! -> Elastic parameters 
+          ! -> Elastic parameters
           matparam%iparam(1)  = ielas                               !< Elastic model type
           matparam%iparam(2)  = ntab_elas                           !< Number of the last elasticity table
           matparam%iparam(3)  = nupar_elas                          !< Address of elastic last real parameter
@@ -498,10 +499,10 @@
           matparam%iparam(32) = matparam%iparam(29) + nuvar_heat    !< Number of kinematic hardening user variables
           ! -> Flag for return mapping algorithm
           matparam%iparam(33) = ires                                !< Return mapping flag
-! 
+!
           !< Update number of user variables
           nuvar = nuvar + nuvar_elas + nuvar_crit + nuvar_hard +               &
-                  nuvar_ratedep + nuvar_therm + nuvar_heat + nuvar_kine
+            nuvar_ratedep + nuvar_therm + nuvar_heat + nuvar_kine
 !
           !< Real material parameters
           ! -> Elastic parameters
@@ -541,9 +542,9 @@
           enddo
 !
           !< Material tables
-          if (matparam%ntable > 0) then  
+          if (matparam%ntable > 0) then
             ! -> Tabulated elasticity
-            if (ntab_elas > 0) then            
+            if (ntab_elas > 0) then
               do i = 1, ntab_elas
                 matparam%table(i)%notable = itab_elas(i)
                 x1scale   = one
@@ -556,9 +557,9 @@
                 fscale(i) = fscale_elas(i)
               enddo
             endif
-            ! -> Tabulated work-hardening   
-            if (ntab_hard > 0) then 
-              offset = matparam%iparam(2)              
+            ! -> Tabulated work-hardening
+            if (ntab_hard > 0) then
+              offset = matparam%iparam(2)
               do i = 1, ntab_hard
                 matparam%table(offset+i)%notable = itab_hard(i)
                 x1scale   = one
@@ -647,22 +648,22 @@
           !< End of material definition printing
           write(iout,1003)
 !
-1001 format(/                                                                  &
-          5X,"=======================================================",/       &
-          5X,"           MATERIAL MODEL: ELASTO-PLASTIC              ",/,      &
-          5X,"=======================================================",/)
-1000 format(/                                                                  &
-          5X,A,/,                                                              &
-          5X,"MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=",I10/,   &
-          5X,"MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=",I10/)
-1002 format(/                                                                  &
-          5X,"INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=",1PG20.13/,&
-          5X,"RETURN MAPPING FLAG. . . . . . . . . . . . . . . . . .=",I10/    &
-          5X,"   = 1: NEXT INCREMENT CORRECT ERROR (NICE) 1 STEP ALGORITHM",/, &
-          5X,"   = 2: CUTTING PLANE ITERATIVE ALGORITHM                   ",/, &
-          5X,"   = 3: CLOSEST POINT PROJECTION METHOD (CPPM) IMPLICIT ALGORITHM",/)
-1003 format(/                                                                  &
-          5X,"=======================================================",/)
+1001      format(/                                                                  &
+            5X,"=======================================================",/       &
+            5X,"           MATERIAL MODEL: ELASTO-PLASTIC              ",/,      &
+            5X,"=======================================================",/)
+1000      format(/                                                                  &
+            5X,A,/,                                                              &
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=",I10/,   &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=",I10/)
+1002      format(/                                                                  &
+            5X,"INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=",1PG20.13/,&
+            5X,"RETURN MAPPING FLAG. . . . . . . . . . . . . . . . . .=",I10/    &
+            5X,"   = 1: NEXT INCREMENT CORRECT ERROR (NICE) 1 STEP ALGORITHM",/, &
+            5X,"   = 2: CUTTING PLANE ITERATIVE ALGORITHM                   ",/, &
+            5X,"   = 3: CLOSEST POINT PROJECTION METHOD (CPPM) IMPLICIT ALGORITHM",/)
+1003      format(/                                                                  &
+            5X,"=======================================================",/)
 !
         end subroutine hm_read_elasto_plastic
       end module hm_read_elasto_plastic_mod

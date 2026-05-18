@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -71,7 +72,8 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: ITASK    !   omp thread ID
       INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
       INTEGER, INTENT(in) :: NSENSOR
-      INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
+      INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED
+! list of interfaces that need to be sorted
       INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
       INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: IRECVFROM 
       TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
@@ -119,9 +121,9 @@ C-----------------------------------------------
                                     IF(SORT_COMM(N)%NB(P)/=0) THEN
 #ifdef MPI
                                         CALL MPI_WAIT(SORT_COMM(N)%REQ_SD2(P),STATUS,IERROR) 
-                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%RBUF) 
+                                        call my_dealloc(SORT_COMM(N)%DATA_PROC(P)%RBUF)
                                         CALL MPI_WAIT(SORT_COMM(N)%REQ_SD3(P),STATUS,IERROR) 
-                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%IBUF)  
+                                        call my_dealloc(SORT_COMM(N)%DATA_PROC(P)%IBUF)
                                         SORT_COMM(N)%NB(P) = 0 
 #endif                     
                                     END IF
@@ -132,54 +134,54 @@ C-----------------------------------------------
                 ENDIF
                 ! -----------------------------------------------------
                 ! deallocation
-                IF(ALLOCATED(SORT_COMM(N)%COARSE_GRID) )DEALLOCATE( SORT_COMM(N)%COARSE_GRID )
-                IF(ALLOCATED(SORT_COMM(N)%MAIN_COARSE_GRID) )DEALLOCATE( SORT_COMM(N)%MAIN_COARSE_GRID )
-                IF(ALLOCATED(SORT_COMM(N)%GLOBAL_COARSE_CELL) )DEALLOCATE( SORT_COMM(N)%GLOBAL_COARSE_CELL )
+                IF(ALLOCATED(SORT_COMM(N)%COARSE_GRID) ) call my_dealloc(SORT_COMM(N)%COARSE_GRID)
+                IF(ALLOCATED(SORT_COMM(N)%MAIN_COARSE_GRID) ) call my_dealloc(SORT_COMM(N)%MAIN_COARSE_GRID)
+                IF(ALLOCATED(SORT_COMM(N)%GLOBAL_COARSE_CELL) ) call my_dealloc(SORT_COMM(N)%GLOBAL_COARSE_CELL)
 
-                IF(ALLOCATED(SORT_COMM(N)%SEND_SIZE_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_SIZE_COARSE_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_SIZE_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_SIZE_COARSE_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_DISPLS_COARSE_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_DISPLS_COARSE_CELL )
+                IF(ALLOCATED(SORT_COMM(N)%SEND_SIZE_COARSE_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_SIZE_COARSE_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_SIZE_COARSE_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_SIZE_COARSE_CELL)
+      IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_COARSE_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_DISPLS_COARSE_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_COARSE_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_DISPLS_COARSE_CELL)
                
 
-                IF(ALLOCATED(SORT_COMM(N)%KEEP_PROC) )DEALLOCATE( SORT_COMM(N)%KEEP_PROC )
-                IF(ALLOCATED(SORT_COMM(N)%CELL_LIST) )DEALLOCATE( SORT_COMM(N)%CELL_LIST )
-                IF(ALLOCATED(SORT_COMM(N)%NB_CELL_PROC) )DEALLOCATE( SORT_COMM(N)%NB_CELL_PROC )
-                IF(ALLOCATED(SORT_COMM(N)%CELL) )DEALLOCATE( SORT_COMM(N)%CELL )
+                IF(ALLOCATED(SORT_COMM(N)%KEEP_PROC) ) call my_dealloc(SORT_COMM(N)%KEEP_PROC)
+                IF(ALLOCATED(SORT_COMM(N)%CELL_LIST) ) call my_dealloc(SORT_COMM(N)%CELL_LIST)
+                IF(ALLOCATED(SORT_COMM(N)%NB_CELL_PROC) ) call my_dealloc(SORT_COMM(N)%NB_CELL_PROC)
+                IF(ALLOCATED(SORT_COMM(N)%CELL) ) call my_dealloc(SORT_COMM(N)%CELL)
 
-                IF(ALLOCATED(SORT_COMM(N)%SEND_NB_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_NB_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_NB_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_NB_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_NB_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_DISPLS_NB_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_NB_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_DISPLS_NB_CELL )
+                IF(ALLOCATED(SORT_COMM(N)%SEND_NB_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_NB_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_NB_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_NB_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_NB_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_DISPLS_NB_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_NB_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_DISPLS_NB_CELL)
 
-                IF(ALLOCATED(SORT_COMM(N)%SEND_SIZE_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_SIZE_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_SIZE_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_SIZE_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_DISPLS_CELL )
-                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_DISPLS_CELL )
+                IF(ALLOCATED(SORT_COMM(N)%SEND_SIZE_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_SIZE_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_SIZE_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_SIZE_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_CELL) ) call my_dealloc(SORT_COMM(N)%SEND_DISPLS_CELL)
+                IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_CELL) ) call my_dealloc(SORT_COMM(N)%RCV_DISPLS_CELL)
 
-                IF(ALLOCATED(SORT_COMM(N)%REQUEST_NB_S) ) DEALLOCATE( SORT_COMM(N)%REQUEST_NB_S )
-                IF(ALLOCATED(SORT_COMM(N)%REQUEST_NB_R) ) DEALLOCATE( SORT_COMM(N)%REQUEST_NB_R )
-                IF(ALLOCATED(SORT_COMM(N)%NB) ) DEALLOCATE( SORT_COMM(N)%NB )
-                IF(ALLOCATED(SORT_COMM(N)%INDEX_RCV) ) DEALLOCATE( SORT_COMM(N)%INDEX_RCV )
+                IF(ALLOCATED(SORT_COMM(N)%REQUEST_NB_S) ) call my_dealloc(SORT_COMM(N)%REQUEST_NB_S)
+                IF(ALLOCATED(SORT_COMM(N)%REQUEST_NB_R) ) call my_dealloc(SORT_COMM(N)%REQUEST_NB_R)
+                IF(ALLOCATED(SORT_COMM(N)%NB) ) call my_dealloc(SORT_COMM(N)%NB)
+                IF(ALLOCATED(SORT_COMM(N)%INDEX_RCV) ) call my_dealloc(SORT_COMM(N)%INDEX_RCV)
 
-                IF(ALLOCATED(SORT_COMM(N)%SEND_NB) ) DEALLOCATE( SORT_COMM(N)%SEND_NB )
-                IF(ALLOCATED(SORT_COMM(N)%RECV_NB) ) DEALLOCATE( SORT_COMM(N)%RECV_NB )
+                IF(ALLOCATED(SORT_COMM(N)%SEND_NB) ) call my_dealloc(SORT_COMM(N)%SEND_NB)
+                IF(ALLOCATED(SORT_COMM(N)%RECV_NB) ) call my_dealloc(SORT_COMM(N)%RECV_NB)
 
-                IF(ALLOCATED(SORT_COMM(N)%REQUEST_CELL_SEND) ) DEALLOCATE( SORT_COMM(N)%REQUEST_CELL_SEND )
-                IF(ALLOCATED(SORT_COMM(N)%REQUEST_CELL_RCV) ) DEALLOCATE( SORT_COMM(N)%REQUEST_CELL_RCV )
+                IF(ALLOCATED(SORT_COMM(N)%REQUEST_CELL_SEND) ) call my_dealloc(SORT_COMM(N)%REQUEST_CELL_SEND)
+                IF(ALLOCATED(SORT_COMM(N)%REQUEST_CELL_RCV) ) call my_dealloc(SORT_COMM(N)%REQUEST_CELL_RCV)
 
-                IF(ALLOCATED(SORT_COMM(N)%IIX) )DEALLOCATE( SORT_COMM(N)%IIX )
-                IF(ALLOCATED(SORT_COMM(N)%IIY) )DEALLOCATE( SORT_COMM(N)%IIY )
-                IF(ALLOCATED(SORT_COMM(N)%IIZ) )DEALLOCATE( SORT_COMM(N)%IIZ )
-                IF(ALLOCATED(SORT_COMM(N)%LAST_NOD) )DEALLOCATE( SORT_COMM(N)%LAST_NOD )
-                IF(ALLOCATED(SORT_COMM(N)%NEXT_NOD) )DEALLOCATE( SORT_COMM(N)%NEXT_NOD )
-                IF(ALLOCATED(SORT_COMM(N)%VOXEL) )DEALLOCATE( SORT_COMM(N)%VOXEL )
+                IF(ALLOCATED(SORT_COMM(N)%IIX) ) call my_dealloc(SORT_COMM(N)%IIX)
+                IF(ALLOCATED(SORT_COMM(N)%IIY) ) call my_dealloc(SORT_COMM(N)%IIY)
+                IF(ALLOCATED(SORT_COMM(N)%IIZ) ) call my_dealloc(SORT_COMM(N)%IIZ)
+                IF(ALLOCATED(SORT_COMM(N)%LAST_NOD) ) call my_dealloc(SORT_COMM(N)%LAST_NOD)
+                IF(ALLOCATED(SORT_COMM(N)%NEXT_NOD) ) call my_dealloc(SORT_COMM(N)%NEXT_NOD)
+                IF(ALLOCATED(SORT_COMM(N)%VOXEL) ) call my_dealloc(SORT_COMM(N)%VOXEL)
 
-                IF(ALLOCATED(INTER_STRUCT(N)%CURV_MAX)) DEALLOCATE(INTER_STRUCT(N)%CURV_MAX)
+                IF(ALLOCATED(INTER_STRUCT(N)%CURV_MAX)) call my_dealloc(INTER_STRUCT(N)%CURV_MAX)
                 ! -----------------------------------------------------
             ENDDO
-            IF(ALLOCATED(NB_LOCAL_CELL) )DEALLOCATE( NB_LOCAL_CELL )
-            IF(ALLOCATED(CELL_BOOL) )DEALLOCATE( CELL_BOOL )
+            IF(ALLOCATED(NB_LOCAL_CELL) ) call my_dealloc(NB_LOCAL_CELL)
+            IF(ALLOCATED(CELL_BOOL) ) call my_dealloc(CELL_BOOL)
         ENDIF
         CALL MY_BARRIER()
 

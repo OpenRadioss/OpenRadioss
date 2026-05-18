@@ -60,6 +60,7 @@
           use submodel_mod
           use constant_mod , only : one ,two, zero
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Implicit none
@@ -156,9 +157,9 @@
           matparam%nfunc   = 0
           matparam%ntable  = 0
 !
-          allocate (matparam%uparam(matparam%nuparam))
-          allocate (matparam%iparam(matparam%niparam))
-          allocate (matparam%table(matparam%ntable))
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          allocate(matparam%table(matparam%ntable))
 !
 
           matparam%iparam(1)  = pwrt

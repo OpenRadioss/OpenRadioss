@@ -57,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -195,10 +196,10 @@ C----------------------------
       ENDIF
 
       IF(NBGAUGE > 0) THEN
-        DEALLOCATE(FVSPMD(IFV)%GGG)
-        DEALLOCATE(FVSPMD(IFV)%GGA)
+        call my_dealloc(FVSPMD(IFV)%GGG)
+        call my_dealloc(FVSPMD(IFV)%GGA)
       ENDIF
-      DEALLOCATE(FVSPMD(IFV)%AAA)
+      call my_dealloc(FVSPMD(IFV)%AAA)
 
       IF(ITYP /= 8 ) RETURN
 C -------------------
