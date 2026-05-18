@@ -139,8 +139,6 @@ c
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG
 
       integer :: node_id
-      integer, dimension(:), allocatable, save :: local_nb_cand
-      integer, dimension(:), allocatable :: local_cand
 C-----------------------------------------------
       CALL MY_ALLOC(TAG,NUMNOD)
       
@@ -149,10 +147,8 @@ C-----------------------------------------------
         ALLOCATE(IIX(NSN+NSNR))
         ALLOCATE(IIY(NSN+NSNR))
         ALLOCATE(IIZ(NSN+NSNR))
-        allocate(local_nb_cand(nthread))
         allocate(last_nod(nsn+nsnr))
       END IF
-      allocate(local_cand(nsn))
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C initial construction phase of bpe and bpn moved from i7buce => i7tri
@@ -172,7 +168,6 @@ c     Dev Future: xminb larger than Xmin ...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-      local_nb_cand(itask+1) = 0
 !$omp do schedule(guided)      
       do i=1,nsn
         iix(i) = 0
@@ -186,8 +181,6 @@ c     Dev Future: xminb larger than Xmin ...
         if(x(2,node_id)>ymax) cycle
         if(x(3,node_id)<zmin) cycle
         if(x(3,node_id)>zmax) cycle
-        local_nb_cand(itask+1) = local_nb_cand(itask+1) + 1
-        local_cand(local_nb_cand(itask+1)) = i
         iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
         iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
         iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
@@ -681,7 +674,6 @@ C
         DEALLOCATE(IIX)
         DEALLOCATE(IIY)
         DEALLOCATE(IIZ)
-        deallocate(local_nb_cand)
         deallocate(last_nod)
       ENDIF
 
