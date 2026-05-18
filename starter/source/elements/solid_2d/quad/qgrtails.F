@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ALE_MOD , ONLY : ALE
       use element_mod , only : nixq
+      use reorder_mod
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -107,9 +108,12 @@ C-----------------------------------------------
       INTEGER ID,MFT,ILOC,JJ
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL lFOUND
+      integer, dimension(:), allocatable :: index2
 C--------------------------------------------------------------
 C         bounding of MVSIZ groups
 C--------------------------------------------------------------
+      allocate(index2(numelq))
+      index2(1:numelq) = permutation%quad(1:numelq)
       NGR1 = NGROUP + 1
 C
 C Phase 1: Domain Decomposition
@@ -157,6 +161,7 @@ C
           IXQ(7,I+NFT)=INUM(8,INDEX(I))
           IQUAOFF(I+NFT)=INUM(9,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
+          permutation%quad(i+nft)=index2(index(i)+nft)
         ENDDO
 
 C dd-iad
@@ -489,5 +494,6 @@ C
      +'       MID    MEDIUM      FLAG      FLAG      TYPE   '/)
  1001 FORMAT(17(I10))
 C
+      deallocate(index2)
       RETURN
       END

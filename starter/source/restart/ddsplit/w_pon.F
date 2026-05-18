@@ -58,7 +58,8 @@ C
      O      IBFFLUX  ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L  ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
      Q      IGRSURF_PROC ,LOCAL_NEBCS, EBCS_TAB_LOC_2,
-     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM)
+     R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM,
+     S      bcs,bcs_per_proc)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use get_fsky_address_mod , only : get_fsky_address
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      use bcs_mod , only : bcs_struct_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +137,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NUMBER_LOAD_CYL ! sum of load segment number
       TYPE(LOADS_),INTENT(IN) :: LOADS ! initial structure of load cyl
       TYPE(LOADS_), INTENT(INOUT) :: LOADS_PER_PROC ! structure of load cyl for for the current proc P
+      type(bcs_struct_), intent(in) :: bcs !< bcs data structure
+      type(bcs_struct_), intent(inout) :: bcs_per_proc !< bcs data structure for the current proc
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -197,13 +201,13 @@ C-----------------------------------------------
      .        IADTG1,IADIG3D
       TYPE(ebcs_parith_on), DIMENSION(:), ALLOCATABLE :: EBCS_PARITHON_L ! adress for the fsky array for parith/on
       LOGICAL, DIMENSION(:), ALLOCATABLE :: EBCS_TAG ! boolean : true if the element belongs to an ebcs
-      INTEGER :: LOCAL_NODE_ID,ELEM_ID,NUMG_SAVE
+      INTEGER :: LOCAL_NODE_ID,ELEM_ID,NUMG_SAVE,node_id
 
-      ! loads option
       INTEGER :: GLOBAL_SEGMENT_ID ! global segment id
       INTEGER :: LOCAL_PROC_ID ! processor id where the segment is defined
       INTEGER :: LOCAL_SEGMENT_ID ! local segment id (local to the proc LOCAL_PROC_ID)
-      INTEGER :: GLOBAL_LOAD_ID,LOCAL_LOAD_ID ! load id (global and local to proc LOCAL_PROC_ID)
+      INTEGER :: GLOBAL_LOAD_ID,LOCAL_LOAD_ID ! load id (global and local to proc LOCAL_PROC_ID)      
+      integer :: local_to_proc
 
       logical :: bool
       integer, parameter :: nixs10 = 6
@@ -215,7 +219,8 @@ C-----------------------------------------------
       integer :: truss_offset,beam_offset,spring_offset
       integer :: triangle_offset,low_triangle6_offset,bc_offset
       integer :: thermal_conv_offset,thermal_rad_offset,thermal_flux_offset
-      integer :: load_offset,ig3d_offset,load_cyl_offset,last_offset
+      integer :: load_offset,ig3d_offset,load_cyl_offset
+      integer :: bcs_nrf_offset,last_offset
       ! first dimension of address array
       integer, parameter :: s_iads = 8
       integer, parameter :: s_iads10 = 6
@@ -543,7 +548,8 @@ C
       load_offset = thermal_flux_offset + glob_therm%nfxflux
       ig3d_offset = load_offset + slloadp/4
       load_cyl_offset = ig3d_offset + numelig3d
-      last_offset = load_cyl_offset + number_load_cyl
+      bcs_nrf_offset = load_cyl_offset + number_load_cyl
+      last_offset = bcs_nrf_offset + bcs%nrf_cont_nb
 
       ! --------------------
       ADDCNE_L(1) = 1
@@ -559,7 +565,7 @@ C
           NUML = CEL(NUMG) ! get the local element id
           PROC_L = CEP(NUMG)+1 ! get the processor owning the element
           CC_L = CC_L + 1 ! local counter, address to point to the good place in FSKY array
-          PROCNE(CC_L) = PROC_L
+          PROCNE(CC_L) = PROC_L       
           ! --------------------
           ! check if the element is on the current proc
           IF (PROC==PROC_L) THEN           
@@ -932,7 +938,7 @@ C
               ENDDO
             ! --------------------
             ! Boundary conditions : pcyl load  
-            ELSEIF(numg>load_cyl_offset.and.numg<=last_offset) THEN
+            ELSEIF(numg>load_cyl_offset.and.numg<=bcs_nrf_offset) THEN
               ! --------------------
               ! /LOAD/PCYL option
               ! get the global load segment id
@@ -951,8 +957,25 @@ C
               ENDDO
               ! --------
               ! --------------------
+              ! /BCS/NRF option
+            elseif(numg>bcs_nrf_offset.and.numg<=last_offset) then
+              global_segment_id = numg - bcs_nrf_offset
+              do ii=1,bcs%num_nrf
+                if(global_segment_id>=bcs%nrf_bound(1,ii).and.global_segment_id<=bcs%nrf_bound(2,ii)) then ! get the bcs/nrf ii to which belongs the segment
+                  local_segment_id = global_segment_id - bcs%nrf_bound(1,ii) + 1 ! get the local segment id (local to the /BCS/NRF option)
+                  local_to_proc = bcs%nrf(ii)%list%global_2_local(local_segment_id) ! get the local segment id (local to the proc P)
+                  do j=1,4
+                    node_id = bcs%nrf(ii)%list%node_list(j,local_segment_id) ! get the node id
+                    if(N==node_id) then ! check if the node id is equal to N                  
+                      bcs_per_proc%nrf(ii)%list%iadsky(j,local_to_proc) = CC_L ! save the address CC_L into bcs%nrf(ii)%list%iadsky(1:4,1:nseg)
+                      GO TO 100
+                    endif
+                  enddo
+                endif                
+              enddo
+              ! --------------------
             ELSE
-              print *,'**error assadd2 unknown elem type'
+              print *,'**error assadd2 unknown elem type',numg,n
             ENDIF
             ! --------------------            
  100        CONTINUE

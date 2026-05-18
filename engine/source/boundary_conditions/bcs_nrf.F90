@@ -56,11 +56,12 @@
           ixs      , ixtg    , ixq   ,   &
           iparit   , lsky    , fsky  , &
           wfext    , fext    , dt1, &
-          anim_v   , outp_v  , h3d_data)
+          anim_v   , outp_v  , h3d_data, &
+          bcs)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use bcs_mod , only : bcs
+          use bcs_mod , only : bcs_struct_
           use precision_mod , only : WP
           use elbufdef_mod , only : elbuf_struct_
           use constant_mod , only : zero, em14, half, em20
@@ -97,6 +98,7 @@
           integer,intent(in) :: outp_v(10)
           type(h3d_database) :: h3d_data
           real(kind=wp),intent(in) :: dt1
+          type(bcs_struct_), intent(in) :: bcs
 
           !-----------------------------!
           integer icf3d(4,6), icf2d(2,4)
@@ -146,10 +148,6 @@
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
           if(bcs%num_nrf == 0) return
-          if(iparit == 1)then
-            CALL ANCMSG(MSGID=3,ANMODE=ANINFO) ! /BCS/NRF not yet compatible with PARITH/ON
-            CALL ARRET(2)
-          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -222,8 +220,9 @@
                   fy(inod) = - rCpN*vn*NY - rCsN*vel_t(2)
                   fz(inod) = - rCpN*vn*NZ - rCsN*vel_t(3)
                 END DO
-!omp critical
+
                 IF(IPARIT == 0)THEN
+!$omp critical
                   A(1,NOD1) = A(1,NOD1) + fx(1)
                   A(2,NOD1) = A(2,NOD1) + fy(1)
                   A(3,NOD1) = A(3,NOD1) + fz(1)
@@ -238,27 +237,29 @@
                     A(2,NOD4) = A(2,NOD4) + fy(4)
                     A(3,NOD4) = A(3,NOD4) + fz(4)
                   END IF
+!$omp end critical                  
                 ELSE
-                  IAD = 1
+                  IAD = bcs%nrf(ii)%list%iadsky(1,jj)
                   FSKY(1,IAD) = FX(1)
                   FSKY(2,IAD) = FY(1)
                   FSKY(3,IAD) = FZ(1)
-                  IAD = 1
+                  IAD = bcs%nrf(ii)%list%iadsky(2,jj)
                   FSKY(1,IAD) = FX(2)
                   FSKY(2,IAD) = FY(2)
                   FSKY(3,IAD) = FZ(2)
-                  IAD = 1
+                  IAD = bcs%nrf(ii)%list%iadsky(3,jj)
                   FSKY(1,IAD) = FX(3)
                   FSKY(2,IAD) = FY(3)
                   FSKY(3,IAD) = FZ(3)
                   IF(NOD4 /= 0)THEN
-                    IAD = 1
+                    IAD = bcs%nrf(ii)%list%iadsky(4,jj)
                     FSKY(1,IAD) = FX(4)
                     FSKY(2,IAD) = FY(4)
                     FSKY(3,IAD) = FZ(4)
                   END IF
                 END IF
                 IF(IOUTPUT > 0)THEN
+!$omp critical                  
                   FEXT(1,NOD1) = FEXT(1,NOD1) + fx(1)
                   FEXT(2,NOD1) = FEXT(2,NOD1) + fy(1)
                   FEXT(3,NOD1) = FEXT(3,NOD1) + fz(1)
@@ -273,8 +274,8 @@
                     FEXT(2,NOD4) = FEXT(2,NOD4) + fy(4)
                     FEXT(3,NOD4) = FEXT(3,NOD4) + fz(4)
                   END IF
+!$omp end critical                  
                 END IF
-!omp end critical
 
                 ! External Force Work increment
                 WFEXTT = WFEXTT + DT1 * (  FX(1)*V(1,NOD1) + FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
@@ -322,27 +323,29 @@
                 fz(2) = - rCpN*vn*NZ - rCsN*vt*TZ
 
 
-!omp critical
                 IF(IPARIT ==0)THEN
+!$omp critical
                   A(2,NOD1) = A(2,NOD1) + fy(1)
                   A(3,NOD1) = A(3,NOD1) + fz(1)
                   A(2,NOD2) = A(2,NOD2) + fy(2)
                   A(3,NOD2) = A(3,NOD2) + fz(2)
+!$omp end critical                  
                 ELSE
-                  IAD = 1
+                  IAD = bcs%nrf(ii)%list%iadsky(1,jj)
                   FSKY(2,IAD) = FY(1)
                   FSKY(3,IAD) = FZ(1)
-                  IAD = 1
+                  IAD = bcs%nrf(ii)%list%iadsky(2,jj)              
                   FSKY(2,IAD) = FY(2)
                   FSKY(3,IAD) = FZ(2)
                 END IF
                 IF(IOUTPUT > 0)THEN
+!$omp critical                  
                   FEXT(2,NOD1) = FEXT(2,NOD1) + fy(1)
                   FEXT(3,NOD1) = FEXT(3,NOD1) + fz(1)
                   FEXT(2,NOD2) = FEXT(2,NOD2) + fy(2)
                   FEXT(3,NOD2) = FEXT(3,NOD2) + fz(2)
+!$omp end critical                  
                 END IF
-!omp end critical
 
                 !External Force Work
                 WFEXTT = WFEXTT + DT1 * (  FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
@@ -352,9 +355,9 @@
               end if
             enddo
 
-!omp critical
+!$omp critical
             wfext = wfext + wfextt
-!omp end critical
+!$omp end critical
 
           end do!next ii
 
