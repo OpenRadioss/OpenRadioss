@@ -1,0 +1,22 @@
+## MUMPS linear algebra solver setup for Intel compilers on Linux.
+## Uses MKL for scalapack/blacs. Requires -mpi=impi.
+## Sets: MKL_lib, mumps_libs, mumps_flag, mumps_inc, WITH_LINEAR_ALGEBRA
+if (DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "")
+  message(STATUS " MUMPS root directory: ${mumps_root}")
+  if (mpiver STREQUAL "smp")
+    message(FATAL_ERROR "\n ERROR: cannot use MUMPS without -mpi=impi")
+  endif()
+  if (DEFINED ENV{MKLROOT})
+    set(MKL_IDIR "$ENV{MKLROOT}/include")
+    set(MKL_LDIR "$ENV{MKLROOT}/lib/intel64")
+  else()
+    set(MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
+    set(MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
+  endif()
+  set(MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmkl_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
+  set(MUMPSLIB "${mumps_root}/lib")
+  set(mumps_inc  "-I${mumps_root}/include")
+  set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_ -DMUMPS_ARITH=MUMPS_ARITH_d")
+  set(WITH_LINEAR_ALGEBRA "yes")
+  set(mumps_libs "${MUMPSLIB}/libdmumps.a ${MUMPSLIB}/libmumps_common.a ${MUMPSLIB}/libpord.a")
+endif()

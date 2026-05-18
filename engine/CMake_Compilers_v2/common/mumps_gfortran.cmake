@@ -1,0 +1,23 @@
+## MUMPS linear algebra solver setup for GFortran.
+## Activated when -mumps_root=<path> is passed to build_script.sh.
+## Sets: mumps_libs, mumps_flag, mumps_inc, WITH_LINEAR_ALGEBRA
+if (DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "")
+  set(MUMPSLIB "${mumps_root}/lib")
+  set(mumps_inc  "-I${mumps_root}/include")
+  set(mumps_flag "-Dpord -Dmetis -Dthr_all -DMUMPS5 -DAdd_")
+  if (NOT DEFINED scalapack_root)
+    message(WARNING "MUMPS needs Scalapack: provide -scalapack_root=<path>")
+    set(scalapack_root "${mumps_root}/../scalapack-2.2.0")
+  endif()
+  if (NOT DEFINED lapack_root)
+    message(WARNING "MUMPS needs Lapack: provide -lapack_root=<path>")
+    set(lapack_root "${mumps_root}/../lapack-3.10.1")
+  endif()
+  set(mumps_dep_libs "${scalapack_root}/libscalapack.a")
+  set(mumps_dep_libs "${mumps_dep_libs} ${lapack_root}/liblapack.a ${lapack_root}/libtmglib.a ${lapack_root}/librefblas.a")
+  set(mumps_libs "${MUMPSLIB}/libdmumps.a ${MUMPSLIB}/libmumps_common.a ${MUMPSLIB}/libpord.a ${mumps_dep_libs}")
+  set(WITH_LINEAR_ALGEBRA "yes")
+endif()
+if ("${mumps_root}" STREQUAL "")
+  unset(mumps_root)
+endif()

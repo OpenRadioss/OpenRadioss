@@ -201,19 +201,29 @@ if (NOT DEFINED arch)
    set (arch "linux64_gf")
 endif ()
 
-if ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
-   message(STATUS "CMake_Compilers${cdir}/cmake_${arch}.txt  file not found ")
+# Use -Dcmake_ver=v2 to use the refactored CMake_Compilers_v2/ (recommended).
+# Default (no cmake_ver) keeps the legacy CMake_Compilers/ with .txt files.
+if (DEFINED cmake_ver)
+  set(cmake_compilers_root "CMake_Compilers_${cmake_ver}")
+  set(cmake_compilers_ext  "cmake")
+else()
+  set(cmake_compilers_root "CMake_Compilers${cdir}")
+  set(cmake_compilers_ext  "txt")
+endif()
+
+if ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${cmake_compilers_root}/cmake_${arch}.${cmake_compilers_ext} )
+   message(STATUS "${cmake_compilers_root}/cmake_${arch}.${cmake_compilers_ext} file not found")
    set (arch "none")
-endif ( NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt )
+endif ()
 
 
 if ( NOT (arch STREQUAL "none") )
-   message(STATUS "Loading ${arch} settings")
-   include (${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt)
+   message(STATUS "Loading ${arch} settings from ${cmake_compilers_root}/")
+   include (${CMAKE_CURRENT_SOURCE_DIR}/${cmake_compilers_root}/cmake_${arch}.${cmake_compilers_ext})
 
 else ()
    if(UNIX)
-     include (CMake_Compilers${cdir}/cmake_configure_linux.txt)
+     include (${cmake_compilers_root}/cmake_configure_linux.txt)
    endif (UNIX)
 endif ()
 

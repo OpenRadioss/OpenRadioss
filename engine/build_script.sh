@@ -67,6 +67,7 @@ function my_help()
   echo "   -gpu-cc=[ccXX]                    : GPU compute capability target (default: cc80)"
   echo "                                       e.g. cc80 (A100), cc90 (H100), cc120 (B200)"
   echo "                                       Set NVHPC_CUDA_HOME or CUDA_HOME to override CUDA toolkit path"
+  echo " -cmake_ver=legacy : use legacy CMake_Compilers/ build system (default: v2)"
   echo " " 
   echo " " 
 }
@@ -87,6 +88,8 @@ sanitize=0
 jenkins_release=0
 no_rr_clean=0
 no_python=0
+cmake_ver=v2
+dcmake_ver="-Dcmake_ver=v2"
 changelist=00000
 cf=""
 dc=""
@@ -101,6 +104,14 @@ mpi_root=""
 mpi_libdir=""
 mpi_incdir=""
 number_of_arguments=$#
+
+if [ "$(uname -m)" = "x86_64" ]; then
+  default_arch=linux64_gf
+elif [ "$(uname -m)" = "aarch64" ]; then
+  default_arch=linuxa64_gf
+else
+  default_arch=linux64_gf
+fi
 verbose=""
 eng_vers="engine"
 mumps_root=""
@@ -118,14 +129,19 @@ ad=none
 
 if [ $number_of_arguments = 0 ]
 then
-  my_help
-  exit 1
- 
-else
+  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=v2"
+  echo "Run './build_script.sh -help' for all options."
+fi
 
-   for var in "$@"
+for var in "$@"
    do
        arg=`echo $var|awk -F '=' '{print $1}'`
+
+       if [ "$arg" == "-help" ] || [ "$var" == "--help" ] || [ "$var" == "-h" ]
+       then
+         my_help
+         exit 0
+       fi
 
        if [ "$arg" == "-arch" ]
        then
@@ -278,6 +294,16 @@ else
          gpu_cc=`echo $var|awk -F '=' '{print $2}'`
        fi
 
+       if [ "$arg" == "-cmake_ver" ]
+       then
+         cmake_ver=`echo $var|awk -F '=' '{print $2}'`
+         if [ "$cmake_ver" = "legacy" ]; then
+           dcmake_ver=""
+         else
+           dcmake_ver="-Dcmake_ver=${cmake_ver}"
+         fi
+       fi
+
        if [ "$arg" == "-release" ]
        then
          release=1
@@ -314,15 +340,9 @@ else
      echo " "
    fi
 
-   if [ $got_arch == 0 ] 
+   if [ $got_arch == 0 ]
    then
-     echo " " 
-     echo " --- Error "
-     echo " No architecture flag set ! "
-     echo " -arch=[architecture]" 
-     echo "       Available arch:"
-     my_help
-     exit 1
+     arch=${default_arch}
    fi
 
    if [ $release == 1 ]
@@ -332,7 +352,11 @@ else
    fi 
 
 engine_exec=${eng_vers}_${arch}${dmpi}${suffix}${coupling_exe}${ddebug}
-build_directory=cbuild_${engine_exec}${cf}
+if [ "$cmake_ver" = "legacy" ]; then
+  build_directory=cbuild_${engine_exec}${cf}
+else
+  build_directory=cbuild${cmake_ver}_${engine_exec}${cf}
+fi
 
 
    echo " " 
@@ -345,6 +369,7 @@ build_directory=cbuild_${engine_exec}${cf}
    echo " precision =            : " $prec
    echo " debug =                : " $debug
    echo " static_link =          : " $static_link
+   echo " cmake_ver =            : " $cmake_ver
    echo " " 
    echo " Executable name        : " ${engine_exec}
    if [ "$ad" != "none" ]  
@@ -354,7 +379,6 @@ build_directory=cbuild_${engine_exec}${cf}
    echo " "
    echo " #threads for Makefile : " $threads
    echo " "
-fi
 
 if [ $clean = 1 ]
 then
@@ -405,23 +429,39 @@ then
     then
       source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
     else
-      echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help below"
-      echo " " 
-      my_help
-      exit 1
+      echo "-- Error: -arch=${arch} does not exist in CMake_Compilers_c/"
+      cd .. && exit 1
     fi
-else
+elif [ "$cmake_ver" = "legacy" ]
+then
     if [ -f ../CMake_Compilers/cmake_${arch}_compilers.sh ]
     then
       source ../CMake_Compilers/cmake_${arch}_compilers.sh
     else
-      echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help below"
-      echo " " 
-      my_help
-      exit 1
+      echo "-- Error: -arch=${arch} does not exist in CMake_Compilers/"
+      cd .. && exit 1
     fi
+else
+    # v2 mode: embedded compiler lookup (no external files needed)
+    case "$arch" in
+      linux64_gf)        Fortran_comp=gfortran;  C_comp=gcc;       CXX_comp=g++         ;;
+      linux64_ifort)     Fortran_comp=ifort;     C_comp=icc;       CXX_comp=icpc        ;;
+      linux64_ifx)       Fortran_comp=ifx;       C_comp=icx;       CXX_comp=icpx        ;;
+      linux64_AOCC)      Fortran_comp=flang;     C_comp=clang;     CXX_comp=clang++     ;;
+      linux64_nvhpc)     Fortran_comp=nvfortran; C_comp=nvc;       CXX_comp=nvc++       ;;
+      linuxa64_gf)       Fortran_comp=gfortran;  C_comp=gcc;       CXX_comp=g++         ;;
+      linuxa64_nvhpc)    Fortran_comp=nvfortran; C_comp=nvc;       CXX_comp=nvc++       ;;
+      linuxa64_armflang) Fortran_comp=armflang;  C_comp=armclang;  CXX_comp=armclang++  ;;
+      win64|win64_ifx)   Fortran_comp=ifx;       C_comp=icx;       CXX_comp=icpx        ;;
+      win64_ifort)       Fortran_comp=ifort;     C_comp=icl;       CXX_comp=icl         ;;
+      *)
+        echo "-- Error: Unknown arch '${arch}' for v2 build."
+        echo "-- Available architectures:"
+        cat ../CMake_Compilers_v2/platforms.txt
+        cd .. && exit 1
+        ;;
+    esac
+    CPP_comp=$CXX_comp
 fi
 
 Fortran_path=`which $Fortran_comp 2>/dev/null`
@@ -467,10 +507,9 @@ then
   C_path_w=`cygpath.exe -m "${C_path}"`
   CPP_path_w=`cygpath.exe -m "${CPP_path}"`
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
-  cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la}
+  cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la} ${dcmake_ver}
 else
-  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -Dopenacc=${openacc} ${gpu_cc:+-Dgpu_cc=${gpu_cc}} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path}
-
+  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -Dopenacc=${openacc} ${gpu_cc:+-Dgpu_cc=${gpu_cc}} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path} ${dcmake_ver}
 fi
 
 return_value=$?

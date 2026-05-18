@@ -1,0 +1,80 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+
+    // ─── Engine tasks ─────────────────────────────────────────────────────────
+    {
+      "label": "Engine: Build (default)",
+      "type": "shell",
+      "command": "./build_script.sh",
+      "options": { "cwd": "${workspaceFolder}/engine" },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Engine: Build debug",
+      "type": "shell",
+      "command": "./build_script.sh -debug=1",
+      "options": { "cwd": "${workspaceFolder}/engine" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Engine: Build + OpenMPI",
+      "type": "shell",
+      "command": "./build_script.sh -mpi=ompi",
+      "options": { "cwd": "${workspaceFolder}/engine" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Engine: Clean",
+      "type": "shell",
+      "command": "./build_script.sh -clean",
+      "options": { "cwd": "${workspaceFolder}/engine" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ─── Starter tasks ────────────────────────────────────────────────────────
+    {
+      "label": "Starter: Build (default)",
+      "type": "shell",
+      "command": "./build_script.sh",
+      "options": { "cwd": "${workspaceFolder}/starter" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Starter: Build debug",
+      "type": "shell",
+      "command": "./build_script.sh -debug=1",
+      "options": { "cwd": "${workspaceFolder}/starter" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Starter: Clean",
+      "type": "shell",
+      "command": "./build_script.sh -clean",
+      "options": { "cwd": "${workspaceFolder}/starter" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ─── Combined tasks ───────────────────────────────────────────────────────
+    {
+      "label": "Build both (default)",
+      "dependsOn": ["Engine: Build (default)", "Starter: Build (default)"],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    }
+
+  ]
+}
