@@ -26,7 +26,7 @@
 !||    hm_read_mat         ../starter/source/materials/mat/hm_read_mat.F90
 !||====================================================================
       module hm_read_mat87_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /MAT/LAW87
@@ -75,6 +75,7 @@
           use func_table_copy_mod
           use mat_table_copy_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -471,9 +472,9 @@
           end if
 !
           !< Allocation of material parameters tables
-          allocate (matparam%iparam(matparam%niparam))
-          allocate (matparam%uparam(matparam%nuparam))
-          allocate (matparam%table (matparam%ntable ))
+          call my_alloc(matparam%iparam,matparam%niparam,"matparam%iparam")
+          call my_alloc(matparam%uparam,matparam%nuparam,"matparam%uparam")
+          allocate(matparam%table(matparam%ntable))
 !
           !< Number of user variables
           nuvar = 1

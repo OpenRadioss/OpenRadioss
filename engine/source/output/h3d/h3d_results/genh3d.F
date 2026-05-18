@@ -247,6 +247,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #ifdef MPI
 #endif
@@ -520,10 +521,10 @@ C-----------------------------------------------
      .                 +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .                 +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
         NSENSOR = SENSORS%NSENSOR
-        ALLOCATE(MAS(SMAS))
-        ALLOCATE(SUB_NCHILD(NSUBS))
-        ALLOCATE(SUB_LEVEL(NSUBS))
-        ALLOCATE(SUB_ID(NSUBS))
+        call my_alloc(MAS, SMAS, "MAS")
+        call my_alloc(SUB_NCHILD, NSUBS, "SUB_NCHILD")
+        call my_alloc(SUB_LEVEL, NSUBS, "SUB_LEVEL")
+        call my_alloc(SUB_ID, NSUBS, "SUB_ID")
 
 c
         I161=1
@@ -558,46 +559,46 @@ c
 C----- same size of skin than quad
         NIXSKIN = NIXQ
 
-        ALLOCATE(X_P(8*NUMNODG0))
-        ALLOCATE(ITAB_P(NUMNODG0))
+        call my_alloc(X_P, 8*NUMNODG0, "X_P")
+        call my_alloc(ITAB_P, NUMNODG0, "ITAB_P")
 
-        CALL MY_ALLOC( IXTG_P       ,NIXTG,NUMELTGG*IP0)
-        CALL MY_ALLOC( IXS_P        ,NIXS,(NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)*IP0)
-        CALL MY_ALLOC( IXP_P        ,NIXP,NUMELPG*IP0)
-        CALL MY_ALLOC( IXR_P        ,NIXR,NUMELRG*IP0)
-        CALL MY_ALLOC( KXSP_P       ,NISP,NUMSPHG*IP0)
-        CALL MY_ALLOC( IXT_P        ,NIXT,NUMELTRG*IP0) !!
-        CALL MY_ALLOC( IXC_P        ,NIXC,NUMELCG*IP0)
-        CALL MY_ALLOC( IXS10_P      ,11,NUMELS10G*IP0)
-        CALL MY_ALLOC( IXS16_P      ,17,NUMELS16G*IP0)
-        CALL MY_ALLOC( IXS20_P      ,21,NUMELS20G*IP0)
-        ALLOCATE( IPARTC_P     (NUMELCG*IP0))
-        ALLOCATE( IPARTTG_P    (NUMELTGG*IP0))
-        ALLOCATE( IPARTQ_P     (NUMELQG*IP0))
-        ALLOCATE( IPARTS_P     ((NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)*IP0))
-        ALLOCATE( IPARTR_P     (NUMELRG*IP0))
-        ALLOCATE( IPARTP_P     (NUMELPG*IP0))
-        ALLOCATE( IPARTT_P     (NUMELTRG*IP0))
-        ALLOCATE( IPARTSP_P    (NUMSPHG*IP0))
-        ALLOCATE( IPARTS10_P   (NUMELS10G*IP0))
-        ALLOCATE( IPARTS16_P   (NUMELS16G*IP0))
-        ALLOCATE( IPARTS20_P   (NUMELS20G*IP0))
-        CALL MY_ALLOC( IXQ_P        ,NIXQ,NUMELQG*IP0)
-        CALL MY_ALLOC( IXC_TMP      ,NIXC,NUMELC)
-        CALL MY_ALLOC( IXTG_TMP     ,NIXTG,NUMELTG)
-        CALL MY_ALLOC( IXR_TMP      ,NIXR,NUMELR)
-        CALL MY_ALLOC( IXP_TMP      ,NIXP,NUMELP)
-        CALL MY_ALLOC( KXSP_TMP     ,NISP,NUMSPH)
-        CALL MY_ALLOC( IXT_TMP      ,NIXT,NUMELT)
-        CALL MY_ALLOC( IXS10_TMP    ,11,NUMELS10)
-        CALL MY_ALLOC( IXS16_TMP    ,17,NUMELS16)
-        CALL MY_ALLOC( IXS20_TMP    ,21,NUMELS20)
-        CALL MY_ALLOC( IXQ_TMP      ,NIXQ,NUMELQ)
-        CALL MY_ALLOC( IXSKIN_TMP   ,NIXSKIN,NUMSKIN)
-        CALL MY_ALLOC( IXSKIN_P     ,NIXSKIN,NUMSKING*IP0)
-        ALLOCATE( IPARTSKIN_P  (NUMSKING*IP0))
+        call my_alloc(IXTG_P, NIXTG, NUMELTGG*IP0, "IXTG_P")
+        call my_alloc(IXS_P, NIXS, (NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)*IP0, "IXS_P")
+        call my_alloc(IXP_P, NIXP, NUMELPG*IP0, "IXP_P")
+        call my_alloc(IXR_P, NIXR, NUMELRG*IP0, "IXR_P")
+        call my_alloc(KXSP_P, NISP, NUMSPHG*IP0, "KXSP_P")
+        call my_alloc(IXT_P, NIXT, NUMELTRG*IP0, "IXT_P") !!
+        call my_alloc(IXC_P, NIXC, NUMELCG*IP0, "IXC_P")
+        call my_alloc(IXS10_P, 11, NUMELS10G*IP0, "IXS10_P")
+        call my_alloc(IXS16_P, 17, NUMELS16G*IP0, "IXS16_P")
+        call my_alloc(IXS20_P, 21, NUMELS20G*IP0, "IXS20_P")
+        call my_alloc(IPARTC_P, NUMELCG*IP0, "IPARTC_P")
+        call my_alloc(IPARTTG_P, NUMELTGG*IP0, "IPARTTG_P")
+        call my_alloc(IPARTQ_P, NUMELQG*IP0, "IPARTQ_P")
+        call my_alloc(IPARTS_P, (NUMELSG-NUMELS10G-NUMELS16G-NUMELS20G)*IP0, "IPARTS_P")
+        call my_alloc(IPARTR_P, NUMELRG*IP0, "IPARTR_P")
+        call my_alloc(IPARTP_P, NUMELPG*IP0, "IPARTP_P")
+        call my_alloc(IPARTT_P, NUMELTRG*IP0, "IPARTT_P")
+        call my_alloc(IPARTSP_P, NUMSPHG*IP0, "IPARTSP_P")
+        call my_alloc(IPARTS10_P, NUMELS10G*IP0, "IPARTS10_P")
+        call my_alloc(IPARTS16_P, NUMELS16G*IP0, "IPARTS16_P")
+        call my_alloc(IPARTS20_P, NUMELS20G*IP0, "IPARTS20_P")
+        call my_alloc(IXQ_P, NIXQ, NUMELQG*IP0, "IXQ_P")
+        call my_alloc(IXC_TMP, NIXC, NUMELC, "IXC_TMP")
+        call my_alloc(IXTG_TMP, NIXTG, NUMELTG, "IXTG_TMP")
+        call my_alloc(IXR_TMP, NIXR, NUMELR, "IXR_TMP")
+        call my_alloc(IXP_TMP, NIXP, NUMELP, "IXP_TMP")
+        call my_alloc(KXSP_TMP, NISP, NUMSPH, "KXSP_TMP")
+        call my_alloc(IXT_TMP, NIXT, NUMELT, "IXT_TMP")
+        call my_alloc(IXS10_TMP, 11, NUMELS10, "IXS10_TMP")
+        call my_alloc(IXS16_TMP, 17, NUMELS16, "IXS16_TMP")
+        call my_alloc(IXS20_TMP, 21, NUMELS20, "IXS20_TMP")
+        call my_alloc(IXQ_TMP, NIXQ, NUMELQ, "IXQ_TMP")
+        call my_alloc(IXSKIN_TMP, NIXSKIN, NUMSKIN, "IXSKIN_TMP")
+        call my_alloc(IXSKIN_P, NIXSKIN, NUMSKING*IP0, "IXSKIN_P")
+        call my_alloc(IPARTSKIN_P, NUMSKING*IP0, "IPARTSKIN_P")
 c
-        ALLOCATE(D_P(NUMNODG0*8))
+        call my_alloc(D_P, NUMNODG0*8, "D_P")
 
         IF(NSPMD > 1) THEN
           CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
@@ -642,11 +643,11 @@ C*******************************************************************************
                 SUB_LEVEL (J) = SUBSET(J)%LEVEL
               ENDDO
 !
-              ALLOCATE(SUB_CHILD(ALL_SUB_CHILDS))
+              call my_alloc(SUB_CHILD, ALL_SUB_CHILDS, "SUB_CHILD")
               SUB_CHILD(1:ALL_SUB_CHILDS) = 0
-              ALLOCATE(SUB_IAD(NSUBS))
+              call my_alloc(SUB_IAD, NSUBS, "SUB_IAD")
               SUB_IAD(1:NSUBS) = 0
-              ALLOCATE(SUB_TITLE(NSUBS*LTITR))
+              call my_alloc(SUB_TITLE, NSUBS*LTITR, "SUB_TITLE")
               SUB_TITLE(1:NSUBS*LTITR) = 0
               K = 0
               DO J=1,NSUBS
@@ -661,9 +662,9 @@ C*******************************************************************************
                 CALL FRETITL(SUBSET(J)%TITLE,SUB_TITLE(LTITR * (J-1)+1),LTITR)
               ENDDO
             ELSE
-              ALLOCATE(SUB_CHILD(0))
-              ALLOCATE(SUB_IAD(0))
-              ALLOCATE(SUB_TITLE(0))
+              call my_alloc(SUB_CHILD, 0, "SUB_CHILD")
+              call my_alloc(SUB_IAD, 0, "SUB_IAD")
+              call my_alloc(SUB_TITLE, 0, "SUB_TITLE")
             ENDIF !IF (NSUBS > 0) THEN
           ENDIF ! IH3D,IRUN
 
@@ -764,13 +765,13 @@ c*******************************************************************************
 C H3D/PART
 C**********************************************************************************************
         IF (ISPMD == 0)THEN
-          ALLOCATE(TAGNOD_P(NUMNODG))
+          call my_alloc(TAGNOD_P, NUMNODG, "TAGNOD_P")
         ELSE
-          ALLOCATE(TAGNOD_P(1))
+          call my_alloc(TAGNOD_P, 1, "TAGNOD_P")
         ENDIF
 
         IF(H3D_DATA%IPART_SELECT == 1) THEN
-          ALLOCATE(TAGNOD(NUMNOD))
+          call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
           TAGNOD(1:NUMNOD) = 0
 c
 c
@@ -856,9 +857,9 @@ c
             ENDIF
           ENDIF
 C
-          ALLOCATE(ITAB_P_PART(NUMNOD_H3DPART))
+          call my_alloc(ITAB_P_PART, NUMNOD_H3DPART, "ITAB_P_PART")
           ITAB_P_PART(1:NUMNOD_H3DPART) = 0!Initialization needed, otherwise it may be used uninitialized in sysfus2 call
-          ALLOCATE(ITABM1_P(2*NUMNODG))
+          call my_alloc(ITABM1_P, 2*NUMNODG, "ITABM1_P")
 C
           IF(NSPMD > 1) THEN
             CALL STARTIME(TIMERS,MACRO_TIMER_SPMDH3D)
@@ -880,8 +881,8 @@ C
               TAGNOD_P(I) = TAGNOD(I)
             ENDDO
           ENDIF
-          DEALLOCATE(ITAB_P_PART)
-          DEALLOCATE(ITABM1_P)
+          call my_dealloc(ITAB_P_PART)
+          call my_dealloc(ITABM1_P)
         ELSE IF(ISPMD == 0) THEN
           DO I=1,NUMNODG
             TAGNOD_P(I) = 1
@@ -914,7 +915,7 @@ c
           CALL C_H3D_CREATE_NODES(ITAB,NUMNOD,X,TAGNOD_P,D)
           CALL STOPTIME(TIMERS,MACRO_TIMER_LIBH3D)
         ENDIF
-        DEALLOCATE(X_P)
+        call my_dealloc(X_P)
 
         !Create virtual nodes (FVMBAG polyhedra centroids)
         AIRBAGS_TOTAL_FVM_IN_H3D_G = 0
@@ -988,7 +989,7 @@ c
                  FVDATA_P(J)%TPOLH(1:NPOLHG)           = FVDATA(J)%TPOLH(1:NPOLHG)
               else
                  if (ispmd == FVSPMD(J)%PMAIN-1)then     ! Nothing to do for the others
-                    ALLOCATE(FVDATA_1D_ARRAY(12*NPOLHG))
+                    call my_alloc(FVDATA_1D_ARRAY, 12*NPOLHG, "FVDATA_1D_ARRAY")
                     FVDATA_1D_ARRAY(00*NPOLHG+1:01*NPOLHG) = FVDATA(J)%CENTROID_POLH(1,1:NPOLHG)
                     FVDATA_1D_ARRAY(01*NPOLHG+1:02*NPOLHG) = FVDATA(J)%CENTROID_POLH(2,1:NPOLHG)
                     FVDATA_1D_ARRAY(02*NPOLHG+1:03*NPOLHG) = FVDATA(J)%CENTROID_POLH(3,1:NPOLHG)
@@ -1003,11 +1004,11 @@ c
                     FVDATA_1D_ARRAY(11*NPOLHG+1:12*NPOLHG) = FVDATA(J)%TPOLH(1:NPOLHG)
 
                     call spmd_send(FVDATA_1D_ARRAY,12*NPOLHG,IT_SPMD(1),25000)
-                    DEALLOCATE(FVDATA_1D_ARRAY)
+                    call my_dealloc(FVDATA_1D_ARRAY)
                  endif
 
                  if (ispmd == 0)then
-                    ALLOCATE(FVDATA_1D_ARRAY(12*NPOLHG))
+                    call my_alloc(FVDATA_1D_ARRAY, 12*NPOLHG, "FVDATA_1D_ARRAY")
                     call spmd_recv(FVDATA_1D_ARRAY,12*NPOLHG,IT_SPMD(FVSPMD(J)%PMAIN),25000)
 
                     FVDATA_P(J)%CENTROID_POLH(1,1:NPOLHG) = FVDATA_1D_ARRAY(00*NPOLHG+1:01*NPOLHG)
@@ -1023,7 +1024,7 @@ c
                     FVDATA_P(J)%RPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY(10*NPOLHG+1:11*NPOLHG)
                     FVDATA_P(J)%TPOLH(1:NPOLHG)           = FVDATA_1D_ARRAY(11*NPOLHG+1:12*NPOLHG)
                     USER_NOD_ID%FVMBAG_LEN = USER_NOD_ID%FVMBAG_LEN + NPOLHG
-                    DEALLOCATE(FVDATA_1D_ARRAY)
+                    call my_dealloc(FVDATA_1D_ARRAY)
                  endif
               endif
 
@@ -1034,7 +1035,7 @@ c
 
           AIRBAGS_TOTAL_FVM_IN_H3D_G = AIRBAGS_TOTAL_FVM_IN_H3D
           IF(NFVBAG > 0)THEN
-            ALLOCATE (FVDATA_P(NFVBAG))
+            ALLOCATE(FVDATA_P(NFVBAG))
             DO J=1,NFVBAG
               NPOLH = FVDATA(J)%NPOLH
               NPOLH_ANIM = FVDATA(J)%NPOLH
@@ -1432,7 +1433,7 @@ c
         IF(H3D_DATA%IH3D == 1) THEN
 
           IF(NSPMD > 1) THEN
-            ALLOCATE(IXS_TMP(NIXS,NUMELS8))
+            call my_alloc(IXS_TMP, NIXS, NUMELS8, "IXS_TMP")
 c
             DO I=1,NUMELS8
               IXS_TMP(1,I) = IXS(1,I)
@@ -1495,7 +1496,7 @@ c
             CALL SPMD_H3D_GATHER_I(IXS16_TMP,17*NUMELS16,IXS16_P,17*NUMELS16G)
             CALL SPMD_H3D_GATHER_I(IXS20_TMP,21*NUMELS20,IXS20_P,21*NUMELS20G)
             CALL STOPTIME(TIMERS,MACRO_TIMER_SPMDH3D)
-            DEALLOCATE(IXS_TMP)
+            call my_dealloc(IXS_TMP)
           ELSE
 c
             DO I=1,NUMELS8
@@ -1627,7 +1628,8 @@ C CREATE SKIN (4-N) CONNECTIVITY ( THICK SHELLS +solid +PLOAD...)
 C**********************************************************************************************
 C-------------nodal_pid used for PLOAD---
         IF (NUMSKINP>0) THEN
-          ALLOCATE(NODAL_IPART(NUMNOD),IMAPSKP(NUMSKINP0))
+          call my_alloc(NODAL_IPART, NUMNOD, "NODAL_IPART")
+          call my_alloc(IMAPSKP, NUMSKINP0, "IMAPSKP")
           CALL GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,
      .                          IXC, IXTG, IXS,IXS10,IXS16,IXS20,
      .                          NODAL_IPART)
@@ -1746,212 +1748,212 @@ c
 c**********************************************************************************************
 C OUTPUT RESULTS
 c**********************************************************************************************
-        DEALLOCATE(D_P)
+        call my_dealloc(D_P)
 
-        ALLOCATE(NODAL_SCALAR(NUMNOD))
-        ALLOCATE(NODAL_VECTOR(3*NUMNOD))
-        ALLOCATE(NODAL_TENSOR(6*NUMNOD))
-        ALLOCATE(NODE_ID(NUMNOD))
-        ALLOCATE(IS_WRITEN_NODE(NUMNOD))
+        call my_alloc(NODAL_SCALAR, NUMNOD, "NODAL_SCALAR")
+        call my_alloc(NODAL_VECTOR, 3*NUMNOD, "NODAL_VECTOR")
+        call my_alloc(NODAL_TENSOR, 6*NUMNOD, "NODAL_TENSOR")
+        call my_alloc(NODE_ID, NUMNOD, "NODE_ID")
+        call my_alloc(IS_WRITEN_NODE, NUMNOD, "IS_WRITEN_NODE")
         IS_WRITEN_NODE(1:NUMNOD) = 0
 
         IF(ISPMD == 0)THEN
-          ALLOCATE(NODAL_SCALAR_FVM(AIRBAGS_TOTAL_FVM_IN_H3D_G))
-          ALLOCATE(NODAL_VECTOR_FVM(3*AIRBAGS_TOTAL_FVM_IN_H3D_G))
-          ALLOCATE(NODE_ID_FVM(AIRBAGS_TOTAL_FVM_IN_H3D_G))
-          ALLOCATE(IS_WRITEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D_G))
+          call my_alloc(NODAL_SCALAR_FVM, AIRBAGS_TOTAL_FVM_IN_H3D_G, "NODAL_SCALAR_FVM")
+          call my_alloc(NODAL_VECTOR_FVM, 3*AIRBAGS_TOTAL_FVM_IN_H3D_G, "NODAL_VECTOR_FVM")
+          call my_alloc(NODE_ID_FVM, AIRBAGS_TOTAL_FVM_IN_H3D_G, "NODE_ID_FVM")
+          call my_alloc(IS_WRITEN_NODE_FVM, AIRBAGS_TOTAL_FVM_IN_H3D_G, "IS_WRITEN_NODE_FVM")
           IS_WRITEN_NODE_FVM(1:AIRBAGS_TOTAL_FVM_IN_H3D_G) = 0
         ELSE
-          ALLOCATE(NODAL_SCALAR_FVM(1))
-          ALLOCATE(NODAL_VECTOR_FVM(3*1))
-          ALLOCATE(NODE_ID_FVM(1))
-          ALLOCATE(IS_WRITEN_NODE_FVM(1))
+          call my_alloc(NODAL_SCALAR_FVM, 1, "NODAL_SCALAR_FVM")
+          call my_alloc(NODAL_VECTOR_FVM, 3*1, "NODAL_VECTOR_FVM")
+          call my_alloc(NODE_ID_FVM, 1, "NODE_ID_FVM")
+          call my_alloc(IS_WRITEN_NODE_FVM, 1, "IS_WRITEN_NODE_FVM")
           IS_WRITEN_NODE_FVM(1:1) = 0
         ENDIF
 
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(IS_WRITEN_NODE_P(NUMNODG))
-          ALLOCATE(NODAL_SCALAR_P(NUMNODG))
-          ALLOCATE(NODAL_VECTOR_P(3*NUMNODG))
-          ALLOCATE(NODAL_TENSOR_P(6*NUMNODG))
-          ALLOCATE(NODE_ID_P(NUMNODG))
+          call my_alloc(IS_WRITEN_NODE_P, NUMNODG, "IS_WRITEN_NODE_P")
+          call my_alloc(NODAL_SCALAR_P, NUMNODG, "NODAL_SCALAR_P")
+          call my_alloc(NODAL_VECTOR_P, 3*NUMNODG, "NODAL_VECTOR_P")
+          call my_alloc(NODAL_TENSOR_P, 6*NUMNODG, "NODAL_TENSOR_P")
+          call my_alloc(NODE_ID_P, NUMNODG, "NODE_ID_P")
           IS_WRITEN_NODE_P(1:NUMNODG) = 0
         ELSE
-          ALLOCATE(IS_WRITEN_NODE_P(1))
-          ALLOCATE(NODAL_SCALAR_P(1))
-          ALLOCATE(NODAL_VECTOR_P(1))
-          ALLOCATE(NODAL_TENSOR_P(1))
-          ALLOCATE(NODE_ID_P(1))
+          call my_alloc(IS_WRITEN_NODE_P, 1, "IS_WRITEN_NODE_P")
+          call my_alloc(NODAL_SCALAR_P, 1, "NODAL_SCALAR_P")
+          call my_alloc(NODAL_VECTOR_P, 1, "NODAL_VECTOR_P")
+          call my_alloc(NODAL_TENSOR_P, 1, "NODAL_TENSOR_P")
+          call my_alloc(NODE_ID_P, 1, "NODE_ID_P")
           IS_WRITEN_NODE_P(1) = 0
         ENDIF
 c
 c
-        ALLOCATE(ONED_SCALAR(NUMELR+NUMELP+NUMELT))
-        ALLOCATE(ONED_VECTOR(3*(NUMELR+NUMELP+NUMELT)))
-        ALLOCATE(ONED_TENSOR(6*(NUMELR+NUMELP+NUMELT)))
-        ALLOCATE(ONED_TORSOR(9*(NUMELR+NUMELP+NUMELT)))
-        ALLOCATE(ONED_ID(NUMELRG+NUMELPG+NUMELTRG))
-        ALLOCATE(ONED_ITY(NUMELRG+NUMELPG+NUMELTRG))
-        ALLOCATE(IS_WRITEN_ONED(NUMELRG+NUMELPG+NUMELTRG))
+        call my_alloc(ONED_SCALAR, NUMELR+NUMELP+NUMELT, "ONED_SCALAR")
+        call my_alloc(ONED_VECTOR, 3*(NUMELR+NUMELP+NUMELT), "ONED_VECTOR")
+        call my_alloc(ONED_TENSOR, 6*(NUMELR+NUMELP+NUMELT), "ONED_TENSOR")
+        call my_alloc(ONED_TORSOR, 9*(NUMELR+NUMELP+NUMELT), "ONED_TORSOR")
+        call my_alloc(ONED_ID, NUMELRG+NUMELPG+NUMELTRG, "ONED_ID")
+        call my_alloc(ONED_ITY, NUMELRG+NUMELPG+NUMELTRG, "ONED_ITY")
+        call my_alloc(IS_WRITEN_ONED, NUMELRG+NUMELPG+NUMELTRG, "IS_WRITEN_ONED")
         ONED_ID(1:NUMELR+NUMELP+NUMELT) = 0
         ONED_ITY(1:NUMELR+NUMELP+NUMELT) = 0
         IS_WRITEN_ONED(1:NUMELR+NUMELP+NUMELT) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(ONED_SCALAR_P(NUMELRG+NUMELPG+NUMELTRG))
-          ALLOCATE(ONED_VECTOR_P(3*(NUMELRG+NUMELPG+NUMELTRG)))
-          ALLOCATE(ONED_TENSOR_P(6*(NUMELRG+NUMELPG+NUMELTRG)))
-          ALLOCATE(ONED_TORSOR_P(9*(NUMELRG+NUMELPG+NUMELTRG)))
-          ALLOCATE(ONED_ID_P(NUMELRG+NUMELPG+NUMELTRG))
-          ALLOCATE(ONED_ITY_P(NUMELRG+NUMELPG+NUMELTRG))
-          ALLOCATE(IS_WRITEN_ONED_P(NUMELRG+NUMELPG+NUMELTRG))
+          call my_alloc(ONED_SCALAR_P, NUMELRG+NUMELPG+NUMELTRG, "ONED_SCALAR_P")
+          call my_alloc(ONED_VECTOR_P, 3*(NUMELRG+NUMELPG+NUMELTRG), "ONED_VECTOR_P")
+          call my_alloc(ONED_TENSOR_P, 6*(NUMELRG+NUMELPG+NUMELTRG), "ONED_TENSOR_P")
+          call my_alloc(ONED_TORSOR_P, 9*(NUMELRG+NUMELPG+NUMELTRG), "ONED_TORSOR_P")
+          call my_alloc(ONED_ID_P, NUMELRG+NUMELPG+NUMELTRG, "ONED_ID_P")
+          call my_alloc(ONED_ITY_P, NUMELRG+NUMELPG+NUMELTRG, "ONED_ITY_P")
+          call my_alloc(IS_WRITEN_ONED_P, NUMELRG+NUMELPG+NUMELTRG, "IS_WRITEN_ONED_P")
           IS_WRITEN_ONED_P(1:NUMELRG+NUMELPG+NUMELTRG) = 0
         ELSE
-          ALLOCATE(ONED_SCALAR_P(1))
-          ALLOCATE(ONED_VECTOR_P(1))
-          ALLOCATE(ONED_TENSOR_P(1))
-          ALLOCATE(ONED_TORSOR_P(1))
-          ALLOCATE(ONED_ID_P(1))
-          ALLOCATE(ONED_ITY_P(1))
-          ALLOCATE(IS_WRITEN_ONED_P(1))
+          call my_alloc(ONED_SCALAR_P, 1, "ONED_SCALAR_P")
+          call my_alloc(ONED_VECTOR_P, 1, "ONED_VECTOR_P")
+          call my_alloc(ONED_TENSOR_P, 1, "ONED_TENSOR_P")
+          call my_alloc(ONED_TORSOR_P, 1, "ONED_TORSOR_P")
+          call my_alloc(ONED_ID_P, 1, "ONED_ID_P")
+          call my_alloc(ONED_ITY_P, 1, "ONED_ITY_P")
+          call my_alloc(IS_WRITEN_ONED_P, 1, "IS_WRITEN_ONED_P")
           IS_WRITEN_ONED_P(1) = 0
         ENDIF
 c
 c
-        ALLOCATE(SHELL_SCALAR(NUMELC+NUMELTG))
-        ALLOCATE(SHELL_STACK(MAX_SHELL_STACKSIZE))
-        ALLOCATE(SHELL_STACK_P(NUMELCG+NUMELTGG))        
-        ALLOCATE(SHELL_VECTOR(3*(NUMELC+NUMELTG)))
-        ALLOCATE(SHELL_TENSOR(3*(NUMELC+NUMELTG)))
-        ALLOCATE(SHELL_ID(NUMELC+NUMELTG))
-        ALLOCATE(SHELL_ITY(NUMELC+NUMELTG))
-        ALLOCATE(IS_WRITEN_SHELL(NUMELC+NUMELTG))
+        call my_alloc(SHELL_SCALAR, NUMELC+NUMELTG, "SHELL_SCALAR")
+        call my_alloc(SHELL_STACK, MAX_SHELL_STACKSIZE, "SHELL_STACK")
+        call my_alloc(SHELL_STACK_P, NUMELCG+NUMELTGG, "SHELL_STACK_P")
+        call my_alloc(SHELL_VECTOR, 3*(NUMELC+NUMELTG), "SHELL_VECTOR")
+        call my_alloc(SHELL_TENSOR, 3*(NUMELC+NUMELTG), "SHELL_TENSOR")
+        call my_alloc(SHELL_ID, NUMELC+NUMELTG, "SHELL_ID")
+        call my_alloc(SHELL_ITY, NUMELC+NUMELTG, "SHELL_ITY")
+        call my_alloc(IS_WRITEN_SHELL, NUMELC+NUMELTG, "IS_WRITEN_SHELL")
         SHELL_ID(1:NUMELC+NUMELTG) = 0
         SHELL_ITY(1:NUMELC+NUMELTG) = 0
         IS_WRITEN_SHELL(1:NUMELC+NUMELTG) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(SHELL_SCALAR_P(NUMELCG+NUMELTGG))
-          ALLOCATE(SHELL_VECTOR_P(3*(NUMELCG+NUMELTGG)))
-          ALLOCATE(SHELL_TENSOR_P(3*(NUMELCG+NUMELTGG)))
-          ALLOCATE(SHELL_ID_P(NUMELCG+NUMELTGG))
-          ALLOCATE(SHELL_ITY_P(NUMELCG+NUMELTGG))
-          ALLOCATE(IS_WRITEN_SHELL_P(NUMELCG+NUMELTGG))
+          call my_alloc(SHELL_SCALAR_P, NUMELCG+NUMELTGG, "SHELL_SCALAR_P")
+          call my_alloc(SHELL_VECTOR_P, 3*(NUMELCG+NUMELTGG), "SHELL_VECTOR_P")
+          call my_alloc(SHELL_TENSOR_P, 3*(NUMELCG+NUMELTGG), "SHELL_TENSOR_P")
+          call my_alloc(SHELL_ID_P, NUMELCG+NUMELTGG, "SHELL_ID_P")
+          call my_alloc(SHELL_ITY_P, NUMELCG+NUMELTGG, "SHELL_ITY_P")
+          call my_alloc(IS_WRITEN_SHELL_P, NUMELCG+NUMELTGG, "IS_WRITEN_SHELL_P")
           IS_WRITEN_SHELL_P(1:NUMELCG+NUMELTGG) = 0
         ELSE
-          ALLOCATE(SHELL_SCALAR_P(1))
-          ALLOCATE(SHELL_VECTOR_P(1))
-          ALLOCATE(SHELL_TENSOR_P(1))
-          ALLOCATE(SHELL_ID_P(1))
-          ALLOCATE(SHELL_ITY_P(1))
-          ALLOCATE(IS_WRITEN_SHELL_P(1))
+          call my_alloc(SHELL_SCALAR_P, 1, "SHELL_SCALAR_P")
+          call my_alloc(SHELL_VECTOR_P, 1, "SHELL_VECTOR_P")
+          call my_alloc(SHELL_TENSOR_P, 1, "SHELL_TENSOR_P")
+          call my_alloc(SHELL_ID_P, 1, "SHELL_ID_P")
+          call my_alloc(SHELL_ITY_P, 1, "SHELL_ITY_P")
+          call my_alloc(IS_WRITEN_SHELL_P, 1, "IS_WRITEN_SHELL_P")
           IS_WRITEN_SHELL_P(1) = 0
         ENDIF
 c
 c-------not available now with S16,S20
         MAX_NCORN = 10
-        ALLOCATE(SOLID_SCALAR(NUMELS))
-        ALLOCATE(SOLID_VECTOR(3*NUMELS))
-        ALLOCATE(SOLID_TENSOR(6*NUMELS))
-        ALLOCATE(SOLID_TENSOR_CORNER(6*NUMELS*MAX_NCORN))
-        ALLOCATE(SOLID_ID(NUMELS))
-        ALLOCATE(ISOLNOD(NUMELS))
-        ALLOCATE(SOLID_ITY(NUMELS))
-        ALLOCATE(IS_WRITEN_SOLID(NUMELS))
+        call my_alloc(SOLID_SCALAR, NUMELS, "SOLID_SCALAR")
+        call my_alloc(SOLID_VECTOR, 3*NUMELS, "SOLID_VECTOR")
+        call my_alloc(SOLID_TENSOR, 6*NUMELS, "SOLID_TENSOR")
+        call my_alloc(SOLID_TENSOR_CORNER, 6*NUMELS*MAX_NCORN, "SOLID_TENSOR_CORNER")
+        call my_alloc(SOLID_ID, NUMELS, "SOLID_ID")
+        call my_alloc(ISOLNOD, NUMELS, "ISOLNOD")
+        call my_alloc(SOLID_ITY, NUMELS, "SOLID_ITY")
+        call my_alloc(IS_WRITEN_SOLID, NUMELS, "IS_WRITEN_SOLID")
         SOLID_ID(1:NUMELS) = 0
         ISOLNOD(1:NUMELS) = 0
         SOLID_ITY(1:NUMELS) = 0
         IS_WRITEN_SOLID(1:NUMELS) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(SOLID_SCALAR_P(NUMELSG))
-          ALLOCATE(SOLID_VECTOR_P(3*NUMELSG))
-          ALLOCATE(SOLID_TENSOR_P(6*NUMELSG))
-          ALLOCATE(SOLID_TENSOR_CORNER_P(6*NUMELSG*MAX_NCORN))
-          ALLOCATE(SOLID_ID_P(NUMELSG))
-          ALLOCATE(SOLID_ITY_P(NUMELSG))
-          ALLOCATE(ISOLNOD_P(NUMELSG))
-          ALLOCATE(IS_WRITEN_SOLID_P(NUMELSG))
+          call my_alloc(SOLID_SCALAR_P, NUMELSG, "SOLID_SCALAR_P")
+          call my_alloc(SOLID_VECTOR_P, 3*NUMELSG, "SOLID_VECTOR_P")
+          call my_alloc(SOLID_TENSOR_P, 6*NUMELSG, "SOLID_TENSOR_P")
+          call my_alloc(SOLID_TENSOR_CORNER_P, 6*NUMELSG*MAX_NCORN, "SOLID_TENSOR_CORNER_P")
+          call my_alloc(SOLID_ID_P, NUMELSG, "SOLID_ID_P")
+          call my_alloc(SOLID_ITY_P, NUMELSG, "SOLID_ITY_P")
+          call my_alloc(ISOLNOD_P, NUMELSG, "ISOLNOD_P")
+          call my_alloc(IS_WRITEN_SOLID_P, NUMELSG, "IS_WRITEN_SOLID_P")
           IS_WRITEN_SOLID_P(1:NUMELSG) = 0
         ELSE
-          ALLOCATE(SOLID_SCALAR_P(1))
-          ALLOCATE(SOLID_VECTOR_P(1))
-          ALLOCATE(SOLID_TENSOR_P(1))
-          ALLOCATE(SOLID_TENSOR_CORNER_P(1))
-          ALLOCATE(SOLID_ID_P(1))
-          ALLOCATE(SOLID_ITY_P(1))
-          ALLOCATE(ISOLNOD_P(1))
-          ALLOCATE(IS_WRITEN_SOLID_P(1))
+          call my_alloc(SOLID_SCALAR_P, 1, "SOLID_SCALAR_P")
+          call my_alloc(SOLID_VECTOR_P, 1, "SOLID_VECTOR_P")
+          call my_alloc(SOLID_TENSOR_P, 1, "SOLID_TENSOR_P")
+          call my_alloc(SOLID_TENSOR_CORNER_P, 1, "SOLID_TENSOR_CORNER_P")
+          call my_alloc(SOLID_ID_P, 1, "SOLID_ID_P")
+          call my_alloc(SOLID_ITY_P, 1, "SOLID_ITY_P")
+          call my_alloc(ISOLNOD_P, 1, "ISOLNOD_P")
+          call my_alloc(IS_WRITEN_SOLID_P, 1, "IS_WRITEN_SOLID_P")
           IS_WRITEN_SOLID_P(1) = 0
         ENDIF
 c
 c
-        ALLOCATE(SPH_SCALAR(NUMSPH))
-        ALLOCATE(SPH_TENSOR(6*NUMSPH))
-        ALLOCATE(SPH_ID(NUMSPH))
-        ALLOCATE(IS_WRITEN_SPH(NUMSPH))
+        call my_alloc(SPH_SCALAR, NUMSPH, "SPH_SCALAR")
+        call my_alloc(SPH_TENSOR, 6*NUMSPH, "SPH_TENSOR")
+        call my_alloc(SPH_ID, NUMSPH, "SPH_ID")
+        call my_alloc(IS_WRITEN_SPH, NUMSPH, "IS_WRITEN_SPH")
         SPH_ID(1:NUMSPH) = 0
         IS_WRITEN_SPH(1:NUMSPH) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(SPH_SCALAR_P(NUMSPHG))
-          ALLOCATE(SPH_TENSOR_P(6*NUMSPHG))
-          ALLOCATE(SPH_ID_P(NUMSPHG))
-          ALLOCATE(IS_WRITEN_SPH_P(NUMSPHG))
+          call my_alloc(SPH_SCALAR_P, NUMSPHG, "SPH_SCALAR_P")
+          call my_alloc(SPH_TENSOR_P, 6*NUMSPHG, "SPH_TENSOR_P")
+          call my_alloc(SPH_ID_P, NUMSPHG, "SPH_ID_P")
+          call my_alloc(IS_WRITEN_SPH_P, NUMSPHG, "IS_WRITEN_SPH_P")
           IS_WRITEN_SPH_P(1:NUMSPHG) = 0
         ELSE
-          ALLOCATE(SPH_SCALAR_P(1))
-          ALLOCATE(SPH_TENSOR_P(1))
-          ALLOCATE(SPH_ID_P(1))
-          ALLOCATE(IS_WRITEN_SPH_P(1))
+          call my_alloc(SPH_SCALAR_P, 1, "SPH_SCALAR_P")
+          call my_alloc(SPH_TENSOR_P, 1, "SPH_TENSOR_P")
+          call my_alloc(SPH_ID_P, 1, "SPH_ID_P")
+          call my_alloc(IS_WRITEN_SPH_P, 1, "IS_WRITEN_SPH_P")
           IS_WRITEN_SPH_P(1) = 0
         ENDIF
 c
 c
-        ALLOCATE(QUAD_SCALAR(NUMELQ))
-        ALLOCATE(QUAD_VECTOR(3*NUMELQ))
-        ALLOCATE(QUAD_TENSOR(6*NUMELQ))
-        ALLOCATE(QUAD_ID(NUMELQ))
-        ALLOCATE(IS_WRITEN_QUAD(NUMELQ))
+        call my_alloc(QUAD_SCALAR, NUMELQ, "QUAD_SCALAR")
+        call my_alloc(QUAD_VECTOR, 3*NUMELQ, "QUAD_VECTOR")
+        call my_alloc(QUAD_TENSOR, 6*NUMELQ, "QUAD_TENSOR")
+        call my_alloc(QUAD_ID, NUMELQ, "QUAD_ID")
+        call my_alloc(IS_WRITEN_QUAD, NUMELQ, "IS_WRITEN_QUAD")
         QUAD_ID(1:NUMELQ) = 0
         IS_WRITEN_QUAD(1:NUMELQ) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(QUAD_SCALAR_P(NUMELQG))
-          ALLOCATE(QUAD_VECTOR_P(3*NUMELQG))
-          ALLOCATE(QUAD_TENSOR_P(6*NUMELQG))
-          ALLOCATE(QUAD_ID_P(NUMELQG))
-          ALLOCATE(IS_WRITEN_QUAD_P(NUMELQG))
+          call my_alloc(QUAD_SCALAR_P, NUMELQG, "QUAD_SCALAR_P")
+          call my_alloc(QUAD_VECTOR_P, 3*NUMELQG, "QUAD_VECTOR_P")
+          call my_alloc(QUAD_TENSOR_P, 6*NUMELQG, "QUAD_TENSOR_P")
+          call my_alloc(QUAD_ID_P, NUMELQG, "QUAD_ID_P")
+          call my_alloc(IS_WRITEN_QUAD_P, NUMELQG, "IS_WRITEN_QUAD_P")
           IS_WRITEN_QUAD_P(1:NUMELQG) = 0
         ELSE
-          ALLOCATE(QUAD_SCALAR_P(1))
-          ALLOCATE(QUAD_VECTOR_P(1))
-          ALLOCATE(QUAD_TENSOR_P(1))
-          ALLOCATE(QUAD_ID_P(1))
-          ALLOCATE(IS_WRITEN_QUAD_P(1))
+          call my_alloc(QUAD_SCALAR_P, 1, "QUAD_SCALAR_P")
+          call my_alloc(QUAD_VECTOR_P, 1, "QUAD_VECTOR_P")
+          call my_alloc(QUAD_TENSOR_P, 1, "QUAD_TENSOR_P")
+          call my_alloc(QUAD_ID_P, 1, "QUAD_ID_P")
+          call my_alloc(IS_WRITEN_QUAD_P, 1, "IS_WRITEN_QUAD_P")
           IS_WRITEN_QUAD_P(1) = 0
         ENDIF
 c-------- for skin : only SKIN_ID_P (user id): unique
-        ALLOCATE(SKIN_TENSOR(3*NUMSKIN))
-        ALLOCATE(SKIN_VECTOR(3*NUMSKIN))
-        ALLOCATE(SKIN_SCALAR(NUMSKIN))
-        ALLOCATE(IS_WRITEN_SKIN(NUMSKIN))
+        call my_alloc(SKIN_TENSOR, 3*NUMSKIN, "SKIN_TENSOR")
+        call my_alloc(SKIN_VECTOR, 3*NUMSKIN, "SKIN_VECTOR")
+        call my_alloc(SKIN_SCALAR, NUMSKIN, "SKIN_SCALAR")
+        call my_alloc(IS_WRITEN_SKIN, NUMSKIN, "IS_WRITEN_SKIN")
         IS_WRITEN_SKIN(1:NUMSKIN) = 0
 c
         IF (ISPMD == 0 )THEN
-          ALLOCATE(SKIN_TENSOR_P(3*NUMSKING))
-          ALLOCATE(SKIN_VECTOR_P(3*NUMSKING))
-          ALLOCATE(SKIN_SCALAR_P(NUMSKING))
-          ALLOCATE(SKIN_ID_P(NUMSKING))
-          ALLOCATE(IS_WRITEN_SKIN_P(NUMSKING))
+          call my_alloc(SKIN_TENSOR_P, 3*NUMSKING, "SKIN_TENSOR_P")
+          call my_alloc(SKIN_VECTOR_P, 3*NUMSKING, "SKIN_VECTOR_P")
+          call my_alloc(SKIN_SCALAR_P, NUMSKING, "SKIN_SCALAR_P")
+          call my_alloc(SKIN_ID_P, NUMSKING, "SKIN_ID_P")
+          call my_alloc(IS_WRITEN_SKIN_P, NUMSKING, "IS_WRITEN_SKIN_P")
           IS_WRITEN_SKIN_P(1:NUMSKING) = 0
         ELSE
-          ALLOCATE(SKIN_TENSOR_P(1))
-          ALLOCATE(SKIN_VECTOR_P(1))
-          ALLOCATE(SKIN_SCALAR_P(1))
-          ALLOCATE(SKIN_ID_P(1))
-          ALLOCATE(IS_WRITEN_SKIN_P(1))
+          call my_alloc(SKIN_TENSOR_P, 1, "SKIN_TENSOR_P")
+          call my_alloc(SKIN_VECTOR_P, 1, "SKIN_VECTOR_P")
+          call my_alloc(SKIN_SCALAR_P, 1, "SKIN_SCALAR_P")
+          call my_alloc(SKIN_ID_P, 1, "SKIN_ID_P")
+          call my_alloc(IS_WRITEN_SKIN_P, 1, "IS_WRITEN_SKIN_P")
           IS_WRITEN_SKIN_P(1) = 0
         ENDIF
 
@@ -3296,157 +3298,163 @@ c-----
 c deallocate
 c-----
         ! FVMBAG visualization
-        IF(ALLOCATED(NODAL_SCALAR_FVM))DEALLOCATE(NODAL_SCALAR_FVM)
-        IF(ALLOCATED(NODAL_VECTOR_FVM))DEALLOCATE(NODAL_VECTOR_FVM)
-        IF(ALLOCATED(NODE_ID_FVM))DEALLOCATE(NODE_ID_FVM)
-        IF(ALLOCATED(IS_WRITEN_NODE_FVM))DEALLOCATE(IS_WRITEN_NODE_FVM)
+        IF(ALLOCATED(NODAL_SCALAR_FVM)) call my_dealloc(NODAL_SCALAR_FVM)
+        IF(ALLOCATED(NODAL_VECTOR_FVM)) call my_dealloc(NODAL_VECTOR_FVM)
+        IF(ALLOCATED(NODE_ID_FVM)) call my_dealloc(NODE_ID_FVM)
+        IF(ALLOCATED(IS_WRITEN_NODE_FVM)) call my_dealloc(IS_WRITEN_NODE_FVM)
 
         if (ispmd ==0)then
           ! FVDATA_P deallocate
           IF(ALLOCATED(FVDATA_P))THEN
             DO J=1,NFVBAG
-              IF(ASSOCIATED(FVDATA_P(J)%CENTROID_POLH))DEALLOCATE (FVDATA_P(J)%CENTROID_POLH)
-              IF(ASSOCIATED(FVDATA_P(J)%PPOLH))DEALLOCATE (FVDATA_P(J)%PPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%SSPPOLH))DEALLOCATE (FVDATA_P(J)%SSPPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%DTPOLH))DEALLOCATE (FVDATA_P(J)%DTPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%QPOLH))DEALLOCATE (FVDATA_P(J)%QPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%MPOLH))DEALLOCATE (FVDATA_P(J)%MPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%RPOLH))DEALLOCATE (FVDATA_P(J)%RPOLH)
-              IF(ASSOCIATED(FVDATA_P(J)%TPOLH))DEALLOCATE (FVDATA_P(J)%TPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%CENTROID_POLH)) call my_dealloc(FVDATA_P(J)%CENTROID_POLH)
+              IF(ASSOCIATED(FVDATA_P(J)%PPOLH)) call my_dealloc(FVDATA_P(J)%PPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%SSPPOLH)) call my_dealloc(FVDATA_P(J)%SSPPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%DTPOLH)) call my_dealloc(FVDATA_P(J)%DTPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%QPOLH)) call my_dealloc(FVDATA_P(J)%QPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%MPOLH)) call my_dealloc(FVDATA_P(J)%MPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%RPOLH)) call my_dealloc(FVDATA_P(J)%RPOLH)
+              IF(ASSOCIATED(FVDATA_P(J)%TPOLH)) call my_dealloc(FVDATA_P(J)%TPOLH)
             ENDDO
             DEALLOCATE(FVDATA_P)
           ENDIF
         ENDIF
 
-        DEALLOCATE(NODAL_SCALAR)
-        DEALLOCATE(NODAL_VECTOR)
-        DEALLOCATE(NODE_ID)
-        DEALLOCATE(IS_WRITEN_NODE)
-        DEALLOCATE(IS_WRITEN_NODE_P)
-        DEALLOCATE(NODAL_VECTOR_P)
-        DEALLOCATE(NODAL_SCALAR_P)
-        DEALLOCATE(NODE_ID_P)
+        call my_dealloc(NODAL_SCALAR)
+        call my_dealloc(NODAL_VECTOR)
+        call my_dealloc(NODE_ID)
+        call my_dealloc(IS_WRITEN_NODE)
+        call my_dealloc(IS_WRITEN_NODE_P)
+        call my_dealloc(NODAL_VECTOR_P)
+        call my_dealloc(NODAL_SCALAR_P)
+        call my_dealloc(NODE_ID_P)
 c
-        DEALLOCATE(ONED_SCALAR)
-        DEALLOCATE(ONED_VECTOR)
-        DEALLOCATE(ONED_TENSOR)
-        DEALLOCATE(ONED_TORSOR)
-        DEALLOCATE(ONED_ID)
-        DEALLOCATE(ONED_ITY)
-        DEALLOCATE(IS_WRITEN_ONED)
-        DEALLOCATE(IS_WRITEN_ONED_P)
-        DEALLOCATE(ONED_ITY_P)
-        DEALLOCATE(ONED_ID_P)
-        DEALLOCATE(ONED_SCALAR_P)
-        DEALLOCATE(ONED_VECTOR_P)
-        DEALLOCATE(ONED_TENSOR_P)
-        DEALLOCATE(ONED_TORSOR_P)
+        call my_dealloc(ONED_SCALAR)
+        call my_dealloc(ONED_VECTOR)
+        call my_dealloc(ONED_TENSOR)
+        call my_dealloc(ONED_TORSOR)
+        call my_dealloc(ONED_ID)
+        call my_dealloc(ONED_ITY)
+        call my_dealloc(IS_WRITEN_ONED)
+        call my_dealloc(IS_WRITEN_ONED_P)
+        call my_dealloc(ONED_ITY_P)
+        call my_dealloc(ONED_ID_P)
+        call my_dealloc(ONED_SCALAR_P)
+        call my_dealloc(ONED_VECTOR_P)
+        call my_dealloc(ONED_TENSOR_P)
+        call my_dealloc(ONED_TORSOR_P)
 c
-        DEALLOCATE(SHELL_SCALAR)
-        DEALLOCATE(SHELL_VECTOR)
-        DEALLOCATE(SHELL_TENSOR)
-        DEALLOCATE(SHELL_ID)
-        DEALLOCATE(SHELL_ITY)
-        DEALLOCATE(IS_WRITEN_SHELL)
-        DEALLOCATE(SHELL_SCALAR_P)
-        DEALLOCATE(IS_WRITEN_SHELL_P)
-        DEALLOCATE(SHELL_TENSOR_P)
-        DEALLOCATE(SHELL_ID_P)
-        DEALLOCATE(SHELL_ITY_P)
+        call my_dealloc(SHELL_SCALAR)
+        call my_dealloc(SHELL_VECTOR)
+        call my_dealloc(SHELL_TENSOR)
+        call my_dealloc(SHELL_ID)
+        call my_dealloc(SHELL_ITY)
+        call my_dealloc(IS_WRITEN_SHELL)
+        call my_dealloc(SHELL_SCALAR_P)
+        call my_dealloc(IS_WRITEN_SHELL_P)
+        call my_dealloc(SHELL_TENSOR_P)
+        call my_dealloc(SHELL_ID_P)
+        call my_dealloc(SHELL_ITY_P)
 c
-        DEALLOCATE(SOLID_SCALAR)
-        DEALLOCATE(SOLID_VECTOR)
-        DEALLOCATE(SOLID_TENSOR)
-        DEALLOCATE(SOLID_TENSOR_CORNER)
-        DEALLOCATE(SOLID_ID)
-        DEALLOCATE(ISOLNOD)
-        DEALLOCATE(SOLID_ITY)
-        DEALLOCATE(IS_WRITEN_SOLID)
-        DEALLOCATE(SOLID_SCALAR_P)
-        DEALLOCATE(SOLID_VECTOR_P)
-        DEALLOCATE(SOLID_TENSOR_P)
-        DEALLOCATE(SOLID_TENSOR_CORNER_P)
-        DEALLOCATE(IS_WRITEN_SOLID_P)
-        DEALLOCATE(SOLID_ID_P)
-        DEALLOCATE(ISOLNOD_P)
-        DEALLOCATE(SOLID_ITY_P)
+        call my_dealloc(SOLID_SCALAR)
+        call my_dealloc(SOLID_VECTOR)
+        call my_dealloc(SOLID_TENSOR)
+        call my_dealloc(SOLID_TENSOR_CORNER)
+        call my_dealloc(SOLID_ID)
+        call my_dealloc(ISOLNOD)
+        call my_dealloc(SOLID_ITY)
+        call my_dealloc(IS_WRITEN_SOLID)
+        call my_dealloc(SOLID_SCALAR_P)
+        call my_dealloc(SOLID_VECTOR_P)
+        call my_dealloc(SOLID_TENSOR_P)
+        call my_dealloc(SOLID_TENSOR_CORNER_P)
+        call my_dealloc(IS_WRITEN_SOLID_P)
+        call my_dealloc(SOLID_ID_P)
+        call my_dealloc(ISOLNOD_P)
+        call my_dealloc(SOLID_ITY_P)
 c
-        DEALLOCATE(SPH_SCALAR)
-        DEALLOCATE(SPH_TENSOR)
-        DEALLOCATE(SPH_ID)
-        DEALLOCATE(IS_WRITEN_SPH)
-        DEALLOCATE(SPH_SCALAR_P)
-        DEALLOCATE(SPH_TENSOR_P)
-        DEALLOCATE(IS_WRITEN_SPH_P)
-        DEALLOCATE(SPH_ID_P)
+        call my_dealloc(SPH_SCALAR)
+        call my_dealloc(SPH_TENSOR)
+        call my_dealloc(SPH_ID)
+        call my_dealloc(IS_WRITEN_SPH)
+        call my_dealloc(SPH_SCALAR_P)
+        call my_dealloc(SPH_TENSOR_P)
+        call my_dealloc(IS_WRITEN_SPH_P)
+        call my_dealloc(SPH_ID_P)
 c
-        DEALLOCATE(QUAD_SCALAR)
-        DEALLOCATE(QUAD_VECTOR)
-        DEALLOCATE(QUAD_TENSOR)
-        DEALLOCATE(QUAD_ID)
-        DEALLOCATE(IS_WRITEN_QUAD)
-        DEALLOCATE(QUAD_SCALAR_P)
-        DEALLOCATE(QUAD_TENSOR_P)
-        DEALLOCATE(IS_WRITEN_QUAD_P)
-        DEALLOCATE(QUAD_ID_P)
+        call my_dealloc(QUAD_SCALAR)
+        call my_dealloc(QUAD_VECTOR)
+        call my_dealloc(QUAD_TENSOR)
+        call my_dealloc(QUAD_ID)
+        call my_dealloc(IS_WRITEN_QUAD)
+        call my_dealloc(QUAD_SCALAR_P)
+        call my_dealloc(QUAD_TENSOR_P)
+        call my_dealloc(IS_WRITEN_QUAD_P)
+        call my_dealloc(QUAD_ID_P)
 c
-        DEALLOCATE(SKIN_TENSOR,SKIN_VECTOR,SKIN_SCALAR)
-        DEALLOCATE(IS_WRITEN_SKIN)
-        DEALLOCATE(SKIN_TENSOR_P,SKIN_VECTOR_P,SKIN_SCALAR_P)
-        DEALLOCATE(IS_WRITEN_SKIN_P)
-        DEALLOCATE(SKIN_ID_P)
-        DEALLOCATE(IXSKIN_TMP)
-        DEALLOCATE(IXSKIN_P)
+        call my_dealloc(SKIN_TENSOR)
+        call my_dealloc(SKIN_VECTOR)
+        call my_dealloc(SKIN_SCALAR)
+        call my_dealloc(IS_WRITEN_SKIN)
+        call my_dealloc(SKIN_TENSOR_P)
+        call my_dealloc(SKIN_VECTOR_P)
+        call my_dealloc(SKIN_SCALAR_P)
+        call my_dealloc(IS_WRITEN_SKIN_P)
+        call my_dealloc(SKIN_ID_P)
+        call my_dealloc(IXSKIN_TMP)
+        call my_dealloc(IXSKIN_P)
         IF (NUMSKINP>0) DEALLOCATE(NODAL_IPART,IMAPSKP)
 c
-        DEALLOCATE(ITAB_P)
+        call my_dealloc(ITAB_P)
 
 
-        DEALLOCATE(  IXTG_P)
-        DEALLOCATE(  IXS_P)
-        DEALLOCATE(  IXP_P)
-        DEALLOCATE(  IXR_P)
-        DEALLOCATE(  KXSP_P)
-        DEALLOCATE(  IXT_P)
-        DEALLOCATE(  IXC_P)
-        DEALLOCATE(  IXS10_P)
-        DEALLOCATE(  IXS16_P)
-        DEALLOCATE(  IXS20_P)
-        DEALLOCATE(  IPARTC_P)
-        DEALLOCATE(  IPARTTG_P)
-        DEALLOCATE(  IPARTQ_P)
-        DEALLOCATE(  IPARTS_P)
-        DEALLOCATE(  IPARTR_P)
-        DEALLOCATE(  IPARTP_P)
-        DEALLOCATE(  IPARTT_P)
-        DEALLOCATE(  IPARTSP_P)
-        DEALLOCATE(  IPARTS10_P)
-        DEALLOCATE(  IPARTS16_P)
-        DEALLOCATE(  IPARTS20_P)
-        DEALLOCATE(  IXQ_P)
-        DEALLOCATE(  IXC_TMP)
-        DEALLOCATE(  IXTG_TMP)
+        call my_dealloc(IXTG_P)
+        call my_dealloc(IXS_P)
+        call my_dealloc(IXP_P)
+        call my_dealloc(IXR_P)
+        call my_dealloc(KXSP_P)
+        call my_dealloc(IXT_P)
+        call my_dealloc(IXC_P)
+        call my_dealloc(IXS10_P)
+        call my_dealloc(IXS16_P)
+        call my_dealloc(IXS20_P)
+        call my_dealloc(IPARTC_P)
+        call my_dealloc(IPARTTG_P)
+        call my_dealloc(IPARTQ_P)
+        call my_dealloc(IPARTS_P)
+        call my_dealloc(IPARTR_P)
+        call my_dealloc(IPARTP_P)
+        call my_dealloc(IPARTT_P)
+        call my_dealloc(IPARTSP_P)
+        call my_dealloc(IPARTS10_P)
+        call my_dealloc(IPARTS16_P)
+        call my_dealloc(IPARTS20_P)
+        call my_dealloc(IXQ_P)
+        call my_dealloc(IXC_TMP)
+        call my_dealloc(IXTG_TMP)
 c     DEALLOCATE(  IXS_TMP)
-        DEALLOCATE(  IXR_TMP)
-        DEALLOCATE(  IXP_TMP)
-        DEALLOCATE(  KXSP_TMP)
-        DEALLOCATE(  IXT_TMP)
-        DEALLOCATE(  IXS10_TMP)
-        DEALLOCATE(  IXS16_TMP)
-        DEALLOCATE(  IXS20_TMP)
-        DEALLOCATE(  IXQ_TMP)
-        DEALLOCATE( SUB_ID,SUB_LEVEL,SUB_NCHILD)
+        call my_dealloc(IXR_TMP)
+        call my_dealloc(IXP_TMP)
+        call my_dealloc(KXSP_TMP)
+        call my_dealloc(IXT_TMP)
+        call my_dealloc(IXS10_TMP)
+        call my_dealloc(IXS16_TMP)
+        call my_dealloc(IXS20_TMP)
+        call my_dealloc(IXQ_TMP)
+        call my_dealloc(SUB_ID)
+        call my_dealloc(SUB_LEVEL)
+        call my_dealloc(SUB_NCHILD)
         IF(ALLOCATED(SUB_CHILD)) DEALLOCATE( SUB_CHILD,SUB_IAD,SUB_TITLE)
 
 
-        IF (ALLOCATED(NODAL_IPART))  DEALLOCATE(NODAL_IPART)
+        IF (ALLOCATED(NODAL_IPART)) call my_dealloc(NODAL_IPART)
 
 c
-        IF (ALLOCATED(TAGNOD))  DEALLOCATE(TAGNOD)
+        IF (ALLOCATED(TAGNOD)) call my_dealloc(TAGNOD)
 c
-        DEALLOCATE(TAGNOD_P)
+        call my_dealloc(TAGNOD_P)
 c
-        DEALLOCATE(MAS)
+        call my_dealloc(MAS)
 C
         IF(ISPMD == 0)  THEN
           CALL STARTIME(TIMERS,MACRO_TIMER_LIBH3D)

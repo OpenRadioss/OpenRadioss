@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,7 +127,7 @@ C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_SOL(NUMELS),STAT=stat)
+      call my_alloc(SUB_SOL, NUMELS, "SUB_SOL", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SOL') 
@@ -507,7 +508,7 @@ C-----------
      .             ANMODE=ANINFO_BLIND_1,    
      .             PRMOD=MSG_PRINT) 
 C-------------------------------------
-      IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
+      IF (ALLOCATED(SUB_SOL)) CALL MY_DEALLOC(SUB_SOL)
 C-------------------------------------
 C Search for double IDs
 C-------------------------------------
@@ -880,6 +881,7 @@ C-----------------------------------------------
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -916,7 +918,7 @@ C
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_SOL(NUMELS),STAT=stat)
+      call my_alloc(SUB_SOL, NUMELS, "SUB_SOL", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SOL')
@@ -925,7 +927,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      READING BRICKS INPUTS IN HM STRUCTURE
 C--------------------------------------------------  
-      ALLOCATE(IPARTS(NUMELS))
+      call my_alloc(IPARTS, NUMELS, "IPARTS")
       CALL CPP_BRICK_READ(IXS,NIXS,IPARTS,SUB_SOL) 
 C--------------------------------------------------
 C      NSPHSOL NSPHDIR CALCULATION + CHECKS
@@ -1028,8 +1030,8 @@ C--------------------------------------------------
             NSPHSOL=NSPHSOL+NT
           END DO
         ENDDO
-      IF (ALLOCATED(IPARTS)) DEALLOCATE(IPARTS)
-      IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
+      IF (ALLOCATED(IPARTS)) CALL MY_DEALLOC(IPARTS)
+      IF (ALLOCATED(SUB_SOL)) CALL MY_DEALLOC(SUB_SOL)
 C--------------------------
       RETURN
       END

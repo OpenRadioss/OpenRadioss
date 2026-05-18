@@ -111,6 +111,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -530,10 +531,10 @@ c
         SENSORS%NOUTP = 0
         SENSORS%NSTAT = 0
         SENSORS%NANIM = 0      
-        ALLOCATE (SENSORS%STOP_TMP(MX_SENS))
-        ALLOCATE (SENSORS%OUTP_TMP(MX_SENS))
-        ALLOCATE (SENSORS%STAT_TMP(MX_SENS))
-        ALLOCATE (SENSORS%ANIM_TMP(MX_SENS))
+        call my_alloc(SENSORS%STOP_TMP, MX_SENS, "SENSORS%STOP_TMP")
+        call my_alloc(SENSORS%OUTP_TMP, MX_SENS, "SENSORS%OUTP_TMP")
+        call my_alloc(SENSORS%STAT_TMP, MX_SENS, "SENSORS%STAT_TMP")
+        call my_alloc(SENSORS%ANIM_TMP, MX_SENS, "SENSORS%ANIM_TMP")
         SENSORS%STOP_TMP(:) = 0  
         SENSORS%OUTP_TMP(:) = 0 
         SENSORS%STAT_TMP(:) = 0 
@@ -2418,7 +2419,7 @@ C--------------------
             SENSORS%NRESET = SENSORS%NSENSOR
           ELSE          
             SENSORS%NRESET = NBSENS
-            ALLOCATE(SENSORS%RESET(NBSENS))
+            call my_alloc(SENSORS%RESET, NBSENS, "SENSORS%RESET")
             NBSENS = 0
             DO I=1,NBC
               READ(IUSC1,REC=IREC+I-1,FMT='(A)',ERR=9990)CARTE

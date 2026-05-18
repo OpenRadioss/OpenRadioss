@@ -26,7 +26,7 @@
 !||    lectur                      ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_read_preload_axial_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -349,6 +349,8 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use message_mod
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -379,21 +381,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate (itris(nx) ,stat=stat)
+          call my_alloc(itris,nx,"itris",stat=stat)
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
               c1="preload_a_itris")
             return
           end if
-          allocate (indexs(2*nx) ,stat=stat)
+          call my_alloc(indexs,2*nx,"indexs",stat=stat)
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
               c1="preload_a_indexs")
             return
           end if
-          allocate (ksysusrs(2*nx),stat=stat)
+          call my_alloc(ksysusrs,2*nx,"ksysusrs",stat=stat)
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
@@ -427,7 +429,9 @@
             end if
           end do
 !-----------
-          deallocate(ksysusrs,indexs,itris)
+          call my_dealloc(ksysusrs)
+          call my_dealloc(indexs)
+          call my_dealloc(itris)
 !---
 
         end subroutine initag_preload_a

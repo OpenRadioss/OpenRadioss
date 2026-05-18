@@ -60,6 +60,7 @@
           use constant_mod , only : pi,one,third,two,zero,em20,ep10,ep20
           use func_table_copy_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -317,7 +318,7 @@
           ! create local function table from tabulated yield curves
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%ntable = 6
-          allocate (mat_param%table(mat_param%ntable))
+          allocate(mat_param%table(mat_param%ntable))
 !
           mat_param%table(1)%notable = n11
           mat_param%table(2)%notable = n22
@@ -368,8 +369,8 @@
           end if
           mat_param%nfunc = 0
 !
-          allocate (mat_param%uparam(mat_param%nuparam))
-          allocate (mat_param%iparam(mat_param%niparam))
+          call my_alloc(mat_param%uparam, mat_param%nuparam, "mat_param%uparam")
+          call my_alloc(mat_param%iparam, mat_param%niparam, "mat_param%iparam")
 !
           mat_param%iparam(1)  = iflag1
           mat_param%iparam(2)  = iflag2

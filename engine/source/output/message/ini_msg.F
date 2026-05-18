@@ -37,6 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -50,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #include "engine_message_description.inc"
-      ALLOCATE(MESSAGESFILE(SMESSAGESFILE))  
+      ALLOCATE(MESSAGESFILE(SMESSAGESFILE))
       DO I=1,SMESSAGESFILE  
         MESSAGESFILE(I)=MESSAGESDATA(I)
       END DO

@@ -73,8 +73,8 @@ C         Writing TH/SURF tabs in restart file
 C          /PFLUID , /PBLAST, /LOADP_HYD option
 C-----------------------------------------------
 
-      CALL MY_ALLOC(KSEGS_L,TH_SURF%S_LOADP_KSEGS)
-      CALL MY_ALLOC(SEGS_L,TH_SURF%S_LOADP_SEGS)
+      CALL MY_ALLOC(KSEGS_L,TH_SURF%S_LOADP_KSEGS,"KSEGS_L")
+      CALL MY_ALLOC(SEGS_L,TH_SURF%S_LOADP_SEGS,"SEGS_L")
       KSEGS_L = 0
       SEGS_L = 0
       NSEGP  = 0      
@@ -102,7 +102,8 @@ C-----------------------------------------------
       CALL WRITE_I_C(SEGS_L,KSEGS_L(NSEGPL+1))
       LEN_IA = LEN_IA + NSEGPL+3+ KSEGS_L(NSEGPL+1)
 
-      DEALLOCATE(KSEGS_L,SEGS_L)
+      CALL MY_DEALLOC(KSEGS_L)
+      CALL MY_DEALLOC(SEGS_L)
 
       RETURN
       END

@@ -138,7 +138,7 @@ C     STIFFNESS SEGMENTS
 C        IF ONE SEGMENTS IS BASED ON BOTH SOLID AND SHELL
 C        THEN SHELL STIFFNESS IS USED. UNLESS MATERIAL HAS
 C        NO STIFFNESS
-      ALLOCATE( GAP_S_L_TMP(NUMNOD) )
+      call my_alloc(GAP_S_L_TMP, NUMNOD, "GAP_S_L_TMP")
       TYPE18 = .FALSE.
       IF(INACTI == 7)TYPE18=.TRUE.
       IPGMAT = 700
@@ -403,9 +403,9 @@ C------------------------------------
 C     GAP STIFF FACES MAIN
 C------------------------------------
       IF(NUMELS > 0) THEN
-        CALL MY_ALLOC(TAGELEMS,NUMELS)
+        CALL MY_ALLOC(TAGELEMS,NUMELS,"TAGELEMS")
         TAGELEMS = 0
-        CALL MY_ALLOC(INDEXE,NUMELS)
+        CALL MY_ALLOC(INDEXE,NUMELS,"INDEXE")
         INDEXE = 0
       ENDIF
       NINV = 0
@@ -935,7 +935,8 @@ C        SPMD EXCHANGE : if no element associated to the edge => error
 C----------------------------------        
       ENDDO!next I=1,NRT
   
-      IF(NUMELS > 0) DEALLOCATE(TAGELEMS,INDEXE)
+      IF(NUMELS > 0) CALL MY_DEALLOC(TAGELEMS)
+      IF(NUMELS > 0) CALL MY_DEALLOC(INDEXE)
 C
       CALL ANCMSG(MSGID=3022,
      .             MSGTYPE=MSGWARNING,
@@ -1243,7 +1244,7 @@ C
         GAPINF=GAPINF_S+GAPINF_M
         GAPINF=MAX(GAPINF,GAPMIN)
       ENDIF 
-      DEALLOCATE( GAP_S_L_TMP )
+      CALL MY_DEALLOC(GAP_S_L_TMP)
       RETURN
  1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
  2001 FORMAT(2X,'Maximum distance for radiation computation = ',

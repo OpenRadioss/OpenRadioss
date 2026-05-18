@@ -62,6 +62,8 @@
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -143,15 +145,40 @@
           le_max = nloc_dmg%le_max(imat) !< Maximal length of convergence
 !
           !< Allocation of variable table
-          allocate(                                                                &
-            btb11(nel),btb12(nel),btb13(nel),btb14(nel),btb15(nel),btb16(nel), &
-            btb22(nel),btb23(nel),btb24(nel),btb25(nel),btb26(nel),            &
-            btb33(nel),btb34(nel),btb35(nel),btb36(nel),                       &
-            btb44(nel),btb45(nel),btb46(nel),                                  &
-            btb55(nel),btb56(nel),                                             &
-            btb66(nel))
-          allocate(pos1(nel),pos2(nel),pos3(nel),pos4(nel),pos5(nel),pos6(nel))
-          allocate(f1(nel),f2(nel),f3(nel),f4(nel),f5(nel),f6(nel),lc(nel))
+          call my_alloc(btb11, nel, "btb11")
+          call my_alloc(btb12, nel, "btb12")
+          call my_alloc(btb13, nel, "btb13")
+          call my_alloc(btb14, nel, "btb14")
+          call my_alloc(btb15, nel, "btb15")
+          call my_alloc(btb16, nel, "btb16")
+          call my_alloc(btb22, nel, "btb22")
+          call my_alloc(btb23, nel, "btb23")
+          call my_alloc(btb24, nel, "btb24")
+          call my_alloc(btb25, nel, "btb25")
+          call my_alloc(btb26, nel, "btb26")
+          call my_alloc(btb33, nel, "btb33")
+          call my_alloc(btb34, nel, "btb34")
+          call my_alloc(btb35, nel, "btb35")
+          call my_alloc(btb36, nel, "btb36")
+          call my_alloc(btb44, nel, "btb44")
+          call my_alloc(btb45, nel, "btb45")
+          call my_alloc(btb46, nel, "btb46")
+          call my_alloc(btb55, nel, "btb55")
+          call my_alloc(btb56, nel, "btb56")
+          call my_alloc(btb66, nel, "btb66")
+          call my_alloc(pos1, nel, "pos1")
+          call my_alloc(pos2, nel, "pos2")
+          call my_alloc(pos3, nel, "pos3")
+          call my_alloc(pos4, nel, "pos4")
+          call my_alloc(pos5, nel, "pos5")
+          call my_alloc(pos6, nel, "pos6")
+          call my_alloc(f1, nel, "f1")
+          call my_alloc(f2, nel, "f2")
+          call my_alloc(f3, nel, "f3")
+          call my_alloc(f4, nel, "f4")
+          call my_alloc(f5, nel, "f5")
+          call my_alloc(f6, nel, "f6")
+          call my_alloc(lc, nel, "lc")
 !
           !< Factor for non-local forces
           ntn = six*six
@@ -161,7 +188,12 @@
           !< For nodal timestep
           if (nodadt > 0) then
             !< Non-local nodal stifness
-            allocate(sti1(nel),sti2(nel),sti3(nel),sti4(nel),sti5(nel),sti6(nel))
+            call my_alloc(sti1, nel, "sti1")
+            call my_alloc(sti2, nel, "sti2")
+            call my_alloc(sti3, nel, "sti3")
+            call my_alloc(sti4, nel, "sti4")
+            call my_alloc(sti5, nel, "sti5")
+            call my_alloc(sti6, nel, "sti6")
             !< Non-local mass
             mass  => nloc_dmg%mass(1:l_nloc)
             !< Initial non-local mass
@@ -439,46 +471,46 @@
           endif
 !
           !< Deallocation of tables
-          if (allocated(btb11)) deallocate(btb11)
-          if (allocated(btb12)) deallocate(btb12)
-          if (allocated(btb13)) deallocate(btb13)
-          if (allocated(btb14)) deallocate(btb14)
-          if (allocated(btb15)) deallocate(btb15)
-          if (allocated(btb16)) deallocate(btb16)
-          if (allocated(btb22)) deallocate(btb22)
-          if (allocated(btb23)) deallocate(btb23)
-          if (allocated(btb24)) deallocate(btb24)
-          if (allocated(btb25)) deallocate(btb25)
-          if (allocated(btb26)) deallocate(btb26)
-          if (allocated(btb33)) deallocate(btb33)
-          if (allocated(btb34)) deallocate(btb34)
-          if (allocated(btb35)) deallocate(btb35)
-          if (allocated(btb36)) deallocate(btb36)
-          if (allocated(btb44)) deallocate(btb44)
-          if (allocated(btb45)) deallocate(btb45)
-          if (allocated(btb46)) deallocate(btb46)
-          if (allocated(btb55)) deallocate(btb55)
-          if (allocated(btb56)) deallocate(btb56)
-          if (allocated(btb66)) deallocate(btb66)
-          if (allocated(pos1))  deallocate(pos1)
-          if (allocated(pos2))  deallocate(pos2)
-          if (allocated(pos3))  deallocate(pos3)
-          if (allocated(pos4))  deallocate(pos4)
-          if (allocated(pos5))  deallocate(pos5)
-          if (allocated(pos6))  deallocate(pos6)
-          if (allocated(f1))    deallocate(f1)
-          if (allocated(f2))    deallocate(f2)
-          if (allocated(f3))    deallocate(f3)
-          if (allocated(f4))    deallocate(f4)
-          if (allocated(f5))    deallocate(f5)
-          if (allocated(f6))    deallocate(f6)
-          if (allocated(sti1))  deallocate(sti1)
-          if (allocated(sti2))  deallocate(sti2)
-          if (allocated(sti3))  deallocate(sti3)
-          if (allocated(sti4))  deallocate(sti4)
-          if (allocated(sti5))  deallocate(sti5)
-          if (allocated(sti6))  deallocate(sti6)
-          if (allocated(lc))    deallocate(lc)
+          if (allocated(btb11)) call my_dealloc(btb11)
+          if (allocated(btb12)) call my_dealloc(btb12)
+          if (allocated(btb13)) call my_dealloc(btb13)
+          if (allocated(btb14)) call my_dealloc(btb14)
+          if (allocated(btb15)) call my_dealloc(btb15)
+          if (allocated(btb16)) call my_dealloc(btb16)
+          if (allocated(btb22)) call my_dealloc(btb22)
+          if (allocated(btb23)) call my_dealloc(btb23)
+          if (allocated(btb24)) call my_dealloc(btb24)
+          if (allocated(btb25)) call my_dealloc(btb25)
+          if (allocated(btb26)) call my_dealloc(btb26)
+          if (allocated(btb33)) call my_dealloc(btb33)
+          if (allocated(btb34)) call my_dealloc(btb34)
+          if (allocated(btb35)) call my_dealloc(btb35)
+          if (allocated(btb36)) call my_dealloc(btb36)
+          if (allocated(btb44)) call my_dealloc(btb44)
+          if (allocated(btb45)) call my_dealloc(btb45)
+          if (allocated(btb46)) call my_dealloc(btb46)
+          if (allocated(btb55)) call my_dealloc(btb55)
+          if (allocated(btb56)) call my_dealloc(btb56)
+          if (allocated(btb66)) call my_dealloc(btb66)
+          if (allocated(pos1)) call my_dealloc(pos1)
+          if (allocated(pos2)) call my_dealloc(pos2)
+          if (allocated(pos3)) call my_dealloc(pos3)
+          if (allocated(pos4)) call my_dealloc(pos4)
+          if (allocated(pos5)) call my_dealloc(pos5)
+          if (allocated(pos6)) call my_dealloc(pos6)
+          if (allocated(f1)) call my_dealloc(f1)
+          if (allocated(f2)) call my_dealloc(f2)
+          if (allocated(f3)) call my_dealloc(f3)
+          if (allocated(f4)) call my_dealloc(f4)
+          if (allocated(f5)) call my_dealloc(f5)
+          if (allocated(f6)) call my_dealloc(f6)
+          if (allocated(sti1)) call my_dealloc(sti1)
+          if (allocated(sti2)) call my_dealloc(sti2)
+          if (allocated(sti3)) call my_dealloc(sti3)
+          if (allocated(sti4)) call my_dealloc(sti4)
+          if (allocated(sti5)) call my_dealloc(sti5)
+          if (allocated(sti6)) call my_dealloc(sti6)
+          if (allocated(lc)) call my_dealloc(lc)
 !
         end subroutine s6fint_reg
       end module s6fint_reg_mod

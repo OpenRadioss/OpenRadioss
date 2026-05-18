@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -61,8 +63,8 @@ c
       IF(NTOT==0)RETURN ! No elements to read
 
 C     Second pass - read all lines of elements as a single big line
-      ALLOCATE(IV0(NTOT))
-      ALLOCATE(IV1(2*NTOT))
+      call my_alloc(IV0, NTOT, "IV0")
+      call my_alloc(IV1, 2*NTOT, "IV1")
       IV0(1:NTOT) = 0
       IV1(1:2*NTOT) = 0
 C
@@ -99,8 +101,8 @@ C     Write the elements in groups of 10 - last line completed with last element
       ENDDO
       JJ = 0
 
-      DEALLOCATE(IV0)
-      DEALLOCATE(IV1)
+      call my_dealloc(IV0)
+      call my_dealloc(IV1)
 
       RETURN
       END

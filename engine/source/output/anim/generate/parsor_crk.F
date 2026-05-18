@@ -43,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,7 +68,7 @@ C     REAL
 C=======================================================================
 C     CRK ELEMS INIT
 C-----------------------------------------------
-      CALL my_alloc(NP, NBF_L*4)
+      call my_alloc(NP, NBF_L*4, "NP")
       NEL_CRK = 0
       JJ = 0
       IE = 0
@@ -174,6 +175,6 @@ C
         END DO
       ENDIF
 C-----------
-      DEALLOCATE(NP)
+      call my_dealloc(NP)
       RETURN
       END

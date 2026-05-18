@@ -43,6 +43,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -100,19 +102,30 @@ C=======================================================================
       L_NLOC = NLOC_DMG%L_NLOC       ! Length of non-local tables
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
       ! Allocation of elementary forces vectors
-      ALLOCATE(F1(NEL,NDDL),F2(NEL,NDDL),F3(NEL,NDDL))
+      call my_alloc(F1, NEL, NDDL, "F1")
+      call my_alloc(F2, NEL, NDDL, "F2")
+      call my_alloc(F3, NEL, NDDL, "F3")
       ! Only for nodal timestep
       IF (NODADT > 0) THEN
         ! Non-local nodal stiffness
-        ALLOCATE(STI1(NEL,NDDL),STI2(NEL,NDDL),STI3(NEL,NDDL))
+        call my_alloc(STI1, NEL, NDDL, "STI1")
+        call my_alloc(STI2, NEL, NDDL, "STI2")
+        call my_alloc(STI3, NEL, NDDL, "STI3")
         ! Non-local mass
         MASS  => NLOC_DMG%MASS(1:L_NLOC)
         ! Initial non-local mass
         MASS0 => NLOC_DMG%MASS0(1:L_NLOC)
       ENDIF
-      ALLOCATE(BTB11(NEL),BTB12(NEL),BTB13(NEL),BTB22(NEL),
-     .         BTB23(NEL),BTB33(NEL),VOL(NEL),POS1(NEL),
-     .         POS2(NEL),POS3(NEL))
+      call my_alloc(BTB11, NEL, "BTB11")
+      call my_alloc(BTB12, NEL, "BTB12")
+      call my_alloc(BTB13, NEL, "BTB13")
+      call my_alloc(BTB22, NEL, "BTB22")
+      call my_alloc(BTB23, NEL, "BTB23")
+      call my_alloc(BTB33, NEL, "BTB33")
+      call my_alloc(VOL, NEL, "VOL")
+      call my_alloc(POS1, NEL, "POS1")
+      call my_alloc(POS2, NEL, "POS2")
+      call my_alloc(POS3, NEL, "POS3")
       ! Recovering non-local data
       VNL  => NLOC_DMG%VNL(1:L_NLOC)     ! Non-local variable velocities
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC) ! Non-local variable velocities
@@ -159,14 +172,14 @@ c
         ! Allocation of the velocities predictor
         IF (NDDL > 2) THEN 
           IF (NODADT > 0) THEN 
-            ALLOCATE(STIFNLTH(NEL,NDDL+1))
-            ALLOCATE(DTN(NEL,NDDL+1))
+            call my_alloc(STIFNLTH, NEL, NDDL+1, "STIFNLTH")
+            call my_alloc(DTN, NEL, NDDL+1, "DTN")
           ENDIF
           NDNOD = NDDL+1
         ELSE
           IF (NODADT > 0) THEN 
-            ALLOCATE(STIFNLTH(NEL,NDDL))
-            ALLOCATE(DTN(NEL,NDDL))
+            call my_alloc(STIFNLTH, NEL, NDDL, "STIFNLTH")
+            call my_alloc(DTN, NEL, NDDL, "DTN")
           ENDIF
           NDNOD = NDDL
         ENDIF
@@ -493,21 +506,21 @@ c
       ENDIF
 c  
       ! Deallocation of tables
-      IF (ALLOCATED(F1))       DEALLOCATE(F1)
-      IF (ALLOCATED(F2))       DEALLOCATE(F2)
-      IF (ALLOCATED(F3))       DEALLOCATE(F3)
-      IF (ALLOCATED(STI1))     DEALLOCATE(STI1)
-      IF (ALLOCATED(STI2))     DEALLOCATE(STI2)
-      IF (ALLOCATED(STI3))     DEALLOCATE(STI3)
-      IF (ALLOCATED(BTB11))    DEALLOCATE(BTB11)
-      IF (ALLOCATED(BTB12))    DEALLOCATE(BTB12)
-      IF (ALLOCATED(BTB13))    DEALLOCATE(BTB13)
-      IF (ALLOCATED(BTB22))    DEALLOCATE(BTB22)
-      IF (ALLOCATED(BTB23))    DEALLOCATE(BTB23)
-      IF (ALLOCATED(BTB33))    DEALLOCATE(BTB33)
-      IF (ALLOCATED(STIFNLTH)) DEALLOCATE(STIFNLTH)
-      IF (ALLOCATED(POS1))     DEALLOCATE(POS1)
-      IF (ALLOCATED(POS2))     DEALLOCATE(POS2) 
-      IF (ALLOCATED(POS3))     DEALLOCATE(POS3) 
-      IF (ALLOCATED(VOL))      DEALLOCATE(VOL)
+      IF (ALLOCATED(F1)) call my_dealloc(F1)
+      IF (ALLOCATED(F2)) call my_dealloc(F2)
+      IF (ALLOCATED(F3)) call my_dealloc(F3)
+      IF (ALLOCATED(STI1)) call my_dealloc(STI1)
+      IF (ALLOCATED(STI2)) call my_dealloc(STI2)
+      IF (ALLOCATED(STI3)) call my_dealloc(STI3)
+      IF (ALLOCATED(BTB11)) call my_dealloc(BTB11)
+      IF (ALLOCATED(BTB12)) call my_dealloc(BTB12)
+      IF (ALLOCATED(BTB13)) call my_dealloc(BTB13)
+      IF (ALLOCATED(BTB22)) call my_dealloc(BTB22)
+      IF (ALLOCATED(BTB23)) call my_dealloc(BTB23)
+      IF (ALLOCATED(BTB33)) call my_dealloc(BTB33)
+      IF (ALLOCATED(STIFNLTH)) call my_dealloc(STIFNLTH)
+      IF (ALLOCATED(POS1)) call my_dealloc(POS1)
+      IF (ALLOCATED(POS2)) call my_dealloc(POS2)
+      IF (ALLOCATED(POS3)) call my_dealloc(POS3)
+      IF (ALLOCATED(VOL)) call my_dealloc(VOL)
       END

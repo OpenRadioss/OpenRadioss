@@ -403,6 +403,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -423,8 +425,8 @@ C--------------------------------------
        R_IMP(6) = IMP_RR(2)
       ELSE
        NR = 2
-       IF(ALLOCATED(IMP_RR)) DEALLOCATE(IMP_RR)
-       ALLOCATE(IMP_RR(NR))
+       IF(ALLOCATED(IMP_RR)) call my_dealloc(IMP_RR)
+       call my_alloc(IMP_RR, NR, "IMP_RR")
        NR = NR + IDYNA
       ENDIF 
 C
@@ -1281,6 +1283,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1315,8 +1319,13 @@ C--------------------------------------
           CALL WRITE_I_C(NDIM_SLICE,1)
           CAll WRITE_I_C(NDIM_INDX_PLY,1)
           CALL WRITE_I_C(INDXSH4N,NUMELC)  
-          ALLOCATE(NPT_ELT(NUMELC_DRAPE),NPTDRP_ELT(NUMELC_DRAPE),THK(NUMELC_DRAPE))
-          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY))
+          call my_alloc(NPT_ELT, NUMELC_DRAPE, "NPT_ELT")
+          call my_alloc(NPTDRP_ELT, NUMELC_DRAPE, "NPTDRP_ELT")
+          call my_alloc(THK, NUMELC_DRAPE, "THK")
+          call my_alloc(ITMP, NDIM, 2, "ITMP")
+          call my_alloc(RTMP, NDIM, 2, "RTMP")
+          call my_alloc(ISLICE, NDIM_SLICE, "ISLICE")
+          call my_alloc(INDX_PLY, NDIM_INDX_PLY, "INDX_PLY")
              
           N1 = 0
           N2 = 0
@@ -1352,7 +1361,13 @@ C--------------------------------------
           CALL WRITE_I_C(ITMP,2*NDIM)            
           CALL WRITE_DB(RTMP,2*NDIM)  
           CALL WRITE_DB(THK,NUMELC_DRAPE )
-          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY, THK)
+          call my_dealloc(NPT_ELT)
+          call my_dealloc(NPTDRP_ELT)
+          call my_dealloc(ITMP)
+          call my_dealloc(RTMP)
+          call my_dealloc(ISLICE)
+          call my_dealloc(INDX_PLY)
+          call my_dealloc(THK)
           
       ENDIF
       
@@ -1366,8 +1381,13 @@ C--------------------------------------
           CALL WRITE_I_C(NDIM_SLICE,1)
           CAll WRITE_I_C(NDIM_INDX_PLY,1)
           CALL WRITE_I_C(INDXSH3N,NUMELTG)  
-          ALLOCATE(NPT_ELT(NUMELTG_DRAPE),NPTDRP_ELT(NUMELTG_DRAPE), THK(NUMELTG_DRAPE))
-          ALLOCATE(ITMP(NDIM,2),RTMP(NDIM,2),ISLICE(NDIM_SLICE),INDX_PLY(NDIM_INDX_PLY)) 
+          call my_alloc(NPT_ELT, NUMELTG_DRAPE, "NPT_ELT")
+          call my_alloc(NPTDRP_ELT, NUMELTG_DRAPE, "NPTDRP_ELT")
+          call my_alloc(THK, NUMELTG_DRAPE, "THK")
+          call my_alloc(ITMP, NDIM, 2, "ITMP")
+          call my_alloc(RTMP, NDIM, 2, "RTMP")
+          call my_alloc(ISLICE, NDIM_SLICE, "ISLICE")
+          call my_alloc(INDX_PLY, NDIM_INDX_PLY, "INDX_PLY")
           N1 = 0
           N2 = 0
           N3 = 0 
@@ -1402,7 +1422,13 @@ C--------------------------------------
           CALL WRITE_I_C(ITMP,2*NDIM)            
           CALL WRITE_DB(RTMP,2*NDIM)  
           CALL WRITE_DB(THK, NUMELTG_DRAPE ) 
-          DEALLOCATE(NPT_ELT,NPTDRP_ELT,ITMP,RTMP,ISLICE,INDX_PLY, THK)
+          call my_dealloc(NPT_ELT)
+          call my_dealloc(NPTDRP_ELT)
+          call my_dealloc(ITMP)
+          call my_dealloc(RTMP)
+          call my_dealloc(ISLICE)
+          call my_dealloc(INDX_PLY)
+          call my_dealloc(THK)
       ENDIF                    
       RETURN
       END

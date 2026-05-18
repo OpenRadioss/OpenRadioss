@@ -941,6 +941,8 @@ C
      6                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
      .                     VQ  ,VQN ,JFT  ,JLT   ) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
@@ -971,8 +973,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: P,KE
 C-------------------------------------------------------------
-        ALLOCATE(P(24,24,MVSIZ))
-        ALLOCATE(KE(24,24,MVSIZ))
+        call my_alloc(P, 24, 24, MVSIZ, "P")
+        call my_alloc(KE, 24, 24, MVSIZ, "KE")
 C
         DO I=1,3 
         DO J=1,3 
@@ -1410,8 +1412,8 @@ C-----------K34
         ENDDO
         ENDDO
 C-----------
-        DEALLOCATE(P)
-        DEALLOCATE(KE)
+        call my_dealloc(P)
+        call my_dealloc(KE)
       RETURN
       END
 !||====================================================================

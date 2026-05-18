@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE OPTIONDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,7 +98,7 @@ C=======================================================================
 !
       NINDX_B = 0
 !
-      ALLOCATE(BOXELTS(NUMEL))
+      call my_alloc(BOXELTS, NUMEL, "BOXELTS")
       SZ_BOXELTS = 0
 
 
@@ -107,7 +108,7 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)      ! Get the numbers of boxes to read
 
-      ALLOCATE(BOXLIST(IDS_MAX))
+      call my_alloc(BOXLIST, IDS_MAX, "BOXLIST")
       BOXLIST_SIZE=0
 
       CALL READ_CLAUSE_BOX(IBOX   ,IS_AVAILABLE ,LSUBMODEL ,JCLAUSE, IDS_MAX ,   
@@ -124,8 +125,8 @@ C=======================================================================
 
       CALL COPY_LIST_IN_CAUSE(CLAUSE,ELTYP,BOXELTS,SZ_BOXELTS)
 
-      DEALLOCATE(BOXELTS)
-      DEALLOCATE(BOXLIST)
+      CALL MY_DEALLOC(BOXELTS)
+      CALL MY_DEALLOC(BOXLIST)
 
       RETURN
       END

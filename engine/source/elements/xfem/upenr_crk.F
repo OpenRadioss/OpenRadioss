@@ -34,6 +34,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -52,6 +53,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: IFAC0
 C=======================================================================
       ALLOCATE(IFAC0(0:IENRNOD))
+! TODO: non-default lower bound, convert manually
 c
       DO N  = NODFT,NODLT
         NSX = INOD_CRK(N)
@@ -85,7 +87,7 @@ C
         ENRTAG(N,1:IENRNOD) = 0
       ENDDO     !  N = NODFT,NODLT
 c-----
-      DEALLOCATE(IFAC0)
+      call my_dealloc(IFAC0)
 C-----------
       RETURN
       END

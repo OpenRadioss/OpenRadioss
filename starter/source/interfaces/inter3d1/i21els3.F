@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INTBUF_FRIC_MOD
       use element_mod , only :nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,12 +107,13 @@ C-----
       IF(INTTH > 0)THEN
         NELEM = NUMELC+NUMELTG+NUMELS+NUMELR
      +      + NUMELP+NUMELT+NUMELQ+NUMELX+NUMELIG3D
-        ALLOCATE(INRTIE(NELEM),STAT=stat)
+        call my_alloc(INRTIE, NELEM, "INRTIE", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='INRTIE')
         INRTIE=0
-        ALLOCATE(CONTRIB_KEY(NELEM),CONTRIB_VALUE(NELEM))
+        call my_alloc(CONTRIB_KEY, NELEM, "CONTRIB_KEY")
+        call my_alloc(CONTRIB_VALUE, NELEM, "CONTRIB_VALUE")
       END IF
 C
 C------------------------------------
@@ -525,7 +527,8 @@ C overwrite
       ENDIF
 
       IF(INTTH > 0) THEN
-        DEALLOCATE(CONTRIB_KEY,CONTRIB_VALUE)
+        CALL MY_DEALLOC(CONTRIB_KEY)
+        CALL MY_DEALLOC(CONTRIB_VALUE)
       ENDIF
 
 C ---- FRICTION MODEL DRAD NODES PARTS ------

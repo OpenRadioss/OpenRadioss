@@ -49,6 +49,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
+      USE MY_DEALLOC_MOD, ONLY : MY_DEALLOC
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use inter_save_candidate_mod , only : inter_save_candidate
@@ -214,8 +215,10 @@ C=======================================================================
 
 !$OMP MASTER
 
-      allocate( cand_n_size(nthreads+1),cand_e_size(nthreads+1) )
-      allocate( address_cand_n(nthreads+1),address_cand_e(nthreads+1) )
+      call my_alloc(cand_n_size, nthreads+1, "cand_n_size")
+      call my_alloc(cand_e_size, nthreads+1, "cand_e_size")
+      call my_alloc(address_cand_n, nthreads+1, "address_cand_n")
+      call my_alloc(address_cand_e, nthreads+1, "address_cand_e")
       cand_n_size(1:nthreads+1) = 0 
       cand_e_size(1:nthreads+1) = 0
       address_cand_n(1:nthreads+1) = 0 
@@ -290,7 +293,8 @@ C=======================================================================
 
       STAGNOD = NUMNOD+NUMFAKENODIGEO
       IF(IS_USED_WITH_LAW151) STAGNOD = STAGNOD + NUMELS
-      ALLOCATE(TAGNOD(STAGNOD)) ; TAGNOD(1:STAGNOD) = 0
+      call my_alloc(TAGNOD, STAGNOD, "TAGNOD")
+      TAGNOD(1:STAGNOD) = 0
 
       local_i_stok = 0
       j_stok = 0
@@ -479,7 +483,7 @@ c    underestimation of the distance**2 for candidate elimination
 
       ENDDO
 !$OMP END DO
-      DEALLOCATE(TAGNOD)
+      CALL MY_DEALLOC(TAGNOD)
 
       IF(J_STOK/=0) THEN
         CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
@@ -560,9 +564,9 @@ c    underestimation of the distance**2 for candidate elimination
 !$OMP SINGLE
       ! ------------
       my_size = cand_n_size(nthreads+1)
-      allocate(my_index(2*my_size))
-      allocate(sort_array(2,my_size))
-      allocate(save_array(2,my_size))
+      call my_alloc(my_index, 2*my_size, "my_index")
+      call my_alloc(sort_array, 2, my_size, "sort_array")
+      call my_alloc(save_array, 2, my_size, "save_array")
       
       my_address = i_stok_old + address_cand_n(1) ! get the address of the first pair of candidate
       sort_array(1,1:my_size) = intbuf_tab%cand_n(my_address+1:my_address+my_size)
@@ -583,9 +587,9 @@ c    underestimation of the distance**2 for candidate elimination
       do i=1,my_size
         intbuf_tab%cand_e(my_address+i) = save_array(2,my_index(i))
       enddo
-      deallocate(my_index)
-      deallocate(sort_array)
-      deallocate(save_array)
+      call my_dealloc(my_index)
+      call my_dealloc(sort_array)
+      call my_dealloc(save_array)
       ! ------------
 !$OMP END SINGLE    
 
@@ -598,8 +602,10 @@ c    underestimation of the distance**2 for candidate elimination
 !$OMP END DO
 
 !$OMP SINGLE
-      deallocate( cand_n_size,cand_e_size )
-      deallocate( address_cand_n,address_cand_e )
+      call my_dealloc(cand_n_size)
+      call my_dealloc(cand_e_size)
+      call my_dealloc(address_cand_n)
+      call my_dealloc(address_cand_e)
 !$OMP END SINGLE
 
       RETURN

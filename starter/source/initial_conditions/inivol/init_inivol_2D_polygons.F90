@@ -66,6 +66,8 @@
           use polygon_clipping_mod
           use matparam_def_mod, only : matparam_struct_
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -357,7 +359,7 @@
 
           !---  test elem nodes inside the box (PRE-CRITERION USIN BOX ABOVE)
           !---      loop over related elems, use their nodes : tag set to 1 if inside the box
-          if(numnod > 0) then ; allocate(itag_n(numnod)); itag_n(1:numnod) = 0; end if
+          if(numnod > 0) then ; call my_alloc(itag_n, numnod, "itag_n"); itag_n(1:numnod) = 0; end if
           do ng=1,ngroup
             mtn     = iparg(1,ng)
             nel     = iparg(2,ng)
@@ -436,8 +438,8 @@
           end if
 
           ! --- LOOP OVER ELEM AND STATUS USING RETAINED NODES
-          if(numelq > 0)then  ; allocate (list_quad(numelq))  ; list_quad(:)=0 ; end if
-          if(numeltg > 0)then ; allocate (list_tria(numeltg)) ; list_tria(:)=0 ; end if
+          if(numelq > 0)then  ; call my_alloc(list_quad, numelq, "list_quad")  ; list_quad(:)=0 ; end if
+          if(numeltg > 0)then ; call my_alloc(list_tria, numeltg, "list_tria") ; list_tria(:)=0 ; end if
           icur_q = 0
           icur_t = 0
           do ng=1,ngroup
@@ -829,9 +831,9 @@
 
 
           ! --- deallocate
-          if(allocated(itag_n))deallocate(itag_n)
-          if(allocated(list_quad))deallocate(list_quad)
-          if(allocated(list_tria))deallocate(list_tria)
+          if(allocated(itag_n))call my_dealloc(itag_n)
+          if(allocated(list_quad))call my_dealloc(list_quad)
+          if(allocated(list_tria))call my_dealloc(list_tria)
           call polygon_destroy(user_polygon)
           call polygon_destroy(elem_polygon)
 

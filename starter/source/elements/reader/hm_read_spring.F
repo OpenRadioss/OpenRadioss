@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixr
+      use my_alloc_mod
 C----------------------------------------------------------
 C     READING ELEMENT RESSORT
 C     VERSION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
@@ -118,12 +119,12 @@ C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_SPRING(NUMELR),STAT=stat)
+      call my_alloc(SUB_SPRING, NUMELR, "SUB_SPRING", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUB_SPRING') 
       SUB_SPRING(1:NUMELR) = 0
-      ALLOCATE (SKEWID(NUMELR),STAT=stat)
+      call my_alloc(SKEWID, NUMELR, "SKEWID", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SKEWID') 
@@ -210,7 +211,7 @@ C         Skews per element - PROP type23 and mat law 108 or PROP type8 - only
           ENDIF
         ENDDO
 C
-      IF(ALLOCATED(SUB_SPRING)) DEALLOCATE(SUB_SPRING)
+      IF(ALLOCATED(SUB_SPRING)) CALL MY_DEALLOC(SUB_SPRING)
 C-----------
       CALL ANCMSG(MSGID=402,                 
      .            MSGTYPE=MSGERROR,         

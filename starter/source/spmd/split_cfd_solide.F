@@ -49,9 +49,11 @@ C-----------------------------------------------
         USE SPLIT_CFD_MOD
         USE ALE_CONNECTIVITY_MOD
         use element_mod , only : nixs
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_move_alloc_mod, only : my_move_alloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -88,7 +90,7 @@ C ----------------------------------------
         !       allocation of ALE_ELM (overestimation of the size)
         SIZE_ALE_ELM(1:NSPMD) = NUMELS/NSPMD+1
         DO ISPMD=1,NSPMD
-                ALLOCATE( ALE_ELM(ISPMD)%SOL_ID(SIZE_ALE_ELM(ISPMD)) )
+                call my_alloc(ALE_ELM(ISPMD)%SOL_ID, SIZE_ALE_ELM(ISPMD), "ALE_ELM(ISPMD)%SOL_ID")
         ENDDO
         !       -----------------------------
         II(1:NSPMD) = 0
@@ -122,9 +124,9 @@ C ----------------------------------------
                       !       need to check the size for small test, ie. when NUMELS < NSPMS
                       MIN_SIZE=MAX(1,5* NUMELS/ ( 4*NSPMD ))
                       NEW_SIZE_II = SIZE_ALE_ELM(ISPMD) + MIN_SIZE
-                      ALLOCATE( TMP( NEW_SIZE_II ) )
+                      call my_alloc(TMP, NEW_SIZE_II, "TMP")
                       TMP(1:SIZE_ALE_ELM(ISPMD)) = ALE_ELM(ISPMD)%SOL_ID( 1:SIZE_ALE_ELM(ISPMD) )
-                      CALL MOVE_ALLOC(FROM=TMP,TO=ALE_ELM(ISPMD)%SOL_ID)
+                      call my_move_alloc(TMP, ALE_ELM(ISPMD)%SOL_ID, "ALE_ELM(ISPMD)%SOL_ID")
                       SIZE_ALE_ELM(ISPMD) = NEW_SIZE_II
                     ENDIF
                     ALE_ELM(ISPMD)%SOL_ID(II(ISPMD)) = I
@@ -159,6 +161,7 @@ C ----------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE MY_ALLOC_MOD
         USE SPLIT_CFD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -182,7 +185,7 @@ C-----------------------------------------------
         INTEGER :: ISPMD
 C ----------------------------------------
         DO ISPMD=1,NSPMD
-                IF( ALLOCATED(ALE_ELM(ISPMD)%SOL_ID) ) DEALLOCATE( ALE_ELM(ISPMD)%SOL_ID )
+                IF( ALLOCATED(ALE_ELM(ISPMD)%SOL_ID) ) CALL MY_DEALLOC(ALE_ELM(ISPMD)%SOL_ID)
         ENDDO
         RETURN
         END SUBROUTINE DEALLOCATE_SPLIT_CFD_SOLIDE

@@ -46,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -141,7 +143,10 @@ C------
           NVOIS=KXSP(4,N)
 C------
         SFGAUGE = KXSP(4,N) + KXSP(6,N)
-        ALLOCATE(FGAUGE1(SFGAUGE),FGAUGE2(SFGAUGE),FGAUGE3(SFGAUGE),FGAUGE4(SFGAUGE))
+        call my_alloc(FGAUGE1, SFGAUGE, "FGAUGE1")
+        call my_alloc(FGAUGE2, SFGAUGE, "FGAUGE2")
+        call my_alloc(FGAUGE3, SFGAUGE, "FGAUGE3")
+        call my_alloc(FGAUGE4, SFGAUGE, "FGAUGE4")
 C------
           DO J=1,NVOIS
             JNOD=IXSP(J,N)
@@ -214,7 +219,10 @@ C
           END DO
         END IF
 C------
-        DEALLOCATE(FGAUGE1,FGAUGE2,FGAUGE3,FGAUGE4)
+        call my_dealloc(FGAUGE1)
+        call my_dealloc(FGAUGE2)
+        call my_dealloc(FGAUGE3)
+        call my_dealloc(FGAUGE4)
 C-----------------
       END DO
 !$OMP END DO

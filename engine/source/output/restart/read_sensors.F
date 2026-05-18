@@ -47,6 +47,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 #include "scr07_c.inc"
 #include "scr17_c.inc"
@@ -70,7 +72,7 @@ C=======================================================================
       
       IF (NSENSOR > 0) THEN
         NFIX = 11
-        ALLOCATE (HEAD(NFIX) )
+        call my_alloc(HEAD, NFIX, "HEAD")
 c
         DO ISEN=1,NSENSOR
           CALL READ_DB (HEAD,NFIX)
@@ -96,7 +98,7 @@ c
           ALLOCATE(SENSORS%SENSOR_TAB(ISEN)%VAR(NVAR))
 c
           LEN   = NPARI + NPARR + NVAR
-          ALLOCATE (RBUF(LEN) )
+          call my_alloc(RBUF, LEN, "RBUF")
           CALL READ_DB (RBUF,LEN)
 c
           IAD = 0
@@ -119,7 +121,7 @@ c
             IAD = IAD + NVAR
           END IF
 c           
-          DEALLOCATE (RBUF)
+          call my_dealloc(RBUF)
 c
 c         read sensor title
           CALL READ_I_C(ITITLE(1),LTITR)
@@ -155,14 +157,14 @@ c       Read Logical sensor index array
 c
         CALL READ_I_C(SENSORS%LOGICAL_SENSOR_COUNT,1)
 
-        ALLOCATE(SENSORS%LOGICAL_SENSORS_LIST(SENSORS%LOGICAL_SENSOR_COUNT))
+        call my_alloc(SENSORS%LOGICAL_SENSORS_LIST, SENSORS%LOGICAL_SENSOR_COUNT, "SENSORS%LOGICAL_SENSORS_LIST")
         CALL READ_I_C(SENSORS%LOGICAL_SENSORS_LIST,SENSORS%LOGICAL_SENSOR_COUNT)
 c
 c--------------------------------------
 c       Read spmd/PON exchange arrays
 c
-        ALLOCATE (SENSORS%FSAV(12,6,SENSORS%SFSAV)  ,STAT=IERR)
-        ALLOCATE (SENSORS%TABSENSOR(SENSORS%STABSEN),STAT=IERR)
+        call my_alloc(SENSORS%FSAV, 12, 6, SENSORS%SFSAV, "SENSORS%FSAV", stat=IERR)
+        call my_alloc(SENSORS%TABSENSOR, SENSORS%STABSEN, "SENSORS%TABSENSOR", stat=IERR)
 
         CALL READ_DPDB(SENSORS%FSAV,12*6*SENSORS%SFSAV)
 
@@ -178,7 +180,7 @@ c--------------------------------------
           CALL READ_I_C(SENSORS%ANIM ,SENSORS%NANIM)
         END IF 
 c
-        DEALLOCATE (HEAD)
+        call my_dealloc(HEAD)
 c
       END IF ! NSENSOR > 0
 c--------------------------------------

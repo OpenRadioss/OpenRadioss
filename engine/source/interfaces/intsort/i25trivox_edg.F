@@ -68,6 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -159,7 +161,7 @@ C
       DRAD2 =ZERO
 
       IF(FLAGREMNODE==2) THEN
-        ALLOCATE(TAGREMLINE(NEDGE))
+        call my_alloc(TAGREMLINE, NEDGE, "TAGREMLINE")
         TAGREMLINE(1:NEDGE) = 0
       ENDIF
 
@@ -182,8 +184,11 @@ C
       MAX_ADD = MAX(1,4*(NEDGE+NEDGE_REMOTE))
       IF(ITASK==0)THEN
         ALLOCATE(LCHAIN_ELEM(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
         ALLOCATE(LCHAIN_NEXT(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
         ALLOCATE(LCHAIN_LAST(1:MAX_ADD))
+! TODO: non-default lower bound, convert manually
       END IF
 
 C     Barrier to wait init voxel and allocation
@@ -401,6 +406,7 @@ C Barrier to wait task0 treatment
 C
 !  Attention: allocation en NTHREADS x (NEDGE+NEDGE_REMOTE)
       ALLOCATE(TAGEDG(1:NEDGE+NEDGE_REMOTE))
+! TODO: non-default lower bound, convert manually
       TAGEDG(1:NEDGE+NEDGE_REMOTE)=0
 C=======================================================================
 C     Sorting vs main shell edges
@@ -999,13 +1005,13 @@ C Barrier to avoid reinitialization before end of sorting
           END DO
         END DO
         !CHAINED LIST DEALLOCATION
-        DEALLOCATE(LCHAIN_NEXT)
-        DEALLOCATE(LCHAIN_ELEM)
-        DEALLOCATE(LCHAIN_LAST)
-        IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)
+        call my_dealloc(LCHAIN_NEXT)
+        call my_dealloc(LCHAIN_ELEM)
+        call my_dealloc(LCHAIN_LAST)
+        IF(FLAGREMNODE==2) call my_dealloc(TAGREMLINE)
       ENDIF
 
-      DEALLOCATE(TAGEDG) 
+      call my_dealloc(TAGEDG)
 
 C=======================================================================
 

@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -232,9 +233,12 @@ C     ==============
            CALL HM_GET_INTV('Nb_integr', SIZE, IS_AVAILABLE, LSUBMODEL)
            
            INIMAP2D(KK)%NBMAT = SIZE
-           ALLOCATE(INIMAP2D(KK)%FUNC_ALPHA(SIZE), INIMAP2D(KK)%FUNC_RHO(SIZE), 
-     .          INIMAP2D(KK)%FUNC_ENER(SIZE), INIMAP2D(KK)%FUNC_PRES(SIZE), 
-     .          INIMAP2D(KK)%FAC_PRES_ENER(SIZE), INIMAP2D(KK)%FAC_RHO(SIZE))
+           call my_alloc(INIMAP2D(KK)%FUNC_ALPHA, SIZE, "INIMAP2D(KK)%FUNC_ALPHA")
+           call my_alloc(INIMAP2D(KK)%FUNC_RHO, SIZE, "INIMAP2D(KK)%FUNC_RHO")
+           call my_alloc(INIMAP2D(KK)%FUNC_ENER, SIZE, "INIMAP2D(KK)%FUNC_ENER")
+           call my_alloc(INIMAP2D(KK)%FUNC_PRES, SIZE, "INIMAP2D(KK)%FUNC_PRES")
+           call my_alloc(INIMAP2D(KK)%FAC_PRES_ENER, SIZE, "INIMAP2D(KK)%FAC_PRES_ENER")
+           call my_alloc(INIMAP2D(KK)%FAC_RHO, SIZE, "INIMAP2D(KK)%FAC_RHO")
            INIMAP2D(KK)%FUNC_ALPHA(1:SIZE) = 0         
            DO LL = 1, SIZE
               CALL HM_GET_INT_ARRAY_INDEX('fct_Idvfi', IFUNC1, LL, IS_AVAILABLE, LSUBMODEL)

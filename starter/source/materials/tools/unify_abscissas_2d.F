@@ -41,6 +41,7 @@ c-------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -59,8 +60,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
 c=======================================================================
       LTOT = NPT
-      ALLOCATE (PERM(LTOT))
-      ALLOCATE (XTMP(LTOT))
+      call my_alloc(PERM, LTOT, "PERM")
+      call my_alloc(XTMP, LTOT, "XTMP")
       XF(:)   = ZERO
       XTMP(:) = ZERO
       IDX = 0
@@ -83,8 +84,8 @@ c
         END IF
       END DO
 c
-      DEALLOCATE (XTMP)
-      DEALLOCATE (PERM)
+      CALL MY_DEALLOC(XTMP)
+      CALL MY_DEALLOC(PERM)
 c-----------
       RETURN
       END SUBROUTINE UNIFY_ABSCISSA_2D

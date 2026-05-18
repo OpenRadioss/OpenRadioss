@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -58,7 +60,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGI
 C-----------------------------------------------
 !     allocate 1d array
-      ALLOCATE( TAGI(NUMNOD) )
+      call my_alloc(TAGI, NUMNOD, "TAGI")
 ! ----------------------------
 C
       SLMN_L = 0
@@ -108,7 +110,7 @@ C to avoid counting main nodes of different RBE3s in the boundaries twice
 C
 ! ----------------------------
 !     deallocate 1d array
-      DEALLOCATE( TAGI )
+      call my_dealloc(TAGI)
 ! ----------------------------
       RETURN
       END

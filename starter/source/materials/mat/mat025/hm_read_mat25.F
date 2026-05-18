@@ -134,7 +134,7 @@ c
       MTAG%L_TSAIWU = 1
       MTAG%L_DMG    = 1 + MATPARAM%NMOD
 c
-      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      allocate(MATPARAM%MODE(MATPARAM%NMOD))
       MATPARAM%MODE(1) = "Tensile damage in direction 1"
       MATPARAM%MODE(2) = "Tensile damage in direction 2"
       MATPARAM%MODE(3) = "Global maximum plastic work"

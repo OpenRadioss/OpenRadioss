@@ -55,6 +55,8 @@
           use constant_mod, only : zero,one,fourth
           use same_shellori_mod, only:same_shellori
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -81,8 +83,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(index(8*nshel))
-          allocate(lineix(2,4*nshel))
+          call my_alloc(index,8*nshel,"index")
+          call my_alloc(lineix,2,4*nshel,"lineix")
           ll = 0
           do j=1,nshel
             do k=1,4
@@ -224,7 +226,7 @@
 !---------------------------------------
 !       remove one more element line for high thikness case
 !---------------------------------------
-            allocate(icmore(nshel))
+            call my_alloc(icmore,nshel,"icmore")
             icmore = 0
             l = 1
             li  = index(l)
@@ -275,10 +277,10 @@
             do j=1,nshel
               if (icmore(j)==1.and.ichange(j)>0) ichange(j) = -ichange(j)
             end do
-            deallocate(icmore)
+            call my_dealloc(icmore)
           end if !(nl_max>=3) then
-          deallocate(index)
-          deallocate(lineix)
+          call my_dealloc(index)
+          call my_dealloc(lineix)
 !
         end subroutine sh_offset_jonct_chk
       end module sh_offset_jonct_chk_mod

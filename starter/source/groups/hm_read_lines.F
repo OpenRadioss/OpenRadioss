@@ -177,7 +177,8 @@ C-----------------------------------------------
       OK =0
       FLAG_GRBRIC = .FALSE.
       IBUFSIZ=6*NSEGS
-      ALLOCATE(BUFTMP(IBUFSIZ),INDX(IBUFSIZ),STAT=stat)
+      call my_alloc(BUFTMP, IBUFSIZ, "BUFTMP", stat=stat)
+      call my_alloc(INDX, IBUFSIZ, "HM_READ_LINES/INDX", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='BUFTMP')
       NINDX=0
       BUFTMP(1:IBUFSIZ)=0    ! init to 0 only one time
@@ -213,13 +214,13 @@ C-----------------------------------------------
           IF (FLAG == 0) THEN                                              
             CALL HM_GET_INTV('segmax',NSEG,IS_AVAILABLE,LSUBMODEL)                                             
             IGRSLIN(IGS)%NSEG = NSEG                                       
-            CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG,2)                       
+            CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG,2,"IGRSLIN(IGS)%NODES")
             IGRSLIN(IGS)%NODES(1:NSEG,1:2) = 0                             
-            CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG)                           
+            CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG,"IGRSLIN(IGS)%ELTYP")
             IGRSLIN(IGS)%ELTYP(1:NSEG) = 0                                 
-            CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG)                            
+            CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG,"IGRSLIN(IGS)%ELEM")
             IGRSLIN(IGS)%ELEM(1:NSEG) = 0                                  
-            CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG)                            
+            CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG,"IGRSLIN(IGS)%PROC")
             IGRSLIN(IGS)%PROC(1:NSEG) = 0                                  
           ENDIF  
           IF(FLAG == 1) THEN                    
@@ -299,15 +300,15 @@ C-------------------------
 C NEW BOX OPTION (MULTI BOX COMBINATION)
 C-------------------------
       IF (IT8 /= 0) THEN
-        ALLOCATE(TAGT(NUMELT),STAT=stat)
-        ALLOCATE(TAGP(NUMELP),STAT=stat)
+        call my_alloc(TAGT, NUMELT, "TAGT", stat=stat)
+        call my_alloc(TAGP, NUMELP, "TAGP", stat=stat)
         TAGT(1:NUMELT) = 0
         TAGP(1:NUMELP) = 0
         IF (FLAG == 0) THEN
-          ALLOCATE(BUFBOX(1))
+          call my_alloc(BUFBOX, 1, "BUFBOX")
           BUFBOX = 0
         ELSEIF (FLAG == 1) THEN
-          ALLOCATE(BUFBOX(IADBOXMAX))
+          call my_alloc(BUFBOX, IADBOXMAX, "BUFBOX")
           BUFBOX(1:IADBOXMAX) = 0
         ENDIF
         SBUFBOX = INT(INTMAX)
@@ -340,13 +341,13 @@ C-------------------------
 
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 NSEG0 = IGRSLIN(IGS)%NSEG
-                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2)
+                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2,"IGRSLIN(IGS)%NODES")
                 IGRSLIN(IGS)%NODES(1:NSEG0,1:2) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0,"IGRSLIN(IGS)%ELTYP")
                 IGRSLIN(IGS)%ELTYP(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0,"IGRSLIN(IGS)%ELEM")
                 IGRSLIN(IGS)%ELEM(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0,"IGRSLIN(IGS)%PROC")
                 IGRSLIN(IGS)%PROC(1:NSEG0) = 0
               ENDIF
 
@@ -377,15 +378,16 @@ C-------------------------
               ENDIF
             ENDIF
         ENDDO
-        DEALLOCATE(TAGT,TAGP)
-        IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
+        CALL MY_DEALLOC(TAGT)
+        CALL MY_DEALLOC(TAGP)
+        IF(ALLOCATED(BUFBOX))CALL MY_DEALLOC(BUFBOX)
       ENDIF ! IF(IT8 /= 0)
 C---
 C=======================================================================
 C line of subsets, share, mat, prop
 C=======================================================================
       IF(IT2/=0.OR.IT6/=0) THEN
-        ALLOCATE( SURF_ELM(NPART) )        
+        allocate(SURF_ELM(NPART))
         MODE = 2
         CALL INIT_SURF_ELM(IBID    ,IBID   ,IBID    ,IBID   ,IBID    ,
      1                     NUMELT  ,NUMELP ,NUMELR  ,NPART  ,IBID    ,
@@ -408,13 +410,13 @@ C=======================================================================
             IF (KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR. KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 NSEG0 = IGRSLIN(IGS)%NSEG
-                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2)
+                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2,"IGRSLIN(IGS)%NODES")
                 IGRSLIN(IGS)%NODES(1:NSEG0,1:2) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0,"IGRSLIN(IGS)%ELTYP")
                 IGRSLIN(IGS)%ELTYP(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0,"IGRSLIN(IGS)%ELEM")
                 IGRSLIN(IGS)%ELEM(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0,"IGRSLIN(IGS)%PROC")
                 IGRSLIN(IGS)%PROC(1:NSEG0) = 0
               ENDIF
               CALL HM_TAGPART2(BUFTMP,IPART ,KEY   ,
@@ -461,13 +463,13 @@ C=======================================================================
             IF (KEY(1:6)=='SUBMOD') THEN
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 NSEG0 = IGRSLIN(IGS)%NSEG
-                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2)
+                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2,"IGRSLIN(IGS)%NODES")
                 IGRSLIN(IGS)%NODES(1:NSEG0,1:2) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,NSEG0,"IGRSLIN(IGS)%ELTYP")
                 IGRSLIN(IGS)%ELTYP(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,NSEG0,"IGRSLIN(IGS)%ELEM")
                 IGRSLIN(IGS)%ELEM(1:NSEG0) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0,"IGRSLIN(IGS)%PROC")
                 IGRSLIN(IGS)%PROC(1:NSEG0) = 0
               ENDIF
 !
@@ -539,13 +541,13 @@ C=======================================================================
                 ENDIF                                                                      
               ENDDO
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%NODES, IGRSLIN(IGS)%NSEG,2)
+                CALL MY_ALLOC(IGRSLIN(IGS)%NODES, IGRSLIN(IGS)%NSEG,2,"IGRSLIN(IGS)%NODES")
                 IGRSLIN(IGS)%NODES(1:IGRSLIN(IGS)%NSEG,1:2) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,IGRSLIN(IGS)%NSEG)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,IGRSLIN(IGS)%NSEG,"IGRSLIN(IGS)%ELTYP")
                 IGRSLIN(IGS)%ELTYP(1:IGRSLIN(IGS)%NSEG) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,IGRSLIN(IGS)%NSEG)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,IGRSLIN(IGS)%NSEG,"IGRSLIN(IGS)%ELEM")
                 IGRSLIN(IGS)%ELEM(1:IGRSLIN(IGS)%NSEG) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,IGRSLIN(IGS)%NSEG)
+                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,IGRSLIN(IGS)%NSEG,"IGRSLIN(IGS)%PROC")
                 IGRSLIN(IGS)%PROC(1:IGRSLIN(IGS)%NSEG) = 0
               ENDIF
               IF (NSEG0 > 0) THEN
@@ -582,13 +584,13 @@ C=======================================================================
             IF (KEY(1:2) == 'GR'.OR.KEY(1:4) == 'WIRE') THEN
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 NSEG0 = IGRSLIN(IGS)%NSEG
-                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2)
+                CALL MY_ALLOC(IGRSLIN(IGS)%NODES,NSEG0,2,"IGRSLIN(IGS)%NODES")
                 IGRSLIN(IGS)%NODES(1:NSEG0,1:2) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,IGRSLIN(IGS)%NSEG)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELTYP,IGRSLIN(IGS)%NSEG,"IGRSLIN(IGS)%ELTYP")
                 IGRSLIN(IGS)%ELTYP(1:IGRSLIN(IGS)%NSEG) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,IGRSLIN(IGS)%NSEG)
+                CALL MY_ALLOC(IGRSLIN(IGS)%ELEM,IGRSLIN(IGS)%NSEG,"IGRSLIN(IGS)%ELEM")
                 IGRSLIN(IGS)%ELEM(1:IGRSLIN(IGS)%NSEG) = 0
-                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0)
+                CALL MY_ALLOC(IGRSLIN(IGS)%PROC,NSEG0,"IGRSLIN(IGS)%PROC")
                 IGRSLIN(IGS)%PROC(1:NSEG0) = 0
               ENDIF
               IF(KEY(1:6) == 'GRSPRI') THEN
@@ -630,7 +632,8 @@ C-----------
         ENDDO
       ENDIF
 C=======================================================================
-      DEALLOCATE(BUFTMP,INDX)
+      CALL MY_DEALLOC(BUFTMP)
+      CALL MY_DEALLOC(INDX)
       IF(IT2/=0.OR.IT6/=0) THEN
 !       deallocation of SURT_ELM structure
         MODE = 2

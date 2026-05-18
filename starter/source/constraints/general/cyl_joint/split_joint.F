@@ -48,6 +48,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE JOINT_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C-----------------------------------------------
 
 C=======================================================================
         K = 0
-        ALLOCATE( CHECK_MAIN(NUMNOD) )
+        call my_alloc(CHECK_MAIN, NUMNOD, "CHECK_MAIN")
         CHECK_MAIN(1:NUMNOD) = .false.
         DO I=1,NJOINT
             DO J=1,2
@@ -82,7 +83,7 @@ C=======================================================================
                 CHECK_MAIN(N) = .true.
             ENDDO
         ENDDO
-        ALLOCATE( MAIN_AND_SECONDARY(NUMNOD) )
+        allocate(MAIN_AND_SECONDARY(NUMNOD))
         
         MAIN_AND_SECONDARY(1:NUMNOD)%ID_JOINT = 0
         MAIN_AND_SECONDARY(1:NUMNOD)%NB_PROC = 0
@@ -90,7 +91,7 @@ C=======================================================================
         DO I=1,NJOINT                
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
-            ALLOCATE( CYL_JOIN(I)%PROC(NSPMD) )
+            allocate(CYL_JOIN(I)%PROC(NSPMD))
             CYL_JOIN(I)%NB_NODE(1:NSPMD) = 0
             CYL_JOIN(I)%PROC(1:NSPMD)%NB_NODE_WEIGHT = 0
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
@@ -165,7 +166,7 @@ C=======================================================================
 !                IF(NLOCAL(M2,P)==1) CALL IFRONTPLUS(M1,P)
             ENDDO
             CYL_JOIN(I)%NUMBER_PROC = PROC_NUMBER
-            ALLOCATE( CYL_JOIN(I)%LIST_PROC( PROC_NUMBER ) )
+            call my_alloc(CYL_JOIN(I)%LIST_PROC, PROC_NUMBER, "CYL_JOIN(I)%LIST_PROC")
             CYL_JOIN(I)%LIST_PROC(1:PROC_NUMBER) = PROC_LIST(1:PROC_NUMBER)
             K=K+NS+1
         ENDDO

@@ -58,6 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -219,14 +221,14 @@ C================================================================
       NIN = 1
       
       IF (ITASK==0)THEN
-        ALLOCATE(vNE(NCANDE,3,4))
-        ALLOCATE(BasisCONST(NCANDE,4))
-        ALLOCATE(NbSubTriangles(NCANDE))
-        ALLOCATE(diag22(NB))
-        ALLOCATE(ptZ(NCANDE,3)) 
-        ALLOCATE(vZA(NCANDE,3,4))
-        ALLOCATE(vZB(NCANDE,3,4))
-        ALLOCATE(ptA(NCANDE,3,4))
+        call my_alloc(vNE, NCANDE, 3, 4, "vNE")
+        call my_alloc(BasisCONST, NCANDE, 4, "BasisCONST")
+        call my_alloc(NbSubTriangles, NCANDE, "NbSubTriangles")
+        call my_alloc(diag22, NB, "diag22")
+        call my_alloc(ptZ, NCANDE, 3, "ptZ")
+        call my_alloc(vZA, NCANDE, 3, 4, "vZA")
+        call my_alloc(vZB, NCANDE, 3, 4, "vZB")
+        call my_alloc(ptA, NCANDE, 3, 4, "ptA")
       END IF   
       CALL MY_BARRIER
 
@@ -747,14 +749,14 @@ C 5   DEALLOCATE
 C================================================================ 
 
       IF (ITASK==0)THEN
-        DEALLOCATE(vNE)
-        DEALLOCATE(BasisCONST)
-        DEALLOCATE(NbSubTriangles)
-        DEALLOCATE(ptZ) 
-        DEALLOCATE(vZA)
-        DEALLOCATE(vZB)
-        DEALLOCATE(ptA)
-        DEALLOCATE(diag22)
+        call my_dealloc(vNE)
+        call my_dealloc(BasisCONST)
+        call my_dealloc(NbSubTriangles)
+        call my_dealloc(ptZ)
+        call my_dealloc(vZA)
+        call my_dealloc(vZB)
+        call my_dealloc(ptA)
+        call my_dealloc(diag22)
       END IF 
 
       

@@ -49,6 +49,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+        use my_alloc_mod
+        use my_dealloc_mod, only : my_dealloc
         implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Imnclude files
@@ -69,7 +71,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         !INTEGER parameters
         NFIX = 7
-        ALLOCATE (IBUF(NFIX + 1))
+        call my_alloc(IBUF, NFIX + 1, "IBUF")
         IAD = 1
         IBUF(IAD) = NFIX
         IAD = IAD+1
@@ -86,13 +88,13 @@
         IBUF(IAD) = EOS%EOSTYPE
         IAD = IAD+1
         CALL WRITE_I_C(IBUF,NFIX+1)
-        DEALLOCATE(IBUF)
+        call my_dealloc(IBUF)
 
         !REAL parameter
         NFIX = 6
-        ALLOCATE(IBUF(1))
+        call my_alloc(IBUF, 1, "IBUF")
         IBUF(1) = NFIX !size
-        ALLOCATE (RBUF(NFIX))
+        call my_alloc(RBUF, NFIX, "RBUF")
         IAD = 1
         RBUF(IAD) = EOS%CV
         IAD = IAD+1
@@ -108,8 +110,8 @@
         IAD = IAD+1
         CALL WRITE_I_C(IBUF,1)
         CALL WRITE_DB(RBUF,NFIX)
-        DEALLOCATE(RBUF)
-        DEALLOCATE(IBUF)
+        call my_dealloc(RBUF)
+        call my_dealloc(IBUF)
 
         ! write eos model title
         DO I=1,NCHARTITLE

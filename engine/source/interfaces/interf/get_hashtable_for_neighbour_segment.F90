@@ -58,6 +58,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -117,7 +119,7 @@
           ! ------------
 
           ! ------------
-          allocate(tmp_address(local_seg_nb+1))
+          call my_alloc(tmp_address, local_seg_nb+1, "tmp_address")
           tmp_address(1:local_seg_nb+1) = 0
           shoot_struct%neighbour(nin)%seg_index(1:local_seg_nb+1) = 0
           shoot_struct%neighbour(nin)%seg_index(1) = 1
@@ -141,7 +143,7 @@
           enddo
           ! ------------
 
-          deallocate( tmp_address )
+          call my_dealloc(tmp_address)
           ! ------------
           ! --------------------------
 

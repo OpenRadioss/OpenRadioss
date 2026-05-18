@@ -49,6 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -104,8 +106,8 @@ C-----------------------------------------------
               
               IF(NPOLH > 0)THEN ! if there are any polyhedron
 
-                 ALLOCATE(ITAB_FVMBAG(NPOLH))
-                 ALLOCATE(DISP_FVMBAG(3,NPOLH))
+                 call my_alloc(ITAB_FVMBAG, NPOLH, "ITAB_FVMBAG")
+                 call my_alloc(DISP_FVMBAG, 3, NPOLH, "DISP_FVMBAG")
                  
                  DO II=1, FVDATA_P(IFV)%NPOLH !loop over polyhedra composing the airbag mesh
                    
@@ -118,8 +120,8 @@ C-----------------------------------------------
 
                  CALL C_H3D_UPDATE_FVMBAG_NODES(H3DTITLE,LEN_H3DTITLE,IH3D,ITAB_FVMBAG,NPOLH,DISP_FVMBAG)
                  
-                 DEALLOCATE(ITAB_FVMBAG)
-                 DEALLOCATE(DISP_FVMBAG)
+                 call my_dealloc(ITAB_FVMBAG)
+                 call my_dealloc(DISP_FVMBAG)
                  NNODES = NNODES + FVDATA_P(IFV)%NPOLH
 
               ENDIF !NNODES>0
@@ -134,8 +136,8 @@ C-----------------------------------------------
       
       !loop from NNODES +1 to AIRBAGS_TOTAL_FVM_IN_H3D : locate them to  0,0,0
       ILEN = AIRBAGS_TOTAL_FVM_IN_H3D - NNODES
-      ALLOCATE(ITAB_FVMBAG(ILEN+1))
-      ALLOCATE(DISP_FVMBAG(3,ILEN+1))
+      call my_alloc(ITAB_FVMBAG, ILEN+1, "ITAB_FVMBAG")
+      call my_alloc(DISP_FVMBAG, 3, ILEN+1, "DISP_FVMBAG")
 
       DO II=1,ILEN
         ITAB_FVMBAG(II) = AIRBAGS_NODE_ID_SHIFT+NNODES+II
@@ -146,8 +148,8 @@ C-----------------------------------------------
 
       CALL C_H3D_UPDATE_FVMBAG_NODES(H3DTITLE,LEN_H3DTITLE,IH3D,ITAB_FVMBAG,ILEN,DISP_FVMBAG)
 
-      DEALLOCATE(ITAB_FVMBAG)
-      DEALLOCATE(DISP_FVMBAG)
+      call my_dealloc(ITAB_FVMBAG)
+      call my_dealloc(DISP_FVMBAG)
 
       
       RETURN

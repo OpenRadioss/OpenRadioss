@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C    m p l  c  t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -47,8 +48,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX_SORT
       INTEGER, DIMENSION(70000) :: IWORK
 C-----------------------------------------------
-      ALLOCATE(IPARTSORT(NPART))
-      ALLOCATE(INDEX_SORT(2*NPART))
+      call my_alloc(IPARTSORT, NPART, "IPARTSORT")
+      call my_alloc(INDEX_SORT, 2*NPART, "INDEX_SORT")
 
       DO I=1,NPART
          IPARTSORT(I)=IPART(4,I)

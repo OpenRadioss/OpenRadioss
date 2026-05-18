@@ -38,9 +38,11 @@ C
 C-----------------------------------------------
       USE XFEM2DEF_MOD
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -85,8 +87,9 @@ c
       my_real, DIMENSION(:)  , ALLOCATABLE :: RATIOEDGE,AVX,AVXX,FSKY,AREA
 C=======================================================================
 !     1d array
-      ALLOCATE( NODTAG(NUMNOD_L),ELEMTAG(NUMELC_L+NUMELTG_L) )
-      ALLOCATE( CRKSIZN_L(NLEVMAX) )
+      call my_alloc(NODTAG, NUMNOD_L, "NODTAG")
+      call my_alloc(ELEMTAG, NUMELC_L+NUMELTG_L, "ELEMTAG")
+      call my_alloc(CRKSIZN_L, NLEVMAX, "CRKSIZN_L")
 ! --------------------------------------
       OFFC = NUMELS + NUMELQ
       OFFTG = OFFC + NUMELC + NUMELT + NUMELP + NUMELR
@@ -98,8 +101,8 @@ C
       CRKSHELLID_L = 0
       NCOUNTALL = 0
 C
-      ALLOCATE(ELEMLOC_C(NUMELC))
-      ALLOCATE(ELEMLOC_TG(NUMELTG))
+      call my_alloc(ELEMLOC_C, NUMELC, "ELEMLOC_C")
+      call my_alloc(ELEMLOC_TG, NUMELTG, "ELEMLOC_TG")
       ELEMLOC_C  = 0
       ELEMLOC_TG = 0
 c
@@ -120,7 +123,7 @@ c
 C=======================================================================
 c     storage by ILEV
 C=======================================================================
-      ALLOCATE (ELCUT(NUMELC_L+NUMELTG_L))
+      call my_alloc(ELCUT, NUMELC_L+NUMELTG_L, "ELCUT")
 c
       DO K=1,NLEVMAX
         NODTAG  = 0
@@ -164,20 +167,22 @@ C
 C
         IDIM = CRKSIZN_L(K)  ! number of phantom nodes per ply per processor
 C
-        ALLOCATE(ELEMXFEMID(ELSZ_L))
-        ALLOCATE(ELTYPE(ELSZ_L))
-        ALLOCATE(AREA(ELSZ_L))
+        call my_alloc(ELEMXFEMID, ELSZ_L, "ELEMXFEMID")
+        call my_alloc(ELTYPE, ELSZ_L, "ELTYPE")
+        call my_alloc(AREA, ELSZ_L, "AREA")
 
         ELCUT = 0
         ELEMXFEMID = 0
         ELTYPE  = 0
         AREA    = 0
-        ALLOCATE(KNOD2ELC(4,ELSZ_L),XFECRKNODID(4*ELSZ_L),
-     .           SH_XFENODES(4,ELSZ_L),ENRICH0(LCNECRKXFEM_L),
-     .           NOD_XFENODES(4*ELSZ_L))
+        call my_alloc(KNOD2ELC, 4, ELSZ_L, "KNOD2ELC")
+        call my_alloc(XFECRKNODID, 4*ELSZ_L, "XFECRKNODID")
+        call my_alloc(SH_XFENODES, 4, ELSZ_L, "SH_XFENODES")
+        call my_alloc(ENRICH0, LCNECRKXFEM_L, "ENRICH0")
+        call my_alloc(NOD_XFENODES, 4*ELSZ_L, "NOD_XFENODES")
         IF (K==1) THEN
-          ALLOCATE(LAYCUT(ELSZ_L))
-          ALLOCATE(IEDGEX(IDIM))
+          call my_alloc(LAYCUT, ELSZ_L, "LAYCUT")
+          call my_alloc(IEDGEX, IDIM, "IEDGEX")
           IEDGEX = 0
        ENDIF
 C
@@ -239,10 +244,10 @@ C
         ENDDO  !  1,NELXFE_L
 C
         XFENUMNODS = 4*ELSZ_L
-        ALLOCATE(AVX(3*LCNECRKXFEM_L))
-        ALLOCATE(AVXX(3*XFENUMNODS))
-        ALLOCATE(FSKY(8*LCNECRKXFEM_L))
-        ALLOCATE(NOD2IAD(XFENUMNODS))
+        call my_alloc(AVX, 3*LCNECRKXFEM_L, "AVX")
+        call my_alloc(AVXX, 3*XFENUMNODS, "AVXX")
+        call my_alloc(FSKY, 8*LCNECRKXFEM_L, "FSKY")
+        call my_alloc(NOD2IAD, XFENUMNODS, "NOD2IAD")
         AVX   = ZERO
         AVXX  = ZERO
         FSKY  = ZERO
@@ -278,20 +283,22 @@ c------ CRKNOD
         CALL WRITE_I_C(NOD2IAD,XFENUMNODS)    ! CRKNOD(I)%NOD2IAD
         CALL WRITE_I_C(XFENUMNODS,1)        ! CRKNOD(I)%XFENUMNODS
 c-------
-        DEALLOCATE(ELEMXFEMID)
-        DEALLOCATE(ELTYPE)
-        DEALLOCATE(AREA)
-        DEALLOCATE(ENRICH0)
-        DEALLOCATE(KNOD2ELC)
-        DEALLOCATE(XFECRKNODID)
-        DEALLOCATE(NOD_XFENODES)
-        DEALLOCATE(SH_XFENODES)
-        DEALLOCATE(AVX,AVXX,FSKY)
-        DEALLOCATE(NOD2IAD)
+        CALL MY_DEALLOC(ELEMXFEMID)
+        CALL MY_DEALLOC(ELTYPE)
+        CALL MY_DEALLOC(AREA)
+        CALL MY_DEALLOC(ENRICH0)
+        CALL MY_DEALLOC(KNOD2ELC)
+        CALL MY_DEALLOC(XFECRKNODID)
+        CALL MY_DEALLOC(NOD_XFENODES)
+        CALL MY_DEALLOC(SH_XFENODES)
+        CALL MY_DEALLOC(AVX)
+        CALL MY_DEALLOC(AVXX)
+        CALL MY_DEALLOC(FSKY)
+        CALL MY_DEALLOC(NOD2IAD)
       ENDDO    ! K=1,NLEVMAX
 c
-      DEALLOCATE(ELEMLOC_C)
-      DEALLOCATE(ELEMLOC_TG)
+      CALL MY_DEALLOC(ELEMLOC_C)
+      CALL MY_DEALLOC(ELEMLOC_TG)
 C=======================================================================
 c     storage by layer
 C=======================================================================
@@ -299,9 +306,9 @@ C=======================================================================
       NENR = INT(IENRNOD/NLEVMAX)
 c
 c---  write XFEM_PHANTOM  ----------------------------
-      ALLOCATE(IFI  (LCNECRKXFEM_L)  )
-      ALLOCATE(TAGXP(NUMNODCRK_L*IENRNOD*5))  ! IENRNOD -> NENR
-      ALLOCATE(ITRI (ELSZ_L*2))        
+      call my_alloc(IFI, LCNECRKXFEM_L, "IFI")
+      call my_alloc(TAGXP, NUMNODCRK_L*IENRNOD*5, "TAGXP") ! IENRNOD -> NENR
+      call my_alloc(ITRI, ELSZ_L*2, "ITRI")
       TAGXP = 0
       IFI   = 0    
       ITRI  = 0    
@@ -313,20 +320,20 @@ c
         CALL WRITE_I_C(ITRI  ,ELSZ_L*2)  
       ENDDO
 c
-      DEALLOCATE(ELCUT)
-      DEALLOCATE(ITRI )
-      DEALLOCATE(TAGXP )
-      DEALLOCATE(IFI  )
+      CALL MY_DEALLOC(ELCUT)
+      CALL MY_DEALLOC(ITRI)
+      call my_dealloc(TAGXP)
+      CALL MY_DEALLOC(IFI)
 C
 c---  write CRKEDGE  ----------------------------
       IDIM = CRKSIZN_L(1)
 c      ALLOCATE(IEDGEX(IDIM))
-      ALLOCATE(EDGEICRK(NUMEDGES_L))   
-      ALLOCATE(EDGEIFI(2,NUMEDGES_L))  
-      ALLOCATE(EDGEENR(2,NUMEDGES_L))  
-      ALLOCATE(EDGETIP(2,NUMEDGES_L))  
-      ALLOCATE(ICUTEDGE (NUMEDGES_L))   
-      ALLOCATE(RATIOEDGE(NUMEDGES_L))
+      call my_alloc(EDGEICRK, NUMEDGES_L, "EDGEICRK")
+      call my_alloc(EDGEIFI, 2, NUMEDGES_L, "EDGEIFI")
+      call my_alloc(EDGEENR, 2, NUMEDGES_L, "EDGEENR")
+      call my_alloc(EDGETIP, 2, NUMEDGES_L, "EDGETIP")
+      call my_alloc(ICUTEDGE, NUMEDGES_L, "ICUTEDGE")
+      call my_alloc(RATIOEDGE, NUMEDGES_L, "RATIOEDGE")
       EDGEICRK  = 0
       EDGEIFI   = 0
       EDGEENR   = 0
@@ -357,14 +364,14 @@ c
         CALL WRITE_DB (RATIOEDGE   ,NUMEDGES_L)  ! CRKEDGE(IL)%RATIO(NUMEDGES)     
       END DO    !   ILAY=1,NLAY
 c      
-      DEALLOCATE(RATIOEDGE)
-      DEALLOCATE(ICUTEDGE)
-      DEALLOCATE(EDGETIP)  
-      DEALLOCATE(EDGEENR)   
-      DEALLOCATE(EDGEIFI)   
-      DEALLOCATE(EDGEICRK)  
-      DEALLOCATE(IEDGEX)   
-      IF (ALLOCATED(LAYCUT)) DEALLOCATE(LAYCUT)
+      CALL MY_DEALLOC(RATIOEDGE)
+      CALL MY_DEALLOC(ICUTEDGE)
+      CALL MY_DEALLOC(EDGETIP)
+      CALL MY_DEALLOC(EDGEENR)
+      CALL MY_DEALLOC(EDGEIFI)
+      CALL MY_DEALLOC(EDGEICRK)
+      CALL MY_DEALLOC(IEDGEX)
+      IF (ALLOCATED(LAYCUT)) CALL MY_DEALLOC(LAYCUT)
 c----------------------------------
 c     Stockage global
 c----------------------------------
@@ -373,9 +380,9 @@ c----------------------------------
 C-----------
 ! --------------------------------------
 !     1d array
-      DEALLOCATE(NODTAG)
-      DEALLOCATE(ELEMTAG)
-      DEALLOCATE(CRKSIZN_L)
+      CALL MY_DEALLOC(NODTAG)
+      CALL MY_DEALLOC(ELEMTAG)
+      call my_dealloc(CRKSIZN_L)
 ! --------------------------------------
       RETURN
       END

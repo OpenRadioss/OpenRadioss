@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,14 +61,14 @@ C-----------------------------------------------
         SENSOR_USER_STRUCT%IS_USED = .TRUE.
 
         SIZE_LOCAL = NUMNOD
-        ALLOCATE( SENSOR_USER_STRUCT%NODE_LIST(SIZE_LOCAL) )
-        ALLOCATE( SENSOR_USER_STRUCT%NODE_PER_PART_LIST(SIZE_LOCAL) )
+        call my_alloc(SENSOR_USER_STRUCT%NODE_LIST, SIZE_LOCAL, "SENSOR_USER_STRUCT%NODE_LIST")
+        call my_alloc(SENSOR_USER_STRUCT%NODE_PER_PART_LIST, SIZE_LOCAL, "SENSOR_USER_STRUCT%NODE_PER_PART_LIST")
 
         SENSOR_USER_STRUCT%NUMBER_NODE = SIZE_LOCAL
         SENSOR_USER_STRUCT%NUMBER_NODE_PER_PART = SIZE_LOCAL
 
         SIZE_LOCAL = NPART
-        ALLOCATE( SENSOR_USER_STRUCT%PART_LIST(SIZE_LOCAL) )
+        call my_alloc(SENSOR_USER_STRUCT%PART_LIST, SIZE_LOCAL, "SENSOR_USER_STRUCT%PART_LIST")
         SENSOR_USER_STRUCT%NUMBER_PART = SIZE_LOCAL
 
 

@@ -38,6 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -68,7 +69,8 @@ C PORO(*) : PORO=0 no node in contact
 C           Poro = 1 All the nodes in contact ...
 C--------------------------------------------------------------
 
-      ALLOCATE(F1(NN + T_MONVOLN%NB_FILL_TRI), F2(NN + T_MONVOLN%NB_FILL_TRI))
+      call my_alloc(F1, NN + T_MONVOLN%NB_FILL_TRI, "F1")
+      call my_alloc(F2, NN + T_MONVOLN%NB_FILL_TRI, "F2")
       IF(INTBAG==0)THEN
         DO I=1,NN
           II=SURF_ELEM(I)

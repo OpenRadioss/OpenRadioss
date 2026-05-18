@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -467,9 +468,9 @@ C--------------------------------------------------
       IF (MULTI_FVM%IS_USED) THEN
          IMULTI_FVM = 1     
          IF (N2D == 0) THEN
-            ALLOCATE(MULTI_FVM%VEL(3, NUMELS), STAT=stat)
+            call my_alloc(MULTI_FVM%VEL, 3, NUMELS, "MULTI_FVM%VEL", stat=stat)
          ELSE
-            ALLOCATE(MULTI_FVM%VEL(3, NUMELQ + NUMELTG), STAT=stat)
+            call my_alloc(MULTI_FVM%VEL, 3, NUMELQ + NUMELTG, "MULTI_FVM%VEL", stat=stat)
          ENDIF
          IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='MULTI_FVM%VEL')
          MULTI_FVM%VEL(: ,:) = ZERO

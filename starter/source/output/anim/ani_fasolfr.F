@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ANI_FASOLFR1(IXS ,IXC     ,IXTG    ,FASTAG, ISOLNOD)
       use element_mod , only : nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
 C
-      ALLOCATE(NODTAG(NUMNOD), STAT=IERROR)
+      call my_alloc(NODTAG, NUMNOD, "NODTAG", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -76,7 +77,7 @@ C
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY NODTAG'
         CALL ARRET(2)
       END IF
-      ALLOCATE(NODTAG_1(NUMNOD), STAT=IERROR)
+      call my_alloc(NODTAG_1, NUMNOD, "NODTAG_1", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -86,7 +87,7 @@ C
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY NODTAG_1'
         CALL ARRET(2)
       END IF
-      ALLOCATE(NELENOD(3,NUMNOD+1), STAT=IERROR)
+      call my_alloc(NELENOD, 3, NUMNOD+1, "NELENOD", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -96,7 +97,7 @@ C
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY NELENOD'
         CALL ARRET(2)
       END IF
-      ALLOCATE(ELSNOD(8*NUMELS), STAT=IERROR)
+      call my_alloc(ELSNOD, 8*NUMELS, "ELSNOD", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -106,7 +107,7 @@ C
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY ELSNOD'
         CALL ARRET(2)
       END IF
-      ALLOCATE(ELCNOD(4*NUMELC), STAT=IERROR)
+      call my_alloc(ELCNOD, 4*NUMELC, "ELCNOD", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -116,7 +117,7 @@ C
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY ELCNOD'
         CALL ARRET(2)
       END IF
-      ALLOCATE(ELTGNOD(3*NUMELTG), STAT=IERROR)
+      call my_alloc(ELTGNOD, 3*NUMELTG, "ELTGNOD", stat=IERROR)
       IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
@@ -327,7 +328,12 @@ C            FASOLFR(2,NFASOLFR)=JJ
           END IF
         END DO
       END DO    
-      DEALLOCATE(ELTGNOD, ELCNOD, ELSNOD, NELENOD,NODTAG,NODTAG_1)
+      CALL MY_DEALLOC(ELTGNOD)
+      CALL MY_DEALLOC(ELCNOD)
+      CALL MY_DEALLOC(ELSNOD)
+      CALL MY_DEALLOC(NELENOD)
+      CALL MY_DEALLOC(NODTAG)
+      CALL MY_DEALLOC(NODTAG_1)
 C     
       RETURN
       END

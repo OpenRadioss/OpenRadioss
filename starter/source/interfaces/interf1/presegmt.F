@@ -50,8 +50,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: NTAG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NSEG
 C=======================================================================
-      CALL MY_ALLOC(NSEG,NNO+1)
-      CALL MY_ALLOC(NTAG,NUMNOD)
+      CALL MY_ALLOC(NSEG,NNO+1,"NSEG")
+      CALL MY_ALLOC(NTAG,NUMNOD,"NTAG")
 
       NST  = 0
       NSEG(1) = 1
@@ -74,7 +74,7 @@ C
         NST = NST + NSEG(I+1)
       ENDDO
 C
-      DEALLOCATE(NTAG)
-      DEALLOCATE(NSEG)
+      CALL MY_DEALLOC(NTAG)
+      CALL MY_DEALLOC(NSEG)
       RETURN
       END

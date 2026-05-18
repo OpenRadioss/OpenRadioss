@@ -50,6 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -150,24 +152,24 @@ C-----------------------------------------------
         ! --------------------------
         ! allocation of SAVE_SURFACE : index of deactivated surface 
         SHOOT_STRUCT%S_SAVE_SURFACE = 4*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_SURFACE array
-        ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE( SHOOT_STRUCT%S_SAVE_SURFACE ) )
+        call my_alloc(SHOOT_STRUCT%SAVE_SURFACE, SHOOT_STRUCT%S_SAVE_SURFACE, "SHOOT_STRUCT%SAVE_SURFACE")
         SHOOT_STRUCT%SAVE_SURFACE_NB = 0    ! number of deactivated surface 
         SHOOT_STRUCT%SAVE_SURFACE( 1:SHOOT_STRUCT%S_SAVE_SURFACE ) = 0 
         ! --------------------------
         ! allocation of SAVE_PROC : index of processor with the 4 nodes + 4 node ids
         SHOOT_STRUCT%S_SAVE_PROC = 5*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_PROC array
-        ALLOCATE( SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%S_SAVE_PROC ) )
+        call my_alloc(SHOOT_STRUCT%SAVE_PROC, SHOOT_STRUCT%S_SAVE_PROC, "SHOOT_STRUCT%SAVE_PROC")
         SHOOT_STRUCT%SAVE_PROC_NB = 0    ! number of processor + 4 nodes of deactivated surface 
         SHOOT_STRUCT%SAVE_PROC( 1:SHOOT_STRUCT%S_SAVE_PROC ) = 0 
         ! --------------------------
         ! working array : surface
-        ALLOCATE( RESULT_INTERSECT( SHOOT_STRUCT%MAX_SURF_NB ) )
-        ALLOCATE( INTERSECT_1( SHOOT_STRUCT%MAX_SURF_NB ) )
-        ALLOCATE( INTERSECT_2( SHOOT_STRUCT%MAX_SURF_NB ) )
+        call my_alloc(RESULT_INTERSECT, SHOOT_STRUCT%MAX_SURF_NB, "RESULT_INTERSECT")
+        call my_alloc(INTERSECT_1, SHOOT_STRUCT%MAX_SURF_NB, "INTERSECT_1")
+        call my_alloc(INTERSECT_2, SHOOT_STRUCT%MAX_SURF_NB, "INTERSECT_2")
         ! working array : processor
-        ALLOCATE( RESULT_INTERSECT_2( SHOOT_STRUCT%MAX_PROC_NB ) )
-        ALLOCATE( INTERSECT_3( SHOOT_STRUCT%MAX_PROC_NB ) )
-        ALLOCATE( INTERSECT_4( SHOOT_STRUCT%MAX_PROC_NB ) )
+        call my_alloc(RESULT_INTERSECT_2, SHOOT_STRUCT%MAX_PROC_NB, "RESULT_INTERSECT_2")
+        call my_alloc(INTERSECT_3, SHOOT_STRUCT%MAX_PROC_NB, "INTERSECT_3")
+        call my_alloc(INTERSECT_4, SHOOT_STRUCT%MAX_PROC_NB, "INTERSECT_4")
         ! --------------------------
         DO I=1,SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX
             ELEM_ID = SHOOT_STRUCT%GLOBAL_ELEM_INDEX(I) ! get the id of the deleted element
@@ -366,13 +368,15 @@ C-----------------------------------------------
                     ! first node of the surface face(1:4,k)
                     NODE_ID = LOCAL_NODE(1)
          
-                    NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
+      NB_RESULT_INTERSECT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
+! get the number of surface of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
-                    RESULT_INTERSECT(1:NB_RESULT_INTERSECT) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_RESULT_INTERSECT )
+      RESULT_INTERSECT(1:NB_RESULT_INTERSECT) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_RESULT_INTERSECT )
 
-                    NB_RESULT_INTERSECT_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node 
+      NB_RESULT_INTERSECT_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+! get the number of processor of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
-                    RESULT_INTERSECT_2(1:NB_RESULT_INTERSECT_2) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_RESULT_INTERSECT_2 )
+      RESULT_INTERSECT_2(1:NB_RESULT_INTERSECT_2) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_RESULT_INTERSECT_2 )
  
                     IF(NB_RESULT_INTERSECT_2>1) THEN
                         SEVERAL_PROC = SEVERAL_PROC + 1
@@ -389,7 +393,8 @@ C-----------------------------------------------
                         NODE_ID = LOCAL_NODE(J)    ! get the node ID  
                         ! -----------------------         
                         ! intersection of surface 
-                        NB_SURFACE_2 = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)   ! get the number of surface of the node
+      NB_SURFACE_2 = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
+! get the number of surface of the node
                         SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NODE_ID)
                         INTERSECT_2(1:NB_SURFACE_2) = SHOOT_STRUCT%M_NODE_SURF( SHIFT+1:SHIFT+NB_SURFACE_2 )
                         IF(NB_SURFACE_1>0.AND.NB_SURFACE_2>0) THEN
@@ -407,7 +412,8 @@ C-----------------------------------------------
                         NB_PROC_1 = NB_RESULT_INTERSECT_2
                         INTERSECT_3(1:NB_PROC_1) = RESULT_INTERSECT_2(1:NB_PROC_1)
 
-                        NB_PROC_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node     
+                        NB_PROC_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+! get the number of processor of the node
                         IF(NB_PROC_1>1.AND.NB_PROC_2>1) THEN
                             SEVERAL_PROC = SEVERAL_PROC + 1
                             ! -----------------------         
@@ -435,16 +441,16 @@ C-----------------------------------------------
                         ! save the surface id
 
                         IF( SHOOT_STRUCT%SAVE_SURFACE_NB+NB_RESULT_INTERSECT>SHOOT_STRUCT%S_SAVE_SURFACE) THEN
-                            ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_SURFACE) )
+                            call my_alloc(TMP_ARRAY, SHOOT_STRUCT%S_SAVE_SURFACE, "TMP_ARRAY")
                             TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_SURFACE) =
      .                          SHOOT_STRUCT%SAVE_SURFACE(1:SHOOT_STRUCT%S_SAVE_SURFACE)
 
-                            DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE )
+                            call my_dealloc(SHOOT_STRUCT%SAVE_SURFACE)
                             OLD_SIZE = SHOOT_STRUCT%S_SAVE_SURFACE
                             SHOOT_STRUCT%S_SAVE_SURFACE = 1.20*(SHOOT_STRUCT%S_SAVE_SURFACE+5*NB_RESULT_INTERSECT)
-                            ALLOCATE( SHOOT_STRUCT%SAVE_SURFACE( SHOOT_STRUCT%S_SAVE_SURFACE ) )
+      call my_alloc(SHOOT_STRUCT%SAVE_SURFACE, SHOOT_STRUCT%S_SAVE_SURFACE, "SHOOT_STRUCT%SAVE_SURFACE")
                             SHOOT_STRUCT%SAVE_SURFACE(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                            DEALLOCATE( TMP_ARRAY )
+                            call my_dealloc(TMP_ARRAY)
                         ENDIF
                         DO J=1,NB_RESULT_INTERSECT
                             SHOOT_STRUCT%SAVE_SURFACE_NB = SHOOT_STRUCT%SAVE_SURFACE_NB + 1
@@ -459,27 +465,29 @@ C-----------------------------------------------
                         !  proc id & the 4 nodes        | proc id & the 3 nodes of triangle + n4=n3
 
                         IF( SHOOT_STRUCT%SAVE_PROC_NB+5*(NB_RESULT_INTERSECT_2-1)>SHOOT_STRUCT%S_SAVE_PROC) THEN
-                            ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_PROC) )
+                            call my_alloc(TMP_ARRAY, SHOOT_STRUCT%S_SAVE_PROC, "TMP_ARRAY")
                             TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_PROC) =
      .                          SHOOT_STRUCT%SAVE_PROC(1:SHOOT_STRUCT%S_SAVE_PROC)
 
-                            DEALLOCATE( SHOOT_STRUCT%SAVE_PROC )
+                            call my_dealloc(SHOOT_STRUCT%SAVE_PROC)
                             OLD_SIZE = SHOOT_STRUCT%S_SAVE_PROC
                             SHOOT_STRUCT%S_SAVE_PROC = 1.20*(SHOOT_STRUCT%SAVE_PROC_NB+5*(NB_RESULT_INTERSECT_2-1))
-                            ALLOCATE( SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%S_SAVE_PROC ) )
+                            call my_alloc(SHOOT_STRUCT%SAVE_PROC, SHOOT_STRUCT%S_SAVE_PROC, "SHOOT_STRUCT%SAVE_PROC")
                             SHOOT_STRUCT%SAVE_PROC(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                            DEALLOCATE( TMP_ARRAY )
+                            call my_dealloc(TMP_ARRAY)
                         ENDIF
 
                         DO J=1,NB_RESULT_INTERSECT_2
                             IF(RESULT_INTERSECT_2(J)/=ISPMD+1) THEN
                                 SHOOT_STRUCT%SAVE_PROC_NB = SHOOT_STRUCT%SAVE_PROC_NB + 1
-                                SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  RESULT_INTERSECT_2(J)    ! save the remote proc id
+                                SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  RESULT_INTERSECT_2(J)
+! save the remote proc id
 
                                 IF(NODE_SURF_NB==3) LOCAL_NODE(4) = LOCAL_NODE(3)
                                 DO IJK=1,4
                                     SHOOT_STRUCT%SAVE_PROC_NB = SHOOT_STRUCT%SAVE_PROC_NB + 1
-                                    SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  ITAB(LOCAL_NODE(IJK))  ! convert local id to global id
+                                    SHOOT_STRUCT%SAVE_PROC( SHOOT_STRUCT%SAVE_PROC_NB ) =  ITAB(LOCAL_NODE(IJK))
+! convert local id to global id
 
                                 ENDDO
                             ENDIF
@@ -498,13 +506,13 @@ C-----------------------------------------------
 
         ! --------------------------
         ! working array : surface
-        DEALLOCATE( RESULT_INTERSECT )
-        DEALLOCATE( INTERSECT_1 )
-        DEALLOCATE( INTERSECT_2 )
+        call my_dealloc(RESULT_INTERSECT)
+        call my_dealloc(INTERSECT_1)
+        call my_dealloc(INTERSECT_2)
         ! working array : processor
-        DEALLOCATE( RESULT_INTERSECT_2 )
-        DEALLOCATE( INTERSECT_3 )
-        DEALLOCATE( INTERSECT_4 )
+        call my_dealloc(RESULT_INTERSECT_2)
+        call my_dealloc(INTERSECT_3)
+        call my_dealloc(INTERSECT_4)
         ! --------------------------
 
         RETURN

@@ -37,6 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -197,7 +199,7 @@ C
          ENDDO
       ENDDO
 C
-      ALLOCATE(ITAG(NNB))
+      call my_alloc(ITAG, NNB, "ITAG")
       DO I=1,NNB
          ITAG(I)=0
       ENDDO
@@ -247,7 +249,7 @@ C
             ENDDO
          ENDDO
       ENDDO
-      DEALLOCATE(ITAG)
+      call my_dealloc(ITAG)
 C
       DO I=1,NBRIC
          N1=FVDATA(IFV)%BRIC(1,I)

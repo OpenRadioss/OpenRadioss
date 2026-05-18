@@ -51,6 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -118,8 +120,8 @@ C     Send broken edges
 C 
         TOTAL_SIZE = SUM(LOCAL_SIZE(1:COMSIZE,1))
         IF(TOTAL_SIZE > 0) THEN
-          ALLOCATE(BUFFER_SEND(LOCAL_SIZE(RANK+1,1)))
-          ALLOCATE(BUFFER_RECV(TOTAL_SIZE))
+          call my_alloc(BUFFER_SEND, LOCAL_SIZE(RANK+1,1), "BUFFER_SEND")
+          call my_alloc(BUFFER_RECV, TOTAL_SIZE, "BUFFER_RECV")
           J = 0
           DO I = 1, NEDGE
             IF( STFE(I) < 0 ) THEN
@@ -147,7 +149,7 @@ Cfill with global ID
      .                      COMM,
      .                      IERROR)
 
-          DEALLOCATE(BUFFER_SEND)
+          call my_dealloc(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)
           DO J = 1, TOTAL_SIZE 
             UID = BUFFER_RECV(J)
@@ -160,15 +162,15 @@ C hash table would be better here (UID -> index in LEDEG_FIE)
               ENDIF
             ENDDO
           ENDDO
-          DEALLOCATE(BUFFER_RECV)
+          call my_dealloc(BUFFER_RECV)
         ENDIF
 C
 C     Send Free edges 
 C 
         TOTAL_SIZE = SUM(LOCAL_SIZE(1:COMSIZE,2))
         IF(TOTAL_SIZE > 0) THEN
-          ALLOCATE(BUFFER_SEND(5*LOCAL_SIZE(RANK+1,2)))
-          ALLOCATE(BUFFER_RECV(5*TOTAL_SIZE))
+          call my_alloc(BUFFER_SEND, 5*LOCAL_SIZE(RANK+1,2), "BUFFER_SEND")
+          call my_alloc(BUFFER_RECV, 5*TOTAL_SIZE, "BUFFER_RECV")
           J = 0
           DO I = 1, NEDGE
             IF( LEDGE(LEDGE_GLOBAL_ID,I) < 0 ) THEN
@@ -204,7 +206,7 @@ Cfill with global ID
      .                      COMM,
      .                      IERROR)
 
-          DEALLOCATE(BUFFER_SEND)
+          call my_dealloc(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)
           DO J = 1, TOTAL_SIZE 
             UID =      BUFFER_RECV(5*(J-1)+1)
@@ -222,7 +224,7 @@ C hash table would be better here (UID -> index in LEDEG_FIE)
               ENDIF
             ENDDO
           ENDDO
-          DEALLOCATE(BUFFER_RECV)
+          call my_dealloc(BUFFER_RECV)
         ENDIF
       ENDIF ! NSPMD > 0 and MPI_COMM EXIST
 #endif

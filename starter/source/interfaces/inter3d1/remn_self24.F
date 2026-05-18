@@ -113,7 +113,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C----creat list of SECONDARY nodes of self-contact to be removed per M_seg
       MAX_INSERTED_NODE = 1
-      ALLOCATE(TAGNOD(NUMNOD),TAGD(NUMNOD))
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
+      call my_alloc(TAGD, NUMNOD, "TAGD")
       DO N=1,NINTER
         NTY=IPARI(7,N)
         NREMOV1(N)=0
@@ -174,9 +175,9 @@ C---------
         NSN   =IPARI(5,N)
         NRTM  =IPARI(4,N)
 
-        ALLOCATE( NBR_INSERT_II(NRTM) )
-        ALLOCATE( ADRESS_II(NRTM) )
-        ALLOCATE( KREMNODE_SAVE(NRTM+1) )
+        call my_alloc(NBR_INSERT_II, NRTM, "NBR_INSERT_II")
+        call my_alloc(ADRESS_II, NRTM, "ADRESS_II")
+        call my_alloc(KREMNODE_SAVE, NRTM+1, "KREMNODE_SAVE")
         NBR_INSERT_II(1:NRTM) = 0
         ADRESS_II(1:NRTM) = 0
         KREMNODE_SAVE(1:NRTM+1) = 0
@@ -200,7 +201,7 @@ C--------dim first
         IF(NREMOV(N)>0) KREMNODE_SAVE(1:NRTM+1) = INTBUF_TAB(N)%KREMNODE(1:NRTM+1)
 
         SIZE_INSERTED_NODE = MAX_INSERTED_NODE*NRTM
-        CALL MY_ALLOC(INSERTED_NODE,SIZE_INSERTED_NODE)
+        CALL MY_ALLOC(INSERTED_NODE,SIZE_INSERTED_NODE,"INSERTED_NODE")
 
         DO II=1,NRTM
           NNREM_SAVE = NNREM
@@ -298,7 +299,7 @@ C
             TOTAL_INSERTED = TOTAL_INSERTED + NBR_INSERT_II(II)
           ENDDO
           !       allocate the buffer array
-          ALLOCATE( REMNODE(NREMOV(N)+TOTAL_INSERTED) )
+          call my_alloc(REMNODE, NREMOV(N)+TOTAL_INSERTED, "REMNODE")
 
           J = 0
           I = 0
@@ -364,17 +365,18 @@ C----         no need, done in UPGRADE_REMNODE2 IPARI(63,N) = 2
 C----------used for Iedge=1
           NREMOV(N) = NNREM
         END IF !IF (NNREM>0) THEN
-        IF(ALLOCATED(REMNODE)) DEALLOCATE( REMNODE )
-        IF(ALLOCATED(INSERTED_NODE)) DEALLOCATE( INSERTED_NODE )
+        IF(ALLOCATED(REMNODE)) CALL MY_DEALLOC(REMNODE)
+        IF(ALLOCATED(INSERTED_NODE)) CALL MY_DEALLOC(INSERTED_NODE)
 
 C
 
-        DEALLOCATE( NBR_INSERT_II )
-        DEALLOCATE( ADRESS_II )
-        DEALLOCATE( KREMNODE_SAVE )
+        CALL MY_DEALLOC(NBR_INSERT_II)
+        CALL MY_DEALLOC(ADRESS_II)
+        CALL MY_DEALLOC(KREMNODE_SAVE)
       END DO
 
-      DEALLOCATE(TAGD,TAGNOD)
+      CALL MY_DEALLOC(TAGD)
+      CALL MY_DEALLOC(TAGNOD)
 C----
       RETURN
       END

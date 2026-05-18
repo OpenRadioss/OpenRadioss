@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -148,7 +150,7 @@ C
                   KI1=KIBALE+MONVOL(K1-1+31)
 C
                   IFV=MONVOL(K1-1+45)
-                  ALLOCATE(XXX(3,NN))
+                  call my_alloc(XXX, 3, NN, "XXX")
                   CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
      .                               1  )
                   IF (ISPMD==FVSPMD(IFV)%PMAIN-1) THEN
@@ -164,7 +166,7 @@ C
                         LZMAX=MAX(LZMAX,ABS(ZL))
                      ENDDO
                   ENDIF
-                  DEALLOCATE(XXX)
+                  call my_dealloc(XXX)
 C
                   IF (LXMAX>LX) THEN
                      WRITE(IOUT,'(A14,I8,A9)') 

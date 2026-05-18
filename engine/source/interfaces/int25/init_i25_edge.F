@@ -43,6 +43,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -76,7 +78,7 @@ C-----------------------------------------------
           ! check if the interface is a type 25 with edge to edge
           IF(INTERFACE_TYPE==25.AND.IEDGE/=0) THEN
             NEDGE = IPARI(68,I)
-            ALLOCATE (TMP_ARRAY(NEDGE) )
+            call my_alloc(TMP_ARRAY, NEDGE, "TMP_ARRAY")
             ! ----------
             ! loop over the edge to find the edge solid
             DO J=1,NEDGE
@@ -104,7 +106,7 @@ C-----------------------------------------------
             INTBUF_TAB(I)%EDGE_TYPE1_0(1:INTBUF_TAB(I)%NUMBER_EDGE_TYPE1_0) = TMP_ARRAY(1:INTBUF_TAB(I)%NUMBER_EDGE_TYPE1_0)
             ! ----------
 
-            DEALLOCATE( TMP_ARRAY )
+            call my_dealloc(TMP_ARRAY)
           ELSE
             ALLOCATE( INTBUF_TAB(I)%EDGE_TYPE1(INTBUF_TAB(I)%NUMBER_EDGE_TYPE1) )
             ALLOCATE( INTBUF_TAB(I)%EDGE_TYPE1_0(INTBUF_TAB(I)%NUMBER_EDGE_TYPE1_0) )

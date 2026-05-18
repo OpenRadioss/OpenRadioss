@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE RESTMOD
         USE R2R_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +57,7 @@ C-----------------------------------------------
 
 C----- Storage of IEXLNK in IEX_TEMP---------------------------C
 
-        ALLOCATE(IEX_TEMP(5,NR2RLNK+1))
+        call my_alloc(IEX_TEMP, 5, NR2RLNK+1, "IEX_TEMP")
 
         DO I=1,NR2RLNK
           DO J=1,5
@@ -96,8 +97,8 @@ C----- Generation of a new link
         IEX_TEMP(2,NR2RLNK+1) = NUM_LINK
 
 C----- Storage of IEX_TEMP in IEXLNK---------------------------C
-        DEALLOCATE(IEXLNK)
-        ALLOCATE(IEXLNK(5*(NR2RLNK+1)))
+        CALL MY_DEALLOC(IEXLNK)
+        call my_alloc(IEXLNK, 5*(NR2RLNK+1), "IEXLNK")
         NR2RLNK = NR2RLNK+1
 
         DO I=1,NR2RLNK
@@ -108,7 +109,7 @@ C----- Storage of IEX_TEMP in IEXLNK---------------------------C
 
 C------------------------------------------------------------------
 
-        DEALLOCATE(IEX_TEMP)
+        CALL MY_DEALLOC(IEX_TEMP)
 
 C-----------
         RETURN

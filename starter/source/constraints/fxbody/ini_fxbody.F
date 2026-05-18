@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,12 +157,18 @@ C
           NDDL = 6*NBNOD  
           SIZE_MAX = MAX(NMOD,NME)
 C
-          ALLOCATE(ITAG_DOF(6,NBNOD))
-          ALLOCATE(STIF(NDDL,NDDL),MASS(NDDL,NDDL))
-          ALLOCATE(MODES_RB(NDDL,NME),MODES_RBT(NME,NDDL))
-          ALLOCATE(MODEST(NMOD,NDDL),MODES(NDDL,NMOD))
-          ALLOCATE(VECTR(NDDL,6),MTEMP(NDDL,SIZE_MAX),MTEMP2(SIZE_MAX,SIZE_MAX))
-          ALLOCATE(MTEMP3(SIZE_MAX,SIZE_MAX),VT(NDDL))
+          call my_alloc(ITAG_DOF, 6, NBNOD, "ITAG_DOF")
+          call my_alloc(STIF, NDDL, NDDL, "STIF")
+          call my_alloc(MASS, NDDL, NDDL, "MASS")
+          call my_alloc(MODES_RB, NDDL, NME, "MODES_RB")
+          call my_alloc(MODES_RBT, NME, NDDL, "MODES_RBT")
+          call my_alloc(MODEST, NMOD, NDDL, "MODEST")
+          call my_alloc(MODES, NDDL, NMOD, "MODES")
+          call my_alloc(VECTR, NDDL, 6, "VECTR")
+          call my_alloc(MTEMP, NDDL, SIZE_MAX, "MTEMP")
+          call my_alloc(MTEMP2, SIZE_MAX, SIZE_MAX, "MTEMP2")
+          call my_alloc(MTEMP3, SIZE_MAX, SIZE_MAX, "MTEMP3")
+          call my_alloc(VT, NDDL, "VT")
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                         INITIAL SKEW                              CCCCC
@@ -520,7 +527,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   COMPUTATION OF MAX FREQUENCY                    CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-            ALLOCATE(WI(NMST),WR(NMST),EIG_R(NMST,NMST),EIG_L(NMST,NMST),INVMK(NMST,NMST))
+            call my_alloc(WI, NMST, "WI")
+            call my_alloc(WR, NMST, "WR")
+            call my_alloc(EIG_R, NMST, NMST, "EIG_R")
+            call my_alloc(EIG_L, NMST, NMST, "EIG_L")
+            call my_alloc(INVMK, NMST, NMST, "INVMK")
 C
             DO I=1,NMST
               DO J=1,NMST
@@ -538,7 +549,7 @@ C
             LWORK = -1
             CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK1,LWORK,INFO2)
             LWORK = MAX( 1000, INT( WORK1( 1 ) ) )
-            ALLOCATE(WORK(LWORK))
+            call my_alloc(WORK, LWORK, "WORK")
 C
             CALL DGEEV( 'N','V',NMST,INVMK,NMST,WR,WI,EIG_L,NMST,EIG_R,NMST,WORK,LWORK,INFO2)
 #else
@@ -572,7 +583,7 @@ C
 C
             IF ((NMST - NSAV_MODESN > 0).AND.(RELOOP==0)) THEN
               NSAV_MODES = NSAV_MODESN
-              ALLOCATE(MODES_SAV(NDDL,NSAV_MODES))
+              call my_alloc(MODES_SAV, NDDL, NSAV_MODES, "MODES_SAV")
               MODES_SAV(1:NDDL,1:NSAV_MODES) = ZERO
               NN = 0
               DO I=1,NMST
@@ -587,7 +598,12 @@ C
               ENDDO
             ENDIF
 C
-            DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
+            CALL MY_DEALLOC(WI)
+            CALL MY_DEALLOC(WR)
+            CALL MY_DEALLOC(EIG_R)
+            CALL MY_DEALLOC(EIG_L)
+            CALL MY_DEALLOC(WORK)
+            CALL MY_DEALLOC(INVMK)
 C
             FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)
 C
@@ -599,7 +615,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C       
           ENDDO
 C
-          IF (ALLOCATED(MODES_SAV))  DEALLOCATE (MODES_SAV)
+          IF (ALLOCATED(MODES_SAV))  CALL MY_DEALLOC(MODES_SAV)
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                           DAMPING                                 CCCCC
@@ -919,8 +935,18 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
           ENDIF
 C
-          DEALLOCATE(ITAG_DOF,STIF,MASS,MODES_RB,MODES_RBT)
-          DEALLOCATE(MODEST,MODES,VECTR,MTEMP,MTEMP2,MTEMP3,VT)
+          CALL MY_DEALLOC(ITAG_DOF)
+          CALL MY_DEALLOC(STIF)
+          CALL MY_DEALLOC(MASS)
+          CALL MY_DEALLOC(MODES_RB)
+          CALL MY_DEALLOC(MODES_RBT)
+          CALL MY_DEALLOC(MODEST)
+          CALL MY_DEALLOC(MODES)
+          CALL MY_DEALLOC(VECTR)
+          CALL MY_DEALLOC(MTEMP)
+          CALL MY_DEALLOC(MTEMP2)
+          CALL MY_DEALLOC(MTEMP3)
+          CALL MY_DEALLOC(VT)
 C
         ENDIF
 C

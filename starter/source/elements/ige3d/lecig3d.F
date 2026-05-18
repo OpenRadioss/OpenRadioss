@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESHSURFIG3D_MOD
       USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_2I
       USE READER_OLD_MOD , ONLY : KLINE, KCUR, LINE, KIGE3D, KOPTAD, IREC
+      use my_alloc_mod
 C----------------------------------------------------------
 C     READING ISO GEOMETRIC ELEMENT
 C-----------------------------------------------
@@ -123,7 +124,7 @@ c
          
          IF (LINE(1:6) == '/IGE3D')THEN  !  ON A ONE CHANGEMENT DE PART
            TABCONPATCH(NBPART_IG3D)%L_TAB_IG3D=NBIG3D_PATCH
-           ALLOCATE(TABCONPATCH(NBPART_IG3D)%TAB_IG3D(NBIG3D_PATCH))
+           call my_alloc(TABCONPATCH(NBPART_IG3D)%TAB_IG3D, NBIG3D_PATCH, "TABCONPATCH(NBPART_IG3D)%TAB_IG3D")
            NBPART_IG3D = NBPART_IG3D+1
            NBIG3D_PATCH=0
            IREC=IREC+1
@@ -133,7 +134,7 @@ c
         ENDDO
 
         TABCONPATCH(NBPART_IG3D)%L_TAB_IG3D=NBIG3D_PATCH
-        ALLOCATE(TABCONPATCH(NBPART_IG3D)%TAB_IG3D(NBIG3D_PATCH))
+        call my_alloc(TABCONPATCH(NBPART_IG3D)%TAB_IG3D, NBIG3D_PATCH, "TABCONPATCH(NBPART_IG3D)%TAB_IG3D")
 
         NBPART_IG3D = 0
         NBIG3D_PATCH = 0

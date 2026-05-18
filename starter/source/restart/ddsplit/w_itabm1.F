@@ -33,6 +33,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -52,7 +53,8 @@ C-----------------------------------------------
       INTEGER USR2SYS
 C-----------------------------------------------
 !     allocate 1d array
-      ALLOCATE( ITMPM1(NUMNOD_L),ITMPM2(NUMNOD_L) )
+      call my_alloc(ITMPM1, NUMNOD_L, "ITMPM1")
+      call my_alloc(ITMPM2, NUMNOD_L, "ITMPM2")
       ALLOCATE( INDX(2*NUMNOD_L) )
 ! ---------------------------------
       DO I = 1, NUMNOD_L
@@ -82,7 +84,8 @@ C ITABM2 Writing (NUM SYSTEMES)
 C
 ! ---------------------------------
 !     deallocate 1d array
-      DEALLOCATE( ITMPM1,ITMPM2 )
+      CALL MY_DEALLOC(ITMPM1)
+      CALL MY_DEALLOC(ITMPM2)
       DEALLOCATE( INDX )
 ! ---------------------------------
       RETURN

@@ -443,7 +443,7 @@ c
       ! Number of output modes 
       ! -> Stored in DMG(:,2:4)
       MATPARAM%NMOD = 3
-      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      allocate(MATPARAM%MODE(MATPARAM%NMOD))
       MATPARAM%MODE(1) = "Fiber damage"
       MATPARAM%MODE(2) = "Shear matrix damage"
       MATPARAM%MODE(3) = "Transverse matrix damage"

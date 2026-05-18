@@ -106,7 +106,7 @@ C
 C
         WRITE(IOUT,1000)
 C
-        ALLOCATE(RETRACTOR(NRETRACTOR))
+        allocate(RETRACTOR(NRETRACTOR))
         DO I=1,NRETRACTOR
           RETRACTOR(I)%ID = 0
           RETRACTOR(I)%IDG = 0

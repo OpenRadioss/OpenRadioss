@@ -49,6 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -81,7 +82,7 @@ C-----------------------------------------------
         NUMGEO0 = NUMGEO
 
 C---------filling of array PM_R2R--------------------------------C
-        ALLOCATE (PM_R2R(NUMMAT+NPART+1),STAT=stat)
+        call my_alloc(PM_R2R, NUMMAT+NPART+1, "PM_R2R", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM_R2R')
         DO I=1,NUMMAT
           PM_R2R(I) = PM(NPROPM*(I-1)+20)
@@ -161,11 +162,11 @@ C---------Allocation of temporary arrays ----------------------C
 
         NB_PART = COMPT
 
-        ALLOCATE (IPM_TEMP(NPROPMI,NUMMAT+NB_PART),STAT=stat)
+        call my_alloc(IPM_TEMP, NPROPMI, NUMMAT+NB_PART, "IPM_TEMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPM_TEMP')
-        ALLOCATE (PM_TEMP(NPROPM,NUMMAT+NB_PART),STAT=stat)
+        call my_alloc(PM_TEMP, NPROPM, NUMMAT+NB_PART, "PM_TEMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='PM_TEMP')
-        ALLOCATE (DDW_TEMP(2,2,NUMMAT+NB_PART+1),STAT=stat)
+        call my_alloc(DDW_TEMP, 2, 2, NUMMAT+NB_PART+1, "DDW_TEMP", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='DDW_TEMP')
 
         IPM_TEMP(:,:)=0
@@ -274,10 +275,12 @@ C----------------Reallocation and filling of IPM and PM-----------C
         LEN1 = NPROPMI*NUMMAT
         LEN2 = NPROPM*NUMMAT
 
-        DEALLOCATE(IPM,PM,DDWEIGHTS)
-        ALLOCATE (IPM(LEN1),STAT=stat)
+        CALL MY_DEALLOC(IPM)
+        CALL MY_DEALLOC(PM)
+        call my_dealloc(DDWEIGHTS)
+        call my_alloc(IPM, LEN1, "IPM", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR, C1='IPM')
-        ALLOCATE (PM(LEN2),STAT=stat)
+        call my_alloc(PM, LEN2, "PM", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR, C1='PM')
         CALL INIT_MAT_WEIGHT(NUMMAT)
 
@@ -301,7 +304,9 @@ C----------------Reallocation and filling of IPM and PM-----------C
           END DO
         END DO
 
-        DEALLOCATE(IPM_TEMP,PM_TEMP,DDW_TEMP)
+        CALL MY_DEALLOC(IPM_TEMP)
+        CALL MY_DEALLOC(PM_TEMP)
+        CALL MY_DEALLOC(DDW_TEMP)
 
 C--------------------------------------------------------------C
 
@@ -314,10 +319,10 @@ C---------Allocation of temporary arrays ----------------------C
 
             NB_PART = 1
 C
-            CALL MY_ALLOC (IGEO_TEMP,NPROPGI,NUMGEO+NB_PART)
-            CALL MY_ALLOC (GEO_TEMP,NPROPG,NUMGEO+NB_PART)
-            CALL MY_ALLOC (NUMGEOSTACK1_TEMP,NUMGEO+NB_PART)
-            CALL MY_ALLOC (NUMGEOSTACK2_TEMP,NUMSTACK)
+            CALL MY_ALLOC(IGEO_TEMP,NPROPGI,NUMGEO+NB_PART,"IGEO_TEMP")
+            CALL MY_ALLOC(GEO_TEMP,NPROPG,NUMGEO+NB_PART,"GEO_TEMP")
+            CALL MY_ALLOC(NUMGEOSTACK1_TEMP,NUMGEO+NB_PART,"NUMGEOSTACK1_TEMP")
+            CALL MY_ALLOC(NUMGEOSTACK2_TEMP,NUMSTACK,"NUMGEOSTACK2_TEMP")
 C
             IGEO_TEMP(:,:)=0
             GEO_TEMP(:,:)=0
@@ -377,10 +382,12 @@ C---------------Reallocation and filling of IGEO and GEO------C
             LEN1 = NPROPGI*NUMGEO
             LEN2 = NPROPG*NUMGEO
 C
-            DEALLOCATE(IGEO,GEO,NUMGEOSTACK)
-            CALL MY_ALLOC (IGEO,LEN1)
-            CALL MY_ALLOC (GEO,LEN2)
-            CALL MY_ALLOC (NUMGEOSTACK,NUMGEO+NUMSTACK)
+            CALL MY_DEALLOC(IGEO)
+            CALL MY_DEALLOC(GEO)
+            CALL MY_DEALLOC(NUMGEOSTACK)
+            CALL MY_ALLOC(IGEO,LEN1,"IGEO")
+            CALL MY_ALLOC(GEO,LEN2,"GEO")
+            CALL MY_ALLOC(NUMGEOSTACK,NUMGEO+NUMSTACK,"NUMGEOSTACK")
 C
             DO I=1,NUMGEO
               DO J=1,NPROPGI
@@ -402,7 +409,10 @@ C
               NUMGEOSTACK(NUMGEO+I)=NUMGEOSTACK2_TEMP(I)
             END DO
 
-            DEALLOCATE(IGEO_TEMP,GEO_TEMP,NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP)
+            CALL MY_DEALLOC(IGEO_TEMP)
+            CALL MY_DEALLOC(GEO_TEMP)
+            CALL MY_DEALLOC(NUMGEOSTACK1_TEMP)
+            CALL MY_DEALLOC(NUMGEOSTACK2_TEMP)
 
           ENDIF
 C

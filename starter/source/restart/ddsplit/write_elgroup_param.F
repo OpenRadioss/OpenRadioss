@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUP_PARAM_MOD            
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +55,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
 C=======================================================================
       LEN = 2
-      ALLOCATE(RBUF(NGROUP_L,LEN))
+      call my_alloc(RBUF, NGROUP_L, LEN, "RBUF")
       RBUF(:,:) = ZERO
 c
       NG_L = 0
@@ -68,7 +69,7 @@ c
 c
       CALL WRITE_DB(RBUF,LEN*NGROUP_L)
       LEN = LEN*NGROUP_L
-      DEALLOCATE( RBUF )
+      CALL MY_DEALLOC(RBUF)
 c-----------
       RETURN
       END

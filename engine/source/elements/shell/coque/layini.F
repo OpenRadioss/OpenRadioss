@@ -53,6 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -161,9 +163,9 @@ C=======================================================================
         ENDDO  
       ENDIF
       IF(MAX_NPTT > 0 ) THEN
-        ALLOCATE(THK_IT(MAX_NPTT,MVSIZ))
+        call my_alloc(THK_IT, MAX_NPTT, MVSIZ, "THK_IT")
       ELSE 
-          ALLOCATE(THK_IT(0,0))
+          call my_alloc(THK_IT, 0, 0, "THK_IT")
       ENDIF 
 c
 c---------------------------------------------------------
@@ -628,7 +630,7 @@ c----
         END SELECT
 c-----------
       END IF   ! IXFEM
-       DEALLOCATE(THK_IT)
+       call my_dealloc(THK_IT)
 c-----------
       RETURN
       END SUBROUTINE LAYINI

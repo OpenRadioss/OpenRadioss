@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -64,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(WA(NUMNOD),STAT=IERROR)
+      call my_alloc(WA, NUMNOD, "WA", stat=IERROR)
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
       NRTMF = 1 + ITASK * NRTM / NTHREAD

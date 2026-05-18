@@ -36,6 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -59,14 +60,14 @@ C=======================================================================
 
 !
       LINE_NENTITY = 4 ! NOD1, NOD2, ELTYP, ELEM
-      ALLOCATE(LINE_ORD(LINE_NENTITY,SIZEMAX))
-      ALLOCATE(ITRI(3,SIZEMAX))
-      ALLOCATE(INDEX(2*SIZEMAX))
+      call my_alloc(LINE_ORD, LINE_NENTITY, SIZEMAX, "LINE_ORD")
+      call my_alloc(ITRI, 3, SIZEMAX, "ITRI")
+      call my_alloc(INDEX, 2*SIZEMAX, "INDEX")
 !
-      ALLOCATE(IW1(4*SIZEMAX))
-      ALLOCATE(IW2(4*SIZEMAX))
-      ALLOCATE(IW5(4*SIZEMAX))
-      ALLOCATE(IW6(4*SIZEMAX))
+      call my_alloc(IW1, 4*SIZEMAX, "IW1")
+      call my_alloc(IW2, 4*SIZEMAX, "IW2")
+      call my_alloc(IW5, 4*SIZEMAX, "IW5")
+      call my_alloc(IW6, 4*SIZEMAX, "IW6")
 !------------------
       ! NSEG of lines  initialization
       NSEG = CLAUSE%NB_LINE_SEG  ! lines from 1D_element
@@ -174,14 +175,14 @@ C-----------------------------------------------
 !
       ! reallocation of the line CLAUSE at the right dimension and final fill
 !
-      IF (ALLOCATED(CLAUSE%LINE_NODES)) DEALLOCATE(CLAUSE%LINE_NODES)
-      IF (ALLOCATED(CLAUSE%LINE_ELTYP)) DEALLOCATE(CLAUSE%LINE_ELTYP)
-      IF (ALLOCATED(CLAUSE%LINE_ELEM))  DEALLOCATE(CLAUSE%LINE_ELEM)
+      IF (ALLOCATED(CLAUSE%LINE_NODES)) CALL MY_DEALLOC(CLAUSE%LINE_NODES)
+      IF (ALLOCATED(CLAUSE%LINE_ELTYP)) CALL MY_DEALLOC(CLAUSE%LINE_ELTYP)
+      IF (ALLOCATED(CLAUSE%LINE_ELEM))  CALL MY_DEALLOC(CLAUSE%LINE_ELEM)
 !
       CLAUSE%NB_LINE_SEG = NSEG
-      CALL MY_ALLOC(CLAUSE%LINE_NODES,NSEG,2)
-      CALL MY_ALLOC(CLAUSE%LINE_ELTYP,NSEG)
-      CALL MY_ALLOC(CLAUSE%LINE_ELEM,NSEG)
+      CALL MY_ALLOC(CLAUSE%LINE_NODES,NSEG,2,"CLAUSE%LINE_NODES")
+      CALL MY_ALLOC(CLAUSE%LINE_ELTYP,NSEG,"CLAUSE%LINE_ELTYP")
+      CALL MY_ALLOC(CLAUSE%LINE_ELEM,NSEG,"CLAUSE%LINE_ELEM")
 !
       DO I=1,NSEG
         CLAUSE%LINE_NODES(I,1) = LINE_ORD(1,INDEX(I))
@@ -190,13 +191,13 @@ C-----------------------------------------------
         CLAUSE%LINE_ELEM(I)    = LINE_ORD(4,INDEX(I))
       ENDDO
 !---
-      IF (ALLOCATED(LINE_ORD))  DEALLOCATE(LINE_ORD)
-      IF (ALLOCATED(ITRI))  DEALLOCATE(ITRI)
-      IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-      IF (ALLOCATED(IW1))   DEALLOCATE(IW1)
-      IF (ALLOCATED(IW2))   DEALLOCATE(IW2)
-      IF (ALLOCATED(IW5))   DEALLOCATE(IW5)
-      IF (ALLOCATED(IW6))   DEALLOCATE(IW6)
+      IF (ALLOCATED(LINE_ORD))  CALL MY_DEALLOC(LINE_ORD)
+      IF (ALLOCATED(ITRI))  CALL MY_DEALLOC(ITRI)
+      IF (ALLOCATED(INDEX)) CALL MY_DEALLOC(INDEX)
+      IF (ALLOCATED(IW1))   CALL MY_DEALLOC(IW1)
+      IF (ALLOCATED(IW2))   CALL MY_DEALLOC(IW2)
+      IF (ALLOCATED(IW5))   CALL MY_DEALLOC(IW5)
+      IF (ALLOCATED(IW6)) call my_dealloc(IW6)
 C-----------
       RETURN
       END

@@ -52,6 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -130,22 +132,42 @@ C----------------------------
         !   --------------------
         !   allocation
         IF(ITASK==0) THEN
-            ALLOCATE( MASS(NUMBER_NODE_WEIGHT) )
-            ALLOCATE( X_MS(NUMBER_NODE_WEIGHT),Y_MS(NUMBER_NODE_WEIGHT),Z_MS(NUMBER_NODE_WEIGHT) )
+            call my_alloc(MASS, NUMBER_NODE_WEIGHT, "MASS")
+            call my_alloc(X_MS, NUMBER_NODE_WEIGHT, "X_MS")
+            call my_alloc(Y_MS, NUMBER_NODE_WEIGHT, "Y_MS")
+            call my_alloc(Z_MS, NUMBER_NODE_WEIGHT, "Z_MS")
 
-            ALLOCATE( INER_VEC(NUMBER_NODE_WEIGHT) )
-            ALLOCATE(AX_MS(NUMBER_NODE_WEIGHT),AY_MS(NUMBER_NODE_WEIGHT),AZ_MS(NUMBER_NODE_WEIGHT))
-            ALLOCATE(AXX_VEC(NUMBER_NODE_WEIGHT),AYY_VEC(NUMBER_NODE_WEIGHT),AZZ_VEC(NUMBER_NODE_WEIGHT))
-            ALLOCATE(VX_MS(NUMBER_NODE_WEIGHT),VY_MS(NUMBER_NODE_WEIGHT),VZ_MS(NUMBER_NODE_WEIGHT))
-            ALLOCATE(VXX_VEC(NUMBER_NODE_WEIGHT),VYY_VEC(NUMBER_NODE_WEIGHT),VZZ_VEC(NUMBER_NODE_WEIGHT))
+            call my_alloc(INER_VEC, NUMBER_NODE_WEIGHT, "INER_VEC")
+            call my_alloc(AX_MS, NUMBER_NODE_WEIGHT, "AX_MS")
+            call my_alloc(AY_MS, NUMBER_NODE_WEIGHT, "AY_MS")
+            call my_alloc(AZ_MS, NUMBER_NODE_WEIGHT, "AZ_MS")
+            call my_alloc(AXX_VEC, NUMBER_NODE_WEIGHT, "AXX_VEC")
+            call my_alloc(AYY_VEC, NUMBER_NODE_WEIGHT, "AYY_VEC")
+            call my_alloc(AZZ_VEC, NUMBER_NODE_WEIGHT, "AZZ_VEC")
+            call my_alloc(VX_MS, NUMBER_NODE_WEIGHT, "VX_MS")
+            call my_alloc(VY_MS, NUMBER_NODE_WEIGHT, "VY_MS")
+            call my_alloc(VZ_MS, NUMBER_NODE_WEIGHT, "VZ_MS")
+            call my_alloc(VXX_VEC, NUMBER_NODE_WEIGHT, "VXX_VEC")
+            call my_alloc(VYY_VEC, NUMBER_NODE_WEIGHT, "VYY_VEC")
+            call my_alloc(VZZ_VEC, NUMBER_NODE_WEIGHT, "VZZ_VEC")
 
-            ALLOCATE( MASS_6(6,NTHREAD) )
-            ALLOCATE( X_MS_6(6,NTHREAD),Y_MS_6(6,NTHREAD),Z_MS_6(6,NTHREAD) )
-            ALLOCATE( INER_6(6,NTHREAD) )
-            ALLOCATE( AX_MS_6(6,NTHREAD),AY_MS_6(6,NTHREAD),AZ_MS_6(6,NTHREAD) )
-            ALLOCATE( AXX_6(6,NTHREAD),AYY_6(6,NTHREAD),AZZ_6(6,NTHREAD) )
-            ALLOCATE( VX_MS_6(6,NTHREAD),VY_MS_6(6,NTHREAD),VZ_MS_6(6,NTHREAD) )
-            ALLOCATE( VXX_6(6,NTHREAD),VYY_6(6,NTHREAD),VZZ_6(6,NTHREAD) )
+            call my_alloc(MASS_6, 6, NTHREAD, "MASS_6")
+            call my_alloc(X_MS_6, 6, NTHREAD, "X_MS_6")
+            call my_alloc(Y_MS_6, 6, NTHREAD, "Y_MS_6")
+            call my_alloc(Z_MS_6, 6, NTHREAD, "Z_MS_6")
+            call my_alloc(INER_6, 6, NTHREAD, "INER_6")
+            call my_alloc(AX_MS_6, 6, NTHREAD, "AX_MS_6")
+            call my_alloc(AY_MS_6, 6, NTHREAD, "AY_MS_6")
+            call my_alloc(AZ_MS_6, 6, NTHREAD, "AZ_MS_6")
+            call my_alloc(AXX_6, 6, NTHREAD, "AXX_6")
+            call my_alloc(AYY_6, 6, NTHREAD, "AYY_6")
+            call my_alloc(AZZ_6, 6, NTHREAD, "AZZ_6")
+            call my_alloc(VX_MS_6, 6, NTHREAD, "VX_MS_6")
+            call my_alloc(VY_MS_6, 6, NTHREAD, "VY_MS_6")
+            call my_alloc(VZ_MS_6, 6, NTHREAD, "VZ_MS_6")
+            call my_alloc(VXX_6, 6, NTHREAD, "VXX_6")
+            call my_alloc(VYY_6, 6, NTHREAD, "VYY_6")
+            call my_alloc(VZZ_6, 6, NTHREAD, "VZZ_6")
 
             MASSE_GLOBAL=ZERO
             INER_GLOBAL=ZERO
@@ -229,8 +251,8 @@ C----------------------------
         !   --------------------
         !   mpi communication : reduction    
         IF(ITASK==0) THEN
-            ALLOCATE( BUF_S(13*6) )
-            ALLOCATE( BUF_R(13*6) )
+            call my_alloc(BUF_S, 13*6, "BUF_S")
+            call my_alloc(BUF_R, 13*6, "BUF_R")
             BUF_S(1:6) = MASS_6(1:6,1)
             BUF_S(7:12) = X_MS_6(1:6,1)
             BUF_S(13:18) = Y_MS_6(1:6,1)
@@ -520,24 +542,45 @@ C
         !   --------------------
         !   deallocation
         IF(ITASK==0) THEN
-            DEALLOCATE( MASS )
-            DEALLOCATE( X_MS,Y_MS,Z_MS )
+            call my_dealloc(MASS)
+            call my_dealloc(X_MS)
+            call my_dealloc(Y_MS)
+            call my_dealloc(Z_MS)
 
-            DEALLOCATE( INER_VEC )
-            DEALLOCATE(AX_MS,AY_MS,AZ_MS)
-            DEALLOCATE(AXX_VEC,AYY_VEC,AZZ_VEC)
-            DEALLOCATE(VX_MS,VY_MS,VZ_MS)
-            DEALLOCATE(VXX_VEC,VYY_VEC,VZZ_VEC)
+            call my_dealloc(INER_VEC)
+            call my_dealloc(AX_MS)
+            call my_dealloc(AY_MS)
+            call my_dealloc(AZ_MS)
+            call my_dealloc(AXX_VEC)
+            call my_dealloc(AYY_VEC)
+            call my_dealloc(AZZ_VEC)
+            call my_dealloc(VX_MS)
+            call my_dealloc(VY_MS)
+            call my_dealloc(VZ_MS)
+            call my_dealloc(VXX_VEC)
+            call my_dealloc(VYY_VEC)
+            call my_dealloc(VZZ_VEC)
 
-            DEALLOCATE( MASS_6 )
-            DEALLOCATE( X_MS_6,Y_MS_6,Z_MS_6 )
-            DEALLOCATE( INER_6 )
-            DEALLOCATE( AX_MS_6,AY_MS_6,AZ_MS_6 )
-            DEALLOCATE( AXX_6,AYY_6,AZZ_6 )
-            DEALLOCATE( VX_MS_6,VY_MS_6,VZ_MS_6 )
-            DEALLOCATE( VXX_6,VYY_6,VZZ_6 )
+            call my_dealloc(MASS_6)
+            call my_dealloc(X_MS_6)
+            call my_dealloc(Y_MS_6)
+            call my_dealloc(Z_MS_6)
+            call my_dealloc(INER_6)
+            call my_dealloc(AX_MS_6)
+            call my_dealloc(AY_MS_6)
+            call my_dealloc(AZ_MS_6)
+            call my_dealloc(AXX_6)
+            call my_dealloc(AYY_6)
+            call my_dealloc(AZZ_6)
+            call my_dealloc(VX_MS_6)
+            call my_dealloc(VY_MS_6)
+            call my_dealloc(VZ_MS_6)
+            call my_dealloc(VXX_6)
+            call my_dealloc(VYY_6)
+            call my_dealloc(VZZ_6)
 
-            DEALLOCATE( BUF_S,BUF_R)
+            call my_dealloc(BUF_S)
+            call my_dealloc(BUF_R)
         ENDIF
         !   --------------------
 

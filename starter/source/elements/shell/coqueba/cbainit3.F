@@ -177,8 +177,8 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C=======================================================================
       ! Allocate buffers
-      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX)
-      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX)
+      CALL MY_ALLOC(MATLY,MVSIZ*LAY_MAX,"MATLY")
+      CALL MY_ALLOC(POSLY,MVSIZ,LAY_MAX*LAYNPT_MAX,"POSLY")
 
       GBUF => ELBUF_STR%GBUF
 c
@@ -224,13 +224,13 @@ C
       IF(NPT_ALL == 0 ) NPT_ALL = NLAY
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
-         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
-         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
+         call my_alloc(DIR_A, NPT_ALL*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NPT_ALL*NEL*2, "DIR_B")
          DIR_A = ZERO
          DIR_B = ZERO
       ELSE
-         ALLOCATE(DIR_A(NLAY*NEL*2))
-         ALLOCATE(DIR_B(NLAY*NEL*2))
+         call my_alloc(DIR_A, NLAY*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NLAY*NEL*2, "DIR_B")
          DIR_A = ZERO
          DIR_B = ZERO
          NPT_ALL = NLAY 
@@ -714,10 +714,10 @@ C------------
         ENDDO
       ENDIF
 c-----------
-      DEALLOCATE(DIR_A)
-      DEALLOCATE(DIR_B)      
-      DEALLOCATE(MATLY)
-      DEALLOCATE(POSLY)
+      CALL MY_DEALLOC(DIR_A)
+      CALL MY_DEALLOC(DIR_B)      
+      CALL MY_DEALLOC(MATLY)
+      CALL MY_DEALLOC(POSLY)
 
       RETURN
       END

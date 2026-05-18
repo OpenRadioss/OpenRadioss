@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE FORMAT_MOD ,ONLY :  FMT_F
       USE READER_OLD_MOD , ONLY : KEY0, KCUR, KLINE, LINE
       USE USER_INTERFACE_MOD,only : KSENS_CUR
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,15 +148,15 @@ C--------------------
           SENSOR_PTR%NPARI  = 0
           SENSOR_PTR%NPARR  = 0
           SENSOR_PTR%NVAR  = 0
-          ALLOCATE(SENSOR_PTR%IPARAM(SENSOR_PTR%NPARI))
-          ALLOCATE(SENSOR_PTR%RPARAM(SENSOR_PTR%NPARR))
-          ALLOCATE(SENSOR_PTR%VAR(SENSOR_PTR%NVAR))
+          call my_alloc(SENSOR_PTR%IPARAM, SENSOR_PTR%NPARI, "SENSOR_PTR%IPARAM")
+          call my_alloc(SENSOR_PTR%RPARAM, SENSOR_PTR%NPARR, "SENSOR_PTR%RPARAM")
+          call my_alloc(SENSOR_PTR%VAR, SENSOR_PTR%NVAR, "SENSOR_PTR%VAR")
           ! User Sensor Buffer
-          ALLOCATE(SENSOR_PTR%INTEGER_USERBUF(ISENBUF))
-          ALLOCATE(SENSOR_PTR%FLOAT_USERBUF(LSENBUF))
+          call my_alloc(SENSOR_PTR%INTEGER_USERBUF, ISENBUF, "SENSOR_PTR%INTEGER_USERBUF")
+          call my_alloc(SENSOR_PTR%FLOAT_USERBUF, LSENBUF, "SENSOR_PTR%FLOAT_USERBUF")
 
-          ALLOCATE(SENSOR_PTR%INTEGER_USERPARAM(NSENPARI))
-          ALLOCATE(SENSOR_PTR%FLOAT_USERPARAM(NSENPARR))
+          call my_alloc(SENSOR_PTR%INTEGER_USERPARAM, NSENPARI, "SENSOR_PTR%INTEGER_USERPARAM")
+          call my_alloc(SENSOR_PTR%FLOAT_USERPARAM, NSENPARR, "SENSOR_PTR%FLOAT_USERPARAM")
 
           ! Initialize to Zero
           SENSOR_PTR%INTEGER_USERBUF(1:ISENBUF)=0

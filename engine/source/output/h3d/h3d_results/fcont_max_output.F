@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------s------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,8 +69,8 @@ C-----------------------------------------------
          ENDDO
       ELSE
 
-         ALLOCATE(FCONT_TMP(3,NUMNOD)) 
-         ALLOCATE(FCONT_TMP_P(3,NUMNODG)) 
+         call my_alloc(FCONT_TMP, 3, NUMNOD, "FCONT_TMP")
+         call my_alloc(FCONT_TMP_P, 3, NUMNODG, "FCONT_TMP_P")
 
          DO I=1,NUMNOD
            K=NODGLOB(I)
@@ -103,7 +105,8 @@ C-----------------------------------------------
              ENDIF
            ENDDO
          ENDIF
-         DEALLOCATE( FCONT_TMP_P, FCONT_TMP)
+         call my_dealloc(FCONT_TMP_P)
+         call my_dealloc(FCONT_TMP)
        ENDIF
  
        RETURN

@@ -31,6 +31,7 @@ C
 !||====================================================================
       SUBROUTINE W_MONVOL(MONVOL,LENVOLU,NODLOCAL,LEN_IA,MONVOL_L,ITAB,T_MONVOL,PROC)
       USE MONVOL_STRUCT_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,7 +95,7 @@ C
 
       DO I = 1, NVOLU
          IF (NTRI(I) > 0) THEN
-            ALLOCATE(TRI_L(3 * NTRI(I)))
+            call my_alloc(TRI_L, 3 * NTRI(I), "TRI_L")
             SIZE_L = 0
             DO J = 1, NTRI(I)
                IF (NODLOCAL(T_MONVOL(I)%FILL_TRI(3 * (J - 1) + 1)) /= 0 .AND.
@@ -110,7 +111,7 @@ C
                CALL WRITE_I_C(TRI_L(1:SIZE_L), SIZE_L)
                LEN_IA = LEN_IA + SIZE_L
             ENDIF
-            DEALLOCATE(TRI_L)
+            CALL MY_DEALLOC(TRI_L)
          ENDIF
       ENDDO
 C

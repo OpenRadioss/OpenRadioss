@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD 
       USE I25_FIE_MOD 
       USE FRONT_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,8 +78,8 @@ C C++ interface
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: secondaryRemoteCount
       INTEGER :: LOCAL_CAND_COUNT(NSPMD)
 C-----------------------------------------------
-        ALLOCATE(I25_SPLIT_CAND(NINTER,NSPMD))
-        ALLOCATE(I25_FIE(NINTER,NSPMD))
+        allocate(I25_SPLIT_CAND(NINTER, NSPMD))
+        allocate(I25_FIE(NINTER, NSPMD))
 
         DO  NIN = 1,NINTER
           NTY=IPARI(7,NIN)
@@ -90,8 +91,8 @@ C         WRITE(6,*) NIN,NTY,IEDGE
           NEDGE = IPARI(68,NIN)
           NRTM = IPARI(4,NIN) 
           ALLOCATE(CEP_EDGE(NEDGE)) !saved also temporarily in LEDGE
-          ALLOCATE(LOCAL_ID_EDG(NEDGE))
-          ALLOCATE(LOCAL_ID_SEG(NRTM))
+          call my_alloc(LOCAL_ID_EDG, NEDGE, "LOCAL_ID_EDG")
+          call my_alloc(LOCAL_ID_SEG, NRTM, "LOCAL_ID_SEG")
           CALL LOCAL_EDGE_NUMBERING(NEDGE,NRTM,NSPMD,
      .                              INTBUF_TAB(NIN)%LEDGE,
      .                              INTERCEP(1,NIN)%P, ! = CEP_SEG
@@ -105,12 +106,12 @@ C         WRITE(6,*) NIN,NTY,IEDGE
 
 
          nbCand = nbCandE2E + nbCandE2S 
-         ALLOCATE(localIdx(nbCand))
-         ALLOCATE(secondaryRemoteCount(NSPMD,NSPMD))
-         ALLOCATE(CANDM(nbCand))
-         ALLOCATE(CANDS(nbCand))
-         ALLOCATE(CEPM(NEDGE+NRTM))
-         ALLOCATE(LOCAL_ID(NEDGE+NRTM))
+         call my_alloc(localIdx, nbCand, "localIdx")
+         call my_alloc(secondaryRemoteCount, NSPMD, NSPMD, "secondaryRemoteCount")
+         call my_alloc(CANDM, nbCand, "CANDM")
+         call my_alloc(CANDS, nbCand, "CANDS")
+         call my_alloc(CEPM, NEDGE+NRTM, "CEPM")
+         call my_alloc(LOCAL_ID, NEDGE+NRTM, "LOCAL_ID")
          LOCAL_ID(1:NEDGE) = LOCAL_ID_EDG(1:NEDGE)
          LOCAL_ID(NEDGE+1:NEDGE+NRTM) = LOCAL_ID_SEG(1:NRTM)
 
@@ -137,13 +138,13 @@ C         WRITE(6,*) NIN,NTY,IEDGE
 
           DO I = 1,NSPMD
             I25_FIE(NIN,I)%NEDGE_TOT = 0 
-            ALLOCATE(I25_FIE(NIN,I)%NEDGE(NSPMD))
+            call my_alloc(I25_FIE(NIN,I)%NEDGE, NSPMD, "I25_FIE(NIN,I)%NEDGE")
             I25_FIE(NIN,I)%NEDGE(1:NSPMD) = 0
             DO J = 1,NSPMD
               I25_FIE(NIN,I)%NEDGE(J) = I25_FIE(NIN,I)%NEDGE(J) + secondaryRemoteCount(J,I) 
               I25_FIE(NIN,I)%NEDGE_TOT = I25_FIE(NIN,I)%NEDGE_TOT + secondaryRemoteCount(J,I) 
             ENDDO
-            ALLOCATE(I25_FIE(NIN,I)%ID(I25_FIE(NIN,I)%NEDGE_TOT))
+            call my_alloc(I25_FIE(NIN,I)%ID, I25_FIE(NIN,I)%NEDGE_TOT, "I25_FIE(NIN,I)%ID")
             I25_FIE(NIN,I)%ID(1:I25_FIE(NIN,I)%NEDGE_TOT) = -666
 C           WRITE(6,*) I,"NEDGE_TOT=",I25_FIE(NIN,I)%NEDGE_TOT
           ENDDO
@@ -156,9 +157,9 @@ C         E2E
           DO I = 1, NSPMD 
              I25_SPLIT_CAND(NIN,I)%NB_CAND_E2E = LOCAL_CAND_COUNT(I)
 C            WRITE(6,*) "SPLIT_CAND size",I-1,LOCAL_CAND_COUNT(I)
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDM_E2E(LOCAL_CAND_COUNT(I)))
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDS_E2E(LOCAL_CAND_COUNT(I)))
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%ID_E2E(LOCAL_CAND_COUNT(I)))
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%CANDM_E2E, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%CANDM_E2E")
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%CANDS_E2E, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%CANDS_E2E")
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%ID_E2E, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%ID_E2E")
              LOCAL_CAND_COUNT(I) = 0
           ENDDO
           DO I = 1, nbCandE2E
@@ -185,9 +186,9 @@ C         E2S
           ENDDO
           DO I = 1, NSPMD 
              I25_SPLIT_CAND(NIN,I)%NB_CAND_E2S = LOCAL_CAND_COUNT(I)
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDM_E2S(LOCAL_CAND_COUNT(I)))
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDS_E2S(LOCAL_CAND_COUNT(I)))
-             ALLOCATE(I25_SPLIT_CAND(NIN,I)%ID_E2S(LOCAL_CAND_COUNT(I)))
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%CANDM_E2S, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%CANDM_E2S")
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%CANDS_E2S, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%CANDS_E2S")
+             call my_alloc(I25_SPLIT_CAND(NIN,I)%ID_E2S, LOCAL_CAND_COUNT(I), "I25_SPLIT_CAND(NIN,I)%ID_E2S")
              LOCAL_CAND_COUNT(I) = 0
           ENDDO
           DO I = 1, nbCandE2S
@@ -214,15 +215,15 @@ C            ENDDO
 C         ENDDO
 CC ==========
            
-          DEALLOCATE(CANDM)
-          DEALLOCATE(CANDS)
-          DEALLOCATE(localIdx)
-          DEALLOCATE(secondaryRemoteCount)
-          DEALLOCATE(CEPM)
+          CALL MY_DEALLOC(CANDM)
+          CALL MY_DEALLOC(CANDS)
+          CALL MY_DEALLOC(localIdx)
+          CALL MY_DEALLOC(secondaryRemoteCount)
+          CALL MY_DEALLOC(CEPM)
           DEALLOCATE(CEP_EDGE)
-          DEALLOCATE(LOCAL_ID_SEG)
-          DEALLOCATE(LOCAL_ID_EDG)
-          DEALLOCATE(LOCAL_ID)
+          CALL MY_DEALLOC(LOCAL_ID_SEG)
+          CALL MY_DEALLOC(LOCAL_ID_EDG)
+          CALL MY_DEALLOC(LOCAL_ID)
 
         ENDDO
       END SUBROUTINE

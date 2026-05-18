@@ -50,6 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -81,7 +83,7 @@ C-----
  
 C-----------------------------------------------
       IF(ITASK==0)THEN
-        ALLOCATE(WSPCLOUD(NUMSPH),STAT=IERROR)
+        call my_alloc(WSPCLOUD, NUMSPH, "WSPCLOUD", stat=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='(SOLIDS to SPH)')
@@ -149,7 +151,7 @@ C-----------------------------------------------
             WASPACT(NSPHACT)=NP
           END IF
         END DO
-        DEALLOCATE(WSPCLOUD)
+        call my_dealloc(WSPCLOUD)
       END IF
 C-----------------------------------------------
       RETURN

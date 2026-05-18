@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE MAT_ELEM_MOD    
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,8 +93,8 @@ C=======================================================================
       BID = ZERO
       IDPERTURB(1:NPERTURB) = 0
 c
-      ALLOCATE(INDEX(NUMELC+NUMELTG+NUMELS+NUMSPH))
-      ALLOCATE(INDEX_ITYP(NUMELC+NUMELTG+NUMELS+NUMSPH))
+      call my_alloc(INDEX, NUMELC+NUMELTG+NUMELS+NUMSPH, "INDEX")
+      call my_alloc(INDEX_ITYP, NUMELC+NUMELTG+NUMELS+NUMSPH, "INDEX_ITYP")
       INDEX(:) = 0
       INDEX_ITYP(:) = 0
 c
@@ -139,8 +140,8 @@ c-------------------------------------------------------------
       ! Checking for doubled IDs
       CALL UDOUBLE(IDPERTURB,1,NPERTURB,MESS,0,BID)
 c-------------------------------------------------------------
-      IF (ALLOCATED(INDEX))      DEALLOCATE(INDEX)
-      IF (ALLOCATED(INDEX_ITYP)) DEALLOCATE(INDEX_ITYP)
+      IF (ALLOCATED(INDEX))      CALL MY_DEALLOC(INDEX)
+      IF (ALLOCATED(INDEX_ITYP)) CALL MY_DEALLOC(INDEX_ITYP)
 c-----------
       RETURN
       END

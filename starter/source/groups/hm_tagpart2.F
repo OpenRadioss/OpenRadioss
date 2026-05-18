@@ -50,6 +50,8 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -139,7 +141,7 @@ C                   tag the parts
               ENDIF                                            
             ENDIF                                              
            ENDDO 
-           IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
+           IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
                                                                                                        
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR.
      .        KEY(1:4) == 'PROP') THEN
@@ -159,13 +161,13 @@ C-------------------------
               
               CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL) 
               CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)                 
-              ALLOCATE(TAG_ENTITY_POS(NENTITY_POS))  
-              ALLOCATE(TAG_ENTITY_NEG(NENTITY_NEG))  
+              call my_alloc(TAG_ENTITY_POS, NENTITY_POS, "TAG_ENTITY_POS")
+              call my_alloc(TAG_ENTITY_NEG, NENTITY_NEG, "TAG_ENTITY_NEG")
               TAG_ENTITY_POS(1:NENTITY_POS)=0
               TAG_ENTITY_NEG(1:NENTITY_NEG)=0
 
-              ALLOCATE(ENTITY_POS(NENTITY_POS)) 
-              ALLOCATE(ENTITY_NEG(NENTITY_NEG))  
+              call my_alloc(ENTITY_POS, NENTITY_POS, "ENTITY_POS")
+              call my_alloc(ENTITY_NEG, NENTITY_NEG, "ENTITY_NEG")
 
               DO KK=1,NENTITY_POS
                 CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
@@ -279,10 +281,10 @@ C-------------------------
                 ENDDO                
               ENDIF
 
-              DEALLOCATE(TAG_ENTITY_POS)
-              DEALLOCATE(TAG_ENTITY_NEG)   
-              DEALLOCATE(ENTITY_POS)  
-              DEALLOCATE(ENTITY_NEG)    
+              CALL MY_DEALLOC(TAG_ENTITY_POS)
+              CALL MY_DEALLOC(TAG_ENTITY_NEG)
+              CALL MY_DEALLOC(ENTITY_POS)
+              CALL MY_DEALLOC(ENTITY_NEG)
               
 C-------------------------
       ENDIF

@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -82,8 +83,8 @@ C     REAL
 C-----------------------------------------------
 C     PLY ELEMS INIT
 C-----------------------------------------------
-      CALL MY_ALLOC(PLYELEMS, NUMELC)
-      CALL MY_ALLOC(NP, PLYNUMC*4)
+      call my_alloc(PLYELEMS, NUMELC, "PLYELEMS")
+      call my_alloc(NP, PLYNUMC*4, "NP")
       NPCC = 0
       DO PLYS = 1,NPLYPART
         IPLY = INDX_PLY(PLYS)
@@ -190,8 +191,8 @@ C   build global part array on proc 0
         ENDIF
 
       ENDIF
-      DEALLOCATE(PLYELEMS)
-      DEALLOCATE(NP)
+      call my_dealloc(PLYELEMS)
+      call my_dealloc(NP)
 C-----------------------------------------------
       RETURN
       END

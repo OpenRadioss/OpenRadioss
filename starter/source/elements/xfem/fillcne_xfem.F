@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   IEL_CRKXFEM   ,INOD_CRKXFEM   ,IXC    ,IXTG , CEP,
      .   ADDCNE_CRKXFEM,CNE_XFE,CEL_XFE,CEP_XFE,CRKNODIAD )
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,11 +66,11 @@ C-----------------------------------------------
 C=======================================================================
 C   CALCULATION OF CNE ADDCNE_CRKXFEM CEL for XFEM part
 C-----------------------------------------------
-      ALLOCATE(KNOD2ELC(NUMNOD+1))
+      call my_alloc(KNOD2ELC, NUMNOD+1, "KNOD2ELC")
       KNOD2ELC = 0
-      ALLOCATE(TAGSKYC(4,NUMELC))
+      call my_alloc(TAGSKYC, 4, NUMELC, "TAGSKYC")
       TAGSKYC = 0
-      ALLOCATE(TAGSKYTG(3,NUMELTG))
+      call my_alloc(TAGSKYTG, 3, NUMELTG, "TAGSKYTG")
       TAGSKYTG = 0
 C
       DO I = 0, NCRKXFE + 1           ! NCRKXFE = Nb of nodes xfem
@@ -194,7 +195,9 @@ c
         ENDDO
       ENDDO
 c-----------
-      DEALLOCATE(TAGSKYC,TAGSKYTG,KNOD2ELC)
+      CALL MY_DEALLOC(TAGSKYC)
+      CALL MY_DEALLOC(TAGSKYTG)
+      CALL MY_DEALLOC(KNOD2ELC)
 c-----------
       RETURN
       END

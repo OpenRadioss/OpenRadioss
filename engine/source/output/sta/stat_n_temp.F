@@ -39,6 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -64,8 +65,8 @@ C-----------------------------------------------
       my_real,DIMENSION(:),ALLOCATABLE::TEMPG
       CHARACTER*100 LINE
 C-----------------------------------------------
-      CALL MY_ALLOC(NODTAGLOB,LENG)
-      CALL MY_ALLOC(TEMPG,LENG)
+      call my_alloc(NODTAGLOB, LENG, "NODTAGLOB")
+      call my_alloc(TEMPG, LENG, "TEMPG")
 C-----------------------------------------------
       IF (ITHERM_FE == 0) RETURN
 
@@ -120,8 +121,8 @@ C-----------------------------------------------
         END DO
       ENDIF
 C-----------------------------------------------
-      DEALLOCATE(NODTAGLOB)
-      DEALLOCATE(TEMPG)
+      call my_dealloc(NODTAGLOB)
+      call my_dealloc(TEMPG)
 C-----------------------------------------------
       RETURN
       END

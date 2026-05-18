@@ -77,6 +77,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -140,7 +142,7 @@ C-----------------------------------------------
       end if
       s_flux_vois = n_entity0 + n_neighbor
       if(itask==0) then
-        allocate(flux_vois_mat(s_flux_vois,nv46,trimat))
+        call my_alloc(flux_vois_mat, s_flux_vois, nv46, trimat, "flux_vois_mat")
       end if
 C--------------------
       CALL MY_BARRIER
@@ -378,7 +380,7 @@ C--------------------
 C--------------------
 
       IF(ITASK == 0)THEN
-        DEALLOCATE(flux_vois_mat)
+        call my_dealloc(flux_vois_mat)
       END IF
 C-----------------------------------------------
       RETURN

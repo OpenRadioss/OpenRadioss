@@ -67,6 +67,7 @@
           use table_mod
           use func_table_copy_mod
           use mat_table_copy_mod
+          use MY_ALLOC_MOD
           use precision_mod, only : WP
           !-----------------------------------------------
           !   I m p l i c i t   T y p e s
@@ -340,7 +341,7 @@
           !---------------------------------------------------------------------------------------------
           ! number of material parameters
           matparam%nuparam = 38
-          allocate (matparam%uparam(matparam%nuparam))
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
           ! number of user variables
           nuvar   = 16
           ! number of temporary variable for interpolation

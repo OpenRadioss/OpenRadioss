@@ -62,6 +62,8 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE OPTIONDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,7 +101,7 @@ C=======================================================================
 !
       NINDX_B = 0
 !
-      ALLOCATE(BOXNDS(NUMNOD))
+      call my_alloc(BOXNDS, NUMNOD, "BOXNDS")
       SZ_BOXNDS = 0
 
 
@@ -109,7 +111,7 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)      ! Get the numbers of boxes to read
 
-      ALLOCATE(BOXLIST(IDS_MAX))
+      call my_alloc(BOXLIST, IDS_MAX, "BOXLIST")
       BOXLIST_SIZE=0
 
       CALL READ_CLAUSE_BOX(IBOX   ,IS_AVAILABLE ,LSUBMODEL ,JCLAUSE, IDS_MAX ,   
@@ -123,9 +125,11 @@ C=======================================================================
      *                           BOXNDS, SZ_BOXNDS      )
 
 
-      ALLOCATE (CLAUSE%NODE(SZ_BOXNDS))
+      call my_alloc(CLAUSE%NODE, SZ_BOXNDS, "CLAUSE%NODE")
       CLAUSE%NODE(1:SZ_BOXNDS) = BOXNDS(1:SZ_BOXNDS)
       CLAUSE%NB_NODE = SZ_BOXNDS
 
+      call my_dealloc(BOXNDS)
+      call my_dealloc(BOXLIST)
       RETURN
       END

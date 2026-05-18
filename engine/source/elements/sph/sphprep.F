@@ -89,6 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -178,7 +179,7 @@ C      /---------------/
 
       IF(ITASK==0)THEN
         IF(.NOT.ALLOCATED(BOOL_SPH_SORT)) THEN
-            ALLOCATE( BOOL_SPH_SORT(NUMSPH) )
+            call my_alloc(BOOL_SPH_SORT, NUMSPH, "BOOL_SPH_SORT")
             BOOL_SPH_SORT(1:NUMSPH) = .FALSE.
         ENDIF
 
@@ -657,15 +658,15 @@ C  Alloc SPSYM arrays in case of RESTART or /RERUN
         IF ((NCYCLE==0).OR.(IRUNN_BIS>1).OR.(MCHECK/=0)) THEN
           IF (ITASK==0) THEN
             IF(.NOT. ASSOCIATED(XSPSYM%BUF)) THEN
-              ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              call my_alloc(XSPSYM%BUF, 3*NSPHSYM, "XSPSYM%BUF", stat=IERROR)
               IF(IERROR==0) XSPSYM%BUF = 0
             ENDIF 
             IF(.NOT. ASSOCIATED(VSPSYM%BUF)) THEN
-              ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
+              call my_alloc(VSPSYM%BUF, 3*NSPHSYM, "VSPSYM%BUF", stat=IERROR)
               IF(IERROR==0) VSPSYM%BUF = 0
             ENDIF
             IF(.NOT. ASSOCIATED(WSMCOMP%BUF)) THEN
-              ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
+              call my_alloc(WSMCOMP%BUF, 6*NSPHSYM, "WSMCOMP%BUF", stat=IERROR)
               IF(IERROR==0) WSMCOMP%BUF = 0
             ENDIF
             IRUNN_BISG = 0

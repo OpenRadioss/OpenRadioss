@@ -27,7 +27,7 @@
 !||====================================================================
       module sh_offset_nproj_mod
 
-      implicit none
+        implicit none
 
       contains
 ! ======================================================================================================================
@@ -51,6 +51,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,one,em20
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                       Arguments
@@ -72,7 +74,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                         Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(norm_nod(3,numnod))
+          call my_alloc(norm_nod,3,numnod,"norm_nod")
           norm_nod = zero
           do i=1,nshoset
             do k = 1,4
@@ -107,7 +109,7 @@
             dx(1:3) = norm_nod(1:3,n)*shoset_n(n)
             xyz(1:3,n) = xyz(1:3,n) + dx(1:3)
           end do
-          deallocate(norm_nod)
+          call my_dealloc(norm_nod)
 !
         end subroutine sh_offset_nproj
       end module sh_offset_nproj_mod

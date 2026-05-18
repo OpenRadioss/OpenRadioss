@@ -33,6 +33,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+        use my_alloc_mod
+
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -68,7 +70,7 @@ C
          LEN=2*(NME+NMOD)
          AVAR=FXBIPM(13,NFX)
          PMAIN=FXBIPM(39,NFX)
-         ALLOCATE(BUF(LEN))
+         call my_alloc(BUF, LEN, "BUF")
          IF (ISPMD==PMAIN) THEN
             II=0
             DO I=1,NME+NMOD
@@ -95,7 +97,7 @@ C
                FXBACC(I)=BUF(NME+NMOD+I)
             ENDDO
          ENDIF
-         DEALLOCATE(BUF)
+         call my_dealloc(BUF)
       ENDDO
 C
 #endif

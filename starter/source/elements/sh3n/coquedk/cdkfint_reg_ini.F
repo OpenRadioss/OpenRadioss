@@ -41,9 +41,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       use element_mod , only : nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -192,10 +194,10 @@ C=======================================================================
          ! Allocation of the velocities predictor
          IF (NDOF>1) THEN
            IF (NDOF > 2) THEN 
-             ALLOCATE(VPRED(NEL,NDOF+1))
+             call my_alloc(VPRED, NEL, NDOF+1, "VPRED")
              NDNOD = NDOF+1
            ELSE
-             ALLOCATE(VPRED(NEL,NDOF))
+             call my_alloc(VPRED, NEL, NDOF, "VPRED")
              NDNOD = NDOF
            ENDIF
          ENDIF
@@ -203,7 +205,7 @@ C=======================================================================
          NPTR   = ELBUF_TAB(NG)%NPTR
          NPTS   = ELBUF_TAB(NG)%NPTS
          ! Variable to regularize
-         IF (.NOT.ALLOCATED(VAR_REG)) ALLOCATE(VAR_REG(NEL,NDOF))
+         IF (.NOT.ALLOCATED(VAR_REG)) call my_alloc(VAR_REG, NEL, NDOF, "VAR_REG")
 c
          ! Computation of kinematical data
 # include "vectorize.inc"
@@ -464,6 +466,6 @@ c
            ENDDO
          ENDDO
 c -------------------
-        IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
-        IF (ALLOCATED(VPRED))   DEALLOCATE(VPRED)
+        IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
+        IF (ALLOCATED(VPRED))   CALL MY_DEALLOC(VPRED)
       END

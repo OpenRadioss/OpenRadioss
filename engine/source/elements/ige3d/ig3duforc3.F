@@ -102,6 +102,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -417,7 +419,7 @@ C------------------------------------------------------
       TC = EP10
       SMAX(:)=ZERO
 
-      ALLOCATE(VGAUSS(PX*PY*PZ,MVSIZ),STAT=IERROR)
+      call my_alloc(VGAUSS, PX*PY*PZ, MVSIZ, "VGAUSS", stat=IERROR)
       IF(IERROR/=0)THEN
        CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
        CALL ARRET(2)
@@ -819,7 +821,7 @@ C------------------------------------------------------
 
        ENDDO
 
-      DEALLOCATE(VGAUSS)
+      call my_dealloc(VGAUSS)
       ENDIF
 
 C----------------------------

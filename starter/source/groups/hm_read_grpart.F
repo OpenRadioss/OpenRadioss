@@ -219,7 +219,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                                    
               ENDDO                                                                                              
               IGRPART(IGS)%NENTITY=NEL                                                                           
-              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                               
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL,"IGRPART(IGS)%ENTITY")
               IGRPART(IGS)%ENTITY = 0                                                                            
             ELSEIF (FLAG == 1) THEN                                                                              
               DO J=1,NPART                                                                                       
@@ -265,7 +265,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                      
               ENDDO                                                                                
               IGRPART(IGS)%NENTITY=NEL                                                             
-              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                 
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL,"IGRPART(IGS)%ENTITY")
               IGRPART(IGS)%ENTITY = 0                                                              
             ELSEIF (FLAG == 1) THEN                                                                
               DO J=1,NPART                                                                         
@@ -304,7 +304,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                                     
               ENDDO                                                                                               
               IGRPART(IGS)%NENTITY=NEL                                                                            
-              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                                
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL,"IGRPART(IGS)%ENTITY")
               IGRPART(IGS)%ENTITY = 0                                                                             
             ELSEIF (FLAG == 1) THEN                                                                               
               DO J=1,NPART                                                                                        
@@ -364,7 +364,7 @@ C-------------------------
                 IF (BUFTMP(J) == 1) NEL=NEL+1                                                           
               ENDDO                                                                                     
               IGRPART(IGS)%NENTITY=NEL                                                                  
-              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL)                                                      
+              CALL MY_ALLOC(IGRPART(IGS)%ENTITY,NEL,"IGRPART(IGS)%ENTITY")
               IGRPART(IGS)%ENTITY = 0                                                                   
             ELSEIF (FLAG == 1) THEN                                                                     
               DO J=1,NPART                                                                              

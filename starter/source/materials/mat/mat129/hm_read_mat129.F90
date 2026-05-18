@@ -28,7 +28,7 @@
 !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
 !||====================================================================
       module hm_read_mat129_mod
-      implicit none
+        implicit none
       contains
 
 
@@ -72,6 +72,7 @@
           use mat_table_table_copy_mod
           use func_table_copy_mod
           use precision_mod , only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -207,7 +208,7 @@
           nvartmp = 21
           mat_param%nfunc  = 0
           mat_param%ntable = 20
-          allocate (mat_param%table(mat_param%ntable))           ! allocate material table array
+          allocate(mat_param%table(mat_param%ntable))           ! allocate material table array
 !
           mat_param%table(1)%notable  = func_sig
           mat_param%table(2)%notable  = func_young
@@ -289,7 +290,7 @@
               ntable  ,table   ,ierror    )
           end if
           if (sigy == zero) sigy = infinity
- !---------
+          !---------
           if (func_qr > 0) then
             ifunc(1)  = func_qr
             if (qr1 == zero) then
@@ -469,8 +470,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%niparam = 2
           mat_param%nuparam = 21
-          allocate (mat_param%iparam(mat_param%niparam))
-          allocate (mat_param%uparam(mat_param%nuparam))
+          call my_alloc(mat_param%iparam, mat_param%niparam, "mat_param%iparam")
+          call my_alloc(mat_param%uparam, mat_param%nuparam, "mat_param%uparam")
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%iparam(1)  = crp_law
           mat_param%iparam(2)  = sens_id
@@ -548,7 +549,7 @@
               write(iout,1200) func_sig,yfac
             else
               write(iout,1300) sigy,qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,       &
-                               func_qr,func_qx,func_cr,func_cx
+                func_qr,func_qx,func_cr,func_cx
             endif
             write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp,eps0
             write(iout,1500) func_young,func_nu,func_yld,func_alpha,             &

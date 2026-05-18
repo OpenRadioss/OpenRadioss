@@ -27,7 +27,7 @@
 !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||====================================================================
       module select_s2s_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -48,6 +48,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,half,third,fourth,ep20,em01
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,8 +90,12 @@
           marge_1 = zero !mean value
           marge_max = zero
           n_buck = 100
-          allocate(xs1(3,nsu1),n1(3,nsu1),dim1(3,nsu1))
-          allocate(xs2(3,nsu2),n2(3,nsu2),dim2(3,nsu2))
+          call my_alloc(xs1,3,nsu1,"xs1")
+          call my_alloc(n1,3,nsu1,"n1")
+          call my_alloc(dim1,3,nsu1,"dim1")
+          call my_alloc(xs2,3,nsu2,"xs2")
+          call my_alloc(n2,3,nsu2,"n2")
+          call my_alloc(dim2,3,nsu2,"dim2")
 !  first surface
           do i=1,nsu1
             nj(1:4) = nodes1(i,1:4)
@@ -168,8 +174,8 @@
            case (3)
             ihuge = 1
           end select
-          allocate(ind_1(nsu1))
-          allocate(ind_2(nsu2))
+          call my_alloc(ind_1,nsu1,"ind_1")
+          call my_alloc(ind_2,nsu2,"ind_2")
           if (ihuge > 0) then !have to do bucket sorting
             sz_g(1:3) = xmaxg(1:3)-xming(1:3)
             sz_max=max(sz_g(1),sz_g(2),sz_g(3))
@@ -352,14 +358,14 @@
               end do
             end do
           end do
-          deallocate(ind_1)
-          deallocate(ind_2)
-          deallocate(xs1)
-          deallocate(n1)
-          deallocate(dim1)
-          deallocate(xs2)
-          deallocate(n2)
-          deallocate(dim2)
+          call my_dealloc(ind_1)
+          call my_dealloc(ind_2)
+          call my_dealloc(xs1)
+          call my_dealloc(n1)
+          call my_dealloc(dim1)
+          call my_dealloc(xs2)
+          call my_dealloc(n2)
+          call my_dealloc(dim2)
         end subroutine select_s2s
       end module select_s2s_mod
 

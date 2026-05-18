@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C=======================================================================
         NTABLE = 1
       END IF
       MAT_PARAM%NTABLE = NTABLE
-      ALLOCATE (MAT_PARAM%TABLE(NTABLE))
+      allocate(MAT_PARAM%TABLE(NTABLE))
       MAT_PARAM%TABLE(LOAD)%NOTABLE = LOAD
       IF (NTABLE == 2) MAT_PARAM%TABLE(UNLOAD)%NOTABLE = UNLOAD
 c
@@ -110,8 +111,8 @@ c------------------------------------------------------
         LEN(I)  = (NPC(FUNC_N+1) - NPC(FUNC_N)) / 2
         LMAX    = MAX(LMAX,LEN(I))
       END DO
-      ALLOCATE (XI(LMAX,NLOAD))
-      ALLOCATE (YI(LMAX,NLOAD))
+      call my_alloc(XI, LMAX, NLOAD, "XI")
+      call my_alloc(YI, LMAX, NLOAD, "YI")
 c     build X,Y vectors from loading functions
 c     skip negative function values (only positive part is taken into account and symmetrized)
 c     check and enforce passing through (0,0)
@@ -174,8 +175,8 @@ c
      .     MAT_PARAM%TABLE(LOAD)  ,NLOAD  ,LEN     ,LMAX   ,RATE  ,
      .     XI    ,YI     )      
       
-      DEALLOCATE (YI)
-      DEALLOCATE (XI)
+      CALL MY_DEALLOC(YI)
+      CALL MY_DEALLOC(XI)
 c------------------------------------------------------      
 c     Unloading functions -> tables
 c------------------------------------------------------
@@ -190,8 +191,8 @@ c
           LEN(I)  = (NPC(FUNC(I)+1) - NPC(FUNC(I))) / 2
           LMAX    = MAX(LMAX,LEN(I))
         END DO
-        ALLOCATE (XI(LMAX,NULOAD))
-        ALLOCATE (YI(LMAX,NULOAD))
+        call my_alloc(XI, LMAX, NULOAD, "XI")
+        call my_alloc(YI, LMAX, NULOAD, "YI")
 c
         DO I = 1,NULOAD
           FUNC_N = FUNC(I)
@@ -251,8 +252,8 @@ c--------------------------------------------------------
      .       MAT_PARAM%TABLE(UNLOAD)  ,NULOAD  ,LEN     ,LMAX   ,RATE(NLOAD+1)  ,
      .       XI    , YI     )      
       
-        DEALLOCATE (YI)
-        DEALLOCATE (XI)
+        CALL MY_DEALLOC(YI)
+        CALL MY_DEALLOC(XI)
 
       END IF
 c--------------------------------------------------------

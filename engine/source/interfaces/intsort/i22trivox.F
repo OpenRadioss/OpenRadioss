@@ -62,6 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -260,9 +262,9 @@ C=======================================================================
       IF(ITASK == 0)THEN
         !Possible reallocate for Lchain _*() ()
         NULLIFY (LCHAIN_LAST, LCHAIN_NEXT, LCHAIN_ELEM)
-        ALLOCATE(LCHAIN_ELEM(MAX_ADD))
-        ALLOCATE(LCHAIN_NEXT(MAX_ADD))
-        ALLOCATE(LCHAIN_LAST(MAX_ADD))
+        call my_alloc(LCHAIN_ELEM, MAX_ADD, "LCHAIN_ELEM")
+        call my_alloc(LCHAIN_NEXT, MAX_ADD, "LCHAIN_NEXT")
+        call my_alloc(LCHAIN_LAST, MAX_ADD, "LCHAIN_LAST")
         MIN_IX = NBX+2
         MIN_IY = NBY+2
         MIN_IZ = NBZ+2
@@ -272,8 +274,12 @@ C=======================================================================
         CURRENT_ADD = 1 ! first address in the common chain array
       END IF
       IF(ITASK==NTHREAD-1)THEN
-        ALLOCATE(EIX1(NIRECT_L),EIY1(NIRECT_L),EIZ1(NIRECT_L))
-        ALLOCATE(EIX2(NIRECT_L),EIY2(NIRECT_L),EIZ2(NIRECT_L))
+        call my_alloc(EIX1, NIRECT_L, "EIX1")
+        call my_alloc(EIY1, NIRECT_L, "EIY1")
+        call my_alloc(EIZ1, NIRECT_L, "EIZ1")
+        call my_alloc(EIX2, NIRECT_L, "EIX2")
+        call my_alloc(EIY2, NIRECT_L, "EIY2")
+        call my_alloc(EIZ2, NIRECT_L, "EIZ2")
         EIX1=NBX+2  !a initialiser car si pas de candidat et ftrapuv alors min/max globaux erratics
         EIY1=NBX+2  !set to nthread -1
         EIZ1=NBX+2
@@ -659,8 +665,15 @@ C=======================================================================
       !  DEALLOCATE                               !
       !-------------------------------------------!
       IF(ITASK == 0)THEN
-        DEALLOCATE(LCHAIN_LAST, LCHAIN_NEXT, LCHAIN_ELEM )
-        DEALLOCATE(EIX1, EIY1, EIZ1, EIX2, EIY2, EIZ2)
+        call my_dealloc(LCHAIN_LAST)
+        call my_dealloc(LCHAIN_NEXT)
+        call my_dealloc(LCHAIN_ELEM)
+        call my_dealloc(EIX1)
+        call my_dealloc(EIY1)
+        call my_dealloc(EIZ1)
+        call my_dealloc(EIX2)
+        call my_dealloc(EIY2)
+        call my_dealloc(EIZ2)
         NULLIFY (LCHAIN_LAST, LCHAIN_NEXT, LCHAIN_ELEM)
       ENDIF
 
@@ -691,7 +704,8 @@ C=======================================================================
      .           II_STOK
 
       if(itask==0.AND.ibug22_trivox==1)then
-        allocate(order(ii_stok) ,VALUE(II_STOK))
+        call my_alloc(order, ii_stok, "order")
+        call my_alloc(VALUE, II_STOK, "VALUE")
         MIN2 = MINVAL(ABS(CAND_E(1:II_STOK)))
         R2   = MAXVAL(ABS(CAND_E(1:II_STOK))) - MIN2
         DO I=1,II_STOK
@@ -708,7 +722,8 @@ C=======================================================================
         print *, "  CAND_B =", CAND_B(ORDER(1:II_STOK))
         print *, "  CAND_E =", CAND_E(ORDER(1:II_STOK))
 
-        deallocate(order,VALUE)
+        call my_dealloc(order)
+        call my_dealloc(VALUE)
       endif
 
 

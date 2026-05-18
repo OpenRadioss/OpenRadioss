@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,8 +83,8 @@ C====================================================================
        NOGD=(IC2-IC1)/2
        NDATA=NOGD
 c
-       ALLOCATE (STRETCH(NOGD))                              
-       ALLOCATE (STRESS(NOGD))                               
+       call my_alloc(STRETCH, NOGD, "STRETCH")
+       call my_alloc(STRESS, NOGD, "STRESS")
 c
        AVE_SLOPE = ZERO
        JJ=0                                                  
@@ -138,8 +139,8 @@ c------------------------------------------------------
        CALL LAW92_NLSQF(STRETCH,STRESS,NMULA,NOGD,AMULA,
      .                   NSTART, ERRTOL,MAT_ID,TITR,ITEST)
 c------------------------------------------------------
-        DEALLOCATE (STRETCH)                                                 
-        DEALLOCATE (STRESS)                                                  
+        CALL MY_DEALLOC(STRETCH)
+        CALL MY_DEALLOC(STRESS)
         NU  = UPARAM(11)                                             
         MU  = AMULA(1)                                                       
         LAM = AMULA(2)                                                       

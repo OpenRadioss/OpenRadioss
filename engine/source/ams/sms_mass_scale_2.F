@@ -101,6 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -204,23 +205,22 @@ C-----
      .       , DIMENSION(:,:), ALLOCATABLE :: MV6
       EXTERNAL NGR2USR
 C-----------------------------------------------
-      CALL MY_ALLOC(MVSKW,3,NUMNOD)
-      CALL MY_ALLOC(VSKW,3,NUMNOD)
-      CALL MY_ALLOC(RSKW,3,NUMNOD)
-      CALL MY_ALLOC(DAMPSKW,3,NUMNOD)
+      call my_alloc(MVSKW, 3, NUMNOD, "MVSKW")
+      call my_alloc(VSKW, 3, NUMNOD, "VSKW")
+      call my_alloc(RSKW, 3, NUMNOD, "RSKW")
+      call my_alloc(DAMPSKW, 3, NUMNOD, "DAMPSKW")
 C-----------------------------------------------
       FREA(1:3,NODFT:NODLT)=ZERO
 C
       IF(IPARIT/=0)THEN
         IF(DEBUG(9)==0)THEN
-          ALLOCATE(IMV(2*NISKY_SMS+FR_RMS(NSPMD+1)),
-     .           MV (3*(2*NISKY_SMS+FR_RMS(NSPMD+1))),
-     .           MV6(6,3*(2*NISKY_SMS+FR_RMS(NSPMD+1))),STAT=IERROR)
+          call my_alloc(IMV, 2*NISKY_SMS+FR_RMS(NSPMD+1), "IMV", stat=IERROR)
+          call my_alloc(MV, 3*(2*NISKY_SMS+FR_RMS(NSPMD+1)), "MV", stat=IERROR)
+          call my_alloc(MV6, 6, 3*(2*NISKY_SMS+FR_RMS(NSPMD+1)), "MV6", stat=IERROR)
         ELSE
-          ALLOCATE(IMV(NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1)),
-     .           MV (3*(NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1))),
-     .           MV6(6,3*(NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1))),
-     .           STAT=IERROR)
+          call my_alloc(IMV, NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1), "IMV", stat=IERROR)
+          call my_alloc(MV, 3*(NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1)), "MV", stat=IERROR)
+          call my_alloc(MV6, 6, 3*(NUMNOD+NNZ_SMS+2*NISKY_SMS+FR_RMS(NSPMD+1)), "MV6", stat=IERROR)
         END IF
         IF(IERROR/=0) THEN
           WRITE(ISTDO,*)
@@ -846,12 +846,14 @@ C
       CALL MY_BARRIER
 C
       IF(IPARIT/=0)THEN
-        DEALLOCATE(IMV, MV, MV6)
+        call my_dealloc(IMV)
+        call my_dealloc(MV)
+        call my_dealloc(MV6)
       END IF
-      DEALLOCATE(MVSKW)
-      DEALLOCATE(VSKW)
-      DEALLOCATE(RSKW)
-      DEALLOCATE(DAMPSKW)
+      call my_dealloc(MVSKW)
+      call my_dealloc(VSKW)
+      call my_dealloc(RSKW)
+      call my_dealloc(DAMPSKW)
 C
       RETURN
       END

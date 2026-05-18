@@ -45,6 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -80,9 +81,9 @@ C-----------------------------------------------
       double precision,DIMENSION(:),ALLOCATABLE ::   THK
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
-      CALL MY_ALLOC(THK,MAX(NUMELC,NUMELTG))
-      CALL MY_ALLOC(CLEF,2,MAX(NUMELC,NUMELTG))
-      CALL MY_ALLOC(NP,8*MAX(NUMELC,NUMELTG))
+      call my_alloc(THK, MAX(NUMELC,NUMELTG), "THK")
+      call my_alloc(CLEF, 2, MAX(NUMELC,NUMELTG), "CLEF")
+      call my_alloc(NP, 8*MAX(NUMELC,NUMELTG), "NP")
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -369,8 +370,8 @@ C
 
       END IF
 C-----------------------------------------------
-      DEALLOCATE(THK)
-      DEALLOCATE(CLEF)
-      DEALLOCATE(NP)
+      call my_dealloc(THK)
+      call my_dealloc(CLEF)
+      call my_dealloc(NP)
       RETURN
       END

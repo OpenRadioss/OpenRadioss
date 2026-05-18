@@ -71,8 +71,8 @@ C-------------------------------------------------------------------------------
 C     DUPLICATED FROM OUTRIN - STATS ON ADDED MASS + TARGET NODAL TIME STEP ESTIMATION
 C--------------------------------------------------------------------------------------
 C
-      ALLOCATE(DT(2*NUMNOD))
-      CALL MY_ALLOC(PERM,NUMNOD)
+      call my_alloc(DT, 2*NUMNOD, "DT")
+      CALL MY_ALLOC(PERM,NUMNOD,"PERM")
       MASS0_START = TOTMAS1
       DTSCA = ZEP9
 C
@@ -104,7 +104,7 @@ C
       CALL MYQSORT(NUMNOD,DT,PERM,IERROR)
       TMP(1:NUMNOD) = PERM(1:NUMNOD)
 
-      DEALLOCATE( PERM )
+      CALL MY_DEALLOC(PERM)
 C
       NVAL = 20
       DO I=1,20
@@ -148,7 +148,7 @@ C
       ENDIF
 
 C-----------
-      DEALLOCATE( DT)
+      CALL MY_DEALLOC(DT)
 
 C-----------
  2001 FORMAT(//,'     INITIAL ADDED MASS ESTIMATION for /DT/NODA/CST')

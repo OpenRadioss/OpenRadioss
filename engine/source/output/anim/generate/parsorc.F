@@ -48,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -79,7 +80,7 @@ C     REAL
      .        JJ, K, BUF
       INTEGER,DIMENSION(:),ALLOCATABLE::NP
 C-----------------------------------------------
-      CALL MY_ALLOC(NP,(NUMELQ + NUMELC + NUMELTG)*4)
+      call my_alloc(NP, (NUMELQ + NUMELC + NUMELTG)*4, "NP")
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------
@@ -251,7 +252,7 @@ C   build global part array on proc 0
           IADG(1,I) = IADD(I)
         END DO
       ENDIF
-      DEALLOCATE(NP)
+      call my_dealloc(NP)
 C-----------------------------------------------
       RETURN
       END

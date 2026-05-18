@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LINEDGE(NSEG0  ,NSEG        ,BUFTMP   ,SLIN_NODES ,KEY,
      .                   FLAG   ,SLIN_ELTYP  ,SLIN_ELEM,LINE_NSEG0)
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,8 +54,12 @@ C    .        INDEX(8*NSEG0),IWORK(70000), IPERM(4)
       integer, dimension(:), allocatable :: IW1,IW2,IW5,IW6,INDEX,IWORK
       DATA IPERM /2,3,4,1/
 C=======================================================================
-      ALLOCATE(IW1(4*NSEG0), IW2(4*NSEG0), IW5(4*NSEG0),IW6(4*NSEG0), INDEX(8*NSEG0))
-      ALLOCATE(IWORK(70000))
+      call my_alloc(IW1, 4*NSEG0, "IW1")
+      call my_alloc(IW2, 4*NSEG0, "IW2")
+      call my_alloc(IW5, 4*NSEG0, "IW5")
+      call my_alloc(IW6, 4*NSEG0, "IW6")
+      call my_alloc(INDEX, 8*NSEG0, "INDEX")
+      call my_alloc(IWORK, 70000, "IWORK")
       K=0
       IW1 = 0
       IW2 = 0
@@ -161,7 +166,12 @@ C
 C-----------
       ENDIF
 C-----------
-      DEALLOCATE(IW1 ,IW2, IW5,IW6, INDEX,IWORK)
+      CALL MY_DEALLOC(IW1)
+      CALL MY_DEALLOC(IW2)
+      CALL MY_DEALLOC(IW5)
+      CALL MY_DEALLOC(IW6)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(IWORK)
 
       RETURN
       END

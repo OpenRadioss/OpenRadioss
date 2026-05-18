@@ -153,6 +153,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -1225,8 +1226,8 @@ c      ENDIF
 
 
       CALL MY_BARRIER
-      if(itask==0) deallocate(qmv)
-      IF(ITASK==0)DEALLOCATE(BUFVOIS)
+      if(itask==0) call my_dealloc(qmv)
+      IF(ITASK==0) call my_dealloc(BUFVOIS)
 
 
       RETURN

@@ -27,7 +27,7 @@
 !||====================================================================
       module inter_offset_itag_mod
 
-      implicit none
+        implicit none
 
       contains
 ! ======================================================================================================================
@@ -51,6 +51,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use intbufdef_mod
           use groupdef_mod
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,7 +75,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(intage(numelc+numeltg))
+          call my_alloc(intage, numelc+numeltg, "intage")
           intage(1:numelc+numeltg)=-itagsh(1:numelc+numeltg)
 ! for the moment secondary node isn't taken into account
           do ni = 1,ninter
@@ -102,7 +104,7 @@
               end if
             end select
           end do
-          deallocate(intage)
+          call my_dealloc(intage)
 !-----------
         end subroutine inter_offset_itag
       end module  inter_offset_itag_mod

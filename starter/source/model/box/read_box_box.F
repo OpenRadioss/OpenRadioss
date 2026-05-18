@@ -110,7 +110,7 @@ c
 c
         IAD = IAD + 1
         IBOX(IAD)%NBOXBOX = NLIST
-        CALL MY_ALLOC(IBOX(IAD)%IBOXBOX  ,NLIST)
+        CALL MY_ALLOC(IBOX(IAD)%IBOXBOX  ,NLIST,"IBOX(IAD)%IBOXBOX  ")
 c
         II = 0
         IF (NBOX_POS > 0) THEN

@@ -105,6 +105,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -327,7 +329,7 @@ C--- Corresponding Friction model
         IF(ICURV == 3)THEN
          CALL MY_BARRIER()
          IF(JTASK == 1)THEN
-           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
+           call my_alloc(INTBUF_TAB%NODNORM_NORMAL, 3, NUMNOD, "INTBUF_TAB%NODNORM_NORMAL")
            IF(IPARIT == 0)THEN
              CALL I7NORM(IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X,INTBUF_TAB%NODNORM_NORMAL,IPARI(6,NIN),INTBUF_TAB%MSR)
              IF(NSPMD > 1)THEN
@@ -363,8 +365,9 @@ C--- Corresponding Friction model
         IF(IADM /= 0)THEN
          CALL MY_BARRIER()
          IF(JTASK==1)THEN
-           ALLOCATE(INTBUF_TAB%MODRCURV(NRTMDIM),INTBUF_TAB%MODANGLM(NRTMDIM))
-           ALLOCATE(INTBUF_TAB%NODNORM_NORMAL (3,NUMNOD))
+           call my_alloc(INTBUF_TAB%MODRCURV, NRTMDIM, "INTBUF_TAB%MODRCURV")
+           call my_alloc(INTBUF_TAB%MODANGLM, NRTMDIM, "INTBUF_TAB%MODANGLM")
+           call my_alloc(INTBUF_TAB%NODNORM_NORMAL, 3, NUMNOD, "INTBUF_TAB%NODNORM_NORMAL")
            IF(IPARIT == 0)THEN
              CALL I7NORMN(
      .         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X ,INTBUF_TAB%NODNORM_NORMAL,
@@ -502,7 +505,7 @@ c------------------------------------------------
           ENDIF
         ENDDO
         IF (SFSAVPARIT /= 0) THEN
-          ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
+          call my_alloc(FSAVPARIT, NISUB+1, 11, I_STOK, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/INTER/TYPE7)')
            CALL ARRET(2)
@@ -515,7 +518,7 @@ c------------------------------------------------
             ENDDO
           ENDDO
         ELSE
-          ALLOCATE(FSAVPARIT(0,0,0),STAT=IERROR)
+          call my_alloc(FSAVPARIT, 0, 0, 0, "FSAVPARIT", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/INTER/TYPE7)')
            CALL ARRET(2)
@@ -767,11 +770,11 @@ C!$OMP END ORDERED
         IF (SFSAVPARIT /= 0)THEN
           CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK, FBSAV6, 12, 6, DIMFB, ISENSINT )
         ENDIF
-        IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
+        IF (ALLOCATED(FSAVPARIT)) call my_dealloc(FSAVPARIT)
 
         IF(ICURV == 3 .OR. IADM /= 0)THEN
           CALL MY_BARRIER
-          IF(JTASK==1)DEALLOCATE(INTBUF_TAB%NODNORM_NORMAL)
+          IF(JTASK==1) call my_dealloc(INTBUF_TAB%NODNORM_NORMAL)
         END IF
         IF(IADM/=0)THEN
           CALL MY_BARRIER

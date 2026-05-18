@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -195,12 +196,12 @@ C
         IF(ITASK==0)THEN
 C
           SPH_WORK%A6(1:6,1:3,1:NUMNOD)  = ZERO
-          IF (ALLOCATED(SPH_WORK%AS))DEALLOCATE(SPH_WORK%AS)
-          CALL MY_ALLOC(SPH_WORK%AS,3,8*NSPHACT)
+          IF (ALLOCATED(SPH_WORK%AS)) call my_dealloc(SPH_WORK%AS)
+          call my_alloc(SPH_WORK%AS, 3, 8*NSPHACT, "SPH_WORK%AS")
           SPH_WORK%AS= ZERO
 
-          IF (ALLOCATED(SPH_WORK%AS))DEALLOCATE(SPH_WORK%AS6)
-          CALL MY_ALLOC(SPH_WORK%AS6,6,3,8*NSPHACT)
+          IF (ALLOCATED(SPH_WORK%AS)) call my_dealloc(SPH_WORK%AS6)
+          call my_alloc(SPH_WORK%AS6, 6, 3, 8*NSPHACT, "SPH_WORK%AS6")
           SPH_WORK%AS6= ZERO
 
           SPH_WORK%ITAG= 0
@@ -380,7 +381,7 @@ C Communication H and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
         IF(ITASK==0) THEN
-          ALLOCATE(SPH_WORK%ASPHR(4,NSPHR))
+          call my_alloc(SPH_WORK%ASPHR, 4, NSPHR, "SPH_WORK%ASPHR")
           CALL SPMD_SPHGETF(KXSP,SPBUF,A,MS,SPH_WORK%ASPHR)
 c          IF(NSPHIO/=0.AND.NSPHACT/=0)THEN 
 c               CALL SPMD_SPHGETV(KXSP,SPBUF,V,MS)
@@ -992,7 +993,7 @@ C
         EHOUR=EHOUR+EHOURT
       ENDIF
 C
-      IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(SPH_WORK%ASPHR)) DEALLOCATE(SPH_WORK%ASPHR)
+      IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(SPH_WORK%ASPHR)) call my_dealloc(SPH_WORK%ASPHR)
 C-------------------------------------------
       RETURN
       END

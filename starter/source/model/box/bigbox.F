@@ -218,7 +218,7 @@ C-----------------------------------------------
       OK  = 0
       BOXNOD = 0
       IADB0 = IADB
-      ALLOCATE( TAGN(NUMNOD) )
+      call my_alloc(TAGN, NUMNOD, "TAGN")
 !$OMP PARALLEL DO SCHEDULE(guided)
       DO I=1,NUMNOD
         TAGN(I) = 0
@@ -288,7 +288,7 @@ C---------------
           END IF
         END DO
       ENDIF
-      DEALLOCATE( TAGN )
+      CALL MY_DEALLOC(TAGN)
 C---------------
       RETURN
       END
@@ -729,6 +729,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -755,9 +756,13 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG8, TAG10, IFACE
 C-----------------------------------------------
 
-      ALLOCATE(ELFACE(4,16,NUMELS),TAGFACES(16,NUMELS))
-      ALLOCATE(POSFACE(16,NUMELS),NEGFACE(16,NUMELS))
-      ALLOCATE(TAG8(NUMELS),TAG10(NUMELS),IFACE(NUMELS))
+      call my_alloc(ELFACE, 4, 16, NUMELS, "ELFACE")
+      call my_alloc(TAGFACES, 16, NUMELS, "TAGFACES")
+      call my_alloc(POSFACE, 16, NUMELS, "POSFACE")
+      call my_alloc(NEGFACE, 16, NUMELS, "NEGFACE")
+      call my_alloc(TAG8, NUMELS, "TAG8")
+      call my_alloc(TAG10, NUMELS, "TAG10")
+      call my_alloc(IFACE, NUMELS, "IFACE")
 
       DIF_NIX = NISX
       POS_IEXT = 0
@@ -1003,9 +1008,13 @@ C---
        IF(IBOX(IB)%ACTIBOX == 0) IBOX(IB)%ACTIBOX = 1
 C---
       ENDIF ! IF (FLAG == 0)
-      DEALLOCATE(ELFACE,TAGFACES)
-      DEALLOCATE(POSFACE,NEGFACE)
-      DEALLOCATE(TAG8,TAG10,IFACE)
+      CALL MY_DEALLOC(ELFACE)
+      CALL MY_DEALLOC(TAGFACES)
+      CALL MY_DEALLOC(POSFACE)
+      CALL MY_DEALLOC(NEGFACE)
+      CALL MY_DEALLOC(TAG8)
+      CALL MY_DEALLOC(TAG10)
+      CALL MY_DEALLOC(IFACE)
 
 C---------------
       RETURN

@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  IEND,CPT,MODE,I,J,NBERR,NBWARN,K,CPTWARN,CPTERR
+      INTEGER  IEND,CPT,MODE,I,J,NBERR,NBWARN,K,CPTWARN,CPTERR,ISTAT
       INTEGER  ITAB(5,IWARN+IERR), WORK(70000), INDEX_WARN(5*(IWARN+IERR)),
      .         INDEX_ERR(5*(IWARN+IERR)),ITRI_WARN(5,IWARN+IERR+1),
      .         ITRI_ERR(5,IWARN+IERR+1),IOPTIONTYPE(50,IWARN+IERR), 
@@ -294,7 +294,10 @@ c
 c///////////////////////////////////
 c OUTPUT
 c///////////////////////////////////
-      ALLOCATE(SUM_WARN(CPTWARN*10),SUM_ERR(CPTERR*10))
+      allocate(SUM_WARN(CPTWARN*10), STAT=ISTAT)
+      IF(ISTAT /= 0) CALL ARRET(2)
+      allocate(SUM_ERR(CPTERR*10), STAT=ISTAT)
+      IF(ISTAT /= 0) CALL ARRET(2)
       IF( IERR + IWARN /= 0 ) THEN
 c
             IF(CPTWARN /= 0) THEN 

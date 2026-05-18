@@ -48,7 +48,7 @@
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================
-      subroutine hm_read_mat135(            &
+        subroutine hm_read_mat135(            &
           matparam ,mtag     ,nuvar    ,    &
           iout     ,unitab   ,lsubmodel, mat_id  )
 
@@ -62,193 +62,194 @@
 !C   DUMMY ARGUMENTS DESCRIPTION:
 !C   ===================
 !C
-!C     NAME            DESCRIPTION                         
+!C     NAME            DESCRIPTION
 !C
 !C     IPM             MATERIAL ARRAY(INTEGER)
 !C     PM              MATERIAL ARRAY(REAL)
 !C     UNITAB          UNITS ARRAY
 !C     ID              MATERIAL ID(INTEGER)
 !C     TITR            MATERIAL TITLE
-!C     LSUBMODEL       SUBMODEL STRUCTURE    
+!C     LSUBMODEL       SUBMODEL STRUCTURE
 !C-----------------------------------------------
- !-----------------------------------------------
- !   M o d u l e s
- !-----------------------------------------------
+          !-----------------------------------------------
+          !   M o d u l e s
+          !-----------------------------------------------
           use unitab_mod
           use message_mod
           use submodel_mod
-          use matparam_def_mod    
-          use elbuftag_mod      
-          use constant_mod  
-          use table_mod 
+          use matparam_def_mod
+          use elbuftag_mod
+          use constant_mod
+          use table_mod
           use func_table_copy_mod
-          use mat_table_copy_mod  
-          use precision_mod, only : WP 
- !-----------------------------------------------
- !   I m p l i c i t   T y p e s
- !-----------------------------------------------
-         implicit none 
- !-----------------------------------------------
- !   D u m m y   A r g u m e n t s
- !-----------------------------------------------
-      type(matparam_struct_) ,intent(inout)        :: matparam    
-      type(mlaw_tag_), intent(inout)               :: mtag
-      integer, intent(inout)                       :: nuvar
-      integer, intent(in)                          :: iout
-      type (unit_type_),intent(in)                 :: unitab 
-      type(submodel_data), dimension(*),intent(in) :: lsubmodel
-      integer, intent(in)                          :: mat_id
+          use mat_table_copy_mod
+          use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          !-----------------------------------------------
+          !   I m p l i c i t   T y p e s
+          !-----------------------------------------------
+          implicit none
+          !-----------------------------------------------
+          !   D u m m y   A r g u m e n t s
+          !-----------------------------------------------
+          type(matparam_struct_) ,intent(inout)        :: matparam
+          type(mlaw_tag_), intent(inout)               :: mtag
+          integer, intent(inout)                       :: nuvar
+          integer, intent(in)                          :: iout
+          type (unit_type_),intent(in)                 :: unitab
+          type(submodel_data), dimension(*),intent(in) :: lsubmodel
+          integer, intent(in)                          :: mat_id
 !-----------------------------------------------
- ! L o c a l   V a r i a b l e s
- !-----------------------------------------------
-      integer :: ilaw
-      ! Variables used for reading constraints
-      integer :: lsd_tr, lsd_ts, lsd_tt, lsd_rr, lsd_rs, lsd_rt
-      ! Variables used for reading/writing density and stiffness
-      real(kind=WP) :: rho, lsd_tkr, lsd_rkr
-      real(kind=WP) :: tkr, rkr
-      logical :: is_available, is_encrypted
+          ! L o c a l   V a r i a b l e s
+          !-----------------------------------------------
+          integer :: ilaw
+          ! Variables used for reading constraints
+          integer :: lsd_tr, lsd_ts, lsd_tt, lsd_rr, lsd_rs, lsd_rt
+          ! Variables used for reading/writing density and stiffness
+          real(kind=WP) :: rho, lsd_tkr, lsd_rkr
+          real(kind=WP) :: tkr, rkr
+          logical :: is_available, is_encrypted
 
- !=======================================================================
+          !=======================================================================
 
-      is_encrypted = .false.
-      is_available = .false.
-      ilaw         = 135
-     
- !------------------------------------------ OKK
-      call hm_option_is_encrypted(is_encrypted)
- !------------------------------------------
+          is_encrypted = .false.
+          is_available = .false.
+          ilaw         = 135
+
+          !------------------------------------------ OKK
+          call hm_option_is_encrypted(is_encrypted)
+          !------------------------------------------
 !card1 - Density
-      call hm_get_floatv('RHO'   ,Rho     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('RHO'   ,Rho     ,is_available, lsubmodel, unitab)
 !card2 - Material parameters
-      call hm_get_intv  ('LSD_TR'       ,LSD_TR       ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_TS'       ,LSD_TS       ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_TT'       ,LSD_TT       ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_RR'       ,LSD_RR       ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_RS'       ,LSD_RS       ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_RT'       ,LSD_RT       ,is_available, lsubmodel)
-      call hm_get_floatv('LSDYNA_TKR'   ,LSD_TKR   ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSDYNA_RKR'   ,LSD_RKR   ,is_available, lsubmodel, unitab)      
+          call hm_get_intv  ('LSD_TR'       ,LSD_TR       ,is_available, lsubmodel)
+          call hm_get_intv  ('LSD_TS'       ,LSD_TS       ,is_available, lsubmodel)
+          call hm_get_intv  ('LSD_TT'       ,LSD_TT       ,is_available, lsubmodel)
+          call hm_get_intv  ('LSD_RR'       ,LSD_RR       ,is_available, lsubmodel)
+          call hm_get_intv  ('LSD_RS'       ,LSD_RS       ,is_available, lsubmodel)
+          call hm_get_intv  ('LSD_RT'       ,LSD_RT       ,is_available, lsubmodel)
+          call hm_get_floatv('LSDYNA_TKR'   ,LSD_TKR   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv('LSDYNA_RKR'   ,LSD_RKR   ,is_available, lsubmodel, unitab)
 !card1 -OKK
-      if (LSD_TKR == zero) then
-        LSD_TKR = ONE
-      end if
-     if (LSD_RKR == zero) then
-        LSD_RKR = ONE
-      end if
- !---------------------------------------------------------------------------------------------
- !                                filling buffer tables
- !---------------------------------------------------------------------------------------------
-      nuvar   = 39
-      ! number of material parameters
-      matparam%niparam = 7
-      matparam%nuparam = 2
-      matparam%nfunc   = 0
-      matparam%ntable  = 0
-      allocate (matparam%uparam(matparam%nuparam))
-      allocate (matparam%iparam(matparam%niparam))
-      allocate (matparam%table(matparam%ntable))
-      ! number of user variables 
+          if (LSD_TKR == zero) then
+            LSD_TKR = ONE
+          end if
+          if (LSD_RKR == zero) then
+            LSD_RKR = ONE
+          end if
+          !---------------------------------------------------------------------------------------------
+          !                                filling buffer tables
+          !---------------------------------------------------------------------------------------------
+          nuvar   = 39
+          ! number of material parameters
+          matparam%niparam = 7
+          matparam%nuparam = 2
+          matparam%nfunc   = 0
+          matparam%ntable  = 0
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          allocate(matparam%table(matparam%ntable))
+          ! number of user variables
 
 
-      ! material parameters
-      matparam%iparam(1) = LSD_TR
-      matparam%iparam(2) = LSD_TS
-      matparam%iparam(3) = LSD_TT 
-      matparam%iparam(4) = LSD_RR
-      matparam%iparam(5) = LSD_RS
-      matparam%iparam(6) = LSD_RT
-      matparam%uparam(1)  = LSD_TKR
-      matparam%uparam(2)  = LSD_RKR
-      matparam%iparam(7)  = 6
-      !< Real material parameters
-      matparam%rho       = rho
-      matparam%rho0      = rho
-
-!C------------------------
-!C------------------------ 
-      MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
-      MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
-      MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
-      MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
-      MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
-      MTAG%G_POSX = 5
-      MTAG%G_POSY = 5
-      MTAG%G_POSZ = 5
-      MTAG%G_POSXX = 5
-      MTAG%G_POSYY = 5
-      MTAG%G_POSZZ = 5
-      MTAG%G_YIELD = 6               
-      MTAG%G_RUPTCRIT = 1 
-
-
-      MTAG%G_NUVAR = 39  
-      
-      MTAG%G_MASS = 1
-      MTAG%G_SKEW_ID = 1  
-
-!C 
-!C------------------------
+          ! material parameters
+          matparam%iparam(1) = LSD_TR
+          matparam%iparam(2) = LSD_TS
+          matparam%iparam(3) = LSD_TT
+          matparam%iparam(4) = LSD_RR
+          matparam%iparam(5) = LSD_RS
+          matparam%iparam(6) = LSD_RT
+          matparam%uparam(1)  = LSD_TKR
+          matparam%uparam(2)  = LSD_RKR
+          matparam%iparam(7)  = 6
+          !< Real material parameters
+          matparam%rho       = rho
+          matparam%rho0      = rho
 
 !C------------------------
-      ! Properties compatibility
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")
+!C------------------------
+          MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
+          MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
+          MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
+          MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
+          MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
+          MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
+          MTAG%G_POSX = 5
+          MTAG%G_POSY = 5
+          MTAG%G_POSZ = 5
+          MTAG%G_POSXX = 5
+          MTAG%G_POSYY = 5
+          MTAG%G_POSZZ = 5
+          MTAG%G_YIELD = 6
+          MTAG%G_RUPTCRIT = 1
 
-!------------------------- 
+
+          MTAG%G_NUVAR = 39
+
+          MTAG%G_MASS = 1
+          MTAG%G_SKEW_ID = 1
+
+!C
+!C------------------------
+
+!C------------------------
+          ! Properties compatibility
+          CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")
+
+!-------------------------
 !     parameters printout  OKKKKK
-!-------------------------- 
-      if (is_encrypted) then
-        write(iout,'(5x,a,//)')'confidential data'
-      else
+!--------------------------
+          if (is_encrypted) then
+            write(iout,'(5x,a,//)')'confidential data'
+          else
 ! Write Header and ID
-        write(iout, 100)
-        write(iout, 200) mat_id
+            write(iout, 100)
+            write(iout, 200) mat_id
 
-        ! Write Density
-        write(iout, 300) rho
+            ! Write Density
+            write(iout, 300) rho
 
-          ! Write Constraints
-        write(iout, 400)
-        write(iout, 500) lsd_tr, lsd_ts, lsd_tt, lsd_rr, lsd_rs, lsd_rt
+            ! Write Constraints
+            write(iout, 400)
+            write(iout, 500) lsd_tr, lsd_ts, lsd_tt, lsd_rr, lsd_rs, lsd_rt
 
-        ! Write Stiffness Factors
-        write(iout, 600) LSD_tkr, LSD_rkr
-      endif     
+            ! Write Stiffness Factors
+            write(iout, 600) LSD_tkr, LSD_rkr
+          endif
 ! ----------------------------------------------------------------------
 !   Format Definitions
 ! ----------------------------------------------------------------------
 
 ! Header Format
 100       format(/,                                                     &
-     &      5X, "---------------------------------", /,                 &
-     &      5X, "MATERIAL LAW 135 (GENERAL JOINT) ", /,                 &
-     &      5X, "---------------------------------", /)
+          &      5X, "---------------------------------", /,                 &
+          &      5X, "MATERIAL LAW 135 (GENERAL JOINT) ", /,                 &
+          &      5X, "---------------------------------", /)
 
 ! Material ID Format
 200       format(                                                       &
-     &      5X, "MATERIAL ID . . . . . . . . . . . . . . . . . =", I10)
+          &      5X, "MATERIAL ID . . . . . . . . . . . . . . . . . =", I10)
 
 ! Density Format
 300       format(                                                       &
-     &      5X, "INITIAL DENSITY . . . . . . . . . . . . . . . =", 1PG20.13, /)
+          &      5X, "INITIAL DENSITY . . . . . . . . . . . . . . . =", 1PG20.13, /)
 
 ! Constraints Format Header
 400       format(                                                       &
-     &      5X, "CONSTRAINTS (0=Free, 1=Constrained):           ", /,   &
-     &      5X, "------------------------------------           ")
+          &      5X, "CONSTRAINTS (0=Free, 1=Constrained):           ", /,   &
+          &      5X, "------------------------------------           ")
 
 ! Detailed Constraints Format
 500       format(                                                       &
-     &      5X, "   TRANSLATIONAL (x, y, z) . . . . . . . . . . =", 3I5, /, &
-     &      5X, "   ROTATIONAL    (x, y, z) . . . . . . . . . . =", 3I5, /)
+          &      5X, "   TRANSLATIONAL (x, y, z) . . . . . . . . . . =", 3I5, /, &
+          &      5X, "   ROTATIONAL    (x, y, z) . . . . . . . . . . =", 3I5, /)
 
 ! Stiffness Scales Format
 600       format(                                                       &
-     &      5X, "STIFFNESS SCALING FACTORS:                     ", /,   &
-     &      5X, "--------------------------                     ", /,   &
-     &      5X, "   TRANSLATIONAL STIFFNESS SCALE (RPST). . . . =", 1PG20.13, /, &
-     &      5X, "   ROTATIONAL STIFFNESS SCALE    (RPSR). . . . =", 1PG20.13, /)
+          &      5X, "STIFFNESS SCALING FACTORS:                     ", /,   &
+          &      5X, "--------------------------                     ", /,   &
+          &      5X, "   TRANSLATIONAL STIFFNESS SCALE (RPST). . . . =", 1PG20.13, /, &
+          &      5X, "   ROTATIONAL STIFFNESS SCALE    (RPSR). . . . =", 1PG20.13, /)
 !-----------------------------------------------------------------------
         end subroutine hm_read_mat135
 !-------------------

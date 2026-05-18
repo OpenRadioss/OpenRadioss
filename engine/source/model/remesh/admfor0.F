@@ -43,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -81,11 +82,11 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: RNOD
       my_real, DIMENSION(:), ALLOCATABLE :: SNOD
 C-----------------------------------------------
-      CALL MY_ALLOC(LNOD,NUMNOD)
-      CALL MY_ALLOC(NELT,2*(4**LEVELMAX))
-      CALL MY_ALLOC(LKINNOD,NUMNOD)
-      CALL MY_ALLOC(RNOD,NUMNOD)
-      CALL MY_ALLOC(SNOD,NUMNOD)
+      call my_alloc(LNOD, NUMNOD, "LNOD")
+      call my_alloc(NELT, 2*(4**LEVELMAX), "NELT")
+      call my_alloc(LKINNOD, NUMNOD, "LKINNOD")
+      call my_alloc(RNOD, NUMNOD, "RNOD")
+      call my_alloc(SNOD, NUMNOD, "SNOD")
 C-----------------------------------------------
       LKINNOD=0
       DO LEVEL=LEVELMAX-1,0,-1
@@ -765,10 +766,10 @@ C-------
       END DO
 C
 C-----      
-      DEALLOCATE(LNOD)
-      DEALLOCATE(NELT)
-      DEALLOCATE(LKINNOD)
-      DEALLOCATE(RNOD)
-      DEALLOCATE(SNOD)
+      call my_dealloc(LNOD)
+      call my_dealloc(NELT)
+      call my_dealloc(LKINNOD)
+      call my_dealloc(RNOD)
+      call my_dealloc(SNOD)
       RETURN
       END     

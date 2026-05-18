@@ -126,6 +126,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,10 +157,10 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(PART_READ_TMP(IDS_MAX))
+      call my_alloc(PART_READ_TMP, IDS_MAX, "PART_READ_TMP")
       PART_READ_TMP(1:IDS_MAX) = 0
 
-      ALLOCATE(INDEX(2*IDS_MAX))
+      call my_alloc(INDEX, 2*IDS_MAX, "INDEX")
       INDEX = 0
 
       NINDX = 0
@@ -207,8 +208,8 @@ C=======================================================================
 !---
 
 C-------------------------
-       DEALLOCATE(PART_READ_TMP)
-       DEALLOCATE(INDEX)
+       CALL MY_DEALLOC(PART_READ_TMP)
+       CALL MY_DEALLOC(INDEX)
 C-------------------------
       RETURN
       END
@@ -251,6 +252,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -279,7 +281,7 @@ C
       INTEGER  SET_USRTOS_NEAREST
       EXTERNAL SET_USRTOS_NEAREST
 C=======================================================================
-      ALLOCATE(SETCOL_DICHO(NSETS,2))
+      call my_alloc(SETCOL_DICHO, NSETS, 2, "SETCOL_DICHO")
       SZ_DICHO = 0
       DO I=1,NSET_COLLECT
         IDS = ISETCOLM(I,1)
@@ -293,9 +295,9 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(PART_READ_TMP(NSETS))
-      ALLOCATE(PART_READ_ONE(NSETS))
-      ALLOCATE(RESULT(NSETS))
+      call my_alloc(PART_READ_TMP, NSETS, "PART_READ_TMP")
+      call my_alloc(PART_READ_ONE, NSETS, "PART_READ_ONE")
+      call my_alloc(RESULT, NSETS, "RESULT")
 
       STACK=0
 
@@ -341,9 +343,9 @@ C=======================================================================
       ARRAY_SIZE = STACK
       ARRAY(1:STACK) = PART_READ_TMP(1:STACK)
 
-      DEALLOCATE (PART_READ_ONE)
-      DEALLOCATE (PART_READ_TMP)
-      DEALLOCATE (RESULT)
+      CALL MY_DEALLOC(PART_READ_ONE)
+      CALL MY_DEALLOC(PART_READ_TMP)
+      CALL MY_DEALLOC(RESULT)
       END
 !||====================================================================
 !||    create_setcol_clause   ../starter/source/model/sets/create_setcol_clause.F

@@ -39,6 +39,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
+      use my_alloc_mod
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -168,11 +170,11 @@ C-----------------------------------------------
                 IADR(NSPMD+1)=LENRV+1
         !       allocate the sent/received buffer
                 IF(LENSD>0) THEN
-                        ALLOCATE(BBUFS(LENSD))
+                        call my_alloc(BBUFS, LENSD, "BBUFS")
                         BBUFS(1:LENSD) = 0
                 ENDIF
                 IF(LENRV>0) THEN
-                        ALLOCATE(BBUFR(LENRV))
+                        call my_alloc(BBUFR, LENRV, "BBUFR")
                         BBUFR(1:LENRV) = 0
                 ENDIF
 
@@ -299,8 +301,8 @@ C-----------------------------------------------
                         ENDIF
                 ENDDO
                 
-                IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
-                IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
+                IF (ALLOCATED(BBUFS)) call my_dealloc(BBUFS)
+                IF (ALLOCATED(BBUFR)) call my_dealloc(BBUFR)
 
         !       end of receveid part
         !       -----------------------------

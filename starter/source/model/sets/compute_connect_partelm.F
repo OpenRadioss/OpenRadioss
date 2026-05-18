@@ -48,6 +48,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INVERTED_GROUP_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +82,7 @@ C-----------------------------------------------
       ! check INV_GROUP% array was already computed, if already computed, flush to 0
       IF( INV_GROUP%ALREADY_DONE ) CALL INVERTED_GROUP_INIT(1,INV_GROUP,NUMSPH)
 
-      ALLOCATE(PART_COUNT(NPART))
+      call my_alloc(PART_COUNT, NPART, "PART_COUNT")
 
 
 C ------------------------------------------------
@@ -290,7 +291,7 @@ C ------------------------------------------------
         PART_COUNT(PART)=PART_COUNT(PART)+1
       ENDDO          
 
-      DEALLOCATE(PART_COUNT)
+      CALL MY_DEALLOC(PART_COUNT)
 
       INV_GROUP%ALREADY_DONE = .TRUE.
       RETURN

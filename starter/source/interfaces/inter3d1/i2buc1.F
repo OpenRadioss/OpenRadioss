@@ -63,6 +63,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       use stack_mod , only : stack_ply
       use i2trivox_mod , only : i2trivox
       use file_descriptor_mod , only : iout
+      use my_alloc_mod
+      use my_dealloc_mod , only : my_dealloc
 C============================================================================
 C  this routine is called by: inint3(/inter3d1/inint3.f)
 C----------------------------------------------------------------------------
@@ -140,7 +142,7 @@ C
 C=======================================================================
 ! 1-CALCULATION TAILLE DES ZONES INFLUENCES
 c
-      allocate(segment_data(nrtm,2))
+      call my_alloc(segment_data, nrtm, 2, "segment_data")
       segment_data(1:nrtm,1:2) = zero
       DD = ZERO
       DSEARCH = TZINF05
@@ -360,7 +362,7 @@ C
      .              igeo,dsearch,bound,tzinf05,segment_data, 
      .              dmin,thk,thk_part,x,geo,st,pm,stack,gapmin,gapmax)
 
-      deallocate(segment_data)
+      call my_dealloc(segment_data)
 
       if((ignore<=1).or.((ignore==2.or.ignore==3).and.dsearch/=zero)) then
         write(iout,2001) tzinf05

@@ -41,6 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -73,8 +75,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C----------------------------------------------- 
 C------- IPART_OK(NGROUP,1) for GPS_PART,IPART_OK(NGROUP,2) for GPSRA_PART   
-         IF (ALLOCATED(IPART_OK))  DEALLOCATE(IPART_OK)
-         ALLOCATE(IPART_OK(NGROUP,2))
+         IF (ALLOCATED(IPART_OK)) call my_dealloc(IPART_OK)
+         call my_alloc(IPART_OK, NGROUP, 2, "IPART_OK")
          IPART_OK = 0
          NCY_GPS = 10
          NCY_GPSTR = 10

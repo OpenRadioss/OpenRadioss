@@ -39,6 +39,7 @@ C-----------------------------------------------
         USE ALE_MOD
         USE FORMAT_MOD , ONLY : FMW_10I
         use element_mod , only : nixs
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(MSVTMP(1:NUMNOD))
+      call my_alloc(MSVTMP, NUMNOD, "MSVTMP")
       MSVTMP(1:NUMNOD)=0
 
       !TAG NODES - remove lagrangian nodes
@@ -124,7 +125,7 @@ C-----------------------------------------------
       DO I=1,S_MSV
         MSV(I)=MSVTMP(I)
       ENDDO   
-      DEALLOCATE(MSVTMP)
+      CALL MY_DEALLOC(MSVTMP)
 
       !PRINTOUT
       IF(IPRI >= 1) THEN

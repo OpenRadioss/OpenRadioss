@@ -41,6 +41,7 @@ C
        USE nodal_arrays_mod
        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+       use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,7 @@ C-----------------------------------------------
       DATA MSGOFF2/188/
       DATA MSGOFF3/189/
 C-----------------------------------------------
-      ALLOCATE(BUFR(IRSIZE))
+      call my_alloc(BUFR, IRSIZE, "BUFR")
       LOC_PROC = ISPMD+1
 
       IDEB = 1
@@ -396,7 +397,7 @@ C
 C
 C Reception BUFR in BUFS2
 C
-      ALLOCATE(BUFS2(LINDEX))
+      call my_alloc(BUFS2, LINDEX, "BUFS2")
       IF(LINDEX>0) THEN
         DO I = 1, LINDEX
           BUFS(I) = 0
@@ -414,7 +415,7 @@ C
           ENDIF
         ENDDO
       ENDIF
-      DEALLOCATE(BUFS2)
+      call my_dealloc(BUFS2)
 
 C
 C Test Reception Bufr
@@ -425,7 +426,7 @@ C
         ENDIF
       ENDDO
 C
-      DEALLOCATE(BUFR)
+      call my_dealloc(BUFR)
 #endif
       RETURN
       END

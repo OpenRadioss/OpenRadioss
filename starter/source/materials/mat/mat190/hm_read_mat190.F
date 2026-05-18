@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD          
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,7 +144,7 @@ c
       MATPARAM%NUPARAM = 7 ! Number of real parameters
 c
       ! Allocate and fill real parameters table
-      ALLOCATE(MATPARAM%UPARAM(MATPARAM%NUPARAM))
+      call my_alloc(MATPARAM%UPARAM, MATPARAM%NUPARAM, "MATPARAM%UPARAM")
       MATPARAM%UPARAM(1) = EMOD
       MATPARAM%UPARAM(2) = BULK
       MATPARAM%UPARAM(3) = G

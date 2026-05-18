@@ -288,6 +288,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -501,10 +502,10 @@
 
           integer :: nv46, numel, inloc
           integer :: i,npar,nuparam,niparam,nparf,nvarftmp,iadbuf,nfunc,numtabl,   &
-          israte,ipg,nptr,npts,&
-          ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
-          nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
-          l_planl,l_epsdnl,l_dmg,l_sigb
+            israte,ipg,nptr,npts,&
+            ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
+            nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
+            l_planl,l_epsdnl,l_dmg,l_sigb
           integer, dimension(:) ,pointer :: varftmp
 
           real(kind=WP) :: e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
@@ -1546,13 +1547,13 @@
 !
           else if (mtn == 76) then
             call sigeps76(nel   ,npar     ,nuvar    ,ngl      ,           &
-             tt       ,dt1      ,uparam0   ,matparam,                     &
-             rho0     ,dpla     ,et       ,ssp      ,sigy     ,uvar      ,&
-             de1      ,de2      ,de3      ,de4      ,de5      ,de6       ,&
-             so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
-             s1       ,s2       ,s3       ,s4       ,s5       ,s6        ,&
-             off      ,epsd     ,defp     ,inloc    ,l_planl  ,lbuf%planl,&
-             lbuf%dmg ,nvartmp  ,vartmp   )
+              tt       ,dt1      ,uparam0   ,matparam,                     &
+              rho0     ,dpla     ,et       ,ssp      ,sigy     ,uvar      ,&
+              de1      ,de2      ,de3      ,de4      ,de5      ,de6       ,&
+              so1      ,so2      ,so3      ,so4      ,so5      ,so6       ,&
+              s1       ,s2       ,s3       ,s4       ,s5       ,s6        ,&
+              off      ,epsd     ,defp     ,inloc    ,l_planl  ,lbuf%planl,&
+              lbuf%dmg ,nvartmp  ,vartmp   )
 !
           else if (mtn == 78) then
             call sigeps78(nel ,npar,nuvar,nfunc,ifunc,npf ,&
@@ -2430,11 +2431,11 @@
               else if (irupt == 11) then
 !---- energy failure
                 call fail_energy_s(mat_elem%mat_param(imat)%fail(ir)  , &
-                 nel      ,nvarf    ,nvarftmp ,uvarf    ,varftmp   ,          &
-                 tt       ,dt1      ,ngl      ,epsp1    ,&
-                 off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
+                  nel      ,nvarf    ,nvarftmp ,uvarf    ,varftmp   ,          &
+                  tt       ,dt1      ,ngl      ,epsp1    ,&
+                  off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                  de1      ,de2      ,de3      ,de4      ,de5      ,de6      )
               else if (irupt == 13) then
 !---- chang - chang
                 call fail_changchang_s(&
@@ -2470,12 +2471,12 @@
               else if (irupt == 24) then
 !   --- orthotropic strain failure
                 call fail_orthstrain(failparam,                             &
-                nel      ,nvarf    ,tt       ,dt1      ,ismstr   ,          &
-                ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,&
-                es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
-                s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel     ,&
-                gbuf%uelr,npg      ,deltax   ,lf_dammx ,nvarftmp ,varftmp)
+                  nel      ,nvarf    ,tt       ,dt1      ,ismstr   ,          &
+                  ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,&
+                  es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                  uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel     ,&
+                  gbuf%uelr,npg      ,deltax   ,lf_dammx ,nvarftmp ,varftmp)
               else if (irupt == 27) then
 ! ---   extended mohr coulomb failure model
                 call fail_emc(&
@@ -2544,13 +2545,13 @@
               else if (irupt == 39) then
 !  --- gene1 failure model
                 call fail_gene1_s(mat_elem%mat_param(imat)%fail(ir),&
-                 nel      ,nvarf    ,uvarf    ,nvarftmp ,varftmp  ,lbuf%off ,&
-                 tt       ,dt1      ,ipg      ,&
-                 ngl      ,gbuf%dt  ,epsp1    ,off      ,npg      ,&
-                 es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
-                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                 el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
-                 ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx)
+                  nel      ,nvarf    ,uvarf    ,nvarftmp ,varftmp  ,lbuf%off ,&
+                  tt       ,dt1      ,ipg      ,&
+                  ngl      ,gbuf%dt  ,epsp1    ,off      ,npg      ,&
+                  es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                  el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
+                  ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx)
 !
               else if (irupt == 40) then
 !  --- rtcl failure model
@@ -2562,13 +2563,13 @@
               else if (irupt == 41) then
 !---- tabulated failure model version 2
                 call fail_tab2_s(&
-                 nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,&
-                 npf      ,table    ,tf       ,tt       ,uparf  ,&
-                 ngl      ,el_len   ,dpla     ,epsp1    ,uvarf    ,&
-                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                 el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                 gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
-                 gbuf%noff,voln     ,nvarftmp ,varftmp   )
+                  nel      ,nparf    ,nvarf    ,nfunc    ,ifunc    ,&
+                  npf      ,table    ,tf       ,tt       ,uparf  ,&
+                  ngl      ,el_len   ,dpla     ,epsp1    ,uvarf    ,&
+                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                  el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                  gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
+                  gbuf%noff,voln     ,nvarftmp ,varftmp   )
 !
               else if (irupt == 42) then
 !---- inievo failure model
@@ -3011,7 +3012,7 @@
 
           end if
           qold(1:nel) = q(1:nel)
-          if (allocated(bufzero)) deallocate (bufzero)
+          if (allocated(bufzero)) call my_dealloc(bufzero)
 !------------------------------------------
           return
         end subroutine mulaw

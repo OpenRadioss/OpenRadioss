@@ -26,7 +26,7 @@
 !||    inter_prepare_sort            ../engine/source/interfaces/generic/inter_prepare_sort.F
 !||====================================================================
       module spmd_exchange_component_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -56,6 +56,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -90,7 +92,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           if(mode==1) then
             my_size = component%s_comp_nb + component%m_comp_nb
-            allocate(component%s_buffer_comp(6*my_size))
+            call my_alloc(component%s_buffer_comp, 6*my_size, "component%s_buffer_comp")
             do ncomp=1,component%s_comp_nb
               component%s_buffer_comp((ncomp-1)*6+1:(ncomp-1)*6+6) = component%s_list(ncomp)%bound(1:6)
             enddo
@@ -101,10 +103,10 @@
 
             component%request_r_nb = 0
             if(.not.allocated(component%request_r)) then
-              allocate(component%request_r(nspmd))
+              call my_alloc(component%request_r, nspmd, "component%request_r")
             endif
             if(.not.allocated(component%index_r)) then
-              allocate(component%index_r(nspmd))
+              call my_alloc(component%index_r, nspmd, "component%index_r")
             endif
             do i=1,nspmd
 
@@ -121,7 +123,7 @@
             my_size = 6*(component%s_comp_nb+component%m_comp_nb)
             component%request_s_nb = 0
             if(.not.allocated(component%request_s)) then
-              allocate(component%request_s(nspmd))
+              call my_alloc(component%request_s, nspmd, "component%request_s")
             endif
             do i=1,nspmd
               if(component%proc_comp(i)%need_comm0) then
@@ -197,7 +199,7 @@
             do i=1,component%request_s_nb
               call spmd_waitany(component%request_s_nb,component%request_s,my_index,status_mpi)
             enddo
-            deallocate(component%s_buffer_comp)
+            call my_dealloc(component%s_buffer_comp)
           endif
         end subroutine spmd_exchange_component
       end module spmd_exchange_component_mod

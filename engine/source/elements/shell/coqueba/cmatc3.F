@@ -53,6 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -136,8 +138,10 @@ C-----------------------------------------------
         ENDDO  
       ENDIF
       NLAY_MAX   = MAX(NLAY,NPT, ELBUF_STR%NLAY)
-      ALLOCATE(MATLY(MVSIZ*NLAY_MAX), THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX),
-     .         POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX),THK_LY(NEL,NLAY_MAX*LAYNPT_MAX))
+      call my_alloc(MATLY, MVSIZ*NLAY_MAX, "MATLY")
+      call my_alloc(THKLY, MVSIZ*NLAY_MAX*LAYNPT_MAX, "THKLY")
+      call my_alloc(POSLY, MVSIZ, NLAY_MAX*LAYNPT_MAX, "POSLY")
+      call my_alloc(THK_LY, NEL, NLAY_MAX*LAYNPT_MAX, "THK_LY")
       
 C      IF (IHBE>=21.AND.IHBE<=29) COEF =EM03 
       IF(ITHK>0.AND.ISMDISP==0)THEN
@@ -390,7 +394,10 @@ C          HZ(I)= HM(I,4)*FACG
          ENDDO
        END IF !(IDRIL>0) THEN
 C
-      DEALLOCATE(MATLY, THKLY, POSLY, THK_LY)
+      call my_dealloc(MATLY)
+      call my_dealloc(THKLY)
+      call my_dealloc(POSLY)
+      call my_dealloc(THK_LY)
       RETURN
       END
 !||====================================================================

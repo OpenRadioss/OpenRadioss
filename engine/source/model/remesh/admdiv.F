@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -105,10 +106,10 @@ C-----------------------------------------------
       my_real
      .   TN1,TN2,TN3,TN4,UNT,ERR
 C-----------------------------------------------
-      CALL MY_ALLOC(NELT,2*(4**LEVELMAX))
-      CALL MY_ALLOC(LNOD,NUMNOD)
-      CALL MY_ALLOC(ITRI,MAX(NUMELC,NUMELTG))
-      CALL MY_ALLOC(INDEX1,2*MAX(NUMELC,NUMELTG))
+      call my_alloc(NELT, 2*(4**LEVELMAX), "NELT")
+      call my_alloc(LNOD, NUMNOD, "LNOD")
+      call my_alloc(ITRI, MAX(NUMELC,NUMELTG), "ITRI")
+      call my_alloc(INDEX1, 2*MAX(NUMELC,NUMELTG), "INDEX1")
 C-----------------------------------------------
       IF(ICHKADM /= 0)THEN
 
@@ -841,10 +842,10 @@ C     compaction of LSH4ACT
         END IF
       END IF
 C
-      DEALLOCATE(NELT)
-      DEALLOCATE(LNOD)
-      DEALLOCATE(ITRI)
-      DEALLOCATE(INDEX1)
+      call my_dealloc(NELT)
+      call my_dealloc(LNOD)
+      call my_dealloc(ITRI)
+      call my_dealloc(INDEX1)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END     

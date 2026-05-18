@@ -48,6 +48,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -58,11 +60,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: entity_nb !< number of entity
           integer, intent(in) :: nb_key !< number of keys for sorting
-          integer, intent(in) :: iddlevel !< flag for the domain decomposition: 0 --> first domain decomposition without the interfaces
-                                          !<                                    1 --> second domain decomposition with the interfaces
-                                          !< if there are some interfaces, need to save the data to the appropiate locations (i instead of index(i))
-          integer, dimension(entity_nb,2), intent(out) :: elm_group_data !< array to store the group id and the number of element in the group for each element 
-          integer, dimension(nb_key,entity_nb), intent(inout) :: sort_key !< array to store the sorting keys for each element
+          integer, intent(in) :: iddlevel
+          !< flag for the domain decomposition: 0 --> first domain decomposition without the interfaces
+          !<                                    1 --> second domain decomposition with the interfaces
+          !< if there are some interfaces, need to save the data to the appropiate locations (i instead of index(i))
+          integer, dimension(entity_nb,2), intent(out) :: elm_group_data
+          !< array to store the group id and the number of element in the group for each element
+          integer, dimension(nb_key,entity_nb), intent(inout) :: sort_key
+          !< array to store the sorting keys for each element
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,7 +78,7 @@
           integer, dimension(70000) :: work
           integer, dimension(:), allocatable :: index,elm_group
 
-          
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -84,24 +89,24 @@
 
 ! ----------------------------------------------------------------------------------------------------------------------
           mode = 0
-          allocate(index(2*entity_nb))
+          call my_alloc(index,2*entity_nb,"index")
           do i=1, entity_nb
             index(i) = i
           end do
           call my_orders(mode,work,sort_key,index,entity_nb,nb_key)
 
-          allocate(elm_group(entity_nb))
+          call my_alloc(elm_group,entity_nb,"elm_group")
           elm_group(1:entity_nb) = 0
           group_id = 1
           elm_group(group_id) = 1 ! get the number of element in the first group
-          
+
           do i=2,entity_nb
             global_condition = .false.
             do j=1,nb_key
               condition = sort_key(j,index(i))/=sort_key(j,index(i-1))
               global_condition = global_condition.or.condition
             end do
-            
+
             if(global_condition) then ! check if the current element belongs to the same group as the previous one
               group_id = group_id + 1 ! get the id of the current group
             end if
@@ -123,7 +128,7 @@
               condition = sort_key(j,index(i))/=sort_key(j,index(i-1))
               global_condition = global_condition.or.condition
             end do
-            
+
             if(global_condition) then ! check if the current element belongs to the same group as the previous one
               group_id = group_id + 1 ! get the id of the current group
             end if
@@ -131,13 +136,13 @@
               my_index = index(i)
             else
               my_index = i
-            endif            
+            endif
             elm_group_data(my_index,1) = group_id ! save the id of the group for the element i
             elm_group_data(my_index,2) = elm_group(group_id) ! save the number of element of the group for the element i
           end do
 
-          deallocate(index)
-          deallocate(elm_group)
+          call my_dealloc(index)
+          call my_dealloc(elm_group)
 
           return
 

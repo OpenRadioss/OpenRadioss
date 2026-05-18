@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MULTI_SOLVE_EINT_MOD , ONLY : MULTI_SOLVE_EINT
       use element_mod , only : nixs,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,10 +127,10 @@ C-----------------------------------------------
       ENDDO
 
       IF (N2D  ==  0) THEN
-         ALLOCATE(ELEM_LIST(NUMELS))
+         call my_alloc(ELEM_LIST, NUMELS, "ELEM_LIST")
          ELEM_LIST(1:NUMELS)=0
       ELSE
-         ALLOCATE(ELEM_LIST(NUMELQ + NUMELTG))
+         call my_alloc(ELEM_LIST, NUMELQ + NUMELTG, "ELEM_LIST")
          ELEM_LIST(1:NUMELQ+NUMELTG)=0
       ENDIF
       
@@ -143,7 +144,8 @@ C-----------------------------------------------
          IF(.NOT.INIMAP1D(KK)%CORRECTLY_READ)CYCLE
          NBMAT = INIMAP1D(KK)%NBMAT
          IF(NBMAT==0)CYCLE !something went wrong with reader
-         ALLOCATE(PRES(MVSIZ, NBMAT), EINT(MVSIZ, NBMAT))
+         call my_alloc(PRES, MVSIZ, NBMAT, "PRES")
+         call my_alloc(EINT, MVSIZ, NBMAT, "EINT")
          PRES(:,:)=ZERO
          EINT(:,:)=ZERO
          IF (INIMAP1D(KK)%GRBRICID  /=  0) THEN
@@ -934,12 +936,13 @@ C     Compute EINT from pressure
               
             ENDIF
          ENDDO                  ! NG = 1, NGROUP
-         DEALLOCATE(PRES, EINT)
+         CALL MY_DEALLOC(PRES)
+         CALL MY_DEALLOC(EINT)
       ENDDO
 C     ===================
 C     Memory deallocation
 C     ===================
-      DEALLOCATE(ELEM_LIST)
+      CALL MY_DEALLOC(ELEM_LIST)
 
       END SUBROUTINE INI_INIMAP1D
 

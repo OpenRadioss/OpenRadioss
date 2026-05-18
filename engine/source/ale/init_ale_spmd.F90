@@ -46,8 +46,8 @@
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         subroutine init_ale_spmd(nv46,n2d,numels,numelq,numeltg,numnod, &
-                                 nspmd,nsvois,nqvois,ntgvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
-                                 lesdvois,lercvois,itab,itabm1,ixs,ixq,ixtg,ale_connect )
+          nspmd,nsvois,nqvois,ntgvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &
+          lesdvois,lercvois,itab,itabm1,ixs,ixq,ixtg,ale_connect )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -56,6 +56,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -72,10 +74,10 @@
           integer, intent(in) :: nspmd !< Number of processors
           integer, intent(in) :: nsvois !< number of frontier solid elements
           integer, intent(in) :: nqvois !< number of frontier quad elements
-          integer, intent(in) :: ntgvois !< number of frontier triangle elements          
+          integer, intent(in) :: ntgvois !< number of frontier triangle elements
           integer, intent(in) :: s_lesdvois !< size of lesdvois array
-          integer, intent(in) :: s_lercvois !< size of lercvois array             
-          integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)          
+          integer, intent(in) :: s_lercvois !< size of lercvois array
+          integer, dimension(nspmd+1), intent(in) :: nesdvois !< number of frontier elements (send)
           integer, dimension(nspmd+1), intent(in) :: nercvois !< number of frontier elements (rcv)
           integer, dimension(s_lesdvois), intent(in) :: lesdvois !< frontier element ids (send)
           integer, dimension(s_lercvois), intent(in) :: lercvois !< frontier element ids (rcv)
@@ -83,7 +85,7 @@
           integer, dimension(2*numnod), intent(in) :: itabm1 !< local node ID to user node ID mapping
           integer, dimension(nixs,numels), intent(in) :: ixs !< Solid element connectivity
           integer, dimension(nixq,numelq), intent(in) :: ixq !< Quad element connectivity
-          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< Triangle element connectivity                  
+          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< Triangle element connectivity
           type(t_ale_connectivity), intent(inout) :: ale_connect !< ALE data structure for connectivity
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -97,21 +99,21 @@
           integer, dimension(:), allocatable :: ni
 
           integer, parameter :: permutation_3d(4,6) = reshape( [3,1,2,4,  &
-                                                                7,4,3,8,  &
-                                                                6,8,7,5,  &
-                                                                2,5,6,1,  &
-                                                                7,2,6,3,  &
-                                                                8,1,4,5], &
-                                                                [4,6] )  
+            7,4,3,8,  &
+            6,8,7,5,  &
+            2,5,6,1,  &
+            7,2,6,3,  &
+            8,1,4,5], &
+            [4,6] )
           integer, parameter :: permutation_2d(2,4) = reshape( [1,2,  &
-                                                                2,3,  &
-                                                                3,4,  &
-                                                                4,1], &
-                                                                [2,4] )
+            2,3,  &
+            3,4,  &
+            4,1], &
+            [2,4] )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, external :: sysfus2                                                                
+          integer, external :: sysfus2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -128,14 +130,15 @@
             nb_node_triangle = 3
             nb_node_facet = 2
           end if
-          allocate(neighbor_node(n_entity+remote_elm,nb_node))
+          call my_alloc(neighbor_node, n_entity+remote_elm, nb_node, "neighbor_node")
 
           neighbor_node(1:n_entity+remote_elm,1:nb_node) = 0
 
           remote_neighb_elem = 0
           do i=1,n_entity
             my_address = ale_connect%ee_connect%iad_connect(i)
-            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i) ! get the number of connected ALE element
+            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i)
+            ! get the number of connected ALE element
             if(nb_connected_elm>0) then
               do k=1,nb_connected_elm
                 if(ale_connect%ee_connect%connected(my_address+k-1) > n_entity) then
@@ -145,15 +148,18 @@
             endif
           end do
 
-          allocate(ale_connect%ee_connect%index_elem_w_neigh(remote_neighb_elem))
-          allocate(ale_connect%ee_connect%id_facet_neighbor_elem(nv46*remote_neighb_elem))
+          call my_alloc(ale_connect%ee_connect%index_elem_w_neigh, remote_neighb_elem, &
+          &"ale_connect%ee_connect%index_elem_w_neigh")
+          call my_alloc(ale_connect%ee_connect%id_facet_neighbor_elem, nv46*remote_neighb_elem, &
+          &"ale_connect%ee_connect%id_facet_neighbor_elem")
           ale_connect%ee_connect%id_facet_neighbor_elem(1:nv46*remote_neighb_elem) = 0
           ale_connect%ee_connect%remote_neighb_elem = remote_neighb_elem
           remote_neighb_elem = 0
           do i=1,n_entity
             my_address = ale_connect%ee_connect%iad_connect(i)
-            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i) ! get the number of connected ALE element
-            if(nb_connected_elm>0) then       
+            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i)
+            ! get the number of connected ALE element
+            if(nb_connected_elm>0) then
               do k=1,nb_connected_elm
                 if(ale_connect%ee_connect%connected(my_address+k-1) > n_entity) then
                   remote_neighb_elem = remote_neighb_elem + 1
@@ -161,11 +167,13 @@
                   if(n2d==0) then
                     neighbor_node(i,1:nb_node) = itab(ixs(2:nb_node+1,i))
                   elseif(i>numelq) then
-                    neighbor_node(i,1:nb_node_triangle) = itab(ixtg(2:nb_node_triangle+1,i)) ! get the triangle nodes 1-->3
-                    neighbor_node(i,nb_node) = itab(ixtg(nb_node_triangle+1,i)) ! duplicate the last node to have 4 nodes per element
+                    neighbor_node(i,1:nb_node_triangle) = itab(ixtg(2:nb_node_triangle+1,i))
+                    ! get the triangle nodes 1-->3
+                    neighbor_node(i,nb_node) = itab(ixtg(nb_node_triangle+1,i))
+                    ! duplicate the last node to have 4 nodes per element
                   else
                     neighbor_node(i,1:nb_node) = itab(ixq(2:nb_node+1,i))
-                  endif           
+                  endif
                 end if
               enddo
             endif
@@ -177,22 +185,25 @@
           endif
 
           allocate(tag(0:numnod))
+          ! TODO: non-default lower bound, convert manually
           tag(0:numnod) = 0
 
           allocate(ni(0:nv46))
+          ! TODO: non-default lower bound, convert manually
           ni(0:nv46) = 0
 
           do ijk=1,remote_neighb_elem
             i = ale_connect%ee_connect%index_elem_w_neigh(ijk)
             my_address = ale_connect%ee_connect%iad_connect(i)
-            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i) ! get the number of connected ALE element
-            if(nb_connected_elm>0) then         
+            nb_connected_elm = ale_connect%ee_connect%iad_connect(i+1) - ale_connect%ee_connect%iad_connect(i)
+            ! get the number of connected ALE element
+            if(nb_connected_elm>0) then
               do k=1,nb_connected_elm
-                remote_elem_id = ale_connect%ee_connect%connected(my_address+k-1)                              
+                remote_elem_id = ale_connect%ee_connect%connected(my_address+k-1)
                 if(remote_elem_id > n_entity) then
                   if(neighbor_node(remote_elem_id,1)/=0) then
-                    do kk=1,nv46          
-                      ni(1:nv46) = 0                          
+                    do kk=1,nv46
+                      ni(1:nv46) = 0
                       do l=1,nb_node_facet
                         if(n2d==0) then
                           ni(l) = sysfus2(neighbor_node(remote_elem_id,permutation_3d(l,kk)),itabm1,numnod)
@@ -200,21 +211,22 @@
                           ni(l) = sysfus2(neighbor_node(remote_elem_id,permutation_2d(l,kk)),itabm1,numnod)
                         end if
                         tag(ni(l)) = 1
-                      enddo  
+                      enddo
 
-                      find_it = 0             
-                      do l=1,nb_node_facet                                     
+                      find_it = 0
+                      do l=1,nb_node_facet
                         if(n2d==0) then
                           find_it = find_it + tag(ixs(1+permutation_3d(l,k),i))
                         elseif(i>numelq) then
-                          if(k/=3) find_it = find_it + tag(ixtg(1+permutation_2d(l,k),i)) ! skip the 3rd face for triangle elements because node_id(3) = node_id(4)
+                          if(k/=3) find_it = find_it + tag(ixtg(1+permutation_2d(l,k),i))
+                          ! skip the 3rd face for triangle elements because node_id(3) = node_id(4)
                         else
                           find_it = find_it + tag(ixq(1+permutation_2d(l,k),i))
                         end if
                       enddo
                       do l=1,nb_node_facet
                         tag(ni(l)) = 0
-                      enddo 
+                      enddo
 
                       if(find_it==nb_node_facet) then
                         ale_connect%ee_connect%id_facet_neighbor_elem(nv46*(ijk-1)+k) = kk
@@ -225,12 +237,12 @@
                 endif
               enddo
             endif
-          end do 
+          end do
 
 
-          deallocate(tag)
-          deallocate(ni)
-          deallocate(neighbor_node)
+          call my_dealloc(tag)
+          call my_dealloc(ni)
+          call my_dealloc(neighbor_node)
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

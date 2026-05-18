@@ -271,6 +271,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -877,7 +879,7 @@ C
       ENDDO
       IF (CMAX==1) GOTO 300      
 C
-      ALLOCATE(MERGE(CMAX+1,NPOLH))
+      call my_alloc(MERGE, CMAX+1, NPOLH, "MERGE")
       DO I=1,NPOLH
          MERGE(1,I)=1
          MERGE(2,I)=I
@@ -894,7 +896,7 @@ C
       ENDDO
 C
       LEN=IFVPADR(NPOLH+1)-1
-      ALLOCATE(IFVPOLH_OLD(LEN))
+      call my_alloc(IFVPOLH_OLD, LEN, "IFVPOLH_OLD")
 
 !$OMP PARALLEL PRIVATE(I)
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ) 
@@ -1065,7 +1067,8 @@ C
             POLHAPP(2,I)=REDIR(IP2)
          ENDIF
       ENDDO
-      DEALLOCATE(MERGE, IFVPOLH_OLD)
+      call my_dealloc(MERGE)
+      call my_dealloc(IFVPOLH_OLD)
 
 
 !$OMP PARALLEL PRIVATE(I)
@@ -1158,10 +1161,10 @@ C
 
   300 CONTINUE 
 
-      DEALLOCATE(FVSPMD(IFV)%XXX)
-      DEALLOCATE(FVSPMD(IFV)%VVV) 
-      DEALLOCATE(FVSPMD(IFV)%WAV) 
-      DEALLOCATE(FVSPMD(IFV)%WAX) 
+      call my_dealloc(FVSPMD(IFV)%XXX)
+      call my_dealloc(FVSPMD(IFV)%VVV)
+      call my_dealloc(FVSPMD(IFV)%WAV)
+      call my_dealloc(FVSPMD(IFV)%WAX)
 
       RETURN
       END

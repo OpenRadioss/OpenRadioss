@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,7 +148,7 @@ C=======================================================================
             ENDIF
           ENDIF
         ENDDO
-        IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)        
+        IF(ALLOCATED(LIST_ENTITY)) call my_dealloc(LIST_ENTITY)
 C-----------
       RETURN
       END

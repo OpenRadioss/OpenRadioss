@@ -26,7 +26,7 @@
 !||    updfail               ../starter/source/materials/updfail.F90
 !||====================================================================
       module random_walk_dmg_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief fractal random walk algorithm for initializing damage in material law elements
@@ -59,6 +59,8 @@
           use random_walk_def_mod
           use fractal_element_neighbor_mod
           use stack_mod
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           use constant_mod ,only : zero,one
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -127,10 +129,10 @@
           else
             i_seed = 1
             call random_seed(size=i_seed)
-            allocate(a_seed(1:i_seed))
+            call my_alloc(a_seed,i_seed,"a_seed")
             a_seed = seed
             call random_seed(put=a_seed)
-            deallocate(a_seed)
+            call my_dealloc(a_seed)
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     create element - edge connectivity for all elements in material
@@ -148,7 +150,7 @@
             ! starting elements are chosen randomly for each random walker
             random_start = .true.
             nstart = fractal%nelem
-            allocate (start_group(nstart))
+            call my_alloc(start_group,nstart,"start_group")
             start_group(1:nstart) = fractal%random_walk(1:nstart)%elnum
           else
             random_start = .false.
@@ -159,7 +161,7 @@
               igr3n_start = ngr2usrn(start_gsh3_id,igrsh3n,ngrsh3n,nb_sh3)
             end if
 !
-            allocate (start_group(nb_sh3 + nb_sh4))
+            call my_alloc(start_group,nb_sh3 + nb_sh4,"start_group")
             count = 0
             do i=1,nb_sh4
               iel = igrsh4n(igr4n_start)%entity(i)
@@ -321,7 +323,7 @@
             end if
           end do
 !
-          if (allocated(start_group)) deallocate (start_group)
+          if (allocated(start_group)) call my_dealloc(start_group)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine random_walk_dmg

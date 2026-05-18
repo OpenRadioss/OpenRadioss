@@ -26,7 +26,7 @@
 !||    lectur               ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_read_inivol_mod
-      implicit none
+        implicit none
       contains
         !! \brief Read the initial volume option
 !||====================================================================
@@ -164,10 +164,10 @@
 
           !---allocation
           stat=0
-          if(.not.allocated(inivol))allocate (inivol(sinivol) ,stat=stat)
+          if(.not.allocated(inivol))allocate(inivol(sinivol) ,stat=stat)
           if (stat /= 0) call ancmsg(msgid=268,anmode=aninfo,msgtype=msgerror,c1="INIVOL")
 
-          if(.not.allocated(kvol))allocate (kvol(skvol)     ,stat=stat)
+          if(.not.allocated(kvol))call my_alloc(kvol,skvol,"kvol",stat=stat)
           if (stat /= 0) call ancmsg(msgid=268,anmode=aninfo, msgtype=msgerror,c1="KVOL")
           if (skvol > 0) kvol  = 0
 

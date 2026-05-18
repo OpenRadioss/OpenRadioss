@@ -59,6 +59,7 @@
           use matparam_def_mod,       only: matparam_struct_
           use precision_mod,          only: WP
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -125,9 +126,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          call my_alloc(imnt,numnod)
-          call my_alloc(itag,numnod)
-          call my_alloc(noda_l,numnod)
+          call my_alloc(imnt,numnod,"imnt")
+          call my_alloc(itag,numnod,"itag")
+          call my_alloc(noda_l,numnod,"noda_l")
           noda_l = zero
           imnt = 0
           itag = 0
@@ -459,9 +460,9 @@
             end do
           end if !(is_found) then
 !
-          deallocate(imnt)
-          deallocate(itag)
-          deallocate(noda_l)
+          call my_dealloc(imnt)
+          call my_dealloc(itag)
+          call my_dealloc(noda_l)
 !
         end subroutine init_rwall_penalty
 !

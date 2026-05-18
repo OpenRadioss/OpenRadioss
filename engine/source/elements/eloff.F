@@ -49,6 +49,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -112,7 +114,7 @@ C======================================================================|
       IGSH3 = IACTIV(9,NN) 
       IFORM = IACTIV(10,NN) 
       
-      ALLOCATE(INDEX2(1+MVSIZ,NGROUP))
+      call my_alloc(INDEX2, 1+MVSIZ, NGROUP, "INDEX2")
       INDEX2=0
       ENDIF
 C      
@@ -620,7 +622,7 @@ C Set MCP_OFF(i) == 0 if all solids connected to i are deactivated
       ENDIF
 
 
-      IF(IFLAG == 1 .OR. IFLAG == 0) DEALLOCATE(INDEX2)
+      IF(IFLAG == 1 .OR. IFLAG == 0) call my_dealloc(INDEX2)
 C----------
       RETURN
       END

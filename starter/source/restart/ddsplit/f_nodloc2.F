@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -64,7 +66,7 @@ C-----------------------------------------------
 C
 ! ----------------------
 !     allocate 1d array
-      ALLOCATE( ITAG(NUMNOD) )
+      call my_alloc(ITAG, NUMNOD, "ITAG")
 ! ----------------------
       DO N = 1, NUMNOD
         ITAG(N) = 0
@@ -204,7 +206,7 @@ C
 C
 ! ----------------------
 !     deallocate 1d array
-      DEALLOCATE( ITAG )
+      call my_dealloc(ITAG)
 ! ----------------------
       RETURN
       END

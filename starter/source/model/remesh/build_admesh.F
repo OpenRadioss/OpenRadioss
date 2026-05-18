@@ -240,9 +240,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -302,6 +304,8 @@ C
 C     Reverse connectivity at the previous level
 C
       ALLOCATE(KNOD2SH(0:NUMNOD_NEW),STAT=stat)
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='KNOD2SH')     
@@ -325,7 +329,7 @@ C
         KNOD2SH(N)=KNOD2SH(N)+KNOD2SH(N-1)
       END DO
 C
-      ALLOCATE(NOD2SH(4*NUMELC_LEV+3*NUMELTG_LEV),STAT=stat)
+      call my_alloc(NOD2SH, 4*NUMELC_LEV+3*NUMELTG_LEV, "NOD2SH", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='NOD2SH')     
@@ -354,7 +358,7 @@ C
       KNOD2SH(0)=0
 C
 C     allocation tag
-      ALLOCATE(TAG(5,NUMELC_LEV+NUMELTG_LEV),STAT=stat)
+      call my_alloc(TAG, 5, NUMELC_LEV+NUMELTG_LEV, "TAG", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='TAG')     
@@ -592,9 +596,9 @@ C
       END DO
 
 C     next level
-      DEALLOCATE(TAG)
-      DEALLOCATE(NOD2SH)
-      DEALLOCATE(KNOD2SH)
+      CALL MY_DEALLOC(TAG)
+      CALL MY_DEALLOC(NOD2SH)
+      call my_dealloc(KNOD2SH)
  100  CONTINUE
 
 C

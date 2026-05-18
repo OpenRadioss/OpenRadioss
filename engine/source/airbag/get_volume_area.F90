@@ -26,7 +26,7 @@
 !||    monvol0               ../engine/source/airbag/monvol0.F
 !||====================================================================
       module get_volume_area_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -66,6 +66,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
@@ -135,7 +137,8 @@
 
             if(computation_needed) then
 !$omp single
-              allocate(f1(segment_number + t_monvoln(ijk)%nb_fill_tri), f2(segment_number + t_monvoln(ijk)%nb_fill_tri))
+              call my_alloc(f1, segment_number + t_monvoln(ijk)%nb_fill_tri, "f1")
+              call my_alloc(f2, segment_number + t_monvoln(ijk)%nb_fill_tri, "f2")
 !$omp end single
               if(intbag==0)then
 !$omp do schedule(guided)
@@ -258,7 +261,8 @@
 !$omp barrier
 
 !$omp single
-              deallocate( f1,f2 )
+              call my_dealloc(f1)
+              call my_dealloc(f2)
 !$omp end single
             end if
             monvol_address = monvol_address + nimv

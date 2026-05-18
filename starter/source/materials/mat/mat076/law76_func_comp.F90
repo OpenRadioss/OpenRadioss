@@ -46,6 +46,8 @@
 !         Modules
 ! --------------------------------------------------------------------------------------------------
           use table4d_mod
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           use constant_mod  ,only : zero,half,one,two,three,em20
           use precision_mod ,only : WP
 ! --------------------------------------------------------------------------------------------------
@@ -72,8 +74,8 @@
 !===================================================================================================
           npt_tens  = size(func_tens%x(1)%values)
           npt_shear = size(func_shear%x(1)%values)
-          allocate(ytens(npt_tens))
-          allocate(yshear(npt_shear))
+          call my_alloc(ytens, npt_tens, "ytens")
+          call my_alloc(yshear, npt_shear, "yshear")
           if (func_tens%ndim == 1) then
             ytens(:) = func_tens%y1d(1:npt_tens)
           else
@@ -174,16 +176,16 @@
             y_comp(k) = num / max(em20, den)
           end do
 !---------------------------------------------------------------------------------------------------
-          allocate (func_comp%x(1))
-          allocate (func_comp%x(1)%values(npt_comp))
-          allocate (func_comp%y1d(npt_comp))
+          allocate(func_comp%x(1))
+          call my_alloc(func_comp%x(1)%values, npt_comp, "func_comp%x(1)%values")
+          call my_alloc(func_comp%y1d, npt_comp, "func_comp%y1d")
           func_comp%ndim=1
           func_comp%notable=1
           func_comp%x(1)%values(1:npt_comp) = x_comp(1:npt_comp)
           func_comp%y1d(1:npt_comp)         = y_comp(1:npt_comp)
 !---------------------------------------------------------------------------------------------------
-          deallocate(yshear)
-          deallocate(ytens)
+          call my_dealloc(yshear)
+          call my_dealloc(ytens)
 !===================================================================================================
         end subroutine law76_func_comp
       end module law76_func_comp_mod

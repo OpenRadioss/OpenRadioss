@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s 
@@ -45,8 +46,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: ISORT,INDEX_SORT
 C-----------------------------------------------
         
-        ALLOCATE(ISORT(NUM_ELM))
-        ALLOCATE(INDEX_SORT(2*NUM_ELM))
+        call my_alloc(ISORT, NUM_ELM, "ISORT")
+        call my_alloc(INDEX_SORT, 2*NUM_ELM, "INDEX_SORT")
 
         DO I=1,NUM_ELM
             ISORT(I)=IXELM(UID,I)
@@ -59,8 +60,8 @@ C-----------------------------------------------
             MAP(I,2)=INDEX_SORT(I)
         ENDDO
 
-        DEALLOCATE (ISORT)
-        DEALLOCATE (INDEX_SORT)
+        CALL MY_DEALLOC(ISORT)
+        CALL MY_DEALLOC(INDEX_SORT)
 
         RETURN
         END SUBROUTINE MAP_ORDER

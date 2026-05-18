@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -75,7 +77,7 @@ C-----------------------------------------------
       ENDDO ! DO ISU=1,NSURF
 !!------  Allocate and read subset data from restart
 !
-      ALLOCATE (ISURFI(LENISURF) ,STAT=ERR)
+      call my_alloc(ISURFI, LENISURF, "ISURFI", stat=ERR)
       CALL READ_I_C(ISURFI, LENISURF)
 !=======================================================================
       L_SURF = 0
@@ -143,7 +145,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO ! DO ISU=1,NSURF
 !---------
-      DEALLOCATE (ISURFI)
+      call my_dealloc(ISURFI)
 !---------
       RETURN
       END

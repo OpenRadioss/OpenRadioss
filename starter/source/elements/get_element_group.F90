@@ -31,7 +31,8 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief Creation of homogeneous super groups of elements based on the element properties, material and part ids, etc...
+!! \brief Creation of homogeneous super groups of elements based on the element properties, material and part ids,
+!! etc...
 !! \details
 !||====================================================================
 !||    get_element_group          ../starter/source/elements/get_element_group.F90
@@ -51,17 +52,17 @@
 !||    stack_mod                  ../starter/share/modules1/stack_mod.F
 !||====================================================================
         subroutine get_element_group(numels,numelc,numeltg,nb_key, &
-                                        nummat,numgeo,npart,npropgi, &
-                                        npropmi,npropm,npropg,lipart1, &
-                                        isms,idtgrs,npreload,icrack3d, &
-                                        sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2, &
-                                        ltitr,iwarnhb,trimat,nadmesh,iddlevel, &
-                                        iparts,ipartc,iparttg,ipart, &
-                                        isoloff,isheoff,ish3noff,isolnod,icnod, &
-                                        iflag_bpreload,damp_range_part,tagprt_sms, &
-                                        iworksh,ixs,ixc,ixtg, &
-                                        igeo,ipm,sh4tree,sh3tree, &
-                                        pm,geo,stack,mat_param,elm_group)
+          nummat,numgeo,npart,npropgi, &
+          npropmi,npropm,npropg,lipart1, &
+          isms,idtgrs,npreload,icrack3d, &
+          sh4tree_dim1,sh4tree_dim2,sh3tree_dim1,sh3tree_dim2, &
+          ltitr,iwarnhb,trimat,nadmesh,iddlevel, &
+          iparts,ipartc,iparttg,ipart, &
+          isoloff,isheoff,ish3noff,isolnod,icnod, &
+          iflag_bpreload,damp_range_part,tagprt_sms, &
+          iworksh,ixs,ixc,ixtg, &
+          igeo,ipm,sh4tree,sh3tree, &
+          pm,geo,stack,mat_param,elm_group)
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,6 +76,8 @@
           use get_sort_key_solid_mod, only : get_sort_key_solid
           use get_sort_key_shell_mod, only : get_sort_key_shell
           use get_sort_key_shell3n_mod, only : get_sort_key_shell3n
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           use stack_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -94,7 +97,7 @@
           integer, intent(in) :: nummat !< total number of materials in the model
           integer, intent(in) :: numgeo !< total number of properties in the model
           integer, intent(in) :: npart !< total number of parts in the model
-    
+
           integer, intent(in) :: npropgi !< number of integer property parameters
           integer, intent(in) :: npropmi !< number of integer material parameters
           integer, intent(in) :: npropm !< number of real material parameters
@@ -114,15 +117,16 @@
           integer, intent(in) :: ltitr !< title size ???
           integer, intent(inout) :: iwarnhb !< number of Warning mesages
           integer, intent(inout) :: trimat !< number of sub-materials for the law 151
-          integer, intent(in) :: nadmesh !< flag for adaptive meshing 
+          integer, intent(in) :: nadmesh !< flag for adaptive meshing
 
-          integer, intent(in) :: iddlevel !< flag for the domain decomposition: 0 --> first domain decomposition without the interfaces
-                                          !<                                    1 --> second domain decomposition with the interfaces
-                                          !< if there are some interfaces, need to save the data to the appropiate locations (i instead of index(i))
+          integer, intent(in) :: iddlevel
+          !< flag for the domain decomposition: 0 --> first domain decomposition without the interfaces
+          !<                                    1 --> second domain decomposition with the interfaces
+          !< if there are some interfaces, need to save the data to the appropiate locations (i instead of index(i))
 
           integer, dimension(numels), intent(in) :: iparts !< array of part ids for each element
           integer, dimension(numelc), intent(in) :: ipartc !< array of part ids for each element
-          integer, dimension(numeltg), intent(in) :: iparttg !< array of part ids for each element      
+          integer, dimension(numeltg), intent(in) :: iparttg !< array of part ids for each element
 
           integer, dimension(numels), intent(in) :: isoloff  !< deactivated solid flag
           integer, dimension(numelc), intent(in) :: isheoff  !< deactivated shell flag
@@ -130,31 +134,35 @@
 
           integer, dimension(numels), intent(in) :: isolnod  !< array of element types (hexa8, hexa20, etc...)
           integer, dimension(numeltg), intent(in) :: icnod !< ???
-          integer, dimension(numels), intent(in) :: iflag_bpreload !< array of flags for elements with preload conditions
+          integer, dimension(numels), intent(in) :: iflag_bpreload
+          !< array of flags for elements with preload conditions
 
           integer, dimension(npart), intent(in) :: damp_range_part !< array of damping range for each part
           integer, dimension(isms*npart), intent(in) :: tagprt_sms !< array of sms tags for each element's part
 
 
-    
+
 
           integer, dimension(lipart1,npart), intent(in) :: ipart !< array of part parameters
-          integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply array for shell element              
+          integer, dimension(3,numelc+numeltg), intent(in) :: iworksh !< ply array for shell element
           integer, dimension(nixs,numels), intent(in) :: ixs !< solid connectivity array
           integer, dimension(3,numelc), intent(in) :: ixc !< shell connectivity array
-          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< shell3n connectivity array          
+          integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< shell3n connectivity array
           integer, dimension(npropgi,numgeo), intent(inout) :: igeo !< property parameters array
-          integer, dimension(npropmi,nummat), intent(in) :: ipm          
-          
-          integer, dimension(sh4tree_dim1,sh4tree_dim2), intent(in) :: sh4tree !< tree array for shells (adaptive meshing)          
-          integer, dimension(sh3tree_dim1,sh3tree_dim2), intent(in) :: sh3tree !< tree array for shell3ns (adaptive meshing)
+          integer, dimension(npropmi,nummat), intent(in) :: ipm
+
+          integer, dimension(sh4tree_dim1,sh4tree_dim2), intent(in) :: sh4tree
+          !< tree array for shells (adaptive meshing)
+          integer, dimension(sh3tree_dim1,sh3tree_dim2), intent(in) :: sh3tree
+          !< tree array for shell3ns (adaptive meshing)
 
           real(kind=WP), dimension(npropg,numgeo), intent(in) :: geo !< property parameters array
           real(kind=WP), dimension(npropm,nummat), intent(in) :: pm !< material parameters array
 
           type(stack_ply), intent(in) :: stack !< stack data structure for multilayer shells
           type(matparam_struct_), dimension(nummat), intent(in) :: mat_param !< array of material parameters structures
-          type(elm_group_), intent(out) :: elm_group !< element group data structure to store the group id and the number of element in the group for each element  
+          type(elm_group_), intent(out) :: elm_group
+          !< element group data structure to store the group id and the number of element in the group for each element
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -169,71 +177,71 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
 ! ----------------------------------------------------------------------------------------------------------------------
-          if(allocated(elm_group%solid)) deallocate(elm_group%solid)
-          allocate(elm_group%solid(numels,2))
+          if(allocated(elm_group%solid))call my_dealloc(elm_group%solid)
+          call my_alloc(elm_group%solid,numels,2,"elm_group%solid")
           elm_group%solid(:,:) = 0
           numels8a = 0
           if(numels>0) then
-            allocate(sort_key(nb_key,numels))
+            call my_alloc(sort_key,nb_key,numels,"sort_key")
             sort_key(1:nb_key,1:numels) = 0
 
             call get_sort_key_solid(numels,nb_key,nummat,numgeo, &
-                                    npart,npropgi, &
-                                    npropmi,npropm,npropg, &
-                                    isms,idtgrs,npreload,trimat,numels8a, &
-                                    iparts,isoloff,isolnod,iflag_bpreload,damp_range_part,tagprt_sms, &
-                                    sort_key,ixs,igeo, &
-                                    ipm,pm,geo, &
-                                    mat_param)
+              npart,npropgi, &
+              npropmi,npropm,npropg, &
+              isms,idtgrs,npreload,trimat,numels8a, &
+              iparts,isoloff,isolnod,iflag_bpreload,damp_range_part,tagprt_sms, &
+              sort_key,ixs,igeo, &
+              ipm,pm,geo, &
+              mat_param)
 
             call create_element_group(numels,nb_key,elm_group%solid,sort_key,iddlevel)
 
-            deallocate(sort_key)
+            call my_dealloc(sort_key)
           end if
 
-          if(allocated(elm_group%shell)) deallocate(elm_group%shell)
-          allocate(elm_group%shell(numelc,2))
+          if(allocated(elm_group%shell))call my_dealloc(elm_group%shell)
+          call my_alloc(elm_group%shell,numelc,2,"elm_group%shell")
           elm_group%shell(:,:) = 0
           if(numelc>0) then
-            allocate(sort_key(nb_key,numelc))
+            call my_alloc(sort_key,nb_key,numelc,"sort_key")
             sort_key(1:nb_key,1:numelc) = 0
 
             call get_sort_key_shell(numelc,numeltg,nb_key,nummat,numgeo, &
-                                      npart,nadmesh,lipart1,npropgi, &
-                                      npropmi,npropm,npropg,icrack3d, &
-                                      isms,idtgrs,sh4tree_dim1,sh4tree_dim2, &
-                                      ipartc,isheoff,damp_range_part,tagprt_sms, &
-                                      ipart,iworksh,sort_key,ixc,igeo, &
-                                      ipm,sh4tree,pm,geo, &
-                                      stack,mat_param)
+              npart,nadmesh,lipart1,npropgi, &
+              npropmi,npropm,npropg,icrack3d, &
+              isms,idtgrs,sh4tree_dim1,sh4tree_dim2, &
+              ipartc,isheoff,damp_range_part,tagprt_sms, &
+              ipart,iworksh,sort_key,ixc,igeo, &
+              ipm,sh4tree,pm,geo, &
+              stack,mat_param)
 
             call create_element_group(numelc,nb_key,elm_group%shell,sort_key,iddlevel)
 
-            deallocate(sort_key)
+            call my_dealloc(sort_key)
           end if
 
-          if(allocated(elm_group%shell3n)) deallocate(elm_group%shell3n)
-          allocate(elm_group%shell3n(numeltg,2))
+          if(allocated(elm_group%shell3n))call my_dealloc(elm_group%shell3n)
+          call my_alloc(elm_group%shell3n,numeltg,2,"elm_group%shell3n")
 
           elm_group%shell3n(:,:) = 0
           if(numeltg>0) then
-            allocate(sort_key(nb_key,numeltg))
+            call my_alloc(sort_key,nb_key,numeltg,"sort_key")
             sort_key(1:nb_key,1:numeltg) = 0
 
             call get_sort_key_shell3n(numelc,numeltg,nb_key,nummat,numgeo, &
-                                      npart,nadmesh,lipart1,npropgi, &
-                                      npropmi,npropm,npropg,icrack3d, &
-                                      isms,idtgrs,sh3tree_dim1,sh3tree_dim2,ltitr,trimat,iwarnhb, &
-                                      iparttg,ish3noff,damp_range_part,icnod,tagprt_sms, &
-                                      ipart,iworksh,sort_key,ixtg,igeo, &
-                                      ipm,sh3tree,pm,geo, &
-                                      stack,mat_param)
+              npart,nadmesh,lipart1,npropgi, &
+              npropmi,npropm,npropg,icrack3d, &
+              isms,idtgrs,sh3tree_dim1,sh3tree_dim2,ltitr,trimat,iwarnhb, &
+              iparttg,ish3noff,damp_range_part,icnod,tagprt_sms, &
+              ipart,iworksh,sort_key,ixtg,igeo, &
+              ipm,sh3tree,pm,geo, &
+              stack,mat_param)
 
             call create_element_group(numeltg,nb_key,elm_group%shell3n,sort_key,iddlevel)
 
-            deallocate(sort_key)
-          end if                 
-          
+            call my_dealloc(sort_key)
+          end if
+
 
 
           return

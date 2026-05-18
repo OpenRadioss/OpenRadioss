@@ -26,7 +26,7 @@
 !||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||====================================================================
       module get_neighbour_surface_from_remote_proc_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -79,6 +79,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -154,9 +156,9 @@
           ! [7+5*[7]+1:7+6*[7]] :  edge id of the remote connected segments
           ! [7+6*[7]+1:7+10*[7]] : boolean for the remote segment neighbourhood, 4 values per segment, 1 per edge --> 0=no neighbour, 1=already a neighbour
 
-          allocate( result_intersect_0( shoot_struct%max_surf_nb ) )
-          allocate( intersect_1( shoot_struct%max_surf_nb ) )
-          allocate( intersect_2( shoot_struct%max_surf_nb ) )
+          call my_alloc(result_intersect_0, shoot_struct%max_surf_nb, "result_intersect_0")
+          call my_alloc(intersect_1, shoot_struct%max_surf_nb, "intersect_1")
+          call my_alloc(intersect_2, shoot_struct%max_surf_nb, "intersect_2")
 
           next_segment = 0
           do i=1,nb_r_segment
@@ -212,11 +214,11 @@
             end if
             ! ------
 
-            allocate( n_normal(3,nb_result_intersect_0) )
-            allocate( n_vconvexity(3,nb_result_intersect_0) )
-            allocate( n_iedge(nb_result_intersect_0) )
-            allocate( my_reduced_list(nb_result_intersect_0,2) )
-            allocate( my_reduced_neighbour(nb_result_intersect_0,4) )
+            call my_alloc(n_normal, 3, nb_result_intersect_0, "n_normal")
+            call my_alloc(n_vconvexity, 3, nb_result_intersect_0, "n_vconvexity")
+            call my_alloc(n_iedge, nb_result_intersect_0, "n_iedge")
+            call my_alloc(my_reduced_list, nb_result_intersect_0, 2, "my_reduced_list")
+            call my_alloc(my_reduced_neighbour, nb_result_intersect_0, 4, "my_reduced_neighbour")
 
             call get_segment_interface_id( ninter,nb_result_intersect_0,result_intersect_0, &
               nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
@@ -244,13 +246,13 @@
 
                 if(s_buffer_2_size(1,proc_id)+my_size>s_buffer_2(proc_id)%size_my_real_array_1d) then
                   old_size = s_buffer_2(proc_id)%size_my_real_array_1d
-                  allocate( my_real_tmp_array(old_size) )
+                  call my_alloc(my_real_tmp_array, old_size, "my_real_tmp_array")
                   my_real_tmp_array(1:old_size) = s_buffer_2(proc_id)%my_real_array_1d(1:old_size)
                   call dealloc_my_real_1d_array(s_buffer_2(proc_id))
                   s_buffer_2(proc_id)%size_my_real_array_1d = 2*(s_buffer_2(proc_id)%size_my_real_array_1d + my_size) + 1
                   call alloc_my_real_1d_array(s_buffer_2(proc_id))
                   s_buffer_2(proc_id)%my_real_array_1d(1:old_size) = my_real_tmp_array(1:old_size)
-                  deallocate( my_real_tmp_array )
+                  call my_dealloc(my_real_tmp_array)
                 end if
                 ! -----------
 
@@ -305,18 +307,18 @@
                 s_buffer_2_size(3,proc_id) = s_buffer_2_size(3,proc_id)+1 ! total number of connected remote sgment
               end if
             end do
-            deallocate( n_normal )
-            deallocate( n_iedge )
-            deallocate( my_reduced_list )
-            deallocate( my_reduced_neighbour )
-            deallocate( n_vconvexity )
+            call my_dealloc(n_normal)
+            call my_dealloc(n_iedge)
+            call my_dealloc(my_reduced_list)
+            call my_dealloc(my_reduced_neighbour)
+            call my_dealloc(n_vconvexity)
           end do
 
           ! --------------------------
 
-          deallocate( result_intersect_0 )
-          deallocate( intersect_1 )
-          deallocate( intersect_2 )
+          call my_dealloc(result_intersect_0)
+          call my_dealloc(intersect_1)
+          call my_dealloc(intersect_2)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_neighbour_surface_from_remote_proc

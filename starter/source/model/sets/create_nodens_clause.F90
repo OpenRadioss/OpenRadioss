@@ -58,6 +58,8 @@
           use MESSAGE_MOD
           use HM_OPTION_READ_MOD
           use OPTIONDEF_MOD
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,7 +90,7 @@
 !
           call hm_get_int_array_index("idsmax" ,ids_max ,jclause,is_available,lsubmodel)
 
-          allocate(nodens_read_tmp(ids_max))
+          call my_alloc(nodens_read_tmp, ids_max, "nodens_read_tmp")
           nodens_read_tmp(1:ids_max) = 0
 
           nindx = 0
@@ -114,13 +116,13 @@
 !         Copy in final SET
 !         ------------------
           clause%nb_nodens = list_size
-          allocate(clause%nodens(list_size))
+          call my_alloc(clause%nodens, list_size, "clause%nodens")
 
           do i=1,list_size
             clause%nodens(i) = nodens_read_tmp(i)
           end do
 !
-          deallocate(nodens_read_tmp)
+          call my_dealloc(nodens_read_tmp)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine create_nodens_clause
       end module create_nodens_clause_mod

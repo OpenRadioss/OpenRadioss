@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE XFEM2DEF_MOD
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,25 +101,25 @@ C  crack xfem for layered shell
 C--------------------
 c
         DO I=1,NLEVMAX       
-          ALLOCATE(CRKLVSET(I)%ELCUT(ECRKXFE))
-          ALLOCATE(CRKLVSET(I)%HFI0(4,ECRKXFE))
-          ALLOCATE(CRKLVSET(I)%ENRICH0(4,ECRKXFE))
-          ALLOCATE(CRKLVSET(I)%EDGE0(4,ECRKXFE))
+          call my_alloc(CRKLVSET(I)%ELCUT, ECRKXFE, "CRKLVSET(I)%ELCUT")
+          call my_alloc(CRKLVSET(I)%HFI0, 4, ECRKXFE, "CRKLVSET(I)%HFI0")
+          call my_alloc(CRKLVSET(I)%ENRICH0, 4, ECRKXFE, "CRKLVSET(I)%ENRICH0")
+          call my_alloc(CRKLVSET(I)%EDGE0, 4, ECRKXFE, "CRKLVSET(I)%EDGE0")
 C
-          ALLOCATE(CRKLVSET(I)%EDGE(4,ECRKXFEC))
-          ALLOCATE(CRKLVSET(I)%EDGETG(3,ECRKXFETG))
-          ALLOCATE(CRKLVSET(I)%ICUTEDGE(NUMEDGES))
-          ALLOCATE(CRKLVSET(I)%RATIOEDGE(NUMEDGES))
+          call my_alloc(CRKLVSET(I)%EDGE, 4, ECRKXFEC, "CRKLVSET(I)%EDGE")
+          call my_alloc(CRKLVSET(I)%EDGETG, 3, ECRKXFETG, "CRKLVSET(I)%EDGETG")
+          call my_alloc(CRKLVSET(I)%ICUTEDGE, NUMEDGES, "CRKLVSET(I)%ICUTEDGE")
+          call my_alloc(CRKLVSET(I)%RATIOEDGE, NUMEDGES, "CRKLVSET(I)%RATIOEDGE")
 C
-          ALLOCATE(CRKAVX(I)%A(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%AR(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%V(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%VR(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%X(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%U(3,LCNE_CRKXFEM))
-          ALLOCATE(CRKAVX(I)%XX(3,4*ECRKXFE))
+          call my_alloc(CRKAVX(I)%A, 3, LCNE_CRKXFEM, "CRKAVX(I)%A")
+          call my_alloc(CRKAVX(I)%AR, 3, LCNE_CRKXFEM, "CRKAVX(I)%AR")
+          call my_alloc(CRKAVX(I)%V, 3, LCNE_CRKXFEM, "CRKAVX(I)%V")
+          call my_alloc(CRKAVX(I)%VR, 3, LCNE_CRKXFEM, "CRKAVX(I)%VR")
+          call my_alloc(CRKAVX(I)%X, 3, LCNE_CRKXFEM, "CRKAVX(I)%X")
+          call my_alloc(CRKAVX(I)%U, 3, LCNE_CRKXFEM, "CRKAVX(I)%U")
+          call my_alloc(CRKAVX(I)%XX, 3, 4*ECRKXFE, "CRKAVX(I)%XX")
 c
-          ALLOCATE(CRKSKY(I)%FSKY(8,LCNE_CRKXFEM))
+          call my_alloc(CRKSKY(I)%FSKY, 8, LCNE_CRKXFEM, "CRKSKY(I)%FSKY")
 C
           CRKLVSET(I)%ELCUT= 0
           CRKLVSET(I)%HFI0 = 0
@@ -141,11 +142,11 @@ C
         ENDDO
 C
         DO I=1,NXLAYMAX
-          ALLOCATE(CRKEDGE(I)%LAYCUT(ECRKXFE))
-          ALLOCATE(CRKEDGE(I)%EDGEICRK(NUMEDGES))
-          ALLOCATE(CRKEDGE(I)%EDGEIFI(2,NUMEDGES))
-          ALLOCATE(CRKEDGE(I)%EDGEENR(2,NUMEDGES))
-          ALLOCATE(CRKEDGE(I)%EDGETIP(2,NUMEDGES))
+          call my_alloc(CRKEDGE(I)%LAYCUT, ECRKXFE, "CRKEDGE(I)%LAYCUT")
+          call my_alloc(CRKEDGE(I)%EDGEICRK, NUMEDGES, "CRKEDGE(I)%EDGEICRK")
+          call my_alloc(CRKEDGE(I)%EDGEIFI, 2, NUMEDGES, "CRKEDGE(I)%EDGEIFI")
+          call my_alloc(CRKEDGE(I)%EDGEENR, 2, NUMEDGES, "CRKEDGE(I)%EDGEENR")
+          call my_alloc(CRKEDGE(I)%EDGETIP, 2, NUMEDGES, "CRKEDGE(I)%EDGETIP")
           CRKEDGE(I)%LAYCUT   = 0
           CRKEDGE(I)%EDGEICRK = 0
           CRKEDGE(I)%EDGEIFI  = 0
@@ -154,10 +155,10 @@ C
         ENDDO
 c
         DO I=1,NXLAYMAX
-          ALLOCATE(XFEM_PHANTOM(I)%ELCUT(ECRKXFE))
-          ALLOCATE(XFEM_PHANTOM(I)%IFI(LCNECRKXFEM))
-          ALLOCATE(XFEM_PHANTOM(I)%ITRI(2,ECRKXFE))
-          ALLOCATE(XFEM_PHANTOM(I)%TAGXP(1,1,1))     ! not used in starter
+          call my_alloc(XFEM_PHANTOM(I)%ELCUT, ECRKXFE, "XFEM_PHANTOM(I)%ELCUT")
+          call my_alloc(XFEM_PHANTOM(I)%IFI, LCNECRKXFEM, "XFEM_PHANTOM(I)%IFI")
+          call my_alloc(XFEM_PHANTOM(I)%ITRI, 2, ECRKXFE, "XFEM_PHANTOM(I)%ITRI")
+          call my_alloc(XFEM_PHANTOM(I)%TAGXP, 1, 1, 1, "XFEM_PHANTOM(I)%TAGXP") ! not used in starter
           XFEM_PHANTOM(I)%ELCUT = 0
           XFEM_PHANTOM(I)%TAGXP = 0
           XFEM_PHANTOM(I)%IFI   = 0

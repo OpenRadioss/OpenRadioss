@@ -33,11 +33,13 @@
         ! The workflow is as follows:
         ! 1. coupling_configure: called in inipar.F
         !    a) This creates the adapter pointer
-        !    b) Reads the configuration file (e.g., modelName.cpl if the engine filename is modelName_0001.rad) see the configure method implementations for the format of the file
+        ! b) Reads the configuration file (e.g., modelName.cpl if the engine filename is modelName_0001.rad) see the
+        ! configure method implementations for the format of the file
         ! 2. coupling_set_interface is called from resol.F to set the coupling nodes/mesh
         ! 3. coupling_initialize is called from resol.F to initialize the coupling adapter
         ! 4. coupling_sync is called from resol.F to synchronize the data
-        !    a) this contains the calls to coupling_adapter_write_data and coupling_adapter_read_data that exchange data with the coupling library
+        ! a) this contains the calls to coupling_adapter_write_data and coupling_adapter_read_data that exchange data
+        ! with the coupling library
         !    b) update the nodal arrays (nodes/acceleration) with the data read from the coupling library
         ! 5. advance called from resol.F is called to advance the coupling adapter
         !
@@ -56,7 +58,8 @@
         integer, parameter :: coupling_positions = 3
         integer, parameter :: coupling_temperature = 4
         ! In order to add a new data type, add a new integer here and in the C++ adapter
-        ! see enum class DataType in coupling.h and the implementation of the configure method in both cwipi and preCICE adapters
+        ! see enum class DataType in coupling.h and the implementation of the configure method in both cwipi and preCICE
+        ! adapters
 
         ! Operation modes
         integer, parameter :: coupling_replace = 1
@@ -107,7 +110,8 @@
             use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: coordinates(*)
-            integer(c_int), value :: n2d ! n2d == 0 for 3D case, n2d == 1 for axisymmetric, n2d == 3 for plane strain (yz plane) 
+            integer(c_int), value :: n2d
+            ! n2d == 0 for 3D case, n2d == 1 for axisymmetric, n2d == 3 for plane strain (yz plane)
             integer(c_int), value :: total_nodes, mpi_rank, mpi_size
             integer(c_int) :: coupling_adapter_initialize
           end function coupling_adapter_initialize
@@ -321,6 +325,7 @@
 !||====================================================================
         subroutine coupling_set_nodes(coupling, igrnod, ngrnod)
           use GROUPDEF_MOD
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -332,9 +337,9 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: i, j
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           coupling%grnod_id = coupling_adapter_get_group_node_id(coupling%adapter_ptr)
           if(coupling%grnod_id == 0) then
@@ -355,7 +360,7 @@
           end if
 
           coupling%nb_coupling_nodes = igrnod(j)%nentity
-          allocate(coupling%list_nodes(coupling%nb_coupling_nodes))
+          call my_alloc(coupling%list_nodes, coupling%nb_coupling_nodes, "coupling%list_nodes")
           coupling%list_nodes(1:coupling%nb_coupling_nodes) = igrnod(j)%entity(1:coupling%nb_coupling_nodes)
 
           call coupling_adapter_set_nodes(coupling%adapter_ptr, igrnod(j)%entity, coupling%nb_coupling_nodes)
@@ -380,6 +385,7 @@
 !----------------------------------------------------------------------------------------------------------------------
           use GROUPDEF_MOD, only: surf_
           use nodal_arrays_mod
+          use my_alloc_mod
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -399,13 +405,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(index(nodes%numnod))
-          allocate(connectIndex(surf%NSEG+1))
+          call my_alloc(index, nodes%numnod, "index")
+          call my_alloc(connectIndex, surf%NSEG+1, "connectIndex")
           connectIndex = 0
           connectIndex(1) = 0
-          allocate(connec(surf%NSEG*4))
+          call my_alloc(connec, surf%NSEG*4, "connec")
           connec = 0
-          allocate(node_id(surf%NSEG*4))
+          call my_alloc(node_id, surf%NSEG*4, "node_id")
           node_id = 0
           write(6,*) "surf%nodes size:", size(surf%nodes)
           write(6,*) "surf%NSEG size:", surf%NSEG
@@ -451,7 +457,7 @@
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
           coupling%nb_coupling_nodes = counter
           ! Allocate and fill list_nodes with the unique node IDs from the surface
-          allocate(coupling%list_nodes(counter))
+          call my_alloc(coupling%list_nodes, counter, "coupling%list_nodes")
           coupling%list_nodes(1:counter) = node_id(1:counter)
           call coupling_adapter_set_nodes(coupling%adapter_ptr, node_id, counter)
 
@@ -486,9 +492,9 @@
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: i
           integer :: surface_id
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           surface_id = coupling_adapter_get_surface_id(coupling%adapter_ptr)
           ! convert global user surface ID to local surface ID
           coupling%surface_id = 0
@@ -529,9 +535,9 @@
           real(c_double) :: coordinates(3 * nb_nodes)
           integer :: i, j, k
           integer :: n2d
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
 
           ! Convert coordinates to flat array
@@ -566,6 +572,8 @@
 !||====================================================================
         subroutine coupling_write(coupling, dt, global_values, nb_nodes, name_id)
           use precision_mod, only: WP
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -579,19 +587,19 @@
 #ifndef MYREAL8
           real(c_double), dimension(:,:), allocatable :: values
 #endif
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
 #ifdef MYREAL8
           call coupling_adapter_write_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id)
 #else
           ! single precision, copy global_values into values
-          allocate(values(3 , nb_nodes))
+          call my_alloc(values, 3, nb_nodes, "values")
           values(1:3,1:nb_nodes) = real(global_values(1:3,1:nb_nodes), c_double)
           call coupling_adapter_write_data(coupling%  adapter_ptr, values, nb_nodes, real(dt, c_double), name_id)
-          deallocate(values)
+          call my_dealloc(values)
 #endif
         end subroutine coupling_write
 
@@ -607,6 +615,8 @@
 !||====================================================================
         subroutine coupling_write_scalar(coupling, dt, global_values, nb_nodes, name_id)
           use precision_mod, only: WP
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -620,18 +630,18 @@
 #ifndef MYREAL8
           real(c_double), dimension(:), allocatable :: values
 #endif
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
 #ifdef MYREAL8
           call coupling_adapter_write_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id)
 #else
-          allocate(values(nb_nodes))
+          call my_alloc(values, nb_nodes, "values")
           values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
           call coupling_adapter_write_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id)
-          deallocate(values)
+          call my_dealloc(values)
 #endif
         end subroutine coupling_write_scalar
 
@@ -645,6 +655,8 @@
 !||====================================================================
         subroutine coupling_read(coupling, dt, global_values, nb_nodes, mode, name_id)
           use precision_mod, only: WP
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -659,21 +671,22 @@
 #ifndef MYREAL8
           real(c_double), dimension(:,:), allocatable :: values
 #endif
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
 #ifdef MYREAL8
-          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, mode)
+          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, &
+          &mode)
 #else
           ! single precision, copy global_values into values
-          allocate(values(3 , nb_nodes))
+          call my_alloc(values, 3, nb_nodes, "values")
           values(1:3,1:nb_nodes) = real(global_values(1:3,1:nb_nodes), c_double)
           call coupling_adapter_read_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id, mode)
           ! Copy values back to global_values
           global_values(:,:) = real(values(:,:), WP)
-          deallocate(values)
+          call my_dealloc(values)
 #endif
 
         end subroutine coupling_read
@@ -690,6 +703,8 @@
 !||====================================================================
         subroutine coupling_read_scalar(coupling, dt, global_values, nb_nodes, mode, name_id)
           use precision_mod, only: WP
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -704,19 +719,20 @@
 #ifndef MYREAL8
           real(c_double), dimension(:), allocatable :: values
 #endif
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
 #ifdef MYREAL8
-          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, mode)
+          call coupling_adapter_read_data(coupling%adapter_ptr, global_values, nb_nodes, real(dt, c_double), name_id, &
+          &mode)
 #else
-          allocate(values(nb_nodes))
+          call my_alloc(values, nb_nodes, "values")
           values(1:nb_nodes) = real(global_values(1:nb_nodes), c_double)
           call coupling_adapter_read_data(coupling%adapter_ptr, values, nb_nodes, real(dt, c_double), name_id, mode)
           global_values(1:nb_nodes) = real(values(1:nb_nodes), WP)
-          deallocate(values)
+          call my_dealloc(values)
 #endif
         end subroutine coupling_read_scalar
 
@@ -752,9 +768,9 @@
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: numnod,i,j
           integer :: read_data(4), write_data(4)
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
           if(.not. allocated(coupling%values)) allocate(coupling%values(3,nodes%numnod))
@@ -780,7 +796,7 @@
             endif
           else if(name_id == coupling_forces) THEN
             ! Write forces
-            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD) 
+            NODES%FORCES(1:3,1:NUMNOD) = nodes%A(1:3,1:NUMNOD)
             call coupling_adapter_write_data(coupling%adapter_ptr, nodes%FORCES, numnod, &
               real(dt, c_double), coupling_forces)
             ! Read forces into nodes%A
@@ -819,7 +835,7 @@
             coupling%values(1:3,1:numnod) = real(nodes%D(1:3,1:numnod), c_double)
             call coupling_adapter_write_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_displacements)
-            ! Read displacements 
+            ! Read displacements
             call coupling_adapter_read_data(coupling%adapter_ptr, coupling%values, numnod, &
               real(dt, c_double), coupling_displacements, coupling_replace)
             nodes%D(1:3,1:numnod) = real(coupling%values(1:3,1:numnod), WP)
@@ -876,9 +892,9 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           real(c_double) :: c_dt
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
 
@@ -906,9 +922,9 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: result
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           ongoing = .false.
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
@@ -932,9 +948,9 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: result
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           required = .false.
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
@@ -961,9 +977,9 @@
 !                                                   Local variables
 !-----------------------------------------------------------------------------------------------------------------------
           integer :: result
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           required = .false.
           if (.not. c_associated(coupling%adapter_ptr)) return
           if (.not. coupling%active) return
@@ -993,7 +1009,7 @@
           type(coupling_type), intent(inout) :: coupling
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-!------------------------------------------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------
           if (c_associated(coupling%adapter_ptr)) then
             call coupling_adapter_finalize(coupling%adapter_ptr)
             call coupling_adapter_destroy(coupling%adapter_ptr)

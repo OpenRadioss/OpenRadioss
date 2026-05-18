@@ -57,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -157,9 +158,9 @@ C nproc = number of domains, all SMP tasks count as one proc
 CC      NPROC = MAX(NTHREAD,NSPMD)
 CC smp nproc = ntask, spmd nproc = NSPMD
 
-      ALLOCATE(CPUTIME(MAX_NB_TIMER,NSPMD))
-      ALLOCATE(SYSTIME(MAX_NB_TIMER,NSPMD))
-      ALLOCATE(REALTIME(MAX_NB_TIMER,NSPMD))
+      call my_alloc(CPUTIME, MAX_NB_TIMER, NSPMD, "CPUTIME")
+      call my_alloc(SYSTIME, MAX_NB_TIMER, NSPMD, "SYSTIME")
+      call my_alloc(REALTIME, MAX_NB_TIMER, NSPMD, "REALTIME")
 
       DO I = 1, MAX_NB_TIMER
        ! copy local timers 

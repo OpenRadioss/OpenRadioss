@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE MOD_SPTRI
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       NVOIS = 0
 C-----------------------------------------------      
-      ALLOCATE(WREDUCE(NUMSPH),STAT=IERROR)
+      call my_alloc(WREDUCE, NUMSPH, "WREDUCE", stat=IERROR)
       IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=19,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .              C1='(SPH)')
@@ -178,7 +179,7 @@ C      CALL MY_BARRIER
 C     /---------------/
       IF(MYSPATRUE<SPATRUE)SPATRUE=MYSPATRUE
       ELSE     
-        DEALLOCATE(WREDUCE)       
+        CALL MY_DEALLOC(WREDUCE)
       ENDIF
 
       RETURN

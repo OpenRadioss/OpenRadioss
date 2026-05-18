@@ -51,6 +51,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -121,12 +123,13 @@ C-----------------------------------------------
       FIRST = 1 + I_STOK*ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
       MY_SIZE = LAST - FIRST + 1
-      ALLOCATE( LIST_REAL_CANDIDATE(MY_SIZE) )
+      call my_alloc(LIST_REAL_CANDIDATE, MY_SIZE, "LIST_REAL_CANDIDATE")
 C-----------------------------------------------
       IF(SOL_EDGE/=0)THEN
 
         IF(ITASK==0)THEN
-          ALLOCATE(TAGM(NRTM),BOXM(6,NRTM))
+          call my_alloc(TAGM, NRTM, "TAGM")
+          call my_alloc(BOXM, 6, NRTM, "BOXM")
           TAGM(1:NRTM)=0
         END IF
 
@@ -603,11 +606,14 @@ C
 
         CALL MY_BARRIER
 
-        IF(ITASK==0)DEALLOCATE(TAGM,BOXM)
+        IF(ITASK==0) THEN
+          CALL MY_DEALLOC(TAGM)
+          CALL MY_DEALLOC(BOXM)
+        ENDIF
 
       END IF
 
-      DEALLOCATE( LIST_REAL_CANDIDATE )
+      call my_dealloc(LIST_REAL_CANDIDATE)
 C
       RETURN
       END

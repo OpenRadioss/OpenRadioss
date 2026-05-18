@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE LOADS_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,7 @@ C-----------------------------------------------
         DO I=1,TOTAL_NUMBER_PCYL          
             LOADS%S_GLOBAL_SEGMENT_ID = LOADS%S_GLOBAL_SEGMENT_ID + LOADS%LOAD_CYL(I)%NSEG
         ENDDO
-        ALLOCATE( LOADS%GLOBAL_SEGMENT_ID(LOADS%S_GLOBAL_SEGMENT_ID,3) )
+        call my_alloc(LOADS%GLOBAL_SEGMENT_ID, LOADS%S_GLOBAL_SEGMENT_ID, 3, "LOADS%GLOBAL_SEGMENT_ID")
         OFFSET = 0
         DO I=1,TOTAL_NUMBER_PCYL
             DO J=1,LOADS%LOAD_CYL(I)%NSEG                    
@@ -90,7 +91,7 @@ C-----------------------------------------------
             LOCAL_NUMBER_CYL = 0
             ! ------------
             ! loop over the /LOAD/PCYL to count the number of load/pcyl on the processor J
-            ALLOCATE( LOADS_PER_PROC(J)%INDEX_LOAD( LOADS%NLOAD_CYL,2 ) )
+            call my_alloc(LOADS_PER_PROC(J)%INDEX_LOAD, LOADS%NLOAD_CYL, 2, "LOADS_PER_PROC(J)%INDEX_LOAD")
             DO I=1,LOADS%NLOAD_CYL
                 LOCAL_SEGMENT_NUMBER = LOADS%CYL_RESTART(I)%PROC(J)%LOCAL_SEGMENT_NUMBER
                 IF(LOCAL_SEGMENT_NUMBER>0) THEN
@@ -104,7 +105,7 @@ C-----------------------------------------------
             ! ------------
 
             LOADS_PER_PROC(J)%NLOAD_CYL = LOCAL_NUMBER_CYL ! save the number of /oad/pcyl on the current proc
-            ALLOCATE( LOADS_PER_PROC(J)%LOAD_CYL( LOCAL_NUMBER_CYL ) ) 
+            allocate(LOADS_PER_PROC(J)%LOAD_CYL(LOCAL_NUMBER_CYL))
             ! ------------
             IF(LOCAL_NUMBER_CYL>0) THEN
                 DO I=1,LOCAL_NUMBER_CYL
@@ -119,21 +120,26 @@ C-----------------------------------------------
                     LOADS_PER_PROC(J)%LOAD_CYL(I)%XSCALE_T = LOADS%LOAD_CYL(PCYL_ID)%XSCALE_T 
                     LOADS_PER_PROC(J)%LOAD_CYL(I)%YSCALE = LOADS%LOAD_CYL(PCYL_ID)%YSCALE
 
-                    LOADS_PER_PROC(J)%LOAD_CYL(I)%NSEG = LOADS%CYL_RESTART(PCYL_ID)%PROC(J)%LOCAL_SEGMENT_NUMBER ! number of segment of processor j
+                    LOADS_PER_PROC(J)%LOAD_CYL(I)%NSEG = LOADS%CYL_RESTART(PCYL_ID)%PROC(J)%LOCAL_SEGMENT_NUMBER
+! number of segment of processor j
                     LOCAL_SEGMENT_NUMBER = LOADS%CYL_RESTART(PCYL_ID)%PROC(J)%LOCAL_SEGMENT_NUMBER
-                    ALLOCATE( LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGNOD(LOCAL_SEGMENT_NUMBER,4) )
+      call my_alloc(LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGNOD, LOCAL_SEGMENT_NUMBER, 4,
+     &"LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGNOD")
                     ! ------------
                     DO K=1,LOCAL_SEGMENT_NUMBER
-                        SEGMENT_ID = LOADS%CYL_RESTART(PCYL_ID)%PROC(J)%LOCAL_SEGMENT(K) ! get the segment id on the processor j
+                        SEGMENT_ID = LOADS%CYL_RESTART(PCYL_ID)%PROC(J)%LOCAL_SEGMENT(K)
+! get the segment id on the processor j
                         LOADS%GLOBAL_SEGMENT_ID(SEGMENT_ID+OFFSET,2) = K
                         DO IJK=1,4
-                            NODE_ID = LOADS%LOAD_CYL(PCYL_ID)%SEGNOD(SEGMENT_ID,IJK) ! get the node id of the segment id on the processor j
+                            NODE_ID = LOADS%LOAD_CYL(PCYL_ID)%SEGNOD(SEGMENT_ID,IJK)
+! get the node id of the segment id on the processor j
                             LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGNOD(K,IJK) = NODE_ID ! save the node id
                         ENDDO
                     ENDDO
                     ! ------------
                     LOADS_PER_PROC(J)%LOAD_CYL(I)%S_SEGMENT_ADRESS = LOCAL_SEGMENT_NUMBER
-                    ALLOCATE( LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGMENT_ADRESS(4,LOCAL_SEGMENT_NUMBER) )
+      call my_alloc(LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGMENT_ADRESS, 4, LOCAL_SEGMENT_NUMBER,
+     &"LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGMENT_ADRESS")
                     LOADS_PER_PROC(J)%LOAD_CYL(I)%SEGMENT_ADRESS(1:4,1:LOCAL_SEGMENT_NUMBER) = 0
                 ENDDO
             ! ------------

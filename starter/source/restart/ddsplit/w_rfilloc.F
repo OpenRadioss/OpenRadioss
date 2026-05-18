@@ -31,6 +31,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -45,7 +47,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: RTMP
 C-----------------------------------------------
 !     allocate 1d array
-      ALLOCATE( RTMP(NUMNOD_L) )
+      call my_alloc(RTMP, NUMNOD_L, "RTMP")
 ! ----------------------------------
 C
       DO J = 1, NMULT
@@ -58,7 +60,7 @@ C
 C
 ! ----------------------------------
 !     deallocate 1d array
-      DEALLOCATE( RTMP )
+      call my_dealloc(RTMP)
 ! ----------------------------------
 C
       RETURN

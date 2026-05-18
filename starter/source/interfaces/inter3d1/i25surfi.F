@@ -55,9 +55,11 @@ C-----------------------------------------------
       USE PARAMETERS_MOD
       USE FORMAT_MOD , ONLY : FMW_10I, FMW_4I
       use element_mod , only :nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -205,12 +207,13 @@ C-----attention: ISU2=ISU1 /=0
       ENDIF
 
 c-----------------------------------------------------------------
-      ALLOCATE(INDEX(2*NRTM),IRECTMP(6,NRTM),STAT=stat)
+      call my_alloc(INDEX, 2*NRTM, "INDEX", stat=stat)
+      call my_alloc(IRECTMP, 6, NRTM, "IRECTMP", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='IRECTSAV')
       IRECTMP(1:6,1:NRTM)=0
-        IF( NEDGE_L >0) ALLOCATE(TAGNOD(NUMNOD),STAT=stat) 
+        IF( NEDGE_L >0) call my_alloc(TAGNOD, NUMNOD, "TAGNOD", stat=stat)
 C
 c---------------------------------------
 c     Copy of surfaces (Iallo == 2)
@@ -255,7 +258,7 @@ C=======================================================================
 c     Filtre
       NRTMP=NRTM
 C
-      ALLOCATE(IRECTMP_SAV(6,NRTM),STAT=stat)
+      call my_alloc(IRECTMP_SAV, 6, NRTM, "IRECTMP_SAV", stat=stat)
 
         
       IRECTMP_SAV(1:6,1:NRTM) =  IRECTMP(1:6,1:NRTM)
@@ -456,14 +459,16 @@ c          ALLOCATE(TAGNOD(NUMNOD),STAT=stat)
       END IF
 
 
-      DEALLOCATE(INDEX,IRECTMP)
-      IF(ALLOCATED(IRECTMP_SAV)) DEALLOCATE(IRECTMP_SAV)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(IRECTMP)
+      IF(ALLOCATED(IRECTMP_SAV)) CALL MY_DEALLOC(IRECTMP_SAV)
 C=======================================================================
 c     NODES C=======================================================================
 c-----------------------------------------------------------------
 c     tag nodes surfaces S1 S2; 1,2 on S1,S2, 3 on both (ILEV=1)
 c-----------------------------------------------------------------
-      ALLOCATE(TAG(NUMNOD),TAGS(NUMNOD))
+      call my_alloc(TAG, NUMNOD, "TAG")
+      call my_alloc(TAGS, NUMNOD, "TAGS")
       DO I=1,NUMNOD
         TAG(I)=0 ! initialisation
         TAGS(I)=0 ! initialisation
@@ -639,9 +644,10 @@ C----------due the fact that NRTM is modified w/ shell seg
         ENDIF
         ! -------------------
       END IF
-      IF(ALLOCATED(TAGNOD)) DEALLOCATE(TAGNOD)
+      IF(ALLOCATED(TAGNOD)) call my_dealloc(TAGNOD)
 
-      DEALLOCATE(TAG,TAGS)
+      CALL MY_DEALLOC(TAG)
+      CALL MY_DEALLOC(TAGS)
 C
       RETURN
       END
@@ -654,6 +660,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -666,7 +674,7 @@ C-----------------------------------------------
       INTEGER I, NR, IT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ETYP
 C=======================================================================
-       ALLOCATE(ETYP(NRTM0))
+       call my_alloc(ETYP, NRTM0, "ETYP")
 C------add asymmetric shell segs at end, change MSEGTYP
        DO I=1,NRTM0
         ETYP(I) = MSEGTYP(I)
@@ -716,7 +724,7 @@ C--------coating shell <=> MSEGTYP(I) > NRTM
         END IF
        END DO
 C------------------------------------------------------------
-      DEALLOCATE(ETYP)
+      call my_dealloc(ETYP)
       RETURN
       END
 

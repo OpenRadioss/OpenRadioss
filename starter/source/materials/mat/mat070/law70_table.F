@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE4D_MOD, ONLY : TABLE_4D_
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,10 +69,10 @@ C-----------------------------------------------
       DO I = 1,NFUNC
         NPTX = NPTX + LENGTH(I)
       END DO
-      ALLOCATE (XF(NPTX))
+      call my_alloc(XF, NPTX, "XF")
 c
       IF (NFUNC == 1) THEN
-        ALLOCATE (YF(NPTX,NFUNC))
+        call my_alloc(YF, NPTX, NFUNC, "YF")
         XF(1:NPTX)   = XI(1:NPTX,1)
         YF(1:NPTX,1) = YI(1:NPTX,1)
 c
@@ -82,7 +83,7 @@ c--------------------------------------------------------
 c
         CALL UNIFY_ABSCISSA_2D(NFUNC,LENGTH,LMAX,NPTX ,XI  ,XF  )
 c
-        ALLOCATE (YF(NPTX,NFUNC))
+        call my_alloc(YF, NPTX, NFUNC, "YF")
         DO I = 1,NFUNC
           CALL TABLE_VALUES_2D(LENGTH(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
         END DO      
@@ -110,8 +111,8 @@ c     and reinterpolate all table functions based on its abscissa distribution
 c--------------------------------------------------------
       IF (NPTX > NPTMAX) THEN
         NPTM = NPTX
-        ALLOCATE (XS(NPTM))
-        ALLOCATE (YS(NPTM))
+        call my_alloc(XS, NPTM, "XS")
+        call my_alloc(YS, NPTM, "YS")
         XS(1:NPTM) = XF(1:NPTM)
         CALL VW_SMOOTH(NPTX,NPTMAX,XF,YF(1:NPTX,1))
 c
@@ -119,23 +120,23 @@ c
           YS(1:NPTM) = YF(1:NPTM,I)
           CALL TABLE_VALUES_2D(NPTM ,NPTX ,XS ,YS ,XF ,YF(1,I) )
         END DO
-        DEALLOCATE(YS)     
-        DEALLOCATE(XS)     
+        CALL MY_DEALLOC(YS)
+        CALL MY_DEALLOC(XS)
       END IF
 c--------------------------------------------------------------------------
 c     e) create 2D function table
 c--------------------------------------------------------
       NDIM = MIN(2,NFUNC)
       TABLE%NDIM  = NDIM
-      ALLOCATE (TABLE%X(NDIM)              ,STAT=stat)            
-      ALLOCATE (TABLE%X(1)%VALUES(NPTX)     ,STAT=stat)      
+      allocate(TABLE%X(NDIM), stat=stat)
+      call my_alloc(TABLE%X(1)%VALUES, NPTX, "TABLE%X(1)%VALUES", stat=stat)
       IF (NFUNC == 1) THEN
-        ALLOCATE (TABLE%Y1D(NPTX)           ,STAT=stat)
+        call my_alloc(TABLE%Y1D, NPTX, "TABLE%Y1D", stat=stat)
         TABLE%X(1)%VALUES(1:NPTX)   = XF(1:NPTX)   
         TABLE%Y1D(1:NPTX) = YF(1:NPTX,1)
       ELSE
-        ALLOCATE (TABLE%X(2)%VALUES(NFUNC) ,STAT=stat)
-        ALLOCATE (TABLE%Y2D(NPTX,NFUNC)     ,STAT=stat)
+        call my_alloc(TABLE%X(2)%VALUES, NFUNC, "TABLE%X(2)%VALUES", stat=stat)
+        call my_alloc(TABLE%Y2D, NPTX, NFUNC, "TABLE%Y2D", stat=stat)
         TABLE%X(1)%VALUES(1:NPTX)   = XF(1:NPTX)   
         TABLE%X(2)%VALUES(1:NFUNC) = RATE(1:NFUNC)
         DO I = 1,NFUNC
@@ -145,8 +146,8 @@ c--------------------------------------------------------
 c
       LENGTH(1:NFUNC) = NPTX
 c--------------------
-      DEALLOCATE (XF)
-      DEALLOCATE (YF)
+      CALL MY_DEALLOC(XF)
+      CALL MY_DEALLOC(YF)
 c--------------------
       RETURN
       END

@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE I2_SURFI_DIM_MOD ,     ONLY : I2_SURFI_DIM
       use inter1_check_ale_lag_sides_mod , only : inter1_check_ale_lag_sides
       use element_mod , only : nixs
+      use my_alloc_mod
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -257,7 +258,7 @@ C=======================================================================
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE(NTAG_TARGET(2*NUMNOD+1), STAT=Stat)
+      call my_alloc(NTAG_TARGET, 2*NUMNOD+1, "NTAG_TARGET", stat=Stat)
       NTAG(0:2*NUMNOD) => NTAG_TARGET(1:2*NUMNOD+1)
 
       DO K=0,2*NUMNOD
@@ -703,12 +704,12 @@ C
 C=======================================================================
       S_IRECTS = NRTMS*4
       S_IRECTM = NRTMM*4
-      ALLOCATE (IRECTS(S_IRECTS)    ,STAT=stat)
-      ALLOCATE (IRECTM(S_IRECTM)    ,STAT=stat)
+      call my_alloc(IRECTS, S_IRECTS, "IRECTS", stat=stat)
+      call my_alloc(IRECTM, S_IRECTM, "IRECTM", stat=stat)
       S_NSV=MAX(NUMNOD,NRTMS_IGE*16)
-      ALLOCATE (NSV(S_NSV) ,STAT=stat)
+      call my_alloc(NSV, S_NSV, "NSV", stat=stat)
       S_MSR=MAX(NUMNOD,NRTMM_IGE*16)
-      ALLOCATE (MSR(S_MSR) ,STAT=stat)
+      call my_alloc(MSR, S_MSR, "MSR", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268, ANMODE=ANINFO, MSGTYPE=MSGERROR, C1='IRECTS')
       IRECTS = 0
       IRECTM = 0
@@ -1268,13 +1269,13 @@ C-----
 C
 C=======================================================================
 C-
-      DEALLOCATE (IRECTS)
-      DEALLOCATE (IRECTM)
-      DEALLOCATE (NSV)
-      DEALLOCATE (MSR)
+      CALL MY_DEALLOC(IRECTS)
+      CALL MY_DEALLOC(IRECTM)
+      CALL MY_DEALLOC(NSV)
+      CALL MY_DEALLOC(MSR)
 
       NULLIFY(NTAG)
-      DEALLOCATE(NTAG_TARGET)
+      CALL MY_DEALLOC(NTAG_TARGET)
 
 ! inter18 : automatic gap if not defined in input file 
 1000  FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)

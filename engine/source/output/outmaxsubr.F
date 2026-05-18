@@ -44,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -88,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       NSIZ = 7
-      ALLOCATE(VCOM(NSIZ,NUMNOD))
+      call my_alloc(VCOM, NSIZ, NUMNOD, "VCOM")
       AFLU=>VCOM(1:3,1:NUMNOD)
       VFLU=>VCOM(4:6,1:NUMNOD)
       VCOM = ZERO
@@ -112,7 +114,7 @@ C
            SIG_N(N,4:6)=FAC*AFLU(1:3,N)
          ENDDO
 
-      DEALLOCATE(VCOM)
+      call my_dealloc(VCOM)
 
       RETURN
       END
@@ -141,6 +143,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -182,8 +186,8 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
 C-----------------------------------------------
 C
-      ALLOCATE(AFLU(3,NUMNOD))
-      ALLOCATE(VFLU(3,NUMNOD))
+      call my_alloc(AFLU, 3, NUMNOD, "AFLU")
+      call my_alloc(VFLU, 3, NUMNOD, "VFLU")
 
 
        STR_N(1:NUMNOD,1:6) = ZERO
@@ -209,8 +213,8 @@ C
            STR_N(N,4:6)=FAC*AFLU(1:3,N)
          ENDDO
 
-      DEALLOCATE(AFLU)
-      DEALLOCATE(VFLU)
+      call my_dealloc(AFLU)
+      call my_dealloc(VFLU)
 
       RETURN
       END

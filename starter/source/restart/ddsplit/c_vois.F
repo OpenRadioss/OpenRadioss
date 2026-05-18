@@ -44,9 +44,11 @@ C-----------------------------------------------
       USE SPLIT_CFD_MOD
       USE ALE_CONNECTIVITY_MOD
       use element_mod , only : nixs,nixq,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -84,10 +86,12 @@ C-----------------------------------------------
       INTEGER IAD, IAD1, LGTH
 C-----------------------------------------------
 !     allocate 1d array
-      ALLOCATE( TAGE(NUMEL),TAG(NUMNOD) )
+      call my_alloc(TAGE, NUMEL, "TAGE")
+      call my_alloc(TAG, NUMNOD, "TAG")
 !     allocate 2d array
-      ALLOCATE( TAGE_L(NSPMD,NUMEL_L),TAG_L(NSPMD,NUMNOD_L) )
-      ALLOCATE( TAGS(NSPMD,SEGINDX) )
+      call my_alloc(TAGE_L, NSPMD, NUMEL_L, "TAGE_L")
+      call my_alloc(TAG_L, NSPMD, NUMNOD_L, "TAG_L")
+      call my_alloc(TAGS, NSPMD, SEGINDX, "TAGS")
 ! ------------------------------------
 C
       DO I = 1, NUMNOD
@@ -426,10 +430,12 @@ C
 C
 ! ------------------------------------
 !     deallocate 1d array
-      DEALLOCATE( TAGE,TAG )
+      CALL MY_DEALLOC(TAGE)
+      CALL MY_DEALLOC(TAG)
 !     deallocate 2d array
-      DEALLOCATE( TAGE_L,TAG_L )
-      DEALLOCATE( TAGS )
+      CALL MY_DEALLOC(TAGE_L)
+      CALL MY_DEALLOC(TAG_L)
+      call my_dealloc(TAGS)
 ! ------------------------------------
       RETURN
       END

@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -73,23 +74,23 @@ C     Number of submaterials
            ENDIF
            MULTI_FVM%NELEM = LEN
 C     Face datas
-           ALLOCATE(MULTI_FVM%FACE_DATA%SURF(6, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%FACE_DATA%SURF, 6, LEN, "MULTI_FVM%FACE_DATA%SURF", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
-           ALLOCATE(MULTI_FVM%FACE_DATA%NORMAL(3, 6, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%FACE_DATA%NORMAL, 3, 6, LEN, "MULTI_FVM%FACE_DATA%NORMAL", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
-           ALLOCATE(MULTI_FVM%FACE_DATA%WFAC(3, 6, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%FACE_DATA%WFAC, 3, 6, LEN, "MULTI_FVM%FACE_DATA%WFAC", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
 C     fluxes
-           ALLOCATE(MULTI_FVM%FLUXES(6, 6, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%FLUXES, 6, 6, LEN, "MULTI_FVM%FLUXES", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -97,45 +98,45 @@ C     fluxes
 C     submaterial fluxes
 C     Volume fluxes
            IF (NBMAT > 1) THEN
-              ALLOCATE(MULTI_FVM%SUBVOL_FLUXES(NBMAT, 6, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%SUBVOL_FLUXES, NBMAT, 6, LEN, "MULTI_FVM%SUBVOL_FLUXES", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
-              ALLOCATE(MULTI_FVM%SUBMASS_FLUXES(NBMAT, 6, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%SUBMASS_FLUXES, NBMAT, 6, LEN, "MULTI_FVM%SUBMASS_FLUXES", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%SUBENER_FLUXES(NBMAT, 6, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%SUBENER_FLUXES, NBMAT, 6, LEN, "MULTI_FVM%SUBENER_FLUXES", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF  
               
-              ALLOCATE(MULTI_FVM%PHASE_ALPHA(NBMAT, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%PHASE_ALPHA, NBMAT, LEN, "MULTI_FVM%PHASE_ALPHA", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
-              ALLOCATE(MULTI_FVM%PHASE_PRES(NBMAT, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%PHASE_PRES, NBMAT, LEN, "MULTI_FVM%PHASE_PRES", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
-              ALLOCATE(MULTI_FVM%PHASE_RHO(NBMAT, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%PHASE_RHO, NBMAT, LEN, "MULTI_FVM%PHASE_RHO", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%PHASE_EINT(NBMAT, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%PHASE_EINT, NBMAT, LEN, "MULTI_FVM%PHASE_EINT", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
            ENDIF
 C     Allocation of centroid velocities
-           ALLOCATE(MULTI_FVM%VEL(3, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%VEL, 3, LEN, "MULTI_FVM%VEL", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -143,7 +144,7 @@ C     Allocation of centroid velocities
            MULTI_FVM%VEL(:, :) = ZERO
 C     Allocation of centroid accelerations
          IF(H3D_DATA%N_VECT_ACC == 1)THEN
-           ALLOCATE(MULTI_FVM%ACC(3, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%ACC, 3, LEN, "MULTI_FVM%ACC", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -151,42 +152,42 @@ C     Allocation of centroid accelerations
            MULTI_FVM%ACC(:, :) = ZERO
          ENDIF
 C     Allocation of soud speed
-           ALLOCATE(MULTI_FVM%SOUND_SPEED(LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%SOUND_SPEED, LEN, "MULTI_FVM%SOUND_SPEED", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF         
            MULTI_FVM%SOUND_SPEED(:) = ZERO
 C     Allocation of TBURN
-           ALLOCATE(MULTI_FVM%TBURN(LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%TBURN, LEN, "MULTI_FVM%TBURN", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF           
            MULTI_FVM%TBURN(:) = ZERO  
 C     Allocation of BFRAC
-           ALLOCATE(MULTI_FVM%BFRAC(NBMAT, LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%BFRAC, NBMAT, LEN, "MULTI_FVM%BFRAC", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF           
            MULTI_FVM%BFRAC(:, :) = ZERO  
 C     Allocation of temporary var 1
-           ALLOCATE(MULTI_FVM%RHO(LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%RHO, LEN, "MULTI_FVM%RHO", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF        
            MULTI_FVM%RHO(:) = ZERO     
 C     Allocation of temporary var 2
-           ALLOCATE(MULTI_FVM%EINT(LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%EINT, LEN, "MULTI_FVM%EINT", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF       
            MULTI_FVM%EINT(:) = ZERO
 C     Allocation of temporary var 3
-           ALLOCATE(MULTI_FVM%PRES(LEN), STAT = IERR)
+           call my_alloc(MULTI_FVM%PRES, LEN, "MULTI_FVM%PRES", stat=IERR)
            IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -194,43 +195,43 @@ C     Allocation of temporary var 3
            MULTI_FVM%PRES(:) = ZERO
 C     MUSCL Variables
            IF (MULTI_FVM%MUSCL == 1) THEN
-              ALLOCATE(MULTI_FVM%GRAD_RHO(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%GRAD_RHO, 3, LEN, "MULTI_FVM%GRAD_RHO", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%GRAD_U(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%GRAD_U, 3, LEN, "MULTI_FVM%GRAD_U", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%GRAD_V(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%GRAD_V, 3, LEN, "MULTI_FVM%GRAD_V", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%GRAD_W(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%GRAD_W, 3, LEN, "MULTI_FVM%GRAD_W", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%GRAD_PRES(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%GRAD_PRES, 3, LEN, "MULTI_FVM%GRAD_PRES", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               IF (NBMAT > 1) THEN                 
-                 ALLOCATE(MULTI_FVM%PHASE_GRAD_RHO(3, NBMAT, LEN), STAT = IERR)
+                 call my_alloc(MULTI_FVM%PHASE_GRAD_RHO, 3, NBMAT, LEN, "MULTI_FVM%PHASE_GRAD_RHO", stat=IERR)
                  IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
-                 ALLOCATE(MULTI_FVM%PHASE_GRAD_ALPHA(3, NBMAT, LEN), STAT = IERR)
+                 call my_alloc(MULTI_FVM%PHASE_GRAD_ALPHA, 3, NBMAT, LEN, "MULTI_FVM%PHASE_GRAD_ALPHA", stat=IERR)
                  IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
-                 ALLOCATE(MULTI_FVM%PHASE_GRAD_PRES(3, NBMAT, LEN), STAT = IERR)
+                 call my_alloc(MULTI_FVM%PHASE_GRAD_PRES, 3, NBMAT, LEN, "MULTI_FVM%PHASE_GRAD_PRES", stat=IERR)
                  IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
@@ -241,7 +242,7 @@ C     MUSCL Variables
            IF (MULTI_FVM%MUSCL == 2) THEN
 C     Only volume fraction
               IF (NBMAT > 1) THEN                 
-                 ALLOCATE(MULTI_FVM%PHASE_GRAD_ALPHA(3, NBMAT, LEN), STAT = IERR)
+                 call my_alloc(MULTI_FVM%PHASE_GRAD_ALPHA, 3, NBMAT, LEN, "MULTI_FVM%PHASE_GRAD_ALPHA", stat=IERR)
                  IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
@@ -249,12 +250,12 @@ C     Only volume fraction
               ENDIF
            ENDIF
            IF (MULTI_FVM%MUSCL > 0) THEN
-              ALLOCATE(MULTI_FVM%FACE_DATA%CENTROID(3, 6, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%FACE_DATA%CENTROID, 3, 6, LEN, "MULTI_FVM%FACE_DATA%CENTROID", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              ALLOCATE(MULTI_FVM%ELEM_DATA%CENTROID(3, LEN), STAT = IERR)
+              call my_alloc(MULTI_FVM%ELEM_DATA%CENTROID, 3, LEN, "MULTI_FVM%ELEM_DATA%CENTROID", stat=IERR)
               IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)

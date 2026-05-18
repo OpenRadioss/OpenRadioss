@@ -26,7 +26,7 @@
 !||    hm_read_fail                ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fail_spalling_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    hm_read_fail_spalling    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
@@ -57,6 +57,7 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,11 +118,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           !< Allocation of failure parameters tables
-          allocate (fail%uparam(fail%nuparam))
-          allocate (fail%iparam(fail%niparam))
-          allocate (fail%ifunc (fail%nfunc))
-          allocate (fail%table (fail%ntable))
-          allocate (fail%mode  (fail%nmod))
+          call my_alloc(fail%uparam, fail%nuparam, "fail%uparam")
+          call my_alloc(fail%iparam, fail%niparam, "fail%iparam")
+          call my_alloc(fail%ifunc , fail%nfunc,   "fail%ifunc")
+          call my_alloc(fail%table , fail%ntable,  "fail%table")
+          allocate(fail%mode(fail%nmod))
 !
           ! Modes of failure
           fail_tag%lf_dammx = 1 + fail%nmod

@@ -433,6 +433,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -452,7 +454,7 @@ C----------Reallocation of tagel----------------------------------
         IF (3*NTAGEL_R2R_SEND>TAGEL_SIZE) THEN
 C
           IF (TAGEL_SIZE>0) THEN
-            ALLOCATE(TAGEL_TEMP(TAGEL_SIZE))
+            call my_alloc(TAGEL_TEMP, TAGEL_SIZE, "TAGEL_TEMP")
             DO I=1,TAGEL_SIZE
               TAGEL_TEMP(I) = TAGEL_R2R_SEND(I)
             END DO
@@ -460,8 +462,8 @@ C
 C
           TAGEL_SIZE_OLD = TAGEL_SIZE
           TAGEL_SIZE = TAGEL_SIZE + 150
-          IF (ALLOCATED(TAGEL_R2R_SEND)) DEALLOCATE(TAGEL_R2R_SEND)
-          ALLOCATE(TAGEL_R2R_SEND(TAGEL_SIZE))
+          IF (ALLOCATED(TAGEL_R2R_SEND)) call my_dealloc(TAGEL_R2R_SEND)
+          call my_alloc(TAGEL_R2R_SEND, TAGEL_SIZE, "TAGEL_R2R_SEND")
           DO I=1,TAGEL_SIZE_OLD
             TAGEL_R2R_SEND(I) = TAGEL_TEMP(I)
           END DO

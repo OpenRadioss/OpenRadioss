@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE FVBAG_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,7 +171,7 @@ C
          ENDDO
       ENDDO
 C
-      ALLOCATE(ITAG(NNB))
+      call my_alloc(ITAG, NNB, "ITAG")
       DO I=1,NNB
          ITAG(I)=0
       ENDDO
@@ -220,7 +221,7 @@ C
             ENDDO
          ENDDO
       ENDDO
-      DEALLOCATE(ITAG)
+      CALL MY_DEALLOC(ITAG)
 C
       DO I=1,NBRIC
          N1=FVDATA(IFV)%BRIC(1,I)

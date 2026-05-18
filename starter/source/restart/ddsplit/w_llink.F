@@ -37,6 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C
 ! ----------------------
 !     allocate 1d array
-      ALLOCATE( LLLTMP(NLLINK_L) )
+      call my_alloc(LLLTMP, NLLINK_L, "LLLTMP")
 !     allocate 2d array
       ALLOCATE( NNLTMP(10,NLINK) )
 ! ----------------------
@@ -91,7 +92,7 @@ C
 C
 ! ----------------------
 !     deallocate 1d array
-      DEALLOCATE( LLLTMP )
+      CALL MY_DEALLOC(LLLTMP)
 !     deallocate 2d array
       DEALLOCATE( NNLTMP )
 ! ----------------------

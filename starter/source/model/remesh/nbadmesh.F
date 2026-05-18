@@ -51,9 +51,11 @@ C-----------------------------------------------
       USE READER_OLD_MOD , ONLY : LINE, IREC
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -93,10 +95,15 @@ C-----------------------------------------------
 C-----------------------------------------------
       IPART=0
 C------
-      ALLOCATE(ITAB(NUMNUSR),ITABM1(2*NUMNUSR),
-     .         IXC(NIXC,NUMELC0),IXTG(NIXTG,NUMELTG0),
-     .        KNOD2SH(0:NUMNUSR),NOD2SH(4*NUMELC0+3*NUMELTG0),
-     .        TAG(4,NUMELC0+NUMELTG0))
+      call my_alloc(ITAB, NUMNUSR, "ITAB")
+      call my_alloc(ITABM1, 2*NUMNUSR, "ITABM1")
+      call my_alloc(IXC, NIXC, NUMELC0, "IXC")
+      call my_alloc(IXTG, NIXTG, NUMELTG0, "IXTG")
+      call my_alloc(NOD2SH, 4*NUMELC0+3*NUMELTG0, "NOD2SH")
+      call my_alloc(TAG, 4, NUMELC0+NUMELTG0, "TAG")
+      ALLOCATE(KNOD2SH(0:NUMNUSR))  ! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
       TAG=0
 C------
 C--------------------------------------------------
@@ -204,17 +211,17 @@ C
 C--------------------------------------
 C     nb shells and 3-node shells + nb nodes estimation (NUMNUSR < ...)
 C---------------  
-      ALLOCATE (IPARTC(NUMELC)) 
-      ALLOCATE (SH_ANGLE(NUMELC)) 
-      ALLOCATE (SH_THK(NUMELC))
+      call my_alloc(IPARTC, NUMELC, "IPARTC")
+      call my_alloc(SH_ANGLE, NUMELC, "SH_ANGLE")
+      call my_alloc(SH_THK, NUMELC, "SH_THK")
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUBID_SHELL(NUMELC),STAT=stat)
+      call my_alloc(SUBID_SHELL, NUMELC, "SUBID_SHELL", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUBID_SHELL') 
-      ALLOCATE (UID_SHELL(NUMELC),STAT=stat)
+      call my_alloc(UID_SHELL, NUMELC, "UID_SHELL", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='UID_SHELL') 
@@ -255,20 +262,20 @@ C--------------------------------------------------
         END IF
       ENDDO
 c
-      IF(ALLOCATED(SUBID_SHELL)) DEALLOCATE(SUBID_SHELL)
-      IF(ALLOCATED(UID_SHELL)) DEALLOCATE(UID_SHELL)
+      IF(ALLOCATED(SUBID_SHELL)) CALL MY_DEALLOC(SUBID_SHELL)
+      IF(ALLOCATED(UID_SHELL)) CALL MY_DEALLOC(UID_SHELL)
 C------ 
-      ALLOCATE (IPARTTG(NUMELTG)) 
-      ALLOCATE (SH3_ANGLE(NUMELTG))  
-      ALLOCATE (SH3_THK(NUMELTG)) 
+      call my_alloc(IPARTTG, NUMELTG, "IPARTTG")
+      call my_alloc(SH3_ANGLE, NUMELTG, "SH3_ANGLE")
+      call my_alloc(SH3_THK, NUMELTG, "SH3_THK")
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUBID_SH3N(NUMELTG),STAT=stat)
+      call my_alloc(SUBID_SH3N, NUMELTG, "SUBID_SH3N", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUBID_SH3N') 
-      ALLOCATE (UID_SH3N(NUMELTG),STAT=stat)
+      call my_alloc(UID_SH3N, NUMELTG, "UID_SH3N", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='UID_SH3N') 
@@ -308,8 +315,8 @@ C--------------------------------------------------
         END IF
       ENDDO
 c
-      IF(ALLOCATED(SUBID_SH3N)) DEALLOCATE(SUBID_SH3N)
-      IF(ALLOCATED(UID_SH3N)) DEALLOCATE(UID_SH3N)
+      IF(ALLOCATED(SUBID_SH3N)) CALL MY_DEALLOC(SUBID_SH3N)
+      IF(ALLOCATED(UID_SH3N)) CALL MY_DEALLOC(UID_SH3N)
 C--------------------------------------
 C     nb shells and 3-node shells + nb nodes exact calculation
 C--------------------------------------
@@ -317,7 +324,7 @@ C--------------------------------------
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUBID_NODES(NUMNUSR),STAT=stat)
+      call my_alloc(SUBID_NODES, NUMNUSR, "SUBID_NODES", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                             C1='SUBID_NODES') 
@@ -336,7 +343,7 @@ C--------------------------------------------------
           CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ITAB(I),C1=LINE,C2='/NODE')
         ENDIF
       ENDDO
-      IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
+      IF(ALLOCATED(SUBID_NODES)) CALL MY_DEALLOC(SUBID_NODES)
 C------
 C     building the inverse node table
 C------
@@ -354,9 +361,9 @@ C------
               IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)  
             ENDDO
       ENDDO
-      IF(ALLOCATED(IPARTC)) DEALLOCATE(IPARTC)
-      IF(ALLOCATED(SH_ANGLE)) DEALLOCATE(SH_ANGLE) 
-      IF(ALLOCATED(SH_THK)) DEALLOCATE (SH_THK)
+      IF(ALLOCATED(IPARTC)) CALL MY_DEALLOC(IPARTC)
+      IF(ALLOCATED(SH_ANGLE)) CALL MY_DEALLOC(SH_ANGLE)
+      IF(ALLOCATED(SH_THK)) call my_dealloc(SH_THK)
 C------        
       DO I=1,NUMELTG
             IF (IXTG(NIXTG,I)>ID_LIMIT%ADMESH) THEN
@@ -367,9 +374,9 @@ C------
               IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID) 
             ENDDO
       ENDDO
-      IF(ALLOCATED(IPARTTG)) DEALLOCATE(IPARTTG)
-      IF(ALLOCATED(SH3_ANGLE)) DEALLOCATE (SH3_ANGLE)  
-      IF(ALLOCATED(SH3_THK)) DEALLOCATE (SH3_THK) 
+      IF(ALLOCATED(IPARTTG)) CALL MY_DEALLOC(IPARTTG)
+      IF(ALLOCATED(SH3_ANGLE)) CALL MY_DEALLOC(SH3_ANGLE)
+      IF(ALLOCATED(SH3_THK)) call my_dealloc(SH3_THK)
 C------
 C     inverse connectivity at level 0
 C------
@@ -514,7 +521,13 @@ C
           NUMELTG =NUMELTG +(4**(NLEV+1)-1)/3
       END DO
 C-------------------------------------
-      DEALLOCATE(ITAB,ITABM1,IXC,IXTG,KNOD2SH,NOD2SH,TAG)
+      call my_dealloc(ITAB)
+      call my_dealloc(ITABM1)
+      call my_dealloc(IXC)
+      call my_dealloc(IXTG)
+      call my_dealloc(KNOD2SH)
+      call my_dealloc(NOD2SH)
+      call my_dealloc(TAG)
       RETURN
 C-------------------------------------
       END

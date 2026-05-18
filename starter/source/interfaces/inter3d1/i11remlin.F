@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -63,15 +64,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 c Build inverse connectivity for segments - only at first pass (I_START=1)
 C-----------------------------------------------
-      ALLOCATE(ITAG(NRTM))
-      ALLOCATE(LISTLIN(NRTM))
-      ALLOCATE(LISTLINTMP(NRTM))
-      ALLOCATE(LISTLINTOTAL(NRTM))
+      call my_alloc(ITAG, NRTM, "ITAG")
+      call my_alloc(LISTLIN, NRTM, "LISTLIN")
+      call my_alloc(LISTLINTMP, NRTM, "LISTLINTMP")
+      call my_alloc(LISTLINTOTAL, NRTM, "LISTLINTOTAL")
 C
       CPT = 0
       IF (I_START ==1) THEN
 C
-        ALLOCATE(KNOD2LIN(NUMNOD+1))
+        call my_alloc(KNOD2LIN, NUMNOD+1, "KNOD2LIN")
 C
         KREMNODE(1) = 1
         NOD2LIN(1:2*NRTM)    = 0
@@ -134,7 +135,7 @@ C
             ENDIF
           END DO
 C
-          DEALLOCATE(KNOD2LIN)
+          CALL MY_DEALLOC(KNOD2LIN)
 C
         ENDIF
 C
@@ -146,7 +147,9 @@ C-----------------------------------------------
 C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
 C-----------------------------------------------
 C
-        ALLOCATE(TAGNOD(NUMNOD),ORIGIN(NUMNOD),DIST1(NUMNOD))
+        call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
+        call my_alloc(ORIGIN, NUMNOD, "ORIGIN")
+        call my_alloc(DIST1, NUMNOD, "DIST1")
         TAGNOD(1:NUMNOD) = 0
         ORIGIN(1:NUMNOD)     = 0
         DIST1(1:NUMNOD) = EP30
@@ -332,16 +335,18 @@ C
 C
         ENDDO
 CC END DO NRTM
-        DEALLOCATE(DIST1,TAGNOD,ORIGIN)
+        CALL MY_DEALLOC(DIST1)
+        CALL MY_DEALLOC(TAGNOD)
+        CALL MY_DEALLOC(ORIGIN)
 C
       ELSE
         I_START = NRTM  ! avoid infinite loop later
       ENDIF
 
-      DEALLOCATE(ITAG)
-      DEALLOCATE(LISTLIN)
-      DEALLOCATE(LISTLINTMP)
-      DEALLOCATE(LISTLINTOTAL)
+      CALL MY_DEALLOC(ITAG)
+      CALL MY_DEALLOC(LISTLIN)
+      CALL MY_DEALLOC(LISTLINTMP)
+      CALL MY_DEALLOC(LISTLINTOTAL)
 C
       RETURN
       END

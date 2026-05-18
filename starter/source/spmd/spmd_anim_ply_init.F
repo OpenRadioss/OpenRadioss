@@ -36,6 +36,7 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE STACK_MOD
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,8 +69,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ARRAY,TAG_SHELLS
 
 C-----------------------------------------------
-      ALLOCATE(TAG_ARRAY(NUMNOD))
-      ALLOCATE(TAG_SHELLS(NUMELC))
+      call my_alloc(TAG_ARRAY, NUMNOD, "TAG_ARRAY")
+      call my_alloc(TAG_SHELLS, NUMELC, "TAG_SHELLS")
       DO I=1,NPART
         MATER(I)=0
       ENDDO
@@ -103,13 +104,13 @@ c
 
 C     INITIALISATION
 
-      ALLOCATE(PLYNOD(NPLYMAX))
+      allocate(PLYNOD(NPLYMAX))
 
       DO I=1,NPLYMAX
         PLYNOD(I)%PLYNUMNODS = 0
       ENDDO
 
-      ALLOCATE(PLYSHELL(NPLYMAX))
+      allocate(PLYSHELL(NPLYMAX))
       DO I=1,NPLYMAX
         PLYSHELL(I)%PLYNUMSHELL = 0
       ENDDO
@@ -122,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     PART
 C----------------------------------------------- 
-      ALLOCATE (IDPID_PLY(NPLYMAX))
+      call my_alloc(IDPID_PLY, NPLYMAX, "IDPID_PLY")
       IDPID_PLY= 0
       IF(COMPUTATION_NEEDED) THEN
         DO K=1,NPLYMAX
@@ -187,7 +188,7 @@ C
           DO I=1,NUMNOD
              IF (TAG_ARRAY(I)==1) PLYNOD(K)%PLYNUMNODS = PLYNOD(K)%PLYNUMNODS + 1
           ENDDO
-          ALLOCATE (PLYNOD(K)%NODES(PLYNOD(K)%PLYNUMNODS))
+          call my_alloc(PLYNOD(K)%NODES, PLYNOD(K)%PLYNUMNODS, "PLYNOD(K)%NODES")
 
           NCOUNT = 0
           DO I=1,NUMNOD
@@ -199,8 +200,8 @@ C
 C
 C Ply Shells Post treatments
 C
-          ALLOCATE (PLYSHELL(K)%SHID(PLYSHELL(K)%PLYNUMSHELL))
-          ALLOCATE (PLYSHELL(K)%SHELLIPT(PLYSHELL(K)%PLYNUMSHELL))
+          call my_alloc(PLYSHELL(K)%SHID, PLYSHELL(K)%PLYNUMSHELL, "PLYSHELL(K)%SHID")
+          call my_alloc(PLYSHELL(K)%SHELLIPT, PLYSHELL(K)%PLYNUMSHELL, "PLYSHELL(K)%SHELLIPT")
 
 C debugs    print*,'PLYSHELL : ',PLYSHELL(K)%plynumshell,NUMELC
 
@@ -216,9 +217,9 @@ C debugs    print*,'PLYSHELL : ',PLYSHELL(K)%plynumshell,NUMELC
 
       ELSE
         DO K=1,NPLYMAX
-          ALLOCATE (PLYNOD(K)%NODES(PLYNOD(K)%PLYNUMNODS))
-          ALLOCATE (PLYSHELL(K)%SHID(PLYSHELL(K)%PLYNUMSHELL))
-          ALLOCATE (PLYSHELL(K)%SHELLIPT(PLYSHELL(K)%PLYNUMSHELL))
+          call my_alloc(PLYNOD(K)%NODES, PLYNOD(K)%PLYNUMNODS, "PLYNOD(K)%NODES")
+          call my_alloc(PLYSHELL(K)%SHID, PLYSHELL(K)%PLYNUMSHELL, "PLYSHELL(K)%SHID")
+          call my_alloc(PLYSHELL(K)%SHELLIPT, PLYSHELL(K)%PLYNUMSHELL, "PLYSHELL(K)%SHELLIPT")
         ENDDO
       ENDIF
 C-------------------------------
@@ -226,7 +227,7 @@ C Numeros globaux des shell ply
 C-------------------------------
       NCOUNT = 0
       DO K=1,NPLYMAX
-        ALLOCATE(PLYSHELL(K)%SHELLID(PLYSHELL(K)%PLYNUMSHELL))
+        call my_alloc(PLYSHELL(K)%SHELLID, PLYSHELL(K)%PLYNUMSHELL, "PLYSHELL(K)%SHELLID")
         DO I=1,PLYSHELL(K)%PLYNUMSHELL
            NCOUNT=NCOUNT+1
            PLYSHELL(K)%SHELLID(I)=NCOUNT
@@ -238,7 +239,7 @@ C Global numbers of the ply nodes
 C-------------------------------
       NCOUNT = 0
       DO K=1,NPLYMAX
-        ALLOCATE(PLYNOD(K)%PLYNODID(PLYNOD(K)%PLYNUMNODS))
+        call my_alloc(PLYNOD(K)%PLYNODID, PLYNOD(K)%PLYNUMNODS, "PLYNOD(K)%PLYNODID")
         DO I=1,PLYNOD(K)%PLYNUMNODS
            NCOUNT=NCOUNT+1
            PLYNOD(K)%PLYNODID(I)=NCOUNT
@@ -248,7 +249,7 @@ C-------------------------------
 C-------------------------------
 C Plyparts
 C-------------------------------
-      ALLOCATE (INDX_PLY(NPLYMAX))
+      call my_alloc(INDX_PLY, NPLYMAX, "INDX_PLY")
       NPLYPART = 0
       INDX_PLY = 0
       DO K=1,NPLYMAX
@@ -264,8 +265,8 @@ C-------------------------------
         NPLYNODG = NPLYNODG + PLYNOD(K)%PLYNUMNODS
       ENDDO
 
-      DEALLOCATE(TAG_ARRAY)
-      DEALLOCATE(TAG_SHELLS)
+      CALL MY_DEALLOC(TAG_ARRAY)
+      CALL MY_DEALLOC(TAG_SHELLS)
 
 
       RETURN

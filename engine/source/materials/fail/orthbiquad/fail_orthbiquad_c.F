@@ -41,6 +41,8 @@ C    ORTHOTROPIC BIQUADRATIC FAILURE MODEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -142,11 +144,15 @@ c
       NANGLE     = INT(UPARAM(7))
       FRATE = -HUGE(FRATE)
       ! -> Allocation of factors
-      ALLOCATE(Q_X11(NANGLE),Q_X12(NANGLE),Q_X13(NANGLE),
-     .         Q_X21(NANGLE),Q_X22(NANGLE),Q_X23(NANGLE))
+      call my_alloc(Q_X11, NANGLE, "Q_X11")
+      call my_alloc(Q_X12, NANGLE, "Q_X12")
+      call my_alloc(Q_X13, NANGLE, "Q_X13")
+      call my_alloc(Q_X21, NANGLE, "Q_X21")
+      call my_alloc(Q_X22, NANGLE, "Q_X22")
+      call my_alloc(Q_X23, NANGLE, "Q_X23")
       ! Recovering factors
       IF (SEL == 3) THEN
-        ALLOCATE(Q_INST(NANGLE))        
+        call my_alloc(Q_INST, NANGLE, "Q_INST")
         DO J = 1,NANGLE
           Q_X11(J)  = UPARAM(8  + 7*(J-1))
           Q_X12(J)  = UPARAM(9  + 7*(J-1))
@@ -358,13 +364,13 @@ c
 c------------------------
 c------------------------
       ! Deallocation of table
-      IF (ALLOCATED(Q_X11))  DEALLOCATE(Q_X11)
-      IF (ALLOCATED(Q_X12))  DEALLOCATE(Q_X12)
-      IF (ALLOCATED(Q_X13))  DEALLOCATE(Q_X13)
-      IF (ALLOCATED(Q_X21))  DEALLOCATE(Q_X21)
-      IF (ALLOCATED(Q_X22))  DEALLOCATE(Q_X22)
-      IF (ALLOCATED(Q_X23))  DEALLOCATE(Q_X23)
-      IF (ALLOCATED(Q_INST)) DEALLOCATE(Q_INST)
+      IF (ALLOCATED(Q_X11)) call my_dealloc(Q_X11)
+      IF (ALLOCATED(Q_X12)) call my_dealloc(Q_X12)
+      IF (ALLOCATED(Q_X13)) call my_dealloc(Q_X13)
+      IF (ALLOCATED(Q_X21)) call my_dealloc(Q_X21)
+      IF (ALLOCATED(Q_X22)) call my_dealloc(Q_X22)
+      IF (ALLOCATED(Q_X23)) call my_dealloc(Q_X23)
+      IF (ALLOCATED(Q_INST)) call my_dealloc(Q_INST)
 c------------------------
 c------------------------
       IF (NINDX1 > 0) THEN        

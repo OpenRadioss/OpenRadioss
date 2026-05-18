@@ -71,6 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -244,7 +246,8 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
       print *, "  |------------i22buce.F----------|"
       print *, "  |       LISTE DES CANDIDATS     |"
       print *, "  |-------------------------------|"
-        allocate(order(ii_stok) ,VALUE(II_STOK))
+        call my_alloc(order, ii_stok, "order")
+        call my_alloc(VALUE, II_STOK, "VALUE")
         MIN2 = MINVAL(ABS(CAND_E(1:II_STOK)))
         R2 = MAXVAL(ABS(CAND_E(1:II_STOK)))-MIN2
         DO I=1,II_STOK
@@ -261,7 +264,8 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
      .           "avec-",NINT(IRECT_L(1:4,IABS(CAND_E(ORDER(I)))))   !negative value means that there is no intersection at all for this couple.
           endif
         END DO
-        deallocate(order,value)
+        call my_dealloc(order)
+        call my_dealloc(value)
       end if
 !-----------------debug
 
@@ -297,8 +301,11 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
       ! these are necessary to load the appropriate contact forces
       IF(ITASK==0)THEN
         ALLOCATE(ITAGB(1:NBRIC))
+! TODO: non-default lower bound, convert manually
         ALLOCATE(IFIRST(1:NBRIC))  !first occurrence of the brick in the candidate list
+! TODO: non-default lower bound, convert manually
         ALLOCATE(ILAST(1:NBRIC))   !last occurrence of the brick in the candidate list
+! TODO: non-default lower bound, convert manually
         ITAGB(:)  = 0
         IFIRST(:) = 0
         ILAST(:)  = 0
@@ -315,9 +322,9 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
           ENDIF                          
         ENDDO!next I
         NCANDB = SUM(ITAGB(:))    !all intersected or non-intersected bricks without multiple occurrences
-        ALLOCATE(LIST_B(NCANDB))
-        ALLOCATE(IADF(NCANDB))   !start address in CAND_B
-        ALLOCATE(IADL(NCANDB))   !end address in CAND_B
+        call my_alloc(LIST_B, NCANDB, "LIST_B")
+        call my_alloc(IADF, NCANDB, "IADF") !start address in CAND_B
+        call my_alloc(IADL, NCANDB, "IADL") !end address in CAND_B
         IPOS = 0
         DO I=1,NBRIC
           IF(ITAGB(I) == 0)CYCLE                       
@@ -337,13 +344,14 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
       ! negative facet ids designate non-intersecting facets for the concerned brick
       IF(ITASK==0)THEN
         ALLOCATE(ITAGE(1:NIRECT_L))
+! TODO: non-default lower bound, convert manually
         ITAGE(:) = 0
         !loop over the candidate list and tag present bricks
         DO I=1,II_STOK
             ITAGE(IABS(CAND_E(I))) = 1
         ENDDO
         NCANDE = SUM(ITAGE(:))    !all intersected or non-intersected bricks without multiple occurrences
-        ALLOCATE(LIST_E(NCANDE))
+        call my_alloc(LIST_E, NCANDE, "LIST_E")
         IPOS = 0
         DO I=1,NIRECT_L
           IF(ITAGE(I) == 0)CYCLE                                           
@@ -381,7 +389,7 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
       ! #  LINK CAND_E(IDX1) TO LIST_E(IDX2)     #
       ! ########################################## 
       IF(ITASK==0)THEN
-        ALLOCATE(GET_LIST_E_POS_FROM_CAND_E_POS(II_STOK))
+        call my_alloc(GET_LIST_E_POS_FROM_CAND_E_POS, II_STOK, "GET_LIST_E_POS_FROM_CAND_E_POS")
         DO I=1,II_STOK
           GET_LIST_E_POS_FROM_CAND_E_POS(I) = ITAGE(IABS(CAND_E(I)))
         ENDDO
@@ -393,7 +401,8 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
    
       if(itask==0.AND.ibug22_tri==1)then
       
-        allocate(order(NCANDB) ,VALUE(NCANDB))
+        call my_alloc(order, NCANDB, "order")
+        call my_alloc(VALUE, NCANDB, "VALUE")
         order = 0
         !CALL QUICKSORT_I2 !(ORDER,NCANDB,list_b)
       
@@ -417,7 +426,8 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
         !print *, "  IADF=", IADF
         !print *, "  IADL=", IADL
         !print *, ""
-        deallocate(order,VALUE)
+        call my_dealloc(order)
+        call my_dealloc(VALUE)
         
       end if
 
@@ -485,15 +495,15 @@ C -------------------------------------------------------------
       ! #       DECHARGEMENT MEMOIRE             #
       ! ##########################################      
       IF(ITASK==0)THEN
-        DEALLOCATE(ITAGB)
-        DEALLOCATE(ITAGE) 
-        DEALLOCATE(IFIRST)
-        DEALLOCATE(ILAST)
-        DEALLOCATE(IADF)
-        DEALLOCATE(IADL)                
-        DEALLOCATE(LIST_B)      
-        DEALLOCATE(LIST_E)
-        DEALLOCATE(GET_LIST_E_POS_FROM_CAND_E_POS)                              
+        call my_dealloc(ITAGB)
+        call my_dealloc(ITAGE)
+        call my_dealloc(IFIRST)
+        call my_dealloc(ILAST)
+        call my_dealloc(IADF)
+        call my_dealloc(IADL)
+        call my_dealloc(LIST_B)
+        call my_dealloc(LIST_E)
+        call my_dealloc(GET_LIST_E_POS_FROM_CAND_E_POS)
       ENDIF      
 
 

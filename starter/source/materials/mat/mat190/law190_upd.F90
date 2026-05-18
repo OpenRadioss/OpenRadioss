@@ -26,7 +26,7 @@
 !||    updmat           ../starter/source/materials/updmat.F
 !||====================================================================
       module law190_upd_mod
-      implicit none
+        implicit none
       contains
 !! \brief update material law 190
 !||====================================================================
@@ -42,6 +42,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use matparam_def_mod
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -85,7 +87,7 @@
           ndim  = table(fun_1)%ndim               ! number of dimensions
           npt   = size(table(fun_1)%x(1)%values)  ! number of points
           matparam%ntable = numtabl               ! number of tables
-          allocate (matparam%table(numtabl))      ! allocate table array
+          allocate(matparam%table(numtabl))      ! allocate table array
           table_mat =>  matparam%table(1:numtabl) ! material table pointer
           table_mat(1:numtabl)%notable = 0        ! initialization of table identifiers array
 !
@@ -98,23 +100,23 @@
             table_mat(1)%notable = fun_1
             ndim = table(fun_1)%ndim
             table_mat(1)%ndim = ndim
-            allocate (table_mat(1)%x(ndim))
+            allocate(table_mat(1)%x(ndim))
             ! loop over dimensions to copy abscissa
             do i = 1,ndim
               npt = size(table(fun_1)%x(i)%values)
-              allocate (table_mat(1)%x(i)%values(npt))
+              call my_alloc(table_mat(1)%x(i)%values, npt, "table_mat(1)%x(i)%values")
               table_mat(1)%x(i)%values(1:npt) = table(fun_1)%x(i)%values(1:npt)
             end do
             ! 1 dimension, stress vs strain loading
             if (ndim == 1) then
               npt = size(table(fun_1)%x(1)%values)
-              allocate (table_mat(1)%y1d(npt),stat=stat)
+              call my_alloc(table_mat(1)%y1d, npt, "table_mat(1)%y1d", stat=stat)
               table_mat(1)%y1d(1:npt) = table(fun_1)%y%values(1:npt)
               ! 2 dimensions, stress vs strain vs strain rate
             else if (ndim == 2) then
               npt  = size(table(fun_1)%x(1)%values)
               len2 = size(table(fun_1)%x(2)%values)
-              allocate (table_mat(1)%y2d(npt,len2),stat=stat)
+              call my_alloc(table_mat(1)%y2d, npt, len2, "table_mat(1)%y2d", stat=stat)
               do i=1,npt
                 do j=1,len2
                   table_mat(1)%y2d(i,j) = table(fun_1)%y%values((j-1)*npt+i)
@@ -125,7 +127,7 @@
               npt  = size(table(fun_1)%x(1)%values)
               len2 = size(table(fun_1)%x(2)%values)
               len3 = size(table(fun_1)%x(3)%values)
-              allocate (table_mat(1)%y3d(npt,len2,len3),stat=stat)
+              call my_alloc(table_mat(1)%y3d, npt, len2, len3, "table_mat(1)%y3d", stat=stat)
               do i=1,npt
                 do j=1,len2
                   do k=1,len3
@@ -181,8 +183,8 @@
           table_mat(2)%notable = 2
           table_mat(2)%ndim = 1
           npt = size(table(fun_1)%x(1)%values)
-          allocate(x_ener(npt),stat=stat)
-          allocate(y_ener(npt),stat=stat)
+          call my_alloc(x_ener, npt, "x_ener", stat=stat)
+          call my_alloc(y_ener, npt, "y_ener", stat=stat)
           x_ener(1:npt) = zero
           y_ener(1:npt) = zero
           sizetozero = 1
@@ -215,14 +217,15 @@
             ener = (x_i-x_ii)*(y_i + y_ii)/two
             y_ener(kk) = y_ener(kk+1) + ener
           end do
-          allocate (table_mat(2)%x(ndim)          ,stat=stat)
-          allocate (table_mat(2)%x(1)%values(npt) ,stat=stat)
-          allocate (table_mat(2)%y1d(npt)         ,stat=stat)
+          allocate(table_mat(2)%x(ndim), stat=stat)
+          call my_alloc(table_mat(2)%x(1)%values, npt, "table_mat(2)%x(1)%values", stat=stat)
+          call my_alloc(table_mat(2)%y1d, npt, "table_mat(2)%y1d", stat=stat)
           do i = 1,npt
             table_mat(2)%x(1)%values(i) = x_ener(i)
             table_mat(2)%y1d(i) = y_ener(i)
           end do
-          deallocate(x_ener,y_ener)
+          call my_dealloc(x_ener)
+          call my_dealloc(y_ener)
 !
         end subroutine law190_upd
       end module law190_upd_mod

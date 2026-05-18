@@ -37,9 +37,11 @@ C
      +                  NSPHSOL_L,FIRST_SPHSOL_L,SPH2SOL ,SOL2SPH,
      +                  IRST     ,NUMELS8_L,CEP ,CEL     ,SOL2SPH_TYP)
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -75,29 +77,30 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE ::  NOD2SP_L,NGLOCAL,ISPHIO_L
 C-----------------------------------------------
 !     allocate 1d array
-      ALLOCATE( NOD2SP_L(NUMNOD_L),NGLOCAL(NGROUP) )
-      ALLOCATE( ISPHIO_L(SISPHIO) )
+      call my_alloc(NOD2SP_L, NUMNOD_L, "NOD2SP_L")
+      call my_alloc(NGLOCAL, NGROUP, "NGLOCAL")
+      call my_alloc(ISPHIO_L, SISPHIO, "ISPHIO_L")
 ! ------------------------------------
 C
-      ALLOCATE( IXSP_L(KVOISPH,NUMSPH_L)    ,STAT=stat)
+      call my_alloc(IXSP_L, KVOISPH, NUMSPH_L, "IXSP_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXSP_L')
 c inlet outl spmd
       IF(NSPHIO>0)THEN
-        ALLOCATE(LONFSPH_L(SLONFSPH_L)    ,STAT=stat)
+        call my_alloc(LONFSPH_L, SLONFSPH_L, "LONFSPH_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
         LONFSPH_L (1:SLONFSPH_L)= 0
 
-        ALLOCATE(LPRTSPH_L(SLPRTSPH_L)    ,STAT=stat)
+        call my_alloc(LPRTSPH_L, SLPRTSPH_L, "LPRTSPH_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
         LPRTSPH_L(1:SLPRTSPH_L) = 0
 
-        ALLOCATE(IBUFSSG_IO_L(SIBUFSSG_IO)    ,STAT=stat)
+        call my_alloc(IBUFSSG_IO_L, SIBUFSSG_IO, "IBUFSSG_IO_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
@@ -105,22 +108,22 @@ c inlet outl spmd
       ENDIF 
 c
       IF(NSPHSOL_L/=0)THEN
-        ALLOCATE(SPH2SOL_L(NUMSPH_L)    ,STAT=stat)
+        call my_alloc(SPH2SOL_L, NUMSPH_L, "SPH2SOL_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SPH2SOL_L')
         SPH2SOL_L (1:NUMSPH_L)= 0
-        ALLOCATE(SOL2SPH_L(2,NUMELS8_L)    ,STAT=stat)
+        call my_alloc(SOL2SPH_L, 2, NUMELS8_L, "SOL2SPH_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH_L')
         SOL2SPH_L (1:2,1:NUMELS8_L)= 0
-        ALLOCATE(IRST_L(3,NSPHSOL_L)    ,STAT=stat)
+        call my_alloc(IRST_L, 3, NSPHSOL_L, "IRST_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IRST_L')
         IRST_L (1:3,1:NSPHSOL_L)= 0
-        ALLOCATE(SOL2SPH_TYPL(NUMELS8_L)    ,STAT=stat)
+        call my_alloc(SOL2SPH_TYPL, NUMELS8_L, "SOL2SPH_TYPL", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SOL2SPH_TYPL')
@@ -128,7 +131,7 @@ c
       END IF
 c
       IF(NSPCOND>0)THEN
-        ALLOCATE(ISPSYM(NUMSPH_L*NSPCOND)    ,STAT=stat)
+        call my_alloc(ISPSYM, NUMSPH_L*NSPCOND, "ISPSYM", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='ISPSYM')
@@ -194,7 +197,7 @@ C
         CALL WRITE_I_C(ISPSYM,NUMSPH_L*NSPCOND)
         CALL WRITE_I_C(ISPCOND,NISPCOND*NSPCOND)
         LEN_IA = LEN_IA + NUMSPH_L*NSPCOND + NISPCOND*NSPCOND
-        DEALLOCATE(ISPSYM)
+        CALL MY_DEALLOC(ISPSYM)
       END IF
 
       IF(NSPHIO > 0) THEN
@@ -245,7 +248,9 @@ c ISPHIO is set locally for outlets defined by nodes
         LEN_IA = LEN_IA + SISPHIO + SLPRTSPH_L + SLONFSPH_L + 
      .           SIBUFSSG_IO
 
-        DEALLOCATE(LPRTSPH_L,LONFSPH_L,IBUFSSG_IO_L)
+        CALL MY_DEALLOC(LPRTSPH_L)
+        CALL MY_DEALLOC(LONFSPH_L)
+        CALL MY_DEALLOC(IBUFSSG_IO_L)
       END IF
 C
       IF(NSPHSOL_L/=0)THEN
@@ -289,15 +294,19 @@ C
         CALL WRITE_I_C(SOL2SPH_TYPL,NUMELS8_L)
         LEN_IA = LEN_IA + NUMSPH_L + 2*NUMELS8_L + 3*NSPHSOL_L
 C
-        DEALLOCATE(SPH2SOL_L,SOL2SPH_L,IRST_L,SOL2SPH_TYPL)
+        CALL MY_DEALLOC(SPH2SOL_L)
+        CALL MY_DEALLOC(SOL2SPH_L)
+        CALL MY_DEALLOC(IRST_L)
+        CALL MY_DEALLOC(SOL2SPH_TYPL)
 C
       END IF
 C
 ! ------------------------------------
 !     deallocate 1d array
-      DEALLOCATE(IXSP_L)
-      DEALLOCATE( NOD2SP_L,NGLOCAL )
-      DEALLOCATE( ISPHIO_L )
+      CALL MY_DEALLOC(IXSP_L)
+      CALL MY_DEALLOC(NOD2SP_L)
+      CALL MY_DEALLOC(NGLOCAL)
+      call my_dealloc(ISPHIO_L)
 ! ------------------------------------
 C
       RETURN

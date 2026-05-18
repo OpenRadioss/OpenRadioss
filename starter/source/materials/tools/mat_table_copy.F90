@@ -71,6 +71,8 @@
           use matparam_def_mod
           use message_mod
           use precision_mod, only: WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,7 +105,7 @@
 !--------------------------------------------------------------------------
           idebug = 0
           nfunc = mat_param%ntable
-          allocate (ifunc(nfunc))
+          call my_alloc(ifunc,nfunc,"ifunc")
           do itab = 1,nfunc
             ifunc(itab) = mat_param%table(itab)%notable
             if (ifunc(itab) > 0) then
@@ -128,21 +130,24 @@
             ndim = table(func_n)%ndim                   ! table dimension
             mat_param%table(itab)%notable = func_id
             mat_param%table(itab)%ndim = ndim
-            allocate (mat_param%table(itab)%x(ndim))
+            allocate(mat_param%table(itab)%x(ndim))
 !
             if (ndim == 1) then
               lx1 = size(table(func_n)%x(1)%values)      ! number of abscissa points
-              allocate (mat_param%table(itab)%x(1)%values(lx1))
-              allocate (mat_param%table(itab)%y1d(lx1))
+              call my_alloc(mat_param%table(itab)%x(1)%values,lx1,                         &
+              &                      "mat_param%table(itab)%x(1)%values")
+              call my_alloc(mat_param%table(itab)%y1d,lx1,"mat_param%table(itab)%y1d")
               mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_param%table(itab)%y1d(1:lx1) = fscale(itab)*table(func_n)%y%values(1:lx1)
 
             else if (ndim == 2) then
               lx1 = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
-              allocate (mat_param%table(itab)%x(1)%values(lx1))
-              allocate (mat_param%table(itab)%x(2)%values(lx2))
-              allocate (mat_param%table(itab)%y2d(lx1,lx2))
+              call my_alloc(mat_param%table(itab)%x(1)%values,lx1,                         &
+              &                      "mat_param%table(itab)%x(1)%values")
+              call my_alloc(mat_param%table(itab)%x(2)%values,lx2,                         &
+              &                      "mat_param%table(itab)%x(2)%values")
+              call my_alloc(mat_param%table(itab)%y2d,lx1,lx2,"mat_param%table(itab)%y2d")
               mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               do i=1,lx1
@@ -155,10 +160,13 @@
               lx1  = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
-              allocate (mat_param%table(itab)%x(1)%values(lx1))
-              allocate (mat_param%table(itab)%x(2)%values(lx2))
-              allocate (mat_param%table(itab)%x(3)%values(lx3))
-              allocate (mat_param%table(itab)%y3d(lx1,lx2,lx3))
+              call my_alloc(mat_param%table(itab)%x(1)%values,lx1,                         &
+              &                      "mat_param%table(itab)%x(1)%values")
+              call my_alloc(mat_param%table(itab)%x(2)%values,lx2,                         &
+              &                      "mat_param%table(itab)%x(2)%values")
+              call my_alloc(mat_param%table(itab)%x(3)%values,lx3,                         &
+              &                      "mat_param%table(itab)%x(3)%values")
+              call my_alloc(mat_param%table(itab)%y3d,lx1,lx2,lx3,"mat_param%table(itab)%y3d")
               mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               mat_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
@@ -176,11 +184,15 @@
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
               lx4 = size(table(func_n)%x(4)%values)
-              allocate (mat_param%table(itab)%x(1)%values(lx1))
-              allocate (mat_param%table(itab)%x(2)%values(lx2))
-              allocate (mat_param%table(itab)%x(3)%values(lx3))
-              allocate (mat_param%table(itab)%x(4)%values(lx4))
-              allocate (mat_param%table(itab)%y4d(lx1,lx2,lx3,lx4))
+              call my_alloc(mat_param%table(itab)%x(1)%values,lx1,                         &
+              &                      "mat_param%table(itab)%x(1)%values")
+              call my_alloc(mat_param%table(itab)%x(2)%values,lx2,                         &
+              &                      "mat_param%table(itab)%x(2)%values")
+              call my_alloc(mat_param%table(itab)%x(3)%values,lx3,                         &
+              &                      "mat_param%table(itab)%x(3)%values")
+              call my_alloc(mat_param%table(itab)%x(4)%values,lx4,                         &
+              &                      "mat_param%table(itab)%x(4)%values")
+              allocate(mat_param%table(itab)%y4d(lx1,lx2,lx3,lx4))
               mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
               mat_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
@@ -199,7 +211,7 @@
             end if   ! ndim
           end do     ! nfunc
 !
-          deallocate (ifunc)
+          call my_dealloc(ifunc)
 !------------------------------
           return
         end subroutine mat_table_copy

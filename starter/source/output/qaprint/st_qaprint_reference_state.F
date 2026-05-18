@@ -162,8 +162,8 @@ C
 C        
         IF (NEREF > 0) THEN
 C
-          CALL MY_ALLOC(INDEX,2*NUMELC)
-          CALL MY_ALLOC(ITR1,NUMELC)
+          CALL MY_ALLOC(INDEX,2*NUMELC,"INDEX")
+          CALL MY_ALLOC(ITR1,NUMELC,"ITR1")
 C
           DO IE=1,NUMELC
             ITR1(IE)=IXC(NIXC,IE)
@@ -203,10 +203,11 @@ C
             ENDDO
 C
           ENDDO
-          DEALLOCATE(INDEX,ITR1)
+          CALL MY_DEALLOC(INDEX)
+          CALL MY_DEALLOC(ITR1)
 C
-          CALL MY_ALLOC(INDEX,2*NUMELTG)
-          CALL MY_ALLOC(ITR1,NUMELTG)
+          CALL MY_ALLOC(INDEX,2*NUMELTG,"INDEX")
+          CALL MY_ALLOC(ITR1,NUMELTG,"ITR1")
 C
           DO IE=1,NUMELTG
             ITR1(IE)=IXTG(NIXTG,IE)
@@ -246,10 +247,11 @@ C
             ENDDO
 C
           ENDDO
-          DEALLOCATE(INDEX,ITR1)
+          CALL MY_DEALLOC(INDEX)
+          CALL MY_DEALLOC(ITR1)
 C
-          CALL MY_ALLOC(INDEX,2*NUMELS8)
-          CALL MY_ALLOC(ITR1,NUMELS8)
+          CALL MY_ALLOC(INDEX,2*NUMELS8,"INDEX")
+          CALL MY_ALLOC(ITR1,NUMELS8,"ITR1")
 C
           DO IE=1,NUMELS8
             ITR1(IE)=IXS(NIXS,IE)
@@ -289,7 +291,8 @@ C
             ENDDO
 C
           ENDDO
-          DEALLOCATE(INDEX,ITR1)
+          CALL MY_DEALLOC(INDEX)
+          CALL MY_DEALLOC(ITR1)
 C
         ENDIF
 

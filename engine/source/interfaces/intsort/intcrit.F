@@ -59,6 +59,7 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -139,10 +140,10 @@ C
            TZINF(NBNEW) = INTBUF_TAB(I)%VARIABLES(8)
            IF(NSNFI_FLAG(I)==1)THEN
               NSNFI(I)%P(1:NSPMD)=NSNFI_SAV(I)%P(1:NSPMD)
-              DEALLOCATE(NSNFI_SAV(I)%P)
+              call my_dealloc(NSNFI_SAV(I)%P)
 
               NSNSI(I)%P(1:NSPMD)=NSNSI_SAV(I)%P(1:NSPMD)
-              DEALLOCATE(NSNSI_SAV(I)%P)
+              call my_dealloc(NSNSI_SAV(I)%P)
 
               NSNFI_FLAG(I)=0
            ENDIF
