@@ -1034,7 +1034,7 @@ c---  Element Buffer  --------------------------------------------------
       TYPE(MLAW_TAG_)    ,DIMENSION(:)  ,POINTER     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,DIMENSION(:)  ,ALLOCATABLE :: EOS_TAG
       TYPE(PROP_TAG_)    ,DIMENSION(0:MAXPROP)       :: PROP_TAG
-      TYPE(FAIL_TAG_)    ,DIMENSION(0:MAXFAIL)       :: FAIL_TAG
+      TYPE(FAIL_TAG_)    ,DIMENSION(:,:),ALLOCATABLE :: FAIL_TAG
 c---- Xfem ------------------------------------------------------------
       TYPE (XFEM_SHELL_) ,DIMENSION(:), ALLOCATABLE :: CRKSHELL     ! NLEVMAX
       TYPE (XFEM_LVSET_) ,DIMENSION(:), ALLOCATABLE :: CRKLVSET     ! NLEVMAX
@@ -2195,9 +2195,10 @@ c------------------------------------
       MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_INI(1:NUMMAT)
       MLAW_TAG(1:NUMMAT) => MTAG_INI(1:NUMMAT)
       NLOC_DMG%IMOD = 0
+      ALLOCATE(FAIL_TAG(NUMMAT,MAXFAIL))
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
-     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG    ,
+     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
      .     RWORK       ,SRWORK   ,IPM      ,PM         ,UNITAB    ,
      .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL  ,TABLE     ,
      .     LTITR       ,USERL_AVAIL,MAT_NUMBER,
@@ -11627,6 +11628,7 @@ C
       IF(ALLOCATED(DPL0CLD)) DEALLOCATE(DPL0CLD)
       IF(ALLOCATED(VEL0CLD)) DEALLOCATE(VEL0CLD)
       IF(ALLOCATED(EBCS_TAG_CELL_SPMD)) DEALLOCATE(EBCS_TAG_CELL_SPMD)
+      IF(ALLOCATED(FAIL_TAG)) DEALLOCATE(FAIL_TAG)
 C----------------------------------------------
 
       RETURN

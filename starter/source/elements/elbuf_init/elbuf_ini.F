@@ -86,7 +86,7 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_)    ,TARGET ,DIMENSION(NUMMAT)     :: MLAW_TAG
       TYPE(EOS_TAG_)     ,TARGET ,DIMENSION(0:MAXEOS)   :: EOS_TAG
       TYPE(PROP_TAG_)    ,TARGET ,DIMENSION(0:MAXPROP)  :: PROP_TAG
-      TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(0:MAXFAIL ) :: FAIL_TAG
+      TYPE(FAIL_TAG_)    ,TARGET ,DIMENSION(NUMMAT,MAXFAIL) :: FAIL_TAG
       TYPE (STACK_PLY) :: STACK
       TYPE(DEFAULTS_), INTENT(INOUT) :: DEFAULTS
 C-----------------------------------------------
@@ -674,32 +674,32 @@ c
                   CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
                   FLOC%VARTMP = 0     
 c
-                  FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+                  FLOC%LF_DAM  = FAIL_TAG(MX,J)%LF_DAM                        
                   CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)
                   FLOC%DAM = ZERO   
                   LFAIL = LFAIL + FLOC%LF_DAM*NEL + 1 
 c
-                  FLOC%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                        
+                  FLOC%LF_DAMMX  = FAIL_TAG(MX,J)%LF_DAMMX                        
                   CALL MY_ALLOC(FLOC%DAMMX,FLOC%LF_DAMMX*NEL) 
                   FLOC%DAMMX = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
 c
-                  FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                        
+                  FLOC%LF_DAMINI = FAIL_TAG(MX,J)%LF_DAMINI                        
                   CALL MY_ALLOC(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
                   FLOC%DAMINI = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
 c
-                  FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+                  FLOC%LF_TDEL  = FAIL_TAG(MX,J)%LF_TDEL                        
                   CALL MY_ALLOC(FLOC%TDEL,FLOC%LF_TDEL*NEL)
                   FLOC%TDEL = ZERO                                                               
                   LFAIL = LFAIL + FLOC%LF_TDEL*NEL + 1 
 c
-                  FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+                  FLOC%LF_INDX = FAIL_TAG(MX,J)%LF_INDX                       
                   CALL MY_ALLOC(FLOC%INDX,FLOC%LF_INDX*NEL)
                   FLOC%INDX = 0                                                               
                   LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
 c
-                  FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+                  FLOC%LF_OFF = FAIL_TAG(MX,J)%LF_OFF                       
                   CALL MY_ALLOC(FLOC%OFF,FLOC%LF_OFF*NEL)
                   FLOC%OFF = 1                                                               
                   LFAIL = LFAIL + FLOC%LF_OFF*NEL + 1 
@@ -1407,32 +1407,32 @@ c
                   CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
                   FLOC%VARTMP = 0     
 c
-                  FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+                  FLOC%LF_DAM  = FAIL_TAG(MX,J)%LF_DAM                        
                   CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)
                   FLOC%DAM = ZERO   
                   LFAIL = LFAIL + FLOC%LF_DAM*NEL + 1 
 c
-                  FLOC%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                        
+                  FLOC%LF_DAMMX  = FAIL_TAG(MX,J)%LF_DAMMX                        
                   CALL MY_ALLOC(FLOC%DAMMX,FLOC%LF_DAMMX*NEL) 
                   FLOC%DAMMX = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
 c
-                  FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+                  FLOC%LF_DAMINI = FAIL_TAG(MX,J)%LF_DAMINI                      
                   CALL MY_ALLOC(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
                   FLOC%DAMINI = ZERO
                   LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
 c
-                  FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+                  FLOC%LF_TDEL  = FAIL_TAG(MX,J)%LF_TDEL                        
                   CALL MY_ALLOC(FLOC%TDEL,FLOC%LF_TDEL*NEL)
                   FLOC%TDEL = ZERO                                                               
                   LFAIL = LFAIL + FLOC%LF_TDEL*NEL + 1 
 c
-                  FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+                  FLOC%LF_INDX = FAIL_TAG(MX,J)%LF_INDX                       
                   CALL MY_ALLOC(FLOC%INDX,FLOC%LF_INDX*NEL)
                   FLOC%INDX = 0
                   LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
 c
-                  FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+                  FLOC%LF_OFF = FAIL_TAG(MX,J)%LF_OFF                       
                   CALL MY_ALLOC(FLOC%OFF,FLOC%LF_OFF*NEL)
                   FLOC%OFF = 1                                                               
                   LFAIL = LFAIL + FLOC%LF_OFF*NEL + 1 
@@ -1684,8 +1684,8 @@ c-------------------------------------------------
               NFAIL = BUFLY%NFAIL
               DO J=1,NFAIL
                 IRUPT = TFAIL(IL,J)
-                BUFLY%LY_CRKDIR = MAX(FAIL_TAG(IRUPT)%LF_DIR,BUFLY%LY_CRKDIR)
-                BUFLY%LY_DMG  = MAX(FAIL_TAG(IRUPT)%LF_DAM,BUFLY%LY_DMG)
+                BUFLY%LY_CRKDIR = MAX(FAIL_TAG(IMID,J)%LF_DIR,BUFLY%LY_CRKDIR)
+                BUFLY%LY_DMG  = MAX(FAIL_TAG(IMID,J)%LF_DAM,BUFLY%LY_DMG)
               ENDDO
             ENDDO
           ENDIF
@@ -2124,32 +2124,32 @@ c
                       CALL MY_ALLOC(FLOC%VARTMP,NVARTMP*NEL)
                       FLOC%VARTMP = 0     
 c
-                      FLOC%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+                      FLOC%LF_DAM  = FAIL_TAG(IMAT(IL),1)%LF_DAM                        
                       CALL MY_ALLOC(FLOC%DAM,FLOC%LF_DAM*NEL)
                       FLOC%DAM = ZERO   
                       LFAIL = LFAIL + FLOC%LF_DAM*NEL + 1 
 c
-                      FLOC%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                       
+                      FLOC%LF_DAMMX  = FAIL_TAG(IMAT(IL),1)%LF_DAMMX                       
                       CALL MY_ALLOC(FLOC%DAMMX,FLOC%LF_DAMMX*NEL) 
                       FLOC%DAMMX = ZERO
                       LFAIL = LFAIL + FLOC%LF_DAMMX*NEL + 1 
 c
-                      FLOC%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+                      FLOC%LF_DAMINI = FAIL_TAG(IMAT(IL),1)%LF_DAMINI                      
                       CALL MY_ALLOC(FLOC%DAMINI,FLOC%LF_DAMINI*NEL) 
                       FLOC%DAMINI = ZERO
                       LFAIL = LFAIL + FLOC%LF_DAMINI*NEL + 1 
 c
-                      FLOC%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+                      FLOC%LF_TDEL  = FAIL_TAG(IMAT(IL),1)%LF_TDEL                        
                       CALL MY_ALLOC(FLOC%TDEL,FLOC%LF_TDEL*NEL)
                       FLOC%TDEL = ZERO                                                           
                       LFAIL = LFAIL + FLOC%LF_TDEL*NEL + 1 
 c
-                      FLOC%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+                      FLOC%LF_INDX = FAIL_TAG(IMAT(IL),1)%LF_INDX                       
                       CALL MY_ALLOC(FLOC%INDX,FLOC%LF_INDX*NEL)
                       FLOC%INDX = 0                                                           
                       LFAIL = LFAIL + FLOC%LF_INDX*NEL + 1 
 c
-                      FLOC%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+                      FLOC%LF_OFF = FAIL_TAG(IMAT(IL),1)%LF_OFF                       
                       CALL MY_ALLOC(FLOC%OFF,FLOC%LF_OFF*NEL)
                       FLOC%OFF = 1                                                           
                       LFAIL = LFAIL + FLOC%LF_OFF*NEL + 1 
@@ -2331,32 +2331,32 @@ c
              ELBUF_TAB(NG)%GBUF%FAIL(1)%VAR = ZERO     
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%NVAR*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM  = FAIL_TAG(IRUPT)%LF_DAM                        
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM  = FAIL_TAG(IMID,1)%LF_DAM                        
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAM,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM*NEL)
              ELBUF_TAB(NG)%GBUF%FAIL(1)%DAM = ZERO   
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAM*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX  = FAIL_TAG(IRUPT)%LF_DAMMX                       
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX  = FAIL_TAG(IMID,1)%LF_DAMMX                       
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX*NEL) 
              ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMMX = ZERO
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMMX*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI = FAIL_TAG(IRUPT)%LF_DAMINI                      
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI = FAIL_TAG(IMID,1)%LF_DAMINI                      
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMINI,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI*NEL) 
              ELBUF_TAB(NG)%GBUF%FAIL(1)%DAMINI = ZERO
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_DAMINI*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL  = FAIL_TAG(IRUPT)%LF_TDEL                        
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL  = FAIL_TAG(IMID,1)%LF_TDEL                        
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%TDEL,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL*NEL)
              ELBUF_TAB(NG)%GBUF%FAIL(1)%TDEL = ZERO                                                           
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_TDEL*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX = FAIL_TAG(IRUPT)%LF_INDX                       
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX = FAIL_TAG(IMID,1)%LF_INDX                       
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%INDX,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX*NEL)
              ELBUF_TAB(NG)%GBUF%FAIL(1)%INDX = 0                                                           
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_INDX*NEL + 1
 c
-             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF = FAIL_TAG(IRUPT)%LF_OFF                       
+             ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF = FAIL_TAG(IMID,1)%LF_OFF                       
              CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF,ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF*NEL)
              ELBUF_TAB(NG)%GBUF%FAIL(1)%OFF = 1                                                           
              GFAIL = GFAIL + ELBUF_TAB(NG)%GBUF%FAIL(1)%LF_OFF*NEL + 1
