@@ -1119,7 +1119,7 @@ void send_mass_nl_c__(int *idp, int *nng, int *iadd_nl, my_real_c *ms){
 }
 
 void send_mass_rby_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *npby, int *nrbody, my_real_c *rby, int *tag, int *add_rby, int *nnpby, int *nrby){
-    int i, k, l, nn, lbuf, flag, *cbuf;
+    int i, k, l, nn, lbuf, flag, *cbuf, lbufi;
     my_real_c *mbuf, *ibuf, *m2buf, *matrix_buf;
 
     writer(fidw, (void *)idp, sizeof(int));
@@ -1127,9 +1127,11 @@ void send_mass_rby_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *
     flagrot[*idp] = flag;
 
     lbuf = *nng * sizeof(my_real_c);
+    lbufi = *nng * sizeof(int);
     mbuf = (my_real_c *)malloc(lbuf);
     m2buf = (my_real_c *)malloc(lbuf);
     cbuf = (int *)malloc(lbuf);
+
     if (flagrot[*idp]) {
         ibuf = (my_real_c *)malloc(lbuf);
         matrix_buf = (my_real_c *)malloc(9 * lbuf);
@@ -1153,7 +1155,7 @@ void send_mass_rby_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *
 
     writer(fidw, (void *)mbuf, lbuf);
     if (flagrot[*idp]) writer(fidw, (void *)ibuf, lbuf);
-    writer(fidw, (void *)cbuf, lbuf);
+    writer(fidw, (void *)cbuf, lbufi);
     writer(fidw, (void *)m2buf, lbuf);
     writer(fidw, (void *)matrix_buf, 9 * lbuf);
 
