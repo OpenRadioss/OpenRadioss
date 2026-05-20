@@ -134,6 +134,13 @@ Card5
       CALL HM_GET_FLOATV ('Shear_limit' ,SHRF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_FLOATV ('Biax_limit'  ,BIAXF       ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
 c-----------------------------------------------------------------------
+!
+      !< /FAIL/TAB1 obsolete message
+      CALL ANCMSG(MSGID=3145,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO_BLIND,
+     .            I1=MAT_ID)
+!
       ! Error massage: 'table1_ID' is mandatory:
       IF (ITAB_EPSF == 0) THEN
         CALL ANCMSG(MSGID=2068, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
