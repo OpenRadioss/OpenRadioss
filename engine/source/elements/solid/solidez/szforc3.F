@@ -986,7 +986,7 @@ C
      O   SIGO,         ICP,          LBUF%PLA,     IMATVIS,
      P   ET,           R3_DAM,       NEL,          GBUF%STRHG,
      Q   ISTRAIN,      MTN,          ISMSTR,       JLAG,
-     R   IINT)
+     R   IINT, MAT_ELEM%MAT_PARAM(IMAT))
       END IF !(ISORTH>0) THEN
       IF (CNS2 > ZERO) 
      .     CALL NSVIS_SM12(GBUF%OFF ,CNS2,CXX  ,VOLN ,DXX     ,
