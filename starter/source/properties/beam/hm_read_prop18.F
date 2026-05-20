@@ -82,6 +82,8 @@ C-----------------------------------------------
      .    DM,DR,PY,PZ,AI,AREA,Y0,Z0,L(6),PUN
       my_real
      .    AREA_I,TIXX_I,TIYY_I,TIZZ_I, ARI,INI,RYI,RZI
+      my_real
+     .    IRR 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       DATA PUN/0.1/
 C=======================================================================
@@ -156,6 +158,8 @@ C-------
         IF (DR == ZERO) DR = EM02
 C---                                                  
         NIP = MIN(NIP,NIPMAX)
+C----   Default torsion factor
+        GEO(90) = ONE
 c------------------------
         IF (ISECT == 0) THEN
 C--------------------------------------------------
@@ -190,6 +194,18 @@ C
           IF ((L(2)==ZERO).AND.(L(1)> ZERO)) L(2) = L(1)
 C
           CALL DEFBEAM_SECT(GEO,ISECT,INTR,NIP,AREA,L,IG,IDTITL)
+C
+C         Tors factor for rectangular section
+          IF ((ISECT == 1).OR.(ISECT == 3)) THEN
+            IRR = ((L(1)*L(2)**3+L(2)*L(1)**3))/TWELVE
+            IF (L(2) >= L(1)) THEN
+              GEO(90) = THIRD*(L(2)*L(1)**3)*(ONE-0.63*L(1)/L(2)+0.0525*(L(1)/L(2))**5)/IRR
+            ELSE
+              GEO(90) = THIRD*(L(1)*L(2)**3)*(ONE-0.63*L(2)/L(1)+0.0525*(L(2)/L(1))**5)/IRR
+            ENDIF
+          ENDIF
+C
+        ELSEIF ((ISECT >= 7).AND.(ISECT <= 9)) THEN          
 C
 C         Check of missing dimensions in input 
           IF (L(1) == ZERO) THEN
