@@ -249,6 +249,7 @@ c---------------------------
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SHELL_ISOTROPIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"TETRA4_AVERAGED")
 c---------------------------    
       PARMAT(1) = C1
       PARMAT(2) = YOUNG

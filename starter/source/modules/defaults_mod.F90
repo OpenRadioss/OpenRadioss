@@ -171,7 +171,6 @@
             if (this%solid%isolid==0) this%solid%isolid   = 14
           end if
           if (this%solid%isolid==0) this%solid%isolid   = 1
-          if (this%solid%itetra4==0) this%solid%itetra4   = 1000
           if (this%solid%itetra10==0) this%solid%itetra10   = 1000
           if (this%solid%iframe==0) this%solid%iframe   = 1
           if (n2d/=0.and.this%solid%isolid/=17) this%solid%isolid = 2

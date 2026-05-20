@@ -638,17 +638,16 @@ C
      .                  PRMOD=MSG_CUMU)
           ENDIF
 C
-          !< Compatibility of ITET4 = 3 with /MAT/LAW88 is not supported
-    !       IF ((MLN == 88).AND.(ITET4 == 3)) THEN
-    !         ITET4 = 0
-    !         CALL ANCMSG(MSGID=3123,
-    !  .                  MSGTYPE=MSGWARNING,
-    !  .                  ANMODE=ANINFO_BLIND_2,
-    !  .                  I1=ID,
-    !  .                  C1=TITR,
-    !  .                  I2=MLN,
-    !  .                  PRMOD=MSG_CUMU)
-    !       ENDIF
+          !< Choose default value for ITET4 according to the material law
+          IF ((IGEO(29,PID) /= 1) .AND. (ITET4 == 0) .AND. 
+     .        ((IGT == 14) .OR. (IGT == 6)) .AND. (IKSNOD0 /= 8)) THEN
+            IF (MATPARAM_TAB(MID)%ITETRA4 == 1) THEN
+              ITET4 = 1000
+            ELSEIF (MATPARAM_TAB(MID)%ITETRA4 == 2) THEN
+              ITET4 = 3
+            ENDIF
+          ENDIF
+          IF (ITET4 == 1000) ITET4 = 0
 C
           IFAIL = 0
           NFAIL = 0
