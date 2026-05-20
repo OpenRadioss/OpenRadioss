@@ -907,18 +907,25 @@
 
             QA   = GEO(14,PID(I)) !1.225D00
             QB   = GEO(15,PID(I)) !0.06D00
-            XL   = VOLUME(I)**THIRD
+            IF(N2D /= 0) THEN
+              XL   = SQRT(VOLUME(I))
+              XL1  = SQRT(V1OLD)
+              XL2  = SQRT(V2OLD)
+              XL3  = SQRT(V3OLD)
+              XL4  = SQRT(V4OLD)
+            ELSE
+              XL   = VOLUME(I)**THIRD
+              XL1  = V1OLD**THIRD
+              XL2  = V2OLD**THIRD
+              XL3  = V3OLD**THIRD
+              XL4  = V4OLD**THIRD
+            ENDIF
             QAL  = (QA*XL)*(QA*XL)
             QBL  = QB*XL
 
             VQ0  = RHO(I)*QAL*MAX(ZERO,DD)
             VQ0  = VQ0 + (RHO1OLD*SSP1*V1OLD+RHO2OLD*SSP2*V2OLD+RHO3OLD*SSP3*V3OLD+RHO4OLD*SSP4*V4OLD)*QBL/(V1OLD+V2OLD+V3OLD+V4OLD)
             Q0   = VQ0*MAX(ZERO,DD)
-
-            XL1  = V1OLD**THIRD
-            XL2  = V2OLD**THIRD
-            XL3  = V3OLD**THIRD
-            XL4  = V4OLD**THIRD
 
             QAL1 = (QA*XL1)**2
             QAL2 = (QA*XL2)**2
