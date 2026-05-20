@@ -92,8 +92,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: tab_id,ncycle,nrs
           real(kind=WP) :: rho0,shear,young,nu,bulk,tsc,damp,srclmt,lam,cii,cij,       &
-            x1scale,x2scale,x3scale,x4scale,x2vect(1),x3vect(1),x4vect(1),       &
-            fscale(1)
+            x1scale,x2scale,x3scale,x4scale,x2vect(1),x3vect(1),x4vect(1),             &
+            fscale(1),youngini,youngmin,youngmax,xmax
           logical :: is_encrypted,is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
@@ -131,13 +131,6 @@
           if (fscale(1) == zero) then
             call hm_get_floatv_dim("FSCALE",fscale(1),is_available,lsubmodel,unitab)
           end if
-          !< Shear modulus
-          shear = young/(two*(one+nu))
-          bulk  = young/(three*(one - two*nu))
-          !< Stifness matrix components
-          lam = young*nu / (one+nu) / (one - two*nu)
-          cii = lam + shear*two
-          cij = lam
           !< Damping default value
           if (damp == zero) damp = em01
           !< Default number of cycles
@@ -165,21 +158,6 @@
           allocate(matparam%uparam(matparam%nuparam))
           allocate(matparam%table (matparam%ntable ))
 !
-          !< Integer material parameter
-          matparam%iparam(1)  = ncycle
-          matparam%iparam(2)  = nrs
-!
-          !< Real material parameters
-          matparam%young      = young
-          matparam%nu         = nu
-          matparam%shear      = shear
-          matparam%bulk       = bulk
-          matparam%uparam(1)  = cii
-          matparam%uparam(2)  = cij
-          matparam%uparam(3)  = tsc
-          matparam%uparam(4)  = damp
-          matparam%uparam(5)  = srclmt
-!
           !< Transform global table into material table
           matparam%table(1)%notable = tab_id
           x1scale   = one
@@ -191,6 +169,36 @@
           call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
             x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
             ntable   ,table    ,ilaw     )
+!
+          !< Get the maximum tabulated slope
+          youngmax = zero
+          call table_slope(matparam%table(1),youngini,youngmin,youngmax,xmax)
+!
+          !< Update material parameters
+          ! -> Young's modulus
+          youngmax = max(youngmax,young)
+          matparam%young = youngmax
+          ! -> Poisson's ratio
+          matparam%nu = nu
+          ! -> Bulk modulus
+          bulk = youngmax/(three*(one - two*nu))
+          matparam%bulk = bulk
+          ! -> Shear modulus
+          shear = half*youngmax/(one + nu)
+          matparam%shear = shear
+          !< Stiffness matrix components
+          lam = youngmax*nu / (one+nu) / (one - two*nu)
+!
+          !< Integer material parameter
+          matparam%iparam(1) = ncycle
+          matparam%iparam(2) = nrs
+!
+          !< Real material parameters
+          matparam%uparam(1) = lam + shear*two
+          matparam%uparam(2) = lam
+          matparam%uparam(3) = tsc
+          matparam%uparam(4) = damp
+          matparam%uparam(5) = srclmt
 !
           !< PARMAT table
           parmat(1)  = bulk
@@ -219,6 +227,7 @@
           call init_mat_keyword(matparam ,"LARGE_STRAIN")
           call init_mat_keyword(matparam ,"HOOK")
           call init_mat_keyword(matparam ,"ISOTROPIC")
+          call init_mat_keyword(matparam ,"TETRA4_AVERAGED")
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Printing out the material data

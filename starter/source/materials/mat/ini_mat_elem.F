@@ -67,6 +67,7 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = 1  ! hydrostatic using AMU
         MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = 1  ! isotropic
         MAT_ELEM%MAT_PARAM(IMAT)%CRIT_PLAS          = 0  ! not elasto-plastic law, no plastic criterion
+        MAT_ELEM%MAT_PARAM(IMAT)%ITETRA4            = 1  ! tetra4 element formulation
 c
         MAT_ELEM%MAT_PARAM(IMAT)%NLOC         = 0
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE    = 0

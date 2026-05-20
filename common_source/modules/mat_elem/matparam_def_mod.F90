@@ -525,6 +525,7 @@
           integer     :: ipres                !< "hydrostatic","hydro_eos","hook"
           integer     :: crit_plas            !< "vonmises","hershey","hill", "barlat1989","barlat2000","drucker"
           integer     :: orthotropy           !< "isotropic", "orthotropic", "anisotropic"
+          integer     :: itetra4              !< "tetra4_linear","tetra4_averaged"
           ! ------- compatibility flags - not written in restart file, for starter check only
           integer     :: prop_solid           !< "solid_isotropic","solid_orthotropic","solid_composite","solid_cohesive"   ,"solid_porous","solid_all"
           integer     :: prop_shell           !< "shell_isotropic","shell_orthotropic","shell_composite","shell_anisotropic","shell_all"

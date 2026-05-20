@@ -289,6 +289,10 @@ c
           MATPARAM%CRIT_PLAS = 5            ! Plastic criterion BARLAT 2000  
         CASE ("DRUCKER")      
           MATPARAM%CRIT_PLAS = 6            ! Plastic criterion DRUCKER
+c
+        CASE("TETRA4_AVERAGED")
+          MATPARAM%ITETRA4 = 2              ! TETRA4 averaged nodal pressure formulation flag
+c
         CASE DEFAULT      
           ! write error : keyword not recognized"
 c---

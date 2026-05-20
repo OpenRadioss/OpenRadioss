@@ -429,8 +429,8 @@ C--------------------------------------------------
        WRITE(IOUT,1099) IG
       ENDIF
 
-      IF (ITET4 == 1000) ITET4 = 0
       IGEO(20) = ITET4
+      IGEO(29) = ITET4_PREV
       IF (ITET10 == 1000) ITET10 = 0
       IGEO(50) = ITET10
 

@@ -212,6 +212,7 @@ C----------------------
       IF(ITET4 == 0)  ITET4 = ITET4_D
       IF(ITET10 == 0) ITET10 = ITET10_D
       IF(ITET4 == 1) THEN ! switched to tetra10 w/ itetra10=2
+        IGEO(29) = ITET4
         IF (ISMS == 0) ITET10 = 2
         ITET4 = 0  
         MSGLINE='   ITETR4 IS CHANGED TO TETRA10'
@@ -505,7 +506,6 @@ C----
        WRITE(IOUT,1099) IG
       ENDIF
 
-      IF (ITET4 == 1000) ITET4 = 0
       IGEO(20) = ITET4
       IF (ITET10 == 1000) ITET10 = 0
       IGEO(50) = ITET10
