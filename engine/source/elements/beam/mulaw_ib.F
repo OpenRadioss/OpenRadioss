@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                    GEO     ,OFF     , 
      4                    EPSP    ,BUFMAT  ,NPF     ,TF      ,
      5                    EXX     ,EXY     ,EXZ     ,KXX     ,
-     6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY )
+     6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY ,
+     7                    TORS_FACT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C-----------------------------------------------
      .   EXX(NEL),EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL)   
       my_real , INTENT(INOUT) :: TEMPEL(NEL)
       my_real , INTENT(INOUT) :: SIGY(NEL,NPT)
+      my_real , INTENT(IN) :: TORS_FACT
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: BUFMAT
@@ -138,8 +140,8 @@ C
 c---    Deformations Incrementales
         DO I = 1,NEL
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
-          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
-          DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
+          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I)*TORS_FACT 
+          DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)*TORS_FACT
           DEPSXY(I) = DEPSXY(I) / SHFACT
           DEPSXZ(I) = DEPSXZ(I) / SHFACT 
         ENDDO

@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  NEL     ,NPT    ,GEO    ,EINT   ,OFF    ,
      3                  PID     ,EPSP   ,EXX    ,EXY    ,EXZ    ,
      4                  KXX     ,KYY    ,KZZ    ,AL     ,ASRATE ,
-     5                  TIMESTEP,JTHE   ,TEMP   ,SIGY   )
+     5                  TIMESTEP,JTHE   ,TEMP   ,SIGY   ,TORS_FACT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
      .   OFF(*),EPSP(*), AL(*) 
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
       my_real ,INTENT(INOUT) :: SIGY(NEL,NPT)
+      my_real ,INTENT(IN) :: TORS_FACT
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       type (matparam_struct_)  ,intent(in)    :: mat_param
 C-----------------------------------------------
@@ -159,8 +160,8 @@ C---    Coordonnees du point d'integration
 C---    Deformations Incrementales
         DO I= 1,NEL
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
-          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
-          DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
+          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I)*TORS_FACT 
+          DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)*TORS_FACT
           DEPSXY(I) = DEPSXY(I) / SHFACT
           DEPSXZ(I) = DEPSXZ(I) / SHFACT 
         ENDDO

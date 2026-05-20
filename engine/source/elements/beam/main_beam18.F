@@ -104,7 +104,8 @@ C-----------------------------------------------
       INTEGER :: I,J,IPT,IPID,IPLA,ISRATE,IPY,IPZ,IPA,II(3)
       my_real :: ASRATE,EPSDI,FACT,AREA,
      .           DAMAGE_LOC,DFXX,DFXY,DFXZ,
-     .           SIGNXX,SIGNXY,SIGNXZ,SIGOXX,SIGOXY,SIGOXZ
+     .           SIGNXX,SIGNXY,SIGNXZ,SIGOXX,SIGOXY,SIGOXZ,
+     .           TORS_FACT
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA,SIGY,VM,VM0
 C=======================================================================
@@ -113,6 +114,8 @@ C=======================================================================
       IPA  = 400        
       IPID = PID(1)
       AREA = GEO(1 ,IPID)
+      TORS_FACT = GEO(90,IPID)
+C      
       DO I=1,3
         II(I) = NEL*(I-1)
       ENDDO
@@ -188,7 +191,7 @@ c---------------------------
      1               NEL    ,NPT    ,GEO    ,EINT   ,OFF    ,
      3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ    ,
      4               KXX    ,KYY    ,KZZ    ,AL     ,ASRATE ,
-     5               DTIME  ,JTHE   ,TEMPEL ,SIGY   )
+     5               DTIME  ,JTHE   ,TEMPEL ,SIGY   ,TORS_FACT)
 c
       ELSE
 c     
@@ -198,7 +201,8 @@ c
      3                GEO     ,OFF     ,
      4                EPSD    ,BUFMAT  ,NPF     ,TF      ,
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
-     6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  )
+     6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  ,
+     7                TORS_FACT)
       ENDIF
 !
 c---------------------------
