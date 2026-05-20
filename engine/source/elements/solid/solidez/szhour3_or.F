@@ -120,7 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J, IET, MT, IPLAST
+      INTEGER I, MX, J, IET, MT, IPLAST,ICRIT_VM,L_SEQ
       my_real
      . CAQ(MVSIZ), FCL(MVSIZ),DEINT(MVSIZ),
      .   H11(MVSIZ), H22(MVSIZ), H33(MVSIZ),
@@ -142,22 +142,24 @@ C-----------------------------------------------
      . NUS(MVSIZ),NU2(MVSIZ),NU4(MVSIZ),E0(MVSIZ),
      .   E_R,E_S,E_T,FAC,FAC1,FAC2,COEFH,HQ13P,HQ13N,HQ24P,HQ24N,FF
       my_real
-     .   CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3),GM,GMIN,DAMA_G(MVSIZ,3)
+     .   CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3),GM,GMIN,DAMA_G(MVSIZ,3),
+     .   SIGYM(NEL),SS(3),SVM2_0(NEL),SEQ,FACI(NEL)
 C-----------------------------------------------
        IET =IINT
        COEFH = ZEP9999   
        IPLAST = ELBUF_STR%GBUF%G_PLA
 C---- note: r->eta; s->zeta; t->ksi------------
-
-C +++ MAT Visco-----
-!      DO I=1,NEL
-!        SIG0V(I,1) = SIG0(I,1)
-!        SIG0V(I,2) = SIG0(I,2)
-!        SIG0V(I,3) = SIG0(I,3)
-!        SIG0V(I,4) = SIG0(I,4)
-!        SIG0V(I,5) = SIG0(I,5)
-!        SIG0V(I,6) = SIG0(I,6)
-!      ENDDO
+      ICRIT_VM = mat_param%crit_plas  ! =1 Von Mises
+      L_SEQ = ELBUF_STR%BUFLY(1)%L_SEQ
+      IF (IPLAST==1) THEN
+        DO I=1,NEL 
+          SS(1) =SIG0(I,1)-SIG0(I,2)
+          SS(2) =SIG0(I,2)-SIG0(I,3)
+          SS(3) =SIG0(I,1)-SIG0(I,3)
+          SVM2_0(I) = (SS(1)*SS(1)+SS(2)*SS(2)+SS(3)*SS(3))*HALF + THREE*
+     .      (SIG0(I,4)*SIG0(I,4)+SIG0(I,5)*SIG0(I,5)+SIG0(I,6)*SIG0(I,6))
+        END DO
+      END IF
       MX = MAT(1)
       RHO0=PM(1,MX)
       NU=PM(21,MX)
@@ -172,14 +174,6 @@ C----- sometimes GM is too small
        GG(I)=MAX(GG(I),GMIN)   
        E0(I)=TWO*(ONE+NU)*GG(I)
       ENDDO
-C  +++ MAT Hydro---
-c      IF (MTN==3 .OR.MTN==4 .OR.MTN==6) THEN
-c       MX = MAT(1)
-c       DO I=1,NEL
-c        GG(I)=PM(22,MX)
-c        GG(I)=MAX(GG(I),VIS(I))
-c       ENDDO
-c      ENDIF 
 C
       IF (IET > 1 .AND. MATVIS>0 ) THEN
        CALL SZETFAC(1,NEL,IET,MTN,ET,GG )
@@ -237,32 +231,6 @@ C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001
        ENDDO
       END IF
 C
-c      IF(ICP==1)THEN
-C-------!!!curieux!!!!!!!!
-c       DO I=1,NEL
-c        NU1(I) =FOUR_OVER_3
-c        NU2(I) =-TWO_THIRD
-c        NU3(I) =ZEP444
-c        NU4(I) =ZERO
-c       ENDDO
-c      ELSEIF(ICP==2)THEN
-c       DO I=1,NEL
-c        FAC1 = SIGY(I)/E0(I)+DEFP(I)
-c        FAC2=ONE-DEFP(I)/FAC1
-c        FF =(ONE +NU)/(ONE -TWO*NU)*FAC2
-c        NU1(I) =TWO_THIRD*(TWO+FF)
-c        NU2(I) =TWO_THIRD*(FF-ONE)
-c        NU3(I) =ZEP222*(TWO+FF)
-c        NU4(I) =ZERO
-c       ENDDO
-c      ELSE
-c       DO I=1,NEL
-c        NU1(I) =TWO/(ONE-NU)
-c        NU2(I) =NU*NU1(I)
-c        NU3(I) =TWO_THIRD*(ONE + NU)
-c        NU4(I) =NU
-c       ENDDO
-c      ENDIF
       IF(ICP==1)THEN
        DO I=1,NEL
         NUS(I) =ZEP499
@@ -405,7 +373,7 @@ C         SIGY(I) = 1.0E+30
      .   CALL SZSVM_OR(
      1   JR0,     JS0,     JT0,     CC,
      2   CG,      G33,     FHOUR,   SIGY,
-     3   SIGOLD,  NU,      SMO1,    SMO2,
+     3   SVM2_0,  NU,      SMO1,    SMO2,
      4   NEL,     IINT)
       !-----------For energy calculation------------
       IF(JLAG==1)THEN
@@ -475,25 +443,55 @@ C
      .    CALL SZSVM_OR(
      1   JR0,     JS0,     JT0,     CC,
      2   CG,      G33,     FHOUR,   SIGY,
-     3   SIG0,    NU,      SM1,     SM2,
+     3   SVM2_0,  NU,      SM1,     SM2,
      4   NEL,     IINT)
       !-----------ELASTIC-PLASTIC yield criterion------------
       IF (IPLAST==1) THEN
+        SIGYM(1:NEL) =SIGY(1:NEL)
+        FACI(1:NEL) = ZERO
+        IF (ICRIT_VM/=1.AND.L_SEQ>0) THEN 
+          DO I=1,NEL 
+            SEQ = ELBUF_STR%BUFLY(1)%LBUF(1,1,1)%SEQ(I)
+            IF (SEQ>EM20) THEN
+              SIGYM(I) = SIGYM(I)*SQRT(SVM2_0(I))/SEQ 
+            END IF
+          END DO
+        END IF
+        IF (ICP==2.AND.ICRIT_VM==1) THEN     ! old formulation
+           DO I=1,NEL
+             IF (SM1(I)>SIGYM(I).AND.DEINT(I)>0) THEN
+              SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
+              FAC1 = SIGYM(I)-SMO
+              FAC2 = SM1(I)-SMO
+              IF (FAC2<=EM20) THEN
+                FAC=ZERO
+              ELSE
+                FAC = ONE - MAX(EM20,FAC1/FAC2)
+              ENDIF
+              IF (SM2(I)<SIGYM(I)) THEN ! for coarse mesh?
+                FAC1 =(SM1(I)-SIGYM(I))/MAX((SM1(I)-SM2(I)),EM20)
+                FAC1 =HALF + SQRT(FAC1)
+                FAC = MIN(FAC1,ONE)*FAC
+              ENDIF
+              FACI(I)=FAC
+             ENDIF
+           ENDDO
+        ELSE 
+           DO I=1,NEL
+             IF (SM1(I)>SIGYM(I).AND.DEINT(I)>0) THEN
+               FAC = SIGYM(I)/SM1(I)
+               SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
+               IF (SMO>SIGYM(I).AND.SM1(I)>SMO) THEN ! already too high at previous step
+                 FAC1 = (SMO-SIGYM(I))/(SM1(I)-SMO)
+                 FAC = FAC* MIN(ONE,FAC1)
+               END IF
+               FACI(I) = ONE - FAC
+             ENDIF
+           ENDDO
+        END IF
       DO I=1,NEL
-        IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
-         SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
-         FAC1 = SIGY(I)-SMO
-         FAC2 = SM1(I)-SMO
-         IF (FAC2<=EM20) THEN
-           FAC=ZERO
-         ELSE
-           FAC = ONE - MAX(EM20,FAC1/FAC2)
-         ENDIF
-         IF (SM2(I)<SIGY(I)) THEN
-           FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
-           FAC1 =HALF + SQRT(FAC1)
-           FAC = MIN(FAC1,ONE)*FAC
-         ENDIF  
+        IF (SM1(I)>SIGYM(I).AND.DEINT(I)>0) THEN
+         FAC = FACI(I)
          FHOUR(I,1,1) = FHOUR(I,1,1) - FAC*DFHOUR(I,1,1)
          FHOUR(I,1,2) = FHOUR(I,1,2) - FAC*DFHOUR(I,1,2)
          FHOUR(I,1,3) = FHOUR(I,1,3) - FAC*DFHOUR(I,1,3)
