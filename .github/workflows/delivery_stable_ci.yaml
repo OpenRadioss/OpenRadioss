@@ -730,7 +730,7 @@ jobs:
                 repositoryId: repoId,
                 categoryId: categoryId,
                 title: `OpenRadioss Stable Update (${process.env.LAST_STABLE_TAG_NAME})`,
-                body: `We're excited to announce a new **stable release of OpenRadioss!**\nThis version, based on **tag ${process.env.LAST_STABLE_TAG_NAME}**, brings improved stability and performance based on community feedback.\n🔹 [Get it now](https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/XXXX)\nPlease, try it out and share your appreciated feedback, thanks!`
+                body: `We're excited to announce a new **stable release of OpenRadioss!**\nThis version, based on **tag ${process.env.LAST_STABLE_TAG_NAME}**, brings improved stability and performance based on community feedback.\n🔹 [Get it now](https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/${process.env.LAST_STABLE_TAG_NAME})\nPlease, try it out and share your appreciated feedback, thanks!`
               });
               
               console.log(`Discussion created: ${discussion.createDiscussion.discussion.url}`);
