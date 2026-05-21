@@ -97,6 +97,7 @@
           integer,allocatable,dimension(:,:) :: itmp
           logical :: l_tagnod(numnod)
           logical :: is_tria
+          logical :: is_input_file_well_defined
           integer :: n3,n4
           real(kind=WP) :: fac
           real(kind=WP) :: rho0,shear,bulk  !< material parameters (elastic state / intial state)
@@ -335,7 +336,10 @@
             bcs%nrf(ii)%list%size = nseg
 
             !effective size & printout
-            if(nseg > 0)then
+            is_input_file_well_defined = .true.
+            IF(N2D == 0 .AND. numels == 0)is_input_file_well_defined = .false.
+            IF(N2D > 0 .AND. NUMELTG+NUMELQ==0)is_input_file_well_defined = .false.
+            if(nseg > 0 .AND. is_input_file_well_defined)then
               write(iout, 2011)bcs%nrf(ii)%user_id
               write(iout, 2019)nseg
               write(iout, 2020)
@@ -394,8 +398,9 @@
               if(ipri >= 3)write(iout, 2022)
             end if
 
-            deallocate(bcs%iworking_array)
           end do !next ii
+
+          deallocate(bcs%iworking_array)
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

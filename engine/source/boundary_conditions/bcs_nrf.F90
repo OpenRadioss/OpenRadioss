@@ -61,7 +61,7 @@
           use bcs_mod , only : bcs_struct_
           use precision_mod , only : WP
           use elbufdef_mod , only : elbuf_struct_
-          use constant_mod , only : zero, em14, half, em20
+          use constant_mod , only : zero, em14, half, em20, TWO, PI
           use h3d_mod , only : h3d_database
           use message_mod , only : aninfo, ancmsg
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -277,8 +277,10 @@
                 ! External Force Work increment
                 WFEXTT = WFEXTT + DT1 * (  FX(1)*V(1,NOD1) + FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
                   + FX(2)*V(1,NOD2) + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2)  &
-                  + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3)  &
-                  + FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
+                  + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3) )
+                IF(NOD4 /= 0)THEN
+                  WFEXTT = WFEXTT + DT1 * ( FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
+                END IF
 
               else
 
@@ -302,6 +304,11 @@
                 !Area.n
                 NY = -TZ
                 NZ =  TY
+
+                ! Axisymmetric case: multiply by 2*pi*R_mean
+                if(n2d == 1)then
+                  AREA = AREA * TWO * PI * HALF*(X(2,NOD1)+X(2,NOD2))
+                end if
 
                 !absorbing force contribution on NOD1
                 Vn = V(2,NOD1)*NY+V(3,NOD1)*NZ
