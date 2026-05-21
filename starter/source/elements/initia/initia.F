@@ -59,7 +59,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inirbys                         ../starter/source/constraints/general/rbody/inirby.F
 !||    inirig_mat                      ../starter/source/elements/initia/inirig_mat.F
 !||    inisrf                          ../starter/source/constraints/general/rbody/inisrf.F
-!||    init_bcs_nrf                    ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                   ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_inivol                     ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_rwall_penalty              ../starter/source/constraints/general/rwall/init_rwall_penalty.F90
@@ -127,7 +126,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_guided_cable_mod            ../starter/source/tools/seatbelts/ini_guided_cable.F90
 !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
-!||    init_bcs_nrf_mod                ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall_mod               ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_inivol_mod                 ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_rwall_penalty_mod          ../starter/source/constraints/general/rwall/init_rwall_penalty.F90

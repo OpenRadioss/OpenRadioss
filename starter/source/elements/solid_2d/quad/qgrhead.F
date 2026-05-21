@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fretitl2               ../starter/source/starter/freform.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    reorder_mod            ../starter/share/modules1/reorder_mod.F
 !||====================================================================
       SUBROUTINE QGRHEAD(
      1       IXQ     ,PM      ,GEO     ,INUM    ,ISEL    ,

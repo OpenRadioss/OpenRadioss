@@ -38,9 +38,6 @@
 !||    bcs_nrf         ../engine/source/boundary_conditions/bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
-!||    arret           ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    constant_mod    ../common_source/modules/constant_mod.F

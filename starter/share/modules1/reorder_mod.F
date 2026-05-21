@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_permutation      ../starter/source/starter/lectur.F
 !||    lectur                ../starter/source/starter/lectur.F
 !||    pgrtails              ../starter/source/elements/beam/pgrtails.F
+!||    qgrhead               ../starter/source/elements/solid_2d/quad/qgrhead.F
+!||    qgrtails              ../starter/source/elements/solid_2d/quad/qgrtails.F
 !||    sgrhead               ../starter/source/elements/solid/solide/sgrhead.F
 !||    sgrtails              ../starter/source/elements/solid/solide/sgrtails.F
 !||    t3grhead              ../starter/source/elements/solid_2d/tria/t3grhead.F

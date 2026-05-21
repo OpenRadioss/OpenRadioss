@@ -276,6 +276,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inirbe3                             ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    inisen                              ../starter/source/tools/sensor/inisen.F
 !||    inisms                              ../starter/source/general_controls/computation/hm_read_sms.F
+!||    init_bcs_nrf                        ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_joint                          ../starter/source/constraints/general/cyl_joint/init_joint.F
 !||    init_mat_weight                     ../starter/source/user_interface/set_dd_mat_weight.F
 !||    init_mlaw_tag                       ../starter/source/elements/elbuf_init/init_mlaw_tag.F
@@ -477,6 +478,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xgrtails                            ../starter/source/elements/xelem/xgrtails.F
 !||    yctrl                               ../starter/source/initial_conditions/inista/yctrl.F
 !||--- uses       -----------------------------------------------------
+!||    apply_permutation_mod               ../starter/source/spmd/tools/apply_permutation.F90
 !||    bpreload_mod                        ../starter/share/modules1/bpreload_mod.F
 !||    brokmann_elem_renum_mod             ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
 !||    chk_shell_offset_mod                ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
@@ -510,6 +512,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
 !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F
+!||    init_bcs_nrf_mod                    ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_monvol_mod                     ../starter/source/airbag/init_monvol.F
 !||    inivol_def_mod                      ../starter/share/modules1/inivol_mod.F
 !||    intbufmod                           ../starter/share/modules1/restart_mod.F

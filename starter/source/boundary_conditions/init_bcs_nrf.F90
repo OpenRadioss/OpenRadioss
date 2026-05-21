@@ -23,7 +23,7 @@
 !||====================================================================
 !||    init_bcs_nrf_mod   ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    initia             ../starter/source/elements/initia/initia.F
+!||    lectur             ../starter/source/starter/lectur.F
 !||====================================================================
       module init_bcs_nrf_mod
         implicit none
@@ -37,7 +37,7 @@
 !||====================================================================
 !||    init_bcs_nrf       ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    initia             ../starter/source/elements/initia/initia.F
+!||    lectur             ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

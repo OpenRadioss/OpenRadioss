@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_bcs_nrf_mod   ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||    apply_permutation_mod   ../starter/source/spmd/tools/apply_permutation.F90
 !||--- called by ------------------------------------------------------
-!||    initia             ../starter/source/elements/initia/initia.F
+!||    lectur                  ../starter/source/starter/lectur.F
 !||====================================================================
       module apply_permutation_mod
         implicit none
@@ -36,6 +36,9 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Permute the entity according to the given permutation and the type of entity
+!||====================================================================
+!||    apply_permutation_with_type   ../starter/source/spmd/tools/apply_permutation.F90
+!||====================================================================
         subroutine apply_permutation_with_type(my_type,entity_nb,entity_type,entity,permutation_s,permutation)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -73,6 +76,9 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Permute the entity
+!||====================================================================
+!||    apply_permutation_elem   ../starter/source/spmd/tools/apply_permutation.F90
+!||====================================================================
         subroutine apply_permutation_elem(entity_nb,entity)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
