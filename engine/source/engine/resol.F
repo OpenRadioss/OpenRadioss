@@ -2993,15 +2993,12 @@ C----------------------
 C         /BCS/NRF
 C----------------------
                 IF(BCS%NUM_NRF > 0)THEN
-                  CALL BCS_NRF(N2D            , NUMNOD   ,
-     .                         NODES%X        , NODES%V  , NODES%A   ,
-     .                         NIXS           , NIXTG    , NIXQ      ,
-     .                         NUMELS         , NUMELTG  , NUMELQ    ,
-     .                         IXS            , IXTG     , IXQ       ,
-     .                         IPARIT         , LSKY     , ELEMENT%PON%FSKY,
-     .                         OUTPUT%TH%WFEXT, NODA_FEXT, DT1       ,
-     .                         ANIM_V         , OUTP_V   , H3D_DATA  ,
-     .                         bcs)
+                  CALL BCS_NRF(N2D            , NUMNOD     ,
+     .                         NODES%X        , NODES%V    , NODES%A   ,
+     .                         IPARIT         , LSKY       , ELEMENT%PON%FSKY,
+     .                         OUTPUT%TH%WFEXT, NODA_FEXT  , DT1       ,
+     .                         ANIM_V         , OUTP_V     , H3D_DATA  ,
+     .                         bcs            , NODES%STIFN, NODES%MS)
                 ENDIF
 C----------------------
 

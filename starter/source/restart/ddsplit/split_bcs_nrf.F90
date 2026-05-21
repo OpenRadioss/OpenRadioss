@@ -104,6 +104,7 @@
               allocate( bcs_per_proc(p)%nrf(ii)%list%rCp(size_on_proc(p)))
               allocate( bcs_per_proc(p)%nrf(ii)%list%rCs(size_on_proc(p)))
               allocate( bcs_per_proc(p)%nrf(ii)%list%iadsky(4,size_on_proc(p)))
+              allocate( bcs_per_proc(p)%nrf(ii)%list%node_list(4,size_on_proc(p)))
             end do
             !--filling local data structure
             do jj=1,bcs%nrf(ii)%list%size
@@ -115,6 +116,7 @@
               bcs_per_proc(p)%nrf(ii)%list%rCs( proc_index(p) ) = bcs%nrf(ii)%list%rCs(jj)
               bcs_per_proc(p)%nrf(ii)%list%iadsky( 1:4,proc_index(p) ) = 0 ! default value, updated in w_pon
               bcs%nrf(ii)%list%global_2_local(jj) = proc_index(p) ! global to local index for the segment jj
+              bcs_per_proc(p)%nrf(ii)%list%node_list(1:4, proc_index(p) ) = bcs%nrf(ii)%list%node_list(1:4,jj)
             end do
 
           end do

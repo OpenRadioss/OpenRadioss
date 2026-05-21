@@ -42,7 +42,7 @@
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine w_bcs_proc(bcs_per_proc,cel,scel,len_ia,len_am)
+        subroutine w_bcs_proc(bcs_per_proc,cel,scel,len_ia,len_am,nodlocal,numnod_g)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -56,15 +56,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,intent(in) :: scel                       !< size for array definition
-          integer,intent(in),dimension(scel) :: cel        !< application : global_elem_id -> local_elem_id
-          type(bcs_struct_),intent(inout) :: bcs_per_proc  !< local data structure for bcs
-          integer,intent(inout) :: len_ia,len_am           !< buffer size for records (integer and real)
+          integer,intent(in) :: scel                         !< size for array definition
+          integer,intent(in),dimension(scel) :: cel          !< application : global_elem_id -> local_elem_id
+          type(bcs_struct_),intent(inout) :: bcs_per_proc    !< local data structure for bcs
+          integer,intent(inout) :: len_ia,len_am             !< buffer size for records (integer and real)
+          integer,intent(in) :: numnod_g                     !< number of nodes in global mesh
+          integer,intent(in),dimension(numnod_g) :: nodlocal !< application : global_node_id -> local_node_id
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(1) :: itmp
-          integer :: ilen,ii,jj,ielem
+          integer :: ilen,ii,jj,ielem,inod,kk
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,11 +105,17 @@
                 do jj=1, ilen
                   ielem = bcs_per_proc%nrf(ii)%list%elem(jj)
                   bcs_per_proc%nrf(ii)%list%elem(jj) = cel(ielem) !local numbering
+                  do kk=1,4
+                    inod = bcs_per_proc%nrf(ii)%list%node_list(kk,jj)
+                    if(inod > 0)then
+                      bcs_per_proc%nrf(ii)%list%node_list(kk,jj) = nodlocal(inod) !local numbering
+                    end if
+                  end do
                 end do
               end if
               call write_bcs_nrf(bcs_per_proc%nrf(ii))
-              len_ia = len_ia + 7 + 3*ilen
-              len_am = len_am + 2
+              len_ia = len_ia + 3 + 10*ilen
+              len_am = len_am + 2*ilen
             end do!next ii
           end if
 

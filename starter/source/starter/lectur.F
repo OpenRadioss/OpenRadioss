@@ -5317,8 +5317,8 @@ C--------------------------------------------
       CALL HM_PRE_READ_LINK(NUMLINK, IGRNOD,LSUBMODEL)
       SNNLINK = 10*NLINK
       SLNLINK = NUMLINK
-      ALLOCATE(NNLINK(SNNLINK)    ,STAT=stat)
-      ALLOCATE(LNLINK(SLNLINK)    ,STAT=stat)
+      ALLOCATE(NNLINK(MAX(1,SNNLINK))    ,STAT=stat)
+      ALLOCATE(LNLINK(MAX(1,SLNLINK))    ,STAT=stat)
       IF(SNNLINK > 0) NNLINK = 0
       IF(SLNLINK > 0) LNLINK = 0
       IF(NLINK > 0) THEN

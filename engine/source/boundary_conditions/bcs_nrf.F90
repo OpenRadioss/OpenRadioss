@@ -32,7 +32,7 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief boundary condition /BCS/NRF
+!! \brief boundary condition /BCS/NRF (Lysmer-Kuhlemeyer absorbing boundary condition)
 !! \details  lagrange FEM only
 !||====================================================================
 !||    bcs_nrf         ../engine/source/boundary_conditions/bcs_nrf.F90
@@ -48,22 +48,17 @@
 !||====================================================================
         subroutine bcs_nrf(n2d      , numnod  , &
           x        , v       , a     , &
-          nixs     , nixtg   , nixq  ,&
-          numels   , numeltg , numelq,&
-          ixs      , ixtg    , ixq   ,   &
           iparit   , lsky    , fsky  , &
           wfext    , fext    , dt1, &
           anim_v   , outp_v  , h3d_data, &
-          bcs)
+          bcs      , stifn   , ms)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs_struct_
           use precision_mod , only : WP
-          use elbufdef_mod , only : elbuf_struct_
-          use constant_mod , only : zero, em14, half, em20
+          use constant_mod , only : zero, em14, half, em20, TWO, one, fourth, third
           use h3d_mod , only : h3d_database
-          use message_mod , only : aninfo, ancmsg
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,15 +73,6 @@
           real(kind=wp),intent(in) :: x(3,numnod)
           real(kind=wp),intent(in) :: v(3,numnod)
           real(kind=wp),intent(inout) :: a(3,numnod)
-          integer,intent(in) :: nixs
-          integer,intent(in) :: nixtg
-          integer,intent(in) :: nixq
-          integer,intent(in) :: numels
-          integer,intent(in) :: numeltg
-          integer,intent(in) :: numelq
-          integer,intent(in) :: ixs(nixs,numels)
-          integer,intent(in) :: ixtg(nixtg,numeltg)
-          integer,intent(in) :: ixq(nixq,numelq)
           integer,intent(in) :: lsky
           real(kind=wp),intent(inout) :: fsky(8,lsky)
           double precision,intent(inout) :: wfext
@@ -95,33 +81,17 @@
           integer,intent(in) :: outp_v(10)
           type(h3d_database) :: h3d_data
           real(kind=wp),intent(in) :: dt1
-          type(bcs_struct_), intent(in) :: bcs
+          type(bcs_struct_), intent(inout) :: bcs
+          real(kind=WP),intent(inout) :: stifn(numnod)
+          real(kind=WP),intent(in) :: ms(numnod)
 
           !-----------------------------!
-          integer icf3d(4,6), icf2d(2,4)
-
-          data icf3d / &
-            1,2,3,4, &   ! face 1
-            3,7,8,4, &   ! face 2
-            5,6,7,8, &   ! face 3
-            1,2,6,5, &   ! face 4
-            2,3,7,6, &   ! face 5
-            1,4,8,5  /   ! face 6
-
-          data icf2d / &
-            1,2, &       ! edge 1  (2d face)
-            2,3, &       ! edge 2  (2d face)
-            3,4, &       ! edge 3  (2d face)
-            4,1  /       ! edge 4  (2d face)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ii       !< loop
           integer :: jj       !< loop
-          integer :: bcs_uid  !< bcs user identifier
           integer :: nface    !< number of boundary faces
-          integer :: ielem    !< element id (attached to the face)
-          integer :: iface    !< local face number
           integer :: nod1,nod2,nod3,nod4, nod(4), nod_id, inod, maxnod
           integer :: iad      !< index for parith/on storage (summation done later)
           real(kind=wp) :: area               !< area of the face
@@ -130,16 +100,18 @@
           real(kind=wp) :: vel_t(3)           !< tangential velocity vector (3d)
           real(kind=wp) :: L                  !< norm of normal vector
           real(kind=wp) :: fx(4),fy(4),fz(4)  !< damping forces
+          real(kind=wp) :: Fface(3)           !< damping forces on face
           real(kind=wp) :: vn                 !< normal velocity
           real(kind=wp) :: vt                 !< tangential velocity (2d)
-          real(kind=wp) :: rCpN, rCsN         !< rho.ssp_p/N and rho.ssp_s/N
+          real(kind=wp) :: rCp, rCs           !< rho.ssp_p and rho.ssp_s
           real(kind=WP) :: wfextt             !< local work of external forces
           real(kind=WP) :: X12,Y12,Z12        !< [N1N2] vector
           real(kind=WP) :: X13,Y13,Z13        !< [N1N3] vector
-          real(kind=WP) :: X14,Y14,Z14        !< [N1N4] vector
-          real(kind=WP) :: X23,Y23,Z23        !< [N2N3] vector
-
-          real(kind=WP) :: eps                !< tolerance for degenerated face
+          real(kind=WP) :: X24,Y24,Z24        !< [N2N4] vector
+          real(kind=WP) :: Fac                 !< normal velocity
+          real(kind=WP) :: VF(3)
+          real(kind=WP) :: norm_nrf           !< norm of equivalent nodal impedance vector
+          real(kind=WP) :: HAREArCp, FACAREArCp,FACAREA !< for cpu cost
           INTEGER :: IOUTPUT                    !< flag for output request
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
@@ -148,48 +120,57 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          wfextt = zero
           IOUTPUT  = ANIM_V(5)+OUTP_V(5) + H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6) + H3D_DATA%N_VECT_FEXT !in case of requested output of nodal external forces
-          eps = em14
+          ! Reset la_nrf only for NRF boundary nodes (compact list)
+          do ii = 1, bcs%nrf_num_nodes
+            bcs%la_nrf(1:3, bcs%nrf_node_ids(ii)) = zero
+          end do
 
           do ii=1,bcs%num_nrf
-
-            bcs_uid = bcs%nrf(ii)%user_id
+            wfextt = zero
             nface = bcs%nrf(ii)%list%size
             do jj=1,nface
-              ielem = bcs%nrf(ii)%list%elem(jj)
-              iface = bcs%nrf(ii)%list%face(jj)
-              rCpN = bcs%nrf(ii)%list%rCp(jj)
-              rCsN = bcs%nrf(ii)%list%rCs(jj)
+              ! ielem = bcs%nrf(ii)%list%elem(jj)
+              ! iface = bcs%nrf(ii)%list%face(jj)
+              rCp = bcs%nrf(ii)%list%rCp(jj)
+              rCs = bcs%nrf(ii)%list%rCs(jj)
 
               if(n2d == 0)then
 
                 !2d-solid (tria & quad)
-                NOD1=IXS(1+icf3d(1,iface),ielem)
-                NOD2=IXS(1+icf3d(2,iface),ielem)
-                NOD3=IXS(1+icf3d(3,iface),ielem)
-                NOD4=IXS(1+icf3d(4,iface),ielem)
+                NOD1=bcs%nrf(ii)%list%node_list(1,jj)
+                NOD2=bcs%nrf(ii)%list%node_list(2,jj)
+                NOD3=bcs%nrf(ii)%list%node_list(3,jj)
+                NOD4=bcs%nrf(ii)%list%node_list(4,jj)
                 MAXNOD=4
+                FAC=FOURTH
                 IF(NOD3 == NOD4) THEN
                   NOD4 = 0 ! tria case
                 END IF
-                IF(NOD4==0)MAXNOD=3
+                IF(NOD4 == 0)THEN
+                  MAXNOD=3
+                  FAC=THIRD
+                ENDIF
 
                 IF(NOD4 == 0)THEN
                   X12 = X(1,NOD2)-X(1,NOD1) ; Y12 = X(2, NOD2)-X(2,NOD1) ; Z12 = X(3,NOD2)-X(3,NOD1)
                   X13 = X(1,NOD3)-X(1,NOD1) ; Y13 = X(2, NOD3)-X(2,NOD1) ; Z13 = X(3,NOD3)-X(3,NOD1)
-                  NX  =  Y12*Z13 - Z12*Y13
-                  NY  =  Z12*X13 - X12*Z13
-                  NZ  =  X12*Y13 - Y12*X13
+                  NX  =  -Y12*Z13 + Z12*Y13
+                  NY  =  -Z12*X13 + X12*Z13
+                  NZ  =  -X12*Y13 + Y12*X13
+                  VF(1)=V(1,NOD1)+V(1,NOD2)+V(1,NOD3)
+                  VF(2)=V(2,NOD1)+V(2,NOD2)+V(2,NOD3)
+                  VF(3)=V(3,NOD1)+V(3,NOD2)+V(3,NOD3)
                 ELSE
-                  X12 = X(1,NOD2)-X(1,NOD1) ; Y12 = X(2,NOD2)-X(2,NOD1) ; Z12 = X(3,NOD2)-X(3,NOD1)
                   X13 = X(1,NOD3)-X(1,NOD1) ; Y13 = X(2,NOD3)-X(2,NOD1) ; Z13 = X(3,NOD3)-X(3,NOD1)
-                  X14 = X(1,NOD4)-X(1,NOD1) ; Y14 = X(2,NOD4)-X(2,NOD1) ; Z14 = X(3,NOD4)-X(3,NOD1)
-                  X23 = X(1,NOD3)-X(1,NOD2) ; Y23 = X(2,NOD3)-X(2,NOD2) ; Z23 = X(3,NOD3)-X(3,NOD2)
-                  ! normal with mean of 2 triangles
-                  NX =  (Y12*Z13 - Z12*Y13) + (Y13*Z14 - Z13*Y14)
-                  NY =  (Z12*X13 - X12*Z13) + (Z13*X14 - X13*Z14)
-                  NZ =  (X12*Y13 - Y12*X13) + (X13*Y14 - Y13*X14)
+                  X24 = X(1,NOD4)-X(1,NOD2) ; Y24 = X(2,NOD4)-X(2,NOD2) ; Z24 = X(3,NOD4)-X(3,NOD2)
+                  ! normal from quad diagonals
+                  NX = -Y13*Z24 + Z13*Y24
+                  NY = -Z13*X24 + X13*Z24
+                  NZ = -X13*Y24 + Y13*X24
+                  VF(1)=V(1,NOD1)+V(1,NOD2)+V(1,NOD3)+V(1,NOD4)
+                  VF(2)=V(2,NOD1)+V(2,NOD2)+V(2,NOD3)+V(2,NOD4)
+                  VF(3)=V(3,NOD1)+V(3,NOD2)+V(3,NOD3)+V(3,NOD4)
                 END IF
 
                 L = SQRT(NX*NX + NY*NY + NZ*NZ)
@@ -200,22 +181,34 @@
 
                 AREA = HALF*L
 
-                NOD(1) = NOD1 ; NOD(2) = NOD2 ; NOD(3) = NOD3 ; NOD(4) = NOD4
                 fx(4) = zero
                 fy(4) = zero
                 fz(4) = zero
+
+                VF(1:3)=FAC*VF(1:3)
+                Vn = VF(1)*NX + VF(2)*NY + VF(3)*NZ
+                vel_t(1) = VF(1) - Vn*NX
+                vel_t(2) = VF(2) - Vn*NY
+                vel_t(3) = VF(3) - Vn*NZ
+
+                Fface(1) = - rCp*vn*NX - rCs*vel_t(1)
+                Fface(2) = - rCp*vn*NY - rCs*vel_t(2)
+                Fface(3) = - rCp*vn*NZ - rCs*vel_t(3)
+
+                NOD(1)=NOD1;NOD(2)=NOD2; NOD(3)=NOD3; NOD(4)=NOD4;
                 DO INOD = 1,MAXNOD
-                  NOD_ID = NOD(INOD)
+                  nod_id = nod(inod)
+
                   !absorbing force contribution on NOD_ID
-                  Vn = V(1,NOD_ID)*NX+V(2,NOD_ID)*NY+V(3,NOD_ID)*NZ
-                  vel_t(1) = V(1,NOD_ID) - Vn*NX
-                  vel_t(2) = V(2,NOD_ID) - Vn*NY
-                  vel_t(3) = V(3,NOD_ID) - Vn*NZ
-                  Vn = Vn*AREA
-                  Vel_t(:) = Vel_t(:)*AREA
-                  fx(inod) = - rCpN*vn*NX - rCsN*vel_t(1)
-                  fy(inod) = - rCpN*vn*NY - rCsN*vel_t(2)
-                  fz(inod) = - rCpN*vn*NZ - rCsN*vel_t(3)
+                  ! FAC is 1/4 or 1/3 depending on quad or tria boundary face. It is also 1/MAXNOD
+                  FACAREA = FAC*AREA
+                  FACAREArCp = FACAREA*rCp
+                  bcs%la_nrf(1,nod_id) = bcs%la_nrf(1,nod_id) + FACAREArCp*NX
+                  bcs%la_nrf(2,nod_id) = bcs%la_nrf(2,nod_id) + FACAREArCp*NY
+                  bcs%la_nrf(3,nod_id) = bcs%la_nrf(3,nod_id) + FACAREArCp*NZ
+                  fx(inod) =  FACAREA * Fface(1)
+                  fy(inod) =  FACAREA * Fface(2)
+                  fz(inod) =  FACAREA * Fface(3)
                 END DO
 
                 IF(IPARIT == 0)THEN
@@ -276,22 +269,17 @@
 
                 ! External Force Work increment
                 WFEXTT = WFEXTT + DT1 * (  FX(1)*V(1,NOD1) + FY(1)*V(2,NOD1) + FZ(1)*V(3,NOD1)  &
-                  + FX(2)*V(1,NOD2) + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2)  &
-                  + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3)  &
-                  + FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
+                                         + FX(2)*V(1,NOD2) + FY(2)*V(2,NOD2) + FZ(2)*V(3,NOD2)  &
+                                         + FX(3)*V(1,NOD3) + FY(3)*V(2,NOD3) + FZ(3)*V(3,NOD3) )
+                IF(NOD4 /= 0)THEN
+                  WFEXTT = WFEXTT + DT1 * (FX(4)*V(1,NOD4) + FY(4)*V(2,NOD4) + FZ(4)*V(3,NOD4) )
+                END IF
 
               else
 
                 !2d-solid (tria & quad)
-                if(numelq > 0)then
-                  NOD1=IXQ(1+icf2d(1,iface),ielem)
-                  NOD2=IXQ(1+icf2d(2,iface),ielem)
-                elseif (numeltg > 0)then
-                  NOD1=IXTG(1+icf2d(1,iface),ielem)
-                  NOD2=IXTG(1+icf2d(2,iface),ielem)
-                else
-                  cycle
-                end if
+                NOD1=bcs%nrf(ii)%list%node_list(1,jj)
+                NOD2=bcs%nrf(ii)%list%node_list(2,jj)
 
                 !Area.t
                 TY =  X(2,NOD1)-X(2,NOD2)
@@ -303,22 +291,27 @@
                 NY = -TZ
                 NZ =  TY
 
+                ! Axisymmetric case: multiply by R_mean
+                if(n2d == 1)then
+                  AREA = AREA * HALF*(X(2,NOD1)+X(2,NOD2))
+                end if
+                HAREArCp=HALF*AREA*rCp
+
+                bcs%la_nrf(2,nod1) = bcs%la_nrf(2,nod1) + HAREArCp*NY
+                bcs%la_nrf(3,nod1) = bcs%la_nrf(3,nod1) + HAREArCp*NZ
+                bcs%la_nrf(2,nod2) = bcs%la_nrf(2,nod2) + HAREArCp*NY
+                bcs%la_nrf(3,nod2) = bcs%la_nrf(3,nod2) + HAREArCp*NZ
+
                 !absorbing force contribution on NOD1
-                Vn = V(2,NOD1)*NY+V(3,NOD1)*NZ
-                Vt = V(2,NOD1)*TY+V(3,NOD1)*TZ
-                Vn = Vn*AREA
-                Vt = Vt*AREA
-                fy(1) = - rCpN*vn*NY - rCsN*vt*TY
-                fz(1) = - rCpN*vn*NZ - rCsN*vt*TZ
+                Vn = HALF*(V(2,NOD1)+V(2,NOD2))*NY + HALF*(V(3,NOD1)+V(3,NOD2))*NZ
+                Vt = HALF*(V(2,NOD1)+V(2,NOD2))*TY + HALF*(V(3,NOD1)+V(3,NOD2))*TZ
+                Fface(2) = AREA * (- rCp*vn*NY - rCs*vt*TY)
+                Fface(3) = AREA * (- rCp*vn*NZ - rCs*vt*TZ)
 
-                !absorbing force contribution on NOD2
-                Vn = V(2,NOD2)*NY+V(3,NOD2)*NZ
-                Vt = V(2,NOD2)*TY+V(3,NOD2)*TZ
-                Vn = Vn*AREA
-                Vt = Vt*AREA
-                fy(2) = - rCpN*vn*NY - rCsN*vt*TY
-                fz(2) = - rCpN*vn*NZ - rCsN*vt*TZ
-
+                fy(1) = half * Fface(2)
+                fz(1) = half * Fface(3)
+                fy(2) = half * Fface(2)
+                fz(2) = half * Fface(3)
 
                 IF(IPARIT ==0)THEN
 !$omp critical
@@ -357,6 +350,17 @@
 !$omp end critical
 
           end do!next ii
+          ! --- CFL Stability : nodal stiffness updated consequently. Otherwise Lysmer-Kuhlemeyer absorbing boundary condition may be unstable.
+          ! Iterate only over NRF boundary nodes (compact list) - avoids O(numnod) cost for large models
+          do ii = 1, bcs%nrf_num_nodes
+            inod = bcs%nrf_node_ids(ii)
+            norm_nrf = sqrt(bcs%la_nrf(1,inod)*bcs%la_nrf(1,inod) + &
+                            bcs%la_nrf(2,inod)*bcs%la_nrf(2,inod) + &
+                            bcs%la_nrf(3,inod)*bcs%la_nrf(3,inod) )
+            if(norm_nrf > zero .and. ms(inod) > em20)then
+              stifn(inod) = stifn(inod) + (TWO*norm_nrf*norm_nrf)/ms(inod)
+            end if
+          end do
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

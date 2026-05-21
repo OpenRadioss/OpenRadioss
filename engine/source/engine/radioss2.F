@@ -1059,10 +1059,10 @@ C
      .            SENSORS        ,EBCS_TAB   ,DYNAIN_DATA   ,USER_WINDOWS     ,OUTPUT    ,
      .            INTERFACES     ,LOADS      ,MAT_ELEM      ,PYTHON           ,IFLOW     ,
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
-     .            FORNEQS       ,UNITAB,
+     .            FORNEQS        ,UNITAB     ,DT            ,DTFAC1           ,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
      .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3     ,
-     .            RWALL          ,SFEM      )
+     .            RWALL          ,SFEM       )
       ! Close restart file
        CALL CLOSE_C
  

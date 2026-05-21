@@ -54,7 +54,7 @@
           use my_alloc_mod
           use precision_mod , only : WP
           use matparam_def_mod, only: matparam_struct_
-          use constant_mod , only : four_over_3, half, third, fourth
+          use constant_mod , only : four_over_3, zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,27 +88,28 @@
           integer :: ii,jj,kk
           integer :: num_nodes_in_group
           integer :: icode !< binary code
-          integer :: ng,nseg
+          integer :: nseg
           integer :: iie,ie !< connectivity data
           integer :: jale, jale_from_mat,jale_from_prop !< elem group parameters
-          integer :: ipos,mid,pid
+          integer :: mid,pid
           integer :: isize !< data buffer for elem groups : allocation size for working array
           integer :: imat !< internal material identifier
           integer,allocatable,dimension(:,:) :: itmp
           logical :: l_tagnod(numnod)
           logical :: is_tria
-          integer :: n3,n4
-          real(kind=WP) :: fac
-          real(kind=WP) :: rho0,shear,bulk  !< material parameters (elastic state / intial state)
+          logical :: is_input_file_well_defined
+          integer :: n3,n4                              !< node IDs used for hexa face tria/quad detection
+          real(kind=WP) :: rho0,shear,bulk  !< material parameters (elastic state / initial state)
           integer icf3d(4,6), icf2d(2,4)
           ! Init (lines = face )
           data icf3d / &
             1,2,3,4, &   ! face 1
             3,7,8,4, &   ! face 2
-            5,6,7,8, &   ! face 3
-            1,2,6,5, &   ! face 4
-            2,3,7,6, &   ! face 5
+            5,8,7,6, &   ! face 3
+            1,5,6,2, &   ! face 4
+            2,6,7,3, &   ! face 5
             1,4,8,5  /   ! face 6
+
 
           data icf2d / &
             1,2, &       ! edge 1  (2d face)
@@ -148,7 +149,6 @@
 
             ! initialization
             nseg = 0
-            ipos = 0
             bcs%iworking_array(1:2,1:NUMNOD) = 0
 
             if(n2d==0) then
@@ -172,7 +172,7 @@
                     if(l_tagnod(ixs(7,jj)))then; icode = IBSET(icode,5); kk=kk+1 ; end if
                     if(l_tagnod(ixs(8,jj)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
                     if(l_tagnod(ixs(9,jj)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
-                    if(kk < 4)cycle ! at least 4 nodes are requires to define a face
+                    if(kk < 4)cycle ! at least 4 nodes are required to define a face
                     !check allocated size & reallocate if needed
                     if(nseg+6 > isize)then
                       call my_alloc(itmp,2,isize)
@@ -207,7 +207,7 @@
                     if(l_tagnod(ixs(7,jj)))then; icode = IBSET(icode,5); kk=kk+1 ; end if
                     if(l_tagnod(ixs(8,jj)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
                     if(l_tagnod(ixs(9,jj)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
-                    if(kk < 3)cycle ! at least 3 nodes are requires to define a face                  
+                    if(kk < 3)cycle ! at least 3 nodes are required to define a face
                     !check allocated size & reallocate if needed
                     if(nseg+4 > isize)then
                       call my_alloc(itmp,2,isize)
@@ -247,7 +247,7 @@
                   if(l_tagnod(ixq(3,jj)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
                   if(l_tagnod(ixq(4,jj)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
                   if(l_tagnod(ixq(5,jj)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
-                  if(kk < 2)cycle ! at least 4 nodes are requires to define a face
+                  if(kk < 2)cycle ! at least 2 nodes are required to define a face
                   kk = 0 ! number of identified faces
                   !check allocated size & reallocate if needed
                   if(nseg+4 > isize)then
@@ -285,7 +285,7 @@
                   if(l_tagnod(ixtg(2,jj)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
                   if(l_tagnod(ixtg(3,jj)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
                   if(l_tagnod(ixtg(4,jj)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
-                  if(kk < 3)cycle ! at least 3 nodes are requires to define a face
+                  if(kk < 3)cycle ! at least 3 nodes are required to define a face
                   kk = 0 !number of identified faces
                   !check allocated size & reallocate if needed
                   if(nseg+3 > isize)then
@@ -335,7 +335,10 @@
             bcs%nrf(ii)%list%size = nseg
 
             !effective size & printout
-            if(nseg > 0)then
+            is_input_file_well_defined = .true.
+            IF(N2D == 0 .AND. numels == 0)is_input_file_well_defined = .false.
+            IF(N2D > 0 .AND. NUMELTG+NUMELQ==0)is_input_file_well_defined = .false.
+            if(nseg > 0 .AND. is_input_file_well_defined)then
               write(iout, 2011)bcs%nrf(ii)%user_id
               write(iout, 2019)nseg
               write(iout, 2020)
@@ -352,12 +355,10 @@
                   bcs%nrf(ii)%list%elem_type(jj) = 1 ! hexa 3d
                   ie = ixs(nixs,iie)
                   imat = ixs(1,iie)
-                  fac = fourth
                   n3= ixs(1+icf3d(3,kk),iie)
                   n4= ixs(1+icf3d(4,kk),iie)
                   bcs%nrf(ii)%list%node_list(1:3,jj) = ixs(1+icf3d(1:3,kk),iie)
                   if(n3==n4 .or. n4==0)then
-                    fac=third
                     bcs%nrf_cont_nb = bcs%nrf_cont_nb + 3
                   else
                     bcs%nrf_cont_nb = bcs%nrf_cont_nb + 4
@@ -369,7 +370,6 @@
                     bcs%nrf(ii)%list%elem_type(jj) = 7 ! tria 2d
                     ie = ixtg(nixtg,iie)
                     imat = ixtg(1,iie)
-                    fac = half
                     bcs%nrf_cont_nb = bcs%nrf_cont_nb + 2
                     bcs%nrf(ii)%list%node_list(1:2,jj) = ixtg(1+icf2d(1:2,kk),iie)
                     if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixtg(1+ICF2D(1:2,kk),iie))
@@ -377,7 +377,6 @@
                     bcs%nrf(ii)%list%elem_type(jj) = 2 ! quad 2d
                     ie = ixq(nixq,iie)
                     imat = ixq(1,iie)
-                    fac = half
                     bcs%nrf_cont_nb = bcs%nrf_cont_nb + 4
                     bcs%nrf(ii)%list%node_list(1:2,jj) = ixq(1+icf2d(1:2,kk),iie)
                     if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixq(1+ICF2D(1:2,kk),iie))
@@ -386,16 +385,15 @@
                 rho0 = mat_param(imat)%rho0
                 shear = mat_param(imat)%shear
                 bulk = mat_param(imat)%bulk
-                bcs%nrf(ii)%list%rCp(jj) = sqrt((bulk + FOUR_OVER_3*shear)/rho0)
-                bcs%nrf(ii)%list%rCs(jj) = sqrt(shear/rho0)
-                bcs%nrf(ii)%list%rCp(jj) = fac * rho0 * bcs%nrf(ii)%list%rCp(jj) !rho.Cp/N
-                bcs%nrf(ii)%list%rCs(jj) = fac * rho0 * bcs%nrf(ii)%list%rCs(jj) !rho*Cs/N
+                bcs%nrf(ii)%list%rCp(jj) = rho0*sqrt((bulk + FOUR_OVER_3*shear)/rho0)
+                bcs%nrf(ii)%list%rCs(jj) = rho0*sqrt(shear/rho0)
               end do
               if(ipri >= 3)write(iout, 2022)
             end if
 
-            deallocate(bcs%iworking_array)
           end do !next ii
+
+          deallocate(bcs%iworking_array)
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -155,12 +155,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unitab_mod                   ../common_source/modules/unitab_mod.F
 !||    user_windows_mod             ../common_source/modules/user_windows_mod.F
 !||====================================================================
-      SUBROUTINE RDRESB( AF               ,IAF        ,LVARREA      ,IRUNN      ,
+      SUBROUTINE RDRESB( AF               ,IAF        ,LVARREA      ,IRUNN            ,
      .                   MULTI_FVM        ,H3D_DATA   ,PINCH_DATA   ,ALE_CONNECTIVITY ,T_MONVOL   ,
      .                   SENSORS          ,EBCS_TAB   ,DYNAIN_DATA  ,USER_WINDOWS     ,OUTPUT     ,
      .                   INTERFACES       ,LOADS      ,MAT_ELEM     ,PYTHON           ,IFLOW      ,
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
-     .                   FORNEQS      ,UNITAB           ,
+     .                   FORNEQS          ,UNITAB     ,DT           ,DTFAC1           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
      .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3       ,
      .                   RWALL            ,SFEM       )
@@ -217,6 +217,7 @@ C-----------------------------------------------
       use rwall_mod
       use restart_rwallpen_mod, only : get_nrwallpen_l,read_rrwallpen
       use sfem_mod
+      use dt_mod , only : dt_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -283,6 +284,7 @@ C-----------------------------------------------
       TYPE(RBE3_)           ,INTENT(INOUT)                 :: RBE3
       TYPE(RWALL_)          ,INTENT(INOUT)                 :: RWALL
       TYPE(global_sfem_)    ,INTENT(INOUT)                 :: SFEM
+      TYPE(DT_)             ,INTENT(INOUT)                 :: DT
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -290,6 +292,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: RFLOW(LRFLOW)
       INTEGER, INTENT(IN) :: IMPL_S0
       INTEGER, INTENT(IN) :: NDRAPE
+      my_real, INTENT(INOUT) :: DTFAC1(102)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1033,8 +1036,13 @@ C----------------------------------
       CALL READ_I_C(ITMP,1)
       BCS%NUM_NRF = ITMP
       IF(BCS%NUM_NRF > 0)THEN
-        CALL READ_BCS_NRF()
-      ENDIF      
+        CALL READ_BCS_NRF(NUMNOD)
+      ENDIF
+      IF(BCS%NUM_NRF > 0)THEN
+        DT%NODADT = 1
+        IF(DTFAC1(11) >= EP20)  DTFAC1(11) = ZEP9
+        CALL ANCMSG(MSGID=127,ANMODE=ANINFO) ! Warn user : NODAL TIME STEP CONTROL ACTIVATED TO ENSURE STABILITY WITH /BCS/NRF
+      ENDIF
 C----------------------------------
 C     reading real variables
 C--------------------------------------
