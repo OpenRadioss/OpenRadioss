@@ -7378,7 +7378,11 @@ C---  Split of KERMNODE -> IBUF1
            IF(KM1 /= 0.OR.KM2/=0) IK_LOC =.TRUE.
          ELSE
            EM1=INTBUF_TAB%LEDGE(15+(K-1)*NLEDGE)
-           IF(CEP(EM1)==PROC) IK_LOC =.TRUE.
+           IF(CEP(EM1)==PROC) THEN
+             IK_LOC =.TRUE.
+             KM1 = 1
+             KM2 = 1
+           ENDIF
          ENDIF 
          IF(IK_LOC)THEN
             SIZ = INTBUF_TAB%KREMNODE_EDG(K+1)-INTBUF_TAB%KREMNODE_EDG(K)
@@ -7437,7 +7441,11 @@ C---  Split of ERMNODE -> IBUF2
             IF(KM1 /= 0.OR.KM2/=0) IK_LOC =.TRUE.
          ELSE
             EM1=INTBUF_TAB%LEDGE(15+(K-1)*NLEDGE)
-            IF(CEP(EM1)==PROC) IK_LOC =.TRUE.
+            IF(CEP(EM1)==PROC) THEN
+              IK_LOC =.TRUE.
+              KM1 = 1
+              KM2 = 1
+            ENDIF
          ENDIF 
          IF(IK_LOC)THEN
 C
