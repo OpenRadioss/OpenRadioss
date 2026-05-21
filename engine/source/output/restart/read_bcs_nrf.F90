@@ -46,12 +46,13 @@
 !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-        subroutine read_bcs_nrf()
+        subroutine read_bcs_nrf(numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs
           use precision_mod, only : WP
+          use constant_mod , only : zero
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,19 +60,24 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-!
+          integer,intent(in) :: numnod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(3) :: itmp
-          integer :: ilen,ii
+          integer :: ilen,ii,jj,kk,inod
+          logical, allocatable :: l_tag(:)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
           if(bcs%num_nrf > 0)then
 
-            allocate(bcs%nrf(bcs%num_nrf))
+            if(.not.allocated(bcs%nrf))allocate(bcs%nrf(bcs%num_nrf))
+            if(.not.allocated(bcs%la_nrf))then
+              allocate(bcs%la_nrf(3,numnod))
+              bcs%la_nrf(1:3,1:numnod) = zero
+            end if
 
             do ii=1,bcs%num_nrf
               call read_i_c(itmp,3)
@@ -81,14 +87,48 @@
 
               ilen = itmp(3)
               if(ilen > 0)then
-                allocate(bcs%nrf(ii)%list%elem(ilen)) ; call read_i_c(bcs%nrf(ii)%list%elem(1),ilen)
-                allocate(bcs%nrf(ii)%list%face(ilen)) ; call read_i_c(bcs%nrf(ii)%list%face(1),ilen)
-                allocate(bcs%nrf(ii)%list%rCp(ilen)) ; call read_db(bcs%nrf(ii)%list%rCp(1),ilen)
-                allocate(bcs%nrf(ii)%list%rCs(ilen)) ; call read_db(bcs%nrf(ii)%list%rCs(1),ilen)
-                allocate(bcs%nrf(ii)%list%iadsky(4,ilen)) ; call read_i_c(bcs%nrf(ii)%list%iadsky,4*ilen)
+                if(.not.allocated(bcs%nrf(ii)%list%elem))allocate(bcs%nrf(ii)%list%elem(ilen))
+                call read_i_c(bcs%nrf(ii)%list%elem(1),ilen)
+
+                if(.not.allocated(bcs%nrf(ii)%list%face))allocate(bcs%nrf(ii)%list%face(ilen))
+                call read_i_c(bcs%nrf(ii)%list%face(1),ilen)
+
+                if(.not.allocated(bcs%nrf(ii)%list%rCp))allocate(bcs%nrf(ii)%list%rCp(ilen))
+                call read_db(bcs%nrf(ii)%list%rCp(1),ilen)
+
+                if(.not.allocated(bcs%nrf(ii)%list%rCs))allocate(bcs%nrf(ii)%list%rCs(ilen))
+                call read_db(bcs%nrf(ii)%list%rCs(1),ilen)
+
+                if(.not.allocated(bcs%nrf(ii)%list%iadsky))allocate(bcs%nrf(ii)%list%iadsky(4,ilen))
+                call read_i_c(bcs%nrf(ii)%list%iadsky,4*ilen)
+
+                if(.not.allocated(bcs%nrf(ii)%list%node_list))allocate(bcs%nrf(ii)%list%node_list(4,ilen))
+                call read_i_c(bcs%nrf(ii)%list%node_list,4*ilen)
               end if
 
             end do
+
+            ! --- Build compact list of unique NRF boundary node IDs ---
+            allocate(l_tag(numnod))
+            l_tag(1:numnod) = .false.
+            do ii = 1, bcs%num_nrf
+              do jj = 1, bcs%nrf(ii)%list%size
+                do kk = 1, 4
+                  inod = bcs%nrf(ii)%list%node_list(kk,jj)
+                  if(inod > 0) l_tag(inod) = .true.
+                end do
+              end do
+            end do
+            bcs%nrf_num_nodes = count(l_tag(1:numnod))
+            if(.not.allocated(bcs%nrf_node_ids)) allocate(bcs%nrf_node_ids(bcs%nrf_num_nodes))
+            kk = 0
+            do ii = 1, numnod
+              if(l_tag(ii))then
+                kk = kk + 1
+                bcs%nrf_node_ids(kk) = ii
+              end if
+            end do
+            deallocate(l_tag)
           end if
 
 ! ----------------------------------------------------------------------------------------------------------------------

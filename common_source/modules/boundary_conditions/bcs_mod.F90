@@ -98,10 +98,13 @@
           integer :: num_wall
           integer :: num_nrf
           integer :: nrf_cont_nb !< total number of contribution to bcs nrf (for memory allocation purpose)
+          integer :: nrf_num_nodes = 0 !< number of unique NRF boundary nodes (compact list)
           integer, dimension(:,:), allocatable :: nrf_bound
           type(bcs_wall_struct_),dimension(:),allocatable :: wall
           type(bcs_nrf_struct_),dimension(:),allocatable :: nrf
           integer, allocatable, dimension(:,:) :: iworking_array
+          integer, allocatable, dimension(:)   :: nrf_node_ids  !< compact list of unique NRF boundary node IDs
+          real(kind=WP), dimension(:,:) ,allocatable ::  la_nrf  !< working array for nodal stiffness (indexed by nrf_node_ids)
         contains
           procedure :: deallocate
         end type bcs_struct_
@@ -170,6 +173,8 @@
 
           if(allocated(this%iworking_array))deallocate(this%iworking_array)
           if(allocated(this%nrf_bound)) deallocate(this%nrf_bound)
+          if(allocated(this%nrf_node_ids)) deallocate(this%nrf_node_ids)
+          if(allocated(this%la_nrf)) deallocate(this%la_nrf)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine deallocate
