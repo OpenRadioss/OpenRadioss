@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_prepare_sort      ../engine/source/interfaces/generic/inter_prepare_sort.F
 !||    inter_sort              ../engine/source/interfaces/generic/inter_sort.F
 !||    inter_sort_07           ../engine/source/interfaces/int07/inter_sort_07.F
+!||    resol                   ../engine/source/engine/resol.F
 !||====================================================================
       MODULE COMMAND_LINE_ARGS_MOD
         INTEGER :: GOT_PREVIEW = 0

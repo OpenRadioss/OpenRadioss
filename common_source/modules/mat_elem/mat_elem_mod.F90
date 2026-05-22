@@ -69,6 +69,7 @@
 !||    fail_setoff_wind_frwave   ../engine/source/materials/fail/fail_setoff_wind_frwave.F
 !||    forint                    ../engine/source/elements/forint.F
 !||    forintc                   ../engine/source/elements/forintc.F
+!||    forintc_prepare_gpu       ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    forintp                   ../engine/source/elements/forintp.F
 !||    fractal_dmg_init          ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
 !||    genstat                   ../engine/source/output/sta/genstat.F

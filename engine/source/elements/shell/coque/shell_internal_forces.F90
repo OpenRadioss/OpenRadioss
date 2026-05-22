@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    shell_internal_forces_mod   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||====================================================================
       module shell_internal_forces_mod
       contains
 
@@ -37,6 +42,22 @@
 !!            CALL FORINT(...)                   ! CPU solid forces  (hides GPU latency)
 !!            CALL gpu_shell_sync_scatter(...)   ! collect GPU results
 ! ======================================================================================================================
+!||====================================================================
+!||    gpu_shell_launch_async             ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_internal_forces          ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    resol                              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    shell_gpu_full_step_async          ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_download_forces   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_upload_nodes      ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_wait_su           ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_min_dt                   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod                   ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                      ../common_source/modules/precision_mod.F90
+!||    shell_gpu_mod                      ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine gpu_shell_launch_async(NODES, SHELLS, dt1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   MODULES
@@ -138,6 +159,20 @@
 !!          Must be called AFTER gpu_shell_launch_async() and after any
 !!          CPU work that should overlap with GPU execution.
 ! ======================================================================================================================
+!||====================================================================
+!||    gpu_shell_sync_scatter         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_internal_forces      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    resol                          ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    shell_gpu_download_energy      ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_synchronize   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_synchronize          ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
+!||    precision_mod                  ../common_source/modules/precision_mod.F90
+!||    shell_gpu_mod                  ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine gpu_shell_sync_scatter(NODES, SHELLS, dt2t, partsav, npsav, npart, ipri)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   MODULES
@@ -279,6 +314,16 @@
 !!          gpu_shell_launch_async() followed immediately by
 !!          gpu_shell_sync_scatter(), with no CPU work in between.
 ! ======================================================================================================================
+!||====================================================================
+!||    gpu_shell_internal_forces   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- calls      -----------------------------------------------------
+!||    gpu_shell_launch_async      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_sync_scatter      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- uses       -----------------------------------------------------
+!||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||    shell_gpu_mod               ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine gpu_shell_internal_forces(NODES, SHELLS, dt1, dt2t, partsav, npsav, npart, ipri)
           use precision_mod, only: WP
           use nodal_arrays_mod
@@ -297,6 +342,30 @@
 
         end subroutine gpu_shell_internal_forces
 
+!||====================================================================
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||--- called by ------------------------------------------------------
+!||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    shell_gpu_allocate          ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_data_create       ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_create     ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_pin_host   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_set_compute_sti   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_set_global        ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_set_hg_params     ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_set_ihbe          ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_set_mat_params    ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_upload_constant   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_upload_ip_state   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                ../common_source/modules/constant_mod.F
+!||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||    shell_gpu_mod               ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         SUBROUTINE FORINTC_PREPARE_GPU( GPU, SHELLS, NUMELC,&
         &PM , NPROPM,       GEO, NPROPG,  &
         &NODES, MAT_ELEM  , NSECT, NSLIPRING, NEXMAD, &

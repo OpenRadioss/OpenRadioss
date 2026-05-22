@@ -144,6 +144,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    forcepinch                                   ../engine/source/loads/general/forcepinch.F
 !||    forint                                       ../engine/source/elements/forint.F
 !||    forintc                                      ../engine/source/elements/forintc.F
+!||    forintc_prepare_gpu                          ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    forintp                                      ../engine/source/elements/forintp.F
 !||    forints                                      ../engine/source/elements/forints.F
 !||    free_pinch                                   ../common_source/modules/pinchtype_mod.F
@@ -165,6 +166,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_ibuf_c                                   ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_shmbuf_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
+!||    gpu_shell_launch_async                       ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_sync_scatter                       ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    gravit                                       ../engine/source/loads/general/grav/gravit.F
 !||    gravit_fvm_fem                               ../engine/source/loads/general/grav/gravit_fvm_fem.F
 !||    i14ist                                       ../engine/source/interfaces/int14/i14ist.F
@@ -462,6 +465,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    bcs_nrf_mod                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    check_mod                                    ../common_source/modules/check_mod.F
 !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
+!||    command_line_args_mod                        ../engine/share/modules/command_line_args.F
 !||    connectivity_mod                             ../common_source/modules/connectivity.F90
 !||    coupling_adapter_mod                         ../engine/source/coupling/coupling_adapter.F90
 !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
@@ -547,6 +551,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90
 !||    sfem_init_mod                                ../engine/source/elements/solid/solide4_sfem/sfem_init.F90
 !||    sfem_mod                                     ../common_source/modules/elements/sfem_mod.F90
+!||    shell_gpu_mod                                ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_internal_forces_mod                    ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F90
 !||    skew_mod                                     ../common_source/modules/skew_mod.F90
 !||    sms_mod                                      ../engine/share/modules/sms_mod.F

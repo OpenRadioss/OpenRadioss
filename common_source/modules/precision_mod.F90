@@ -168,6 +168,7 @@
 !||    finter_mixed_mod                         ../engine/source/tools/finter_mixed.F90
 !||    fix_principal_dirs                       ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    force                                    ../engine/source/loads/general/force.F90
+!||    forintc_prepare_gpu                      ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
 !||    fpcont2_min_output                       ../engine/source/output/h3d/h3d_results/fpcont2_min_output.F90
 !||    fractal_dmg_init                         ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
@@ -190,6 +191,9 @@
 !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
 !||    ghost_shells_mod                         ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    glob_therm_mod                           ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    gpu_shell_internal_forces                ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_launch_async                   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_sync_scatter                   ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    gradient_reconstruction_new              ../engine/source/ale/alemuscl/gradient_reconstruction.F90
 !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
 !||    group_param_mod                          ../common_source/modules/mat_elem/group_param_mod.F90
@@ -495,6 +499,7 @@
 !||    sh_offset_jonct_chk                      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
 !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
 !||    sh_offset_setn                           ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
+!||    shell_gpu_mod                            ../engine/source/elements/shell/coque/shell_gpu_mod.F90
 !||    shell_offset_ini                         ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
 !||    shell_offset_wm_ini                      ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    shell_offsetp                            ../starter/source/elements/shell/shell_offset/shell_offsetp.F90

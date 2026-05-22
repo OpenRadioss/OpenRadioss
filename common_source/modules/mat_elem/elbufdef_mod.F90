@@ -228,6 +228,7 @@
 !||    failini                             ../starter/source/elements/solid/solide/failini.F
 !||    forint                              ../engine/source/elements/forint.F
 !||    forintc                             ../engine/source/elements/forintc.F
+!||    forintc_prepare_gpu                 ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    forintp                             ../engine/source/elements/forintp.F
 !||    forints                             ../engine/source/elements/forints.F
 !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90

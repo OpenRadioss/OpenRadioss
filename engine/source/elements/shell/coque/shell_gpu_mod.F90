@@ -20,6 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    shell_gpu_mod               ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_internal_forces   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_launch_async      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_sync_scatter      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    shell_gpu_data_create       ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||    shell_gpu_global_create     ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod               ../common_source/modules/precision_mod.F90
+!||====================================================================
       module shell_gpu_mod
 ! ======================================================================================================================
 !! \brief  Fortran interfaces for the CUDA shell element GPU driver
@@ -710,26 +724,48 @@
 
         ! --- Lifecycle ---
 
+!||====================================================================
+!||    shell_gpu_data_create   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu     ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    shell_gpu_mod           ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         function shell_gpu_data_create() result(g)
           type(c_ptr) :: g
           g = c_null_ptr
         end function shell_gpu_data_create
 
+!||====================================================================
+!||    shell_gpu_data_destroy   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_data_destroy(g)
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_data_destroy
 
+!||====================================================================
+!||    shell_gpu_allocate    ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_allocate(g, numelc, numnod, npt, ismstr, ithk)
           type(c_ptr),    value, intent(in) :: g
           integer(c_int), value, intent(in) :: numelc, numnod, npt, ismstr, ithk
         end subroutine shell_gpu_allocate
 
+!||====================================================================
+!||    shell_gpu_deallocate   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_deallocate(g)
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_deallocate
 
         ! --- Parameter setters ---
 
+!||====================================================================
+!||    shell_gpu_set_mat_params   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu        ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_set_mat_params(g, &
           e_young, nu, g_shear, a11, a12, &
           ca, cb, cn, cc, epdr, epmx, ymax, m_exp, &
@@ -745,6 +781,11 @@
           real(WP), value, intent(in) :: z3, z4
         end subroutine shell_gpu_set_mat_params
 
+!||====================================================================
+!||    shell_gpu_set_hg_params   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu       ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_set_hg_params(g, h1, h2, h3, srh1, srh2, srh3, &
           hvisc_in, helas_in, hvlin_in)
           type(c_ptr),    value, intent(in) :: g
@@ -752,11 +793,21 @@
           real(WP), value, intent(in) :: hvisc_in, helas_in, hvlin_in
         end subroutine shell_gpu_set_hg_params
 
+!||====================================================================
+!||    shell_gpu_set_compute_sti   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_set_compute_sti(g, flag)
           type(c_ptr),    value, intent(in) :: g
           integer(c_int), value, intent(in) :: flag
         end subroutine shell_gpu_set_compute_sti
 
+!||====================================================================
+!||    shell_gpu_set_ihbe    ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_set_ihbe(g, ihbe)
           type(c_ptr),    value, intent(in) :: g
           integer(c_int), value, intent(in) :: ihbe
@@ -764,6 +815,11 @@
 
         ! --- Data transfers ---
 
+!||====================================================================
+!||    shell_gpu_upload_constant   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_upload_constant(g, &
           h_n1, h_n2, h_n3, h_n4, &
           h_thk0, h_off, h_ssp, h_rho, h_ym, h_nu, h_a11, h_g_shear, h_shf)
@@ -774,6 +830,11 @@
           real(WP), intent(in) :: h_a11(*), h_g_shear(*), h_shf(*)
         end subroutine shell_gpu_upload_constant
 
+!||====================================================================
+!||    shell_gpu_upload_ip_state   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_upload_ip_state(g, &
           h_sigxx, h_sigyy, h_sigxy, h_sigyz, h_sigzx, &
           h_pla, h_epsd_ip, h_sigbakxx, h_sigbakyy, h_sigbakxy, h_tempel)
@@ -785,26 +846,43 @@
           real(WP), intent(in) :: h_tempel(*)
         end subroutine shell_gpu_upload_ip_state
 
+!||====================================================================
+!||    shell_gpu_upload_nodes   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_upload_nodes(g, raw_cpu_to_gpu)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(in) :: raw_cpu_to_gpu(*)
         end subroutine shell_gpu_upload_nodes
 
+!||====================================================================
+!||    shell_gpu_download_nodal_forces   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_download_nodal_forces(g, raw_gpu_to_cpu)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(inout) :: raw_gpu_to_cpu(*)
         end subroutine shell_gpu_download_nodal_forces
 
+!||====================================================================
+!||    shell_gpu_download_energy   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_sync_scatter      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_download_energy(g, h_eint)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(inout) :: h_eint(*)
         end subroutine shell_gpu_download_energy
 
+!||====================================================================
+!||    shell_gpu_download_aldt_sq   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_download_aldt_sq(g, h_aldt_sq)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(inout) :: h_aldt_sq(*)
         end subroutine shell_gpu_download_aldt_sq
 
+!||====================================================================
+!||    shell_gpu_download_state   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_download_state(g, &
           h_off, h_thk, h_gstr, h_epsd_elem, &
           h_sigxx, h_sigyy, h_sigxy, h_sigyz, h_sigzx, &
@@ -820,27 +898,44 @@
 
         ! --- Kernel execution ---
 
+!||====================================================================
+!||    shell_gpu_zero_nodal_arrays   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_zero_nodal_arrays(g)
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_zero_nodal_arrays
 
+!||====================================================================
+!||    shell_gpu_run_kernels   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_run_kernels(g, dt)
           type(c_ptr),    value, intent(in) :: g
           real(WP), value, intent(in) :: dt
         end subroutine shell_gpu_run_kernels
 
+!||====================================================================
+!||    shell_gpu_synchronize    ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_sync_scatter   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_synchronize(g)
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_synchronize
 
         ! --- Host pinning ---
 
+!||====================================================================
+!||    shell_gpu_pin_host_memory   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_pin_host_memory(g, raw_cpu_to_gpu, raw_gpu_to_cpu)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(in) :: raw_cpu_to_gpu(*)
           real(WP), intent(in) :: raw_gpu_to_cpu(*)
         end subroutine shell_gpu_pin_host_memory
 
+!||====================================================================
+!||    shell_gpu_unpin_host_memory   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_unpin_host_memory(raw_cpu_to_gpu, raw_gpu_to_cpu)
           real(WP), intent(in) :: raw_cpu_to_gpu(*)
           real(WP), intent(in) :: raw_gpu_to_cpu(*)
@@ -848,6 +943,9 @@
 
         ! --- Full step ---
 
+!||====================================================================
+!||    shell_gpu_full_step   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_full_step(g, dt, raw_cpu_to_gpu, raw_gpu_to_cpu)
           type(c_ptr),    value, intent(in) :: g
           real(WP), value, intent(in) :: dt
@@ -857,6 +955,11 @@
 
         ! --- Async variants ---
 
+!||====================================================================
+!||    shell_gpu_full_step_async   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_launch_async      ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_full_step_async(g, dt, X, V, VR, raw_gpu_to_cpu)
           type(c_ptr),    value, intent(in) :: g
           real(WP), value, intent(in) :: dt
@@ -864,11 +967,19 @@
           real(WP), intent(inout) :: raw_gpu_to_cpu(*)
         end subroutine shell_gpu_full_step_async
 
+!||====================================================================
+!||    shell_gpu_download_aldt_sq_async   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_download_aldt_sq_async(g, h_aldt_sq)
           type(c_ptr),    value, intent(in) :: g
           real(WP), intent(inout) :: h_aldt_sq(*)
         end subroutine shell_gpu_download_aldt_sq_async
 
+!||====================================================================
+!||    shell_gpu_min_dt         ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_launch_async   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_min_dt(g, dtfac, h_dt_min)
           type(c_ptr),    value, intent(in)    :: g
           real(WP), value, intent(in)    :: dtfac
@@ -877,46 +988,88 @@
 
         ! --- Global (shared) node/force handle ---
 
+!||====================================================================
+!||    shell_gpu_global_create   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu       ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    shell_gpu_mod             ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         function shell_gpu_global_create(numnod) result(gh)
           integer(c_int), value, intent(in) :: numnod
           type(c_ptr) :: gh
           gh = c_null_ptr
         end function shell_gpu_global_create
 
+!||====================================================================
+!||    shell_gpu_global_destroy   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_global_destroy(gh)
           type(c_ptr), value, intent(in) :: gh
         end subroutine shell_gpu_global_destroy
 
+!||====================================================================
+!||    shell_gpu_global_upload_nodes   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_launch_async          ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_global_upload_nodes(gh, X, V, VR)
           type(c_ptr),    value, intent(in) :: gh
           real(WP), intent(in) :: X(3,*), V(3,*), VR(3,*)
         end subroutine shell_gpu_global_upload_nodes
 
+!||====================================================================
+!||    shell_gpu_global_download_forces   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_launch_async             ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_global_download_forces(gh, raw_gpu_to_cpu)
           type(c_ptr),    value, intent(in) :: gh
           real(WP), intent(inout) :: raw_gpu_to_cpu(*)
         end subroutine shell_gpu_global_download_forces
 
+!||====================================================================
+!||    shell_gpu_global_synchronize   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_sync_scatter         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_global_synchronize(gh)
           type(c_ptr), value, intent(in) :: gh
         end subroutine shell_gpu_global_synchronize
 
+!||====================================================================
+!||    shell_gpu_global_wait_upload   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||====================================================================
         subroutine shell_gpu_global_wait_upload(gh, g)
           type(c_ptr), value, intent(in) :: gh
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_global_wait_upload
 
+!||====================================================================
+!||    shell_gpu_global_wait_su   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    gpu_shell_launch_async     ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_global_wait_su(gh, g)
           type(c_ptr), value, intent(in) :: gh
           type(c_ptr), value, intent(in) :: g
         end subroutine shell_gpu_global_wait_su
 
+!||====================================================================
+!||    shell_gpu_global_pin_host   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu         ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_global_pin_host(X, V, VR, raw_gpu_to_cpu, numnod)
           real(WP), intent(in)    :: X(3,*), V(3,*), VR(3,*)
           real(WP), intent(inout) :: raw_gpu_to_cpu(*)
           integer(c_int), value, intent(in) :: numnod
         end subroutine shell_gpu_global_pin_host
 
+!||====================================================================
+!||    shell_gpu_set_global   ../engine/source/elements/shell/coque/shell_gpu_mod.F90
+!||--- called by ------------------------------------------------------
+!||    forintc_prepare_gpu    ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||====================================================================
         subroutine shell_gpu_set_global(g, gh)
           type(c_ptr), value, intent(in) :: g
           type(c_ptr), value, intent(in) :: gh

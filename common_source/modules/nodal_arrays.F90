@@ -41,9 +41,13 @@
 !||    fixvel                                   ../engine/source/constraints/general/impvel/fixvel.F
 !||    force                                    ../engine/source/loads/general/force.F90
 !||    forcefingeo                              ../engine/source/loads/general/forcefingeo.F
+!||    forintc_prepare_gpu                      ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+!||    gpu_shell_internal_forces                ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_launch_async                   ../engine/source/elements/shell/coque/shell_internal_forces.F90
+!||    gpu_shell_sync_scatter                   ../engine/source/elements/shell/coque/shell_internal_forces.F90
 !||    i25main_norm                             ../engine/source/interfaces/int25/i25main_norm.F
 !||    i25tagn                                  ../engine/source/interfaces/int25/i25norm.F
 !||    init_ghost_shells                        ../engine/source/engine/node_spliting/ghost_shells.F90
