@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8      GAP_M  ,GAPMIN      ,GAPMAX  ,MARGE    ,CURV_MAX ,
      9      NIN    ,ITASK       ,BGAPSMX ,KREMNOD  ,REMNOD   ,
      A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   ,
-     B      DGAPLOAD,r_node_nb,r_node_list,
+     B      DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
      C      TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
@@ -124,8 +124,8 @@ C-----------------------------------------------
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,
      .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*),CAND_F(*)
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
-      INTEGER, INTENT(inout) :: r_node_nb
-      INTEGER, DIMENSION(NSNR), INTENT(inout) :: r_node_list
+      INTEGER, INTENT(inout) :: REMOTE_S_NODE
+      INTEGER, DIMENSION(NSNR), INTENT(inout) :: LIST_REMOTE_S_NODE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -140,6 +140,7 @@ C-----------------------------------------------
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2
 c temporary
+      INTEGER  LAST_NOD(NSN+NSNR)
       INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
@@ -151,18 +152,11 @@ c temporary
       INTEGER FIRST,LAST,IERROR
       LOGICAL DBG_type18_fvm
       SAVE IIX,IIY,IIZ
-      integer :: node_id,ijk,cpt_vox0_local
-      integer,dimension(:), allocatable, save :: last_nod
-      integer, dimension(:), allocatable :: local_r_node_list
-      integer,dimension(:), allocatable, save :: local_nsnr,nsnr_address
 C-----------------------------------------------
       IF(ITASK == 0)THEN
+        REMOTE_S_NODE = 0
         CPT_VOX0 = 0
-        r_node_nb = 0
         ALLOCATE(NEXT_NOD(NSN+NSNR),STAT=IERROR)
-        allocate(last_nod(nsn+nsnr),stat=ierror)
-        allocate(local_nsnr(nthread))
-        allocate(nsnr_address(nthread))
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .        C1='(/INTER/TYPE7)')
@@ -175,8 +169,6 @@ C-----------------------------------------------
           CALL ARRET(2)
         ENDIF
       END IF
-
-      allocate(local_r_node_list(nsnr))
 
       CALL MY_BARRIER !Barrier to wait init voxel and allocation NEXT_NOD
 
@@ -219,134 +211,107 @@ C-----------------------------------------------
 C=======================================================================
 C 1   NODE CLUSTERING
 C=======================================================================
-      cpt_vox0_local = 0
-      test_v0 = first_test(nin)
-!$omp do schedule(guided)      
-      do i=1,nsn
-        iix(i) = 0
-        iiy(i) = 0
-        iiz(i) = 0
-        if(stfn(i) <= zero) cycle
-        node_id = nsv(i)
-        if(x(1,node_id)<xmin) cycle
-        if(x(1,node_id)>xmax) cycle
-        if(x(2,node_id)<ymin) cycle
-        if(x(2,node_id)>ymax) cycle
-        if(x(3,node_id)<zmin) cycle
-        if(x(3,node_id)>zmax) cycle
-        iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
-        iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
-        iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
+      IF(ITASK==0.AND.TOTAL_NB_NRTM>0)THEN
+        !==========LAGRANGIAN and STAGGERED ALE==========!
+        TEST_V0 = FIRST_TEST(NIN)
+        DO I=1,NSN
+          IIX(I)=0
+          IIY(I)=0
+          IIZ(I)=0
+          IF(STFN(I) == ZERO)CYCLE
+          J=NSV(I)
+          !C Optimization // search for nodes within xmin xmax of
+          !C processor elements
+          IF(X(1,J) < XMIN)  CYCLE
+          IF(X(1,J) > XMAX)  CYCLE
+          IF(X(2,J) < YMIN)  CYCLE
+          IF(X(2,J) > YMAX)  CYCLE
+          IF(X(3,J) < ZMIN)  CYCLE
+          IF(X(3,J) > ZMAX)  CYCLE
+          IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
+          IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
+          IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
+          IIX(I)=MAX(1,2+MIN(NBX,IIX(I)))
+          IIY(I)=MAX(1,2+MIN(NBY,IIY(I)))
+          IIZ(I)=MAX(1,2+MIN(NBZ,IIZ(I)))
+          FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
+          IF(TEST_V0) THEN
+! count the number of SECONDARY nodes outiside the reduced box
+            IF(IIX(I) ==  1    .OR.  IIY(I) ==  1    .OR. IIZ(I) == 1 .AND.
+     .         IIX(I) ==  NBX+2 .OR. IIY(I) == NBY+2 .OR. IIZ(I) == NBZ+2) THEN
+              CPT_VOX0 = CPT_VOX0 +1
+            ENDIF
+          ENDIF
+          IF(FIRST == 0)THEN
+            !Empty Cell
+            VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
+            NEXT_NOD(I)                 = 0 ! last one
+            LAST_NOD(I)                 = 0 ! no last
+          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+            !cell containing one node
+            !add as next node
+            NEXT_NOD(FIRST) = I ! next
+            LAST_NOD(FIRST) = I ! last
+            NEXT_NOD(I)     = 0 ! last one
+          ELSE
+            !
+            !jump to the last node of the cell
+            LAST = LAST_NOD(FIRST) ! last node in this voxel
+            NEXT_NOD(LAST)  = I ! next
+            LAST_NOD(FIRST) = I ! last
+            NEXT_NOD(I)     = 0 ! last one
+          ENDIF
+        ENDDO
 
-        iix(i) = max(1,2+min(nbx,iix(i)))
-        iiy(i) = max(1,2+min(nby,iiy(i)))
-        iiz(i) = max(1,2+min(nbz,iiz(i)))
+C=======================================================================
+C 2   REMOTE NODE CLUSTERING
+C=======================================================================
+        DO J = 1, NSNR
 
-        if(test_v0) then
-          ! count the number of SECONDARY nodes outside the reduced box
-          if(iix(i)==1.or.iiy(i)==1.or.iiz(i)==1.or.
-     .       iix(i)==nbx+2.or.iiy(i)==nby+2.or.iiz(i)==nbz+2) then
-            cpt_vox0_local = cpt_vox0_local + 1
-          endif
-        endif
-      enddo
-!$omp end do
-      call my_barrier( )     
-!$omp single
-      do i=1,nsn
-        if(iix(i)==0) cycle
-        first = voxel(iix(i),iiy(i),iiz(i))
-        if(first==0)then
-c         Empty Cell
-          voxel(iix(i),iiy(i),iiz(i)) = i ! first
-          next_nod(i)                 = 0 ! last one
-          last_nod(i)                 = 0 ! no last
-        elseif(last_nod(first)==0)then
-c         cell containing one node
-c         add as next node
-          next_nod(first) = i ! next
-          last_nod(first) = i ! last
-          next_nod(i)     = 0 ! last one
-        else
-c         jump to the last node of the cell
-          last = last_nod(first) ! last node in this voxel
-          next_nod(last)  = i ! next
-          last_nod(first) = i ! last
-          next_nod(i)     = 0 ! last one
-        endif
-      enddo
-!$omp end single no wait
+          IF(XREM(1,J) < XMIN)  CYCLE
+          IF(XREM(1,J) > XMAX)  CYCLE
+          IF(XREM(2,J) < YMIN)  CYCLE
+          IF(XREM(2,J) > YMAX)  CYCLE
+          IF(XREM(3,J) < ZMIN)  CYCLE
+          IF(XREM(3,J) > ZMAX)  CYCLE
 
-      local_nsnr(itask+1) = 0
-!$omp do schedule(guided)
-      do i=1,nsnr      
-        if(xrem(1,i)<xmin) cycle
-        if(xrem(1,i)>xmax) cycle
-        if(xrem(2,i)<ymin) cycle
-        if(xrem(2,i)>ymax) cycle
-        if(xrem(3,i)<zmin) cycle
-        if(xrem(3,i)>zmax) cycle
-        local_nsnr(itask+1) = local_nsnr(itask+1) + 1
-        local_r_node_list(local_nsnr(itask+1)) = i
-        iix(nsn+i) = int(nbx*(xrem(1,i)-xminb)/(xmaxb-xminb))
-        iiy(nsn+i) = int(nby*(xrem(2,i)-yminb)/(ymaxb-yminb))
-        iiz(nsn+i) = int(nbz*(xrem(3,i)-zminb)/(zmaxb-zminb))
-        iix(nsn+i) = max(1,2+min(nbx,iix(nsn+i)))
-        iiy(nsn+i) = max(1,2+min(nby,iiy(nsn+i)))
-        iiz(nsn+i) = max(1,2+min(nbz,iiz(nsn+i)))
-        if(test_v0) then
-          ! count the number of SECONDARY nodes outside the reduced box
-          if(iix(nsn+i)==1.or.iiy(nsn+i)==1.or.iiz(nsn+i)==1.or.
-     .       iix(nsn+i)==nbx+2.or.iiy(nsn+i)==nby+2.or.iiz(nsn+i)==nbz+2) then
-            cpt_vox0_local = cpt_vox0_local + 1
-          endif
-        endif        
-      enddo
-!$omp end do
+          REMOTE_S_NODE = REMOTE_S_NODE + 1
+          LIST_REMOTE_S_NODE( REMOTE_S_NODE ) = J
+          IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
+          IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
+          IIZ(NSN+J)=INT(NBZ*(XREM(3,J)-ZMINB)/(ZMAXB-ZMINB))
+          IIX(NSN+J)=MAX(1,2+MIN(NBX,IIX(NSN+J)))
+          IIY(NSN+J)=MAX(1,2+MIN(NBY,IIY(NSN+J)))
+          IIZ(NSN+J)=MAX(1,2+MIN(NBZ,IIZ(NSN+J)))
 
-      call my_barrier( )
+          FIRST = VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))
+          IF(TEST_V0) THEN
+! count the number of SECONDARY nodes outiside the reduced box
+            IF(IIX(J+NSN) ==  1     .OR. IIY(J+NSN) ==  1     .OR. IIZ(J+NSN) == 1 .AND.
+     .         IIX(J+NSN) ==  NBX+2 .OR. IIY(J+NSN) ==  NBY+2 .OR. IIZ(J+NSN) == NBZ+2) THEN
+              CPT_VOX0 = CPT_VOX0 +1
+            ENDIF
+          ENDIF
 
-!$omp atomic
-      cpt_vox0 = cpt_vox0_local + cpt_vox0
-
-!$omp single
-      do ijk=1,nthread
-        nsnr_address(ijk) = r_node_nb        
-        r_node_nb = r_node_nb + local_nsnr(ijk)
-      enddo
-!$omp end single
-
-      do ijk=1,local_nsnr(itask+1)
-        r_node_list(nsnr_address(itask+1)+ijk) = local_r_node_list(ijk)
-      enddo
-
-      call my_barrier( )
-
-!$omp single      
-      do ijk = 1, r_node_nb
-        j = r_node_list(ijk)
-        first = voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j))
-        
-        if(first==0)then
-c         Empty Cell
-          voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j)) = nsn+j ! first
-          next_nod(nsn+j)     = 0 ! last one
-          last_nod(nsn+j)     = 0 ! no last                  
-        elseif(last_nod(first)==0)then
-c         cell containing one node
-c         add as next node
-          next_nod(first) = nsn+j  ! next
-          last_nod(first) = nsn+j  ! last
-          next_nod(nsn+j)  = 0     ! last one
-        else
-c         jump to the last node of the cell
-          last = last_nod(first)  ! last node in this voxel
-          next_nod(last)  = nsn+j ! next
-          last_nod(first) = nsn+j ! last
-          next_nod(nsn+j)     = 0 ! last one
-        endif
-      enddo
-!$omp end single         
+          IF(FIRST == 0)THEN
+            ! Empty Cell
+            VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
+            NEXT_NOD(NSN+J)     = 0 ! last one
+            LAST_NOD(NSN+J)     = 0 ! no last
+          ELSEIF(LAST_NOD(FIRST) == 0)THEN
+            ! cell containing one node, add it as next node
+            NEXT_NOD(FIRST) = NSN+J  ! next
+            LAST_NOD(FIRST) = NSN+J  ! last
+            NEXT_NOD(NSN+J)  = 0     ! last one
+          ELSE
+            ! , jump to the last node of the cell
+            LAST = LAST_NOD(FIRST)  ! last node in this voxel
+            NEXT_NOD(LAST)  = NSN+J ! next
+            LAST_NOD(FIRST) = NSN+J ! last
+            NEXT_NOD(NSN+J)     = 0 ! last one
+          ENDIF
+        ENDDO
+      END IF !ITASK == 0
 
       CALL MY_BARRIER ! Barrier to wait task0 treatment
 
@@ -356,7 +321,7 @@ c         jump to the last node of the cell
 !then the box is not reduced anymore
         CALL MY_BARRIER
         IF(ITASK == 0) THEN
-          IF(CPT_VOX0 > 5*(r_node_nb + NSN)/100) TO_TRIM(NIN) = .FALSE.
+          IF(CPT_VOX0 > 5*(REMOTE_S_NODE + NSN)/100) TO_TRIM(NIN) = .FALSE.
           FIRST_TEST(NIN) = .FALSE.
         ENDIF
         CALL MY_BARRIER
@@ -466,7 +431,7 @@ C=======================================================================
               ! nbpelem = nbpelem + 1
 
               JJ = VOXEL(IX,IY,IZ)
-              DO WHILE(JJ /= 0)         
+              DO WHILE(JJ /= 0)
                 DELNOD = 0
 
                 !nnpelem = nnpelem + 1
@@ -593,11 +558,11 @@ C=======================================================================
               VOXEL(IIX(I),IIY(I),IIZ(I))=0
             ENDIF
         ENDDO
-        NSNF = 1 + ITASK*r_node_nb / NTHREAD
-        NSNL = (ITASK+1)*r_node_nb / NTHREAD
-        IF(ITASK+1==NTHREAD) NSNL=r_node_nb
+        NSNF = 1 + ITASK*REMOTE_S_NODE / NTHREAD
+        NSNL = (ITASK+1)*REMOTE_S_NODE / NTHREAD
+        IF(ITASK+1==NTHREAD) NSNL=REMOTE_S_NODE
         DO JJ = NSNF, NSNL
-            J = r_node_list(JJ)
+            J = LIST_REMOTE_S_NODE(JJ)
             VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))=0
         ENDDO
       ENDIF
@@ -636,10 +601,6 @@ C=======================================================================
         DEALLOCATE(IIX)
         DEALLOCATE(IIY)
         DEALLOCATE(IIZ)
-        deallocate(last_nod)
-        deallocate(local_nsnr)
-        deallocate(nsnr_address)
-        deallocate(local_r_node_list)
       ENDIF
       IF(FLAGREMNODE == 2) THEN
         IF(ALLOCATED(TAGREMNODE)) DEALLOCATE(TAGREMNODE)
