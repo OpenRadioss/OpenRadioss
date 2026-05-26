@@ -101,7 +101,6 @@
             a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,  c21,c32,c31 ,     &
           ! Inverse matrix elements
             d11, d22, d33, d12, d13, d23, invd ,                     &
-            e2_mod, nu12_mod, nu31_mod, nu13_mod, nu23_mod,                       &
           ! Cut-off frequency
             fcut
           logical :: is_available,is_encrypted
@@ -180,6 +179,12 @@
           ! shear modulus
           if (g13 == zero) g13 = g12
           if (g23 == zero) g23 = g13
+          ! transversally isotropic behavior in 23-plane 
+          if(ti > 0) then
+             e3 = e2
+             nu31 = nu21
+             g13 = g12
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           !     check and default values
           !-----------------------------
@@ -210,28 +215,15 @@
           a12 = nu21*a11
           a22 = e2*fac
           ! compliance matrix for 3
-          if(ti > 0) then
-            e2_mod = e1
-            nu12_mod = nu21
-            nu31_mod = nu32
-            nu13_mod = nu31_mod*e1/e3
-            nu23_mod = nu13_mod
-          else
-            e2_mod  = e2
-            nu12_mod = nu12
-            nu31_mod = nu31
-            nu13_mod = nu13
-            nu23_mod = nu23
-          end if
           c11 = one / e1
-          c22 = one / e2_mod
+          c22 = one / e2
           c33 = one / e3
-          c12 = -nu21 / e2_mod
-          c13 = -nu31_mod / e3
-          c21 = -nu12_mod / e1
+          c12 = -nu21 / e2
+          c13 = -nu31 /  e3
+          c21 = -nu12 / e1
           c23 = -nu32 / e3
-          c31 = -nu13_mod / e1
-          c32 = -nu23_mod / e2_mod
+          c31 = -nu13 / e1
+          c32 = -nu23 / e2
           ! Calculate the determinant
           detc = c11 * (c22 * c33 - c23 * c32) - &
             c12 * (c21 * c33 - c23 * c31) + &
@@ -364,15 +356,9 @@
           matparam%uparam(44)  = d12
           matparam%uparam(45)  = d13
           matparam%uparam(46)  = d23
-          if(ti > 0) then  ! only used by solid an thick shell
-            matparam%uparam(47)  = half*e1/(one + nu21)
-            matparam%uparam(48)  = g23
-            matparam%uparam(49)  = g23
-          else
-            matparam%uparam(47)  = g12
-            matparam%uparam(48)  = g13
-            matparam%uparam(49)  = g23
-          end if
+          matparam%uparam(47)  = g12
+          matparam%uparam(48)  = g13
+          matparam%uparam(49)  = g23
           ! integer flag
           matparam%iparam(1)  = twoway
           matparam%iparam(2)  = ti
