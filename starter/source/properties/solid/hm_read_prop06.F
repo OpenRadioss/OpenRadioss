@@ -209,14 +209,14 @@ C-----removed flags:
       IPLAS = 2
       IET = 0
 C----------------------
+      IGEO(29) = ITET4  !itet4_prev
       IF(ITET4 == 0)  ITET4 = ITET4_D
       IF(ITET10 == 0) ITET10 = ITET10_D
-      IF(ITET4 == 1) THEN ! switched to tetra10 w/ itetra10=2
-        IGEO(29) = ITET4
+      IF(ITET4 == 10) THEN ! switched to tetra10 w/ itetra10=2
         IF (ISMS == 0) ITET10 = 2
         ITET4 = 0  
-        MSGLINE='   ITETR4 IS CHANGED TO TETRA10'
-        CALL ANCMSG(MSGID=2027,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=IDTITL,I2=2,C2=TRIM(MSGLINE))      
+        MSGLINE='   ITETR4 IS CONVERTED TO TETRA10'
+        CALL ANCMSG(MSGID=3146,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IG,C1=IDTITL,I2=10,C2=TRIM(MSGLINE))      
       ENDIF
 C
 C
@@ -506,6 +506,7 @@ C----
        WRITE(IOUT,1099) IG
       ENDIF
 
+      IF (ITET4 == 1000) ITET4 = 0
       IGEO(20) = ITET4
       IF (ITET10 == 1000) ITET10 = 0
       IGEO(50) = ITET10

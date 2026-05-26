@@ -821,9 +821,9 @@ C Add RBODY master node if not existing in /RBODY cards
 C------------------------------------------------------------------
       CALL hm_rbodies_add_main_node(LSUBMODEL)
 C-------------------------------------------------------------------
-C itetra4=1: convert tetra4 to tretra10 w/ itetra10=2
+C itetra4=10: convert tetra4 to tretra10 w/ itetra10=2
 C------------------------------------------------------------------
-      itetra4=1
+      itetra4=10
       CALL hm_convert_tetra4_to_tetra10(itetra4) 
 C------------------------------------------------------------------
       ! Initialisation of glob_therm module
