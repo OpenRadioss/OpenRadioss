@@ -4093,7 +4093,7 @@ C Init var parallel SMP
 
               NDTSKR=NDTSK ; IF(IRODDL == 0)NDTSKR=1
 
-              CALL FORINTC(TIMERS, GPU, IPRI,
+              CALL FORINTC(TIMERS, GPU,
      1           PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
      2           NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     ,
      3           WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSKR)    ,ELEMENT%PON%FSKY           ,CRKSKY       ,
@@ -4230,6 +4230,19 @@ C
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
 
               IF(GPU == 1) THEN
+C     Compute print-flag for GPU shell sync: same logic as FORINTC IPRI.
+C     (GPU elements are only offloaded when ISENS_ENERGY==0, so the
+C     SENSOR_ENERGY_PART side-effect is not relevant here.)
+                IPRI = 0
+                IF (MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= OUTPUT%TH%THIS.OR.
+     .               MDESS /= 0.OR.TT >= OUTPUT%TH%THIS1(1).OR.TT >= OUTPUT%TH%THIS1(2)
+     .               .OR.TT >= OUTPUT%TH%THIS1(3).OR.TT >= OUTPUT%TH%THIS1(4).OR.TT >= OUTPUT%TH%THIS1(5)
+     .               .OR.TT >= OUTPUT%TH%THIS1(6).OR.TT >= OUTPUT%TH%THIS1(7).OR.TT >= OUTPUT%TH%THIS1(8)
+     .               .OR.TT >= OUTPUT%TH%THIS1(9).OR.NTH /= 0.OR.NANIM/=0
+     .               .OR.TT >= TABFIS(1).OR.TT >= TABFIS(2)
+     .               .OR.TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5)
+     .               .OR.TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8)
+     .               .OR.TT >= TABFIS(9).OR.TT >= TABFIS(10).OR.ISTAT==3) IPRI=1
 C     GPU SHELL: synchronize + scatter results now that FORINTC + FORINT
 C     have completed on the CPU.  By this point the GPU pipeline has had
 C     time to finish, so the sync call should return near-instantly.
