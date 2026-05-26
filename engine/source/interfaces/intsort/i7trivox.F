@@ -219,140 +219,136 @@ C-----------------------------------------------
 C=======================================================================
 C 1   NODE CLUSTERING
 C=======================================================================
-      if(total_nb_nrtm>0) then
-        cpt_vox0_local = 0
-        test_v0 = first_test(nin)
+      cpt_vox0_local = 0
+      test_v0 = first_test(nin)
 !$omp do schedule(guided)      
-        do i=1,nsn
-          iix(i) = 0
-          iiy(i) = 0
-          iiz(i) = 0
-          if(stfn(i) <= zero) cycle
-          node_id = nsv(i)
-          if(x(1,node_id)<xmin) cycle
-          if(x(1,node_id)>xmax) cycle
-          if(x(2,node_id)<ymin) cycle
-          if(x(2,node_id)>ymax) cycle
-          if(x(3,node_id)<zmin) cycle
-          if(x(3,node_id)>zmax) cycle
-          iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
-          iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
-          iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
+      do i=1,nsn
+        iix(i) = 0
+        iiy(i) = 0
+        iiz(i) = 0
+        if(stfn(i) <= zero) cycle
+        node_id = nsv(i)
+        if(x(1,node_id)<xmin) cycle
+        if(x(1,node_id)>xmax) cycle
+        if(x(2,node_id)<ymin) cycle
+        if(x(2,node_id)>ymax) cycle
+        if(x(3,node_id)<zmin) cycle
+        if(x(3,node_id)>zmax) cycle
+        iix(i) = int(nbx*(x(1,node_id)-xminb)/(xmaxb-xminb))
+        iiy(i) = int(nby*(x(2,node_id)-yminb)/(ymaxb-yminb))
+        iiz(i) = int(nbz*(x(3,node_id)-zminb)/(zmaxb-zminb))
 
-          iix(i) = max(1,2+min(nbx,iix(i)))
-          iiy(i) = max(1,2+min(nby,iiy(i)))
-          iiz(i) = max(1,2+min(nbz,iiz(i)))
+        iix(i) = max(1,2+min(nbx,iix(i)))
+        iiy(i) = max(1,2+min(nby,iiy(i)))
+        iiz(i) = max(1,2+min(nbz,iiz(i)))
 
-          if(test_v0) then
-            ! count the number of SECONDARY nodes outside the reduced box
-            if(iix(i)==1.or.iiy(i)==1.or.iiz(i)==1.or.
-     .         iix(i)==nbx+2.or.iiy(i)==nby+2.or.iiz(i)==nbz+2) then
-              cpt_vox0_local = cpt_vox0_local + 1
-            endif
+        if(test_v0) then
+          ! count the number of SECONDARY nodes outside the reduced box
+          if(iix(i)==1.or.iiy(i)==1.or.iiz(i)==1.or.
+     .       iix(i)==nbx+2.or.iiy(i)==nby+2.or.iiz(i)==nbz+2) then
+            cpt_vox0_local = cpt_vox0_local + 1
           endif
-        enddo
+        endif
+      enddo
 !$omp end do
-       call my_barrier( )     
+      call my_barrier( )     
 !$omp single
-        do i=1,nsn
-          if(iix(i)==0) cycle
-          first = voxel(iix(i),iiy(i),iiz(i))
-          if(first==0)then
+      do i=1,nsn
+        if(iix(i)==0) cycle
+        first = voxel(iix(i),iiy(i),iiz(i))
+        if(first==0)then
 c         Empty Cell
-            voxel(iix(i),iiy(i),iiz(i)) = i ! first
-            next_nod(i)                 = 0 ! last one
-            last_nod(i)                 = 0 ! no last
-          elseif(last_nod(first)==0)then
+          voxel(iix(i),iiy(i),iiz(i)) = i ! first
+          next_nod(i)                 = 0 ! last one
+          last_nod(i)                 = 0 ! no last
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            next_nod(first) = i ! next
-            last_nod(first) = i ! last
-            next_nod(i)     = 0 ! last one
-          else
+          next_nod(first) = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        else
 c         jump to the last node of the cell
-            last = last_nod(first) ! last node in this voxel
-            next_nod(last)  = i ! next
-            last_nod(first) = i ! last
-            next_nod(i)     = 0 ! last one
-          endif
-        enddo
+          last = last_nod(first) ! last node in this voxel
+          next_nod(last)  = i ! next
+          last_nod(first) = i ! last
+          next_nod(i)     = 0 ! last one
+        endif
+      enddo
 !$omp end single no wait
 
-        local_nsnr(itask+1) = 0
+      local_nsnr(itask+1) = 0
 !$omp do schedule(guided)
-        do i=1,nsnr      
-          if(xrem(1,i)<xmin) cycle
-          if(xrem(1,i)>xmax) cycle
-          if(xrem(2,i)<ymin) cycle
-          if(xrem(2,i)>ymax) cycle
-          if(xrem(3,i)<zmin) cycle
-          if(xrem(3,i)>zmax) cycle
-          local_nsnr(itask+1) = local_nsnr(itask+1) + 1
-          local_r_node_list(local_nsnr(itask+1)) = i
-          iix(nsn+i) = int(nbx*(xrem(1,i)-xminb)/(xmaxb-xminb))
-          iiy(nsn+i) = int(nby*(xrem(2,i)-yminb)/(ymaxb-yminb))
-          iiz(nsn+i) = int(nbz*(xrem(3,i)-zminb)/(zmaxb-zminb))
-          iix(nsn+i) = max(1,2+min(nbx,iix(nsn+i)))
-          iiy(nsn+i) = max(1,2+min(nby,iiy(nsn+i)))
-          iiz(nsn+i) = max(1,2+min(nbz,iiz(nsn+i)))
-          if(test_v0) then
-            ! count the number of SECONDARY nodes outside the reduced box
-            if(iix(nsn+i)==1.or.iiy(nsn+i)==1.or.iiz(nsn+i)==1.or.
-     .         iix(nsn+i)==nbx+2.or.iiy(nsn+i)==nby+2.or.iiz(nsn+i)==nbz+2) then
-              cpt_vox0_local = cpt_vox0_local + 1
-            endif
-          endif        
-        enddo
+      do i=1,nsnr      
+        if(xrem(1,i)<xmin) cycle
+        if(xrem(1,i)>xmax) cycle
+        if(xrem(2,i)<ymin) cycle
+        if(xrem(2,i)>ymax) cycle
+        if(xrem(3,i)<zmin) cycle
+        if(xrem(3,i)>zmax) cycle
+        local_nsnr(itask+1) = local_nsnr(itask+1) + 1
+        local_r_node_list(local_nsnr(itask+1)) = i
+        iix(nsn+i) = int(nbx*(xrem(1,i)-xminb)/(xmaxb-xminb))
+        iiy(nsn+i) = int(nby*(xrem(2,i)-yminb)/(ymaxb-yminb))
+        iiz(nsn+i) = int(nbz*(xrem(3,i)-zminb)/(zmaxb-zminb))
+        iix(nsn+i) = max(1,2+min(nbx,iix(nsn+i)))
+        iiy(nsn+i) = max(1,2+min(nby,iiy(nsn+i)))
+        iiz(nsn+i) = max(1,2+min(nbz,iiz(nsn+i)))
+        if(test_v0) then
+          ! count the number of SECONDARY nodes outside the reduced box
+          if(iix(nsn+i)==1.or.iiy(nsn+i)==1.or.iiz(nsn+i)==1.or.
+     .       iix(nsn+i)==nbx+2.or.iiy(nsn+i)==nby+2.or.iiz(nsn+i)==nbz+2) then
+            cpt_vox0_local = cpt_vox0_local + 1
+          endif
+        endif        
+      enddo
 !$omp end do
 
-        call my_barrier( )
+      call my_barrier( )
 
 !$omp atomic
-        cpt_vox0 = cpt_vox0_local + cpt_vox0
+      cpt_vox0 = cpt_vox0_local + cpt_vox0
 
 !$omp single
-        r_node_nb = 0
-        do ijk=1,nthread
-          nsnr_address(ijk) = r_node_nb        
-          r_node_nb = r_node_nb + local_nsnr(ijk)
-        enddo
+      do ijk=1,nthread
+        nsnr_address(ijk) = r_node_nb        
+        r_node_nb = r_node_nb + local_nsnr(ijk)
+      enddo
 !$omp end single
 
-        do ijk=1,local_nsnr(itask+1)
-          r_node_list(nsnr_address(itask+1)+ijk) = local_r_node_list(ijk)
-        enddo
+      do ijk=1,local_nsnr(itask+1)
+        r_node_list(nsnr_address(itask+1)+ijk) = local_r_node_list(ijk)
+      enddo
 
-        call my_barrier( )
+      call my_barrier( )
+
 !$omp single      
-        do ijk = 1, r_node_nb
-          j = r_node_list(ijk)
-          first = voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j))
-          
-          if(first==0)then
+      do ijk = 1, r_node_nb
+        j = r_node_list(ijk)
+        first = voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j))
+        
+        if(first==0)then
 c         Empty Cell
-            voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j)) = nsn+j ! first
-            next_nod(nsn+j)     = 0 ! last one
-            last_nod(nsn+j)     = 0 ! no last                  
-          elseif(last_nod(first)==0)then
+          voxel(iix(nsn+j),iiy(nsn+j),iiz(nsn+j)) = nsn+j ! first
+          next_nod(nsn+j)     = 0 ! last one
+          last_nod(nsn+j)     = 0 ! no last                  
+        elseif(last_nod(first)==0)then
 c         cell containing one node
 c         add as next node
-            next_nod(first) = nsn+j  ! next
-            last_nod(first) = nsn+j  ! last
-            next_nod(nsn+j)  = 0     ! last one
-          else
+          next_nod(first) = nsn+j  ! next
+          last_nod(first) = nsn+j  ! last
+          next_nod(nsn+j)  = 0     ! last one
+        else
 c         jump to the last node of the cell
-            last = last_nod(first)  ! last node in this voxel
-            next_nod(last)  = nsn+j ! next
-            last_nod(first) = nsn+j ! last
-            next_nod(nsn+j)     = 0 ! last one
-          endif
-        enddo
-!$omp end single
-      endif         
+          last = last_nod(first)  ! last node in this voxel
+          next_nod(last)  = nsn+j ! next
+          last_nod(first) = nsn+j ! last
+          next_nod(nsn+j)     = 0 ! last one
+        endif
+      enddo
+!$omp end single         
 
       CALL MY_BARRIER ! Barrier to wait task0 treatment
-
-      deallocate(local_r_node_list)
 
       IF(FIRST_TEST(NIN)) THEN
 !During the first sorting, we use the reduced box
@@ -643,6 +639,7 @@ C=======================================================================
         deallocate(last_nod)
         deallocate(local_nsnr)
         deallocate(nsnr_address)
+        deallocate(local_r_node_list)
       ENDIF
       IF(FLAGREMNODE == 2) THEN
         IF(ALLOCATED(TAGREMNODE)) DEALLOCATE(TAGREMNODE)
