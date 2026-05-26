@@ -240,15 +240,15 @@
 
 ! Detailed Constraints Format
 500       format(                                                       &
-     &      5X, "   TRANSLATIONAL (R, S, T) . . . . . . . . . . =", 3I5, /, &
-     &      5X, "   ROTATIONAL    (R, S, T) . . . . . . . . . . =", 3I5, /)
+     &      5X, "   TRANSLATIONAL (x, y, z) . . . . . . . . . . =", 3I5, /, &
+     &      5X, "   ROTATIONAL    (x, y, z) . . . . . . . . . . =", 3I5, /)
 
 ! Stiffness Scales Format
 600       format(                                                       &
      &      5X, "STIFFNESS SCALING FACTORS:                     ", /,   &
      &      5X, "--------------------------                     ", /,   &
-     &      5X, "   TRANSLATIONAL STIFFNESS SCALE (TKR) . . . . =", 1PG20.13, /, &
-     &      5X, "   ROTATIONAL STIFFNESS SCALE    (RKR) . . . . =", 1PG20.13, /)
+     &      5X, "   TRANSLATIONAL STIFFNESS SCALE (RPST). . . . =", 1PG20.13, /, &
+     &      5X, "   ROTATIONAL STIFFNESS SCALE    (RPSR). . . . =", 1PG20.13, /)
 !-----------------------------------------------------------------------
         end subroutine hm_read_mat135
 !-------------------
