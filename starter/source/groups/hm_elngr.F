@@ -196,15 +196,5 @@ C               tag nodes connected to the element
         ENDIF
       ENDDO
 C-----------
-      IF (ITETRA10 /= 0)THEN
-        CALL ANCMSG(MSGID=500,
-     .              MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,
-     .              C1='GRNOD',
-     .              I1=ID,
-     .              C2='GRNOD',
-     .              C3=TITR)
-      ENDIF
-C-----------
       RETURN
       END
