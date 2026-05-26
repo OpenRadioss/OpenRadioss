@@ -627,6 +627,8 @@ c
             END IF
           ENDIF
 C
+          IF (MLN == 68) ITET4 = 1
+C
           ! Compatibility with /MAT/LAW115 statistic formulation
           IF ((MLN == 115).AND.(((JHBE>2).AND.(JHBE<21)).OR.((ITET4>0).AND.(ITET4<3)))) THEN
             CALL ANCMSG(MSGID=1905,
@@ -686,8 +688,8 @@ c
             CALL ANCMSG(MSGID=672,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID,
-     .                    C1=TITR,     
+     .                  I1=ID,
+     .                  C1=TITR,     
      .                  I2=IGEO(1,PID))
           ENDIF
           IF (JHBE ==  2) JHBE=0     ! Hourglass Halquist
@@ -1485,11 +1487,7 @@ C group/processor identification
           IPARG(42,NGROUP)= ISORTH
           IPARG(40,NGROUP)= ISRAT
           IPARG(43,NGROUP)= IFAIL
-          IF(MLN == 68)THEN
-            IPARG(41,NGROUP)=1
-          ELSE
-            IPARG(41,NGROUP)=ITET4
-          ENDIF
+          IPARG(41,NGROUP)= ITET4
           IF(MLN/=25.AND.MLN<28)THEN
             IPARG(44,NGROUP)= ISTRAIN
           ELSEIF(MLN>=28)THEN
