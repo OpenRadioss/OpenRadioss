@@ -241,7 +241,7 @@ if ( debug STREQUAL "1" )
 
 # Fortran (debug)
 set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS
-  "-Wall -g -O0 -Mbounds ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
+  "-Wall -g -O0 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS

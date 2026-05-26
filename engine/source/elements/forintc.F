@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||    ush_force3_mod              ../engine/source/user_interface/ushforce3.F90
 !||====================================================================
-      SUBROUTINE FORINTC(TIMERS, GPU, IPRI,
+      SUBROUTINE FORINTC(TIMERS, GPU,
      1    PM        ,GEO       ,X         ,A         ,AR        ,
      2    V         ,VR        ,MS        ,IN        ,NLOC_DMG  ,
      3    WA        ,STIFN     ,STIFR     ,FSKY      ,CRKSKY    ,
@@ -173,7 +173,6 @@ C     REAL
      .   MS_PLY(*), ZI_PLY(*),GRESAV(*),
      .   MSTG(*), DMELTG(*), MSC(*), DMELC(*),CONDN(*),CONDNSKY(*),
      .   PTG(3,*),MSZ2(*),APINCH(3,*),STIFPINCH(*),VPINCH(3,*)
-      integer, intent(inout) :: ipri
       DOUBLE PRECISION :: XDP(3,*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
@@ -200,7 +199,7 @@ C-----------------------------------------------
       INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,
      .    K2, NF1, OFFSET,TYP,
      .   K0, K5, K9, NSG, NEL, KFTS,IOFC, ISTRA,
-     .   ICNOD,NFT1,ISENS_ENERGY,
+     .   ICNOD,NFT1,ISENS_ENERGY,IPRI,
      .   IEXPAN, IG,ITG1,ITG2,ITG3,NLEVXF,ISEATBELT
       INTEGER IPARSENS,ISECT
       INTEGER ISH3N,ISHPLYXFEM,IXFEM
