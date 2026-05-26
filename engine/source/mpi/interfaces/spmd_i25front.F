@@ -564,22 +564,43 @@ C But ISPMD is still in charge to send that secondary edge.
                 BUFFERS(NI25)%SEND_BUF(L+2)  = INTBUF_TAB(N)%EDGE_BISECTOR(TO1D(2,JE,-IE,3,4))
                 BUFFERS(NI25)%SEND_BUF(L+3)  = INTBUF_TAB(N)%EDGE_BISECTOR(TO1D(3,JE,-IE,3,4))
               ELSE
-                ASSERT(.FALSE.)
+C 1D element edge: no solid element, edge bisector not applicable (unused on receive side)
+                BUFFERS(NI25)%SEND_BUF(L+1)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+2)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+3)  = 0
               ENDIF
 C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
 
-              BUFFERS(NI25)%SEND_BUF(L+4)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,1,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+5)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,1,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+6)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,1,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+7)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,2,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+8)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,2,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+9)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,2,I1,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+10) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,1,I2,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+11) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,1,I2,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+12) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,1,I2,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+13) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,2,I2,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+14) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,2,I2,3,2))
-              BUFFERS(NI25)%SEND_BUF(L+15) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,2,I2,3,2))
+C For 1D element edges (TYPEDG==3), LEDGE_SEG1_I1/I2 are zero (no adjacent solid face),
+C so VTX_BISECTOR cannot be indexed. Send zeros: the receiver skips these values for
+C 1D edges (TYPEDGS==3 causes CYCLE in i25cor3e.F before any VTX_BISECTOR access).
+              IF(IABS(TYPEDG) /= 3) THEN
+                BUFFERS(NI25)%SEND_BUF(L+4)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,1,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+5)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,1,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+6)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,1,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+7)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,2,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+8)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,2,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+9)  = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,2,I1,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+10) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,1,I2,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+11) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,1,I2,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+12) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,1,I2,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+13) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(1,2,I2,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+14) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(2,2,I2,3,2))
+                BUFFERS(NI25)%SEND_BUF(L+15) = INTBUF_TAB(N)%VTX_BISECTOR(TO1D(3,2,I2,3,2))
+              ELSE
+                BUFFERS(NI25)%SEND_BUF(L+4)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+5)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+6)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+7)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+8)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+9)  = 0
+                BUFFERS(NI25)%SEND_BUF(L+10) = 0
+                BUFFERS(NI25)%SEND_BUF(L+11) = 0
+                BUFFERS(NI25)%SEND_BUF(L+12) = 0
+                BUFFERS(NI25)%SEND_BUF(L+13) = 0
+                BUFFERS(NI25)%SEND_BUF(L+14) = 0
+                BUFFERS(NI25)%SEND_BUF(L+15) = 0
+              ENDIF
 
 
 
