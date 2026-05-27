@@ -140,6 +140,8 @@ C-----------------------------------------------
 !||    sz_print                        ../engine/source/output/restart/arralloc.F
 !||    szforc3                         ../engine/source/elements/solid/solidez/szforc3.F
 !||    t3grtails                       ../starter/source/elements/solid_2d/tria/t3grtails.F
+!||    thsol                           ../engine/source/output/th/thsol.F
+!||    tillotson                       ../common_source/eos/tillotson.F
 !||    upwind                          ../engine/source/elements/solid/solide/upwind.F
 !||    upwind4                         ../engine/source/elements/solid/solide4/upwind4.F
 !||    upwind_v                        ../engine/source/elements/solid/solide/upwind_v.F
