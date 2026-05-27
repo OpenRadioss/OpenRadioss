@@ -280,8 +280,6 @@ C-----------------------------------------------
           procedure, pass :: init
         END TYPE ALE_
 
-          my_real :: ALE_DPDE,ALE_DPDM
-
 
 C-----------------------------------------------
         TYPE(ALE_) :: ALE

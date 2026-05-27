@@ -49,7 +49,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             USE CONSTANT_MOD , ONLY : ZERO, EM15, HALF, ONE, TWO
             USE EOS_PARAM_MOD, ONLY : eos_param_
             USE precision_mod, ONLY : WP
-            USE ale_mod      , ONLY : ALE_DPDM, ALE_DPDE
 
             IMPLICIT NONE
 
@@ -394,11 +393,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
               ENDDO
 
-            ENDIF
-
-            IF (NEL >= 1) THEN
-              ALE_DPDM = DPDM(1)
-              ALE_DPDE = DPDE(1)
             ENDIF
 
           END SUBROUTINE TILLOTSON

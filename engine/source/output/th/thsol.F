@@ -114,7 +114,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
       use element_mod , only : nixs
-      USE ALE_MOD , only : ALE_DPDM, ALE_DPDE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -328,7 +327,7 @@ c-----------
               DO L=1,239552
                 WWA(L)=ZERO
               ENDDO
-              WWA(1) = ALE_DPDM
+              WWA(1) = GBUF%OFF(I)
               WWA(8) = GBUF%EINT(I)
 c
               IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
@@ -717,10 +716,10 @@ C-----------------------------------------------------
                 WWA(12) = GBUF%PLA(I)
 !                WWA(13) = GBUF%TEMP(I)
               ELSEIF (MTE == 3) THEN
-                WWA(12)=ALE_DPDE
+                WWA(12)=GBUF%PLA(I)
 !                WWA(13)=GBUF%TEMP(I)
               ELSEIF (MTE == 4) THEN
-                WWA(12)=ALE_DPDE
+                WWA(12)=GBUF%PLA(I)
 !                WWA(13)=GBUF%TEMP(I)
               ELSEIF (MTE == 5 .OR. MTE == 41 .OR. MTE == 97) THEN
 !                WWA(13)=GBUF%TEMP(I)
