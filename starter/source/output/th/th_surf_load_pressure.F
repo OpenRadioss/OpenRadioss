@@ -138,7 +138,7 @@ C     ! list of th surfaces to which each segment of PLOAD is included
                    TAG(N1) = 1
                    TAG(N2) = 1
                    TAG(N3) = 1
-                   TAG(N4) = 1
+                   IF(N4 > 0) TAG(N4) = 1
                    NSEGPL = NSEGPL + 1
                    NS = 0
                    ADSEG = TH_SURF%PLOAD_KSEGS(NSEGPL)     
@@ -162,7 +162,7 @@ C     ! list of th surfaces to which each segment of PLOAD is included
                    TAG(N1) = 0
                    TAG(N2) = 0
                    TAG(N3) = 0
-                   TAG(N4) = 0
+                   IF(N4 > 0) TAG(N4) = 0
                 ENDIF
              ENDDO
 C
@@ -182,7 +182,7 @@ C     ! list of th surfaces to which each segment of LOADP (PDFLUID, PBLAST, LOA
                    TAG(N1) = 1
                    TAG(N2) = 1
                    TAG(N3) = 1
-                   TAG(N4) = 1 
+                   IF(N4 > 0) TAG(N4) = 1 
                    NSEGPL = NSEGPL + 1
                    NS = 0
                    ADSEG = TH_SURF%LOADP_KSEGS(NSEGPL)  
@@ -206,7 +206,7 @@ C     ! list of th surfaces to which each segment of LOADP (PDFLUID, PBLAST, LOA
                    TAG(N1) = 0
                    TAG(N2) = 0
                    TAG(N3) = 0
-                   TAG(N4) = 0
+                   IF(N4 > 0) TAG(N4) = 0
                 ENDDO        
              ENDDO 
 C
