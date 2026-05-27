@@ -399,7 +399,7 @@ C=======================================================================
      .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
                   ENDIF
                   ! check link between two surfaces and order faces consequently
-                  CALL EBCS_CYCLIC_SURFACE_MATCHING(TWF, EBCS, N2D, NUMNOD, X)
+                  IF(IFLAG/=0)CALL EBCS_CYCLIC_SURFACE_MATCHING(TWF, EBCS, N2D, NUMNOD, X)
                   IF(IFLAG/=0)THEN
                     EBCS%NB_ELEM = 2*EBCS%NB_ELEM
                     EBCS%NB_NODE = 2*EBCS%NB_NODE

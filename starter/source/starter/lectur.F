@@ -5083,7 +5083,7 @@ C-------------------------------------------------
         IF(.NOT. ALLOCATED(SENSOR_TMP)) ALLOCATE( SENSOR_TMP(0) )
         CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
      .               PM, IGEO, X, SENSOR_TMP, MONVOl, MULTI_FVM%IS_USED,
-     .               EBCS_TAB, EBCS_TAG_CELL_SPMD, ITABM1)
+     .               EBCS_TAB, EBCS_TAG_CELL_SPMD, ITAB)
         DEALLOCATE(SENSOR_TMP)
       ENDIF
       CALL TRACE_OUT1()
