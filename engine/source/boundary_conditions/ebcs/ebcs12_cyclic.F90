@@ -383,8 +383,6 @@
             segvar%rho(kseg2) = rho1
             segvar%eint(kseg2) = e1
 
-            !-- expand pressure to face nodes
-
             !expand pressure loading to segment nodes
             do kk=1,INT(npt)
 
