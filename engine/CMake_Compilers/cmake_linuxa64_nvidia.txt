@@ -1,0 +1,369 @@
+########################################
+#  ENGINE - NVIDIA HPC SDK COMPILER (ARM64)
+#  nvfortran / nvc / nvc++
+#########################################
+
+
+# General machine flag setting
+set ( cppmach "-DCPP_mach=CPP_p4linux964" )
+set ( cpprel  "-DCPP_rel=80" )
+
+
+# NVIDIA HPC SDK root discovery
+# Priority:
+#   1) NVHPC environment variable
+#   2) local install in ~/nvidia
+#   3) system install in /opt
+set ( nvhpc_root "$ENV{HOME}/nvidia/Linux_aarch64/26.3" )
+if (DEFINED ENV{NVHPC})
+	set ( nvhpc_root "$ENV{NVHPC}" )
+endif()
+if (NOT EXISTS "${nvhpc_root}/compilers/bin/nvfortran")
+	set ( nvhpc_root "/opt/nvidia/hpc_sdk/Linux_aarch64/26.3" )
+endif()
+
+# OpenMPI (HPC-X) root discovery inside NVHPC
+set ( nvhpcx_root "" )
+file ( GLOB _hpcx_ompi_dirs "${nvhpc_root}/comm_libs/*/hpcx/*/ompi" )
+list ( LENGTH _hpcx_ompi_dirs _hpcx_count )
+if ( _hpcx_count GREATER 0 )
+	list ( GET _hpcx_ompi_dirs -1 nvhpcx_root )
+endif()
+if ( nvhpcx_root STREQUAL "" )
+	set ( nvhpcx_root "/opt/openmpi-nv" )
+endif()
+
+
+# MPI
+# ---
+if ( DEFINED MPI )
+	set ( mpiver "${MPI}" )
+	if ( mpiver STREQUAL "smp")
+		 set (mpi_suf "" )
+	elseif ( mpiver STREQUAL "ompi")
+			set( unused_dummy_arg "-Werror=unused-dummy-argument")
+			set (mpi_inc "-I${nvhpcx_root}/include/")
+			set (mpi_lib "-L${nvhpcx_root}/lib -lmpi_mpifh -lmpi" )
+
+		if (mpi_os STREQUAL "1")
+
+			set (mpi_inc " ")
+			set (mpi_lib "-lmpi_mpifh -lmpi" )
+		else()
+			if ( DEFINED mpi_root )
+				set (mpi_inc "-I${mpi_root}/include/")
+				set (mpi_lib "-L${mpi_root}/lib -lmpi_mpifh -lmpi" )
+			else()
+				set (mpi_inc "-I${nvhpcx_root}/include/")
+				set (mpi_lib "-L${nvhpcx_root}/lib -lmpi_mpifh -lmpi" )
+
+				if ( DEFINED mpi_incdir )
+						set (mpi_inc "-I${mpi_incdir}")
+				endif()
+				if ( DEFINED mpi_libdir )
+						set (mpi_lib "-L${mpi_libdir} -lmpi_mpifh -lmpi")
+				endif()
+
+			endif()
+		endif()
+
+		set (mpi_suf "_${mpiver}" )
+		set (mpi_flag "-DMPI ${mpi_inc}")
+	elseif ( mpiver STREQUAL "impi")
+	# Intel MPI
+	set (mpi_suf "_${mpiver}" )
+	#MPI
+	set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
+	set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
+	else()
+		message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
+	endif()
+endif ()
+
+set ( RELNAME ${arch}${mpi_suf} )
+
+
+# GPU compute capability target (e.g. cc80 for A100, cc90 for H100, cc120 for B200)
+# Override with -Dgpu_cc=ccXX on the cmake command line
+# Used for both OpenACC offloading and CUDA (.cu) source file compilation
+if ( NOT DEFINED gpu_cc )
+	set ( gpu_cc "cc80" )
+endif()
+
+# CUDA toolkit path discovery
+# Override by setting NVHPC_CUDA_HOME or CUDA_HOME env vars
+set ( cuda_home "${nvhpc_root}/cuda/13.1" )
+if (DEFINED ENV{NVHPC_CUDA_HOME})
+	set ( cuda_home "$ENV{NVHPC_CUDA_HOME}" )
+elseif (DEFINED ENV{CUDA_HOME})
+	set ( cuda_home "$ENV{CUDA_HOME}" )
+endif()
+
+# CUDA libs path (ARM default is targets/sbsa-linux/lib)
+set ( cuda_lib_dir "${cuda_home}/targets/sbsa-linux/lib" )
+if ( NOT EXISTS "${cuda_lib_dir}" )
+  set ( cuda_lib_dir "${cuda_home}/lib64" )
+endif()
+
+
+# OpenACC GPU offloading
+# ----------------------
+if ( openacc STREQUAL "1" )
+
+	message (STATUS "OpenACC enabled  – GPU target: ${gpu_cc}")
+	message (STATUS "CUDA toolkit    : ${cuda_home}")
+
+	# Flags injected into Fortran and linker when OpenACC is active
+	# Note: -cuda / -cudaforlibs removed — they cause a deadlock with mem:managed
+	#       on Blackwell GPUs (cc120) and are not needed for pure OpenACC offloading.
+	#       Device data management is handled by !$ACC DATA directives.
+	set ( acc_fort_flags  "-acc -gpu=${gpu_cc} -Minfo=accel -Mdetail" )
+	set ( acc_c_flags     "" )
+	set ( acc_link_flags  "-acc -gpu=${gpu_cc}" )
+	if ( EXISTS "${cuda_lib_dir}/libnvToolsExt.so" OR EXISTS "${cuda_lib_dir}/libnvToolsExt.so.1" )
+		set ( acc_link_libs "-L${cuda_lib_dir} -lnvToolsExt" )
+	elseif ( EXISTS "${cuda_lib_dir}/libnvtx3interop.so" OR EXISTS "${cuda_lib_dir}/libnvtx3interop.so.1" )
+		set ( acc_link_libs "-L${cuda_lib_dir} -lnvtx3interop" )
+	else()
+		set ( acc_link_libs "" )
+	endif()
+
+else()
+	set ( acc_fort_flags  "" )
+	set ( acc_c_flags     "" )
+	set ( acc_link_flags  "" )
+	set ( acc_link_libs   "" )
+endif()
+
+
+# Third party libraries
+# ---------------------
+
+#H3D
+set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
+
+#ZLIB
+set (zlib_inc "-I${source_directory}/../extlib/zlib/linuxa64/include")
+set (zlib_lib "${source_directory}/../extlib/zlib/linuxa64/lib/libz.a")
+
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "${source_directory}/../extlib/md5/linuxa64/libmd5.a")
+
+# Note: MUMPS implicit solver is not supported with the NVIDIA compiler
+
+
+#
+# compiler Flags
+# --------------
+set (CMAKE_Fortran_FLAGS " " )
+set (CMAKE_C_FLAGS " " )
+set (CMAKE_CPP_FLAGS " " )
+set (CMAKE_CXX_FLAGS " " )
+
+set (CMAKE_Fortran_FLAGS_DEBUG " " )
+set (CMAKE_Fortran_FLAGS_RELEASE " " )
+
+set (CMAKE_C_FLAGS_DEBUG " " )
+set (CMAKE_C_FLAGS_RELEASE " " )
+
+set (CMAKE_CPP_FLAGS_DEBUG " " )
+set (CMAKE_CPP_FLAGS_RELEASE " " )
+
+set (CMAKE_CXX_FLAGS_DEBUG " " )
+set (CMAKE_CXX_FLAGS_RELEASE " " )
+
+
+# Single / Double Precision
+# -------------------------
+if (precision STREQUAL "sp")
+	set (precision_flag "-DMYREAL4")
+else (precision STREQUAL "sp")
+	set (precision_flag "-DMYREAL8")
+endif (precision STREQUAL "sp")
+
+
+# Modules directory
+# nvfortran uses -module instead of -J
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/modules )
+set(CMAKE_Fortran_MODDIR_FLAG "-module " )
+
+message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
+
+
+#---------------------------
+# Generic Compilation flags
+#---------------------------
+
+# Linear algebra (MUMPS not supported for NVIDIA compiler)
+set ( wo_linalg "-DWITHOUT_LINALG" )
+
+# NVIDIA HPC SDK intrinsic modules path.
+# Override by setting the NVHPC environment variable to the versioned SDK root,
+# e.g. export NVHPC=/home/user/nvidia/Linux_aarch64/26.3
+set( nv_sdk_inc "${nvhpc_root}/compilers/include")
+if (DEFINED ENV{NVHPC})
+	set( nv_sdk_inc "$ENV{NVHPC}/compilers/include")
+endif()
+
+# Base Fortran flags common to all build modes:
+#   -mp            OpenMP threading
+#   -Mnofma        Disable fused multiply-add (floating-point reproducibility)
+#   -Mextend       Allow 132-column fixed-form source lines
+#   -Mnostdinc     Do not search standard include paths (explicit path added below)
+#   -traceback     Generate traceback info for runtime errors
+#   -Munroll       Enable loop unrolling
+#   -Mvect=simd    Enable SIMD vectorization
+#   -Minform=warn  Report warnings and above
+#   When OpenACC is enabled the following are appended:
+#   -acc           Enable OpenACC directives
+#   -gpu=ccXX      Target GPU compute capability
+#   -cuda          Enable CUDA interoperability
+#   -Minfo=accel   Print accelerator mapping information
+set( fort_flags "-Mnofma -mp -traceback -Mextend -Munroll -Mvect=simd -Minform=warn -DARCH_CPU=ARM -I${nv_sdk_inc} ${acc_fort_flags}")
+
+
+if ( debug STREQUAL "1" )
+
+# Fortran (debug)
+set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS
+	"-Wall -g -O0 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS
+	"-g -O0 -mp -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${mpi_flag}" )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS
+	"-g -O0 -mp -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++14 ${mpi_flag}" )
+
+# CUDA source files (.cu) - compiled as CXX with nvc++
+if (cuda_source_files)
+	set_source_files_properties(${cuda_source_files} PROPERTIES LANGUAGE CXX)
+	set_source_files_properties(${cuda_source_files} PROPERTIES COMPILE_FLAGS
+		"-g -O0 -cuda -gpu=${gpu_cc} -mp -Minfo=accel --diag_suppress cuda_compile -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++17 ${mpi_flag}" )
+endif()
+
+else ()
+
+# Fortran (optimized)
+set_source_files_properties( ${source_files} PROPERTIES COMPILE_FLAGS
+	"-O3 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}" )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS
+	"-w -O3 -mp -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} ${mpi_flag}" )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS
+	"-w -O3 -mp -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++14 ${mpi_flag}" )
+
+# CUDA source files (.cu) - compiled as CXX with nvc++
+if (cuda_source_files)
+	set_source_files_properties(${cuda_source_files} PROPERTIES LANGUAGE CXX)
+	set_source_files_properties(${cuda_source_files} PROPERTIES COMPILE_FLAGS
+		"-w -O3 -cuda -gpu=${gpu_cc} -mp -Minfo=accel --diag_suppress cuda_compile -DARCH_CPU=ARM -I${nv_sdk_inc} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++17 ${mpi_flag}" )
+endif()
+
+endif()
+
+
+# CUDA (.cu) source file linking
+if (cuda_source_files)
+	set ( cuda_link_flags "-cuda -gpu=${gpu_cc}" )
+	set ( cuda_link_libs  "-L${cuda_lib_dir} -lcudart" )
+	message (STATUS "CUDA sources detected – GPU target: ${gpu_cc}")
+	message (STATUS "CUDA toolkit: ${cuda_home}")
+else()
+	set ( cuda_link_flags "" )
+	set ( cuda_link_libs  "" )
+endif()
+
+
+# Linking flags
+set (CMAKE_EXE_LINKER_FLAGS "-Wl,--export-dynamic -mp ${acc_link_flags} ${cuda_link_flags}" )
+string(STRIP ${CMAKE_EXE_LINKER_FLAGS} CMAKE_EXE_LINKER_FLAGS)
+
+# Libraries
+if ( static_link STREQUAL "1" )
+	set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} ${acc_link_libs} ${cuda_link_libs} -ldl -Bstatic_pgi -Bstatic_c++libs" )
+else()
+	set (LINK "rt ${zlib_lib} ${md5_lib} ${mpi_lib} ${acc_link_libs} ${cuda_link_libs} -ldl" )
+endif()
+string(STRIP ${LINK} LINK)
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# Specific per-file compilation flags
+
+if( no_python STREQUAL "1" )
+	get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
+	set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS "${existing_flags} -DPYTHON_DISABLED" )
+endif()
+
+
+if ( NOT debug STREQUAL "1" )
+
+set (F_O0_compiler_flags "-O0 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}")
+set (F_O1_compiler_flags "-O1 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}")
+set (F_O2_compiler_flags "-O2 ${fort_flags} ${wo_linalg} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_NVFORTRAN=1 ${mpi_flag} ${ADF}")
+set (C_O1_compiler_flags "-O1 -mp -DARCH_CPU=ARM -I${nv_sdk_inc} ${precision_flag} ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${mpi_flag} ${ADF}")
+
+# resol_init.F
+set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+# resol.F
+set_source_files_properties( ${source_directory}/source/engine/resol.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# arralloc.F
+set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# m1lawp.F
+set_source_files_properties( ${source_directory}/source/materials/mat/mat001/m1lawp.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+# cbasumg3.F
+set_source_files_properties( ${source_directory}/source/elements/shell/coqueba/cbasumg3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# redkey0.F
+set_source_files_properties( ${source_directory}/source/input/redkey0.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+# i3fri3.F
+set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri3.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+# dsgri7.F
+set_source_files_properties( ${source_directory}/source/implicit/dsolve/dsgri7.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i11cor3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i11pen3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int11/i11pen3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i7cor3t.F
+set_source_files_properties( ${source_directory}/source/interfaces/int07/i7cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i20cor3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int20/i20cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i20sto.F
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i20sto.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i23cort3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int23/i23cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i24cort3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int24/i24cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# i25cort3.F
+set_source_files_properties( ${source_directory}/source/interfaces/int25/i25cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# spbuc3.F
+set_source_files_properties( ${source_directory}/source/elements/sph/spbuc3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# spclasv.F
+set_source_files_properties( ${source_directory}/source/elements/sph/spclasv.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+
+# rad2rad_c.c
+set_source_files_properties( ${source_directory}/source/coupling/rad2rad/rad2rad_c.c PROPERTIES COMPILE_FLAGS ${C_O1_compiler_flags} )
+
+endif()
