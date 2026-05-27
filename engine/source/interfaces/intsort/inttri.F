@@ -438,6 +438,7 @@ C
 C interface resorting criterion
 C
       DO KK=1,NBINTC
+        call my_barrier( ) ! add an omp barrier to avoid a data race due to !$omp end do nowait with armflang
         N      = INTLIST(KK)
         NTY    = IPARI(7,N)
         INACTI = IPARI(22,N)        
