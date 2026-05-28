@@ -221,14 +221,14 @@
       real(kind=wp), dimension(nel) :: h11, h22, h33, h12, h13, h23
       real(kind=wp), dimension(3,4) :: fhourt
       real(kind=wp), dimension(6) :: dsig
-      real(kind=wp) :: ds,de
+      real(kind=wp) :: ds,de,ss(3)
       real(kind=wp), dimension(nel) :: f11_hgl, f12_hgl, f13_hgl, f14_hgl, f15_hgl, f16_hgl
       real(kind=wp), dimension(nel) :: f17_hgl, f18_hgl
       real(kind=wp), dimension(nel) :: f21_hgl, f22_hgl, f23_hgl, f24_hgl, f25_hgl, f26_hgl
       real(kind=wp), dimension(nel) :: f27_hgl, f28_hgl
       real(kind=wp), dimension(nel) :: f31_hgl, f32_hgl, f33_hgl, f34_hgl, f35_hgl, f36_hgl
       real(kind=wp), dimension(nel) :: f37_hgl, f38_hgl
-      real(kind=wp), dimension(nel) :: deint,sm1,sm2,smo1,smo2
+      real(kind=wp), dimension(nel) :: deint,sm1,sm2,smo1,smo2,svm2_0
       real(kind=wp), dimension(nel,3,4) :: dfhour, nfhour
 
 
@@ -306,6 +306,15 @@
       g0   = pm(22,mx)                           !< shear modulus
       c1   = pm(32,mx)                           !< elastic matrix diagonal term
       iplast = elbuf_str%gbuf%g_pla              !< plasticity flag
+      if (iplast==1) then
+        do i=1,nel 
+          ss(1) =sig0(i,1)-sig0(i,2)
+          ss(2) =sig0(i,2)-sig0(i,3)
+          ss(3) =sig0(i,1)-sig0(i,3)
+          svm2_0(i) = (ss(1)*ss(1)+ss(2)*ss(2)+ss(3)*ss(3))*half + three*   &
+               (sig0(i,4)*sig0(i,4)+sig0(i,5)*sig0(i,5)+sig0(i,6)*sig0(i,6))
+        end do
+      end if
         select case(mtn)
 !c  +++ mat hydro---
         case (3,4,6,70)
@@ -731,7 +740,7 @@
           if (iplast == 1) then
             call szsvm( &
               jr0, js0, jt0, fhour, &
-              sigy, sigold, nu4, smo1, &
+              sigy, svm2_0, nu4, smo1, &
               smo2, nel, iint)
           end if
 !
@@ -835,7 +844,7 @@
           if (iplast == 1) then
             call szsvm( &
               jr0, js0, jt0, fhour, &
-              sigy, sig0, nu4, sm1, &
+              sigy,svm2_0, nu4, sm1, &
               sm2, nel, iint)
           end if
 !
