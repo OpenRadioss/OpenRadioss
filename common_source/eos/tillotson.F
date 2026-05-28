@@ -98,8 +98,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             BETA    = EOS_STRUCT%UPARAM(9)
             EIV     = EOS_STRUCT%UPARAM(10)
 
-            INV_EREF  = ONE / EREF
-            INV_ERANGE = ONE / (ECV - EIV)
+            INV_EREF  = ONE / EREF  ! pre-condition (checked during Starter Reader) : |EREF| > 1E-20
+
+            IF(ECV /= EIV)THEN
+              INV_ERANGE = ONE / (ECV - EIV) ! relevant only in Region=3 if EIV/=ECV
+            ELSE
+              INV_ERANGE = ZERO ! not used otherwise
+            ENDIF
 
             PSH(1:NEL) = EOS_STRUCT%PSH
 
