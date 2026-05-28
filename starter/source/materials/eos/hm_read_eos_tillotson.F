@@ -130,6 +130,11 @@ C-----------------------------------------------
         EIV = ECV
       ENDIF
 
+      IF (ABS(EREF) < EM20)THEN
+        call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,
+     .              C1='/EOS/TILLOTSON',C2='EREF PARAMETER IS EXPECTED TO BE GREATHER THAN ZERO')
+      ENDIF
+
       PM(23) = E0
       PM(32) = C1+B*E0   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88) = PSH
