@@ -43,6 +43,7 @@
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
 !||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
+!||    table_slope              ../starter/source/materials/tools/table_slope.F
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F

@@ -22,8 +22,6 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
 !||    law163_upd_mod   ../starter/source/materials/mat/mat163/law163_upd.F90
-!||--- called by ------------------------------------------------------
-!||    updmat           ../starter/source/materials/updmat.F
 !||====================================================================
       module law163_upd_mod
         implicit none
@@ -31,8 +29,6 @@
 !! \brief update material law 163
 !||====================================================================
 !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
-!||--- called by ------------------------------------------------------
-!||    updmat             ../starter/source/materials/updmat.F
 !||--- calls      -----------------------------------------------------
 !||    table_slope        ../starter/source/materials/tools/table_slope.F
 !||--- uses       -----------------------------------------------------

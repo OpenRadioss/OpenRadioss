@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eosmain         ../common_source/eos/eosmain.F
 !||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- uses       -----------------------------------------------------
-!||    ale_mod         ../common_source/modules/ale/ale_mod.F
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90

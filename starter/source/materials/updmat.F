@@ -43,7 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law129_upd             ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd             ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law158_upd             ../starter/source/materials/mat/mat158/law158_upd.F
-!||    law163_upd             ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law190_upd             ../starter/source/materials/mat/mat190/law190_upd.F90
 !||    law19_upd              ../starter/source/materials/mat/mat019/law19_upd.F90
 !||    law36_upd              ../starter/source/materials/mat/mat036/law36_upd.F
@@ -66,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law123_upd_mod         ../starter/source/materials/mat/mat123/law123_upd.F90
 !||    law129_upd_mod         ../starter/source/materials/mat/mat129/law129_upd.F90
 !||    law133_upd_mod         ../starter/source/materials/mat/mat133/law133_upd.F90
-!||    law163_upd_mod         ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law190_upd_mod         ../starter/source/materials/mat/mat190/law190_upd.F90
 !||    law19_upd_mod          ../starter/source/materials/mat/mat019/law19_upd.F90
 !||    law81_upd_mod          ../starter/source/materials/mat/mat081/law81_upd.F90

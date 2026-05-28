@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortho31        ../engine/source/elements/solid/solide/sortho31.F
 !||    srota6          ../engine/source/output/anim/generate/srota6.F
 !||--- uses       -----------------------------------------------------
-!||    ale_mod         ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod     ../common_source/modules/elements/element_mod.F90
