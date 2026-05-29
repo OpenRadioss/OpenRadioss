@@ -221,6 +221,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_sesame                     ../starter/source/materials/eos/hm_read_eos_sesame.F
 !||    hm_read_eos_stiffened_gas              ../starter/source/materials/eos/hm_read_eos_stiffened_gas.F
 !||    hm_read_eos_tabulated                  ../starter/source/materials/eos/hm_read_eos_tabulated.F
+!||    hm_read_eos_tillotson                  ../starter/source/materials/eos/hm_read_eos_tillotson.F
 !||    hm_read_eref                           ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_fail                           ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_fail_biquad                    ../starter/source/materials/fail/biquad/hm_read_fail_biquad.F

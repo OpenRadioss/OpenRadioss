@@ -444,6 +444,7 @@
 !||    strainrate_dependency_125c               ../engine/source/materials/mat/mat125/strainrate_dependency_125c.F90
 !||    strainrate_dependency_125s               ../engine/source/materials/mat/mat125/strainrate_dependency_125s.F90
 !||    suinit3                                  ../starter/source/elements/elbuf_init/suinit3.F
+!||    szhour3                                  ../engine/source/elements/solid/solidez/szhour3.F
 !||    szhour3_or                               ../engine/source/elements/solid/solidez/szhour3_or.F
 !||    t3grhead                                 ../starter/source/elements/solid_2d/tria/t3grhead.F
 !||    t3grtails                                ../starter/source/elements/solid_2d/tria/t3grtails.F
