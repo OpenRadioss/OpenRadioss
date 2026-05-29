@@ -341,7 +341,8 @@
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
                       end if
-                    end if!
+                    end if
+                    wfexc = wfexc+half*(a0+aa)*v(n2,n1)*axi
 !
                   end if
                 else if(n2<=6)then
