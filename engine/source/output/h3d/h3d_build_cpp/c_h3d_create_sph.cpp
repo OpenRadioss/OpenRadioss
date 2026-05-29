@@ -156,7 +156,7 @@ void c_h3d_create_sph_(int *ITAB, int *NUMNOD, int *KXSP, int *NISP, int *NUMSPH
                   comp_id = IPART[*LIPART1 * (IPARTSP[i] - 1) + 3] ;
 
                   rc = Hyper3DElementBegin(h3d_file, nbelemwrite, sphcell_poolname_id, 
-             		   H3D_ELEM_CONFIG_MASS, comp_id, 
+             		   H3D_ELEM_CONFIG_MASS, H3D_NULL_ID, comp_id, 
              		   sphcell_poolname_id, node_poolname_id);
                   if( !rc ) throw rc;
              }

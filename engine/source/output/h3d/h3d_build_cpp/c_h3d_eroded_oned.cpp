@@ -103,8 +103,8 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         if(*NUMELT != 0)
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELT, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, truss_poolname_id, complex); 
+                                        H3D_DS_EROSION, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, truss_poolname_id); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -134,8 +134,8 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         if(*NUMELP != 0)
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELP, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, beam_poolname_id, complex); 
+                                        H3D_DS_EROSION, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, beam_poolname_id); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -160,8 +160,8 @@ void c_h3d_eroded_oned_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXT,
         if(*NUMELR != 0)
         {
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELR, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_EROSION, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, spring_poolname_id, complex); 
+                                        H3D_DS_EROSION, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, spring_poolname_id); 
           if( !rc ) fflush(stdout);
           if( !rc ) throw rc;
 
@@ -250,7 +250,7 @@ void c_h3d_create_oned_eroded_(int *cpt_data, char *name, int *size, int *info, 
         sprintf(edata_type,  cname, H3D_DT_DELIMITER); 
        // snprintf(edata_type, sizeof(edata_type), cname, H3D_DT_DELIMITER); 
         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data , H3D_DS_EROSION, 
-                                    H3D_DS_ELEM, pool_count);
+                                    H3D_DS_ELEM, H3D_NF_REAL, pool_count);
         if( !rc ) throw rc;
 
         rc = Hyper3DDatatypeDescriptionWrite(h3d_file,dt_id, "N/A : element not deleted");

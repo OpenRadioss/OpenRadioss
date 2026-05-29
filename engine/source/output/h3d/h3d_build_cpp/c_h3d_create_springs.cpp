@@ -96,7 +96,7 @@ void c_h3d_create_springs_(int *ITAB, int *NUMNOD, int *IXR, int *NIXR, int *NUM
                  comp_id = IPART[*LIPART1 * (IPARTR[i] - 1) + 3];
 
                  rc = Hyper3DElementBegin(h3d_file, elem_count, spring_poolname_id, 
-                                    H3D_ELEM_CONFIG_SPRING, comp_id, 
+                                    H3D_ELEM_CONFIG_SPRING, H3D_NULL_ID, comp_id, 
                                     onedelem_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
                  rc = Hyper3DElementWrite(h3d_file, elem_id, conn);

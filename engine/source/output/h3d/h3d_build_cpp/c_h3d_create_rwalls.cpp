@@ -182,7 +182,7 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
                  nbelemwrite = 1;
 
                  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, rwall_poolname_id, 
-                        	   H3D_ELEM_CONFIG_QUAD4, RigidElem, 
+                       	   H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, RigidElem, 
                         	   rwall_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
 
@@ -248,7 +248,7 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
                      nbelemwrite = 1;
 
                      rc = Hyper3DElementBegin(h3d_file, nbelemwrite, rwall_poolname_id, 
-                     	   H3D_ELEM_CONFIG_QUAD4, RigidElem, 
+                     	   H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, RigidElem, 
                      	   rwall_poolname_id, node_poolname_id);
     		     if( !rc ) throw rc;
 
@@ -268,7 +268,7 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
                  nbelemwrite = 1;
 
                  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, rwall_poolname_id, 
-                       H3D_ELEM_CONFIG_QUAD4, RigidElem, 
+                       H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, RigidElem, 
                        rwall_poolname_id, node_poolname_id);
     		 if( !rc ) throw rc;
 
@@ -347,7 +347,7 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
                              nbelemwrite = 1;
 
                              rc = Hyper3DElementBegin(h3d_file, nbelemwrite, rwall_poolname_id, 
-                        	   H3D_ELEM_CONFIG_QUAD4, RigidElem, 
+                       	   H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, RigidElem, 
                         	   rwall_poolname_id, node_poolname_id);
     		             if( !rc ) throw rc;
 
@@ -424,7 +424,7 @@ void c_h3d_create_rwalls_(int *NOM_OPT, int *LNOPT1, int *I16D, int *NPRW, int *
                  nbelemwrite = 1;
 
                  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, rwall_poolname_id, 
-                        	   H3D_ELEM_CONFIG_QUAD4, RigidElem, 
+                        	   H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, RigidElem, 
                         	   rwall_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
 

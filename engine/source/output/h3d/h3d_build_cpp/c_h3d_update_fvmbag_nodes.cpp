@@ -100,8 +100,8 @@ void c_h3d_update_fvmbag_nodes_(char *name, int *size, int *IH3D, int *ITAB, int
         if( *NUMNOD != 0)
         {
             rc = Hyper3DDatasetBegin(h3d_file, *NUMNOD , sim_idx, subcase_id, H3D_DS_NODE,
-           				H3D_DS_VECTOR, num_corners, num_modes, dt_id, 
-           				H3D_DS_NO_LAYER, node_poolname_id, complex);
+           			H3D_DS_VECTOR, H3D_NF_REAL, num_corners, num_modes, dt_id, 
+           			H3D_DS_NO_LAYER, node_poolname_id);
             if( !rc ) throw rc;
 
             for( i = 0; i < *NUMNOD; i++ ) {

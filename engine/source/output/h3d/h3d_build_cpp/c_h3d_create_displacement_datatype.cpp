@@ -81,13 +81,13 @@ void c_h3d_create_displacement_datatype_()
         dt_id = 1;     // the displacement data type
 
         rc = Hyper3DDatatypeWrite(h3d_file, "Animation", dt_id, H3D_DS_NONE, 
-                                    H3D_DS_UNKNOWN, pool_count);
+                                    H3D_DS_UNKNOWN, H3D_NF_REAL, pool_count);
         if( !rc ) throw rc;
 
         dt_id ++;  
         pool_count = 1; 
         rc = Hyper3DDatatypeWrite(h3d_file, "Displacement", dt_id, H3D_DS_VECTOR, 
-                                    H3D_DS_NODE, pool_count);
+                                    H3D_DS_NODE, H3D_NF_REAL, pool_count);
         if( !rc ) throw rc;
         rc = Hyper3DDatatypePools(h3d_file, dt_id, node_poolname_id, layer_count, 
                                     layername_ids, has_corners, tensor_type, poisson);

@@ -136,7 +136,7 @@ void c_h3d_create_nodal_scalar_datatype_(int *cpt_data, char *name, int *size, i
 #endif
 
         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data , H3D_DS_SCALAR, 
-                                    H3D_DS_NODE, pool_count);
+                                    H3D_DS_NODE, H3D_NF_REAL, pool_count);
                                     
         free(edata_type);
         
