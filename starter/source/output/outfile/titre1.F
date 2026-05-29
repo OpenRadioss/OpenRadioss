@@ -147,7 +147,8 @@ C------------------------------------
       TITRE(188)       = '    NDETPL  : NUMBER OF PLANAR DETONATION . . . . . . . .'               
       TITRE(189)       = '    NALEBCS : NUMBER OF ALE BOUNDARY CONDITIONS . . . . .'     
       TITRE(190)       = '    NINTERFRIC: NUMBER OF FRICTION INTERFACES . . . . . .'    
-      TITRE(191)       = '    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .'                
+      TITRE(191)       = '    NUMELT3 : NUMBER OF 2D TRIA ELEMENTS. . . . . . . . .'
+      TITRE(192)       = '    NBADDINER: NUMBER OF ADDED NODAL INERTIA. . . . . . .'
                       
 
       RETURN

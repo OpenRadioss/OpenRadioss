@@ -198,7 +198,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
      P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
-     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE  ,TOTMAS1  )
+     M                  SLN_PEN    ,ROOTLEN       ,ROOTNAM          ,NGUIDED_CABLE  ,TOTMAS1   ,
+     N                  TOTADDINER )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -353,6 +354,7 @@ C
       INTEGER,INTENT(IN) :: LSIGI
       INTEGER,INTENT(IN) :: LSIGSP
       INTEGER,INTENT(IN) :: SRNOISE
+      my_real,INTENT(IN) :: TOTADDINER
 !
       INTEGER,INTENT(IN) :: SLN_PEN
       INTEGER, DIMENSION(NNPRW*NRWALL),INTENT(IN) :: NPRW
@@ -2294,6 +2296,8 @@ C
       WRITE(IOUT,'(//)')
       WRITE(IOUT,1300)
       WRITE(IOUT,1400) TOTADDMAS
+      WRITE(IOUT,1800)
+      WRITE(IOUT,1900) TOTADDINER
 C
 C-----------------------------------------------------------------------------------
 C     Initialization of non-local variable regularization structure for damage models
@@ -2353,6 +2357,10 @@ c-----------
      . 5X,'INITIAL NODAL MCP         ',/
      . 5X,'--------------------------',/
      . 6X,5('NODE MCP        ',15X),'NODE MCP        '/)
+ 1800 FORMAT(//
+     . 5X,'TOTAL ADDED INERTIA',/
+     . 5X,'------------------'/)
+ 1900 FORMAT(5X,' TOTAL ADDED INERTIA = ',1PG20.13//)
       RETURN
       END
 C

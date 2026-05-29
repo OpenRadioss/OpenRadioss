@@ -554,6 +554,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
 !||    updfail_mod                         ../starter/source/materials/updfail.F90
 !||    user_sensor_mod                     ../starter/source/modules/user_interface_mod.F90
+!||    adinertia_mod                       ../common_source/modules/adinertia_mod.F90
 !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
@@ -677,6 +678,8 @@ C-----------------------------------------------
       use rbody_part_modif_mod,     ONLY : rbody_part_check,rpart_inivel_check
       use init_bcs_nrf_mod , only : init_bcs_nrf
       use apply_permutation_mod , only : apply_permutation
+      use adinertia_mod
+      use hm_read_adinertia_mod, ONLY : hm_read_adinertia
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1093,7 +1096,7 @@ C======================================================================|
      .    THKEC,EANIT,PRES,WMA
       INTEGER SRWORK
       INTEGER LXINTD
-      my_real TOTADDMAS
+      my_real TOTADDMAS,TOTADDINER
       CHARACTER(LEN=NCHARLINE) ::ERR_MSG
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBORDEDGE,INOM_OPT
       DOUBLE PRECISION RSIBUFSSG,RNIGE,RRIGE,RXIGE,RVIGE
@@ -1319,6 +1322,8 @@ C
       IALELAG = 0
 C  added nodal mass
       TOTADDMAS = ZERO
+C  added nodal inertia  
+      TOTADDINER = ZERO
       IPART_STACK = 0
       IPART_PCOMPP = 0
 C
@@ -5707,6 +5712,7 @@ CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
       IF(IDDLEVEL==1) THEN
         TOTADDMAS = ZERO
+        TOTADDINER = ZERO
         MS = ZERO
         IN = ZERO
         MCP = ZERO
@@ -8018,6 +8024,37 @@ C---
         ENDIF
         CALL TRACE_OUT1()
 C--------------------------------------------
+C     Reading added nodal inertia
+C--------------------------------------------
+        ERR_MSG='ADDED INERTIA'
+        ERR_CATEGORY='ADDED INERTIA'
+        CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+        IF(NBADDINER > 0)THEN
+          WRITE(ISTDO,'(A)')TITRE(211)
+          IF(IDDLEVEL==0) THEN
+            ALLOCATE(ADINERTIA(NBADDINER),STAT=stat)
+            ADINERTIA(1:NBADDINER)%NBNOD = 0
+            ADINERTIA(1:NBADDINER)%ID = 0
+            ADINERTIA(1:NBADDINER)%TITLE = ''
+            ADINERTIA(1:NBADDINER)%TYPE = 0
+            IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                                 MSGTYPE=MSGERROR,
+     .                                 C1='ADINERTIA')
+          ENDIF
+!---
+           CALL HM_READ_ADINERTIA(
+     .                  MS        ,IN        ,ITABM1    ,IGRNOD   ,UNITAB  ,
+     .                  NBADDINER ,ADINERTIA ,TOTADDMAS ,LSUBMODEL,IDDLEVEL,
+     .                  IPID      ,NSUBDOM   ,NGRNOD    ,NPART    ,TOTADDINER,
+     .                  NUMNOD    )
+!---
+        ELSE
+          IF(IDDLEVEL==0) THEN
+            ALLOCATE(ADINERTIA(0))
+          ENDIF
+        ENDIF
+        CALL TRACE_OUT1()
+C--------------------------------------------
 C     Reading rigid structures
 C--------------------------------------------
         ERR_MSG='RIGID ENTITIES'
@@ -8958,7 +8995,7 @@ C
      &            NDAMP_FREQ_RANGE,DAMPR      , IBEAM_VECTOR     , RBEAM_VECTOR       ,D         ,
      &            LSIGI      ,LSIGSP          , SRNOISE2         ,NPRW               ,LPRW       ,
      &            RWSTIF_PEN ,SLN_PEN         ,ROOTLEN           ,ROOTNAM          ,NGUIDED_CABLE,
-     &            TOTMAS1   )
+     &            TOTMAS1    ,TOTADDINER      )
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
