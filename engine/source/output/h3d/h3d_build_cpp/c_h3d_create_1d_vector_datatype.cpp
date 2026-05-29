@@ -132,7 +132,7 @@ void c_h3d_create_1d_vector_datatype_(int *cpt_data, char *name, int *size, int 
         sprintf(edata_type,  cname, H3D_DT_DELIMITER); 
 
         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data , H3D_DS_VECTOR, 
-                                    H3D_DS_ELEM, pool_count);
+                                    H3D_DS_ELEM, H3D_NF_REAL, pool_count);
         if( !rc ) throw rc;
 
         if (strlen(ccomment) != 0) 

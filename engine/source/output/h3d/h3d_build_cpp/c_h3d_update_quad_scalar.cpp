@@ -107,8 +107,8 @@ void c_h3d_update_quad_scalar_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, in
           {
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELQ, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_SCALAR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, quad_poolname_id, complex); 
+                                        H3D_DS_SCALAR, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, quad_poolname_id); 
           if( !rc ) throw rc;
 
           offset = 0;

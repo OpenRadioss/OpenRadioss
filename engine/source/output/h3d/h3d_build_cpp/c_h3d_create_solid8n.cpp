@@ -296,7 +296,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
                       comp_id = IPART[*LIPART1 * (IPARTS[i] - 1) + 3];
 
                       rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-                                    H3D_ELEM_CONFIG_TETRA4, comp_id, 
+                                    H3D_ELEM_CONFIG_TETRA4, H3D_NULL_ID, comp_id, 
                                     solid_poolname_id, node_poolname_id);
                       if( !rc ) throw rc;
                  }
@@ -326,7 +326,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
                       comp_id = IPART[*LIPART1 * (IPARTS[i] - 1) + 3];
 
                       rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-                                    H3D_ELEM_CONFIG_PENTA5, comp_id, 
+                                    H3D_ELEM_CONFIG_PENTA5, H3D_NULL_ID, comp_id, 
                                     solid_poolname_id, node_poolname_id);
                       if( !rc ) throw rc;
                  }
@@ -435,7 +435,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
                       comp_id = IPART[*LIPART1 * (IPARTS[i] - 1) + 3];
 
                       rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-                                    H3D_ELEM_CONFIG_PENTA6, comp_id, 
+                                    H3D_ELEM_CONFIG_PENTA6, H3D_NULL_ID, comp_id, 
                                     solid_poolname_id, node_poolname_id);
                       if( !rc ) throw rc;
                  }
@@ -471,7 +471,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
                       comp_id = IPART[*LIPART1 * (IPARTS[i] - 1) + 3];
 
                       rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-                                    H3D_ELEM_CONFIG_HEX8, comp_id, 
+                                    H3D_ELEM_CONFIG_HEX8, H3D_NULL_ID, comp_id, 
                                     solid_poolname_id, node_poolname_id);
                       if( !rc ) throw rc;
                  }
@@ -544,7 +544,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
              	  comp_id = IPART[*LIPART1 * (IPARTS10[i] - 1) + 3];
 
              	  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-             			H3D_ELEM_CONFIG_TETRA10, comp_id, 
+             			H3D_ELEM_CONFIG_TETRA10, H3D_NULL_ID, comp_id, 
              			solid_poolname_id, node_poolname_id);
              	  if( !rc ) throw rc;
              }
@@ -618,7 +618,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
              	  comp_id = IPART[*LIPART1 * (IPARTS16[i] - 1) + 3];
 
              	  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-             			H3D_ELEM_CONFIG_HEX8, comp_id, 
+             			H3D_ELEM_CONFIG_HEX8, H3D_NULL_ID, comp_id, 
              			solid_poolname_id, node_poolname_id);
              	  if( !rc ) throw rc;
              }
@@ -701,7 +701,7 @@ void c_h3d_create_solid8n_(int *ITAB, int *NUMNOD, int *IXS, int *NIXS, int *NUM
              	  comp_id = IPART[*LIPART1 * (IPARTS20[i] - 1) + 3];
 
              	  rc = Hyper3DElementBegin(h3d_file, nbelemwrite, solid_poolname_id, 
-             			H3D_ELEM_CONFIG_HEX20, comp_id, 
+             			H3D_ELEM_CONFIG_HEX20, H3D_NULL_ID, comp_id, 
              			solid_poolname_id, node_poolname_id);
              	  if( !rc ) throw rc;
              }

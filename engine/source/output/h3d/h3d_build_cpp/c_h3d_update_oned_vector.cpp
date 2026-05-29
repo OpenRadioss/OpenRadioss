@@ -120,12 +120,12 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
           {
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELT, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, truss_poolname_id, complex); 
+                                        H3D_DS_VECTOR, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, truss_poolname_id); 
           if( !rc ) throw rc;
 
           offset = 0;
-
+          
           for( i = 0; i < *NUMELT + *NUMELP + *NUMELR; i++ ) 
           {
             if( ITY_ELEM[i] == 4  && IS_WRITTEN[i] == 1) 
@@ -146,8 +146,8 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
           {
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELP, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, beam_poolname_id, complex); 
+                                        H3D_DS_VECTOR, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, beam_poolname_id); 
           if( !rc ) throw rc;
 
           for( i = 0; i < *NUMELT + *NUMELP + *NUMELR; i++ ) 
@@ -169,8 +169,8 @@ void c_h3d_update_oned_vector_(my_real *TT,int *IH3D, int *ITAB, int *NUMELT, in
           {
 
           rc = Hyper3DDatasetBegin(h3d_file, *NUMELR, sim_idx, subcase_id, H3D_DS_ELEM, 
-                                        H3D_DS_VECTOR, num_corners, num_modes, *CPT_DATATYPE, 
-                                        0, spring_poolname_id, complex); 
+                                        H3D_DS_VECTOR, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
+                                        0, spring_poolname_id); 
           if( !rc ) throw rc;
 
           for( i = 0; i < *NUMELT + *NUMELP + *NUMELR; i++ ) 

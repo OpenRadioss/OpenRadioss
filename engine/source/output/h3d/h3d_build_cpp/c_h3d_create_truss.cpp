@@ -97,7 +97,7 @@ void c_h3d_create_truss_(int *ITAB, int *NUMNOD, int *IXT, int *NIXT, int *NUMEL
                  comp_id = IPART[*LIPART1 * (IPARTT[i] - 1) + 3];
 
                  rc = Hyper3DElementBegin(h3d_file, elem_count, truss_poolname_id, 
-                                    H3D_ELEM_CONFIG_ROD, comp_id, 
+                                    H3D_ELEM_CONFIG_ROD, H3D_NULL_ID, comp_id, 
                                     onedelem_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
                  rc = Hyper3DElementWrite(h3d_file, elem_id, conn);

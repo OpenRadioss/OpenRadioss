@@ -166,18 +166,15 @@ char * H3D_open_file="Hyper3DExportOpen";
 
  bool (*DLHyper3DElementBegin)  (H3DFileInfo* h3d_file, unsigned int count, 
  	   H3D_ID poolname_id, H3D_ElementConfig config, 
-                    H3D_ID parent_id, H3D_ID parent_poolname_id, 
-                    H3D_ID node_poolname_id);
+                    H3D_ID type_id, H3D_ID parent_id, 
+                    H3D_ID parent_poolname_id, H3D_ID node_poolname_id);
+ bool (*DLHyper3DElement2Begin)  (H3DFileInfo* h3d_file, unsigned int count, 
+ 	   H3D_ID poolname_id, H3D_ElementConfig config, 
+           H3D_ID type_id, H3D_ID parent_id, 
+           H3D_ID parent_poolname_id, H3D_ID node_poolname_id);
 
  bool (*DLHyper3DElementWrite)  (H3DFileInfo* h3d_file, 
  	   H3D_ID id, H3D_ID* connectivity);
-
- bool (*DLHyper3DElementEnd)  (H3DFileInfo* h3d_file);
-
- bool (*DLHyper3DElement2Begin)  (H3DFileInfo* h3d_file, unsigned int count, 
- 	   H3D_ID poolname_id, H3D_ElementConfig config, 
-           H3D_ID parent_id, H3D_ID parent_poolname_id, 
-           H3D_ID node_poolname_id);
 
  bool (*DLHyper3DElement2Write)  (H3DFileInfo* h3d_file, H3D_ID id, 
                     unsigned int* inode, int* idof, double* icoeff, 
@@ -185,6 +182,7 @@ char * H3D_open_file="Hyper3DExportOpen";
                     unsigned int* dnode, int* ddof, double* dcoeff, 
                     unsigned int num_dnodes);
 
+ bool (*DLHyper3DElementEnd)  (H3DFileInfo* h3d_file);
  bool (*DLHyper3DElement2End)  (H3DFileInfo* h3d_file);
 
 /*************************************/
@@ -254,7 +252,7 @@ char * H3D_open_file="Hyper3DExportOpen";
 
  bool (*DLHyper3DDatatypeWrite) (H3DFileInfo* h3d_file, const char* label, 
            H3D_ID dt_id, H3D_DS_FORMAT format, H3D_DS_TYPE type, 
- 	   unsigned int num_pools);
+ 	   unsigned int num_pools, H3D_NF_FORMAT nf_format);
 
  bool (*DLHyper3DDatatypeDescriptionWrite)  (H3DFileInfo* h3d_file, 
  	   H3D_ID dt_id, const char* description);
@@ -275,7 +273,7 @@ char * H3D_open_file="Hyper3DExportOpen";
  	   H3D_DS_TYPE type, H3D_DS_FORMAT format, 
  	   unsigned int num_corners, unsigned int num_modes, 
  	   H3D_ID dt_id, int layer_idx, H3D_ID data_poolname_id,
- 	   bool complex);
+ 	   H3D_NF_FORMAT nf_format);
 
  bool (*DLHyper3DDatasetWriteParent)  (H3DFileInfo* h3d_file, H3D_ID comp_id, 
  	   H3D_ID component_poolname_id);
@@ -1136,11 +1134,11 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
 
  bool Hyper3DElementBegin(H3DFileInfo* h3d_file, unsigned int count, 
  	   H3D_ID poolname_id, H3D_ElementConfig config, 
- 	   H3D_ID parent_id, H3D_ID parent_poolname_id, 
- 	   H3D_ID node_poolname_id)
+ 	   H3D_ID type_id, H3D_ID parent_id, 
+ 	   H3D_ID parent_poolname_id, H3D_ID node_poolname_id)
 {  bool return_value;
    return_value = DLHyper3DElementBegin(h3d_file, count, poolname_id, config, 
- 	   parent_id, parent_poolname_id, node_poolname_id);
+ 	   type_id, parent_id, parent_poolname_id, node_poolname_id);
    return return_value ;
 }
 
@@ -1159,11 +1157,11 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
 
  bool Hyper3DElement2Begin(H3DFileInfo* h3d_file, unsigned int count, 
  	   H3D_ID poolname_id, H3D_ElementConfig config, 
- 	   H3D_ID parent_id, H3D_ID parent_poolname_id, 
- 	   H3D_ID node_poolname_id)
+ 	   H3D_ID type_id, H3D_ID parent_id, 
+ 	   H3D_ID parent_poolname_id, H3D_ID node_poolname_id)
 {  bool return_value;
    return_value = DLHyper3DElement2Begin(h3d_file, count, poolname_id, config, 
- 	   parent_id, parent_poolname_id, node_poolname_id);
+ 	   type_id, parent_id, parent_poolname_id, node_poolname_id);
    return return_value ;
 }
 
@@ -1315,9 +1313,9 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
 
  bool Hyper3DDatatypeWrite(H3DFileInfo* h3d_file, const char* label, 
  	   H3D_ID dt_id, H3D_DS_FORMAT format, H3D_DS_TYPE type, 
- 	   unsigned int num_pools)
+ 	   unsigned int num_pools, H3D_NF_FORMAT nf_format)
 {  bool return_value;
-   return_value = DLHyper3DDatatypeWrite(h3d_file, label, dt_id, format, type, num_pools);
+   return_value = DLHyper3DDatatypeWrite(h3d_file, label, dt_id, format, type, num_pools, nf_format);
    return return_value ;
 }
 
@@ -1354,11 +1352,11 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
  	   H3D_DS_TYPE type, H3D_DS_FORMAT format, 
  	   unsigned int num_corners, unsigned int num_modes, 
  	   H3D_ID dt_id, int layer_idx, H3D_ID data_poolname_id,
- 	   bool complex)
+ 	   H3D_NF_FORMAT nf_format)
 {  bool return_value;
    return_value = DLHyper3DDatasetBegin(h3d_file,count, idx,subcase_id, 
  	   type, format, num_corners, num_modes, 
- 	   dt_id, layer_idx, data_poolname_id, complex);
+ 	   dt_id, layer_idx, data_poolname_id, nf_format);
    return return_value ;
 }
 

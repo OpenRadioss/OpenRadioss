@@ -92,7 +92,7 @@ void c_h3d_create_rbe2_(int *ITAB, int *NUMNOD, int *IRBE2, int *NRBE2L, int *LR
         if(*COMPID_RBE2S != 0 && *NRBE2 != 0)
         {
              rc = Hyper3DElement2Begin(h3d_file, *NRBE2, rbe2_poolname_id, 
-                                    H3D_ELEM_CONFIG_RIGIDLINK, *COMPID_RBE2S, 
+                                    H3D_ELEM_CONFIG_RIGIDLINK, H3D_NULL_ID, *COMPID_RBE2S, 
                                     rbe2_poolname_id, node_poolname_id);
             for(i=0;i<*NRBE2;i++)  
             {
@@ -147,7 +147,7 @@ void c_h3d_create_rbe2_(int *ITAB, int *NUMNOD, int *IRBE2, int *NRBE2L, int *LR
 
 
                  rc = Hyper3DElement2Begin(h3d_file, elem_count, rbe2_poolname_id, 
-                                        H3D_ELEM_CONFIG_RIGIDLINK, RigidElem, 
+                                        H3D_ELEM_CONFIG_RIGIDLINK, H3D_NULL_ID, RigidElem, 
                                         rbe2_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
                  rc = Hyper3DElement2Write(h3d_file, elem_id, conn1, dof1 , coef1 , 1 ,conn, dof, coef, nsn);
@@ -214,7 +214,7 @@ void c_h3d_create_rbe2_impi_(int *ITAB,int *NRBE2,int *IADRBE2,int *MASTERNODS,i
         if(*COMPID_RBE2S != 0 && *NRBE2 != 0)
         {
             rc = Hyper3DElement2Begin(h3d_file, *NRBE2, rbe2_poolname_id, 
-                                    H3D_ELEM_CONFIG_RIGIDLINK, *COMPID_RBE2S, 
+                                    H3D_ELEM_CONFIG_RIGIDLINK, H3D_NULL_ID, *COMPID_RBE2S, 
                                     rbe2_poolname_id, node_poolname_id);
             for(i=0;i<*NRBE2;i++)  
             {
@@ -277,7 +277,7 @@ void c_h3d_create_rbe2_impi_(int *ITAB,int *NRBE2,int *IADRBE2,int *MASTERNODS,i
 
 
                  rc = Hyper3DElement2Begin(h3d_file, elem_count, rbe2_poolname_id, 
-                                        H3D_ELEM_CONFIG_RIGIDLINK, elem_id, 
+                                        H3D_ELEM_CONFIG_RIGIDLINK, H3D_NULL_ID, elem_id, 
                                         rbe2_poolname_id, node_poolname_id);
                  if( !rc ) throw rc;
                  rc = Hyper3DElement2Write(h3d_file, elem_id, conn1, dof1 , coef1 , 1 ,conn, dof, coef, nsn);

@@ -126,7 +126,7 @@ void c_h3d_create_sh3ns_(int *ITAB, int *NUMNOD, int *IXTG, int *NIXTG, int *NUM
                   comp_id = IPART[*LIPART1 * (IPARTTG[i] - 1) + 3] ;
 
                   rc = Hyper3DElementBegin(h3d_file, nbelemwrite, sh3n_poolname_id, 
-                                    H3D_ELEM_CONFIG_TRIA3, comp_id, 
+                                    H3D_ELEM_CONFIG_TRIA3, H3D_NULL_ID, comp_id, 
                                     shell_poolname_id, node_poolname_id);
                   if( !rc ) throw rc;
              }

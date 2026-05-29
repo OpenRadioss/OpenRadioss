@@ -143,13 +143,13 @@ void c_h3d_create_skins_(int *ITAB, int *NUMNOD, int *IPART, int *LIPART1,int *H
                   if(conn4[3] == conn4[2])
                       {  
              	         rc = Hyper3DElementBegin(h3d_file, nbelemwrite, skin_poolname_id, 
-             			H3D_ELEM_CONFIG_TRIA3, comp_id, 
+             			H3D_ELEM_CONFIG_TRIA3, H3D_NULL_ID, comp_id, 
              			skin_poolname_id, node_poolname_id);
                       }
                   else
                       {  
              	         rc = Hyper3DElementBegin(h3d_file, nbelemwrite, skin_poolname_id, 
-             			H3D_ELEM_CONFIG_QUAD4, comp_id, 
+             			H3D_ELEM_CONFIG_QUAD4, H3D_NULL_ID, comp_id, 
              			skin_poolname_id, node_poolname_id);
                       }
              	  if( !rc ) throw rc;                  

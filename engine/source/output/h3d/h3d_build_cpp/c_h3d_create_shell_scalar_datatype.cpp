@@ -329,7 +329,7 @@ extern "C"
                         strcpy(edata_type, RES_STRING);
 #endif
                         rc = Hyper3DDatatypeWrite(h3d_file, edata_type, *cpt_data, H3D_DS_SCALAR,
-                                                  H3D_DS_ELEM, pool_count);
+                                                  H3D_DS_ELEM, H3D_NF_REAL, pool_count);
                         if (!rc)
                                 throw rc;
 
