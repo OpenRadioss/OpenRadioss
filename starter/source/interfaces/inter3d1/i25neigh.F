@@ -89,7 +89,7 @@ C-----------------------------------------------
      4        IBASE, KBASE, KOLD, FIN, NE, EJ, NEDGE_TMP, 
      5        SOL_EDGE, SH_EDGE, ISTORE,
      6        LL, KK, CUR, NEXT, JSUB, KSUB, IMS1, IMS2, IMS3, IMS4, 
-     7        NISUBN, INFLG, MAXADD, STAT
+     7        NISUBN, INFLG, MAXADD, STAT, NRTM_S,N_VINT,DNE,IS
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
      .        NA, NB, EA, EB,JM,MJ,DN_EI,N1,N2
@@ -106,7 +106,7 @@ C-----------------------------------------------
      .     XNA, YNA, ZNA, XNB, YNB, ZNB, AAA, BBB, ANG
       INTEGER WORK(70000)
       INTEGER,  DIMENSION(:,:),ALLOCATABLE :: CLEF,LEDGE_TMP1,LEDGE_TMP2,LEDGE_TMP3,LEDGE_TMP
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT,INDEX2
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: INDEX, ITAG, NTAG, ROOT,INDEX2,ITAG_S
       INTEGER, DIMENSION(:), ALLOCATABLE :: MLOC,KAD,ADDSUBN,ADDSUBN_TMP,
      .                                      LISUBN,INFLG_SUBN,IXSUB,EBINFLG_TMP,
      .                                      IIXYZ , ADDSUBE_TMP,LISUBE_TMP,INFLG_SUBE_TMP
@@ -184,40 +184,54 @@ C------------MVOISIN-(seg number) ---
        END DO
       END DO
 C
+      NRTM_S = 0
+      IF(IDEL_SOLID > 0) THEN 
+        ALLOCATE(ITAG_S(NRTM))
+        ITAG_S(1:NRTM)=0 
+      ENDIF 
       DO I=1,NRTM
         IF(IELEM_M(2,I) == 0) THEN
           N_EI=0
+          N_VINT = 1
 C----seg 1-2------
           I1 =IRECT(1,I)
           I2 =IRECT(2,I)
           CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE   )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+          N_VINT = MAX(N_VINT,DNE)          
 C----seg 2-3------
           I1 =IRECT(2,I)
           I2 =IRECT(3,I)
           CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+          N_VINT = MAX(N_VINT,DNE)          
 C----seg 3-4------
           I1 =IRECT(3,I)
           I2 =IRECT(4,I)
           CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+          N_VINT = MAX(N_VINT,DNE)          
 C----seg 1-4------
           I1 =IRECT(4,I)
           I2 =IRECT(1,I)
           CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
+     2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
+          N_VINT = MAX(N_VINT,DNE)          
 C
            MVOI(1:N_EI)=0 ! Reset MVOI
 C
+          IF(IDEL_SOLID > 0.AND.IELEM_M(1,I) <= NUMELS.AND.N_VINT > 1) THEN
+             NRTM_S =NRTM_S + 1
+             ITAG_S(I) =NRTM_S
+          ENDIF
         ENDIF
       END DO !I=1,NRTM     
 C
@@ -248,7 +262,7 @@ C-----------------------------------------------------
       IF(IDEL_SOLID > 0) THEN  
         DO I=1,NUMNOD
           ITAG(I)=0
-        ENDDO
+        ENDDO 
         DO I=1,NRTM  
           IF(IELEM_M(1,I) <= NUMELS) THEN
 
@@ -260,6 +274,10 @@ C-----------------------------------------------------
                M= IRECT(4,I)
                ITAG(M)=ITAG(M)+1
             END IF
+            IF(IELEM_M(2,I) /= 0) THEN
+               NRTM_S =NRTM_S + 1
+               ITAG_S(I) =NRTM_S
+            ENDIF
           ENDIF
         END DO
 C        
@@ -273,8 +291,13 @@ C
         ALLOCATE(MVOI(NMAX+10))
         MVOI(1:NMAX+10)=0
 C
-        ALLOCATE(MNEIGH_SOLID(NMAX,4,NRTM))
-        MNEIGH_SOLID(1:NMAX,1:4,1:NRTM) = 0
+        IF(NMAX >0.AND.NRTM_S > 0) THEN
+          ALLOCATE(MNEIGH_SOLID(NMAX,4,NRTM_S))
+          MNEIGH_SOLID(1:NMAX,1:4,1:NRTM_S) = 0
+        ELSE
+          ALLOCATE(MNEIGH_SOLID(0,0,0))
+        ENDIF
+    
         DO I=1,NRTM
           IF(IELEM_M(1,I) <= NUMELS) THEN
 
@@ -294,14 +317,15 @@ C
 C------------- Neighbour Segments --------------       
 C
         DO I=1,NRTM 
-          IF(IELEM_M(1,I) <= NUMELS) THEN
+          IS = ITAG_S(I)
+          IF(IELEM_M(1,I) <= NUMELS.AND.IS>0) THEN
             N_EI=0
 C----seg 1-2------
             I1 =IRECT(1,I)
             I2 =IRECT(2,I)
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)         
-            MNEIGH_SOLID(1:N_EI,1,I) = MVOI(1:N_EI)
+            MNEIGH_SOLID(1:N_EI,1,IS) = MVOI(1:N_EI)
             NE0 =N_EI
 C----seg 2-3------
             I1 =IRECT(2,I)
@@ -309,7 +333,7 @@ C----seg 2-3------
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0  
-            MNEIGH_SOLID(1:DN_EI,2,I) = MVOI(NE0+1:N_EI)
+            MNEIGH_SOLID(1:DN_EI,2,IS) = MVOI(NE0+1:N_EI)
             NE0 =N_EI
 C----seg 3-4------
             I1 =IRECT(3,I)
@@ -317,7 +341,7 @@ C----seg 3-4------
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0
-            MNEIGH_SOLID(1:DN_EI,3,I) = MVOI(NE0+1:N_EI)
+            MNEIGH_SOLID(1:DN_EI,3,IS) = MVOI(NE0+1:N_EI)
             NE0 =N_EI
 C----seg 1-4------
             I1 =IRECT(4,I)
@@ -325,7 +349,7 @@ C----seg 1-4------
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0      
-            MNEIGH_SOLID(1:DN_EI,4,I) = MVOI(NE0+1:N_EI)
+            MNEIGH_SOLID(1:DN_EI,4,IS) = MVOI(NE0+1:N_EI)
 C
             MVOI(1:N_EI)=0 ! Reset MVOI    
           ENDIF      
@@ -403,9 +427,11 @@ C
      .                                        itab(jj(1)),itab(jj(2)),itab(jj(3)),itab(jj(4))
           END IF ! IF(MI/=0)THEN
 C
-          IF(IELEM_M(1,I) <= NUMELS.AND.IDEl_SOLID > 0) THEN
+          IF(IDEl_SOLID > 0) THEN
+           IS=ITAG_S(I)
+           IF(IS > 0) THEN
             DO K=1,NMAX
-              MJ = MNEIGH_SOLID(K,IEDG,I)
+              MJ = MNEIGH_SOLID(K,IEDG,IS)
               IF(MJ/=0.AND.MJ/=MI) THEN
 C
                 JJ(1:4)=IRECT(1:4,MJ)
@@ -442,12 +468,13 @@ c           .                                        itab(jj(1)),itab(jj(2)),ita
 c                END IF ! IF(MJ/=0.AND.MJ/=MI)THEN
               ENDIF
             ENDDO
+           ENDIF
           ENDIF
         END DO
 C
       END DO
 C
-      IF(IDEl_SOLID > 0) DEALLOCATE(MNEIGH_SOLID)
+      IF(IDEl_SOLID > 0) DEALLOCATE(MNEIGH_SOLID,ITAG_S)
 C
       DO I=1,NVERTX
         J=I
@@ -1409,7 +1436,7 @@ C
 !||====================================================================
       SUBROUTINE I25NEIGH_SEG_EN(N1,IED1,N2   ,IED2 ,MVOISIN,
      .                           NE ,ICE,ISELF,I1,I2  ,IRECT,
-     .                           X   ,IE ,NRTM,MSEGTYP,IRR  )
+     .                           X   ,IE ,NRTM,MSEGTYP,IRR ,DNE )
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1422,6 +1449,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,IED1(*),N2,IED2(*),NE,ICE(*),ISELF,IRR, 
      .        I1,I2,IRECT(4,*),IE(*), NRTM, MSEGTYP(*), MVOISIN(4,*)
+      INTEGER , INTENT(INOUT) :: DNE
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -1441,10 +1469,11 @@ c  O   IE(NE)            - final (reduced) neighbour segment,array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,JJ,NEW,K,M,NE0,DNE,IOP
+      INTEGER I,J,J1,J2,JJ,NEW,K,M,NE0,IOP
 C---------------------
        IRR = 0
        NE0=NE
+       DNE = 0
 C
 C      MVOISIN already filled due to symetrization ::
        IF(IE(NE0+1)/=0)  THEN

@@ -250,7 +250,7 @@ C------------------------------------
              MG=IXT(4,NELT)
              IP = IPARTT(NELT)
              IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
-                DX1=THK_M_SCALE*HALF*THK_M
+                DX1=THK_M_SCALE*THK_M
              ELSEIF (THK_PART(IP) > ZERO ) THEN
                 DX1=GAPSCALE*THK_PART(IP)
              ELSE
@@ -302,7 +302,7 @@ C------------------------------------
              MG=IXP(5,NELP)
              IP = IPARTP(NELP)
              IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
-               DX=THK_M_SCALE*HALF*THK_M
+               DX1=THK_M_SCALE*THK_M
              ELSEIF (THK_PART(IP) > ZERO ) THEN
                 DX1=GAPSCALE*GAPSCALE*THK_PART(IP)
              ELSE
@@ -310,6 +310,7 @@ C------------------------------------
              END IF
              DX=SQRT(GEO(1,MG))
              GAPE(I)=MAX(GAPE(I),HALF*DX1)
+
              BGAPEMX   = MAX(BGAPEMX,GAPE(I)) ! BGAPEMX overall the model 
              IF(MT > 0)THEN
                 STFE(I)=SLSFAC*DX*PM(20,MT)
@@ -355,7 +356,7 @@ C------------------------------------
              IP = IPARTR(NELR)
              DX1 = ZERO 
              IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
-               DX1=THK_M_SCALE*HALF*THK_M
+               DX1=THK_M_SCALE*THK_M
              ELSEIF(IP > 0)THEN
                 IF (THK_PART(IP) > ZERO ) THEN
                  DX1=GAPSCALE*THK_PART(IP)

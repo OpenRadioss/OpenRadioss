@@ -2032,7 +2032,6 @@ C
      D DRAD,INTBUF_TAB(NIN)%VARIABLES(46),NRTM,LOCAL_FLAG_REMOVED_NODE,
      E INTBUF_TAB(NIN)%IELEM_M,nin,npari,ipari(1,nin))
        ENDIF
-
 C       
        IF(IEDGE/=0)THEN
          CALL I25STI_EDG(
@@ -2044,7 +2043,7 @@ C
      6   KXX            ,nixx              ,S_NOD2EL1D           ,
      7   IXX           ,IPARTT             ,IPARTP               ,IPARTX                                   ,IPARTR  ,
      8   GEO           ,INTBUF_TAB(NIN)%STFAC(1),GAPSCALE ,INTBUF_TAB(NIN)%VARIABLES(36),INTBUF_TAB(NIN)%VARIABLES(28),
-     9 INTBUF_FRIC_TAB ,ID                 ,INTBUF_TAB(NIN)%VARIABLES(51),INTBUF_TAB(NIN)%VARIABLES(52)    ,TITR    ,
+     9 INTBUF_FRIC_TAB ,ID                 ,INTBUF_TAB(NIN)%VARIABLES(50),INTBUF_TAB(NIN)%VARIABLES(52)    ,TITR    ,
      A THK_PART        ,PM                 ,TAGPRT_FRIC         ,LELX                                      , X      ,
      B THK             , IXTG              ,IXC                 ,IGEO                                      ,IPARTTG  ,
      C IPARTC          ,IINTTHICK          ,KNOD2ELC            ,KNOD2ELTG                                 ,NOD2ELC  ,
@@ -2127,7 +2126,7 @@ C
      C     INTBUF_TAB(NIN)%CANDM_E2S ,INTBUF_TAB(NIN)%CANDS_E2S,IBIDON,INTBUF_TAB(NIN)%CAND_PS,INTBUF_TAB(NIN)%GAPE,
      D     INTBUF_TAB(NIN)%GAP_E_L,INTBUF_TAB(NIN)%VARIABLES(46),FLAG_REMOVED_NODE,
      E     INTBUF_TAB(NIN)%S_KREMNODE_E2S,INTBUF_TAB(NIN)%S_REMNODE_E2S,INTBUF_TAB(NIN)%KREMNODE_E2S,INTBUF_TAB(NIN)%REMNODE_E2S,
-     F     INTBUF_TAB(NIN)%S_KREMNODE_EDG,INTBUF_TAB(NIN)%STFE,IPARI(101,NIN))
+     F     INTBUF_TAB(NIN)%S_KREMNODE_EDG,INTBUF_TAB(NIN)%STFE,IPARI(101,NIN),INTBUF_TAB(NIN)%VARIABLES(4))
 
          IF(I_MEME(1) /=0 .OR. I_MEME(2)/=0)THEN
            NCONTE   = IPARI(88,NIN)
@@ -2174,7 +2173,7 @@ C        nodal weights and interfaces
          CALL IWCONTDD_TYPE25(NLEDGE,NUMNOD,NSN,NMN,IEDGE,
      .                        NRTM,NEDGE,INTBUF_TAB(NIN)%NSV,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%IRECTM,
      .                        IWCONT,NSNT,NMNT,INTBUF_TAB(NIN))
-       END IF 
+       END IF
 
        IF(IDDLEVEL==1)THEN
 C-------------------------------------------------------------
