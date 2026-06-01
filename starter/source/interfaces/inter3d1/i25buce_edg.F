@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
      D   GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
      E   S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S,
-     F   S_KREMNODE_EDG,STFE,NEDGE_1D)
+     F   S_KREMNODE_EDG,STFE,NEDGE_1D,BUMULT)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(S_REMNODE_E2S), INTENT(in) :: REMNODE_E2S !< list of forbidden S edge
       my_real
      .   GAP,VMAXDT,DRAD,
-     .   BMINMA(6),BGAPEMX, MARGE
+     .   BMINMA(6),BGAPEMX, MARGE,BUMULT
       my_real , INTENT(IN) :: DGAPLOAD
       my_real , INTENT(IN) :: STFE(NEDGE)
       INTEGER , INTENT(IN) :: NEDGE_1D
@@ -132,7 +132,7 @@ C
          DD_1D=DD_1D+ DD1
        ENDIF
       ENDDO
-      IF(NEDGE_1D >0)  MARGE = MAX(MARGE,DD_1D/NEDGE_1D)
+      IF(NEDGE_1D >0)  MARGE = MAX(MARGE,BUMULT*DD_1D/NEDGE_1D)
 
 C
       DO I=ESHIFT+1,ESHIFT+NEDGE_T
