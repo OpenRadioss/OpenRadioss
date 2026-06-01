@@ -617,7 +617,7 @@ C         Extraction of global data to local arrays
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
      M  INTBUF_TAB%IELEM,IELEMI,ISTIF_MSDT,DTSTIF      ,INTBUF_TAB%STIFMSDT_S,
-     N  INTBUF_TAB%STIFMSDT_M,NRTM        ,INTERFACES%PARAMETERS)
+     N  INTBUF_TAB%STIFMSDT_M,NRTM        ,INTERFACES%PARAMETERS,NCYCLE      )
           IKNON(1:JLT) = 0
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,

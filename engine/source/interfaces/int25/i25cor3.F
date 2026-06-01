@@ -789,7 +789,7 @@ C
      K               Y3        ,Z3    ,X4      ,Y4     ,Z4          ,
      L               INTTH     ,TEMP  ,TEMPI   ,IELES  ,IELESI      ,
      M               IELEM     ,IELEMI,ISTIF_MSDT,DTSTIF,STIFMSDT_S ,
-     N               STIFMSDT_M,NRTM  ,PARAMETERS) 
+     N               STIFMSDT_M,NRTM  ,PARAMETERS,NCYCLE) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -821,6 +821,7 @@ C-----------------------------------------------
      .        IREP_FRICM(*),IREP_FRICMI(MVSIZ),IELESI(MVSIZ),IELEMI(MVSIZ)
       INTEGER , INTENT(IN) :: ISTIF_MSDT
       INTEGER , INTENT(IN) :: NRTM
+      INTEGER , INTENT(IN) :: NCYCLE
 C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), MS(*), V(3,*), 
@@ -1074,7 +1075,7 @@ c          STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
 C------------------------------------------
 C   Stiffness based on mass and time step
 C------------------------------------------
-      IF(ISTIF_MSDT > 0) THEN
+      IF(ISTIF_MSDT > 0.AND.NCYCLE >= 1) THEN
          IF(DTSTIF > ZERO) THEN
             DTS = DTSTIF
          ELSE
