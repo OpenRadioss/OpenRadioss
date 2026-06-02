@@ -94,7 +94,7 @@ C=======================================================================
           ELSE
             CALL ANCMSG(MSGID=1576,
      .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANSTOP,
+     .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID_MASS,
      .                  C1=IPMAS(I)%TITLE,
      .                  R1=MSP-AMAS)
@@ -111,7 +111,7 @@ C=======================================================================
               IPA = IPART(4,IP)
               CALL ANCMSG(MSGID=877,
      .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANSTOP,
+     .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID_MASS,
      .                    C1=IPMAS(I)%TITLE,
      .                    R1=MSP-AMAS,
