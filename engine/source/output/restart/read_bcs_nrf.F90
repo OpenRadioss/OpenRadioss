@@ -44,6 +44,7 @@
 !||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    constant_mod    ../common_source/modules/constant_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine read_bcs_nrf(numnod)

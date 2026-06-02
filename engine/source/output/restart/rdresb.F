@@ -114,6 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
 !||    damp_mod                     ../engine/share/modules/damp_mod.F
 !||    drape_mod                    ../engine/share/modules/drape_mod.F
+!||    dt_mod                       ../engine/source/modules/dt_mod.F
 !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecnd_mod                     ../engine/share/modules/ecdn_mod.F
 !||    element_mod                  ../common_source/modules/elements/element_mod.F90

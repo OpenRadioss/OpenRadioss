@@ -41,9 +41,7 @@
 !||--- uses       -----------------------------------------------------
 !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    constant_mod    ../common_source/modules/constant_mod.F
-!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-!||    message_mod     ../engine/share/message_module/message_mod.F
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine bcs_nrf(n2d      , numnod  , &

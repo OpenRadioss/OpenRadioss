@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F
 !||    radioss2              ../engine/source/engine/radioss2.F
+!||    rdresb                ../engine/source/output/restart/rdresb.F
 !||    resol                 ../engine/source/engine/resol.F
 !||    resol_head            ../engine/source/engine/resol_head.F
 !||    s10forc3              ../engine/source/elements/solid/solide10/s10forc3.F
