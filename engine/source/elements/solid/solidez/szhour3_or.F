@@ -457,7 +457,7 @@ C
             END IF
           END DO
         END IF
-        IF (ICP==2.AND.ICRIT_VM==1) THEN     ! old formulation
+        IF (ICRIT_VM==1) THEN     ! old formulation
            DO I=1,NEL
              IF (SM1(I)>SIGYM(I).AND.DEINT(I)>0) THEN
               SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
