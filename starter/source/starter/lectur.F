@@ -151,6 +151,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_xelem                    ../starter/source/elements/reader/hm_preread_xelem.F
 !||    hm_print_inter_guided_cable         ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_activ                       ../starter/source/tools/activ/hm_read_activ.F
+!||    hm_read_adinertia                   ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_admas                       ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_link                    ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                      ../starter/source/constraints/ale/hm_read_alebcs.F
@@ -478,6 +479,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xgrtails                            ../starter/source/elements/xelem/xgrtails.F
 !||    yctrl                               ../starter/source/initial_conditions/inista/yctrl.F
 !||--- uses       -----------------------------------------------------
+!||    adinertia_mod                       ../starter/share/modules1/adinertia_mod.F90
 !||    apply_permutation_mod               ../starter/source/spmd/tools/apply_permutation.F90
 !||    bpreload_mod                        ../starter/share/modules1/bpreload_mod.F
 !||    brokmann_elem_renum_mod             ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
@@ -503,6 +505,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_print_inter_guided_cable_mod     ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
+!||    hm_read_adinertia_mod               ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_bcs_nrf_mod                 ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall_mod                ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
@@ -554,7 +557,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
 !||    updfail_mod                         ../starter/source/materials/updfail.F90
 !||    user_sensor_mod                     ../starter/source/modules/user_interface_mod.F90
-!||    adinertia_mod                       ../common_source/modules/adinertia_mod.F90
 !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,

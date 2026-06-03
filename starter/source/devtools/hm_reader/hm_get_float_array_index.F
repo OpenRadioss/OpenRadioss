@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    hm_get_float_array_index                 ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
 !||--- called by ------------------------------------------------------
+!||    hm_read_adinertia                        ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_admas                            ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_bem                              ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_ebcs_inlet                       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F

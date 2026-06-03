@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    names_and_titles_mod              ../common_source/modules/names_and_titles_mod.F
 !||--- called by ------------------------------------------------------
 !||    addmaspart                        ../starter/source/tools/admas/addmaspart.F
+!||    adinertia_mod                     ../starter/share/modules1/adinertia_mod.F90
 !||    admlcnt                           ../starter/source/model/remesh/admlist.F
 !||    admlist                           ../starter/source/model/remesh/admlist.F
 !||    ale_euler_init                    ../starter/source/materials/ale/ale_euler_init.F
@@ -274,6 +275,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_prop_read21                    ../starter/source/properties/thickshell/hm_read_prop21.F
 !||    hm_rbodies_add_main_node          ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
 !||    hm_read_activ                     ../starter/source/tools/activ/hm_read_activ.F
+!||    hm_read_adinertia                 ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_ale_link                  ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                       ../starter/source/constraints/general/bcs/hm_read_bcs.F

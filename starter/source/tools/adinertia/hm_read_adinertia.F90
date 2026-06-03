@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_adinertia_mod           ../starter/source/tools/adinertia/hm_read_adinertia.F90
+!||    hm_read_adinertia_mod   ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_adinertia               ../starter/source/tools/adinertia/hm_read_adinertia.F
+!||    lectur                  ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module hm_read_adinertia_mod
@@ -35,11 +35,10 @@
 ! ======================================================================================================================
 !! \details Read the added inertia data defined by /ADINERTIA/
 !||====================================================================
-!||    hm_read_adinertia          ../starter/source/tools/adinertia/hm_read_adinertia.F
+!||    hm_read_adinertia          ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                     ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    adinertia_mod              ../common_source/modules/adinertia_mod.F90
 !||    ancmsg                     ../starter/source/output/message/message.F
 !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
 !||    hm_get_floatv              ../starter/source/devtools/hm_reader/hm_get_floatv.F
@@ -49,13 +48,11 @@
 !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    usr2sys                    ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
-!||    unitab_mod                 ../common_source/modules/unitab_mod.F
-!||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
-!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    adinertia_mod              ../starter/share/modules1/adinertia_mod.F90
 !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-!||    names_and_titles_mod       ../common_source/modules/names_and_titles_mod.F
+!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-!||    adinertia_mod              ../common_source/modules/adinertia_mod.F90
 !||====================================================================
         subroutine hm_read_adinertia(ms        ,in        ,itabm1    ,igrnod   ,unitab  ,   &
                                   &  nbaddiner ,adinertia ,totaddmas ,lsubmodel,iddlevel,   &

@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    adinertia_mod          ../common_source/modules/adinertia_mod.F90
+!||    adinertia_mod          ../starter/share/modules1/adinertia_mod.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_adinertia      ../starter/source/tools/adinertia/hm_read_adinertia.F
+!||    contrl                 ../starter/source/starter/contrl.F
+!||    hm_read_adinertia      ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    lectur                 ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================

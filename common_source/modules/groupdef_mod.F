@@ -203,6 +203,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_xelem                  ../starter/source/elements/reader/hm_preread_xelem.F
 !||    hm_print_inter_guided_cable       ../starter/source/tools/seatbelts/hm_print_inter_guided_cable.F90
 !||    hm_read_activ                     ../starter/source/tools/activ/hm_read_activ.F
+!||    hm_read_adinertia                 ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_admas                     ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_ale_link                  ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
