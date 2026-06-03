@@ -47,7 +47,7 @@
 !||====================================================================
         subroutine hm_read_yield_criterion_bbc2005(                        &
          ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab   ,  &
-         lsubmodel,iout     ,is_encrypted)
+         lsubmodel,iout     ,is_encrypted,mat_id ,titr )
 !----------------------------------------------------------------
 !   M o d u l e s
 !----------------------------------------------------------------
@@ -58,6 +58,7 @@
           use matparam_def_mod
           use precision_mod, only : WP
           use bbc2005_calcul_coeffs_mod
+          USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
 !----------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !----------------------------------------------------------------
@@ -74,10 +75,12 @@
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel  !< submodel data structure
           integer,                 intent(in)    :: iout                  !< output unit
           logical,                 intent(in)    :: is_encrypted          !< encryption flag
+          integer,                 intent(in)    :: mat_id                !< material ID
+          character(len=nchartitle),intent(in)   :: titr              !< Material law user title
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-          real(kind=8)  :: y0, y45, y90, r0, r45, r90, yb, rb, k_in
+          real(kind=8)  :: y0, y45, y90, r0, r45, r90, yb, rb
           integer       :: k_val
           real(kind=WP) :: a, b, l_coeff, m_coeff, n_coeff, p, q, r 
 !===============================================================================
@@ -103,7 +106,7 @@
           !< Compute BBC2005 math coefficients using Newton-Raphson 
   
           call bbc2005_calcul_coeffs(y0, y45, y90, r0, r45, r90, yb, rb, k_val, &
-                                     a, b, l_coeff, m_coeff, n_coeff, p, q, r)  
+                                     a, b, l_coeff, m_coeff, n_coeff, p, q, r,mat_id ,titr )  
 
           !< Number of parameters packed into upar_crit array
           nupar_crit = 9

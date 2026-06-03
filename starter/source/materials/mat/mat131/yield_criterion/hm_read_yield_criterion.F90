@@ -143,7 +143,7 @@
           elseif (type(1:7) == 'BBC2005') then
               call hm_read_yield_criterion_bbc2005(                           &
                 ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab ,&
-                lsubmodel,iout     ,is_encrypted)
+                lsubmodel,iout     ,is_encrypted, mat_id ,titr  )
           endif          
 ! -------------------------------------------------------------------------------
         end subroutine hm_read_yield_criterion

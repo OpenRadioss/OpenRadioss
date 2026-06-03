@@ -38,11 +38,23 @@
 !||    bbc2005_calcul_coeffs      ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||====================================================================
         subroutine bbc2005_solve_linear_8x8(A_in, B_in, X, info)
+!----------------------------------------------------------------
+!   I m p l i c i t   T y p e s
+!----------------------------------------------------------------
             implicit none
-            real(kind=8), intent(in)  :: A_in(8,8), B_in(8)
-            real(kind=8), intent(out) :: X(8)
-            integer,       intent(out) :: info
-
+!----------------------------------------------------------------
+!  I n p u t   A r g u m e n t s
+!----------------------------------------------------------------
+            real(kind=8), intent(in)  :: A_in(8,8)           !< input matrix
+            real(kind=8), intent(in)  :: B_in(8)             !< input vector
+!----------------------------------------------------------------
+!  O u t p u t   A r g u m e n t s
+!----------------------------------------------------------------
+            real(kind=8), intent(out) :: X(8)                !< solution vector
+            integer,      intent(out) :: info                !< error flag
+!----------------------------------------------------------------
+!  L o c a l  V a r i a b l e s
+!----------------------------------------------------------------
             real(kind=8) :: A(8,8), B(8), factor
             integer       :: i, j, k
 

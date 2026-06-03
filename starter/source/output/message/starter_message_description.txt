@@ -16181,6 +16181,16 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    -- INTERFACE TITLE: %s
       SURFACE ID: %d IS EMPTY AND NOT DEFINED WITH 2D SEGMENTS
 
+
+/MESSAGE/3161/TITLE
+** ERROR IN BBC2005 YIELD CRITERION COEFFICIENT CALCULATION 
+
+/MESSAGE/3161/DESCRIPTION
+   -- MATERIAL ID: %d
+   -- MATERIAL TITLE: %s
+   %i1="/MAT"
+ BBC2005 failed to converge for obtaining BBC2005 yield criterion coefficient, Please check material input parameters
+
 /MESSAGE/9998/TITLE
 ** MESSAGE WITH NO CATEGORY
 /MESSAGE/9999/TITLE
