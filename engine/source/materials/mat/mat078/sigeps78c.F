@@ -101,6 +101,23 @@ C-----------------------------------------------
      .        DBXX,DBYY,DBZZ,DBXY,BQXX,BQYY,BQZZ,BQXY,YLD,MAX_ASTA,CANBNXX,CANBNYY,CANBNXY,
      .        CANNXX,CANNYY,CANNXY,DDEP,U,VXX,VYY,VXY,KA1,KA2
       my_real ,DIMENSION(NEL,3)      :: SIGBO
+      
+      my_real :: a_bbc, b_bbc, l_bbc, m_bbc, n_bbc, p_bbc, q_bbc, r_bbc !parameters for BBC2005
+      integer :: k_val_BBC, int_2k, int_2km1
+
+      my_real,DIMENSION(NEL) :: seq_inv
+
+      my_real,DIMENSION(NEL) :: gamma, term_NP, term_QR, lambda, psi, 
+     .        lam_p_gam, lam_m_gam, lam_p_psi, lam_m_psi, w
+      my_real,DIMENSION(NEL) :: gamma_a, term_NP_a, term_QR_a, lambda_a, psi_a, 
+     .        lam_p_gam_a, lam_m_gam_a, lam_p_psi_a, lam_m_psi_a, w_a
+      
+      my_real :: dW_dgamma, dW_dlambda, dW_dpsi
+      my_real :: dlam_dxx, dlam_dyy, dlam_dxy
+      my_real :: dpsi_dxx, dpsi_dyy, dpsi_dxy
+
+
+
 C=======================================================================
 C     SIGA  (alpha) = CENTER OF YIELD SURFACE ALPHA (Backstress)
 C     SIGB  (beta)  = CENTER OF BOUNDING SURFACE
@@ -125,7 +142,7 @@ C=======================================================================
       BYU   = UPARAM(4)             ! Center of the bounding surface
       C2_KH = UPARAM(5)             ! Parameter for kinematic hardening rule of yield surface (Lower case if C1_KH is defined)
       HYU   = UPARAM(6)             ! Material parameter for controlling work hardening stagnation
-      BSAT  = UPARAM(7)             ! Initial size of the bounding surface
+      BSAT  = UPARAM(7)             ! Initial size of the bounding surface initial(B+R)
       MYU   = UPARAM(8)             ! Parameter for isotropic and kinematic hardening of the bounding surface
       RSAT  = UPARAM(9)             ! Saturated value of the isotropic hardening stress
       EINF  = UPARAM(10)            ! Asymptotic value of Young's modulus
@@ -141,43 +158,76 @@ C=======================================================================
       CSTT  = UPARAM(20)            !
       IPLAS = NINT(UPARAM(21))      ! Flag for choosing yield criterion (Hill 1948 - Barlat 1989)
       C1_KH = UPARAM(22)            ! Upper case for controlling work hardening stagnation
+      a_bbc = UPARAM(23)                ! Coefficient a for BBC2005
+      b_bbc = UPARAM(24)                ! Coefficient b for BBC2005
+      l_bbc = UPARAM(25)          ! Coefficient l for BBC2005
+      m_bbc = UPARAM(26)          ! Coefficient m for BBC2005
+      n_bbc = UPARAM(27)          ! Coefficient n for BBC2005
+      p_bbc = UPARAM(28)                ! Coefficient p for BBC2005
+      q_bbc = UPARAM(29)                ! Coefficient q for BBC2005
+      r_bbc = UPARAM(30)                ! Coefficient r for BBC2005
+      k_val_BBC = NINT(UPARAM(31))       ! Lattice exponent K for BBC2005 (cast to integer, defaulting to 3 for BCC if not provided)
+      
+
+      int_2k = nint(two * k_val_BBC)
+      int_2km1 = int_2k - 1
+
 c      
-      IF (IPLAS == 1) THEN 
+      IF (IPLAS == 1) THEN  
         NORM_SP = ONE
       ELSEIF(IPLAS == 2) THEN
         NORM_SP = EP03 / EINI
+      ELSEIF(IPLAS == 3) THEN  
+        NORM_SP = ONE !A VERIFIER POUR BBC2005
       ENDIF
+      !//TODO: NORM_SP TO BE ADJUSTED FOR BBC2005
+
       ! Initial value
       IF (ISIGI == 0 .and. TIME == ZERO) THEN
         DO I=1,NEL
           ! Initial AYU value
-          UVAR(I,3) = BSAT - YIELD
+          UVAR(I,3) = BSAT - YIELD !a = B + R - YIELD     (AYU) 
           ! Initial yield stress
-          UVAR(I,4) = YIELD
+          UVAR(I,4) = YIELD !YIELD
         ENDDO
       ENDIF   
 C
       ! Update of Young modulus
       !  -> Constant young modulus
-      IF (COE == ZERO .and. IFUNC(1) == 0) THEN
-        YOUNG(1:NEL)    = EINI
-      !  -> Tabulated young modulus
-      ELSE IF (OPTE == 1) THEN
-        IPOS(1:NEL)     = VARTMP(1:NEL,1)
-        IAD2(1:NEL)     = NPF(IFUNC(1)) / 2 + 1
-        ILEN(1:NEL)     = NPF(IFUNC(1)+1) / 2 - IAD2(1:NEL) - IPOS(1:NEL)
-        CALL VINTER(TF,IAD2,IPOS,ILEN,NEL,PLA,DYDXE,SCALEE) 
-        YOUNG(1:NEL)    = EINI * SCALEE(1:NEL)    
-        VARTMP(1:NEL,1) = IPOS(1:NEL)
-      !  -> Non-linear young modulus
-      ELSE 
-        DO I=1,NEL
-          IF (PLA(I) > ZERO)THEN
-            YOUNG(I) = EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I))) 
-          ELSE          
-            YOUNG(I) = EINI
-          ENDIF
-        ENDDO
+      IF (NFUNC == 0) THEN
+        IF (COE == ZERO) THEN
+          YOUNG(1:NEL) = EINI
+        ELSE 
+          !  -> Non-linear young modulus (Fallback when curve is empty)
+          DO I=1,NEL
+            IF (PLA(I) > ZERO) THEN
+              YOUNG(I) = EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I))) 
+            ELSE          
+              YOUNG(I) = EINI
+            ENDIF
+          ENDDO
+        ENDIF
+      ELSE
+        IF (COE == ZERO .and. IFUNC(1) == 0) THEN
+          YOUNG(1:NEL)    = EINI
+        !  -> Tabulated young modulus
+        ELSE IF (OPTE == 1) THEN
+          IPOS(1:NEL)     = VARTMP(1:NEL,1)
+          IAD2(1:NEL)     = NPF(IFUNC(1)) / 2 + 1
+          ILEN(1:NEL)     = NPF(IFUNC(1)+1) / 2 - IAD2(1:NEL) - IPOS(1:NEL)
+          CALL VINTER(TF,IAD2,IPOS,ILEN,NEL,PLA,DYDXE,SCALEE) 
+          YOUNG(1:NEL)    = EINI * SCALEE(1:NEL)    
+          VARTMP(1:NEL,1) = IPOS(1:NEL)
+        !  -> Non-linear young modulus
+        ELSE 
+          DO I=1,NEL
+            IF (PLA(I) > ZERO) THEN
+              YOUNG(I) = EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I))) 
+            ELSE          
+              YOUNG(I) = EINI
+            ENDIF
+          ENDDO
+        ENDIF
       ENDIF
 C
       ! Recovering elastic parameters and hardening variables
@@ -224,7 +274,7 @@ c
           !effective back stress alpha*
           ASTA(I) = SQRT(SIGA(I,1)**2 - TWO*P2*SIGA(I,1)*SIGA(I,2) + P1*SIGA(I,2)**2 + P3*SIGA(I,3)**2)
         !   -> Barlat 1989
-        ELSEIF (IPLAS == 2) THEN
+        ELSEIF (IPLAS == 2) THEN 
           K1(I)   = (AXX(I) + P3*AYY(I))/TWO
           K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)) 
           SEFF(I) = P1*(ABS(K1(I)+K2(I))*NORM_SP)**N3 + P1*(ABS(K1(I)-K2(I))*NORM_SP)**N3 + P2*(ABS(TWO*K2(I))*NORM_SP)**N3
@@ -234,6 +284,40 @@ c
           KA2(I)   = SQRT(((SIGA(I,1) - P3*SIGA(I,2))/TWO)**TWO + (P4*SIGA(I,3))**TWO)
           ASTA(I)  = P1*ABS(KA1(I)+KA2(I))**N3 + P1*ABS(KA1(I)-KA2(I))**N3 + P2*ABS(TWO*KA2(I))**N3
           ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
+        ELSEIF (IPLAS == 3) THEN
+          gamma(I)   = l_bbc * axx(i) + m_bbc * ayy(i) !OK
+          term_NP(I) = n_bbc * axx(i) - p_bbc * ayy(i)
+          term_QR(I) = q_bbc * axx(i) - r_bbc * ayy(i)
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(i) * axy(i)) !OK
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(i) * axy(i)) !OK
+          lam_p_gam(I) = lambda(I) + gamma(I)
+          lam_m_gam(I) = lambda(I) - gamma(I)
+          lam_p_psi(I) = lambda(I) + psi(I)
+          lam_m_psi(I) = lambda(I) - psi(I)
+          !< 2. Compute Yield Function W and Equivalent Stress
+          w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
+     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+          if (w(I)>0) then
+             seff(I) = w(I)**(one / real(int_2k)) !OK 
+          else
+             seff(I) = zero
+          end if
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!          
+
+          gamma_a(I)   = l_bbc * SIGA(I,1) + m_bbc * SIGA(I,2) 
+          term_NP_a(I) = n_bbc * SIGA(I,1) - p_bbc * SIGA(I,2)
+          term_QR_a(I) = q_bbc * SIGA(I,1) - r_bbc * SIGA(I,2)
+          lambda_a(I) = sqrt(term_NP_a(I) * term_NP_a(I) + SIGA(I,3) * SIGA(I,3)) 
+          psi_a(I)    = sqrt(term_QR_a(I) * term_QR_a(I) + SIGA(I,3) * SIGA(I,3)) 
+          lam_p_gam_a(I) = lambda_a(I) + gamma_a(I)
+          lam_m_gam_a(I) = lambda_a(I) - gamma_a(I)
+          lam_p_psi_a(I) = lambda_a(I) + psi_a(I)
+          lam_m_psi_a(I) = lambda_a(I) - psi_a(I)
+
+          !< 2. Compute Yield Function W and Equivalent Stress
+          w_a(I) = a_bbc * (lam_p_gam_a(I)**int_2k + lam_m_gam_a(I)**int_2k) +                    
+     .          b_bbc * (lam_p_psi_a(I)**int_2k + lam_m_psi_a(I)**int_2k) 
+          ASTA(I) = w_a(I)**(one / real(int_2k))   
         ENDIF
 
         ASTA(I)   = MAX(ASTA(I),EM20)
@@ -310,7 +394,7 @@ C
             NORMYY = (P1*AYY(I)-P2*AXX(I))/(MAX(SEFF(I),EM20))
             NORMXY = (P3*AXY(I))/(MAX(SEFF(I),EM20))
           !   -> Barlat 1989
-          ELSEIF (IPLAS == 2) THEN
+          ELSEIF (IPLAS == 2) THEN 
             !  Computation of the derivatives
             DF_DK1 = ((SEFF(I)/NORM_SP)**(1-N3))*(P1/TWO)* (
      .                        +  SIGN(ONE,K1(I)+K2(I))*(ABS(K1(I)+K2(I))**(N3-1)) 
@@ -328,6 +412,42 @@ C
             NORMXX     = DF_DK1*DK1_DSIGXX+ DF_DK2*DK2_DSIGXX
             NORMYY     = DF_DK1*DK1_DSIGYY+ DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
+          ELSEIF (IPLAS == 3) THEN 
+                        !< Pre-factor for derivatives: seq(i)^(1 - 2k)
+            !< This eliminates the (1/2k) * (2k) constants from chain rule
+            seq_inv(I) = seff(I)**(one - real(int_2k)) !OK
+
+            !< 3. Derivatives of W wrt Gamma, Lambda, Psi
+            dW_dgamma  = a_bbc * (lam_p_gam(I)**int_2km1 - lam_m_gam(I)**int_2km1)
+            dW_dlambda = a_bbc * (lam_p_gam(I)**int_2km1 + lam_m_gam(I)**int_2km1) +  
+     .                   b_bbc * (lam_p_psi(I)**int_2km1 + lam_m_psi(I)**int_2km1)
+            dW_dpsi    = b_bbc * (lam_p_psi(I)**int_2km1 - lam_m_psi(I)**int_2km1)
+
+            !< Scale by seq_inv
+            dW_dgamma  = dW_dgamma * seq_inv(I) !ok
+            dW_dlambda = dW_dlambda * seq_inv(I) !ok
+            dW_dpsi    = dW_dpsi * seq_inv(I) !ok
+
+            !< 4. Derivatives of Lambda and Psi wrt stress tensor components
+            !< Denominator protection (em20) prevents NaN at zero shear
+            dlam_dxx = n_bbc * term_NP(I) / max(lambda(I), em20) 
+            dlam_dyy = -p_bbc * term_NP(I) / max(lambda(I), em20) 
+            dlam_dxy = axy(I) / max(lambda(I), em20) 
+
+            dpsi_dxx = q_bbc * term_QR(I) / max(psi(I), em20) 
+            dpsi_dyy = -r_bbc * term_QR(I) / max(psi(I), em20) 
+            dpsi_dxy = axy(I) / max(psi(I), em20) 
+
+            !< 5. Assembling the derivative of the eq. stress w.r.t stress tensor
+            normxx = dW_dgamma * l_bbc + dW_dlambda * dlam_dxx +          
+     .                        dW_dpsi * dpsi_dxx 
+            normyy = dW_dgamma * m_bbc + dW_dlambda * dlam_dyy +         
+     .                        dW_dpsi * dpsi_dyy 
+            !< Plastic incompressibility assumption for shell thickness change
+           
+            normxy = dW_dlambda * dlam_dxy + dW_dpsi * dpsi_dxy
+ 
+
           ENDIF
 c          
 
@@ -410,7 +530,24 @@ c
             K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
             SEFF(I) = P1*(ABS(K1(I)+K2(I))*NORM_SP)**N3 + P1*(ABS(K1(I)-K2(I))*NORM_SP)**N3 + P2*(ABS(TWO*K2(I))*NORM_SP)**N3
             SEFF(I) = (HALF*SEFF(I))**(ONE/N3)            
-          ENDIF            
+          ELSEIF (IPLAS == 3) THEN  
+            gamma(I)   = l_bbc * axx(i) + m_bbc * ayy(i) !OK
+            term_NP(I) = n_bbc * axx(i) - p_bbc * ayy(i)
+            term_QR(I) = q_bbc * axx(i) - r_bbc * ayy(i)
+            lambda(I) = sqrt(term_NP(I) * term_NP(I) + axy(i) * axy(i)) !OK
+            psi(I)    = sqrt(term_QR(I) * term_QR(I) + axy(i) * axy(i)) !OK
+            lam_p_gam(I) = lambda(I) + gamma(I)
+            lam_m_gam(I) = lambda(I) - gamma(I)
+            lam_p_psi(I) = lambda(I) + psi(I)
+            lam_m_psi(I) = lambda(I) - psi(I)
+
+          !< 2. Compute Yield Function W and Equivalent Stress
+            w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
+     .          b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+
+               seff(I) = w(I)**(one / real(int_2k)) !OK 
+
+          ENDIF             
 c
           ! New yield function value
           PHI(I) = SEFF(I)/NORM_SP - YIELD 
@@ -437,6 +574,22 @@ c
             ASTA(I)  = P1*ABS(KA1(I)+KA2(I))**N3 + P1*ABS(KA1(I)-KA2(I))**N3 + P2*ABS(TWO*KA2(I))**N3
             ASTA(I)  = (HALF*MAX(EM20,ASTA(I)))**(ONE/N3)
             ASTA(I)  = ASTA(I)
+        ELSEIF (IPLAS == 3) THEN 
+          gamma_a(I)   = l_bbc * SIGA(I,1) + m_bbc * SIGA(I,2) !OK
+          term_NP_a(I) = n_bbc * SIGA(I,1) - p_bbc * SIGA(I,2)
+          term_QR_a(I) = q_bbc * SIGA(I,1) - r_bbc * SIGA(I,2)
+          lambda_a(I) = sqrt(term_NP_a(I) * term_NP_a(I) + SIGA(I,3) * SIGA(I,3)) !OK
+          psi_a(I)    = sqrt(term_QR_a(I) * term_QR_a(I) + SIGA(I,3) * SIGA(I,3)) !OK
+          lam_p_gam_a(I) = lambda_a(I) + gamma_a(I)
+          lam_m_gam_a(I) = lambda_a(I) - gamma_a(I)
+          lam_p_psi_a(I) = lambda_a(I) + psi_a(I)
+          lam_m_psi_a(I) = lambda_a(I) - psi_a(I)
+
+          !< 2. Compute Yield Function W and Equivalent Stress
+          w_a(I) = a_bbc * (lam_p_gam_a(I)**int_2k + lam_m_gam_a(I)**int_2k) +                    
+     .          b_bbc * (lam_p_psi_a(I)**int_2k + lam_m_psi_a(I)**int_2k) !OK
+          ASTA(I) = w_a(I)**(one / real(int_2k)) !OK 
+
         ENDIF
         ASTA(I)   = MAX(ASTA(I),EM20)
         MAX_ASTA(I) = MAX(MAX_ASTA(I),ASTA(I))
@@ -536,12 +689,27 @@ C
         IF (IPLAS == 1) THEN   
           YLD(I) = SQRT(SIGNXX(I)**2 - TWO*P2*SIGNXX(I)*SIGNYY(I) + P1*SIGNYY(I)**2 + P3*SIGNXY(I)**2)
         !   -> Barlat 1989
-        ELSEIF (IPLAS == 2) THEN
+        ELSEIF (IPLAS == 2) THEN  !//TODO:TO ADD INFORMATION 
           K1(I)  = (SIGNXX(I) + P3*SIGNYY(I))/TWO
           K2(I)  = SQRT(((SIGNXX(I) - P3*SIGNYY(I))/TWO)**TWO + (P4*SIGNXY(I))**TWO)            
           YLD(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3    
           YLD(I) = (HALF*MAX(YLD(I),EM20))**(ONE/N3) 
           YLD(I) = YLD(I)
+        ELSEIF (IPLAS == 3) THEN 
+          gamma(I)   = l_bbc * SIGNXX(I) + m_bbc * SIGNYY(I) !OK
+          term_NP(I) = n_bbc * SIGNXX(I) - p_bbc * SIGNYY(I)
+          term_QR(I) = q_bbc * SIGNXX(I) - r_bbc * SIGNYY(I)
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + SIGNXY(I) * SIGNXY(I)) !OK
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + SIGNXY(I) * SIGNXY(I)) !OK
+          lam_p_gam(I) = lambda(I) + gamma(I)
+          lam_m_gam(I) = lambda(I) - gamma(I)
+          lam_p_psi(I) = lambda(I) + psi(I)
+          lam_m_psi(I) = lambda(I) - psi(I)
+
+          !< 2. Compute Yield Function W and Equivalent Stress
+          w(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
+     .        b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+          YLD(I) = W(I)**(one / real(int_2k)) !OK
         ENDIF
         ! Hardening rate
         IF (DEP_DP(I) > ZERO) THEN
@@ -566,11 +734,26 @@ C
         IF (IPLAS == 1) THEN 
           SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
         !   -> Barlat 1989
-        ELSEIF (IPLAS == 2) THEN
+        ELSEIF (IPLAS == 2) THEN !//TODO:TO ADD INFORMATION 
           K1(I)   = (AXX(I) + P3*AYY(I))/TWO
           K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
           SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
           SEFF(I) = (HALF*SEFF(I))**(ONE/N3)         
+        ELSEIF (IPLAS == 3) THEN 
+          gamma(I)   = l_bbc * AXX(I) + m_bbc * AYY(I) !OK
+          term_NP(I) = n_bbc * AXX(I) - p_bbc * AYY(I)
+          term_QR(I) = q_bbc * AXX(I) - r_bbc * AYY(I)
+          lambda(I) = sqrt(term_NP(I) * term_NP(I) + AXY(I) * AXY(I)) !OK
+          psi(I)    = sqrt(term_QR(I) * term_QR(I) + AXY(I) * AXY(I)) !OK
+          lam_p_gam(I) = lambda(I) + gamma(I)
+          lam_m_gam(I) = lambda(I) - gamma(I)
+          lam_p_psi(I) = lambda(I) + psi(I)
+          lam_m_psi(I) = lambda(I) - psi(I)
+
+          !< 2. Compute Yield Function W and Equivalent Stress
+          W(I) = a_bbc * (lam_p_gam(I)**int_2k + lam_m_gam(I)**int_2k) +                    
+     .            b_bbc * (lam_p_psi(I)**int_2k + lam_m_psi(I)**int_2k) !OK
+          SEFF(I) = W(I)**(one / real(int_2k)) !OK
         ENDIF   
         SEQ(I)    = SEFF(I)
         DEELZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
@@ -586,7 +769,7 @@ C
             NORMYY  = (P1*AYY(I)-P2*AXX(I))/(MAX(SEFF(I),EM20))
             NORMXY  = (P3*AXY(I))/(MAX(SEFF(I),EM20))
           !   -> Barlat 1989
-          ELSEIF (IPLAS == 2) THEN
+          ELSEIF (IPLAS == 2) THEN !//TODO:TO ADD INFORMATION 
             K1(I)   = (AXX(I) + P3*AYY(I))/TWO
             K2(I)   = (SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO))
             SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
@@ -606,6 +789,40 @@ C
             NORMXX     = DF_DK1*DK1_DSIGXX + DF_DK2*DK2_DSIGXX
             NORMYY     = DF_DK1*DK1_DSIGYY + DF_DK2*DK2_DSIGYY
             NORMXY     = DF_DK2*DK2_DSIGXY
+          ELSEIF (IPLAS == 3) THEN 
+                        !< Pre-factor for derivatives: seq(i)^(1 - 2k)
+            !< This eliminates the (1/2k) * (2k) constants from chain rule
+            seq_inv(I) = seq(I)**(one - real(int_2k)) !OK
+
+            !< 3. Derivatives of W wrt Gamma, Lambda, Psi
+            dW_dgamma  = a_bbc * (lam_p_gam(I)**int_2km1 - lam_m_gam(I)**int_2km1)
+            dW_dlambda = a_bbc * (lam_p_gam(I)**int_2km1 + lam_m_gam(I)**int_2km1) +    
+     .                   b_bbc * (lam_p_psi(I)**int_2km1 + lam_m_psi(I)**int_2km1)
+            dW_dpsi    = b_bbc * (lam_p_psi(I)**int_2km1 - lam_m_psi(I)**int_2km1)
+
+            !< Scale by seq_inv
+            dW_dgamma  = dW_dgamma * seq_inv(I) !ok
+            dW_dlambda = dW_dlambda * seq_inv(I) !ok
+            dW_dpsi    = dW_dpsi * seq_inv(I) !ok
+
+            !< 4. Derivatives of Lambda and Psi wrt stress tensor components
+            !< Denominator protection (em20) prevents NaN at zero shear
+            dlam_dxx = n_bbc * term_NP(I) / max(lambda(I), em20) !OK
+            dlam_dyy = -p_bbc * term_NP(I) / max(lambda(I), em20) !OK
+            dlam_dxy = axy(I) / max(lambda(I), em20) !OK
+
+            dpsi_dxx = q_bbc * term_QR(I) / max(psi(I), em20) !OK
+            dpsi_dyy = -r_bbc * term_QR(I) / max(psi(I), em20) !OK
+            dpsi_dxy = axy(I) / max(psi(I), em20) !OK
+
+            !< 5. Assembling the derivative of the eq. stress w.r.t stress tensor
+            normxx = dW_dgamma * l_bbc + dW_dlambda * dlam_dxx +          
+     .                        dW_dpsi * dpsi_dxx !OK
+            normyy = dW_dgamma * m_bbc + dW_dlambda * dlam_dyy +          
+     .                        dW_dpsi * dpsi_dyy !OK
+            !< Plastic incompressibility assumption for shell thickness change
+            normxy = dW_dlambda * dlam_dxy + dW_dpsi * dpsi_dxy
+ 
           ENDIF
           DFDSIG_A  = NORMXX * AXX(I)
      .              + NORMYY * AYY(I)
