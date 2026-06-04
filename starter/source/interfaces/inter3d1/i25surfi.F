@@ -195,6 +195,8 @@ C-----attention: ISU2=ISU1 /=0
         CASE(3)
           NRTM = IGRSURF(ISU2)%NSEG
           LINE_SEG = .FALSE.
+          LINE_SEG_M = .FALSE.
+          LINE_SEG_S = .FALSE.
       END SELECT
 
       IF(LINE_SEG) THEN
