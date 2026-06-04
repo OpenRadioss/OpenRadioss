@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        IMBIN,IDEB,ISN,LINE_TYP,NEDGEP
       LOGICAL :: NEED_SOLID_EROSION
       INTEGER :: IDEL,SOLID_SEGMENT,ELEM
-      LOGICAL LINE_SEG
+      LOGICAL LINE_SEG , LINE_SEG_S, LINE_SEG_M
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -148,8 +148,12 @@ c-----------------------------------------------------------------
       NEDGE_L = 0
       IF(IEDG >0) THEN
          LINE_SEG = .TRUE.
+         LINE_SEG_S = .TRUE.
+         LINE_SEG_M = .TRUE.
       ELSE
          LINE_SEG = .FALSE.
+         LINE_SEG_S = .FALSE.
+         LINE_SEG_M = .FALSE.
       ENDIF
       SELECT CASE (ILEV)
 C-----attention: ISU2=ISU1 /=0            
@@ -161,25 +165,33 @@ C-----attention: ISU2=ISU1 /=0
               IF(IGRSURF(ISU1)%ELTYP(J)==1.OR.IGRSURF(ISU1)%ELTYP(J)==3
      .          .OR.IGRSURF(ISU1)%ELTYP(J)==7.OR.IGRSURF(ISU1)%ELTYP(J)==0) LINE_SEG = .FALSE.
             ENDDO
+            IF(.NOT.LINE_SEG) THEN
+               LINE_SEG_M = .FALSE.
+               LINE_SEG_S = .FALSE.
+            ENDIF
           ENDIF
           IF(ISU3==0) LINE_SEG = .FALSE.
+          IF(LINE_SEG) NRTM = 0
         CASE(2)
           NRTM = IGRSURF(ISU1)%NSEG
           NRTS = IGRSURF(ISU2)%NSEG
-          NRTM = NRTM + NRTS
           IF(IEDG >0.AND.ISU3>0) NEDGE_L =IGRSLIN(ISU3)%NSEG
           IF(IEDG >0.AND.ISU4>0) NEDGE_L =NEDGE_L + IGRSLIN(ISU4)%NSEG
           IF(IEDG > 0) THEN
             DO J=1,IGRSURF(ISU1)%NSEG
              IF(IGRSURF(ISU1)%ELTYP(J)==1.OR.IGRSURF(ISU1)%ELTYP(J)==3
-     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7.OR.IGRSURF(ISU1)%ELTYP(J)==0) LINE_SEG = .FALSE.
+     .          .OR.IGRSURF(ISU1)%ELTYP(J)==7.OR.IGRSURF(ISU1)%ELTYP(J)==0) LINE_SEG_M = .FALSE.
             ENDDO
             DO J=1,IGRSURF(ISU2)%NSEG
              IF(IGRSURF(ISU2)%ELTYP(J)==1.OR.IGRSURF(ISU2)%ELTYP(J)==3
-     .          .OR.IGRSURF(ISU2)%ELTYP(J)==7.OR.IGRSURF(ISU2)%ELTYP(J)==0) LINE_SEG = .FALSE.
+     .          .OR.IGRSURF(ISU2)%ELTYP(J)==7.OR.IGRSURF(ISU2)%ELTYP(J)==0) LINE_SEG_S = .FALSE.
             ENDDO
+            IF(.NOT.LINE_SEG_S.OR..NOT.LINE_SEG_M) LINE_SEG = .FALSE.
           ENDIF
           IF(ISU3==0.AND.ISU4==0) LINE_SEG = .FALSE.
+          IF(LINE_SEG_M) NRTM = 0
+          IF(LINE_SEG_S) NRTS = 0
+          NRTM = NRTM + NRTS
         CASE(3)
           NRTM = IGRSURF(ISU2)%NSEG
           LINE_SEG = .FALSE.
@@ -202,7 +214,7 @@ c---------------------------------------
 c     Copy of surfaces (Iallo == 2)
 c---------------------------------------
       L = 0
-      IF(ISU1 /= 0.AND..NOT.LINE_SEG)THEN
+      IF(ISU1 /= 0.AND..NOT.LINE_SEG_M)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
           L = L+1
           DO K=1,4
@@ -220,7 +232,7 @@ c---------------------------------------
         ENDDO
       ENDIF
       NSU1 = L
-      IF(ISU2 /= 0 .AND.ILEV /=1.AND..NOT.LINE_SEG)THEN
+      IF(ISU2 /= 0 .AND.ILEV /=1.AND..NOT.LINE_SEG_S)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
           L = L+1
           DO K=1,4
@@ -454,14 +466,14 @@ c-----------------------------------------------------------------
         TAG(I)=0 ! initialisation
         TAGS(I)=0 ! initialisation
       ENDDO
-      IF(ISU2 /= 0.AND..NOT.LINE_SEG)THEN
+      IF(ISU2 /= 0.AND..NOT.LINE_SEG_S)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
           DO K=1,4
             TAG(IGRSURF(ISU2)%NODES(J,K)) = 2
           ENDDO
         ENDDO
       ENDIF
-      IF(ISU1 /= 0.AND..NOT.LINE_SEG)THEN
+      IF(ISU1 /= 0.AND..NOT.LINE_SEG_M)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
           DO K=1,4
             I=IGRSURF(ISU1)%NODES(J,K)
@@ -475,7 +487,7 @@ c-----------------------------------------------------------------
       ENDIF
 C for inteply activation needed for Plyxfem + Type24      
       IF(IALLO == 1) THEN
-        IF(ISU2 /= 0)THEN
+        IF(ISU2 /= 0.AND..NOT.LINE_SEG_S)THEN
            DO J=1,IGRSURF(ISU2)%NSEG
               DO K=1,4
 
@@ -485,7 +497,7 @@ C for inteply activation needed for Plyxfem + Type24
               ENDDO
             ENDDO
          ENDIF
-         IF(ISU1 /= 0.AND..NOT.LINE_SEG)THEN
+         IF(ISU1 /= 0.AND..NOT.LINE_SEG_M)THEN
            DO J=1,IGRSURF(ISU1)%NSEG
               DO K=1,4
                 I=IGRSURF(ISU1)%NODES(J,K)
@@ -499,7 +511,7 @@ C for inteply activation needed for Plyxfem + Type24
 c-----------------------------------------------------------------
 c     Surface nodes S2: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
-      IF(ISU2 /= 0.AND..NOT.LINE_SEG)THEN
+      IF(ISU2 /= 0.AND..NOT.LINE_SEG_S)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
           DO K=1,4
             I=IGRSURF(ISU2)%NODES(J,K)
@@ -525,7 +537,7 @@ c     taged nodes on S2 -> negative value
 c-----------------------------------------------------------------
 c     Surface nodes S1: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
-      IF(ISU1 /= 0.AND..NOT.LINE_SEG)THEN
+      IF(ISU1 /= 0.AND..NOT.LINE_SEG_M)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
           DO K=1,4
             I=IGRSURF(ISU1)%NODES(J,K)
