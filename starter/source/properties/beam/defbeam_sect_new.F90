@@ -46,7 +46,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod ,only : half,one,zero,two,three,fourth,pi
+          use constant_mod ,only : half,one,zero,two,three,fourth,pi,third,four,twelve
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -74,6 +74,8 @@
           real(kind=WP) :: area1_i,area2_i,area3_i,area4_i,dy1,dy2,dz1,dz2,y1_0,z1_0
           real(kind=WP) :: y2_0,z2_0,fac,fac2,fac3,fac4,dl,dh,l_sup,l_inf
           real(kind=WP) :: r_sup,r_inf,dr,phi_0,phi,dphi
+          real(kind=WP) :: aac,aad,ixx,iyy,izz
+          real(kind=WP) :: da,db,dc,ycog,zcog
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,7 +99,14 @@
             nb_dim = 4
             nip = 3*(2*intr+3)
             intr_max = 15
+!           section properties           
             area = l(1)*l(3)-(l(1)-l(4))*(l(3)-two*l(2))
+            iyy = two*l(1)*l(2)**3/twelve + two*l(1)*l(2)*(half*(l(3)-l(2)))**2                           &
+                + l(4)*(l(3)-two*l(2))**3/twelve
+            izz = two*l(2)*l(1)**3/twelve + (l(3)-two*l(2))*l(4)**3/twelve
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) = (two*l(1)*l(2)**3 + (l(3)-l(2))*l(4)**3)*third/ixx
             fac = one/(2*intr+3)
             area1_i = l(1)*l(2)*fac
             area2_i = l(4)*(l(3)-two*l(2))*fac
@@ -133,7 +142,16 @@
             nb_dim = 4
             nip = 3*(intr+3)
             intr_max = 30
-            area = l(1)*l(3)-(l(1)-l(4))*(l(3)-two*l(2))
+!           section properties                
+            area = l(1)*l(3)-(l(1)-l(4))*(l(3)-two*l(2))          
+            ycog = -l(4)*(l(3)-two*l(2))*half*(l(1)-l(4))/area
+            iyy = two*(l(1)*l(2)**3/twelve + l(1)*l(2)*(half*(l(3)-l(2)))**2)                              &
+                  + l(4)*(l(3)-two*l(2))**3/twelve
+            izz = two*(l(2)*l(1)**3/twelve + l(1)*l(2)*(ycog**2)) + l(4)*(l(3)                             &
+                 -two*l(2))*(-half*(l(1)-l(4))-ycog)**2 + (l(3)-two*l(2))*l(4)**3/twelve 
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) = (two*(l(1)-half*l(4))*l(2)**3 + (l(3)-l(2))*l(4)**3)*third/ixx
             fac = one/(intr+3)
             area1_i = l(1)*l(2)*fac
             area2_i = l(4)*(l(3)-two*l(2))*fac
@@ -169,7 +187,19 @@
             nb_dim = 4
             nip = 2*(intr+2)+1
             intr_max = 47
+!           section properties           
             area = l(1)*l(3)-(l(1)-l(4))*(l(3)-l(2))
+            da = l(3)-l(2)
+            db = l(1)-l(4)
+            ycog = (l(4)*da*(-half*db) + l(2)*db*(half*l(4)) + l(2)*l(4)*(-half*db))/area
+            zcog = (l(4)*da*(half*l(2)) + l(2)*db*(-half*da) + l(2)*l(4)*(-half*da))/area
+            iyy = l(4)*da**3/twelve + l(4)*da*(half*l(2)-zcog)**2 + db*l(2)**3/twelve                        &
+                + l(2)*db*(-half*da-zcog)**2 + l(4)*l(2)**3/twelve + l(2)*l(4)*(-half*da-zcog)**2
+            izz = da*l(4)**3/twelve + l(4)*da*(-half*db-ycog)**2 + l(2)*db**3/twelve                         &
+                + l(2)*db*(half*l(4)-ycog)**2 + l(2)*l(4)**3/twelve + l(2)*l(4)*(-half*db-ycog)**2
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = ((l(3)-half*l(2))*l(4)**3 + (l(1)-half*l(4))*l(2)**3)*third/ixx            
             fac = one/(intr+2)
             area1_i = l(4)*(l(3)-l(2))*fac
             area2_i = l(2)*(l(1)-l(4))*fac
@@ -203,7 +233,15 @@
             nb_dim = 4
             nip = 4*(intr+2)+1
             intr_max = 22
+!           section properties            
             area = l(1)*l(3)-(l(1)-l(4))*(l(3)-l(2))
+            zcog = (l(1)*l(2)*half*(l(3)-l(2)) - l(4)*(l(3)-l(2))*half*l(2))/area
+            iyy = l(1)*l(2)**3/twelve + l(1)*l(2)*(half*(l(3)-l(2))-zcog)**2                                 &
+                + l(4)*(l(3)-l(2))**3/twelve + l(4)*(l(3)-l(2))*(-half*l(2)-zcog)**2
+            izz = l(2)*l(1)**3/twelve + (l(3)-l(2))*l(4)**3/twelve
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) = (l(1)*l(2)**3 + (l(3)-half*l(2))*l(4)**3)*third/ixx            
             fac = one/(intr+2)
             fac2 = one/(2*(intr+2))
             area1_i = half*(l(1)-l(4))*l(2)*fac
@@ -245,7 +283,14 @@
             nb_dim = 4
             nip = 2*(intr+3)+2*(intr+1)
             intr_max = 23
+!           section properties            
             area = l(1)*l(3)-(l(1)-two*l(4))*(l(3)-two*l(2))
+            iyy = (l(1)*l(3)**3 - (l(1)-two*l(4))*(l(3)-two*l(2))**3)/twelve
+            izz = (l(3)*l(1)**3 - (l(3)-two*l(2))*(l(1)-two*l(4))**3)/twelve
+            ixx = iyy + izz
+!           torsion factor                  
+            geo(90) = two*l(2)*l(4)*((l(1)-l(4))**2)*((l(3)-l(2))**2)                                     &
+                     /(l(1)*l(4)+l(2)*l(3)-l(2)**2-l(4)**2)/ixx     
             fac = one/(intr+3)
             fac2 = one/(intr+1)
             area1_i = l(1)*l(2)*fac
@@ -294,6 +339,15 @@
             area2_i = l(4)*(l(3)-two*l(2))*fac
             dy1 = half*(l(1)+l(4))*fac
             dz2 = -(l(3)-two*l(2))*fac
+!           torsion factor
+            db = fourth*(l(1)-l(4))
+            dc = half*(l(3)-l(2))
+            iyy = two*(half*(l(1)+l(4))*l(2)**3/twelve + half*(l(1)+l(4))*l(2)*dc**2)                  &
+                + l(4)*(l(3)-two*l(2))**3/twelve
+            izz = two*(l(2)*(half*(l(1)+l(4)))**3/twelve + half*(l(1)+l(4))*l(2)*db**2)                &
+                + (l(3)-two*l(2))*l(4)**3/twelve
+            ixx = iyy + izz
+            geo(90) = ((l(3)-two*l(2))*l(4)**3 + (l(1)+l(4))*l(2)**3)*third/ixx
             ip = 0
             y1_0 = -half*l(1)+half*dy1
             do i = 1,intr+3
@@ -406,8 +460,18 @@
             nb_dim = 6
             nip = 3*(2*intr+3)
             intr_max = 15
-            area = l(3)*l(6)+l(2)*l(5)+l(4)*(l(1)-l(5)-l(6))
             fac = one/(2*intr+3)
+!           section properties
+            area = l(3)*l(6)+l(2)*l(5)+l(4)*(l(1)-l(5)-l(6))
+            zcog = (l(3)*l(6)*half*(l(1)-l(6)) - l(2)*l(5)*half*(l(1)-l(5))                             &
+                  + l(4)*(l(1)-l(5)-l(6))*half*(l(5)-l(6)))/area
+            iyy = l(3)*l(6)**3/twelve + l(3)*l(6)*(half*(l(1)-l(6))-zcog)**2                            &
+                + l(2)*l(5)**3/twelve + l(2)*l(5)*(-half*(l(1)-l(5))-zcog)**2                           &
+                + l(4)*(l(1)-l(5)-l(6))**3/twelve + l(4)*(l(1)-l(5)-l(6))*(half*(l(5)-l(6))-zcog)**2
+            izz = l(6)*l(3)**3/twelve + l(5)*l(2)**3/twelve + (l(1)-l(5)-l(6))*l(4)**3/twelve
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) = (l(3)*l(6)**3 + l(2)*l(5)**3 + (l(1)-half*(l(5)+l(6)))*l(4)**3)*third/ixx
             ip = 0
             area1_i = l(3)*l(6)*fac
             dy1 = l(3)*fac
@@ -447,6 +511,15 @@
             intr_max = 7
             area = l(1)*l(2)
             fac = one/(intr+3)
+!           torsion factor
+            iyy = l(1)*l(2)**3/twelve
+            izz = l(2)*l(1)**3/twelve
+            ixx = ((l(1)*l(2)**3+l(2)*l(1)**3))/twelve
+            if (l(2) >= l(1)) then
+              geo(90) = third*(l(2)*l(1)**3)*(one-0.63*l(1)/l(2) + 0.0525*(l(1)/l(2))**5)/ixx
+            else
+              geo(90) = third*(l(1)*l(2)**3)*(one-0.63*l(2)/l(1) + 0.0525*(l(2)/l(1))**5)/ixx
+            end if
             ip = 0
             dy1 = l(1)*fac
             dz1 = l(2)*fac
@@ -470,7 +543,13 @@
             nb_dim = 4
             nip = 2*(2*intr+4)+4*(intr+1)
             intr_max = 8
+!           section properties            
             area = l(2)*l(3)+l(4)*l(1)
+            iyy = (l(2)*l(3)**3 + l(1)*l(4)**3)/twelve
+            izz = (l(3)*l(2)**3 + l(4)*((l(1)+l(2))**3 - l(2)**3))/twelve
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) =(l(3)*l(2)*l(2)*l(2)+l(1)*l(4)*l(4)*l(4))*third/ixx
             ip = 0
             fac = one/(2*intr+4)
             area1_i = half*l(3)*l(2)*fac
@@ -526,7 +605,13 @@
             nb_dim = 4
             nip = 6*intr+13
             intr_max = 14
+!           section properties            
             area = l(3)*l(2)+l(4)*l(1)
+            iyy = (l(2)*l(3)**3 + l(1)*l(4)**3)/twelve
+            izz = (l(3)*(l(1)+l(2))**3 - (l(3)-l(4))*l(1)**3)/twelve
+            ixx = iyy + izz
+!           torsion factor            
+            geo(90) = (half*half*l(3)*l(2)**3+l(1)*l(4)**3)*third/ixx            
             fac = one/(2*intr+5)
             fac2 = one/(2*intr+3)
             area1_i = half*l(3)*l(2)*fac
@@ -563,7 +648,15 @@
             nb_dim = 4
             nip = 4*(2*intr+4)
             intr_max = 8
+!           section properties
             area = l(1)*l(3)+l(2)*l(4)
+            ycog = (l(1)*l(3)*half*l(2) - l(2)*l(4)*half*l(3))/area
+            iyy = l(3)*l(1)**3/twelve + l(2)*l(4)**3/twelve
+            izz = l(1)*l(3)**3/twelve + l(1)*l(3)*(half*l(2)-ycog)**2 &
+                + l(4)*l(2)**3/twelve + l(2)*l(4)*(-half*l(3)-ycog)**2
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = (l(1)*l(3)**3 + (l(2)+half*l(3))*l(4)**3)*third/ixx            
             fac = one/(2*intr+4)
             area1_i = half*l(1)*l(3)*fac
             area2_i = half*l(4)*l(2)*fac
@@ -605,7 +698,13 @@
             nb_dim = 4
             nip = 2*(2*intr+4)+ 2*(2*intr+3)
             intr_max = 10
+!           section properties            
             area = l(2)*l(3)+(l(1)+l(2))*(l(4)-l(3))
+            iyy = ((l(1)+l(2))*l(4)**3 - l(1)*l(3)**3)/twelve
+            izz = (l(3)*l(2)**3 + ((l(4)-l(3)))*(l(1)+l(2))**3)/twelve
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = ((l(3)+half*(l(4)-l(3)))*l(2)**3+two*(l(1)+l(2))*(half*(l(4)-l(3)))**3)*third/ixx             
             fac = one/(2*intr+4)
             fac2 = one/(2*intr+3)
             area1_i = half*(l(1)+l(2))*(l(4)-l(3))*fac
@@ -648,7 +747,15 @@
             nb_dim = 4
             nip = 4*(intr+3)
             intr_max = 22
+!           section properties
             area = l(2)*l(4)+l(1)*(l(4)-l(3))
+            ycog = -half*l(1)*l(2)*l(3)/area
+            iyy = ((l(1)+l(2))*l(4)**3 - l(1)*l(3)**3)/twelve
+            izz = l(4)*(l(1)+l(2))**3/twelve + (l(1)+l(2))*l(4)*(ycog**2)   &
+                - l(3)*l(1)**3/twelve - l(1)*l(3)*(half*l(2)-ycog)**2
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = (two*(l(1)+half*l(2))*(half*(l(4)-l(3)))**3 + half*(l(4)+l(3))*l(2)**3)*third/ixx            
             fac = one/(intr+3)
             area1_i = half*(l(1)+l(2))*(l(4)-l(3))*fac
             area2_i = half*l(3)*l(2)*fac
@@ -690,7 +797,16 @@
             nb_dim = 4
             nip = 6*intr+7
             intr_max = 15
+!           section properties
             area = two*l(1)*l(3)+l(2)*(l(4)-two*l(1))
+            zcog = (l(1)*l(3)**2 - l(1)*l(2)*l(3))/area
+            iyy = two*(l(1)*l(3)**3/twelve + l(1)*l(3)*(half*(l(3)-l(2))-zcog)**2)                 &
+                + l(2)*(l(4)-two*l(1))**3/twelve + l(2)*(l(4)-two*l(1))*(zcog**2)
+            izz = two*(l(3)*l(1)**3/twelve + l(1)*l(3)*(half*(l(4)-l(1)))**2)                      &
+                + (l(4)-two*l(1))*l(2)**3/twelve
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = (two*(l(3)-half*l(2))*l(1)**3 + (l(4)-l(1))*l(2)**3)*third/ixx            
             fac = one/(2*intr+3)
             fac2 = one/(2*intr+2)
             area1_i = l(2)*l(4)*fac
@@ -727,7 +843,15 @@
             nb_dim = 4
             nip = 8*intr+12
             intr_max = 11
+!           section properties
             area = l(1)*l(3)+l(4)*(l(2)-l(3))
+            zcog = (l(1)*l(3)*(-half*l(2)+half*l(3)) + l(4)*(l(2)-l(3))*half*l(3))/area
+            iyy = l(1)*l(3)**3/twelve + l(1)*l(3)*(-half*l(2)+half*l(3)-zcog)**2          &
+                + l(4)*(l(2)-l(3))**3/twelve + l(4)*(l(2)-l(3))*(half*l(3)-zcog)**2
+            izz = l(3)*l(1)**3/twelve + (l(2)-l(3))*l(4)**3/twelve
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = (l(1)*l(3)**3 + (l(2)-half*l(3))*l(4)**3)*third/ixx            
             fac = one/(2*intr+4)
             fac2 = one/(2*intr+2)
             area1_i = half*l(1)*l(3)*fac
@@ -771,7 +895,25 @@
             nb_dim = 6
             nip = 4*intr+8
             intr_max = 23
+!           section properties
             area = l(2)*(l(5)+l(6))+(l(3)+l(4))*(l(1)-l(5)-l(6))
+            da = l(2)-l(3)-l(4)
+            db = l(1)-l(5)-l(6)
+            ycog = (l(5)*da*(half*(l(1)-l(5))) - l(6)*da*(half*(l(1)-l(6))))/area
+            zcog = (l(3)*l(1)*(half*(l(2)-l(3))) - l(4)*l(1)*(half*(l(2)-l(4))))/area
+            iyy = l(3)*l(1)**3/twelve + l(3)*l(1)*(half*(l(2)-l(3))-zcog)**2               &
+                + l(4)*l(1)**3/twelve + l(4)*l(1)*(-half*(l(2)-l(4))-zcog)**2              &
+                + l(6)*da**3/twelve + l(6)*da*(half*(l(4)-l(3))-zcog)**2                   &
+                + l(5)*da**3/twelve + l(5)*da*(half*(l(4)-l(3))-zcog)**2
+            izz = l(1)*l(3)**3/twelve + l(1)*l(3)*(ycog**2)                                &
+                + l(1)*l(4)**3/twelve + l(1)*l(4)*(ycog**2)                                &
+                + da*l(6)**3/twelve + l(6)*da*(-half*(l(1)-l(6))-ycog)**2                  &
+                + da*l(5)**3/twelve + l(5)*da*(half*(l(1)-l(5))-ycog)**2
+            ixx = iyy + izz
+!           torsion factor
+            aac = l(1)-half*(l(5)+l(6))
+            aad = l(2)-half*(l(3)+l(4))
+            geo(90) = four*aac*aac*aad*aad/(aac/l(3)+aac/l(4)+aad/l(5)+aad/l(6))/ixx            
             fac = one/(intr+3)
             fac2 = one/(intr+1)
             area1_i = l(1)*l(3)*fac
@@ -817,7 +959,15 @@
             nb_dim = 3
             nip = 2*(intr+3)*(intr+3)
             intr_max = 4
+!           section properties
             area = (l(2)-l(1))*l(3)
+            ycog = zero
+            zcog = zero
+            iyy = l(3)**3*(two*l(2)-three*l(1))/(two*twelve)
+            izz = l(3)*l(2)**3/twelve - l(3)*l(1)**3/18.0_WP - l(1)*l(3)*(half*l(2)-l(1)/three)**2
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = 0.1154*l(3)**4/ixx            
             fac = one/(intr+3)
             ip = 0
             dl = two*l(1)*fac
@@ -859,7 +1009,22 @@
             nb_dim = 4
             nip = 8*intr+14
             intr_max = 8
-            area = (two*l(4)+l(3))*l(2)+two*(l(1)-l(2))*l(2)
+!           section properties
+            da = l(4)*l(2)
+            db = l(2)*l(1)
+            dc = (l(3)-two*l(2))*l(2)
+            area = two*da + two*db + dc
+            ycog = zero
+            zcog = (two*da*half*l(2) + two*db*half*l(1) + dc*(l(1)-half*l(2)))/area
+            iyy = two*(l(4)*l(2)**3/twelve + da*(half*l(2) - zcog)**2) + &
+                  two*(l(2)*l(1)**3/twelve + db*(half*l(1) - zcog)**2) + &
+                  (l(3)-two*l(2))*l(2)**3/twelve + dc*(l(1) - half*l(2) - zcog)**2
+            izz = two*(l(2)*l(4)**3/twelve + da*(half*(l(3)+l(4)))**2) + &
+                  two*(l(2)**3*l(1)/twelve + db*(half*(l(3)-l(2)))**2) + &
+                  l(2)*(l(3)-two*l(2))**3/twelve
+            ixx = iyy + izz
+!           torsion factor
+            geo(90) = two*((l(1)+l(4)+half*l(3)-l(2))*l(2)**3)*third/ixx
             fac = one/(2*intr+4)
             fac2 = one/(intr+2)
             fac3 = one/(2*intr+3)

@@ -83,7 +83,7 @@ C-----------------------------------------------
       my_real
      .    AREA_I,TIXX_I,TIYY_I,TIZZ_I, ARI,INI,RYI,RZI
       my_real
-     .    IRR 
+     .    IXX 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       DATA PUN/0.1/
 C=======================================================================
@@ -197,11 +197,11 @@ C
 C
 C         Tors factor for rectangular section
           IF ((ISECT == 1).OR.(ISECT == 3)) THEN
-            IRR = ((L(1)*L(2)**3+L(2)*L(1)**3))/TWELVE
+            IXX = ((L(1)*L(2)**3+L(2)*L(1)**3))/TWELVE
             IF (L(2) >= L(1)) THEN
-              GEO(90) = THIRD*(L(2)*L(1)**3)*(ONE-0.63*L(1)/L(2)+0.0525*(L(1)/L(2))**5)/IRR
+              GEO(90) = THIRD*(L(2)*L(1)**3)*(ONE-0.63*L(1)/L(2)+0.0525*(L(1)/L(2))**5)/IXX
             ELSE
-              GEO(90) = THIRD*(L(1)*L(2)**3)*(ONE-0.63*L(2)/L(1)+0.0525*(L(2)/L(1))**5)/IRR
+              GEO(90) = THIRD*(L(1)*L(2)**3)*(ONE-0.63*L(2)/L(1)+0.0525*(L(2)/L(1))**5)/IXX
             ENDIF
           ENDIF
 C
