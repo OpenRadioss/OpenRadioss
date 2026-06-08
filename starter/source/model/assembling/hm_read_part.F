@@ -77,6 +77,8 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use hm_is_part_with_elements_mod
+      use, intrinsic :: iso_c_binding , only : c_bool
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,6 +124,7 @@ C-----------------------------------------------
      .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX, IDS, CNT,
      .        STAT,JALE_FROM_PROP,JALE_FROM_MAT
       my_real BID, THICK,FAC_L,MP,VOL,DIAM
+      logical(c_bool) :: IS_FILLED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -209,6 +212,9 @@ C--------------------------------------------------
             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
         ENDIF
 
+        IS_FILLED = .FALSE.
+        call hm_is_part_with_elements(ID,IS_FILLED)
+
         IGTYP=NINT(GEO(12,IPID))
         IF(IGTYP == 17 .OR. IGTYP == 51) IPART_STACK = 1
         IF(IGTYP ==  52) IPART_PCOMPP = 1
@@ -221,7 +227,7 @@ C--------------------------------------------------
      .      (IGTYP == 17).OR.(IGTYP == 51).OR.(IGTYP == 52).OR. 
      .      (IGTYP == 23).OR.(IGTYP == 43)) THEN
             IF(MID == 0) THEN
-               CALL ANCMSG(MSGID=179,
+               IF(IS_FILLED) CALL ANCMSG(MSGID=179,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
      .                     I1=ID,
@@ -237,7 +243,7 @@ C--------------------------------------------------
         ELSE
          IMID = NINTRI(MID,IPM,NPROPMI,NUMMAT,1)
          IF(IMID == 0) THEN
-            CALL ANCMSG(MSGID=179,
+            IF(IS_FILLED) CALL ANCMSG(MSGID=179,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID,
