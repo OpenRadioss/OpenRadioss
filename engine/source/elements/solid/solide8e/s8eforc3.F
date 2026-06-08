@@ -1533,8 +1533,11 @@ C
      .           NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .           TEMP,TEMPEL)
       ENDIF 
-      DELTAXI(1:NEL) = DELTAX(1:NEL)   
-      IF (FAC_NU<ONE) DELTAXI(1:NEL) = MAX(DELTAXI(1:NEL),NU_SP*DELTAX(1:NEL))   
+      IF (FAC_NU<ONE) THEN 
+        DELTAXI(1:NEL) = MAX(DELTAXI(1:NEL),NU_SP*DELTAX(1:NEL)) 
+      ELSE 
+        DELTAXI(1:NEL) = DELTAX(1:NEL)   
+      ENDIF	  
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
