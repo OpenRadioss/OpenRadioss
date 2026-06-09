@@ -121,8 +121,15 @@
 !                                   = 0 -> Inertia is added to each node of node group
 !                                   = 5 -> Inertia is added to each single node
 !         adinertia(ig)%nodeid : NODE_ID to add INERTIA
-!         adinertia(ig)%node(inod)%inertia : INERTIA added to NODES
+!         adinertia(ig)%grnod : GRNOD to add INERTIA (only for type 0)
+!         adinertia(ig)%node(inod)%inertia : INERTIA added to NODES (Ixx)
 !         adinertia(ig)%node(inod)%mass : MASS added to NODES
+!         adinertia(ig)%node(inod)%ixx : IXX component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%iyy : IYY component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%izz : IZZ component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%ixy : IXY component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%ixz : IXZ component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%iyz : IYZ component of inertia tensor added to NODES          
 !=======================================================================
 !
           is_available = .false.
@@ -261,10 +268,17 @@
                   in(nosys) = in(nosys) + adiner
                   totaddiner = totaddiner + adiner
                   ! inertia/mass storage
+                  adinertia(i)%grnod = igr
                   adinertia(i)%nbnod = nnod
                   adinertia(i)%nodeid(j) = nosys
                   adinertia(i)%node(j)%inertia = adiner
                   adinertia(i)%node(j)%mass = amas
+                  adinertia(i)%node(j)%ixx = compIxx
+                  adinertia(i)%node(j)%iyy = compIyy
+                  adinertia(i)%node(j)%izz = compIzz
+                  adinertia(i)%node(j)%ixy = compIxy
+                  adinertia(i)%node(j)%ixz = compIxz
+                  adinertia(i)%node(j)%iyz = compIyz
  150      continue
                 enddo ! j=1,nnod
               else
@@ -352,6 +366,12 @@
                 adinertia(i)%nodeid(j) = entity_multi(j)
                 adinertia(i)%node(j)%inertia = ixx_multi(j)
                 adinertia(i)%node(j)%mass = amas_multi(j)
+                adinertia(i)%node(j)%ixx = ixx_multi(j)
+                adinertia(i)%node(j)%iyy = iyy_multi(j)
+                adinertia(i)%node(j)%izz = izz_multi(j)
+                adinertia(i)%node(j)%ixy = ixy_multi(j)
+                adinertia(i)%node(j)%ixz = ixz_multi(j)
+                adinertia(i)%node(j)%iyz = iyz_multi(j)
  170      continue
               enddo ! j=1,entitymax
 !

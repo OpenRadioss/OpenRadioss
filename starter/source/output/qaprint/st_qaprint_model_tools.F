@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE FUNC2D_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      use adinertia_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +136,7 @@ C-----------------------------------------------
       INTEGER :: TEMP_INTEGER
       INTEGER :: ISECT, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, KR0
       INTEGER :: NNOD,NSEGS,NSEGQ,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NBINTER,
-     .           ISEN,INTVAL
+     .           ISEN,INTVAL,IGRS
       INTEGER :: WORK(70000),INDEX(2*(NUMFRAM+1)),IFRAME,ITR1(NUMFRAM+1)
       INTEGER :: INDEXS(2*(SENSORS%NSENSOR+1)),ITRS(SENSORS%NSENSOR+1)
       LOGICAL :: OK_QA
@@ -233,7 +234,7 @@ c-----------------------------------------------
           IF (LEN_TRIM(TITR)/=0) THEN
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),OPT_ID,0.0_8)
           ELSE
-            CALL QAPRINT('BOX_FAKE_NAME',OPT_ID,0.0_8)
+            CALL QAPRINT('ADMASS_FAKE_NAME',OPT_ID,0.0_8)
           END IF
 c
           WRITE(VARNAME,'(A)') 'TYPE'
@@ -256,7 +257,62 @@ c
           ENDIF
         END DO
       END IF  ! /ADMAS
-
+!-----------------------------------------------
+!     /ADINERTIA
+!-----------------------------------------------
+      IF (MYQAKEY('/ADINERTIA')) THEN
+        DO IAD = 1,NBADDINER
+          TITR   = ADINERTIA(IAD)%TITLE
+          OPT_ID = ADINERTIA(IAD)%ID
+          IF (LEN_TRIM(TITR)/=0) THEN
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),OPT_ID,0.0_8)
+          ELSE
+            CALL QAPRINT('ADINERTIA_FAKE_NAME',OPT_ID,0.0_8)
+          END IF
+!
+          WRITE(VARNAME,'(A)') 'TYPE'
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ADINERTIA(IAD)%TYPE,0.0_8)
+!
+          IF (ADINERTIA(IAD)%TYPE == 0) THEN
+            IGRS = ADINERTIA(IAD)%GRNOD
+            WRITE(VARNAME,'(A)') 'grnd_ID'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRS,0.0_8)
+            WRITE(VARNAME,'(A)') 'IXX'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IXX)
+            WRITE(VARNAME,'(A)') 'IXY'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IXY)
+            WRITE(VARNAME,'(A)') 'IXZ'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IXZ)
+            WRITE(VARNAME,'(A)') 'IYY'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IYY)
+            WRITE(VARNAME,'(A)') 'IYZ'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IYZ)
+            WRITE(VARNAME,'(A)') 'IZZ'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%IZZ)
+            WRITE(VARNAME,'(A)') 'Mass'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(1)%MASS)
+          ELSE IF(ADINERTIA(IAD)%TYPE == 5) THEN
+            DO I=1,ADINERTIA(IAD)%NBNOD
+              WRITE(VARNAME,'(A)') 'node_ID'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ADINERTIA(IAD)%NODEID(I),0.0_8)
+              WRITE(VARNAME,'(A)') 'IXX'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IXX)
+              WRITE(VARNAME,'(A)') 'IXY'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IXY)
+              WRITE(VARNAME,'(A)') 'IXZ'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IXZ)
+              WRITE(VARNAME,'(A)') 'IYY'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IYY)
+              WRITE(VARNAME,'(A)') 'IYZ'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IYZ)
+              WRITE(VARNAME,'(A)') 'IZZ'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%IZZ)
+              WRITE(VARNAME,'(A)') 'Mass'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,ADINERTIA(IAD)%NODE(I)%MASS)
+            ENDDO
+          ENDIF
+        END DO
+      END IF  ! /ADINERTIA
 C-----------------------------------------------
 C     SECTIONS : /SECT, /SECT/CIRCLE, /SECT/PARAL
 C-----------------------------------------------
