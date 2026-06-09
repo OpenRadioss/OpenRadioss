@@ -45,7 +45,7 @@
 !||    ebcs_cyclic_surface_matching_2d_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
 !||    ebcs_cyclic_surface_matching_3d_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||====================================================================
-        subroutine ebcs_cyclic_surface_matching(ebcs_cyclic, ebcs,  n2d, numnod, X)
+        subroutine ebcs_cyclic_surface_matching(ebcs_cyclic, ebcs,  n2d, numnod, X, iflag)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,6 +70,7 @@
           integer, intent(in) :: n2d                       !< 2d/3d flag  0:3d, 1:axi, 2:plane strain
           integer,intent(in) :: numnod
           real(kind=WP),intent(in) :: X(3,numnod)
+          integer,intent(in) :: IFLAG
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +79,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if(n2d == 0)then
-            call ebcs_cyclic_surface_matching_3d(ebcs_cyclic, ebcs, numnod, X)
+            if(iflag /= 0)call ebcs_cyclic_surface_matching_3d(ebcs_cyclic, ebcs, numnod, X)
           else
             call ebcs_cyclic_surface_matching_2d(ebcs_cyclic, ebcs, numnod, X)
           end if
