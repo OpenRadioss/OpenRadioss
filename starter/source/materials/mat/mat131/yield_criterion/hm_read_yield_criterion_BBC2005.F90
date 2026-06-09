@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_bbc2005.F90
+!||    hm_read_yield_criterion_bbc2005_mod   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_BBC2005.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_yield_criterion           ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    hm_read_yield_criterion               ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
 !||====================================================================
       module hm_read_yield_criterion_bbc2005_mod
         implicit none
@@ -31,17 +31,20 @@
 ! \details Read the BBC2005 anisotropic yield criterion parameters
 !          for /MAT/LAW131.
       contains
+      
 !||====================================================================
-!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_bbc2005.F90
+!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_BBC2005.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_yield_criterion           ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
 !||--- calls      -----------------------------------------------------
+!||    bbc2005_calcul_coeffs             ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||    hm_get_float_array_index          ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_int_array_index            ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
 !||--- uses       -----------------------------------------------------
+!||    bbc2005_calcul_coeffs_mod         ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||    hm_option_read_mod                ../starter/share/modules1/hm_option_read_mod.F
 !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      
         subroutine hm_read_yield_criterion_bbc2005(                        &
          ikey     ,icrit    ,nupar_crit,upar_crit,is_available,unitab   ,  &
          lsubmodel,iout     ,is_encrypted)

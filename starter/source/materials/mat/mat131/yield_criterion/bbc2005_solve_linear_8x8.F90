@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_bbc2005.F90
+!||    bbc2005_solve_linear_8x8_mod   ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_solve_linear_8x8.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_yield_criterion           ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    bbc2005_calcul_coeffs          ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||====================================================================
       module bbc2005_solve_linear_8x8_mod
         implicit none
@@ -32,6 +32,11 @@
 !   Helper: Basic 8x8 Linear System Solver (Gaussian Elimination)
 !   Solves A * X = B. The answer is returned in X.
 !===============================================================================
+!||====================================================================
+!||    bbc2005_solve_linear_8x8   ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_solve_linear_8x8.F90
+!||--- called by ------------------------------------------------------
+!||    bbc2005_calcul_coeffs      ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
+!||====================================================================
         subroutine bbc2005_solve_linear_8x8(A_in, B_in, X, info)
             implicit none
             real(kind=8), intent(in)  :: A_in(8,8), B_in(8)

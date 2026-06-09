@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_yield_criterion_bbc2005   ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_bbc2005.F90
+!||    bbc2005_evaluate_mod    ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_evaluate.F90
 !||--- called by ------------------------------------------------------
-!||    hm_read_yield_criterion           ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion.F90
+!||    bbc2005_calcul_coeffs   ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
 !||====================================================================
       module bbc2005_evaluate_mod
         implicit none
@@ -38,6 +38,12 @@
 !===============================================================================
 !   Helper: Evaluate Residuals F = Theoretical - Experimental
 !===============================================================================
+!||====================================================================
+!||    bbc2005_evaluate        ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_evaluate.F90
+!||--- called by ------------------------------------------------------
+!||    bbc2005_calcul_coeffs   ../starter/source/materials/mat/mat131/yield_criterion/bbc2005_calcul_coeffs.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine bbc2005_evaluate(x, Yref, k_val, y_exp, F)
             use constant_mod,  only : pi
             implicit none
