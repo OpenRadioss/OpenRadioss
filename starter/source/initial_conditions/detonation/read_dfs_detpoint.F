@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER              :: I,MAT,MDET,DET_ID,IDET
-      INTEGER              :: NODE_ID1,uID1,UID,internal_ID,NNOD
+      INTEGER              :: NODE_ID1,uID1,internal_ID,NNOD
       INTEGER              :: UNUSED
       my_real              :: XC, YC, ZC, TDET, R0
       CHARACTER*40         :: MESS
@@ -101,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS, NINTRI
+      INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS
       INTEGER              :: UNUSED_MAT_DETONATOR
       DATA MESS/'DETONATORS DEFINITION                   '/
 C-----------------------------------------------
@@ -111,7 +111,14 @@ C-----------------------------------------------
 
       DO IDET=1,DETONATORS%N_DET_POINT
 
-       CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID, UNIT_ID=UID,KEYWORD2=KEY,KEYWORD3=KEY2)
+       TDET = ZERO
+       MAT = 0
+       R0 = ZERO
+       uID1 = 0
+       IDFRAME(1) = 0
+       IDFRAME(2) = 0
+
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID,KEYWORD2=KEY,KEYWORD3=KEY2)
        IF (LEN_TRIM(KEY) > 0) KEY = KEY(1:7)
        IF (LEN_TRIM(KEY2) > 0) KEY2 = KEY2(1:5)
 
@@ -170,12 +177,13 @@ C-----------------------------------------------
         IF (TDET < -INFINITY)TDET=-INFINITY
 
         !default value for shadowing flag
+        IF(I_SHADOW == 0)I_SHADOW = -1
         IF(IS_AVAILABLE_SHADOW)THEN
-          IF(I_SHADOW < 0 .OR. I_SHADOW > 1)THEN
-            I_SHADOW = 0
+          IF(I_SHADOW /= -1 .AND. I_SHADOW /= 1)THEN
+            I_SHADOW = -1
             CALL ANCMSG(MSGID=102,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                  I1=DET_ID,
-     .                  C1='INVALID I_SHADOW FLAG. FLAG IS SET TO 0',
+     .                  C1='INVALID I_SHADOW FLAG. FLAG IS SET TO -1 (NO SHADOWING)',
      .                  C2=MSG_C2,
      .                  I2=MDET)
           END IF
@@ -183,7 +191,7 @@ C-----------------------------------------------
 
         !default value for shadowing flag
         IF(R0 < ZERO)THEN
-          IF(I_SHADOW /= 0)THEN
+          IF(I_SHADOW == 1)THEN
             R0 = ZERO
             CALL ANCMSG(MSGID=102,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
      .                  I1=DET_ID,
@@ -344,6 +352,7 @@ C-----------------------------------------------
             WRITE(IOUT,1400) DET_ID,TDET,XC,YC,ZC,MDET
           ENDIF
           ! STORAGE
+          IF(I_SHADOW == -1)I_SHADOW = 0 !store 0 if not defined, -1 is only used for user warning
           DETONATORS%POINT(IDET)%SHADOW = I_SHADOW
           DETONATORS%POINT(IDET)%TDET = TDET
           DETONATORS%POINT(IDET)%MAT = MAT
