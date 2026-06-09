@@ -121,8 +121,15 @@
 !                                   = 0 -> Inertia is added to each node of node group
 !                                   = 5 -> Inertia is added to each single node
 !         adinertia(ig)%nodeid : NODE_ID to add INERTIA
-!         adinertia(ig)%node(inod)%inertia : INERTIA added to NODES
+!         adinertia(ig)%grnod : GRNOD to add INERTIA (only for type 0)
 !         adinertia(ig)%node(inod)%mass : MASS added to NODES
+!         adinertia(ig)%node(inod)%ixx : IXX component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%iyy : IYY component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%izz : IZZ component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%ixy : IXY component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%ixz : IXZ component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%iyz : IYZ component of inertia tensor added to NODES
+!         adinertia(ig)%node(inod)%inertia : keep a copy of inertia IXX component of inertia tensor value added to NODES
 !=======================================================================
 !
           is_available = .false.
@@ -247,8 +254,27 @@
 !
               if (igrs /= 0) then
                 nnod = igrnod(igrs)%nentity
+                ! For optimization purposes, allocation of "node" arrays 
+                ! is only done at the moment of group processing, and only if not already allocated
+                ! (in case the same group is used in several /ADINERTIA definitions)
+                !
+                ! for type 0, the number of nodes is given by the group definition, so allocation of "node" arrays is done
+                ! here with size "1"  to be able to store "node" data for at least one node, and then reallocation 
+                ! is done if needed in case of several /ADINERTIA definitions with the same group
                 if (.not.allocated(adinertia(i)%nodeid) .and. iddlevel==0) ALLOCATE(adinertia(i)%nodeid(nnod))
-                if (.not.allocated(adinertia(i)%node) .and. iddlevel==0)   ALLOCATE(adinertia(i)%node(nnod))
+                if (.not.allocated(adinertia(i)%node) .and. iddlevel==0)   ALLOCATE(adinertia(i)%node(1))
+                !
+                adinertia(i)%grnod = igr
+                adinertia(i)%nbnod = nnod
+                !
+                adinertia(i)%node(1)%inertia = adiner
+                adinertia(i)%node(1)%mass = amas
+                adinertia(i)%node(1)%ixx = compIxx
+                adinertia(i)%node(1)%iyy = compIyy
+                adinertia(i)%node(1)%izz = compIzz
+                adinertia(i)%node(1)%ixy = compIxy
+                adinertia(i)%node(1)%ixz = compIxz
+                adinertia(i)%node(1)%iyz = compIyz
                 do j=1,nnod
                   nosys=igrnod(igrs)%entity(j)
 !-----------Multidomains: common nodes are only processed on 1 domain--------------
@@ -261,10 +287,7 @@
                   in(nosys) = in(nosys) + adiner
                   totaddiner = totaddiner + adiner
                   ! inertia/mass storage
-                  adinertia(i)%nbnod = nnod
                   adinertia(i)%nodeid(j) = nosys
-                  adinertia(i)%node(j)%inertia = adiner
-                  adinertia(i)%node(j)%mass = amas
  150      continue
                 enddo ! j=1,nnod
               else
@@ -349,9 +372,15 @@
                 totaddiner = totaddiner + ixx_multi(j)
                 ! inertia/mass storage
                 adinertia(i)%nbnod = entitymax
-                adinertia(i)%nodeid(j) = entity_multi(j)
+                adinertia(i)%nodeid(j) = nosys
                 adinertia(i)%node(j)%inertia = ixx_multi(j)
                 adinertia(i)%node(j)%mass = amas_multi(j)
+                adinertia(i)%node(j)%ixx = ixx_multi(j)
+                adinertia(i)%node(j)%iyy = iyy_multi(j)
+                adinertia(i)%node(j)%izz = izz_multi(j)
+                adinertia(i)%node(j)%ixy = ixy_multi(j)
+                adinertia(i)%node(j)%ixz = ixz_multi(j)
+                adinertia(i)%node(j)%iyz = iyz_multi(j)
  170      continue
               enddo ! j=1,entitymax
 !

@@ -39,6 +39,12 @@
         type node_
           real(kind=WP) :: inertia ! inertia value for a node
           real(kind=WP) :: mass    ! mass value for a node
+          real(kind=WP) :: ixx     ! xx component of added inertia tensor for a node
+          real(kind=WP) :: iyy     ! yy component of added inertia tensor for a node
+          real(kind=WP) :: izz     ! zz component of added inertia tensor for a node
+          real(kind=WP) :: ixy     ! xy component of added inertia tensor for a node
+          real(kind=WP) :: ixz     ! xz component of added inertia tensor for a node
+          real(kind=WP) :: iyz     ! yz component of added inertia tensor for a node
         END TYPE node_
         type adiner_
 
@@ -46,6 +52,7 @@
           integer :: id
           integer :: nbnod
           integer :: type
+          integer :: grnod
 
           integer, dimension(:) ,allocatable :: nodeid ! node ids list of /adinertia
           type (node_) , dimension(:) ,allocatable :: node  ! node to store inertia/mass values for /adinertia

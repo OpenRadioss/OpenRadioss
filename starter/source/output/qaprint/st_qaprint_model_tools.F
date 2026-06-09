@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           IBOX      ,IPMAS     ,NOM_SECT ,NSTRF ,SECBUF    ,
      .           SKEW      ,ISKWN     ,XFRAME   ,NPC   ,PLD       ,
      .           TABLE     ,NPTS      ,IACTIV   ,FACTIV,SENSORS   ,
-     .           FUNC2D)
+     .           FUNC2D    ,ITAB)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE FUNC2D_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      use adinertia_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
+      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT),ITAB(NUMNOD)
       TYPE (BOX_)    ,DIMENSION(NBBOX)  ,INTENT(IN) :: IBOX
       TYPE (ADMAS_)  ,DIMENSION(NODMAS) ,INTENT(IN) :: IPMAS
       INTEGER, INTENT(IN) :: NPTS,NPC(*)
@@ -135,7 +136,7 @@ C-----------------------------------------------
       INTEGER :: TEMP_INTEGER
       INTEGER :: ISECT, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, KR0
       INTEGER :: NNOD,NSEGS,NSEGQ,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NBINTER,
-     .           ISEN,INTVAL
+     .           ISEN,INTVAL,IGRS,MY_ID
       INTEGER :: WORK(70000),INDEX(2*(NUMFRAM+1)),IFRAME,ITR1(NUMFRAM+1)
       INTEGER :: INDEXS(2*(SENSORS%NSENSOR+1)),ITRS(SENSORS%NSENSOR+1)
       LOGICAL :: OK_QA
@@ -233,7 +234,7 @@ c-----------------------------------------------
           IF (LEN_TRIM(TITR)/=0) THEN
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),OPT_ID,0.0_8)
           ELSE
-            CALL QAPRINT('BOX_FAKE_NAME',OPT_ID,0.0_8)
+            CALL QAPRINT('ADMASS_FAKE_NAME',OPT_ID,0.0_8)
           END IF
 c
           WRITE(VARNAME,'(A)') 'TYPE'
@@ -256,7 +257,79 @@ c
           ENDIF
         END DO
       END IF  ! /ADMAS
-
+!-----------------------------------------------
+!     /ADINERTIA
+!-----------------------------------------------
+      IF (MYQAKEY('/ADINERTIA')) THEN
+        DO IAD = 1,NBADDINER
+          TITR   = ADINERTIA(IAD)%TITLE
+          OPT_ID = ADINERTIA(IAD)%ID
+          IF (LEN_TRIM(TITR)/=0) THEN
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),OPT_ID,0.0_8)
+          ELSE
+            CALL QAPRINT('ADINERTIA_FAKE_NAME',OPT_ID,0.0_8)
+          END IF
+!
+          WRITE(VARNAME,'(A)') 'TYPE'
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ADINERTIA(IAD)%TYPE,0.0_8)
+!
+          IF (ADINERTIA(IAD)%TYPE == 0) THEN
+            IGRS = ADINERTIA(IAD)%GRNOD
+            IF (IGRS > 0 .AND. ADINERTIA(IAD)%NBNOD > 0) THEN
+              WRITE(VARNAME,'(A)') 'grnd_ID'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRS,0.0_8)
+              WRITE(VARNAME,'(A)') 'IXX'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IXX
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXY'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IXY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IXZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYY'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IYY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IYZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IZZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%IZZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'Mass'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(1)%MASS
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+            ENDIF
+          ELSE IF(ADINERTIA(IAD)%TYPE == 5) THEN
+            DO I=1,ADINERTIA(IAD)%NBNOD
+              WRITE(VARNAME,'(A)') 'node_ID'
+              MY_ID = ITAB(ADINERTIA(IAD)%NODEID(I))
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MY_ID,0.0_8)
+              WRITE(VARNAME,'(A)') 'IXX'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IXX
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXY'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IXY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IXZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYY'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IYY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IYZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IZZ'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%IZZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'Mass'
+              TEMP_DOUBLE = ADINERTIA(IAD)%NODE(I)%MASS
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+            ENDDO
+          ENDIF
+        END DO
+      END IF  ! /ADINERTIA
 C-----------------------------------------------
 C     SECTIONS : /SECT, /SECT/CIRCLE, /SECT/PARAL
 C-----------------------------------------------
