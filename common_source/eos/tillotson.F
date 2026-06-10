@@ -86,6 +86,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             REAL(KIND=WP) :: I12, I4, KK, TMP3
             REAL(KIND=WP) :: DVV, DENOM
             REAL(KIND=WP) :: P_LOC, DPDM_LOC, DPDE_LOC
+            REAL(KIND=WP) :: P0
 
             C1      = EOS_STRUCT%UPARAM(1)
             C2_VAL  = EOS_STRUCT%UPARAM(2)
@@ -107,6 +108,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             ENDIF
 
             PSH(1:NEL) = EOS_STRUCT%PSH
+            P0 = EOS_STRUCT%P0
 
             ! ================================================================
             ! IFLAG = 0 : first staggered pass
@@ -171,8 +173,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
                 ! ------------------------------------------------------------
                 ! Regions 1, 2 and 3: Tillotson compressed / cold branch.
-                ! Original semantics preserved:
-                ! P12 is floored and multiplied by OFF before DPDM12.
                 ! ------------------------------------------------------------
                 IF (REG <= 3) THEN
 
@@ -182,7 +182,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                     C2I = ZERO
                   ENDIF
 
-                  P12 = ABW * ETAE + C1 * MU_I + C2I * MU2_I
+                  P12 = P0 + ABW * ETAE + C1 * MU_I + C2I * MU2_I
                   P12 = MAX(P12, PMIN) * OFF_I
 
                   DE_P12 = -B * DE_W * ETAE * INV_W2 + ABW * ETA
@@ -204,7 +204,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                   C1EBEAX  = C1EB * EAX
                   ABWX     = A + B * EAX * INV_W
 
-                  P4 = C1EBEAX * MU_I + ABWX * ETAE
+                  P4 = P0 + C1EBEAX * MU_I + ABWX * ETAE
                   P4 = MAX(P4, PMIN) * OFF_I
 
                   DE_P4 = -B * EAX * DE_W * ETAE * INV_W2 + ABWX * ETA
@@ -301,7 +301,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                     C2I = ZERO
                   ENDIF
 
-                  P12 = ABW * ETAE + C1 * MU_I + C2I * MU2_I
+                  P12 = P0 + ABW * ETAE + C1 * MU_I + C2I * MU2_I
 
                   DE_P12 = -B * DE_W * ETAE * INV_W2 + ABW * ETA
 
@@ -324,7 +324,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                   C1EBEAX  = C1EB * EAX
                   ABWX     = A + B * EAX * INV_W
 
-                  P4 = C1EBEAX * MU_I + ABWX * ETAE
+                  P4 = P0 + C1EBEAX * MU_I + ABWX * ETAE
 
                   DE_P4 = -B * EAX * DE_W * ETAE * INV_W2 + ABWX * ETA
 
@@ -353,13 +353,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                   C1EBEAX  = C1EB * EAX
                   ABWX     = A + B * EAX * INV_W
 
-                  P12 = ABW * ETAE + C1 * MU_I
+                  P12 = P0 + ABW * ETAE + C1 * MU_I
 
                   DE_P12 = -B * DE_W * ETAE * INV_W2 + ABW * ETA
 
                   DM_P12 = -B * DN_W * ETAE * INV_W2 + ABW * E_I + C1
 
-                  P4 = C1EBEAX * MU_I + ABWX * ETAE
+                  P4 = P0 + C1EBEAX * MU_I + ABWX * ETAE
 
                   DE_P4 = -B * EAX * DE_W * ETAE * INV_W2 + ABWX * ETA
 

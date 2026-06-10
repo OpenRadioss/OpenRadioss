@@ -105,8 +105,9 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_B', B, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       CALL HM_GET_FLOATV('E_R',EREF, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('E_IV', EIV, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('E_CV', ECV, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Vs', VSUBL, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Viv', VSUBL, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_EA', E0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
@@ -115,7 +116,6 @@ C-----------------------------------------------
 
       CALL HM_GET_FLOATV('MAT_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_P0', P0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('E_IV', EIV, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       RHOR = MAT_PARAM%RHO
       RHOI = MAT_PARAM%RHO0
@@ -127,8 +127,23 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      IF(EIV == ZERO)THEN
-        EIV = ECV
+      IF(ECV == ZERO .OR. ECV == EIV)THEN
+        ECV = EIV
+          call ancmsg(MSGID=140,MSGTYPE=msgwarning,ANMODE=aninfo,I1=imideos,
+     .                C1='/EOS/TILLOTSON',C2='TRANSITION AREA IS RECOMMENDED FOR STABILITY PURPOSES (ECV > EIV)')
+      ENDIF
+
+      IF(E0 /= ZERO)THEN
+          call ancmsg(MSGID=140,MSGTYPE=msgwarning,ANMODE=aninfo,I1=imideos,
+     .                C1='/EOS/TILLOTSON',C2='E0 IS EXPECTED TO BE ZERO. NON ZERO VALUE SHOULD LEAD TO UPDATED PARAMETERS')
+      ENDIF
+
+      IF(EIV < ZERO)THEN
+        call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,
+     .              C1='/EOS/TILLOTSON',C2='EIV MUST BE STRICTLY POSITIVE')
+      ELSEIF(ECV < EIV)THEN
+        call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,
+     .              C1='/EOS/TILLOTSON',C2='ECV MUST BE GREATER THAN EIV')
       ENDIF
 
       IF (ABS(EREF) < EM20)THEN
@@ -158,6 +173,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(10) = EIV
       MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%E0 = E0
+      MAT_PARAM%EOS%P0 = P0
 !
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100
@@ -214,7 +230,7 @@ C-----------------------------------------------
       DPDM12 = ZERO ; DPDM4 = ZERO
       DE_P12 = ZERO ; DE_P4 = ZERO
       IF(REGION <= 3)THEN
-        P12 = ABW*ETAE+C1*MU0+C2*MU2
+        P12 = P0+ABW*ETAE+C1*MU0+C2*MU2
         P12 = MAX(P12,PMIN)
         DE_P12 = (-b*DE_W*ETAE)/W2 + ABW*ETA
         DM_P12 = (-B*DN_W*ETAE)/W2 + ABW*E0 + C1 + TWO*C2*MU0
@@ -227,7 +243,7 @@ C-----------------------------------------------
         EAX = exp(-alpha*XX*XX)
         C1EBEAX = C1EB*EAX
         ABWX = (A+B*EAX/W)
-        P4 = C1EB*EAX*MU0+ ABWX*ETAE
+        P4 = P0+C1EB*EAX*MU0+ ABWX*ETAE
         P4 = MAX(P4,PMIN)
         DE_P4 = -B*EAX*DE_W*ETAE/W2 + ABWX*ETA
         DM_P4 = BETA/ETA2*C1EBEAX*MU0 - TWO*C1EBEAX*ALPHA*XX*MU0/ETA2 + C1EBEAX
@@ -270,19 +286,19 @@ C-----------------------------------------------
      & 5X,'  TILLOTSON EOS',/,
      & 5X,'  -------------',/)
  1500 FORMAT(
-     & 5X,'C1. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C2. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'C1  . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'C2  . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'B . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'ALPHA . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'BETA. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EREF:REFERENCE INTERNAL ENERGY. . . . . .=',1PG20.13/,
+     & 5X,'BETA  . . . . . . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'EREF:REFERENCE INTERNAL ENERGY  . . . . .=',1PG20.13/,
      & 5X,'EIV:INCIPIENT VAPORIZATION ENERGY . . . .=',1PG20.13/,
-     & 5X,'ECV:COMPLETE VAPORIZATION ENERGY. . . . .=',1PG20.13/,
-     & 5X,'VSUBL:SUBLIMATION RELATIVE VOLUME . . . .=',1PG20.13/,
-     & 5X,'E0:INITIAL INTERNAL ENERGY. . . . . . . .=',1PG20.13/,
-     & 5X,'PSH:PRESSURE SHIFT. . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13)
+     & 5X,'ECV:COMPLETE VAPORIZATION ENERGY  . . . .=',1PG20.13/,
+     & 5X,'VIV:VAPORIZATION RELATIVE VOLUME  . . . .=',1PG20.13/,
+     & 5X,'E0:INITIAL INTERNAL ENERGY  . . . . . . .=',1PG20.13/,
+     & 5X,'PSH:PRESSURE SHIFT  . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'INITIAL PRESSURE  . . . . . . . . . . . .=',1PG20.13)
 
  1501 FORMAT(     
      & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)     

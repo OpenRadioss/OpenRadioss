@@ -1516,7 +1516,14 @@
 
 
 
+/MESSAGE/140/TITLE
+** WARNING IN EOS DEFINITION
 
+/MESSAGE/140/DESCRIPTION
+   -- EOS ID          : %d
+   -- EOS KEY         : %s
+   %i1="/EOS"
+   %s
 
 
 
