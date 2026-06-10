@@ -147,6 +147,5 @@ C
       TITRE(208)='    CNODES              MERGED TO CNODES '
       TITRE(209)='               CNODES TRANSFORMED TO NODES'
       TITRE(210)='    CNODES'
-      TITRE(211)=' .. ADDED NODAL INERTIA'
       RETURN
       END
