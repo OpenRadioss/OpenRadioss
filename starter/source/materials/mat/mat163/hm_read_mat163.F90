@@ -177,6 +177,7 @@
 !
           !< Update material parameters
           ! -> Young's modulus
+          youngini = youngmax
           youngmax = max(youngmax,young)
           matparam%young = youngmax
           ! -> Poisson's ratio
@@ -239,26 +240,28 @@
             write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,1002) rho0
-            write(iout,1003) young,nu
+            write(iout,1003) young,youngini,youngmax,nu
             write(iout,1004) tsc,damp,ncycle,tab_id,x2vect(1),fscale(1),srclmt,nrs
           end if
 !
-1000      format(/                                                                 &
+1000      format(/                                                                  &
             5X,"-------------------------------------------------------",/          &
             5X,"           MATERIAL MODEL: CRUSHABLE FOAM              ",/,         &
             5X,"-------------------------------------------------------",/)
-1001      format(/                                                                 &
+1001      format(/                                                                  &
             5X,A,/,                                                                 &
             5X,"MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=",I10/,      &
             5X,"MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=",I10/)
-1002      format(/                                                                 &
+1002      format(/                                                                  &
             5X,"INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=",1PG20.13/)
-1003      format(/                                                                 &
+1003      format(/                                                                  &
             5X,"ELASTIC PARAMETERS:                                    ",/,         &
             5X,"-------------------                                    ",/,         &
-            5X,"YOUNG MODULUS (E). . . . . . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"INPUT YOUNG MODULUS (E). . . . . . . . . . . . . . . .=",1PG20.13/  &
+            5X,"MEASURED YOUNG MODULUS FROM TABLE. . . . . . . . . . .=",1PG20.13/  &
+            5X,"MAXIMUM YOUNG MODULUS RETAINED FOR SIMULATION. . . . .=",1PG20.13/  &
             5X,"POISSON RATIO (NU) . . . . . . . . . . . . . . . . . .=",1PG20.13/)
-1004      format(/                                                                 &
+1004      format(/                                                                  &
             5X,"PLASTIC PARAMETERS:                                    ",/,         &
             5X,"-------------------                                    ",/,         &
             5X,"TENSILE STRESS CUTOFF (TSC). . . . . . . . . . . . . .=",1PG20.13/  &
