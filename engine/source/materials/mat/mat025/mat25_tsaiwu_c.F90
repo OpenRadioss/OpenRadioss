@@ -357,6 +357,7 @@
               i=index(j)
               if (dmg(i,2)/=zero) then
                 crak(i,1) = crak(i,1) + eps(i,1)+ epsply(i,1)
+                crak(i,1) = max(crak(i,1), zero) 
                 dam1 = crak(i,1)/(epsm1(i)-epst1(i))
                 dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
                 dmg(i,2) = max(dmg(i,2),dam2)
@@ -370,6 +371,7 @@
 !
               if (dmg(i,3)/=zero) then
                 crak(i,2) = crak(i,2)+eps(i,2)+ epsply(i,2)
+                crak(i,2) = max(crak(i,2), zero) 
                 dam1 = crak(i,2)/(epsm2(i)-epst2(i))
                 dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
                 dmg(i,3) = max(dmg(i,3),dam2)
@@ -382,6 +384,7 @@
               i=index(j)
               if (dmg(i,2)/=zero) then
                 crak(i,1) = crak(i,1) + eps(i,1)
+                crak(i,1) = max(crak(i,1), zero) 
                 dam1 = crak(i,1)/(epsm1(i)-epst1(i))
                 dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
                 dmg(i,2) = max(dmg(i,2),dam2)
@@ -394,6 +397,7 @@
 !
               if (dmg(i,3)/=zero) then
                 crak(i,2) = crak(i,2)+eps(i,2)
+                crak(i,2) = max(crak(i,2), zero)
                 dam1 = crak(i,2)/(epsm2(i)-epst2(i))
                 dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
                 dmg(i,3) = max(dmg(i,3),dam2)
