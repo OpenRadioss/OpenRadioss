@@ -334,9 +334,11 @@
           do j=1,nindx
             i=index(j)
             if (dmg(i,2) > zero) then
-              dam1=(epst(i,1)-epst1(i))/(epsm1(i)-epst1(i))
-              dam2= dam1*epsm1(i)/epst(i,1)
-              dmg(i,2)= max(dmg(i,2),dam2)
+              if(epst(i,1) > epst1(i) ) then
+                 dam1=(epst(i,1) - epst1(i))/(epsm1(i) - epst1(i))
+                 dam2= dam1*epsm1(i)/epst(i,1)
+                 dmg(i,2)= max(dmg(i,2),dam2)
+              endif
               dmg(i,2)= min(dmg(i,2),dmax(i))
             end if
           end do
@@ -345,9 +347,11 @@
           do j=1,nindx
             i=index(j)
             if (dmg(i,3) > zero) then
-              dam1=(epst(i,2) - epst2(i))/(epsm2(i)-epst2(i))
-              dam2= dam1*epsm2(i)/epst(i,2)
-              dmg(i,3)= max(dmg(i,3),dam2)
+              if(epst(i,2) > epst2(i)) then 
+                 dam1=(epst(i,2) - epst2(i))/(epsm2(i)-epst2(i))
+                 dam2= dam1*epsm2(i)/epst(i,2)
+                 dmg(i,3)= max(dmg(i,3),dam2)
+              endif 
               dmg(i,3)= min(dmg(i,3),dmax(i))
             end if
           end do
