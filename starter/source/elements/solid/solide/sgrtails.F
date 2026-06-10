@@ -684,14 +684,27 @@ c
           ELSEIF(IKSNOD0 == 4)THEN
             NPT=1
           ENDIF
-          IF ((JHBE/=1 .AND. JHBE/=2) .AND. MLN==68 ) THEN
-            CALL ANCMSG(MSGID=672,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID,
-     .                  C1=TITR,     
-     .                  I2=IGEO(1,PID))
-          ENDIF
+          IF (MLN==68 ) THEN
+            IF (IKSNOD0/=8 ) THEN      ! error out
+              CALL ANCMSG(MSGID=672,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=ID,
+     .                    C1=TITR,     
+     .                    I2=IGEO(1,PID))
+            ELSE
+              IF (JHBE/=1 .AND. JHBE/=2 .OR. JCVT>0 ) THEN ! warning out
+                CALL ANCMSG(MSGID=3150,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=ID,
+     .                      C1=TITR,     
+     .                      I2=IGEO(1,PID))
+                JHBE = 1
+                JCVT = 0 
+              END IF
+            END IF
+          END IF
           IF (JHBE ==  2) JHBE=0     ! Hourglass Halquist
           IF(MLN == 1 .AND.IGT /= 22) THEN
             IF ((JHBE == 14 .AND. NPT /= 222).OR.(JHBE == 15 .AND. NPT /= 2) ) THEN
