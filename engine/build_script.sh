@@ -67,7 +67,7 @@ function my_help()
   echo "   -gpu-cc=[ccXX]                    : GPU compute capability target (default: cc80)"
   echo "                                       e.g. cc80 (A100), cc90 (H100), cc120 (B200)"
   echo "                                       Set NVHPC_CUDA_HOME or CUDA_HOME to override CUDA toolkit path"
-  echo " -cmake_ver=legacy : use legacy CMake_Compilers/ build system (default: v2)"
+  echo " -cmake_ver=v2     : use new CMake_Compilers_v2/ build system (default: legacy)"
   echo " " 
   echo " " 
 }
@@ -88,8 +88,9 @@ sanitize=0
 jenkins_release=0
 no_rr_clean=0
 no_python=0
-cmake_ver=v2
-dcmake_ver="-Dcmake_ver=v2"
+static_link=0
+cmake_ver=legacy
+dcmake_ver=""
 changelist=00000
 cf=""
 dc=""
@@ -129,7 +130,7 @@ ad=none
 
 if [ $number_of_arguments = 0 ]
 then
-  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=v2"
+  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=legacy"
   echo "Run './build_script.sh -help' for all options."
 fi
 
@@ -507,9 +508,9 @@ then
   C_path_w=`cygpath.exe -m "${C_path}"`
   CPP_path_w=`cygpath.exe -m "${CPP_path}"`
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
-  cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la} ${dcmake_ver}
+  cmake.exe .. -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -DCMAKE_BUILD_TYPE=Release -Dno_python=${no_python} -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" ${la} ${dcmake_ver}
 else
-  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dstatic_link=$static_link -Dopenacc=${openacc} ${gpu_cc:+-Dgpu_cc=${gpu_cc}} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path} ${dcmake_ver}
+  cmake .. -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -DEXEC_NAME=${engine_exec} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} ${mumps_root} ${scalapack_root} ${lapack_root} -Dno_python=${no_python} -Dopenacc=${openacc} ${gpu_cc:+-Dgpu_cc=${gpu_cc}} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path}  ${la} -Dprecice=${precice} -Dcwipi=${cwipi} -Dcwipi_path=${cwipi_path} ${dcmake_ver}
 fi
 
 return_value=$?

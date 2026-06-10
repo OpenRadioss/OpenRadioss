@@ -1,16 +1,16 @@
 ########################################
-# ENGINE - NVIDIA HPC SDK / linux64
+# ENGINE - NVIDIA HPC SDK / linuxa64 (AArch64)
 ########################################
 
 set(cppmach "-DCPP_mach=CPP_p4linux964")
 set(cpprel  "-DCPP_rel=80")
 
-# MPI (smp / ompi with NVHPC HPC-X discovery)
-include(${CMAKE_CURRENT_LIST_DIR}/common/mpi_linux_ompi_nvhpc.cmake)
+# MPI (smp / ompi with NVHPC HPC-X discovery for AArch64)
+include(${CMAKE_CURRENT_LIST_DIR}/common/mpi_linuxa64_ompi_nvhpc.cmake)
 set(RELNAME ${arch}${mpi_suf})
 
 # Third-party libraries
-include(${CMAKE_CURRENT_LIST_DIR}/common/libs_linux64.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/common/libs_linuxa64.cmake)
 
 # Note: MUMPS is not supported with the NVIDIA compiler
 set(wo_linalg "-DWITHOUT_LINALG")
@@ -27,12 +27,24 @@ if (NOT DEFINED gpu_cc)
   set(gpu_cc "cc80")
 endif()
 
+# NVHPC SDK root (used for default CUDA path on AArch64 — SDK bundles CUDA)
+set(nvhpc_root "/opt/nvidia/hpc_sdk/Linux_aarch64/26.3")
+if (DEFINED ENV{NVHPC})
+  set(nvhpc_root "$ENV{NVHPC}")
+endif()
+
 # CUDA toolkit path; override with NVHPC_CUDA_HOME or CUDA_HOME env vars
-set(cuda_home "/usr/local/cuda")
+set(cuda_home "${nvhpc_root}/cuda/13.1")
 if (DEFINED ENV{NVHPC_CUDA_HOME})
   set(cuda_home "$ENV{NVHPC_CUDA_HOME}")
 elseif (DEFINED ENV{CUDA_HOME})
   set(cuda_home "$ENV{CUDA_HOME}")
+endif()
+
+# CUDA library directory — AArch64 uses targets/sbsa-linux/lib, fall back to lib64
+set(cuda_lib_dir "${cuda_home}/targets/sbsa-linux/lib")
+if (NOT EXISTS "${cuda_lib_dir}")
+  set(cuda_lib_dir "${cuda_home}/lib64")
 endif()
 
 # OpenACC GPU offloading (enable with -Dopenacc=1)
@@ -42,7 +54,14 @@ if (openacc STREQUAL "1")
   message(STATUS "CUDA toolkit   : ${cuda_home}")
   set(acc_fort_flags "-acc -gpu=${gpu_cc} -Minfo=accel -Mdetail")
   set(acc_link_flags "-acc -gpu=${gpu_cc}")
-  set(acc_link_libs  "-L${cuda_home}/lib64 -lnvToolsExt")
+  # AArch64: newer CUDA drops libnvToolsExt in favour of libnvtx3interop
+  if (EXISTS "${cuda_lib_dir}/libnvToolsExt.so" OR EXISTS "${cuda_lib_dir}/libnvToolsExt.so.1")
+    set(acc_link_libs "-L${cuda_lib_dir} -lnvToolsExt")
+  elseif (EXISTS "${cuda_lib_dir}/libnvtx3interop.so" OR EXISTS "${cuda_lib_dir}/libnvtx3interop.so.1")
+    set(acc_link_libs "-L${cuda_lib_dir} -lnvtx3interop")
+  else()
+    set(acc_link_libs "")
+  endif()
 else()
   set(acc_fort_flags "")
   set(acc_link_flags "")
@@ -50,10 +69,7 @@ else()
 endif()
 
 # NVIDIA HPC SDK intrinsic modules path
-set(nv_sdk_inc "/opt/nvidia/hpc_sdk/Linux_x86_64/26.3/compilers/include")
-if (DEFINED ENV{NVHPC})
-  set(nv_sdk_inc "$ENV{NVHPC}/compilers/include")
-endif()
+set(nv_sdk_inc "${nvhpc_root}/compilers/include")
 
 set(fort_flags "-Mnofma -mp -traceback -Mextend -Munroll -Mvect=simd -Minform=warn -Mlarge_arrays -I${nv_sdk_inc} ${acc_fort_flags}")
 
@@ -71,7 +87,7 @@ if (cuda_source_files)
       "-w -O3 -cuda -gpu=${gpu_cc} -mp -Minfo=accel --diag_suppress cuda_compile ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel} -std=c++17 ${mpi_flag}")
   endif()
   set(cuda_link_flags "-cuda -gpu=${gpu_cc}")
-  set(cuda_link_libs  "-L${cuda_home}/lib64 -lcudart")
+  set(cuda_link_libs  "-L${cuda_lib_dir} -lcudart")
   message(STATUS "CUDA sources detected – GPU target: ${gpu_cc}")
   message(STATUS "CUDA toolkit: ${cuda_home}")
 else()

@@ -34,7 +34,7 @@ function my_help()
   echo " " 
   echo " -no-python : do not link with python"
   echo " "
-  echo " -cmake_ver=legacy : use legacy CMake_Compilers/ build system (default: v2)"
+  echo " -cmake_ver=v2     : use new CMake_Compilers_v2/ build system (default: legacy)"
   echo " " 
 }
 
@@ -60,8 +60,8 @@ dc=""
 qd=""
 ADF=""
 static_link=0
-cmake_ver=v2
-dcmake_ver="-Dcmake_ver=v2"
+cmake_ver=legacy
+dcmake_ver=""
 number_of_arguments=$#
 clean=0
 verbose=""
@@ -84,7 +84,7 @@ fi
 
 if [ $number_of_arguments = 0 ]
 then
-  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=v2"
+  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=legacy"
   echo "Run './build_script.sh -help' for all options."
 fi
 

@@ -315,14 +315,12 @@ set_source_files_properties( ${source_directory}/source/input/redkey0.F PROPERTI
 # i3fri3.F
 set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri3.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
 
-# dsgri7.F
-set_source_files_properties( ${source_directory}/source/implicit/dsolve/dsgri7.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i11cor3.F
 set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i11pen3.F
-set_source_files_properties( ${source_directory}/source/interfaces/int11/i11pen3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i11pen3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i7cor3t.F
 set_source_files_properties( ${source_directory}/source/interfaces/int07/i7cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
@@ -334,13 +332,13 @@ set_source_files_properties( ${source_directory}/source/interfaces/int20/i20cor3
 set_source_files_properties( ${source_directory}/source/interfaces/intsort/i20sto.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i23cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int23/i23cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+set_source_files_properties( ${source_directory}/source/interfaces/int23/i23cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i24cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int24/i24cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i24cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # i25cor3t.F
-set_source_files_properties( ${source_directory}/source/interfaces/int25/i25cort3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
+set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25cor3t.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
 # spbuc3.F
 set_source_files_properties( ${source_directory}/source/elements/sph/spbuc3.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )

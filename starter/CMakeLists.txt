@@ -11,7 +11,7 @@ project (Radioss_Starter)
 
 # Windows specific settings
 # --------------------------
-if (arch STREQUAL "win64")
+if (arch STREQUAL "win64" OR arch STREQUAL "win64_ifort" OR arch STREQUAL "win64_sse3")
    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
    set(PYTHON_EXEC "python")
 else()
@@ -67,7 +67,7 @@ file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directo
 #C++ source files
 file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/com/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
 
-file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../thid_party_com/*.h )
+file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../third_party_com/*.h )
 
 include (CMake_Compilers_c/cmake_st_version.txt)
 set (ex_version "s_${version}")

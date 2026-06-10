@@ -1,5 +1,5 @@
 #
-# CMake project file for Radioss Starter
+# CMake project file for Radioss Engine
 # --------------------------------------
  
 cmake_minimum_required (VERSION 3.15)
@@ -7,7 +7,7 @@ project (Radioss_Engine)
 
 # Windows specific settings
 # --------------------------
-if (arch STREQUAL "win64")
+if (arch STREQUAL "win64" OR arch STREQUAL "win64_ifort" OR arch STREQUAL "win64_sse3")
    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
    set(PYTHON_EXEC "python")
 else()
@@ -130,7 +130,7 @@ file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_dir
 #CUDA source files (.cu) - only compiled when NVIDIA HPC SDK is used
 file(GLOB_RECURSE cuda_source_files ${source_directory}/source/*.cu ${source_directory}/com/*.cu ${source_directory}/share/*.cu ${source_directory}/../common_source/*.cu )
 
-file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../thid_party_com/*.h )
+file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h  ${include_directory}/com/*.inc ${include_directory}/com/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h ../third_party_com/*.h )
 
 include (CMake_Compilers_c/cmake_eng_version.txt)
 set (ex_version "e_${version}")
@@ -222,9 +222,7 @@ if ( NOT (arch STREQUAL "none") )
    include (${CMAKE_CURRENT_SOURCE_DIR}/${cmake_compilers_root}/cmake_${arch}.${cmake_compilers_ext})
 
 else ()
-   if(UNIX)
-     include (${cmake_compilers_root}/cmake_configure_linux.txt)
-   endif (UNIX)
+   message(FATAL_ERROR "No arch specified. Use -Darch=<platform>. See ${cmake_compilers_root}/platforms.txt for available platforms.")
 endif ()
 
 #
@@ -354,7 +352,7 @@ if (cuda_source_files)
 endif()
 
 
-add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${cuda_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
+add_executable (${EXEC_NAME} ${source_files} ${c_source_files} ${cpp_source_files} ${cuda_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )
 
 add_dependencies(${EXEC_NAME} extlib)
 

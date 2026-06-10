@@ -25,7 +25,7 @@ else ()
 endif()
 
 #Lapack
-set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
+set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linuxa64/libtmglib.a")
 
 #metis
 set (metis_lib "${source_directory}/../extlib/metis/linuxa64/libmetis_linuxa64.a ")
@@ -122,7 +122,6 @@ set (LINK "dl ${metis_lib} ${xml_lib} ${flexpipe_lib} ${reader_lib} ${flexpipe} 
 set (C_O0_compiler_flags " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0  ")
 
 
-#triangle.c
 set_source_files_properties( ${source_directory}/com/fvmbag/tiangle.c PROPERTIES COMPILE_FLAGS ${C_O0_compiler_flags} )
 
 
