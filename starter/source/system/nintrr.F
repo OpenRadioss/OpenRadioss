@@ -38,7 +38,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
 !||    read_dfs_detline       ../starter/source/initial_conditions/detonation/read_dfs_detline.F
 !||    read_dfs_detplan       ../starter/source/initial_conditions/detonation/read_dfs_detplan.F
-!||    read_dfs_detpoint      ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
 !||    read_dfs_wave_shaper   ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
 !||====================================================================
       INTEGER FUNCTION NINTRI(IEXT,ANTN,M,N,M1)

@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_key               ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start                  ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    material_is_high_explosive       ../starter/source/materials/material_is_high_explosive.F90
-!||    nintri                           ../starter/source/system/nintrr.F
 !||    nodgrnr5                         ../starter/source/starter/freform.F
 !||    unused_mat_detonator             ../starter/source/initial_conditions/detonation/unused_mat_detonator.F
 !||    usr2sys                          ../starter/source/system/sysfus.F
