@@ -642,7 +642,7 @@ C
 C
           !< Choose default value for ITET4 according to the material law
           IF ((IGEO(29,PID) /= 1) .AND. (ITET4 == 0) .AND. 
-     .        ((IGT == 14) .OR. (IGT == 6)) .AND. (IKSNOD0 /= 8)) THEN
+     .        ((IGT == 14) .OR. (IGT == 6))) THEN
             IF (MATPARAM_TAB(MID)%ITETRA4 == 1) THEN
               ITET4 = 1000
             ELSEIF (MATPARAM_TAB(MID)%ITETRA4 == 2) THEN
