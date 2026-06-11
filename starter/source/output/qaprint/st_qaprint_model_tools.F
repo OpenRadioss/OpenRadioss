@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           IBOX      ,IPMAS     ,NOM_SECT ,NSTRF ,SECBUF    ,
      .           SKEW      ,ISKWN     ,XFRAME   ,NPC   ,PLD       ,
      .           TABLE     ,NPTS      ,IACTIV   ,FACTIV,SENSORS   ,
-     .           FUNC2D)
+     .           FUNC2D    ,ITAB)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
+      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT),ITAB(NUMNOD)
       TYPE (BOX_)    ,DIMENSION(NBBOX)  ,INTENT(IN) :: IBOX
       TYPE (ADMAS_)  ,DIMENSION(NODMAS) ,INTENT(IN) :: IPMAS
       INTEGER, INTENT(IN) :: NPTS,NPC(*)
@@ -128,14 +128,14 @@ C      .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IAD,OPT_ID,NDIM,NY,NOTABLE
+      INTEGER I,J,IAD,OPT_ID,NDIM,NY,NOTABLE,MY_ID
       CHARACTER(LEN=255)         :: VARNAME
       CHARACTER(LEN=nchartitle)  :: TITR, TEMP_STRING
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER :: TEMP_INTEGER
       INTEGER :: ISECT, K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, KR0
       INTEGER :: NNOD,NSEGS,NSEGQ,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NBINTER,
-     .           ISEN,INTVAL
+     .           ISEN,INTVAL,IGRS
       INTEGER :: WORK(70000),INDEX(2*(NUMFRAM+1)),IFRAME,ITR1(NUMFRAM+1)
       INTEGER :: INDEXS(2*(SENSORS%NSENSOR+1)),ITRS(SENSORS%NSENSOR+1)
       LOGICAL :: OK_QA
@@ -239,11 +239,13 @@ c
           WRITE(VARNAME,'(A)') 'TYPE'
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPMAS(IAD)%TYPE,0.0_8)
 c
-          WRITE(VARNAME,'(A)') 'WEIGHT_FLAG'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPMAS(IAD)%WEIGHT_FLAG,0.0_8)
+          IF (IPMAS(IAD)%TYPE /= 10 . AND. IPMAS(IAD)%TYPE /= 15) THEN
+            WRITE(VARNAME,'(A)') 'WEIGHT_FLAG'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPMAS(IAD)%WEIGHT_FLAG,0.0_8)
 c
-          WRITE(VARNAME,'(A)') 'NPART'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPMAS(IAD)%NPART,0.0_8)
+            WRITE(VARNAME,'(A)') 'NPART'
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPMAS(IAD)%NPART,0.0_8)
+          ENDIF
 c
           IF (IPMAS(IAD)%NPART > 0) THEN
             DO I=1,IPMAS(IAD)%NPART
@@ -254,7 +256,65 @@ c
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             ENDDO
           ENDIF
-        END DO
+          ! inertia/mass (type 10, 15)
+          IF (IPMAS(IAD)%TYPE == 10) THEN
+            IGRS = IPMAS(IAD)%GRNODID
+            IF (IGRS > 0 .AND. IPMAS(IAD)%NBNOD > 0) THEN
+              WRITE(VARNAME,'(A)') 'grnd_ID'
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRS,0.0_8)
+              WRITE(VARNAME,'(A)') 'IXX'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IXX
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYY'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IYY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IZZ'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IZZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXY'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IXY
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IYZ'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IYZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'IXZ'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%IXZ
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              WRITE(VARNAME,'(A)') 'Mass'
+              TEMP_DOUBLE = IPMAS(IAD)%NODE(1)%MASS
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+            ENDIF
+          ELSE IF(IPMAS(IAD)%TYPE == 15) THEN
+            DO I=1,IPMAS(IAD)%NBNOD
+              IF (IPMAS(IAD)%NODEID(I) >= 0) THEN
+                WRITE(VARNAME,'(A)') 'node_ID'
+                MY_ID = ITAB(IPMAS(IAD)%NODEID(I))
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MY_ID,0.0_8)
+                WRITE(VARNAME,'(A)') 'IXX'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IXX
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'IYY'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IYY
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'IZZ'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IZZ
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'IXY'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IXY
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'IYZ'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IYZ
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'IXZ'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%IXZ
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+                WRITE(VARNAME,'(A)') 'Mass'
+                TEMP_DOUBLE = IPMAS(IAD)%NODE(I)%MASS
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              ENDIF
+            ENDDO
+          ENDIF ! IF (IPMAS(IAD)%TYPE == 10)
+        END DO ! IAD = 1,NODMAS
       END IF  ! /ADMAS
 
 C-----------------------------------------------

@@ -171,7 +171,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      U                  MS_LAYER   ,ZI_LAYER      ,ITAG             ,ITAGEL         ,MCPC      ,
      W                  MCPTG      ,XREFC         ,XREFTG           ,XREFS          ,MSSA      ,
      X                  MSRT       ,IRBE2         ,LRBE2            ,INIVOL         ,KVOL      , NBSUBMAT,
-     Y                  IXS10      ,IXS16         ,IXS20            ,TOTADDMAS      ,
+     Y                  IXS10      ,IXS16         ,IXS20            ,TOTADDMAS      ,TOTADDINER,
      Z                  IPMAS      ,STIFN         ,MSZ2             ,ITAGN          ,SITAGE    ,
      1                  ITAGE      ,IXR_KJ        ,ELBUF_TAB,
      2                  NOM_OPT    ,PTR_NOPT_RBE2 ,PTR_NOPT_ADM     ,PTR_NOPT_FUN   ,
@@ -338,6 +338,7 @@ C-----------------------------------------------
      .   FXBGLM(*),FXBCPM(*),FXBCPS(*),FXBLM(*),FXBFLS(*),FXBDLS(*),FXB_MATRIX(*),
      .   RBY_INIAXIS(7,*),ALEA(*),DR(SDR)
       my_real,INTENT(INOUT) :: TOTMAS1
+      my_real,INTENT(IN) :: TOTADDINER
 
       my_real, DIMENSION(NUMNOD*2), TARGET :: STIFN
       my_real , DIMENSION(:), POINTER :: STIFR
@@ -2294,6 +2295,8 @@ C
       WRITE(IOUT,'(//)')
       WRITE(IOUT,1300)
       WRITE(IOUT,1400) TOTADDMAS
+      WRITE(IOUT,1800)
+      WRITE(IOUT,1900) TOTADDINER
 C
 C-----------------------------------------------------------------------------------
 C     Initialization of non-local variable regularization structure for damage models
@@ -2353,6 +2356,10 @@ c-----------
      . 5X,'INITIAL NODAL MCP         ',/
      . 5X,'--------------------------',/
      . 6X,5('NODE MCP        ',15X),'NODE MCP        '/)
+ 1800 FORMAT(//
+     . 5X,'TOTAL ADDED NON-STRUCTURAL INERTIA',/
+     . 5X,'------------------'/)
+ 1900 FORMAT(5X,' TOTAL ADDED INERTIA = ',1PG20.13//)
       RETURN
       END
 C

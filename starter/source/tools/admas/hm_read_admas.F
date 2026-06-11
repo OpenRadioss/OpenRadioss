@@ -41,9 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_ADMAS(
-     .                   MS       ,ITABM1   ,IGRNOD   ,UNITAB  ,IGRSURF,
-     .                   IPART    ,IPMAS    ,TOTADDMAS,FLAG    ,IGRPART,
-     .                   X        ,LSUBMODEL)
+     .                   MS       ,ITABM1   ,IGRNOD   ,UNITAB  ,IGRSURF   ,
+     .                   IPART    ,IPMAS    ,TOTADDMAS,FLAG    ,IGRPART   ,
+     .                   X        ,LSUBMODEL,IDDLEVEL ,IN      ,TOTADDINER)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE PRECISION_MOD, ONLY: WP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,9 +70,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER    ,INTENT(IN) :: ITABM1(*),IPART(LIPART1,*),FLAG
+      INTEGER    ,INTENT(IN) :: ITABM1(*),IPART(LIPART1,*),FLAG,IDDLEVEL
       my_real    ,INTENT(IN) :: X(3,*)
-      my_real    ,INTENT(INOUT) :: MS(*),TOTADDMAS
+      my_real    ,INTENT(INOUT) :: MS(*),TOTADDMAS,TOTADDINER
+      my_real    ,INTENT(INOUT) :: IN(NUMNOD)                !< Nodal inertia array to be updated with added inertia
       TYPE(SUBMODEL_DATA),DIMENSION(*)         ,INTENT(IN)    :: LSUBMODEL
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
 C-----------------------------------------------
@@ -94,6 +96,10 @@ C-----------------------------------------------
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ENTITY_MULTI,IFLAG_MULTI
       my_real, ALLOCATABLE, DIMENSION(:) :: AMAS_MULTI
+      REAL(KIND=WP) :: Ixx, Ixy, Ixz, Iyy, Iyz, Izz    !< local inertia components for type 0
+      REAL(KIND=WP), DIMENSION(:), ALLOCATABLE ::      !< local inertia arrays for type 5
+     .                                Ixx_multi, Ixy_multi, Ixz_multi,
+     .                                Iyy_multi, Iyz_multi, Izz_multi
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -112,13 +118,25 @@ C=======================================================================
 !                    = 5 ! Mass is added to each single node
 !                    = 6 ! Additional mass distributed on each single part
 !                    = 7 ! Final mass distributed on each single part
+!                    = 10 ! Inertia is added to each node of node group
+!                    = 15 ! Inertia is added to each single node
 !     IPMAS(IGM)%TITLE  : ADMAS title
 !     IPMAS(IGM)%WEIGHT_FLAG : Flag to switch between area weighted distribution and volume 
 !                                   weighted distribution of the added mass to parts)
 !                    = 0 ! Volume weighted distribution (shell and solid parts) (default)
 !                    = 1 ! Area weighted distribution (shell parts only)
-!     IPMAS(IGM)%PARTID : PART_ID to get ADMAS
+!     IPMAS(IGM)%PARTID(J) : PART_ID to get ADMAS
 !     IPMAS(IGM)%PART(J)%RPMAS : ADMAS added to PARTS (or NODES)
+!
+!     IPMAS(IGM)%NODEID(INOD) : NODE_ID to add INERTIA
+!     IPMAS(IGM)%NODE(INOD)%INERTIA : INERTIA added to NODES
+!     IPMAS(IGM)%NODE(INOD)%MASS : MASS added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IXX : IXX component of inertia tensor added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IYY : IYY component of inertia tensor added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IZZ : IZZ component of inertia tensor added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IXY : IXY component of inertia tensor added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IXZ : IXZ component of inertia tensor added to NODES
+!     IPMAS(IGM)%NODE(INOD)%IYZ : IYZ component of inertia tensor added to NODES
 C=======================================================================
 !
       IS_AVAILABLE = .FALSE.
@@ -535,7 +553,247 @@ C-----------multidomains: parts that do not belong to the domain are ignored----
           IF (ALLOCATED(ENTITY_MULTI)) DEALLOCATE(ENTITY_MULTI)
           IF (ALLOCATED(IFLAG_MULTI))  DEALLOCATE(IFLAG_MULTI)
 !------
-        ENDIF ! IF (ITYPE == 0 .or. ITYPE == 1)
+        ELSE IF (ITYPE == 10) THEN
+          !------
+          ! added mass to nodes of grnod
+          !------
+          IF (FLAG == 0) THEN
+            CALL HM_GET_FLOATV('IXX' ,Ixx ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('IXY' ,Ixy ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('IXZ' ,Ixz ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('IYY' ,Iyy ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('IYZ' ,Iyz ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('IZZ' ,Izz ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+            CALL HM_GET_FLOATV('masses'  ,AMAS ,IS_AVAILABLE ,LSUBMODEL ,UNITAB)
+            CALL HM_GET_INTV('grnd_ID' ,IGR  ,IS_AVAILABLE ,LSUBMODEL)
+!
+            ! For deformable bodies, the only one value of Inertia tensor is needed, IXX. 
+            ! For rigid bodies (not yet implemented), the 6 components of inertia tensor are added to each node of the group.
+!
+            IF (AMAS < 0.0_WP) THEN
+              CALL ANCMSG(MSGID=3151,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    R1=AMAS)
+            ENDIF
+!
+            IF (Ixx < 0.0_WP) THEN
+              CALL ANCMSG(MSGID=3152,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    R1=Ixx)
+            ENDIF
+!
+            IF (IGR == 0) THEN
+              CALL ANCMSG(MSGID=668,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    C1='/ADMAS',
+     .                    C2='/ADMAS',
+     .                    C3=TITR,
+     .                    I1=ID)
+            ENDIF
+!
+            IGRS=0
+
+!             original
+!             do j=1,ngrnod
+!               if (igr == igrou(1,j)) then
+!                 IGRS=j
+!                 goto 200
+!               endif
+!             enddo
+!             end original
+!-----------------------
+!             OPTIMISATION1
+!-----------------------
+!             optimisation to avoid quadratic loop
+!             if group is found, next search start from this group
+!             optimal in case of sorted list of GRNOD in ADMAS file
+!             in case on non sorted file, a dichotomic search is more appropriate
+
+            CPT_LAST = NGRNOD
+            LOOP_2 = .FALSE.
+210       CONTINUE
+            DO J = JCURR,CPT_LAST
+              IF (IGR == IGRNOD(J)%ID) THEN
+                IGRS = J
+                JCURR = J
+!           group found
+                GOTO 200
+              ENDIF
+              IF (J == NGRNOD) THEN 
+                IF(LOOP_2)THEN
+!           second passage IGRS has not been found we output in error 
+                  GOTO 200
+                ELSE
+!           first passage in loop, we will start a 2nd passage from 1 to jcurr
+                  LOOP_2 = .TRUE.
+                ENDIF
+                CPT_LAST = JCURR
+                JCURR = 1
+!           begin again loop 1
+                GOTO 210
+              ENDIF
+            ENDDO ! DO J = JCURR,CPT_LAST
+!-----------------------
+!           end OPTIMISATION1
+!-----------------------
+200       CONTINUE
+!
+            IF (IGRS /= 0) THEN
+              NNOD = IGRNOD(IGRS)%NENTITY
+              ! For optimization purposes, allocation of "node" arrays 
+              ! is only done at the moment of group processing, and only if not already allocated
+              ! (in case the same group is used in several /ADMAS definitions)
+              !
+              ! for type 0, the number of nodes is given by the group definition, so allocation of "node" arrays is done
+              ! here with size "1"  to be able to store "node" data for at least one node, and then reallocation 
+              ! is done if needed in case of several /ADMAS definitions with the same group
+              IF (.NOT.ALLOCATED(IPMAS(I)%NODEID) .AND. IDDLEVEL==0) ALLOCATE(IPMAS(I)%NODEID(NNOD))
+              IF (.NOT.ALLOCATED(IPMAS(I)%NODE)  .AND. IDDLEVEL==0) ALLOCATE(IPMAS(I)%NODE(1))
+              !
+              IPMAS(I)%GRNODID = IGR
+              IPMAS(I)%NBNOD = NNOD
+              !
+              IPMAS(I)%NODE(1)%MASS = AMAS
+              IPMAS(I)%NODE(1)%IXX = Ixx
+              IPMAS(I)%NODE(1)%IYY = Iyy
+              IPMAS(I)%NODE(1)%IZZ = Izz
+              IPMAS(I)%NODE(1)%IXY = Ixy
+              IPMAS(I)%NODE(1)%IXZ = Ixz
+              IPMAS(I)%NODE(1)%IYZ = Iyz
+              !
+              DO J=1,NNOD
+                NOSYS=IGRNOD(IGRS)%ENTITY(J)
+                ! inertia/mass storage
+                IPMAS(I)%NODEID(J) = NOSYS
+!-----------Multidomains: common nodes are only processed on 1 domain--------------
+                IF ((NSUBDOM > 0).AND.(IPID == 0)) THEN
+                  IF (TAGNO(NPART+NOSYS) > 1) GOTO 250
+                ENDIF
+                !
+                IF (AMAS > ZERO) THEN
+                  MS(NOSYS) = MS(NOSYS) + AMAS
+                  TOTADDMAS = TOTADDMAS + AMAS
+                ENDIF
+                !! compute of inertia for each node of the group (only Ixx is kept for the moment)
+                IF (Ixx > ZERO) THEN
+                  IN(NOSYS) = IN(NOSYS) + Ixx
+                  TOTADDINER = TOTADDINER + Ixx
+                ENDIF
+ 250      CONTINUE
+              ENDDO ! J=1,NNOD
+            ELSE
+              CALL ANCMSG (MSGID=53,
+     .                     MSGTYPE=MSGERROR,
+     .                     ANMODE=ANINFO,
+     .                     C1='IN /ADMAS OPTION',
+     .                     I1=IGR)
+            ENDIF ! if (igr /= 0)
+!------
+          ENDIF ! IF (FLAG == 0)
+        ELSE IF (ITYPE == 15) THEN
+          !------
+          ! added mass to nodes
+          !------
+          IF (FLAG == 0) THEN
+            CALL HM_GET_INTV('entityidsmax'   ,ENTITYMAX ,IS_AVAILABLE ,LSUBMODEL)
+!
+            ALLOCATE(Ixx_multi(ENTITYMAX))
+            Ixx_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(Ixy_multi(ENTITYMAX))
+            Ixy_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(Ixz_multi(ENTITYMAX))
+            Ixz_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(Iyy_multi(ENTITYMAX))
+            Iyy_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(Iyz_multi(ENTITYMAX))
+            Iyz_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(Izz_multi(ENTITYMAX))
+            Izz_multi(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(AMAS_MULTI(ENTITYMAX))
+            AMAS_MULTI(1:ENTITYMAX) = 0.0_WP
+            ALLOCATE(ENTITY_MULTI(ENTITYMAX))
+            ENTITY_MULTI(1:ENTITYMAX) = 0
+!
+            IF (.NOT.ALLOCATED(IPMAS(I)%NODEID) .AND. IDDLEVEL==0)  ALLOCATE(IPMAS(I)%NODEID(ENTITYMAX))
+            IF (.NOT.ALLOCATED(IPMAS(I)%NODE)   .AND. IDDLEVEL==0)  ALLOCATE(IPMAS(I)%NODE(ENTITYMAX))
+!
+            IPMAS(I)%NBNOD = ENTITYMAX
+            DO J=1,ENTITYMAX
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IXX'  ,Ixx_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IXY'  ,Ixy_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IXZ'  ,Ixz_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IYY'  ,Iyy_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IYZ'  ,Iyz_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('IZZ'  ,Izz_multi(J)     ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('masses'  ,AMAS_MULTI(J) ,J ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              CALL HM_GET_INT_ARRAY_INDEX('node_ID' ,ENTITY_MULTI(J) ,J ,IS_AVAILABLE, LSUBMODEL)
+!
+                IF (AMAS_MULTI(J) < 0.0_WP) THEN
+                  CALL ANCMSG(MSGID=3151,
+     .                        MSGTYPE=MSGWARNING,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        R1=AMAS_MULTI(J))
+                ENDIF
+!
+                IF (IXX_MULTI(J) < 0.0_WP) THEN
+                  CALL ANCMSG(MSGID=3152,
+     .                        MSGTYPE=MSGWARNING,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        R1=IXX_MULTI(J))
+                ENDIF
+!
+                IF (ENTITY_MULTI(J) <=  0) THEN
+                  CALL ANCMSG(MSGID=871 ,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO,
+     .                        I1=ID,
+     .                        C1=TITR,
+     .                        I2=ENTITY_MULTI(J))
+                ENDIF
+                NOSYS = USR2SYS(ENTITY_MULTI(J),ITABM1,MESS,ID)
+                ! inertia/mass storage
+                IPMAS(I)%NODEID(J) = NOSYS
+                IPMAS(I)%NODE(J)%MASS = AMAS_MULTI(J)
+                IPMAS(I)%NODE(J)%IXX = IXX_MULTI(J)
+                IPMAS(I)%NODE(J)%IYY = IYY_MULTI(J)
+                IPMAS(I)%NODE(J)%IZZ = IZZ_MULTI(J)
+                IPMAS(I)%NODE(J)%IXY = IXY_MULTI(J)
+                IPMAS(I)%NODE(J)%IXZ = IXZ_MULTI(J)
+                IPMAS(I)%NODE(J)%IYZ = IYZ_MULTI(J)
+!-----------multidomains: common nodes are only processed in one domain--------------
+                IF ((NSUBDOM > 0) .AND. (IPID == 0)) THEN
+                  IF (TAGNO(NPART+NOSYS) > 1) GOTO 270
+                ENDIF
+                MS(NOSYS) = MS(NOSYS) + AMAS_MULTI(J)
+                TOTADDMAS = TOTADDMAS + AMAS_MULTI(J)
+                !! compute of inertia for each node of the group (only ixx is kept for the moment)
+                IN(NOSYS) = IN(NOSYS) + IXX_MULTI(J)
+                TOTADDINER = TOTADDINER + IXX_MULTI(J)
+ 270      CONTINUE
+              ENDDO ! DO J=1,ENTITYMAX
+!
+              IF (ALLOCATED(ENTITY_MULTI)) DEALLOCATE(ENTITY_MULTI)
+              IF (ALLOCATED(AMAS_MULTI)) DEALLOCATE(AMAS_MULTI)
+              IF (ALLOCATED(IXX_MULTI)) DEALLOCATE(IXX_MULTI)
+              IF (ALLOCATED(IXY_MULTI)) DEALLOCATE(IXY_MULTI)
+              IF (ALLOCATED(IXZ_MULTI)) DEALLOCATE(IXZ_MULTI)
+              IF (ALLOCATED(IYY_MULTI)) DEALLOCATE(IYY_MULTI)
+              IF (ALLOCATED(IYZ_MULTI)) DEALLOCATE(IYZ_MULTI)
+              IF (ALLOCATED(IZZ_MULTI)) DEALLOCATE(IZZ_MULTI)
+          ENDIF ! IF (FLAG == 0)
+        ENDIF ! IF (ITYPE == 0 .or. ITYPE == 1 ... )
 !------
       ENDDO ! DO I=1,NODMAS
 C---
