@@ -41,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,7 +66,7 @@ C-----------------------------------------------
       my_real
      .        A1,A2,A3,A4,AC
 C-----------------------------------------------
-      CALL MY_ALLOC(LKINNOD,NUMNOD)
+      call my_alloc(LKINNOD, NUMNOD, "LKINNOD")
       LKINNOD=0
       DO LEVEL=LEVELMAX-1,0,-1
 
@@ -167,7 +168,7 @@ C
         END DO
 
       END DO
-      DEALLOCATE(LKINNOD)
+      call my_dealloc(LKINNOD)
       RETURN
       END
 !||====================================================================
@@ -191,6 +192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -216,7 +218,7 @@ C-----------------------------------------------
       my_real
      .        A1,A2,A3,A4,AC
 C-----------------------------------------------
-      CALL MY_ALLOC(LKINNOD,NUMNOD)
+      call my_alloc(LKINNOD, NUMNOD, "LKINNOD")
       LKINNOD=0
       DO LEVEL=LEVELMAX-1,0,-1
 
@@ -333,7 +335,7 @@ C
         END DO
 
       END DO
-      DEALLOCATE(LKINNOD)
+      call my_dealloc(LKINNOD)
       RETURN
       END
 !||====================================================================

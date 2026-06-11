@@ -48,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,7 +90,7 @@ C-----------------------------------------------
      .        WORK(70000), LSD1,LRC1,NOD1,XFEM_REM_COUNT
       INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
 C-----------------------------------------------
-      CALL MY_ALLOC(INDEX,2*NUMNOD)
+      call my_alloc(INDEX, 2*NUMNOD, "INDEX")
 C-----------------------------------------------
 C   Init a ZERO FORCES NODALES 
 C-----------------------------------------------
@@ -419,7 +420,7 @@ C fin ivector=1
 C fin interface type I2NSNT > 0
       END IF
 C
-      DEALLOCATE(INDEX)
+      call my_dealloc(INDEX)
       RETURN
       END
 C 

@@ -109,9 +109,9 @@ C
         INICRACK(I)%NSEG  = NSEG
 C    
         ! Allocation of segment data structure
-        ALLOCATE(INICRACK(I)%SEG(NSEG))
+        allocate(INICRACK(I)%SEG(NSEG))
         DO J = 1,NSEG
-          CALL MY_ALLOC(INICRACK(I)%SEG(J)%NODES,2)
+          CALL MY_ALLOC(INICRACK(I)%SEG(J)%NODES,2,"INICRACK(I)%SEG(J)%NODES")
         ENDDO
 C
         ! Filling the segment data structure

@@ -81,6 +81,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -217,20 +219,20 @@ C -------------------------------------------------------------
 C     ALLOCATIONS
 C -------------------------------------------------------------
       IF(ITASK==0)THEN
-        ALLOCATE (IRECT_L(SIZ_IRECT_L,NSHEL_G))
-        ALLOCATE(XMINS(NBRIC_L))
-        ALLOCATE(YMINS(NBRIC_L))
-        ALLOCATE(ZMINS(NBRIC_L))
-        ALLOCATE(XMAXS(NBRIC_L))
-        ALLOCATE(YMAXS(NBRIC_L))
-        ALLOCATE(ZMAXS(NBRIC_L))
-        ALLOCATE(NSNR_G(NTHREAD))
-        ALLOCATE(XMINE(NSHEL_L))
-        ALLOCATE(YMINE(NSHEL_L))
-        ALLOCATE(ZMINE(NSHEL_L))
-        ALLOCATE(XMAXE(NSHEL_L))
-        ALLOCATE(YMAXE(NSHEL_L))
-        ALLOCATE(ZMAXE(NSHEL_L))
+        call my_alloc(IRECT_L, SIZ_IRECT_L, NSHEL_G, "IRECT_L")
+        call my_alloc(XMINS, NBRIC_L, "XMINS")
+        call my_alloc(YMINS, NBRIC_L, "YMINS")
+        call my_alloc(ZMINS, NBRIC_L, "ZMINS")
+        call my_alloc(XMAXS, NBRIC_L, "XMAXS")
+        call my_alloc(YMAXS, NBRIC_L, "YMAXS")
+        call my_alloc(ZMAXS, NBRIC_L, "ZMAXS")
+        call my_alloc(NSNR_G, NTHREAD, "NSNR_G")
+        call my_alloc(XMINE, NSHEL_L, "XMINE")
+        call my_alloc(YMINE, NSHEL_L, "YMINE")
+        call my_alloc(ZMINE, NSHEL_L, "ZMINE")
+        call my_alloc(XMAXE, NSHEL_L, "XMAXE")
+        call my_alloc(YMAXE, NSHEL_L, "YMAXE")
+        call my_alloc(ZMAXE, NSHEL_L, "ZMAXE")
         BMINMA_LAG(1) = -EP30
         BMINMA_LAG(2) = -EP30
         BMINMA_LAG(3) = -EP30
@@ -317,7 +319,7 @@ C       BMINMA_LAG_G(1:6) is global model data
 C -------------------------------------------------------------
       IF(NSPMD > 1) THEN
         IF(ITASK==0)THEN
-          ALLOCATE(BMINMA_LAG_SPMD(6,NSPMD))
+          call my_alloc(BMINMA_LAG_SPMD, 6, NSPMD, "BMINMA_LAG_SPMD")
           IF(IMONM > 0) CALL STARTIME(TIMERS,25)
           CALL SPMD_LAGBOUNDS_EXCH_I22(
      .            BMINMA_LAG_SPMD, BMINMA_LAG, ISENDTO  ,IRCVFROM , NIN)
@@ -698,20 +700,20 @@ C--------------------------------------------------------------
       
       IF(ITASK==0)THEN
         !DEALLOCATE(IRECT_L)
-        DEALLOCATE(XMINS)
-        DEALLOCATE(YMINS)
-        DEALLOCATE(ZMINS)
-        DEALLOCATE(XMAXS)
-        DEALLOCATE(YMAXS)
-        DEALLOCATE(ZMAXS)
-        DEALLOCATE(NSNR_G)
-        DEALLOCATE(XMINE)
-        DEALLOCATE(YMINE)
-        DEALLOCATE(ZMINE)
-        DEALLOCATE(XMAXE)
-        DEALLOCATE(YMAXE)
-        DEALLOCATE(ZMAXE)
-        IF(ALLOCATED(BMINMA_LAG_SPMD))DEALLOCATE(BMINMA_LAG_SPMD)
+        call my_dealloc(XMINS)
+        call my_dealloc(YMINS)
+        call my_dealloc(ZMINS)
+        call my_dealloc(XMAXS)
+        call my_dealloc(YMAXS)
+        call my_dealloc(ZMAXS)
+        call my_dealloc(NSNR_G)
+        call my_dealloc(XMINE)
+        call my_dealloc(YMINE)
+        call my_dealloc(ZMINE)
+        call my_dealloc(XMAXE)
+        call my_dealloc(YMAXE)
+        call my_dealloc(ZMAXE)
+        IF(ALLOCATED(BMINMA_LAG_SPMD)) call my_dealloc(BMINMA_LAG_SPMD)
       END IF
 
       RETURN

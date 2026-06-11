@@ -47,6 +47,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -176,7 +178,8 @@ C-----------in SPMD, should do the comm or simplifying the values--
       INTKG1 = 0
       IF (INTKG>0.AND.IIKGOFF/=1) INTKG1=1    
       IF(INTKG1 > 0) THEN
-       ALLOCATE(TAG_S(NUMNOD),TAG_M(NUMNOD))
+       call my_alloc(TAG_S, NUMNOD, "TAG_S")
+       call my_alloc(TAG_M, NUMNOD, "TAG_M")
         TAG_S =0
         TAG_M =0
        DO I=1,NSN
@@ -225,7 +228,8 @@ C
      4                    KL12   ,SK_INT ,INTBUF_TAB%NOD_2RY_LGTH,
      .                    INTBUF_TAB%NOD_MAS_LGTH,
      5                    TAG_S  ,TAG_M  ,NSN    )
-        DEALLOCATE(TAG_S,TAG_M)
+        call my_dealloc(TAG_S)
+        call my_dealloc(TAG_M)
        END IF
      
            IF (NSPMD > 1) THEN

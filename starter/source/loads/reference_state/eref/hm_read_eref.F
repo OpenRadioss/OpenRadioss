@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use element_mod , only : nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,7 +89,10 @@ C-----------------------------------------------
       INTEGER USR2SYS, NINTRI
 C=======================================================================
 
-      ALLOCATE(TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS8),TAGNOD(NUMNOD))
+      call my_alloc(TAGELC, NUMELC, "TAGELC")
+      call my_alloc(TAGELTG, NUMELTG, "TAGELTG")
+      call my_alloc(TAGELS, NUMELS8, "TAGELS")
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
 C
       IS_AVAILABLE = .FALSE.
 C
@@ -339,7 +343,10 @@ C------------------------------------------
         ENDIF
       ENDIF
 C
-      DEALLOCATE(TAGELC,TAGELTG,TAGELS,TAGNOD)
+      CALL MY_DEALLOC(TAGELC)
+      CALL MY_DEALLOC(TAGELTG)
+      CALL MY_DEALLOC(TAGELS)
+      CALL MY_DEALLOC(TAGNOD)
       RETURN
  1000 FORMAT(//
      & 5X,'    REFERENCE STATE (EREF)  ',/

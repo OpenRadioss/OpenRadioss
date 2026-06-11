@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -63,7 +64,7 @@ c     read viscosity model parameters
 C=======================================================================
       CALL READ_I_C(ILEN, 1)
       LEN = ILEN(1)
-      ALLOCATE (IBUF(LEN) )
+      call my_alloc(IBUF, LEN, "IBUF")
       CALL READ_I_C(IBUF, LEN)
       IAD = 0
 c      
@@ -80,7 +81,7 @@ c
       IAD = IAD+1
         VISC%NTABLE  = IBUF(IAD)
 c
-      DEALLOCATE( IBUF )
+      call my_dealloc(IBUF)
       
       IF (VISC%ILAW > 0) THEN
 c
@@ -94,8 +95,8 @@ c       read material title
 c       read viscosity parameter arrays
         NUPARAM = VISC%NUPARAM
         NIPARAM = VISC%NIPARAM
-        CALL MY_ALLOC(VISC%UPARAM ,NUPARAM)
-        CALL MY_ALLOC(VISC%IPARAM ,NIPARAM)
+        call my_alloc(VISC%UPARAM, NUPARAM, "VISC%UPARAM")
+        call my_alloc(VISC%IPARAM, NIPARAM, "VISC%IPARAM")
 
         IF (NUPARAM > 0) THEN
           CALL READ_DB(VISC%UPARAM  ,NUPARAM)
@@ -116,9 +117,9 @@ c
 c
         VISC%TITLE = " "
         LEN = 0
-        ALLOCATE (VISC%UPARAM(LEN))
-        ALLOCATE (VISC%IPARAM(LEN))
-        ALLOCATE (VISC%FUNC(LEN))
+        call my_alloc(VISC%UPARAM, LEN, "VISC%UPARAM")
+        call my_alloc(VISC%IPARAM, LEN, "VISC%IPARAM")
+        call my_alloc(VISC%FUNC, LEN, "VISC%FUNC")
         ALLOCATE (VISC%TABLE(LEN))
         VISC%UPARAM = 0
         VISC%IPARAM = 0

@@ -44,6 +44,8 @@ c    FLD failure model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include  "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -202,7 +204,7 @@ c
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
         LENF = NPF(IFUNC(1)+ 1) - NPF(IFUNC(1))
-        ALLOCATE(XF(LENF))
+        call my_alloc(XF, LENF, "XF")
         DO I = 1,LENF
           XF(I) = LOG(TF(II + I-1) + ONE)
         ENDDO
@@ -215,7 +217,7 @@ c
           DFMAX(I,2) = MAX(DAM(I),ZERO)
           DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
-        DEALLOCATE(XF)
+        call my_dealloc(XF)
       ! -> True strains input
       ELSE
         ! -> Classical formulation

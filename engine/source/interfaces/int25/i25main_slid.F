@@ -69,6 +69,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -247,22 +249,25 @@ C precalculer LENS
 C-----------------------------------------------------------------------
         IF(NSPMD == 1) THEN
 
-          ALLOCATE(NADD(1),KADD(1))
-          ALLOCATE(NSLIDE(1),FR_SLIDE(1),INDXTOSEND(1))
+          call my_alloc(NADD, 1, "NADD")
+          call my_alloc(KADD, 1, "KADD")
+          call my_alloc(NSLIDE, 1, "NSLIDE")
+          call my_alloc(FR_SLIDE, 1, "FR_SLIDE")
+          call my_alloc(INDXTOSEND, 1, "INDXTOSEND")
 
         ELSE
 C-----------------------------------------------------------------------
 C         spmd only <=> sending secondary nodes that slide on a boundary vertex
 C-----------------------------------------------------------------------
 C
-          ALLOCATE(NADD(NADMAX+1),STAT=IERROR)
+          call my_alloc(NADD, NADMAX+1, "NADD", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
 C
           LADMAX = 4*NSLIDMX
-          ALLOCATE(KADD(LADMAX),STAT=IERROR)
+          call my_alloc(KADD, LADMAX, "KADD", stat=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -311,7 +316,8 @@ C           compute size of buffer for send
      3        ITAB   ,INTBUF_TAB(NIN)%NSV,IAD_FRNOR,FR_NOR ,NADD ,
      4        KADD   ,SIZBUFS,NSENDTOT)
 C
-            ALLOCATE(FR_SLIDE(4*NSENDTOT),INDXTOSEND(NSENDTOT),STAT=IERROR)
+            call my_alloc(FR_SLIDE, 4*NSENDTOT, "FR_SLIDE", stat=IERROR)
+            call my_alloc(INDXTOSEND, NSENDTOT, "INDXTOSEND", stat=IERROR)
             IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -369,8 +375,8 @@ C           Send buffers
      .                    ,1                  ,NI25, COMM_PATTERN)
 C ==========================================================================
 
-            DEALLOCATE(FR_SLIDE)
-            DEALLOCATE(INDXTOSEND)
+            call my_dealloc(FR_SLIDE)
+            call my_dealloc(INDXTOSEND)
 
 
           END DO ! NI25 = 1:NINTER25
@@ -428,10 +434,10 @@ C  Ici on teste (2)
                SIZBUFS(P) = SIZBUFR_GLOB(P,NI25)
                NB_TOT = NB_TOT +SIZBUFS(P)
             ENDDO
-            IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
-            IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
-            ALLOCATE(XREM(RSIZ(NI25),NB_TOT))
-            ALLOCATE(IREM(ISIZ(NI25),NB_TOT))
+            IF(ALLOCATED(XREM)) call my_dealloc(XREM)
+            IF(ALLOCATED(IREM)) call my_dealloc(IREM)
+            call my_alloc(XREM, RSIZ(NI25), NB_TOT, "XREM")
+            call my_alloc(IREM, ISIZ(NI25), NB_TOT, "IREM")
 
 
             NB_TOT = 0
@@ -531,8 +537,8 @@ C
           ENDDO
         ENDIF
 !       DEALLOCATE(BUFR)
-        DEALLOCATE(NADD)
-        DEALLOCATE(KADD)
+        call my_dealloc(NADD)
+        call my_dealloc(KADD)
 
 C
 C-----------------------------------------------------------------------

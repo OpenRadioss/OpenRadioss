@@ -37,6 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -71,7 +73,7 @@ C
         MASS  => NLOC_DMG%MASS(1:NLOC_DMG%L_NLOC)
 C
         ! Allocating non-local nodal timestep table
-        ALLOCATE(DTN(NLOC_DMG%L_NLOC))
+        call my_alloc(DTN, NLOC_DMG%L_NLOC, "DTN")
         DTN(1:NLOC_DMG%L_NLOC) = ZERO   
 C
         ! Determining the minimum of non-local nodal timestep
@@ -131,7 +133,7 @@ C
         ENDDO
 C
         ! Deallocation
-        IF (ALLOCATED(DTN)) DEALLOCATE(DTN)
+        IF (ALLOCATED(DTN)) call my_dealloc(DTN)
 C
       ENDIF
       END

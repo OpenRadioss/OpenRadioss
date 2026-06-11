@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -54,24 +55,24 @@ C-----------------------------------------------
 !   ----------------------------------------
         IF(INV_GROUP%ALREADY_ALLOC) THEN
 
-            DEALLOCATE( INV_GROUP%INDPARTS )
-            DEALLOCATE( INV_GROUP%INDPARTQ )
-            DEALLOCATE( INV_GROUP%INDPARTC )
-            DEALLOCATE( INV_GROUP%INDPARTT )
-            DEALLOCATE( INV_GROUP%INDPARTP )
-            DEALLOCATE( INV_GROUP%INDPARTTG )
-            DEALLOCATE( INV_GROUP%INDPARTTRIA )
-            DEALLOCATE( INV_GROUP%INDPARTR )
-            DEALLOCATE( INV_GROUP%INDPARTSPH )
+            call my_dealloc(INV_GROUP%INDPARTS)
+            call my_dealloc(INV_GROUP%INDPARTQ)
+            call my_dealloc(INV_GROUP%INDPARTC)
+            call my_dealloc(INV_GROUP%INDPARTT)
+            call my_dealloc(INV_GROUP%INDPARTP)
+            call my_dealloc(INV_GROUP%INDPARTTG)
+            call my_dealloc(INV_GROUP%INDPARTTRIA)
+            call my_dealloc(INV_GROUP%INDPARTR)
+            call my_dealloc(INV_GROUP%INDPARTSPH)
 
-            DEALLOCATE( INV_GROUP%PARTS )
-            DEALLOCATE( INV_GROUP%PARTQ )
-            DEALLOCATE( INV_GROUP%PARTT )
-            DEALLOCATE( INV_GROUP%PARTP )
-            DEALLOCATE( INV_GROUP%PARTTG )
-            DEALLOCATE( INV_GROUP%PARTTRIA )
-            DEALLOCATE( INV_GROUP%PARTR )
-            DEALLOCATE( INV_GROUP%PARTSPH )
+            call my_dealloc(INV_GROUP%PARTS)
+            call my_dealloc(INV_GROUP%PARTQ)
+            call my_dealloc(INV_GROUP%PARTT)
+            call my_dealloc(INV_GROUP%PARTP)
+            call my_dealloc(INV_GROUP%PARTTG)
+            call my_dealloc(INV_GROUP%PARTTRIA)
+            call my_dealloc(INV_GROUP%PARTR)
+            call my_dealloc(INV_GROUP%PARTSPH)
         ENDIF   
 !   ---------------------------------------- 
 

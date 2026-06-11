@@ -37,6 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -61,9 +62,9 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:), ALLOCATABLE :: MAIN_NODES,TAG,PLIST
 
 C-----------------------------------------------
-      ALLOCATE(MAIN_NODES(NRBE2))
-      ALLOCATE(TAG(NUMNOD))
-      ALLOCATE(PLIST(NSPMD))
+      call my_alloc(MAIN_NODES, NRBE2, "MAIN_NODES")
+      call my_alloc(TAG, NUMNOD, "TAG")
+      call my_alloc(PLIST, NSPMD, "PLIST")
 ! ------------------------
 C
 C
@@ -117,8 +118,8 @@ C          List of All domains where M is sticked
          ENDIF
       ENDDO 
 C --------------------------------
-      DEALLOCATE(MAIN_NODES)
-      DEALLOCATE(TAG)
+      CALL MY_DEALLOC(MAIN_NODES)
+      CALL MY_DEALLOC(TAG)
 C --------------------------------
       RETURN
       END

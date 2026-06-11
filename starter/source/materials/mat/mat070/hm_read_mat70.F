@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,8 +166,8 @@ c---------------------------------------------------------------------------
 c     check if there are no input errors in function and strain rate definitions
 c---------------------------------------------------------------------------
       if (nratep > 1) then
-        allocate (perml(nratep))
-        allocate (hash (nratep))
+        call my_alloc(perml, nratep, "perml")
+        call my_alloc(hash, nratep, "hash")
         ! create a checksum value for each function input line
         sizeh = 3
         do i=1,nratep
@@ -233,8 +234,8 @@ c
      .                C1=TITR)       
         ENDIF 
       END IF                       
-      if (allocated(perml)) deallocate (perml)
-      if (allocated(hash))  deallocate (hash )
+      if (allocated(perml)) CALL MY_DEALLOC(perml)
+      if (allocated(hash))  CALL MY_DEALLOC(hash)
 !-------------------------------------------------------------------------------
       ! Unloading functions
 !-------------------------------------------------------------------------------

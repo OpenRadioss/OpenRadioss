@@ -35,6 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -84,7 +85,7 @@ c        ENDDO
       ENDDO
       IF (NS10E_L==0) RETURN
 !     allocate 1d array
-      ALLOCATE( TAGI(NUMNOD) )
+      call my_alloc(TAGI, NUMNOD, "TAGI")
       TAGI(1:NUMNOD) = 0 
 C-------------for main nodes---------
       DO N = 1, NS10E
@@ -130,7 +131,7 @@ c                IF (NF > 1) NBDDCNDM = NBDDCNDM + 1
             ENDIF
       END DO
 C ----------------------------
-      DEALLOCATE( TAGI )
+      CALL MY_DEALLOC(TAGI)
 C ----------------------------
 C
       RETURN

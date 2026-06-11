@@ -47,7 +47,7 @@ C-----------------------------------------------
 c======================================================================- 
       DO IMAT = 1,NUMMAT-1
         NFAIL = MAT_PARAM(IMAT)%NFAIL
-        ALLOCATE (MAT_PARAM(IMAT)%FAIL(NFAIL))
+        allocate(MAT_PARAM(IMAT)%FAIL(NFAIL))
         IF (NFAIL > 0) THEN
           DO IFL = 1,NFAIL
             MAT_PARAM(IMAT)%FAIL(IFL)%KEYWORD = ' '

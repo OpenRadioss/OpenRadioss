@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,7 +90,7 @@ C-----------------------------------------------
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      CALL MY_ALLOC(IOFFBUF,NBF_L)
+      call my_alloc(IOFFBUF, NBF_L, "IOFFBUF")
       NPG = 4
       IOFFBUF = -1
       DO PLYS = 1,NPLYPART
@@ -270,6 +271,6 @@ C
           CALL SPMD_IGET_PARTN(1,NBF_L,IOFFBUF,NPLYPART,IADG,RBUF,2)
         END IF
       ENDIF
-      DEALLOCATE(IOFFBUF)
+      call my_dealloc(IOFFBUF)
       RETURN
       END

@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -62,7 +64,8 @@ C Local SPMD accelerations
       ELSE
          NNO_L = IFLOW(16)
          LENBUF=3*NNO
-         ALLOCATE(SBUF(LENBUF), RBUF(LENBUF))
+         call my_alloc(SBUF, LENBUF, "SBUF")
+         call my_alloc(RBUF, LENBUF, "RBUF")
          SBUF(1:LENBUF)=ZERO
          RBUF(1:LENBUF)=ZERO
          DO I=1,NNO_L
@@ -82,7 +85,8 @@ C Local SPMD accelerations
             AL(2,I)=RBUF(K+2)
             AL(3,I)=RBUF(K+3)
          ENDDO
-         DEALLOCATE(SBUF, RBUF)
+         call my_dealloc(SBUF)
+         call my_dealloc(RBUF)
       ENDIF
 
       IF(JFORM == 1) THEN

@@ -44,6 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -92,8 +94,8 @@ C=======================================================================
       IF(NCLUSTER > 0) THEN
         CALL WRITE_I_C(ILCLUSTER,NCLUSTER)
         CALL WRITE_I_C(RLCLUSTER,NCLUSTER)
-        ALLOCATE (ICLTAB(ILCLUSTER_MAX)) ! Integer CLuster TABle
-        ALLOCATE (RCLTAB(RLCLUSTER_MAX)) ! Real CLuster TABle
+        call my_alloc(ICLTAB, ILCLUSTER_MAX, "ICLTAB") ! Integer CLuster TABle
+        call my_alloc(RCLTAB, RLCLUSTER_MAX, "RCLTAB") ! Real CLuster TABle
       ENDIF
 
       DO I = 1, NCLUSTER
@@ -153,8 +155,8 @@ c
       ENDDO  !  I = 1, NCLUSTER
 
       IF(NCLUSTER > 0) THEN
-        DEALLOCATE (RCLTAB)
-        DEALLOCATE (ICLTAB)
+        call my_dealloc(RCLTAB)
+        call my_dealloc(ICLTAB)
       ENDIF
 
 

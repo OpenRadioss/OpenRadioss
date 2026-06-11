@@ -53,8 +53,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF
 C=======================================================================
-      CALL MY_ALLOC(INDX_LOC,NUMNOD_L)
-      CALL MY_ALLOC(IDXI_LOC,NUMNOD_L)
+      CALL MY_ALLOC(INDX_LOC,NUMNOD_L,"INDX_LOC")
+      CALL MY_ALLOC(IDXI_LOC,NUMNOD_L,"IDXI_LOC")
       IWAVE = FAILWAVE%WAVE_MOD
       NNOD  = FAILWAVE%NNOD
       NDDL  = FAILWAVE%NDDL
@@ -94,15 +94,15 @@ c
         LEN_AM = LEN_AM + NUMNOD_L
 c
         LEN = NNOD_L*NDDL*SIZE + NNOD_L
-        ALLOCATE( RBUF(LEN) )
+        call my_alloc(RBUF, LEN, "RBUF")
         RBUF(:) = 0
         CALL WRITE_I_C(RBUF,LEN)
         LEN_AM = LEN_AM + LEN
 c---
-        DEALLOCATE( RBUF )
+        CALL MY_DEALLOC(RBUF)
       ENDIF
 c-------------------------------- 
-      DEALLOCATE(INDX_LOC)
-      DEALLOCATE(IDXI_LOC)
+      CALL MY_DEALLOC(INDX_LOC)
+      CALL MY_DEALLOC(IDXI_LOC)
       RETURN
       END

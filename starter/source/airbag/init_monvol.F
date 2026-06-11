@@ -80,6 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
@@ -158,23 +159,24 @@ C-----------------------------------------------
 C-------------------------------------
 C     Allocate KMESH (for type 8 airbags)
 C-------------------------------------
-      IF(.NOT.(ALLOCATED(KMESH))) ALLOCATE(KMESH(NVOLU))
+      IF(.NOT.(ALLOCATED(KMESH))) call my_alloc(KMESH, NVOLU, "KMESH")
       TETRAMESHER_USED = .FALSE.
       NB_TOTAL_NODE = NUMNOD
-      IF(.NOT.(ALLOCATED(NODE_COORD))) ALLOCATE(NODE_COORD(3, NUMNOD))
+      IF(.NOT.(ALLOCATED(NODE_COORD))) call my_alloc(NODE_COORD, 3, NUMNOD, "NODE_COORD")
       DO I = 1, NUMNOD
          NODE_COORD(1, I) = X(1, I)
          NODE_COORD(2, I) = X(2, I)
          NODE_COORD(3, I) = X(3, I)
       ENDDO
       NB_TOTAL_SOLIDS = NUMELS
-      IF(.NOT.(ALLOCATED(IXS_TEMP))) ALLOCATE(IXS_TEMP(NIXS * NUMELS))
+      IF(.NOT.(ALLOCATED(IXS_TEMP))) call my_alloc(IXS_TEMP, NIXS * NUMELS, "IXS_TEMP")
       DO I = 1, NUMELS
          DO II = 1, NIXS
             IXS_TEMP(NIXS * (I - 1) + II) = IXS(II, I)
          ENDDO
       ENDDO
-      IF(.NOT.(ALLOCATED(ITAB_TMP))) ALLOCATE(ITAB_TMP(NUMNOD), ITABM1_TMP(2 * NUMNOD))
+      IF(.NOT.(ALLOCATED(ITAB_TMP))) call my_alloc(ITAB_TMP, NUMNOD, "ITAB_TMP")
+      IF(.NOT.(ALLOCATED(ITABM1_TMP))) call my_alloc(ITABM1_TMP, 2 * NUMNOD, "ITABM1_TMP")
       DO I = 1, NUMNOD
          ITAB_TMP(I) = ITAB(I)
       ENDDO
@@ -222,32 +224,34 @@ C------------------------------------------
             T_MONVOL(N)%IVOLU(31)=IADALE-1
             T_MONVOL(N)%IVOLU(34)=RADALE-1
 C     Tag the nodes of additional bricks
-            ALLOCATE(TAGNODBR(NUMNOD))
+            call my_alloc(TAGNODBR, NUMNOD, "TAGNODBR")
             TAGNODBR(1:NUMNOD)=0
             IBRIC=T_MONVOL(N)%IVOLU(61)
             IF (IBRIC/=0) THEN
                NBRIC=IGRBRIC(IBRIC)%NENTITY
                T_MONVOL(N)%NBRIC = NBRIC
-               ALLOCATE(T_MONVOL(N)%TBRIC(2, NBRIC))
-               ALLOCATE(T_MONVOL(N)%TFAC(12, NBRIC))
+               call my_alloc(T_MONVOL(N)%TBRIC, 2, NBRIC, "T_MONVOL(N)%TBRIC")
+               call my_alloc(T_MONVOL(N)%TFAC, 12, NBRIC, "T_MONVOL(N)%TFAC")
                CALL FVBRIC0(
      .              IBID      ,IXS                ,1      ,NBRIC  ,
      .              T_MONVOL(N)%ID,T_MONVOL(N)%IVOLU(44)        ,TITR   ,TAGNODBR,
      .              T_MONVOL(N)%TBRIC  ,T_MONVOL(N)%TFAC,NUMNOD ,IGRBRIC,IBRIC,ITYPE)
             ENDIF
 C     
-            ALLOCATE(TAGE(NN),ITABINV(NUMNOD),TAGVENT(NUMNOD))
+            call my_alloc(TAGE, NN, "TAGE")
+            call my_alloc(ITABINV, NUMNOD, "ITABINV")
+            call my_alloc(TAGVENT, NUMNOD, "TAGVENT")
 C     
             
             CALL ALENO(NN  ,IGRSURF(T_MONVOL(N)%EXT_SURFID)%NODES,  NNS,ITABINV,
      .           TAGE, TAGVENT,  TAGNODBR, T_MONVOL(N))
             
-            DEALLOCATE(TAGNODBR)
+            CALL MY_DEALLOC(TAGNODBR)
 C     
             NNI=0
             
             IF (T_MONVOL(N)%INT_SURFID /= 0) THEN
-               ALLOCATE(ITABINV1(NUMNOD))
+               call my_alloc(ITABINV1, NUMNOD, "ITABINV1")
                ITABINV1(1:NUMNOD) = 0
                NP = IGRSURF(T_MONVOL(N)%INT_SURFID)%NSEG
                CALL FVNODI(NP ,IGRSURF(T_MONVOL(N)%INT_SURFID)%NODES, NNI,ITABINV1 ,
@@ -279,8 +283,8 @@ C
             ENDIF
 !     Keep track of original elements ids
             LENGTH=2 * (SIZE1 + SIZE2 + T_MONVOL(N)%NB_FILL_TRI)
-            CALL MY_ALLOC(T_MONVOL(N)%FVBAG_ELEMID,LENGTH)
-            CALL MY_ALLOC(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)))
+            CALL MY_ALLOC(T_MONVOL(N)%FVBAG_ELEMID,LENGTH,"T_MONVOL(N)%FVBAG_ELEMID")
+            CALL MY_ALLOC(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)),"T_MONVOL(N)%ELTG")
             T_MONVOL(N)%ELTG(1:SIZE1 + SIZE2) = 0
             CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
      .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, T_MONVOL(N)%FVBAG_ELEMID)
@@ -289,19 +293,19 @@ C
 
             CALL MONVOL_CHECK_DELETE_DUPLICATED(T_MONVOL(N), NTG, NTGI, ITAB)
 
-            IF (ALLOCATED(ITABINV1)) DEALLOCATE(ITABINV1)
-            IF (ALLOCATED(ITABINV)) DEALLOCATE(ITABINV)
-            IF (ALLOCATED(ITABINV2)) DEALLOCATE(ITABINV2)
-            IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
-            IF (ALLOCATED(TAGE)) DEALLOCATE(TAGE)
+            IF (ALLOCATED(ITABINV1)) CALL MY_DEALLOC(ITABINV1)
+            IF (ALLOCATED(ITABINV)) CALL MY_DEALLOC(ITABINV)
+            IF (ALLOCATED(ITABINV2)) call my_dealloc(ITABINV2)
+            IF (ALLOCATED(INDEX)) call my_dealloc(INDEX)
+            IF (ALLOCATED(TAGE)) CALL MY_DEALLOC(TAGE)
 
             T_MONVOL(N)%IVOLU(33)=NTG
             T_MONVOL(N)%IVOLU(69)=NTGI
             IADALE3=IADALE2+NNO*NTG
 
             IF (NTGI > 0) THEN
-               ALLOCATE(T_MONVOL(N)%POROSITY(NTGI))
-               ALLOCATE(T_MONVOL(N)%THSURF_TAG(NSURF, NTGI + 1))
+               call my_alloc(T_MONVOL(N)%POROSITY, NTGI, "T_MONVOL(N)%POROSITY")
+               call my_alloc(T_MONVOL(N)%THSURF_TAG, NSURF, NTGI + 1, "T_MONVOL(N)%THSURF_TAG")
             ENDIF
 
             IF (T_MONVOL(N)%INT_SURFID /= 0) THEN
@@ -310,7 +314,7 @@ C
      .                 T_MONVOL(N)%TBRIC, T_MONVOL(N)%TFAC)
                ENDIF
             ENDIF
-            ALLOCATE(T_MONVOL(N)%ELAREA(NTG + NTGI))
+            call my_alloc(T_MONVOL(N)%ELAREA, NTG + NTGI, "T_MONVOL(N)%ELAREA")
             IADALE3=IADALE3+NNO*NTGI
   
             IF (KMESH(N) >= 2) THEN
@@ -324,13 +328,15 @@ C
                   
                END SELECT
                WRITE(IOUT,1703) ID,NB_TETRA, NB_EXTRA_VERTICES
-               IF (ALLOCATED(ITAB_SAVE)) DEALLOCATE(ITAB_SAVE)
-               ALLOCATE(ITAB_SAVE(NB_TOTAL_NODE_OLD))
+               IF (ALLOCATED(ITAB_SAVE)) CALL MY_DEALLOC(ITAB_SAVE)
+               call my_alloc(ITAB_SAVE, NB_TOTAL_NODE_OLD, "ITAB_SAVE")
                ITAB_SAVE(1:NB_TOTAL_NODE_OLD) = ITAB_TMP(1:NB_TOTAL_NODE_OLD)
 
-               DEALLOCATE(ITAB_TMP, ITABM1_TMP)
+               CALL MY_DEALLOC(ITAB_TMP)
+               CALL MY_DEALLOC(ITABM1_TMP)
 !!!   First, determine max user ID (external ID)
-               ALLOCATE(ITAB_TMP(NB_TOTAL_NODE), ITABM1_TMP(2 * NB_TOTAL_NODE))
+               call my_alloc(ITAB_TMP, NB_TOTAL_NODE, "ITAB_TMP")
+               call my_alloc(ITABM1_TMP, 2 * NB_TOTAL_NODE, "ITABM1_TMP")
                DO I = 1, NB_TOTAL_NODE_OLD
                   ITAB_TMP(I) = ITAB_SAVE(I)
                ENDDO
@@ -350,17 +356,17 @@ C
                ENDIF
                
                T_MONVOL(N)%NBRIC = NB_TETRA
-               ALLOCATE(T_MONVOL(N)%TBRIC(2, NB_TETRA))
-               ALLOCATE(T_MONVOL(N)%TFAC(12, NB_TETRA))
+               call my_alloc(T_MONVOL(N)%TBRIC, 2, NB_TETRA, "T_MONVOL(N)%TBRIC")
+               call my_alloc(T_MONVOL(N)%TFAC, 12, NB_TETRA, "T_MONVOL(N)%TFAC")
 
-               IF (ALLOCATED(IBUFSSG_TEMP)) DEALLOCATE(IBUFSSG_TEMP)
-               ALLOCATE(IBUFSSG_TEMP(NB_TETRA))              
+               IF (ALLOCATED(IBUFSSG_TEMP)) CALL MY_DEALLOC(IBUFSSG_TEMP)
+               call my_alloc(IBUFSSG_TEMP, NB_TETRA, "IBUFSSG_TEMP")
                DO I = 1, NB_TETRA
                   IBUFSSG_TEMP(I) = I + NB_TOTAL_SOLIDS_OLD
                ENDDO
 
-               IF (ALLOCATED(TAGNODBR)) DEALLOCATE(TAGNODBR)
-               ALLOCATE(TAGNODBR(NB_TOTAL_NODE))
+               IF (ALLOCATED(TAGNODBR)) CALL MY_DEALLOC(TAGNODBR)
+               call my_alloc(TAGNODBR, NB_TOTAL_NODE, "TAGNODBR")
                TAGNODBR(1:NB_TOTAL_NODE)=0
                
                CALL FVBRIC0(
@@ -372,16 +378,16 @@ C
      .                 NB_TETRA, IXS_TEMP, T_MONVOL(N)%TBRIC, T_MONVOL(N)%TFAC)
                ENDIF
                
-               DEALLOCATE(TAGNODBR)
+               CALL MY_DEALLOC(TAGNODBR)
             ENDIF
 
 C--------------------------------------
 C     Holes injector and wind elements
 C--------------------------------------
             NJET=T_MONVOL(N)%IVOLU(8)
-            ALLOCATE(T_MONVOL(N)%ITAGEL(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
+            call my_alloc(T_MONVOL(N)%ITAGEL, T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI, "T_MONVOL(N)%ITAGEL")
             T_MONVOL(N)%ITAGEL(:) = 0
-            ALLOCATE(T_MONVOL(N)%MATTG(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
+            call my_alloc(T_MONVOL(N)%MATTG, T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI, "T_MONVOL(N)%MATTG")
             T_MONVOL(N)%MATTG(:) = 0
 
             CALL FVINJECT(
@@ -416,8 +422,8 @@ C--------------------------------------
      .              T_MONVOL(N)%ID      ,TAGVENT,            TITR,
      .              T_MONVOL(N)%ELTG, NUMNOD)
             ENDIF
-            DEALLOCATE(TAGVENT)
-            DEALLOCATE(T_MONVOL(N)%FVBAG_ELEMID)
+            CALL MY_DEALLOC(TAGVENT)
+            CALL MY_DEALLOC(T_MONVOL(N)%FVBAG_ELEMID)
 C     
             IF (TETRAMESHER_USED) THEN
                CALL FVELPRINT(
@@ -455,7 +461,7 @@ C----------------------------------
                   
                ENDIF
                
-               ALLOCATE(T_MONVOL(N)%TAGELS(T_MONVOL(N)%NTG + 2 * T_MONVOL(N)%NTGI))
+               call my_alloc(T_MONVOL(N)%TAGELS, T_MONVOL(N)%NTG + 2 * T_MONVOL(N)%NTGI, "T_MONVOL(N)%TAGELS")
                T_MONVOL(N)%TAGELS(:) = 0
                IF (TETRAMESHER_USED) THEN
                   CALL FVBRIC1(T_MONVOL(N),
@@ -521,17 +527,17 @@ C
                T_MONVOL(N)%IVOLU(20)=IADALE8
                
                T_MONVOL(N)%NTGA = NTGA
-               ALLOCATE(T_MONVOL(N)%TAGELS(NTG + 2 * NTGI))
+               call my_alloc(T_MONVOL(N)%TAGELS, NTG + 2 * NTGI, "T_MONVOL(N)%TAGELS")
                DO I = 1, NTG + 2 * NTGI
                   T_MONVOL(N)%TAGELS(I) = 0
                ENDDO
-               ALLOCATE(T_MONVOL(N)%ELEMA(3, NTGA))
+               call my_alloc(T_MONVOL(N)%ELEMA, 3, NTGA, "T_MONVOL(N)%ELEMA")
                DO I = 1, NTGA
                   T_MONVOL(N)%ELEMA(1, I) = T_MONVOL(N)%ELEM(1, I)
                   T_MONVOL(N)%ELEMA(2, I) = T_MONVOL(N)%ELEM(2, I)
                   T_MONVOL(N)%ELEMA(3, I) = T_MONVOL(N)%ELEM(3, I)
                ENDDO
-               ALLOCATE(T_MONVOL(N)%TAGELA(NTGA))
+               call my_alloc(T_MONVOL(N)%TAGELA, NTGA, "T_MONVOL(N)%TAGELA")
                DO I = 1, NTGA
                   T_MONVOL(N)%TAGELA(I) = I
                ENDDO
@@ -541,7 +547,8 @@ C
             T_MONVOL(N)%IVOLU(64) = NNA
             T_MONVOL(N)%NNA = NNA
             IF (NNA > 0) THEN
-               ALLOCATE(T_MONVOL(N)%VELOCITY(3, NNA), T_MONVOL(N)%NODE_COORD(3, NNA))
+               call my_alloc(T_MONVOL(N)%VELOCITY, 3, NNA, "T_MONVOL(N)%VELOCITY")
+               call my_alloc(T_MONVOL(N)%NODE_COORD, 3, NNA, "T_MONVOL(N)%NODE_COORD")
             ENDIF
 C
             IADALE13=IADALE12+16*NNA
@@ -713,8 +720,8 @@ C----------------------------------------------------------------------------
 !     Root communicating airbag
             NJET = T_MONVOL(NN)%NJET
             IF (NJET > 0) THEN
-               ALLOCATE(IBAGJET_SAVE(NIBJET, NJET))
-               ALLOCATE(RBAGJET_SAVE(NRBJET, NJET))
+               call my_alloc(IBAGJET_SAVE, NIBJET, NJET, "IBAGJET_SAVE")
+               call my_alloc(RBAGJET_SAVE, NRBJET, NJET, "RBAGJET_SAVE")
                DO II = 1, NJET
                   DO JJ = 1, NIBJET
                      IBAGJET_SAVE(JJ, II) = T_MONVOL(NN)%IBAGJET(JJ, II)
@@ -724,14 +731,14 @@ C----------------------------------------------------------------------------
                   ENDDO
                ENDDO
             ELSE
-              ALLOCATE(IBAGJET_SAVE(NIBJET, 0))
-              ALLOCATE(RBAGJET_SAVE(NRBJET, 0))   
+              call my_alloc(IBAGJET_SAVE, NIBJET, 0, "IBAGJET_SAVE")
+              call my_alloc(RBAGJET_SAVE, NRBJET, 0, "RBAGJET_SAVE")
             ENDIF
-            IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
-            IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)
+            IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) CALL MY_DEALLOC(T_MONVOL(NN)%RBAGJET)
+            IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) CALL MY_DEALLOC(T_MONVOL(NN)%IBAGJET)
             IF (NJET_NEW(NN) > 0) THEN
-               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)), 
-     .              T_MONVOL(NN)%IBAGJET(NIBJET, NJET_NEW(NN)))
+               call my_alloc(T_MONVOL(NN)%RBAGJET, NRBJET, NJET_NEW(NN), "T_MONVOL(NN)%RBAGJET")
+               call my_alloc(T_MONVOL(NN)%IBAGJET, NIBJET, NJET_NEW(NN), "T_MONVOL(NN)%IBAGJET")
                T_MONVOL(NN)%RBAGJET(1:NRBJET, 1:NJET_NEW(NN)) = ZERO
                T_MONVOL(NN)%IBAGJET(1:NIBJET, 1:NJET_NEW(NN)) = 0
                DO II = 1, NJET
@@ -743,8 +750,8 @@ C----------------------------------------------------------------------------
                   ENDDO
                ENDDO
             ENDIF
-            IF (ALLOCATED(IBAGJET_SAVE)) DEALLOCATE(IBAGJET_SAVE)
-            IF (ALLOCATED(RBAGJET_SAVE)) DEALLOCATE(RBAGJET_SAVE)
+            IF (ALLOCATED(IBAGJET_SAVE)) CALL MY_DEALLOC(IBAGJET_SAVE)
+            IF (ALLOCATED(RBAGJET_SAVE)) CALL MY_DEALLOC(RBAGJET_SAVE)
          ENDIF
       ENDDO
       DO NN = 1, NVOLU
@@ -752,8 +759,8 @@ C----------------------------------------------------------------------------
 !     Non root communicating airbag
             NJET = T_MONVOL(NN)%NJET
             IF (NJET > 0) THEN
-               ALLOCATE(IBAGJET_SAVE(NIBJET, NJET))
-               ALLOCATE(RBAGJET_SAVE(NRBJET, NJET))
+               call my_alloc(IBAGJET_SAVE, NIBJET, NJET, "IBAGJET_SAVE")
+               call my_alloc(RBAGJET_SAVE, NRBJET, NJET, "RBAGJET_SAVE")
                DO II = 1, NJET
                   DO JJ = 1, NIBJET
                      IBAGJET_SAVE(JJ, II) = T_MONVOL(NN)%IBAGJET(JJ, II)
@@ -763,14 +770,14 @@ C----------------------------------------------------------------------------
                   ENDDO
                ENDDO
             ELSE
-               ALLOCATE(IBAGJET_SAVE(NIBJET, 0))
-               ALLOCATE(RBAGJET_SAVE(NRBJET, 0))
+               call my_alloc(IBAGJET_SAVE, NIBJET, 0, "IBAGJET_SAVE")
+               call my_alloc(RBAGJET_SAVE, NRBJET, 0, "RBAGJET_SAVE")
             ENDIF
-            IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
-            IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)
+            IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) CALL MY_DEALLOC(T_MONVOL(NN)%RBAGJET)
+            IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) CALL MY_DEALLOC(T_MONVOL(NN)%IBAGJET)
             IF (NJET_NEW(NN) > 0) THEN
-               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)), 
-     .              T_MONVOL(NN)%IBAGJET(NIBJET, NJET_NEW(NN)))
+               call my_alloc(T_MONVOL(NN)%RBAGJET, NRBJET, NJET_NEW(NN), "T_MONVOL(NN)%RBAGJET")
+               call my_alloc(T_MONVOL(NN)%IBAGJET, NIBJET, NJET_NEW(NN), "T_MONVOL(NN)%IBAGJET")
                T_MONVOL(NN)%RBAGJET(1:NRBJET, 1:NJET_NEW(NN)) = ZERO
                T_MONVOL(NN)%IBAGJET(1:NIBJET, 1:NJET_NEW(NN)) = 0
                DO II = 1, NJET
@@ -782,8 +789,8 @@ C----------------------------------------------------------------------------
                   ENDDO
                ENDDO
             ENDIF
-            IF (ALLOCATED(IBAGJET_SAVE)) DEALLOCATE(IBAGJET_SAVE)
-            IF (ALLOCATED(RBAGJET_SAVE)) DEALLOCATE(RBAGJET_SAVE)
+            IF (ALLOCATED(IBAGJET_SAVE)) CALL MY_DEALLOC(IBAGJET_SAVE)
+            IF (ALLOCATED(RBAGJET_SAVE)) CALL MY_DEALLOC(RBAGJET_SAVE)
          ENDIF
       ENDDO
      
@@ -962,7 +969,7 @@ C-------------------------------------
       ! allocation of NUMBER_TRI_PER_PROC : number of tri element per processor 
       ! for each N nvolu
       DO N = 1, NVOLU
-            ALLOCATE( T_MONVOL(N)%NUMBER_TRI_PER_PROC(NSPMD) )
+            call my_alloc(T_MONVOL(N)%NUMBER_TRI_PER_PROC, NSPMD, "T_MONVOL(N)%NUMBER_TRI_PER_PROC")
             T_MONVOL(N)%NUMBER_TRI_PER_PROC(1:NSPMD) = 0
       ENDDO
       ! --------------------

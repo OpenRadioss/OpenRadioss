@@ -46,6 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -191,8 +193,9 @@ C-----------------------------------------------
       KNOTLOCELY = ZERO
       KNOTLOCELZ = ZERO
 
-      ALLOCATE(MAB(SIXIG3D),RI(6,SIXIG3D),
-     .         FI(6,SIXIG3D), STAT=IERROR)
+      call my_alloc(MAB, SIXIG3D, "MAB", stat=IERROR)
+      call my_alloc(RI, 6, SIXIG3D, "RI", stat=IERROR)
+      call my_alloc(FI, 6, SIXIG3D, "FI", stat=IERROR)
       
       IF(IERROR/=0)THEN
        CALL ANCMSG(MSGID=249,ANMODE=ANINFO)
@@ -578,7 +581,9 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)   ,PX-1    ,PY-1    ,PZ-1    ,0 )
 
       ENDDO
 
-      DEALLOCATE(MAB,RI,FI)
+      call my_dealloc(MAB)
+      call my_dealloc(RI)
+      call my_dealloc(FI)
 
       NISOELCUT = DECAL 
 C-----------

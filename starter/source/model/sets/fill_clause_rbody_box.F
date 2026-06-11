@@ -42,6 +42,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,8 +73,8 @@ C-----------------------------------------------
      .        IB,CLAUSE_OPERATOR
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_NDS,RESULT      
 C-----------------------------------------------
-      ALLOCATE(B_NDS(NRBODY))
-      ALLOCATE(RESULT(NRBODY))
+      call my_alloc(B_NDS, NRBODY, "B_NDS")
+      call my_alloc(RESULT, NRBODY, "RESULT")
 
 !
       ! Tag nodes from boxes
@@ -96,6 +98,9 @@ C-----------------------------------------------
          BOXNDS(1:NB_RESULT) = RESULT(1:NB_RESULT)
          SZ_BOXNDS = NB_RESULT        
       ENDDO ! DO I=1,BOXLIST_SIZE
+
+      call my_dealloc(B_NDS)
+      call my_dealloc(RESULT)
 
 C-------
       RETURN
@@ -142,6 +147,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD,SET_DELETE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -186,8 +192,8 @@ C-----------------------------------------------
      *                         BOXNDS, SZ_BOXNDS,RBY_MSN)
 
       ELSE
-          ALLOCATE(B_NDS(NRBODY))
-          ALLOCATE(RESULT(NRBODY))
+          call my_alloc(B_NDS, NRBODY, "B_NDS")
+          call my_alloc(RESULT, NRBODY, "RESULT")
 
 
           DO I=1,NB_BOX_OF_BOX
@@ -217,6 +223,9 @@ C-----------------------------------------------
           ENDDO
 
        ENDIF
+
+       if(allocated(B_NDS)) call my_dealloc(B_NDS)
+       if(allocated(RESULT)) call my_dealloc(RESULT)
 
 C-------
       RETURN

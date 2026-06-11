@@ -41,6 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -136,7 +138,8 @@ C
       ITAB = 0  
       IF (MFUNC > 0) THEN 
         ITAB = 1
-        ALLOCATE(RATE(MFUNC),YFAC(MFUNC))
+        call my_alloc(RATE, MFUNC, "RATE")
+        call my_alloc(YFAC, MFUNC, "YFAC")
         DO I = 1,MFUNC
           RATE(I) = UPARAM(30+I)
           YFAC(I) = UPARAM(30+MFUNC+I)
@@ -473,8 +476,8 @@ C
           EPSP(I)   = UVAR(I,1)
         ENDIF
       ENDDO 
-      IF (ALLOCATED(RATE)) DEALLOCATE(RATE)
-      IF (ALLOCATED(YFAC)) DEALLOCATE(YFAC)
+      IF (ALLOCATED(RATE)) call my_dealloc(RATE)
+      IF (ALLOCATED(YFAC)) call my_dealloc(YFAC)
 C
       END
 C

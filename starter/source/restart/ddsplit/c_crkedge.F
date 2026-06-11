@@ -39,6 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -69,7 +70,7 @@ C=======================================================================
       OFFC = NUMELS + NUMELQ
       OFFTG = OFFC + NUMELC + NUMELT + NUMELP + NUMELR
 C
-      ALLOCATE(ITAG_EDGE(NUMEDGES))
+      call my_alloc(ITAG_EDGE, NUMEDGES, "ITAG_EDGE")
       ITAG_EDGE = 0
 C
       NEXT = 0
@@ -197,7 +198,7 @@ C---
        ENDIF
       ENDDO
 C---
-      DEALLOCATE(ITAG_EDGE)
+      CALL MY_DEALLOC(ITAG_EDGE)
 C---
       RETURN
       END

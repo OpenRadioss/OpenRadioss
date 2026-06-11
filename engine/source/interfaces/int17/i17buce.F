@@ -47,6 +47,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -123,8 +125,8 @@ C -------------------------------------------------------------
 C  Table allowance chain after calculations SPMD ELT Remote
 C -------------------------------------------------------------
         IF(ITASK == 0)THEN
-          ALLOCATE (ADCHAINE(NMES+NMESR),STAT=IERR1)
-          ALLOCATE (CHAINE(2,MX_CAND),STAT=IERR2)
+          call my_alloc(ADCHAINE, NMES+NMESR, "ADCHAINE", stat=IERR1)
+          call my_alloc(CHAINE, 2, MX_CAND, "CHAINE", stat=IERR2)
           IF(IERR1+IERR2 /= 0)THEN
             CALL ARRET(2)
           ENDIF
@@ -152,8 +154,8 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
         CALL MY_BARRIER
         IF(ITASK == 0)THEN
-          DEALLOCATE (ADCHAINE)
-          DEALLOCATE (CHAINE)
+          call my_dealloc(ADCHAINE)
+          call my_dealloc(CHAINE)
         ENDIF      
 C -------------------------------------------------------------
       ENDDO
@@ -193,6 +195,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -354,8 +358,8 @@ C -------------------------------------------------------------
 C  Table allowance chain after calculations SPMD ELT Remote
 C -------------------------------------------------------------
         IF(ITASK == 0)THEN
-          ALLOCATE (ADCHAINE(NMES+NMESR),STAT=IERR1)
-          ALLOCATE (CHAINE(2,MX_CAND),STAT=IERR2)
+          call my_alloc(ADCHAINE, NMES+NMESR, "ADCHAINE", stat=IERR1)
+          call my_alloc(CHAINE, 2, MX_CAND, "CHAINE", stat=IERR2)
           IF(IERR1+IERR2 /= 0)THEN
             CALL ARRET(2)
           ENDIF
@@ -380,8 +384,8 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
         CALL MY_BARRIER
         IF(ITASK == 0)THEN
-          DEALLOCATE (ADCHAINE)
-          DEALLOCATE (CHAINE)
+          call my_dealloc(ADCHAINE)
+          call my_dealloc(CHAINE)
         ENDIF      
 C -------------------------------------------------------------
       ENDDO

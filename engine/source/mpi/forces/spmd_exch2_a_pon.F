@@ -54,6 +54,7 @@ C--------------------------------------
         USE H3D_MOD
         USE GLOB_THERM_MOD
         USE INTERFACES_MOD
+        use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,29 +124,29 @@ C-----------------------------------------------
 
 
 C === Allocate local arrays
-        ALLOCATE(ISKYF(NISKY))
-        ALLOCATE(ISKYFT(NISKY))
-        ALLOCATE(ITAGX(NUMNOD))
+        call my_alloc(ISKYF, NISKY, "ISKYF")
+        call my_alloc(ISKYFT, NISKY, "ISKYFT")
+        call my_alloc(ITAGX, NUMNOD, "ITAGX")
         ALLOCATE(ADSKYI(0:NUMNOD+1))
+! TODO: non-default lower bound, convert manually
 
-        ALLOCATE(RBUF(SIZE*LENR + 4*NPLYMAX*LENR1 +
-     .          (17*NLEVMAX+1)*LENR1+ NSPMD + 3*NFACNIT*LENR+LENC))
+        call my_alloc(RBUF, SIZE*LENR + 4*NPLYMAX*LENR1 +(17*NLEVMAX+1)*LENR1+ NSPMD + 3*NFACNIT*LENR+LENC, "RBUF")
 
-        ALLOCATE(FSKYIF(NFSKYI,NISKY))
-        ALLOCATE(FSKYT(NISKY))
+        call my_alloc(FSKYIF, NFSKYI, NISKY, "FSKYIF")
+        call my_alloc(FSKYT, NISKY, "FSKYT")
 
         IF(GLOB_THERM%INTHEAT /=  0) THEN
-          ALLOCATE(FTHESKYIF(NISKY))
-          ALLOCATE(CONDNSKYIF(NISKY))
+          call my_alloc(FTHESKYIF, NISKY, "FTHESKYIF")
+          call my_alloc(CONDNSKYIF, NISKY, "CONDNSKYIF")
         ELSE
-          ALLOCATE(FTHESKYIF(1))
-          ALLOCATE(CONDNSKYIF(1))
+          call my_alloc(FTHESKYIF, 1, "FTHESKYIF")
+          call my_alloc(CONDNSKYIF, 1, "CONDNSKYIF")
         ENDIF
 
         IF( INTPLYXFEM > 0) THEN
-          ALLOCATE(FSKYIF_PXFEM(5,NISKY))
+          call my_alloc(FSKYIF_PXFEM, 5, NISKY, "FSKYIF_PXFEM")
         ELSE
-          ALLOCATE(FSKYIF_PXFEM(5,1))
+          call my_alloc(FSKYIF_PXFEM, 5, 1, "FSKYIF_PXFEM")
         ENDIF
 
 C=======================================================================
@@ -506,11 +507,10 @@ C tag set to 0 of itagx on frontiere node
           ENDDO
         ENDIF
 
-        DEALLOCATE(ISKYF)
-        DEALLOCATE(FSKYT)
-        DEALLOCATE(ISKYFT)
-        ALLOCATE(SBUF(SIZE*LENS + 4*NPLYMAX*LENS1 +
-     .          (17*NLEVMAX+1)*LENS1+ NSPMD+ 3*NFACNIT*LENS+LENC))
+        call my_dealloc(ISKYF)
+        call my_dealloc(FSKYT)
+        call my_dealloc(ISKYFT)
+        call my_alloc(SBUF, SIZE*LENS + 4*NPLYMAX*LENS1 +(17*NLEVMAX+1)*LENS1+ NSPMD+ 3*NFACNIT*LENS+LENC, "SBUF")
 
 
 C
@@ -1772,14 +1772,14 @@ C
      .      CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDDO
 
-        DEALLOCATE(RBUF)
-        DEALLOCATE(SBUF)
-        DEALLOCATE(FSKYIF)
-        DEALLOCATE(FTHESKYIF)
-        DEALLOCATE(CONDNSKYIF)
-        DEALLOCATE(FSKYIF_PXFEM)
-        DEALLOCATE(ITAGX)
-        DEALLOCATE(ADSKYI)
+        call my_dealloc(RBUF)
+        call my_dealloc(SBUF)
+        call my_dealloc(FSKYIF)
+        call my_dealloc(FTHESKYIF)
+        call my_dealloc(CONDNSKYIF)
+        call my_dealloc(FSKYIF_PXFEM)
+        call my_dealloc(ITAGX)
+        call my_dealloc(ADSKYI)
 
 
 C

@@ -36,6 +36,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
         USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -99,7 +101,8 @@ C sending the size array to processor 0
 
       IF (ISPMD == 0) THEN
 C Procement reception of sizes
-        ALLOCATE(P0RECRBE3(MAX(1,NRBE3G),NSPMD)) !size 1 to avoid zero size allocation (argument of mpi_recv)
+        call my_alloc(P0RECRBE3, MAX(1,NRBE3G), NSPMD, "P0RECRBE3")
+! size 1 to avoid zero size allocation (argument of mpi_recv)
         DO I=1,NRBE3G
            P0RECRBE3(I,1) = SZLOCRBE3(I)
         ENDDO
@@ -125,7 +128,7 @@ C --------------------------------------------------------------
 C ------------------------
 C Procs other than pro 0
 C ------------------------
-         ALLOCATE(SENDBUF(SBUFSIZ))
+         call my_alloc(SENDBUF, SBUFSIZ, "SENDBUF")
          SNRBE3 = 0
          DO I=1,NRBE3
            NSN = IRBE3(5,I)
@@ -143,7 +146,7 @@ C ------------------------
            CALL  MPI_SEND(SENDBUF,SNRBE3,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      *                  SPMD_COMM_WORLD,IERROR)
          ENDIF
-         DEALLOCATE(SENDBUF)
+         call my_dealloc(SENDBUF)
 
 C sending secondary nodes
         SECNDNODS = 0
@@ -178,8 +181,8 @@ C PROC 0
 C --------------------------------------------------------------------
 C p0rbe3buf receive array (receive array = lrbe3 global)
 C IAdrbe3 pointers towards p0rbe3buf global
-         ALLOCATE(IADRBE3(NRBE3G+1))
-         ALLOCATE(P0RBE3BUF(NERBE3Y))
+         call my_alloc(IADRBE3, NRBE3G+1, "IADRBE3")
+         call my_alloc(P0RBE3BUF, NERBE3Y, "P0RBE3BUF")
 
 C preparation IADRBE3
          IADRBE3(1)=0
@@ -222,7 +225,7 @@ C size of the receive buffer
            ENDDO
 
            IF (SIZRBE3 > 0) THEN
-             ALLOCATE(RECBUF(SIZRBE3))
+             call my_alloc(RECBUF, SIZRBE3, "RECBUF")
              MSGTYP = MSGOFF2 
              CALL MPI_RECV(RECBUF,SIZRBE3,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      *                   SPMD_COMM_WORLD,STATUS,IERROR)
@@ -236,7 +239,7 @@ C size of the receive buffer
                ENDDO
                PGLOBRBE3(I) = PGLOBRBE3(I) + P0RECRBE3(I,P)
              ENDDO
-             DEALLOCATE(RECBUF)
+             call my_dealloc(RECBUF)
            ENDIF
          ENDDO
 C  receiving secondary nodes

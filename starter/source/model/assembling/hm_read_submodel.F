@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD   
       USE HM_OPTION_READ_MOD
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,23 +80,23 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C--------------------------------------------------------
       IF(NSUBMOD > 0)THEN
-        ALLOCATE (NOSUBMOD(NSUBMOD),STAT=stat)
+        call my_alloc(NOSUBMOD, NSUBMOD, "NOSUBMOD", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='NOSUBMOD')
-        ALLOCATE (IFATHER(NSUBMOD),STAT=stat)
+        call my_alloc(IFATHER, NSUBMOD, "IFATHER", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IFATHER')
-        ALLOCATE (LEVEL(NSUBMOD),STAT=stat)
+        call my_alloc(LEVEL, NSUBMOD, "LEVEL", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LEVEL')
-        ALLOCATE (OFFSETS(7,NSUBMOD),STAT=stat)
+        call my_alloc(OFFSETS, 7, NSUBMOD, "OFFSETS", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='OFFSETS')
-        ALLOCATE (UID_SUB(NSUBMOD),STAT=stat)
+        call my_alloc(UID_SUB, NSUBMOD, "UID_SUB", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='UID_SUB')
@@ -110,23 +111,23 @@ C--------------------------------------------------------
         UID_SUB(1:NSUBMOD)=0
         OFFSETS(1:7,1:NSUBMOD)=0
       ELSE
-        ALLOCATE (NOSUBMOD(0),STAT=stat)
+        call my_alloc(NOSUBMOD, 0, "NOSUBMOD", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='NOSUBMOD')
-        ALLOCATE (IFATHER(0),STAT=stat)
+        call my_alloc(IFATHER, 0, "IFATHER", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IFATHER')
-        ALLOCATE (LEVEL(0),STAT=stat)
+        call my_alloc(LEVEL, 0, "LEVEL", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='LEVEL')
-        ALLOCATE (OFFSETS(0,0),STAT=stat)
+        call my_alloc(OFFSETS, 0, 0, "OFFSETS", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='OFFSETS')
-        ALLOCATE (UID_SUB(0),STAT=stat)
+        call my_alloc(UID_SUB, 0, "UID_SUB", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='UID_SUB')
@@ -188,10 +189,10 @@ c        print *,I,LSUBMODEL(I)%NOSUBMOD,LSUBMODEL(I)%IFATHER,LSUBMODEL(I)%OFF_D
 c     .                                            LSUBMODEL(I)%UID
 c      ENDDO
 c
-      IF (ALLOCATED(NOSUBMOD)) DEALLOCATE(NOSUBMOD)
-      IF (ALLOCATED(IFATHER)) DEALLOCATE(IFATHER)
-      IF (ALLOCATED(LEVEL)) DEALLOCATE(LEVEL)
-      IF (ALLOCATED(OFFSETS)) DEALLOCATE(OFFSETS)
+      IF (ALLOCATED(NOSUBMOD)) CALL MY_DEALLOC(NOSUBMOD)
+      IF (ALLOCATED(IFATHER)) CALL MY_DEALLOC(IFATHER)
+      IF (ALLOCATED(LEVEL)) CALL MY_DEALLOC(LEVEL)
+      IF (ALLOCATED(OFFSETS)) CALL MY_DEALLOC(OFFSETS)
 C-----------
       RETURN
       END SUBROUTINE HM_READ_SUBMODEL

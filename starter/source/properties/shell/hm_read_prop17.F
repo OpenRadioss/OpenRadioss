@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE DEFAULTS_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -525,7 +526,8 @@ C---
 !!      ENDIF
 C          
         NC = NPLY        
-        ALLOCATE( IDMAT_INTP(NPLY),IDMAT_SUB(NISUB))
+        call my_alloc(IDMAT_INTP, NPLY, "IDMAT_INTP")
+        call my_alloc(IDMAT_SUB, NISUB, "IDMAT_SUB")
         IDMAT_INTP = 0
         IDMAT_SUB = 0   
         N1 = NPLY
@@ -639,7 +641,8 @@ C
            ENDDO
       ENDIF     
 C      
-      DEALLOCATE (IDMAT_INTP,IDMAT_SUB)
+      CALL MY_DEALLOC(IDMAT_INTP)
+      CALL MY_DEALLOC(IDMAT_SUB)
 C----
       RETURN
  2110 FORMAT(

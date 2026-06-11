@@ -52,10 +52,10 @@
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_mat125(                                      &
-               nuvar    ,maxfunc  ,npropm   ,iout,                    &
-               mtag     ,parmat   ,unitab   , ntable   ,table     ,    &
-               pm       ,lsubmodel,israte   ,mat_id   ,titr     ,     &
-               matparam ,nvartmp ,iunit )
+          nuvar    ,maxfunc  ,npropm   ,iout,                    &
+          mtag     ,parmat   ,unitab   , ntable   ,table     ,    &
+          pm       ,lsubmodel,israte   ,mat_id   ,titr     ,     &
+          matparam ,nvartmp ,iunit )
           !-----------------------------------------------
           !   M o d u l e s
           !-----------------------------------------------
@@ -64,9 +64,10 @@
           use submodel_mod
           use matparam_def_mod
           use func_table_copy_mod
-          use mat_table_copy_mod  
+          use mat_table_copy_mod
           use elbuftag_mod
           use constant_mod
+          use MY_ALLOC_MOD
           use precision_mod, only : WP
           !-----------------------------------------------
           !   I m p l i c i t   T y p e sXM
@@ -75,16 +76,16 @@
           !-----------------------------------------------
           !   D u m m y   A r g u m e n t s
           !-----------------------------------------------
-             integer, intent(in)                                 :: mat_id,maxfunc,npropm,iout
+          integer, intent(in)                                 :: mat_id,maxfunc,npropm,iout
           integer, intent(inout)                              :: nuvar,nvartmp
           integer, intent(inout)                              :: israte
           type(mlaw_tag_), intent(inout)                      :: mtag
           real(kind=WP) , dimension(100),intent(inout)        :: parmat
-          type (unit_type_),intent(in)                        :: unitab 
-          real(kind=WP) , dimension(npropm) ,intent(inout)    :: pm   
-          type(submodel_data), dimension(*),intent(in) :: lsubmodel  
-          character(len=nchartitle),intent(in)         :: titr 
-          type(matparam_struct_) ,intent(inout)        :: matparam    
+          type (unit_type_),intent(in)                        :: unitab
+          real(kind=WP) , dimension(npropm) ,intent(inout)    :: pm
+          type(submodel_data), dimension(*),intent(in) :: lsubmodel
+          character(len=nchartitle),intent(in)         :: titr
+          type(matparam_struct_) ,intent(inout)        :: matparam
           integer, intent(in)                               :: ntable    !< Number of tables
           type(ttable), dimension(ntable), intent(in)       :: table     !< Tables
           integer,                intent(in)    :: iunit             !< material table unit number
@@ -97,7 +98,7 @@
             iftau, iftau2,iftau3,ifem22c,ifems23,ilaw,nfunc,i
           integer  :: ifunc(maxfunc),func(1)
           real(kind=WP) :: scale(maxfunc),yscale(1),x1scale,x2scale,            &
-                          x2vect(maxfunc)
+            x2vect(maxfunc)
           real(kind=WP)                                                         &
             :: rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,      &
             em11t,em22t,em33t,em11c,em22c,em33c,ems,ems13,ems23,         &
@@ -227,7 +228,7 @@
           if(nu32 == zero) nu32 = nu21
           if(fs /= -1) fs = -1  ! only this formulation implemented
           ! func  for strainrate dependency
-           ! copy fonction in table
+          ! copy fonction in table
           matparam%nfunc  = 0
           matparam%ntable = 25
           allocate (matparam%table(matparam%ntable))           ! allocate material table array
@@ -236,152 +237,152 @@
             ifxt = 0
             ifem11t = 0
           else
-             ifunc(1)   = ifem11t
-             ifunc(2)   = ifxt 
-             scale(1) = em11t
-             scale(2) = xt
-             if(scale(1) == zero) scale(1) = one
-             if(scale(2) == zero) scale(2) = unit_stress
+            ifunc(1)   = ifem11t
+            ifunc(2)   = ifxt
+            scale(1) = em11t
+            scale(2) = xt
+            if(scale(1) == zero) scale(1) = one
+            if(scale(2) == zero) scale(2) = unit_stress
           endif
           if(ifxc == 0 .or. ifem11c == 0) then
-             ifxc=0
-             ifem11c=0
+            ifxc=0
+            ifem11c=0
           else
-             ifunc(3) = ifem11c
-             ifunc(4)  = ifxc
-              scale(3) = em11c
-              scale(4) = xc
-              if(scale(3) == zero) scale(3) = one
-              if(scale(4) == zero) scale(4) = unit_stress
-          endif  
+            ifunc(3) = ifem11c
+            ifunc(4)  = ifxc
+            scale(3) = em11c
+            scale(4) = xc
+            if(scale(3) == zero) scale(3) = one
+            if(scale(4) == zero) scale(4) = unit_stress
+          endif
           if(ifyt == 0 .or. ifem22t == 0) then
             ifyt = 0
             ifem22t = 0
           else
-              ifunc(5) = ifem22t
-              ifunc(6) = ifyt
-              scale(5) = em22t
-              scale(6) = yt
-              if(scale(5) == zero) scale(5) = one
-              if(scale(6) == zero) scale(6) = unit_stress
-          endif  
+            ifunc(5) = ifem22t
+            ifunc(6) = ifyt
+            scale(5) = em22t
+            scale(6) = yt
+            if(scale(5) == zero) scale(5) = one
+            if(scale(6) == zero) scale(6) = unit_stress
+          endif
           if(ifyc == 0 .or. ifem22c == 0) then
-             ifyc=0
-             ifem22c=0
+            ifyc=0
+            ifem22c=0
           else
-              ifunc(7)  = ifem22c
-              ifunc(8)  = ifyc
-              scale(7) = em22c
-              scale(8) = yc
-              if(scale(7) == zero) scale(7) = one
-              if(scale(8) == zero) scale(8) = unit_stress
-          endif 
+            ifunc(7)  = ifem22c
+            ifunc(8)  = ifyc
+            scale(7) = em22c
+            scale(8) = yc
+            if(scale(7) == zero) scale(7) = one
+            if(scale(8) == zero) scale(8) = unit_stress
+          endif
           if(ifzt == 0 .or. ifem33t == 0) then
             ifzt = 0
             ifem33t = 0
           else
-              ifunc(9)  = ifem33t
-              ifunc(10)  = ifzt
-              scale(9) = em33t
-              scale(10) = zt
-              if(scale(9) == zero) scale(9) = one
-              if(scale(10) == zero) scale(10) = unit_stress
+            ifunc(9)  = ifem33t
+            ifunc(10)  = ifzt
+            scale(9) = em33t
+            scale(10) = zt
+            if(scale(9) == zero) scale(9) = one
+            if(scale(10) == zero) scale(10) = unit_stress
 
-          endif  
+          endif
           if(ifzc == 0 .or. ifem33c == 0) then
-             ifzc   =0
-             ifem33c=0
+            ifzc   =0
+            ifem33c=0
           else
-              ifunc(11)  = ifem33c
-              ifunc(12)  = ifzc
-              scale(11) = em33c
-              scale(12) = zc
-              if(scale(11) == zero) scale(11) = one
-              if(scale(12) == zero) scale(12) = unit_stress
+            ifunc(11)  = ifem33c
+            ifunc(12)  = ifzc
+            scale(11) = em33c
+            scale(12) = zc
+            if(scale(11) == zero) scale(11) = one
+            if(scale(12) == zero) scale(12) = unit_stress
           endif
           if(iftau == 0 .or. ifgamma == 0) then
-            iftau   = 0 
+            iftau   = 0
             ifgamma = 0
             if(tau == zero ) tau = sc
-            if(gamma == zero ) gamma = ems 
+            if(gamma == zero ) gamma = ems
           else
-              ifunc(13)  = ifgamma
-              ifunc(14)  = iftau
-              scale(13) = gamma
-              scale(14) = tau
-              if(scale(13) == zero) scale(13) = one
-              if(scale(14) == zero) scale(14) = unit_stress
+            ifunc(13)  = ifgamma
+            ifunc(14)  = iftau
+            scale(13) = gamma
+            scale(14) = tau
+            if(scale(13) == zero) scale(13) = one
+            if(scale(14) == zero) scale(14) = unit_stress
           endif
-           if(ifems == 0 .and. ifsc == 0) then
-            ifems = 0 
+          if(ifems == 0 .and. ifsc == 0) then
+            ifems = 0
             ifsc  = 0
             if(ems <= gamma) ems = two*gamma
             if(sc <= tau) sc = two*tau
           else
-               ifunc(15)  = ifems
-               ifunc(16)  = ifsc
-              scale(15) = ems
-              scale(16) = sc
-              if(scale(15) == zero) scale(15) = one
-              if(scale(16) == zero) scale(16) = unit_stress
+            ifunc(15)  = ifems
+            ifunc(16)  = ifsc
+            scale(15) = ems
+            scale(16) = sc
+            if(scale(15) == zero) scale(15) = one
+            if(scale(16) == zero) scale(16) = unit_stress
 
           endif
           if(iftau2 == 0 .and. ifgamma2 == 0) then
-            iftau2   = 0 
-            ifgamma2 = 0  
+            iftau2   = 0
+            ifgamma2 = 0
             if(tau2 == zero ) tau2 = sc13
-            if(gamma2 == zero ) gamma2 = ems13 
+            if(gamma2 == zero ) gamma2 = ems13
           else
-              ifunc(17)  = ifgamma2
-              ifunc(18)  = iftau2
-              scale(17) = gamma2
-              scale(18) = tau2
-              if(scale(17) == zero) scale(17) = one
-              if(scale(18) == zero) scale(18) = unit_stress
+            ifunc(17)  = ifgamma2
+            ifunc(18)  = iftau2
+            scale(17) = gamma2
+            scale(18) = tau2
+            if(scale(17) == zero) scale(17) = one
+            if(scale(18) == zero) scale(18) = unit_stress
           endif
-           if(ifems13 == 0 .and. ifsc13 == 0) then
-              ifems13 = 0 
-              ifsc13  = 0 
-              if(ems13 <= gamma2) ems13 = two*gamma2
-              if(sc13 <= tau2) sc13 = two*tau2
+          if(ifems13 == 0 .and. ifsc13 == 0) then
+            ifems13 = 0
+            ifsc13  = 0
+            if(ems13 <= gamma2) ems13 = two*gamma2
+            if(sc13 <= tau2) sc13 = two*tau2
           else
-              ifunc(19)  = ifems13
-              ifunc(20)  = ifsc13
-              scale(19) = ems13
-              scale(20) = sc13
-              if(scale(19) == zero) scale(19) = one
-              if(scale(20) == zero) scale(20) = unit_stress
+            ifunc(19)  = ifems13
+            ifunc(20)  = ifsc13
+            scale(19) = ems13
+            scale(20) = sc13
+            if(scale(19) == zero) scale(19) = one
+            if(scale(20) == zero) scale(20) = unit_stress
           endif
           if(iftau3 == 0 .and. ifgamma3 == 0) then
-            iftau3   = 0 
+            iftau3   = 0
             ifgamma3 = 0
             if(tau3 == zero ) tau3 = sc23
             if(gamma3 == zero ) gamma3 = ems23
           else
-              ifunc(21)  = ifgamma3
-              ifunc(22)  = iftau3
-              scale(21) = gamma3
-              scale(22) = tau3
-              if(scale(21) == zero) scale(21) = one
-              if(scale(22) == zero) scale(22) = unit_stress
+            ifunc(21)  = ifgamma3
+            ifunc(22)  = iftau3
+            scale(21) = gamma3
+            scale(22) = tau3
+            if(scale(21) == zero) scale(21) = one
+            if(scale(22) == zero) scale(22) = unit_stress
           endif
           if(ifems23 == 0 .and. ifsc23 == 0) then
-            ifems23 = 0 
-            ifsc23  = 0 
+            ifems23 = 0
+            ifsc23  = 0
             if(ems23 <= gamma3) ems23 = two*gamma3
             if(sc23 <= tau3) sc23 = two*tau3
           else
-              ifunc(23)  = ifems23
-              ifunc(24)  = ifsc23
-              scale(23) = ems23
-              scale(24) = sc23
-              if(scale(23) == zero) scale(23) = one
-              if(scale(24) == zero) scale(24) = unit_stress
+            ifunc(23)  = ifems23
+            ifunc(24)  = ifsc23
+            scale(23) = ems23
+            scale(24) = sc23
+            if(scale(23) == zero) scale(23) = one
+            if(scale(24) == zero) scale(24) = unit_stress
           endif
           if(iferods > 0) then
-              ifunc(25)  = iferods
-              scale(25) = erods
-              if(scale(25) == zero) scale(25) = one
+            ifunc(25)  = iferods
+            scale(25) = erods
+            if(scale(25) == zero) scale(25) = one
           endif
           if(erods == zero) erods= ep10
           if(gammar <= zero) gammar = ep10
@@ -464,8 +465,8 @@
           !--------------------------
           ! number of material parameters
           matparam%nuparam = 86
-          allocate (matparam%uparam(matparam%nuparam))
-          matparam%uparam(1:matparam%nuparam) = zero 
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          matparam%uparam(1:matparam%nuparam) = zero
           ! number of functions
           nfunc   = 0
           ! number of user variables
@@ -482,25 +483,25 @@
           ef11t = ep10
           ef11c = ep10
           if(e1 > zero ) then
-             if(ifxt == 0 .and. ifem11t == 0 ) then
+            if(ifxt == 0 .and. ifem11t == 0 ) then
               if(xt > zero )then
-                 ef11t  = xt/e1
-                 em11t = max(em11t, onep1*ef11t)
-                 m1t = -one/log(ef11t/em11t)
-                 al1t = m1t*(em11t/ef11t)**m1t
+                ef11t  = xt/e1
+                em11t = max(em11t, onep1*ef11t)
+                m1t = -one/log(ef11t/em11t)
+                al1t = m1t*(em11t/ef11t)**m1t
               end if
-             endif 
-             !
-             if(ifxc == 0 .and. ifem11c == 0) then
+            endif
+            !
+            if(ifxc == 0 .and. ifem11c == 0) then
               if(xc > zero  )then
                 ef11c  = xc/e1
                 em11c = max(em11c, onep1*ef11c)
                 m1c = -one/log(ef11c/em11c)
                 al1c = m1c*(em11c/ef11c)**m1c
               end if
-             endif 
+            endif
           end if
- 
+
           al2c = ep20
           m2t = one
           al2c = ep20
@@ -525,7 +526,7 @@
                 m2c = -one/log(ef22c/em22c)
                 al2c = m2c*(em22c/ef22c)**m2c
               end if
-            endif 
+            endif
           end if
           al3c = ep20
           m3t = one
@@ -537,10 +538,10 @@
           if(e3 > zero) then
             if(ifzt == 0 .and. ifem33t == 0) then
               if(zt  > zero )then
-                 ef33t  = zt/e3
-                 if(em33t == zero .or. em33t < ef33t )em33t = ONEP1*ef33t
-                 m3t = -one/log(ef33t/em33t)
-                 al3t = m3t*(em33t/ef33t)**m3t
+                ef33t  = zt/e3
+                if(em33t == zero .or. em33t < ef33t )em33t = ONEP1*ef33t
+                m3t = -one/log(ef33t/em33t)
+                al3t = m3t*(em33t/ef33t)**m3t
               end if
             endif
             if(ifzt > 0 .and. zt == zero) zt = one  ! scale for function
@@ -548,12 +549,12 @@
             !
             if(ifzc == 0 .and. ifem33c == 0) then
               if(zc > zero )then
-                 ef33c  = zc/e3
-                 if(em33c == zero  .or. em33c < ef33c )em33c = ONEP1*ef33c
-                 m3c = -one/log(ef33c/em33c)
-                 al3c = m3c*(em33c/ef33c)**m3c
+                ef33c  = zc/e3
+                if(em33c == zero  .or. em33c < ef33c )em33c = ONEP1*ef33c
+                m3c = -one/log(ef33c/em33c)
+                al3c = m3c*(em33c/ef33c)**m3c
               end if
-            endif 
+            endif
           end if
           ms = one
           als = ep20
@@ -564,25 +565,25 @@
           ms23 = one
           als23 = ep20
           efs23 = ep10
-        !!  if(tau == zero) tau = sc
-        !!  if(gamma == zero) gamma = ems
+          !!  if(tau == zero) tau = sc
+          !!  if(gamma == zero) gamma = ems
           if(fs == -1) then
             ! plane shear
             if(g12 > zero ) then
               if(iftau == 0 .and. ifgamma == 0) then
-                  if( tau > zero  ) then 
-                      ! to ensure the continuity of the function at the point (gamma,ems)
-                      ! tau(gama) = tau
-                      ! dtau/dgamma(gamma) = zero
-                      efs = tau/g12
-                      gamma = max(gamma, onep1*efs)
-                      x = gamma/efs
-                      ms = one/log(x)
-                      als = x**ms/log(x)
-                  end if
+                if( tau > zero  ) then
+                  ! to ensure the continuity of the function at the point (gamma,ems)
+                  ! tau(gama) = tau
+                  ! dtau/dgamma(gamma) = zero
+                  efs = tau/g12
+                  gamma = max(gamma, onep1*efs)
+                  x = gamma/efs
+                  ms = one/log(x)
+                  als = x**ms/log(x)
+                end if
               endif
             end if
-            
+
             ! transverse shear 13 (only for solid)
             ms13 = one
             als13 = ep20
@@ -590,16 +591,16 @@
             if(g13 > zero ) then
               if(iftau2 == 0 .and. ifgamma2 == 0) then
                 if( tau2 > zero ) then
-                      ! to ensure the continuity of the function at the point (gamma,ems)
-                      ! tau(gamma2) = tau2
-                      ! dtau/dgamma(gamma2) = zero
-                      efs13 = tau2/g13
-                      gamma2 = max(gamma2, onep1*efs13)
-                      x = gamma2/efs13
-                      ms13 = one/log(x)
-                      als13 = x**ms13/log(x)
-                  end if
-                 endif
+                  ! to ensure the continuity of the function at the point (gamma,ems)
+                  ! tau(gamma2) = tau2
+                  ! dtau/dgamma(gamma2) = zero
+                  efs13 = tau2/g13
+                  gamma2 = max(gamma2, onep1*efs13)
+                  x = gamma2/efs13
+                  ms13 = one/log(x)
+                  als13 = x**ms13/log(x)
+                end if
+              endif
             end if
             ! transverse shear 23 (only for solid)
             ms23 = one
@@ -608,16 +609,16 @@
             if(g23 > zero ) then
               if(iftau3 == 0 .and. ifgamma3 == 0) then
                 if(tau3 > zero  ) then
-                    ! to ensure the continuity of the function at the point (gamma,ems)
-                    ! tau(gamma2) = tau2
-                    ! dtau/dgamma(gamma2) = g_p2
-                    efs23 = tau3/g23
-                    gamma3 = max(gamma3, onep1*efs23)
-                    x = gamma3/efs23
-                    ms23 = one/log(x)
-                    als23 = x**ms23/log(x)
+                  ! to ensure the continuity of the function at the point (gamma,ems)
+                  ! tau(gamma2) = tau2
+                  ! dtau/dgamma(gamma2) = g_p2
+                  efs23 = tau3/g23
+                  gamma3 = max(gamma3, onep1*efs23)
+                  x = gamma3/efs23
+                  ms23 = one/log(x)
+                  als23 = x**ms23/log(x)
                 end if
-               endif
+              endif
             end if
 
           end if ! fs = -1
@@ -730,17 +731,17 @@
           x1scale   = one/unit_time
           x2scale   = one
           x2vect(:) = zero
-          do i=1,matparam%ntable  
+          do i=1,matparam%ntable
             matparam%table(i)%notable  = ifunc(i)
             func(1)  = matparam%table(i)%notable
             if(func(1) /= 0 ) then
-               yscale(1) = scale(i)   ! we should take care of the scale 
-                call func_table_copy(matparam%table(i),matparam%title ,matparam%mat_id  ,     &
-                             nfunc   ,func   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
-                             ntable  ,table   ,ierr    )
-                 matparam%table(i)%notable  = ifunc(i)               
+              yscale(1) = scale(i)   ! we should take care of the scale
+              call func_table_copy(matparam%table(i),matparam%title ,matparam%mat_id  ,     &
+                nfunc   ,func   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
+                ntable  ,table   ,ierr    )
+              matparam%table(i)%notable  = ifunc(i)
             endif
-         enddo  
+          enddo
           nu21   = nu12*e2/e1
           nu    = sqrt(nu12*nu21)
           detc  = one - nu12*nu21

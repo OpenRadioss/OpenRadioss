@@ -58,6 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,7 +91,7 @@ C-----------------------------------------------
        NBL = NB                                                                                                                                      
        NIN = 1              
        !---------------------------------------------------------!  
-       ALLOCATE(BUFFER(3,NUMNOD))
+       call my_alloc(BUFFER, 3, NUMNOD, "BUFFER")
        BUFFER(:,:)           = ZERO  
              
        DO IB=NBF,NBL    
@@ -161,7 +163,7 @@ C-----------------------------------------------
      .            VALUE)
        ENDDO
           
-       DEALLOCATE(BUFFER)   
+       call my_dealloc(BUFFER)
       !---------------------------------------------------------! 
 
       RETURN

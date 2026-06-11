@@ -59,6 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -108,14 +110,14 @@ C-----------------------------------------------------------------------
       IF(IPARIT/=0.AND.ITASK==0)THEN
         IERR1=0
         IERR2=0
-        ALLOCATE(ISKYI17(LSKYI17),STAT=IERR2)
+        call my_alloc(ISKYI17, LSKYI17, "ISKYI17", stat=IERR2)
         IERR1 = IERR1+IERR2
-        ALLOCATE(FSKYI17(LSKYI17,4),STAT=IERR2)
+        call my_alloc(FSKYI17, LSKYI17, 4, "FSKYI17", stat=IERR2)
         IERR1 = IERR1+IERR2
         IF(NSPMD>1)THEN
-          ALLOCATE(IRSKYI17(LSKYI17),STAT=IERR2)
+          call my_alloc(IRSKYI17, LSKYI17, "IRSKYI17", stat=IERR2)
           IERR1 = IERR1+IERR2
-          ALLOCATE(FRSKYI17(4,LSKYI17),STAT=IERR2)
+          call my_alloc(FRSKYI17, 4, LSKYI17, "FRSKYI17", stat=IERR2)
           IERR1 = IERR1+IERR2
         END IF
         IF(IERR1/=0)THEN
@@ -252,16 +254,16 @@ C-----------------------------------------------------------------------
             CALL SPMD_I17FROTS_PON(
      1        NSKYI17 ,ISKYI17,FSKYI17,NRSKYI17,IRSKYI17,
      2        FRSKYI17,NINT   ,LSKYI17,NOINT)
-            DEALLOCATE(IRSKYI17)
-            DEALLOCATE(FRSKYI17)
+            call my_dealloc(IRSKYI17)
+            call my_dealloc(FRSKYI17)
           END IF
 C 
           IF(NSKYI17>0)THEN
             CALL I17LLL_ASS(NSKYI17 ,ISKYI17 ,FSKYI17, FROTS, NSE,
      2                    LSKYI17 )
           END IF
-          DEALLOCATE(ISKYI17)
-          DEALLOCATE(FSKYI17)
+          call my_dealloc(ISKYI17)
+          call my_dealloc(FSKYI17)
         END IF
       END IF
 C

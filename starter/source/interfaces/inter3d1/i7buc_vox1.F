@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use intbufdef_mod 
       use margin_reduction_mod , only : margin_reduction
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,12 +128,12 @@ C-----------------------------------------------
       IONE=1        !< Constant init
       IHUNDRED=100  !< Constant init
 
-      ALLOCATE( INDEX(NRTM) )
-      ALLOCATE( CURV_MAX(NRTM) )
-      ALLOCATE(LOCAL_NEXT_NOD(NSN))
-      ALLOCATE(IIX(NSN))
-      ALLOCATE(IIY(NSN))
-      ALLOCATE(IIZ(NSN))
+      call my_alloc(INDEX, NRTM, "INDEX")
+      call my_alloc(CURV_MAX, NRTM, "CURV_MAX")
+      call my_alloc(LOCAL_NEXT_NOD, NSN, "LOCAL_NEXT_NOD")
+      call my_alloc(IIX, NSN, "IIX")
+      call my_alloc(IIY, NSN, "IIY")
+      call my_alloc(IIZ, NSN, "IIZ")
       TYPE18=.FALSE.
       IF(INACTI==7)TYPE18=.TRUE.
 
@@ -501,11 +502,11 @@ C
         ENDIF
       ENDIF!(.NOT.TYPE18)
 C
-      DEALLOCATE( INDEX )
-      DEALLOCATE( CURV_MAX )
-      DEALLOCATE(LOCAL_NEXT_NOD)
-      DEALLOCATE(IIX)
-      DEALLOCATE(IIY)
-      DEALLOCATE(IIZ)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(CURV_MAX)
+      CALL MY_DEALLOC(LOCAL_NEXT_NOD)
+      CALL MY_DEALLOC(IIX)
+      CALL MY_DEALLOC(IIY)
+      CALL MY_DEALLOC(IIZ)
       RETURN
       END

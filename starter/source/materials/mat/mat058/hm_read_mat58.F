@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -264,8 +265,8 @@ c-----------------------------------------------------------------------
       MATPARAM%NIPARAM = 4
       MATPARAM%NFUNC   = NFUNC
 !
-      ALLOCATE (MATPARAM%UPARAM(MATPARAM%NUPARAM))
-      ALLOCATE (MATPARAM%IPARAM(MATPARAM%NIPARAM))
+      call my_alloc(MATPARAM%UPARAM, MATPARAM%NUPARAM, "MATPARAM%UPARAM")
+      call my_alloc(MATPARAM%IPARAM, MATPARAM%NIPARAM, "MATPARAM%IPARAM")
       MATPARAM%UPARAM(:) = ZERO 
       MATPARAM%IPARAM(:) = 0 
 c-----------------------------------------------------------------------

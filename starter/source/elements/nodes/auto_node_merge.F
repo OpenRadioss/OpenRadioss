@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE AUTO_NODE_MERGE(IS_DYNA,NUMNUSR,NUMCNOD,NUMNOD,ITAB,X)
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use my_alloc_mod
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,7 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE (ITABM1(2*(NUMNUSR+NUMCNOD)),INDX(2*(NUMNUSR+NUMCNOD)),STAT=stat)
+      call my_alloc(ITABM1, 2*(NUMNUSR+NUMCNOD), "ITABM1", stat=stat)
+      call my_alloc(INDX, 2*(NUMNUSR+NUMCNOD), "AUTO_NODE_MERGE/INDX", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='ITABM1')
@@ -205,7 +207,8 @@ C           Two Cnode shave the same ID
       END DO
 C-----------------------------------------------
       NUMNOD = NUMNOD + NUMCNOD
-      DEALLOCATE(ITABM1,INDX)
+      CALL MY_DEALLOC(ITABM1)
+      CALL MY_DEALLOC(INDX)
       RETURN
       END
       

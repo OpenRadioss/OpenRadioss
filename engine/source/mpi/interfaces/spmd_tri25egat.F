@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -120,65 +122,65 @@ C
         NODFI = NEDGE_KEPT * 2
 C       IF(NEDGE_KEPT > ???) THEN
 C  We could avoid making holes in the memory
-          IF(ASSOCIATED(NSVFIE(NIN)%P)) DEALLOCATE(NSVFIE(NIN)%P)
+          IF(ASSOCIATED(NSVFIE(NIN)%P)) call my_dealloc(NSVFIE(NIN)%P)
 C         WRITE(6,*) __FILE__,"NSVFIE allocated size:",NEDGE_KEPT
           ALLOCATE(NSVFIE(NIN)%P(NEDGE_KEPT))
-          IF(ASSOCIATED(XFIE(NIN)%P)) DEALLOCATE(XFIE(NIN)%P)
+          IF(ASSOCIATED(XFIE(NIN)%P)) call my_dealloc(XFIE(NIN)%P)
           ALLOCATE(XFIE(NIN)%P(3,NODFI))
-          IF(ASSOCIATED(VFIE(NIN)%P)) DEALLOCATE(VFIE(NIN)%P)
+          IF(ASSOCIATED(VFIE(NIN)%P)) call my_dealloc(VFIE(NIN)%P)
           ALLOCATE(VFIE(NIN)%P(3,NODFI))
-          IF(ASSOCIATED(MSFIE(NIN)%P)) DEALLOCATE(MSFIE(NIN)%P)
+          IF(ASSOCIATED(MSFIE(NIN)%P)) call my_dealloc(MSFIE(NIN)%P)
           ALLOCATE(MSFIE(NIN)%P(NODFI))
-          IF(ASSOCIATED(ITAFIE(NIN)%P)) DEALLOCATE(ITAFIE(NIN)%P)
+          IF(ASSOCIATED(ITAFIE(NIN)%P)) call my_dealloc(ITAFIE(NIN)%P)
           ALLOCATE(ITAFIE(NIN)%P(NODFI))
 
-          IF(ASSOCIATED(GAPFIE(NIN)%P)) DEALLOCATE(GAPFIE(NIN)%P)
+          IF(ASSOCIATED(GAPFIE(NIN)%P)) call my_dealloc(GAPFIE(NIN)%P)
           ALLOCATE(GAPFIE(NIN)%P(NEDGE_KEPT))
 C         IF(ASSOCIATED(MAIN_FIE(NIN)%P)) DEALLOCATE(MAIN_FIE(NIN)%P)
 C         ALLOCATE(MAIN_FIE(NIN)%P(NEDGE_KEPT))
           IF( IGAP == 3) THEN
-            IF(ASSOCIATED(GAPE_L_FIE(NIN)%P)) DEALLOCATE(GAPE_L_FIE(NIN)%P)
+            IF(ASSOCIATED(GAPE_L_FIE(NIN)%P)) call my_dealloc(GAPE_L_FIE(NIN)%P)
             ALLOCATE(GAPE_L_FIE(NIN)%P(NEDGE_KEPT))
           ENDIF
-          IF(ASSOCIATED(STIFIE(NIN)%P)) DEALLOCATE(STIFIE(NIN)%P)
+          IF(ASSOCIATED(STIFIE(NIN)%P)) call my_dealloc(STIFIE(NIN)%P)
           ALLOCATE(STIFIE(NIN)%P(NEDGE_KEPT))
 
           IF(ISTIF_MSDT > 0) THEN
-             IF(ASSOCIATED(STIFE_MSDT_FI(NIN)%P))DEALLOCATE(STIFE_MSDT_FI(NIN)%P)
+             IF(ASSOCIATED(STIFE_MSDT_FI(NIN)%P)) call my_dealloc(STIFE_MSDT_FI(NIN)%P)
              ALLOCATE(STIFE_MSDT_FI(NIN)%P(NODFI))        
           ENDIF
 
-          IF(ASSOCIATED(EDG_BISECTOR_FIE(NIN)%P)) DEALLOCATE(EDG_BISECTOR_FIE(NIN)%P)
+          IF(ASSOCIATED(EDG_BISECTOR_FIE(NIN)%P)) call my_dealloc(EDG_BISECTOR_FIE(NIN)%P)
           ALLOCATE(EDG_BISECTOR_FIE(NIN)%P(3,3,NEDGE_KEPT))
 
 
-          IF(ASSOCIATED(VTX_BISECTOR_FIE(NIN)%P)) DEALLOCATE(VTX_BISECTOR_FIE(NIN)%P)
+          IF(ASSOCIATED(VTX_BISECTOR_FIE(NIN)%P)) call my_dealloc(VTX_BISECTOR_FIE(NIN)%P)
           ALLOCATE(VTX_BISECTOR_FIE(NIN)%P(3,4,NEDGE_KEPT))
 
-          IF(ASSOCIATED(LEDGE_FIE(NIN)%P)) DEALLOCATE(LEDGE_FIE(NIN)%P)
+          IF(ASSOCIATED(LEDGE_FIE(NIN)%P)) call my_dealloc(LEDGE_FIE(NIN)%P)
           ALLOCATE(LEDGE_FIE(NIN)%P(E_LEDGE_SIZE,NEDGE_KEPT))
 
 C         Only for solids
-          IF(ASSOCIATED(X_SEG_FIE(NIN)%P)) DEALLOCATE(X_SEG_FIE(NIN)%P)
+          IF(ASSOCIATED(X_SEG_FIE(NIN)%P)) call my_dealloc(X_SEG_FIE(NIN)%P)
           ALLOCATE(X_SEG_FIE(NIN)%P(3,4,NEDGE_KEPT))
 
 
         IF(IDTMINS == 2) THEN
-          IF(ASSOCIATED(NODNXFIE(NIN)%P)) DEALLOCATE(NODNXFIE(NIN)%P)
+          IF(ASSOCIATED(NODNXFIE(NIN)%P)) call my_dealloc(NODNXFIE(NIN)%P)
           ALLOCATE(NODNXFIE(NIN)%P(NODFI))
-          IF(ASSOCIATED(NODAMSFIE(NIN)%P)) DEALLOCATE(NODAMSFIE(NIN)%P)
+          IF(ASSOCIATED(NODAMSFIE(NIN)%P)) call my_dealloc(NODAMSFIE(NIN)%P)
           ALLOCATE(NODAMSFIE(NIN)%P(NODFI))
-          IF(ASSOCIATED(PROCAMSFIE(NIN)%P)) DEALLOCATE(PROCAMSFIE(NIN)%P)
+          IF(ASSOCIATED(PROCAMSFIE(NIN)%P)) call my_dealloc(PROCAMSFIE(NIN)%P)
           ALLOCATE(PROCAMSFIE(NIN)%P(NODFI))
         ELSEIF(IDTMINS_INT /= 0) THEN
-          IF(ASSOCIATED(NODAMSFIE(NIN)%P)) DEALLOCATE(NODAMSFIE(NIN)%P)
+          IF(ASSOCIATED(NODAMSFIE(NIN)%P)) call my_dealloc(NODAMSFIE(NIN)%P)
           ALLOCATE(NODAMSFIE(NIN)%P(NODFI))
-          IF(ASSOCIATED(PROCAMSFIE(NIN)%P)) DEALLOCATE(PROCAMSFIE(NIN)%P)
+          IF(ASSOCIATED(PROCAMSFIE(NIN)%P)) call my_dealloc(PROCAMSFIE(NIN)%P)
           ALLOCATE(PROCAMSFIE(NIN)%P(NODFI))
         ENDIF 
 
         IF(INTFRIC > 0) THEN
-          IF(ASSOCIATED(IPARTFRIC_FIE(NIN)%P)) DEALLOCATE(IPARTFRIC_FIE(NIN)%P)
+          IF(ASSOCIATED(IPARTFRIC_FIE(NIN)%P)) call my_dealloc(IPARTFRIC_FIE(NIN)%P)
           ALLOCATE(IPARTFRIC_FIE(NIN)%P(NEDGE_KEPT))
         ENDIF
 
@@ -187,7 +189,7 @@ C         Only for solids
 
 C       ENDIF
 
-        ALLOCATE(INDEX(NEDGE_REMOTE))
+        call my_alloc(INDEX, NEDGE_REMOTE, "INDEX")
 C
 C compacting candidates
 C
@@ -314,16 +316,16 @@ C      WRITE(6,*) ISPMD,"EDGE REMOTE kept=",NEDGE_REMOTE
 C
 C Deallocation of XREM IREM
 C
-      IF(ALLOCATED(IREM_EDGE)) DEALLOCATE(IREM_EDGE)
-      IF(ALLOCATED(XREM_EDGE)) DEALLOCATE(XREM_EDGE)
+      IF(ALLOCATED(IREM_EDGE)) call my_dealloc(IREM_EDGE)
+      IF(ALLOCATED(XREM_EDGE)) call my_dealloc(XREM_EDGE)
 
 
 C
 C Allocation Parith/OFF
 C
       IF(IPARIT==0) THEN
-        IF(ASSOCIATED(AFIE(NIN)%P)) DEALLOCATE(AFIE(NIN)%P)
-        IF(ASSOCIATED(STNFIE(NIN)%P)) DEALLOCATE(STNFIE(NIN)%P)
+        IF(ASSOCIATED(AFIE(NIN)%P)) call my_dealloc(AFIE(NIN)%P)
+        IF(ASSOCIATED(STNFIE(NIN)%P)) call my_dealloc(STNFIE(NIN)%P)
         IF(NODFI>0)ALLOCATE(AFIE(NIN)%P(3,NODFI*NTHREAD))
         IF(NODFI>0)ALLOCATE(STNFIE(NIN)%P(NODFI*NTHREAD))
 C Init a 0
@@ -335,7 +337,7 @@ C Init a 0
         ENDDO
 C
         IF(KDTINT/=0)THEN
-          IF(ASSOCIATED(VSCFIE(NIN)%P)) DEALLOCATE(VSCFIE(NIN)%P)
+          IF(ASSOCIATED(VSCFIE(NIN)%P)) call my_dealloc(VSCFIE(NIN)%P)
           IF(NODFI>0)ALLOCATE(VSCFIE(NIN)%P(NODFI*NTHREAD))
 C Init a 0
           DO I = 1, NODFI*NTHREAD
@@ -349,8 +351,8 @@ C
 C
 C Allocation Parith/ON Done in upgrade_rem_slv
 C
-          IF(ASSOCIATED(FSKYFIE(NIN)%P)) DEALLOCATE(FSKYFIE(NIN)%P)
-          IF(ASSOCIATED(ISKYFIE(NIN)%P)) DEALLOCATE(ISKYFIE(NIN)%P)
+          IF(ASSOCIATED(FSKYFIE(NIN)%P)) call my_dealloc(FSKYFIE(NIN)%P)
+          IF(ASSOCIATED(ISKYFIE(NIN)%P)) call my_dealloc(ISKYFIE(NIN)%P)
           NULLIFY(FSKYFIE(NIN)%P)
           NULLIFY(ISKYFIE(NIN)%P)
           NLSKYFIE(NIN) = LSKYFI
@@ -391,7 +393,7 @@ C
       ENDDO
 
 
-      DEALLOCATE(INDEX)
+      call my_dealloc(INDEX)
 C
 #endif
       RETURN

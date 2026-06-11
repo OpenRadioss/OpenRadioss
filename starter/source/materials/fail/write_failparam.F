@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE FAIL_PARAM_MOD
       USE NAMES_AND_TITLES_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +53,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       LENI = 11
-      ALLOCATE (IBUF(LENI))
+      call my_alloc(IBUF, LENI, "IBUF")
 c
       IBUF(1)  = FAIL%IRUPT
       IBUF(2)  = FAIL%FAIL_ID
@@ -67,13 +68,13 @@ c
       IBUF(11) = FAIL%FAIL_IP
 c
       CALL WRITE_I_C(IBUF,LENI)
-      DEALLOCATE(IBUF)
+      CALL MY_DEALLOC(IBUF)
 c
       LENR = 1
-      ALLOCATE (RBUF(LENR))
+      call my_alloc(RBUF, LENR, "RBUF")
       RBUF(1) = FAIL%PTHK
       CALL WRITE_DB(RBUF ,LENR)
-      DEALLOCATE(RBUF)
+      CALL MY_DEALLOC(RBUF)
       LEN = LEN + LENI + LENR
 c
 c     write law keyword and keywords of failure modes

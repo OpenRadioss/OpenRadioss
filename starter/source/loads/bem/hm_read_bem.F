@@ -278,9 +278,11 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -811,7 +813,7 @@ C
          ENDIF
          IF(KFORM ==2) INTEGR=1
 C     
-         IF(NBGAUGE > 0 .AND. JFORM == 2) ALLOCATE(N_SHELL(NUMELC))
+         IF(NBGAUGE > 0 .AND. JFORM == 2) call my_alloc(N_SHELL, NUMELC, "N_SHELL")
 C     
          ISU=0
          DO J=1,NSURF
@@ -1155,10 +1157,10 @@ C-------------------------------------------------------------------------------
             CALL INIT_QD(IFLOW(II1), IFLOW(II2), IFLOW(II3), X, XS, YS, ZS, XD, YD, ZD,
      .           RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6))
             IF(NEL < NELMAX) THEN
-               ALLOCATE(CBEM(NEL,NEL))
+               call my_alloc(CBEM, NEL, NEL, "CBEM")
                CALL MASS_FLUID_QD(NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3), X,
      .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), CBEM, RHO,IRESP)
-               DEALLOCATE(CBEM)
+               CALL MY_DEALLOC(CBEM)
             ELSE
                CALL MASS_FLUID_QD(NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3),  X,
      .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), RFLOW(IR11), RHO,IRESP)
@@ -1181,7 +1183,7 @@ C     Node or Shell input
  100              CONTINUE
                   WRITE(IOUT,'(3I10)') J,-LGAUGE(3,J),IFLOW(II5+J-1)
                   ENDDO
-                  DEALLOCATE(N_SHELL)
+                  call my_dealloc(N_SHELL)
                ENDIF
             ENDIF
 C

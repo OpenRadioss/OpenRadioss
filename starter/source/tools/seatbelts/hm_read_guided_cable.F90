@@ -57,12 +57,12 @@
 !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_inter_guided_cable(lsubmodel, igrnod , ngrnod, igrpart, ngrpart,   &
-                                              npart    , unitab , numelr, ipartr , ixr    ,   &
-                                              nixr     , numelp , ipartp, ixp    , nixp   ,   &
-                                              numelt   , ipartt , ixt   , nixt   , nspmd  ,   &
-                                              knod2el1d,nod2el1d,snod2el1d,numnod, x      ,   &
-                                              numels   ,numelq  ,numelc , nintsub, ltitr  ,   &
-                                              lnopt1   ,nom_opt,itab)
+          npart    , unitab , numelr, ipartr , ixr    ,   &
+          nixr     , numelp , ipartp, ixp    , nixp   ,   &
+          numelt   , ipartt , ixt   , nixt   , nspmd  ,   &
+          knod2el1d,nod2el1d,snod2el1d,numnod, x      ,   &
+          numels   ,numelq  ,numelc , nintsub, ltitr  ,   &
+          lnopt1   ,nom_opt,itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,6 +73,8 @@
           use constant_mod , only : zero, em20, ep20, one
           use names_and_titles_mod , only : nchartitle
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           use seatbelt_mod, only : nguided_cable,guide
           use unitab_mod, only : unit_type_
           use dist_node_segment_mod
@@ -110,7 +112,7 @@
           integer, intent(in) :: ixp(nixp,numelp)                          !< beam element connectivity
           integer, intent(in) :: ixt(nixt,numelt)                          !< truss element connectivity
           integer, intent(in) :: knod2el1d(numnod+1)                       !< mapping from node to 1D element
-          integer, intent(in) :: nod2el1d(snod2el1d)                       !< mapping from node to 1D element   
+          integer, intent(in) :: nod2el1d(snod2el1d)                       !< mapping from node to 1D element
           integer, intent(in) :: itab(numnod)                              !< table user id of nodes
           integer, intent(inout) :: nom_opt(lnopt1,*)                      !< option titles for /TH/INTER
           real(kind=wp), dimension(:), intent(in) :: x(3,numnod)           !< coordinates of nodes
@@ -139,11 +141,11 @@
           real(kind=wp) :: dist1,dist2,length,average_length(nguided_cable)
           integer, dimension(:), pointer :: ingr2usr
           integer, dimension(:), allocatable :: npart_to_guide,add_part_to_guide,cpt_part_to_guide
-          integer, dimension(:), allocatable :: part_to_guide    
-          integer, dimension(:), allocatable :: cc_elem 
-          integer, dimension(:), allocatable :: tagnod_guide   
-          integer, dimension(:), allocatable :: listnod_guide              
-          integer, dimension(:,:), allocatable :: common_nodes          
+          integer, dimension(:), allocatable :: part_to_guide
+          integer, dimension(:), allocatable :: cc_elem
+          integer, dimension(:), allocatable :: tagnod_guide
+          integer, dimension(:), allocatable :: listnod_guide
+          integer, dimension(:,:), allocatable :: common_nodes
           character(len=nchartitle) :: titr
           character(len=40) :: mess
           logical :: is_available
@@ -151,14 +153,14 @@
 !                                                   External Functions
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,external :: ngr2usr
-! ----------------------------------------------------------------------------------------------------------------------      
+! ----------------------------------------------------------------------------------------------------------------------
           data mess/'INTERFACE INPUT                         '/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
           call hm_option_start('/INTER/GUIDED_CABLE')
-!          
+!
           allocate(guide(nguided_cable))
           guide(1:nguided_cable)%id = 0
           guide(1:nguided_cable)%id_g = 0
@@ -167,16 +169,16 @@
           guide(1:nguided_cable)%istiff = 0
           guide(1:nguided_cable)%stfac = zero
           guide(1:nguided_cable)%fric = zero
-!          
-          allocate(npart_to_guide(npart))
+!
+          call my_alloc(npart_to_guide,npart,"npart_to_guide")
           npart_to_guide(1:npart) = 0
           size_part_to_guide = 0
           grpart_id = 0
-!-------------------------------------------------------------------------------------------          
+!-------------------------------------------------------------------------------------------
 !         Reading of input
-!-------------------------------------------------------------------------------------------           
+!-------------------------------------------------------------------------------------------
           do i = 1, nguided_cable
-!           
+!
             call hm_option_read_key(lsubmodel, option_titr=titr, option_id=id, unit_id=uid)
             call hm_get_intv("grnod_id", grnod_id_u, is_available, lsubmodel)
             call hm_get_intv("grpart_id", grpart_id_u, is_available, lsubmodel)
@@ -190,7 +192,7 @@
             ingr2usr => igrnod(1:ngrnod)%id
             grnod_id=ngr2usr(grnod_id_u,INGR2USR,ngrnod)
 !
-!---------  Check set part Id-----------------------------          
+!---------  Check set part Id-----------------------------
             if (grpart_id_u /= 0) then
               grpart_id = 0
               do j = 1, ngrpart
@@ -203,15 +205,15 @@
                 call ancmsg(msgid=3124, msgtype=msgerror, anmode=aninfo_blind_1, i1=id, c1=trim(titr), i2=grpart_id_u)
               else
                 if (igrpart(grpart_id)%nentity == 0) then
-                  call ancmsg(msgid=3129, msgtype=msgerror, anmode=aninfo_blind_1, i1=id, c1=trim(titr), i2=grpart_id_u)  
-                endif  
+                  call ancmsg(msgid=3129, msgtype=msgerror, anmode=aninfo_blind_1, i1=id, c1=trim(titr), i2=grpart_id_u)
+                endif
               end if
             end if
 !
-!---------  Filling of nom_opt for /TH/INTER----------            
+!---------  Filling of nom_opt for /TH/INTER----------
             nom_opt(1,nintsub+i) = id
             call fretitl(titr, nom_opt(lnopt1-ltitr+1,nintsub+i), ltitr)
-!            
+!
             guide(i)%id = id
             guide(i)%id_g = i                           ! global if of guide for outputs in spmd
             guide(i)%node_set = grnod_id
@@ -228,7 +230,7 @@
             guide(i)%ncont = ncont
 !
             guide(i)%cont(1:ncont)%update = 0
-            guide(i)%cont(1:ncont)%active_segment = 0 
+            guide(i)%cont(1:ncont)%active_segment = 0
             guide(i)%cont(1:ncont)%anchor_node = 0
             guide(i)%cont(1:ncont)%node(1) = 0
             guide(i)%cont(1:ncont)%node(2) = 0
@@ -244,16 +246,16 @@
             guide(i)%cont(1:ncont)%forc(3) = zero
             guide(i)%cont(1:ncont)%forc_ad(1) = zero
             guide(i)%cont(1:ncont)%forc_ad(2) = zero
-            guide(i)%cont(1:ncont)%forc_ad(3) = zero                       
+            guide(i)%cont(1:ncont)%forc_ad(3) = zero
 !
-!           Loop on each contact node         
+!           Loop on each contact node
             if (grnod_id > 0) then
               do j=1, ncont
                 guide(i)%cont(j)%anchor_node = igrnod(grnod_id)%entity(j)
               end do
             end if
 
-!           Loop on connected parts - couting of guides per part  
+!           Loop on connected parts - couting of guides per part
             if (grpart_id > 0) then
               do j=1, igrpart(grpart_id)%nentity
                 l = igrpart(grpart_id)%entity(j)
@@ -261,21 +263,21 @@
                 size_part_to_guide = size_part_to_guide + 1
               end do
             end if
-!              
+!
           end do
-!          
-!-------------------------------------------------------------------------------------------          
-!         Contruction of mapping part -> guide 
-!-------------------------------------------------------------------------------------------         
-          allocate(add_part_to_guide(npart+1))
+!
+!-------------------------------------------------------------------------------------------
+!         Contruction of mapping part -> guide
+!-------------------------------------------------------------------------------------------
+          call my_alloc(add_part_to_guide,npart+1,"add_part_to_guide")
           add_part_to_guide(1:npart+1) = 0
           add_part_to_guide(1) = 1
           do i = 1, npart
             add_part_to_guide(i+1) = add_part_to_guide(i) + npart_to_guide(i)
           end do
 !
-          allocate(part_to_guide(size_part_to_guide))
-          allocate(cpt_part_to_guide(npart))
+          call my_alloc(part_to_guide,size_part_to_guide,"part_to_guide")
+          call my_alloc(cpt_part_to_guide,npart,"cpt_part_to_guide")
           part_to_guide(1:size_part_to_guide) = 0
           cpt_part_to_guide(1:npart) = add_part_to_guide(1:npart)
           do i = 1, nguided_cable
@@ -286,45 +288,45 @@
                 part_to_guide(cpt_part_to_guide(l)) = i
                 cpt_part_to_guide(l) = cpt_part_to_guide(l) + 1
               end do
-            endif  
-          enddo  
+            endif
+          enddo
 !
-!-------------------------------------------------------------------------------------------           
+!-------------------------------------------------------------------------------------------
 !         Loop on 1D elements - initial projection on segment to determine initial segment connection
-!                             - couting of number of elements per guide          
-!-------------------------------------------------------------------------------------------            
+!                             - couting of number of elements per guide
+!-------------------------------------------------------------------------------------------
 !
           count_average_length(1:nguided_cable) = 0
-          average_length(1:nguided_cable) = zero          
+          average_length(1:nguided_cable) = zero
 !
-          guide_nb_elem(1:nguided_cable) = 0       
-          allocate(tagnod_guide(numnod))
-          allocate(listnod_guide(numnod))
-          allocate(common_nodes(nguided_cable,nguided_cable))
+          guide_nb_elem(1:nguided_cable) = 0
+          call my_alloc(tagnod_guide,numnod,"tagnod_guide")
+          call my_alloc(listnod_guide,numnod,"listnod_guide")
+          call my_alloc(common_nodes,nguided_cable,nguided_cable,"common_nodes")
           tagnod_guide(1:numnod) = 0
           listnod_guide(1:numnod) = 0
           common_nodes(1:nguided_cable,1:nguided_cable) = 0
           compt_node_guide = 0
           nb_common_nodes = 0
 !
-!         Spring elements                             
+!         Spring elements
           do i=1,numelr
             if (npart_to_guide(ipartr(i)) > 0) then
               node1 = ixr(2,i)
-              node2 = ixr(3,i)           
+              node2 = ixr(3,i)
               do j=add_part_to_guide(ipartr(i)),add_part_to_guide(ipartr(i)+1)-1
                 ig = part_to_guide(j)
                 guide(ig)%eltype = 6 ! spring element
-                guide_nb_elem(ig) = guide_nb_elem(ig) + 1                  
-                do k = 1,guide(ig)%ncont 
+                guide_nb_elem(ig) = guide_nb_elem(ig) + 1
+                do k = 1,guide(ig)%ncont
                   anchor_node = guide(ig)%cont(k)%anchor_node
                   call dist_node_segment(node1,node2,anchor_node,numnod,x,dist)
                   if (dist < guide(ig)%cont(k)%dist) then
                     guide(ig)%cont(k)%dist = dist
                     guide(ig)%cont(k)%node(1) = ixr(2,i)
                     guide(ig)%cont(k)%node(2) = ixr(3,i)
-                  endif  
-                enddo 
+                  endif
+                enddo
                 do k=1,2
                   if (tagnod_guide(ixr(k+1,i)) == 0) then
                     tagnod_guide(ixr(k+1,i)) = ig
@@ -334,21 +336,21 @@
                     nb_common_nodes = nb_common_nodes + 1
                     common_nodes(ig, tagnod_guide(ixr(k+1,i))) = 1
                     common_nodes(tagnod_guide(ixr(k+1,i)), ig) = 1
-!                   common node is attached to guide with smallest id                    
+!                   common node is attached to guide with smallest id
                     if (ig < tagnod_guide(ixr(k+1,i))) tagnod_guide(ixr(k+1,i)) = ig
                   endif
                 enddo
-!               mesure of average length of connected spring elements for each guide     
+!               mesure of average length of connected spring elements for each guide
                 length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
                 if (length > zero) then
                   length = sqrt(length)
                 else
                   length = zero
-                end if       
+                end if
                 count_average_length(ig) = count_average_length(ig) + 1
-                average_length(ig) = average_length(ig) + length              
+                average_length(ig) = average_length(ig) + length
               enddo
-            endif  
+            endif
           enddo
 !
 !         Beam elements
@@ -360,14 +362,14 @@
                 ig = part_to_guide(j)
                 guide(ig)%eltype = 5 ! beam element
                 guide_nb_elem(ig) = guide_nb_elem(ig) + 1
-                do k = 1,guide(ig)%ncont 
+                do k = 1,guide(ig)%ncont
                   anchor_node = guide(ig)%cont(k)%anchor_node
                   call dist_node_segment(node1,node2,anchor_node,numnod,x,dist)
                   if (dist < guide(ig)%cont(k)%dist) then
                     guide(ig)%cont(k)%dist = dist
                     guide(ig)%cont(k)%node(1) = ixp(2,i)
                     guide(ig)%cont(k)%node(2) = ixp(3,i)
-                  endif  
+                  endif
                 enddo
                 do k=1,2
                   if (tagnod_guide(ixp(k+1,i)) == 0) then
@@ -375,27 +377,27 @@
                     compt_node_guide = compt_node_guide + 1
                     listnod_guide(compt_node_guide) = ixp(k+1,i)
                   elseif (tagnod_guide(ixp(k+1,i)) /= ig) then
-                    nb_common_nodes = nb_common_nodes + 1        
+                    nb_common_nodes = nb_common_nodes + 1
                     common_nodes(ig, tagnod_guide(ixp(k+1,i))) = 1
                     common_nodes(tagnod_guide(ixp(k+1,i)), ig) = 1
-!                   common node is attached to guide with smallest id   
+!                   common node is attached to guide with smallest id
                     if (ig < tagnod_guide(ixp(k+1,i))) tagnod_guide(ixp(k+1,i)) = ig
                   endif
-                enddo  
-!               mesure of average length of connected beam elements for each guide     
+                enddo
+!               mesure of average length of connected beam elements for each guide
                 length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
                 if (length > zero) then
                   length = sqrt(length)
                 else
                   length = zero
-                end if       
+                end if
                 count_average_length(ig) = count_average_length(ig) + 1
-                average_length(ig) = average_length(ig) + length  
+                average_length(ig) = average_length(ig) + length
               enddo
-            endif  
-          enddo       
+            endif
+          enddo
 !
-!         Truss elements    
+!         Truss elements
           do i=1,numelt
             if (npart_to_guide(ipartt(i)) > 0) then
               node1 = ixt(2,i)
@@ -404,14 +406,14 @@
                 ig = part_to_guide(j)
                 guide(ig)%eltype = 4 ! truss element
                 guide_nb_elem(ig) = guide_nb_elem(ig) + 1
-                do k = 1,guide(ig)%ncont 
+                do k = 1,guide(ig)%ncont
                   anchor_node = guide(ig)%cont(k)%anchor_node
                   call dist_node_segment(node1,node2,anchor_node,numnod,x,dist)
                   if (dist < guide(ig)%cont(k)%dist) then
                     guide(ig)%cont(k)%dist = dist
                     guide(ig)%cont(k)%node(1) = ixt(2,i)
                     guide(ig)%cont(k)%node(2) = ixt(3,i)
-                  endif  
+                  endif
                 enddo
                 do k=1,2
                   if (tagnod_guide(ixt(k+1,i)) == 0) then
@@ -419,48 +421,48 @@
                     compt_node_guide = compt_node_guide + 1
                     listnod_guide(compt_node_guide) = ixt(k+1,i)
                   elseif (tagnod_guide(ixt(k+1,i)) /= ig) then
-                    nb_common_nodes = nb_common_nodes + 1        
+                    nb_common_nodes = nb_common_nodes + 1
                     common_nodes(ig, tagnod_guide(ixt(k+1,i))) = 1
                     common_nodes(tagnod_guide(ixt(k+1,i)), ig) = 1
 !                   common node is attached to guide with smallest id
                     if (ig < tagnod_guide(ixt(k+1,i))) tagnod_guide(ixt(k+1,i)) = ig
                   endif
-                enddo 
-!               mesure of average length of connected truss elements for each guide     
+                enddo
+!               mesure of average length of connected truss elements for each guide
                 length = (x(1,node2)-x(1,node1))**2 + (x(2,node2)-x(2,node1))**2 + (x(3,node2)-x(3,node1))**2
                 if (length > zero) then
                   length = sqrt(length)
                 else
                   length = zero
-                end if       
+                end if
                 count_average_length(ig) = count_average_length(ig) + 1
-                average_length(ig) = average_length(ig) + length   
+                average_length(ig) = average_length(ig) + length
               enddo
-            endif  
+            endif
           enddo
-!                                          
-!-------------------------------------------------------------------------------------------           
+!
+!-------------------------------------------------------------------------------------------
 !         Check of distance between contact node and connected segment
-!------------------------------------------------------------------------------------------- 
-!                  
+!-------------------------------------------------------------------------------------------
+!
           do ig = 1, nguided_cable
             if (average_length(ig) > zero) then
               average_length(ig) = average_length(ig) / real(count_average_length(ig),kind=wp)
-            endif  
-            id = guide(ig)%id      
+            endif
+            id = guide(ig)%id
             call fretitl2(titr, nom_opt(lnopt1-ltitr+1,nintsub+ig), ltitr)
             do i = 1, guide(ig)%ncont
               if ((guide(ig)%cont(i)%dist > average_length(ig)).or.(guide(ig)%cont(i)%node(2)==0)) then
                 anchor_node = guide(ig)%cont(i)%anchor_node
                 call ancmsg(msgid=3130,msgtype=msgerror,anmode=aninfo_blind_1,i1=id,c1=trim(titr),       &
-                            r1=average_length(ig),i2=itab(anchor_node))  
-              endif 
-            end do  
-          enddo   
-            
-!-------------------------------------------------------------------------------------------           
+                  r1=average_length(ig),i2=itab(anchor_node))
+              endif
+            end do
+          enddo
+
+!-------------------------------------------------------------------------------------------
 !         Determination of the second segment and of nodes before and after segments
-!-------------------------------------------------------------------------------------------           
+!-------------------------------------------------------------------------------------------
 !
           do ig = 1, nguided_cable
             do i = 1, guide(ig)%ncont
@@ -472,39 +474,39 @@
               if (guide(ig)%eltype ==4) then
 !               find previous and next nodes connected to segment (node1-node2) - truss elements
                 call find_prev_next_nodes(ig,node1,node2,anchor_node,numnod,0,                             &
-                                          snod2el1d,knod2el1d,nod2el1d,numelt,nixt,                        &
-                                          ixt,ipartt,npart,size_part_to_guide,add_part_to_guide,           &
-                                          part_to_guide,x,nodes_found,nodes_next_found,active_segment)          
+                  snod2el1d,knod2el1d,nod2el1d,numelt,nixt,                        &
+                  ixt,ipartt,npart,size_part_to_guide,add_part_to_guide,           &
+                  part_to_guide,x,nodes_found,nodes_next_found,active_segment)
               elseif (guide(ig)%eltype ==5) then
 !               find previous and next nodes connected to segment (node1-node2) - beam elements
                 call find_prev_next_nodes(ig,node1,node2,anchor_node,numnod,numelt,                        &
-                                          snod2el1d,knod2el1d,nod2el1d,numelp,nixp,                        &
-                                          ixp,ipartp,npart,size_part_to_guide,add_part_to_guide,           &
-                                          part_to_guide,x,nodes_found,nodes_next_found,active_segment)                                          
+                  snod2el1d,knod2el1d,nod2el1d,numelp,nixp,                        &
+                  ixp,ipartp,npart,size_part_to_guide,add_part_to_guide,           &
+                  part_to_guide,x,nodes_found,nodes_next_found,active_segment)
               elseif (guide(ig)%eltype ==6) then
 !               find previous and next nodes connected to segment (node1-node2) - spring elements
                 call find_prev_next_nodes(ig,node1,node2,anchor_node,numnod,numelp+numelt,                 &
-                                          snod2el1d,knod2el1d,nod2el1d,numelr,nixr,                        &
-                                          ixr,ipartr,npart,size_part_to_guide,add_part_to_guide,           &
-                                          part_to_guide,x,nodes_found,nodes_next_found,active_segment)                                                            
-              endif                                         
-!             storage of found nodes              
-              guide(ig)%cont(i)%node(1:3) = nodes_found(1:3) 
-              guide(ig)%cont(i)%node_next(1:2) = nodes_next_found(1:2)       
+                  snod2el1d,knod2el1d,nod2el1d,numelr,nixr,                        &
+                  ixr,ipartr,npart,size_part_to_guide,add_part_to_guide,           &
+                  part_to_guide,x,nodes_found,nodes_next_found,active_segment)
+              endif
+!             storage of found nodes
+              guide(ig)%cont(i)%node(1:3) = nodes_found(1:3)
+              guide(ig)%cont(i)%node_next(1:2) = nodes_next_found(1:2)
               guide(ig)%cont(i)%active_segment = active_segment
             end do
-          end do    
-!          
-!-------------------------------------------------------------------------------------------          
-!         Contruction of groups of guides for domain decomposition
-!         if guide connected to same part  they are put in same group         
+          end do
+!
 !-------------------------------------------------------------------------------------------
-!          
+!         Contruction of groups of guides for domain decomposition
+!         if guide connected to same part  they are put in same group
+!-------------------------------------------------------------------------------------------
+!
           if (nspmd > 1) then
 !
-            guide_igroup(1:nguided_cable) = 0     
-            compt_group = 0  
-!          
+            guide_igroup(1:nguided_cable) = 0
+            compt_group = 0
+!
             do i = 1, npart
               if (npart_to_guide(i) > 0) then
                 compt =0
@@ -514,17 +516,17 @@
                   if (guide_igroup(ig) > 0) then
                     compt = compt + 1
                     igroup_min = min(igroup_min,guide_igroup(ig))
-                  endif  
-                end do        
+                  endif
+                end do
                 if (compt == 0) then
-!                 New guide group - all guides affected to new group                   
+!                 New guide group - all guides affected to new group
                   compt_group = compt_group + 1
                   do j=add_part_to_guide(i),add_part_to_guide(i+1)-1
                     ig = part_to_guide(j)
                     guide_igroup(ig) = compt_group
                   end do
                 else
-!                 Existing guide groups - assignation to this group  
+!                 Existing guide groups - assignation to this group
                   do j=add_part_to_guide(i),add_part_to_guide(i+1)-1
                     ig = part_to_guide(j)
                     if (guide_igroup(ig) /= igroup_min) then
@@ -536,9 +538,9 @@
                       end do
                     endif
                   end do
-                endif  
+                endif
               end if
-            end do   
+            end do
 !
 !           guides with common nodes are put in the same group
             if (nb_common_nodes > 0) then
@@ -546,7 +548,7 @@
                 do j = i+1, nguided_cable
                   if (common_nodes(i,j) == 1) then
                     common_nodes(i,j) = 0
-                    common_nodes(j,i) = 0      
+                    common_nodes(j,i) = 0
                     if (guide_igroup(i) /= guide_igroup(j)) then
                       ig1 = i
                       ig2 = j
@@ -562,132 +564,132 @@
                       end do
                     end if
                   end if
-                end do  
-              end do  
-            endif       
-!          
+                end do
+              end do
+            endif
+!
 !           Update of number of guide group after merge of groupd
             nb_guide_group = 0
             do i = 1, nguided_cable
               nb_guide_group = max(nb_guide_group,guide_igroup(i))
-            end do   
+            end do
 !
             part_to_guide_group(1:npart) = 0
             do i = 1, npart
               if (npart_to_guide(i) > 0) then
-!               group of guide is the group of the first guide connected to the part              
-                ig = part_to_guide(add_part_to_guide(i)) 
+!               group of guide is the group of the first guide connected to the part
+                ig = part_to_guide(add_part_to_guide(i))
                 part_to_guide_group(i) = guide_igroup(ig)
               endif
-            enddo    
+            enddo
 !
-          endif              
-!          
-!-------------------------------------------------------------------------------------------          
-!         Tag of elments for domain decomposition per guide group     
-!------------------------------------------------------------------------------------------- 
+          endif
 !
-          if (nspmd > 1) then          
-!          
+!-------------------------------------------------------------------------------------------
+!         Tag of elments for domain decomposition per guide group
+!-------------------------------------------------------------------------------------------
+!
+          if (nspmd > 1) then
+!
             do igroup = 1, nb_guide_group
-!  
-              group_nb_elem = 0          
-!             counting of number of elements in the guide group       
+!
+              group_nb_elem = 0
+!             counting of number of elements in the guide group
               do ig = 1, nguided_cable
                 if (guide_igroup(ig) == igroup) then
                   group_nb_elem = group_nb_elem + guide_nb_elem(ig)
                 end if
               end do
 !
-              allocate(cc_elem(group_nb_elem))            
+              call my_alloc(cc_elem,group_nb_elem,"cc_elem")
               cc_elem(1:group_nb_elem) = 0
               compt = 0
-!  
-!             tag of number of elements in the guide group   
-!               
+!
+!             tag of number of elements in the guide group
+!
 !             Beam elements
               do i=1,numelp
                 if (part_to_guide_group(ipartp(i)) == igroup) then
                   compt = compt + 1
                   cc_elem(compt) = numels+numelq+numelc+i
                 end if
-              end do     
+              end do
 !             Truss elements
               do i=1,numelt
                 if (part_to_guide_group(ipartt(i)) == igroup) then
                   compt = compt + 1
                   cc_elem(compt) = numels+numelq+numelc+numelp+i
                 end if
-              end do            
+              end do
 !             Spring elements
               do i=1,numelr
                 if (part_to_guide_group(ipartr(i)) == igroup) then
                   compt = compt + 1
                   cc_elem(compt) = numels+numelq+numelc+numelp+numelt+i
                 end if
-              end do      
-!   
-              call c_prevent_decomposition(compt,cc_elem)         
-              deallocate(cc_elem)
-!            
-            enddo       
+              end do
+!
+              call c_prevent_decomposition(compt,cc_elem)
+              call my_dealloc(cc_elem)
+!
+            enddo
 !
           endif
-!-------------------------------------------------------------------------------------------          
-!         Construction of node list for spmd communications    
-!------------------------------------------------------------------------------------------- 
+!-------------------------------------------------------------------------------------------
+!         Construction of node list for spmd communications
+!-------------------------------------------------------------------------------------------
 !
-          guide(1:nguided_cable)%nb_nodes = 0 
-          if (nspmd > 1) then          
-!         
-!           First step counting of nodes per guide (anchor + cable nodes)            
+          guide(1:nguided_cable)%nb_nodes = 0
+          if (nspmd > 1) then
+!
+!           First step counting of nodes per guide (anchor + cable nodes)
             do i = 1, compt_node_guide
-              inod = listnod_guide(i)  
+              inod = listnod_guide(i)
               do j = 1, nguided_cable
                 if (tagnod_guide(inod) == j) then
                   guide(j)%nb_nodes = guide(j)%nb_nodes + 1
                 end if
-              end do           
+              end do
             enddo
 !
             do j = 1, nguided_cable
               guide(j)%nb_nodes = guide(j)%nb_nodes + guide(j)%ncont
-              allocate(guide(j)%nodes(guide(j)%nb_nodes))
-            end do            
+              call my_alloc(guide(j)%nodes,guide(j)%nb_nodes,"guide(j)%nodes")
+            end do
 !
-!           Second step - filling of list of nodes per guide             
+!           Second step - filling of list of nodes per guide
             guide(1:nguided_cable)%nb_nodes = 0
 !           Anchor nodes
-             do j = 1, nguided_cable
+            do j = 1, nguided_cable
               do k = 1, guide(j)%ncont
                 guide(j)%nb_nodes = guide(j)%nb_nodes + 1
                 guide(j)%nodes(guide(j)%nb_nodes) = guide(j)%cont(k)%anchor_node
               end do
-            end do            
-!           Cable nodes            
+            end do
+!           Cable nodes
             do i = 1, compt_node_guide
-              inod = listnod_guide(i)  
+              inod = listnod_guide(i)
               do j = 1, nguided_cable
                 if (tagnod_guide(inod) == j) then
                   guide(j)%nb_nodes = guide(j)%nb_nodes + 1
                   guide(j)%nodes(guide(j)%nb_nodes) = inod
                 end if
-              end do           
-            enddo           
+              end do
+            enddo
 !
-          endif                          
-!          
-!------------------------------------------------------------------------------------------- 
-!          
-!-------------------------------------------------------------------------------------------                        
+          endif
 !
-          deallocate(npart_to_guide)
-          deallocate(add_part_to_guide)
-          deallocate(cpt_part_to_guide)
-          deallocate(part_to_guide)    
-          deallocate(tagnod_guide)  
-          deallocate(common_nodes) 
-          deallocate(listnod_guide)          
+!-------------------------------------------------------------------------------------------
+!
+!-------------------------------------------------------------------------------------------
+!
+          call my_dealloc(npart_to_guide)
+          call my_dealloc(add_part_to_guide)
+          call my_dealloc(cpt_part_to_guide)
+          call my_dealloc(part_to_guide)
+          call my_dealloc(tagnod_guide)
+          call my_dealloc(common_nodes)
+          call my_dealloc(listnod_guide)
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_inter_guided_cable

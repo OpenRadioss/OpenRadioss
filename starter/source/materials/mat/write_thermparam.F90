@@ -47,6 +47,8 @@
 ! --------------------------------------------------------------------------------------------------
           use therm_param_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
@@ -67,17 +69,17 @@
 ! --------------------------------------------------------------------------------------------------
           ! write integer parameters
           ifix = 2
-          allocate (ibuf(ifix))
+          call my_alloc(ibuf, ifix, "ibuf")
 !
           ibuf(1) = therm%iform
           ibuf(2) = therm%func_thexp
 !
           call write_i_c(ibuf,ifix)
-          deallocate(ibuf)
+          call my_dealloc(ibuf)
 
           ! write real value parameters
           rfix = 10
-          allocate (rbuf(rfix))
+          call my_alloc(rbuf, rfix, "rbuf")
 !
           rbuf(1)  = therm%tini
           rbuf(2)  = therm%tref
@@ -91,7 +93,7 @@
           rbuf(10) = therm%scale_thexp
 !
           call write_db(rbuf,rfix)
-          deallocate(rbuf)
+          call my_dealloc(rbuf)
 !
           len = len + ifix + rfix
 !-----------

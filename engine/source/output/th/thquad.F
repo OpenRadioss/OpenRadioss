@@ -104,6 +104,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -147,7 +149,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        ALLOCATE(WWA(239555))
+        call my_alloc(WWA, 239555, "WWA")
         IJK = 0
         DO NITER=1,NTHGRP2
             ITYP=ITHGRP(2,NITER)
@@ -577,7 +579,7 @@ c --------------
             ENDIF
  666    continue    
         ENDDO
-      DEALLOCATE(WWA)
+      call my_dealloc(WWA)
 C-----------
       RETURN
       END

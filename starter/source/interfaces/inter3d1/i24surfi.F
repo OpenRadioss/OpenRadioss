@@ -432,6 +432,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
 #endif
       USE FORMAT_MOD , ONLY : FMW_4I
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -481,14 +482,14 @@ c       LINEIX(2,*): LINE; LINEIX2(1,):Id_seg,LINEIX2(2,):Jd_seg(1-4)
 c       IXWORK(8,*): reordered lines; (1-2,):LINEIX,(3-4,)or (6-7,) if inverse order of I1,I2
 c                    :LINEIX2,(5):I_bord; (8,):flag of inverse I1,I2
 c---------------------------------------
-      ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
-      ALLOCATE (LINEIX2(2,NLMAX)   ,STAT=stat)
-      ALLOCATE (XLINEIX(3,NLMAX)   ,STAT=stat)
-      ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
+      call my_alloc(LINEIX, 2, NLMAX, "LINEIX", stat=stat)
+      call my_alloc(LINEIX2, 2, NLMAX, "LINEIX2", stat=stat)
+      call my_alloc(XLINEIX, 3, NLMAX, "XLINEIX", stat=stat)
+      call my_alloc(INDEX, 2*NLMAX, "INDEX", stat=stat)
 c      ALLOCATE (TAG(NUMNOD)        ,STAT=stat)
-      ALLOCATE (ISEADD_L(NUMNOD)      ,STAT=stat)
-      ALLOCATE (ISH(NUMNOD)           ,STAT=stat)
-      ALLOCATE (IXWORK(8,NLMAX)    ,STAT=stat)
+      call my_alloc(ISEADD_L, NUMNOD, "ISEADD_L", stat=stat)
+      call my_alloc(ISH, NUMNOD, "ISH", stat=stat)
+      call my_alloc(IXWORK, 8, NLMAX, "IXWORK", stat=stat)
 
 
 #ifndef HYPERMESH_LIB 
@@ -848,14 +849,14 @@ c         store SECONDARY node in ISEDGE
                 
       ENDIF
 c---------------------------------------
-      DEALLOCATE (INDEX)
+      CALL MY_DEALLOC(INDEX)
 c      DEALLOCATE (TAG)
-      DEALLOCATE (ISEADD_L)
-      DEALLOCATE (ISH)
-      DEALLOCATE (IXWORK)
-      DEALLOCATE (LINEIX)
-      DEALLOCATE (LINEIX2)
-      DEALLOCATE (XLINEIX)
+      CALL MY_DEALLOC(ISEADD_L)
+      CALL MY_DEALLOC(ISH)
+      CALL MY_DEALLOC(IXWORK)
+      CALL MY_DEALLOC(LINEIX)
+      CALL MY_DEALLOC(LINEIX2)
+      CALL MY_DEALLOC(XLINEIX)
 
 C-----------
       RETURN
@@ -1175,6 +1176,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
 #endif
       USE FORMAT_MOD , ONLY : FMW_4I
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1227,11 +1229,11 @@ c       LINEIX(2,*): LINE; LINEIX2(1,):Id_seg,LINEIX2(2,):Jd_seg(1-4)
 c       IXWORK(8,*): reordered lines; (1-2,)<-LINEIX,(3-4,)or (6-7,) if inverse order of I1,I2
 c                    <-LINEIX2,(5):I_bord; (8,):flag of inverse I1,I2
 c---------------------------------------
-      ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
-      ALLOCATE (LINEIX2(2,NLMAX)   ,STAT=stat)
-      ALLOCATE (XLINEIX(3,NLMAX)   ,STAT=stat)
-      ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
-      ALLOCATE (IXWORK(8,NLMAX)    ,STAT=stat)
+      call my_alloc(LINEIX, 2, NLMAX, "LINEIX", stat=stat)
+      call my_alloc(LINEIX2, 2, NLMAX, "LINEIX2", stat=stat)
+      call my_alloc(XLINEIX, 3, NLMAX, "XLINEIX", stat=stat)
+      call my_alloc(INDEX, 2*NLMAX, "INDEX", stat=stat)
+      call my_alloc(IXWORK, 8, NLMAX, "IXWORK", stat=stat)
 
 #ifndef HYPERMESH_LIB
       IF (STAT /= 0) THEN
@@ -1535,11 +1537,11 @@ C Useful in SPMD to easily find the SECONDARY
        END DO !I = 1,NSNE
       ENDIF
 c---------------------------------------
-      DEALLOCATE (INDEX)
-      DEALLOCATE (IXWORK)
-      DEALLOCATE (LINEIX)
-      DEALLOCATE (LINEIX2)
-      DEALLOCATE (XLINEIX)
+      CALL MY_DEALLOC(INDEX)
+      CALL MY_DEALLOC(IXWORK)
+      CALL MY_DEALLOC(LINEIX)
+      CALL MY_DEALLOC(LINEIX2)
+      CALL MY_DEALLOC(XLINEIX)
 
 C-----------
       RETURN

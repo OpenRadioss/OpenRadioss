@@ -228,7 +228,7 @@ C
       MTAG%G_DMG = 1 + MATPARAM%NMOD
       MTAG%L_DMG = 1 + MATPARAM%NMOD
       ! -> Modes allocation and definition
-      ALLOCATE(MATPARAM%MODE(MATPARAM%NMOD))
+      allocate(MATPARAM%MODE(MATPARAM%NMOD))
       MATPARAM%MODE(1) = "Void growth volume fraction fg"
       MATPARAM%MODE(2) = "Nucleation volume fraction fn"
       MATPARAM%MODE(3) = "Total void volume fraction ft"

@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -45,23 +47,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_SURFACE) )DEALLOCATE( SHOOT_STRUCT%SAVE_SURFACE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC) )DEALLOCATE( SHOOT_STRUCT%SAVE_PROC )
+        IF(ALLOCATED(SHOOT_STRUCT%SAVE_SURFACE) ) call my_dealloc(SHOOT_STRUCT%SAVE_SURFACE)
+        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC) ) call my_dealloc(SHOOT_STRUCT%SAVE_PROC)
 
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_M_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_M_EDGE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_S_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_S_EDGE )
-        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC_EDGE) )DEALLOCATE( SHOOT_STRUCT%SAVE_PROC_EDGE)
+        IF(ALLOCATED(SHOOT_STRUCT%SAVE_M_EDGE) ) call my_dealloc(SHOOT_STRUCT%SAVE_M_EDGE)
+        IF(ALLOCATED(SHOOT_STRUCT%SAVE_S_EDGE) ) call my_dealloc(SHOOT_STRUCT%SAVE_S_EDGE)
+        IF(ALLOCATED(SHOOT_STRUCT%SAVE_PROC_EDGE) ) call my_dealloc(SHOOT_STRUCT%SAVE_PROC_EDGE)
 
-        IF(ALLOCATED(SHOOT_STRUCT%GLOBAL_ELEM_INDEX) ) DEALLOCATE(SHOOT_STRUCT%GLOBAL_ELEM_INDEX)
+        IF(ALLOCATED(SHOOT_STRUCT%GLOBAL_ELEM_INDEX) ) call my_dealloc(SHOOT_STRUCT%GLOBAL_ELEM_INDEX)
         SHOOT_STRUCT%NUMBER_REMOTE_SURF = 0
         SHOOT_STRUCT%SIZE_REMOTE_SURF = 0
-        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) DEALLOCATE(SHOOT_STRUCT%REMOTE_SURF)
-        ALLOCATE( SHOOT_STRUCT%REMOTE_SURF(SHOOT_STRUCT%SIZE_REMOTE_SURF) )
+        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) call my_dealloc(SHOOT_STRUCT%REMOTE_SURF)
+        call my_alloc(SHOOT_STRUCT%REMOTE_SURF, SHOOT_STRUCT%SIZE_REMOTE_SURF, "SHOOT_STRUCT%REMOTE_SURF")
 
         SHOOT_STRUCT%NUMBER_NEW_SURF = 0
         SHOOT_STRUCT%SIZE_NEW_SURF = 0
-        IF(ALLOCATED(SHOOT_STRUCT%NEW_SURF)) DEALLOCATE(SHOOT_STRUCT%NEW_SURF)
-        ALLOCATE( SHOOT_STRUCT%NEW_SURF(SHOOT_STRUCT%SIZE_NEW_SURF) )
+        IF(ALLOCATED(SHOOT_STRUCT%NEW_SURF)) call my_dealloc(SHOOT_STRUCT%NEW_SURF)
+        call my_alloc(SHOOT_STRUCT%NEW_SURF, SHOOT_STRUCT%SIZE_NEW_SURF, "SHOOT_STRUCT%NEW_SURF")
 
         RETURN
         END SUBROUTINE DEALLOC_SHOOT_INTER

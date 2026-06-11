@@ -130,6 +130,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -551,7 +553,7 @@ C---------R,S,T->S,T,R-------------
       NPTT=ELBUF_TAB(NG)%NPTT
       IT = 1
       INLOC = IPARG(78,NG) 
-      ALLOCATE(VAR_REG(NEL,NPTR*NPTS*NLAY))
+      call my_alloc(VAR_REG, NEL, NPTR*NPTS*NLAY, "VAR_REG")
       IF (INLOC > 0) ALLOCATE(
      .  PXX1(NEL,NPTR*NPTS*NLAY),PXX2(NEL,NPTR*NPTS*NLAY),PXX3(NEL,NPTR*NPTS*NLAY),
      .  PXX4(NEL,NPTR*NPTS*NLAY),PXX5(NEL,NPTR*NPTS*NLAY),PXX6(NEL,NPTR*NPTS*NLAY),
@@ -1486,30 +1488,30 @@ C----------------------------
       END IF        
 C-----------
 
-      IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
-      IF (ALLOCATED(PXX1))    DEALLOCATE(PXX1)
-      IF (ALLOCATED(PXX2))    DEALLOCATE(PXX2)
-      IF (ALLOCATED(PXX3))    DEALLOCATE(PXX3)
-      IF (ALLOCATED(PXX4))    DEALLOCATE(PXX4)
-      IF (ALLOCATED(PXX5))    DEALLOCATE(PXX5)
-      IF (ALLOCATED(PXX6))    DEALLOCATE(PXX6)
-      IF (ALLOCATED(PXX7))    DEALLOCATE(PXX7)
-      IF (ALLOCATED(PXX8))    DEALLOCATE(PXX8)
-      IF (ALLOCATED(PYY1))    DEALLOCATE(PYY1)
-      IF (ALLOCATED(PYY2))    DEALLOCATE(PYY2)
-      IF (ALLOCATED(PYY3))    DEALLOCATE(PYY3)
-      IF (ALLOCATED(PYY4))    DEALLOCATE(PYY4)
-      IF (ALLOCATED(PYY5))    DEALLOCATE(PYY5)
-      IF (ALLOCATED(PYY6))    DEALLOCATE(PYY6)
-      IF (ALLOCATED(PYY7))    DEALLOCATE(PYY7)
-      IF (ALLOCATED(PYY8))    DEALLOCATE(PYY8)
-      IF (ALLOCATED(PZZ1))    DEALLOCATE(PZZ1)
-      IF (ALLOCATED(PZZ2))    DEALLOCATE(PZZ2)
-      IF (ALLOCATED(PZZ3))    DEALLOCATE(PZZ3)
-      IF (ALLOCATED(PZZ4))    DEALLOCATE(PZZ4)
-      IF (ALLOCATED(PZZ5))    DEALLOCATE(PZZ5)
-      IF (ALLOCATED(PZZ6))    DEALLOCATE(PZZ6)
-      IF (ALLOCATED(PZZ7))    DEALLOCATE(PZZ7)
-      IF (ALLOCATED(PZZ8))    DEALLOCATE(PZZ8)
+      IF (ALLOCATED(VAR_REG)) call my_dealloc(VAR_REG)
+      IF (ALLOCATED(PXX1)) call my_dealloc(PXX1)
+      IF (ALLOCATED(PXX2)) call my_dealloc(PXX2)
+      IF (ALLOCATED(PXX3)) call my_dealloc(PXX3)
+      IF (ALLOCATED(PXX4)) call my_dealloc(PXX4)
+      IF (ALLOCATED(PXX5)) call my_dealloc(PXX5)
+      IF (ALLOCATED(PXX6)) call my_dealloc(PXX6)
+      IF (ALLOCATED(PXX7)) call my_dealloc(PXX7)
+      IF (ALLOCATED(PXX8)) call my_dealloc(PXX8)
+      IF (ALLOCATED(PYY1)) call my_dealloc(PYY1)
+      IF (ALLOCATED(PYY2)) call my_dealloc(PYY2)
+      IF (ALLOCATED(PYY3)) call my_dealloc(PYY3)
+      IF (ALLOCATED(PYY4)) call my_dealloc(PYY4)
+      IF (ALLOCATED(PYY5)) call my_dealloc(PYY5)
+      IF (ALLOCATED(PYY6)) call my_dealloc(PYY6)
+      IF (ALLOCATED(PYY7)) call my_dealloc(PYY7)
+      IF (ALLOCATED(PYY8)) call my_dealloc(PYY8)
+      IF (ALLOCATED(PZZ1)) call my_dealloc(PZZ1)
+      IF (ALLOCATED(PZZ2)) call my_dealloc(PZZ2)
+      IF (ALLOCATED(PZZ3)) call my_dealloc(PZZ3)
+      IF (ALLOCATED(PZZ4)) call my_dealloc(PZZ4)
+      IF (ALLOCATED(PZZ5)) call my_dealloc(PZZ5)
+      IF (ALLOCATED(PZZ6)) call my_dealloc(PZZ6)
+      IF (ALLOCATED(PZZ7)) call my_dealloc(PZZ7)
+      IF (ALLOCATED(PZZ8)) call my_dealloc(PZZ8)
       RETURN
       END

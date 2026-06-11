@@ -32,7 +32,8 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Data structure must be updated after domain decomposition
-!! \details  after domain decomposition the global data scruture must be split to keep relevant local data on each domain
+!! \details  after domain decomposition the global data scruture must be split to keep relevant local data on each
+!! domain
 !
 !||====================================================================
 !||    split_bcs_nrf   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
@@ -45,6 +46,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs, bcs_struct_
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -54,8 +56,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: scep                                         !< size for array definition
           integer,intent(in) :: nspmd                                         !< number of domains
-          integer,intent(in) :: cep(scep)                                     !< indicator function for local elements [1:numel] -> [1,2,..,nspmd]
-          type(bcs_struct_),dimension(nspmd),intent(inout) :: bcs_per_proc    !< data structure to be filled with relevant local data only (on each domain)
+          integer,intent(in) :: cep(scep)
+          !< indicator function for local elements [1:numel] -> [1,2,..,nspmd]
+          type(bcs_struct_),dimension(nspmd),intent(inout) :: bcs_per_proc
+          !< data structure to be filled with relevant local data only (on each domain)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +76,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           do p=1,nspmd
-            allocate( bcs_per_proc(p)%nrf(bcs%num_nrf) )
+            allocate(bcs_per_proc(p)%nrf(bcs%num_nrf))
           end do
 
           ! --- filling global parameters for bcs nrf data structure on each domain
@@ -99,12 +103,13 @@
             !---allcoation of local data structure (on each domain)
             do p=1,nspmd
               bcs_per_proc(p)%nrf(ii)%list%size = size_on_proc(p)
-              allocate( bcs_per_proc(p)%nrf(ii)%list%elem(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%nrf(ii)%list%face(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%nrf(ii)%list%rCp(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%nrf(ii)%list%rCs(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%nrf(ii)%list%iadsky(4,size_on_proc(p)))
-              allocate( bcs_per_proc(p)%nrf(ii)%list%node_list(4,size_on_proc(p)))
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%elem, size_on_proc(p), "bcs_per_proc(p)%nrf(ii)%list%elem")
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%face, size_on_proc(p), "bcs_per_proc(p)%nrf(ii)%list%face")
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%rCp, size_on_proc(p), "bcs_per_proc(p)%nrf(ii)%list%rCp")
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%rCs, size_on_proc(p), "bcs_per_proc(p)%nrf(ii)%list%rCs")
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%iadsky, 4, size_on_proc(p), &
+              &"bcs_per_proc(p)%nrf(ii)%list%iadsky")
+              call my_alloc(bcs_per_proc(p)%nrf(ii)%list%node_list,4,size_on_proc(p),"bcs_per_proc%nrf%node_list")
             end do
             !--filling local data structure
             do jj=1,bcs%nrf(ii)%list%size

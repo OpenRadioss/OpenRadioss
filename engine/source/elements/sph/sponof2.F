@@ -53,6 +53,8 @@ C-----------------------------------------------
 C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -120,8 +122,8 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
       DATA IUN/1/
 C-----------------------------------------------
-      ALLOCATE(TAG_SPH(NSPHR))
-      ALLOCATE(OFF_SPH(NUMSPH))
+      call my_alloc(TAG_SPH, NSPHR, "TAG_SPH")
+      call my_alloc(OFF_SPH, NUMSPH, "OFF_SPH")
       OFF_SPH(1:NUMSPH) = ZERO
       TAG_SPH(1:NSPHR) = ZERO
 
@@ -813,7 +815,8 @@ C-------------------------------------------
 !$OMP ATOMIC
        WFEXT=WFEXT+WFEXTT
 C-------------------------------------------
-        DEALLOCATE(OFF_SPH,TAG_SPH)
+        call my_dealloc(OFF_SPH)
+        call my_dealloc(TAG_SPH)
 
       RETURN
       END

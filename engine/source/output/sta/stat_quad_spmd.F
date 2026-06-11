@@ -42,6 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -74,11 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     8 NODES BRICK
 C-----------------------------------------------
-      CALL MY_ALLOC(IADG,NSPMD,NPART)
-      CALL MY_ALLOC(IADD,NPART+1)
-      CALL MY_ALLOC(NP,24*NUMELQG)
-      CALL MY_ALLOC(NPGLOB,24*NUMELQG)
-      CALL MY_ALLOC(CLEF,2,NUMELQG)
+      call my_alloc(IADG, NSPMD, NPART, "IADG")
+      call my_alloc(IADD, NPART+1, "IADD")
+      call my_alloc(NP, 24*NUMELQG, "NP")
+      call my_alloc(NPGLOB, 24*NUMELQG, "NPGLOB")
+      call my_alloc(CLEF, 2, NUMELQG, "CLEF")
 C-----------------------------------------------
       JJ = 0
       DO NG=1,NGROUP
@@ -108,11 +109,11 @@ C-----------------------------------------------
       END DO
 
 C-----------------------------------------------
-      DEALLOCATE(IADG)
-      DEALLOCATE(IADD)
-      DEALLOCATE(NP)
-      DEALLOCATE(NPGLOB)
-      DEALLOCATE(CLEF)
+      call my_dealloc(IADG)
+      call my_dealloc(IADD)
+      call my_dealloc(NP)
+      call my_dealloc(NPGLOB)
+      call my_dealloc(CLEF)
 C-----------------------------------------------
       RETURN
       END

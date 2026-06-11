@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE I22BUFBRIC_MOD  
       USE I22TRI_MOD    
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,19 +57,19 @@ C-----------------------------------------------
       NB  = 0
       
       IF(.NOT.ALLOCATED(LIST_B_OLD))THEN   
-        ALLOCATE(LIST_B_OLD(INT22,I22LEN),STAT=IERR1)
+        call my_alloc(LIST_B_OLD, INT22, I22LEN, "LIST_B_OLD", stat=IERR1)
         IF (IERR1/=0) GOTO 1000        
         LIST_B_OLD(:,:) = 0
       ENDIF   
       
       IF(.NOT.ALLOCATED(NBOLD))THEN   
-        ALLOCATE(NBOLD(INT22)            ,STAT=IERR1)
+        call my_alloc(NBOLD, INT22, "NBOLD", stat=IERR1)
         IF (IERR1/=0) GOTO 1000       
         NBOLD(:) = 0
       ENDIF        
       
       IF(.NOT.ALLOCATED(BRICK_LIST))THEN
-        ALLOCATE(BRICK_LIST(INT22,I22LEN),STAT=IERR1)
+        allocate(BRICK_LIST(INT22, I22LEN), stat=IERR1)
         IF (IERR1/=0) GOTO 1000 
         
         BRICK_LIST(:,:)%ID                                = -1
@@ -312,7 +313,7 @@ C-----------------------------------------------
         BRICK_LIST(:,:)%bakMAT%sig(6)    = -68D00
         BRICK_LIST(:,:)%bakMAT%ssp       = -69D00
  
-       ALLOCATE(OLD_SecndList(INT22,I22LEN) )
+       allocate(OLD_SecndList(INT22, I22LEN))
        DO NIN=1,INT22
        !=====%OLD_SecndList(NIN,1:I22LEN)
                    OLD_SecndList(NIN,1:I22LEN)%VOL_Unmerged    = ZERO                 

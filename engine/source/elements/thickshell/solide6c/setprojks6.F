@@ -39,6 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -66,8 +68,8 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:,:,:), ALLOCATABLE:: P,KE
 C-------------------------------------------------------------
-        ALLOCATE(P(18,18,MVSIZ))
-        ALLOCATE(KE(18,18,MVSIZ))
+        call my_alloc(P, 18, 18, MVSIZ, "P")
+        call my_alloc(KE, 18, 18, MVSIZ, "KE")
 C-----------P11=Pr11Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R1 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
@@ -730,8 +732,8 @@ C-----------K56
         ENDDO
         ENDDO
 C        
-        DEALLOCATE(P)
-        DEALLOCATE(KE)
+        call my_dealloc(P)
+        call my_dealloc(KE)
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       RETURN
       END

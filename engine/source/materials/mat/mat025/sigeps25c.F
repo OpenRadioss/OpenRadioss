@@ -61,6 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -134,13 +136,15 @@ C-----------------------------------------------------------
       IF (MAT_PARAM%IVISC == 1) THEN   ! PRONY model
         NPRONY = MAT_PARAM%VISC%IPARAM(1)
         KV     = MAT_PARAM%VISC%UPARAM(1)
-        ALLOCATE(GV(NPRONY),BETA(NPRONY))
+        call my_alloc(GV, NPRONY, "GV")
+        call my_alloc(BETA, NPRONY, "BETA")
         DO I=1,NPRONY
           GV(I)   = MAT_PARAM%VISC%UPARAM(1 + I)         
           BETA(I) = MAT_PARAM%VISC%UPARAM(1 + NPRONY + I)
         ENDDO 
       ELSE
-        ALLOCATE(GV(0),BETA(0))
+        call my_alloc(GV, 0, "GV")
+        call my_alloc(BETA, 0, "BETA")
       ENDIF      
 C-----------------------------------------------------------
       IF (ISHPLYXFEM == 0 .OR. IPLYXFEM == 2) THEN
@@ -275,7 +279,8 @@ C-----------------------
      .             THLY   ,NGL    ,STRP1  ,STRP2  ,PLY_ID ,IGTYP  ,
      .             IPG    ,EPST1  ,EPST2  ,EPSM1  ,EPSM2  ,DMAX   )
 C-----------------------
-      DEALLOCATE(GV,BETA)
+      call my_dealloc(GV)
+      call my_dealloc(BETA)
 C----  -------------------
       DO I=1,NEL
         IF (OFF(I) == ZERO .AND. NPTT > 1) OFFL(I) = ZERO

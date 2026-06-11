@@ -62,6 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -92,8 +93,8 @@ C-----------------------------------------------
        TYPE(MID_PID_TYPE),DIMENSION(:),ALLOCATABLE :: MID_PID_SHELL
 C-----------------------------------------------
        ALLOCATE(MID_PID_SHELL(NUMMAT))
-       ALLOCATE(PID_INDEX(NUMMAT) )
-       CALL MY_ALLOC(POIN_MID_SHELL,N_SHELL)
+       call my_alloc(PID_INDEX, NUMMAT, "PID_INDEX")
+       call my_alloc(POIN_MID_SHELL, N_SHELL, "POIN_MID_SHELL")
        PID_INDEX(1:NUMMAT) = 0
 
        COMPTEUR = 0
@@ -133,7 +134,7 @@ C-----------------------------------------------
          MAX_PID = MAX( MAX_PID,PID_INDEX(MID) )
        ENDDO
 
-       ALLOCATE( INDEX(MAX_PID) )
+       call my_alloc(INDEX, MAX_PID, "INDEX")
 
        COMPTEUR_MAT_PROP_SHELL = 0
        JJ = 0
@@ -169,8 +170,8 @@ C-----------------------------------------------
          ENDDO
        ENDDO     
 
-       DEALLOCATE( INDEX ) 
-       DEALLOCATE( PID_INDEX )  
+       call my_dealloc(INDEX)
+       call my_dealloc(PID_INDEX)
                                 
        ! tri poids mat/prop
 
@@ -239,11 +240,11 @@ C-----------------------------------------------
 
        DO I=1,MAX_MID
          MID = POIN_MID_SHELL(I)
-         DEALLOCATE( MID_PID_SHELL(MID)%GROUP1D )
-         DEALLOCATE( MID_PID_SHELL(MID)%PID1D )      
+         call my_dealloc(MID_PID_SHELL(MID)%GROUP1D)
+         call my_dealloc(MID_PID_SHELL(MID)%PID1D)
        ENDDO
 
        DEALLOCATE(MID_PID_SHELL)
-       DEALLOCATE(POIN_MID_SHELL)
+       call my_dealloc(POIN_MID_SHELL)
        RETURN
        END SUBROUTINE SORT_MID_PID

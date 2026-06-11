@@ -55,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -111,11 +112,11 @@ C
       IF (IMON>0.AND.ITASK==0) CALL STARTIME(TIMERS,32)
 C
       IF(ITASK==0)THEN
-        CALL MY_ALLOC(AMS_WORK%CHECK%IADM,NUMNOD+1)
-        CALL MY_ALLOC(AMS_WORK%CHECK%JADM,NUMNOD+1)
-        CALL MY_ALLOC(AMS_WORK%CHECK%KADM,NUMNOD)
-        CALL MY_ALLOC(AMS_WORK%CHECK%ISORTND,NUMNOD)
-        CALL MY_ALLOC(AMS_WORK%CHECK%INVND,NUMNOD)
+        call my_alloc(AMS_WORK%CHECK%IADM, NUMNOD+1, "AMS_WORK%CHECK%IADM")
+        call my_alloc(AMS_WORK%CHECK%JADM, NUMNOD+1, "AMS_WORK%CHECK%JADM")
+        call my_alloc(AMS_WORK%CHECK%KADM, NUMNOD, "AMS_WORK%CHECK%KADM")
+        call my_alloc(AMS_WORK%CHECK%ISORTND, NUMNOD, "AMS_WORK%CHECK%ISORTND")
+        call my_alloc(AMS_WORK%CHECK%INVND, NUMNOD, "AMS_WORK%CHECK%INVND")
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
 C     ----- first uses the space of [M] for the assembled matrix ---------
@@ -156,10 +157,10 @@ C
      2               FR_ELEM,AMS_WORK%check%NNZM  ,IADK    ,AMS_WORK%CHECK%KADM    )
         END IF
 C 
-        CALL MY_ALLOC(AMS_WORK%CHECK%DIAG_M,NUMNOD)
-        CALL MY_ALLOC(AMS_WORK%CHECK%LT_M,AMS_WORK%CHECK%NNZM)
-        CALL MY_ALLOC(AMS_WORK%CHECK%JDIM,AMS_WORK%CHECK%NNZM)
-        CALL MY_ALLOC(AMS_WORK%CHECK%DIAG_INV,NUMNOD)
+        call my_alloc(AMS_WORK%CHECK%DIAG_M, NUMNOD, "AMS_WORK%CHECK%DIAG_M")
+        call my_alloc(AMS_WORK%CHECK%LT_M, AMS_WORK%CHECK%NNZM, "AMS_WORK%CHECK%LT_M")
+        call my_alloc(AMS_WORK%CHECK%JDIM, AMS_WORK%CHECK%NNZM, "AMS_WORK%CHECK%JDIM")
+        call my_alloc(AMS_WORK%CHECK%DIAG_INV, NUMNOD, "AMS_WORK%CHECK%DIAG_INV")
       ENDIF
 C---------------------
       IF(ITASK==0)THEN
@@ -205,8 +206,8 @@ C M '<- Terms of neighboring processors
 C----------------------
 C M compactage
       IF(ITASK==0)THEN
-        CALL MY_ALLOC(AMS_WORK%CHECK%LT_M2,AMS_WORK%CHECK%NNZM)
-        CALL MY_ALLOC(AMS_WORK%CHECK%JDIM2,AMS_WORK%CHECK%NNZM)
+        call my_alloc(AMS_WORK%CHECK%LT_M2, AMS_WORK%CHECK%NNZM, "AMS_WORK%CHECK%LT_M2")
+        call my_alloc(AMS_WORK%CHECK%JDIM2, AMS_WORK%CHECK%NNZM, "AMS_WORK%CHECK%JDIM2")
       ENDIF
 C----------------------
       CALL MY_BARRIER
@@ -301,17 +302,17 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
       IF(ITASK==0)THEN
-        DEALLOCATE(AMS_WORK%CHECK%IADM)
-        DEALLOCATE(AMS_WORK%CHECK%JADM)
-        DEALLOCATE(AMS_WORK%CHECK%KADM)
-        DEALLOCATE(AMS_WORK%CHECK%ISORTND)
-        DEALLOCATE(AMS_WORK%CHECK%INVND)
-        DEALLOCATE(AMS_WORK%CHECK%DIAG_M)
-        DEALLOCATE(AMS_WORK%CHECK%LT_M)
-        dEALLOCATE(AMS_WORK%CHECK%JDIM)
-        DEALLOCATE(AMS_WORK%CHECK%LT_M2)
-        DEALLOCATE(AMS_WORK%CHECK%JDIM2)
-        DEALLOCATE(AMS_WORK%CHECK%DIAG_INV)
+        call my_dealloc(AMS_WORK%CHECK%IADM)
+        call my_dealloc(AMS_WORK%CHECK%JADM)
+        call my_dealloc(AMS_WORK%CHECK%KADM)
+        call my_dealloc(AMS_WORK%CHECK%ISORTND)
+        call my_dealloc(AMS_WORK%CHECK%INVND)
+        call my_dealloc(AMS_WORK%CHECK%DIAG_M)
+        call my_dealloc(AMS_WORK%CHECK%LT_M)
+        call my_dealloc(AMS_WORK%CHECK%JDIM)
+        call my_dealloc(AMS_WORK%CHECK%LT_M2)
+        call my_dealloc(AMS_WORK%CHECK%JDIM2)
+        call my_dealloc(AMS_WORK%CHECK%DIAG_INV)
       END IF
 C--------------------------------------------
  2001 FORMAT(' ... RUNNING DIAGNOSIS')
@@ -348,6 +349,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include "implicit_f.inc"
 #include "comlock.inc"
 C-----------------------------------------------
@@ -374,8 +377,11 @@ C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
 C-----------------------------
        IF ((NNDFT0+1)>NUMNOD) RETURN
 C
-       ALLOCATE(IADA(NUMNOD+1),DIAG_A(NUMNOD),MJ(NUMNOD),STAT=IER1)
-       ALLOCATE(LT_A(NNZM),JDIA(NNZM),STAT=IERR)
+       call my_alloc(IADA, NUMNOD+1, "IADA", stat=IER1)
+       call my_alloc(DIAG_A, NUMNOD, "DIAG_A", stat=IER1)
+       call my_alloc(MJ, NUMNOD, "MJ", stat=IER1)
+       call my_alloc(LT_A, NNZM, "LT_A", stat=IERR)
+       call my_alloc(JDIA, NNZM, "JDIA", stat=IERR)
  
        IF ((IERR+IER1)/=0) THEN
          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -419,8 +425,11 @@ C------------filtering----Diagonal is in LT_M (last one)--
 
 !$OMP END DO
 C
-       DEALLOCATE(IADA,DIAG_A,MJ)
-       DEALLOCATE(LT_A,JDIA)
+       call my_dealloc(IADA)
+       call my_dealloc(DIAG_A)
+       call my_dealloc(MJ)
+       call my_dealloc(LT_A)
+       call my_dealloc(JDIA)
 C 
       RETURN
       END

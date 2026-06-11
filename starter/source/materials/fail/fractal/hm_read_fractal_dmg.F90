@@ -31,7 +31,7 @@
 !||    hm_read_fail              ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fractal_dmg_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief read config file for fractal damage model initialization
@@ -63,6 +63,7 @@
           use hm_option_read_mod
           use constant_mod ,only : zero,one
           use precision_mod ,only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,10 +118,10 @@
           fail%nfunc   = 0
           fail%ntable  = 0
 !
-          allocate(fail%uparam(fail%nuparam))
-          allocate(fail%iparam(fail%niparam))
-          allocate(fail%ifunc(fail%nfunc))
-          allocate(fail%table(fail%ntable))
+          call my_alloc(fail%uparam, fail%nuparam, "fail%uparam")
+          call my_alloc(fail%iparam, fail%niparam, "fail%iparam")
+          call my_alloc(fail%ifunc , fail%nfunc,   "fail%ifunc")
+          call my_alloc(fail%table , fail%ntable,  "fail%table")
 !
           fail%iparam(1) = n_rwalk
           fail%iparam(2) = seed

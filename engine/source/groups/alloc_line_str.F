@@ -40,6 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,7 +72,7 @@ C-----------------------------------------------
         NEW_TITLE(ISU) = TITR(1:LEN)
       ENDDO ! DO ISU=1,NSLIN
 !!------  Allocate and read subset data from restart
-      ALLOCATE (ISLINI(LENISLIN) ,STAT=ERR)
+      call my_alloc(ISLINI, LENISLIN, "ISLINI", stat=ERR)
       CALL READ_I_C(ISLINI, LENISLIN)
 !=======================================================================
       L_SLIN = 0
@@ -124,7 +126,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO ! DO ISU=1,NSLIN
 !---------
-      DEALLOCATE (ISLINI)
+      call my_dealloc(ISLINI)
 !---------
       RETURN
       END

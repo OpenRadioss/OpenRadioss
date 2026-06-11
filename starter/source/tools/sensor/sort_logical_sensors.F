@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SENSOR_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       SENSORS%LOGICAL_SENSOR_COUNT = 0
 
-      ALLOCATE(SORTED_SENSORS(SENSORS%NSENSOR))
+      call my_alloc(SORTED_SENSORS, SENSORS%NSENSOR, "SORTED_SENSORS")
 
       DO I=1,SENSORS%NSENSOR
 
@@ -138,7 +139,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=2095,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=-IERROR)
       ENDIF
 
-      ALLOCATE (SENSORS%LOGICAL_SENSORS_LIST(SENSORS%LOGICAL_SENSOR_COUNT))
+      call my_alloc(SENSORS%LOGICAL_SENSORS_LIST, SENSORS%LOGICAL_SENSOR_COUNT, "SENSORS%LOGICAL_SENSORS_LIST")
       SENS_COUNT=0
 
 
@@ -158,7 +159,7 @@ C-----------------------------------------------
       ENDDO
 
 
-      DEALLOCATE(SORTED_SENSORS)
+      CALL MY_DEALLOC(SORTED_SENSORS)
 
       END
 

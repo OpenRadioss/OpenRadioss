@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       use write_therpmaram_mod
       use write_ale_rezoning_param_mod , only : write_ale_rezoning_param
+      use my_alloc_mod
 !     use write_eosparam_mod , only : write_eosparam
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,7 +68,7 @@ C=======================================================================
       NUMMAT = MAT_ELEM%NUMMAT
       LEN    = 0
       LENI   = NFIX*NUMMAT
-      ALLOCATE (IBUF(LENI) )
+      call my_alloc(IBUF, LENI, "IBUF")
 
       ! write integer parameters and flags
       IAD = 0
@@ -103,13 +104,13 @@ C=======================================================================
 
       CALL WRITE_I_C(IBUF,LENI)
       LEN = LEN + LENI
-      DEALLOCATE(IBUF)
+      CALL MY_DEALLOC(IBUF)
 
       ! write real parameters
       NFIXR = 9
       LENR  = NFIXR*NUMMAT
       IAD   = 0
-      ALLOCATE (RBUF(LENR) )
+      call my_alloc(RBUF, LENR, "RBUF")
       DO IMAT = 1,NUMMAT
         RBUF(IAD + 1) = MAT_ELEM%MAT_PARAM(IMAT)%RHO
         RBUF(IAD + 2) = MAT_ELEM%MAT_PARAM(IMAT)%RHO0
@@ -124,7 +125,7 @@ C=======================================================================
       END DO
       CALL WRITE_DB(RBUF ,LENR)
       LEN = LEN + LENR
-      DEALLOCATE(RBUF)
+      CALL MY_DEALLOC(RBUF)
 
       ! write material title
       DO IMAT = 1,NUMMAT      
@@ -206,8 +207,8 @@ c
 
 
       ! Write multimaterial buffer
-      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
-      ALLOCATE (RBUF(21) )
+      call my_alloc(IBUF, 21, "IBUF") !< mex is 21 submaterials
+      call my_alloc(RBUF, 21, "RBUF")
       DO IMAT = 1,NUMMAT
         NBSUBMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB
         OLDFORMAT = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%old_data_format
@@ -228,8 +229,8 @@ c
           ENDIF
         ENDIF
       ENDDO
-      DEALLOCATE(IBUF)
-      DEALLOCATE(RBUF)
+      CALL MY_DEALLOC(IBUF)
+      CALL MY_DEALLOC(RBUF)
 
 
 

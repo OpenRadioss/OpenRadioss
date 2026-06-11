@@ -33,9 +33,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE MERGE_CNOD_CNOD(X      ,ITAB     ,ITABM1 ,CMERGE ,IMERGE,
      .                           IMERGE2,IADMERGE2,IMERGE0,NMERGE_TOT)
       USE MESSAGE_MOD
+      use my_alloc_mod, only : my_alloc
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -145,13 +148,18 @@ C=======================================================================
 C  
       NBAND = MAX(NBX, NBY,NBZ) + 1
 C      
-      ALLOCATE(NPX(0:NUMCNOD+NBAND)      , NPY(0:3*(NUMCNOD+NBAND)), 
-     .         NPZ(0:9*(NUMCNOD+NBAND))  , IPX(NUMCNOD+NBAND)      ,
-     .         IPY(NUMCNOD+NBAND)        , IPZ(NUMCNOD+NBAND)      ,
-     .         NPCX(0:NUMCNOD+NBAND)     , NPCY(0:NUMCNOD+NBAND)   ,
-     .         NPCZ(0:NUMCNOD+NBAND)     , IPCX(NUMCNOD+NBAND)     ,
-     .         IPCY(NUMCNOD+NBAND)       , IPCZ(NUMCNOD+NBAND)     ,
-     .         IMERGETMP(NUMCNOD))
+      call my_alloc(IPX, NUMCNOD+NBAND, "IPX")
+      call my_alloc(IPY, NUMCNOD+NBAND, "IPY")
+      call my_alloc(IPZ, NUMCNOD+NBAND, "IPZ")
+      call my_alloc(IPCX, NUMCNOD+NBAND, "IPCX")
+      call my_alloc(IPCY, NUMCNOD+NBAND, "IPCY")
+      call my_alloc(IPCZ, NUMCNOD+NBAND, "IPCZ")
+      call my_alloc(IMERGETMP, NUMCNOD, "IMERGETMP")
+      ALLOCATE(NPX(0:NUMCNOD+NBAND), NPY(0:3*(NUMCNOD+NBAND)), NPZ(0:9*(NUMCNOD+NBAND)), NPCX(0:NUMCNOD+NBAND),
+     &NPCY(0:NUMCNOD+NBAND), NPCZ(0:NUMCNOD+NBAND))
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
 !
       NPX(0:NUMCNOD+NBAND) = 0
       NPY(0:3*(NUMCNOD+NBAND)) = 0
@@ -469,9 +477,19 @@ C--------------------------------------------------
         ENDIF
       ENDDO
 C--------
-       DEALLOCATE(NPX   ,NPY   ,NPZ   ,IPX   ,IPY   ,IPZ  ,
-     .            NPCX  ,NPCY  ,NPCZ  ,IPCX  ,IPCY  ,IPCZ ,
-     .            IMERGETMP)
+       call my_dealloc(NPX)
+       call my_dealloc(NPY)
+       call my_dealloc(NPZ)
+       call my_dealloc(IPX)
+       call my_dealloc(IPY)
+       call my_dealloc(IPZ)
+       call my_dealloc(NPCX)
+       call my_dealloc(NPCY)
+       call my_dealloc(NPCZ)
+       call my_dealloc(IPCX)
+       call my_dealloc(IPCY)
+       call my_dealloc(IPCZ)
+       call my_dealloc(IMERGETMP)
 C--------
       RETURN
       END

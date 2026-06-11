@@ -40,6 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,7 +69,7 @@ C-----------------------------------------------
       ENDDO ! DO ISU=1,NSLIN
 !
       ERR = 0
-      ALLOCATE (ISLINI(LENISLIN), STAT=ERR)
+      call my_alloc(ISLINI, LENISLIN, "ISLINI", stat=ERR)
       ISLINI(1:LENISLIN) = 0  
       L_SLIN = 0
 !
@@ -115,7 +117,7 @@ C-----------------------------------------------
 !---------
       CALL WRITE_I_C(ISLINI,L_SLIN)
 !---------
-      DEALLOCATE (ISLINI)
+      call my_dealloc(ISLINI)
 !---------
       RETURN
       END

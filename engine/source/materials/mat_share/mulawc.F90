@@ -242,6 +242,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 #include "comlock.inc"
 #include "mvsiz_p.inc"
@@ -702,7 +704,8 @@
             if (matparam%ivisc == 1 .and. ilaw /= 25) then
               nprony = matparam%visc%iparam(1)
               kv     = matparam%visc%uparam(1)
-              allocate(gv(nprony),beta(nprony))
+              call my_alloc(gv, nprony, "gv")
+              call my_alloc(beta, nprony, "beta")
               do i=1,nprony
                 gv(i)   = matparam%visc%uparam(1 + i)
                 beta(i) = matparam%visc%uparam(1 + nprony + i)
@@ -1926,9 +1929,9 @@
                   lbuf%sigb,nuvar    ,uvar     ,inloc    ,varnl(1,it),     &
                   ioff_duct,jthe     ,fheat    ,vol_ipt  ,off      ,       &
                   epspxx   ,epspyy   ,epspxy   )
-!       
-              elseif (ilaw == 132) then 
-                call sigeps132c( &                     
+!
+              elseif (ilaw == 132) then
+                call sigeps132c( &
                   jlt      ,matparam   ,nuvar    ,nvartmp ,  uvar   ,      &
                   vartmp   ,rho        ,thkn     ,thklyl   , shf    ,      &
                   area    ,epsd_pg    ,npg      ,tt       ,npttot  ,      &
@@ -2287,12 +2290,12 @@
 !
                    case (11)     !    energy failure model
                     call fail_energy_c(fail_param    ,                      &
-                     nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,&
-                     ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
-                     area      ,thkn      ,dmg_flag  ,tt       ,            &
-                     dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
-                     signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,&
-                     depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
+                      nel       ,nvarf     ,nvartmp   ,uvarf    ,vartmp     ,&
+                      ngl       ,ipg       ,ilayer    ,it       ,epsd       ,&
+                      area      ,thkn      ,dmg_flag  ,tt       ,            &
+                      dmg_loc_scale ,off   ,foff      ,dfmax    ,tdel       ,&
+                      signxx    ,signyy    ,signxy    ,signyz   ,signzx     ,&
+                      depsxx    ,depsyy    ,depsxy    ,depsyz   ,depszx     )
 !
                    case (13)     !    chang-chang failure model
                     call fail_changchang_c(&
@@ -2343,12 +2346,12 @@
 !
                    case (24)     !    orthotropic strain failure model
                     call fail_orthstrain_c(fail_param,                            &
-                     nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp    ,      &
-                     tt        ,dt1       ,ipg       ,ilayer    ,it        ,      &
-                     epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale,   &
-                     epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,      &
-                     lf_dammx  ,ngl       ,&
-                     off       ,offly     ,foff      ,dfmax     ,tdel      )
+                      nel       ,nvarf     ,uvarf     ,nvartmp   ,vartmp    ,      &
+                      tt        ,dt1       ,ipg       ,ilayer    ,it        ,      &
+                      epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale,   &
+                      epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,      &
+                      lf_dammx  ,ngl       ,&
+                      off       ,offly     ,foff      ,dfmax     ,tdel      )
 !
                    case (25)     !    nxt failure
                     call fail_nxt_c(&
@@ -2484,14 +2487,14 @@
                    case (39)     !    gene1
 !
                     call fail_gene1_c(mat_elem%mat_param(imat)%fail(ifl),          &
-                     jlt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,            &
-                     tt       ,dt1c     ,ipg      ,                                &
-                     ngl      ,gbuf%dt  ,epsd     ,off      ,                      &
-                     epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,            &
-                     signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,            &
-                     el_temp  ,dfmax    ,aldt     ,table    ,tdel     ,            &
-                     thk0     ,ipt      ,foff     ,thklyl   ,ntabl_fail,itabl_fail,&
-                     lf_dammx ,dt)
+                      jlt      ,nvarf    ,nvartmp  ,uvarf    ,vartmp   ,            &
+                      tt       ,dt1c     ,ipg      ,                                &
+                      ngl      ,gbuf%dt  ,epsd     ,off      ,                      &
+                      epsxx    ,epsyy    ,epsxy    ,area     ,thkn     ,            &
+                      signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,            &
+                      el_temp  ,dfmax    ,aldt     ,table    ,tdel     ,            &
+                      thk0     ,ipt      ,foff     ,thklyl   ,ntabl_fail,itabl_fail,&
+                      lf_dammx ,dt)
 !
                    case (40)     !    rtcl
 !
@@ -2879,8 +2882,8 @@
             enddo  !  it=1,nptt
 !         deallocate prony model arrays hoisted from the it loop
             if (matparam%ivisc == 1 .and. ilaw /= 25) then
-              if(allocated(gv)) deallocate(gv)
-              if(allocated(beta)) deallocate(beta)
+              if(allocated(gv)) call my_dealloc(gv)
+              if(allocated(beta)) call my_dealloc(beta)
             endif
             ipt_all = ipt_all + nptt
           enddo  !  do ilay =1,nlay

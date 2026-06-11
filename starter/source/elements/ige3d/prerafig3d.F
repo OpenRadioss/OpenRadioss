@@ -44,6 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESHSURFIG3D_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,27 +107,27 @@ c
       IF(FLAG_PRE==0) THEN
         NBNEWX_TMP = ADDELIG3D*20 ! number of points allowed as offset for the work (for multipatch) ! set according to the total number of points
 c
-        ALLOCATE (TAB_INITIAL_CUT(3,NUMELIG3D0))
-        ALLOCATE (IDFILS(NBFILSMAX,NUMELIG3D0))
+        call my_alloc(TAB_INITIAL_CUT, 3, NUMELIG3D0, "TAB_INITIAL_CUT")
+        call my_alloc(IDFILS, NBFILSMAX, NUMELIG3D0, "IDFILS")
         ALLOCATE (TAB_REMOVE(ADDELIG3D*27)) ! should take into account the number of base elements and the number of added elements
         ALLOCATE (TAB_STAY(NINT(ADDELIG3D*27*0.5))) ! should take into account the number of base elements and the number of added elements
         ALLOCATE (TAB_NEWFCT(NINT(ADDELIG3D*27*1.2))) ! COULD BE BETTER DIMENSIONED
-        ALLOCATE (MESHSURF(NBMESHSURF))
-        ALLOCATE (GAMA(NUMNODIGE0+2*ADDELIG3D*27))
+        allocate(MESHSURF(NBMESHSURF))
+        call my_alloc(GAMA, NUMNODIGE0+2*ADDELIG3D*27, "GAMA")
       ELSE
         NBNEWX_TMP = L_TAB_NEWFCT ! for the working length and the calculation of decalgeo_tmp
-        ALLOCATE (TAB_INITIAL_CUT(3,NUMELIG3D))
-        ALLOCATE (IDFILS(NBFILSMAX,NUMELIG3D))
-        ALLOCATE (TAB_REMOVE(L_TAB_REMOVE))
-        ALLOCATE (TAB_STAY(L_TAB_STAY))
-        ALLOCATE (TAB_NEWFCT(L_TAB_NEWFCT))
-        ALLOCATE (MESHSURF(NBMESHSURF))
-        ALLOCATE (X_TMP(3*(NUMNODIGE0+L_TAB_NEWFCT)))
-        ALLOCATE (D_TMP(3*(NUMNODIGE0+L_TAB_NEWFCT)))
-        ALLOCATE (V_TMP(3*(NUMNODIGE0+L_TAB_NEWFCT)))
-        ALLOCATE (MS_TMP(NUMNODIGE0+L_TAB_NEWFCT))
-        ALLOCATE (WIGE_TMP(NUMNODIGE0+L_TAB_NEWFCT))
-        ALLOCATE (GAMA(NUMNODIGE0+L_TAB_NEWFCT))
+        call my_alloc(TAB_INITIAL_CUT, 3, NUMELIG3D, "TAB_INITIAL_CUT")
+        call my_alloc(IDFILS, NBFILSMAX, NUMELIG3D, "IDFILS")
+        call my_alloc(TAB_REMOVE, L_TAB_REMOVE, "TAB_REMOVE")
+        call my_alloc(TAB_STAY, L_TAB_STAY, "TAB_STAY")
+        call my_alloc(TAB_NEWFCT, L_TAB_NEWFCT, "TAB_NEWFCT")
+        allocate(MESHSURF(NBMESHSURF))
+        call my_alloc(X_TMP, 3*(NUMNODIGE0+L_TAB_NEWFCT), "X_TMP")
+        call my_alloc(D_TMP, 3*(NUMNODIGE0+L_TAB_NEWFCT), "D_TMP")
+        call my_alloc(V_TMP, 3*(NUMNODIGE0+L_TAB_NEWFCT), "V_TMP")
+        call my_alloc(MS_TMP, NUMNODIGE0+L_TAB_NEWFCT, "MS_TMP")
+        call my_alloc(WIGE_TMP, NUMNODIGE0+L_TAB_NEWFCT, "WIGE_TMP")
+        call my_alloc(GAMA, NUMNODIGE0+L_TAB_NEWFCT, "GAMA")
         DO I=1,NUMNODIGE0
           DO J=1,3
             X_TMP((I-1)*3+J) = X((I-1)*3+J)
@@ -269,9 +270,9 @@ c
         NELX=0
         NELY=0
         NELZ=0
-        ALLOCATE(IDXEL(NKNOT1))
-        ALLOCATE(IDYEL(NKNOT2))
-        ALLOCATE(IDZEL(NKNOT3))
+        call my_alloc(IDXEL, NKNOT1, "IDXEL")
+        call my_alloc(IDYEL, NKNOT2, "IDYEL")
+        call my_alloc(IDZEL, NKNOT3, "IDZEL")
         IDXEL=0
         IDYEL=0
         IDZEL=0
@@ -298,9 +299,9 @@ c ------------------------------------------------------------------------------
 C  building the arrays allowing the location of the patch
 c ------------------------------------------------------------------------------------------
 c
-        ALLOCATE(MESHIGEX(NELY,NELZ,NELX))
-        ALLOCATE(MESHIGEY(NELZ,NELX,NELY))
-        ALLOCATE(MESHIGEZ(NELX,NELY,NELZ))
+        call my_alloc(MESHIGEX, NELY, NELZ, NELX, "MESHIGEX")
+        call my_alloc(MESHIGEY, NELZ, NELX, NELY, "MESHIGEY")
+        call my_alloc(MESHIGEZ, NELX, NELY, NELZ, "MESHIGEZ")
         MESHIGEX(:,:,:)=0
         MESHIGEY(:,:,:)=0
         MESHIGEZ(:,:,:)=0
@@ -412,9 +413,9 @@ C
      .                          KNOT,IAD_KNOT,NKNOT1,NKNOT2,NKNOT3,IDFILS,
      .                          KNOTLOCEL,PMESHSURF%KNOT_INSERE,IPARTIG3D,TAB_INITIAL_CUT,I,0)
 C
-                ALLOCATE(PMESHSURF%TAB_COINKNOT(2,PMESHSURF%L_TAB_COINKNOT))
-                ALLOCATE(PMESHSURF%TAB_ELCUT(PMESHSURF%L_TAB_ELCUT))
-                ALLOCATE(PMESHSURF%TAB_NEWEL(PMESHSURF%L_TAB_NEWEL))
+                call my_alloc(PMESHSURF%TAB_COINKNOT, 2, PMESHSURF%L_TAB_COINKNOT, "PMESHSURF%TAB_COINKNOT")
+                call my_alloc(PMESHSURF%TAB_ELCUT, PMESHSURF%L_TAB_ELCUT, "PMESHSURF%TAB_ELCUT")
+                call my_alloc(PMESHSURF%TAB_NEWEL, PMESHSURF%L_TAB_NEWEL, "PMESHSURF%TAB_NEWEL")
 C
                 CALL COMPUT_COINKNOT(IEL, IXIG3D ,KXIG3D   ,MESHIGE  ,PTANG1     ,PTANG2      ,
      .                          IDDIR   ,IDTANG1  ,IDTANG2   ,
@@ -438,7 +439,7 @@ C
      .                            P2MESHSURF%TAB_MESHSURFCUT,P2MESHSURF%L_TAB_MESHSURFCUT,0)
                 ENDDO
 C
-                ALLOCATE(PMESHSURF%TAB_MESHSURFCUT(PMESHSURF%L_TAB_MESHSURFCUT))
+                call my_alloc(PMESHSURF%TAB_MESHSURFCUT, PMESHSURF%L_TAB_MESHSURFCUT, "PMESHSURF%TAB_MESHSURFCUT")
                 PMESHSURF%L_TAB_MESHSURFCUT = 0
 C
                 DO ITTEST=1,NBMESHSURF-1
@@ -457,7 +458,7 @@ C
      .                                PMESHSURF%TAB_COINKNOT,PMESHSURF%L_TAB_COINKNOT,
      .                                PMESHSURF%TAB_FCTCUT,PMESHSURF%L_TAB_FCTCUT,DECALGEO_TMP,0)
 C
-                ALLOCATE(PMESHSURF%TAB_FCTCUT(PMESHSURF%L_TAB_FCTCUT))
+                call my_alloc(PMESHSURF%TAB_FCTCUT, PMESHSURF%L_TAB_FCTCUT, "PMESHSURF%TAB_FCTCUT")
 C
                 CALL TEST_SUPPORT_FCT(IXIG3D, KXIG3D, KNOTLOCPC, PTANG1, PTANG2, PMESHSURF%DIR,
      .                                PMESHSURF%TAB_ELCUT,PMESHSURF%L_TAB_ELCUT,
@@ -489,7 +490,7 @@ C
      .                                P2MESHSURF%TAB_COINKNOT,P2MESHSURF%L_TAB_COINKNOT, TAB_NEWFCT,
      .                                TAB_NEWFCTCUT,L_TAB_NEWFCTCUT,DECALGEO_TMP,TAB_REMOVE,0)
                   IF(L_TAB_NEWFCTCUT>0) THEN
-                    ALLOCATE(TAB_NEWFCTCUT(L_TAB_NEWFCTCUT))
+                    call my_alloc(TAB_NEWFCTCUT, L_TAB_NEWFCTCUT, "TAB_NEWFCTCUT")
                     CALL TEST_SUPPORT_NEWFCT(KNOTLOCPC, P2DIR, P2TANG1, P2TANG2,
      .                                  P2MESHSURF%DIR, P2MESHSURF%KNOT_INSERE,
      .                                  P2MESHSURF%TAB_COINKNOT,P2MESHSURF%L_TAB_COINKNOT, TAB_NEWFCT,
@@ -502,7 +503,7 @@ C
      .                           TAB_REMOVE,TAB_NEWFCT,DECALGEO_TMP,TABCONPATCH,P,
      .                           KXIG3D,IXIG3D,TAB_STAY,FLAG_PRE)
 
-                    DEALLOCATE(TAB_NEWFCTCUT)
+                    CALL MY_DEALLOC(TAB_NEWFCTCUT)
 
                   ENDIF
                 ENDDO
@@ -521,8 +522,12 @@ C
             ENDIF
           ENDDO ! loop over the elements of the patch
         ENDDO ! loop over the directions
-        DEALLOCATE(IDXEL,IDYEL,IDZEL)
-        DEALLOCATE(MESHIGEX,MESHIGEY,MESHIGEZ)
+        CALL MY_DEALLOC(IDXEL)
+        CALL MY_DEALLOC(IDYEL)
+        CALL MY_DEALLOC(IDZEL)
+        CALL MY_DEALLOC(MESHIGEX)
+        CALL MY_DEALLOC(MESHIGEY)
+        CALL MY_DEALLOC(MESHIGEZ)
       ENDDO ! loop over the patches
 c
 CC----------------------------------------------------------------------------------------------
@@ -604,7 +609,11 @@ c
               KNOTLOCPC(:,3,DECALGEOFINAL+I) = KNOTLOCPC(:,3,DECALGEO_TMP+I)
             ENDDO
           ENDDO
-          DEALLOCATE(X_TMP,V_TMP,D_TMP,MS_TMP,WIGE_TMP)
+          CALL MY_DEALLOC(X_TMP)
+          CALL MY_DEALLOC(V_TMP)
+          CALL MY_DEALLOC(D_TMP)
+          CALL MY_DEALLOC(MS_TMP)
+          CALL MY_DEALLOC(WIGE_TMP)
 
           IF(FLAG_DEBUG==1) THEN
             DO I=1,NUMELIG3D0+ADDELIG3D
@@ -638,13 +647,13 @@ c
 c
 c ------------------------------------------------------------------------------------------
 c
-      DEALLOCATE(TAB_REMOVE)
-      DEALLOCATE(TAB_STAY)
-      DEALLOCATE(TAB_NEWFCT)
-      DEALLOCATE(GAMA)
-      DEALLOCATE(IDFILS)
+      CALL MY_DEALLOC(TAB_REMOVE)
+      CALL MY_DEALLOC(TAB_STAY)
+      CALL MY_DEALLOC(TAB_NEWFCT)
+      CALL MY_DEALLOC(GAMA)
+      CALL MY_DEALLOC(IDFILS)
       DEALLOCATE(EL_CONNECT)
-      DEALLOCATE(TAB_INITIAL_CUT)
+      CALL MY_DEALLOC(TAB_INITIAL_CUT)
 
       RETURN
       END

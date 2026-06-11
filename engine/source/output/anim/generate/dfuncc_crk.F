@@ -53,6 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -106,8 +107,8 @@ C
       TYPE(G_BUFEL_) ,POINTER :: XGBUF
       TYPE(L_BUFEL_) ,POINTER :: XLBUF
 C=======================================================================
-      CALL MY_ALLOC(WAL,NBF_L)
-      CALL MY_ALLOC(MATLY,MVSIZ*100)
+      call my_alloc(WAL, NBF_L, "WAL")
+      call my_alloc(MATLY, MVSIZ*100, "MATLY")
       NEL_CRK = 0
       FUNC(1:LEN) = ZERO
 c
@@ -647,7 +648,7 @@ C
           CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,WAL,BUF)
       ENDIF
 C
-      DEALLOCATE(MATLY)
-      DEALLOCATE(WAL)
+      call my_dealloc(MATLY)
+      call my_dealloc(WAL)
       RETURN
       END

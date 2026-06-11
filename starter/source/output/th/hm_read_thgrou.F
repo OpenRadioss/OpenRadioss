@@ -312,23 +312,48 @@ C   DON T MISS TO ADD TH TITLES FOR NEW TH OPTIONS
 C-----------------------------------------------
 
       NVARN = NVARN1 + NVARN1A + NVARN2 + NVARNPINCH
-      ALLOCATE(VARN(NVARN))
+      allocate(VARN(NVARN))
 
 
-      ALLOCATE(VARN1_TITLE(NVARN1),VARN1A_TITLE(NVARN1A),VARN2_TITLE(NVARN2),VARNPINCH_TITLE(NVARNPINCH),
-     .         VARP_TITLE(NVARP),VARR_TITLE(NVARR),VART_TITLE(NVART),
-     .         VARS1_TITLE(NVARS1),VARS2_TITLE(NVARS2),VARS3_TITLE(NVARS3),VARS4_TITLE(NVARS4),
-     .         VARS5_TITLE(NVARS5),VARS6_TITLE(NVARS6),VARS7_TITLE(NVARS7),VARS8_TITLE(NVARS8),VARS9_TITLE(NVARS9),
-     .         VARC_TITLE(NVARC),VARS10_TITLE(NVARS10),
-     .         VARSNLOC_TITLE(NVARSNLOC),VARNS_TITLE(NVARNS),VARSPH_TITLE(NVARSPH),
-     .         VARIN_TITLE(NVARIN),VARRW_TITLE(NVARRW),VARRB_TITLE(NVARRB),
-     .         VARMV_TITLE(NVARMV),VARSE_TITLE(NVARSE),VARAC_TITLE(NVARAC),
-     .         VARJO_TITLE(NVARJO),VARMVENT_TITLE(NVARMVENT),
-     .         VARPA_TITLE(NVARPA),VARFX_TITLE(NVARFX),
-     .         VARGAU_TITLE(NVARGAU),VARFR_TITLE(NVARFR),
-     .         VARSLIP_TITLE(NVARSLIP),VARRET_TITLE(NVARRET),
-     .         VARCLUS_TITLE(NVARCLUS),VARFLOW_TITLE(NVARFLOW),
-     .         VARSURF_TITLE(NVARSURF),VARSENS_TITLE(1))
+      allocate(VARN1_TITLE(NVARN1))
+      allocate(VARN1A_TITLE(NVARN1A))
+      allocate(VARN2_TITLE(NVARN2))
+      allocate(VARNPINCH_TITLE(NVARNPINCH))
+      allocate(VARP_TITLE(NVARP))
+      allocate(VARR_TITLE(NVARR))
+      allocate(VART_TITLE(NVART))
+      allocate(VARS1_TITLE(NVARS1))
+      allocate(VARS2_TITLE(NVARS2))
+      allocate(VARS3_TITLE(NVARS3))
+      allocate(VARS4_TITLE(NVARS4))
+      allocate(VARS5_TITLE(NVARS5))
+      allocate(VARS6_TITLE(NVARS6))
+      allocate(VARS7_TITLE(NVARS7))
+      allocate(VARS8_TITLE(NVARS8))
+      allocate(VARS9_TITLE(NVARS9))
+      allocate(VARC_TITLE(NVARC))
+      allocate(VARS10_TITLE(NVARS10))
+      allocate(VARSNLOC_TITLE(NVARSNLOC))
+      allocate(VARNS_TITLE(NVARNS))
+      allocate(VARSPH_TITLE(NVARSPH))
+      allocate(VARIN_TITLE(NVARIN))
+      allocate(VARRW_TITLE(NVARRW))
+      allocate(VARRB_TITLE(NVARRB))
+      allocate(VARMV_TITLE(NVARMV))
+      allocate(VARSE_TITLE(NVARSE))
+      allocate(VARAC_TITLE(NVARAC))
+      allocate(VARJO_TITLE(NVARJO))
+      allocate(VARMVENT_TITLE(NVARMVENT))
+      allocate(VARPA_TITLE(NVARPA))
+      allocate(VARFX_TITLE(NVARFX))
+      allocate(VARGAU_TITLE(NVARGAU))
+      allocate(VARFR_TITLE(NVARFR))
+      allocate(VARSLIP_TITLE(NVARSLIP))
+      allocate(VARRET_TITLE(NVARRET))
+      allocate(VARCLUS_TITLE(NVARCLUS))
+      allocate(VARFLOW_TITLE(NVARFLOW))
+      allocate(VARSURF_TITLE(NVARSURF))
+      allocate(VARSENS_TITLE(1))
 
     
       CALL TH_TITLES(
@@ -356,23 +381,23 @@ C   TH VARIABLES
 C-----------------------------------------------
       ! Allocate temporary Arrays
       ! Character Arrays - ue ALLOCATEkm
-      ALLOCATE(VARS6(97200))
+      allocate(VARS6(97200))
       VARS6(1:97200) = ' '
-      ALLOCATE(VARS7(97200))
+      allocate(VARS7(97200))
       VARS7(1:97200) = ' '
-      ALLOCATE(VARSG2(19782))
+      allocate(VARSG2(19782))
       VARSG2(1:19782) = ' '
-      ALLOCATE(VARSG3(19782))
+      allocate(VARSG3(19782))
       VARSG3(1:19782) = ' '
-      ALLOCATE(VARS(NVARS))
+      allocate(VARS(NVARS))
       VARS(1:NVARS) = ' '
-      ALLOCATE(VARC(NVARC))
+      allocate(VARC(NVARC))
       VARC(1:NVARC) = ' '
-      ALLOCATE(VARSG(NVARSG))
+      allocate(VARSG(NVARSG))
       VARSG(1:NVARSG) = ' '
 
       ! INTEGER Arrays - use MY_ALLOC
-      CALL MY_ALLOC(IVARSG,18,NVARSG)
+      CALL MY_ALLOC(IVARSG,18,NVARSG,"IVARSG")
 C   nodes
       DATA VARN1/'DX      ','DY      ','DZ      ',
      .           'VX      ','VY      ','VZ      ',
@@ -3294,7 +3319,7 @@ C-------------------------------------
       DEALLOCATE(VARS)
       DEALLOCATE(VARC)
       DEALLOCATE(VARSG)
-      DEALLOCATE(IVARSG)
+      CALL MY_DEALLOC(IVARSG)
       
       DEALLOCATE(VARN1_TITLE,VARN1A_TITLE,VARN2_TITLE,VARNPINCH_TITLE,
      .           VARP_TITLE,VARR_TITLE,VART_TITLE,

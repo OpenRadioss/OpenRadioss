@@ -50,6 +50,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use precision_mod, only : WP
           use message_mod, only : ancmsg, msgerror, aninfo
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,7 +91,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(xn(3, n_nodes), xsn(3, n_surf_nodes))
+          call my_alloc(xn, 3, n_nodes, "xn")
+          call my_alloc(xsn, 3, n_surf_nodes, "xsn")
           xn(:,:) = 0.0_WP
           xsn(:,:) = 0.0_WP
           max_pos = -huge(1.0_WP)
@@ -294,8 +297,8 @@
             end do
           end if
 
-          if(allocated(xn)) deallocate(xn)
-          if(allocated(xsn)) deallocate(xsn)
+          if(allocated(xn)) call my_dealloc(xn)
+          if(allocated(xsn)) call my_dealloc(xsn)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine min_dist_grnod_to_surface
       end module min_dist_grnod_to_surface_mod

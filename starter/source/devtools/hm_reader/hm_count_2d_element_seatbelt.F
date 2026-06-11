@@ -55,6 +55,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +92,7 @@ C-----------------------------------------------
 C   Search Parts with Mat 119 
 C-----------------------------------------------
       IF (NB_MAT_119 /= 0) THEN
-        ALLOCATE(MAT119_IDS(NB_MAT_119))
+        call my_alloc(MAT119_IDS, NB_MAT_119, "MAT119_IDS")
         MAT119_IDS(1:NB_MAT_119) = 0
         J = 0
         CALL HM_OPTION_START('/MAT')
@@ -105,7 +106,7 @@ C-----------------------------------------------
         ENDDO
 C-----------------------------------------------
         CALL HM_OPTION_COUNT('/PART',NB_PART)
-        ALLOCATE(PART_MAT119(NB_PART))
+        call my_alloc(PART_MAT119, NB_PART, "PART_MAT119")
         PART_MAT119(1:NB_PART) = 0
 c
         CALL HM_OPTION_START('/PART')
@@ -131,8 +132,8 @@ c
         ENDIF
       ENDDO
 c
-      IF (ALLOCATED(PART_MAT119)) DEALLOCATE(PART_MAT119)
-      IF (ALLOCATED(MAT119_IDS)) DEALLOCATE(MAT119_IDS)
+      IF (ALLOCATED(PART_MAT119)) CALL MY_DEALLOC(PART_MAT119)
+      IF (ALLOCATED(MAT119_IDS)) CALL MY_DEALLOC(MAT119_IDS)
 C--------------------------------------------------
       ENDIF
       RETURN

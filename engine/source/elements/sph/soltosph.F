@@ -50,6 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -152,7 +154,7 @@ C     MAPPING OF CONTACT FORCES APPLYING TO SLEEPING PARTICLES
 C-----------------------------------------------
       IF(IPARIT==0)THEN
        IF(ITASK==0)THEN
-        ALLOCATE(AWORK(4,NTHREAD*NUMNOD),STAT=IERROR)
+        call my_alloc(AWORK, 4, NTHREAD*NUMNOD, "AWORK", stat=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='(SOLIDS to SPH)')
@@ -353,7 +355,7 @@ C
 C
        CALL MY_BARRIER
 C
-       IF(ITASK==0) DEALLOCATE(AWORK)
+       IF(ITASK==0) call my_dealloc(AWORK)
       ELSE ! IPARIT==0
 C-----------------------------------------------
         NIFTSK   = 1+ITASK*NISKY/ NTHREAD

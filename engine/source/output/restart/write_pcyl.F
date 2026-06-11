@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,7 +67,7 @@ c=======================================================================
       DO I=1,NLOAD_CYL
         NSEG = LOADS%LOAD_CYL(I)%NSEG
         LINT = 5 + NSEG*4
-        ALLOCATE (ITMP(LINT))
+        call my_alloc(ITMP, LINT, "ITMP")
         RTMP(1) = LOADS%LOAD_CYL(I)%XSCALE_R
         RTMP(2) = LOADS%LOAD_CYL(I)%XSCALE_T
         RTMP(3) = LOADS%LOAD_CYL(I)%YSCALE
@@ -92,7 +94,7 @@ c
         CALL WRITE_I_C(LOADS%LOAD_CYL(I)%SEGMENT_ADRESS,4*MY_SIZE)
         ! ---------------
 c        
-        DEALLOCATE(ITMP)
+        call my_dealloc(ITMP)
       ENDDO
 c-----------
       RETURN

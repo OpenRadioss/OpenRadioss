@@ -26,7 +26,7 @@
 !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||====================================================================
       module eikonal_fast_marching_method_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -74,6 +74,8 @@
           use eikonal_init_mixture_vel_mod , only : eikonal_init_mixture_vel
           use detonators_mod , only : detonators_struct_
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           use eikonal_init_sorting_mod , only : eikonal_init_sorting
           use eikonal_Lmax_mod , only : eikonal_Lmax
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -176,19 +178,19 @@
           end do
 
           ! size neldet
-          allocate(elem_list(neldet)) ; elem_list(:) = 0
-          allocate(uelem_list(neldet)); uelem_list(:) = 0
-          allocate(idx_ng(neldet))    ; idx_ng(:) = 0
-          allocate(idx_i(neldet))     ; idx_i(:) = 0
-          allocate(updown(neldet))    ; updown(:) = -1
-          allocate(tdet(neldet))      ; tdet(:) = ep21
-          allocate(vel(neldet))       ; vel(:) = ep20 !lowest chosen for stability
-          allocate(Xel(3,neldet))     ; Xel(:,:) = zero
-          allocate(priority_queue_id(neldet)) ; priority_queue_id(:) = 0
-          allocate(priority_queue_tt(neldet)) ; priority_queue_tt(:) = ep21
+          call my_alloc(elem_list, neldet, "elem_list") ; elem_list(:) = 0
+          call my_alloc(uelem_list, neldet, "uelem_list"); uelem_list(:) = 0
+          call my_alloc(idx_ng, neldet, "idx_ng")    ; idx_ng(:) = 0
+          call my_alloc(idx_i, neldet, "idx_i")     ; idx_i(:) = 0
+          call my_alloc(updown, neldet, "updown")    ; updown(:) = -1
+          call my_alloc(tdet, neldet, "tdet")      ; tdet(:) = ep21
+          call my_alloc(vel, neldet, "vel")       ; vel(:) = ep20 !lowest chosen for stability
+          call my_alloc(Xel, 3, neldet, "Xel")     ; Xel(:,:) = zero
+          call my_alloc(priority_queue_id, neldet, "priority_queue_id") ; priority_queue_id(:) = 0
+          call my_alloc(priority_queue_tt, neldet, "priority_queue_tt") ; priority_queue_tt(:) = ep21
 
           ! size numel
-          allocate(elem_list_bij(numel)) ; elem_list_bij = 0
+          call my_alloc(elem_list_bij, numel, "elem_list_bij") ; elem_list_bij = 0
 
           ! list of relevant centroids
           !   and group id and local id in this group : elem_list(k) -> (idx_ng(k), idx_i(k))   ! used to set burning time ELBUF_TAB(NG)MGBUF%TB(I)
@@ -275,26 +277,26 @@
           ! ensuring same order of treatment
           call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 
-          allocate(itag_boundFaces(neldet,nvois)) ; itag_boundFaces(:,:) = 0
+          call my_alloc(itag_boundFaces, neldet, nvois, "itag_boundFaces") ; itag_boundFaces(:,:) = 0
           call eikonal_init_start_list(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
             nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
             nix, ix, mat_det, vel, uelem_list, elem_list, isym, itag_boundFaces, Lmax)
 
           if(nstart == 0)then
             !DEALLOCATE
-            if(allocated(start_elem_list))deallocate(start_elem_list)
-            if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
-            if(allocated(uelem_list))deallocate(uelem_list)
-            if(allocated(elem_list))deallocate(elem_list)
-            if(allocated(idx_ng))deallocate(idx_ng)
-            if(allocated(idx_i))deallocate(idx_i)
-            if(allocated(updown))deallocate(updown)
-            if(allocated(tdet))deallocate(tdet)
-            if(allocated(vel))deallocate(vel)
-            if(allocated(Xel))deallocate(Xel)
-            if(allocated(priority_queue_id))deallocate(priority_queue_id)
-            if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
-            if(allocated(elem_list_bij))deallocate(elem_list_bij)
+            if(allocated(start_elem_list))call my_dealloc(start_elem_list)
+            if(allocated(start_elem_tdet))call my_dealloc(start_elem_tdet)
+            if(allocated(uelem_list))call my_dealloc(uelem_list)
+            if(allocated(elem_list))call my_dealloc(elem_list)
+            if(allocated(idx_ng))call my_dealloc(idx_ng)
+            if(allocated(idx_i))call my_dealloc(idx_i)
+            if(allocated(updown))call my_dealloc(updown)
+            if(allocated(tdet))call my_dealloc(tdet)
+            if(allocated(vel))call my_dealloc(vel)
+            if(allocated(Xel))call my_dealloc(Xel)
+            if(allocated(priority_queue_id))call my_dealloc(priority_queue_id)
+            if(allocated(priority_queue_tt))call my_dealloc(priority_queue_tt)
+            if(allocated(elem_list_bij))call my_dealloc(elem_list_bij)
             return
           end if
 
@@ -382,19 +384,19 @@
           end do
 
           !DEALLOCATE
-          if(allocated(start_elem_list))deallocate(start_elem_list)
-          if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
-          if(allocated(elem_list))deallocate(elem_list)
-          if(allocated(idx_ng))deallocate(idx_ng)
-          if(allocated(idx_i))deallocate(idx_i)
-          if(allocated(updown))deallocate(updown)
-          if(allocated(tdet))deallocate(tdet)
-          if(allocated(vel))deallocate(vel)
-          if(allocated(Xel))deallocate(Xel)
-          if(allocated(priority_queue_id))deallocate(priority_queue_id)
-          if(allocated(priority_queue_tt))deallocate(priority_queue_tt)
-          if(allocated(elem_list_bij))deallocate(elem_list_bij)
-          if(allocated(itag_boundFaces))deallocate(itag_boundFaces)
+          if(allocated(start_elem_list))call my_dealloc(start_elem_list)
+          if(allocated(start_elem_tdet))call my_dealloc(start_elem_tdet)
+          if(allocated(elem_list))call my_dealloc(elem_list)
+          if(allocated(idx_ng))call my_dealloc(idx_ng)
+          if(allocated(idx_i))call my_dealloc(idx_i)
+          if(allocated(updown))call my_dealloc(updown)
+          if(allocated(tdet))call my_dealloc(tdet)
+          if(allocated(vel))call my_dealloc(vel)
+          if(allocated(Xel))call my_dealloc(Xel)
+          if(allocated(priority_queue_id))call my_dealloc(priority_queue_id)
+          if(allocated(priority_queue_tt))call my_dealloc(priority_queue_tt)
+          if(allocated(elem_list_bij))call my_dealloc(elem_list_bij)
+          if(allocated(itag_boundFaces))call my_dealloc(itag_boundFaces)
 
         end subroutine eikonal_fast_marching_method
 ! ----------------------------------------------------------------------------------------------------------------------

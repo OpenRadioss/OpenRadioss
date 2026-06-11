@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -138,8 +139,8 @@ C-----------------------------------------------
       NLAY  = ELBUF_STR%NLAY
       L_DIRA = ELBUF_STR%BUFLY(1)%LY_DIRA
       L_DIRB = ELBUF_STR%BUFLY(1)%LY_DIRB
-      ALLOCATE(DIRA(NLAY*NEL*L_DIRA))
-      ALLOCATE(DIRB(NLAY*NEL*L_DIRB))
+      call my_alloc(DIRA, NLAY*NEL*L_DIRA, "DIRA")
+      call my_alloc(DIRB, NLAY*NEL*L_DIRB, "DIRB")
       DIRA = ZERO
       DIRB = ZERO
       DIR_A => DIRA(1:NLAY*NEL*L_DIRA)

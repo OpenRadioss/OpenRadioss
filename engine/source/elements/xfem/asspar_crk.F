@@ -35,6 +35,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -53,7 +55,7 @@ C-----------------------------------------------
       INTEGER I,KK,NSX,NC_CRK,NCT_CRK,EN0,ILEV,NLEV
       my_real, DIMENSION(:,:),ALLOCATABLE :: XFAC0
 C=======================================================================
-      ALLOCATE(XFAC0(6,IENRNOD))
+      call my_alloc(XFAC0, 6, IENRNOD, "XFAC0")
 c
       DO I = NODFT,NODLT
         NSX = INOD_CRK(I)
@@ -94,7 +96,7 @@ C---
 C---
       END DO
 C---
-      DEALLOCATE(XFAC0)
+      call my_dealloc(XFAC0)
 C-----------
       RETURN
       END

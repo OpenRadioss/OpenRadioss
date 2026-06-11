@@ -69,6 +69,8 @@
           use sh_offset_jonct_chk_mod, only:sh_offset_jonct_chk
           use dim_shell_offsetp_mod, only: dim_shell_offsetp
           use precision_mod, only: WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,7 +105,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(intag(numnod))
+          call my_alloc(intag, numnod, "intag")
 !
           call dim_shell_offsetp(                                              &
             ngroup,    nparg,      iparg,        npropg,                   &
@@ -112,11 +114,11 @@
             numnod,    intag,      nshel)
 !
           nneoset_g = nshel
-          allocate(idnneoset(nneoset_g))
-          allocate(ixnneoset(4,nneoset_g))
-          allocate(shoset_n(numnod))
-          allocate(sh_oset(nneoset_g))
-          allocate(thk_g(nneoset_g))
+          call my_alloc(idnneoset, nneoset_g, "idnneoset")
+          call my_alloc(ixnneoset, 4, nneoset_g, "ixnneoset")
+          call my_alloc(shoset_n, numnod, "shoset_n")
+          call my_alloc(sh_oset, nneoset_g, "sh_oset")
+          call my_alloc(thk_g, nneoset_g, "thk_g")
           shoset_n = zero
           nshel = 0
           do  ng=1,ngroup
@@ -206,12 +208,12 @@
             end do
           end if
 !
-          deallocate(intag)
-          deallocate(idnneoset)
-          deallocate(ixnneoset)
-          deallocate(shoset_n)
-          deallocate(sh_oset)
-          deallocate(thk_g)
+          call my_dealloc(intag)
+          call my_dealloc(idnneoset)
+          call my_dealloc(ixnneoset)
+          call my_dealloc(shoset_n)
+          call my_dealloc(sh_oset)
+          call my_dealloc(thk_g)
 !-----------
         end subroutine shell_offsetp
       end module shell_offsetp_mod

@@ -49,6 +49,7 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod, only : WP
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +80,7 @@
           integer, dimension(nsn)     :: isl_copy
           integer, dimension(:), allocatable :: itag
 ! ======================================================================================================================
-          call my_alloc(itag,numnod)
+          call my_alloc(itag,numnod,"itag")
           itag = 0
           do i=1,nsn
             ns = isl(i)
@@ -142,7 +143,7 @@
             nsn = nsn_i
             isl(1:nsn) = isl_copy(1:nsn)
           end if !(changed) then
-          deallocate(itag)
+          call my_dealloc(itag)
         end subroutine rbody_part_modif
 ! ======================================================================================================================
 ! \brief check rbody by part with bcs(boundary conditions),impvel,gravity,inivel
@@ -168,6 +169,7 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod, only : WP
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -211,7 +213,7 @@
 !  for gravity add main_id, change num inside HM_PREREAD_GRAV
 !  for inivel,add main_id if his 2nd nodes inside
 ! ======================================================================================================================
-          call my_alloc(itag,numnod)
+          call my_alloc(itag,numnod,"itag")
           itag = 0
           do i=1,nrbykin
             jpart = npby(21,i)
@@ -230,7 +232,7 @@
             call rpart_grav_check(m,itag,ngrav,nigrav,igrav,slgrav,lgrav,numnod,itab,part_id)
             itag(lpby(iad+1:iad+nsl)) = 0
           end do
-          deallocate(itag)
+          call my_dealloc(itag)
         end subroutine rbody_part_check
 ! ======================================================================================================================
 ! \brief check rbody by part with bcs(boundary conditions),replace slave nodes by main_id if needed
@@ -520,6 +522,7 @@
           use message_mod
           use groupdef_mod
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use hm_option_read_mod
           use names_and_titles_mod
           use precision_mod,          only: WP
@@ -588,7 +591,7 @@
 ! for inivel w/ restart, to be done :do differently w/ module (adding n_add, i_add in each inivel_t)
 ! ======================================================================================================================
           vl = zero
-          call my_alloc(itagns2rb,numnod)
+          call my_alloc(itagns2rb,numnod,"itagns2rb")
           itagns2rb = 0
           do i=1,nrbykin
             part_id = npby(21,i)
@@ -841,7 +844,7 @@
             end if !(itype == 6) then
 
           end do
-          deallocate(itagns2rb)
+          call my_dealloc(itagns2rb)
 
 
         end subroutine rpart_inivel_check

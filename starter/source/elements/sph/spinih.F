@@ -143,7 +143,7 @@ C       Rough approxiamtion of H per part - only used for presearch (important f
           ENDIF  
         END DO
 C             
-        CALL MY_ALLOC(MAX_INTP_DIST_PART,NPART)
+        CALL MY_ALLOC(MAX_INTP_DIST_PART,NPART,"MAX_INTP_DIST_PART")
         MAX_INTP_DIST_PART(1:NPART) = ZERO
         SZ_INTP_DIST = NPART
 c
@@ -164,7 +164,7 @@ C          KXSP(9,N) = FLG_H
           ENDIF  
         END DO     
 C
-        DEALLOCATE(MAX_INTP_DIST_PART)
+        CALL MY_DEALLOC(MAX_INTP_DIST_PART)
 C
       ENDIF
 C

@@ -27,7 +27,7 @@
 !||====================================================================
       module inivel_start_mod
 !
-      implicit none
+        implicit none
       contains
         !! \brief apply inivel with T_start
 !||====================================================================
@@ -71,6 +71,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
@@ -161,7 +163,7 @@
             if (tstart1<=time) iupdate = 1
           end do
           if (iupdate>0) then
-            allocate(itagvel(lens))
+            call my_alloc(itagvel, lens, "itagvel")
             itagvel = 0
           end if
           iremain = 0
@@ -435,7 +437,7 @@
                 end do
               end if !(mtn == 151) then
             end do
-            deallocate(itagvel)
+            call my_dealloc(itagvel)
           end if
 
 ! 1000   FORMAT(3X,'BY SENSOR ON, ACTIVATING INIVEL OF ID =',I10)

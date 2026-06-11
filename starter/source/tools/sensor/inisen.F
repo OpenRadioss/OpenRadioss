@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixr
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -304,8 +305,8 @@ c
         IF (IPARSENS == 1) STABSEN = NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
       END IF
 c
-      ALLOCATE(SENSORS%TABSENSOR(STABSEN) , STAT=stat)
-      ALLOCATE(SENSORS%FSAV(12,6,SFSAV)   , STAT=stat)
+      call my_alloc(SENSORS%TABSENSOR, STABSEN, "SENSORS%TABSENSOR", stat=stat)
+      call my_alloc(SENSORS%FSAV, 12, 6, SFSAV, "SENSORS%FSAV", stat=stat)
       SENSORS%STABSEN   = STABSEN
       SENSORS%SFSAV     = SFSAV
       SENSORS%TABSENSOR = 0

@@ -77,6 +77,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use initemp_shell_mod
       use element_mod , only : nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -196,11 +197,11 @@ C-----------------------------------------------------------------------
       END IF
 C-----------------------------------------------------------------------
       IF(IDRAPE > 0 ) THEN
-        ALLOCATE(INDX(NUMELTG))
+        call my_alloc(INDX, NUMELTG, "CDKINIT3/INDX_1")
         INDX = 0
         INDX(1:NUMELTG) = DRAPEG%INDX(NUMELC + 1 : NUMELC + NUMELTG)
       ELSE
-        ALLOCATE(INDX(0))
+        call my_alloc(INDX, 0, "CDKINIT3/INDX_2")
       ENDIF        
       CALL C3INMAS(X,XREFTG(1,1,NFT+1),IXTG,GEO,PM,XMAS,IN,THK,
      .             PARTSAV,V,IPART(NFT+1),MSTG(NFT+1),INTG(NFT+1),
@@ -220,13 +221,13 @@ C-----------------------------------------------
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C
       IF((IGTYP == 51 .OR. IGTYP == 52) .AND. IDRAPE > 0) THEN
-         ALLOCATE(DIR_A(NPT_ALL*NEL*2))
-         ALLOCATE(DIR_B(NPT_ALL*NEL*2))
+         call my_alloc(DIR_A, NPT_ALL*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NPT_ALL*NEL*2, "DIR_B")
          DIR_A = ZERO
          DIR_B = ZERO
       ELSE
-         ALLOCATE(DIR_A(NLAY*NEL*2))
-         ALLOCATE(DIR_B(NLAY*NEL*2))
+         call my_alloc(DIR_A, NLAY*NEL*2, "DIR_A")
+         call my_alloc(DIR_B, NLAY*NEL*2, "DIR_B")
          DIR_A = ZERO
          DIR_B = ZERO
          NPT_ALL = NLAY
@@ -437,9 +438,9 @@ C------------
         IF (GBUF%G_VOL > 0) GBUF%VOL(I) = AREA(I)*GBUF%THK(I)
       ENDDO
 C      
-      DEALLOCATE(DIR_A)
-      DEALLOCATE(DIR_B)
-      IF(ALLOCATED(INDX))     DEALLOCATE(INDX)
+      CALL MY_DEALLOC(DIR_A)
+      CALL MY_DEALLOC(DIR_B)
+      IF(ALLOCATED(INDX))     CALL MY_DEALLOC(INDX)
 C---
       RETURN
       END

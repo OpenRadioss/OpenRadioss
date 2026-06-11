@@ -33,9 +33,11 @@ C
       SUBROUTINE W_RSPH(SPBUF ,NUMSPH_L,CEPSP,PROC,
      2                  VSPHIO,LEN_AM,SSPHVELN_L)
       USE MESSAGE_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -60,7 +62,7 @@ C-----------------------------------------------
 C
 ! ------------------------------------
 !     allocate 2d array
-      ALLOCATE( SPBUF_L(NSPBUF,NUMSPH_L) )
+      call my_alloc(SPBUF_L, NSPBUF, NUMSPH_L, "SPBUF_L")
 ! ------------------------------------
       IE_L = 0
 C
@@ -77,7 +79,7 @@ C
       LEN_AM = LEN_AM + NUMSPH_L*NSPBUF
 C
       IF(NSPHIO > 0) THEN
-        ALLOCATE(SPHVELN_L(SSPHVELN_L)    ,STAT=stat)
+        call my_alloc(SPHVELN_L, SSPHVELN_L, "SPHVELN_L", stat=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR)       
         SPHVELN_L(1:SSPHVELN_L)=ZERO
@@ -85,12 +87,12 @@ C writing done on p0 in monodomain for inlet/outlet
         CALL WRITE_DB(VSPHIO,SVSPHIO)
         CALL WRITE_DB(SPHVELN_L,SSPHVELN_L)
         LEN_AM = LEN_AM + SVSPHIO + SSPHVELN_L
-        DEALLOCATE(SPHVELN_L)
+        CALL MY_DEALLOC(SPHVELN_L)
       END IF
 C
 ! ------------------------------------
 !     deallocate 2d array
-      DEALLOCATE( SPBUF_L )
+      call my_dealloc(SPBUF_L)
 ! ------------------------------------
       RETURN
       END

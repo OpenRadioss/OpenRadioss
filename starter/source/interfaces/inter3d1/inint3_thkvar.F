@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only :nixs,nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,7 @@ C     REAL
       DATA MESS/'/INTER/TYPE21 INITIALIZATIONS           '/
 C-----------------------------------------------
 C
-      ALLOCATE(TAGNOD(NUMNOD))
+      call my_alloc(TAGNOD, NUMNOD, "TAGNOD")
       IWPENE = 0
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)
@@ -345,7 +346,7 @@ C----------------------------------------------------------------
      3   INTBUF_TAB%VARIABLES(28),INTBUF_TAB%VARIABLES(29),NSN,INTBUF_TAB%XSAV)
 C=======================================================================
       ENDIF
-      DEALLOCATE(TAGNOD)
+      CALL MY_DEALLOC(TAGNOD)
 C
       RETURN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

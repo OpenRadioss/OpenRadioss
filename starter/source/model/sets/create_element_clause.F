@@ -167,6 +167,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -200,11 +201,11 @@ C
 C=======================================================================
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(ELT_READ_TMP(MAPSIZE))
-      ALLOCATE(ELT_READ_ONE(MAPSIZE))
+      call my_alloc(ELT_READ_TMP, MAPSIZE, "ELT_READ_TMP")
+      call my_alloc(ELT_READ_ONE, MAPSIZE, "ELT_READ_ONE")
 
       IF (GENE_MAX > 1) THEN
-          ALLOCATE(RESULT(MAPSIZE))
+          call my_alloc(RESULT, MAPSIZE, "RESULT")
       ENDIF
 
       STACK=0
@@ -246,9 +247,9 @@ C=======================================================================
       CALL COPY_LIST_IN_CAUSE(CLAUSE,ELTYP,ELT_READ_TMP,STACK)
 
 C-------------------------
-      DEALLOCATE (ELT_READ_TMP)
-      DEALLOCATE (ELT_READ_ONE)
-      IF (ALLOCATED(RESULT)) DEALLOCATE (RESULT)
+      CALL MY_DEALLOC(ELT_READ_TMP)
+      CALL MY_DEALLOC(ELT_READ_ONE)
+      IF (ALLOCATED(RESULT)) CALL MY_DEALLOC(RESULT)
 C-------------------------
       END
 !||====================================================================
@@ -292,6 +293,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -327,12 +329,12 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(ELT_READ_TMP(IDS_MAX))
-      ALLOCATE(SORTED_LIST(IDS_MAX))
+      call my_alloc(ELT_READ_TMP, IDS_MAX, "ELT_READ_TMP")
+      call my_alloc(SORTED_LIST, IDS_MAX, "SORTED_LIST")
 
       ELT_READ_TMP(1:IDS_MAX) = 0
 
-      ALLOCATE(IDX(2*IDS_MAX))
+      call my_alloc(IDX, 2*IDS_MAX, "IDX")
       IDX = 0
 
       NINDX = 0
@@ -384,9 +386,9 @@ C=======================================================================
 !---
 
 C-------------------------
-       DEALLOCATE(ELT_READ_TMP)
-       DEALLOCATE(IDX)
-       DEALLOCATE(SORTED_LIST)
+       CALL MY_DEALLOC(ELT_READ_TMP)
+       CALL MY_DEALLOC(IDX)
+       CALL MY_DEALLOC(SORTED_LIST)
 C-------------------------
       RETURN
       END
@@ -420,6 +422,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -448,7 +451,7 @@ C-----------------------------------------------
             ! SOLID ELEM
             !-----------------------
             CLAUSE%NB_SOLID = LIST_SIZE  
-            ALLOCATE( CLAUSE%SOLID( LIST_SIZE ) )
+            call my_alloc(CLAUSE%SOLID, LIST_SIZE, "CLAUSE%SOLID")
 c
             DO I=1,LIST_SIZE
                CLAUSE%SOLID(I) = SORTED_LIST(I)
@@ -459,7 +462,7 @@ c
             ! QUAD ELEM
             !-----------------------
             CLAUSE%NB_QUAD = LIST_SIZE  
-            ALLOCATE( CLAUSE%QUAD( LIST_SIZE ) )
+            call my_alloc(CLAUSE%QUAD, LIST_SIZE, "CLAUSE%QUAD")
 c
             DO I=1,LIST_SIZE
                CLAUSE%QUAD(I) = SORTED_LIST(I)
@@ -470,7 +473,7 @@ c
             ! SHELL ELEM
             !-----------------------
             CLAUSE%NB_SH4N = LIST_SIZE  
-            ALLOCATE( CLAUSE%SH4N( LIST_SIZE ) )
+            call my_alloc(CLAUSE%SH4N, LIST_SIZE, "CLAUSE%SH4N")
 c
             DO I=1,LIST_SIZE
                CLAUSE%SH4N(I) = SORTED_LIST(I)
@@ -481,7 +484,7 @@ c
             ! SH3N ELEM
             !-----------------------
             CLAUSE%NB_SH3N = LIST_SIZE  
-            ALLOCATE( CLAUSE%SH3N( LIST_SIZE ) )
+            call my_alloc(CLAUSE%SH3N, LIST_SIZE, "CLAUSE%SH3N")
 c
             DO I=1,LIST_SIZE
                CLAUSE%SH3N(I) = SORTED_LIST(I)
@@ -492,7 +495,7 @@ c
             ! TRIA ELEM
             !-----------------------
             CLAUSE%NB_TRIA = LIST_SIZE  
-            ALLOCATE( CLAUSE%TRIA( LIST_SIZE ) )
+            call my_alloc(CLAUSE%TRIA, LIST_SIZE, "CLAUSE%TRIA")
 c
             DO I=1,LIST_SIZE
                CLAUSE%TRIA(I) = SORTED_LIST(I)
@@ -503,7 +506,7 @@ c
             ! TRUSS ELEM
             !-----------------------
             CLAUSE%NB_TRUSS = LIST_SIZE  
-            ALLOCATE( CLAUSE%TRUSS( LIST_SIZE ) )
+            call my_alloc(CLAUSE%TRUSS, LIST_SIZE, "CLAUSE%TRUSS")
 c
             DO I=1,LIST_SIZE
                CLAUSE%TRUSS(I) = SORTED_LIST(I)
@@ -514,7 +517,7 @@ c
             ! BEAM ELEM
             !-----------------------
             CLAUSE%NB_BEAM = LIST_SIZE  
-            ALLOCATE( CLAUSE%BEAM( LIST_SIZE ) )
+            call my_alloc(CLAUSE%BEAM, LIST_SIZE, "CLAUSE%BEAM")
 c
             DO I=1,LIST_SIZE
                CLAUSE%BEAM(I) = SORTED_LIST(I)
@@ -525,7 +528,7 @@ c
             ! SPRING ELEM
             !-----------------------
             CLAUSE%NB_SPRING = LIST_SIZE  
-            ALLOCATE( CLAUSE%SPRING( LIST_SIZE ) )
+            call my_alloc(CLAUSE%SPRING, LIST_SIZE, "CLAUSE%SPRING")
 c
             DO I=1,LIST_SIZE
                CLAUSE%SPRING(I) = SORTED_LIST(I)

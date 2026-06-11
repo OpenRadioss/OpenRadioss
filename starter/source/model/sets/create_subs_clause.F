@@ -134,9 +134,11 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -168,16 +170,16 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(SUBS_READ_TMP(IDS_MAX))
-      ALLOCATE(SORTED_SUBS(IDS_MAX))
+      call my_alloc(SUBS_READ_TMP, IDS_MAX, "SUBS_READ_TMP")
+      call my_alloc(SORTED_SUBS, IDS_MAX, "SORTED_SUBS")
 
-      ALLOCATE(PART_READ_TMP(NPART))
-      ALLOCATE(SORTED_PARTS(NPART))
+      call my_alloc(PART_READ_TMP, NPART, "PART_READ_TMP")
+      call my_alloc(SORTED_PARTS, NPART, "SORTED_PARTS")
 
-      ALLOCATE(INDEXS(2*IDS_MAX)) ! subsets
+      call my_alloc(INDEXS, 2*IDS_MAX, "INDEXS") ! subsets
       INDEXS = 0
 
-      ALLOCATE(INDEXP(2*NPART)) ! parts of subsets
+      call my_alloc(INDEXP, 2*NPART, "INDEXP") ! parts of subsets
       INDEXP = 0
 
       NINDX = 0
@@ -260,7 +262,7 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_PART = LIST_SIZE  
-      ALLOCATE( CLAUSE%PART( LIST_SIZE ) )
+      call my_alloc(CLAUSE%PART, LIST_SIZE, "CLAUSE%PART")
 
       DO I=1,LIST_SIZE
         CLAUSE%PART(I) = SORTED_PARTS(I)
@@ -268,12 +270,12 @@ C=======================================================================
 !---
 
 C-------------------------
-       DEALLOCATE(SUBS_READ_TMP)
-       DEALLOCATE(SORTED_SUBS)
-       DEALLOCATE(INDEXS)
-       DEALLOCATE(PART_READ_TMP)
-       DEALLOCATE(SORTED_PARTS)
-       DEALLOCATE(INDEXP)
+       CALL MY_DEALLOC(SUBS_READ_TMP)
+       CALL MY_DEALLOC(SORTED_SUBS)
+       call my_dealloc(INDEXS)
+       CALL MY_DEALLOC(PART_READ_TMP)
+       CALL MY_DEALLOC(SORTED_PARTS)
+       call my_dealloc(INDEXP)
 C-------------------------
       RETURN
       END
@@ -317,6 +319,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -351,17 +354,17 @@ C
 C=======================================================================
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(SUBS_READ_TMP(NSUBS))
-      ALLOCATE(SUBS_READ_ONE(NSUBS))
+      call my_alloc(SUBS_READ_TMP, NSUBS, "SUBS_READ_TMP")
+      call my_alloc(SUBS_READ_ONE, NSUBS, "SUBS_READ_ONE")
 
-      ALLOCATE(PART_READ_TMP(NPART))
-      ALLOCATE(SORTED_PARTS(NPART))
+      call my_alloc(PART_READ_TMP, NPART, "PART_READ_TMP")
+      call my_alloc(SORTED_PARTS, NPART, "SORTED_PARTS")
 
-      ALLOCATE(INDEX(2*NPART))
+      call my_alloc(INDEX, 2*NPART, "INDEX")
       INDEX = 0
 
       IF (GENE_MAX > 1) THEN
-          ALLOCATE(RESULT(NSUBS))
+          call my_alloc(RESULT, NSUBS, "RESULT")
       ENDIF
 
       STACK=0
@@ -440,13 +443,13 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_PART = LIST_SIZE
-      ALLOCATE(CLAUSE%PART(LIST_SIZE))
+      call my_alloc(CLAUSE%PART, LIST_SIZE, "CLAUSE%PART")
       CLAUSE%PART(1:LIST_SIZE) = SORTED_PARTS(1:LIST_SIZE)
 !---
-      DEALLOCATE (PART_READ_TMP)
-      DEALLOCATE (SORTED_PARTS)
-      IF (ALLOCATED(RESULT)) DEALLOCATE (RESULT)
-      DEALLOCATE (SUBS_READ_TMP)
-      DEALLOCATE (SUBS_READ_ONE)
+      CALL MY_DEALLOC(PART_READ_TMP)
+      CALL MY_DEALLOC(SORTED_PARTS)
+      IF (ALLOCATED(RESULT)) CALL MY_DEALLOC(RESULT)
+      CALL MY_DEALLOC(SUBS_READ_TMP)
+      CALL MY_DEALLOC(SUBS_READ_ONE)
 !---
       END

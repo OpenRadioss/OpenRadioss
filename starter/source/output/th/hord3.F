@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -45,10 +46,10 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: IASC_SAVE,ISK_SAVE
         INTEGER, DIMENSION(70000) :: WORK
 !   ---------------------------------------------
-        ALLOCATE( ITRI(NSEL) )
-        ALLOCATE( INDX(2*NSEL) )
-        ALLOCATE( IASC_SAVE(L*NSEL) )
-        ALLOCATE( ISK_SAVE(NSEL) ) 
+        call my_alloc(ITRI, NSEL, "ITRI")
+        call my_alloc(INDX, 2*NSEL, "HORD3/INDX")
+        call my_alloc(IASC_SAVE, L*NSEL, "IASC_SAVE")
+        call my_alloc(ISK_SAVE, NSEL, "ISK_SAVE")
 
 
         ITRI(1:NSEL) = NEL(1:NSEL)
@@ -72,10 +73,10 @@ C-----------------------------------------------
             ENDDO
         ENDDO
 
-        DEALLOCATE( ITRI )
-        DEALLOCATE( INDX )
-        DEALLOCATE( IASC_SAVE )
-        DEALLOCATE( ISK_SAVE ) 
+        CALL MY_DEALLOC(ITRI)
+        CALL MY_DEALLOC(INDX)
+        CALL MY_DEALLOC(IASC_SAVE)
+        CALL MY_DEALLOC(ISK_SAVE)
 
         RETURN
         END SUBROUTINE HORD3

@@ -347,6 +347,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -372,7 +374,7 @@ C optimisation spmd
 C---determine iteration num.
       LMAX = ZERO
       RMAX = MAX(ABS(DR(1,M)),ABS(DR(2,M)),ABS(DR(3,M)))
-       ALLOCATE(LSM(NSN))
+       call my_alloc(LSM, NSN, "LSM")
        DO I=1,NSN
         N = NOD(I)
         XS=X(1,N)-X(1,M)
@@ -448,7 +450,7 @@ C
          D(3,N)=D(3,N)+A*ZS
         ENDIF
        ENDDO
-        DEALLOCATE(LSM)
+        call my_dealloc(LSM)
 C
       RETURN
       END

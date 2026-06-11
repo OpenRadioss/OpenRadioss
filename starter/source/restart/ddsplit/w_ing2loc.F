@@ -31,6 +31,7 @@ C
       SUBROUTINE W_ING2LOC(
      .  ALE_CONNECTIVITY,ELEMID_L,NUMNOD,NODGLOB,NODLOCAL,NUMNOD_L,LEN_IA,NWALE)
       USE ALE_CONNECTIVITY_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +48,9 @@ C-----------------------------------------------
       INTEGER I, J, LEN, IAD1, IAD2
       INTEGER, DIMENSION(:), ALLOCATABLE :: NB_CONNECT, CONNECTED, IAD_CONNECT, ADSKY
 
-      ALLOCATE(IAD_CONNECT(NUMNOD_L + 1), NB_CONNECT(NUMNOD_L), ADSKY(NUMNOD_L))
+      call my_alloc(IAD_CONNECT, NUMNOD_L + 1, "IAD_CONNECT")
+      call my_alloc(NB_CONNECT, NUMNOD_L, "NB_CONNECT")
+      call my_alloc(ADSKY, NUMNOD_L, "ADSKY")
       IF (ALE_CONNECTIVITY%has_nn_connect) THEN
          DO I = 1, NUMNOD_L
             IAD1 = ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT(NODGLOB(I))
@@ -66,7 +69,7 @@ C-----------------------------------------------
          ENDDO
 
          LEN = IAD_CONNECT(NUMNOD_L + 1)
-         ALLOCATE(CONNECTED(LEN))
+         call my_alloc(CONNECTED, LEN, "CONNECTED")
          CONNECTED(1:LEN) = 0
          DO I = 1, NUMNOD_L
             ADSKY(I) = IAD_CONNECT(I)
@@ -92,7 +95,7 @@ C-----------------------------------------------
 
       IF (ALE_CONNECTIVITY%has_ne_connect) THEN
 C     Node - element connectivity
-         IF (ALLOCATED(CONNECTED)) DEALLOCATE(CONNECTED)
+         IF (ALLOCATED(CONNECTED)) CALL MY_DEALLOC(CONNECTED)
          DO I = 1, NUMNOD_L
             IAD1 = ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NODGLOB(I))
             IAD2 = ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NODGLOB(I) + 1) - 1
@@ -110,7 +113,7 @@ C     Node - element connectivity
          ENDDO
 
          LEN = IAD_CONNECT(NUMNOD_L + 1)
-         ALLOCATE(CONNECTED(LEN))
+         call my_alloc(CONNECTED, LEN, "CONNECTED")
 
          DO I = 1, NUMNOD_L
             ADSKY(I) = IAD_CONNECT(I)
@@ -134,10 +137,10 @@ C     Node - element connectivity
          LEN_IA = LEN_IA + NUMNOD_L + 1 + LEN
       ENDIF 
 
-      IF (ALLOCATED(IAD_CONNECT)) DEALLOCATE(IAD_CONNECT)
-      IF (ALLOCATED(CONNECTED)) DEALLOCATE(CONNECTED)
-      IF (ALLOCATED(ADSKY)) DEALLOCATE(ADSKY)
-      IF (ALLOCATED(NB_CONNECT)) DEALLOCATE(NB_CONNECT)
+      IF (ALLOCATED(IAD_CONNECT)) CALL MY_DEALLOC(IAD_CONNECT)
+      IF (ALLOCATED(CONNECTED)) CALL MY_DEALLOC(CONNECTED)
+      IF (ALLOCATED(ADSKY)) CALL MY_DEALLOC(ADSKY)
+      IF (ALLOCATED(NB_CONNECT)) CALL MY_DEALLOC(NB_CONNECT)
 
       RETURN
       END

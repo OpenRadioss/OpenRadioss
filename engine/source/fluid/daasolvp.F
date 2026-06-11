@@ -47,6 +47,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -97,7 +99,8 @@ C-----------------------------------------------
 C SPMD contact details and velocities
       NNO_L=IFLOW(16)
       LENBUF=6*NNO
-      ALLOCATE(SBUF(LENBUF), RBUF(LENBUF))
+      call my_alloc(SBUF, LENBUF, "SBUF")
+      call my_alloc(RBUF, LENBUF, "RBUF")
       SBUF(1:LENBUF)=ZERO
       RBUF(1:LENBUF)=ZERO
       DO I=1,NNO_L
@@ -123,7 +126,8 @@ C SPMD contact details and velocities
          VL(2,I)=RBUF(K+5)
          VL(3,I)=RBUF(K+6)
       ENDDO
-      DEALLOCATE(SBUF, RBUF)
+      call my_dealloc(SBUF)
+      call my_dealloc(RBUF)
 
       JFORM  = IFLOW(4)
       NBLOC  = IFLOW(12)
@@ -547,7 +551,8 @@ C         Resolution
           CALL PDGETRS('N', NEL, 1, MFLE_L, 1, 1, DESCA, IPIV_L, VECT, 1, 1, DESCB, INFO)
 
 C Echange 
-          ALLOCATE(SBUF(NEL), RBUF(NEL))
+          call my_alloc(SBUF, NEL, "SBUF")
+          call my_alloc(RBUF, NEL, "RBUF")
           SBUF(1:NEL)=ZERO
           RBUF(1:NEL)=ZERO
           IF(IBUFELC(1) > 0) THEN
@@ -573,7 +578,8 @@ C Echange
           ENDDO
 
           IF(INTEGR == 1) THEN
-             DEALLOCATE(SBUF, RBUF)
+             call my_dealloc(SBUF)
+             call my_dealloc(RBUF)
              DO I=1,NEL
                 PM(I) = PM(I) + DPMDT(I)*DT1
                 PS(I) = PM(I) - RHOC*(VI(I)+VR(I))
@@ -616,7 +622,8 @@ C Echange
              DO I=1,NEL
                 VECT(I)=RBUF(I)
              ENDDO
-             DEALLOCATE(SBUF, RBUF)
+             call my_dealloc(SBUF)
+             call my_dealloc(RBUF)
 
              VECT1(1:NEL) = MATMUL(CBEM(1:NEL,1:NEL), VECT(1:NEL))
              DO I=1,NEL

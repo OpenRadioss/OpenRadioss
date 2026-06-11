@@ -139,6 +139,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,10 +171,10 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('idsmax' ,IDS_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(PART_READ_TMP(IDS_MAX))
-      ALLOCATE(SORTED_PARTS(IDS_MAX))
+      call my_alloc(PART_READ_TMP, IDS_MAX, "PART_READ_TMP")
+      call my_alloc(SORTED_PARTS, IDS_MAX, "SORTED_PARTS")
 
-      ALLOCATE(INDEX(2*IDS_MAX))
+      call my_alloc(INDEX, 2*IDS_MAX, "INDEX")
       INDEX = 0
 
       NINDX = 0
@@ -220,7 +221,7 @@ C=======================================================================
       ! Copy in final SET
       ! ------------------
       CLAUSE%NB_PART = LIST_SIZE  
-      ALLOCATE( CLAUSE%PART( LIST_SIZE ) )
+      call my_alloc(CLAUSE%PART, LIST_SIZE, "CLAUSE%PART")
 
       DO I=1,LIST_SIZE
         CLAUSE%PART(I) = SORTED_PARTS(I)
@@ -228,9 +229,9 @@ C=======================================================================
 !---
 
 C-------------------------
-       DEALLOCATE(PART_READ_TMP)
-       DEALLOCATE(SORTED_PARTS)
-       DEALLOCATE(INDEX)
+       CALL MY_DEALLOC(PART_READ_TMP)
+       CALL MY_DEALLOC(SORTED_PARTS)
+       CALL MY_DEALLOC(INDEX)
 C-------------------------
       RETURN
       END
@@ -273,6 +274,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -305,11 +307,11 @@ C=======================================================================
 
       CALL HM_GET_INT_ARRAY_INDEX('genemax' ,GENE_MAX ,JCLAUSE,IS_AVAILABLE,LSUBMODEL)
 
-      ALLOCATE(PART_READ_TMP(NPART))
-      ALLOCATE(PART_READ_ONE(NPART))
+      call my_alloc(PART_READ_TMP, NPART, "PART_READ_TMP")
+      call my_alloc(PART_READ_ONE, NPART, "PART_READ_ONE")
 
       IF (GENE_MAX > 1) THEN
-          ALLOCATE(RESULT(NPART))
+          call my_alloc(RESULT, NPART, "RESULT")
       ENDIF
 
       STACK=0
@@ -350,12 +352,12 @@ C=======================================================================
       ENDDO
 
       CLAUSE%NB_PART = STACK
-      ALLOCATE(CLAUSE%PART(STACK))
+      call my_alloc(CLAUSE%PART, STACK, "CLAUSE%PART")
       CLAUSE%PART(1:STACK) = PART_READ_TMP(1:STACK)
 !
-      DEALLOCATE (PART_READ_TMP)
-      DEALLOCATE (PART_READ_ONE)
-      IF (ALLOCATED(RESULT)) DEALLOCATE (RESULT)
+      CALL MY_DEALLOC(PART_READ_TMP)
+      CALL MY_DEALLOC(PART_READ_ONE)
+      IF (ALLOCATED(RESULT)) CALL MY_DEALLOC(RESULT)
 !
       END
 

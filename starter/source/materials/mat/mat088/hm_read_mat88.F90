@@ -72,6 +72,8 @@
           use func_table_copy_mod
           use table_mat_spline_fit_mod
           use precision_mod, only: WP
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -245,9 +247,9 @@
           nvartmp = 6
 !
           !< Allocation of material parameters tables
-          allocate(matparam%iparam(matparam%niparam))
-          allocate(matparam%uparam(matparam%nuparam))
-          allocate(matparam%table (matparam%ntable ))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          allocate(matparam%table(matparam%ntable))
 !
           !< Material table pointer
           table_mat => matparam%table(1:matparam%ntable)
@@ -271,7 +273,8 @@
           !     through the origin (0,0)
           ndim = table_mat(1)%ndim
           npt = size(table_mat(1)%x(1)%values)
-          allocate(x_out(nout,nl),y_out(nout,nl))
+          call my_alloc(x_out, nout, nl, "x_out")
+          call my_alloc(y_out, nout, nl, "y_out")
 !
           ! ---> No strain rate dependency
           !-----------------------------------------------------------------------
@@ -286,9 +289,10 @@
             table_mat(1)%y1d(1:npt) = table_mat(1)%y1d(1:npt)/yscale
 !
             !< Allocate temporary arrays
-            if (allocated(x_raw)) deallocate(x_raw)
-            if (allocated(y_raw)) deallocate(y_raw)
-            allocate(x_raw(npt),y_raw(npt,1))
+            if (allocated(x_raw)) call my_dealloc(x_raw)
+            if (allocated(y_raw)) call my_dealloc(y_raw)
+            call my_alloc(x_raw, npt, "x_raw")
+            call my_alloc(y_raw, npt, 1, "y_raw")
 !
             !< Copy raw data into temporary arrays
             x_raw(1:npt) = table_mat(1)%x(1)%values(1:npt)
@@ -304,8 +308,10 @@
             y_out(1:nout,1) = y_out(1:nout,1)*yscale
 !
             !< Copy the smoothed curve to the material table
-            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
-            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y1d(nout))
+            call my_dealloc(table_mat(1)%x(1)%values)
+            call my_dealloc(table_mat(1)%y1d)
+            call my_alloc(table_mat(1)%x(1)%values, nout, "table_mat(1)%x(1)%values")
+            call my_alloc(table_mat(1)%y1d, nout, "table_mat(1)%y1d")
             table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,1)
             table_mat(1)%y1d(1:nout) = y_out(1:nout,1)
 !
@@ -314,9 +320,10 @@
           else
 !
             !< Allocate temporary arrays
-            if (allocated(x_raw)) deallocate(x_raw)
-            if (allocated(y_raw)) deallocate(y_raw)
-            allocate(x_raw(npt),y_raw(npt,nl))
+            if (allocated(x_raw)) call my_dealloc(x_raw)
+            if (allocated(y_raw)) call my_dealloc(y_raw)
+            call my_alloc(x_raw, npt, "x_raw")
+            call my_alloc(y_raw, npt, nl, "y_raw")
 !
             !< Normalize common abscissa prior to spline fitting
             xscale = max(abs(table_mat(1)%x(1)%values(1)),                       &
@@ -342,8 +349,10 @@
             enddo
 !
             !< Copy the smoothed curve to the material table
-            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
-            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y2d(nout,nl))
+            call my_dealloc(table_mat(1)%x(1)%values)
+            call my_dealloc(table_mat(1)%y2d)
+            call my_alloc(table_mat(1)%x(1)%values, nout, "table_mat(1)%x(1)%values")
+            call my_alloc(table_mat(1)%y2d, nout, nl, "table_mat(1)%y2d")
             do j = 1,nl
               table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,j)
               table_mat(1)%y2d(1:nout,j) = y_out(1:nout,j)
@@ -353,9 +362,10 @@
             npt = size(table_mat(1)%x(1)%values)
 !
             !< Re-allocate temporary arrays
-            if (allocated(x_raw)) deallocate(x_raw)
-            if (allocated(y_raw)) deallocate(y_raw)
-            allocate(x_raw(npt),y_raw(npt,nl))
+            if (allocated(x_raw)) call my_dealloc(x_raw)
+            if (allocated(y_raw)) call my_dealloc(y_raw)
+            call my_alloc(x_raw, npt, "x_raw")
+            call my_alloc(y_raw, npt, nl, "y_raw")
 !
             !< Copy raw data into temporary arrays
             x_raw(1:npt) = table_mat(1)%x(1)%values(1:npt)
@@ -399,7 +409,8 @@
               yfac(nl+1)   ,ntable    ,table    ,ierr     )
 !
             !< Ensure the closed loop between quasi-static loading and unloading curves
-            allocate(x_out2(nout),y_out2(nout))
+            call my_alloc(x_out2, nout, "x_out2")
+            call my_alloc(y_out2, nout, "y_out2")
             npt  = size(table_mat(1)%x(1)%values)
             npt2 = size(table_mat(2)%x(1)%values)
             table_mat(2)%x(1)%values(1) = table_mat(1)%x(1)%values(1)
@@ -421,9 +432,10 @@
             table_mat(2)%y1d(1:npt2) = table_mat(2)%y1d(1:npt2)/yscale
 !
             !< Re-allocate temporary arrays
-            if (allocated(x_raw)) deallocate(x_raw)
-            if (allocated(y_raw)) deallocate(y_raw)
-            allocate(x_raw(npt2),y_raw(npt2,1))
+            if (allocated(x_raw)) call my_dealloc(x_raw)
+            if (allocated(y_raw)) call my_dealloc(y_raw)
+            call my_alloc(x_raw, npt2, "x_raw")
+            call my_alloc(y_raw, npt2, 1, "y_raw")
 !
             !< Copy raw data into temporary arrays
             x_raw(1:npt2) = table_mat(2)%x(1)%values(1:npt2)
@@ -455,8 +467,10 @@
             endif
 !
             !< Copy the smoothed curve to the material table
-            deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
-            allocate(table_mat(2)%x(1)%values(nout),table_mat(2)%y1d(nout))
+            call my_dealloc(table_mat(2)%x(1)%values)
+            call my_dealloc(table_mat(2)%y1d)
+            call my_alloc(table_mat(2)%x(1)%values, nout, "table_mat(2)%x(1)%values")
+            call my_alloc(table_mat(2)%y1d, nout, "table_mat(2)%y1d")
             table_mat(2)%x(1)%values(1:nout) = x_out2(1:nout)
             table_mat(2)%y1d(1:nout) = y_out2(1:nout)
             ! --> Hysteretic unloading parameters
@@ -543,7 +557,8 @@
             allocate(table_mat(3)%x(ndim))
             npt = size(table_mat(1)%x(1)%values)
             if (ndim == 1) then
-              allocate(table_mat(3)%x(1)%values(npt),table_mat(3)%y1d(npt))
+              call my_alloc(table_mat(3)%x(1)%values, npt, "table_mat(3)%x(1)%values")
+              call my_alloc(table_mat(3)%y1d, npt, "table_mat(3)%y1d")
               table_mat(3)%x(1)%values(1:npt) = table_mat(1)%x(1)%values(1:npt)
               table_mat(3)%y1d(1:npt) = table_mat(1)%y1d(1:npt)
               where (table_mat(3)%x(1)%values < zero)                            &
@@ -556,9 +571,9 @@
               where (table_mat(3)%y1d >= zero) &
                 table_mat(3)%y1d = table_mat(3)%y1d/y_out(nout,1)
             elseif (ndim == 2) then
-              allocate(table_mat(3)%x(1)%values(npt),                            &
-                table_mat(3)%x(2)%values(nl),                             &
-                table_mat(3)%y2d(npt,nl))
+              call my_alloc(table_mat(3)%x(1)%values, npt, "table_mat(3)%x(1)%values")
+              call my_alloc(table_mat(3)%x(2)%values, nl, "table_mat(3)%x(2)%values")
+              call my_alloc(table_mat(3)%y2d, npt, nl, "table_mat(3)%y2d")
               table_mat(3)%x(1)%values(1:npt) =                                  &
                 table_mat(1)%x(1)%values(1:npt)
               table_mat(3)%y2d(1:npt,1:nl) =                                     &
@@ -680,10 +695,10 @@
           call init_mat_keyword(matparam,"SHELL_ISOTROPIC")
 !
           !< Table deallocation
-          if (allocated(x_out))  deallocate(x_out)
-          if (allocated(y_out))  deallocate(y_out)
-          if (allocated(x_out2)) deallocate(x_out2)
-          if (allocated(y_out2)) deallocate(y_out2)
+          if (allocated(x_out))  call my_dealloc(x_out)
+          if (allocated(y_out))  call my_dealloc(y_out)
+          if (allocated(x_out2)) call my_dealloc(x_out2)
+          if (allocated(y_out2)) call my_dealloc(y_out2)
 !
 !-------------------------------------------------------------------------------
           !< Printing out the material data

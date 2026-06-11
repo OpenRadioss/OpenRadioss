@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE INOUTFILE_MOD
       USE QA_OUT_MOD
       USE SUBMODEL_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +88,7 @@ C-----------------------------------------------
         DOM_NAME = ''
         ROOTNAM0 = ''
         ROOTNAM0 = ROOTNAM(1:ROOTLEN)
-        ALLOCATE (ISUBDOM(8,NSUBDOM),STAT=stat)
+        call my_alloc(ISUBDOM, 8, NSUBDOM, "ISUBDOM", stat=stat)
 
 2000    CONTINUE
         

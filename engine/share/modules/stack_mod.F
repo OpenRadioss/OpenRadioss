@@ -154,6 +154,7 @@ C   M o d u l e s
 C-----------------------------------------------
           USE MESSAGE_MOD
 C-----------------------------------------------------------------------
+      use my_alloc_mod
           IMPLICIT NONE
 C-----------------------------------------------
 C   m y _ r e a l
@@ -174,28 +175,30 @@ C-----------------------------------------------
           IF(IPART_STACK >0) THEN
 
                
-               ALLOCATE(STACK%IGEO(4*NPT_STACK+2,NS_STACK),STAT=IERR)
+               call my_alloc(STACK%IGEO, 4*NPT_STACK+2, NS_STACK, "STACK%IGEO", stat=IERR)
                IF(IERR/=0) THEN
                   CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
                   CALL ARRET(2)
                ENDIF
                STACK%IGEO = 0
 
-               ALLOCATE(STACK%GEO(6*NPT_STACK+1,NS_STACK),STAT=IERR)
+               call my_alloc(STACK%GEO, 6*NPT_STACK+1, NS_STACK, "STACK%GEO", stat=IERR)
                IF(IERR/=0) THEN
                    CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
                    CALL ARRET(2)
                ENDIF
                STACK%GEO = 0.0
 
-               ALLOCATE(STACK%PM(20,NS_STACK),STAT=IERR)
+               call my_alloc(STACK%PM, 20, NS_STACK, "STACK%PM", stat=IERR)
                IF(IERR/=0) THEN
                    CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1='(/PROP/STACK/...)')
                    CALL ARRET(2)
                ENDIF
                STACK%PM = 0.0
           ELSE
-               ALLOCATE(STACK%IGEO(0,0),STACK%GEO(0,0),STACK%PM(0,0))
+               call my_alloc(STACK%IGEO, 0, 0, "STACK%IGEO")
+               call my_alloc(STACK%GEO, 0, 0, "STACK%GEO")
+               call my_alloc(STACK%PM, 0, 0, "STACK%PM")
           ENDIF 
 
         END SUBROUTINE STACK_PLY_ALLOC

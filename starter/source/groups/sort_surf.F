@@ -33,6 +33,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,14 +65,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      ALLOCATE (IWORK(80000))
+      call my_alloc(IWORK, 80000, "IWORK")
         
       DO K=1,NSURF
         NN  = IGRSURF(K)%NSEG
 
-        ALLOCATE (IBUFSSG_TRI(NISX*NN))
-        ALLOCATE (ITRI(2,NN))
-        ALLOCATE (INDEX(3*NN))
+        call my_alloc(IBUFSSG_TRI, NISX*NN, "IBUFSSG_TRI")
+        call my_alloc(ITRI, 2, NN, "ITRI")
+        call my_alloc(INDEX, 3*NN, "INDEX")
 
         DO I=1,NN
           IBUFSSG_TRI(6*(I-1)+1) = IGRSURF(K)%NODES(I,1)
@@ -134,9 +135,9 @@ C-----------------------------------------------
            IGRSURF(K)%ELEM(I)  = IBUFSSG_TRI(6*(IT-1)+6)
          ENDDO
 
-         DEALLOCATE(IBUFSSG_TRI)
-         DEALLOCATE(ITRI)
-         DEALLOCATE(INDEX)
+         CALL MY_DEALLOC(IBUFSSG_TRI)
+         CALL MY_DEALLOC(ITRI)
+         CALL MY_DEALLOC(INDEX)
 
       ENDDO ! DO K=1,NSURF
 !---

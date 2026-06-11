@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,14 +128,14 @@ C=======================================================================
       VARMAX = MAX(NSIGSH,NSIGI,NSIGI,NSIGTRUSS,NSIGBEAM,NSIGRS)
       IS_STATE = .FALSE.
 C
-      ALLOCATE (ID_SIGSH(NUMSHEL+NUMSH3N)     ,STAT=stat)
-      ALLOCATE (ID_SOLID_SIGI(NUMSOL)         ,STAT=stat)
-      ALLOCATE (ID_QUAD_SIGI(NUMQUAD)         ,STAT=stat)
-      ALLOCATE (ID_SIGSPRI(NUMSPRI)           ,STAT=stat)
-      ALLOCATE (ID_SIGBEAM(NUMBEAM)           ,STAT=stat)
-      ALLOCATE (ID_SIGTRUSS(NUMTRUS)          ,STAT=stat)
-      ALLOCATE (ID_SIGSPH(NUMSPH)          ,STAT=stat)
-      ALLOCATE (WORK(70000)                   ,STAT=stat)
+      call my_alloc(ID_SIGSH, NUMSHEL+NUMSH3N, "ID_SIGSH", stat=stat)
+      call my_alloc(ID_SOLID_SIGI, NUMSOL, "ID_SOLID_SIGI", stat=stat)
+      call my_alloc(ID_QUAD_SIGI, NUMQUAD, "ID_QUAD_SIGI", stat=stat)
+      call my_alloc(ID_SIGSPRI, NUMSPRI, "ID_SIGSPRI", stat=stat)
+      call my_alloc(ID_SIGBEAM, NUMBEAM, "ID_SIGBEAM", stat=stat)
+      call my_alloc(ID_SIGTRUSS, NUMTRUS, "ID_SIGTRUSS", stat=stat)
+      call my_alloc(ID_SIGSPH, NUMSPH, "ID_SIGSPH", stat=stat)
+      call my_alloc(WORK, 70000, "WORK", stat=stat)
 C
       IF(NUMSHEL+NUMSH3N > 0) ID_SIGSH(1:NUMSHEL+NUMSH3N) = 0
       IF(NUMSOL          > 0 )ID_SOLID_SIGI(1:NUMSOL) = 0
@@ -234,14 +235,14 @@ C-------------------------------------------------------------------------------
      9                  ID_SIGTRUSS,WORK         ,ID_SIGSPH    ,IS_STATE)
 
 C 
-      IF(NUMSOL           > 0) DEALLOCATE (ID_SOLID_SIGI)
-      IF(NUMQUAD          > 0 )DEALLOCATE (ID_QUAD_SIGI)
-      IF(NUMSHEL+NUMSH3N  > 0 )DEALLOCATE (ID_SIGSH)
-      IF(NUMSPRI         > 0 )DEALLOCATE (ID_SIGSPRI)
-      IF(NUMBEAM         > 0 )DEALLOCATE (ID_SIGBEAM)
-      IF(NUMTRUS         > 0 )DEALLOCATE (ID_SIGTRUSS)
-      IF(NUMSPH         > 0 )DEALLOCATE (ID_SIGSPH)
-      DEALLOCATE (WORK)
+      IF(NUMSOL           > 0) CALL MY_DEALLOC(ID_SOLID_SIGI)
+      IF(NUMQUAD          > 0 )CALL MY_DEALLOC(ID_QUAD_SIGI)
+      IF(NUMSHEL+NUMSH3N  > 0 )CALL MY_DEALLOC(ID_SIGSH)
+      IF(NUMSPRI         > 0 )CALL MY_DEALLOC(ID_SIGSPRI)
+      IF(NUMBEAM         > 0 )CALL MY_DEALLOC(ID_SIGBEAM)
+      IF(NUMTRUS         > 0 )CALL MY_DEALLOC(ID_SIGTRUSS)
+      IF(NUMSPH         > 0 )CALL MY_DEALLOC(ID_SIGSPH)
+      CALL MY_DEALLOC(WORK)
 C
       RETURN
       END

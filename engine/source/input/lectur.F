@@ -132,6 +132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -711,7 +712,7 @@ C-------------------------------------------
 C     STOP/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        ALLOCATE(SENSORS%STOP(SENSORS%NSTOP))
+        call my_alloc(SENSORS%STOP, SENSORS%NSTOP, "SENSORS%STOP")
         SENSORS%STOP(:) = 0
       END IF
       IF (MCHECK == 0) THEN
@@ -737,7 +738,7 @@ C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        ALLOCATE(SENSORS%STAT(SENSORS%NSTAT))
+        call my_alloc(SENSORS%STAT, SENSORS%NSTAT, "SENSORS%STAT")
         SENSORS%STAT(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -766,7 +767,7 @@ C-------------------------------------------
 C     OUTP/SENSOR
 C-------------------------------------------
       IF (MCHECK == 0) THEN
-        ALLOCATE(SENSORS%OUTP(SENSORS%NOUTP))
+        call my_alloc(SENSORS%OUTP, SENSORS%NOUTP, "SENSORS%OUTP")
         SENSORS%OUTP(:) = 0
       END IF
       IF (ISPMD == 0 .AND. MCHECK == 0) THEN
@@ -1577,7 +1578,7 @@ C
         IF(ISPMD == 0.AND.MCHECK == 0)WRITE (IOUT,1890)
          NN=(NPARTOF+4)/5
          NBC=5
-         ALLOCATE(IPARTOF(NPART))
+         call my_alloc(IPARTOF, NPART, "IPARTOF")
          IPARTOF = 0
          DO I=1,NN
               READ (IIN,'(10I10)') (NLEC(II),II=1,10)
@@ -1883,7 +1884,7 @@ C----------------------------------------
             END SELECT 
             IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
         ENDDO
-        IF (ALLOCATED(IPARTOF)) DEALLOCATE(IPARTOF)
+        IF (ALLOCATED(IPARTOF)) call my_dealloc(IPARTOF)
       END IF
 C-------------------------------------------
 C     ADDING RIGID LINK BETWEEN NODES
@@ -2151,7 +2152,7 @@ C-------------------------------------------
          !  ALE LINK SET ON                !
          !---------------------------------!
          ELSEIF(M1==-1)THEN ! ON
-           ALLOCATE(ALELIN_ON_OFF(IABS(N)))
+           call my_alloc(ALELIN_ON_OFF, IABS(N), "ALELIN_ON_OFF")
            READ (IIN,'(10I10)')(ALELIN_ON_OFF(I),I=1,N)
            !L=1  !pos
            KK=0 ! number of ale link deactivated
@@ -2187,14 +2188,14 @@ C-------------------------------------------
              L = L+6+IABS(N) !next uID position in LINALE()
            ENDDO
            ENDDO
-           DEALLOCATE(ALELIN_ON_OFF)
+           call my_dealloc(ALELIN_ON_OFF)
            !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account
 
          !---------------------------------!
          !  ALE LINK SET OFF               !
          !---------------------------------!
          ELSEIF(M1==-2)THEN ! OFF
-           ALLOCATE(ALELIN_ON_OFF(IABS(N)))
+           call my_alloc(ALELIN_ON_OFF, IABS(N), "ALELIN_ON_OFF")
            READ (IIN,'(10I10)')(ALELIN_ON_OFF(I),I=1,N)
            !L=1  !pos
            KK=0 ! number of ale link deactivated
@@ -2229,7 +2230,7 @@ C-------------------------------------------
              L = L+6+IABS(N) !next uID position in LINALE()
            ENDDO
            ENDDO
-           DEALLOCATE(ALELIN_ON_OFF)
+           call my_dealloc(ALELIN_ON_OFF)
            !IF(NALELK_removed>0)NALELK_removed=1 !/ALE/LINK/ON or OFF card is no longer taken into account
          ENDIF
 
@@ -2394,10 +2395,10 @@ C     Check if this part is found in ALEON_PARTIDS
             ENDIF
          ENDDO
       ENDDO
-      IF (ALLOCATED(ALEON_PARTIDS_TMP)) DEALLOCATE(ALEON_PARTIDS_TMP)
-      IF (ALLOCATED(ALEOFF_PARTIDS_TMP)) DEALLOCATE(ALEOFF_PARTIDS_TMP)
-      IF (ALLOCATED(ALEON_PARTIDS)) DEALLOCATE(ALEON_PARTIDS)
-      IF (ALLOCATED(ALEOFF_PARTIDS)) DEALLOCATE(ALEOFF_PARTIDS)
+      IF (ALLOCATED(ALEON_PARTIDS_TMP)) call my_dealloc(ALEON_PARTIDS_TMP)
+      IF (ALLOCATED(ALEOFF_PARTIDS_TMP)) call my_dealloc(ALEOFF_PARTIDS_TMP)
+      IF (ALLOCATED(ALEON_PARTIDS)) call my_dealloc(ALEON_PARTIDS)
+      IF (ALLOCATED(ALEOFF_PARTIDS)) call my_dealloc(ALEOFF_PARTIDS)
 C-------------------------------------------
 C     MODIFICATION DES CONDITIONS AUX LIMITES
 C-------------------------------------------
@@ -2690,10 +2691,10 @@ C-------------------------------------------
 c-----------------------------------------
 c     deallocate temporary SENSOR arrays
 c-----------------------------------------
-      IF (ALLOCATED(SENSORS%ANIM_TMP)) DEALLOCATE (SENSORS%ANIM_TMP)
-      IF (ALLOCATED(SENSORS%STAT_TMP)) DEALLOCATE (SENSORS%STAT_TMP)
-      IF (ALLOCATED(SENSORS%OUTP_TMP)) DEALLOCATE (SENSORS%OUTP_TMP)
-      IF (ALLOCATED(SENSORS%STOP_TMP)) DEALLOCATE (SENSORS%STOP_TMP)
+      IF (ALLOCATED(SENSORS%ANIM_TMP)) call my_dealloc(SENSORS%ANIM_TMP)
+      IF (ALLOCATED(SENSORS%STAT_TMP)) call my_dealloc(SENSORS%STAT_TMP)
+      IF (ALLOCATED(SENSORS%OUTP_TMP)) call my_dealloc(SENSORS%OUTP_TMP)
+      IF (ALLOCATED(SENSORS%STOP_TMP)) call my_dealloc(SENSORS%STOP_TMP)
 C---------------------------------------------------------
       IF(IERR == 0) RETURN
       CALL ARRET(0)

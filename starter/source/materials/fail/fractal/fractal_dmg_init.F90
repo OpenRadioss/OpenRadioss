@@ -36,7 +36,7 @@
 !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
 !||====================================================================
       module fractal_dmg_init_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief initialize local element buffer variable dammx in shell elements calculated by /fail/fractal_dmg
@@ -60,6 +60,8 @@
           use mat_elem_mod
           use groupdef_mod
           use random_walk_def_mod
+          use MY_ALLOC_MOD
+          use my_dealloc_mod, only : my_dealloc
           use constant_mod ,only : zero,one
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -112,7 +114,7 @@
               end if
             end do
             nlay = elbuf_str%nlay
-            allocate(lay_dmg(nlay))
+            call my_alloc(lay_dmg, nlay, "lay_dmg")
             lay_dmg(:) = 0
             nlay_dmg  = 0
             do ilay = 1,nlay
@@ -173,7 +175,7 @@
                 end if
               end do            !   ifail = 1,nfail
             end do              !  il=1,nlay
-            if (allocated(lay_dmg)) deallocate(lay_dmg)
+            if (allocated(lay_dmg)) call my_dealloc(lay_dmg)
           end do          !  loop over fractal models
 ! ----------------------------------------------------------------------------------------------------------------------
           return

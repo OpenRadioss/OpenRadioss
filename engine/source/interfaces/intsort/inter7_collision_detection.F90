@@ -77,6 +77,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -178,7 +180,7 @@
 
 
           if(itask == 0) then
-            allocate(prev_remote_number(s_prev_remote_number))
+            call my_alloc(prev_remote_number, s_prev_remote_number, "prev_remote_number")
             ! find the old id of remote candidate nodes (inactive, ifq, itied)
             if(nspmd>1.and.(inacti==5.or.inacti==6.or.inacti==7.or.ifq>0.or.itied/=0)) then
               call spmd_oldnumcd(renum,prev_remote_number,s_prev_remote_number,nsnrold, &
@@ -296,7 +298,7 @@
 
           IF(ITASK==0)  THEN
 !           IF(ALLOCATED(inter_struct%NEXT_NOD)) DEALLOCATE(inter_struct%NEXT_NOD)
-            IF(ALLOCATED(PREV_REMOTE_NUMBER)) DEALLOCATE(PREV_REMOTE_NUMBER)
+            IF(ALLOCATED(PREV_REMOTE_NUMBER)) call my_dealloc(PREV_REMOTE_NUMBER)
 !           if(allocated(inter_struct%list_nb_voxel_on)) deallocate(inter_struct%list_nb_voxel_on)
 
           END IF

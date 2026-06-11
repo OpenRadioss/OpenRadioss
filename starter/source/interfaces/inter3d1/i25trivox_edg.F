@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE REALLOC_MOD
       USE TRI7BOX
       USE TRI11
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,7 +142,7 @@ C
       DRAD2 = ZERO
 C--- IREMGAP - array for tag of deactivated lines
       IF(FLAG_REMOVED_NODE)THEN
-        ALLOCATE(TAGREMLINE(NEDGE))
+        call my_alloc(TAGREMLINE, NEDGE, "TAGREMLINE")
         TAGREMLINE(1:NEDGE) = 0
       ENDIF  
 
@@ -159,9 +160,9 @@ C--- IREMGAP - array for tag of deactivated lines
       ! allocation of chained arrays
       !---------------------------------------------------------!
       MAX_ADD = MAX(1,4*NEDGE)
-      ALLOCATE(LCHAIN_ELEM(1:MAX_ADD))
-      ALLOCATE(LCHAIN_NEXT(1:MAX_ADD))
-      ALLOCATE(LCHAIN_LAST(1:MAX_ADD))
+      call my_alloc(LCHAIN_ELEM, MAX_ADD, "LCHAIN_ELEM")
+      call my_alloc(LCHAIN_NEXT, MAX_ADD, "LCHAIN_NEXT")
+      call my_alloc(LCHAIN_LAST, MAX_ADD, "LCHAIN_LAST")
 
 C     Barrier to wait init voxel and allocation 
 C     CALL MY_BARRIER
@@ -839,10 +840,10 @@ C     CALL MY_BARRIER
           END DO
         END DO 
         !CHAINED LIST DEALLOCATION
-        DEALLOCATE(LCHAIN_NEXT)
-        DEALLOCATE(LCHAIN_ELEM)
-        DEALLOCATE(LCHAIN_LAST)    
-        IF(FLAG_REMOVED_NODE) DEALLOCATE(TAGREMLINE)           
+        CALL MY_DEALLOC(LCHAIN_NEXT)
+        CALL MY_DEALLOC(LCHAIN_ELEM)
+        CALL MY_DEALLOC(LCHAIN_LAST)
+        IF(FLAG_REMOVED_NODE) CALL MY_DEALLOC(TAGREMLINE)
       ENDIF
 C=======================================================================
 

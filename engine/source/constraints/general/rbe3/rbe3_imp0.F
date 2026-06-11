@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -66,7 +68,7 @@ C     REAL
 C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(18*MAX_M))
+      call my_alloc(FDSTNB, 18*MAX_M, "FDSTNB")
       IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       IADJ=1
       DO N=1,NRBE3
@@ -88,8 +90,8 @@ C-----------------------------------------------
        IADJ=IADJ+NSJ
       ENDDO
 C
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+      call my_dealloc(FDSTNB)
+      IF (IROTG>0) call my_dealloc(MDSTNB)
 C
       RETURN
       END
@@ -110,6 +112,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -139,7 +143,7 @@ C     REAL
 C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(18*MAX_M))
+      call my_alloc(FDSTNB, 18*MAX_M, "FDSTNB")
       IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       IADJ=1
       DO N=1,NRBE3
@@ -163,8 +167,8 @@ C-----------------------------------------------
        END IF
       ENDDO
 C
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+      call my_dealloc(FDSTNB)
+      IF (IROTG>0) call my_dealloc(MDSTNB)
 C
       RETURN
       END
@@ -318,6 +322,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -345,7 +351,7 @@ C     REAL
 C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(18*MAX_M))
+      call my_alloc(FDSTNB, 18*MAX_M, "FDSTNB")
       IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -363,8 +369,8 @@ C-----------------------------------------------
        END IF
       ENDDO
 C
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+      call my_dealloc(FDSTNB)
+      IF (IROTG>0) call my_dealloc(MDSTNB)
 C
       RETURN
       END
@@ -444,6 +450,8 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -471,7 +479,7 @@ C     REAL
 C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
-      ALLOCATE(FDSTNB(18*MAX_M))
+      call my_alloc(FDSTNB, 18*MAX_M, "FDSTNB")
       IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -489,8 +497,8 @@ C-----------------------------------------------
        END IF
       ENDDO
 C
-      DEALLOCATE(FDSTNB)
-      IF (IROTG>0) DEALLOCATE(MDSTNB)
+      call my_dealloc(FDSTNB)
+      IF (IROTG>0) call my_dealloc(MDSTNB)
 C
       RETURN
       END

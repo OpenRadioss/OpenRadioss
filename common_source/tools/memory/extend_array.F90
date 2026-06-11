@@ -39,6 +39,9 @@
 !||    build_error_message           ../common_source/tools/memory/extend_array.F90
 !||====================================================================
       module extend_array_mod
+        use my_alloc_mod, only : my_alloc
+        use my_dealloc_mod, only : my_dealloc
+        use my_move_alloc_mod, only : my_move_alloc
         implicit none
         integer, parameter :: len_error_message = 100
         private :: build_error_message
@@ -159,7 +162,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize), stat=ierr)
+            call my_alloc(a, newsize, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -170,7 +173,7 @@
             return
           endif
           if(newsize > oldsize) then
-            allocate(temp(newsize), stat=ierr)
+            call my_alloc(temp, newsize, stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
                 call extend_check(ierr, msg=msg)
@@ -182,9 +185,9 @@
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
             if(newsize > copy_size+1) temp(copy_size+1:newsize) = 0
-            call move_alloc(temp, a)
+            call my_move_alloc(temp, a)
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
-            allocate(a(1), stat=ierr)
+            call my_alloc(a, 1, stat=ierr)
             if(present(stat)) stat = ierr
           end if
         end subroutine extend_array_integer_1d
@@ -214,7 +217,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize1, newsize2), stat=ierr)
+            call my_alloc(a, newsize1, newsize2, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -229,7 +232,7 @@
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then
               ! Extend only the second dimension (use move_alloc)
-              allocate(temp(size(a, 1), newsize2), stat=ierr)
+              call my_alloc(temp, size(a, 1), newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -238,10 +241,10 @@
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
               ! Extend in the first dimension or both dimensions (fallback to temporary array)
-              allocate(temp(newsize1, newsize2), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -256,23 +259,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
 
@@ -312,16 +313,16 @@
 
             if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
               ! Extend only the third dimension (use move_alloc)
-              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              call my_alloc(temp, size(a, 1), size(a, 2), newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
               end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
-              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -337,23 +338,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
           ! Set the status to success if no errors occurred
@@ -384,7 +383,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize), stat=ierr)
+            call my_alloc(a, newsize, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -396,7 +395,7 @@
           endif
 
           if(newsize > oldsize) then
-            allocate(temp(newsize), stat=ierr)
+            call my_alloc(temp, newsize, stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
                 call extend_check(ierr, msg=msg)
@@ -408,9 +407,9 @@
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
             if(newsize > copy_size+1) temp(copy_size+1:newsize) = 0.0
-            call move_alloc(temp, a)
+            call my_move_alloc(temp, a)
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
-            allocate(a(1), stat=ierr)
+            call my_alloc(a, 1, stat=ierr)
             if(present(stat)) stat = ierr
           end if
         end subroutine extend_array_real_1d
@@ -440,7 +439,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize1, newsize2), stat=ierr)
+            call my_alloc(a, newsize1, newsize2, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -454,7 +453,7 @@
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then
               ! Extend only the second dimension (use move_alloc)
-              allocate(temp(size(a, 1), newsize2), stat=ierr)
+              call my_alloc(temp, size(a, 1), newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -463,10 +462,10 @@
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
               ! Extend in the first dimension or both dimensions (fallback to temporary array)
-              allocate(temp(newsize1, newsize2), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -481,23 +480,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
 
@@ -537,16 +534,16 @@
 
             if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
               ! Extend only the third dimension (use move_alloc)
-              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              call my_alloc(temp, size(a, 1), size(a, 2), newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
               end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
-              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -562,23 +559,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
           ! Set the status to success if no errors occurred
@@ -611,7 +606,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize), stat=ierr)
+            call my_alloc(a, newsize, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -623,7 +618,7 @@
           endif
 
           if(newsize > oldsize) then
-            allocate(temp(newsize), stat=ierr)
+            call my_alloc(temp, newsize, stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
                 call extend_check(ierr, msg=msg)
@@ -635,9 +630,9 @@
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
             if(newsize > copy_size+1) temp(copy_size+1:newsize) = 0
-            call move_alloc(temp, a)
+            call my_move_alloc(temp, a)
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
-            allocate(a(1), stat=ierr)
+            call my_alloc(a, 1, stat=ierr)
             if(present(stat)) stat = ierr
           end if
         end subroutine extend_array_double_1d
@@ -667,7 +662,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (.not. allocated(a)) then
-            allocate(a(newsize1, newsize2), stat=ierr)
+            call my_alloc(a, newsize1, newsize2, stat=ierr)
             if (ierr /= 0) then
               if (present(msg)) call extend_check(ierr, msg=msg)
               if (present(stat)) stat = ierr
@@ -682,7 +677,7 @@
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then
               ! Extend only the second dimension (use move_alloc)
-              allocate(temp(size(a, 1), newsize2), stat=ierr)
+              call my_alloc(temp, size(a, 1), newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -691,10 +686,10 @@
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
               ! Extend in the first dimension or both dimensions (fallback to temporary array)
-              allocate(temp(newsize1, newsize2), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -709,23 +704,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
 
@@ -765,16 +758,16 @@
 
             if (newsize1 == oldsize1 .and. newsize2 == oldsize2) then
               ! Extend only the third dimension (use move_alloc)
-              allocate(temp(size(a, 1), size(a, 2), newsize3), stat=ierr)
+              call my_alloc(temp, size(a, 1), size(a, 2), newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
               end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
-              call move_alloc(temp, a)
+              call my_move_alloc(temp, a)
             else
-              allocate(temp(newsize1, newsize2, newsize3), stat=ierr)
+              call my_alloc(temp, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(msg)) call extend_check(ierr, msg=msg)
                 if (present(stat)) stat = ierr
@@ -790,23 +783,21 @@
                 end do
               end do
               ! Deallocate old array and assign the new array
-              deallocate(a, stat=ierr)
-              if (ierr /= 0) then
-                if (present(stat)) stat = ierr
-                return
-              end if
-              allocate(a(newsize1, newsize2, newsize3), stat=ierr)
+              ierr = 0
+              call my_dealloc(a)
+              call my_alloc(a, newsize1, newsize2, newsize3, stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
               end if
               a = temp
-              deallocate(temp, stat=ierr)
+              ierr = 0
+              call my_dealloc(temp)
             end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
-            allocate(a(1, 1, 1), stat=ierr)
+            call my_alloc(a, 1, 1, 1, stat=ierr)
             if (present(stat)) stat = ierr
           end if
           ! Set the status to success if no errors occurred
@@ -837,7 +828,10 @@
           ! if the newsize is smaller than the old size, we do nothing except filling with zeros
           if(newsize > size(a)) then
             ierr = 0
-            if(allocated(a)) deallocate(a, stat=ierr)
+            if(allocated(a)) then
+              ierr = 0
+              call my_dealloc(a)
+            end if
             if(.not. present(stat)) then
               if(present(msg)) then
                 call extend_check(ierr, msg=msg)
@@ -845,7 +839,7 @@
                 call extend_check(ierr)
               end if
             end if
-            allocate(a(newsize), stat=ierr)
+            call my_alloc(a, newsize, stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
                 call extend_check(ierr, msg=msg)

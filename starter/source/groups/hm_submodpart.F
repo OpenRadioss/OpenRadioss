@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARLINE, NCHARFIELD
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,7 +120,7 @@ C-------------------------
      .                   I2=JJ)                                                                                                  
         ENDIF                                                                                                                    
       ENDDO      
-      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM) 
+      IF(ALLOCATED(LIST_ELEM)) call my_dealloc(LIST_ELEM)
 
 C-------------------------
 C     Tag Parts

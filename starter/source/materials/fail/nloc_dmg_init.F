@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -288,32 +289,84 @@ C=======================================================================
         NLOC_DMG%NUMELC_NL  = 0
         NLOC_DMG%NUMELTG_NL = 0
         NLOC_DMG%NDDMAX     = 0
-        IF (.NOT.ALLOCATED(NLOC_DMG%DENS))     ALLOCATE(NLOC_DMG%DENS(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%DAMP))     ALLOCATE(NLOC_DMG%DAMP(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%LEN))      ALLOCATE(NLOC_DMG%LEN(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%LE_MAX))   ALLOCATE(NLOC_DMG%LE_MAX(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%SSPNL))    ALLOCATE(NLOC_DMG%SSPNL(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%INDX))     ALLOCATE(NLOC_DMG%INDX(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%POSI))     ALLOCATE(NLOC_DMG%POSI(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IDXI))     ALLOCATE(NLOC_DMG%IDXI(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE))   ALLOCATE(NLOC_DMG%ADDCNE(0))        
-        IF (.NOT.ALLOCATED(NLOC_DMG%CNE))      ALLOCATE(NLOC_DMG%CNE(0)) 
-        IF (.NOT.ALLOCATED(NLOC_DMG%IADS))     ALLOCATE(NLOC_DMG%IADS(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IADC))     ALLOCATE(NLOC_DMG%IADC(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IADTG))    ALLOCATE(NLOC_DMG%IADTG(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%MASS))     ALLOCATE(NLOC_DMG%MASS(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%MASS0))    ALLOCATE(NLOC_DMG%MASS0(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FNL))      ALLOCATE(NLOC_DMG%FNL(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%VNL))      ALLOCATE(NLOC_DMG%VNL(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%VNL_OLD))  ALLOCATE(NLOC_DMG%VNL_OLD(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%DNL))      ALLOCATE(NLOC_DMG%DNL(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%UNL))      ALLOCATE(NLOC_DMG%UNL(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL))   ALLOCATE(NLOC_DMG%STIFNL(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FSKY))     ALLOCATE(NLOC_DMG%FSKY(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%STSKY))    ALLOCATE(NLOC_DMG%STSKY(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_ELEM)) ALLOCATE(NLOC_DMG%IAD_ELEM(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_SIZE)) ALLOCATE(NLOC_DMG%IAD_SIZE(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FR_ELEM))  ALLOCATE(NLOC_DMG%FR_ELEM(0))
+        IF (.NOT.ALLOCATED(NLOC_DMG%DENS)) THEN
+          call my_alloc(NLOC_DMG%DENS, 0, "NLOC_DMG%DENS")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%DAMP)) THEN
+          call my_alloc(NLOC_DMG%DAMP, 0, "NLOC_DMG%DAMP")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%LEN)) THEN
+          call my_alloc(NLOC_DMG%LEN, 0, "NLOC_DMG%LEN")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%LE_MAX)) THEN
+          call my_alloc(NLOC_DMG%LE_MAX, 0, "NLOC_DMG%LE_MAX")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%SSPNL)) THEN
+          call my_alloc(NLOC_DMG%SSPNL, 0, "NLOC_DMG%SSPNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%INDX)) THEN
+          call my_alloc(NLOC_DMG%INDX, 0, "NLOC_DMG%INDX")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%POSI)) THEN
+          call my_alloc(NLOC_DMG%POSI, 0, "NLOC_DMG%POSI")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IDXI)) THEN
+          call my_alloc(NLOC_DMG%IDXI, 0, "NLOC_DMG%IDXI")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE)) THEN
+          call my_alloc(NLOC_DMG%ADDCNE, 0, "NLOC_DMG%ADDCNE")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%CNE)) THEN
+          call my_alloc(NLOC_DMG%CNE, 0, "NLOC_DMG%CNE")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IADS)) THEN
+          call my_alloc(NLOC_DMG%IADS, 0, 0, "NLOC_DMG%IADS")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IADC)) THEN
+          call my_alloc(NLOC_DMG%IADC, 0, 0, "NLOC_DMG%IADC")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IADTG)) THEN
+          call my_alloc(NLOC_DMG%IADTG, 0, 0, "NLOC_DMG%IADTG")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%MASS)) THEN
+          call my_alloc(NLOC_DMG%MASS, 0, "NLOC_DMG%MASS")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%MASS0)) THEN
+          call my_alloc(NLOC_DMG%MASS0, 0, "NLOC_DMG%MASS0")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FNL)) THEN
+          call my_alloc(NLOC_DMG%FNL, 0, 0, "NLOC_DMG%FNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%VNL)) THEN
+          call my_alloc(NLOC_DMG%VNL, 0, "NLOC_DMG%VNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%VNL_OLD)) THEN
+          call my_alloc(NLOC_DMG%VNL_OLD, 0, "NLOC_DMG%VNL_OLD")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%DNL)) THEN
+          call my_alloc(NLOC_DMG%DNL, 0, "NLOC_DMG%DNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%UNL)) THEN
+          call my_alloc(NLOC_DMG%UNL, 0, "NLOC_DMG%UNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL)) THEN
+          call my_alloc(NLOC_DMG%STIFNL, 0, 0, "NLOC_DMG%STIFNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FSKY)) THEN
+          call my_alloc(NLOC_DMG%FSKY, 0, 0, "NLOC_DMG%FSKY")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%STSKY)) THEN
+          call my_alloc(NLOC_DMG%STSKY, 0, 0, "NLOC_DMG%STSKY")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_ELEM)) THEN
+          call my_alloc(NLOC_DMG%IAD_ELEM, 0, "NLOC_DMG%IAD_ELEM")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_SIZE)) THEN
+          call my_alloc(NLOC_DMG%IAD_SIZE, 0, "NLOC_DMG%IAD_SIZE")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FR_ELEM)) THEN
+          call my_alloc(NLOC_DMG%FR_ELEM, 0, "NLOC_DMG%FR_ELEM")
+        ENDIF
 c        
       ! If non-local method is used
       ELSE
@@ -322,21 +375,21 @@ c
         WRITE(ISTDO,'(A)') ' .. NON-LOCAL STRUCTURE INITIALIZATION'
 c
         ! Allocation of tables
-        ALLOCATE( TAGNOD(NUMNOD,3) )
-        ALLOCATE( INDX(NUMNOD) )  
-        ALLOCATE( IDXI(NUMNOD) )     
-        ALLOCATE( NDDL(NUMNOD) )  
-        ALLOCATE( NMAT(NUMNOD) ) 
-        ALLOCATE( POSI(NUMNOD+1) )
-        ALLOCATE( ISLNOD(NUMELS))
-        ALLOCATE( SOLNOD(8,NUMELS))
-        ALLOCATE( VOLU(NUMELS+NUMELC+NUMELTG) )
-        ALLOCATE( VOLNOD(NUMELS+NUMELC+NUMELTG))
-        ALLOCATE( TAGTET(NUMELS) )
-        ALLOCATE( TAGPENT(NUMELS))
-        ALLOCATE( NELEN(NUMNOD))
-        ALLOCATE( INDEX(NUMELS+NUMELC+NUMELTG) )
-        ALLOCATE( ITRI(NUMELS+NUMELC+NUMELTG) )
+        call my_alloc(TAGNOD, NUMNOD, 3, "TAGNOD")
+        call my_alloc(INDX, NUMNOD, "NLOC_DMG_INIT/INDX")
+        call my_alloc(IDXI, NUMNOD, "IDXI")
+        call my_alloc(NDDL, NUMNOD, "NDDL")
+        call my_alloc(NMAT, NUMNOD, "NMAT")
+        call my_alloc(POSI, NUMNOD+1, "POSI")
+        call my_alloc(ISLNOD, NUMELS, "ISLNOD")
+        call my_alloc(SOLNOD, 8, NUMELS, "SOLNOD")
+        call my_alloc(VOLU, NUMELS+NUMELC+NUMELTG, "VOLU")
+        call my_alloc(VOLNOD, NUMELS+NUMELC+NUMELTG, "VOLNOD")
+        call my_alloc(TAGTET, NUMELS, "TAGTET")
+        call my_alloc(TAGPENT, NUMELS, "TAGPENT")
+        call my_alloc(NELEN, NUMNOD, "NELEN")
+        call my_alloc(INDEX, NUMELS+NUMELC+NUMELTG, "INDEX")
+        call my_alloc(ITRI, NUMELS+NUMELC+NUMELTG, "ITRI")
 C
         IF (NSUBDOM > 0) THEN
 C--       multidomains - original nummat is used
@@ -344,7 +397,7 @@ C--       multidomains - original nummat is used
         ELSE
           MATSIZE = NUMMAT
         ENDIF
-        CALL MY_ALLOC(WARN_LENGHT,MATSIZE,3)
+        CALL MY_ALLOC(WARN_LENGHT,MATSIZE,3,"WARN_LENGHT")
 c   
         ! Initialization of variables  
         VOLU(1:NUMELS+NUMELC+NUMELTG) = ZERO
@@ -722,7 +775,7 @@ C
         IF ((NUMELTG>0).AND.(NUMELTG_NL>0)) CALL QUICKSORT_I2(ITRI, INDEX, NUMELS+NUMELC+1, NUMELS+NUMELC+NUMELTG_NL)
 C
         ! Sorting table for PARITH/ON nodal volume computation
-        ALLOCATE(IADDN(NNOD))
+        call my_alloc(IADDN, NNOD, "IADDN")
         IADDN(1:NNOD) = 0
         POSN = 0
         ! -> Address of the first element attached to the node
@@ -735,11 +788,11 @@ C
         ENDDO 
         ! -> Size of the element connectivity table
         NELEN_MAX = SUM(NELEN(1:NUMNOD))
-        ALLOCATE(IDELEM(NELEN_MAX))
+        call my_alloc(IDELEM, NELEN_MAX, "IDELEM")
         IDELEM(1:NELEN_MAX) = 0
         ! -> Reshape the counter table of attached elements
-        IF (ALLOCATED(NELEN)) DEALLOCATE(NELEN)
-        ALLOCATE(NELEN(NNOD))
+        IF (ALLOCATED(NELEN)) CALL MY_DEALLOC(NELEN)
+        call my_alloc(NELEN, NNOD, "NELEN")
         NELEN(1:NNOD) = 0
 C
         ! Assembling the volume per node always in the same order
@@ -868,10 +921,14 @@ C
         ENDDO
 c
         ! Parith/on assembly of the nodal volume
-        ALLOCATE(VOLN(NNOD))
+        call my_alloc(VOLN, NNOD, "VOLN")
         VOLN(1:NNOD) = ZERO
-        ALLOCATE(ITRIN(MAXVAL(NELEN(1:NNOD))))
-        ALLOCATE(VOLSORT(MAXVAL(NELEN(1:NNOD))))
+        call my_alloc(ITRIN, MAXVAL(NELEN(1:NNOD)), "ITRIN")
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
+        call my_alloc(VOLSORT, MAXVAL(NELEN(1:NNOD)), "VOLSORT")
+! TODO: non-default lower bound, convert manually
+! TODO: non-default lower bound, convert manually
         ! Loop over non-local nodes
         DO N = 1,NNOD
           ! Copy element nodal volume contribution of each attached elements
@@ -914,22 +971,36 @@ c
         NLOC_DMG%NDDMAX     = NDDMAX
 c
         ! Allocation of non-local tables
-        CALL MY_ALLOC(NLOC_DMG%INDX,NNOD)
-        CALL MY_ALLOC(NLOC_DMG%POSI,NNOD+1)
-        CALL MY_ALLOC(NLOC_DMG%IDXI,NUMNOD)
-        CALL MY_ALLOC(NLOC_DMG%MASS,L_NLOC)   
-        CALL MY_ALLOC(NLOC_DMG%MASS0,L_NLOC)   
-        CALL MY_ALLOC(NLOC_DMG%VNL,L_NLOC)
-        CALL MY_ALLOC(NLOC_DMG%VNL_OLD,L_NLOC) 
-        CALL MY_ALLOC(NLOC_DMG%DNL,L_NLOC)
-        CALL MY_ALLOC(NLOC_DMG%UNL,L_NLOC)
-        IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL))   ALLOCATE(NLOC_DMG%STIFNL(L_NLOC,1))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FNL))      ALLOCATE(NLOC_DMG%FNL(L_NLOC,1))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FSKY))     ALLOCATE(NLOC_DMG%FSKY(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%STSKY))    ALLOCATE(NLOC_DMG%STSKY(0,0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_SIZE)) ALLOCATE(NLOC_DMG%IAD_SIZE(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_ELEM)) ALLOCATE(NLOC_DMG%IAD_ELEM(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%FR_ELEM))  ALLOCATE(NLOC_DMG%FR_ELEM(0))
+        CALL MY_ALLOC(NLOC_DMG%INDX,NNOD,"NLOC_DMG%INDX")
+        CALL MY_ALLOC(NLOC_DMG%POSI,NNOD+1,"NLOC_DMG%POSI")
+        CALL MY_ALLOC(NLOC_DMG%IDXI,NUMNOD,"NLOC_DMG%IDXI")
+        CALL MY_ALLOC(NLOC_DMG%MASS,L_NLOC,"NLOC_DMG%MASS")
+        CALL MY_ALLOC(NLOC_DMG%MASS0,L_NLOC,"NLOC_DMG%MASS0")
+        CALL MY_ALLOC(NLOC_DMG%VNL,L_NLOC,"NLOC_DMG%VNL")
+        CALL MY_ALLOC(NLOC_DMG%VNL_OLD,L_NLOC,"NLOC_DMG%VNL_OLD")
+        CALL MY_ALLOC(NLOC_DMG%DNL,L_NLOC,"NLOC_DMG%DNL")
+        CALL MY_ALLOC(NLOC_DMG%UNL,L_NLOC,"NLOC_DMG%UNL")
+        IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL)) THEN
+          call my_alloc(NLOC_DMG%STIFNL, L_NLOC, 1, "NLOC_DMG%STIFNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FNL)) THEN
+          call my_alloc(NLOC_DMG%FNL, L_NLOC, 1, "NLOC_DMG%FNL")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FSKY)) THEN
+          call my_alloc(NLOC_DMG%FSKY, 0, 0, "NLOC_DMG%FSKY")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%STSKY)) THEN
+          call my_alloc(NLOC_DMG%STSKY, 0, 0, "NLOC_DMG%STSKY")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_SIZE)) THEN
+          call my_alloc(NLOC_DMG%IAD_SIZE, 0, "NLOC_DMG%IAD_SIZE")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%IAD_ELEM)) THEN
+          call my_alloc(NLOC_DMG%IAD_ELEM, 0, "NLOC_DMG%IAD_ELEM")
+        ENDIF
+        IF (.NOT.ALLOCATED(NLOC_DMG%FR_ELEM)) THEN
+          call my_alloc(NLOC_DMG%FR_ELEM, 0, "NLOC_DMG%FR_ELEM")
+        ENDIF
 c
         ! Initializing non-local tables
         NLOC_DMG%INDX(1:NNOD)       = INDX(1:NNOD)
@@ -1089,27 +1160,27 @@ c
        ENDIF
 c
        ! Tables deallocation
-       IF (ALLOCATED(TAGNOD))  DEALLOCATE(TAGNOD)
-       IF (ALLOCATED(INDX))    DEALLOCATE(INDX)
-       IF (ALLOCATED(IDXI))    DEALLOCATE(IDXI)
-       IF (ALLOCATED(NDDL))    DEALLOCATE(NDDL)
-       IF (ALLOCATED(NMAT))    DEALLOCATE(NMAT)
-       IF (ALLOCATED(POSI))    DEALLOCATE(POSI)
-       IF (ALLOCATED(INDEX))   DEALLOCATE(INDEX)
-       IF (ALLOCATED(ITRI))    DEALLOCATE(ITRI)
-       IF (ALLOCATED(TAGTET))  DEALLOCATE(TAGTET)
-       IF (ALLOCATED(TAGPENT)) DEALLOCATE(TAGPENT)
-       IF (ALLOCATED(ISLNOD))  DEALLOCATE(ISLNOD)
-       IF (ALLOCATED(SOLNOD))  DEALLOCATE(SOLNOD)
-       IF (ALLOCATED(VOLN))    DEALLOCATE(VOLN)
-       IF (ALLOCATED(VOLU))    DEALLOCATE(VOLU)
-       IF (ALLOCATED(WARN_LENGHT))  DEALLOCATE(WARN_LENGHT)
-       IF (ALLOCATED(NELEN))   DEALLOCATE(NELEN)
-       IF (ALLOCATED(IDELEM))  DEALLOCATE(IDELEM)
-       IF (ALLOCATED(IADDN))   DEALLOCATE(IADDN)
-       IF (ALLOCATED(ITRIN))   DEALLOCATE(ITRIN)
-       IF (ALLOCATED(VOLSORT)) DEALLOCATE(VOLSORT)
-       IF (ALLOCATED(VOLNOD))  DEALLOCATE(VOLNOD)
+       IF (ALLOCATED(TAGNOD))  CALL MY_DEALLOC(TAGNOD)
+       IF (ALLOCATED(INDX))    CALL MY_DEALLOC(INDX)
+       IF (ALLOCATED(IDXI))    CALL MY_DEALLOC(IDXI)
+       IF (ALLOCATED(NDDL))    CALL MY_DEALLOC(NDDL)
+       IF (ALLOCATED(NMAT))    CALL MY_DEALLOC(NMAT)
+       IF (ALLOCATED(POSI))    CALL MY_DEALLOC(POSI)
+       IF (ALLOCATED(INDEX))   CALL MY_DEALLOC(INDEX)
+       IF (ALLOCATED(ITRI))    CALL MY_DEALLOC(ITRI)
+       IF (ALLOCATED(TAGTET))  CALL MY_DEALLOC(TAGTET)
+       IF (ALLOCATED(TAGPENT)) CALL MY_DEALLOC(TAGPENT)
+       IF (ALLOCATED(ISLNOD))  CALL MY_DEALLOC(ISLNOD)
+       IF (ALLOCATED(SOLNOD))  CALL MY_DEALLOC(SOLNOD)
+       IF (ALLOCATED(VOLN))    CALL MY_DEALLOC(VOLN)
+       IF (ALLOCATED(VOLU))    CALL MY_DEALLOC(VOLU)
+       IF (ALLOCATED(WARN_LENGHT))  CALL MY_DEALLOC(WARN_LENGHT)
+       IF (ALLOCATED(NELEN))   CALL MY_DEALLOC(NELEN)
+       IF (ALLOCATED(IDELEM))  CALL MY_DEALLOC(IDELEM)
+       IF (ALLOCATED(IADDN))   CALL MY_DEALLOC(IADDN)
+       IF (ALLOCATED(ITRIN)) call my_dealloc(ITRIN)
+       IF (ALLOCATED(VOLSORT)) call my_dealloc(VOLSORT)
+       IF (ALLOCATED(VOLNOD))  CALL MY_DEALLOC(VOLNOD)
 c
 c-----------
  1800 FORMAT(

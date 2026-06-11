@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE NOD2EL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only :nixs,nixc,nixtg
+      use my_alloc_mod
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +81,8 @@ C-----------------------------------------------
      .   LB1,LC1,LA1,AAA
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAGS,TAGM
 C=======================================================================
-      ALLOCATE( TAGS(NUMNOD),TAGM(NUMNOD) )
+      call my_alloc(TAGS, NUMNOD, "TAGS")
+      call my_alloc(TAGM, NUMNOD, "TAGM")
       NRTM   = IPARI(4)
       NSN    = IPARI(5)
       NMN    = IPARI(6)
@@ -901,6 +903,7 @@ C-----------
      +'     NODE       SEGMENT                                S       T        DIST')         
 C-----------
 
-      DEALLOCATE( TAGS,TAGM )
+      CALL MY_DEALLOC(TAGS)
+      CALL MY_DEALLOC(TAGM)
       RETURN
       END

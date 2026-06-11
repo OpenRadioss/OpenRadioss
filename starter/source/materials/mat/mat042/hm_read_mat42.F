@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -204,8 +205,8 @@ c--------------------------
 !
       MATPARAM%NIPARAM = NIPARAM
       MATPARAM%NUPARAM = NUPARAM
-      ALLOCATE (MATPARAM%IPARAM(NIPARAM))
-      ALLOCATE (MATPARAM%UPARAM(NUPARAM))
+      call my_alloc(MATPARAM%IPARAM, NIPARAM, "MATPARAM%IPARAM")
+      call my_alloc(MATPARAM%UPARAM, NUPARAM, "MATPARAM%UPARAM")
 c          
       ! Material parameters
       MATPARAM%IPARAM(1)  = NORDER

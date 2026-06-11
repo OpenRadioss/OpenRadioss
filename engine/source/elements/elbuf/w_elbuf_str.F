@@ -38,6 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -155,7 +157,7 @@ c         allocate and fill the transfer table for restart
 c---------------------------------------------------          
           BUFLEN = IPARG(66,NG)                                         
 c          print*,'restart : buflen, NG,igtyp,=',buflen,NG,igtyp,ITY
-          ALLOCATE (RBUF_L(BUFLEN), STAT=ERR)
+          call my_alloc(RBUF_L, BUFLEN, "RBUF_L", stat=ERR)
 
 C
           RBUF_L(1:BUFLEN) = ZERO  
@@ -1699,7 +1701,7 @@ C SMSTR must be written in separate Buffer (Forced in double precision)
 C
           SDP_RBUF = SDP_RBUF + G_SMSTR *NEL
           IF(SDP_RBUF > 0)THEN
-            ALLOCATE(DP_RBUF(SDP_RBUF))
+            call my_alloc(DP_RBUF, SDP_RBUF, "DP_RBUF")
           L_DPR = 0
 C--------local buf first          
            DO IL = 1,ELBUF%NLAY                                          
@@ -1722,10 +1724,10 @@ c
            ENDDO                                                       
            DP_RBUF(L_DPR+1:L_DPR+NEL*G_SMSTR)= GBUF%SMSTR(1:NEL*G_SMSTR)
             CALL WRITE_DPDB(DP_RBUF,SDP_RBUF)
-            DEALLOCATE(DP_RBUF)
+            call my_dealloc(DP_RBUF)
           ENDIF
 C---------
-          DEALLOCATE (RBUF_L)
+          call my_dealloc(RBUF_L)
 c---------
         ENDIF   ! ity
       ENDDO      ! NG=1,NGROUP

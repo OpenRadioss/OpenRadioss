@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,10 +128,10 @@ C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
-      ALLOCATE (SUB_RIVET(NRIVET),STAT=stat)
+      call my_alloc(SUB_RIVET, NRIVET, "SUB_RIVET", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_RIVET')
       SUB_RIVET(1:NRIVET) = 0
-      ALLOCATE (IPART_RIVET(NRIVET),STAT=stat)
+      call my_alloc(IPART_RIVET, NRIVET, "IPART_RIVET", stat=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='IPART_RIVET')
       IPART_RIVET(1:NRIVET) = 0
       INDEX_PART = 1
@@ -215,8 +216,8 @@ C-------------------------------------
       I2=MIN0(I2+50,NRIVET)
       GOTO 90
 
-      IF(ALLOCATED(SUB_RIVET)) DEALLOCATE(SUB_RIVET)
-      IF(ALLOCATED(IPART_RIVET)) DEALLOCATE(IPART_RIVET)
+      IF(ALLOCATED(SUB_RIVET)) CALL MY_DEALLOC(SUB_RIVET)
+      IF(ALLOCATED(IPART_RIVET)) CALL MY_DEALLOC(IPART_RIVET)
 C-------------------------------------
 C
  270  FORMAT(6I10)

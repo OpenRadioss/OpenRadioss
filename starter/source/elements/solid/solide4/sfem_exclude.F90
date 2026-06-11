@@ -27,7 +27,7 @@
 !||====================================================================
       module sfem_exclude_mod
 
-      implicit none
+        implicit none
 
       contains
 !=======================================================================================================================
@@ -41,13 +41,14 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine sfem_exclude_dim(                                             &
-                   numnod,  nparg,  ngroup,  iparg,      ixs,                    &
-                   numels, ne_sfem)
+          numnod,  nparg,  ngroup,  iparg,      ixs,                    &
+          numels, ne_sfem)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use element_mod,            only: nixs
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +73,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          call my_alloc(imid,numnod)
+          call my_alloc(imid,numnod,"imid")
           imid = 0
           ne_sfem = 0
           do ng=1,ngroup
@@ -86,23 +87,23 @@
             isfem =0
             if(isolnod==4.and.isrot == 3) isfem=1
             if(icpre>0.and.(isolnod==10.or.(isolnod==4.and.isrot == 1))) isfem=1
-            if (isfem==1) then 
+            if (isfem==1) then
               mid = ixs(1,nft + 1)
               do i = 1, nel
                 ii = nft + i
                 do j = 1, 4
                   n = ixs(1+j,ii)
-                  if (imid(n)==0) then 
-                      imid(n) = mid
+                  if (imid(n)==0) then
+                    imid(n) = mid
                   else if (imid(n) /= mid.and.imid(n) >0) then
-                      ne_sfem = ne_sfem + 1
-                      imid(n) = -mid
+                    ne_sfem = ne_sfem + 1
+                    imid(n) = -mid
                   end if
                 end do
               end do
-            end if !(isfem==1) then 
+            end if !(isfem==1) then
           end do !ng=1,ngroup
-          deallocate(imid)
+          call my_dealloc(imid)
 !
         end subroutine sfem_exclude_dim
 !=======================================================================================================================
@@ -116,13 +117,14 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine sfem_exclude_ini(                                             &
-                   numnod,  nparg,  ngroup,  iparg,      ixs,                    &
-                   numels,in_sfem, ne_sfem)
+          numnod,  nparg,  ngroup,  iparg,      ixs,                    &
+          numels,in_sfem, ne_sfem)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use element_mod,            only: nixs
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -148,7 +150,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          call my_alloc(imid,numnod)
+          call my_alloc(imid,numnod,"imid")
           imid = 0
           ne = 0
           do ng=1,ngroup
@@ -162,24 +164,24 @@
             isfem =0
             if (isolnod==4.and.isrot == 3) isfem=1
             if (icpre>0.and.(isolnod==10.or.(isolnod==4.and.isrot == 1))) isfem=1
-            if (isfem==1) then 
-                mid = ixs(1,nft + 1)
-                do i = 1, nel
-                  ii = nft + i
-                  do j = 1, 4
-                    n = ixs(1+j,ii)
-                    if (imid(n)==0) then 
-                      imid(n) = mid
-                    else if (imid(n) /= mid .and. imid(n) >0) then
-                      ne = ne + 1
-                      in_sfem(ne) = n
-                      imid(n) = -mid
-                    end if
-                  end do
+            if (isfem==1) then
+              mid = ixs(1,nft + 1)
+              do i = 1, nel
+                ii = nft + i
+                do j = 1, 4
+                  n = ixs(1+j,ii)
+                  if (imid(n)==0) then
+                    imid(n) = mid
+                  else if (imid(n) /= mid .and. imid(n) >0) then
+                    ne = ne + 1
+                    in_sfem(ne) = n
+                    imid(n) = -mid
+                  end if
                 end do
-            end if !(isfem==1) then 
-           end do !ng=1,ngroup
-          deallocate(imid)
+              end do
+            end if !(isfem==1) then
+          end do !ng=1,ngroup
+          call my_dealloc(imid)
 !
         end subroutine sfem_exclude_ini
 !

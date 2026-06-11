@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -188,17 +189,17 @@ C=======================================================================
       SUB_INDEX = 0
       NONEXIST = 0
 C
-      ALLOCATE (ITRIS(NUMELS))
-      ALLOCATE (INDEXS(2*NUMELS))
-      ALLOCATE (KSYSUSRS(2*NUMELS))
-      ALLOCATE (KSYSUSRTG(2*NUMELTG))
-      ALLOCATE (ITRIQ(NUMELQ))
-      ALLOCATE (INDEXQ(2*NUMELQ))
-      ALLOCATE (KSYSUSRQ(2*NUMELQ))
-      ALLOCATE (IES2IPARG(NUMELS) ,STAT=ISTAT)
-      ALLOCATE (ITRISPH(NUMSPH))
-      ALLOCATE (INDEXSPH(2*NUMSPH))
-      ALLOCATE (KSYSUSRSPH(2*NUMSPH))
+      call my_alloc(ITRIS, NUMELS, "ITRIS")
+      call my_alloc(INDEXS, 2*NUMELS, "INDEXS")
+      call my_alloc(KSYSUSRS, 2*NUMELS, "KSYSUSRS")
+      call my_alloc(KSYSUSRTG, 2*NUMELTG, "KSYSUSRTG")
+      call my_alloc(ITRIQ, NUMELQ, "ITRIQ")
+      call my_alloc(INDEXQ, 2*NUMELQ, "INDEXQ")
+      call my_alloc(KSYSUSRQ, 2*NUMELQ, "KSYSUSRQ")
+      call my_alloc(IES2IPARG, NUMELS, "IES2IPARG", stat=ISTAT)
+      call my_alloc(ITRISPH, NUMSPH, "ITRISPH")
+      call my_alloc(INDEXSPH, 2*NUMSPH, "INDEXSPH")
+      call my_alloc(KSYSUSRSPH, 2*NUMSPH, "KSYSUSRSPH")
       IF (ISTAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IES2IPARG')
@@ -2807,7 +2808,7 @@ C---------
                     CALL HM_GET_FLOAT_ARRAY('phi_i'  ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                     CALL HM_GET_FLOAT_ARRAY('alpha_i',TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    ALLOCATE(MLAW_LY(NIP))
+                    call my_alloc(MLAW_LY, NIP, "MLAW_LY")
                     MLAW_LY = 0
                     IF (IGTYP == 9) THEN
                       ANGLE1 = TMPVAL1(1) ! one integration point
@@ -2871,7 +2872,7 @@ C---------
      .                            C2='SHELL',
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
-                    IF(ALLOCATED(MLAW_LY))DEALLOCATE(MLAW_LY)
+                    IF(ALLOCATED(MLAW_LY))CALL MY_DEALLOC(MLAW_LY)
                   ENDIF ! IF (IE == 0) THEN
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
@@ -3911,7 +3912,7 @@ C---------
                       ENDIF
                     ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
 !
-                    ALLOCATE(MLAW_LY(NIP))
+                    call my_alloc(MLAW_LY, NIP, "MLAW_LY")
                     MLAW_LY = 0
                     SIZE = NIP
                     CALL HM_GET_FLOAT_ARRAY('phi_i'  ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -3981,7 +3982,7 @@ C---------
      .                            C2='3 NODES SHELL',
      .                            I2=ID_ELEM,I1=IGEO(1,IG))
                     ENDIF ! IF (IGTYP == 9)
-                    IF(ALLOCATED(MLAW_LY))DEALLOCATE(MLAW_LY)
+                    IF(ALLOCATED(MLAW_LY))CALL MY_DEALLOC(MLAW_LY)
                   ENDIF ! IF (IE == 0) THEN
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
@@ -5001,17 +5002,17 @@ C---------
            CALL ANCMSG(MSGID=3045,ANMODE=ANINFO,MSGTYPE=MSGWARNING,I1=NONEXIST)
       ENDIF ! IF (NONEXIST  > 0) 
 C------------------------------------
-      DEALLOCATE (ITRIS)
-      DEALLOCATE (INDEXS)
-      DEALLOCATE (KSYSUSRS)
-      DEALLOCATE (KSYSUSRTG)
-      DEALLOCATE (ITRIQ)
-      DEALLOCATE (INDEXQ)
-      DEALLOCATE (KSYSUSRQ)
-      DEALLOCATE (IES2IPARG)
-      IF(ALLOCATED(ITRISPH)) DEALLOCATE(ITRISPH)
-      IF(ALLOCATED(INDEXSPH)) DEALLOCATE(INDEXSPH)
-      IF(ALLOCATED(KSYSUSRSPH)) DEALLOCATE(KSYSUSRSPH)
+      CALL MY_DEALLOC(ITRIS)
+      CALL MY_DEALLOC(INDEXS)
+      CALL MY_DEALLOC(KSYSUSRS)
+      CALL MY_DEALLOC(KSYSUSRTG)
+      CALL MY_DEALLOC(ITRIQ)
+      CALL MY_DEALLOC(INDEXQ)
+      CALL MY_DEALLOC(KSYSUSRQ)
+      CALL MY_DEALLOC(IES2IPARG)
+      IF(ALLOCATED(ITRISPH)) CALL MY_DEALLOC(ITRISPH)
+      IF(ALLOCATED(INDEXSPH)) CALL MY_DEALLOC(INDEXSPH)
+      IF(ALLOCATED(KSYSUSRSPH)) CALL MY_DEALLOC(KSYSUSRSPH)
 C------------------------------------
       RETURN
 C

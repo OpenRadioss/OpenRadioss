@@ -52,6 +52,8 @@
           use diffuse_necking_2d_mod
           use biquad_tab_mod
           use finter_1d_mod
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
           use constant_mod  ,only : zero,one,two,three,four,third,two_third,three_half,sqr3
           use constant_mod  ,only : em10
           use precision_mod ,only : WP
@@ -131,10 +133,10 @@
           ! hardening function from material law is deallocated from failure model data structure
           ! replaced by regularization scale factor function
 !-----------------------------------------------
-          deallocate(fail%table4d(ntable)%x(1)%values)
-          deallocate(fail%table4d(ntable)%y1d)
-          allocate(fail%table4d(ntable)%x(1)%values(npt_eta))
-          allocate(fail%table4d(ntable)%y1d(npt_eta))
+          call my_dealloc(fail%table4d(ntable)%x(1)%values)
+          call my_dealloc(fail%table4d(ntable)%y1d)
+          call my_alloc(fail%table4d(ntable)%x(1)%values, npt_eta, "fail%table4d(ntable)%x(1)%values")
+          call my_alloc(fail%table4d(ntable)%y1d, npt_eta, "fail%table4d(ntable)%y1d")
 !
           fail%table4d(ntable)%ndim = 1
           fail%table4d(ntable)%x(1)%values(1:npt_eta) = eta(1:npt_eta)

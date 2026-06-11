@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,11 +160,11 @@ c
               TABLE(L)%NOTABLE=FUNC_ID
               TABLE(L)%NDIM =1
 !     
-              ALLOCATE(TABLE(L)%X(1),STAT=stat)
+              allocate(TABLE(L)%X(1), stat=stat)
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')
-              ALLOCATE(TABLE(L)%X(1)%VALUES(NPTS),STAT=stat)
+              call my_alloc(TABLE(L)%X(1)%VALUES, NPTS, "TABLE(L)%X(1)%VALUES", stat=stat)
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')
@@ -171,7 +172,7 @@ c
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')
-              ALLOCATE(TABLE(L)%Y%VALUES(NPTS),STAT=stat)
+              call my_alloc(TABLE(L)%Y%VALUES, NPTS, "TABLE(L)%Y%VALUES", stat=stat)
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')
@@ -259,11 +260,11 @@ c
             TABLE(L)%NOTABLE=FUNC_ID
             TABLE(L)%NDIM =1
 !     
-            ALLOCATE(TABLE(L)%X(1),STAT=stat)
+            allocate(TABLE(L)%X(1), stat=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .           MSGTYPE=MSGERROR,
      .           C1='TABLE')
-            ALLOCATE(TABLE(L)%X(1)%VALUES(NPTS),STAT=stat)
+            call my_alloc(TABLE(L)%X(1)%VALUES, NPTS, "TABLE(L)%X(1)%VALUES", stat=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .           MSGTYPE=MSGERROR,
      .           C1='TABLE')
@@ -271,7 +272,7 @@ c
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .           MSGTYPE=MSGERROR,
      .           C1='TABLE')
-            ALLOCATE(TABLE(L)%Y%VALUES(NPTS),STAT=stat)
+            call my_alloc(TABLE(L)%Y%VALUES, NPTS, "TABLE(L)%Y%VALUES", stat=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .           MSGTYPE=MSGERROR,
      .           C1='TABLE')

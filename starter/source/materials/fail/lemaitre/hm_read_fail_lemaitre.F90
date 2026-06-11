@@ -26,7 +26,7 @@
 !||    hm_read_fail                ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fail_lemaitre_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    hm_read_fail_lemaitre    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
@@ -55,6 +55,7 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD, only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,8 +116,8 @@
           fail%pthk    = pthk
 !
           !< Allocation of failure parameters tables
-          allocate (fail%iparam(fail%niparam))
-          allocate (fail%uparam(fail%nuparam))
+          call my_alloc(fail%iparam, fail%niparam, "fail%iparam")
+          call my_alloc(fail%uparam, fail%nuparam, "fail%uparam")
 !
           !< Integer material parameter
           fail%iparam(1) = failip

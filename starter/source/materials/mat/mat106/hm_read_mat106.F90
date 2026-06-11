@@ -63,6 +63,7 @@
           use table_mod
           use message_mod
           use precision_mod, only: WP
+          use MY_ALLOC_MOD, only : my_alloc
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -211,9 +212,9 @@
           nvartmp = 3
 !
           !< Allocation of material parameters tables
-          allocate(matparam%iparam(matparam%niparam))
-          allocate(matparam%uparam(matparam%nuparam))
-          allocate(matparam%table (matparam%ntable ))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
+          allocate(matparam%table(matparam%ntable))
 !
           !< Integer material parameters
           matparam%iparam(1)  = nmax

@@ -31,6 +31,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -42,7 +43,7 @@ C-----------------------------------------------
       INTEGER I, EL
       INTEGER,DIMENSION(:), ALLOCATABLE :: ITMP
 C
-      ALLOCATE(ITMP(NUMEL_L))
+      call my_alloc(ITMP, NUMEL_L, "ITMP")
 C
       EL = 0
       DO I = 1, NUMEL
@@ -54,7 +55,7 @@ C
 C
       CALL WRITE_I_C(ITMP,NUMEL_L)
       LEN_IA = LEN_IA + NUMEL_L
-      DEALLOCATE(ITMP)
+      CALL MY_DEALLOC(ITMP)
 C
       RETURN
       END

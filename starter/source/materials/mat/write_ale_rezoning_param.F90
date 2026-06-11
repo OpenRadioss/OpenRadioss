@@ -31,7 +31,7 @@
 !||    write_matparam                 ../starter/source/materials/mat/write_matparam.F
 !||====================================================================
       module write_ale_rezoning_param_mod
-      implicit none
+        implicit none
       contains
 
 !||====================================================================
@@ -46,6 +46,8 @@
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
           use ale_mod , only : ale_rezon_
+          use MY_ALLOC_MOD, only : my_alloc
+          use my_dealloc_mod, only : my_dealloc
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
@@ -67,7 +69,7 @@
 ! --------------------------------------------------------------------------------------------------
           ! write integer parameters
           ifix = 2
-          allocate (ibuf(ifix))
+          call my_alloc(ibuf, ifix, "ibuf")
 !
           iad = 1
           ibuf(iad) = rezon%num_nuvar_mat
@@ -75,7 +77,7 @@
           ibuf(iad) = rezon%num_nuvar_eos
 !
           call write_i_c(ibuf,ifix)
-          deallocate(ibuf)
+          call my_dealloc(ibuf)
 
 !-----------
           return

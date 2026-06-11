@@ -154,6 +154,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -208,7 +210,7 @@ C 0 = Anciens polyhedres
 C 1 = new polyhedres
 C
       NNSA=FVSPMD(IFV)%NNSA
-      ALLOCATE(XXXSA(3,NNSA))
+      call my_alloc(XXXSA, 3, NNSA, "XXXSA")
       IF (NSPMD == 1) THEN
 C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
@@ -338,7 +340,7 @@ c            ENDIF
             PX1(3,I)=FAC*PX1(3,I1)+(ONE-FAC)*PX1(3,I2)
          ENDIF
       ENDDO
-      DEALLOCATE(XXXSA)
+      call my_dealloc(XXXSA)
 C Normal and area of the triangles
       DO I=1,NNTR0
          N1=IFVTRI0(1,I)
@@ -553,7 +555,7 @@ C---------------------------------------------------
 C Rezone
 C---------------------------------------------------
       NB=NSTEP**3
-      ALLOCATE(BB(8,NB))
+      call my_alloc(BB, 8, NB, "BB")
       NN=0
       DO I=1,NSTEP
          DO J=1,NSTEP
@@ -594,7 +596,7 @@ C
          ZMAX1=BBOX1(6,I)
 C
          NNT1=PNTR1(I)
-         ALLOCATE(PTRI1(3,NNT1))
+         call my_alloc(PTRI1, 3, NNT1, "PTRI1")
          NNT=0
          DO J=IFVPADR1(I),IFVPADR1(I+1)-1
             JJ=IFVPOLH1(J)
@@ -617,7 +619,8 @@ C
             ENDDO
          ENDDO
 C 
-         ALLOCATE(XB(3,NNB), INB(NNB))
+         call my_alloc(XB, 3, NNB, "XB")
+         call my_alloc(INB, NNB, "INB")
          DXB=(XMAX1-XMIN1)/NSTEP
          DYB=(YMAX1-YMIN1)/NSTEP
          DZB=(ZMAX1-ZMIN1)/NSTEP
@@ -655,7 +658,7 @@ C
      .         CYCLE
 C
             NNT0=PNTR0(J)
-            ALLOCATE(PTRI0(3,NNT0))
+            call my_alloc(PTRI0, 3, NNT0, "PTRI0")
             NNT=0
             DO K=IFVPADR0(J),IFVPADR0(J+1)-1
                KK=IFVPOLH0(K)
@@ -678,14 +681,14 @@ C
                ENDDO
             ENDDO
 C
-            ALLOCATE(INB_TMP(NNB))
+            call my_alloc(INB_TMP, NNB, "INB_TMP")
             CALL PINPOLH(NNT0,    PTRI0, XB,    NNB,   PX0,
      .                   INB_TMP, CRIT,  XMIN0, XMAX0, YMIN0,
      .                   YMAX0,   ZMIN0, ZMAX0)
             DO K=1,NNB
                INB_TMP(K)=INB_TMP(K)*INB(K)
             ENDDO
-            ALLOCATE(LISTB(NB))
+            call my_alloc(LISTB, NB, "LISTB")
             NBI=0
             VOL=ZERO
             DO K=1,NB
@@ -715,14 +718,17 @@ C
 C
             VOLT=VOLT+VOL
 C
-            DEALLOCATE(PTRI0, INB_TMP)   
+            call my_dealloc(PTRI0)
+            call my_dealloc(INB_TMP)
          ENDDO
 C
-         DEALLOCATE(PTRI1, XB, INB)
+         call my_dealloc(PTRI1)
+         call my_dealloc(XB)
+         call my_dealloc(INB)
 C
          IF (ILVOUT<0) CALL PROGBAR_C(I,NPOLH1)
       ENDDO
-      DEALLOCATE(BB)
+      call my_dealloc(BB)
 C
       MASS0=ZERO
       QX0=ZERO

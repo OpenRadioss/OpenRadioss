@@ -47,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -85,8 +86,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     BEAM
 C-----------------------------------------------
-      CALL MY_ALLOC(PTWA,STAT_NUMELP)
+      call my_alloc(PTWA, STAT_NUMELP, "PTWA")
       ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELP_G)))
+! TODO: non-default lower bound, convert manually
 C-----------------------------------------------
       JJ = 0
 !
@@ -244,8 +246,8 @@ C-----------------------------------------------
         ENDDO  !  DO N=1,STAT_NUMELP_G        
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 c-----------
-      DEALLOCATE(PTWA)
-      DEALLOCATE(PTWA_P0)
+      call my_dealloc(PTWA)
+      call my_dealloc(PTWA_P0)
 c------------
       RETURN
       END

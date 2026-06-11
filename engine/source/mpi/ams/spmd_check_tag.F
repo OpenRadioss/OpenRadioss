@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -88,14 +90,14 @@ C-----------------------------------------------
         ! -----------------
         IF(I_STOK>0) THEN
            ! -----------------
-            ALLOCATE( CAND_N_LOC( I_STOK ) , STAT=IERROR)
+            call my_alloc(CAND_N_LOC, I_STOK, "CAND_N_LOC", stat=IERROR)
             IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
             ENDIF
             CAND_N_LOC(1:I_STOK) = 0
             ! ---------
-            ALLOCATE( CAND_E_LOC( I_STOK ) , STAT=IERROR)
+            call my_alloc(CAND_E_LOC, I_STOK, "CAND_E_LOC", stat=IERROR)
             IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
@@ -103,7 +105,7 @@ C-----------------------------------------------
             CAND_E_LOC(1:I_STOK) = 0 
             ! ---------
             IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) THEN
-                ALLOCATE( CAND_P_LOC( I_STOK ) , STAT=IERROR)
+                call my_alloc(CAND_P_LOC, I_STOK, "CAND_P_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
@@ -112,28 +114,28 @@ C-----------------------------------------------
             ENDIF
             ! ---------
             IF((NTY==7.OR.NTY==20).AND.IFQ>0) THEN
-                ALLOCATE( CAND_FX_LOC( I_STOK ) , STAT=IERROR)
+                call my_alloc(CAND_FX_LOC, I_STOK, "CAND_FX_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
                 CAND_FX_LOC(1:I_STOK) = 0 
                 ! ---------
-                ALLOCATE( CAND_FY_LOC( I_STOK ) , STAT=IERROR)
+                call my_alloc(CAND_FY_LOC, I_STOK, "CAND_FY_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
                 CAND_FY_LOC(1:I_STOK) = 0 
                 ! ---------
-                ALLOCATE( CAND_FZ_LOC( I_STOK ) , STAT=IERROR)
+                call my_alloc(CAND_FZ_LOC, I_STOK, "CAND_FZ_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
                 CAND_FZ_LOC(1:I_STOK) = 0
                 ! ---------
-                ALLOCATE( IFPEN_LOC( I_STOK ) , STAT=IERROR)
+                call my_alloc(IFPEN_LOC, I_STOK, "IFPEN_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
@@ -143,7 +145,7 @@ C-----------------------------------------------
             ENDIF 
             ! ---------
             IF(NTY==7.AND.ITIED/=0) THEN
-                ALLOCATE( CAND_F_LOC( 8*I_STOK ) , STAT=IERROR)
+                call my_alloc(CAND_F_LOC, 8*I_STOK, "CAND_F_LOC", stat=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
@@ -256,20 +258,18 @@ C-----------------------------------------------
      .         INTBUF_TAB%CAND_F(1:8*I_STOK) = CAND_F_LOC(1:8*I_STOK)
             ENDIF
             ENDIF
-            DEALLOCATE( CAND_N_LOC )
-            DEALLOCATE( CAND_E_LOC )
+            call my_dealloc(CAND_N_LOC)
+            call my_dealloc(CAND_E_LOC)
             IF(NTY==24.OR.NTY==25)THEN ! nothing to do 
             ELSE
-              IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
-     .          DEALLOCATE( CAND_P_LOC )
+              IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) call my_dealloc(CAND_P_LOC)
               IF(IFQ>0) THEN
-               DEALLOCATE( CAND_FX_LOC )
-               DEALLOCATE( CAND_FY_LOC )
-               DEALLOCATE( CAND_FZ_LOC )
-               DEALLOCATE( IFPEN_LOC   )
+               call my_dealloc(CAND_FX_LOC)
+               call my_dealloc(CAND_FY_LOC)
+               call my_dealloc(CAND_FZ_LOC)
+               call my_dealloc(IFPEN_LOC)
               ENDIF
-              IF(NTY==7.AND.ITIED/=0) 
-     .          DEALLOCATE( CAND_F_LOC )
+              IF(NTY==7.AND.ITIED/=0) call my_dealloc(CAND_F_LOC)
             ENDIF
            ! -----------------   
         ENDIF        ! i_sotk > 0

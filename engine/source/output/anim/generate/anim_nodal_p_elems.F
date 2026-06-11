@@ -54,6 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -93,7 +95,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
 
-         ALLOCATE(SUM_WEIGHT(NUMNOD))      
+         call my_alloc(SUM_WEIGHT, NUMNOD, "SUM_WEIGHT")
          SUM_WEIGHT = 0
          NNOD = NIX-3   !8-node brick or 4-node quad
 
@@ -221,7 +223,7 @@ C-----------------------------------------------
            ENDIF
          ENDDO
          
-         DEALLOCATE(SUM_WEIGHT)          
+         call my_dealloc(SUM_WEIGHT)
 C-----------------------------------------------
       
       RETURN

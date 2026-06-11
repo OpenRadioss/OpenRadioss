@@ -56,6 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -103,12 +105,12 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(ISPMD==0) THEN
-        ALLOCATE( SDNODG(NUMELSG) )
-        ALLOCATE( RECGLOB(4,NUMELSG) )
+        call my_alloc(SDNODG, NUMELSG, "SDNODG")
+        call my_alloc(RECGLOB, 4, NUMELSG, "RECGLOB")
       ELSE
-        ALLOCATE( SDNODG(NUMELS) )
-        ALLOCATE( RECGLOB(0,0) )
-        ALLOCATE( AGLOB(4,NUMELS) )
+        call my_alloc(SDNODG, NUMELS, "SDNODG")
+        call my_alloc(RECGLOB, 0, 0, "RECGLOB")
+        call my_alloc(AGLOB, 4, NUMELS, "AGLOB")
       ENDIF
 
       SIZE_NUMELS(1:NSPMD) = 0
@@ -139,7 +141,7 @@ C-----------------------------------------------
      .                    IT_SPMD(K),MSGTYP,
      .                    SPMD_COMM_WORLD,STATUS,IERROR)
 
-            ALLOCATE( AGLOB(4,SIZE_NUMELS(K)) )
+            call my_alloc(AGLOB, 4, SIZE_NUMELS(K), "AGLOB")
  
             MSGTYP=MSGOFF
             CALL MPI_RECV(AGLOB,4*SIZE_NUMELS(K),MPI_DOUBLE_PRECISION,
@@ -156,7 +158,7 @@ C-----------------------------------------------
                 RECGLOB(3,I+SHIFT) = AGLOB(3,I)
                 RECGLOB(4,I+SHIFT) = AGLOB(4,I)
             ENDDO
-            DEALLOCATE( AGLOB )
+            call my_dealloc(AGLOB)
         END DO
       ENDIF
 #endif
@@ -172,9 +174,9 @@ C
                 RECGLOB(4,I) = MULTI_FVM%VEL(3,I)
             ENDDO
 
-            ALLOCATE( ITRI(NUMELSG) )
-            ALLOCATE( INDEX_TRI(2*NUMELSG) )  
-            ALLOCATE( WORK(70000) )
+            call my_alloc(ITRI, NUMELSG, "ITRI")
+            call my_alloc(INDEX_TRI, 2*NUMELSG, "INDEX_TRI")
+            call my_alloc(WORK, 70000, "WORK")
             DO I=1,NUMELSG
                 INDEX_TRI(I) = I
                 ITRI(I) = nint(RECGLOB(1,I))
@@ -183,7 +185,7 @@ C
             CALL MY_ORDERS(0,WORK,ITRI,INDEX_TRI,NUMELSG,1)
 
             IF(FLAG == 2) THEN
-              ALLOCATE(RECGLOB_ORDERED(4,NUMELSG))
+              call my_alloc(RECGLOB_ORDERED, 4, NUMELSG, "RECGLOB_ORDERED")
               DO I = 1, NUMELSG
                   N = INDEX_TRI(I)
                   RECGLOB_ORDERED(1,I) = RECGLOB(1,N)
@@ -193,7 +195,7 @@ C
               END DO
               CHECKSUM = DOUBLE_ARRAY_CHECKSUM(RECGLOB_ORDERED,NUMELSG,4)
               WRITE(IOUT,*) NCYCLE, "MULTI_FVM CHECKSUM:",CHECKSUM
-              DEALLOCATE( RECGLOB_ORDERED)
+              call my_dealloc(RECGLOB_ORDERED)
             ELSE IF(FLAG == 1) THEN
               WRITE(CYCLENUM,'(I7.7)')NCYCLE
               FILNAM=ROOTNAM(1:ROOTLEN)//'_FVM_'//CHRUN//'_'//CYCLENUM//'.adb'
@@ -215,15 +217,15 @@ C
               CLOSE(UNIT=IDBG5)
             ENDIF
 
-            DEALLOCATE( ITRI )
-            DEALLOCATE( INDEX_TRI )  
-            DEALLOCATE( WORK )
+            call my_dealloc(ITRI)
+            call my_dealloc(INDEX_TRI)
+            call my_dealloc(WORK)
 
       END IF
 
-      IF(ALLOCATED(SDNODG)) DEALLOCATE( SDNODG )
-      IF(ALLOCATED(RECGLOB)) DEALLOCATE( RECGLOB )
-      IF(ALLOCATED(AGLOB)) DEALLOCATE( AGLOB )
+      IF(ALLOCATED(SDNODG)) call my_dealloc(SDNODG)
+      IF(ALLOCATED(RECGLOB)) call my_dealloc(RECGLOB)
+      IF(ALLOCATED(AGLOB)) call my_dealloc(AGLOB)
 C
  1300   FORMAT (4X,' DEBUG ANALYSIS FVM FILE :',1X,A,' WRITTEN')
       RETURN

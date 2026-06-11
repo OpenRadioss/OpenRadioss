@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       use element_mod , only : nixs      
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,7 +132,7 @@ C     Start
       NSEG = NTGI
 
 C     Count maximum connectivity
-      ALLOCATE(IFLAG(NB_NODE))
+      call my_alloc(IFLAG, NB_NODE, "IFLAG")
       IFLAG(1:NB_NODE) = 0
       DO II = 1, NBRIC
          ELID = TBRIC(1, II)
@@ -167,8 +168,8 @@ C     Pyramide
       CONNECT_MAX = MAXVAL(IFLAG(1:NB_NODE))
 
 C     Node element connectivity
-      ALLOCATE(N_E_CONNECT(NB_NODE, CONNECT_MAX + 1))
-      ALLOCATE(N_E_CONNECT_LOCID(NB_NODE, CONNECT_MAX + 1))
+      call my_alloc(N_E_CONNECT, NB_NODE, CONNECT_MAX + 1, "N_E_CONNECT")
+      call my_alloc(N_E_CONNECT_LOCID, NB_NODE, CONNECT_MAX + 1, "N_E_CONNECT_LOCID")
       N_E_CONNECT(1:NB_NODE, 1:CONNECT_MAX + 1) = 0
       N_E_CONNECT_LOCID(1:NB_NODE, 1:CONNECT_MAX + 1) = 0
       DO II = 1, NBRIC
@@ -286,7 +287,7 @@ C     Unflag surface nodes element
       ENDDO
 
 C     Memory deallocation
-      DEALLOCATE(IFLAG)
-      DEALLOCATE(N_E_CONNECT)
-      DEALLOCATE(N_E_CONNECT_LOCID)
+      CALL MY_DEALLOC(IFLAG)
+      CALL MY_DEALLOC(N_E_CONNECT)
+      CALL MY_DEALLOC(N_E_CONNECT_LOCID)
       END SUBROUTINE

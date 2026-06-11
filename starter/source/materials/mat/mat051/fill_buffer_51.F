@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE ELBUFTAG_MOD , ONLY : MLAW_TAG_
       use mat51_associate_eos_mod , only : mat51_associate_eos
+      use my_alloc_mod
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -83,7 +84,8 @@ C-----------------------------------------------
       INTEGER          :: IDX_E0, IDX_C0, IDX_PM, IDX_IPLA, IDX_VISC
       INTEGER          :: IDX_YIELD(4)
       INTEGER          :: MID(4),MID_VALID(4),IEXP,NPAR,IADBUF,IDX_PSH_TAB
-      INTEGER          :: IMID, MLN, EOS_TYPE, I, J, NJWL, COUNT_VALID_MAT, COUNT_NONEXPLO, ID,  NBMAT, TAG(4),IPLA,NITER
+      INTEGER          :: IMID, MLN, EOS_TYPE, I, J, NJWL, COUNT_VALID_MAT, COUNT_NONEXPLO, ID,  NBMAT, TAG(4),IPLA,
+     &NITER
       INTEGER,EXTERNAL :: NINTRI
 
       my_real                        :: AV(4),PEXT,RATIO,TMP1,TMP2,PSH_TAB(4),RHO_MAX
@@ -207,7 +209,8 @@ C-----------------------------------------------
                 !already checked in hm_read_mat51 (MID(I)=0 or MID(I) <0)
               ENDIF
           ELSE
-            IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102 .OR. MLN == 133)THEN
+      IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102 .OR. MLN ==
+     &133)THEN
               IF(MLN /= 5)THEN
 
                  IF(EOS_TYPE /= 0  .AND. EOS_TYPE /= 12  .AND. EOS_TYPE /= 15 .AND. EOS_TYPE <= 21 )THEN
@@ -241,7 +244,8 @@ C-----------------------------------------------
        ENDDO !next I
 
        ! fill missing phases if user defines less 1,2,or 3 ; (ie, user did not defined all 4)
-       !  example UPARAM(276+4)=0 if user defines only 3 submaterial, then output related to phase 4 has wrond index : memory corruption)
+! example UPARAM(276+4)=0 if user defines only 3 submaterial, then output related to phase 4 has wrond index : memory
+! corruption)
        ! (/1,2,4,0/) -> (/1,2,4,3/)
        DO I=COUNT_VALID_MAT+1,4
          IMIN = MINLOC(TAG(1:4),1)
@@ -329,7 +333,8 @@ C-----------------------------------------------
                    !associate linear eos by default
                    MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%TITLE = 'Default Linear EoS'
                    MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%NUPARAM = 2
-                   ALLOCATE(MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2))
+      call my_alloc(MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM, 2,
+     &"MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM")
                    MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1) = PM_(104) !P0
                    MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2) = PM_(32)  !bulk modulus
                  ENDIF

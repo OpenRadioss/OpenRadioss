@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE HM_READ_FAIL_HASHIN_MOD
       USE HM_READ_FAIL_CHANG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
+      use my_alloc_mod
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,13 +180,13 @@ c
 C--------------------------------------------------
 C     EXTRACT DATAS OF /FAIL/... LINE
 C--------------------------------------------------
-      ALLOCATE (FAIL_MAT_NUM(HM_NBFAIL))
+      call my_alloc(FAIL_MAT_NUM, HM_NBFAIL, "FAIL_MAT_NUM")
       FAIL_MAT_NUM(:) = 0
 c
       CALL HM_OPTION_START('FAILURE')      
 c
       !< Check if optional failure ID is not duplicated
-      ALLOCATE (FAIL_ID_ARRAY(HM_NBFAIL))
+      call my_alloc(FAIL_ID_ARRAY, HM_NBFAIL, "FAIL_ID_ARRAY")
       FAIL_ID_ARRAY(:) = 0
 c
       DO IFAIL = 1,HM_NBFAIL
@@ -601,8 +602,8 @@ c
 c
       END DO  ! IFAIL        
 c------------------------------
-      DEALLOCATE (FAIL_MAT_NUM)
-      DEALLOCATE (FAIL_ID_ARRAY)
+      CALL MY_DEALLOC(FAIL_MAT_NUM)
+      CALL MY_DEALLOC(FAIL_ID_ARRAY)
 C-----------       
       RETURN
 C-----------       

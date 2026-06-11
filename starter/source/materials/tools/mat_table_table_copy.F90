@@ -29,7 +29,7 @@
 !||    hm_read_mat76              ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||====================================================================
       module mat_table_table_copy_mod
-      implicit none
+        implicit none
       contains
 
 !! \brief  make a private copy of input function table to material table stored in mat_param
@@ -54,6 +54,7 @@
           use names_and_titles_mod , only : nchartitle
           use constant_mod         , only : zero
           use precision_mod        , only : WP
+          use MY_ALLOC_MOD         , only : my_alloc
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -92,12 +93,13 @@
             func_n = ifunc(1)
             mat_table%notable = tab_id
             mat_table%ndim    = table(func_n)%ndim
-            allocate (mat_table%x(mat_table%ndim))
+            allocate(mat_table%x(mat_table%ndim))
 !
             if (mat_table%ndim == 1) then
               lx1 = size(table(func_n)%x(1)%values)      ! number of abscissa points
-              allocate (mat_table%x(1)%values(lx1))
-              allocate (mat_table%y1d(lx1))
+              call my_alloc(mat_table%x(1)%values,lx1,                         &
+              &                      "mat_table%x(1)%values")
+              call my_alloc(mat_table%y1d,lx1,"mat_table%y1d")
               mat_table%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_table%y1d(1:lx1) = fscale*table(func_n)%y%values(1:lx1)
 
@@ -110,9 +112,11 @@
             else if (mat_table%ndim == 2) then
               lx1 = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
-              allocate (mat_table%x(1)%values(lx1))
-              allocate (mat_table%x(2)%values(lx2))
-              allocate (mat_table%y2d(lx1,lx2))
+              call my_alloc(mat_table%x(1)%values,lx1,                         &
+              &                      "mat_table%x(1)%values")
+              call my_alloc(mat_table%x(2)%values,lx2,                         &
+              &                      "mat_table%x(2)%values")
+              call my_alloc(mat_table%y2d,lx1,lx2,"mat_table%y2d")
               mat_table%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_table%x(2)%values(1:lx2) = x2scale*table(func_n)%x(2)%values(1:lx2)
               do i=1,lx1
@@ -125,10 +129,13 @@
               lx1  = size(table(func_n)%x(1)%values)
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
-              allocate (mat_table%x(1)%values(lx1))
-              allocate (mat_table%x(2)%values(lx2))
-              allocate (mat_table%x(3)%values(lx3))
-              allocate (mat_table%y3d(lx1,lx2,lx3))
+              call my_alloc(mat_table%x(1)%values,lx1,                         &
+              &                      "mat_table%x(1)%values")
+              call my_alloc(mat_table%x(2)%values,lx2,                         &
+              &                      "mat_table%x(2)%values")
+              call my_alloc(mat_table%x(3)%values,lx3,                         &
+              &                      "mat_table%x(3)%values")
+              call my_alloc(mat_table%y3d,lx1,lx2,lx3,"mat_table%y3d")
               mat_table%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_table%x(2)%values(1:lx2) = x2scale*table(func_n)%x(2)%values(1:lx2)
               mat_table%x(3)%values(1:lx3) = x3scale*table(func_n)%x(3)%values(1:lx3)
@@ -146,11 +153,15 @@
               lx2 = size(table(func_n)%x(2)%values)
               lx3 = size(table(func_n)%x(3)%values)
               lx4 = size(table(func_n)%x(4)%values)
-              allocate (mat_table%x(1)%values(lx1))
-              allocate (mat_table%x(2)%values(lx2))
-              allocate (mat_table%x(3)%values(lx3))
-              allocate (mat_table%x(4)%values(lx4))
-              allocate (mat_table%y4d(lx1,lx2,lx3,lx4))
+              call my_alloc(mat_table%x(1)%values,lx1,                         &
+              &                      "mat_table%x(1)%values")
+              call my_alloc(mat_table%x(2)%values,lx2,                         &
+              &                      "mat_table%x(2)%values")
+              call my_alloc(mat_table%x(3)%values,lx3,                         &
+              &                      "mat_table%x(3)%values")
+              call my_alloc(mat_table%x(4)%values,lx4,                         &
+              &                      "mat_table%x(4)%values")
+              allocate(mat_table%y4d(lx1,lx2,lx3,lx4))
               mat_table%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
               mat_table%x(2)%values(1:lx2) = x2scale*table(func_n)%x(2)%values(1:lx2)
               mat_table%x(3)%values(1:lx3) = x3scale*table(func_n)%x(3)%values(1:lx3)

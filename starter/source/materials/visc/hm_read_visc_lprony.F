@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,8 +117,8 @@ c-------------------------------------------------
       NUVAR   = (1 + NPRONY)*6
       NIPARAM = 3
       NUPARAM = 2*NPRONY
-      ALLOCATE (VISC%UPARAM(NUPARAM))
-      ALLOCATE (VISC%IPARAM(NIPARAM))
+      call my_alloc(VISC%UPARAM, NUPARAM, "VISC%UPARAM")
+      call my_alloc(VISC%IPARAM, NIPARAM, "VISC%IPARAM")
       VISC%NUVAR     = NUVAR
       VISC%NUPARAM   = NUPARAM
       VISC%NIPARAM   = NIPARAM

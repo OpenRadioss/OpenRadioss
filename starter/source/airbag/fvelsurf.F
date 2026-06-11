@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE FVELSURF(IBUF, ELEM, ELEM_ID, IXC, IXTG, NEL,
      .     ELTG, MATTG, NB_NODE, FLAG)
       use element_mod , only : nixc,nixtg
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
 C-------------------------------------------------------------------
 C SEARCH SHELL ELEMENT TO WHICH BAG TRIANGLE BELONGS
 C-------------------------------------------------------------------
-      ALLOCATE(ITAG(NB_NODE))
+      call my_alloc(ITAG, NB_NODE, "ITAG")
       IF (.NOT. FLAG) THEN
          DO I=1,NB_NODE
             ITAG(I)=0
@@ -80,7 +81,7 @@ C-------------------------------------------------------------------
             ICMAX=MAX(ICMAX,ITAG(I))
          ENDDO
 C     
-         ALLOCATE(CNS(NB_NODE,1+ICMAX*2))
+         call my_alloc(CNS, NB_NODE, 1+ICMAX*2, "CNS")
          DO I=1,NB_NODE
             CNS(I,1)=0
          ENDDO
@@ -227,8 +228,8 @@ C
  100        CONTINUE
             ELTG(I)=IFOUND
          ENDDO
-         DEALLOCATE(ITAG)
-         DEALLOCATE(CNS)
+         CALL MY_DEALLOC(ITAG)
+         CALL MY_DEALLOC(CNS)
 C-----------------------
 C     STORE MATERIAL NUMBER
 C-----------------------

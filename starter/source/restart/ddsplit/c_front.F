@@ -46,9 +46,11 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE USER_WINDOWS_MOD  
       USE NLOCAL_REG_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -103,7 +105,7 @@ C-----------------------------------------------
       INTEGER TAGP(NSPMD)
 ! ------------------------------------------------------------
 !     allocate 1d array
-      ALLOCATE( ITAG(NUMNOD) )
+      call my_alloc(ITAG, NUMNOD, "ITAG")
 ! ------------------------------
 C
 C Pure Domdec boundary
@@ -252,7 +254,7 @@ C
       END IF
 ! ------------------------------
 !     deallocate 1d array
-      DEALLOCATE( ITAG )
+      call my_dealloc(ITAG)
 ! ------------------------------
 C ---------------------
 C     Interfaces TYPE25, Max nb of frontiers wrt vertices overall interfaces
@@ -278,7 +280,8 @@ C ---------------------
           NRTM  =IPARI(4,NI)
           NADMSR=IPARI(67,NI)
 
-          ALLOCATE(TAG_SM(NADMSR),TAG_MS(NADMSR))
+          call my_alloc(TAG_SM, NADMSR, "TAG_SM")
+          call my_alloc(TAG_MS, NADMSR, "TAG_MS")
           TAG_SM(1:NADMSR)=0
 
           NADMSR_L=0
@@ -337,7 +340,8 @@ C ---------------------
           NBDDNORT    = NBDDNORT+NBDDNOR
 
 
-          DEALLOCATE(TAG_SM, TAG_MS)
+          CALL MY_DEALLOC(TAG_SM)
+          CALL MY_DEALLOC(TAG_MS)
 
         END DO
 
@@ -364,7 +368,8 @@ C ---------------------
 
           NRTM  =IPARI(4,NI)
 
-          ALLOCATE(TAG_SM(NRTM),TAG_MS(NRTM))
+          call my_alloc(TAG_SM, NRTM, "TAG_SM")
+          call my_alloc(TAG_MS, NRTM, "TAG_MS")
           TAG_SM(1:NRTM)=0
 
           NRTM_L=0
@@ -401,7 +406,8 @@ C ---------------------
           NBDDEDG_MAX = MAX(NBDDEDG_MAX,NBDDEDG)
           NBDDEDGT    = NBDDEDGT+NBDDEDG
 
-          DEALLOCATE(TAG_SM,TAG_MS)
+          CALL MY_DEALLOC(TAG_SM)
+          CALL MY_DEALLOC(TAG_MS)
 
         END DO
 

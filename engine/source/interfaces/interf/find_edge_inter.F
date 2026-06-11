@@ -49,6 +49,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -74,7 +76,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NPARG,NGROUP), INTENT(in) :: IPARG !< element group data
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo       
 
-!        INTEGER, DIMENSION(SIZE_SEC_NODE), INTENT(in) :: INTER_SEC_NODE,SEC_NODE_ID ! list of interface of the nodes & ID of secondary nodes in each interface
+! INTEGER, DIMENSION(SIZE_SEC_NODE), INTENT(in) :: INTER_SEC_NODE,SEC_NODE_ID ! list of interface of the nodes & ID of
+! secondary nodes in each interface
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -189,9 +192,9 @@ C-----------------------------------------------
         ! --------------------------
         ! allocation of SAVE_EDGE : index of deactivated edge 
         SHOOT_STRUCT%S_SAVE_M_EDGE = 2*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_EDGE array
-        ALLOCATE( SHOOT_STRUCT%SAVE_M_EDGE( SHOOT_STRUCT%S_SAVE_M_EDGE ) )
+        call my_alloc(SHOOT_STRUCT%SAVE_M_EDGE, SHOOT_STRUCT%S_SAVE_M_EDGE, "SHOOT_STRUCT%SAVE_M_EDGE")
         SHOOT_STRUCT%S_SAVE_S_EDGE = 2*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_EDGE array
-        ALLOCATE( SHOOT_STRUCT%SAVE_S_EDGE( SHOOT_STRUCT%S_SAVE_S_EDGE ) )
+        call my_alloc(SHOOT_STRUCT%SAVE_S_EDGE, SHOOT_STRUCT%S_SAVE_S_EDGE, "SHOOT_STRUCT%SAVE_S_EDGE")
 
         SHOOT_STRUCT%SAVE_M_EDGE_NB = 0    ! number of deactivated edge : main nodes
         SHOOT_STRUCT%SAVE_S_EDGE_NB = 0    ! number of deactivated edge : main nodes
@@ -201,19 +204,19 @@ C-----------------------------------------------
         ! allocation of SAVE_PROC : index of processor with the 4 nodes + 4 node ids
         SHOOT_STRUCT%S_SAVE_PROC_EDGE = 3*SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX    ! size of SAVE_PROC array
 
-        ALLOCATE( SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%S_SAVE_PROC_EDGE ) )
+        call my_alloc(SHOOT_STRUCT%SAVE_PROC_EDGE, SHOOT_STRUCT%S_SAVE_PROC_EDGE, "SHOOT_STRUCT%SAVE_PROC_EDGE")
         SHOOT_STRUCT%SAVE_PROC_NB_EDGE = 0    ! number of processor + 2 nodes of deactivated edges 
         SHOOT_STRUCT%SAVE_PROC_EDGE( 1:SHOOT_STRUCT%S_SAVE_PROC_EDGE ) = 0 
         ! --------------------------
         ! working array : edge
-        ALLOCATE( RESULT_INTERSECT( SHOOT_STRUCT%MAX_EDGE_NB ) )
-        ALLOCATE( RESULT_INTERSECT_3( SHOOT_STRUCT%MAX_EDGE_NB ) )
-        ALLOCATE( INTERSECT_1( SHOOT_STRUCT%MAX_EDGE_NB ) )
-        ALLOCATE( INTERSECT_2( SHOOT_STRUCT%MAX_EDGE_NB ) )
+        call my_alloc(RESULT_INTERSECT, SHOOT_STRUCT%MAX_EDGE_NB, "RESULT_INTERSECT")
+        call my_alloc(RESULT_INTERSECT_3, SHOOT_STRUCT%MAX_EDGE_NB, "RESULT_INTERSECT_3")
+        call my_alloc(INTERSECT_1, SHOOT_STRUCT%MAX_EDGE_NB, "INTERSECT_1")
+        call my_alloc(INTERSECT_2, SHOOT_STRUCT%MAX_EDGE_NB, "INTERSECT_2")
         ! working array : processor
-        ALLOCATE( RESULT_INTERSECT_2( SHOOT_STRUCT%MAX_PROC_NB ) )
-        ALLOCATE( INTERSECT_3( SHOOT_STRUCT%MAX_PROC_NB ) )
-        ALLOCATE( INTERSECT_4( SHOOT_STRUCT%MAX_PROC_NB ) )
+        call my_alloc(RESULT_INTERSECT_2, SHOOT_STRUCT%MAX_PROC_NB, "RESULT_INTERSECT_2")
+        call my_alloc(INTERSECT_3, SHOOT_STRUCT%MAX_PROC_NB, "INTERSECT_3")
+        call my_alloc(INTERSECT_4, SHOOT_STRUCT%MAX_PROC_NB, "INTERSECT_4")
 
         NODE_EDGE_NB = 2   ! number of node per edge
         ! --------------------------
@@ -385,11 +388,13 @@ C-----------------------------------------------
                     ENDIF
                     NODE_ID_1 = NODE_ID
                     LOCAL_NODE(1) = NODE_ID
-                    NB_EDGE_1 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
+                    NB_EDGE_1 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)
+! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)
                     INTERSECT_1(1:NB_EDGE_1) = SHOOT_STRUCT%M_NODE_EDGE( SHIFT+1:SHIFT+NB_EDGE_1 )
                     ! processor init
-                    NB_PROC_1 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node     
+                    NB_PROC_1 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+! get the number of processor of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
                     INTERSECT_3(1:NB_PROC_1) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC_1 )
                     ! ------------------
@@ -402,11 +407,13 @@ C-----------------------------------------------
                     ENDIF
                     NODE_ID_2 = NODE_ID 
                     LOCAL_NODE(2) = NODE_ID
-                    NB_EDGE_2 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
+                    NB_EDGE_2 = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)
+! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID)
                     INTERSECT_2(1:NB_EDGE_2) = SHOOT_STRUCT%M_NODE_EDGE( SHIFT+1:SHIFT+NB_EDGE_2 )
                     ! processor init
-                    NB_PROC_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID) ! get the number of processor of the node     
+                    NB_PROC_2 = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID+1) - SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
+! get the number of processor of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_M_NODE_PROC(NODE_ID)
                     INTERSECT_4(1:NB_PROC_2) = SHOOT_STRUCT%M_NODE_PROC( SHIFT+1:SHIFT+NB_PROC_2 )
                     ! ------------------
@@ -452,7 +459,8 @@ C-----------------------------------------------
                       NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
                     ENDIF
                     LOCAL_NODE(3) = NODE_ID
-                    NB_EDGE_1 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
+                    NB_EDGE_1 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)
+! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)
                     INTERSECT_1(1:NB_EDGE_1) = SHOOT_STRUCT%S_NODE_EDGE( SHIFT+1:SHIFT+NB_EDGE_1 )
                     ! ------------------
@@ -464,7 +472,8 @@ C-----------------------------------------------
                       NODE_ID = IX_TETRA10(N-10,ELEM_ID-SHIFT_ELM) ! get the node ID  
                     ENDIF
                     LOCAL_NODE(4) = NODE_ID
-                    NB_EDGE_2 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)   ! get the number of edge of the node
+                    NB_EDGE_2 = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID+1) - SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)
+! get the number of edge of the node
                     SHIFT = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NODE_ID)
                     INTERSECT_2(1:NB_EDGE_2) = SHOOT_STRUCT%S_NODE_EDGE( SHIFT+1:SHIFT+NB_EDGE_2 )
                     ! ------------------
@@ -490,15 +499,15 @@ C-----------------------------------------------
                     ! one or several edge on the current processor
                     ! save the edge id
                         IF( SHOOT_STRUCT%SAVE_M_EDGE_NB+NB_RESULT_INTERSECT>SHOOT_STRUCT%S_SAVE_M_EDGE) THEN
-                            ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_M_EDGE) )
-                            TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_M_EDGE) = SHOOT_STRUCT%SAVE_M_EDGE(1:SHOOT_STRUCT%S_SAVE_M_EDGE)
+                            call my_alloc(TMP_ARRAY, SHOOT_STRUCT%S_SAVE_M_EDGE, "TMP_ARRAY")
+      TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_M_EDGE) = SHOOT_STRUCT%SAVE_M_EDGE(1:SHOOT_STRUCT%S_SAVE_M_EDGE)
 
-                            DEALLOCATE( SHOOT_STRUCT%SAVE_M_EDGE )
+                            call my_dealloc(SHOOT_STRUCT%SAVE_M_EDGE)
                             OLD_SIZE = SHOOT_STRUCT%S_SAVE_M_EDGE
                             SHOOT_STRUCT%S_SAVE_M_EDGE = 1.20*(SHOOT_STRUCT%S_SAVE_M_EDGE+5*NB_RESULT_INTERSECT)
-                            ALLOCATE( SHOOT_STRUCT%SAVE_M_EDGE( SHOOT_STRUCT%S_SAVE_M_EDGE ) )
+      call my_alloc(SHOOT_STRUCT%SAVE_M_EDGE, SHOOT_STRUCT%S_SAVE_M_EDGE, "SHOOT_STRUCT%SAVE_M_EDGE")
                             SHOOT_STRUCT%SAVE_M_EDGE(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                            DEALLOCATE( TMP_ARRAY )
+                            call my_dealloc(TMP_ARRAY)
                         ENDIF
                         DO J=1,NB_RESULT_INTERSECT
                             SHOOT_STRUCT%SAVE_M_EDGE_NB = SHOOT_STRUCT%SAVE_M_EDGE_NB + 1
@@ -516,23 +525,24 @@ C-----------------------------------------------
 
                         IF( SHOOT_STRUCT%SAVE_PROC_NB_EDGE+3*(NB_RESULT_INTERSECT_2-1)>
      .                      SHOOT_STRUCT%S_SAVE_PROC_EDGE) THEN
-                            ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_PROC_EDGE) )
+                            call my_alloc(TMP_ARRAY, SHOOT_STRUCT%S_SAVE_PROC_EDGE, "TMP_ARRAY")
                             TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_PROC_EDGE) =
      .                          SHOOT_STRUCT%SAVE_PROC_EDGE(1:SHOOT_STRUCT%S_SAVE_PROC_EDGE)
 
-                            DEALLOCATE( SHOOT_STRUCT%SAVE_PROC_EDGE )
+                            call my_dealloc(SHOOT_STRUCT%SAVE_PROC_EDGE)
                             OLD_SIZE = SHOOT_STRUCT%S_SAVE_PROC_EDGE
                             SHOOT_STRUCT%S_SAVE_PROC_EDGE =
      .                       1.20*(SHOOT_STRUCT%SAVE_PROC_NB_EDGE+3*(NB_RESULT_INTERSECT_2-1))
-                            ALLOCATE( SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%S_SAVE_PROC_EDGE ) )
+      call my_alloc(SHOOT_STRUCT%SAVE_PROC_EDGE, SHOOT_STRUCT%S_SAVE_PROC_EDGE, "SHOOT_STRUCT%SAVE_PROC_EDGE")
                             SHOOT_STRUCT%SAVE_PROC_EDGE(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                            DEALLOCATE( TMP_ARRAY )
+                            call my_dealloc(TMP_ARRAY)
                         ENDIF
 
                         DO J=1,NB_RESULT_INTERSECT_2
                             IF(RESULT_INTERSECT_2(J)/=ISPMD+1) THEN
                                 SHOOT_STRUCT%SAVE_PROC_NB_EDGE = SHOOT_STRUCT%SAVE_PROC_NB_EDGE + 1
-                                SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%SAVE_PROC_NB_EDGE ) =  RESULT_INTERSECT_2(J)    ! save the remote proc id
+                                SHOOT_STRUCT%SAVE_PROC_EDGE( SHOOT_STRUCT%SAVE_PROC_NB_EDGE ) =  RESULT_INTERSECT_2(J)
+! save the remote proc id
 
                                 DO IJK=1,2
                                     SHOOT_STRUCT%SAVE_PROC_NB_EDGE = 
@@ -552,15 +562,15 @@ C-----------------------------------------------
                        
                         IF( SHOOT_STRUCT%SAVE_S_EDGE_NB+NB_RESULT_INTERSECT_3>
      .                       SHOOT_STRUCT%S_SAVE_S_EDGE) THEN
-                            ALLOCATE( TMP_ARRAY(SHOOT_STRUCT%S_SAVE_S_EDGE) )
-                            TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_S_EDGE) = SHOOT_STRUCT%SAVE_S_EDGE(1:SHOOT_STRUCT%S_SAVE_S_EDGE)
+                            call my_alloc(TMP_ARRAY, SHOOT_STRUCT%S_SAVE_S_EDGE, "TMP_ARRAY")
+      TMP_ARRAY(1:SHOOT_STRUCT%S_SAVE_S_EDGE) = SHOOT_STRUCT%SAVE_S_EDGE(1:SHOOT_STRUCT%S_SAVE_S_EDGE)
 
-                            DEALLOCATE( SHOOT_STRUCT%SAVE_S_EDGE )
+                            call my_dealloc(SHOOT_STRUCT%SAVE_S_EDGE)
                             OLD_SIZE = SHOOT_STRUCT%S_SAVE_S_EDGE
                             SHOOT_STRUCT%S_SAVE_S_EDGE = 1.20*(SHOOT_STRUCT%S_SAVE_S_EDGE+5*NB_RESULT_INTERSECT_3)
-                            ALLOCATE( SHOOT_STRUCT%SAVE_S_EDGE( SHOOT_STRUCT%S_SAVE_S_EDGE ) )
+      call my_alloc(SHOOT_STRUCT%SAVE_S_EDGE, SHOOT_STRUCT%S_SAVE_S_EDGE, "SHOOT_STRUCT%SAVE_S_EDGE")
                             SHOOT_STRUCT%SAVE_S_EDGE(1:OLD_SIZE) =  TMP_ARRAY(1:OLD_SIZE)
-                            DEALLOCATE( TMP_ARRAY )
+                            call my_dealloc(TMP_ARRAY)
                         ENDIF
                         DO J=1,NB_RESULT_INTERSECT_3
                             SHOOT_STRUCT%SAVE_S_EDGE_NB = SHOOT_STRUCT%SAVE_S_EDGE_NB + 1
@@ -576,14 +586,14 @@ C-----------------------------------------------
 
         ! --------------------------
         ! working array : surface
-        DEALLOCATE( RESULT_INTERSECT )
-        DEALLOCATE( RESULT_INTERSECT_3 )
-        DEALLOCATE( INTERSECT_1 )
-        DEALLOCATE( INTERSECT_2 )
+        call my_dealloc(RESULT_INTERSECT)
+        call my_dealloc(RESULT_INTERSECT_3)
+        call my_dealloc(INTERSECT_1)
+        call my_dealloc(INTERSECT_2)
         ! working array : processor
-        DEALLOCATE( RESULT_INTERSECT_2 )
-        DEALLOCATE( INTERSECT_3 )
-        DEALLOCATE( INTERSECT_4 )
+        call my_dealloc(RESULT_INTERSECT_2)
+        call my_dealloc(INTERSECT_3)
+        call my_dealloc(INTERSECT_4)
         ! --------------------------
 
         RETURN

@@ -46,6 +46,7 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod, only : WP
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +80,7 @@
           integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
           real(kind=WP),dimension(:,:),allocatable   :: rby_copy
 ! ======================================================================================================================
-          call my_alloc(itag,numnod)
+          call my_alloc(itag,numnod,"itag")
 !--------supposing after merging : no m in multi rbody---------------------------------------
           itag = 0
           do i=1,nrbykin
@@ -105,28 +106,28 @@
             end do
           end do
 
-! Cycle (circular hierarchy) check: is i an child and a ancestor 
+! Cycle (circular hierarchy) check: is i an child and a ancestor
           do i=1,nrbykin
-                parent_idx = parent_of(i)
-                if (parent_idx == 0) cycle
-                child = parent_idx
-                cycle_found = .false.
-                do while (child > 0)
-                  if (child == i) then
-                    cycle_found = .true.
-                    exit
-                  end if
-                  child = parent_of(child)
-                  if (child /= i) parent_idx=child
-                end do
-                if (cycle_found) then
-                    call ancmsg(msgid=3125,                    &
-                                msgtype=msgerror,              &
-                                anmode=aninfo_blind_1,         &
-                                i1=npby(6,i),                  &
-                                i2=npby(6,parent_idx))
-                  exit
-                end if ! (cycle_found) then
+            parent_idx = parent_of(i)
+            if (parent_idx == 0) cycle
+            child = parent_idx
+            cycle_found = .false.
+            do while (child > 0)
+              if (child == i) then
+                cycle_found = .true.
+                exit
+              end if
+              child = parent_of(child)
+              if (child /= i) parent_idx=child
+            end do
+            if (cycle_found) then
+              call ancmsg(msgid=3125,                    &
+                msgtype=msgerror,              &
+                anmode=aninfo_blind_1,         &
+                i1=npby(6,i),                  &
+                i2=npby(6,parent_idx))
+              exit
+            end if ! (cycle_found) then
           end do
 !------ initialize levels: roots (no parent) -> level 0, others unknown (-1) ------
           nlev = -1
@@ -174,10 +175,10 @@
               end do
             end do
 !------ reorder npby and lpby according to hierarchy -------------------------------
-            call my_alloc(npby_copy,nnpby,nrbykin)
-            call my_alloc(lpby_copy,slpby)
-            call my_alloc(rby_copy,nrby,nrbykin)
-            call my_alloc(titre_copy,lnopt1,nrbykin)
+            call my_alloc(npby_copy,nnpby,nrbykin,"npby_copy")
+            call my_alloc(lpby_copy,slpby,"lpby_copy")
+            call my_alloc(rby_copy,nrby,nrbykin,"rby_copy")
+            call my_alloc(titre_copy,lnopt1,nrbykin,"titre_copy")
             npby_copy = npby
             lpby_copy = lpby
             rby_copy = rby
@@ -196,13 +197,13 @@
               nom_opt(1:lnopt1,j) = titre_copy(1:lnopt1,i)
             end do
             write(iout,1000) nhier
-            deallocate(npby_copy)
-            deallocate(lpby_copy)
-            deallocate(rby_copy)
-            deallocate(titre_copy)
+            call my_dealloc(npby_copy)
+            call my_dealloc(lpby_copy)
+            call my_dealloc(rby_copy)
+            call my_dealloc(titre_copy)
           end if !(is_hier) then
 
-          deallocate(itag)
+          call my_dealloc(itag)
 1000      FORMAT(/10X,'RIGID BODY HIERARCHY LEVEL. . . . . . . . . . . :',I10        &
             /10X,'RIGID BODY IS REORDERED  ')
 
@@ -224,6 +225,7 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use my_alloc_mod
+          use my_dealloc_mod, only : my_dealloc
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -257,7 +259,7 @@
             nhier = max(nhier,npby(20,i))
           enddo
           if (nhier > 0) then
-            call my_alloc(itag,numnod)
+            call my_alloc(itag,numnod,"itag")
             itag = 0
             do i=1,nrbykin
               m = npby(1,i)
@@ -277,7 +279,7 @@
                 end if
               end do
             end do
-            deallocate(itag)
+            call my_dealloc(itag)
           end if
 !
         end subroutine hierarchy_rbody_ddm

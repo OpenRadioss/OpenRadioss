@@ -41,6 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
@@ -68,7 +70,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
 C=======================================================================
-       ALLOCATE(IRECT(4,MAX(1,NUMSKINP)),ITAGN(MAX(1,NUMNOD)))
+       call my_alloc(IRECT, 4, MAX(1,NUMSKINP), "IRECT")
+       call my_alloc(ITAGN, MAX(1,NUMNOD), "ITAGN")
 C
          ITAGN = 0         
          NP = 0
@@ -236,7 +239,8 @@ C
                 END IF 
               ENDDO
            END DO 
-        DEALLOCATE(IRECT,ITAGN)
+        call my_dealloc(IRECT)
+        call my_dealloc(ITAGN)
 C
       RETURN
       END SUBROUTINE H3D_SKIN_PRE_MAP

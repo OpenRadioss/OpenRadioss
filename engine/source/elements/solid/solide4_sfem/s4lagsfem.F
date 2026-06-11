@@ -54,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -263,7 +264,7 @@ C---------------------------------------------------
               sfem%tetra_fsky(my_address,j) = sfem%spmd(proc_id)%r_buffer(k,j) ! save the received Fsky value into the right place
             enddo
           enddo
-          deallocate(sfem%spmd(proc_id)%r_buffer)
+          call my_dealloc(sfem%spmd(proc_id)%r_buffer)
         enddo
 
 !$omp parallel 
@@ -306,12 +307,12 @@ C---------------------------------------------------
         call spmd_waitall(sfem%s_request_nb,sfem%s_request)
 
         do i=1,nspmd
-          if(allocated(sfem%spmd(i)%s_buffer)) deallocate(sfem%spmd(i)%s_buffer)
+          if(allocated(sfem%spmd(i)%s_buffer)) call my_dealloc(sfem%spmd(i)%s_buffer)
         enddo
-        if(allocated(sfem%r_request)) deallocate(sfem%r_request)
-        if(allocated(sfem%s_request)) deallocate(sfem%s_request)
-        if(allocated(sfem%r_index)) deallocate(sfem%r_index)
-        if(allocated(sfem%s_index)) deallocate(sfem%s_index)
+        if(allocated(sfem%r_request)) call my_dealloc(sfem%r_request)
+        if(allocated(sfem%s_request)) call my_dealloc(sfem%s_request)
+        if(allocated(sfem%r_index)) call my_dealloc(sfem%r_index)
+        if(allocated(sfem%s_index)) call my_dealloc(sfem%s_index)
       endif
 
 C-----------------------------------------------

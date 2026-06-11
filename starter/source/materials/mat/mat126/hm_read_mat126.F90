@@ -59,6 +59,7 @@
           use elbuftag_mod
           use constant_mod
           use precision_mod, only : WP
+          use MY_ALLOC_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -186,8 +187,8 @@
           nuvar = 4
 !
           !< Allocation of material parameters tables
-          allocate (matparam%iparam(matparam%niparam))
-          allocate (matparam%uparam(matparam%nuparam))
+          call my_alloc(matparam%iparam, matparam%niparam, "matparam%iparam")
+          call my_alloc(matparam%uparam, matparam%nuparam, "matparam%uparam")
 !
           !< Integer material parameter
           matparam%iparam(1)  = idel
@@ -327,7 +328,7 @@
             5X,"COWPER-SYMONDS COMPRESSION PARAMETER (CC). .=",1PG20.13/, &
             5X,"COWPER-SYMONDS COMPRESSION EXPONENT (POWC) .=",1PG20.13/, &
             5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
-            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)            
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
 1600      format(/                                                        &
             5X,"CRUSHING PRESSURE (PC) . . . . . . . . . . .=",1PG20.13/, &
             5X,"CRUSHING VOLUMETRIC STRAIN (MUC) . . . . . .=",1PG20.13/, &

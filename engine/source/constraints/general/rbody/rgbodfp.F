@@ -43,6 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -86,14 +87,14 @@ C     REAL
       my_real,DIMENSION(:), ALLOCATABLE :: F7
       my_real,DIMENSION(:), ALLOCATABLE :: F8
 C-----------------------------------------------
-      CALL MY_ALLOC(F1,NSN)
-      CALL MY_ALLOC(F2,NSN)
-      CALL MY_ALLOC(F3,NSN)
-      CALL MY_ALLOC(F4,NSN)
-      CALL MY_ALLOC(F5,NSN)
-      CALL MY_ALLOC(F6,NSN)
-      CALL MY_ALLOC(F7,NSN)
-      CALL MY_ALLOC(F8,NSN)
+      call my_alloc(F1, NSN, "F1")
+      call my_alloc(F2, NSN, "F2")
+      call my_alloc(F3, NSN, "F3")
+      call my_alloc(F4, NSN, "F4")
+      call my_alloc(F5, NSN, "F5")
+      call my_alloc(F6, NSN, "F6")
+      call my_alloc(F7, NSN, "F7")
+      call my_alloc(F8, NSN, "F8")
 C-----------------------------------------------
 C
 c      M   =NBY(1)
@@ -755,14 +756,14 @@ C
        ENDDO
       ENDIF
 C
-      DEALLOCATE(F1)
-      DEALLOCATE(F2)
-      DEALLOCATE(F3)
-      DEALLOCATE(F4)
-      DEALLOCATE(F5)
-      DEALLOCATE(F6)
-      DEALLOCATE(F7)
-      DEALLOCATE(F8)
+      call my_dealloc(F1)
+      call my_dealloc(F2)
+      call my_dealloc(F3)
+      call my_dealloc(F4)
+      call my_dealloc(F5)
+      call my_dealloc(F6)
+      call my_dealloc(F7)
+      call my_dealloc(F8)
 
       RETURN
       END

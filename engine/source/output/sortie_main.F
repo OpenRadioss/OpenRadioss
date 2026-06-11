@@ -184,6 +184,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -355,7 +357,7 @@ C------- should use relative velocity for dynamic condensed nodes (Nd of S10)
 c
       IF (NS10E > 0) THEN
         LENG = 3*NUMNOD
-        ALLOCATE(VMCDN(LENG))
+        call my_alloc(VMCDN, LENG, "VMCDN")
         VMCDN(1:LENG)=V(1:LENG)
         CALL S10MVND(ICNDS10 ,VND   ,VMCDN    )
         CALL CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
@@ -366,7 +368,7 @@ c
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
      5             WEIGHT_MD,WFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
      6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
-        DEALLOCATE(VMCDN)
+        call my_dealloc(VMCDN)
       ELSE
         BID = ZERO
         CALL ECRIT(TIMERS,PARTSAV  ,MS      ,V      ,IN       ,VR     , 
@@ -439,33 +441,34 @@ C----------------------
      .  H3D_DATA%MH3D/=0)) THEN
 
            IF(OUTPUT%DATA%NINEFRIC > 0) THEN
-             ALLOCATE(CSEFRIC(OUTPUT%DATA%NINEFRIC*NUMNOD)) ! friction energy by surface unit
+             call my_alloc(CSEFRIC, OUTPUT%DATA%NINEFRIC*NUMNOD, "CSEFRIC") ! friction energy by surface unit
            ELSE
-             ALLOCATE(CSEFRIC(0))
+             call my_alloc(CSEFRIC, 0, "CSEFRIC")
            ENDIF   
            IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) THEN
-             ALLOCATE(CSEFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG)) ! friction energy by surface unit
+             call my_alloc(CSEFRIC_STAMP, OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG, "CSEFRIC_STAMP")
+! friction energy by surface unit
 
            ELSE
-             ALLOCATE(CSEFRIC_STAMP(0)) 
+             call my_alloc(CSEFRIC_STAMP, 0, "CSEFRIC_STAMP")
            ENDIF 
            IF(H3D_DATA%N_SCAL_CSE_FRIC /=0) THEN
-              ALLOCATE(CSEFRICG(NUMNOD)) ! Global friction energy by surface unit
+              call my_alloc(CSEFRICG, NUMNOD, "CSEFRICG") ! Global friction energy by surface unit
               CSEFRICG = ZERO
               IF(NINTSTAMP /= 0) THEN
-                 ALLOCATE(CSEFRICG_STAMP(NUMNODG)) ! Global friction energy by surface unit
+                 call my_alloc(CSEFRICG_STAMP, NUMNODG, "CSEFRICG_STAMP") ! Global friction energy by surface unit
               ELSE
-                 ALLOCATE(CSEFRICG_STAMP(0)) 
+                 call my_alloc(CSEFRICG_STAMP, 0, "CSEFRICG_STAMP")
               ENDIF
            ELSE
-              ALLOCATE(CSEFRICG(0))
-              ALLOCATE(CSEFRICG_STAMP(0)) 
+              call my_alloc(CSEFRICG, 0, "CSEFRICG")
+              call my_alloc(CSEFRICG_STAMP, 0, "CSEFRICG_STAMP")
            ENDIF
       ELSE
-         ALLOCATE(CSEFRIC(0))
-         ALLOCATE(CSEFRIC_STAMP(0))
-         ALLOCATE(CSEFRICG(0))
-         ALLOCATE(CSEFRICG_STAMP(0)) 
+         call my_alloc(CSEFRIC, 0, "CSEFRIC")
+         call my_alloc(CSEFRIC_STAMP, 0, "CSEFRIC_STAMP")
+         call my_alloc(CSEFRICG, 0, "CSEFRICG")
+         call my_alloc(CSEFRICG_STAMP, 0, "CSEFRICG_STAMP")
       ENDIF
 
 
@@ -473,7 +476,8 @@ C----------------------
      .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0..OR.
      .   H3D_DATA%N_SCAL_CSE_FRIC /=0.OR.H3D_DATA%N_SCAL_CSE_FRICINT /=0)
      .    .AND.
-     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP)
+     &.OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
@@ -814,17 +818,18 @@ c
      6             CSEFRIC_STAMP,CSEFRICG_STAMP,TABLE ,IFRAME      ,LOADS   ,
      7             DRAPE_SH4N, DRAPE_SH3N, DRAPEG     ,X_C         ,GLOB_THERM,PBLAST)
       ENDIF
-      IF(ALLOCATED(CSEFRIC)) DEALLOCATE(CSEFRIC)
-      IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)
-      IF(ALLOCATED(CSEFRIC_STAMP)) DEALLOCATE(CSEFRIC_STAMP)
-      IF(ALLOCATED(CSEFRICG_STAMP)) DEALLOCATE(CSEFRICG_STAMP)
+      IF(ALLOCATED(CSEFRIC)) call my_dealloc(CSEFRIC)
+      IF(ALLOCATED(CSEFRICG)) call my_dealloc(CSEFRICG)
+      IF(ALLOCATED(CSEFRIC_STAMP)) call my_dealloc(CSEFRIC_STAMP)
+      IF(ALLOCATED(CSEFRICG_STAMP)) call my_dealloc(CSEFRICG_STAMP)
 
       IF(H3D_DATA%DTH3D_FCT_ID > 0) THEN
           H3D_DATA%DTH3D  =  FINTER(H3D_DATA%DTH3D_FCT_ID,TT+DT2,NPC,TF,DYDX)  
        ENDIF
 
       IF(TT>=H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
-      IF((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP) .AND.(TSTOP+EM06*TSTOP< H3D_DATA%TH3D + H3D_DATA%DTH3D)) THEN
+      IF((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP) .AND.(TSTOP+EM06*TSTOP< H3D_DATA%TH3D +
+     &H3D_DATA%DTH3D)) THEN
          H3D_DATA%TH3D = TSTOP
       END IF
 
@@ -974,7 +979,8 @@ C----------------------
         IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
             IF(OUTPUT%DATA%S_VECT_CONT > 0) CALL ANICON0(OUTPUT%DATA%VECT_CONT,NUMNOD)
             !law151 reaction forces can be output only with H3D (not ANIM files since vectors are at element centroids)
-            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(OUTPUT%DATA%FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
+            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(OUTPUT%DATA%FANI_CELL%F18,NUMELS+NUMELQ)
+! /H3D/ELEM/VECT/CONT
         ENDIF
         IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
             CALL ANICON2(FCONTG,NCONT,INDEXCONT)     

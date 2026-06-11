@@ -2891,6 +2891,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -2947,14 +2948,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      CALL MY_ALLOC(INDX,2*NINTER)
-      CALL MY_ALLOC(PPAR,NINTER)
-      CALL MY_ALLOC(INDP,2*NSPMD)
-      CALL MY_ALLOC(NNP,NSPMD)
-      CALL MY_ALLOC(RANK,NSPMD)
-      CALL MY_ALLOC(IRBODY,NUMNOD)
-      CALL MY_ALLOC(INDB,2*NRBYKIN)
-      CALL MY_ALLOC(NNSN,NRBYKIN)
+      call my_alloc(INDX, 2*NINTER, "INDX")
+      call my_alloc(PPAR, NINTER, "PPAR")
+      call my_alloc(INDP, 2*NSPMD, "INDP")
+      call my_alloc(NNP, NSPMD, "NNP")
+      call my_alloc(RANK, NSPMD, "RANK")
+      call my_alloc(IRBODY, NUMNOD, "IRBODY")
+      call my_alloc(INDB, 2*NRBYKIN, "INDB")
+      call my_alloc(NNSN, NRBYKIN, "NNSN")
 C-----------------------------------------------
 C
 C iexicodt : flag for sending icodt during run
@@ -2975,7 +2976,7 @@ C
         !-----------------------------------------------        
         IF(NINTER/=0) THEN
 C Case INACTI = 5, 6 or 7 + TSTART
-         ALLOCATE(NSNFI_FLAG(NINTER))
+         call my_alloc(NSNFI_FLAG, NINTER, "NSNFI_FLAG")
          NSNFI_FLAG(1:NINTER)=0 
 
          DO I=1,NINTER
@@ -3376,14 +3377,14 @@ C
 !     Create CJOINT communicator
       CALL SPMD_SPLIT_COMM_JOINT()
 
-      DEALLOCATE(INDX)
-      DEALLOCATE(PPAR)
-      DEALLOCATE(INDP)
-      DEALLOCATE(NNP)
-      DEALLOCATE(RANK)
-      DEALLOCATE(IRBODY)
-      DEALLOCATE(INDB)
-      DEALLOCATE(NNSN)
+      call my_dealloc(INDX)
+      call my_dealloc(PPAR)
+      call my_dealloc(INDP)
+      call my_dealloc(NNP)
+      call my_dealloc(RANK)
+      call my_dealloc(IRBODY)
+      call my_dealloc(INDB)
+      call my_dealloc(NNSN)
 
       RETURN
       END
@@ -3420,6 +3421,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
 #include      "implicit_f.inc"
 #include      "i25edge_c.inc"
 C-----------------------------------------------
@@ -7250,6 +7252,7 @@ C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

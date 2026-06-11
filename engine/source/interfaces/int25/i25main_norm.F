@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -232,7 +233,7 @@ C
            CALL MY_BARRIER()
 
 
-           IF(JTASK==1)  DEALLOCATE(INTBUF_TAB(N)%TAGSEG)
+           IF(JTASK==1) call my_dealloc(INTBUF_TAB(N)%TAGSEG)
         ENDIF
 
         NCSHIFT=NCSHIFT+INTBUF_TAB(N)%ADSKYN(NADMSR+1)-1
@@ -294,14 +295,14 @@ C         NEDGE  = IPARI(68,N) ! Updated in i25normp
 
 
            IF(JTASK == 1) THEN
-             DEALLOCATE(BUFFERS(NI25)%SEND_BUF)
-             DEALLOCATE(BUFFERS(NI25)%RECV_BUF)
-             DEALLOCATE(BUFFERS(NI25)%ISINDEX)
-             DEALLOCATE(BUFFERS(NI25)%IRINDEX)
-             DEALLOCATE(BUFFERS(NI25)%SEND_RQ)
-             DEALLOCATE(BUFFERS(NI25)%RECV_RQ)
-             DEALLOCATE(BUFFERS(NI25)%IAD_RECV)
-             DEALLOCATE(BUFFERS(NI25)%IAD_SEND)
+             call my_dealloc(BUFFERS(NI25)%SEND_BUF)
+             call my_dealloc(BUFFERS(NI25)%RECV_BUF)
+             call my_dealloc(BUFFERS(NI25)%ISINDEX)
+             call my_dealloc(BUFFERS(NI25)%IRINDEX)
+             call my_dealloc(BUFFERS(NI25)%SEND_RQ)
+             call my_dealloc(BUFFERS(NI25)%RECV_RQ)
+             call my_dealloc(BUFFERS(NI25)%IAD_RECV)
+             call my_dealloc(BUFFERS(NI25)%IAD_SEND)
            ENDIF
            CALL MY_BARRIER()
         ENDIF
@@ -352,7 +353,9 @@ C
       IF(JTASK==1)THEN
         DO I=1,NINTER25
            N = INTLIST25(I)
-           DEALLOCATE(INTBUF_TAB(N)%TAGNOD, INTBUF_TAB(N)%WNOD_NORMAL,INTBUF_TAB(N)%TAGE)
+           call my_dealloc(INTBUF_TAB(N)%TAGNOD)
+           call my_dealloc(INTBUF_TAB(N)%WNOD_NORMAL)
+           call my_dealloc(INTBUF_TAB(N)%TAGE)
         ENDDO
       ENDIF
 C

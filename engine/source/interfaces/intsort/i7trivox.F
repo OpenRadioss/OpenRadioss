@@ -55,6 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -156,13 +158,15 @@ C-----------------------------------------------
       IF(ITASK == 0)THEN
         REMOTE_S_NODE = 0
         CPT_VOX0 = 0
-        ALLOCATE(NEXT_NOD(NSN+NSNR),STAT=IERROR)
+        call my_alloc(NEXT_NOD, NSN+NSNR, "NEXT_NOD", stat=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .        C1='(/INTER/TYPE7)')
           CALL ARRET(2)
         ENDIF
-        ALLOCATE(IIX(NSN+NSNR),IIY(NSN+NSNR),IIZ(NSN+NSNR),STAT=IERROR)
+        call my_alloc(IIX, NSN+NSNR, "IIX", stat=IERROR)
+        call my_alloc(IIY, NSN+NSNR, "IIY", stat=IERROR)
+        call my_alloc(IIZ, NSN+NSNR, "IIZ", stat=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .        C1='(/INTER/TYPE7)')
@@ -333,7 +337,7 @@ C 3   FACE RECOVERY AND ENUMERATION OF CANDIDATE COUPLES
 C=======================================================================
       J_STOK = 0
       IF(FLAGREMNODE == 2) THEN
-        ALLOCATE(TAGREMNODE(NUMNOD+NUMFAKENODIGEO))
+        call my_alloc(TAGREMNODE, NUMNOD+NUMFAKENODIGEO, "TAGREMNODE")
         DO I=1,NUMNOD+NUMFAKENODIGEO
           TAGREMNODE(I) = 0
         ENDDO
@@ -597,13 +601,13 @@ C=======================================================================
 C 7   DEALLOCATE
 C=======================================================================
       IF(ITASK == 0)THEN
-        DEALLOCATE(NEXT_NOD)
-        DEALLOCATE(IIX)
-        DEALLOCATE(IIY)
-        DEALLOCATE(IIZ)
+        call my_dealloc(NEXT_NOD)
+        call my_dealloc(IIX)
+        call my_dealloc(IIY)
+        call my_dealloc(IIZ)
       ENDIF
       IF(FLAGREMNODE == 2) THEN
-        IF(ALLOCATED(TAGREMNODE)) DEALLOCATE(TAGREMNODE)
+        IF(ALLOCATED(TAGREMNODE)) call my_dealloc(TAGREMNODE)
       ENDIF
 
 

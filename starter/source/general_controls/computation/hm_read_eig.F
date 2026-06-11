@@ -163,6 +163,7 @@ C-----------------------------------------------
       USE RANDOM_MOD
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -400,7 +401,8 @@ C
             NBLFR=MIN(NBMO-2,NBLFR)
             EIGIPM(IAD+8)=NBLFR
 C
-            ALLOCATE(NODES(NBNO), MODES(NBMO,6,NN))
+            call my_alloc(NODES, NBNO, "NODES")
+            call my_alloc(MODES, NBMO, 6, NN, "MODES")
             NLIG=NBNO/10
             NRES=NBNO-NLIG*10
             IADN=0
@@ -466,7 +468,8 @@ C
                ENDDO
             ENDDO
 C
-            DEALLOCATE(NODES, MODES)
+            CALL MY_DEALLOC(NODES)
+            CALL MY_DEALLOC(MODES)
             CLOSE(IFICM)
          ENDIF   
 C PRINTOUTS

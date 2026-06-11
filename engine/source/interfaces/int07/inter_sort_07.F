@@ -77,6 +77,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 #include "spmd.inc"
@@ -231,8 +233,8 @@ C
 
  50     CALL MY_BARRIER    
         IF(ITASK==0) THEN
-            IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
-            ALLOCATE( LIST_REMOTE_S_NODE(NSNR) )
+            IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) call my_dealloc(LIST_REMOTE_S_NODE)
+            call my_alloc(LIST_REMOTE_S_NODE, NSNR, "LIST_REMOTE_S_NODE")
             REMOTE_S_NODE = 0
         ENDIF
         CALL MY_BARRIER                          
@@ -405,7 +407,7 @@ C
         END IF
 
       IF(ITASK==0) THEN
-        IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
+        IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) call my_dealloc(LIST_REMOTE_S_NODE)
       ENDIF
       CALL MY_BARRIER
 

@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    set_mod                  ../starter/share/modules1/set_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE SORT_SET (LSUBMODEL ,MAP_TABLES, SET_LIST ,SET,CLAUSE)
+      SUBROUTINE SORT_SET(LSUBMODEL ,MAP_TABLES, SET_LIST ,SET,CLAUSE)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -72,6 +72,8 @@ C-----------------------------------------------
       USE MAPPING_OPTION_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD, NCHARKEY, NCHARLINE
       USE SET_MOD , ONLY : SET_ADD
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,12 +114,12 @@ C-----------------------------------------------
          print*,' ' 
       ENDIF
 
-      ALLOCATE(SET_ARRAY(NSETS))
-      ALLOCATE(SETCOL_ARRAY(NSETS))
-      ALLOCATE(SET_CLAUSE_ARRAY(NSETS))
-      ALLOCATE(IS_COLLECT(NSETS))
-      ALLOCATE(RESULT(NSETS))
-      ALLOCATE(COLLECT_LIST(MAP_TABLES%NSET_COLLECT))
+      call my_alloc(SET_ARRAY, NSETS, "SET_ARRAY")
+      call my_alloc(SETCOL_ARRAY, NSETS, "SETCOL_ARRAY")
+      call my_alloc(SET_CLAUSE_ARRAY, NSETS, "SET_CLAUSE_ARRAY")
+      call my_alloc(IS_COLLECT, NSETS, "IS_COLLECT")
+      call my_alloc(RESULT, NSETS, "RESULT")
+      call my_alloc(COLLECT_LIST, MAP_TABLES%NSET_COLLECT, "COLLECT_LIST")
       
 
       !-------------------------------------------------
@@ -299,4 +301,10 @@ C-----------------------------------------------
 
       CALL SET_GRAPH_CLEAN()
 
+      call my_dealloc(SET_ARRAY)
+      call my_dealloc(SET_CLAUSE_ARRAY)
+      call my_dealloc(RESULT)
+      call my_dealloc(SETCOL_ARRAY)
+      call my_dealloc(COLLECT_LIST)
+      call my_dealloc(IS_COLLECT)
       END

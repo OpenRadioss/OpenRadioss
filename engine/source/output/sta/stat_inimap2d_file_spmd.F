@@ -72,6 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -156,9 +158,9 @@ C-----------------------------------------------
       !
       IF(.NOT.(ALLOCATED(STATE_INIMAP_BUF))) THEN
         IF(ISPMD/=0)THEN
-          ALLOCATE(STATE_INIMAP_BUF(1))                                                                      
+          ALLOCATE(STATE_INIMAP_BUF(1))
         ELSE
-          ALLOCATE(STATE_INIMAP_BUF(NSPMD))  !process 0 will gather all data
+          ALLOCATE(STATE_INIMAP_BUF(NSPMD)) !process 0 will gather all data
         ENDIF       
       ENDIF
                                                                                                                   
@@ -253,7 +255,7 @@ C-----------------------------------------------
       IF(.NOT.ALLOCATED(STATE_INIMAP_BUF(1)%POS_CENTROIDS))ALLOCATE(STATE_INIMAP_BUF(1)%POS_CENTROIDS(NUM_CENTROIDS)) 
       IF(.NOT.ALLOCATED(STATE_INIMAP_BUF(1)%POS2_CENTROIDS))ALLOCATE(STATE_INIMAP_BUF(1)%POS2_CENTROIDS(NUM_CENTROIDS)) 
       IF(.NOT.ALLOCATED(GET_CELL_FOM_CENTROID))THEN
-        ALLOCATE(GET_CELL_FOM_CENTROID(2,NUM_CENTROIDS))
+        call my_alloc(GET_CELL_FOM_CENTROID, 2, NUM_CENTROIDS, "GET_CELL_FOM_CENTROID")
       ENDIF
   
       IF(NUM_CENTROIDS > 0)THEN
@@ -297,7 +299,7 @@ C-----------------------------------------------
       
       !---ABSCISSA : CENTROIDS POSITION LIST ( STATE_INIMAP_BUF(1)%POS_CENTROIDS(1:NUM_CENTROIDS) )
       !
-      ALLOCATE(WORK(NUM_CENTROIDS,3))
+      call my_alloc(WORK, NUM_CENTROIDS, 3, "WORK")
       K=1                                                                                              
       DO NG=1,NGROUP                                                                                   
         ITY   =IPARG(5,NG)                                                                             
@@ -351,7 +353,7 @@ C-----------------------------------------------
         STATE_INIMAP_BUF(1)%POS2_CENTROIDS(K) = WORK(IDX(K),2)                                                       
         STATE_INIMAP_BUF(1)%CELL_IDS(K)       = WORK(K,3)      
       ENDDO
-      IF(ALLOCATED(WORK))DEALLOCATE(WORK)
+      IF(ALLOCATED(WORK)) call my_dealloc(WORK)
 
 
       !---CELL DATA TREATMENT
@@ -449,7 +451,7 @@ C-----------------------------------------------
       !
       IF(NUM_CENTROIDS > 0)THEN
         IF(MLW /= 151)THEN
-          ALLOCATE(WORK(NUMNOD,4))
+          call my_alloc(WORK, NUMNOD, 4, "WORK")
           !---VELOCITY : WRITE IN DOMAIN BUFFER (SORTED)
           IF(.NOT.ALLOCATED(STATE_INIMAP_BUF(1)%POS_NODES))ALLOCATE(STATE_INIMAP_BUF(1)%POS_NODES(NNOD))
           IF(.NOT.ALLOCATED(STATE_INIMAP_BUF(1)%POS2_NODES))ALLOCATE(STATE_INIMAP_BUF(1)%POS2_NODES(NNOD))
@@ -473,7 +475,7 @@ C-----------------------------------------------
           ENDDO   
           STATE_INIMAP_BUF(1)%NUM_POINTS=NNOD
           !---SORTING : UNIQUE OUTPUT NOT DEPENDING ON DOMAIN DECOMPOSITION
-           IF(ALLOCATED(IDX))DEALLOCATE(IDX)    
+           IF(ALLOCATED(IDX)) call my_dealloc(IDX)
           IF(.NOT.ALLOCATED(IDX))ALLOCATE(IDX(NNOD))
           DO K=1,NNOD ; IDX(K)=K; ENDDO
           CALL QUICKSORT_I2(STATE_INIMAP_BUF(1)%NODE_IDS(:), IDX, 1, NNOD) 
@@ -483,7 +485,7 @@ C-----------------------------------------------
             STATE_INIMAP_BUF(1)%VEL_NODES(K) = WORK(IDX(K),3)
             STATE_INIMAP_BUF(1)%VEL2_NODES(K) = WORK(IDX(K),4)           
           ENDDO
-          IF(ALLOCATED(WORK))DEALLOCATE(WORK)
+          IF(ALLOCATED(WORK)) call my_dealloc(WORK)
           
           
         ELSE
@@ -543,7 +545,7 @@ C-----------------------------------------------
           NCELL(I)= STATE_INIMAP_BUF(I)%NUM_CENTROIDS ;  
           NCELL_TOT = NCELL_TOT + NCELL(I)         
         ENDDO
-        ALLOCATE(WORK(NPTS_TOT,5))
+        call my_alloc(WORK, NPTS_TOT, 5, "WORK")
         !stat_inimap1d_mp.F
         !--gathering velocity into working_array
         !
@@ -560,7 +562,7 @@ C-----------------------------------------------
         ENDDO
         
         !---SORTING : UNIQUE OUTPUT NOT DEPENDING ON DOMAIN DECOMPOSITION   
-        IF(ALLOCATED(IDX))DEALLOCATE(IDX) 
+        IF(ALLOCATED(IDX)) call my_dealloc(IDX)
         IF(.NOT.ALLOCATED(IDX))ALLOCATE(IDX(NPTS_TOT))
         DO K=1,NPTS_TOT ; IDX(K)=K; ENDDO
         CALL QUICKSORT(WORK(:,5), IDX, 1, NPTS_TOT) 
@@ -570,7 +572,7 @@ C-----------------------------------------------
         ! STAGGERED SCHEME ONLY
         !
         IF(MLW /= 151)THEN
-          ALLOCATE(NODTAG_G(NPTS_TOT))
+          call my_alloc(NODTAG_G, NPTS_TOT, "NODTAG_G")
           NODTAG_G(1:NPTS_TOT)=1
           K=0
           DO J=2,NPTS_TOT
@@ -586,11 +588,11 @@ C-----------------------------------------------
         !---store in relevant buffer (reallocate)
         !
         STATE_INIMAP_BUF(1)%NUM_POINTS=K
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%VEL_NODES))DEALLOCATE(STATE_INIMAP_BUF(1)%VEL_NODES)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%VEL2_NODES))DEALLOCATE(STATE_INIMAP_BUF(1)%VEL2_NODES)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS_NODES))DEALLOCATE(STATE_INIMAP_BUF(1)%POS_NODES)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS2_NODES))DEALLOCATE(STATE_INIMAP_BUF(1)%POS2_NODES)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%NODE_IDS))DEALLOCATE(STATE_INIMAP_BUF(1)%NODE_IDS)      
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%VEL_NODES)) call my_dealloc(STATE_INIMAP_BUF(1)%VEL_NODES)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%VEL2_NODES)) call my_dealloc(STATE_INIMAP_BUF(1)%VEL2_NODES)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS_NODES)) call my_dealloc(STATE_INIMAP_BUF(1)%POS_NODES)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS2_NODES)) call my_dealloc(STATE_INIMAP_BUF(1)%POS2_NODES)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%NODE_IDS)) call my_dealloc(STATE_INIMAP_BUF(1)%NODE_IDS)
         ALLOCATE(STATE_INIMAP_BUF(1)%VEL_NODES(NPTS_TOT), STATE_INIMAP_BUF(1)%VEL2_NODES(NPTS_TOT))  !k : npt_tot without duplicated
         ALLOCATE(STATE_INIMAP_BUF(1)%POS_NODES(NPTS_TOT), STATE_INIMAP_BUF(1)%POS2_NODES(NPTS_TOT))
         ALLOCATE(STATE_INIMAP_BUF(1)%NODE_IDS(NPTS_TOT))
@@ -608,11 +610,11 @@ C-----------------------------------------------
         ENDDO
         NPTS_TOT = J
         STATE_INIMAP_BUF(1)%NUM_POINTS=NPTS_TOT
-        IF(ALLOCATED(WORK))DEALLOCATE(WORK)
-        IF(ALLOCATED(NODTAG_G))DEALLOCATE(NODTAG_G)
+        IF(ALLOCATED(WORK)) call my_dealloc(WORK)
+        IF(ALLOCATED(NODTAG_G)) call my_dealloc(NODTAG_G)
         
         NBMAT=STATE_INIMAP_BUF(1)%NSUBMAT
-        ALLOCATE(WORK(NCELL_TOT,3+4*NBMAT))
+        call my_alloc(WORK, NCELL_TOT, 3+4*NBMAT, "WORK")
         !
         !--gathering submaterial data into working_array (duplicates are not possible with centroids)
         !
@@ -635,15 +637,15 @@ C-----------------------------------------------
         !
         !---store in relevant buffer (reallocate)
         !
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS_CENTROIDS))DEALLOCATE(STATE_INIMAP_BUF(1)%POS_CENTROIDS)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS2_CENTROIDS))DEALLOCATE(STATE_INIMAP_BUF(1)%POS2_CENTROIDS)
-        IF(ALLOCATED(STATE_INIMAP_BUF(1)%CELL_IDS))DEALLOCATE(STATE_INIMAP_BUF(1)%CELL_IDS)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS_CENTROIDS)) call my_dealloc(STATE_INIMAP_BUF(1)%POS_CENTROIDS)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%POS2_CENTROIDS)) call my_dealloc(STATE_INIMAP_BUF(1)%POS2_CENTROIDS)
+        IF(ALLOCATED(STATE_INIMAP_BUF(1)%CELL_IDS)) call my_dealloc(STATE_INIMAP_BUF(1)%CELL_IDS)
         NBMAT = STATE_INIMAP_BUF(1)%NSUBMAT
         DO JJ=1,NBMAT
-          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%VFRAC))DEALLOCATE(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%VFRAC)
-          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%RHO  ))DEALLOCATE(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%RHO)
-          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%E    ))DEALLOCATE(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%E)                    
-          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%PRES))DEALLOCATE(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%PRES)                    
+          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%VFRAC)) call my_dealloc(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%VFRAC)
+          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%RHO  )) call my_dealloc(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%RHO)
+          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%E    )) call my_dealloc(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%E)
+          IF(ALLOCATED(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%PRES)) call my_dealloc(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%PRES)
         ENDDO
         ALLOCATE(STATE_INIMAP_BUF(1)%CELL_IDS(NCELL_TOT))
         ALLOCATE(STATE_INIMAP_BUF(1)%POS_CENTROIDS(NCELL_TOT))
@@ -655,7 +657,7 @@ C-----------------------------------------------
           ALLOCATE(STATE_INIMAP_BUF(1)%SUBMAT(JJ)%PRES(NCELL_TOT))
         ENDDO
         !---SORTING : UNIQUE OUTPUT NOT DEPENDING ON DOMAIN DECOMPOSITION   
-        IF(ALLOCATED(IDX))DEALLOCATE(IDX) 
+        IF(ALLOCATED(IDX)) call my_dealloc(IDX)
         IF(.NOT.ALLOCATED(IDX))ALLOCATE(IDX(NCELL_TOT))
         DO K=1,NCELL_TOT ; IDX(K)=K; ENDDO
         CALL QUICKSORT(WORK(:,3), IDX, 1, NCELL_TOT) 
@@ -771,30 +773,30 @@ C-----------------------------------------------
         CALL CLOSE_C()
             
         !---DEALLOCATE 
-        IF(ALLOCATED(GET_CELL_FOM_CENTROID))DEALLOCATE(GET_CELL_FOM_CENTROID)
+        IF(ALLOCATED(GET_CELL_FOM_CENTROID)) call my_dealloc(GET_CELL_FOM_CENTROID)
         DO JJ=1,NSPMD
           NBMAT = STATE_INIMAP_BUF(JJ)%NSUBMAT
           IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT))THEN
             DO I=1,NBMAT
-              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%VFRAC))DEALLOCATE(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%VFRAC)    
-              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%RHO))  DEALLOCATE(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%RHO) 
-              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%E))    DEALLOCATE(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%E)
+              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%VFRAC)) call my_dealloc(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%VFRAC)
+              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%RHO)) call my_dealloc(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%RHO)
+              IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%E)) call my_dealloc(STATE_INIMAP_BUF(JJ)%SUBMAT(I)%E)
             ENDDO
           ENDIF
           IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%SUBMAT       ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%SUBMAT)
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_NODES    ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%POS_NODES)          
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%VEL_NODES    ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%VEL_NODES)
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS2_NODES   ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%POS2_NODES)          
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%VEL2_NODES   ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%VEL2_NODES)
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%NODE_IDS     ))DEALLOCATE(STATE_INIMAP_BUF(JJ)%NODE_IDS)
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS))DEALLOCATE(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS)   
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS))DEALLOCATE(STATE_INIMAP_BUF(JJ)%POS2_CENTROIDS)   
-          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%CELL_IDS))DEALLOCATE(STATE_INIMAP_BUF(JJ)%CELL_IDS)   
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_NODES    )) call my_dealloc(STATE_INIMAP_BUF(JJ)%POS_NODES)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%VEL_NODES    )) call my_dealloc(STATE_INIMAP_BUF(JJ)%VEL_NODES)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS2_NODES   )) call my_dealloc(STATE_INIMAP_BUF(JJ)%POS2_NODES)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%VEL2_NODES   )) call my_dealloc(STATE_INIMAP_BUF(JJ)%VEL2_NODES)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%NODE_IDS     )) call my_dealloc(STATE_INIMAP_BUF(JJ)%NODE_IDS)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS)) call my_dealloc(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%POS_CENTROIDS)) call my_dealloc(STATE_INIMAP_BUF(JJ)%POS2_CENTROIDS)
+          IF(ALLOCATED(STATE_INIMAP_BUF(JJ)%CELL_IDS)) call my_dealloc(STATE_INIMAP_BUF(JJ)%CELL_IDS)
         ENDDO
       
       ENDIF  
       
-      IF(ALLOCATED(STATE_INIMAP_BUF))DEALLOCATE(STATE_INIMAP_BUF)
+      IF(ALLOCATED(STATE_INIMAP_BUF)) DEALLOCATE(STATE_INIMAP_BUF)
 
 C-----------------------------------------------
 C   O u t p u t   F o r m a t

@@ -587,6 +587,8 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -621,7 +623,8 @@ C-----------------------------------------------
 !
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       INTEGER, INTENT(in) :: S_ELEM_STATE   ! size of ELEM_STATE
-      LOGICAL, DIMENSION(S_ELEM_STATE), INTENT(inout) :: ELEM_STATE ! boolean : true if element is ON, false if element is OFF
+      LOGICAL, DIMENSION(S_ELEM_STATE), INTENT(inout) :: ELEM_STATE
+! boolean : true if element is ON, false if element is OFF
       INTEGER, DIMENSION(NTHREAD), INTENT(inout) :: GLOBAL_NB_ELEM_OFF
       TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo
 C-----------------------------------------------
@@ -643,7 +646,7 @@ C-----------------------------------------------
       INTEGER :: NTAGEL_WRAP(1)
 C-----------------------------------------------
       ! allocation of local list of deactivated element
-      ALLOCATE( LOCAL_ELEM_INDEX(S_ELEM_STATE) )
+      call my_alloc(LOCAL_ELEM_INDEX, S_ELEM_STATE, "LOCAL_ELEM_INDEX")
       GLOBAL_NB_ELEM_OFF(ITASK+1) = 0
       LFT = NODFT
       LLT = NODLT
@@ -1095,14 +1098,14 @@ C
 !$OMP END DO
 
         IF(ITASK==0) THEN            
-            IF(ALLOCATED( SHOOT_STRUCT%GLOBAL_ELEM_INDEX ) ) DEALLOCATE( SHOOT_STRUCT%GLOBAL_ELEM_INDEX )
+            IF(ALLOCATED( SHOOT_STRUCT%GLOBAL_ELEM_INDEX ) ) call my_dealloc(SHOOT_STRUCT%GLOBAL_ELEM_INDEX)
             ! compute the total number of new deactivated element
             SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX = 0
             DO I=1,NTHREAD
                 SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX = SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX + GLOBAL_NB_ELEM_OFF(I)
             ENDDO
             ! allocate the array "list of new deactivated element"
-            ALLOCATE( SHOOT_STRUCT%GLOBAL_ELEM_INDEX(SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX) ) 
+      call my_alloc(SHOOT_STRUCT%GLOBAL_ELEM_INDEX, SHOOT_STRUCT%S_GLOBAL_ELEM_INDEX, "SHOOT_STRUCT%GLOBAL_ELEM_INDEX")
         ENDIF
         CALL MY_BARRIER( )
 
@@ -1156,11 +1159,11 @@ C       Tagel Element Party Communication
               TAGEL_R2R_ISPMD(:)=0
               TAGEL_R2R_ISPMD(ISPMD+1) = 3*NTAGEL_R2R_SEND 
               CALL SPMD_ALLGLOB_ISUM9(TAGEL_R2R_ISPMD,NSPMD)
-              ALLOCATE(TAGEL_R2R_SENDG(3*NTAGEL_R2R_SENDG))
+              call my_alloc(TAGEL_R2R_SENDG, 3*NTAGEL_R2R_SENDG, "TAGEL_R2R_SENDG")
               CALL SPMD_R2R_TAGEL(TAGEL_R2R_SENDG,TAGEL_R2R_SEND,TAGEL_R2R_ISPMD)
               CALL SPMD_IBCAST(TAGEL_R2R_SENDG,TAGEL_R2R_SENDG,3*NTAGEL_R2R_SENDG,1,0,2)
               CALL EXCH_TAGEL_C(NTAGEL_R2R_SENDG,TAGEL_R2R_SENDG,0)
-              DEALLOCATE(TAGEL_R2R_SENDG)
+              call my_dealloc(TAGEL_R2R_SENDG)
             ELSE
               CALL EXCH_TAGEL_C(NTAGEL_R2R_SENDG,TAGEL_R2R_SEND,0)
             ENDIF
@@ -1189,7 +1192,7 @@ C-----------------------------------------------------------------
           CALL GET_SHMBUF_C(NTAGEL_R2R_RECV,4)
           NTAGEL_R2R_RECV = NTAGEL_R2R_RECV / 3     
           IF (NTAGEL_R2R_RECV > 0) THEN
-            ALLOCATE(TAGEL_R2R_RECV(3*NTAGEL_R2R_RECV))
+            call my_alloc(TAGEL_R2R_RECV, 3*NTAGEL_R2R_RECV, "TAGEL_R2R_RECV")
             CALL EXCH_TAGEL_C(NTAGEL_R2R_RECV,TAGEL_R2R_RECV,1)
           ENDIF
           DO I=1,NTAGEL_R2R_RECV
@@ -1227,14 +1230,14 @@ C       reset of idel7nok_r2r and ntagel_r2r_recv
           NTAGEL_R2R_RECV = 0
           CALL SEND_SHMBUF_C(IDEL7NOK_R2R,2)
           CALL SEND_SHMBUF_C(NTAGEL_R2R_RECV,4)
-          IF(ALLOCATED(TAGEL_R2R_RECV)) DEALLOCATE(TAGEL_R2R_RECV)
+          IF(ALLOCATED(TAGEL_R2R_RECV)) call my_dealloc(TAGEL_R2R_RECV)
         ENDIF
 C--------------------------------------------------------
       ENDIF
 C Fin Partie non parallele
 !$OMP END SINGLE
       ! deallocation of local list of deactivated element
-      DEALLOCATE( LOCAL_ELEM_INDEX )
+      call my_dealloc(LOCAL_ELEM_INDEX)
 C
       RETURN
       END
@@ -1289,6 +1292,8 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -1806,9 +1811,9 @@ C
 C finalization of the update stif part
 C
        IF(INT24USE==1.OR.NINTER25/=0)THEN
-         ALLOCATE(INDSEGLO_SAV(NINTER+1))
+         call my_alloc(INDSEGLO_SAV, NINTER+1, "INDSEGLO_SAV")
          SIZ=INDSEGLO(NINTER+1)-INDSEGLO(1)
-         ALLOCATE(IBUFSEGLO_SAV(SIZ))
+         call my_alloc(IBUFSEGLO_SAV, SIZ, "IBUFSEGLO_SAV")
 
          INDSEGLO_SAV(1:NINTER+1)=INDSEGLO(1:NINTER+1)
          IBUFSEGLO_SAV(1:SIZ)=IBUFSEGLO(1:SIZ)
@@ -1895,8 +1900,8 @@ Cote secnd
 
 
       IF(INT24USE > 0.OR.NINTER25/=0)THEN
-        DEALLOCATE(INDSEGLO_SAV)
-        DEALLOCATE(IBUFSEGLO_SAV)
+        call my_dealloc(INDSEGLO_SAV)
+        call my_dealloc(IBUFSEGLO_SAV)
       ENDIF
 
 C Fin Partie non parallele
@@ -1936,6 +1941,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -1967,8 +1973,8 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: IND_SEGLO
 C     REAL
 C-----------------------------------------------
-      CALL MY_ALLOC(NINDL,NRTM*2)
-      CALL MY_ALLOC(IND_SEGLO,NRTM*2)
+      call my_alloc(NINDL, NRTM*2, "NINDL")
+      call my_alloc(IND_SEGLO, NRTM*2, "IND_SEGLO")
 
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2107,8 +2113,8 @@ C
 C
       CALL MY_BARRIER()
 
-      DEALLOCATE(NINDL)
-      DEALLOCATE(IND_SEGLO)
+      call my_dealloc(NINDL)
+      call my_dealloc(IND_SEGLO)
 C
       RETURN
       END

@@ -41,6 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,8 +68,8 @@ C     REAL
       INTEGER, DIMENSION(:),ALLOCATABLE :: IOFF_LOC
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
-      CALL MY_ALLOC(IOFFBUF,NBF)
-      CALL MY_ALLOC(IOFF_LOC,SIOFF)
+      call my_alloc(IOFFBUF, NBF, "IOFFBUF")
+      call my_alloc(IOFF_LOC, SIOFF, "IOFF_LOC")
       NN1 = 1
       NN2 = NN1 + (NUMSPH+MAXPJET)
 C-----------------------------------------------
@@ -133,7 +134,7 @@ C-----------------------------------------------
 
       ENDIF
 C-----------
-      DEALLOCATE(IOFFBUF)
-      DEALLOCATE(IOFF_LOC)
+      call my_dealloc(IOFFBUF)
+      call my_dealloc(IOFF_LOC)
       RETURN
       END

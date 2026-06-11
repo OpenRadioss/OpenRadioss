@@ -42,6 +42,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -55,7 +57,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================
       NFIX = 6
-      ALLOCATE (IBUF(NFIX + 1))
+      call my_alloc(IBUF, NFIX + 1, "IBUF")
 c
       IAD = 1
       IBUF(IAD) = NFIX
@@ -75,7 +77,7 @@ c
       IAD = IAD+1
 c
       CALL WRITE_I_C(IBUF,NFIX+1)
-      DEALLOCATE(IBUF)
+      call my_dealloc(IBUF)
       
 c     write viscosity model title
 

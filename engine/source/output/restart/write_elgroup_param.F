@@ -37,6 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -50,7 +52,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: RBUF
 C=======================================================================
       LEN = 2
-      ALLOCATE(RBUF(NGROUP,LEN))
+      call my_alloc(RBUF, NGROUP, LEN, "RBUF")
 c
       DO NG = 1, NGROUP
         RBUF(NG,1) = GROUP_PARAM_TAB(NG)%VISC_DM
@@ -58,7 +60,7 @@ c
       ENDDO
 C
       CALL WRITE_DB(RBUF,LEN*NGROUP)
-      DEALLOCATE( RBUF )
+      call my_dealloc(RBUF)
 c-----------
       RETURN
       END

@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      use my_alloc_mod
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,7 @@ C-----------------------------------------------
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: LTSM
       INTEGER IC, IK, JC, NCF, HIJ, ERR
 C======================================================================|
-      ALLOCATE(LTSM(6,NUMNOD),  STAT=ERR)
+      call my_alloc(LTSM, 6, NUMNOD, "LTSM", stat=ERR)
       IF (ERR /= 0) THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='LTSM')
@@ -122,7 +123,7 @@ c---
         ENDDO
       ENDDO
       NHF = NHF-1
-      IF (ALLOCATED(LTSM)) DEALLOCATE(LTSM)
+      IF (ALLOCATED(LTSM)) CALL MY_DEALLOC(LTSM)
 C-----------
       RETURN
       END

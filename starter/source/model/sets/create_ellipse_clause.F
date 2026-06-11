@@ -165,7 +165,7 @@ C=======================================================================
       !  create SURF clause                !
       !------------------------------------!      print*,"clause ELLIPSE_SECOND", ISKEW
       CLAUSE%NB_ELLIPSE=1 ! only one ellipsoid per /SET
-      CALL MY_ALLOC(CLAUSE%ELLIPSE_SKEW,9)
+      CALL MY_ALLOC(CLAUSE%ELLIPSE_SKEW,9,"CLAUSE%ELLIPSE_SKEW")
 
       CLAUSE%ELLIPSE_IAD_BUFR= IAD ! Analytical Surfaces address (reals BUFSF - temp)
 

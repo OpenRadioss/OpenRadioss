@@ -73,7 +73,7 @@ C
          IAD=IADN(NFX)
          IF (ISPMD==PMAIN) THEN
             NSNT=FXBIPM(40,NFX)
-            ALLOCATE(FSKYL(NSNT,NME+NMOD))
+            ALLOCATE(FSKYL(NSNT, NME+NMOD))
             DO I=1,NME+NMOD
                DO J=1,NSN
                   JJ=NINT(FSKYFXB(IAD+J,1))
@@ -95,7 +95,7 @@ C
             DO I=1,NSPMD-1
                NSNPMAX=MAX(NSNPMAX,NSNP(I))
             ENDDO
-            ALLOCATE(FSKYP(NSNPMAX*(1+NME+NMOD),NSPMD-1))
+            ALLOCATE(FSKYP(NSNPMAX*(1+NME+NMOD), NSPMD-1))
             II=0
             DO I=1,NSPMD
                IF (ISPMD==I-1) CYCLE
@@ -131,7 +131,7 @@ C
      .                     ITAG, SPMD_COMM_WORLD, REQ(1), IERR)
             CALL MPI_WAIT(REQ, STAT, IERR)
 C
-            ALLOCATE(FSKYL(NSN,1+NME+NMOD))
+            ALLOCATE(FSKYL(NSN, 1+NME+NMOD))
             DO I=1,1+NME+NMOD
                DO J=1,NSN
                   FSKYL(J,I)=FSKYFXB(IAD+J,I)
@@ -143,7 +143,7 @@ C
      .                     ITAG, SPMD_COMM_WORLD, REQ(1), IERR)
             CALL MPI_WAIT(REQ, STAT, IERR)
 C
-            DEALLOCATE(FSKYL)
+           DEALLOCATE(FSKYL)
          ENDIF
       ENDDO
 C
@@ -195,7 +195,7 @@ C
          NSN=FXBIPM(18,NFX)
          AVAR=FXBIPM(13,NFX)
          IAD=IADN(NFX)
-         ALLOCATE(FSKYL(NSN,NME+NMOD))
+         ALLOCATE(FSKYL(NSN, NME+NMOD))
          DO I=1,NME+NMOD
             DO J=1,NSN
                JJ=NINT(FSKYFXB(IAD+J,1))

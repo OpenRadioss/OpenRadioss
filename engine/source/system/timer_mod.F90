@@ -319,6 +319,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          use my_alloc_mod
           type(timer_), intent(inout) :: T
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -329,12 +330,12 @@
 #endif
           integer :: j
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(T%timer(4,max_nb_timer))
-          allocate(T%cputime(max_nb_timer))
-          allocate(T%systime(max_nb_timer))
-          allocate(T%realtime(max_nb_timer))
-          allocate(T%omp_initime(max_nb_timer))
-          allocate(T%clockini(max_nb_timer))
+          call my_alloc(T%timer, 4, max_nb_timer, "T%timer")
+          call my_alloc(T%cputime, max_nb_timer, "T%cputime")
+          call my_alloc(T%systime, max_nb_timer, "T%systime")
+          call my_alloc(T%realtime, max_nb_timer, "T%realtime")
+          call my_alloc(T%omp_initime, max_nb_timer, "T%omp_initime")
+          call my_alloc(T%clockini, max_nb_timer, "T%clockini")
           do j = 1, max_nb_timer
             t%cputime(j) = 0
             t%systime(j) = 0

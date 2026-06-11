@@ -48,6 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
+      use my_alloc_mod
+      use my_dealloc_mod, only : my_dealloc
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -59,7 +61,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: SIZE_BUFFER
-        INTEGER, INTENT(in) :: CHUNK ! chunk size : 1-> interface id, 2-> surface id, 3:6-> node id (for type11, 5&6 values are equal to 0)
+        INTEGER, INTENT(in) :: CHUNK
+! chunk size : 1-> interface id, 2-> surface id, 3:6-> node id (for type11, 5&6 values are equal to 0)
         INTEGER, DIMENSION(SIZE_BUFFER), INTENT(inout) :: BUFFER
         INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
         INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
@@ -105,12 +108,13 @@ C-----------------------------------------------
         ! cnel is not bijective (2 differents index can give the same cnel(i) value)
         ! --> need to tag the elements to avoid a duplication
         NUMBER_ELEMENT = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR + NUMELTG
-        ALLOCATE( LIST_ELEMENT(NUMBER_ELEMENT) ) ! <-- list of element to flush only the modified cells
-        ALLOCATE( ALREADY_HERE(NUMBER_ELEMENT) ) ! <-- boolean to avoid any element duplications
+        call my_alloc(LIST_ELEMENT, NUMBER_ELEMENT, "LIST_ELEMENT")
+! <-- list of element to flush only the modified cells
+        call my_alloc(ALREADY_HERE, NUMBER_ELEMENT, "ALREADY_HERE") ! <-- boolean to avoid any element duplications
         ALREADY_HERE(1:NUMBER_ELEMENT) = .FALSE.
         NUMBER_ELEMENT_HERE = 0
 
-        ALLOCATE( TAG_NODE(NUMNOD+1) )
+        call my_alloc(TAG_NODE, NUMNOD+1, "TAG_NODE")
         TAG_NODE(1:NUMNOD+1) = 0
         DO J=1,SIZE_BUFFER,CHUNK
             NIN = BUFFER(J)
@@ -215,9 +219,9 @@ C-----------------------------------------------
             ! ---------------
         ENDDO
 
-        DEALLOCATE( TAG_NODE )
-        DEALLOCATE( LIST_ELEMENT )
-        DEALLOCATE( ALREADY_HERE )
+        call my_dealloc(TAG_NODE)
+        call my_dealloc(LIST_ELEMENT)
+        call my_dealloc(ALREADY_HERE)
 
         RETURN
         END SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE

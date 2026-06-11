@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_F
       USE USER_ID_MOD , ONLY : ID_LIMIT
       USE ASCII_ENCODING_MU_LETTER_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,10 +105,10 @@ C----------------------------------------------
       UNITE = 0
       UNITAB%NUNITS = NUNIT0+NSUBMOD+1
       UNITAB%NUNIT0 = NUNIT0
-      ALLOCATE(UNITAB%UNIT_ID(NUNIT0+NSUBMOD+1))
-      ALLOCATE(UNITAB%FAC_M  (NUNIT0+NSUBMOD+1))
-      ALLOCATE(UNITAB%FAC_L  (NUNIT0+NSUBMOD+1))
-      ALLOCATE(UNITAB%FAC_T  (NUNIT0+NSUBMOD+1))
+      call my_alloc(UNITAB%UNIT_ID, NUNIT0+NSUBMOD+1, "UNITAB%UNIT_ID")
+      call my_alloc(UNITAB%FAC_M, NUNIT0+NSUBMOD+1, "UNITAB%FAC_M")
+      call my_alloc(UNITAB%FAC_L, NUNIT0+NSUBMOD+1, "UNITAB%FAC_L")
+      call my_alloc(UNITAB%FAC_T, NUNIT0+NSUBMOD+1, "UNITAB%FAC_T")
 
       FAC_M_INPUT = ZERO
       FAC_L_INPUT = ZERO
