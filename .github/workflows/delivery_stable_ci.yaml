@@ -74,34 +74,34 @@ jobs:
             binary: starter
             precision: dp
             os: linuxa64
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
           - build: starter_linuxa64_sp
             binary: starter
             precision: sp
             os: linuxa64
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
           - build: engine_linuxa64
             binary: engine
             precision: dp
             os: linuxa64
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
           - build: engine_linuxa64_sp
             binary: engine
             precision: sp
             os: linuxa64
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
           - build: engine_linuxa64_ompi
             binary: engine
             precision: dp
             os: linuxa64
             mpi: ompi
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
           - build: engine_linuxa64_ompi_sp
             binary: engine
             precision: sp
             os: linuxa64
             mpi: ompi
-            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+            image_name: rd-linuxa64-rl8.10-bld:armfl24.04-ompi4.1.2-ts11
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
