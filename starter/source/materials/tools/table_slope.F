@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_slope      ../starter/source/materials/tools/table_slope.F
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat163   ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-!||    law163_upd       ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law70_upd        ../starter/source/materials/mat/mat070/law70_upd.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../starter/share/message_module/message_mod.F
