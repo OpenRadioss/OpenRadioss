@@ -1,4 +1,4 @@
-﻿Copyright>        OpenRadioss
+Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2026 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
@@ -82,21 +82,21 @@ C=======================================================================
 C     INPUT PARAMETERS INITIALIZATION
 C=======================================================================
       
-      E_ELAS_N  =  UPARAM(1)  ! Rigid élastique normale (EN)
-      E_ELAS_S  =  UPARAM(2)  ! Rigid élastique tang (ET)
-      GAMA      =  UPARAM(3)  ! Param de couplage de mode (GAMMA)
-      T_N       =  UPARAM(4)  ! Conrainte normale (TN)
-      T_S       =  UPARAM(5)  ! Contrainte tang de ciss (TT)
-      IRUPT     =  INT(UPARAM(6)  ) ! Modèle (1 = Power law, 2 = BK METHOD) (IRUPT)
-      GIC       =  UPARAM(7)  ! Energie critique de rupture - mode I (GIC)
-      GIIC      =  UPARAM(8)  ! Energie critique de rupture - mode II (GIIC)
+      E_ELAS_N  =  UPARAM(1)  ! Normal elastic stiffness (EN)
+      E_ELAS_S  =  UPARAM(2)  ! Tangential elastic stiffness (ET)
+      GAMA      =  UPARAM(3)  ! Mode coupling parameter (GAMMA)
+      T_N       =  UPARAM(4)  ! Normal stress (TN)
+      T_S       =  UPARAM(5)  ! Tangential shear stress (TT)
+      IRUPT     =  INT(UPARAM(6)  ) ! Model (1 = Power law, 2 = BK METHOD) (IRUPT)
+      GIC       =  UPARAM(7)  ! Critical fracture energy - mode I (GIC)
+      GIIC      =  UPARAM(8)  ! Critical fracture energy - mode II (GIIC)
       NFAIL     =  INT(UPARAM(9)) ! IDEL (dft = 1 INT)
       EXP_G     =  UPARAM(10)  
       EXP_BK    =  UPARAM(11) ! Benzeggage-Kenane exponent for the mixed mode (EXP_BK)
-      DELTA0N_CST   =  UPARAM(13)        !         DISP puremode N - déplacement initial normal
-      DELTA0S_CST   =  UPARAM(14)        !         DISP puremode S - deplacment initial tang
-      UND_CST       =  UPARAM(15)   ! ultimate displacement in normal direction (UND) - depl ultime de rupture norm
-      UTD_CST       =  UPARAM(16)   ! ultimate displacement in tangential direction (UTD) - depl ultime de rupture tang
+      DELTA0N_CST   =  UPARAM(13)        !         DISP puremode N - initial normal displacement
+      DELTA0S_CST   =  UPARAM(14)        !         DISP puremode S - initial tangential displacement
+      UND_CST       =  UPARAM(15)   ! ultimate displacement in normal direction (UND)
+      UTD_CST       =  UPARAM(16)   ! ultimate displacement in tangential direction (UTD)
       
       ICRITTYP  = INT(UPARAM(18)) ! 1=displacement-based, 2=energy-based
       IEVOSHAP  = INT(UPARAM(19)) ! 1=linear, 2=exponential
@@ -298,7 +298,7 @@ C=======================================================================
       ENDIF
       
 C=======================================================================
-C     ENERGY COMPUTATION (UNIQUEMENT POUR LE CRITERE ENERGETIQUE)
+C     ENERGY COMPUTATION (ONLY FOR THE ENERGY-BASED CRITERION)
 C=======================================================================
       IF (ICRITTYP == 2) THEN
           
@@ -356,15 +356,15 @@ C=======================================================================
                       DAM = (DELTAFMAX(I) / EPSMMAX(I)) *
      .                      (EPSMMAX(I)   - DELTA0M(I)) /
      .                  MAX((DELTAFMAX(I) - DELTA0M(I)), EM20)
-                  ELSE IF (IEVOSHAP == 2) THEN ! Exponentielle
+                  ELSE IF (IEVOSHAP == 2) THEN ! Exponential
                       U_NORM =    (EPSMMAX(I) - DELTA0M(I)) /
      .                      MAX((DELTAFMAX(I) - DELTA0M(I)), EM20)
                       
                       DAM    =          ONE - (DELTA0M(I)/EPSMMAX(I)) *
      .                  (EXP(-ALPHA*U_NORM) - EXP_ALPHA) / DENOM1       
                   ENDIF
-                  DMG(I) = MAX(DMG(I), DAM) ! Respecte la monotonie du damage
-                  DMG(I) = MIN(DMG(I), ONE) ! Saturé à 1 par définition
+                  DMG(I) = MAX(DMG(I), DAM) ! Enforce damage monotonicity
+                  DMG(I) = MIN(DMG(I), ONE) ! Saturated at 1 by definition
                   
                   ! Deactivate EF (Displament Criterion)
                   IF (OFFL(I) == ONE.AND.EPSMMAX(I) > DELTAFMAX(I)) THEN
@@ -399,7 +399,7 @@ C=======================================================================
      .                                            MAX((D_F - DELTA0M(I)), EM20)
                       DMG(I) = MAX(DMG(I), DAM)
                       DMG(I) = MIN(DMG(I), ONE)
-                  ELSE IF (IEVOSHAP == 2) THEN ! La loi merdique - intégration
+                  ELSE IF (IEVOSHAP == 2) THEN ! Exponential law - integration
                       
                       !
                       DENOM2 = MAX(GC(I) - G0(I), EM20)
@@ -415,7 +415,7 @@ C=======================================================================
                           E_ELAS = E_ELAS_N
                       ENDIF
                       
-                      ! EDO IMPLICIT
+                      ! Implicit ODE
                       DELTA_PREV = UVAR(I,4)
                       DDELTA = MAX(EPSMMAX(I) - DELTA_PREV, ZERO)
                       IF (DDELTA > ZERO .AND. EPSMMAX(I) > DELTA0M(I)) THEN
@@ -470,19 +470,19 @@ C=======================================================================
 C     SAVE UVAR FIELDS
 C======================================================================= 
       DO I=1, NEL
-          UVAR(I,1) = EPSZZ(I) ! Déformation normale
-          UVAR(I,2) = EPSZX(I) ! Cissailement X
-          UVAR(I,3) = EPSYZ(I) ! Cissaillement Y
+          UVAR(I,1) = EPSZZ(I) ! Normal strain
+          UVAR(I,2) = EPSZX(I) ! Shear strain X
+          UVAR(I,3) = EPSYZ(I) ! Shear strain Y
           
-          UVAR(I,4) = EPSMMAX(I) ! Déformation max (historique)
+          UVAR(I,4) = EPSMMAX(I) ! Maximum strain (history)
           
           UVAR(I,5) = DMG(I)
           
-          UVAR(I,6) = SIGNZZ(I) ! Contrainte normale
-          UVAR(I,7) = SIGNZX(I) ! Contrainte X 
-          UVAR(I,8) = SIGNYZ(I) ! Contrainte Y
+          UVAR(I,6) = SIGNZZ(I) ! Normal stress
+          UVAR(I,7) = SIGNZX(I) ! Stress X
+          UVAR(I,8) = SIGNYZ(I) ! Stress Y
           UVAR(I,9) = DELTA0M(I) ! delta_mix_0
-          UVAR(I,10)= BETA(I) ! Ratio de mode mixte
+          UVAR(I,10)= BETA(I) ! Mixed-mode ratio
         
           UVAR(I,12)= DELTAFMAX(I) ! delta_f_max
           
@@ -497,20 +497,20 @@ c-----------------------------------------------------
 c-----------------------------------------------------      
 c     omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
-          ! DTB = (dt ciblé / scaling factor)**2
+          ! DTB = (target dt / scaling factor)**2
           DTB = (DTMINS/DTFACS)**2
-          ! Pour chaque EF, on scale la masse par DMELS(I) ou HALF*DTB*STF*AREA(I)*OFF(I)
-          ! On a ajouté le OFF(I) pour ne pas scaler les éléments qui ont sauté
-          ! HALF*DTB*STF*AREA(I) a pour unité s2.N/m3 * m2 -> s2 N/m = MASSE
+          ! For each FE, scale mass by DMELS(I) or HALF*DTB*STF*AREA(I)*OFF(I)
+          ! OFF(I) is included to avoid scaling failed elements
+          ! HALF*DTB*STF*AREA(I) unit: s2.N/m3 * m2 -> s2 N/m = MASS
           DO I=1,NEL                                                 
               DMELS(I) = MAX(DMELS(I),HALF*DTB*STF*AREA(I)*OFF(I))
           ENDDO                                                        
       END IF
       
-      ! Update de la raideur des EFs en tenant compte de la raideur cohésive. 
+    ! Update FE stiffness accounting for cohesive stiffness.
       STIFM(1:NEL) = STIFM(1:NEL) + STF*AREA(1:NEL)*OFF(1:NEL)    
 c-----------------------------------------------------     
-      ! Si des elements ont sauté, on print un message.
+    ! If elements have failed, print a message.
       IF (NINDXF > 0) THEN
           DO II=1,NINDXF
               I = INDXF(II)
