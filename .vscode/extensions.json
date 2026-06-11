@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-vscode.cmake-tools",
+    "ms-vscode-remote.remote-wsl",
+    "fortran-lang.linter-gfortran"
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 19, "patch": 0 },
+  "configurePresets": [
+
+    // ─── Hidden base presets ──────────────────────────────────────────────────
+    {
+      "name": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "cmake_ver":           "v2",
+        "precision":           "dp",
+        "debug":               "0",
+        "CMAKE_BUILD_TYPE":    "Release"
+      }
+    },
+    {
+      "name": "base-engine",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "build":     "engine",
+        "engine":    "openradioss_engine"
+      },
+      "binaryDir": "${sourceDir}/engine/cbuildv2_openradioss_engine_${presetName}"
+    },
+    {
+      "name": "base-starter",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "build":     "starter",
+        "starter":   "starter"
+      },
+      "binaryDir": "${sourceDir}/starter/cbuildv2_starter_${presetName}"
+    },
+    {
+      "name": "base-linux64-gf",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "linux64_gf",
+        "CMAKE_Fortran_COMPILER":     "gfortran",
+        "CMAKE_C_COMPILER":           "gcc",
+        "CMAKE_CXX_COMPILER":         "g++"
+      }
+    },
+    {
+      "name": "base-linux64-ifx",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "linux64_ifx",
+        "CMAKE_Fortran_COMPILER":     "ifx",
+        "CMAKE_C_COMPILER":           "icx",
+        "CMAKE_CXX_COMPILER":         "icpx"
+      }
+    },
+    {
+      "name": "base-linux64-ifort",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "linux64_ifort",
+        "CMAKE_Fortran_COMPILER":     "ifort",
+        "CMAKE_C_COMPILER":           "icc",
+        "CMAKE_CXX_COMPILER":         "icpc"
+      }
+    },
+    {
+      "name": "base-linuxa64-gf",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "linuxa64_gf",
+        "CMAKE_Fortran_COMPILER":     "gfortran",
+        "CMAKE_C_COMPILER":           "gcc",
+        "CMAKE_CXX_COMPILER":         "g++"
+      }
+    },
+    {
+      "name": "base-linuxa64-armflang",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "linuxa64",
+        "CMAKE_Fortran_COMPILER":     "armflang",
+        "CMAKE_C_COMPILER":           "armclang",
+        "CMAKE_CXX_COMPILER":         "armclang++"
+      }
+    },
+    {
+      "name": "base-win64-ifx",
+      "hidden": true,
+      "cacheVariables": {
+        "arch":                       "win64",
+        "CMAKE_Fortran_COMPILER":     "ifx",
+        "CMAKE_C_COMPILER":           "icx",
+        "CMAKE_CXX_COMPILER":         "icpx"
+      }
+    },
+
+    // ─── Engine presets ───────────────────────────────────────────────────────
+    {
+      "name":        "engine-linux64-gf",
+      "displayName": "Engine — Linux x86-64 — GFortran (release)",
+      "inherits":    ["base-engine", "base-linux64-gf"]
+    },
+    {
+      "name":        "engine-linux64-gf-debug",
+      "displayName": "Engine — Linux x86-64 — GFortran (debug)",
+      "inherits":    "engine-linux64-gf",
+      "cacheVariables": {
+        "debug": "1",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name":        "engine-linux64-gf-ompi",
+      "displayName": "Engine — Linux x86-64 — GFortran + OpenMPI (release)",
+      "inherits":    "engine-linux64-gf",
+      "cacheVariables": {
+        "MPI": "ompi"
+      }
+    },
+    {
+      "name":        "engine-linux64-ifx",
+      "displayName": "Engine — Linux x86-64 — Intel ifx (release)",
+      "inherits":    ["base-engine", "base-linux64-ifx"]
+    },
+    {
+      "name":        "engine-linux64-ifx-impi",
+      "displayName": "Engine — Linux x86-64 — Intel ifx + Intel MPI (release)",
+      "inherits":    "engine-linux64-ifx",
+      "cacheVariables": {
+        "MPI": "impi"
+      }
+    },
+    {
+      "name":        "engine-linux64-ifx-ompi",
+      "displayName": "Engine — Linux x86-64 — Intel ifx + OpenMPI (release)",
+      "inherits":    "engine-linux64-ifx",
+      "cacheVariables": {
+        "MPI": "ompi"
+      }
+    },
+    {
+      "name":        "engine-linuxa64-gf",
+      "displayName": "Engine — Linux ARM64 — GFortran (release)",
+      "inherits":    ["base-engine", "base-linuxa64-gf"]
+    },
+    {
+      "name":        "engine-linuxa64-armflang",
+      "displayName": "Engine — Linux ARM64 — Arm Compiler (release)",
+      "inherits":    ["base-engine", "base-linuxa64-armflang"]
+    },
+    {
+      "name":        "engine-win64-ifx",
+      "displayName": "Engine — Windows x86-64 — Intel ifx (release)",
+      "inherits":    ["base-engine", "base-win64-ifx"],
+      "generator":   "Unix Makefiles"
+    },
+
+    // ─── Starter presets ──────────────────────────────────────────────────────
+    {
+      "name":        "starter-linux64-gf",
+      "displayName": "Starter — Linux x86-64 — GFortran (release)",
+      "inherits":    ["base-starter", "base-linux64-gf"]
+    },
+    {
+      "name":        "starter-linux64-gf-debug",
+      "displayName": "Starter — Linux x86-64 — GFortran (debug)",
+      "inherits":    "starter-linux64-gf",
+      "cacheVariables": {
+        "debug": "1",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name":        "starter-linux64-ifx",
+      "displayName": "Starter — Linux x86-64 — Intel ifx (release)",
+      "inherits":    ["base-starter", "base-linux64-ifx"]
+    },
+    {
+      "name":        "starter-linuxa64-gf",
+      "displayName": "Starter — Linux ARM64 — GFortran (release)",
+      "inherits":    ["base-starter", "base-linuxa64-gf"]
+    },
+    {
+      "name":        "starter-win64-ifx",
+      "displayName": "Starter — Windows x86-64 — Intel ifx (release)",
+      "inherits":    ["base-starter", "base-win64-ifx"],
+      "generator":   "Unix Makefiles"
+    }
+
+  ],
+
+  "buildPresets": [
+    { "name": "engine-linux64-gf",          "configurePreset": "engine-linux64-gf"          },
+    { "name": "engine-linux64-gf-debug",     "configurePreset": "engine-linux64-gf-debug"    },
+    { "name": "engine-linux64-gf-ompi",      "configurePreset": "engine-linux64-gf-ompi"     },
+    { "name": "engine-linux64-ifx",          "configurePreset": "engine-linux64-ifx"         },
+    { "name": "engine-linux64-ifx-impi",     "configurePreset": "engine-linux64-ifx-impi"    },
+    { "name": "engine-linux64-ifx-ompi",     "configurePreset": "engine-linux64-ifx-ompi"    },
+    { "name": "engine-linuxa64-gf",          "configurePreset": "engine-linuxa64-gf"         },
+    { "name": "engine-linuxa64-armflang",    "configurePreset": "engine-linuxa64-armflang"   },
+    { "name": "engine-win64-ifx",            "configurePreset": "engine-win64-ifx"           },
+    { "name": "starter-linux64-gf",          "configurePreset": "starter-linux64-gf"         },
+    { "name": "starter-linux64-gf-debug",    "configurePreset": "starter-linux64-gf-debug"   },
+    { "name": "starter-linux64-ifx",         "configurePreset": "starter-linux64-ifx"        },
+    { "name": "starter-linuxa64-gf",         "configurePreset": "starter-linuxa64-gf"        },
+    { "name": "starter-win64-ifx",           "configurePreset": "starter-win64-ifx"          }
+  ]
+}

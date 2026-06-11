@@ -1,0 +1,35 @@
+## MPI setup for Linux — supports smp and ompi only (no impi).
+## Sets: mpi_suf, mpi_flag, mpi_inc, mpi_lib
+## Reads: MPI, mpi_os, mpi_root, mpi_incdir, mpi_libdir
+##
+## Optional input: OMPI_EXTRA_LIBS — additional ompi link libs beyond -lmpi -lmpi_mpifh
+##   e.g. set(OMPI_EXTRA_LIBS "-lmpi_usempif08") before including this file.
+if (DEFINED MPI)
+  set(mpiver "${MPI}")
+  if (mpiver STREQUAL "smp")
+    set(mpi_suf "")
+  elseif (mpiver STREQUAL "ompi")
+    set(mpi_inc "-I/opt/openmpi/include/")
+    set(mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh ${OMPI_EXTRA_LIBS}")
+    if (mpi_os STREQUAL "1")
+      set(mpi_inc " ")
+      set(mpi_lib "-lmpi -lmpi_mpifh ${OMPI_EXTRA_LIBS}")
+    else()
+      if (DEFINED mpi_root)
+        set(mpi_inc "-I${mpi_root}/include/")
+        set(mpi_lib "-L${mpi_root}/lib -lmpi -lmpi_mpifh ${OMPI_EXTRA_LIBS}")
+      else()
+        if (DEFINED mpi_incdir)
+          set(mpi_inc "-I${mpi_incdir}")
+        endif()
+        if (DEFINED mpi_libdir)
+          set(mpi_lib "-L${mpi_libdir} -lmpi -lmpi_mpifh ${OMPI_EXTRA_LIBS}")
+        endif()
+      endif()
+    endif()
+    set(mpi_suf "_${mpiver}")
+    set(mpi_flag "-DMPI ${mpi_inc}")
+  else()
+    message(FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n")
+  endif()
+endif()

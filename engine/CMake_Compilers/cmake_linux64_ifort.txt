@@ -140,7 +140,7 @@ if(DEFINED mumps_root)
       set (MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
       set (MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
     endif()
-    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmk_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
+    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmkl_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
     set(MUMPSLIB "${mumps_root}/lib")
     set(mumps_inc "-I${mumps_root}/include")
     set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_")
@@ -161,14 +161,14 @@ set(Fortran "${wo_linalg} -ftz  -extend-source -assume buffered_io -align array6
 
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags}  ${cppmach} ${cpprel} ${ADF}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flag}  ${cppmach} ${cpprel} ${ADF}" )
 
 # C source files
 
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS   "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS   "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel} -O2 " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel} -O2  -std=c++11 " )
 
 # Linking flags
 
@@ -192,9 +192,9 @@ string(STRIP ${LINK} LINK)
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
-set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flags} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O1_AXSSE3 " -O1 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flag} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 " -O2 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flag} ${mpi_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 " -O3 -axsse3 -no-fma -qopenmp -fp-model precise ${precision_flag} ${Fortran} ${mumps_flag} ${mpi_flag} ${cppmach} ${cpprel}")
 
 # rad2rad_c.c 
 set (C_BASIC "${cppmach} ${cpprel}" )
@@ -213,37 +213,37 @@ endif()
 
 if ( debug STREQUAL "0" )
 # outp_c_s.F
-set_source_files_properties( ${source_directory}/source/sty/outp_c_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_c_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_c_t.F
-set_source_files_properties( ${source_directory}/source/sty/outp_c_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_c_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_mt.F
-set_source_files_properties( ${source_directory}/source/sty/outp_mt.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_mt.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_mt.F
-set_source_files_properties( ${source_directory}/source/sty/outp_no.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_no.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_n_v.F
-set_source_files_properties( ${source_directory}/source/sty/outp_n_v.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_n_v.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_n_v.F
-set_source_files_properties( ${source_directory}/source/sty/outp_r_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_r_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_r_t.F
-set_source_files_properties( ${source_directory}/source/sty/outp_r_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_r_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_sp_s.F
-set_source_files_properties( ${source_directory}/source/sty/outp_sp_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_sp_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_sp_t.F
-set_source_files_properties( ${source_directory}/source/sty/outp_sp_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_sp_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_s_s.F
-set_source_files_properties( ${source_directory}/source/sty/outp_s_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_s_s.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # outp_s_s.F
-set_source_files_properties( ${source_directory}/source/sty/outp_s_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
+set_source_files_properties( ${source_directory}/source/output/sty/outp_s_t.F PROPERTIES COMPILE_FLAGS ${F_O3_AXSSE3})
 
 # resol_init.F
 set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
@@ -262,9 +262,6 @@ set_source_files_properties( ${source_directory}/source/interfaces/inter3d/i3fri
 
 # arralloc / compiler issue 
 set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
-
-# i11cor3.F
-set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
 
 # i11cor3.F
 set_source_files_properties( ${source_directory}/source/interfaces/int11/i11cor3.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
@@ -320,7 +317,6 @@ set_source_files_properties( ${source_directory}/source/model/remesh/admmap4.F P
 
 # fvm airbags           
 set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})

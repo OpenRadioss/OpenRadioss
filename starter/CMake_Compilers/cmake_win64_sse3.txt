@@ -71,7 +71,7 @@ else (precision STREQUAL "sp")
 endif (precision STREQUAL "sp")
 
 # Modules directory
-set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/{EXEC_NAME}/modules )
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/CMakeFiles/${EXEC_NAME}/modules )
 set(CMAKE_Fortran_MODDIR_FLAG "/module:" )
 
 message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
@@ -117,8 +117,8 @@ set (LINK "advapi32.lib")
 # Specific set of compilation flag
 
 set (F_O1_compiler_flags " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /fp:precise /Qopenmp /Qftz")
-set (F_O1_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /Qopenmp /fp:precise /Qftz")
-set (F_O2_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O2 /Qopenmp /fp:precise /Qftz")
+set (F_O1_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O1 /fp:precise /Qftz")
+set (F_O2_compiler_flags_no_omp " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /extend-source /O2 /fp:precise /Qftz")
 
 if ( debug STREQUAL "0" )
   set_source_files_properties( ${source_directory}/source/starter/lectur.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )

@@ -113,6 +113,10 @@ else()
    set(FPP_FLAG "/fpp")
 endif()
 
+if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
+  set ( wo_linalg "-DWITHOUT_LINALG" )
+endif()
+
 if ( debug STREQUAL "0" )
   set(opt_flag "${wo_linalg} /Qaxsse3,COMMON-AVX512 /Qfma- /Qimf-use-svml:true /align:array64byte")
   set(optc_flag "${wo_linalg} /Qfma- /Qimf-use-svml:true")
@@ -156,10 +160,6 @@ if(DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "")
     #print the content of optc_flag"
     set(optc_flag "${optc_flag} ${mumps_flag} ${mumps_inc}")
     message(STATUS "opt_flags= ${opt_flag}")
-endif()
-
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
-set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
 
@@ -288,7 +288,6 @@ set_source_files_properties( ${source_directory}/source/model/remesh/admmap4.F P
 
 # fvm airbags           
 set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
 set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})

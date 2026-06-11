@@ -33,6 +33,8 @@ function my_help()
   echo " -clean             : clean build directory"
   echo " " 
   echo " -no-python : do not link with python"
+  echo " "
+  echo " -cmake_ver=v2     : use new CMake_Compilers_v2/ build system (default: legacy)"
   echo " " 
 }
 
@@ -58,6 +60,8 @@ dc=""
 qd=""
 ADF=""
 static_link=0
+cmake_ver=legacy
+dcmake_ver=""
 number_of_arguments=$#
 clean=0
 verbose=""
@@ -68,24 +72,31 @@ ad=none
 use_openreader=0
 orb=""
 
-if [ "`uname -m`" == "x86_64" ]
+if [ "$(uname -m)" = "x86_64" ]
 then
   built_in_arch=linux64
+  default_arch=linux64_gf
 else
   built_in_arch=linuxa64
+  default_arch=linuxa64_gf
 fi
 
 
 if [ $number_of_arguments = 0 ]
 then
-  my_help
-  exit 1
- 
-else
+  echo "No arguments — building with default: -arch=${default_arch} -cmake_ver=legacy"
+  echo "Run './build_script.sh -help' for all options."
+fi
 
    for var in "$@"
    do
        arg=`echo $var|awk -F '=' '{print $1}'`
+
+       if [ "$arg" == "-help" ] || [ "$var" == "--help" ] || [ "$var" == "-h" ]
+       then
+         my_help
+         exit 0
+       fi
 
        if [ "$arg" == "-arch" ]
        then
@@ -150,6 +161,16 @@ else
          no_python=1
        fi
 
+       if [ "$arg" == "-cmake_ver" ]
+       then
+         cmake_ver=`echo $var|awk -F '=' '{print $2}'`
+         if [ "$cmake_ver" = "legacy" ]; then
+           dcmake_ver=""
+         else
+           dcmake_ver="-Dcmake_ver=${cmake_ver}"
+         fi
+       fi
+
        if [ "$arg" == "-release" ]
        then
          release=1
@@ -177,15 +198,9 @@ else
 
    done
 
-   if [ $got_arch == 0 ] 
+   if [ $got_arch == 0 ]
    then
-     echo " " 
-     echo " --- Error "
-     echo " No architecture flag set ! "
-     echo " -arch=[architecture]" 
-     echo "       Available arch:"
-     my_help
-     exit 1
+     arch=${default_arch}
    fi
 
    if [ $release == 1 ]
@@ -195,7 +210,11 @@ else
    fi 
 
 starter_exec=${st_vers}_${arch}${dmpi}${suffix}${ddebug}
-build_directory=cbuild_${starter_exec}${cf}
+if [ "$cmake_ver" = "legacy" ]; then
+  build_directory=cbuild_${starter_exec}${cf}
+else
+  build_directory=cbuild${cmake_ver}_${starter_exec}${cf}
+fi
 
    echo " " 
    echo " Build OpenRadioss Starter "
@@ -205,6 +224,7 @@ build_directory=cbuild_${starter_exec}${cf}
    echo " precision =            : " $prec
    echo " debug =                : " $debug
    echo " static_link =          : " $static_link
+   echo " cmake_ver =            : " $cmake_ver
    if [ $use_openreader == 1 ]
    then
        echo " "
@@ -220,7 +240,6 @@ build_directory=cbuild_${starter_exec}${cf}
    echo " "
    echo " #threads for Makefile : " $threads
    echo " "
-fi
 
 if [ $clean = 1 ]
 then
@@ -294,29 +313,58 @@ then
     then
       source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
     else
-      echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help below"
-      echo " " 
-      my_help
-      exit 1
+      echo "-- Error: -arch=${arch} does not exist in CMake_Compilers_c/"
+      cd .. && exit 1
     fi
-else
+elif [ "$cmake_ver" = "legacy" ]
+then
     if [ -f ../CMake_Compilers/cmake_${arch}_compilers.sh ]
     then
       source ../CMake_Compilers/cmake_${arch}_compilers.sh
     else
-      echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help below"
-      echo " " 
-      my_help
-      exit 1
+      echo "-- Error: -arch=${arch} does not exist in CMake_Compilers/"
+      cd .. && exit 1
     fi
+else
+    # v2 mode: embedded compiler lookup (no external files needed)
+    case "$arch" in
+      linux64_gf)        Fortran_comp=gfortran;  C_comp=gcc;       CXX_comp=g++         ;;
+      linux64_ifort)     Fortran_comp=ifort;     C_comp=icc;       CXX_comp=icpc        ;;
+      linux64_ifx)       Fortran_comp=ifx;       C_comp=icx;       CXX_comp=icpx        ;;
+      linux64_AOCC)      Fortran_comp=flang;     C_comp=clang;     CXX_comp=clang++     ;;
+      linux64_nv)        Fortran_comp=nvfortran; C_comp=nvc;       CXX_comp=nvc++       ;;
+      linuxa64|linuxa64_armflang) Fortran_comp=armflang; C_comp=armclang; CXX_comp=armclang++ ;;
+      linuxa64_gf)       Fortran_comp=gfortran;  C_comp=gcc;       CXX_comp=g++         ;;
+      win64|win64_ifx|win64_sse3) Fortran_comp=ifx; C_comp=icx;   CXX_comp=icpx        ;;
+      win64_ifort)       Fortran_comp=ifort;     C_comp=icl;       CXX_comp=icl         ;;
+      *)
+        echo "-- Error: Unknown arch '${arch}' for v2 build."
+        echo "-- Available architectures:"
+        cat ../CMake_Compilers_v2/platforms.txt
+        cd .. && exit 1
+        ;;
+    esac
+    CPP_comp=$CXX_comp
 fi
 
-Fortran_path=`which $Fortran_comp`
-C_path=`which $C_comp`
-CPP_path=`which $CPP_comp`
-CXX_path=`which $CXX_comp`
+Fortran_path=`which $Fortran_comp 2>/dev/null`
+C_path=`which $C_comp 2>/dev/null`
+CPP_path=`which $CPP_comp 2>/dev/null`
+CXX_path=`which $CXX_comp 2>/dev/null`
+
+# Validate compilers are found
+if [ -z "$Fortran_path" ]; then
+  echo "-- Error: Fortran compiler '$Fortran_comp' not found in PATH"
+  cd .. && exit 1
+fi
+if [ -z "$C_path" ]; then
+  echo "-- Error: C compiler '$C_comp' not found in PATH"
+  cd .. && exit 1
+fi
+if [ -z "$CXX_path" ]; then
+  echo "-- Error: C++ compiler '$CXX_comp' not found in PATH"
+  cd .. && exit 1
+fi
 
 
 # Apply cmake
@@ -327,9 +375,9 @@ then
   C_path_w=`cygpath.exe -m "${C_path}"`
   CPP_path_w=`cygpath.exe -m "${CPP_path}"`
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
-  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
+  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc} -Dno_python=${no_python} -Dstatic_link=$static_link ${dcmake_ver} -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} -DUSE_OPEN_READER=${use_openreader} ..
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize} ${dcmake_ver} -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} -DUSE_OPEN_READER=${use_openreader} ..
 fi
 
 return_value=$?

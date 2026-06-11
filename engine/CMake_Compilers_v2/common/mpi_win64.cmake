@@ -1,0 +1,21 @@
+## MPI setup for Windows — supports smp and impi (Intel MPI) only.
+## Also sets MKL_libraries (different for smp vs impi).
+## Sets: mpi_suf, mpi_flag, mpi_inc, mpi_lib, MKL_flags, MKL_libraries
+set(mpiver "${MPI}")
+if (mpiver STREQUAL "smp")
+  set(cpprel "-DCPP_rel=00")
+  set(mpi_suf "")
+  set(MKL_flags "-Dmkl")
+  set(MKL_libraries "mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib")
+elseif (mpiver STREQUAL "impi")
+  set(cpprel "-DCPP_rel=20")
+  set(mpi_suf "_${mpiver}")
+  set(I_MPI_ROOT "$ENV{I_MPI_ROOT}")
+  set(mpi_inc  "-I\"${I_MPI_ROOT}/include\" ")
+  set(mpi_lib  "impi.lib")
+  set(mpi_flag "-DMPI ${mpi_inc}")
+  set(MKL_flags "-Dmkl")
+  set(MKL_libraries "mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib mkl_blacs_intelmpi_lp64.lib mkl_scalapack_lp64.lib")
+else()
+  message(FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n")
+endif()

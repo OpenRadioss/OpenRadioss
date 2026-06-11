@@ -1,0 +1,13 @@
+## Full CMake flag reset — Intel / NVHPC / Windows style.
+set(CMAKE_Fortran_FLAGS " ")
+set(CMAKE_C_FLAGS " ")
+set(CMAKE_CPP_FLAGS " ")
+set(CMAKE_CXX_FLAGS " ")
+set(CMAKE_Fortran_FLAGS_DEBUG " ")
+set(CMAKE_Fortran_FLAGS_RELEASE " ")
+set(CMAKE_C_FLAGS_DEBUG " ")
+set(CMAKE_C_FLAGS_RELEASE " ")
+set(CMAKE_CPP_FLAGS_DEBUG " ")
+set(CMAKE_CPP_FLAGS_RELEASE " ")
+set(CMAKE_CXX_FLAGS_DEBUG " ")
+set(CMAKE_CXX_FLAGS_RELEASE " ")
