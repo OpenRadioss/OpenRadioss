@@ -1093,7 +1093,7 @@ C======================================================================|
      .    THKEC,EANIT,PRES,WMA
       INTEGER SRWORK
       INTEGER LXINTD
-      my_real TOTADDMAS
+      my_real TOTADDMAS,TOTADDINER
       CHARACTER(LEN=NCHARLINE) ::ERR_MSG
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBORDEDGE,INOM_OPT
       DOUBLE PRECISION RSIBUFSSG,RNIGE,RRIGE,RXIGE,RVIGE
@@ -1319,6 +1319,7 @@ C
       IALELAG = 0
 C  added nodal mass
       TOTADDMAS = ZERO
+      TOTADDINER = ZERO
       IPART_STACK = 0
       IPART_PCOMPP = 0
 C
@@ -5707,6 +5708,7 @@ CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
       IF(IDDLEVEL==1) THEN
         TOTADDMAS = ZERO
+        TOTADDINER = ZERO
         MS = ZERO
         IN = ZERO
         MCP = ZERO
@@ -7998,16 +8000,16 @@ C--------------------------------------------
            FLAGG = 0
 !---
            CALL HM_READ_ADMAS(
-     .                  MS      ,ITABM1   ,IGRNOD   ,UNITAB ,IGRSURF,
-     .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG  ,IGRPART,
-     .                  X       ,LSUBMODEL)
+     .                  MS      ,ITABM1   ,IGRNOD   ,UNITAB  ,IGRSURF   ,
+     .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG   ,IGRPART   ,
+     .                  X       ,LSUBMODEL,IDDLEVEL ,IN      ,TOTADDINER)
 !---
            FLAGG = 1
 !---
            CALL HM_READ_ADMAS(
-     .                  MS      ,ITABM1   ,IGRNOD   ,UNITAB ,IGRSURF,
-     .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG  ,IGRPART,
-     .                  X       ,LSUBMODEL)
+     .                  MS      ,ITABM1   ,IGRNOD   ,UNITAB  ,IGRSURF   ,
+     .                  IPART   ,IPMAS    ,TOTADDMAS,FLAGG   ,IGRPART   ,
+     .                  X       ,LSUBMODEL,IDDLEVEL ,IN      ,TOTADDINER)
 !---
            IF(NS10E>0) CALL ADDMAST10(ICNDS10,  MS    )
 C---
@@ -8930,7 +8932,7 @@ C
      &            MS_PLY0    , ZI_PLY0        , ITAGND_SHXFEM    , ITAGSH             , MCPC     ,
      &            MCPTG      , XREFC          , XREFTG           , XREFS              , MSSA     ,
      &            MSRT       , IRBE2          , LRBE2            , INIVOL        , KVOL     , NBSUBMAT,
-     &            IXS10      , IXS16          , IXS20            , TOTADDMAS          ,
+     &            IXS10      , IXS16          , IXS20            , TOTADDMAS          ,TOTADDINER,
      &            IPMAS      , STIFFN         , MSZ20            , ITAGN              , SITAGE   ,
      &            ITAGE      , IXR_KJ         , ELBUF_TAB        ,
      &            NOM_OPT    , INOM_OPT(13)   , INOM_OPT(21)     , INOM_OPT(20),

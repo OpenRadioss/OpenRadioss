@@ -90,6 +90,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE OPTIONDEF_MOD
 !-----------------------------------------------------------------------
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARTITLE
+        USE PRECISION_MOD, ONLY: WP
+        PRIVATE WP
 !-----------------------------------------------------------------------
 #include "my_real.inc"
 !-----------------------------------------------------------------------
@@ -121,6 +123,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           my_real   :: RPMAS ! ADMAS added to PARTS (or NODES)
         END TYPE PART_
 !--------------
+        !--------------
+        TYPE NODE_
+          REAL(KIND=WP) :: MASS    ! mass value for a node
+          REAL(KIND=WP) :: IXX     ! xx component of added inertia tensor for a node
+          REAL(KIND=WP) :: IYY     ! yy component of added inertia tensor for a node
+          REAL(KIND=WP) :: IZZ     ! zz component of added inertia tensor for a node
+          REAL(KIND=WP) :: IXY     ! xy component of added inertia tensor for a node
+          REAL(KIND=WP) :: IXZ     ! xz component of added inertia tensor for a node
+          REAL(KIND=WP) :: IYZ     ! yz component of added inertia tensor for a node
+        END TYPE NODE_
         TYPE ADMAS_
           INTEGER   :: ID ! - ADMAS IDENTIFIER
           CHARACTER(LEN=NCHARTITLE) :: TITLE ! ADMAS title
@@ -134,6 +146,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                    = 5 ! Mass is added to each single node
 !                    = 6 ! Additional mass distributed on each single part
 !                    = 7 ! Final mass distributed on each single part
+!                    = 10 ! Inertia is added to each node of node group
+!                    = 15 ! Inertia is added to each single node
           INTEGER   :: WEIGHT_FLAG  ! Flag to switch between area weighted distribution and volume
 !                                   weighted distribution of the added mass to parts)
 !                    = 0 ! Volume weighted distribution (shell and solid parts) (default)
@@ -141,6 +155,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           INTEGER   :: NPART ! NUMBER of parts to get ADMAS
           INTEGER, DIMENSION(:),ALLOCATABLE :: PARTID ! PART_ID to get ADMAS
           TYPE (PART_) ,DIMENSION(:) ,ALLOCATABLE :: PART  ! PARTS get ADMAS
+!
+          INTEGER :: NBNOD ! NUMBER of nodes to get ADMAS
+          INTEGER :: GRNODID ! node group id for ADMAS type 0,1,10
+          INTEGER, DIMENSION(:) ,ALLOCATABLE :: NODEID ! node ids list to add INERTIA
+          TYPE (NODE_) , DIMENSION(:) ,ALLOCATABLE :: NODE  ! node to store inertia/mass values for /admas type 10 and 15
         END TYPE ADMAS_
 !-----------------------------------------------------------------------
 !--------------
