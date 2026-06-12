@@ -57,7 +57,7 @@ set ( RELNAME ${arch}${mpi_suf})
 # ---------------------
 
 #H3D
-set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
+set (h3d_inc "-DH3D_DEFINE_BOOL -I${source_directory}/../extlib/h3d/includes")
 
 # Zlib
 set (zlib_inc "-I${source_directory}/../extlib/zlib/win64_mt/include")
