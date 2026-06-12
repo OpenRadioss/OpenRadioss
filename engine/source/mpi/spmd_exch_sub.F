@@ -28,7 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nlocal_reg_mod        ../common_source/modules/nlocal_reg_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      SUBROUTINE SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
+      SUBROUTINE SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM,
+     .                               NUMNOD_OLD,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,12 +50,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*)
+      INTEGER NUMNOD_OLD, ITAB(*)
       TYPE (NLOCAL_STR_) ,TARGET :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: COUNT,COUNT2
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NEWNN
       INTEGER P,J,TOTAL_NODES,NCOUNT,NOD,NN,NPOS,NDDL
+      INTEGER NNEW,IA,IB,ITMP,KKN
 
       INTEGER :: LSD,LRD,CC,LOC_PROC,KK
 C-----------------------------------------------
@@ -93,6 +97,11 @@ c
             COUNT(P) = COUNT(P) +1                   !   Updating the counter tables
             COUNT2(P)= COUNT2(P)+KK*NDDL
           ENDIF
+          ! DEBUG: trace local node 2601 (uid=17474) appearance in boundary
+C          IF (ISPMD.EQ.4 .AND. NOD.EQ.2601) THEN
+C            WRITE(6,9002) ISPMD,P-1,NOD,NN,NLOC_DMG%IDXI(NOD)
+C            CALL FLUSH(6)
+C          END IF
         ENDDO
         TOTAL_NODES = TOTAL_NODES + COUNT(P)         ! Total number of non-local d.o.fs at the boundaries
       ENDDO
@@ -149,28 +158,39 @@ C     -----------------------------
                 DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
                   IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN                          
                     LSD=LSD+1
+C                    IF((ISPMD.EQ.4.AND.P.EQ.4).OR.
+C     .                 (ISPMD.EQ.3.AND.P.EQ.5))
+C     .              WRITE(6,9001)ISPMD,P-1,NN,CC,NLOC_DMG%INDX(NN)
                   ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
                     LRD=LRD+1
                   ENDIF
- 
+  
                ENDDO
            ENDDO
         ENDDO
 !   ------------------------
 !   allocation of ISENDSP and IRECSP
+        IF(ALLOCATED( NLOC_DMG%IADSDP ) )   DEALLOCATE( NLOC_DMG%IADSDP ) 
+        IF(ALLOCATED( NLOC_DMG%IADRCP ) )    DEALLOCATE( NLOC_DMG%IADRCP )
+        IF(ALLOCATED( NLOC_DMG%FR_NBCC ) )   DEALLOCATE( NLOC_DMG%FR_NBCC )
+        IF(ALLOCATED( NLOC_DMG%FR_ELEM_S ) )         DEALLOCATE( NLOC_DMG%FR_ELEM_S )
+        IF(ALLOCATED( NLOC_DMG%FR_ELEM_R ) ) DEALLOCATE( NLOC_DMG%FR_ELEM_R )
+
+        
+        IF(ALLOCATED(NLOC_DMG%ISENDSP)) DEALLOCATE(NLOC_DMG%ISENDSP)
+        IF(ALLOCATED(NLOC_DMG%IRECSP)) DEALLOCATE(NLOC_DMG%IRECSP)
         ALLOCATE( NLOC_DMG%ISENDSP(LSD) )
-        ALLOCATE( NLOC_DMG%IRECSP(LRD) ) 
+        ALLOCATE( NLOC_DMG%IRECSP(LRD) )
         NLOC_DMG%ISENDSP(1:LSD) = 0
         NLOC_DMG%IRECSP(1:LRD) = 0
-                                
+
 !   ------------------------
 !   fill ISENDSP and IRECSP    
-        IF( .NOT.ALLOCATED( NLOC_DMG%IADSDP ) ) ALLOCATE( NLOC_DMG%IADSDP(NSPMD+1) )
-        IF( .NOT.ALLOCATED( NLOC_DMG%IADRCP ) ) ALLOCATE( NLOC_DMG%IADRCP(NSPMD+1) ) 
-        IF( .NOT.ALLOCATED( NLOC_DMG%FR_NBCC ) ) ALLOCATE( NLOC_DMG%FR_NBCC(2,NSPMD+1) )
-
-        IF( .NOT.ALLOCATED( NLOC_DMG%FR_ELEM_S ) ) ALLOCATE( NLOC_DMG%FR_ELEM_S(LSD) )
-        IF( .NOT.ALLOCATED( NLOC_DMG%FR_ELEM_R ) ) ALLOCATE( NLOC_DMG%FR_ELEM_R(LRD) ) 
+        ALLOCATE( NLOC_DMG%IADSDP(NSPMD+1) )
+        ALLOCATE( NLOC_DMG%IADRCP(NSPMD+1) ) 
+        ALLOCATE( NLOC_DMG%FR_NBCC(2,NSPMD+1) )
+        ALLOCATE( NLOC_DMG%FR_ELEM_S(LSD) )
+        ALLOCATE( NLOC_DMG%FR_ELEM_R(LRD) ) 
         NLOC_DMG%FR_ELEM_S(1:LSD) = 0
         NLOC_DMG%FR_ELEM_R(1:LRD) = 0
 
@@ -184,26 +204,78 @@ C     -----------------------------
         DO P=1,NSPMD
            NLOC_DMG%IADSDP(P)=LSD
            NLOC_DMG%IADRCP(P)=LRD
-
+C          Pass 1: pre-existing non-local nodes (local id <= NUMNOD_OLD), kept
+C          in NLOC_DMG%FR_ELEM order (already consistent from startup).
             DO J=NLOC_DMG%IAD_ELEM(P),NLOC_DMG%IAD_ELEM(P+1)-1
-                NN = NLOC_DMG%FR_ELEM(J)
-                NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
+               NN = NLOC_DMG%FR_ELEM(J)
+               IF (NLOC_DMG%INDX(NN) > NUMNOD_OLD) CYCLE
+               NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
 
-                DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
-                  IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
-                    NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL      
-                    NLOC_DMG%ISENDSP(LSD)=CC                    
-                    NLOC_DMG%FR_ELEM_S(LSD)=NN             
-                    LSD=LSD+1
-                  ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
-                    NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL      
-                    NLOC_DMG%IRECSP(LRD)=CC 
-                    NLOC_DMG%FR_ELEM_R(LRD)=NN                                    
-                    LRD=LRD+1
-                  ENDIF
- 
+               DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
+                 IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
+                   NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL      
+                   NLOC_DMG%ISENDSP(LSD)=CC                    
+                   NLOC_DMG%FR_ELEM_S(LSD)=NN             
+                   LSD=LSD+1
+                 ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
+                   NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL      
+                   NLOC_DMG%IRECSP(LRD)=CC 
+                   NLOC_DMG%FR_ELEM_R(LRD)=NN                                    
+                   LRD=LRD+1
+                 ENDIF
                ENDDO
            ENDDO
+C          Pass 2: new split non-local nodes (local id > NUMNOD_OLD), enumerated
+C          sorted by global id (ITAB) so the owner SEND order matches the partner
+C          RECV order (analogous to REBUILD_PON_TABLES for the mechanical skyline;
+C          split nodes are bidirectional and otherwise ordered differently on each
+C          rank, which misroutes SPMD_EXCH_SUB_PON send/recv slots).
+            NNEW = 0
+            DO J=NLOC_DMG%IAD_ELEM(P),NLOC_DMG%IAD_ELEM(P+1)-1
+              IF (NLOC_DMG%INDX(NLOC_DMG%FR_ELEM(J)) > NUMNOD_OLD)
+     .          NNEW = NNEW + 1
+            ENDDO
+            IF (NNEW > 0) THEN
+              ALLOCATE(NEWNN(NNEW))
+              KKN = 0
+              DO J=NLOC_DMG%IAD_ELEM(P),NLOC_DMG%IAD_ELEM(P+1)-1
+               NN = NLOC_DMG%FR_ELEM(J)
+               IF (NLOC_DMG%INDX(NN) > NUMNOD_OLD) THEN
+                 KKN = KKN + 1
+                 NEWNN(KKN) = NN
+               ENDIF
+              ENDDO
+C             insertion sort NEWNN by ascending ITAB(INDX(NN)) (global id)
+              DO IA = 2, NNEW
+               ITMP = NEWNN(IA)
+               IB = IA - 1
+               DO WHILE (IB >= 1)
+                 IF (ITAB(NLOC_DMG%INDX(NEWNN(IB))) <=
+     .                ITAB(NLOC_DMG%INDX(ITMP))) EXIT
+                 NEWNN(IB+1) = NEWNN(IB)
+                 IB = IB - 1
+               ENDDO
+               NEWNN(IB+1) = ITMP
+              ENDDO
+              DO KKN = 1, NNEW
+               NN = NEWNN(KKN)
+               NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
+               DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
+                 IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
+                   NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL
+                   NLOC_DMG%ISENDSP(LSD)=CC
+                   NLOC_DMG%FR_ELEM_S(LSD)=NN
+                   LSD=LSD+1
+                 ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
+                   NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL
+                   NLOC_DMG%IRECSP(LRD)=CC
+                   NLOC_DMG%FR_ELEM_R(LRD)=NN
+                   LRD=LRD+1
+                 ENDIF
+               ENDDO
+              ENDDO
+              DEALLOCATE(NEWNN)
+            ENDIF
         ENDDO
 !   ------------------------
         NLOC_DMG%FR_NBCC(1:2,NSPMD+1) = 0
@@ -212,13 +284,28 @@ C     -----------------------------
             NLOC_DMG%FR_NBCC(2,NSPMD+1) = NLOC_DMG%FR_NBCC(2,NSPMD+1) + NLOC_DMG%FR_NBCC(2,J)
         ENDDO
 
+C--- [NLOC_NBCC] Print send/receive sizes per rank-pair at cycle 0 (split cycle)
+        IF (.FALSE.) THEN  ! [NLOC_NBCC] debug disabled
+          DO J=1,NSPMD
+            IF (NLOC_DMG%FR_NBCC(1,J) > 0 .OR.
+     .          NLOC_DMG%FR_NBCC(2,J) > 0) THEN
+              WRITE(*,'(A,I2,A,I2,A,I8,A,I8)')
+     .          '[NLOC_NBCC] r=', LOC_PROC-1,
+     .          ' <-> r=', J-1,
+     .          ' send=', NLOC_DMG%FR_NBCC(1,J),
+     .          ' recv=', NLOC_DMG%FR_NBCC(2,J)
+            ENDIF
+          ENDDO
+          FLUSH(6)
+        ENDIF
+
         NLOC_DMG%IADSDP(NSPMD+1)=LSD
         NLOC_DMG%IADRCP(NSPMD+1)=LRD
+ 9001   FORMAT('[DBG_SUB_SEND] r=',I2,' p=',I2,' nn=',I7,' cc=',I8,
+     .          ' uid=',I8)
+ 9002   FORMAT('[DBG_NOD2601] r=',I2,' p=',I2,' nod=',I6,' nn=',I7,' idxi=',I7)
       ENDIF
       END
-
-
-!||====================================================================
 !||    spmd_exch_sub_poff    ../engine/source/mpi/spmd_exch_sub.F
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F

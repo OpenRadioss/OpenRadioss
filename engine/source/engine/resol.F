@@ -668,6 +668,8 @@ C-----------------------------------------------
               USE CONNECTIVITY_MOD
               USE NODAL_ARRAYS_MOD
               USE detach_node_mod
+              USE nloc_shell_detach_mod
+              USE spmd_rebuild_boundary_mod
               USE DSGRAPH_MOD
               USE ERROR_MOD
               USE RESOLSAV_MOD
@@ -1086,6 +1088,13 @@ C----
               SAVE DRETRI, XSEC, LISENDP, LIRECVP, ISENDP, IRECVP,
      .             CNEL, ADDCNEL, ADDTMPL, IPARTL, NPARTL, LINDIDEL, LBUFIDEL,
      .             LBUFSEGLO
+C--- Saved original BOUNDARY_ADD/BOUNDARY for NLOC exchange.
+C--- spmd_rebuild_boundary uses MAIN_PROC only, losing multi-section placements
+C--- set at startup from element connectivity.  SPMD_SUB_BOUNDARIES must use
+C--- the original startup boundary to keep the NLOC exchange sizes correct.
+              INTEGER, DIMENSION(:,:), ALLOCATABLE, SAVE :: NLOC_BND_ADD_ORIG
+              INTEGER, DIMENSION(:),   ALLOCATABLE, SAVE :: NLOC_BND_ORIG
+              INTEGER, SAVE :: NLOC_BND_NSPMD_SAVE = -1
               my_real DT2T,
      .                DT2SAVE,  MAS, BB, WFEXC,TREST,DTREST,
      .                DMAST, DINERT, FACTB,DAMPT,
@@ -1347,7 +1356,7 @@ C-------------------------------------------------------------------------------
               INTEGER STOP_OR_ADD_CYCLE  !< Check if additional cycle must be done after restart at termination
               INTEGER, PARAMETER :: MAXFUNC = 100
               INTEGER :: GLOB_IDEL7NOK, RQ_SHOOTING_NODE
-              integer :: numnod_old,numnodm_old
+              integer :: numnod_old,numnodm_old,nloc_nnod_old
               integer :: new_crack,nsect_offset
               TYPE(FR_WAVE_) :: FR_WAVE_BUF
 C-----------------------------------------------------------------------------------
@@ -1381,6 +1390,9 @@ C-------------------------------------------------------------------------------
 C GPU
               type(SHELLS_) :: SHELLS
               integer :: ipri
+
+
+              INTEGER IDBG_LID, IDBG_NLI, IDBG_CC, IDBG_I, IDBG_J
 C             
 
               call resol_alloc_phase1(rby6,dxancg,nb25_candt,nb25_impct,nb25_dst1,nb25_dst2,igrouc,igrounc, 
@@ -4486,10 +4498,71 @@ C
 
  22           CONTINUE
 
+
+!             IF(NLOC_DMG%IMOD > 0 .AND. NCYCLE >= 1775 .AND. NCYCLE <= 1782) THEN
+!               IDBG_LID = 0
+!               DO IDBG_I = 1, NUMNOD
+!                 IF(NODES%ITAB(IDBG_I) == 13550) THEN
+!                   IDBG_LID = IDBG_I
+!                   EXIT
+!                 END IF
+!               END DO
+!               IF(IDBG_LID > 0) THEN
+!                 IDBG_NLI = NLOC_DMG%IDXI(IDBG_LID)
+!                 WRITE(6,'(A,I6,A,I3,A,I6,A,I6)') '[DBG13550_PRE_EXCH] cyc=',
+!    .              NCYCLE,' r=',ISPMD,' lid=',IDBG_LID,' nli=',IDBG_NLI
+!                 IF(IDBG_NLI > 0) THEN
+!                   WRITE(6,'(A,I6,A,I3,A,I7,A,I7)') '[DBG13550_PRE_EXCH] cyc=',
+!    .                NCYCLE,' r=',ISPMD,' addcne_lo=',NLOC_DMG%ADDCNE(IDBG_NLI),
+!    .                ' addcne_hi=',NLOC_DMG%ADDCNE(IDBG_NLI+1)-1
+!                   DO IDBG_CC = NLOC_DMG%ADDCNE(IDBG_NLI),
+!    .                            NLOC_DMG%ADDCNE(IDBG_NLI+1)-1
+!                     WRITE(6,'(A,I6,A,I3,A,I7,A,I4)') '[DBG13550_PRE_EXCH] cyc=',
+!    .                  NCYCLE,' r=',ISPMD,' cc=',IDBG_CC,
+!    .                  ' proc=',NLOC_DMG%PROCNE(IDBG_CC)
+!                     DO IDBG_J = 1, NLOC_DMG%NDDMAX
+!                       WRITE(6,'(A,I6,A,I3,A,I7,A,I3,A,E14.6)')
+!    .                    '[DBG13550_PRE_EXCH] cyc=',NCYCLE,' r=',ISPMD,
+!    .                    ' cc=',IDBG_CC,' dof=',IDBG_J,
+!    .                    ' fsky=',NLOC_DMG%FSKY(IDBG_CC,IDBG_J)
+!                     END DO
+!                   END DO
+!                 END IF
+!               END IF
+!               CALL FLUSH(6)
+!             END IF
+
 !   Mpi communication for Nlocal option : parith/off
               IF(IPARIT /= 0.AND.NSPMD > 1.AND. NLOC_DMG%IMOD > 0)THEN
                 CALL SPMD_EXCH_SUB_PON(NLOC_DMG)
               ENDIF
+
+
+c             IF(NLOC_DMG%IMOD > 0 .AND. NCYCLE >= 1775 .AND. NCYCLE <= 1782) THEN
+c               IF(IDBG_LID > 0) THEN
+c                 IDBG_NLI = NLOC_DMG%IDXI(IDBG_LID)
+c                 IF(IDBG_NLI > 0) THEN
+c                   WRITE(6,'(A,I6,A,I3,A,I7,A,I7)') '[DBG13550_POST_EXCH] cyc=',
+c    .                NCYCLE,' r=',ISPMD,' addcne_lo=',NLOC_DMG%ADDCNE(IDBG_NLI),
+c    .                ' addcne_hi=',NLOC_DMG%ADDCNE(IDBG_NLI+1)-1
+c                   DO IDBG_CC = NLOC_DMG%ADDCNE(IDBG_NLI),
+c    .                            NLOC_DMG%ADDCNE(IDBG_NLI+1)-1
+c                     WRITE(6,'(A,I6,A,I3,A,I7,A,I4)') '[DBG13550_POST_EXCH] cyc=',
+c    .                  NCYCLE,' r=',ISPMD,' cc=',IDBG_CC,
+c    .                  ' proc=',NLOC_DMG%PROCNE(IDBG_CC)
+c                     DO IDBG_J = 1, NLOC_DMG%NDDMAX
+c                       WRITE(6,'(A,I6,A,I3,A,I7,A,I3,A,E14.6)')
+c    .                    '[DBG13550_POST_EXCH] cyc=',NCYCLE,' r=',ISPMD,
+c    .                    ' cc=',IDBG_CC,' dof=',IDBG_J,
+c    .                    ' fsky=',NLOC_DMG%FSKY(IDBG_CC,IDBG_J)
+c                     END DO
+c                   END DO
+c                   CALL FLUSH(6)
+c                 END IF
+c               END IF
+c             END IF
+
+
               IF(NSPMD > 1.AND. NINTLOADP > 0)THEN
                 LENR = NODES%BOUNDARY_ADD(1,NSPMD+1)-NODES%BOUNDARY_ADD(1,1)
                 CALL SPMD_EXCH_TAGNCONT(TAGNCONT,NODES%BOUNDARY_ADD ,NODES%BOUNDARY,LENR     )
@@ -4792,6 +4865,10 @@ C===============================================================================
               NODFTSK_2   = NODFT_ASSPAR(ITSK+1)
               NODLTSK_2   = NODLT_ASSPAR(ITSK+1)
 
+C             write(6,*) NCYCLE,__LINE__,"ASSPAR4 CALL", NUMNOD, IPARIT
+C             call flush(6)
+C             call SPMD_BARRIER()
+
               IF(IPARIT==1)THEN
 
 C------------------------
@@ -5010,20 +5087,20 @@ C---------------------------------------------------------------------
 C---------------------------------------------------------------------
 C DEBUG OUTPUT ACCELERATION
 C---------------------------------------------------------------------
-              IF (DEBUG(MACRO_DEBUG_ACC)==1) THEN
-                IF (NCYCLE>=DEBSTART .AND.MOD(NCYCLE-DEBSTART,RSTFREQ)==0) THEN
-                  IF(NSPMD > 1) THEN
-                    IF (ISPMD==0) THEN
-                      SIZ = NUMNODG
-                    ELSE
-                      SIZ = 0
-                    END IF
-                    CALL SPMD_COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB,SIZ)
-                  ELSE
-                    CALL COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB)
-                  END IF
-                END IF
-              END IF
+!             IF (DEBUG(MACRO_DEBUG_ACC)==1) THEN
+!               IF (NCYCLE>=DEBSTART .AND.MOD(NCYCLE-DEBSTART,RSTFREQ)==0) THEN
+!                 IF(NSPMD > 1) THEN
+!                   IF (ISPMD==0) THEN
+!                     SIZ = NUMNODG
+!                   ELSE
+!                     SIZ = 0
+!                   END IF
+!                   CALL SPMD_COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB,SIZ)
+!                 ELSE
+!                   CALL COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB)
+!                 END IF
+!               END IF
+!             END IF
 
 C-----------------------------------------------
 C       COMMUNICATION BETWEEN BOUNDARY ELEMENTS AFTER ASSEMBLY
@@ -5231,55 +5308,142 @@ C Init var parallel SMP
 
 c ========================================================================================
 C                                     node splitting
-C  uncomment the following code for an example of node splitting (using non-physical deformation critera)
+             IF(NLOC_DMG%IMOD>0) THEN
+               numnod_old = numnod
+               numnodm_old = numnodm
+               nloc_nnod_old = NLOC_DMG%NNOD
+               call nloc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
+     .                  numnodg, numelc, ispmd, nspmd,
+     .                  new_crack, nloc_dmg, nthread)
+ 
+               if(new_crack > 0) then
+                 ! if at least 1 node has been detached, some data must be re-initialized
+                 numnodm = numnodm_old + new_crack
+#ifdef MPI
+                 ! Rebuild BOUNDARY and BOUNDARY_ADD from scratch using updated ownership.
+                 ! This replaces the per-split extend_boundary_for_split incremental updates.
+                 IF (NSPMD > 1) THEN
+                   ! On the FIRST split: save the startup BOUNDARY so it can be merged with
+                   ! new-node entries after each subsequent rebuild.
+                   ! spmd_rebuild_boundary uses only MAIN_PROC ownership, which moves some
+                   ! pre-existing nodes out of sections where they were placed at startup
+                   ! based on element connectivity (e.g., a triple-rank node shared by ranks
+                   ! 0,3,4 ends up only in rank-0 section, losing the rank-3 exchange).
+                   ! The merge_boundary_with_split call below restores the correct sections
+                   ! for pre-existing nodes while adding the new split-node entries.
+                   IF (NLOC_BND_NSPMD_SAVE < 0) THEN
+                     NLOC_BND_NSPMD_SAVE = NODES%BOUNDARY_SIZE
+                     ALLOCATE(NLOC_BND_ADD_ORIG(2, NSPMD+1))
+                     ALLOCATE(NLOC_BND_ORIG(MAX(1, NLOC_BND_NSPMD_SAVE)))
+                     NLOC_BND_ADD_ORIG = NODES%BOUNDARY_ADD
+                     IF (NLOC_BND_NSPMD_SAVE > 0) THEN
+                       NLOC_BND_ORIG(1:NLOC_BND_NSPMD_SAVE) =
+     .                   NODES%BOUNDARY(1:NLOC_BND_NSPMD_SAVE)
+                     END IF
+                   END IF
+                   CALL spmd_rebuild_boundary(NUMNOD, NSPMD, ISPMD,NODES) 
+                   ! Merge: keep startup sections for pre-existing nodes (local ID ≤ NUMNOD_OLD)
+                   ! and append new-node entries from the rebuilt boundary (local ID > NUMNOD_OLD).
+                   ! This ensures both Parith/ON mechanical and NLOC exchanges are correct.
+                   CALL merge_boundary_with_split(NODES, NUMNOD_OLD, NSPMD,
+     .               NLOC_BND_ADD_ORIG, NLOC_BND_ORIG, NLOC_BND_NSPMD_SAVE)
+                   ! Rebuild non-local MPI boundary tables with the merged boundary.
+                   IF (NLOC_DMG%IMOD > 0) THEN
+                     CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,NODES%BOUNDARY_ADD,
+     .                 NODES%BOUNDARY,NUMNOD_OLD,NODES%ITAB)
+                   END IF
+                   ! Rebuild ghost shell communication tables (shells_to_send and offset)
+                   ! now that BOUNDARY/BOUNDARY_ADD reflect the new node ownership.
+                   CALL init_ghost_shells(NODES, ELEMENT, ISPMD, NSPMD,
+     .               NODES%BOUNDARY_ADD, NODES%BOUNDARY_SIZE, NODES%BOUNDARY)
+                   ! Rebuild Parith/ON send/recv tables to include the new node.
+                   ! ASSADD2 runs only once pre-loop; ISENDP/IRECVP/FR_NBCC must be
+                   ! rebuilt here so SPMD_EXCH2_A_PON exchanges the new node FSKY rows.
+                   IF (IPARIT /= 0) THEN
+                     CALL ASSINIT(ELEMENT%PON%ADSKY,
+     .                 NODES%BOUNDARY_ADD, NODES%BOUNDARY,
+     .                 ELEMENT%PON%PROCNE, LISENDP, LIRECVP)
+                     IF (ALLOCATED(ELEMENT%PON%ISENDP))
+     .                 DEALLOCATE(ELEMENT%PON%ISENDP)
+                     IF (ALLOCATED(ELEMENT%PON%IRECVP))
+     .                 DEALLOCATE(ELEMENT%PON%IRECVP)
+                     ALLOCATE(ELEMENT%PON%ISENDP(
+     .                 MIN(LISENDP,1):LISENDP))
+                     ALLOCATE(ELEMENT%PON%IRECVP(
+     .                 MIN(LIRECVP,1):LIRECVP))
+                     CALL REBUILD_PON_TABLES(ELEMENT%PON%ADSKY,
+     .                 NODES%BOUNDARY_ADD, NODES%BOUNDARY,
+     .                 ELEMENT%PON%PROCNE, FR_NBCC,
+     .                 ELEMENT%PON%IADSDP, ELEMENT%PON%IADRCP,
+     .                 ELEMENT%PON%ISENDP, ELEMENT%PON%IRECVP,
+     .                 NUMNOD_OLD, NODES%ITAB)
+                   END IF
+                 END IF
+#endif
+                 CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NODES%BOUNDARY_ADD,NODES%BOUNDARY,
+     .                                NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
+     .                                IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
+     .                                SIZE_ADDCNEL,SIZE_CNEL ,
+     .                                numelsg,numelqg,numelcg,numeltrg,numelpg,
+     .                                numelrg,numeltgg , IXS(L1))
 
-C            numnod_old = numnod
-C            numnodm_old = numnodm
-C            call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
-C    .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, nspmd,
-C    .                new_crack)
 
+                 IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
+                   SIZE_ADDCNEL = NUMNOD+1
+                   SIZE_CNEL = LCNEL
+                   NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+                   S_ELEM_STATE = NELEML
+                   DEALLOCATE(CNEL)
+                   ALLOCATE(CNEL(0:SIZE_CNEL))
+                   DEALLOCATE(ADDCNEL)
+                   ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
+                   DEALLOCATE(ADDTMPL)
+                   ALLOCATE(ADDTMPL(0:NUMNOD+1))
+                   NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+                   ALEMUSCL_Buffer%pCNEL => CNEL
+                   ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
+                   ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
+                   L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+                   L2 = L1+6*NUMELS10
+                   L3 = L2+12*NUMELS20
 
-C            if(new_crack > 0) then
-C              ! if at least 1 node has been detached, some data must be re-initialized
-C              numnodm = numnodm_old + new_crack
-C              CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NODES%BOUNDARY_ADD,NODES%BOUNDARY,
-C    .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
-C    .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
-C    .                              SIZE_ADDCNEL,SIZE_CNEL ,
-C    .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
-C    .                              numelrg,numeltgg , IXS(L1))
+                   CALL CHKINIT(
+     2                IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
+     3                IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
+     4                IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
+     5                ADDTMPL    ,IPARG     )
 
-
-C              IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
-C                SIZE_ADDCNEL = NUMNOD+1
-C                SIZE_CNEL = LCNEL
-C                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-C                S_ELEM_STATE = NELEML
-C                DEALLOCATE(CNEL)
-C                ALLOCATE(CNEL(0:SIZE_CNEL))
-C                DEALLOCATE(ADDCNEL)
-C                ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
-C                DEALLOCATE(ADDTMPL)
-C                ALLOCATE(ADDTMPL(0:NUMNOD+1))
-C                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-C                ALEMUSCL_Buffer%pCNEL => CNEL
-C                ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
-C                ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
-C                L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-C                L2 = L1+6*NUMELS10
-C                L3 = L2+12*NUMELS20
-
-C                CALL CHKINIT(
-C    2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
-C    3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
-C    4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
-C    5              ADDTMPL    ,IPARG     )
-
-C              ENDIF
-C              CALL ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
-C              LCNE0 = SIZE(ELEMENT%PON%PROCNE)
-C            endif
+                 ENDIF
+                 CALL ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
+                 LCNE0 = SIZE(ELEMENT%PON%PROCNE)
+                 LSKY= LCNE0
+                 ! Reallocate skyline arrays after node split (NUMNOD has increased).
+                 ! ADSKYI is dimensioned (0:NUMNOD+1) but was sized for the old NUMNOD.
+                 IF(IPARIT > 0) THEN
+                   IF(SIZE(INTERFACES%PON%ADSKYI,1) < NUMNOD+2) THEN
+                     DEALLOCATE(INTERFACES%PON%ADSKYI)
+                     ALLOCATE(INTERFACES%PON%ADSKYI(0:NUMNOD+1))
+                   ENDIF
+                 ENDIF
+                 IF(RWALL%NRWALL > 0) THEN
+                   CALL DETACH_NODE_FROM_RWALLS(NODES, NUMNOD_OLD, NUMNOD, RWALL)
+                 ENDIF
+                 ! DEBUG: Print NLOC VNL for new split nodes so MPI vs MONO can be compared.
+C                  IF(NLOC_DMG%IMOD > 0) THEN
+C                    DO I=NUMNOD_OLD+1, NUMNOD
+C                      IF(NLOC_DMG%IDXI(I) > 0) THEN
+C                        WRITE(6,'(a,i0,a,i0,a,i0,a,g14.7,a,g14.7)')
+C     .                   '[NLOC_NEWNODE] r=', ISPMD,
+C     .                   ' itab=', NODES%ITAB(I),
+C     .                   ' nl_idx=', NLOC_DMG%IDXI(I),
+C     .                   ' vnl=', NLOC_DMG%VNL(NLOC_DMG%POSI(NLOC_DMG%IDXI(I))),
+C     .                   ' mass=', NLOC_DMG%MASS(NLOC_DMG%POSI(NLOC_DMG%IDXI(I)))
+C                      ENDIF
+C                    ENDDO
+C                    CALL FLUSH(6)
+C                  ENDIF
+               endif
+              endif
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -6796,6 +6960,52 @@ C-----------------------------------------------
                 IF (GLOB_THERM%ITHERM_FE > 0 )
      .             CALL TEMPUR(NODES%TEMP ,NODES%MCP,FTHE,NODFTSK,NODLTSK,NODES%WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
 !$OMP END PARALLEL
+
+! DEBUG: Print node 20024 state to trace A=0 in MONO vs A≠0 in MPI
+C              IF (NCYCLE >= 1800 .AND. NCYCLE <= 1810) THEN
+C                DO I = 1, NUMNOD
+C                  IF (NODES%ITAB(I) == 20024) THEN
+C                    WRITE(6,'(a,I6,a,I2,a,I6,a,E12.5,a,I6,a,E12.5)')
+C     .                '[DBG_20024] cy=',NCYCLE,' r=',ISPMD,
+C     .                ' lid=',I,' in=',NODES%IN(I),
+C     .                ' wt=',NODES%WEIGHT(I),' ms=',NODES%MS(I)
+C                    WRITE(6,'(a,I6,a,I2,I10,a,3Z20)')
+C     .                '[DBG_20024A] cy=',NCYCLE,' W=',nodes%WEIGHT(I),I,
+C     .                ' acc=',NODES%A(1,I),NODES%A(2,I),NODES%A(3,I)
+C                    CALL FLUSH(6)
+C                    EXIT
+C                  END IF
+C                END DO
+C              END IF
+
+!C --- Debug instrumentation: node UID 13550 after NLOCAL_ACC ---
+!              IF(NLOC_DMG%IMOD > 0 .AND. NCYCLE >= 1775 .AND. NCYCLE <= 1782) THEN
+!                IF(IDBG_LID > 0) THEN
+!                  IDBG_NLI = NLOC_DMG%IDXI(IDBG_LID)
+!                  IF(IDBG_NLI > 0) THEN
+!                    WRITE(6,'(A,I6,A,I3,A,I6,A,I6)') '[DBG13550_FNL] cyc=',
+!     .                NCYCLE,' r=',ISPMD,' lid=',IDBG_LID,' nli=',IDBG_NLI
+!                    DO IDBG_J = NLOC_DMG%POSI(IDBG_NLI),
+!     .                           NLOC_DMG%POSI(IDBG_NLI+1)-1
+!                      WRITE(6,'(A,I6,A,I3,A,I7,A,E14.6)') '[DBG13550_FNL] cyc=',
+!     .                  NCYCLE,' r=',ISPMD,' pos=',IDBG_J,
+!     .                  ' fnl=',NLOC_DMG%FNL(IDBG_J,1)
+!                    END DO
+!                  END IF
+!                  WRITE(6,'(A,I6,A,I3,A,3E14.6)') '[DBG13550_ACC] cyc=',
+!     .              NCYCLE,' r=',ISPMD,' acc=',
+!     .              NODES%A(1,IDBG_LID),NODES%A(2,IDBG_LID),NODES%A(3,IDBG_LID)
+!                  WRITE(6,'(A,I6,A,I3,A,3E14.6)') '[DBG13550_VEL] cyc=',
+!     .              NCYCLE,' r=',ISPMD,' vel=',
+!     .              NODES%V(1,IDBG_LID),NODES%V(2,IDBG_LID),NODES%V(3,IDBG_LID)
+!                  WRITE(6,'(A,I6,A,I3,A,E14.6)') '[DBG13550_MS] cyc=',
+!     .              NCYCLE,' r=',ISPMD,' ms=',NODES%MS(IDBG_LID)
+!                  CALL FLUSH(6)
+!                END IF
+!              END IF
+
+
+
                 CALL PYTHON_END_OPENMP(PYTHON)
 
 C------------------------------------------
@@ -8279,6 +8489,22 @@ C Regular animation
      .                                    NODES%WEIGHT,  NODES%NODGLOB)
                   ENDIF
                 ENDIF
+              IF (DEBUG(MACRO_DEBUG_ACC)==1) THEN
+                IF (NCYCLE>=DEBSTART .AND.MOD(NCYCLE-DEBSTART,RSTFREQ)==0) THEN
+                  IF(NSPMD > 1) THEN
+                    IF (ISPMD==0) THEN
+                      SIZ = NUMNODG
+                    ELSE
+                      SIZ = 0
+                    END IF
+                    CALL SPMD_COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB,SIZ)
+                  ELSE
+                    CALL COLLECT(NODES%A,NODES%ITAB,NODES%WEIGHT,NODES%NODGLOB)
+                  END IF
+                END IF
+              END IF
+
+
 
                 IF(SH_OFFSET_TAB%NNSH_OSET > 0) THEN
                   CALL ASSIGN_PTR(PTRX, NODES%X,3,NUMNOD)
@@ -8834,6 +9060,45 @@ C
 C
 !$OMP END PARALLEL
                   CALL PYTHON_END_OPENMP(PYTHON)
+
+C--- [NLOC_DBG] Print VNL/UNL max per rank: early cycles + every 200 + near divergence
+                  IF (.FALSE.) THEN  ! [NLOC_DBG] debug disabled
+                    IF (NCYCLE <= 10 .OR.
+     .                  MOD(NCYCLE,200) == 0 .OR.
+     .                  (NCYCLE >= 1975 .AND. NCYCLE <= 1990)) THEN
+                      WRITE(*,'(A,I6,A,E14.6,A,E14.6,A,I6,A,I2)')
+     .                  '[NLOC_DBG] cy=', NCYCLE,
+     .                  ' VNLmax=',
+     .                  MAXVAL(ABS(NLOC_DMG%VNL(1:NLOC_DMG%L_NLOC))),
+     .                  ' UNLmax=',
+     .                  MAXVAL(ABS(NLOC_DMG%UNL(1:NLOC_DMG%L_NLOC))),
+     .                  ' nnod=', NLOC_DMG%NNOD,
+     .                  ' r=', ISPMD
+C--- Print VNL for specific nodes showing MPI vs MONO difference
+                      BLOCK
+                        INTEGER :: IDBG_UIDS(8), IDBG_UI, IDBG_I, IDBG_NLI
+                        IDBG_UIDS = (/13789,13790,13881,13791,
+     .                                13880,13882,20024,20025/)
+                        DO IDBG_UI = 1, 8
+                          DO IDBG_I = 1, NUMNOD
+                            IF(NODES%ITAB(IDBG_I) == IDBG_UIDS(IDBG_UI)) THEN
+                              IDBG_NLI = NLOC_DMG%IDXI(IDBG_I)
+                              IF(IDBG_NLI > 0) THEN
+                                WRITE(*,'(A,I6,A,I2,A,I6,A,E14.6,A,E14.6)')
+     .                            '[NLOC_NODE] cy=',NCYCLE,' r=',ISPMD,
+     .                            ' uid=',IDBG_UIDS(IDBG_UI),
+     .                            ' vnl=',NLOC_DMG%VNL(
+     .                              NLOC_DMG%POSI(IDBG_NLI)),
+     .                            ' unl=',NLOC_DMG%UNL(
+     .                              NLOC_DMG%POSI(IDBG_NLI))
+                              ENDIF
+                              EXIT
+                            ENDIF
+                          ENDDO
+                        ENDDO
+                      END BLOCK
+                    ENDIF
+                  ENDIF
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
 C

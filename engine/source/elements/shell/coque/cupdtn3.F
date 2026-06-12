@@ -665,6 +665,10 @@ C
           FSKY(6,K)=-M31(I)
           FSKY(7,K)=STI(I)*FAC(I,1)
           FSKY(8,K)=STIR(I)*FAC(I,1)
+C          IF(IXC(7,I)==12010.or.IXC(7,I)==12097.or.IXC(7,I)==13326.or.IXC(7,I)==13413) THEN 
+C            write(6,"(I10,A,I10,A,8Z20)") IXC(7,I)," 1 FSKY(1:8,",K,") = ",FSKY(1:8,K)
+C          ENDIF
+
 C
           K = IADC(2,I)
           FSKY(1,K)=-F12(I)
@@ -675,6 +679,13 @@ C
           FSKY(6,K)=-M32(I)
           FSKY(7,K)=STI(I)*FAC(I,2)
           FSKY(8,K)=STIR(I)*FAC(I,2)
+C          IF(IXC(7,I)==12010.or.IXC(7,I)==12097.or.IXC(7,I)==13326.or.IXC(7,I)==13413) THEN 
+C            write(6,"(I10,A,I10,A,8Z20)") IXC(7,I)," 2 FSKY(1:8,",K,") = ",FSKY(1:8,K)
+C          ENDIF
+
+
+
+
 C
           K = IADC(3,I)
           FSKY(1,K)=-F13(I)
@@ -685,6 +696,13 @@ C
           FSKY(6,K)=-M33(I)
           FSKY(7,K)=STI(I)*FAC(I,1)
           FSKY(8,K)=STIR(I)*FAC(I,1)
+C          IF(IXC(7,I)==12010.or.IXC(7,I)==12097.or.IXC(7,I)==13326.or.IXC(7,I)==13413) THEN 
+C            write(6,"(I10,A,I10,A,8Z20)") IXC(7,I)," 3 FSKY(1:8,",K,") = ",FSKY(1:8,K)
+C          ENDIF
+
+
+
+
 C
           K = IADC(4,I)
           FSKY(1,K)=-F14(I)
@@ -695,6 +713,14 @@ C
           FSKY(6,K)=-M34(I)
           FSKY(7,K)=STI(I)*FAC(I,2)
           FSKY(8,K)=STIR(I)*FAC(I,2)
+
+C          IF(IXC(7,I)==12010.or.IXC(7,I)==12097.or.IXC(7,I)==13326.or.IXC(7,I)==13413) THEN
+C            write(6,"(I10,A,I10,A,8Z20)") IXC(7,I)," 4 FSKY(1:8,",K,") = ",FSKY(1:8,K)
+C          ENDIF
+
+
+
+
         ENDDO
 C
          IF(JTHE > 0 ) THEN

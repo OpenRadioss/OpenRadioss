@@ -292,7 +292,11 @@ c
         DO K = 1,NDNOD
           DO I = 1,NEL
             ! Computing the non-local in-thickness cumulated values
-            UNLTH(I,K) = UNLTH(I,K) + VNLTH(I,K)*DT1
+            ! Guard: broken elements (OFF=0) have FNLTH=0, so VNLTH is frozen.
+            ! Skip the UNLTH update to prevent phantom linear drift in dead elements.
+            IF (OFF(I) /= ZERO) THEN
+              UNLTH(I,K) = UNLTH(I,K) + VNLTH(I,K)*DT1
+            ENDIF
           ENDDO
         ENDDO
 c

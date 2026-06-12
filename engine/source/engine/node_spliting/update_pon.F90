@@ -41,7 +41,7 @@
 !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
 !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
 !||====================================================================
-        subroutine update_pon_shells(elements, n, shell_list, new_numnod)
+        subroutine update_pon_shells(old_node_id, elements, n, shell_list, new_numnod, ispmd, n_recv, recv_procne)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -54,17 +54,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: old_node_id           !< id of the node to detach
           type(connectivity_), intent(inout) ::  elements
           integer, intent(in) :: n                !< size of shell_list
           integer, dimension(n), intent(in) :: shell_list !< list of local shells to detach from the node
           integer, intent(in) :: new_numnod
+          integer, intent(in) :: ispmd            !< 0-based local MPI rank; PROCNE = ispmd+1 for local rows
+          integer, intent(in) :: n_recv           !< number of RECV rows for N' (0 on ghost and placeholder ranks)
+          integer, intent(in) :: recv_procne(n_recv) !< PROCNE value for each RECV row
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, j
+          integer :: i, j, cc
           integer :: shell_id
           integer :: contributions_count
-          integer :: offset
+          integer :: total_new_rows, sfsky_old
           integer, dimension(:), allocatable :: new_adsky
           integer :: new_id
           integer :: numelc !< number of shell elements
@@ -73,6 +77,11 @@
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
 !          not tested when multiple nodes are detached at the same cycle, may not work
+          if(old_node_id > new_numnod) then
+            write(6,*) "Error in update_pon_shells: old_node_id > new_numnod"
+          elseif(old_node_id < 1) then
+            write(6,*) "Error in update_pon_shells: old_node_id < 1"
+          end if
 
           numnod = elements%pon%sadsky - 1
           numelc = size(elements%shell%nodes, 2)
@@ -105,13 +114,13 @@
           ! The actual number of forces contributions is lower or equal than the old number of contributions
           ! But we still extend it, some forces in FSKY will be allways zero
           ! because it allows us to keep the existing pointers to FSKY (such as ISENDP, IRECVDP)
+          total_new_rows = contributions_count + n_recv
+
           call my_alloc(new_adsky, new_numnod + 1)
 
           new_adsky(1:new_numnod) = elements%pon%adsky(1:new_numnod)
 
-          new_adsky(new_numnod + 1) = new_adsky(new_numnod) + contributions_count
-          offset = contributions_count
-!           write(6,*) 'offset', offset
+          new_adsky(new_numnod + 1) = new_adsky(new_numnod) + total_new_rows
 
           call move_alloc(new_adsky,elements%pon%adsky)
           elements%pon%sadsky = new_numnod + 1
@@ -122,20 +131,35 @@
             shell_id = shell_list(i)
             do j = 1, 4
               if(elements%shell%nodes(j, shell_id) == new_id) then
+!                if(elements%shell%user_id(shell_id)==12010 .or. elements%shell%user_id(shell_id)==12097&
+!                  .or. elements%shell%user_id(shell_id)==13326 .or. elements%shell%user_id(shell_id)==13413) then
+!                  write(6,*) old_node_id," old iadc(",j,",",elements%shell%user_id(shell_id),") = ",elements%pon%iadc(j,shell_id)
+!                  write(6,*) old_node_id," new iadc(",j,",",elements%shell%user_id(shell_id),") = ",elements%pon%adsky(new_numnod) + contributions_count
+!                end if
                 elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + contributions_count
-                ! write(6,*) "IADC(", shell_id, ",", j, ") = ", elements%pon%iadc(j,shell_id)
                 contributions_count = contributions_count + 1
               end if
             end do
           end do
 
-          ! extend FSKY
-          !        subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
-          i = size(elements%pon%fsky, 2) + contributions_count
-          call extend_array(elements%pon%fsky, 8,elements%pon%sfsky/8, 8, i)
-!         write(6,*) "old id=", old_id, "new id=", new_id
+          ! extend FSKY and PROCNE by total_new_rows
+          sfsky_old = elements%pon%sfsky / 8
+          i = sfsky_old + total_new_rows
+          call extend_array(elements%pon%fsky, 8, sfsky_old, 8, i)
           elements%pon%sfsky = i * 8
           elements%pon%fsky(1:8, 1:i) = 0
+
+          if (total_new_rows > 0) then
+            call extend_array(elements%pon%procne, sfsky_old, i)
+            ! Local rows: PROCNE = ispmd + 1 (this rank owns these force contributions)
+            do cc = 1, contributions_count
+              elements%pon%procne(sfsky_old + cc) = ispmd + 1
+            end do
+            ! RECV rows: owner gets one slot per ghost-shell contribution to N'
+            do cc = 1, n_recv
+              elements%pon%procne(sfsky_old + contributions_count + cc) = recv_procne(cc)
+            end do
+          end if
 
 
 

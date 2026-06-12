@@ -150,6 +150,7 @@
 !||    spmd_allgatherv_mod             ../engine/source/mpi/spmd_allgatherv.F90
 !||    spmd_allreduce_mod              ../engine/source/mpi/spmd_allreduce.F90
 !||    spmd_alltoall_mod               ../engine/source/mpi/generic/spmd_alltoall.F90
+!||    spmd_alltoallv_mod              ../engine/source/mpi/generic/spmd_alltoallv.F90
 !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
 !||    spmd_iallreduce_mod             ../engine/source/mpi/spmd_iallreduce.F90
 !||    spmd_irecv_mod                  ../engine/source/mpi/spmd_irecv.F90
@@ -170,6 +171,7 @@
         use spmd_wait_mod, only: spmd_wait, spmd_waitall, spmd_waitany
         use spmd_allgatherv_mod, only: spmd_allgatherv
         use spmd_alltoall_mod, only: spmd_alltoall
+        use spmd_alltoallv_mod, only: spmd_alltoallv
         use spmd_pack_mod, only: spmd_pack
         use spmd_unpack_mod, only: spmd_unpack
         use spmd_allreduce_mod
@@ -238,6 +240,7 @@
         public :: SPMD_COMM_WORLD
         public :: spmd_allgatherv
         public :: spmd_alltoall
+        public :: spmd_alltoallv
         public :: spmd_pack
         public :: spmd_unpack
         public :: spmd_max

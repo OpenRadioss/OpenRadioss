@@ -336,7 +336,11 @@ c
         DO K = 1,NDNOD
           DO I = 1,NEL
             ! Computing the non-local in-thickness cumulated values
-            BUFNLTS%UNLTH(I,K) = BUFNLTS%UNLTH(I,K) + BUFNLTS%VNLTH(I,K)*DT1
+            ! Guard: broken elements (OFFG=0) have FNLTH=0, so VNLTH is frozen.
+            ! Skip the UNLTH update to prevent phantom linear drift in dead elements.
+            IF (OFFG(I) /= ZERO) THEN
+              BUFNLTS%UNLTH(I,K) = BUFNLTS%UNLTH(I,K) + BUFNLTS%VNLTH(I,K)*DT1
+            ENDIF
           ENDDO
         ENDDO
 c

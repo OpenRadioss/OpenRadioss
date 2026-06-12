@@ -104,6 +104,8 @@ C-----------------------------------------------
      . NCT,DIFFADD,NDLT,NDFT
  
         my_real FF, FSKYT(NISKY)
+C        my_real FF1, FF2, FF3
+C        my_real FFA(6)
         INTEGER :: VIND_SIZE
         INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
         INTEGER :: CHUNK_NODE,CHUNK_NODE_1
@@ -152,6 +154,42 @@ C-----------------------------------------------
           ADSKYI(N) = ADSKYI(N) + 1
         ENDDO
 !$OMP END SINGLE NOWAIT
+            call flush(6)
+C--- [TRACE] node-divergence tracing (mono vs MPI): FSKY per-K + assembled sum
+C!$OMP SINGLE
+C            DO N = 1,NUMNOD
+C              IF (nodes%itab(N)==13789 .OR. nodes%itab(N)==13790 .OR.
+C     .            nodes%itab(N)==13881 .OR. nodes%itab(N)==20024) THEN
+C                NCT = ADSKY(N)-1
+C                NC = ADSKY(N+1)-ADSKY(N)
+C                FFA(1) = ZERO
+C                FFA(2) = ZERO
+C                FFA(3) = ZERO
+C                FFA(4) = ZERO
+C                FFA(5) = ZERO
+C                FFA(6) = ZERO
+C                DO K = NCT+1, NCT+NC
+C                  WRITE(6,'(a,i0,a,i0,a,i0,a,6Z18)')
+C     .              '[TRACE][r',ispmd,'] uid=',nodes%itab(N),' K=',K,
+C     .              ' F=',FSKY(1,K),FSKY(2,K),FSKY(3,K),
+C     .                   FSKY(4,K),FSKY(5,K),FSKY(6,K)
+C                  FFA(1) = FFA(1) + FSKY(1,K)
+C                  FFA(2) = FFA(2) + FSKY(2,K)
+C                  FFA(3) = FFA(3) + FSKY(3,K)
+C                  FFA(4) = FFA(4) + FSKY(4,K)
+C                  FFA(5) = FFA(5) + FSKY(5,K)
+C                  FFA(6) = FFA(6) + FSKY(6,K)
+C                END DO
+C                WRITE(6,'(a,i0,a,i0,a,i0,a,i0,a,6Z18)')
+C     .            '[TRACEA][r',ispmd,'] uid=',nodes%itab(N),
+C     .            ' w=',nodes%WEIGHT(N),' nc=',NC,' Asum=',
+C     .            FFA(1),FFA(2),FFA(3),FFA(4),FFA(5),FFA(6)
+C              END IF
+C            END DO
+C            call flush(6)
+C!$OMP END SINGLE NOWAIT
+C-----------------------------------------------------------------------------
+ 
 
         ! ------------------------------
         IF(GLOB_THERM%ITHERM_FE == 0 ) THEN

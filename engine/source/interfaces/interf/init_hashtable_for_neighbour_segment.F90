@@ -70,6 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! --------------------------
+          if(allocated(shoot_struct%neighbour)) deallocate(shoot_struct%neighbour)
           allocate(shoot_struct%neighbour(ninter))
           ! ------------
           do i=1,ninter

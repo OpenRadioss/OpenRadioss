@@ -151,6 +151,11 @@ C
             RY(I)=X(2,IXCTMP3)+X(2,IXCTMP4)-X(2,IXCTMP2)-X(2,IXCTMP5)
             SY(I)=X(2,IXCTMP4)+X(2,IXCTMP5)-X(2,IXCTMP2)-X(2,IXCTMP3)
             RZ(I)=X(3,IXCTMP3)+X(3,IXCTMP4)-X(3,IXCTMP2)-X(3,IXCTMP5)
+
+C          IF(IXC(7,I) == 13326) then
+C            write(6,"(A,4Z20)") 'RZ',X(3,IXCTMP3),X(3,IXCTMP4),X(3,IXCTMP2),X(3,IXCTMP5)
+C          endif
+ 
             SSZ(I)=X(3,IXCTMP4)+X(3,IXCTMP5)-X(3,IXCTMP2)-X(3,IXCTMP3)
           ENDDO
         ELSE IF(IXFEM==1)THEN
@@ -167,11 +172,20 @@ C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
         K = 0
+C        DO I=JFT,JLT
+C          IF(IXC(7,I) == 13326) then
+C            write(6,"(A,6Z20)") '-CLSKEW3=',RX(I),RY(I),RZ(I),SX(I),SY(I),SSZ(I) 
+C          endif
+C        ENDDO
+ 
         CALL CLSKEW3(JFT,JLT,K,
      .     RX, RY, RZ,
      .     SX, SY, SSZ,
      .     R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
         DO I=JFT,JLT
+C          IF(IXC(7,I) == 13326) then
+C            write(6,"(A,3Z20)") '+CLSKEW3=',R13(I),OFFG(I),DETA1(I) 
+C          endif
           AREA(I)=FOURTH*DETA1(I)
           OFF_LOC = ZERO
           IF(ABS(OFFG(I))/=ZERO) OFF_LOC = ONE

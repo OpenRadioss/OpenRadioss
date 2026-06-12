@@ -58,7 +58,6 @@ c=======================================================================c=======
       VEL  => NLOC_DMG%VNL(1:NLOC_DMG%L_NLOC)
       VEL0 => NLOC_DMG%VNL_OLD(1:NLOC_DMG%L_NLOC)
       FNL  => NLOC_DMG%FNL(1:NLOC_DMG%L_NLOC,1)
-#include      "vectorize.inc"
       ! Loop over current nodes
       DO N = NODFT,NODLT
         ! Position of the first additional dof
@@ -69,9 +68,56 @@ c=======================================================================c=======
         VEL0(NPOS:NPOS+NDDL-1) = VEL(NPOS:NPOS+NDDL-1)
         ! Updating velocities and forces
         VEL(NPOS:NPOS+NDDL-1)  = VEL(NPOS:NPOS+NDDL-1) + DT12*FNL(NPOS:NPOS+NDDL-1)
-        ! Setting the forces to zero
+        ! Setting the forces to zero (ready for next cycle's accumulation)
         FNL(NPOS:NPOS+NDDL-1)  = ZERO
+        ! Reset nodal stiffness for next cycle: STIFNL accumulates += each cycle so must
+        ! be cleared here exactly as FNL is, so NLOCAL_DTNODA sees the current-cycle value only.
+!       IF (NODADT > 0 .AND. ALLOCATED(NLOC_DMG%STIFNL)) THEN
+!         NLOC_DMG%STIFNL(NPOS:NPOS+NDDL-1,1) = ZERO
+!       END IF
       ENDDO
+
+!      ! Debug: report the single node with the largest |VNL| after the update
+!      BLOCK
+!        INTEGER :: N_MAX, NPOS_MAX, NDDL_MAX, N_DBG
+!        my_real :: V_MAX, V_CUR
+!        N_MAX   = NODFT
+!        NPOS_MAX= NLOC_DMG%POSI(NODFT)
+!        NDDL_MAX= NLOC_DMG%POSI(NODFT+1) - NPOS_MAX
+!        V_MAX   = MAXVAL(ABS(VEL(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)))
+!        DO N_DBG = NODFT+1, NODLT
+!          NPOS = NLOC_DMG%POSI(N_DBG)
+!          NDDL = NLOC_DMG%POSI(N_DBG+1) - NPOS
+!          V_CUR = MAXVAL(ABS(VEL(NPOS:NPOS+NDDL-1)))
+!          IF (V_CUR > V_MAX) THEN
+!            V_MAX    = V_CUR
+!            N_MAX    = N_DBG
+!            NPOS_MAX = NPOS
+!            NDDL_MAX = NDDL
+!          ENDIF
+!        ENDDO
+!        IF (V_MAX > 1.0E+06) THEN
+!          WRITE(6,'(A,I8,A,I8,A,1PE12.4)')
+!     .      ' NLOCAL_VEL peak: nl_node=', N_MAX,
+!     .      ' pos=', NPOS_MAX, ' |VNL|=', V_MAX
+!          WRITE(6,'(A,5(1PE14.6,1X))')
+!     .      '  VNL_new=', VEL(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!          WRITE(6,'(A,5(1PE14.6,1X))')
+!     .      '  VNL_old=', VEL0(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!          IF (DT12 > ZERO) THEN
+!            WRITE(6,'(A,5(1PE14.6,1X))')
+!     .        '  FNL(implied)=',
+!     .        (VEL(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!     .         - VEL0(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)) / DT12
+!          ENDIF
+!          WRITE(6,'(A,5(1PE14.6,1X))')
+!     .      '  UNL=', NLOC_DMG%UNL(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!          WRITE(6,'(A,5(1PE14.6,1X))')
+!     .      '  MASS=', NLOC_DMG%MASS(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!          WRITE(6,'(A,5(1PE14.6,1X))')
+!     .      '  MASS0=', NLOC_DMG%MASS0(NPOS_MAX:NPOS_MAX+NDDL_MAX-1)
+!        ENDIF
+!      END BLOCK
 c-----------
       RETURN
       END

@@ -458,6 +458,17 @@ C--------------------
      N             UY3     ,UY4     ,XL2     ,XL3     ,XL4     ,
      O             YL2     ,YL3     ,YL4     ,VL1     ,VL2     ,
      P             VL3     ,VL4     ,NEL     ,Z2      )
+
+C      DO i = jft, jlt
+C      IF(NGL(i) == 13326) THEN
+C        write(6,"(I10,a,9Z20)") NGL(i),"RR",R11(i),R12(i),R13(i),R21(i),R22(i),R23(i),R31(i),R32(i),R33(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"X",X(1,IXC(2,i)),X(1,IXC(3,i)),X(1,IXC(4,i)),X(1,IXC(5,i)) 
+C        write(6,"(I10,a,4Z20)") NGL(i),"Y",X(2,IXC(2,i)),X(2,IXC(3,i)),X(2,IXC(4,i)),X(2,IXC(5,i))
+C        write(6,"(I10,a,4Z20)") NGL(i),"Z",X(3,IXC(2,i)),X(3,IXC(3,i)),X(3,IXC(4,i)),X(3,IXC(5,i))
+C      ENDIF
+C      enddo
+
+
 C
       CALL CNCOEF3B(JFT    ,JLT     ,PM      ,MAT     ,GEO     ,
      2              PID    ,AREA    ,SHF     ,THK0    ,
@@ -552,7 +563,6 @@ c-------------------------------------------
           NC4(I) = IXC(5,I)
         ENDDO
         DO K = 1,NDDL
-#include "vectorize.inc" 
           DO I=JFT,JLT
             INOD(1) = NLOC_DMG%IDXI(NC1(I))
             INOD(2) = NLOC_DMG%IDXI(NC2(I))
@@ -576,7 +586,6 @@ c-------------------------------------------
 !-------------------------------------------------------------------------------
       dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
       asrate = one   ! to be changed for default value
-#include "vectorize.inc"
       do i = 1,nel
         eps_k2 = (kxx(i)**2+kyy(i)**2+kxx(i)*kyy(i)+fourth*kxy(i)**2)
      .         * one_over_9*gbuf%thk(i)**2
@@ -723,6 +732,12 @@ c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         ! Warning : Y24 = PX1
+C      DO i = jft, jlt
+C      IF(NGL(i) == 13054) THEN
+C        WRITE(*,*) "13054", I, MAT(I), PID(I), NGL(I)
+C      ENDIF
+C      enddo
+
         CALL CFINT_REG(
      1   NLOC_DMG,        VAR_REG,         GBUF%THK,        NEL,
      2   OFF,             AREA,            NC1,             NC2,
@@ -747,6 +762,17 @@ c-------------------------------
      4                    OFF  ,IPARTC,PARTSAV,KFTS  )
           END IF
         END IF
+
+C      DO i = jft, jlt
+C      IF(NGL(i) == 13326) THEN
+C        write(6,"(I10,a,3Z20)") NGL(i),"VQN",VQN(i,1),VQN(i,2),VQN(i,3)
+C        write(6,"(I10,a,3Z20)") NGL(i),"VQ",VQ(i,1),VQ(i,2),VQ(i,3)            
+C      ENDIF
+C      enddo
+
+
+
+
         CALL CZPROJ1(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF ,
      2            VM     ,PLAT   ,
@@ -757,6 +783,18 @@ c-------------------------------
      7            M31    ,M32    ,M33    ,M34    ,FZERO,
      8            Z1     ,LXYZ   ,DD     ,DB     ,LXYZ,
      9            ISROT  ,DIZ    ,VMZ    )
+C      DO i = jft, jlt
+C      IF(NGL(i) == 13326) THEN
+C        write(6,"(I10,a,4Z20)") NGL(i),"FORCES",F11(i),F12(i),F13(i),F14(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"FORCES2", F21(i),F22(i),F23(i),F24(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"FORCES3", F31(i),F32(i),F33(i),F34(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"M1",M11(i),M12(i),M13(i),M14(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"M2",M21(i),M22(i),M23(i),M24(i)
+C        write(6,"(I10,a,4Z20)") NGL(i),"M3",M31(i),M32(i),M33(i),M34(i)
+C      ENDIF
+C      enddo
+
+
 C-------------------------
 c     shell thermal
 C--------------------------

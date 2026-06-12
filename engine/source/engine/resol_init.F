@@ -1158,7 +1158,8 @@ C-----------------------
        ENDIF
        ! Non-local regularization is activated
        IF (NLOC_DMG%IMOD > 0) THEN
-         CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
+         CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM,
+     .                            NUMNOD,ITAB)
        ENDIF
 C-----------------------
 C DT_DC OF TSH

@@ -248,6 +248,38 @@ use `SPMD_MOD.F90` instead that is a wrapper around the MPI functions.
 
 OpenRadioss is made of two binaries: the starter and the engine. Run the following command `./build_script.sh -arch=linux64_gf -mpi=ompi` in the engine or the starter subdirectory to build the binaries. 
 
+## Project Documentation to Load by Default
+
+Also consult these project documentation files (added in the current `HEAD` commit). Use this routing so the right file is opened first:
+
+- `doc/ELBUF_TAB_documentation.md`:
+  - Use for element state variables storage and update paths.
+  - `ELBUF_TAB(NG)` is the per-group elemental state container (`GBUF`, per-layer/per-Gauss-point buffers, failure/material/EOS vars).
+  - Read this first when changing constitutive updates, stress/plastic strain/history variable handling, or restart/output state wiring.
+
+- `doc/ENGINE_TIME_LOOP_documentation.md`:
+  - Use for cycle ordering in `RESOL` and call-tree placement.
+  - Read this first when you need to know when forces, contact, MPI exchange, acceleration/integration, DT computation, or outputs are executed.
+
+- `doc/GROUPS_AND_CONNECTIVITY_documentation.md`:
+  - Use for `IPARG` group metadata, `MVSIZ` chunking, connectivity arrays (`IXS/IXC/IXP/IXT/IXR/IXTG/IXQ`), and nodal arrays (`NODES%X/V/A/MS/ITAB`).
+  - Read this first for element indexing bugs, wrong node mapping, group dispatch/type issues, or starter→engine data layout questions.
+
+- `doc/NLOCAL_STR_documentation.md`:
+  - Use for non-local damage regularization internals (`NLOC_DMG` / `NLOCAL_STR_`), extra d.o.f numbering, non-local mass/force/velocity/state vectors, and dedicated MPI/Parith tables.
+  - Read this first for `/NONLOCAL` behavior, Gurson non-local coupling, and `SPMD_EXCH_SUB_PON`/non-local skyline logic.
+
+- `doc/NODE_SPLITING.md`:
+  - Use for crack propagation by node splitting, including owner/mirror handling and runtime growth/consistency of PARITH/ON skyline tables.
+  - Read this first for split-related regressions (`apply_crack`, `detach_node*`, `update_pon*`, boundary rebuild issues).
+
+- `doc/SPMD_documentation.md`:
+  - Use for MPI domain decomposition, frontier/boundary node exchange, and Parith OFF vs ON force assembly flow.
+  - Confirms policy: call `SPMD_*` wrappers from `SPMD_MOD` (not raw `MPI_*` in solver code).
+  - Read this first for exchange ordering, reproducibility, communicator/rank logic, and MPI-side performance/debug work.
+
+When working on a feature that touches multiple areas (for example non-local + node splitting + PARITH/ON), read all related docs above before editing.
+
 ---
 
 *This document should be reviewed and updated regularly to reflect evolving best practices and project-specific requirements.*

@@ -84,6 +84,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODES_TO_SEND
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: AGLOB,NODES_TO_RECV
       INTEGER :: CHECKSUM !< checksum of the nodal acceleration
+      DOUBLE PRECISION :: AMAX
       DATA MSGOFF0/176/
       DATA MSGOFF/177/
 C-----------------------------------------------
@@ -151,8 +152,21 @@ C-----------------------------------------------
 
         END DO
 #endif
+        ! max acceleration over the nodes
+        AMAX = 0.0d0
+        do k = 1, NUMNODG
+          AMAX = max(AMAX, abs(NODES_TO_RECV(2,k)))
+          AMAX = max(AMAX, abs(NODES_TO_RECV(3,k)))
+          AMAX = max(AMAX, abs(NODES_TO_RECV(4,k)))
+        end do
+!       write(6,"(I10,A,I10,A,D20.10,Z20)") NCYCLE,"NUMNODG:",NUMNODG,"AMAX:",AMAX,AMAX
+
         CHECKSUM = DOUBLE_ARRAY_CHECKSUM(NODES_TO_RECV,NUMNODG,4)
         WRITE(IOUT,*) NCYCLE, "CHECKSUM:",CHECKSUM
+        if(ispmd == 0) then
+          WRITE(6,*) NCYCLE, "CHECKSUM:",CHECKSUM
+        ENDIF
+
 
       ENDIF
       IF(ALLOCATED(NODES_TO_SEND))  DEALLOCATE(NODES_TO_SEND)
