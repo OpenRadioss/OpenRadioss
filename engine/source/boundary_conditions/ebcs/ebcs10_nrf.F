@@ -43,6 +43,39 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    segvar_mod           ../engine/share/modules/segvar_mod.F
 !||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
+!! \brief Non-Reflecting Boundary Condition / Frontier (NRBC / NRF) for ALE (multimaterial 51 and all single material laws)
+!! \details
+!!   Purpose
+!!   -------
+!!   It is used, for instance, in ditching simulations where water and air must be evacuated through the
+!!   boundary and possibly flow back at the correct free-surface level and pressure.
+!!   It may also be used as an inlet boundary in ditching simulations when the ALE domain
+!!   is truncated to a portion of the full water/air domain which is following the coupled structured.
+!!
+!!   Ghost-cell concept
+!!   ------------------
+!!   For each boundary segment thermodynamic state (density, internal energy, volume
+!!   fractions) is stored in SEGVAR% and is used by the ALE advection step.
+!!     - outflow  (Vnew > 0)
+!!     - inflow   (Vnew < 0)
+!!
+!!   Pressure model (characteristic / impedance relation)
+!!   ----------------------------------------------------
+!!   The boundary pressure follows a Local One-Dimensional Inviscid (LODI) characteristic
+!!   relation based on the acoustic impedance rho*c
+!!
+!!   Energy
+!!   ------
+!!   Internal energy is NOT relaxed: entropy/energy is convected at speed u (not u +/- c), so on
+!!   outflow it is the shocked/convected inner material and is then preserved; only the incoming acoustic characteristic (pressure) is treated.
+!!
+!!   Multimat Volume-fraction relaxation (multimaterial, returning flow)
+!!   --------------------------------------------------------------------
+!!   On returning flow (Vnew < 0) the multimaterial volume fractions are optionally relaxed back
+!!   towards their initial values with coefficient BETA(TCAR_VF).
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
       SUBROUTINE EBCS10_NRF(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
      .                 LISTE,NOD,IRECT,IELEM,IFACE,
@@ -94,16 +127,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      INTEGER :: II,IS,KK,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
-      INTEGER :: ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, NBMAT, MTN
-      my_real :: ORIENT,RHO,ROC,FAC1,FAC2,VOL,MASS,
+      INTEGER :: II,IS,KK,KSEG,NN(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
+      INTEGER :: ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, MTN
+      my_real :: ORIENT,RHO,ROC,FAC1,FAC2,
      .        X13,Y13,Z13,X24,Y24,Z24,
      .        ALPHA, BETA, V0(3,NOD),
      .        XN, YN, ZN, TMP(3), Vold, Vnew, Pold, Pvois,
-     .        DP0,MACH,PP,SSP,RHOC2,
+     .        DP0,MACH,PP,SSP,RHOC2,Pref,
      .        TCAR_P, TCAR_VF, SURF, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
       my_real :: DE_IN, DE_OUT, DM_IN, DM_OUT
-      my_real :: roou, enou, fluxo, fluxi
+      my_real :: fluxo, fluxi
       my_real :: YM
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
@@ -126,9 +159,10 @@ C-----------------------------------------------
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
-      IF(TCAR_VF>=EP20)BETA=ZERO
+      IF(TCAR_P >= EP20) ALPHA=ZERO
+      IF(TCAR_VF >= EP20) BETA=ZERO
       IF(DT1 == ZERO)THEN
-        ALPHA = ONE !zero
+        ALPHA = ONE
         BETA = ONE
       ENDIF
       
@@ -210,11 +244,7 @@ C-----------------------------------------------
           NN(2)=IRECT(2,IS)
           NN(3)=IRECT(3,IS)
           NN(4)=IRECT(4,IS)
-          NNG(1)=LISTE(NN(1))
-          NNG(2)=LISTE(NN(2))
-          NNG(3)=LISTE(NN(3))
-          NNG(4)=LISTE(NN(4))    
-                    
+
           TMP(1:3) = ZERO
           DO KK=1,NPT
             TMP(1) = TMP(1) + V0(1,NN(KK))
@@ -229,8 +259,6 @@ C-----------------------------------------------
             ENDIF
             Vold = Vnew
           ENDIF
-          !-- storage for next cycle
-          EBCS%vold(IS) = Vnew  
           !Static-PRessure (increment)
           DP0 = EBCS%DP0(IS)
 
@@ -264,13 +292,19 @@ C-----------------------------------------------
           Pvois = -THIRD*(GBUF%SIG(IDX(1)+ILOC+1) + GBUF%SIG(IDX(2)+ILOC+1) + GBUF%SIG(IDX(3)+ILOC+1))           
           Pold = EBCS%pold(IS)
           IF(TIME == ZERO)Pold=Pvois+DP0 
-          
-          !DENSITY                                          
+
+          !-- fixed far-field reference pressure used as the relaxation target.
+          IF(EBCS%has_pref .AND. ALLOCATED(EBCS%pref))THEN
+            IF(TIME == ZERO)EBCS%pref(IS) = Pvois + DP0
+            Pref = EBCS%pref(IS)
+          ELSE
+            ! fallback (e.g. legacy restart without pref): keep previous behaviour
+            Pref = Pvois + DP0
+          ENDIF
+
+          !DENSITY
           RHO = GBUF%RHO(ILOC+1)
 
-          !VOLUME
-          VOL=GBUF%VOL(ILOC+1)
-          MASS = RHO*VOL
 
           !SOUND SPEED 
           IF(MULTI_FVM%IS_USED)THEN
@@ -303,7 +337,6 @@ C-----------------------------------------------
               PHASE_EINT(ISUBMAT) = MULTI_FVM%PHASE_EINT(ISUBMAT,ILOC+1+KLT)                            
             ENDDO
           ENDIF
-          NBMAT=EBCS%NBMAT
 
           !-- ghost cell data for advection step ( inlet/outlet )
           SEGVAR%RHO(KSEG)=RHO
@@ -312,31 +345,26 @@ C-----------------------------------------------
           IF(SEGVAR%has_phase_rho)SEGVAR%PHASE_RHO(1:4,KSEG)=PHASE_RHO(1:4)          
           IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)
 
-          !-- post-treatment for mass and energy balance
-          ROOU = SEGVAR%RHO(KSEG)
-          ENOU = SEGVAR%EINT(KSEG)
-          FLUXO=Vnew*SURF*DT1*YM
-          FLUXI=MIN(FLUXO,ZERO)
-          FLUXO=MAX(FLUXO,ZERO)
-          DM_OUT=DM_OUT-FLUXO*RHO
-          DM_IN=DM_IN-FLUXI*RHO
-          DE_OUT=DE_OUT-FLUXO*EINT
-          DE_IN=DE_IN-FLUXI*EINT
           !-- FORMULATION
             MACH = ONE
             IF(SSP /= ZERO)MACH = ABS(Vnew / SSP)
           
             IF(MACH >= ONE .AND. Vnew > ZERO)THEN
-              !outgoing supersonic velocity: State = Neighboring State
+              !outgoing supersonic velocity: state fully determined by the interior (neighbour) state
               PP          = Pvois
+            ELSEIF(MACH >= ONE .AND. Vnew < ZERO)THEN
+              !incoming supersonic velocity: all characteristics enter, state fully imposed by the
+              !exterior far-field reference (no impedance relation, otherwise spurious reflection)
+              PP          = Pref
             ELSE
-              RHOC2 = RHO*SSP*SSP 
+              !subsonic: characteristic (impedance) relation relaxed towards the fixed far-field Pref
+              RHOC2 = RHO*SSP*SSP
               ROC   =SQRT(RHO*RHOC2)
-C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
-              PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
-
+              PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*Pref/(ALPHA + ONE)
             ENDIF
+            !-- storage for next cycle (only on found segments, kept consistent with Vold)
             EBCS%pold(IS) = PP
+            EBCS%vold(IS) = Vnew
 
             IF(SEGVAR%nbmat > 0)THEN
               !Volume Fractions update
@@ -347,13 +375,35 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
                     PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT) 
      .                                  + BETA*MBUF%VAR((M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS +23-1)* KLT+ILOC+1)
                   ENDDO
-                ELSEIF(MTN == 151)THEN
-                
+                  !-- keep the ghost mixture state consistent with the relaxed volume fractions
+                  IF(SEGVAR%has_phase_rho)THEN
+                    RHO = ZERO
+                    DO ISUBMAT=1,4
+                      RHO = RHO + PHASE_ALPHA(ISUBMAT)*PHASE_RHO(ISUBMAT)
+                    ENDDO
+                    SEGVAR%RHO(KSEG) = RHO
+                  ENDIF
+                  IF(SEGVAR%has_phase_eint)THEN
+                    EINT = ZERO
+                    DO ISUBMAT=1,4
+                      EINT = EINT + PHASE_ALPHA(ISUBMAT)*PHASE_EINT(ISUBMAT)
+                    ENDDO
+                    SEGVAR%EINT(KSEG) = EINT
+                  ENDIF
                 ENDIF
               ENDIF 
               SEGVAR%PHASE_ALPHA(1:4,KSEG) = PHASE_ALPHA(1:4)
             ENDIF
-            
+
+            !-- post-treatment for mass and energy balance (computed AFTER the volume-fraction
+            FLUXO = Vnew*ABS(SURF)*DT1*YM
+            FLUXI = MIN(FLUXO,ZERO)   ! inflow part  (Vnew < 0)
+            FLUXO = MAX(FLUXO,ZERO)   ! outflow part (Vnew > 0)
+            DM_OUT = DM_OUT - FLUXO*RHO
+            DM_IN  = DM_IN  - FLUXI*SEGVAR%RHO(KSEG)
+            DE_OUT = DE_OUT - FLUXO*EINT
+            DE_IN  = DE_IN  - FLUXI*SEGVAR%EINT(KSEG)
+
            !expand pressure loading to segment nodes
            DO KK=1,NPT
              LA(1,NN(KK)) = LA(1,NN(KK)) -  PP*SURF*XN*FAC1
@@ -362,10 +412,11 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
            ENDDO
 
            !/TH/SURF (massflow, velocity, pressure)
-           FSAVSURF(2,SURF_ID) = FSAVSURF(2,SURF_ID) + RHO*SURF*Vnew     !rho.S.u = dm/dt
-           FSAVSURF(3,SURF_ID) = FSAVSURF(3,SURF_ID) + SURF*Vnew         !S.u
-           FSAVSURF(4,SURF_ID) = FSAVSURF(4,SURF_ID) + SURF*PP           !S.P
-           FSAVSURF(6,SURF_ID) = FSAVSURF(6,SURF_ID) + RHO*SURF*Vnew*DT1 ! m<-m+dm (cumulative)
+           !  YM carries the axisymmetric radius (=ONE in 3D and plane strain) so that the mass-flow channels are consistent with the balance.
+           FSAVSURF(2,SURF_ID) = FSAVSURF(2,SURF_ID) + RHO*ABS(SURF)*Vnew*YM     !rho.S.u = dm/dt
+           FSAVSURF(3,SURF_ID) = FSAVSURF(3,SURF_ID) + ABS(SURF)*Vnew            !S.u
+           FSAVSURF(4,SURF_ID) = FSAVSURF(4,SURF_ID) + ABS(SURF)*PP              !S.P
+           FSAVSURF(6,SURF_ID) = FSAVSURF(6,SURF_ID) + RHO*ABS(SURF)*Vnew*DT1*YM ! m<-m+dm (cumulative)
 
            ! -------------
            ! for parith/on option : need to update with FSKY array 
