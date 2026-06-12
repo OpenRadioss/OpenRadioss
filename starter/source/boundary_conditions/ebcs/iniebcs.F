@@ -319,6 +319,17 @@ C=======================================================================
              EBCS%has_Pold = .TRUE.
              IF(IFLAG==0) call my_alloc(EBCS%Pold, SIZ, "EBCS%Pold")
              EBCS%Pold(1:SIZ) = 0
+             !     Pref (fixed far-field reference pressure, captured at TIME=0 in the engine)
+             EBCS%has_Pref = .TRUE.
+             IF(IFLAG==0) ALLOCATE(EBCS%Pref(SIZ))
+             EBCS%Pref(1:SIZ) = 0
+             !     multifluid law 151 only; NRF relaxation
+             !     filled by the engine at the first cycle
+             IF(EBCS%is_multifluid)THEN
+               EBCS%has_phase_alpha_ref = .TRUE.
+               IF(IFLAG==0) ALLOCATE(EBCS%phase_alpha_ref(21, SIZ))
+               EBCS%phase_alpha_ref(1:21, 1:SIZ) = ZERO
+             ENDIF
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0) call my_alloc(EBCS%la, 3, EBCS%nb_node, "EBCS%la")
