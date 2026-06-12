@@ -152,6 +152,7 @@
           real(kind=WP),allocatable,dimension(:) :: tmp,tmp2  !< Cp parameters for each segment
           integer,allocatable,dimension(:) :: indx       !< array for sorting algorithm
           logical :: MULTIPLE_CP_DETECTED
+          character(len=10) :: matid_str
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -214,11 +215,11 @@
             call real_array_reindex(tmp, indx, ebcs%nb_elem)
             Cp = tmp( int(ebcs%nb_elem/2) )     !median value
             gamma = tmp2( int(ebcs%nb_elem/2) )     !median value
-            call ancmsg(msgid = 3083, msgtype = msgwarning, anmode = aninfo, &
+            write(matid_str, '(I0)') MAT_param(imat)%mat_id
+            call ancmsg(msgid = 3077, msgtype = msgwarning, anmode = aninfo, &
               i1 = ebcs%ebcs_id, c1 = title(1:len_trim(title)), &
               C2 = "EBCS PROPERGOL IS FACING DIFFERENT GAS EOS : CHECK Cp PARAMETER (Cp=GAMMA.E0/RHO0/T0)", &
-              C3 = "RETAINED Cp VALUE FROM EOS ID :", &
-              I2 = MAT_param(imat)%mat_id )
+              C3 = "RETAINED Cp VALUE FROM EOS ID : " // trim(matid_str))
           end if
 
           !Setting Heat of combustion (q)
