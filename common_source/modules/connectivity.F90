@@ -88,6 +88,8 @@
           integer, dimension(:), allocatable :: offset !< offset of the shell element to receive from the other process
           integer, dimension(:), allocatable :: addcnel !< address for the node to elemenent (shell) connectivity
           integer, dimension(:), allocatable :: cnel ! element index in nodes arrays
+          integer, dimension(:), allocatable :: uid !< user id of the shell element
+          type(C_PTR) :: glob2loc !< map global id to local id
         end type ghost_shell_
 
 

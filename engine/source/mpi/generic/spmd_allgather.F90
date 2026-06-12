@@ -43,6 +43,7 @@
         interface spmd_allgather
           module procedure spmd_allgather_reals   !< Allgather real numbers across all processes
           module procedure spmd_allgather_ints    !< Allgather integers across all processes
+          module procedure spmd_allgather_int     !< Allgather a single integer across all processes
           module procedure spmd_allgather_doubles !< Allgather double precision numbers across all processes
         end interface spmd_allgather
 
@@ -132,4 +133,28 @@
           !call spmd_out(TAG_ALLGATHER,ierr)
 #endif
         end subroutine spmd_allgather_ints
+! ======================================================================================================================
+!||====================================================================
+!||    spmd_allgather_int   ../engine/source/mpi/generic/spmd_allgather.F90
+!||--- calls      -----------------------------------------------------
+!||====================================================================
+        subroutine spmd_allgather_int(sendbuf, recvbuf, buf_count, comm)
+          implicit none
+#include "spmd.inc"
+          integer, intent(in)              :: sendbuf      !< scalar value to gather from each process
+          integer, dimension(*), intent(inout) :: recvbuf  !< receive buffer (nspmd elements)
+          integer, intent(in)              :: buf_count
+          integer, intent(in), optional    :: comm
+          integer :: ierr, used_comm
+#ifdef MPI
+          if (present(comm)) then
+            used_comm = comm
+          else
+            used_comm = SPMD_COMM_WORLD
+          end if
+          call MPI_Allgather(sendbuf, buf_count, MPI_INTEGER, recvbuf, buf_count, MPI_INTEGER, used_comm, ierr)
+#else
+          recvbuf(1) = sendbuf
+#endif
+        end subroutine spmd_allgather_int
       end module spmd_allgather_mod

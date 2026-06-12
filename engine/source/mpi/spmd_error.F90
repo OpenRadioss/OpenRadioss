@@ -146,6 +146,11 @@
 
           write(*,*) "=== TRACEBACK END ==="
         end subroutine print_traceback
+#else
+        subroutine print_traceback()
+          implicit none
+          write(*,*) "Traceback not available: DEBUG_SPMD is not defined."
+        end subroutine print_traceback
 #endif
 
 
@@ -239,8 +244,8 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef DEBUG_SPMD
-          ! call print_traceback()
-          write(6,*) "Entering MPI call: ", tag
+        ! call print_traceback()
+        !write(6,*) "Entering MPI call: ", tag
 #endif
         end subroutine spmd_in
 
@@ -344,11 +349,12 @@
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
             write(6,*) "MPI error: ", ierr," at ",tag
+            call print_traceback()
             call MPI_Abort(SPMD_COMM_WORLD, ierr,ierror)
           end if
-#ifdef DEBUG_SPMD
-          write(6,*) "Exiting MPI call: ", tag
-#endif
+!#ifdef DEBUG_SPMD
+!!         write(6,*) "Exiting MPI call: ", tag
+!#endif
 #endif
         end subroutine spmd_out
 
