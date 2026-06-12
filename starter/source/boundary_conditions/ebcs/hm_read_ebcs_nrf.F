@@ -36,6 +36,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, EBCS)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C            TCAR_P = infinity (1E20) : pure non-reflecting boundary condition, no wave transmission, only outgoing waves
+C DEFAULT -> TCAR_P defined means relaxation to initial pressure
+C            TCAR_P << DT1 (1E-20) : constant pressure, all waves transmitted
+C
+C DEFAULT -> TCAR_VF = infinity (1E20) : no relaxation to initial volume fractions
+C            TCAR_VF /=0 : user tuning parameter for relaxation to initial volume fractions, smaller values more relaxation, larger values less relaxation
+C            TCAR_VF << DT1 (1E-20) : constant initial fractions
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE EBCS_MOD
@@ -86,7 +96,7 @@ C-----------------------------------------------
           EXIT                                                   
         ENDIF                                                    
       ENDDO                                                      
-      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
+      IF (UID /=0 .AND. IFLAGUNIT == 0) THEN
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='EBCS',C2='EBCS',C3=TITR)
       ENDIF
     
@@ -94,7 +104,28 @@ C-----------------------------------------------
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
       CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-      
+
+      IF(TCAR_P < ZERO)THEN
+        CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF PARAMETER TCAR_P CANNOT BE NEGATIVE ")
+        TCAR_P = ZERO
+      ELSEIF(TCAR_P <= EM20 .AND. TCAR_P /= ZERO)THEN
+        CALL ANCMSG(MSGID=3077,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF : TCAR_P = 1E-20 IS NOT RECOMMENDED",
+     .             C3 = "  FOR PURE NON-REFLECTIVE BOUNDARY TCAR_P IS SET TO 1E20")
+        TCAR_P = EP20
+      ENDIF
+
+      IF(TCAR_VF < ZERO)THEN
+        CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF PARAMETER TCAR_VF CANNOT BE NEGATIVE ")
+        TCAR_VF = ZERO
+      ELSEIF(TCAR_VF <= EM20 .AND. TCAR_VF /= ZERO)THEN
+        CALL ANCMSG(MSGID=3077,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .             C2 = "/EBCS/NRF : TCAR_VF IS SET TO 1E-20. IN CASE OF INCOMING FLUX VOLUME FRACTIONS",
+     .             C3 = " ARE REINJECTED WITH THEIR INITIAL VALUES (WITHOUT RELAXATION)" )
+      ENDIF
+
       IF(TCAR_VF == ZERO)TCAR_VF = INFINITY
 
       EBCS%TITLE = TITR
@@ -141,19 +172,42 @@ C-----------------------------------------------
          EBCS%nb_elem = NSEG
 
          WRITE(IOUT,1001)ID, TRIM(TITR)
-         WRITE(IOUT,1118)SURF,NSEG,TCAR_P,TCAR_VF
-         
+         WRITE(IOUT,1002)
+         WRITE(IOUT,1003)
+         IF(TCAR_P == ZERO)THEN
+           WRITE(IOUT,1119)SURF,NSEG,TCAR_VF
+         ELSE
+           WRITE(IOUT,1118)SURF,NSEG,TCAR_P,TCAR_VF
+         ENDIF
       
 C-----------
       RETURN
 C-----------
- 1001 FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I8,1X,A)    
+ 1001 FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I8,1X,A,/)
+ 1002 FORMAT(   '    TCAR_P  : CHARACTERISTIC TIME FOR PRESSURE RELAXATION',/,
+     .          '              SMALL VALUE: PRESSURE STRONGLY RELAXED TO REFERENCE STATE',/,
+     .          '                           MAY INCREASE NUMERICAL REFLECTIONS',/,
+     .          '              DEFAULT    : LCAR/2/LOG(2)/MAX(SSP)',/,
+     .          '              = 1E20     : PRESSURE RELAXATION DISABLED',/,
+     .          '                           CHARACTERISTIC NON-REFLECTING UPDATE ONLY'/)
+
+ 1003 FORMAT(   '    TCAR_VF : CHARACTERISTIC TIME FOR VOLUME FRACTION RELAXATION (INFLOW ONLY)',/,
+     .          '              CONTROLS RELAXATION OF INCOMING VOLUME FRACTIONS',/,
+     .          '              TOWARDS THEIR INITIAL VALUES',/,
+     .          '              < DT       : INITIAL VOLUME FRACTIONS FULLY REINJECTED',/,
+     .          '              > DT       : PROGRESSIVE RELAXATION TO INITIAL VALUES',/,
+     .          '              = 1E20     : VOLUME FRACTION RELAXATION DISABLED'/)
 
  1118 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
      .        '    TCAR_P  . . . . . . . . . . . . . . . . . ',E20.12,/,
-     .        '    TCAT_ALPHA  . . . . . . . . . . . . . . . ',E20.12,/)
+     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',E20.12,/)
+ 1119 FORMAT(
+     .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
+     .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
+     .        '    TCAR_P  . . . . . . . . . . . . . . . . . ','  auto',/,
+     .        '    TCAR_VF . . . . . . . . . . . . . . . . . ',E20.12,/)
 
       END SUBROUTINE HM_READ_EBCS_NRF
 

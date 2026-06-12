@@ -104,7 +104,7 @@ C-----------------------------------------------
      .           P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
-      my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF
+      my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF,Pref
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
       my_real :: ABURN(1)
@@ -129,7 +129,7 @@ C-----------------------------------------------
       BETA = TIMESTEP/MAX(TIMESTEP,TCAR_VF)
       IF(TCAR_VF>=EP20)BETA=ZERO
       IF(TIMESTEP == ZERO)THEN
-        ALPHA = ONE !zero
+        ALPHA = ONE
         BETA = ONE
       ENDIF
 
@@ -193,12 +193,23 @@ C     Current element
          NORMAL_VELII = VXII * NX + VYII * NY + VZII * NZ
          
 C     Boundary "GHOST" element
+         !-- capture the initial phase volume fractions once (relaxation target alpha0)
+         IF(NCYCLE == 1 .AND. EBCS%has_phase_alpha_ref)THEN
+            DO IMAT = 1, NBMAT
+               EBCS%phase_alpha_ref(IMAT, IELEM) = PHASE_ALPHAII(IMAT)
+            ENDDO
+         ENDIF
          RHOJJ = ZERO
          DO IMAT = 1, NBMAT
             PHASE_RHOJJ(IMAT) = FVM_INLET_DATA%VAL_RHO(IMAT)
                PHASE_RHOJJ(IMAT) = PHASE_RHOII(IMAT)
             PHASE_ALPHAJJ(IMAT) = FVM_INLET_DATA%VAL_ALPHA(IMAT)
                PHASE_ALPHAJJ(IMAT) = PHASE_ALPHAII(IMAT)
+            !-- returning flow (inflow, NORMAL_VELII < 0): relax the ghost volume fractions back
+            IF(NORMAL_VELII < ZERO .AND. BETA > ZERO .AND. EBCS%has_phase_alpha_ref)THEN
+               PHASE_ALPHAJJ(IMAT) = (ONE - BETA) * PHASE_ALPHAII(IMAT)
+     .                             + BETA * EBCS%phase_alpha_ref(IMAT, IELEM)
+            ENDIF
             RHOJJ = RHOJJ + PHASE_RHOJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
          ENDDO
 
@@ -234,14 +245,28 @@ C     VE formulation
             Vold = EBCS%vold(IELEM)
             IF(NCYCLE == 1) Vold=NORMAL_VELII
             EBCS%vold(IELEM) = Vnew
-            
-            IF(MACH >= ONE .AND. Vnew > ZERO)THEN
-              !outgoing supersonic velocity: State = Neighboring State
-              PP = Pvois
+
+            !-- fixed far-field reference pressure used as the relaxation target.
+            IF(EBCS%has_pref .AND. ALLOCATED(EBCS%pref))THEN
+              IF(NCYCLE == 1)EBCS%pref(IELEM) = Pvois + DP0
+              Pref = EBCS%pref(IELEM)
             ELSE
-              RHOC2 = RHOJJ*SSPII*SSPII 
+              ! fallback (e.g. legacy restart without pref): keep previous behaviour
+              Pref = Pvois + DP0
+            ENDIF
+
+            IF(MACH >= ONE .AND. Vnew > ZERO)THEN
+              !outgoing supersonic velocity: state fully determined by the interior (neighbour) state
+              P_JJ = Pvois
+            ELSEIF(MACH >= ONE .AND. Vnew < ZERO)THEN
+              !incoming supersonic velocity: all characteristics enter, state fully imposed by the
+              !exterior far-field reference (no impedance relation, otherwise spurious reflection)
+              P_JJ = Pref
+            ELSE
+              !subsonic: characteristic (impedance) relation relaxed towards the fixed far-field Pref
+              RHOC2 = RHOJJ*SSPII*SSPII
               ROC   = SQRT(RHOJJ*RHOC2)
-              P_JJ  = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
+              P_JJ  = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*Pref/(ALPHA + ONE)
             ENDIF
 
             EBCS%pold(IELEM) = P_JJ
