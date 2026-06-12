@@ -67,7 +67,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nbadmesh                       ../starter/source/model/remesh/nbadmesh.F
 !||    nbsph                          ../starter/source/elements/sph/nbsph.F
 !||--- uses       -----------------------------------------------------
-!||    adinertia_mod                  ../starter/share/modules1/adinertia_mod.F90
 !||    ascii_encoding_mu_letter_mod   ../starter/source/starter/ascii_encoding_mu_letter.F90
 !||    defaults_mod                   ../starter/source/modules/defaults_mod.F90
 !||    detonators_mod                 ../starter/share/modules1/detonators_mod.F

@@ -24,7 +24,6 @@
 !||    precision_mod                            ../common_source/modules/precision_mod.F90
 !||--- called by ------------------------------------------------------
 !||    aconve                                   ../engine/source/ale/aconve.F90
-!||    adinertia_mod                            ../starter/share/modules1/adinertia_mod.F90
 !||    afluxt                                   ../engine/source/ale/ale51/afluxt.F
 !||    afluxt_int22                             ../engine/source/ale/ale51/afluxt_int22.F90
 !||    ale51_antidiff2                          ../engine/source/ale/ale51/ale51_antidiff2.F
@@ -208,8 +207,6 @@
 !||    hm_pre_read_preload_axial                ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_preread_skw                           ../starter/source/tools/skew/hm_preread_skw.F90
-!||    hm_read_adinertia                        ../starter/source/tools/adinertia/hm_read_adinertia.F90
-!||    hm_read_adinertia_mod                    ../starter/source/tools/adinertia/hm_read_adinertia.F90
 !||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_cyclic                      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
