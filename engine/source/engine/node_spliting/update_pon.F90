@@ -39,10 +39,9 @@
 !||    connectivity_mod          ../common_source/modules/connectivity.F90
 !||    extend_array_mod          ../common_source/tools/memory/extend_array.F90
 !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
-!||    my_move_alloc_mod         ../common_source/tools/memory/my_move_alloc.F90
 !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
 !||====================================================================
-        subroutine update_pon_shells(elements, n, shell_list, new_numnod)
+        subroutine update_pon_shells(old_node_id, elements, n, shell_list, new_numnod, ispmd, m, row_uid, row_procne)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -51,33 +50,41 @@
           use extend_array_mod
           use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
-          use my_move_alloc_mod, only : my_move_alloc
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: old_node_id           !< uid of the node to detach (debug trace only)
           type(connectivity_), intent(inout) ::  elements
           integer, intent(in) :: n                !< size of shell_list
           integer, dimension(n), intent(in) :: shell_list !< list of local shells to detach from the node
           integer, intent(in) :: new_numnod
+          integer, intent(in) :: ispmd            !< 0-based local MPI rank; PROCNE = ispmd+1 for local rows
+          integer, intent(in) :: m                !< total FSKY rows for N' (all migrating shells, canonical order)
+          integer, dimension(m), intent(in) :: row_uid    !< shell user id of each canonical row (uid-sorted)
+          integer, dimension(m), intent(in) :: row_procne !< 1-based owning rank of each canonical row
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, j
-          integer :: shell_id
-          integer :: contributions_count
-          integer :: offset
+          integer :: i, j, k, a
+          integer :: shell_id, su
+          integer :: total_new_rows, sfsky_old
           integer, dimension(:), allocatable :: new_adsky
           integer :: new_id
-          integer :: numelc !< number of shell elements
           integer :: numnod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
 !          not tested when multiple nodes are detached at the same cycle, may not work
+          if(ispmd < 0) return
+          if(old_node_id < 1) then
+            write(6,*) "Error in update_pon_shells: old_node_id < 1"
+          end if
 
           numnod = elements%pon%sadsky - 1
-          numelc = size(elements%shell%nodes, 2)
+          if(new_numnod > numnod + 1 .or. new_numnod < 1) then
+            write(6,*) "Error in update_pon_shells: new_numnod out of bounds"
+          end if
 
           !=================== debug ===================
           ! imin_fsky = elements%pon%iadc(1,1)
@@ -94,50 +101,53 @@
           ! enddo
           !=================== End debug ===================
 
-          contributions_count = 0 ! number of contributions to the new node
+          ! N''s band has exactly m rows, one per migrating shell (local + remote), laid
+          ! out in the GLOBAL canonical (uid-sorted) order given by row_uid/row_procne.
+          ! Row k is a LOCAL row when row_procne(k)==ispmd+1 (this rank owns that shell)
+          ! and a RECV row otherwise.  Building the same ordered band on every rank makes
+          ! ASSPAR4 sum contributions in a decomposition-independent order (bitwise
+          ! /PARITH/ON), and reduces to the 1-rank (all-local, uid-sorted) layout in mono.
           new_id = new_numnod ! the new id is always the last one
-          do i = 1, n
-            shell_id = shell_list(i)
-            do j = 1, 4
-              if(elements%shell%nodes(j, shell_id) == new_id) then
-                contributions_count = contributions_count + 1
-              end if
-            end do
-          end do
-          ! The actual number of forces contributions is lower or equal than the old number of contributions
-          ! But we still extend it, some forces in FSKY will be allways zero
-          ! because it allows us to keep the existing pointers to FSKY (such as ISENDP, IRECVDP)
-          call my_alloc(new_adsky, new_numnod + 1, "new_adsky")
+          total_new_rows = m
 
+          call my_alloc(new_adsky, new_numnod + 1,"new adsky")
           new_adsky(1:new_numnod) = elements%pon%adsky(1:new_numnod)
-
-          new_adsky(new_numnod + 1) = new_adsky(new_numnod) + contributions_count
-          offset = contributions_count
-!           write(6,*) 'offset', offset
-
-          call my_move_alloc(new_adsky, elements%pon%adsky, "elements%pon%adsky")
+          new_adsky(new_numnod + 1) = new_adsky(new_numnod) + total_new_rows
+          call my_move_alloc(new_adsky,elements%pon%adsky, "adsky")
           elements%pon%sadsky = new_numnod + 1
-          contributions_count = 0
 
-          ! iadc corresponding to new nodes, will point to the end of FSKY
+          ! IADC of this rank's local migrating shells -> their canonical row in N''s band.
           do i = 1, n
             shell_id = shell_list(i)
+            su = elements%shell%user_id(shell_id)
             do j = 1, 4
               if(elements%shell%nodes(j, shell_id) == new_id) then
-                elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + contributions_count
-                ! write(6,*) "IADC(", shell_id, ",", j, ") = ", elements%pon%iadc(j,shell_id)
-                contributions_count = contributions_count + 1
+                do a = 1, m
+                  if (row_uid(a) == su) then
+                    elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + a - 1
+                    exit
+                  end if
+                end do
               end if
             end do
           end do
 
-          ! extend FSKY
-          !        subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
-          i = size(elements%pon%fsky, 2) + contributions_count
-          call extend_array(elements%pon%fsky, 8,elements%pon%sfsky/8, 8, i)
-!         write(6,*) "old id=", old_id, "new id=", new_id
+          ! extend FSKY and PROCNE by total_new_rows
+          sfsky_old = elements%pon%sfsky / 8
+          i = sfsky_old + total_new_rows
+          call extend_array(elements%pon%fsky, 8, sfsky_old, 8, i)
           elements%pon%sfsky = i * 8
           elements%pon%fsky(1:8, 1:i) = 0
+
+          if (total_new_rows > 0) then
+            call extend_array(elements%pon%procne, sfsky_old, i)
+            ! Per-row PROCNE from the canonical order: local rows = ispmd+1, recv rows =
+            ! the owning rank of that contribution.  adsky(new_numnod) = sfsky_old + 1, so
+            ! canonical row k lives at FSKY index sfsky_old + k.
+            do k = 1, m
+              elements%pon%procne(sfsky_old + k) = row_procne(k)
+            end do
+          end if
 
 
 

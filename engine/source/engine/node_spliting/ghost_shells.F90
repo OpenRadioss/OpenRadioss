@@ -157,6 +157,27 @@
           TAG = 1000
           numnodes = nodes%numnod
           nb_shells = size(element%shell%ixc,2)
+
+          ! Free previously allocated ghost_shell data when called a second time (e.g. after node splitting)
+          if (allocated(element%ghost_shell%shells_to_send)) then
+            do p = 1, size(element%ghost_shell%shells_to_send)
+              if (allocated(element%ghost_shell%shells_to_send(p)%index)) then
+                deallocate(element%ghost_shell%shells_to_send(p)%index)
+              end if
+            end do
+            deallocate(element%ghost_shell%shells_to_send)
+          end if
+          if (allocated(element%ghost_shell%offset))   deallocate(element%ghost_shell%offset)
+          if (allocated(element%ghost_shell%nodes))    deallocate(element%ghost_shell%nodes)
+          if (allocated(element%ghost_shell%damage))   deallocate(element%ghost_shell%damage)
+          if (allocated(element%ghost_shell%uid))      deallocate(element%ghost_shell%uid)
+          if (allocated(element%ghost_shell%addcnel))  deallocate(element%ghost_shell%addcnel)
+          if (allocated(element%ghost_shell%cnel))     deallocate(element%ghost_shell%cnel)
+          if (c_associated(element%ghost_shell%glob2loc)) then
+            call free_umap(element%ghost_shell%glob2loc)
+            element%ghost_shell%glob2loc = C_NULL_PTR
+          end if
+
           allocate(mask(nspmd,numnodes))
           mask = 0
 
@@ -184,7 +205,7 @@
             if(ispmd+1 == p) cycle ! skip the current process
             n = get_shell_list_size(ghosts,p)
             buffer_size_out(p) = n
-            allocate(spmd_buffer(p)%sendbuf(4*n))
+            allocate(spmd_buffer(p)%sendbuf(5*n))
             allocate(element%ghost_shell%shells_to_send(p)%index(n))
             if(n > 0) then
               ! copy the list of shells to be exchanged
@@ -198,8 +219,8 @@
           do p = 1, nspmd
             if(ispmd+1 == p) cycle ! skip the current process
             ! mpi Irecv to receive the data
-            allocate(spmd_buffer(p)%recvbuf(4*buffer_size_in(p)))
-            bs = buffer_size_in(p)*4
+            allocate(spmd_buffer(p)%recvbuf(5*buffer_size_in(p)))
+            bs = buffer_size_in(p)*5
             if( bs > 0 ) then
               call spmd_irecv(spmd_buffer(p)%recvbuf,bs,p-1,TAG,spmd_buffer(p)%recv_request)
             end if
@@ -211,12 +232,13 @@
               !call c_f_pointer(cpp_ptr, shells_to_send,[n])
               do i = 1, n
                 j = element%ghost_shell%shells_to_send(p)%index(i)
-                spmd_buffer(p)%sendbuf(1+4*(i-1)) = nodes%itab(element%shell%nodes(1,j))
-                spmd_buffer(p)%sendbuf(2+4*(i-1)) = nodes%itab(element%shell%nodes(2,j))
-                spmd_buffer(p)%sendbuf(3+4*(i-1)) = nodes%itab(element%shell%nodes(3,j))
-                spmd_buffer(p)%sendbuf(4+4*(i-1)) = nodes%itab(element%shell%nodes(4,j))
+                spmd_buffer(p)%sendbuf(1+5*(i-1)) = nodes%itab(element%shell%nodes(1,j))
+                spmd_buffer(p)%sendbuf(2+5*(i-1)) = nodes%itab(element%shell%nodes(2,j))
+                spmd_buffer(p)%sendbuf(3+5*(i-1)) = nodes%itab(element%shell%nodes(3,j))
+                spmd_buffer(p)%sendbuf(4+5*(i-1)) = nodes%itab(element%shell%nodes(4,j))
+                spmd_buffer(p)%sendbuf(5+5*(i-1)) = element%shell%user_id(j)
               end do
-              bs = 4*n
+              bs = 5*n
               call spmd_isend(spmd_buffer(p)%sendbuf,bs,p-1,TAG,spmd_buffer(p)%send_request)
             end if
           end do
@@ -228,6 +250,8 @@
           element%ghost_shell%offset = 0
           allocate(element%ghost_shell%damage(n))
           element%ghost_shell%damage = 0
+          allocate(element%ghost_shell%uid(n))
+          element%ghost_shell%uid = 0
 
           ! Wait for all the sends to complete
           offset = 0
@@ -239,10 +263,11 @@
             if(n > 0) then
               call spmd_Wait(spmd_buffer(p)%recv_request)
               do i = 1, n
-                element%ghost_shell%nodes(1,i+offset) = spmd_buffer(p)%recvbuf(1+4*(i-1))
-                element%ghost_shell%nodes(2,i+offset) = spmd_buffer(p)%recvbuf(2+4*(i-1))
-                element%ghost_shell%nodes(3,i+offset) = spmd_buffer(p)%recvbuf(3+4*(i-1))
-                element%ghost_shell%nodes(4,i+offset) = spmd_buffer(p)%recvbuf(4+4*(i-1))
+                element%ghost_shell%nodes(1,i+offset) = spmd_buffer(p)%recvbuf(1+5*(i-1))
+                element%ghost_shell%nodes(2,i+offset) = spmd_buffer(p)%recvbuf(2+5*(i-1))
+                element%ghost_shell%nodes(3,i+offset) = spmd_buffer(p)%recvbuf(3+5*(i-1))
+                element%ghost_shell%nodes(4,i+offset) = spmd_buffer(p)%recvbuf(4+5*(i-1))
+                element%ghost_shell%uid(i+offset)     = spmd_buffer(p)%recvbuf(5+5*(i-1))
                 ! convert back user id to local id
                 do j = 1,4
                   local_id = get_local_node_id(nodes,element%ghost_shell%nodes(j,i+offset))
@@ -271,6 +296,13 @@
           end do
 
           call destroy_ghosts(ghosts)
+
+          ! Build global-to-local map for ghost shells: uid(i) -> i
+          element%ghost_shell%glob2loc = create_umap()
+          call reserve_capacity(element%ghost_shell%glob2loc, size(element%ghost_shell%uid))
+          do i = 1, size(element%ghost_shell%uid)
+            call add_entry_umap(element%ghost_shell%glob2loc, element%ghost_shell%uid(i), i)
+          end do
 
           allocate(connected_ghosts_shells(numnodes))
           connected_ghosts_shells = 0
@@ -367,9 +399,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           type(spmd_real_buffer_type), dimension(nspmd) :: spmd_buffer
-          integer :: p
+          integer :: p, i, j
           integer :: n,ns,nr
-          integer :: recv_offset,send_offset
+          integer :: recv_offset
           integer, parameter :: TAG = 1000 !< tag for the MPI messages
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -400,11 +432,15 @@
           do p = 1, nspmd
             if(ispmd+1 == p) cycle ! skip the current process
             n = size(element%ghost_shell%shells_to_send(p)%index)
-            send_offset = (element%ghost_shell%offset(p) - 1) * chunkSize
             if(n > 0) then
-              ! fill the buffer: copy the contiguous chunk for process p
-              !write(6,*) "sendbuf(",send_offset+1,":",send_offset+n*chunkSize,")",size(sendbuf)
-              spmd_buffer(p)%sendbuf(1:n*chunkSize) = sendbuf(send_offset + 1 : send_offset + n*chunkSize)
+              ! Gather damage values using local shell IDs from shells_to_send.
+              ! sendbuf is detach_shell(0:numelc) passed as sendbuf(:) with 1-based
+              ! lower bound, so damage for local shell j is at sendbuf(j*chunkSize+1).
+              do i = 1, n
+                j = element%ghost_shell%shells_to_send(p)%index(i)
+                spmd_buffer(p)%sendbuf((i-1)*chunkSize+1:i*chunkSize) = &
+                  sendbuf(j*chunkSize+1:(j+1)*chunkSize)
+              end do
               ns = n * chunkSize
               call spmd_isend(spmd_buffer(p)%sendbuf,ns,p-1,TAG,spmd_buffer(p)%send_request)
             end if

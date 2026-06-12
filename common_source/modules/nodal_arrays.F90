@@ -230,7 +230,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ptr => array
         end subroutine assign_ptr_int_2d
-        
+
 !||====================================================================
 !||    assign_ptr_real_1d   ../common_source/modules/nodal_arrays.F90
 !||====================================================================
@@ -254,7 +254,7 @@
 !||====================================================================
 !||    assign_ptr_real_2d   ../common_source/modules/nodal_arrays.F90
 !||====================================================================
-      subroutine assign_ptr_real_2d(ptr,array,dim1,dim2)
+        subroutine assign_ptr_real_2d(ptr,array,dim1,dim2)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -270,7 +270,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           ptr => array
-        end subroutine assign_ptr_real_2d     
+        end subroutine assign_ptr_real_2d
 
 
 !! \brief Allocate nodal arrays
@@ -369,7 +369,7 @@
             call my_alloc(arrays%ACC_DP,3,numnod)
           end if
 #else
-          arrays%s_xdp = 1  
+          arrays%s_xdp = 1
           call my_alloc(arrays%DDP,3,1)
           call my_alloc(arrays%XDP,3,1)
 #endif
@@ -553,7 +553,92 @@
         end subroutine extend_nodal_arrays
 
 
-!! \brief extend nodal arrays
+!! \brief Extend NODES%BOUNDARY / NODES%BOUNDARY_ADD after a node split
+!! \details When node parent_id is split into parent_id and new_id, and parent_id
+!!          appears in the MPI domain-boundary list (NODES%BOUNDARY), the new node
+!!          must be inserted next to the parent in every domain slot where it appears.
+!!          This keeps NODES%BOUNDARY consistent so that SPMD_SUB_BOUNDARIES correctly
+!!          includes new_id in the non-local MPI communication tables.
+!||====================================================================
+!||    extend_boundary_for_split   ../common_source/modules/nodal_arrays.F90
+!||--- called by ------------------------------------------------------
+!||    detach_node                 ../engine/source/engine/node_spliting/detach_node.F90
+!||====================================================================
+        subroutine extend_boundary_for_split(arrays, parent_id, new_id, nspmd)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(nodal_arrays_), intent(inout) :: arrays
+          integer,             intent(in)    :: parent_id  !< local ID of the split parent node
+          integer,             intent(in)    :: new_id     !< local ID of the new child node
+          integer,             intent(in)    :: nspmd      !< number of MPI domains
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: p, j, n_total_ins, n_p, old_size, new_size, out
+          integer, allocatable :: tmp(:)
+          integer, allocatable :: n_ins(:)  ! insertions per domain
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(arrays%boundary))     return
+          if (.not. allocated(arrays%boundary_add)) return
+
+          old_size = arrays%boundary_size
+          allocate(n_ins(nspmd))
+          n_ins = 0
+
+          ! Count parent_id occurrences per domain using old BOUNDARY_ADD offsets
+          do p = 1, nspmd
+            do j = arrays%boundary_add(1,p), arrays%boundary_add(1,p+1) - 1
+              if (arrays%boundary(j) == parent_id) n_ins(p) = n_ins(p) + 1
+            end do
+          end do
+
+          n_total_ins = sum(n_ins)
+          if (n_total_ins == 0) then
+            deallocate(n_ins)
+            return  ! parent is not a boundary node — nothing to do
+          end if
+
+          new_size = old_size + n_total_ins
+          allocate(tmp(new_size))
+
+          ! Rebuild BOUNDARY: copy entries, inserting new_id after each parent_id
+          out = 0
+          do j = 1, old_size
+            out = out + 1
+            tmp(out) = arrays%boundary(j)
+            if (arrays%boundary(j) == parent_id) then
+              out = out + 1
+              tmp(out) = new_id
+            end if
+          end do
+
+          deallocate(arrays%boundary)
+          allocate(arrays%boundary(new_size))
+          arrays%boundary(1:new_size) = tmp(1:new_size)
+          arrays%boundary_size = new_size
+          deallocate(tmp)
+
+          ! Update BOUNDARY_ADD CSR offsets:
+          ! boundary_add(1, P+1) shifts by the total insertions in domains 1..P
+          n_p = 0
+          do p = 1, nspmd
+            n_p = n_p + n_ins(p)
+            arrays%boundary_add(1, p+1) = arrays%boundary_add(1, p+1) + n_p
+            arrays%boundary_add(2, p+1) = arrays%boundary_add(2, p+1) + n_p
+          end do
+
+          deallocate(n_ins)
+
+        end subroutine extend_boundary_for_split
+
+
 !||====================================================================
 !||    init_global_node_id   ../common_source/modules/nodal_arrays.F90
 !||--- called by ------------------------------------------------------
