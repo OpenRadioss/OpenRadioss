@@ -152,15 +152,22 @@ C-----------------------------------------------------------
 C-----------------------------------------------------------
       IF (ISHPLYXFEM == 0 .OR. IPLYXFEM == 2) THEN
         DO I=1,NEL
-          ZT=ZZ(I)*THK0(I)
-          EPS(I,1)=EXX(I)+ZT*KXX(I)
-          EPS(I,2)=EYY(I)+ZT*KYY(I)
-          EPS(I,3)=EXY(I)+ZT*KXY(I)
-          EPS(I,4)=EYZ(I)
-          EPS(I,5)=EXZ(I)
-          STRN1(I)= GSTR(I,1)+ZT*GSTR(I,6)
-          STRN2(I)= GSTR(I,2)+ZT*GSTR(I,7)
-          STRN3(I)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
+          IF(OFF(I) == ZERO) THEN
+            EPS(I,1:5) = ZERO
+            STRN1(I) = ZERO
+            STRN2(I) = ZERO
+            STRN3(I) = ZERO 
+          ELSE
+            ZT=ZZ(I)*THK0(I)
+            EPS(I,1)=(EXX(I)+ZT*KXX(I))
+            EPS(I,2)=(EYY(I)+ZT*KYY(I))
+            EPS(I,3)=(EXY(I)+ZT*KXY(I))
+            EPS(I,4)=EYZ(I)
+            EPS(I,5)=EXZ(I)
+            STRN1(I)= (GSTR(I,1)+ZT*GSTR(I,6))
+            STRN2(I)= (GSTR(I,2)+ZT*GSTR(I,7))
+            STRN3(I)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
+          ENDIF
         ENDDO
       ELSE 
         DO I=1,NEL
