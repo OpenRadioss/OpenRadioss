@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E                    PLY_EXX  ,PLY_EYY ,PLY_EXY  ,PLY_EXZ ,PLY_EYZ ,
      F                    PLY_F    ,PLA     ,CRAK     ,IERR    ,
      G                    IOFF_DUCT,IFAILURE,PLY_ID   ,IPG     ,TSAIWU  ,
-     H                    IMCONV   ,IOUT    ,DMG      ,L_DMG   ) 
+     H                    IMCONV   ,IOUT    ,DMG      ,L_DMG   ,ISLICE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
      .   IPT,NPTT,NPTTOT,ILAY,IGTYP,IFAILURE,ISHPLYXFEM,IPG
       INTEGER ,INTENT(IN) :: IMCONV
       INTEGER ,INTENT(IN) :: IOUT,L_DMG
+      INTEGER ,INTENT(IN) :: ISLICE
       INTEGER NGL(MVSIZ),IERR(NEL),IOFF_DUCT(MVSIZ)
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: NFIS1,NFIS2,NFIS3
       my_real ,INTENT(IN) :: TIME
@@ -200,7 +201,8 @@ C-----------------------
      8                      PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                      SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                      IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,
-     B                      IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG )
+     B                      IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG ,
+     C                      ISLICE)
       
       ELSE    ! Crasurv 
       
@@ -215,7 +217,8 @@ C-----------------------
      8                       PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                       SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                       IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,
-     B                       IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG )
+     B                       IMCONV   ,MVSIZ   ,IOUT    ,DMG     ,L_DMG ,
+     C                       ISLICE )
 
       END IF
 !-----------------------------------------------------------------------
