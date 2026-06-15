@@ -124,6 +124,8 @@ C=======================================================================
       ELSE
        AX=ZERO
       ENDIF
+      TSC(:) = ZERO
+      TSC0(:) = ZERO
 C
       NSENS(1:MVSIZ) = 0
       TS(1:MVSIZ) = ZERO           
@@ -271,6 +273,7 @@ C------- Second pass
             JJ = INDEX_WO_SMOOTH(II)
             N = INDEX(JJ)
             L = IBFV(3,N)
+            ISENS = IBFV(4,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
             IF(NCYCLE == 0 .OR. (ISENS > 0 .AND. TSC(JJ)>ZERO))THEN 
                 IPOSC_WO_SMOOTH(II) = 0
@@ -285,6 +288,7 @@ C------- Second pass
             JJ = INDEX_SMOOTH(II)
             N = INDEX(JJ)
             L = IBFV(3,N)
+            ISENS = IBFV(4,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
             IF(NCYCLE == 0 .OR. (ISENS > 0 .AND. TSC(JJ)>ZERO))THEN 
                 IPOSC_SMOOTH(II) = 0
