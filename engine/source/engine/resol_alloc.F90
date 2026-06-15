@@ -495,6 +495,17 @@
             allocate(condnskyi(0))
           endif
 
+          if(.not.allocated(icodt0)) allocate(icodt0(1))
+          if(.not.allocated(icodr0)) allocate(icodr0(1))
+          if(.not.allocated(mcp_off)) allocate(mcp_off(1))
+          if(.not.allocated(fthe)) allocate(fthe(1))
+          if(.not.allocated(fthesky)) allocate(fthesky(1))
+          if(.not.allocated(qfricint)) allocate(qfricint(1))
+          if(.not.allocated(condn)) allocate(condn(1))
+          if(.not.allocated(condnsky)) allocate(condnsky(1))
+          if(.not.allocated(ftheskyi)) allocate(ftheskyi(1))
+          if(.not.allocated(condnskyi)) allocate(condnskyi(1))
+
         end subroutine resol_alloc_phase5
 
 !||====================================================================
