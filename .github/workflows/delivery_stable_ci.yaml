@@ -41,34 +41,34 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           - build: starter_linux64_gf_sp
             precision: sp
             os: linux64
             binary: starter
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           - build: engine_linux64_gf
             precision: dp
             os: linux64
             binary: engine
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           - build: engine_linux64_gf_sp
             precision: sp
             os: linux64 
             binary: engine
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
           ### LINUXA64 ###
           - build: starter_linuxa64
             binary: starter

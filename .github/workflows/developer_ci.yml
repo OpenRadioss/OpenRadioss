@@ -61,14 +61,14 @@ jobs:
             precision: dp
             os: linux64
             binary: starter
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
 
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
-            image_name: rd-linux64-cos8-bld:ompi4.1.1-ts11
+            image_name: rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
@@ -155,27 +155,27 @@ jobs:
             precision: sp
             os: linux64
             binary: starter
-            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+            image_name: rd-linux64-or-rl10-bld:ompi4.1.2-ts15
 
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64 
             binary: engine
             mpi: ompi
-            image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+            image_name: rd-linux64-or-rl10-bld:ompi4.1.2-ts15
 
           # Disabled since error would be seen in ompi version
           # - build: engine_linux64_gf
           #   precision: dp
           #   os: linux64
           #   binary: engine
-          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+          #   image_name: rd-linux64-or-rl10-bld:ompi4.1.2-ts15
 
           # - build: engine_linux64_gf_sp
           #   precision: sp
           #   os: linux64 
           #   binary: engine
-          #   image_name: rd-linux64-cos10-bld:ompi4.1.1-ts15
+          #   image_name: rd-linux64-or-rl10-bld:ompi4.1.2-ts15
 
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
@@ -240,7 +240,7 @@ jobs:
     runs-on: ["build","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-cos8-bld:ompi4.1.1-ts11"     
+      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
@@ -313,7 +313,7 @@ jobs:
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
       # Registry variable can't be a secret but can be a simple variable defined at organization level
-      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-cos8-qa:ompi4.1.1"     
+      image: "internal.artifacts.altair.com/radioss-docker-local/rd-linux64-or-rl8.10-bld-qa:ompi4.1.2-ts11"     
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
