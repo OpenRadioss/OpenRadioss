@@ -154,7 +154,7 @@ C--------------------------------------------------
 C LOOP OVER /INIVEL/... OPTIONS IN INPUT FILE
 C--------------------------------------------------
       CALL HM_OPTION_START('/INIVEL')
-      I = 0 
+      I = 0
       NINIT = 0 ! number  of /INIVEL w/ tstart
 
       DO CPT=1,HM_NINVEL
@@ -173,7 +173,7 @@ C--------------------------------------------------
         ENDDO
         IF (USER_UNIT_ID /= 0 .AND. .NOT.IS_FOUND_UNIT_ID) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                 I2=USER_UNIT_ID,I1=ID,C1='INITIAL VELOCITY',C2='INITIAL VELOCITY',C3=TITR) 
+     .                 I2=USER_UNIT_ID,I1=ID,C1='INITIAL VELOCITY',C2='INITIAL VELOCITY',C3=TITR)
         ENDIF
 
         !---SET ITYPE DEPENDING ON USER KEYWORD
@@ -215,7 +215,7 @@ C--------------------------------------------------
         INIVIDS(NBVEL)=ID
 
 ! read t_start,sens_id for Itype<6
-       IF(ITYPE < 6) THEN 
+       IF(ITYPE < 6) THEN
           CALL HM_GET_FLOATV('tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('sensor_id',SENSID,IS_AVAILABLE,LSUBMODEL)
           IF (SENSID > 0) THEN
@@ -226,8 +226,8 @@ C--------------------------------------------------
               CALL ANCMSG(MSGID=1252,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=LABEL, I1=ID, C2=LABEL, C3=TITR, I2=SENSID)
             ENDIF
           END IF
-       END IF 
-!       
+       END IF
+!
        IF(ITYPE > 6) THEN
           !invalid type
           CYCLE
@@ -249,7 +249,7 @@ C--------------------------------------------------
               VL1 = ZERO
             ENDIF
           ENDIF
-          IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
+          IF (TSTART > ZERO .OR. SENS_ID > 0) THEN
             NINIT = NINIT + 1
             INIVEL_T(NINIT)%ID = ID
             INIVEL_T(NINIT)%ITYPE = ITYPE
@@ -458,7 +458,7 @@ C
 
         IF (ITYPE == 5) THEN
            IF (.NOT. MULTI_FVM%IS_USED) THEN
-              CALL ANCMSG(MSGID=1554,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION')
+              CALL ANCMSG(MSGID=1557,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION')
            ELSE
               IDGRBRICK_LOC = -1
               IDGRQUAD_LOC  = -1
@@ -477,17 +477,17 @@ C
                  IF (IDGRQUAD /= 0) THEN
                     DO J = 1,NGRQUAD
                        IF (IDGRQUAD == IGRQUAD(J)%ID) IDGRQUAD_LOC = J
-                    ENDDO    
+                    ENDDO
                     IF (IDGRQUAD_LOC == -1) THEN
-                       CALL ANCMSG(MSGID=1554,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRQUAD)
+                       CALL ANCMSG(MSGID=1555,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRQUAD)
                     ENDIF
                  ENDIF
                  IF (IDGRTRIA /= 0) THEN
                     DO J = 1,NGRSH3N
                        IF (IDGRTRIA == IGRSH3N(J)%ID) IDGRTRIA_LOC = J
-                    ENDDO      
+                    ENDDO
                     IF (IDGRTRIA_LOC == -1) THEN
-                       CALL ANCMSG(MSGID=1554,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRTRIA)
+                       CALL ANCMSG(MSGID=1556,MSGTYPE=MSGERROR,ANMODE=ANINFO,C1='IN /INIVEL OPTION',I1=IDGRTRIA)
                     ENDIF
                  ENDIF
               ENDIF
