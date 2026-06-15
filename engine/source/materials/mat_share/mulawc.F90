@@ -398,7 +398,8 @@
             iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
             igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
             ply_id,iseq,progressive_crack,&
-            orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr
+            orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr, &
+            islice
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -712,6 +713,8 @@
             do it=1,nptt
               ipt = ipt_all + it        ! count all nptt through all layers
               jpos = 1 + (ipt-1)*jlt
+
+              islice = it ! need to output failure message in  law25 for prop (type 17,51,52)
 !
               lbuf  => bufly%lbuf(ir,is,it)
               uvar  => bufly%mat(ir,is,it)%var
@@ -1206,7 +1209,7 @@
                     ply_exx     ,ply_eyy  ,ply_exy     ,ply_exz  ,ply_eyz   ,&
                     ply_f       ,lbuf%pla ,lbuf%crak   ,gbuf%ierr,&
                     ioff_duct   ,ifailure ,ply_id      ,ipg      ,lbuf%tsaiwu,&
-                    imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg)
+                    imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg,islice)
 
                 elseif (igtyp == 9) then
 !           integration by points (through thickness)
