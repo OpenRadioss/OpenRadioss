@@ -45,13 +45,14 @@ Copyright>        https://www.siemens.com/en-us/products/simcenter/mechanical-si
 !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
 !||    stack_mod                   ../engine/share/modules/stack_mod.F
 !||====================================================================
-      SUBROUTINE H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR,IPARG ,ITENS ,INVERT,NELCUT,
+      SUBROUTINE H3D_SHELL_TENSOR(ELBUF_TAB,SHELL_TENSOR_STACK,IPARG ,ITENS ,INVERT,NELCUT,
      2                   EL2FA    ,NBF   ,TENS  ,EPSDOT,IADP  ,
      3                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
      4                   IGEO     ,IXTG  ,IPM   ,STACK,ID_ELEM   ,ITY_ELEM  ,INFO1,
      5                   INFO2    ,IS_WRITTEN_SHELL,IPARTC ,IPARTTG     ,LAYER_INPUT ,IPT_INPUT  ,
      6                   PLY_INPUT,GAUSS_INPUT,IUVAR_INPUT,H3D_PART, KEYWORD,D    ,
-     7                   ID       ,BUFMAT   ,MAT_PARAM,GEO, DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     7                   ID       ,BUFMAT   ,MAT_PARAM,GEO, DRAPE_SH4N, DRAPE_SH3N, DRAPEG,
+     8                   MAX_SHELL_STACKSIZE, SHELL_STACKSIZE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +80,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: MAX_SHELL_STACKSIZE
+      INTEGER, INTENT(INOUT) :: SHELL_STACKSIZE
+      REAL(KIND=4),DIMENSION(3,MAX_SHELL_STACKSIZE) :: SHELL_TENSOR_STACK
       INTEGER IPARG(NPARG,*),ITENS,INVERT(*),IUVAR_INPUT,
      .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*), 
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
@@ -87,7 +91,7 @@ C-----------------------------------------------
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,ID
       my_real, INTENT(IN),TARGET :: BUFMAT(SBUFMAT)
       my_real
-     .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*)
+     .   TENS(3,*),EPSDOT(6,*),X(3,*),D(3,*)
       my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -173,10 +177,10 @@ C       QUAD
 C-----------------------------------------------
           IF(ITY == 2)THEN
             DO I=1,NEL
-              N = I + NFT
-              SHELL_TENSOR(1,OFFSET+NFT+I) = ZERO
-              SHELL_TENSOR(2,OFFSET+NFT+I) = ZERO
-              SHELL_TENSOR(3,OFFSET+NFT+I) = ZERO
+        !      N = I + NFT
+        !      SHELL_TENSOR(1,OFFSET+NFT+I) = ZERO
+        !      SHELL_TENSOR(2,OFFSET+NFT+I) = ZERO
+        !      SHELL_TENSOR(3,OFFSET+NFT+I) = ZERO
             ENDDO
 C-----------------------------------------------
 C       COQUES
@@ -336,8 +340,8 @@ C--------------------------------------------------
                 VALUE(1) = GBUF%FOR(JJ(1)+I)
                 VALUE(2) = GBUF%FOR(JJ(2)+I)
                 VALUE(3) = GBUF%FOR(JJ(3)+I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRESS/BEND') THEN
@@ -346,8 +350,8 @@ C--------------------------------------------------
                 VALUE(1) = GBUF%MOM(JJ(1)+I)
                 VALUE(2) = GBUF%MOM(JJ(2)+I)
                 VALUE(3) = GBUF%MOM(JJ(3)+I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 
 C--------------------------------------------------
@@ -518,9 +522,9 @@ c               /TENS/STRESS/NPT=
               ENDIF  
 c---
               IF (ISELECT == 1) THEN
-                CALL H3D_WRITE_SH_TENSOR_ARRAY(
-     .               IOK_PART  ,ISELECT   ,NEL    ,OFFSET   ,NFT     ,        
-     .               IS_WRITTEN_SHELL,SHELL_TENSOR,SIGE     ) 
+                CALL H3D_WRITE_SH_TENSOR_ARRAY_STACK(
+     .               IOK_PART,           ISELECT,            NEL,  OFFSET,             NFT,        
+     .               IS_WRITTEN_SHELL,   SHELL_TENSOR_STACK, SIGE, SHELL_STACKSIZE, MAX_SHELL_STACKSIZE) 
               END IF       
 c
               call my_dealloc(SIGE)
@@ -637,9 +641,9 @@ c               /TENS/MSTRESS/NPT=
                 ENDIF
               ENDIF  
 c---
-              CALL H3D_WRITE_SH_TENSOR_ARRAY(
-     .             IOK_PART  ,ISELECT   ,NEL    ,OFFSET   ,NFT     ,        
-     .             IS_WRITTEN_SHELL,SHELL_TENSOR,SIGM     )
+              CALL H3D_WRITE_SH_TENSOR_ARRAY_STACK(
+     .               IOK_PART,           ISELECT,            NEL,  OFFSET,             NFT,        
+     .               IS_WRITTEN_SHELL,   SHELL_TENSOR_STACK, SIGM, SHELL_STACKSIZE, MAX_SHELL_STACKSIZE) 
 
               call my_dealloc(SIGM)
 C--------------------------------------------------
@@ -653,8 +657,9 @@ C--------------------------------------------------
                 VALUE(2) = GBUF%STRA(JJ(2)+I)
                 VALUE(3) = GBUF%STRA(JJ(3)+I)
                 VALUE(3) = VALUE(3) * HALF 
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                   SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
+
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRAIN/BEND') THEN  ! bend
@@ -666,9 +671,10 @@ C--------------------------------------------------
                 VALUE(1) = GBUF%STRA(JJ(6)+I) * THK
                 VALUE(2) = GBUF%STRA(JJ(7)+I) * THK
                 VALUE(3) = GBUF%STRA(JJ(8)+I) * THK
-                VALUE(3) = VALUE(3) * HALF 
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                   SHELL_TENSOR,I,OFFSET,NFT,VALUE)    
+                VALUE(3) = VALUE(3) * HALF
+
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRAIN') THEN  ! strain tensor output in element coordinate system
@@ -685,8 +691,9 @@ C--------------------------------------------------
                   VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 
                   VALUE(3) =  GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I)
                   VALUE(3) = VALUE(3) * HALF 
-                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                     SHELL_TENSOR,I,OFFSET,NFT,VALUE)    
+
+                  CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                 ENDDO  
 c
               ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN  
@@ -694,9 +701,10 @@ c
                   VALUE(1) = GBUF%STRA(JJ(1)+I)
                   VALUE(2) = GBUF%STRA(JJ(2)+I)
                   VALUE(3) = GBUF%STRA(JJ(3)+I)
-                  VALUE(3) = VALUE(3) * HALF 
-                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                     SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                  VALUE(3) = VALUE(3) * HALF
+
+                  CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                 ENDDO
 c
 c               PLY=IPLY NPT=IPT
@@ -732,9 +740,10 @@ c               PLY=IPLY NPT=IPT
                              VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                           ENDDO
                             VALUE(1:3) = VALUE(1:3)/NPG
-                            VALUE(3) = VALUE(3) * HALF 
-                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                            VALUE(3) = VALUE(3) * HALF
+
+                            CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                     VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                         ENDDO
                        ELSE
                         DO I=1,NEL
@@ -744,9 +753,11 @@ c               PLY=IPLY NPT=IPT
                           VALUE(1) = GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) * THK
                           VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
                           VALUE(3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
-                          VALUE(3) = VALUE(3) * HALF 
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                          VALUE(3) = VALUE(3) * HALF
+
+                          
+                          CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                     VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                         ENDDO                    
                        ENDIF ! NPG 
                     ENDIF  
@@ -774,9 +785,11 @@ c               ILAYER=IL  PLY=NULL NPT=NULL
                       VALUE(1) = VALUE(1)/NPG
                       VALUE(2) = VALUE(2)/NPG
                       VALUE(3) = VALUE(3)/NPG                   
-                      VALUE(3) = VALUE(3) * HALF 
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                      VALUE(3) = VALUE(3) * HALF
+
+                      
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                   ENDDO
                  ELSE
                   DO I=1,NEL
@@ -788,8 +801,8 @@ c               ILAYER=IL  PLY=NULL NPT=NULL
                     VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
                     VALUE(3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
                     VALUE(3) = VALUE(3) * HALF 
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                    CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                             VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                   ENDDO
                  ENDIF ! NPG 
                 ENDIF
@@ -812,9 +825,10 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                       VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                     ENDDO 
                     VALUE(1:3) = VALUE(1:3)/NPG
-                    VALUE(3) = VALUE(3) * HALF 
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                    VALUE(3) = VALUE(3) * HALF
+                    
+                    CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                     VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                   ENDDO
                  ELSE 
                    DO I=1,NEL
@@ -826,8 +840,10 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                     VALUE(2) = GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) * THK
                     VALUE(3) = GBUF%STRA(JJ(3)+I) + FACTOR*GBUF%STRA(JJ(8)+I) * THK
                     VALUE(3) = VALUE(3) * HALF 
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                    
+                    CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                             VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
+
                   ENDDO
                  ENDIF ! NPG
                 ENDIF
@@ -988,9 +1004,9 @@ c               PLY=NULL ILAYER=NULL NPT=IPT
                 ENDIF
               ENDIF
 c---
-              CALL H3D_WRITE_SH_TENSOR_ARRAY(
-     .             IOK_PART  ,ISELECT   ,NEL    ,OFFSET   ,NFT     ,        
-     .             IS_WRITTEN_SHELL,SHELL_TENSOR,EPSM     )
+              CALL H3D_WRITE_SH_TENSOR_ARRAY_STACK(
+     .             IOK_PART,           ISELECT,            NEL,  OFFSET,             NFT,        
+     .             IS_WRITTEN_SHELL,   SHELL_TENSOR_STACK, EPSM, SHELL_STACKSIZE, MAX_SHELL_STACKSIZE) 
 
               call my_dealloc(EPSM)
               call my_dealloc(MATLY)
@@ -1007,8 +1023,8 @@ C--------------------------------------------------
                 VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                 VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                 VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                   VALUE)
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/EPSDOT/BEND') THEN  
@@ -1017,9 +1033,9 @@ C--------------------------------------------------
                 THK = GBUF%THK(I)
                 VALUE(1) = EPSDOT(4,I+NFT+OFFSET)
                 VALUE(2) = EPSDOT(5,I+NFT+OFFSET)
-                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * HALF 
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                   VALUE)
+                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * HALF
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/EPSDOT') THEN  
@@ -1033,8 +1049,8 @@ c              ILAYER=NULL NPT=NULL
                         VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                         VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                         VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                         SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO
 c                 PLY=IPLY NPT=IPT
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN     
@@ -1060,8 +1076,9 @@ c                 PLY=IPLY NPT=IPT
                               VALUE(1) = EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                               VALUE(2) = EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                               VALUE(3) =(EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                              CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
-     .                                    SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                              CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                       VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
+
                             ENDDO
                     ENDIF
                   ENDDO
@@ -1095,8 +1112,8 @@ c                        PLY=NULL ILAYER=ILAY NPT=IPT
                             VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                             VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                             VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                               VALUE)
+                            CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                     VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                           ENDDO
                   ENDIF
                ENDIF
@@ -1111,8 +1128,8 @@ c               PLY=NULL ILAYER=IL NPT=NULL
                           VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                           VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                           VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                 VALUE)
+                          CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                   VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                         ENDDO
                 ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
                         A1 = ONE
@@ -1125,8 +1142,8 @@ c               PLY=NULL ILAYER=IL NPT=NULL
                           VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                           VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                           VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                 VALUE)
+                          CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                   VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                         ENDDO
                ENDIF
 c                  PLY=NULL ILAYER=NULL NPT=IPT
@@ -1139,8 +1156,8 @@ c                  PLY=NULL ILAYER=NULL NPT=IPT
                           VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                           VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
                           VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                 VALUE)
+                          CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                   VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                         ENDDO
                ENDIF
               ENDIF
@@ -1184,8 +1201,8 @@ C--------------------------------------------------
                 CALL SH4_TSTRAIN(XN,YN,ZN,DXN,DYN,DZN,STRAIN,NEL)
                 DO I=1,NEL
                   VALUE(1:3)= STRAIN(1:3,I)
-                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE)
+                  CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                           VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                 ENDDO
               ELSEIF (ITY == 7) THEN
                 DO I=1,NEL
@@ -1217,8 +1234,8 @@ C--------------------------------------------------
                 CALL SH3_TSTRAIN(XN,YN,ZN,DXN,DYN,DZN,STRAIN,NEL,IHBE)
                 DO I=1,NEL
                   VALUE(1:3)= STRAIN(1:3,I)
-                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE)
+                  CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                           VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                 ENDDO
               END IF
 C--------------------------------------------------
@@ -1227,32 +1244,32 @@ C-----------------------------------------------
 C---------- -------------------------------------
               DO I=1,NEL
                 VALUE(1:3) = GBUF%TM_SIG1(JJ(1:3) + I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                  VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C---------- -------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRESS/TMIN') THEN
 C---------- -------------------------------------
               DO I=1,NEL
                 VALUE(1:3) = GBUF%TM_SIG3(JJ(1:3) + I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                  VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C---------- -------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRAIN/TMAX') THEN
 C---------- -------------------------------------
               DO I=1,NEL
                 VALUE(1:3) = GBUF%TM_STRA1(JJ(1:3) + I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                  VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C---------- -------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRAIN/TMIN') THEN
 C---------- -------------------------------------
               DO I=1,NEL
                 VALUE(1:3) = GBUF%TM_STRA3(JJ(1:3) + I)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                  VALUE)    
+                CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/BSTRESS') THEN
@@ -1292,7 +1309,8 @@ C--------------------------------------------------
                            ENDDO !IS
                          ENDDO !IR
                       ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE ) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO !I              
                   ELSEIF(MLW == 78) THEN
                     DO I=1,NEL  
@@ -1310,7 +1328,8 @@ C--------------------------------------------------
                            ENDDO !IS
                          ENDDO !IR
                       ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO !I              
                   ELSEIF(MLW == 87 .AND. CHARD > ZERO) THEN
                    !SIGBXX(I) = SIGB(I,1) + SIGB(I,4) + SIGB(I,7) + SIGB(I,10)
@@ -1334,7 +1353,8 @@ C--------------------------------------------------
                            ENDDO !IS
                          ENDDO !IR
                       ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO !I              
                   ENDIF ! MLW==
                 ELSEIF(ID > 0) THEN !!
@@ -1354,7 +1374,8 @@ C--------------------------------------------------
                            ENDDO !IS
                          ENDDO !IR
                       ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO !I              
                   ELSEIF(MLW == 78) THEN
                     IF(ID == 1) THEN
@@ -1373,7 +1394,8 @@ C--------------------------------------------------
                            ENDDO !IS
                           ENDDO !IR
                        ENDDO !Jlay  
-                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                   
+                       CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                      ENDDO !I              
                     ELSEIF(ID == 2) THEN
                       DO I=1,NEL  
@@ -1391,7 +1413,8 @@ C--------------------------------------------------
                              ENDDO !IS
                            ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I              
                     ELSEIF(ID == 3) THEN 
                       DO I=1,NEL  
@@ -1409,7 +1432,8 @@ C--------------------------------------------------
                              ENDDO !IS
                            ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                   
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I  
                     ENDIF !ID ==             
                   ELSEIF(MLW == 87.AND. CHARD > ZERO) THEN
@@ -1429,7 +1453,8 @@ C--------------------------------------------------
                              ENDDO !IS
                            ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I                
                     ELSEIF(ID == 2) THEN
                       DO I=1,NEL  
@@ -1447,7 +1472,8 @@ C--------------------------------------------------
                              ENDDO !IS
                            ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I  
                     ELSEIF(ID == 3) THEN 
                       DO I=1,NEL  
@@ -1465,7 +1491,8 @@ C--------------------------------------------------
                              ENDDO !IS
                            ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I  
                     ELSEIF( ID == 4) THEN
                       DO I=1,NEL  
@@ -1483,7 +1510,8 @@ C--------------------------------------------------
                              ENDDO !IS
                           ENDDO !IR
                         ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                 VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO !I  
                     ENDIF !(ID == ) 
                   ENDIF!(MLW ==  
@@ -1514,7 +1542,8 @@ C--------------------------------------------------
                              ENDDO !k
                            ENDDO !IS                 
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                  VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     !--------
                     !  LAW78
@@ -1530,7 +1559,8 @@ C--------------------------------------------------
                                 ENDDO !k
                               ENDDO !IS                 
                             ENDDO !IR
-                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                            CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                                     VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                           ENDDO ! I
                       ELSEIF(ID ==1 ) THEN  
                          DO I=1,NEL  
@@ -1542,7 +1572,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==2 ) THEN  
                          DO I=1,NEL  
@@ -1554,7 +1585,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
 
                       ELSEIF(ID ==3 ) THEN  
@@ -1567,7 +1599,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ENDIF !ID == -1
                       !--------
@@ -1588,7 +1621,8 @@ C--------------------------------------------------
                               ENDDO !k                                                    
                             ENDDO !IS                                                          
                           ENDDO !IR                                                       
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==1 ) THEN  
                          DO I=1,NEL  
@@ -1600,7 +1634,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==2 ) THEN  
                          DO I=1,NEL  
@@ -1612,7 +1647,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==3 ) THEN  
                          DO I=1,NEL  
@@ -1624,7 +1660,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==4 ) THEN  
                          DO I=1,NEL  
@@ -1636,7 +1673,8 @@ C--------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ENDIF !ID == -1
                     ENDIF !(MLW == 
@@ -1662,7 +1700,8 @@ C--------------------------------------------------
                        ENDDO !k                                                                                        
                      ENDDO !IS                                                                                              
                    ENDDO !IR                                                                                           
-                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)        
+                   CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                  ENDDO ! I                                                                                             
                 !--------                                                                                             
                 !  LAW78                                                                                              
@@ -1678,7 +1717,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==1 ) THEN  
                     DO I=1,NEL  
@@ -1690,7 +1730,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==2 ) THEN  
                     DO I=1,NEL  
@@ -1702,7 +1743,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==3 ) THEN  
                     DO I=1,NEL  
@@ -1714,7 +1756,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                               VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ENDIF !ID == -1
                  !--------   
@@ -1735,7 +1778,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==1 ) THEN  
                     DO I=1,NEL  
@@ -1747,7 +1791,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==2 ) THEN  
                     DO I=1,NEL  
@@ -1759,7 +1804,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==3 ) THEN  
                     DO I=1,NEL  
@@ -1771,7 +1817,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ELSEIF(ID ==4 ) THEN  
                     DO I=1,NEL  
@@ -1783,7 +1830,8 @@ C--------------------------------------------------
                           ENDDO !k
                         ENDDO !IS                 
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                      CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                     ENDDO ! I
                  ENDIF !ID == -1
                ENDIF !(MLW == 
@@ -1812,7 +1860,8 @@ C--------------------------------------------------
                             ENDDO!IT
                           ENDDO !IS
                         ENDDO!IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                        CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        VALUE(1:3) = ZERO
                     ENDDO !I
                     !--------
@@ -1831,7 +1880,8 @@ C--------------------------------------------------
                               ENDDO!IT
                               ENDDO !IS           
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==1 ) THEN  
                        DO I=1,NEL  
@@ -1845,7 +1895,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==2 ) THEN  
                        DO I=1,NEL  
@@ -1859,7 +1910,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==3 ) THEN  
                        DO I=1,NEL                  
@@ -1873,7 +1925,8 @@ C--------------------------------------------------
                               ENDDO!IT
                             ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ENDIF !ID == -1
                     !--------
@@ -1896,7 +1949,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS             
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                       ENDDO ! I
                     ELSEIF(ID ==1 ) THEN  
                        DO I=1,NEL  
@@ -1910,7 +1964,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==2 ) THEN  
                        DO I=1,NEL  
@@ -1924,7 +1979,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==3 ) THEN  
                        DO I=1,NEL  
@@ -1938,7 +1994,8 @@ C--------------------------------------------------
                               ENDDO!IT
                            ENDDO !IS              
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ELSEIF(ID ==4 ) THEN  
                        DO I=1,NEL  
@@ -1952,7 +2009,8 @@ C--------------------------------------------------
                               ENDDO!IT
                              ENDDO !IS            
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                     ENDIF !ID == -1  
                   ENDIF !(MLW ==     
@@ -1978,7 +2036,8 @@ C---------------------------------------------------------------------------
                              ENDDO !k
                            ENDDO !IS                 
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                         CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                        ENDDO ! I
                       !--------
                       !  LAW78
@@ -1994,7 +2053,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==1 ) THEN  
                          DO I=1,NEL  
@@ -2006,7 +2066,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==2 ) THEN  
                          DO I=1,NEL  
@@ -2018,7 +2079,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==3 ) THEN  
                          DO I=1,NEL  
@@ -2030,7 +2092,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ENDIF !ID == -1
                       !--------
@@ -2051,7 +2114,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==1 ) THEN  
                          DO I=1,NEL  
@@ -2063,7 +2127,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==2 ) THEN  
                          DO I=1,NEL  
@@ -2075,7 +2140,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==3 ) THEN  
                          DO I=1,NEL  
@@ -2087,7 +2153,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ELSEIF(ID ==4 ) THEN  
                          DO I=1,NEL  
@@ -2099,7 +2166,8 @@ C---------------------------------------------------------------------------
                                ENDDO !k
                              ENDDO !IS                 
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR_STACK(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR_STACK,I,OFFSET,NFT,
+     .                                         VALUE,SHELL_STACKSIZE,MAX_SHELL_STACKSIZE)    
                          ENDDO ! I
                       ENDIF !ID == -1
                     ENDIF !(MLW == 

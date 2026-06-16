@@ -78,13 +78,36 @@ extern "C"
 /*=================================================================*/
 
 void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC, int *NIXC, int *NUMELC, int *IPARTC,
-                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, my_real *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
-                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR , int *IS_WRITTEN)
+                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, float *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
+                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR , int *IS_WRITTEN,
+                           int *SHELL_STACKSIZE)
 {
     int i;
+    int elem;
+    int elt;
     int offset;
     H3D_ID elem_id;
     H3D_ID comp_id;
+    int sh4_stacksize;
+    int sh3_stacksize;
+    int *sh3_stack = new int[*SHELL_STACKSIZE];
+    int *sh4_stack = new int[*SHELL_STACKSIZE];
+
+    sh4_stacksize=0;
+    sh3_stacksize=0;
+    for( i = 0; i < *SHELL_STACKSIZE; i++ ){ 
+              elt=IS_WRITTEN[i]-1;
+              if( ITY_ELEM[elt] == 3 ) 
+              { 
+                sh4_stack[sh4_stacksize]=i;
+                sh4_stacksize++;
+              }
+              if( ITY_ELEM[elt] == 7 ) 
+              { 
+                sh3_stack[sh3_stacksize]=i;
+                sh3_stacksize++;
+              }
+    }
 //
     // initialize 
 
@@ -102,8 +125,7 @@ void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
 
         sim_idx = *IH3D;
 
-        if( *NUMELC != 0 )
-        {
+        if( *NUMELC != 0 ){
             rc = Hyper3DDatasetBegin(h3d_file, *NUMELC, sim_idx, subcase_id, H3D_DS_ELEM, 
                                             H3D_DS_TENSOR2D, H3D_NF_REAL, num_corners, num_modes, *CPT_DATATYPE, 
                                             0, sh4n_poolname_id); 
@@ -112,25 +134,23 @@ void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
             offset = 0;
  
 
-            for( i = 0; i < *NUMELC + *NUMELTG; i++ ) 
+            for( elem = 0; elem < sh4_stacksize; elem++ ) 
             {
-              if( ITY_ELEM[i] == 3 && IS_WRITTEN[i] == 1) 
-              { 
-                elem_id = ID_ELEM[i];
+              i=sh4_stack[elem];
+              elt=IS_WRITTEN[i]-1;
+                elem_id = ID_ELEM[elt];
                 elem_result[0] = FUNC[3*i];
                 elem_result[1] = FUNC[3*i+1];
                 elem_result[2] = FUNC[3*i+2];
                 rc = Hyper3DDatasetWrite(h3d_file, elem_id, &elem_result[0]);
                 IS_WRITTEN[i] = 0;
-              }
             }
 
             rc = Hyper3DDatasetEnd(h3d_file);
             if( !rc ) throw rc;
         }
 
-        if( *NUMELTG != 0 )
-            {
+        if( *NUMELTG != 0 ){
 
             offset = *NUMELC;
 
@@ -139,45 +159,54 @@ void c_h3d_update_shell_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
      	 			    0, sh3n_poolname_id); 
      	    if( !rc ) throw rc;
 
-     	    for( i = 0; i < *NUMELC + *NUMELTG; i++ ) 
+     	    for( elem = 0; elem < sh3_stacksize; elem++ ) 
      	    {
-              if( ITY_ELEM[i] == 7  && IS_WRITTEN[i] == 1) 
-     	      { 
-     	 	elem_id = ID_ELEM[i];
+              i=sh3_stack[elem];
+              elt=IS_WRITTEN[i]-1;
+
+     	 	elem_id = ID_ELEM[elt];
      	 	elem_result[0] = FUNC[3*i];
      	 	elem_result[1] = FUNC[3*i+1];
      	 	elem_result[2] = FUNC[3*i+2];
      	 	rc = Hyper3DDatasetWrite(h3d_file, elem_id, &elem_result[0]);
                 IS_WRITTEN[i] = 0;
-     	      }
      	    }
      	    rc = Hyper3DDatasetEnd(h3d_file);
      	    if( !rc ) throw rc;
-            }
+        }
 
     } // end of try
 
     catch(...)    {
         Hyper3DExportClearError(h3d_file);
     }
+
+    delete[] sh3_stack;
+    delete[] sh4_stack;
 }
 
 void _FCALL C_H3D_UPDATE_SHELL_TENSOR(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC, int *NIXC, int *NUMELC, int *IPARTC,
-                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, my_real *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
-                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN)
+                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, float *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
+                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN,
+                           int *SHELL_STACKSIZE)
 {c_h3d_update_shell_tensor_ (TT,IH3D,ITAB,NUMNOD,IXC,NIXC,NUMELC,IPARTC,IXTG,NIXTG,NUMELTG,IPARTTG,FUNC,ID_ELEM,CPT_DATATYPE,ITY_ELEM,
-                         NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN);}
+                         NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN,
+                         SHELL_STACKSIZE);}
 
 void c_h3d_update_shell_tensor__ (my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC, int *NIXC, int *NUMELC, int *IPARTC,
-                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, my_real *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
-                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN)
+                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, float *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
+                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN,
+                           int *SHELL_STACKSIZE)
 {c_h3d_update_shell_tensor_ (TT,IH3D,ITAB,NUMNOD,IXC,NIXC,NUMELC,IPARTC,IXTG,NIXTG,NUMELTG,IPARTTG,FUNC,ID_ELEM,CPT_DATATYPE,ITY_ELEM,
-                         NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN);}
+                             NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN,
+                             SHELL_STACKSIZE);}
 
 void c_h3d_update_shell_tensor (my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, int *IXC, int *NIXC, int *NUMELC, int *IPARTC,
-                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, my_real *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
-                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN)
+                           int *IXTG, int *NIXTG, int *NUMELTG, int *IPARTTG, float *FUNC ,int *ID_ELEM,int *CPT_DATATYPE,
+                           int *ITY_ELEM, int *NUMELS, int *NUMELQ , int *NUMELT , int *NUMELP , int *NUMELR, int *IS_WRITTEN,
+                           int *SHELL_STACKSIZE)
 {c_h3d_update_shell_tensor_ (TT,IH3D,ITAB,NUMNOD,IXC,NIXC,NUMELC,IPARTC,IXTG,NIXTG,NUMELTG,IPARTTG,FUNC,ID_ELEM,CPT_DATATYPE,ITY_ELEM,
-                         NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN);}
+                             NUMELS,NUMELQ,NUMELT,NUMELP,NUMELR,IS_WRITTEN,
+                             SHELL_STACKSIZE);}
 
 }
