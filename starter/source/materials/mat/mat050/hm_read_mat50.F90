@@ -429,7 +429,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           call init_mat_keyword(mat_param,"HOOK")
           call init_mat_keyword(mat_param,"COMPRESSIBLE")
-          call init_mat_keyword(mat_param,"SMALL_STRAIN")
+          if (icompact == 1) then
+            call init_mat_keyword(mat_param,"LARGE_STRAIN")
+          else
+            call init_mat_keyword(mat_param,"SMALL_STRAIN")
+          end if
           call init_mat_keyword(mat_param,"ORTHOTROPIC")
           ! properties compatibility
           call init_mat_keyword(mat_param,"SOLID_ISOTROPIC")
