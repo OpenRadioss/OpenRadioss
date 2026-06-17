@@ -64,9 +64,10 @@ C-----------------------------------------------
      .     C01, C11, C21, C31, C41, C51, 
      .     C02, C12, C22, C32, C42, C52, 
      .     C03, C13, C23, C33, C43, C53, 
-     .     C04, PEXT,
-     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, MU, 
-     .     EINT1, EINT2, EINT3, EINT4, VOL, VOL1, VOL2, VOL3,
+     .     C04, C14, C24, C34, C44, C54,
+     .     PEXT,
+     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, RHO4, MU,
+     .     EINT1, EINT2, EINT3, EINT4, VOL, VOL1, VOL2, VOL3,VOL4,
      .     EINT10, EINT20, EINT30, EINT40
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF  , MBUFv
@@ -190,6 +191,11 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
            C53 = BUFMATG(IADBUF-1+27)
            !Material 4
            C04 = BUFMATG(IADBUF-1+49)
+           C14 = BUFMATG(IADBUF-1+50)
+           C24 = ZERO
+           C34 = ZERO
+           C44 = ZERO
+           C54 = ZERO
            !vol frac
            ALPHA1 = MBUFv%VAR(IS + (K1 + 23 - 1) * NELGv)
            ALPHA2 = MBUFv%VAR(IS + (K2 + 23 - 1) * NELGv)
@@ -216,23 +222,29 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          VOL1 = ALPHA1*VOL
          VOL2 = ALPHA2*VOL
          VOL3 = ALPHA3*VOL
+         VOL4 = ALPHA4*VOL
 C
-         CALL POLYSOLVE(C01, C11, C21, C31, C41, C51, PGRAV, EINT1, MU, RHO10, VOL1,PEXT,IX(11,I+NFT))
+         CALL POLYSOLVE(C01, C11, C21, C31, C41, C51, PGRAV, EINT1, MU, RHO10, VOL1,PEXT,IX(NIX,I+NFT))
          RHO1 = RHO10 * (MU + ONE)
-         CALL POLYSOLVE(C02, C12, C22, C32, C42, C52, PGRAV, EINT2, MU, RHO20, VOL2,PEXT,IX(11,I+NFT))
+         CALL POLYSOLVE(C02, C12, C22, C32, C42, C52, PGRAV, EINT2, MU, RHO20, VOL2,PEXT,IX(NIX,I+NFT))
          RHO2 = RHO20 * (MU + ONE)
-         CALL POLYSOLVE(C03, C13, C23, C33, C43, C53, PGRAV, EINT3, MU, RHO30, VOL3,PEXT,IX(11,I+NFT))
+         CALL POLYSOLVE(C03, C13, C23, C33, C43, C53, PGRAV, EINT3, MU, RHO30, VOL3,PEXT,IX(NIX,I+NFT))
          RHO3 = RHO30 * (MU + ONE)
+         CALL POLYSOLVE(C04, C14, C24, C34, C44, C54, PGRAV, EINT4, MU, RHO40, VOL4,PEXT,IX(NIX,I+NFT))
+         RHO4 = RHO40 * (MU + ONE)
       !Store partial densities
          MBUF%VAR(I + (K1 + 09 - 1) * NELG) = RHO1  !initialize rho(t=0)
          MBUF%VAR(I + (K2 + 09 - 1) * NELG) = RHO2
          MBUF%VAR(I + (K3 + 09 - 1) * NELG) = RHO3
+         MBUF%VAR(I + (K4 + 09 - 1) * NELG) = RHO4
          MBUF%VAR(I + (K1 + 12 - 1) * NELG) = RHO1  !initialize rhoOLD(t=0)
          MBUF%VAR(I + (K2 + 12 - 1) * NELG) = RHO2
          MBUF%VAR(I + (K3 + 12 - 1) * NELG) = RHO3
+         MBUF%VAR(I + (K4 + 12 - 1) * NELG) = RHO4
          MBUF%VAR(I + (K1 + 20 - 1) * NELG) = RHO1  !keep rho0 (initial state is element dependent)
          MBUF%VAR(I + (K2 + 20 - 1) * NELG) = RHO2
          MBUF%VAR(I + (K3 + 20 - 1) * NELG) = RHO3
+         MBUF%VAR(I + (K4 + 20 - 1) * NELG) = RHO4
       !Store pressures
          MBUF%VAR(I + (K1 + 18 - 1) * NELG) = PGRAV !P(t=0)
          MBUF%VAR(I + (K2 + 18 - 1) * NELG) = PGRAV
