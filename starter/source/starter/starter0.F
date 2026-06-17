@@ -117,6 +117,7 @@ C-----------------------------------------------
       use hm_evaluate_rbodies_from_rigid_parts_mod
       use hm_create_rbodies_from_rigid_parts_mod
       use hm_convert_tetra4_to_tetra10_mod
+      use input_modification_mod, only : input_modif_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -216,6 +217,7 @@ c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
       TYPE(DEFAULTS_)           :: DEFAULTS            !< Hosts the variables from /DEF/ option
       TYPE(glob_therm_) :: glob_therm
       TYPE(pblast_) :: PBLAST
+      type(input_modif_) :: input_modification !< input modification data structure
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -833,7 +835,7 @@ C-------------------------------------------------------------------
 C     Control variables (count options)
 C-------------------------------------------------------------------
       CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
-     .            NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT)
+     .            NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT,input_modification)
 C-------------------------------------------------------------------
 C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
@@ -878,7 +880,7 @@ C--------------------------------------------------
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
      .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT,CHECK_USED,
-     .       NB_NEWRBODIES,NEW_RBODY_TO_PART)
+     .       NB_NEWRBODIES,NEW_RBODY_TO_PART,input_modification)
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
@@ -941,7 +943,6 @@ C
 
       CALL F_ANEND(OUTPUT,NAMES_AND_TITLES)
 C---  
-      print*,'done'
       RETURN
 C---  
       END

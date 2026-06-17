@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
-     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT)
+     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT,input_modification)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,6 +115,8 @@ C-----------------------------------------------
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
       use element_mod , only : nixs
       use SEATBELT_MOD, only : NGUIDED_CABLE
+      use hm_s_ale_mod , only : hm_s_ale
+      use input_modification_mod, only : input_modif_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,6 +181,7 @@ C-----------------------------------------------
       type (glob_therm_) ,intent(inout)   :: glob_therm
       TYPE(PBLAST_), INTENT(INOUT)        :: PBLAST               !< PBLAST load type
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      type(input_modif_), intent(inout) :: input_modification !< input modification data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -251,7 +254,7 @@ C-----------------------------------------------
 
 C=======================================================================
 C     Read title
-C=======================================================================
+C=======================================================================    
       CALL HM_OPTION_COUNT('/TITLE', NUMTITLE)
       IF (NUMTITLE > 0) THEN
          CALL HM_OPTION_START('/TITLE')
@@ -430,6 +433,12 @@ C     READING OF /STAMPING
 C-------------------------------------------------------------------
       CALL HM_OPTION_COUNT('/STAMPING',ISTAMPING)
       IF(ISTAMPING > 0 ) ISTAMPING = 1
+
+      ! ----------------------
+      ! S-ALE option : reading and adding new elements & nodes if necessary
+      call hm_s_ale(nsubmod,lsubmodel,input_modification) 
+      ! ----------------------
+
 C-------------------------------------------------------------------
       ICRASH = 0
 C-------------------------------------------------------------------

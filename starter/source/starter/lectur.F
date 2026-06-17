@@ -558,7 +558,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
      .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,pblast,
-     .                  SENSOR_USER_STRUCT,CHECK_USED,N_NRBODY,NRBODY_TO_PART)
+     .                  SENSOR_USER_STRUCT,CHECK_USED,N_NRBODY,NRBODY_TO_PART,input_modification)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -677,6 +677,8 @@ C-----------------------------------------------
       use rbody_part_modif_mod,     ONLY : rbody_part_check,rpart_inivel_check
       use init_bcs_nrf_mod , only : init_bcs_nrf
       use apply_permutation_mod , only : apply_permutation
+      use input_modification_mod, only : input_modif_
+      use s_ale_message_mod , only : s_ale_message
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -702,6 +704,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                     :: CHECK_USED                          !< Flag to check if node is used
       INTEGER,INTENT(IN)                     :: N_NRBODY                            !< Number of rigid bodies by part
       INTEGER,DIMENSION(N_NRBODY),INTENT(IN) :: NRBODY_TO_PART                      !< rigid body to part mapping
+      type(input_modif_), intent(inout) :: input_modification !< input modification data structure 
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -5695,6 +5698,15 @@ C------------------------------------------------------------------------
       CALL TRACE_OUT1()
 C
 C------------------------------------------------------------------------
+
+      ! ------------------------------
+      ! Structured ALE option
+      if(input_modification%s_ale_nb>0) then
+        call s_ale_message(istdo,iout,input_modification) ! input was modified for structured ALE, print message to inform user
+      endif
+      ! ------------------------------
+
+
 C
 CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
