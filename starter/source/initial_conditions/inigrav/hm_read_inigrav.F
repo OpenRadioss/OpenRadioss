@@ -257,7 +257,18 @@ C
                 NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                           
                 NX   = NX / NORM                                         
                 NY   = NY / NORM                                         
-                NZ   = NZ / NORM                                         
+                NZ   = NZ / NORM
+                DOTPROD = NX*NGX+NY*NGY+NZ*NGZ
+                IF(ABS(DOTPROD)<=EM20)THEN
+                  CALL ANCMSG(MSGID=73,ANMODE=ANINFO,MSGTYPE=MSGERROR, I1=ID, C1=TITR, I2= ISU,
+     .                  C2='NORMAL VECTOR IS ORTHOGONAL TO THE GRAVITY DIRECTION')
+                        lOUTP = .FALSE.
+                ELSEIF(DOTPROD < ZERO)THEN
+                  ! SURFACE NORMAL HAS SAME ORIENTATION THAN GRAVITY
+                  NX = -NX
+                  NY = -NY
+                  NZ = -NZ
+                ENDIF
                 EXIT                                                                                                       
               END SELECT
             ENDIF
