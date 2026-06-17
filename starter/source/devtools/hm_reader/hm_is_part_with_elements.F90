@@ -23,7 +23,7 @@
 !||====================================================================
 !||    hm_is_part_with_elements_mod   ../starter/source/devtools/hm_reader/hm_is_part_with_elements.F90
 !||--- called by ------------------------------------------------------
-!||    starter0                       ../starter/source/starter/starter0.F
+!||    hm_read_part                   ../starter/source/model/assembling/hm_read_part.F
 !||====================================================================
         module hm_is_part_with_elements_mod
          use, intrinsic :: iso_c_binding, only : c_bool
@@ -35,9 +35,9 @@
 !! \brief check if a /PART has elements
 !! \details This routine checks if a /PART has elements.
 !||====================================================================
-!||    hm_is_part_with_elements           ../starter/source/devtools/hm_reader/hm_is_part_with_elements.F90
+!||    hm_is_part_with_elements    ../starter/source/devtools/hm_reader/hm_is_part_with_elements.F90
 !||--- called by ------------------------------------------------------
-!||    starter0                                       ../starter/source/starter/starter0.F
+!||    hm_read_part                ../starter/source/model/assembling/hm_read_part.F
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine hm_is_part_with_elements(part_id, is_part_with_elements)

@@ -207,6 +207,7 @@
 !||    hm_pre_read_preload_axial                ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_preread_skw                           ../starter/source/tools/skew/hm_preread_skw.F90
+!||    hm_read_admas                            ../starter/source/tools/admas/hm_read_admas.F
 !||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_cyclic                      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
@@ -381,6 +382,7 @@
 !||    nice_solids                              ../engine/source/materials/mat/mat131/return_mapping/nice_solids.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    optiondef_mod                            ../common_source/modules/optiondef_mod.F
 !||    order3                                   ../engine/source/materials/mat/mat130/sigeps130.F90
 !||    output_mod                               ../common_source/modules/output/output_mod.F90
 !||    parith_on_mod                            ../common_source/modules/parith_on_mod.F90

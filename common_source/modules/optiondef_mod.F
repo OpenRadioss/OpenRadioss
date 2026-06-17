@@ -86,6 +86,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    st_qaprint_model_tools          ../starter/source/output/qaprint/st_qaprint_model_tools.F
 !||--- uses       -----------------------------------------------------
 !||    names_and_titles_mod            ../common_source/modules/names_and_titles_mod.F
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE OPTIONDEF_MOD
 !-----------------------------------------------------------------------
