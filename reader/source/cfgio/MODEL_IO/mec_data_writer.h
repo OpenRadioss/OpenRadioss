@@ -62,6 +62,7 @@ typedef struct card_cells_temp_s {
     double           att_default_double;
     string           att_default_string;
     bool             has_default;
+    int              tot_size;
 } card_cells_temp_t;
 
 typedef void (*func_ptr)(char *string, int width);
@@ -435,6 +436,8 @@ public:
     virtual void PreTreatPreObject(obj_type_e etype, const IDescriptor* pdescrip, IMECPreObject& pre_object, const MECIModelScanner* model_p, IMECPreObject* parent_pre_object = NULL);
 
     bool getIsLastCellFlag() const { return myIsLastCell; }
+    void setWriteHeader(bool value) { myWriteHeader = value; }
+    bool getWriteHeader() { return myWriteHeader; }
 private:
     virtual string GetSolverName(const IDescriptor* descrp, int ikey, int total_cell_size, int fmt_size, char* p_prev_comment);
     virtual string GetCommentCard(const char *comment_card, int total_cell_size, int fmt_size);
@@ -465,6 +468,8 @@ protected:
     map< int, vector<MvIKeywordList_t> >    mySubobjMapDefaultTypeKeywordLst;
     MvIKeywordSet_t                         mySubobjMainIkws;
     std::unordered_map< ff_card_t*, vector<card_cells_temp_t> > myumap_card_cells;
+    ISyntaxInfos*                           mySyntaxInfos_p;
+    bool   myWriteHeader;
 };
 
 

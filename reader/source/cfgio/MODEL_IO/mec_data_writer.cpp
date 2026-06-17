@@ -41,6 +41,7 @@
 #include "hcioi_utils.h"
 #include "mec_data_writer.h"
 #include <assert.h>
+#include <algorithm>
 
 static const char *        loc_remove_leadingandtrailingwhitespaces(char *str);
 
@@ -50,9 +51,10 @@ static const char *        loc_remove_leadingandtrailingwhitespaces(char *str);
 /* This is the maximum real value that would be output as zero; used with *compressreal(3) */
 #define MAX_ZERO_TOLERANCE 1.0E-8
 
-#ifndef min
-#define min(a,b) ((a)<(b)?(a):(b))
-#endif
+
+//#define min(a,b) ((a)<(b)?(a):(b))
+
+
 static string GetStringValueFromPreObject(IMECPreObject* pre_object, MvDataFeatureType_e feature_type, value_type_e val_type, attribute_type_e att_type, string& a_cell_skw, const char* a_cell_fmt, int fmt_size,
     int myremoveE, double myzeroTol);
 char *strdel(char *string, int position, int length)
@@ -222,10 +224,13 @@ MECDataWriter::MECDataWriter (MECIWriteContext *writeContext_p,
     myFileopFieldOverflow(NULL),
     mycompressDouble(0),
     myroundDouble(0),
-    myCurActiveLineLength(0)
+    myCurActiveLineLength(0),
+    myWriteHeader(true)
 {
     myKeywordFormatType = io_types::format_type_e::FORMAT_UNDEFINED;
     myIsLastCell = false;
+
+    mySyntaxInfos_p =  new SolverSyntaxInfos;
 }
 
 MECDataWriter::~MECDataWriter()
@@ -237,6 +242,8 @@ MECDataWriter::~MECDataWriter()
             HCDI_ReleasePreObjectHandle(pre_object);
     }
     myVecPreCardDisplayStatus.clear();
+
+    if (mySyntaxInfos_p) delete mySyntaxInfos_p;
 }
 
 /* --------- Writing pre-objects data --------- */
@@ -972,7 +979,7 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             int a_cell_ind = -1;
             if(a_atype == ATYPE_VALUE)
             {
-                pre_object.AddStringValue(skeyword.c_str(), p_exp_str);
+                pre_object.AddStringValue(skeyword.c_str(), ind, p_exp_str);
             }
             else if(a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -1772,6 +1779,8 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
   const ff_card_t *a_card_p=(const ff_card_t *)card_p;
   const MvDescriptor_t *a_descr_p = (const MvDescriptor_t *)descr_p; 
   //
+  ff_card_type_e a_card_type = CARD_UNKNOWN;
+  MCDS_get_ff_card_attributes(a_card_p, CARD_TYPE, &a_card_type, END_ARGS);
   
   int a_free_ikw=END_ARGS;
   MCDS_get_ff_card_attributes(a_card_p,CARD_IS_FREE,&a_free_ikw,END_ARGS);
@@ -1811,6 +1820,8 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
   myIsLastCell = false; // Always set this flag to false before entering the nb_cells loop.
   myCurActiveLineLength = 0;
   for (int j = cell_ind0; j < a_nb_cells; ++j) {
+      if (a_card_type == CARD_HEADER && !myWriteHeader)
+          continue;
       ff_cell_t* a_cell_p = NULL;
       //
       MCDS_get_ff_card_tab(a_card_p, CARD_CELL, j, (void*)(&a_cell_p));
@@ -1820,8 +1831,6 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
   }
   myIsLastCell = false; // Always set this flag as false after exiting from the nb_cells loop.
   //
-  ff_card_type_e a_card_type=CARD_UNKNOWN;
-  MCDS_get_ff_card_attributes(a_card_p,CARD_TYPE,&a_card_type,END_ARGS);
  // if(a_card_type==CARD_HEADER && (GetApplicationMode()==CODE_IS_RADIOSS || GetApplicationMode()==CODE_IS_RADIOSS_EXPLI ||
  //     GetApplicationMode()==CODE_IS_RADIOSS_IMPLI))
 
@@ -1843,8 +1852,14 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
 
   if (getFreeFormatFlag())
       myWriteContext_p->RemoveBlankEnd();
-  if (!no_end_flag)
-      myWriteContext_p->WriteFile("\n");
+
+  if (!no_end_flag) {
+      if ((myWriteHeader) || (!myWriteHeader && a_card_type != CARD_HEADER)) {
+          myWriteContext_p->WriteFile("\n");
+      }
+  }
+
+
   return true;
 }
 
@@ -1860,6 +1875,8 @@ bool MECDataWriter::WriteSingleCardList(const PseudoFileFormatCard_t *card_p,
     const MvDescriptor_t *a_descr_p = (const MvDescriptor_t *)descr_p; 
     int a_nb_cells = 0;
     int a_cell_length = 0;
+    ff_card_type_e a_card_type = CARD_UNKNOWN;
+    MCDS_get_ff_card_attributes(a_card_p, CARD_TYPE, &a_card_type, END_ARGS);
     //MCDS_get_ff_card_attributes(a_card_p,CARD_NB_CELLS,&a_nb_cells,END_ARGS);
     a_nb_cells = (int)card_cells.size();
     myIsLastCell = false; // Always set this flag to false before entering the nb_cells loop.
@@ -1881,6 +1898,18 @@ bool MECDataWriter::WriteSingleCardList(const PseudoFileFormatCard_t *card_p,
         }
         else
         {
+            if (CELL_PAIR == a_cell_type && j != a_nb_cells-1)
+            {
+                if (ind > (card_cells[j].tot_size -1) / 2 )
+                    return true;
+                
+                if (ind == card_cells[j].tot_size)
+                {
+                    myWriteContext_p->WriteFile("\n");
+                    return true;
+                }
+            }
+
             WriteCell((const PseudoFileFormatCell_t *)a_cell_p,pre_object,descr_p,ind);
         }
     }
@@ -1981,6 +2010,7 @@ void MECDataWriter::WriteList(const PseudoFileFormatCard_t *card_p,
           if(do_write_newline) {
               WriteNewline();
               do_write_newline=false;
+              myCurActiveLineLength = 0;
           }
           // Write cell itself
           a_nb_cells_written++;
@@ -2005,6 +2035,7 @@ void MECDataWriter::WriteList(const PseudoFileFormatCard_t *card_p,
               if(do_write_newline) {
                   WriteNewline();
                   do_write_newline=false;
+                  myCurActiveLineLength = 0;
               }
               // Write cell itself
               a_nb_cells_written++;
@@ -2230,6 +2261,7 @@ void MECDataWriter::WriteCellList(const PseudoFileFormatCard_t* card_p,
             // Write newline if necessary (CS#17_01_11)
             if (do_write_newline) {
                 WriteNewline();
+                myCurActiveLineLength = 0;
                 do_write_newline = false;
                 if (has_offset) {
                     int fmt_size = 0;
@@ -2472,7 +2504,10 @@ void MECDataWriter::WriteCardList(const PseudoFileFormatCard_t *card_p,
 
             GetSingleCardCellInfo(a_sub_card_p, pre_object, descr_p, loc_cell_lst);
 
-                myumap_card_cells.insert(make_pair(a_sub_card_p, loc_cell_lst));
+            for (int k = 0; k < a_nb_cells; ++k)
+                loc_cell_lst[k].tot_size = a_nb_values;
+
+            myumap_card_cells.insert(make_pair(a_sub_card_p, loc_cell_lst));
             break;
         }
         case CARD_IF:
@@ -3342,8 +3377,14 @@ void MECDataWriter::WriteCellArrayList(const PseudoFileFormatCell_t* cell_p,
 			if (myCurActiveLineLength >= myLineLength)
 			{
 				myWriteContext_p->WriteFile(myNewlineString.c_str());
+                myCurActiveLineLength = 0;
 			}
             WriteCell_VALUE(cell_p, pre_object, descr_p, i, a_cell_ikw);
+            if (myIsLastCell == true && j != a_size - 1 && myCurActiveLineLength < myLineLength)
+            {
+                string str(mydelimiter);
+                myWriteContext_p->WriteFile(str.c_str());
+            }
         }
     }
 	else if (ind >= 0)
@@ -3380,6 +3421,7 @@ void MECDataWriter::WriteCellArrayList(const PseudoFileFormatCell_t* cell_p,
 			if (myCurActiveLineLength >= myLineLength)
 			{
 				myWriteContext_p->WriteFile(myNewlineString.c_str());
+                myCurActiveLineLength = 0;
 			}
             WriteCell_VALUE(cell_p, pre_object, descr_p, i, a_cell_ikw);
         }
@@ -3411,8 +3453,14 @@ void MECDataWriter::WriteCellArrayList(const PseudoFileFormatCell_t* cell_p,
             if (myCurActiveLineLength >= myLineLength)
             {
                 myWriteContext_p->WriteFile(myNewlineString.c_str());
+                myCurActiveLineLength = 0;
             }
             WriteCell_VALUE(cell_p, pre_object, descr_p, i, a_cell_ikw);
+            if (myIsLastCell == true && j != a_size - 1 && myCurActiveLineLength < myLineLength)
+            {
+                string str(mydelimiter);
+                myWriteContext_p->WriteFile(str.c_str());
+            }
         }
     }
 }
@@ -3435,17 +3483,23 @@ void MECDataWriter::WriteCell(const PseudoFileFormatCell_t *cell_p,
   switch(a_cell_type) {
     
   case CELL_COMMENT:
-    {
-      char *a_comment=NULL;
-      MCDS_get_ff_cell_attributes(a_cell_p,CELL_STRING,&a_comment,END_ARGS);
-      if (a_comment)
-      {
-          myWriteContext_p->WriteFile(a_comment);
-          myCurActiveLineLength += (int)strlen(a_comment);
+  {
+      char* a_comment = nullptr;
+      MCDS_get_ff_cell_attributes(a_cell_p, CELL_STRING, &a_comment, END_ARGS);
+      if (!a_comment) break;
+      int len = (int)strlen(a_comment);
+      if (myCurActiveLineLength == 0)
+          mySyntaxInfos_p->commentAppendAfterTrim(a_comment, len);
+      if (a_comment[0] == '%') {
+          // Print double '%' only if not already present
+          myWriteContext_p->WriteFile("%%%s", a_comment + 1);
       }
-
-    }
-    break;
+      else {
+          myWriteContext_p->WriteFile("%s", a_comment);
+      }
+      myCurActiveLineLength += len;
+  }
+  break;
     
   case CELL_VALUE:
     {
@@ -4346,9 +4400,20 @@ void MECDataWriter::WriteCell_VALUE(const PseudoFileFormatCell_t *cell_p,
     value_type_e a_cell_vtype = a_descr_p->getValueType(a_cell_ikw);
     int fmt_size = 0;
     a_cell_fmt = GetFormatSize(a_cell_fmt, fmt_size);
-    if (myCurActiveLineLength >= myLineLength)
+    if (!myWriteFreeFormat && myCurActiveLineLength >= myLineLength) //problem incase it is CELL_LIST as new line is taken care there. need to make sure to 
+                                               //add checkes for non-array but CARD_LIST ????
     {
         myCurActiveLineLength = 0;
+        //const string& pre_str = mySyntaxInfos_p->GetLineStartPrefixString();
+
+        int init_offset = mySyntaxInfos_p->getInitialOffset();
+        char* a_comment = new char[init_offset + 1];
+        std::memset(a_comment, ' ', init_offset);
+        a_comment[init_offset] = '\0';
+        mySyntaxInfos_p->commentAppendAfterTrim(a_comment, init_offset);
+        myWriteContext_p->WriteFile("\n");
+        myWriteContext_p->WriteFile(a_comment);
+        delete[] a_comment;
     }
     myCurActiveLineLength += fmt_size;
 
@@ -4847,7 +4912,21 @@ void MECDataWriter::WriteCell_VALUE(const PseudoFileFormatCell_t *cell_p,
                     if (myWriteFreeFormat == false)
                         WriteObjectId(a_cell_fmt, a_value);
                     else
-                        myWriteContext_p->WriteFile("%u", a_value);
+                    {
+                    	 myWriteContext_p->WriteFile("%u", a_value);
+                    	
+                     /*  incase wanted to write with comma separate and with width space
+                        int c_l = mySyntaxInfos_p->getCellLength();
+                        char fmt_buf[16];
+                        if (c_l == 0) {
+                            myWriteContext_p->WriteFile("%u", a_value);
+                        }
+                        else {
+                            sprintf(fmt_buf, "%%%du", c_l);
+                            myWriteContext_p->WriteFile(fmt_buf, a_value);
+                        }
+                      */
+                    }
                 }
                 else
                 {
@@ -5306,7 +5385,21 @@ void MECDataWriter::WriteCell_VALUE_LIST(const PseudoFileFormatCell_t *cell_p,
                     if (myWriteFreeFormat == false)
                         WriteObjectId(a_cell_fmt, a_value);
                     else
-                        myWriteContext_p->WriteFile("%u", a_value);
+                    {
+                    	myWriteContext_p->WriteFile("%u", a_value);
+                    	
+                    	/*
+                        int c_l = mySyntaxInfos_p->getCellLength();
+                        if (c_l == 0 && fmt_size == 0) {
+                            myWriteContext_p->WriteFile("%u", a_value);
+                        }
+                        else {
+                            char fmt_buf[16];
+                            sprintf(fmt_buf, "%%%du", fmt_size ? fmt_size : c_l);
+                            myWriteContext_p->WriteFile(fmt_buf, a_value);
+                        }
+                        */
+                    }
                 }
                 else
                 {
@@ -5464,25 +5557,55 @@ void MECDataWriter::WriteNameValueCell(const PseudoFileFormatCell_t        *cell
 	ff_name_value_cell_t *a_name_value_cell_p = (ff_name_value_cell_t *)a_cell_p;
 	int nb_pairs = a_name_value_cell_p->nb_pairs;
 	ff_name_info_t **name_value_array = a_name_value_cell_p->name_value_array;
+
+    //
+    int value_value = 1;
+
 	for (int i = 0; i < nb_pairs; i++)
 	{
+        bool is_parameter = false;
+        string param_name = "";
+        bool is_parameter_negated = false;
+
+        ff_name_info_t* item = name_value_array[i];
+        int         a_cell_ikw = item->ikeyword;
+        int a_cell_ikw1 = -1;
+        char* attr_card_string = item->name;
+        value_type_e a_cell_vtype1 = VTYPE_UNKNOWN;
+        if (nb_pairs == 1)
+        {
+            a_cell_ikw1 = a_descr_p->getIKeyword(attr_card_string);
+            //
+            if (a_cell_ikw1 > 0)
+            {
+                a_cell_vtype1 = a_descr_p->getValueType(a_cell_ikw1);
+                value_value = 2;
+            }
+        }
 		//
-		bool is_parameter = false;
-		string param_name = "";
-		bool is_parameter_negated = false;
+        string a_cell_skw; 
+        value_type_e a_cell_vtype;
+        string       a_cell_skw2 = a_descr_p->getSKeyword(a_cell_ikw);
+        value_type_e a_cell_vtype2 = a_descr_p->getValueType(a_cell_ikw);
 
-		ff_name_info_t *item = name_value_array[i];
-		int         a_cell_ikw = item->ikeyword;
-		char *attr_card_string = item->name;
-		string       a_cell_skw = a_descr_p->getSKeyword(a_cell_ikw);
-		value_type_e a_cell_vtype = a_descr_p->getValueType(a_cell_ikw);
-
-		if (ind >= 0)
-		{
-			attribute_type_e a_atype = a_descr_p->getAttributeType(a_cell_ikw);
-			if (a_atype == ATYPE_VALUE)
-				ind = -1;
-		}
+        for (int j = 0; j < value_value; j++)
+        {
+            if (j == 1)
+            {
+                a_cell_ikw = a_cell_ikw1;
+                a_cell_vtype = a_cell_vtype1;
+            }
+            else
+            {
+                a_cell_skw = a_cell_skw2;
+                a_cell_vtype = a_cell_vtype2;
+            }
+            if (ind >= 0)
+            {
+                attribute_type_e a_atype = a_descr_p->getAttributeType(a_cell_ikw);
+                if (a_atype == ATYPE_VALUE)
+                    ind = -1;
+            }
 
 		//
 		switch (a_cell_vtype) {
@@ -5904,26 +6027,27 @@ void MECDataWriter::WriteNameValueCell(const PseudoFileFormatCell_t        *cell
 					myWriteContext_p->WriteFile("%s%c", attr_card_string, a_name_value_cell_p->pair_char);
 				}
 
-				if (a_attrib_ind >= 0 && a_value >= 0 && a_value < INT_MAX && a_value_str[0] == '\0')
-				{
-					WriteInteger("%d", a_value);
-				}
-				else
-				{
-					myWriteContext_p->WriteFile("%s", a_value_str);
-				}
-			}
-		}
-		break;
-		default:
-			break;
-		}
-		
-		if (((ind != -1) || myWriteFreeFormat == true) && myIsLastCell == false)
-		{
-			string str(mydelimiter);
-			myWriteContext_p->WriteFile(str.c_str());
-		}
+                    if (a_attrib_ind >= 0 && a_value >= 0 && a_value < INT_MAX && a_value_str[0] == '\0')
+                    {
+                        WriteInteger("%d", a_value);
+                    }
+                    else
+                    {
+                        myWriteContext_p->WriteFile("%s", a_value_str);
+                    }
+                }
+            }
+            break;
+            default:
+                break;
+            }
+            
+            if (((ind != -1) || myWriteFreeFormat == true) && myIsLastCell == false)
+            {
+                string str(mydelimiter);
+                myWriteContext_p->WriteFile(str.c_str());
+            }
+        }
 	}
 }
 
@@ -6069,31 +6193,41 @@ void MECDataWriter::WriteNewline()
 
 void MECDataWriter:: WriteParameterCell(const char *cell_fmt, const char *param_name, bool is_negated)
 {
-    /*
-        This base implementation is used for Radioss at present.
-        For LS-Dyna the implementation of derived "MECDynaDataWriter:: WriteParameterCell" is being used.
-    */
-    if(param_name && strlen(param_name)!=0)
-    {
+    // Validate input parameter name
+    if (!param_name || param_name[0] == '\0')
+        return;
 
-        //As per the radioss solver, the parameter reference string always has to be left justified. So modifying the format string
-        string fmt_local = cell_fmt;               
-        if(fmt_local[0] == '%')
-        {
-            fmt_local.insert(1,"-");
-        }
-        string strParamName = param_name;
+    // Get the parameter symbol (e.g., "$" or "$$")
+    const char* sym = mySyntaxInfos_p->getParameterSymbol();
+    if (!sym)
+        return;
 
-        if(is_negated)
-        {
-            strParamName.insert(0,"-&");
-        }
-        else
-        {
-            strParamName.insert(0,"&");
-        }
-        myWriteContext_p->WriteFile(fmt_local.c_str(),strParamName.c_str());
+    int len = (int)strlen(sym);
+    if (len <= 0 || len > 2)
+        return;
+
+    
+    std::string fmt_local = cell_fmt;
+    if (fmt_local[0] == '%')
+        fmt_local.insert(1, "-");
+
+    // Build the parameter reference string
+    std::string strParamName = param_name;
+    if (is_negated) {
+        // Insert negation and symbol at the front (e.g., "-$param")
+        strParamName.insert(0, "-" + std::string(1, sym[0]));
     }
+    else {
+        // Insert symbol at the front (e.g., "$param")
+        strParamName.insert(0, 1, sym[0]);
+    }
+    if (len == 2) {
+        // If symbol is two characters (e.g., "$$"), append the second symbol at the end
+        strParamName.insert(strParamName.size(), 1, sym[1]);
+    }
+
+    // Write the formatted parameter reference to the output
+    myWriteContext_p->WriteFile(fmt_local.c_str(), strParamName.c_str());
 }
 
 
@@ -6126,7 +6260,10 @@ int MECDataWriter::GetCellIkeyword(const PseudoFileFormatCell_t *cell_p) const
     return a_cell_ikw;
 }
 
-const char *MECDataWriter::GetFormatSize(const char *fmt_p, int &fmt_size) {
+const char* MECDataWriter::GetFormatSize(const char* fmt_p, int& fmt_size) {
+
+    return mySyntaxInfos_p->GetFormatSize(fmt_p, false, fmt_size);
+
     if (fmt_p)
     {
         const string &fmt = fmt_p;
@@ -6385,6 +6522,302 @@ void strexponential(char *buf, const char *formatstr, int width, int precision, 
     //DBG(buf)
     //DBG_OUT
 }
+inline void fast_format_float(char* out, double val, int width, int precision) {
+    assert(precision >= 0 && precision <= 15);  
+
+    // Sign handling
+    bool neg = false;
+    if (val < 0) {
+        neg = true;
+        val = -val;
+    }
+
+    // Scale to int
+    double scale = std::pow(10.0, precision);
+    long long scaled = static_cast<long long>(val * scale + 0.5);  // rounded
+    long long int_part = scaled / static_cast<long long>(scale);
+    long long frac_part = scaled % static_cast<long long>(scale);
+
+    // Build fractional part
+    char frac_buf[16];
+    for (int i = precision - 1; i >= 0; --i) {
+        frac_buf[i] = '0' + (frac_part % 10);
+        frac_part /= 10;
+    }
+
+    // Build integer part
+    char int_buf[24];
+    int len_int = 0;
+    do {
+        int_buf[len_int++] = '0' + (int_part % 10);
+        int_part /= 10;
+    } while (int_part > 0);
+    if (neg)
+        int_buf[len_int++] = '-';
+
+    // Total digits = int part + '.' + fractional (if precision > 0)
+    int total = len_int + (precision ? (1 + precision) : 0);
+    int pad = (width > total) ? (width - total) : 0;
+
+    // Write padding
+    for (int i = 0; i < pad; ++i)
+        out[i] = ' ';
+
+    // Reverse int part
+    for (int i = 0; i < len_int; ++i)
+        out[pad + i] = int_buf[len_int - 1 - i];
+
+    // Add dot and fractional
+    if (precision) {
+        out[pad + len_int] = '.';
+        for (int i = 0; i < precision; ++i)
+            out[pad + len_int + 1 + i] = frac_buf[i];
+    }
+
+    out[pad + total] = '\0';  // null terminate
+}
+
+inline int fast_concat(char* dest, const char* a, int len_a, const char* b, int len_b, const char* c, int len_c) 
+{
+    std::memcpy(dest, a, len_a);
+    std::memcpy(dest + len_a, b, len_b);
+    std::memcpy(dest + len_a + len_b, c, len_c);
+    dest[len_a + len_b + len_c] = '\0';
+    return len_a + len_b + len_c;
+}
+//inline int64_t int_pow10(int precision) {
+//    static const int64_t pow10_table[] = {
+//        1LL, 10LL, 100LL, 1000LL, 10000LL,
+//        100000LL, 1000000LL, 10000000LL, 100000000LL,
+//        1000000000LL, 10000000000LL, 100000000000LL,
+//        1000000000000LL, 10000000000000LL,
+//        100000000000000LL, 1000000000000000LL
+//    };
+//    assert(precision >= 0 && precision <= 15);
+//    return pow10_table[precision];
+//}
+static int64_t int_pow10(int p) {
+    static const int64_t table[] = {
+        1LL, 10LL, 100LL, 1000LL, 10000LL,
+        100000LL, 1000000LL, 10000000LL, 100000000LL,
+        1000000000LL, 10000000000LL, 100000000000LL,
+        1000000000000LL, 10000000000000LL,
+        100000000000000LL, 1000000000000000LL
+    };
+    return table[p];
+}
+enum class Align { Left, Right };
+
+void fast_format_float(char* out, double v, int width, int precision, Align align = Align::Right) {
+    assert(precision >= 0 && precision <= 15);
+
+    bool neg = (v < 0.0);
+    double val = neg ? -v : v;
+
+    int p = precision;
+    bool auto_mode = (precision == 0);
+
+    if (auto_mode) {
+        int found = -1;
+        for (int test = 0; test <= 15; ++test) {
+            int64_t scale = int_pow10(test);
+            long long rounded = (long long)std::llround(val * (double)scale);
+            double cand = (double)rounded / (double)scale;
+            if (cand == val) { found = test; break; }
+        }
+        if (found < 0) found = 15;
+        p = (found == 0) ? 1 : found;
+    }
+
+    int64_t scale = int_pow10(p);
+    long long rounded_scaled = (long long)std::llround(val * (double)scale);
+    long long int_units = rounded_scaled / scale;
+    long long frac_units = rounded_scaled % scale;
+
+    char buf[64];
+    int pos = 0;
+
+    if (neg) buf[pos++] = '-';
+
+    // Integer part
+    char int_buf[24];
+    int len_int = 0;
+    do {
+        int_buf[len_int++] = (char)('0' + (int)(int_units % 10));
+        int_units /= 10;
+    } while (int_units > 0);
+    for (int i = len_int - 1; i >= 0; --i) buf[pos++] = int_buf[i];
+
+    buf[pos++] = '.';
+
+    char frac_buf[16];
+    for (int i = p - 1; i >= 0; --i) {
+        frac_buf[i] = (char)('0' + (int)(frac_units % 10));
+        frac_units /= 10;
+    }
+
+    int frac_len = p;
+    if (auto_mode) {
+        while (frac_len > 1 && frac_buf[frac_len - 1] == '0') --frac_len;
+    }
+
+    for (int i = 0; i < frac_len; ++i) buf[pos++] = frac_buf[i];
+    buf[pos] = '\0';
+
+    int len = pos;
+    int pad = (width > len) ? (width - len) : 0;
+    if (align == Align::Right) {
+        for (int i = 0; i < pad; ++i) out[i] = ' ';
+        std::memcpy(out + pad, buf, len + 1);
+    }
+    else {
+        std::memcpy(out, buf, len);
+        for (int i = 0; i < pad; ++i) out[len + i] = ' ';
+        out[len + pad] = '\0';
+    }
+}
+
+void fast_format_float1(char* out, double val, int width, int precision, Align align = Align::Right) {
+    assert(precision >= 0 && precision <= 15);
+
+    bool neg = false;
+    if (val < 0.0) {
+        neg = true;
+        val = -val;
+    }
+
+    int64_t int_part = static_cast<int64_t>(val);
+    double frac = val - static_cast<double>(int_part);
+
+    // Buffer for digits
+    char buf[64];
+    int pos = 0;
+
+    // Convert integer part to string
+    char int_buf[24];
+    int len_int = 0;
+    int64_t temp = int_part;
+    do {
+        int_buf[len_int++] = '0' + (temp % 10);
+        temp /= 10;
+    } while (temp > 0);
+    if (neg)
+        int_buf[len_int++] = '-';
+    for (int i = len_int - 1; i >= 0; --i)
+        buf[pos++] = int_buf[i];
+
+    if (precision > 0) {
+        buf[pos++] = '.';
+
+        int64_t scale = int_pow10(precision);
+        int64_t scaled_frac = static_cast<int64_t>(frac * scale + 0.5);
+
+        // Fractional digits
+        char frac_buf[32];
+        for (int i = precision - 1; i >= 0; --i) {
+            frac_buf[i] = '0' + (scaled_frac % 10);
+            scaled_frac /= 10;
+        }
+
+        //old
+        //for (int i = 0; i < precision; ++i)
+        //    buf[pos++] = frac_buf[i];
+
+        //new
+                // Trim trailing zeros
+        int trimmed = precision;
+        while (trimmed > 0 && frac_buf[trimmed - 1] == '0') {
+            --trimmed;
+        }
+
+        if (trimmed == 0) {
+            // Keep one decimal if all digits were zero
+            buf[pos++] = '0';
+        }
+        else {
+            for (int i = 0; i < trimmed; ++i)
+                buf[pos++] = frac_buf[i];
+        }
+
+    }
+    else {
+        // Handle precision == 0 (auto mode)
+        //buf[pos++] = '.';
+
+        //const int max_auto_precision = 15;
+
+        // Estimate space left for decimals
+        //int remaining_width = (width > 0) ? width - pos : max_auto_precision;
+        //int usable_digits = min(remaining_width, max_auto_precision);
+        //double scaled_frac = frac * int_pow10(usable_digits);
+        //int64_t frac_digits = static_cast<int64_t>(scaled_frac + 0.5);
+
+        // Remove trailing zeros
+        //while (usable_digits > 0 && frac_digits % 10 == 0) {
+        //    frac_digits /= 10;
+        //    --usable_digits;
+        //}
+
+        //if (usable_digits == 0) {
+        //    buf[pos++] = '0';
+        //}
+        //else {
+        //    int start = pos + usable_digits - 1;
+        //    for (int i = 0; i < usable_digits; ++i) {
+        //        buf[start - i] = '0' + (frac_digits % 10);
+        //        frac_digits /= 10;
+        //    }
+        //    pos += usable_digits;
+        //}
+         // Handle precision == 0 (auto mode)
+        buf[pos++] = '.';
+
+        const int max_auto_precision = 15; // <-- define it here
+
+        // Estimate space left for decimals
+        int remaining_width = (width > 0) ? width - pos : max_auto_precision;
+        int usable_digits = std::min(remaining_width, max_auto_precision);
+
+        double scaled_frac = frac * int_pow10(usable_digits);
+        int64_t frac_digits = static_cast<int64_t>(scaled_frac + 0.5);
+
+        // Remove trailing zeros
+        while (usable_digits > 0 && frac_digits % 10 == 0) {
+            frac_digits /= 10;
+            --usable_digits;
+        }
+
+        if (usable_digits == 0) {
+            buf[pos++] = '0';
+        }
+        else {
+            int start = pos + usable_digits - 1;
+            for (int i = 0; i < usable_digits; ++i) {
+                buf[start - i] = '0' + (frac_digits % 10);
+                frac_digits /= 10;
+            }
+            pos += usable_digits;
+        }
+
+    }
+
+    buf[pos] = '\0';
+
+    int len = pos;
+    int pad = (width > len) ? (width - len) : 0;
+
+    if (align == Align::Right) {
+        for (int i = 0; i < pad; ++i)
+            out[i] = ' ';
+        std::memcpy(out + pad, buf, len + 1);
+    }
+    else {
+        std::memcpy(out, buf, len);
+        for (int i = 0; i < pad; ++i)
+            out[len + i] = ' ';
+        out[len + pad] = '\0';
+    }
+}
 
 void GetDoubleValueString(char *val_str, int width, double realvalue, int left, int remove_e, double zero_tol, int compress_double, int roundoff_double)
 {
@@ -6603,8 +7036,11 @@ void GetDoubleValueString(char *val_str, int width, double realvalue, int left, 
             char tmpstring[82];
             tmpstring[0] = 0;
 
-            sprintf(tmpstring, "%s", &(string[1]));
-            sprintf(string, "%s", tmpstring);
+            //sprintf(tmpstring, "%s", &(string[1]));
+            //sprintf(string, "%s", tmpstring);
+
+            strcpy(tmpstring, &(string[1]));
+            strcpy(string, tmpstring);
         }
         else
         {
@@ -6620,10 +7056,12 @@ void GetDoubleValueString(char *val_str, int width, double realvalue, int left, 
                 --chrptr;
                 // chrptr points to numeral before 'e' or 'E'
                 *chrptr = '\0';
-                sprintf(tmpstring, "%s", string);
+                //sprintf(tmpstring, "%s", string);
+                strcpy(tmpstring, string);
                 ++chrptr;
                 strcat(tmpstring, chrptr);
-                sprintf(string, "%s", tmpstring);
+                //sprintf(string, "%s", tmpstring);
+                strcpy(string, tmpstring);
             }
             else
             {

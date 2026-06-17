@@ -584,6 +584,15 @@ void sdiD2R::ConvertRigid::HandleInertiaOption(const EntityRead& lsdRgdBody, Ent
     }
     else
     {
+        HandleRead nodeHRead;
+        p_lsdynaModel->FindById(1, NodeIdEntity.GetId(), nodeHRead);
+        NodeRead nodeRead(p_lsdynaModel, nodeHRead);
+        sdiTriple nodeLoc = nodeRead.GetPosition();
+
+        HandleNodeEdit newNodeHEdit;
+        p_radiossModel->CreateNode(newNodeHEdit, "/NODE", nodeLoc);
+        nodeId = newNodeHEdit.GetId(p_radiossModel);
+
         sdiUIntList slaveNodeids;
         p_ConvertUtils.ExtractNodesFromRadiossSet(nsidEdit.GetHandle(), slaveNodeids);
 

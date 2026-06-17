@@ -47,6 +47,8 @@ into neutral objects.
 #include <KERNEL_BASE/fileformat_API.h> 
 #include <KERNEL/mv_file_format.h>
 #include <cassert>
+#include <regex>
+#include <string_view>
 extern "C"
 {
 #include <KERNEL_BASE/utils.h>
@@ -65,10 +67,11 @@ extern "C"
 #include <MODEL_IO/meci_read_model_base.h>
 #include <MODEL_IO/meci_model_factory.h>
 #include "hw_cfg_reader.h"
+#include "hw_cfg_reader_message.h"
+#include "hcioi_utils.h"
 #include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
 #include <boost/algorithm/string/split.hpp> // Include for boost::split
 #include <boost/algorithm/string.hpp>
-#include <mec_data_writer.h>
 #include <fstream>
 
 typedef InputInfos::MyKeywordSet_t     LocKeywordSet_t;
@@ -96,6 +99,11 @@ typedef set<string>               LocFileList_t;
 typedef stack<int>                LocIntStack_t;      
 typedef set<int>                  LocIntSet_t;        
 
+#define ALLOC_SIZE  100000
+
+// Initialize static members
+bool PerformanceConfig::timing_enabled_ = false;
+std::set<std::string> PerformanceConfig::enabled_operations_;
 
 static bool                loc_is_alpha(char c);
 static int                 loc_get_fmt_size(const string& fmt);
@@ -106,13 +114,55 @@ static const fileformat_t* loc_get_file_format_ptr(const IDescriptor* descr_p, M
 static bool isDigitString(const char* test_str);
 static bool file_exists(const std::string& path);
 
+enum class CharPresence {
+    NONE,
+    HAS_FREEFORMATONLY,
+    HAS_PARAMETERONLY,
+    HAS_FREEFORMAT_PARAMETER_BOTH
+};
+
+
+inline void fastTrim(char* s) {
+    int len = (int)strlen(s);
+    while (len > 0 && s[len - 1] == ' ') s[--len] = '\0';
+}
+
+
+static int readAndGetValidCardListCard( MECIDataReader*             dataReader,
+                                        ff_card_t*                  card_p,
+                                        IMECPreObject*              pre_object,
+                                        const PseudoDescriptor_t*   descr_p,
+                                        MECIModelFactory*           model_p,
+                                        string                      header,
+                                        vector< ff_card_t*>&        cardlst);
+
 
 bool file_exists(const std::string& path) 
 {
     std::ifstream f(path.c_str());
     return f.good();
 }
+ 
+inline CharPresence checkForFreeAndParameterChars(const char* str) // need to pass freeformat and parameter externally
+{  
+    if (!str) return CharPresence::NONE;
 
+    bool hasComma = false;
+    bool hasAmp = false;
+
+    while (*str) {
+        if (*str == ',') hasComma = true;
+        else if (*str == '&') hasAmp = true;
+
+        if (hasComma && hasAmp) return CharPresence::HAS_FREEFORMAT_PARAMETER_BOTH;
+
+        ++str;
+    }
+
+    if (hasComma) return CharPresence::HAS_FREEFORMATONLY;
+    if (hasAmp) return CharPresence::HAS_PARAMETERONLY;
+    return CharPresence::NONE;
+}
 // Trim trailing spaces
 static std::string trimRight(const std::string& str) {
     size_t end = str.find_last_not_of(" \t\r\n");
@@ -150,6 +200,30 @@ static string loc_manage_slash_name(char** header_tab_p, int start_index, int st
     }
     return concat_string;
 }
+
+
+static std::string clean_format_string(const std::string& input) {
+    // Match all format specifiers starting with % and strip flags/width/precision
+    // Capture length modifiers (like l, ll) and type specifiers (like d, f, lg, etc.)
+    std::regex format_regex(R"(%[-+0# ]*\d*(\.\d+)?(ll|l|L)?([a-zA-Z]+))");
+    std::string cleaned = std::regex_replace(input, format_regex, "%$2$3");
+
+    // Insert space before each '%', except the first one
+    std::string result;
+    bool first = true;
+    for (size_t i = 0; i < cleaned.size(); ++i) {
+        if (cleaned[i] == '%') {
+            if (!first) result += ' ';
+            first = false;
+        }
+        result += cleaned[i];
+    }
+
+    return result;
+}
+
+
+
 void eraseSubstringFromEnd(const char* str, const char* sub) 
 {
     std::string modifiedString(str);
@@ -184,6 +258,10 @@ HWCFGReader::HWCFGReader(const char* full_name, MvFileFormat_e version, ISyntaxI
     myDataReader->setFormatId(version);
     myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER+1);
     myEncryptionPtr = newEncryption();
+
+
+    // Initialize performance timing from environment
+    initializePerformanceTimingFromEnvironment();
 }
 
 HWCFGReader::HWCFGReader(MECReadFile* file, MvFileFormat_e version, ISyntaxInfos& syntaxSolverInfos, InputInfos& solverInf,
@@ -203,6 +281,10 @@ HWCFGReader::HWCFGReader(MECReadFile* file, MvFileFormat_e version, ISyntaxInfos
     myDataReader->setFormatId(version);
     myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER+1);
     myEncryptionPtr = newEncryption();
+
+
+    // Initialize performance timing from environment
+    initializePerformanceTimingFromEnvironment();
 }
 
 HWCFGReader::~HWCFGReader() {
@@ -210,7 +292,59 @@ HWCFGReader::~HWCFGReader() {
     delete myDataReader;
     if(myEncryptionPtr)
        delete myEncryptionPtr;
+    if(m_owningMessageList && m_pMessageList) delete m_pMessageList;
 }
+
+
+
+// Performance timing methods
+void HWCFGReader::enablePerformanceTiming(bool enable) {
+    PerformanceConfig::EnableTiming(enable);
+}
+
+void HWCFGReader::enableTimingForOperation(const std::string& operation) {
+    PerformanceConfig::EnableOperation(operation);
+}
+
+void HWCFGReader::initializePerformanceTimingFromEnvironment() {
+    // Enable timing based on environment variable - check the value, not just existence
+    const char* timing_env = getenv("HWCFG_ENABLE_PERFORMANCE_TIMING");
+    if (timing_env) {
+        // Only enable if the value is not "0" or "false" (case insensitive)
+        std::string timing_value(timing_env);
+        std::transform(timing_value.begin(), timing_value.end(), timing_value.begin(), ::tolower);
+
+        if (timing_value != "0" && timing_value != "false" && timing_value != "") {
+            PerformanceConfig::EnableTiming(true);
+            printf("[DEBUG] Performance timing enabled globally (value: %s)\n", timing_env);
+        }
+        else
+            return;
+    }
+    else {
+        return;
+    }
+
+    // Enable specific operations
+    const char* operations = getenv("HWCFG_TIMING_OPERATIONS");
+    if (operations && strlen(operations) > 0) {  // Check for valid string
+        printf("[DEBUG] Found HWCFG_TIMING_OPERATIONS: %s\n", operations);
+        std::string ops(operations);
+        std::istringstream ss(ops);
+        std::string operation;
+        while (std::getline(ss, operation, ',')) {
+            // Trim whitespace
+            operation.erase(0, operation.find_first_not_of(" \t"));
+            operation.erase(operation.find_last_not_of(" \t") + 1);
+
+            if (!operation.empty()) {  // Only add non-empty operations
+                printf("[DEBUG] Enabling operation: '%s'\n", operation.c_str());
+                PerformanceConfig::EnableOperation(operation);
+            }
+        }
+    }
+}
+
 
 MECIDataReader* HWCFGReader::newDataReader() 
 {
@@ -260,6 +394,8 @@ void HWCFGReader::SetVersion(MvFileFormat_e version)
 
 
 void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
+    HWCFG_PERF_TIMER("HWCFGReader::readHeaderPositions");
+
     bool        a_continue = true;
  
     int         a_curr_comp_index = -1; 
@@ -302,15 +438,24 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
     {
         const char* a_buffer = ReadBuffer(true); 
 
+        if (!a_buffer)
+            break;
+
         if(a_buffer != NULL && mySyntaxInfo->getHeaderSize())
             a_buffer = killBlanksBegin(a_buffer);  // remove leading spaces incase header (*,/,... ) are defined
         //
-        if (a_buffer != NULL && !isHeader(a_buffer))
+        if (a_buffer != NULL && !isHeader(a_buffer) || a_buffer[0]=='\0')
         {
             a_cur_nb_lines++;
+
+            if (!first_begin_found && strstr(begin_str.c_str(), a_buffer))
+                first_begin_found = true;
+
             continue;
         }
-
+        if (!first_begin_found && strstr(begin_str.c_str(), a_buffer))
+            first_begin_found = true;
+        char* header_keyword = strdup(a_buffer);
         if (a_buffer != NULL)
         {
             int a_current_include_file_index_before_header = GetCurrentFileIndex();
@@ -319,16 +464,27 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
             //
             if (a_is_header)
             {
+                myCurrentHeader = a_buffer;
+
                 bool is_endofkey = myInputInfosPtr->IsEofKeyword(a_buffer);
 
                 obj_type_e etype = HCDI_OBJ_TYPE_NULL;
 
                 const char* a_buffer_d = a_buffer;
                 
-                if(mySyntaxInfo->GetHeaderFromStartFlag())
+                if (mySyntaxInfo->GetHeaderFromStartFlag())
+                {
                     a_buffer_d = mySyntaxInfo->getNormalisedHeader(a_buffer);// +mySyntaxInfo->getHeaderSize();
+                }
                 a_buffer_d = killBlanksBegin(a_buffer_d);
                 string a_header(a_buffer_d);
+
+                if (mySyntaxInfo->GetHeaderFromStartFlag())
+                {
+                    std::size_t pos;
+                    //remove all after ',' separater 
+                    a_header.erase((pos = a_header.find(',')) != std::string::npos ? pos : a_header.size());
+                }
 
                 //store the current position after reading the header as these position may change after reading comments after headers..
                 int a_current_include_file_index = GetCurrentFileIndex();
@@ -350,6 +506,22 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         SetReadingStatus(r_status);
                         //readObjects(model_p, HCDI_get_entitystringtype(HCDI_OBJ_TYPE_PARAMETERS).c_str(), HCDI_get_entitystringtype(HCDI_OBJ_TYPE_PARAMETERS).c_str()); 
                         clearHeaderComments();
+                        continue;
+                    }
+                    if (etype == HCDI_OBJ_TYPE_INCLUDES)
+                    {
+                        UnreadBuffer();
+                        int r_status = GetReadingStatus();
+                        SetReadingStatus(READ_STATUS_SINGLE_KEYWORD);
+                        ManageReadKeyWord(model_p, HCDI_get_entitystringtype(HCDI_OBJ_TYPE_INCLUDES).c_str(), p_type_info);
+                        SetReadingStatus(r_status);
+                        //readObjects(model_p, HCDI_get_entitystringtype(HCDI_OBJ_TYPE_PARAMETERS).c_str(), HCDI_get_entitystringtype(HCDI_OBJ_TYPE_PARAMETERS).c_str()); 
+                        clearHeaderComments();
+                        model_p->PreTreatObject("INCLUDE");
+                        //string folderpath_skey = GetAttribNameFromDrawable(p_type_info->pdescrp, "_FOLDERPATH_RELATIVE");
+                        //const char* component_name1 = a_pre_object_p->GetStringValue(folderpath_skey.c_str());
+
+                        //myFolderPathRelative.push_back(folderpath_skey);
                         continue;
                     }
                     if (etype == HCDI_OBJ_TYPE_CARDS)
@@ -374,6 +546,20 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         }
                     }
                 }
+                else if (is_endofkey)
+                {
+                    if (a_current_include_file_index == 0)//main file
+                        a_continue = false;
+                    else
+                    {
+                        MECReadFile* a_cur_file_p = GetCurrentFilePtr();
+                        if (a_cur_file_p)
+                            a_cur_file_p->seek(0, SEEK_END);
+                    }
+                    continue;
+                }
+
+
                 if (!first_begin_found)
                     continue;
 
@@ -382,13 +568,13 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                 int key_comment_process_flag = myInputInfosPtr->getKeywordProcessCommentFlag();
                 if (key_comment_process_flag == InputInfos::SOLVER_PROCESS_KEYWORD_COMMMENT_AFTER)
                 {
+                    pushPosition(); // reason is that HEADER card is not set correctly if next line is called (with comments) then unreadbuffer will lose prev position
                     bool iscomment = true;
                     while (iscomment)
                     {
                         char* buffer = ReadBuffer(false, -1, false);
                         if (!buffer)
                         {
-                            UnreadBuffer();
                             break;
                         }
                         else
@@ -398,10 +584,9 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                             {
                                 myCommentsHeader[InputInfos::SOLVER_PROCESS_KEYWORD_COMMMENT_AFTER].push_back(buffer);
                             }
-                            else
-                                UnreadBuffer();
                         }
                     }
+                    popPosition();
                 } 
                 
                 InputInfos::IdentifierValuePairList  vallst;
@@ -433,10 +618,10 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                 a_curr_comp_index = GetCurrentComponentIndex();
                 a_cur_nb_lines = 0;
                 //
-                if (!p_type_info)
+                if (!p_type_info && !is_endofkey)
                 {
                     displayCurrentLocation(MSG_ERROR);
-                    displayMessage(MSG_ERROR, getMsg(1), a_header.c_str());
+                    displayMessage(MSG_ERROR, getMsg(52), a_header.c_str());
                 }
 
 
@@ -462,6 +647,10 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                     char* kw_p = NULL;
                     bool kw_found = false;
                     bool do_continue = true;
+
+
+                    if (!readKeyword(p_type_info, model_p, header_keyword))
+                        continue;
 
                     while (do_continue)
                     {
@@ -521,7 +710,7 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
             if (!eof())
             {
                 displayCurrentLocation(MSG_ERROR);
-                displayMessage(MSG_ERROR, getMsg(2));
+                displayMessage(MSG_ERROR, getMsg(53));
             }
         }
     }
@@ -553,9 +742,790 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
         a_cur_file_stack_p->pop();
 }
 
+int readAndGetValidCardListCardIfCard(MECIDataReader*                       dataReader,
+                                      ff_card_t*                            card_p,
+                                      IMECPreObject                        *pre_object,
+                                      const PseudoDescriptor_t*             descr_p,
+                                      MECIModelFactory*                     model_p,
+                                      string                                header,
+                                      vector< ff_card_t*>                  &cardlst)
+{
+    const ff_card_t* a_card_p = (const ff_card_t*)card_p;
+    //
+    int  a_nb_ccls = 0;
+    bool a_checked = false;
+    MCDS_get_ff_card_attributes(a_card_p, CARD_NB_COND_CARD_LISTS, &a_nb_ccls, END_ARGS);
+    for (int i = 0; !a_checked && i < a_nb_ccls; ++i) {
+        ff_condcardlist_t* a_ccl_p = NULL;
+        expression_t* a_expr_p = NULL;
+        MCDS_get_ff_card_tab(a_card_p, CARD_COND_CARD_LIST, i, &a_ccl_p);
+        MCDS_get_ff_condcardlist_expression(a_ccl_p, &a_expr_p);
+        a_checked = (a_expr_p == NULL);
+        //
+        if (!a_checked) {
+            MvExpression_t a_expr(a_expr_p, false);
+            a_checked = pre_object->EvaluateExpression((PseudoExpression_t*)(&a_expr), descr_p);
+        }
+        //
+        if (a_checked) {
+            int a_nb_sub_cards = 0;
+            MCDS_get_ff_condcardlist_nb_cards(a_ccl_p, &a_nb_sub_cards);
+            for (int j = 0; j < a_nb_sub_cards; ++j) {
+                ff_card_t* a_sub_card_p = NULL;
+                MCDS_get_ff_condcardlist_card(a_ccl_p, j, &a_sub_card_p);
+                int ret = readAndGetValidCardListCard(dataReader,  a_sub_card_p, pre_object, descr_p, model_p, header, cardlst);
+                if (ret == -1)
+                    return ret;
+            }
+        }
+    }
+    return 0;
+}
+
+int readAndGetValidCardListCard(MECIDataReader*             dataReader,
+                                ff_card_t*                  card_p,
+                                IMECPreObject*              pre_object,
+                                const PseudoDescriptor_t*   descr_p,
+                                MECIModelFactory*           model_p,
+                                string                      header,
+                                vector< ff_card_t*>&        cardlst)
+{
+    ff_card_type_e a_card_type = CARD_UNKNOWN;
+    MCDS_get_ff_card_attributes(card_p, CARD_TYPE, &a_card_type, END_ARGS);
+
+    if (a_card_type == CARD_CARD_LIST)
+    {
+        int  a_loc_nb_cards = 0;
+        MCDS_get_ff_card_attributes(card_p, CARD_NB_CARDS, &a_loc_nb_cards, END_ARGS);
+        //
+        for (int k = 0; k < a_loc_nb_cards; k++)
+        {
+            ff_card_t* a_loc_card_format_p;
+            MCDS_get_ff_card_tab(card_p, CARD_CARD, k, (void*)(&a_loc_card_format_p));
+            MCDS_get_ff_card_attributes(a_loc_card_format_p, CARD_TYPE, &a_card_type, END_ARGS);
+
+            if (a_card_type == CARD_IF)
+            {
+                return -1;
+            }
+            else if (a_card_type == CARD_SINGLE)
+            {
+                cardlst.push_back(a_loc_card_format_p);
+            }
+            else
+                return -1;
+        }
+        return 0;
+    }
+    else if (a_card_type == CARD_IF)
+    {
+        int ret = readAndGetValidCardListCardIfCard(dataReader, card_p, pre_object, descr_p, model_p, header, cardlst);
+        if (ret == -1)
+            return ret;
+    }
+    else
+    {
+        //if (a_card_type == CARD_HEADER)
+        //    pre_object->SetHeaderLine(header);
+
+        bool a_do_continue = true;
+        dataReader->readNextCard(card_p, pre_object, (void*)model_p, descr_p, -1, &a_do_continue);
+        if (!a_do_continue)
+            return -1;
+    }
+
+    return 0;
+}
+
+
+int HWCFGReader::readKeyword(const CUserNameTypeInfo* p_type_info, MECIModelFactory* model_p, const char* header)
+{
+    HWCFG_PERF_TIMER("HWCFGReader::readKeyword");
+    
+    if (!p_type_info || !header || !(p_type_info->obj_type == HCDI_OBJ_TYPE_NODES || p_type_info->obj_type == HCDI_OBJ_TYPE_ELEMS
+       /* || p_type_info->obj_type == HCDI_OBJ_TYPE_CURVES*/ || p_type_info->obj_type == HCDI_OBJ_TYPE_SOLVERMASSES))
+        return -1;
+
+    // ===== PHASE 1: SETUP AND METADATA EXTRACTION =====
+    // Direct destination pointers eliminate unordered_map hash lookups in the hot loop.
+    struct FieldMeta {
+        int              ikey;  
+        string           skey; 
+        value_type_e     type;
+        int              width_base;   // base width based on short format
+        int              width_cur;    // current width based on line format (short or long)
+        const ff_cell_t* cell_p;
+        // Direct destination pointers bound used per-value in  loop
+        std::vector<int>* dst_int = nullptr;
+        std::vector<double>* dst_double = nullptr;
+        std::vector<int>* dst_obj_id = nullptr;
+        std::vector<std::string>* dst_str = nullptr;
+    };
+
+
+    ApplicationMode_e a_mode = (ApplicationMode_e)myInputInfosPtr->GetAppMode();
+    std::vector < std::vector<FieldMeta> >  metaList; 
+    const IDescriptor* a_descr_p = p_type_info->pdescrp;
+    if (!a_descr_p)
+        return -1;
+
+    string otype_st = HCDI_get_entitystringtype(p_type_info->obj_type);
+    string fulltype = "/" + otype_st + "/" + p_type_info->myusername;
+
+    int header_size = mySyntaxInfo->getHeaderKeywordCellLength();
+    string input_ftype_str;
+    if (header_size > 0)
+    {
+        const string str = string(header);
+        input_ftype_str = (str.size() <= header_size) ? str : str.substr(0, header_size);
+    }
+    else
+    {
+        input_ftype_str = header;
+    }
+
+    // Find the position of the first '/' followed by only digits until the end or next '/'
+    size_t last = input_ftype_str.size();
+    while (last > 0) {
+        size_t slash_pos = input_ftype_str.rfind('/', last - 1);
+        if (slash_pos == std::string::npos)
+            break;
+        // Check if everything after slash_pos+1 is digits (until next '/')
+        size_t start = slash_pos + 1;
+        size_t end = input_ftype_str.find('/', start);
+        if (end == std::string::npos) end = input_ftype_str.size();
+        std::string segment = input_ftype_str.substr(start, end - start);
+        if (!segment.empty() && std::all_of(segment.begin(), segment.end(), ::isdigit)) {
+            // Remove from slash_pos to end
+            input_ftype_str.erase(slash_pos);
+            last = slash_pos;
+        }
+        else {
+            break;
+        }
+    }
+
+
+    IMECPreObject* a_pre_object = HCDI_GetPreObjectHandle(fulltype.c_str(), input_ftype_str.c_str(), "", 0, 0);
+    a_pre_object->SetFileIndex(MECSubdeck::curSubdeckIdx);
+
+    const fileformat_t* a_format_p = loc_get_file_format_ptr(a_descr_p, getFormatVersion());
+
+    if(!a_format_p)
+        a_format_p = loc_get_file_format_ptr(a_descr_p, myVersion);
+
+    if (!a_format_p)
+        return -1;
+
+    // ===== PHASE 2: STORAGE INITIALIZATION =====
+    std::unordered_map<int, vector<double>>        map_ikey_vec_d;
+    std::unordered_map<int, vector<int>>           map_ikey_vec_i;
+    std::unordered_map<int, vector<unsigned int>>  map_ikey_vec_ui;
+    std::unordered_map<int, vector<int>>           map_ikey_vec_obj_id;
+    std::unordered_map<int, vector<string>>        map_ikey_vec_s;
+
+    int a_nb_cards = 0;
+    ff_card_type_e a_card_type = CARD_UNKNOWN;
+    bool                a_ok = true;
+
+    MCDS_get_fileformat_nb_cards(a_format_p, &a_nb_cards);
+
+
+    int file_index = GetCurrentFileIndex();
+    int subdeck_index = getCurrentSubdeckIndex();
+    MECReadFile* a_cur_file_p = GetCurrentFilePtr();
+    _HC_LONG aloc = a_cur_file_p->GetCurrentLocation();
+    _HC_LONG acurline = a_cur_file_p->GetCurrentLine();
+
+    vector<ff_card_t*> cardlst;
+    if (a_nb_cards <= 0)
+        MCDS_get_fileformat_nb_cards(a_format_p, &a_nb_cards);
+
+    UnreadBuffer(); 
+
+    // ===== PHASE 3: VALIDATE CARD LIST (CHECK FOR CARD_IF) =====
+    for (int i = 0; i < a_nb_cards; ++i)
+    {
+        ff_card_t* a_card_format_p;
+        ff_card_t* a_next_card_format_p = NULL;
+        MCDS_get_fileformat_card(a_format_p, i, &a_card_format_p);
+        if (readAndGetValidCardListCard(myDataReader, a_card_format_p, a_pre_object, a_descr_p,
+            model_p, string(header), cardlst))
+        {
+            HCDI_ReleasePreObjectHandle(a_pre_object);
+            a_cur_file_p->SetCurrentLocation(aloc);
+            a_cur_file_p->SetCurrentLine(acurline);
+            SetCurrentFileIndex(file_index);
+            setCurrentSubdeckIndex(subdeck_index);
+            return -1;
+        }
+    }
+
+    if (!cardlst.size())
+        return -1;
+
+    mySyntaxInfo->resetLineFormat();
+    io_types::format_type_e  fmt_type_base = mySyntaxInfo->getFormatType();
+
+    //bool is_longformat = false;
+
+    int ikey_att_arr = 0;
+    metaList.resize(cardlst.size());
+    for (int k = 0; k < cardlst.size(); k++)
+    {
+        ff_card_t* a_loc_card_format_p = cardlst[k];
+        MCDS_get_ff_card_attributes(a_loc_card_format_p, CARD_TYPE, &a_card_type, END_ARGS);
+        if (a_card_type == CARD_IF)
+        {
+            HCDI_ReleasePreObjectHandle(a_pre_object);
+            return -1;
+        }
+        
+        if (a_card_type == CARD_SINGLE)
+        {
+            int   a_nb_cells = 0;
+            MCDS_get_ff_card_attributes(a_loc_card_format_p, CARD_NB_CELLS, &a_nb_cells, END_ARGS);
+
+            for (int j = 0; j < a_nb_cells; ++j) {
+                ff_cell_t* a_cell_format_p = NULL;
+                MCDS_get_ff_card_tab(a_loc_card_format_p, CARD_CELL, j, (void*)(&a_cell_format_p));
+                //
+                const char* a_cell_fmt = NULL;
+                int   a_cell_ikw = END_ARGS;
+                MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, CELL_IKEYWORD, &a_cell_ikw, END_ARGS);
+                int a_cell_size = 0;
+                value_type_e a_vtype = a_descr_p->getValueType(a_cell_ikw);
+                attribute_type_e a_atype = a_descr_p->getAttributeType(a_cell_ikw);
+                
+
+                if (a_atype == ATYPE_DYNAMIC_ARRAY || a_atype == ATYPE_STATIC_ARRAY)
+                {
+                    ikey_att_arr = a_cell_ikw;
+                }
+                //else
+                //    continue; /* need to check for usecase of single value type */
+
+                //const char* skey = a_descr_p->getSKeyword(a_cell_ikw);
+                ff_cell_type_e  a_cell_type = CELL_UNKNOWN;
+                MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_TYPE, &a_cell_type, END_ARGS);
+
+                if (a_cell_type == CELL_COMMENT)
+                {
+                    const char* a_cell_string = NULL;
+                    MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_STRING, &a_cell_string, END_ARGS);
+                    a_cell_size = (int)strlen(a_cell_string);
+                }
+                else
+                    GetSyntaxInfo()->GetFormatSize(a_cell_fmt, false, a_cell_size);
+
+                FieldMeta fd;
+                fd.ikey = a_cell_ikw;
+                fd.width_base = a_cell_size;
+                fd.type = a_vtype;
+                fd.cell_p = a_cell_format_p;
+                fd.width_cur = a_cell_size;
+                
+                if(a_cell_ikw>0)
+                    fd.skey = a_descr_p->getSKeyword(a_cell_ikw);
+                
+                metaList[k].push_back(fd);
+
+                // Create map entries (initial page-wise reserve)
+                switch (fd.type) {
+                case VTYPE_INT:
+                    map_ikey_vec_i[fd.ikey].reserve(ALLOC_SIZE); break;
+                case VTYPE_FLOAT:
+                    map_ikey_vec_d[fd.ikey].reserve(ALLOC_SIZE); break;
+                case VTYPE_STRING:
+                    map_ikey_vec_s[fd.ikey].reserve(ALLOC_SIZE); break; // fast, caller can free if needed
+                case VTYPE_OBJECT:
+                    map_ikey_vec_obj_id[fd.ikey].reserve(ALLOC_SIZE); break;
+                }
+            }
+        }
+    }
+    if (!metaList.size())
+    {
+        HCDI_ReleasePreObjectHandle(a_pre_object);
+        a_cur_file_p->SetCurrentLocation(aloc);
+        a_cur_file_p->SetCurrentLine(acurline);
+        SetCurrentFileIndex(file_index);
+        setCurrentSubdeckIndex(subdeck_index);
+        return -1;
+    }
+
+    // ===== OPTIMIZATION: BIND DIRECT DESTINATION POINTERS =====
+    // Maps are now fully populated with all ikey entries. No new keys will be    
+    //char buffer_p[512];
+    // inserted, so pointers into the map values are stable.
+    // reserve() on existing entries does NOT invalidate pointers (only grows capacity).
+    for (auto& card_meta : metaList) {
+        for (auto& meta : card_meta) {
+            switch (meta.type) {
+            case VTYPE_INT:
+                meta.dst_int = &map_ikey_vec_i[meta.ikey]; break;
+            case VTYPE_FLOAT:
+                meta.dst_double = &map_ikey_vec_d[meta.ikey]; break;
+            case VTYPE_STRING:
+                meta.dst_str = &map_ikey_vec_s[meta.ikey]; break;
+            case VTYPE_OBJECT:
+                meta.dst_obj_id = &map_ikey_vec_obj_id[meta.ikey]; break;
+            }
+        }
+    }
+
+    // ===== PHASE 5: PARSING SETUP =====
+    bool do_continue = true;
+    int line_count = 0;
+
+
+    int ml_sz = (int)metaList.size();
+
+    const char free_c = mySyntaxInfo->getFreeFormatSpecifier();
+    const int line_len = mySyntaxInfo->getLineLength();
+    const char* paramsym = mySyntaxInfo->getParameterSymbol();
+    const char paramsym_char = (paramsym && paramsym[0]) ? paramsym[0] : '\0';
+
+    while (do_continue)
+    {
+        int cur_fmt_size = 0;
+        for (int i = 0; i < ml_sz; i++) // loop over number of CARDs
+        {
+            //bool a_error = a_cur_file_p->readBuffer(myBufferNbChars, buffer_p);
+            //char* buffer_p = ReadBuffer(true); // Is this faster or above
+            char* buffer_p =  nullptr;
+
+            bool a_is_eof = (a_cur_file_p == NULL || a_cur_file_p->eof());
+            if (a_is_eof)
+            {
+                do_continue = false;
+                UnreadBuffer();
+                break;
+            }
+
+            buffer_p = myDataReader->readBuffer();
+            if (!buffer_p) {
+                do_continue = false;
+                break;
+            }
+			// check for empty line
+            if (*buffer_p == '\0') {
+                while ((buffer_p = myDataReader->readBuffer()) != nullptr && *buffer_p == '\0');
+                if (!buffer_p) {
+                    do_continue = false;
+                    break;
+                }
+            }
+            
+
+            bool  is_header = isHeader(buffer_p);
+            bool a_is_include = myInputInfosPtr->IsIncludeHeader(buffer_p);
+            bool a_is_comment = mySyntaxInfo->isComment(buffer_p);
+            int h_len = mySyntaxInfo->getHeaderKeywordCellLength();
+
+            bool has_header_line_card_cont = false;
+            if (h_len && is_header) 
+            {
+                if (h_len && mySyntaxInfo->IsSpaceORContinueChars(buffer_p[0]) || !strncmp(buffer_p, header, h_len))
+                    has_header_line_card_cont = true;
+                
+            }
+
+            if ((!has_header_line_card_cont && is_header) || a_is_include)
+            {
+                UnreadBuffer();
+                do_continue = false;
+                break;
+            }
+            if (a_is_comment)
+                continue;
+
+            //update width based on line format type
+            io_types::format_type_e  fmt_type = mySyntaxInfo->getFormatType();
+            if (fmt_type == io_types::format_type_e::FORMAT_LONG && fmt_type  != fmt_type_base)
+            {
+                for (auto& meta : metaList[i])
+                {
+                    if (meta.cell_p->type != CELL_COMMENT)
+                        meta.width_cur = meta.width_base * 2;
+                    else
+                        meta.width_cur = meta.width_cur;
+                }
+            }
+            else
+            {
+                for (auto& meta : metaList[i])
+                {
+                    meta.width_cur = meta.width_base;
+                }
+            }
+
+            
+            if (has_header_line_card_cont || !is_header && !a_is_include)
+            {
+                line_count++;
+
+                // ===== PAGE-WISE REALLOCATION (PRESERVED) =====
+                // reserve() on existing vectors does NOT invalidate dst_* pointers
+                // because the pointer is to the vector object in the map, not to its data.
+                int rem = line_count % ALLOC_SIZE;
+                if (!rem)
+                {
+                    int next_capacity = ALLOC_SIZE * ((line_count / ALLOC_SIZE) + 1);
+                    for (auto& pair : map_ikey_vec_d) {
+                        pair.second.reserve(next_capacity);
+                    }
+                    for (auto& pair : map_ikey_vec_i) {
+                        pair.second.reserve(next_capacity);
+                    }
+                }
+
+                const char* ptr = buffer_p;
+                if (!memchr(ptr, free_c /*','*/, line_len))
+                {
+                    // ===== FIXED FORMAT PARSING =====
+                    cur_fmt_size = 0;
+                    for (const auto& meta : metaList[i])
+                    {
+                        const char* fieldStart = ptr;  // Remember start for fixed width slicing
+
+                        if (ptr && (ptr[0] == '\0' ||
+                            (mySyntaxInfo->IsSpaceORContinueChars(ptr[0]) && ptr[1] == '\0'))) 
+                        {
+                            switch (meta.type) {
+                            case VTYPE_INT:
+                                meta.dst_int->emplace_back(0); break;
+                            case VTYPE_FLOAT:
+                                meta.dst_double->emplace_back(0.0); break;
+                            case VTYPE_STRING:
+                                meta.dst_str->emplace_back(""); break;
+                            case VTYPE_OBJECT:
+                                meta.dst_obj_id->emplace_back(0); break;
+                            }
+
+                            continue;
+                        }
+                        if (meta.cell_p->type != CELL_COMMENT && meta.cell_p->type != CELL_BLANK)
+                        {
+                            int p_count = 1;
+                            if (meta.cell_p->type == CELL_PAIR)
+                            {
+                                p_count = 2;
+                            }
+                            for (int k = 0; k < p_count; k++)
+                            {
+                                int l_s = 0;
+                                while (*ptr == ' ' && meta.width_cur > l_s)
+                                {
+                                    ++ptr; l_s++;
+                                }
+                                int leadingSpaces = static_cast<int>(ptr - fieldStart);
+                                if (paramsym_char && (*ptr == paramsym_char))
+                                {
+                                    ++ptr;
+                                    char alias[32] = {};
+                                    int len = 0;
+                                    int maxAliasChars = meta.width_cur - leadingSpaces - 1;
+                                    while (*ptr && len < maxAliasChars && len < 31)
+                                        alias[len++] = *ptr++;
+
+                                    alias[len] = '\0';
+                                    bool is_parameter_negated = (alias[0] == '-');
+
+                                    MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                    switch (meta.type) {
+                                    case VTYPE_INT:
+                                    {
+                                        int a_value = nc_model_p->GetIntParameter(alias, a_pre_object->GetFileIndex());
+                                        if (is_parameter_negated) a_value = -a_value;
+                                        meta.dst_int->push_back(a_value);
+                                        a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                        break;
+                                    }
+                                    case VTYPE_FLOAT:
+                                    {
+                                        double a_value = nc_model_p->GetFloatParameter(alias, a_pre_object->GetFileIndex());
+                                        if (is_parameter_negated) a_value = -a_value;
+                                        meta.dst_double->push_back(a_value);
+                                        a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                        break;
+                                    }
+                                    case VTYPE_STRING:
+                                    {
+                                        //map_ikey_vec_s[meta.ikey].push_back(strdup(temp)); 
+                                        break;
+                                    }
+                                    case VTYPE_OBJECT:
+                                    {
+                                        int a_id = nc_model_p->GetIntParameter(alias, a_pre_object->GetFileIndex());
+                                        if (is_parameter_negated) a_id = -a_id;
+                                        meta.dst_obj_id->push_back(a_id);
+                                        a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                        break;
+                                    }
+                                    }
+                                    /**/
+                                }
+                                else {
+                                    char temp[64] = {};
+                                    // Adjust width to exclude leading spaces
+                                    int fieldWidth = meta.width_cur - leadingSpaces;
+                                    memcpy(temp, ptr, fieldWidth);
+                                    temp[fieldWidth] = '\0';
+
+                                    switch (meta.type) {
+                                    case VTYPE_INT:
+                                        meta.dst_int->emplace_back(cfgio_atoi_fast(temp));
+                                        break;
+                                    case VTYPE_FLOAT:
+                                        meta.dst_double->emplace_back(cfgio_atof_fast(temp));
+                                        break;
+                                    case VTYPE_STRING:
+                                        meta.dst_str->emplace_back(temp);
+                                        break;
+                                    case VTYPE_OBJECT:
+                                        meta.dst_obj_id->emplace_back(cfgio_atoi_fast(temp));
+                                        break;
+                                    }
+                                }
+                                ptr += meta.width_cur - leadingSpaces;
+                                fieldStart = ptr;
+                            }
+                        }
+                        else
+                        {
+                            ptr += meta.width_cur;
+                        }
+
+                        cur_fmt_size += meta.width_base;
+                        if (fmt_type == io_types::format_type_e::FORMAT_LONG && mySyntaxInfo->HasLengthReachedForNextLine(cur_fmt_size))
+                        {
+                            //const char* a_card = readBuffer();
+                            const char* a_card = myDataReader->readBuffer();
+                            if (a_card == NULL)
+                                return false;
+
+                            //myReadContext_p->killNLEnd(a_card);
+                            
+                            //a_cur_cell = a_card;
+                            int a_is_header = mySyntaxInfo->isHeader(a_card);
+                            if (a_is_header)
+                            {
+                                a_ok = false;
+                                unreadBuffer();
+                                break;
+                            }
+                            //
+                            bool is_free_size_format = mySyntaxInfo->isFreeSizeCard(a_card);
+                            int offset = mySyntaxInfo->getInitialOffset(); // Need to get based of solver... should take care of free format as well with long format
+                            if (offset && is_free_size_format)
+                            {
+                                offset = 1;
+                                for (const char* p = a_card; *p; ++p) {
+                                    if (*p == mySyntaxInfo->getFreeFormatSpecifier()) {
+                                        offset++;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (strlen(a_card) < offset)
+                                return false;
+                            a_card = a_card + offset;
+                            cur_fmt_size = 0;
+
+                            ptr = a_card;
+                        }
+                    }
+                }
+                else
+                {
+                    // ===== FREE FORMAT PARSING =====
+                    size_t fieldIndex = 0;
+                    //while (ptr && *ptr && fieldIndex < metaList.size()) {
+                    for (const auto& meta : metaList[i])
+                    {
+                        //const char* fieldStart = ptr;
+                        //const auto& meta = metaList[fieldIndex];
+                        const char* start = ptr;
+                        const char* end = nullptr;
+                        size_t len = 0;
+                        if (start)
+                        {
+                            end = strchr(ptr, free_c /*','*/);
+                            len = end ? static_cast<size_t>(end - ptr) : strlen(ptr);
+
+                            int l_s = 0;
+                            while (*ptr == ' ' && len >= l_s)
+                            {
+                                ++ptr; l_s++;
+                            }
+                            len = len-l_s;
+                        }
+                        if (len == 0) {
+                            // Empty field
+                            switch (meta.type) {
+                            case VTYPE_INT:
+                                meta.dst_int->emplace_back(0); break;
+                            case VTYPE_FLOAT:
+                                meta.dst_double->emplace_back(0); break;
+                            case VTYPE_STRING:
+                                meta.dst_str->emplace_back(""); break;
+                            case VTYPE_OBJECT:
+                                meta.dst_obj_id->emplace_back(0); break;
+                            }
+                        }
+                        else if (paramsym_char && (*ptr == paramsym_char)) {
+                            if (len > 1) {
+                                char alias[32] = {};
+                                size_t copyLen = std::min(len - 1, sizeof(alias) - 1);
+                                memcpy(alias, ptr + 1, copyLen);
+                                alias[copyLen] = '\0';
+
+                                bool is_parameter_negated = (alias[0] == '-');
+
+                                MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                switch (meta.type) {
+                                case VTYPE_INT:
+                                {
+                                    int a_value = nc_model_p->GetIntParameter(alias, a_pre_object->GetFileIndex());
+                                    if (is_parameter_negated) a_value = -a_value;
+                                    meta.dst_int->push_back(a_value);
+                                    a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                    break;
+                                }
+                                case VTYPE_FLOAT:
+                                {
+                                    double a_value = nc_model_p->GetFloatParameter(alias, a_pre_object->GetFileIndex());
+                                    if (is_parameter_negated) a_value = -a_value;
+                                    meta.dst_double->push_back(a_value);
+                                    a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                    break;
+                                }
+                                case VTYPE_STRING:
+                                {
+                                    //map_ikey_vec_s[meta.ikey].push_back(strdup(temp)); 
+                                    break;
+                                }
+                                case VTYPE_OBJECT:
+                                {
+                                    int a_id = nc_model_p->GetIntParameter(alias, a_pre_object->GetFileIndex());
+                                    if (is_parameter_negated) a_id = -a_id;
+                                    meta.dst_obj_id->push_back(a_id);
+                                    a_pre_object->SetParameterName(alias, meta.skey.c_str(), line_count - 1, is_parameter_negated);
+                                    break;
+                                }
+                                }
+                            }
+                        }
+                        else {
+                            char temp[64] = {};
+                            size_t copyLen = std::min(len, sizeof(temp) - 1);
+                            memcpy(temp, ptr, copyLen);
+                            temp[copyLen] = '\0';
+
+                            switch (meta.type) {
+                            case VTYPE_INT:
+                                meta.dst_int->emplace_back(cfgio_atoi_fast(temp)); break;
+                            case VTYPE_FLOAT:
+                                meta.dst_double->emplace_back(cfgio_atof_fast(temp)); break;
+                            case VTYPE_STRING:
+                                meta.dst_str->emplace_back(temp); break;
+                            case VTYPE_OBJECT:
+                                meta.dst_obj_id->emplace_back(cfgio_atoi_fast(temp)); break;
+                            }
+                        }
+                        ptr = end ? end + 1 : nullptr;
+                        ++fieldIndex;
+                    }
+                }
+            }
+        }
+    }
+
+    //int ikey = p_type_info->pdescrp->getIKeyword("id"); //get it from any array skeyword
+
+    int size_ikey = p_type_info->pdescrp->getSizeIKeyword(ikey_att_arr);
+    MvIKeywordSet_t       a_array_ikws;
+    p_type_info->pdescrp->getSizeConnectedIKeywords(size_ikey, &a_array_ikws);
+
+    int t_size_d = 0;
+    int t_size_i = 0;
+    int t_size_obj = 0;
+    int t_size = 0;
+    if (map_ikey_vec_d.size())
+        t_size_d = (int)map_ikey_vec_d[(*map_ikey_vec_d.begin()).first].size();
+    if (map_ikey_vec_i.size())
+        t_size_i = (int)map_ikey_vec_i[(*map_ikey_vec_i.begin()).first].size();
+    if (map_ikey_vec_obj_id.size())
+        t_size_obj = (int)map_ikey_vec_obj_id[(*map_ikey_vec_obj_id.begin()).first].size();
+
+    t_size = std::max({ t_size_d, t_size_i, t_size_obj });
+
+    if (!t_size)
+        assert(0);
+
+    string skey_size = a_descr_p->getSKeyword(size_ikey);
+
+    a_pre_object->AddIntValue(skey_size.c_str(), t_size);
+    if (a_array_ikws.size())
+    {
+        for (auto a_aikw_it = a_array_ikws.begin(); a_aikw_it != a_array_ikws.end(); ++a_aikw_it) {
+            int a_arr_ikw = (*a_aikw_it);
+            ResizeArrayAttributesToPreObject(*a_pre_object, p_type_info->pdescrp, a_arr_ikw, t_size);
+        }
+    }
+
+    //a_pre_object->SetFileIndex(file_index);
+    a_pre_object->SetEntityType(p_type_info->obj_type);
+
+    model_p->StorePreObject(p_type_info->obj_type, a_pre_object);
+
+    for (auto& pair : map_ikey_vec_d)  {
+        string skey = a_descr_p->getSKeyword(pair.first);
+        pair.second.resize(t_size);
+        pair.second.shrink_to_fit();
+        a_pre_object->AddFloatValues(skey.c_str(), std::move(pair.second));
+    }
+    for (auto& pair : map_ikey_vec_i) {
+        string skey = a_descr_p->getSKeyword(pair.first);
+        pair.second.resize(t_size);
+        pair.second.shrink_to_fit();
+        a_pre_object->AddIntValues(skey.c_str(), std::move(pair.second));
+    }
+    for (auto& pair : map_ikey_vec_obj_id) {
+        string skey = a_descr_p->getSKeyword(pair.first);
+        object_type_e  a_cell_otype = a_descr_p->getObjectType(pair.first);
+        const string  &a_cell_otype_str = MV_get_type(a_cell_otype);
+        pair.second.resize(t_size);
+        pair.second.shrink_to_fit();
+        a_pre_object->AddObjectValues(skey.c_str(), a_cell_otype_str.c_str(), std::move(pair.second));
+    }
+
+    //for (const auto& [key, vec] : map_ikey_vec_ui) {
+    //    string skey = a_descr_p->getSKeyword(key);
+    //    a_pre_object->AddUIntValues(skey, std::move(vec));
+    //}
+    //for (const auto& [key, vec] : map_ikey_vec_s) {
+    //    string skey = a_descr_p->getSKeyword(key);
+    //    a_pre_object->AddStringValues(skey, std::move(vec));
+    //}
+
+    return 0;
+}
+
+
+
+
+
+
+
+
 /* --------- Reading model (public) --------- */
 
 void HWCFGReader::readModel(MECIModelFactory* model_p, bool do_transform) {
+
+    HWCFG_PERF_TIMER("HWCFGReader::readModel");
+
     SetModelFactoryPtr(model_p);
     MECIReadModelBase::readModel(model_p, do_transform);
 
@@ -621,6 +1591,8 @@ bool HWCFGReader::readHeader(const CUserNameTypeInfo* headerdata,      string&  
     else
         a_header = my_strdup(*header_card);
 
+    myCurrentHeader = a_header;
+
     if (!a_header)
         return false;
 
@@ -639,8 +1611,17 @@ bool HWCFGReader::readHeader(const CUserNameTypeInfo* headerdata,      string&  
 
     etype = headerdata->obj_type;
     kernel_ftype_str =  string("/") + MV_get_type(headerdata->obj_type) + string("/") + headerdata->myusername;
-    if(input_ftype_str.empty())
-        input_ftype_str = a_header;
+    if (input_ftype_str.empty())
+    {
+        int header_size = mySyntaxInfo->getHeaderKeywordCellLength();
+        if (header_size > 0)
+        {
+            const string str = string(a_header);
+            input_ftype_str = (str.size() <= header_size) ? str : str.substr(0, header_size);
+        }
+        else
+            input_ftype_str = a_header;
+    }
     const IDescriptor *a_descr_p = headerdata->pdescrp;
     //
     if (!a_descr_p)
@@ -836,7 +1817,8 @@ bool HWCFGReader::readHeader(const CUserNameTypeInfo* headerdata,      string&  
             }
             *title_p = strdup(a_title.c_str());
         }
-
+        if (!*header_card)
+            *header_card = strdup(a_header);
         int           a_id_ind = 0;
         int a_nb_fields = splitHeader(a_header, a_header_fields);
         // Type
@@ -1282,12 +2264,75 @@ bool HWCFGReader::readObjectData(const PseudoFileFormat_t* format_p,  IMECPreObj
 
 
 /* --------- Parsing --------- */
+bool HWCFGReader::IsIncludeBlockActive(int fileIndex) const 
+{
+    if (fileIndex < 0 || fileIndex >= (int)myIncludeBlock.size()) {
+        return false; // Safe default for invalid indices
+    }
+    return myIncludeBlock[fileIndex];
+}
 
+void HWCFGReader::SetIncludeBlockState(int fileIndex, bool state) 
+{
+    EnsureIncludeBlockSize(fileIndex);
+    if (fileIndex >= 0 && fileIndex < (int)myIncludeBlock.size()) {
+        myIncludeBlock[fileIndex] = state;
+#ifdef DEBUG_INCLUDE_BLOCKS
+        printf("[DEBUG] Set include block state for file %d to %s\n",
+            fileIndex, state ? "true" : "false");
+#endif
+    }
+}
+
+void HWCFGReader::UpdateIncludeBlockState(int fileIndex, bool isHeader) 
+{
+    EnsureIncludeBlockSize(fileIndex);
+    if (isHeader) {
+        SetIncludeBlockState(fileIndex, false);
+    }
+    // For non-header cases, state is managed in IsIncludedFile
+}
+
+void HWCFGReader::EnsureIncludeBlockSize(int fileIndex) 
+{
+    if ((int)myIncludeBlock.size() <= fileIndex) {
+        size_t oldSize = myIncludeBlock.size();
+        myIncludeBlock.resize(fileIndex + 1, false);
+#ifdef DEBUG_INCLUDE_BLOCKS
+        printf("[DEBUG] Resized myIncludeBlock from %zu to %d for file %d\n",
+            oldSize, fileIndex + 1, fileIndex);
+#endif
+    }
+}
+
+void HWCFGReader::OptimizeIncludeBlockStorage() 
+{
+    // Optional: shrink vector when files are closed
+    // Remove trailing false values to save memory
+    while (!myIncludeBlock.empty() && !myIncludeBlock.back()) {
+        myIncludeBlock.pop_back();
+    }
+}
 /*default implementation is to read the include file in the same line.. incase of dyna it is in next line...*/
-bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p)  {
-    bool a_is_include = myInputInfosPtr->IsIncludeHeader(buffer); 
-  //
-    if (a_is_include) {
+        // Enhanced IsIncludedFile method with better error handling and state management
+bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p, char** include_path)
+{
+    if (!buffer || !full_name_p || !relative_name_p) {
+        return false;
+    }
+
+    bool a_is_include = myInputInfosPtr->IsIncludeHeader(buffer);
+    int fileIndex = GetCurrentFileIndex();
+
+    // Ensure we have valid file index
+    if (fileIndex < 0) {
+        fileIndex = 0;
+    }
+
+    EnsureIncludeBlockSize(fileIndex);
+    bool inIncludeBlock = IsIncludeBlockActive(fileIndex);
+
+    if (a_is_include || inIncludeBlock) {
         bool cont = true;
         std::string result;
         string a_name, a_name_prev = "";
@@ -1300,22 +2345,54 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
         if (isfilepathonesameline)
         {
             char* a_buffer = strdup(buffer + strlen(myInputInfosPtr->GetIncludeKeyword()));
+            if (!a_buffer) {
+                SetIncludeBlockState(fileIndex, false);
+                return false;
+            }
             killBlanksNLEnd(a_buffer);
             a_name_prev = killBlanksBegin(a_buffer);
             boost::erase_all(a_name_prev, "'");
             myfree(a_buffer);
         }
 
+        // Remove "NAME", optional spaces, "=", optional spaces, keep only filename
+        // Replace the regex and extraction logic for "NAME" to also support "INPUT" and allow spaces before/after '=' and value
+        static const std::string name_key = "NAME";
+        static const std::string input_key = "INPUT";
+        // Find "NAME" or "INPUT" as a whole word, possibly after commas/spaces/tabs, allow spaces before/after '=' and value
+        std::regex name_input_regex(R"((^|[,\s])(NAME|INPUT)\s*=\s*([^\s,]+))", std::regex_constants::icase);
+        std::smatch match;
+        if (std::regex_search(a_name_prev, match, name_input_regex)) {
+            // match[3] is the filename (non-space, non-comma sequence after '=')
+            std::string after_name = match[3].str();
+            // Trim trailing spaces/tabs
+            size_t last_non_space = after_name.find_last_not_of(" \t");
+            if (last_non_space != std::string::npos) {
+                after_name = after_name.substr(0, last_non_space + 1);
+            }
+            a_name_prev = after_name;
+        }
 
-            //my_dir_set_current_path(my_get_tmp_dir());
+        /*******************************************************************************/
+        // In future this will be handled from cfg file of include
         int curmode = GetReadingStatus();  // need to set this to avoid again going to isinclude/iscomponent
         SetReadingStatus(READ_STATUS_SINGLE_KEYWORD);
         char* cLine = nullptr;
-        if (a_name_prev != "")
-            cLine = &a_name_prev[0];
-        else
+        std::string mutableBuffer; // Create a mutable copy for cases where we need to modify
+
+        if (a_name_prev != "") {
+            mutableBuffer = a_name_prev;
+            cLine = &mutableBuffer[0];
+        }
+        else if (!a_is_include) {
+            mutableBuffer = std::string(buffer);
+            cLine = &mutableBuffer[0];
+            a_is_include = true;
+        }
+        else {
             cLine = ReadBuffer();
-            // case include in absolute path
+        }
+
         std::string nextLine = "";
         while (cont) {
             if (!cLine) break;
@@ -1339,14 +2416,20 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
                 trimmed = line.substr(start);
                 trimmed = trimRight(trimmed);
             }
+            else
+            {
+                result += trimmed;
+                break;
+            }
             result += trimmed;
             char* peeked = ReadBuffer();
             if (peeked)
             {
                 bool  a_is_header = isHeader(peeked);
                 if (a_is_header)
-            {
+                {
                     UnreadBuffer();
+                    SetIncludeBlockState(fileIndex, false);
                     break;
                 }
                 killBlanksNLEnd(peeked);
@@ -1354,6 +2437,7 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
             else
             {
                 UnreadBuffer();
+                SetIncludeBlockState(fileIndex, false);
                 break;
             }
             nextLine = peeked ? peeked : "";
@@ -1361,10 +2445,58 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
                 UnreadBuffer();
                 break;
             }
-            cLine = &nextLine[0];
+
+            // For subsequent iterations, create a mutable copy of nextLine
+            mutableBuffer = nextLine;
+            cLine = &mutableBuffer[0];
         }
         SetReadingStatus(curmode);
-            //
+
+        int rstatus = GetReadingStatus();
+        SetReadingStatus(READ_STATUS_SINGLE_KEYWORD);
+
+        // Lookahead scan to determine if we're inside an include block
+        // This determines whether following lines should be treated as include data
+        pushPosition(); // Save current position before lookahead
+        while (true) {
+            // Read next line including comments (important for Radioss format)
+            char* peeked = ReadBuffer(false, -1, false);
+
+            // Handle end of file or read error
+            if (!peeked) {
+                SetIncludeBlockState(fileIndex, false);
+                break;
+            }
+
+            // Check if we've encountered a header line
+            if (isHeader(peeked)) {
+                // Header found: include block ends here
+                SetIncludeBlockState(fileIndex, false);
+                break;
+            }
+
+            // Check if this line is another include header
+            if (myInputInfosPtr->IsIncludeHeader(peeked)) {
+                // Another include header: current include block ends
+                SetIncludeBlockState(fileIndex, false);
+                break;
+            }
+
+            // Line is not an include header - check if it's a comment
+            if (!isComment(peeked)) {
+                // Non-comment, non-header line: we are inside an include block
+                SetIncludeBlockState(fileIndex, true);
+                break;
+            }
+
+            // If we reach here, it's a comment line - continue scanning
+        }
+
+        // Restore file position to where we started the lookahead
+        popPosition();
+
+        SetReadingStatus(rstatus);
+        /*******************************************************************************/
         a_name = result;
 
             string a_full_name;
@@ -1394,14 +2526,38 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
             {
                 a_full_name = my_file_full_name_modify_with_relative(myMainFile, a_name);
             }
-                a_relative_name = a_name;
+
+            // If file still not found, search in all paths from myFolderPathToPreObjectMap
+            // These paths are relative to the directory containing a_main_name_file
+
+            if (!file_exists(a_full_name)) {
+                string main_dir = my_get_dir_path(a_main_name_file);
+                string fullfile_name = findIncludeFileInSearchPaths(main_dir, a_name, include_path);
+                if (!fullfile_name.empty()) {
+                    a_full_name = fullfile_name;
+                }
             }
+            a_relative_name = a_name;
+        }
 
-            *relative_name_p = strdup(a_relative_name.c_str());
-            *full_name_p = strdup(a_full_name.c_str());
-            my_dir_restore_current_path(last_current_path);
+        *relative_name_p = strdup(a_relative_name.c_str());
+        *full_name_p = strdup(a_full_name.c_str());
 
-  
+        // Check for allocation failures
+        if (!*relative_name_p || !*full_name_p) {
+            if (*relative_name_p) {
+                free(*relative_name_p);
+                *relative_name_p = nullptr;
+            }
+            if (*full_name_p) {
+                free(*full_name_p);
+                *full_name_p = nullptr;
+            }
+            SetIncludeBlockState(fileIndex, false);
+            return false;
+        }
+
+        my_dir_restore_current_path(last_current_path);
     }
     //
     return a_is_include;
@@ -1446,22 +2602,23 @@ void HWCFGReader::manageComment(const char* buffer) {
 bool HWCFGReader::IsComponent(const char* buffer) const
 {
     //bool is_a_component = (strncmp(buffer, "*SUBMODEL", 9) == 0);
-    const char *subdeck_key = myInputInfosPtr->GetSolverSubdeckKeyword();
-    size_t len1 = strlen(subdeck_key);
+    //const char *subdeck_key = myInputInfosPtr->GetSolverSubdeckKeyword();
+    //size_t len1 = strlen(subdeck_key);
 
-    if (!len1)
-        return false;
+    //if (!len1)
+    //    return false;
 
-    bool is_a_component = (strncmp(buffer, subdeck_key, len1) == 0);
-
+    //bool is_a_component = (strncmp(buffer, subdeck_key, len1) == 0);
+    bool is_a_component = myInputInfosPtr->IsBlockKeyword(buffer, true);
     if (!is_a_component)
     {
-        const char* subdeck_keyend = myInputInfosPtr->GetSolverSubdeckKeywordEnd();
-        size_t len2 = strlen(subdeck_keyend);
-        if (len2 > 0)
-        {
-            is_a_component = (strncmp(buffer, subdeck_keyend, len2) == 0);
-        }
+        //const char* subdeck_keyend =   myInputInfosPtr->GetSolverSubdeckKeywordEnd();
+        //size_t len2 = strlen(subdeck_keyend);
+        //if (len2 > 0)
+        //{
+        //    is_a_component = (strncmp(buffer, subdeck_keyend, len2) == 0);
+        //}
+        is_a_component = myInputInfosPtr->IsBlockKeyword(buffer, false);
     }
     return is_a_component;
 }
@@ -1477,14 +2634,17 @@ MECComponent* HWCFGReader::ManageComponent(const char* buffer, bool& continue_fl
     }
     char* a_buffer = ((char*)(buffer)); 
     MECComponent* a_new_component = NULL;
-    const char* subdeck_key = myInputInfosPtr->GetSolverSubdeckKeyword();
-    size_t len1 = strlen(subdeck_key);
+    //const char* subdeck_key = myInputInfosPtr->GetSolverSubdeckKeyword();
+    //size_t len1 = strlen(subdeck_key);
 
-    if (strncmp(buffer, subdeck_key, len1) == 0)
+    const std::string* subdeck_str1 = nullptr;
+
+    bool is_a_component = myInputInfosPtr->IsBlockKeyword(buffer, true, true, &subdeck_str1);
+    if (is_a_component && subdeck_str1)
     {
         killBlanksNLEnd(a_buffer);
         // Splitting header
-        string subdeck_str(subdeck_key);
+        string subdeck_str(*subdeck_str1);
         //subdeck_str.erase(std::remove(subdeck_str.begin(), subdeck_str.end(), mySyntaxInfo->getHeader()[0]), subdeck_str.end());;
         const char* hd = mySyntaxInfo->getHeader();
         if (hd)
@@ -1592,6 +2752,15 @@ MECComponent* HWCFGReader::ManageComponent(const char* buffer, bool& continue_fl
                     a_full_name = my_file_full_name_modify_with_relative(a_main_name_file, component_name);
                     a_relative_name = component_name;
                 }
+
+                if (!file_exists(a_full_name)) {
+                    string main_dir = my_get_dir_path(a_main_name_file);
+                    string fullfile_name = findIncludeFileInSearchPaths(main_dir, component_name, nullptr);
+                    if (!fullfile_name.empty()) {
+                        a_full_name = fullfile_name;
+                    }
+                }
+
                 my_dir_restore_current_path(last_current_path);
 
                 int a_find_index = SearchFile(a_full_name.c_str());
@@ -1764,6 +2933,39 @@ void HWCFGReader::ClearRecordBuffer() {
 /* --------- Messages --------- */
 const char* HWCFGReader::getMsg(int ind) const {
     return MV_get_msg_array(MSGT_READ_D00_5X)[ind];
+}
+
+void HWCFGReader::displayMessage(MyMsgType_e msg_type,const char *format,...) const
+{
+    if (format == NULL) return;
+
+    if(!m_pMessageList)
+    {
+        m_pMessageList = new HWCFGReaderMessageList();
+        m_owningMessageList = true;
+    }
+
+    int type;
+    switch(msg_type)
+    {
+        case MSG_MESSAGE: type = 0; break;
+        case MSG_WARNING: type = 1; break;
+        default         : type = 2;
+    }
+
+    va_list args;
+    va_start(args, format);
+    m_pMessageList->Add(format, args, type,
+                        myCurrentHeader, myLineBuffer,
+                        getCurrentFullName(), (unsigned int) getCurrentLine());
+    va_end(args);
+}
+
+void HWCFGReader::SetMessageList(HWCFGReaderMessageList* pMessageList, bool owningMessageList)
+{
+    if(m_owningMessageList && m_pMessageList) delete m_pMessageList;
+    m_pMessageList = pMessageList;
+    m_owningMessageList = owningMessageList;
 }
 
 
@@ -2483,4 +3685,70 @@ void HWCFGReaderLSDyna::postTreatLineCount(const CUserNameTypeInfo* p_type_info,
         }
     }
 }
+
+string HWCFGReader::findIncludeFileInSearchPaths(const string& main_dir, const string& filename, char** include_path) 
+{
+    for (const auto& pathPreObjPair : myFolderPathToPreObjectMap) {
+        const string& relPath = pathPreObjPair.first;
+        string res_fullname;
+
+        // Check if the relative path contains ../ or ..\ which requires special handling
+        if (relPath.find("../") != std::string::npos || relPath.find("..\\") != std::string::npos) {
+            // For parent directory navigation, resolve from main_dir + relPath, then add filename
+            string resolved_dir = my_file_full_name_modify_with_relative(main_dir + "/", relPath);
+            res_fullname = my_file_full_name_modify_with_relative(resolved_dir + "/", filename);
+        }
+        else {
+            // For simple paths, remove leading "./" if present and combine main_dir + relPath + filename
+            string cleanPath = relPath;
+            if (cleanPath.length() >= 2 && cleanPath.substr(0, 2) == "./") {
+                cleanPath = cleanPath.substr(2);  // Remove "./"
+            }
+
+            // Check if relPath is absolute (contains drive letter on Windows or starts with / on Unix)
+            bool isAbsolute = false;
+
+#ifdef _WIN32
+            // Windows: Check for drive letter (C:) or UNC path (\\) or forward slash UNC (//)
+            if ((cleanPath.length() >= 3 && cleanPath[1] == ':') ||
+                (cleanPath.length() >= 2 && cleanPath.substr(0, 2) == "\\\\") ||
+                (cleanPath.length() >= 2 && cleanPath.substr(0, 2) == "//")) {
+                isAbsolute = true;
+            }
+#else
+            // Unix/Linux: Check if starts with /
+            if (!cleanPath.empty() && cleanPath[0] == '/') {
+                isAbsolute = true;
+            }
+#endif
+            if (isAbsolute) {
+                // relPath is absolute, combine directly with filename
+                // Ensure proper path separator
+                char sep = '/';
+#ifdef _WIN32
+                if (cleanPath.find('\\') != std::string::npos) {
+                    sep = '\\';
+                }
+#endif
+                res_fullname = cleanPath + sep + filename;
+            }
+            else {
+                // relPath is relative, use existing logic with main_dir
+                string combined_path = main_dir + "/" + cleanPath + "/" + filename;
+                res_fullname = combined_path;
+            }
+        }
+
+        if (file_exists(res_fullname)) {
+            if (include_path) {
+                // Store the relative path corresponding to the found full name
+                *include_path = strdup(relPath.c_str());
+            }
+            return res_fullname;
+        }
+    }
+    return ""; // Empty string if not found
+}
+
+
 /************************************************/

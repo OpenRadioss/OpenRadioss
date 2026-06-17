@@ -283,7 +283,7 @@ void ConvertElem::ConvertEntities()
                 
                 if (srcElem == "*ELEMENT_SHELL")
                 {
-                    if(elemKeyWord.find("THICK") != elemKeyWord.npos)
+                    if(elemKeyWord.find("THICK") != elemKeyWord.npos || elemKeyWord.find("BETA") != elemKeyWord.npos)
                     {
                         static vector<sdiIdentifier> identifierList({ sdiIdentifier("THIC1"), sdiIdentifier("THIC2"), sdiIdentifier("THIC3"), sdiIdentifier("THIC4") });
                         double radThick = 0;
@@ -300,12 +300,6 @@ void ConvertElem::ConvertEntities()
                         if (radThick != 0.0)
                             radElem.SetValue(p_radiossModel,sdiIdentifier("Thick"),sdiValue(radThick));
                     }
-                    else
-                    {
-                        double defaultThick = 0.0;
-                        radElem.SetValue(p_radiossModel,sdiIdentifier("Thick"),sdiValue(defaultThick));
-                    }
-
                     double elemBeta = 0.0;
                     sdiValue tempVal(elemBeta);
                     elemSelect->GetValue(sdiIdentifier("BETA"), tempVal);
@@ -589,20 +583,24 @@ void ConvertElem::ConvertSeatbeltSlipring()
 
              	int slipring_sensorID;
                 double lsdLTIME = GetValue<double>(*selSeatbeltSlipring, "LTIME");
+                double radTdelay = lsdLTIME;
+                if (lsdLTIME == 0.0) radTdelay = 1.0e20;
 
-           	    HandleEdit sensorTimeHedit;
-          	    p_radiossModel->CreateEntity(sensorTimeHedit, "/SENSOR/TIME", selSeatbeltSlipring->GetName());
-             	if (sensorTimeHedit.IsValid())
-             	{
-                    EntityEdit sensorTimeEntityEdit(p_radiossModel, sensorTimeHedit);
-                    if(lsdLTIME == 0.0) lsdLTIME = 1.0e20;
-             	    sensorTimeEntityEdit.SetValue(sdiIdentifier("Tdelay"), sdiValue(lsdLTIME));
-             	    //radSlipringHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("Sens_ID"), sensorTimeHedit);
-             	    slipring_sensorID = sensorTimeHedit.GetId(p_radiossModel);
-                    radSlipringHEdit.SetValue(p_radiossModel,sdiIdentifier("Sens_ID"), sdiValue(sdiValueEntity(sdiValueEntityType("/SENSOR"), slipring_sensorID)));
-             	    sdiConvert::SDIHandlReadList sourceSlipring = { {selSeatbeltSlipring->GetHandle()} };
-             	    sdiConvert::Convert::PushToConversionLog(std::make_pair(sensorTimeHedit, sourceSlipring));
-             	}
+                if (lsdLTIME > 0.0)
+                {
+           	        HandleEdit sensorTimeHedit;
+          	        p_radiossModel->CreateEntity(sensorTimeHedit, "/SENSOR/TIME", selSeatbeltSlipring->GetName());
+             	    if (sensorTimeHedit.IsValid())
+             	    {
+                        EntityEdit sensorTimeEntityEdit(p_radiossModel, sensorTimeHedit);
+             	        sensorTimeEntityEdit.SetValue(sdiIdentifier("Tdelay"), sdiValue(radTdelay));
+             	        //radSlipringHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("Sens_ID"), sensorTimeHedit);
+             	        slipring_sensorID = sensorTimeHedit.GetId(p_radiossModel);
+                        radSlipringHEdit.SetValue(p_radiossModel,sdiIdentifier("Sens_ID"), sdiValue(sdiValueEntity(sdiValueEntityType("/SENSOR"), slipring_sensorID)));
+             	        sdiConvert::SDIHandlReadList sourceSlipring = { {selSeatbeltSlipring->GetHandle()} };
+             	        sdiConvert::Convert::PushToConversionLog(std::make_pair(sensorTimeHedit, sourceSlipring));
+             	    }
+                }
 
                 int lsdFCS_FLAG = GetValue<int>(*selSeatbeltSlipring, "FCS_FLAG");
 

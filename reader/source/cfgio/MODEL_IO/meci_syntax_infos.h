@@ -80,10 +80,14 @@ public: /** @name Parsing */
     virtual bool IsFormatSupportedForContinueNextLine() const { return false; }
     virtual bool HasLengthReachedForNextLine(int len) const { return false; }
     virtual bool IsSupportedForNamedEntity() const { return false; }
+    virtual const string& GetLineStartPrefixString() { static string pre = ""; return pre; }
+    virtual void commentAppendAfterTrim(char* buf, size_t width) {  }
     virtual io_types::format_type_e updateLineFormatType(const char* line) { return io_types::FORMAT_UNDEFINED; }
-    virtual bool IsSpaceORContinueChars(const char* cp) const { return false; }
+    virtual bool IsSpaceORContinueChars(const char cp) const { return false; }
     virtual char getHeaderSeparator() const { return '_'; }
     virtual void updateFormatType(int subdeck_index, io_types::format_type_e fmt_type) {}
+    virtual char getContinuationChar() { return '\0'; }
+    virtual void resetLineFormat() { }
     //@}
 };
 
@@ -152,7 +156,7 @@ public: /** @name Parsing */
     }
 
 
-    bool IsSpaceORContinueChars(const char* cp) const;
+    bool IsSpaceORContinueChars(const char cp) const;
 
 
     /// Returns true if the line is a header
@@ -226,6 +230,8 @@ public: /** @name Parsing */
 
     io_types::format_type_e getFormatType(MECReadFile* fp);
     virtual void updateFormatType(int subdeck_index, io_types::format_type_e fmt_type);
+
+    void resetLineFormat() { myLineFormatType = io_types::FORMAT_UNDEFINED; }
 
     //@}
 

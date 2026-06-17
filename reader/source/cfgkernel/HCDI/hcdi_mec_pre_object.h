@@ -176,6 +176,7 @@ class HC_DATA_DLL_API IMECPreObject {
   virtual void AddBoolValue(const char *skeyword,int i,bool value) = 0;
   /// Adding an integer value into an array
   virtual void AddIntValue(const char *skeyword,int i,int value) = 0;
+  virtual void AddIntValues(const char* skeyword, std::vector<int>&& value)=0;
   virtual void AddUIntValue(const char *skeyword,int i,unsigned int value) = 0;
   /// Adding a float value into an array
   virtual void AddFloatValue(const char *skeyword,int i,double value) = 0;
@@ -189,6 +190,7 @@ class HC_DATA_DLL_API IMECPreObject {
   virtual void AddUIntValues(const char *skeyword,int i0,int nb_values,const unsigned int *value_tab) = 0;
   /// Adding a float value into an array
   virtual void AddFloatValues(const char *skeyword,int i0,int nb_values,const double *value_tab) = 0;
+  virtual void AddFloatValues(const char* skeyword, vector<double>&& vec_d) = 0;
   /// Adding a string value into an array
   virtual void AddStringValues(const char *skeyword,int i0,int nb_values,char * const *value_tab) = 0;
   /// Adding an object value into an array
@@ -197,6 +199,9 @@ class HC_DATA_DLL_API IMECPreObject {
   /// Adding an object value into an array
   virtual void AddObjectValues(const char *skeyword,int i0,int nb_values,const char **otype_tab,const MYOBJ_INT *id_tab,const int *ind_tab=NULL) = 0;
   virtual void AddObjectValues(const char *skeyword,int i0,int nb_values,const char **otype_tab,const char **name, const int *ind_tab=NULL) = 0;
+  virtual void AddObjectValues(const char* skeyword, const char* otype, std::vector<int>&& ids) = 0;
+
+
   virtual void SetBoolValue(int attrib_index,int i,bool value) = 0;
   /// Setting an integer value into an array
   virtual void SetIntValue(int attrib_index,int i,int value) = 0;

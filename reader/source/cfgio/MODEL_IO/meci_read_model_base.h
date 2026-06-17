@@ -36,6 +36,7 @@
 #include "meci_data_reader.h"
 #include "hcio.h"
 #include <MESSAGE/msg_types.h>
+#include <queue>
 #define PseudoLocFileVect_t         void 
 
 #define PseudoLocComponentVect_t    void 
@@ -250,7 +251,7 @@ protected: /** @name Parsing */
 
 
   
-  virtual bool IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p) { return false; }
+  virtual bool IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p, char** include_path = nullptr) { return false; }
 
   /// Manages a comment
   virtual void manageComment(const char *buffer)=0;
@@ -365,6 +366,16 @@ public: /** @name Messages */
     }
     virtual MECIDataReader* newDataReader()  { return nullptr; }
 
+
+protected: /** @name Helper methods for folder path mapping */
+  //@{
+  /// Find preobject pointer by folder path
+  IMECPreObject* FindPreObjectByPath(const std::string& folderPath) const;
+  /// Get all folder paths (replacement for direct vector access)
+  std::vector<std::string> GetFolderPaths() const;
+  //@}
+
+
 private: // Data
     PseudoLocFileVect_t     *myFileVectPtr;		     
 
@@ -396,8 +407,7 @@ protected: // Data
   PseudoHeaderPositions_t *myHeaderPositionsPtr;
   InputInfos          *myInputInfosPtr;         
 
-
-
+  std::map<std::string, IMECPreObject*> myFolderPathToPreObjectMap;  // New: mapping folder paths to preobject pointers
 
 protected: // Crypting
   int                      myCryptingMethod; 
@@ -415,6 +425,8 @@ public:
     MECReadFile *updateFile(MECReadFile *file);
   /// Gets the current file
     MECReadFile *GetCurrentFilePtr() const; 
+
+    bool myIncludeBlock = false;
 };
 
 

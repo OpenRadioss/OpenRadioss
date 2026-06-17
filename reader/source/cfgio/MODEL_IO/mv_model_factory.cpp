@@ -37,6 +37,7 @@
 #include <MODEL_IO/hcioi_utils.h>
 #include "mec_msg_manager.h"
 #include "mv_model_factory.h"
+#include "hcioi_utils.h"
 
 
 

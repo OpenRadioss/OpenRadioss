@@ -27,7 +27,7 @@
 #include <MODEL_IO/mv_solver_input_infos.h>
 #include <MODEL_IO/mv_model_factory.h>
 #include <MODEL_IO/meci_data_reader.h>
-
+#include <vector>
 
 #define PseudoFileFormat_t      void
 #define PseudoFileFormatCard_t  void
@@ -39,8 +39,88 @@
 #define PseudoTransformOrderMap_t void 
 #define PseudoIndexMap_t void /*MultidimensionalArray*/
 #include <string>
+#include <queue>
+#include <chrono>
 
 typedef map<string, int> map_str_int;
+
+class HWCFGReaderMessageList;
+// Performance timing classes
+class PerformanceTimer {
+private:
+    std::chrono::high_resolution_clock::time_point start_time_;
+    const char* operation_name_;
+    bool enabled_;
+
+public:
+    explicit PerformanceTimer(const char* operation, bool enabled = true)
+        : operation_name_(operation), enabled_(enabled) {
+        if (enabled_) {
+            start_time_ = std::chrono::high_resolution_clock::now();
+        }
+    }
+
+    ~PerformanceTimer() {
+        if (!enabled_) return;
+
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time_);
+
+        // Use HWCFGReader's message system
+        printf("[PERF] %s: %lld ms\n", operation_name_, duration.count());
+    }
+
+    // Disable copy constructor and assignment
+    PerformanceTimer(const PerformanceTimer&) = delete;
+    PerformanceTimer& operator=(const PerformanceTimer&) = delete;
+};
+
+// Performance configuration
+class PerformanceConfig {
+private:
+    static bool timing_enabled_;
+    static std::set<std::string> enabled_operations_;
+
+public:
+    static bool IsTimingEnabled() { return timing_enabled_; }
+
+    static bool IsOperationEnabled(const char* operation) {
+        
+        if (!timing_enabled_) {
+            return false;
+        }
+
+        
+        printf("[DEBUG] Checking operation: '%s', timing_enabled_=true\n", operation);
+
+        bool result = (enabled_operations_.empty() ||
+            enabled_operations_.find(operation) != enabled_operations_.end());
+
+        printf("[DEBUG] Operation '%s' result: %s (enabled_operations_.size()=%zu)\n",
+            operation, result ? "ENABLED" : "DISABLED", enabled_operations_.size());
+
+        return result;
+    }
+
+    static void EnableTiming(bool enable = true) { timing_enabled_ = enable; }
+    static void EnableOperation(const std::string& operation) { enabled_operations_.insert(operation); }
+    static void ClearOperations() { enabled_operations_.clear(); }
+};
+
+
+/*
+# Enable all timing
+export HWCFG_ENABLE_PERFORMANCE_TIMING=1
+
+# Enable specific operations only
+export HWCFG_TIMING_OPERATIONS=HWCFGReader::readModel,HWCFGReader::readHeaderPositions,HWCFGReader::readKeyword
+
+# Then run your application
+./your_application
+*/
+// Macros for easy usage
+#define HWCFG_PERF_TIMER(name) PerformanceTimer timer(name, PerformanceConfig::IsOperationEnabled(name))
+#define HWCFG_PERF_TIMER_SCOPED(name) PerformanceTimer timer_##__LINE__(name, PerformanceConfig::IsOperationEnabled(name))
 
 class IEncryption
 {
@@ -120,7 +200,7 @@ public: /** @name Reading model (public) */
     void readModel(MECIModelFactory* model_p, bool do_transform = true);
     IMECPreObject* readCurrentObjects(MECIModelFactory* model_p, char* header_card = NULL, const CUserNameTypeInfo* headerdata=nullptr, int linecount=0);
     virtual void readCurrentObjects(MECIModelFactory* model_p, vector<IMECPreObject*>& preobj_lst, char* header_card, const CUserNameTypeInfo* headerdata=nullptr, int linecount=0);
-
+    virtual int readKeyword(const CUserNameTypeInfo* p_type_info, MECIModelFactory* model_p, const char* header);
 protected: /** @name Reading model (protected) */
     //@{
 
@@ -153,7 +233,7 @@ protected: /** @name Reading model (protected) */
 protected: /** @name Parsing */
     //@{
     
-    virtual bool IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p) ;
+    virtual bool IsIncludedFile(const char* buffer, char** full_name_p, char** relative_name_p, char** include_path=nullptr) ;
     /// Pretreat the closing of a file
     virtual bool pretreatCloseFile();
     /// Returns true, if the line is commented
@@ -204,6 +284,14 @@ public:
     /// Returns true if the line is a header
     virtual bool isHeader(const char* buffer, char** keyword_p = NULL) const;
     virtual void postTreatLineCount(const CUserNameTypeInfo* p_type_info, string &header, int* line_count) {}
+public:
+    // Helper methods for include block management
+    void EnsureIncludeBlockSize(int fileIndex);
+    bool IsIncludeBlockActive(int fileIndex) const;
+    void SetIncludeBlockState(int fileIndex, bool state);
+    void UpdateIncludeBlockState(int fileIndex, bool isHeader);
+    void OptimizeIncludeBlockStorage();
+    string findIncludeFileInSearchPaths(const string& main_dir, const string& filename, char** include_path);
 protected:
     /// Gets the current model factory
     inline const MECIModelFactory* GetModelFactoryPtr() const { return myModelFactoryPtr; }
@@ -224,6 +312,21 @@ protected: /** @name Messages */
     //@{
     /// Gets the message of the given index
     const char* getMsg(int ind) const;
+    // Implementation of MECIReadContext.
+    // Location is stored in displayMessage(), so we don't do anything here
+    virtual void displayCurrentLocation(MyMsgType_e msg_type) const {}
+    /// Displays a message of the given type (implemented from MECMsgManager)
+    /// The reader in fact cannot display the messages itself, it stores them and they can be
+    /// queried by the application with GetMessageList().
+    virtual void displayMessage(MyMsgType_e msg_type,const char *format,...) const;
+    //@}
+
+public: /** @name MessageList */
+    //@{
+    /// Sets a message list which will be populated when reading
+    void SetMessageList(HWCFGReaderMessageList* pMessageList, bool owningMessageList);
+    /// Gets the message list (might be nullptr)
+    const HWCFGReaderMessageList* GetMessageList() const { return m_pMessageList; }
     //@}
 
 public:
@@ -236,6 +339,14 @@ public:
 public:
     IEncryption* newEncryption();
 
+
+public:
+    // Performance timing methods
+    void enablePerformanceTiming(bool enable = true);
+    void enableTimingForOperation(const std::string& operation);
+    void initializePerformanceTimingFromEnvironment();
+
+
 protected: // Data
     int                         myCellLength;
     int                         myLineNbCells;
@@ -247,6 +358,7 @@ protected: // Data
     _HC_LONG                    myUnReadLine;
     _HC_LONG                    myUnReadLoc;
     int                         myUnReadFileIndex;
+    std::string                 myCurrentHeader;
 
 protected: 
     MECIModelFactory*           myModelFactoryPtr;
@@ -256,6 +368,10 @@ protected:
     bool                        myInHMFlag;
     bool                        mycomponentstate=false;
     IEncryption*                myEncryptionPtr=nullptr;
+    mutable HWCFGReaderMessageList* m_pMessageList = nullptr;
+    mutable bool                    m_owningMessageList = false;
+    // Replace single include block flag with per-file vector
+    std::vector<bool>           myIncludeBlock;
 };
 
 

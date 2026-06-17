@@ -181,6 +181,8 @@ namespace sdiD2R
 
         void p_ConvertMatAddDamageDiem();
 
+        void p_ConvertMatL103(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
+
         void p_ConvertMatL105(const sdi::EntityRead& dynaMat, sdiString &destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat,
                              unsigned short int &matLawNum);
 
@@ -199,6 +201,8 @@ namespace sdiD2R
         void p_ConvertMatAddThermalExpansion();
 
         void p_ConvertMatAddDamageGissmo();
+
+        void p_ConvertMatNonlocal();
 
     };
 }

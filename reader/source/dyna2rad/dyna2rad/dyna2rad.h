@@ -81,6 +81,8 @@ namespace sdiD2R
 
         void UpdateRunNameForCards();
 
+        void p_AutoMergeRigidBodiesWithCommonSecondaryNodes();
+
     public:
         DynaToRad(sdi::ModelViewRead* dynaModelViewSDI, sdi::ModelViewEdit* radiossModelViewSDI, sdiString& modelName,
             const sdiMessageHandler* pMessageHandler = nullptr);
@@ -103,6 +105,8 @@ namespace sdiD2R
         static void PushToSetsMappingDetails(const unsigned int& LsdSetId, const sdiString& lsdKeyWord, const unsigned int& radSetId);
 
         static unsigned int GetRadiossSetIdFromLsdSet(const unsigned int& LsdSetId, const sdiString& keyWord);
+
+        static unsigned int GetRadiossSetIdFromLsdSet(sdi::ModelViewRead* lsdynaModel, const sdi::HandleRead& sourceEntityHandle, const unsigned int& LsdSetId, const sdiString& keyWord);
 
         static void PushIntoStoreLsdVIDVsRadSkewId(const unsigned int& LsdVId, const unsigned int& radSkewId);
 

@@ -20,28 +20,42 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
-#ifndef CDR_RESERVEATTRIBS_H
-#define CDR_RESERVEATTRIBS_H
 
-#include <stdio.h>
-#include <string.h>
 
-namespace cdr
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+#if !defined(HWCFGReaderMessagePool__INCLUDED_)
+#define HWCFGReaderMessagePool__INCLUDED_
+
+#include "hcio.h"
+
+#include <map>
+#include <string>
+#pragma warning(push)
+#pragma warning(disable: 4251) // STL containers don't need DLL interface when private
+class HCIO_DATA_DLL_API HWCFGReaderMessagePool
 {
-    const std::string g_AttribParamName =            "_PARAM_NAME";
-    const std::string g_AttribParamValueInteger =    "_PARAM_VALUE_INT";
-    const std::string g_AttribParamValueDouble =     "_PARAM_VALUE_DOUBLE";
-    const std::string g_AttribParamValueString =     "_PARAM_VALUE_STRING";
-    const std::string g_AttribParamScope =           "_PARAM_SCOPE";
-    const std::string g_AttribParamType =            "_PARAM_TYPE";
-    const std::string g_AttribParamExpression =      "_PARAM_EXPRESSION";
-    const std::string g_AttribFileName =             "_FILENAME";
-    const std::string g_AttribFullFileName =         "_FULLFILENAME";
-    const std::string g_AttribFormatType =           "_FORMATTYPE";
-    const std::string g_AttribFileVersion =          "_FILEVERSION";
-    const std::string g_AttribSplitArrayToSingle =   "_SPLIT_ARRAY_TO_SINGLE";
-    const std::string g_AttribFolderpath  =          "_INCLUDE_FOLDERPATH";
+public:
+    void Add(unsigned int id, const std::string &description,
+             const std::string &title = "", const std::string &solution = "");
+
+    void AddDescription(unsigned int id, const std::string &description);
+    void AddTitle(unsigned int id, const std::string &title);
+    void AddSolution(unsigned int id, const std::string &solution);
+
+    const std::string& GetDescription(unsigned int id) const;
+    const std::string& GetTitle(unsigned int id) const;
+    const std::string& GetSolution(unsigned int id) const;
+
+    friend class HWCFGReaderMessageList;
+
+private:
+    std::map<unsigned int, std::string> p_descriptions;
+    std::map<unsigned int, std::string> p_titles;
+    std::map<unsigned int, std::string> p_solutions;
 };
+#pragma warning(pop)
 
-
-#endif 
+#endif //! !defined(HWCFGReaderMessagePool__INCLUDED_)

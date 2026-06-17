@@ -484,11 +484,27 @@ void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[]
             for (IMECPreObject* parent : parentlst[descriptor.parent_type]) {
                 auto it = std::lower_bound(child_objs.begin(), child_objs.end(), parent->GetTitle(),
                     [](IMECPreObject* child, const std::string& name) { return child->GetTitle() < name; });
-                if (it != child_objs.end() && (*it)->GetTitle() == parent->GetTitle()) {
-                    parent->SetSubobject((*it));// Link child to parent
-                    // subobject is now handled by parent, so remove it from vector of preobjects
-                    P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
+
+                if (it != child_objs.end()) {
+                    const std::string& childTitle = (*it)->GetTitle();
+                    const std::string& parentTitle = parent->GetTitle();
+                    bool titlesMatch = (childTitle.size() == parentTitle.size());
+                    if (titlesMatch) {
+                        for (size_t i = 0; i < childTitle.size(); ++i) {
+                            if (childTitle[i] != parentTitle[i]) {
+                                titlesMatch = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (titlesMatch) {
+                        parent->SetSubobject((*it));  // Link child to parent
+                        P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
+                    }
                 }
+                //if (it != child_objs.end() && (*it)->GetTitle() == parent->GetTitle()) {
+                //    parent->SetSubobject((*it));// Link child to parent
+                //}
             }
         }
         else if (descriptor.link_by == CFG_LNK_CHILD_BY_ATTRIBS || !strcmp(descriptor.clnkatt, "_ID_") && sorted_child_ids.count(child_ktype)) {
