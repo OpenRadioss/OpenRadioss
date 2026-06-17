@@ -68,6 +68,7 @@ C-----------------------------------------------
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
      .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL),
      .           PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6),RHO_OLD,V0(NEL)
+      my_real :: ABS_GRAV0
 
       LOGICAL :: CONT, CONVERGED(NEL)
       TYPE(G_BUFEL_), POINTER :: GBUF
@@ -81,7 +82,7 @@ C LIST IS SUBGROUP TO TREAT : ONLY ELEM WITH RELEVANT PARTS ARE KEPT
 C NEL IS ISEZ OF LIST
 C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VAR
 C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
-      
+      ABS_GRAV0 = ABS(GRAV0)
       GBUF => ELBUF_TAB(NG)%GBUF
       NULLIFY(LBUF)
       NULLIFY(EBUF)
@@ -115,7 +116,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
            RHOZERO(K) = PM(1,MATID)
            PSH(K)     = PM(88, MATID)
            MAT(K)     = MATID
-           PREF(K)    = PSURF - RHO0 * GRAV0 * DEPTH(K)   !RHO in : RHO0_mixture (gravity model applied to the mixture not to the single submaterial)
+           PREF(K)    = PSURF + RHO0 * ABS_GRAV0 * DEPTH(K)   ! positive depth is below the surface. !RHO in : RHO0_mixture (gravity model applied to the mixture not to the single submaterial)
            VOL(K)     = ONE   !  Real volume value not useful here, just an indicator : ONE = compute, ZERO = do not compute
            MU(K)      = ZERO
            SIG(K,1)   = -PM(31,MATID)
