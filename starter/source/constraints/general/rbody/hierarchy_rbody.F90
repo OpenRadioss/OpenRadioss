@@ -73,11 +73,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,m,iad,nhier,ih,parent_idx,nsn,ns,iter,nh_max,iad_n,child
           logical :: changed,is_hier,cycle_found
-          integer, dimension(nrbykin) :: index,nlev
+          integer, dimension(nrbykin) :: nlev
           integer, dimension(:,:), allocatable :: npby_copy,titre_copy
           integer, dimension(:), allocatable :: itag,lpby_copy
           integer, dimension(nrbykin) :: parent_of    !< parent index for each rbody (0 = no parent)
           real(kind=WP),dimension(:,:),allocatable   :: rby_copy
+          integer :: iwork(70000),mode
+          integer, dimension(2*nrbykin) :: index
+          integer, dimension(2,nrbykin) :: inum
 ! ======================================================================================================================
           call my_alloc(itag,numnod)
 !--------supposing after merging : no m in multi rbody---------------------------------------
@@ -164,16 +167,14 @@
               nhier = max(nhier,nlev(i))
             end do
 !------ build index array ordered by increasing hierarchy level -------------------
-            k = 0
-            do ih = 0 ,nhier
-              do i = 1, nrbykin
-                if (nlev(i) == ih) then
-                  k = k + 1
-                  index(k) = i
-                end if
-              end do
+            do i=1,nrbykin
+              inum(1,i)= nlev(i)
+              inum(2,i)= npby(12,i)
+              if (inum(2,i)<0) inum(2,i)=inum(2,i)+1000
             end do
-!------ reorder npby and lpby according to hierarchy -------------------------------
+          mode = 0
+          CALL MY_ORDERS(mode,iwork,inum,index,nrbykin,2)
+!------ reorder npby and lpby according to hierarchy+/MERGE ordering -------------------------------
             call my_alloc(npby_copy,nnpby,nrbykin)
             call my_alloc(lpby_copy,slpby)
             call my_alloc(rby_copy,nrby,nrbykin)

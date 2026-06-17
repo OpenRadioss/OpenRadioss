@@ -228,7 +228,7 @@ C------------------------------------
               ENDIF 
             ENDDO
           END IF  ! (M_TYPE == 4) THEN
-          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBM == 0)THEN  
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -255,7 +255,7 @@ C------------------------------------
               ENDIF                                                     
             ENDDO
           END IF  ! (S_TYPE == 4) THEN
-          IF (IRBS == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBS == 0)THEN  
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -321,14 +321,14 @@ c
         ENDIF ! S_TYPE == 1
       ENDDO
 C
-      DO I=1,SMGRBY ! 2ERE PASSE POUR LES MERGE RBODY/NODE & SET OF NODES
+      DO I=1,SMGRBY ! 2nd PASS For the MERGE RBODY/NODE & SET OF NODES
         IMAIN = MGRBY(1,I)
         M_TYPE = MGRBY(2,I)
         ISECONDARY = MGRBY(3,I)
         S_TYPE = MGRBY(4,I)
         FLAGG_OPT = MGRBY(5,I)
         ID_OPT = MGRBY(6,I)
-        IF((S_TYPE == 2).OR.(S_TYPE == 3)) THEN
+        IF((S_TYPE == 2).OR.(S_TYPE == 3).OR.(S_TYPE == 5)) THEN !5 will be done like 2
 c
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR) 
 c
@@ -357,7 +357,7 @@ C------------------------------------
               ENDIF 
             ENDDO
           END IF  ! (M_TYPE == 4) THEN
-          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBM == 0)THEN  
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -365,6 +365,25 @@ C------------------------------------
      .                  C1=TITR,
      .                  I2=IMAIN)                           
           ENDIF 
+          IF (S_TYPE == 5) THEN
+            IRBS=0                                  
+            DO K=1,NRBYKIN  
+              PART_ID = NPBY(21,K)
+              IF (PART_ID==0) CYCLE
+              IF (ISECONDARY == IPART(4,PART_ID)) THEN
+                IRBS=K                     
+                EXIT
+              ENDIF                                                     
+            ENDDO 
+            IF (IRBS == 0)THEN   
+              CALL ANCMSG(MSGID=1636,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID_OPT,
+     .                    C1=TITR,
+     .                    I2=ISECONDARY)                              
+            ENDIF 
+          END IF  ! (S_TYPE == 5) THEN
          
           IDNODE=0
           NN=0
@@ -372,29 +391,34 @@ C------------------------------------
             IDNODE = USR2SYS(MGRBY(3,I),ITABM1,MESS,ID)
           ELSEIF(S_TYPE == 3) THEN ! SECONDARY IS A GRNOD
             NN = NODGRNR5(MGRBY(3,I),IGS,WORK,IGRNOD,ITABM1,MESS) 
+          ELSEIF(S_TYPE == 5) THEN ! SECONDARY IS A MAIN NODE
+            IDNODE = NPBY(1,IRBS)
           ENDIF    
 
 
           IF((IRBM /= 0).AND.(IDNODE /= 0)) THEN ! SECONDARY IS A NODE
  
-            WRITE(IOUT,1300) IMAIN, ISECONDARY, FLAGG_OPT
-            MESS2 ='SECONDARY NODE '
-
-            IF(ITAG(IDNODE) == 0) THEN
-              ITAG(IDNODE) = IRBM
-            ELSEIF(ITAG(IDNODE) == IRBM) THEN
-              FLAG_DOUBLON  = 1
-              CALL ANCMSG(MSGID=1027,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID_OPT,
-     .                    C1=TITR,
-     .                    I2=IMAIN,
-     .                    C2=MESS2,
-     .                    I3=ISECONDARY,
-     .                    I4=FLAGG_OPT)
-            ENDIF
-
+             IF(S_TYPE == 2) THEN ! SECONDARY IS A NODE
+              WRITE(IOUT,1300) IMAIN, ISECONDARY, FLAGG_OPT
+              MESS2 ='SECONDARY NODE '
+             
+              IF(ITAG(IDNODE) == 0) THEN
+                ITAG(IDNODE) = IRBM
+              ELSEIF(ITAG(IDNODE) == IRBM) THEN
+                FLAG_DOUBLON  = 1
+                CALL ANCMSG(MSGID=1027,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=ID_OPT,
+     .                      C1=TITR,
+     .                      I2=IMAIN,
+     .                      C2=MESS2,
+     .                      I3=ISECONDARY,
+     .                      I4=FLAGG_OPT)
+              ENDIF
+             ELSEIF(S_TYPE == 5) THEN ! SECONDARY IS A MAIN NODE Hierarchy
+               WRITE(IOUT,1310) IMAIN, NPBY(6,IRBS),ITAB(IDNODE), FLAGG_OPT
+             END IF
             IF(FLAG_DOUBLON == 0) THEN
               RBMERGE(IRBM)%ID = IMAIN
               RBMERGE(IRBM)%NNODE = RBMERGE(IRBM)%NNODE+1
@@ -554,6 +578,11 @@ C
 1300  FORMAT(/10X,'MAIN RIGID BODY ID                    ',I10
      .       /10X,'SECONDARY NODE ID                           ',I10
      .       /10X,'IFLAG                                   ',I10)
+1310  FORMAT(/10X,'MAIN RIGID BODY ID                    ',I10
+     .       /10X,'SECONDARY RIGID BODY ID               ',I10
+     .       /10X,'MERGE BY HIERARCHY:                   ',
+     .       /10X,'MAIN NODE OF SECONDARY RBODY ADDED AS SECONDARY NODE   ',I10
+     .       /10X,'IFLAG                                 ',I10)
 1400  FORMAT(/10X,'MAIN RIGID BODY ID                    ',I10
      .       /10X,'SECONDARY SET OF NODE ID                    ',I10
      .       /10X,'IFLAG                                   ',I10
