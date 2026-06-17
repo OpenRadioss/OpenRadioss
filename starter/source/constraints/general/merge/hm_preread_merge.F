@@ -106,7 +106,7 @@ c
           CALL HM_GET_INT_ARRAY_INDEX('Iflag',FLAGG_OPT,J,IS_AVAILABLE,LSUBMODEL)
           IF (IMAIN /= 0) THEN
             SMGRBY = SMGRBY + 1
-            IF(S_TYPE == 2) THEN
+            IF(S_TYPE == 2 .OR. S_TYPE == 5) THEN
               SLPBY = SLPBY + 1
               NXTRA_NODE = NXTRA_NODE + 1 
             ELSEIF(S_TYPE == 3) THEN
