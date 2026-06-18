@@ -46,14 +46,14 @@
 !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
 !||====================================================================
         subroutine init_inivol_2D_polygons( &
-          i_inivol  ,      idc,           mat_param, GLOBAL_xyz, &
-          NUM_INIVOL,   inivol,               nsurf,    igrsurf, &
-          nparg     ,   ngroup,               iparg,     numnod, &
-          numeltg   ,    nixtg,                ixtg,     igrnod, &
-          numelq    ,     nixq,                 ixq,     ngrnod, &
-          x         , nbsubmat,                kvol,     nummat, &
-          sipart    ,    ipart,               bufsf,     sbufsf, &
-          i15b      ,    i15h ,                itab)
+          i_inivol  ,      idc, mat_param, GLOBAL_xyz, &
+          NUM_INIVOL,   inivol,     nsurf,    igrsurf, &
+          nparg     ,   ngroup,     iparg,     numnod, &
+          numeltg   ,    nixtg,      ixtg,     igrnod, &
+          numelq    ,     nixq,       ixq,     ngrnod, &
+          x         , nbsubmat,      kvol,     nummat, &
+          sipart    ,    ipart,     bufsf,     sbufsf, &
+          i15b      ,    i15h ,      itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,8 +66,7 @@
           use polygon_clipping_mod
           use matparam_def_mod, only : matparam_struct_
           use precision_mod, only : WP
-          use MY_ALLOC_MOD, only : my_alloc
-          use my_dealloc_mod, only : my_dealloc
+          use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -140,6 +139,11 @@
           integer :: sum_tag                                                         !sum = 0 => elem outside the polygon
           integer :: iad0                                                            !< index for buffer bufsf
           integer :: npt_superellipse                                                !< number of points for superellipse
+
+          !super-ellipse generation with uniform arc-length sampling
+          integer :: npt_fine, kk
+          real(kind=WP), allocatable :: yf(:), zf(:), s_cumul(:)
+          real(kind=WP) :: ds, starget, alpha, total_len, fac
 
           logical :: is_quad, is_tria, is_inside
           logical :: is_reversed
@@ -293,27 +297,64 @@
               yg = yg + DL
               zg = zg + DL
 
-              !super-ellipse discretization (in order to avoid degenerated case)
+              ! super-ellipse discretization with quasi-uniform arc-length spacing
               npt_superellipse = 256
-              call polygon_create( user_polygon, npt_superellipse+1)
-              user_polygon%numpoint = npt_superellipse + 1
-              user_polygon%area = zero
-              if(debug)write(*,*)"building super-ellipse"
-              tmp(1) = two*pi/npt_superellipse
-              do ii=1,npt_superellipse
-                theta = tmp(1)*ii
+              npt_fine = 8*npt_superellipse
+              call my_alloc(yf, npt_fine+1, 'inivol2d yf')
+              call my_alloc(zf,npt_fine+1, 'inivol2d zf')
+              call my_alloc(s_cumul,npt_fine+1, 'inivol2d s_cumul')
+              if(debug)write(*,*)"building super-ellipse with uniform arc-length sampling"
+              tmp(1) = two*pi/real(npt_fine,kind=WP)
+              !base points
+              do ii = 1, npt_fine
+                theta = tmp(1)*real(ii-1,kind=WP)
                 tmp(2) = bb * sign(one,cos(theta)) * (abs(cos(theta)))**(two/nn)
                 tmp(3) = cc * sign(one,sin(theta)) * (abs(sin(theta)))**(two/nn)
-                user_polygon%point(ii)%y = yg + skw(5)*tmp(2) + skw(6)*tmp(3)
-                user_polygon%point(ii)%z = zg + skw(8)*tmp(2) + skw(9)*tmp(3)
-                xyz(2) = min (xyz(2), user_polygon%point(ii)%y)
-                xyz(3) = min (xyz(3), user_polygon%point(ii)%z)
-                xyz(5) = max (xyz(5), user_polygon%point(ii)%y)
-                xyz(6) = max (xyz(6), user_polygon%point(ii)%z)
-                if(debug)write (*,FMT="(A,3F45.35)") "  *createnode ",0.0,user_polygon%point(ii)%y ,user_polygon%point(ii)%z
+                yf(ii) = yg + skw(5)*tmp(2) + skw(6)*tmp(3)
+                zf(ii) = zg + skw(8)*tmp(2) + skw(9)*tmp(3)
               end do
+              ! close fine polygon
+              yf(npt_fine+1) = yf(1)
+              zf(npt_fine+1) = zf(1)
+              ! cumulative arc length
+              s_cumul(1) = zero
+              do ii = 2, npt_fine+1
+                ds = sqrt((yf(ii)-yf(ii-1))**2 + (zf(ii)-zf(ii-1))**2)
+                s_cumul(ii) = s_cumul(ii-1) + ds
+              end do
+              !building polygon
+              total_len = s_cumul(npt_fine+1)
+              call polygon_create(user_polygon, npt_superellipse+1)
+              user_polygon%numpoint = npt_superellipse + 1
+              user_polygon%area = zero
+              kk = 1
+              fac = total_len / real(npt_superellipse,kind=WP)
+              do ii = 1, npt_superellipse
+                starget = real(ii-1,kind=WP) * fac
+                do while (kk < npt_fine .and. s_cumul(kk+1) < starget)
+                  kk = kk + 1
+                end do
+                ds = s_cumul(kk+1) - s_cumul(kk)
+                if (ds > em20) then
+                  alpha = (starget - s_cumul(kk)) / ds
+                else
+                  alpha = zero
+                end if
+                user_polygon%point(ii)%y = yf(kk) + alpha*(yf(kk+1)-yf(kk))
+                user_polygon%point(ii)%z = zf(kk) + alpha*(zf(kk+1)-zf(kk))
+                xyz(2) = min(xyz(2), user_polygon%point(ii)%y)
+                xyz(3) = min(xyz(3), user_polygon%point(ii)%z)
+                xyz(5) = max(xyz(5), user_polygon%point(ii)%y)
+                xyz(6) = max(xyz(6), user_polygon%point(ii)%z)
+                if(debug)write (*,FMT="(A,3F45.35)") "  *createnode ",0.0, &
+                  user_polygon%point(ii)%y, user_polygon%point(ii)%z
+              end do
+              user_polygon%point(npt_superellipse+1)%y = user_polygon%point(1)%y
+              user_polygon%point(npt_superellipse+1)%z = user_polygon%point(1)%z
               nsegsurf = npt_superellipse
-
+              call my_dealloc(yf)
+              call my_dealloc(zf)
+              call my_dealloc(s_cumul)
             end if ! igrsurf(idsurf)%type
 
           else if(idgrnod > 0)then
@@ -359,7 +400,7 @@
 
           !---  test elem nodes inside the box (PRE-CRITERION USIN BOX ABOVE)
           !---      loop over related elems, use their nodes : tag set to 1 if inside the box
-          if(numnod > 0) then ; call my_alloc(itag_n, numnod, "itag_n"); itag_n(1:numnod) = 0; end if
+          if(numnod > 0) then ; call my_alloc(itag_n, numnod, 'inivol2d itag_n'); itag_n(1:numnod) = 0; end if
           do ng=1,ngroup
             mtn     = iparg(1,ng)
             nel     = iparg(2,ng)
@@ -368,7 +409,7 @@
             ity     = iparg(5,ng)
             isolnod = iparg(28,ng)
             invol   = iparg(53,ng)
-            if (mtn /= 51 .and. mtn /= 151) cycle
+            if (mtn /= 20 .and. mtn /= 51 .and. mtn /= 151) cycle
             is_quad = .false.
             is_tria = .false.
             if(ity == 7)then
@@ -438,8 +479,8 @@
           end if
 
           ! --- LOOP OVER ELEM AND STATUS USING RETAINED NODES
-          if(numelq > 0)then  ; call my_alloc(list_quad, numelq, "list_quad")  ; list_quad(:)=0 ; end if
-          if(numeltg > 0)then ; call my_alloc(list_tria, numeltg, "list_tria") ; list_tria(:)=0 ; end if
+          if(numelq > 0)then  ; call my_alloc (list_quad,numelq,'inivol2d list_quad')  ; list_quad(:)=0 ; end if
+          if(numeltg > 0)then ; call my_alloc (list_tria,numeltg,'inivol2d list_tria') ; list_tria(:)=0 ; end if
           icur_q = 0
           icur_t = 0
           do ng=1,ngroup
@@ -451,7 +492,7 @@
             mid     = iparg(18,ng)
             isolnod = iparg(28,ng)
             invol   = iparg(53,ng)
-            if (mtn /= 51 .and. mtn /= 151) cycle
+            if (mtn /= 20 .and.  mtn /= 51 .and. mtn /= 151) cycle
             is_quad = .false.
             is_tria = .false.
             if(ity == 7)then
@@ -839,6 +880,4 @@
 
         end subroutine init_inivol_2D_polygons
       end module init_inivol_2D_polygons_mod
-
-
 
