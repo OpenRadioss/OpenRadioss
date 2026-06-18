@@ -158,10 +158,17 @@ C-----------max number of connected segment per node
        NMAX=MAX(NMAX,ITAG(I))
        ITAG(I)=0
       ENDDO
+      call my_alloc(MLOC, NUMNOD, "MLOC", stat=stat)
+      MLOC(1:NUMNOD)=0
+      DO I=1,NMN
+         N       = MSR(I)
+         MLOC(N) = I
+      END DO
+
       call my_alloc(MVOI, NMAX+10, "MVOI")
-      call my_alloc(EIDNOD, NMAX, NUMNOD, "EIDNOD")
+      call my_alloc(EIDNOD, NMAX, NMN, "EIDNOD")
       MVOI(1:NMAX+10)=0
-      EIDNOD(1:NMAX,1:NUMNOD)=0
+      EIDNOD(1:NMAX,1:NMN)=0
 C------------ini- E_ids of each node
       DO I=1,NRTM
         IF(IELEM_M(2,I) == 0) THEN
@@ -169,12 +176,12 @@ C------------ini- E_ids of each node
           DO J=1,3
             M=IRECT(J,I)
             ITAG(M)=ITAG(M)+1
-            EIDNOD(ITAG(M),M)=I
+            EIDNOD(ITAG(M),MLOC(M))=I
           END DO
           IF (IRECT(4,I)/=IRECT(3,I)) THEN
             M= IRECT(4,I)
             ITAG(M)=ITAG(M)+1
-            EIDNOD(ITAG(M),M)=I
+            EIDNOD(ITAG(M),MLOC(M))=I
           END IF
         ENDIF
       END DO
@@ -188,7 +195,7 @@ C------------MVOISIN-(seg number) ---
 C
       NRTM_S = 0
       IF(IDEL_SOLID > 0) THEN 
-        ALLOCATE(ITAG_S(NRTM))
+        call my_alloc(ITAG_S, NRTM, "ITAG_S")
         ITAG_S(1:NRTM)=0 
       ENDIF 
       DO I=1,NRTM
@@ -198,7 +205,7 @@ C
 C----seg 1-2------
           I1 =IRECT(1,I)
           I2 =IRECT(2,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
      2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE   )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
@@ -206,7 +213,7 @@ C----seg 1-2------
 C----seg 2-3------
           I1 =IRECT(2,I)
           I2 =IRECT(3,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
      2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
@@ -214,7 +221,7 @@ C----seg 2-3------
 C----seg 3-4------
           I1 =IRECT(3,I)
           I2 =IRECT(4,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),MVOISIN,
      1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
      2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
@@ -222,7 +229,7 @@ C----seg 3-4------
 C----seg 1-4------
           I1 =IRECT(4,I)
           I2 =IRECT(1,I)
-          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
+          CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),MVOISIN,
      1                    N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
      2                    X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR,DNE    )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
@@ -289,8 +296,8 @@ C
          NMAX=MAX(NMAX,ITAG(I))
          ITAG(I)=0
         ENDDO
-        call my_alloc(EIDNOD, NMAX, NUMNOD, "EIDNOD")
-        EIDNOD(1:NMAX,1:NUMNOD)=0
+        call my_alloc(EIDNOD, NMAX, NMN, "EIDNOD")
+        EIDNOD(1:NMAX,1:NMN)=0
         call my_alloc(MVOI, NMAX+10, "MVOI")
         MVOI(1:NMAX+10)=0
 C
@@ -307,12 +314,12 @@ C
             DO J=1,3
               M=IRECT(J,I)
               ITAG(M)=ITAG(M)+1
-              EIDNOD(ITAG(M),M)=I
+              EIDNOD(ITAG(M),MLOC(M))=I
             END DO
             IF (IRECT(4,I)/=IRECT(3,I)) THEN
               M= IRECT(4,I)
               ITAG(M)=ITAG(M)+1
-              EIDNOD(ITAG(M),M)=I
+              EIDNOD(ITAG(M),MLOC(M))=I
             END IF
           ENDIF
         END DO
@@ -326,14 +333,14 @@ C
 C----seg 1-2------
             I1 =IRECT(1,I)
             I2 =IRECT(2,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
+            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)         
             MNEIGH_SOLID(1:N_EI,1,IS) = MVOI(1:N_EI)
             NE0 =N_EI
 C----seg 2-3------
             I1 =IRECT(2,I)
             I2 =IRECT(3,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
+            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0  
             MNEIGH_SOLID(1:DN_EI,2,IS) = MVOI(NE0+1:N_EI)
@@ -341,7 +348,7 @@ C----seg 2-3------
 C----seg 3-4------
             I1 =IRECT(3,I)
             I2 =IRECT(4,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
+            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0
             MNEIGH_SOLID(1:DN_EI,3,IS) = MVOI(NE0+1:N_EI)
@@ -349,7 +356,7 @@ C----seg 3-4------
 C----seg 1-4------
             I1 =IRECT(4,I)
             I2 =IRECT(1,I)
-            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
+            CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,MLOC(I1)),ITAG(I2),EIDNOD(1,MLOC(I2)),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
             DN_EI = N_EI - NE0      
             MNEIGH_SOLID(1:DN_EI,4,IS) = MVOI(NE0+1:N_EI)
@@ -363,6 +370,7 @@ C
 
       ENDIF
       CALL MY_DEALLOC(ITAG)
+      CALL MY_DEALLOC(MLOC)
 
 C--------------------------------------------
 
