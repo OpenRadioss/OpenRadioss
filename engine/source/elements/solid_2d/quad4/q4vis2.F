@@ -84,9 +84,8 @@ C
         DO I=1,NEL
          HY=Y1(I)-Y2(I)+Y3(I)-Y4(I)
          HZ=Z1(I)-Z2(I)+Z3(I)-Z4(I)
-         FAC=ONE/MAX(EM20,AREA(I))
-         PX1H1=FAC*(PY1(I)*HY+PZ1(I)*HZ)
-         PX2H1=FAC*(PY2(I)*HY+PZ2(I)*HZ)
+         PX1H1=PY1(I)*HY+PZ1(I)*HZ
+         PX2H1=PY2(I)*HY+PZ2(I)*HZ
          G11(I)= ONE -PX1H1
          G21(I)=-ONE -PX2H1
          G31(I)= ONE +PX1H1
