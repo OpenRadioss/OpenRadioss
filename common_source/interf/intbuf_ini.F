@@ -1283,17 +1283,18 @@ C----------to be cleaned later
             CALL READ_I_C(INTBUF_TAB(NI)%CANDS_E2S,SIZ)
           ENDIF
 
-          SIZ = INTBUF_TAB(NI)%S_IFPEN_E
+         SIZ = INTBUF_TAB(NI)%S_IFPEN_E
           ALLOCATE(INTBUF_TAB(NI)%IFPEN_E(SIZ))
           IF(SIZ>0)THEN
-            CALL READ_I_C(INTBUF_TAB(NI)%IFPEN_E,SIZ)
+            CALL DECOMPRESS_I_NNZ(INTBUF_TAB(NI)%IFPEN_E,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_IFPEN_E2S
           ALLOCATE(INTBUF_TAB(NI)%IFPEN_E2S(SIZ))
           IF(SIZ>0)THEN
+            INTBUF_TAB(NI)%IFPEN_E2S(1:SIZ) = 0
             SIZ =INTBUF_TAB(NI)%I_STOK_E(2)
-            CALL READ_I_C(INTBUF_TAB(NI)%IFPEN_E2S,SIZ)
+            IF(SIZ>0) CALL DECOMPRESS_I_NNZ(INTBUF_TAB(NI)%IFPEN_E2S,SIZ)
           ENDIF
 
 ! NITSCHE METHOD
@@ -1562,13 +1563,13 @@ C=======================================================================
           SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E
           ALLOCATE(INTBUF_TAB(NI)%PENE_OLD_E(SIZ))
           IF(SIZ>0)THEN
-            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E,SIZ)
+            CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%PENE_OLD_E,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E
           ALLOCATE(INTBUF_TAB(NI)%STIF_OLD_E(SIZ))
           IF(SIZ>0)THEN
-            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E,SIZ)
+            CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%STIF_OLD_E,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_PENE_OLD_E2S
@@ -1576,7 +1577,7 @@ C=======================================================================
           IF(SIZ>0)THEN
             INTBUF_TAB(NI)%PENE_OLD_E2S(1:SIZ) = ZERO
             SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
-            CALL READ_DB(INTBUF_TAB(NI)%PENE_OLD_E2S,SIZ)
+            IF(SIZ>0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%PENE_OLD_E2S,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_STIF_OLD_E2S
@@ -1584,7 +1585,7 @@ C=======================================================================
           IF(SIZ>0)THEN
             INTBUF_TAB(NI)%STIF_OLD_E2S(1:SIZ) = ZERO
             SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
-            CALL READ_DB(INTBUF_TAB(NI)%STIF_OLD_E2S,SIZ)
+            IF(SIZ>0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%STIF_OLD_E2S,SIZ)
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAPE
