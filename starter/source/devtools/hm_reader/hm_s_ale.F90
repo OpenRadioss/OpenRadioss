@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_rbodies_add_main_node_mod   ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
+!||    hm_s_ale_mod   ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||--- called by ------------------------------------------------------
-!||    starter0                       ../starter/source/starter/starter0.F
+!||    contrl         ../starter/source/starter/contrl.F
 !||====================================================================
       module hm_s_ale_mod
         implicit none
@@ -35,6 +35,18 @@
 !! \details This subroutine reads the S-ALE card from the input file & modifies the input
 ! ======================================================================================================================
 !||====================================================================
+!||    hm_s_ale                 ../starter/source/devtools/hm_reader/hm_s_ale.F90
+!||--- called by ------------------------------------------------------
+!||    contrl                   ../starter/source/starter/contrl.F
+!||--- calls      -----------------------------------------------------
+!||    hm_option_count          ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key       ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start          ../starter/source/devtools/hm_reader/hm_option_start.F
+!||--- uses       -----------------------------------------------------
+!||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
+!||    input_modification_mod   ../starter/source/starter/input_modification.F90
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_s_ale(nsubmod,lsubmodel,input_modification)
 ! ----------------------------------------------------------------------------------------------------------------------

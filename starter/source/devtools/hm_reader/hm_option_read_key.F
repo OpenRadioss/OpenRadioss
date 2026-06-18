@@ -190,6 +190,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_visc                      ../starter/source/materials/visc/hm_read_visc.F
 !||    hm_read_window_user               ../starter/source/tools/userwi/hm_read_window_user.F
 !||    hm_read_xref                      ../starter/source/loads/reference_state/xref/hm_read_xref.F
+!||    hm_s_ale                          ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    hm_set                            ../starter/source/model/sets/hm_set.F
 !||    hm_setfxrbyon                     ../starter/source/constraints/fxbody/hm_setfxrbyon.F
 !||    hm_sz_r2r                         ../starter/source/coupling/rad2rad/routines_r2r.F

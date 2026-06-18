@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_unit                      ../starter/source/general_controls/computation/hm_read_unit.F
 !||    hm_read_upwind                    ../starter/source/general_controls/computation/hm_read_upwind.F
 !||    hm_read_visc                      ../starter/source/materials/visc/hm_read_visc.F
+!||    hm_s_ale                          ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    hm_yctrl                          ../starter/source/elements/initia/hm_yctrl.F
 !||    lecfill                           ../starter/source/elements/initia/lecfill.F
 !||    lecsubmod                         ../starter/source/model/submodel/lecsubmod.F

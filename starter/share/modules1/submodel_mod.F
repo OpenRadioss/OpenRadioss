@@ -630,6 +630,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_yield_criterion_hershey          ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hershey.F90
 !||    hm_read_yield_criterion_hill             ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_hill.F90
 !||    hm_read_yield_criterion_vonmises         ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_vonmises.F90
+!||    hm_s_ale                                 ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    hm_select_option_by_name                 ../starter/source/devtools/hm_reader/hm_select_option_by_name.F
 !||    hm_set                                   ../starter/source/model/sets/hm_set.F
 !||    hm_set_floatv                            ../starter/source/devtools/hm_reader/hm_set_floatv.F

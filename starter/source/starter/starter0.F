@@ -79,6 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_create_rbodies_from_rigid_parts_mod     ../starter/source/devtools/hm_reader/hm_create_rbodies_from_rigid_parts.F90
 !||    hm_evaluate_rbodies_from_rigid_parts_mod   ../starter/source/devtools/hm_reader/hm_evaluate_rbodies_from_rigid_parts.F90
 !||    hm_rbodies_add_main_node_mod               ../starter/source/devtools/hm_reader/hm_rbodies_add_main_node.F90
+!||    input_modification_mod                     ../starter/source/starter/input_modification.F90
 !||    message_mod                                ../starter/share/message_module/message_mod.F
 !||    submodel_mod                               ../starter/share/modules1/submodel_mod.F
 !||    th_mod                                     ../starter/share/modules1/th_mod.F90

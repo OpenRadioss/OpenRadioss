@@ -837,6 +837,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8zderi3                               ../starter/source/elements/solid/solide8z/s8zderi3.F
 !||    s8zderic3                              ../starter/source/elements/solid/solide8z/s8zderi3.F
 !||    s8zinit3                               ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    s_ale_message                          ../starter/source/ale/s_ale_message.F90
 !||    sboxboxsurf                            ../starter/source/model/box/bigbox.F
 !||    scaleini                               ../starter/source/elements/initia/scaleini.F
 !||    scderi3                                ../starter/source/elements/thickshell/solidec/scderi3.F

@@ -737,6 +737,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_xelem                          ../starter/source/elements/reader/hm_read_xelem.F
 !||    hm_read_xref                           ../starter/source/loads/reference_state/xref/hm_read_xref.F
 !||    hm_read_yield_criterion_barlat2000     ../starter/source/materials/mat/mat131/yield_criterion/hm_read_yield_criterion_barlat2000.F90
+!||    hm_s_ale                               ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    hm_select_option_by_name               ../starter/source/devtools/hm_reader/hm_select_option_by_name.F
 !||    hm_set                                 ../starter/source/model/sets/hm_set.F
 !||    hm_set_floatv                          ../starter/source/devtools/hm_reader/hm_set_floatv.F
@@ -1165,6 +1166,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8zjac_i3                              ../starter/source/elements/solid/solide8z/s8zderi3.F
 !||    s8zjac_ic                              ../starter/source/elements/solid/solide8z/s8zderi3.F
 !||    s8zpij_ic                              ../starter/source/elements/solid/solide8z/s8zderi3.F
+!||    s_ale_message                          ../starter/source/ale/s_ale_message.F90
 !||    sboxboxsurf                            ../starter/source/model/box/bigbox.F
 !||    scaleini                               ../starter/source/elements/initia/scaleini.F
 !||    sccoor3                                ../starter/source/elements/thickshell/solidec/sccoor3.F

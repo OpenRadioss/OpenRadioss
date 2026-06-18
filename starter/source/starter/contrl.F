@@ -60,6 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_spmd                   ../starter/source/general_controls/computation/hm_read_spmd.F
 !||    hm_read_unit                   ../starter/source/general_controls/computation/hm_read_unit.F
 !||    hm_read_upwind                 ../starter/source/general_controls/computation/hm_read_upwind.F
+!||    hm_s_ale                       ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    init_def_elem                  ../starter/source/modules/defaults_mod.F90
 !||    init_def_zero                  ../starter/source/modules/defaults_mod.F90
 !||    istr                           ../starter/source/tools/univ/istr.F
@@ -73,7 +74,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    format_mod                     ../starter/share/modules1/format_mod.F90
 !||    grp_size_mod                   ../starter/share/modules1/grp_size_mod.F
 !||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_s_ale_mod                   ../starter/source/devtools/hm_reader/hm_s_ale.F90
 !||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
+!||    input_modification_mod         ../starter/source/starter/input_modification.F90
 !||    message_mod                    ../starter/share/message_module/message_mod.F
 !||    refsta_mod                     ../starter/share/modules1/refsta_mod.F
 !||    restmod                        ../starter/share/modules1/restart_mod.F

@@ -399,6 +399,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rigmodif1_nd                        ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||    rpart_inivel_check                  ../starter/source/constraints/general/rbody/rbody_part_modif.F90
 !||    s10edg_rlink                        ../starter/source/elements/solid/solide10/s10edg_rlink.F
+!||    s_ale_message                       ../starter/source/ale/s_ale_message.F90
 !||    scrint                              ../starter/source/interfaces/interf1/scrint.F
 !||    searchigeo3d                        ../starter/source/elements/ige3d/searchigeo3d.F
 !||    sensor_user_convert_local_id        ../starter/source/tools/sensor/sensor_user_convert_local_id.F
@@ -515,6 +516,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_bcs_nrf_mod                    ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_monvol_mod                     ../starter/source/airbag/init_monvol.F
 !||    inivol_def_mod                      ../starter/share/modules1/inivol_mod.F
+!||    input_modification_mod              ../starter/source/starter/input_modification.F90
 !||    intbufmod                           ../starter/share/modules1/restart_mod.F
 !||    intbufscratch_mod                   ../starter/source/interfaces/interf1/intbufscratch_mod.F
 !||    inter_cand_mod                      ../starter/share/modules1/inter_cand_mod.F
@@ -537,6 +539,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_funct_python_mod               ../starter/source/tools/curve/hm_read_funct_python.F90
 !||    reorder_mod                         ../starter/share/modules1/reorder_mod.F
 !||    restmod                             ../starter/share/modules1/restart_mod.F
+!||    s_ale_message_mod                   ../starter/source/ale/s_ale_message.F90
 !||    set_mod                             ../starter/share/modules1/set_mod.F
 !||    sfem_exclude_mod                    ../starter/source/elements/solid/solide4/sfem_exclude.F90
 !||    shell_offset_ini_mod                ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
