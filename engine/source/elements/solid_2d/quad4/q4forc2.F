@@ -659,8 +659,8 @@ C
      2   Y2,      Y3,      Y4,      Z1,
      3   Z2,      Z3,      Z4,      VY1,
      4   VY2,     VY3,     VY4,     VZ1,
-     5   VZ2,     VZ3,     VZ4,     PY1,
-     6   PY2,     PZ1,     PZ2,     FY1,
+     5   VZ2,     VZ3,     VZ4,    PYC1,
+     6   PYC2,    PZC1,    PZC2,    FY1,
      7   FY2,     FY3,     FY4,     FZ1,
      8   FZ2,     FZ3,     FZ4,     AIRE,
      9   SSP,     NEL)
