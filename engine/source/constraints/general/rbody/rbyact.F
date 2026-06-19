@@ -422,7 +422,7 @@ C     MISE A ZERO DES MASSES ET INERTIES SECNDS voir up
 C----------------------------------------------
       IF (ISPMD+1==PMAIN) THEN
         WRITE(IOUT,1000)
-        WRITE(IOUT,1100) NONOD,X(1,M),X(2,M),X(3,M),
+        WRITE(IOUT,1100) ID,NONOD,X(1,M),X(2,M),X(3,M),
      .        MASRB,RBY(1),RBY(5),RBY(9),RBY(2),RBY(3),RBY(6)
       ENDIF
 C----------------------------------------------------------------
@@ -470,12 +470,12 @@ C
 C
       RETURN
 C
-1000  FORMAT(
-     . 44H1     RIGID BODY INITIALIZATION             /
-     . 44H      -------------------------             /)
-1100  FORMAT(/5X,'RIGID BODY ',
+1000  FORMAT(/
+     . 44H*     RIGID BODY INITIALIZATION             /
+     . 44H      -------------------------             )
+1100  FORMAT(/5X,'RIGID BODY       ',I8
      .       /10X,'PRIMARY NODE    ',I8
      .       /10X,'NEW X,Y,Z       ',3G10.3
      .       /10X,'NEW MASS        ',1G10.3
-     .       /10X,'NEW INERTIA     ',6G10.3)
+     .       /10X,'NEW INERTIA     ',6G10.3/)
       END

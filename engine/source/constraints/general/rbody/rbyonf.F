@@ -277,7 +277,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,K, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
+      INTEGER I ,K, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,N_H,K_H,M,
      .        ONFELT,K1,K2,K3,K4,K5,K6,K7,IFAIL,ELT_ACTIV,PRI_OFF,K8,K9
       my_real
      .        CRIT
@@ -330,7 +330,13 @@ C-------------------------------------------
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
         IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE))THEN
-          IF (IACTI==0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
+! case OFF at T=0 nothing need to do             
+          IF (IACTI==0 .AND. TT ==ZERO.AND. SENSOR_TAB(ISENS)%TSTART==ZERO) THEN
+            IF (ISPMD==0) THEN
+             WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',NPBY(6,N),' SET OFF'
+             WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY:',NPBY(6,N),' OFF'
+            ENDIF
+          ELSEIF (IACTI==0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
 C
 C           - rbody is activated and elements are deactivated at the same time
 C           - unless failure criteria has been reached already
@@ -357,6 +363,32 @@ C
      A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
             ONOF1 = 1 ! at least 1 rbody is activated or deactivated
             NPBY(7,N)=1
+            IF (NPBY(12,N)>0.AND.NPBY(21,N)>0) THEN ! update parent rby (by part)  
+              N_H= NPBY(12,N)
+              M = NPBY(1,N_H)
+              IF (M>0.AND.NPBY(7,N_H)>0) THEN
+               IF (ISPMD==0) THEN
+                WRITE(IOUT,'(/A,I9)')' UPDATING PARENT RIGID BODY:',NPBY(6,N_H)
+                WRITE(ISTDO,'(/A,I9)')' UPDATING PARENT RIGID BODY:',NPBY(6,N_H)
+               END IF
+               ONOF  = 1   ! from 0
+               ONFELT= -1  ! nothing for elements 
+               K_H = NPBY(11,N_H)+1
+               IF (NPBY(1,N)>0) ITAG(NPBY(1,N)+NUMNOD)=N
+               IN(M) = RBY(13,N_H)
+               MS(M) = RBY(15,N_H)
+               CALL RBYPID(IPARG   ,IPARI       ,MS      ,IN       ,
+     2                    IXS      ,IXQ   ,IXC  ,IXT     ,IXP      ,
+     3                    IXR      ,SKEW  ,ITAB ,ITABM1  ,ISKWN    ,
+     4                    NPBY(1,N_H),ONOF  ,ITAG ,LPBY(K_H) ,
+     5                    X        ,V     ,VR   ,RBY(1,N_H),
+     6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
+     7                    FR_RBY2  ,N_H   ,ONFELT,WEIGHT ,PARTSAV  ,
+     8                    NPBY(2,N_H),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
+              END IF !(M>0) THEN
+            END IF
           ELSEIF (IACTI>1 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
 C
 C          - rbody is waiting for deactivation :
@@ -398,7 +430,7 @@ C-------------------------------------------
         IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE) )THEN
          IF (IACTI == 1 .AND. TT > SENSOR_TAB(ISENS)%TSTART) THEN
            IF( TT> ZERO)THEN
-             IACTI=4
+             IACTI=4               ! keep 2 cycle delay to avoid instability w/ interface sensor 
              NPBY(7,N)=IACTI
              IF (ISPMD==0) THEN
                WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
@@ -421,7 +453,7 @@ C
      9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
      A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
-           ELSE ! IF(TT>0.)THEN
+           ELSE ! IF(TT>0.)THEN! case imposible as iacti=0 with ISENS>0 in Starter
              IF (ISPMD==0) THEN
               WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
      .          NPBY(6,N),' SET OFF'
@@ -446,7 +478,7 @@ C
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated
              ELT_ACTIV = 1 ! elts of at least 1 rby are activated
            ENDIF
-         ELSEIF(IACTI==2)THEN
+         ELSEIF(IACTI==2)THEN   !useless can be removed later
 C
 C          Sensor has activated or Failure criteria has been reached ::
 C          Last cycle wrt rbody deactivation <=> the rbody is deactivated (nothing wrt elements)
@@ -473,6 +505,37 @@ C
      A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
            NPBY(7,N)=0
            ONOF1 = 1 ! at least 1 rbody is activated or deactivated
+            IF (NPBY(12,N)>0.AND.NPBY(21,N)>0) THEN ! update parent rby (by part) 
+              N_H= NPBY(12,N) 
+              M = NPBY(1,N_H)
+              IF (M>0.AND.NPBY(7,N_H)>0) THEN
+                NN = NPBY(1,N) 
+                IF (NN>0) THEN
+                  MS(NN) = ZERO
+                  IN(NN) = ZERO
+                END IF
+                IF (ISPMD==0) THEN
+                  WRITE(IOUT,'(/A,I9)')' UPDATING PARENT RIGID BODY:',NPBY(6,N_H)
+                  WRITE(ISTDO,'(/A,I9)')' UPDATING PARENT RIGID BODY:',NPBY(6,N_H)
+                END IF
+                ONOF  =  1 ! activate rbody
+                ONFELT= -1  ! nothing for elements 
+                K_H = NPBY(11,N_H) + 1
+                IF (NPBY(1,N)>0) ITAG(NPBY(1,N)+NUMNOD)=N
+                IN(M) = RBY(13,N_H)
+                MS(M) = RBY(15,N_H)
+                CALL RBYPID(IPARG    ,IPARI       ,MS      ,IN       ,
+     2                    IXS      ,IXQ   ,IXC  ,IXT     ,IXP      ,
+     3                    IXR      ,SKEW  ,ITAB ,ITABM1  ,ISKWN    ,
+     4                    NPBY(1,N_H),ONOF  ,ITAG ,LPBY(K_H) ,
+     5                    X        ,V     ,VR   ,RBY(1,N_H),
+     6                    IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
+     7                    FR_RBY2  ,N_H   ,ONFELT,WEIGHT ,PARTSAV  ,
+     8                    NPBY(2,N_H),ELBUF_TAB, PRI_OFF ,IPART(K3:K4-1),
+     9                    IPART(K8:K9-1),IPART(K1:K2-1),IPART(K2:K3-1),
+     A                    IPART(K4:K5-1),IPART(K5:K6-1),IPART(K6:K7-1))
+              END IF !(M>0) THEN
+            END IF
          ENDIF
         ENDIF
         K=K+NPBY(2,N)
