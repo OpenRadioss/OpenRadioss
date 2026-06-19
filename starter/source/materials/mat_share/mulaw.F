@@ -278,7 +278,7 @@ C ====================================================================
 
       ELSEIF(MTN==70)THEN
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
+     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      3                  RHO0,RHO ,VOLN,EINT,NVARTMP ,VARTMP  ,
      4                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
      5                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
@@ -298,7 +298,7 @@ C ====================================================================
      8                ASRATE,EPSD,NVARTMP,VARTMP,DMG,NGL) 
       ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
+     2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      3                  RHO0,RHO ,VOLN,EINT,
      4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
      5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
