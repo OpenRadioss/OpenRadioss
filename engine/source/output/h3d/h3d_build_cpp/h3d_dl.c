@@ -78,6 +78,8 @@ char * H3D_open_file="Hyper3DExportOpen";
  bool (*DLHyper3DExportClearError)  (H3DFileInfo* h3d_file);
 
  bool (*DLHyper3DExportClose)  (H3DFileInfo* h3d_file);
+ 
+ bool (*DLHyper3DCompressionLevel)  (H3DFileInfo* h3d_file, unsigned int level);
 
 /***********************/
 /* String Table Blocks */
@@ -372,6 +374,8 @@ void h3dlib_load_(int * IERROR)
   DLHyper3DExportClose=(void*)GetProcAddress(h3dhandle,"Hyper3DExportClose");
   if( !DLHyper3DExportClose) ierr=ierr+1;
 
+ DLHyper3DCompressionLevel=(void*)GetProcAddress(h3dhandle,"Hyper3DCompressionLevel");
+  if( !DLHyper3DCompressionLevel) ierr=ierr+1;
 /***********************/ 
 /* String Table Blocks */
 /***********************/ 
@@ -675,6 +679,9 @@ void h3dlib_load_(int * IERROR)
 
   DLHyper3DExportClose=dlsym(h3dhandle,"Hyper3DExportClose");
   if( !DLHyper3DExportClose) ierr=ierr+1;
+  
+  DLHyper3DCompressionLevel=dlsym(h3dhandle,"Hyper3DCompressionLevel");
+  if( !DLHyper3DCompressionLevel) ierr=ierr+1;
 
 /***********************/ 
 /* String Table Blocks */
@@ -943,6 +950,12 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
  bool Hyper3DExportClose(H3DFileInfo* h3d_file)
 {  bool return_value;
    return_value = DLHyper3DExportClose(h3d_file);
+   return return_value ;
+}
+
+ bool Hyper3DCompressionLevel(H3DFileInfo* h3d_file, unsigned int level)
+{  bool return_value;
+   return_value = DLHyper3DCompressionLevel(h3d_file, level);
    return return_value ;
 }
 

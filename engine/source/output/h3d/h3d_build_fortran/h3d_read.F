@@ -170,6 +170,7 @@ c           ENDDO
         ELSEIF(KEY2=='COMP_LEVEL')THEN
           CALL WRIUSC2(IREC,1,KEY0(KCUR))
           READ(IUSC2,*,ERR=9990)H3D_DATA%COMP_LEVEL
+          
         ELSEIF(KEY2=='TITLE')THEN
           H3D_DATA%N_TITLE = NBC
           call my_alloc(H3D_DATA%ITITLE, NBC, "H3D_DATA%ITITLE")
