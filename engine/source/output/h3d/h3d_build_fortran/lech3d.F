@@ -656,6 +656,11 @@ C--------------------------------------------------
      .                                'LAYER'    ,5           ,IS_LAYER  ,LAYER    ,
      .                                IS_LAYER_ALL,IS_LAYER_LOWER,IS_LAYER_UPPER   ,IS_DEF    ,
      .                                IBID1      ,IS_MEMB     ,IBID2     )
+          IF(IS_LAYER == 1 .AND. IS_LAYER_ALL == 0 .AND. IS_LAYER_LOWER == 0 .AND.
+     .      IS_LAYER_UPPER == 0 .AND. IS_MEMB == 0.AND. IS_DEF == 0 .AND. 
+     .      LAYER == 0) THEN
+            LAYER = 1
+          ENDIF
 C--------------------------------------------------
 C Read NPT= I/ALL/LOWER/UPPER/MEMB
 C--------------------------------------------------
@@ -669,6 +674,11 @@ C--------------------------------------------------
      .                                'NPT'      ,3           ,IS_IPT    ,IPT      ,
      .                                IS_IPT_ALL ,IS_IPT_LOWER,IS_IPT_UPPER,IS_DEF ,
      .                                IBID1      ,IS_MEMB     ,IS_IPT_MEMB)
+          IF(IS_IPT == 1 .AND. IS_IPT_ALL == 0 .AND. IS_IPT_LOWER == 0 .AND.
+     .      IS_IPT_UPPER == 0 .AND. IS_MEMB == 0 .AND. IS_DEF == 0 .AND. 
+     .      IPT == 0) THEN
+            IPT = 1
+          ENDIF
 C--------------------------------------------------
 C Read UVAR= I/ALL/DEF
 C--------------------------------------------------
@@ -736,6 +746,11 @@ C--------------------------------------------------
      .                                'IR'       ,2           ,IS_IR     ,IR       ,
      .                                IS_IR_ALL  ,IS_IR_LOWER ,IS_IR_UPPER,IS_DEF  ,
      .                                IBID1      ,IS_MEMB     ,IBID2     )
+          IF(IS_IR == 1 .AND. IS_IR_ALL == 0 .AND. IS_IR_LOWER == 0 .AND.
+     .       IS_IR_UPPER == 0 .AND. IS_MEMB == 0 .AND. IS_DEF == 0 .AND. 
+     .       IR == 0) THEN
+            IR = 1
+          ENDIF
 C--------------------------------------------------
 C Read IS= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -749,6 +764,11 @@ C--------------------------------------------------
      .                                'IS'       ,2           ,IS_IS       ,IS       ,
      .                                IS_IS_ALL  ,IS_IS_LOWER ,IS_IS_UPPER ,IS_DEF   ,
      .                                IBID1      ,IS_MEMB     ,IBID2       )
+          IF(IS_IS == 1 .AND. IS_IS_ALL == 0 .AND. IS_IS_LOWER == 0 .AND.
+     .       IS_IS_UPPER == 0 .AND. IS_MEMB == 0 .AND. IS_DEF == 0 .AND. 
+     .       IS == 0) THEN
+            IS = 1
+          ENDIF
 C--------------------------------------------------
 C Read IT= I/ALL/LOWER/UPPER
 C--------------------------------------------------
@@ -762,6 +782,11 @@ C--------------------------------------------------
      .                                'IT'       ,2           ,IS_IT       ,IT       ,
      .                                IS_IT_ALL  ,IS_IT_LOWER ,IS_IT_UPPER ,IS_DEF   ,
      .                                IBID1      ,IS_MEMB     ,IBID2       )
+          IF(IS_IT == 1 .AND. IS_IT_ALL == 0 .AND. IS_IT_LOWER == 0 .AND.
+     .       IS_IT_UPPER == 0 .AND. IS_MEMB == 0 .AND. IS_DEF == 0 .AND. 
+     .       IT == 0) THEN
+            IT = 1
+          ENDIF
 C--------------------------------------------------
 C Read INTER= I/ALL
 C--------------------------------------------------
