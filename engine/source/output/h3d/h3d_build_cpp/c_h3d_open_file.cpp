@@ -236,9 +236,8 @@ void c_h3d_open_file_(char *name, int *size, my_real *percentage_error, int *com
     //mode |= H3D_NOZLIB;
     //mode |= H3D_NOSORT;
     h3d_file = Hyper3DExportOpen(cname, mode, NULL, ReportErrorMsg);
-
-    //h3d_file -> quantize_error = *percentage_error / 100.f ;
-    //h3d_file -> compression_level = *comp_level ;
+    
+    Hyper3DCompressionLevel(h3d_file, *comp_level);
 
     // define pool names that will be used
     char* creating_application;
