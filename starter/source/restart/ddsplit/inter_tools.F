@@ -2185,6 +2185,7 @@ C ----------------------------------------
 !||    prepare_split_cand_i25_edge   ../starter/source/restart/ddsplit/inter_tools.F
 !||--- called by ------------------------------------------------------
 !||    split_interfaces              ../starter/source/restart/ddsplit/split_interfaces.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
             SUBROUTINE PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,
@@ -5931,6 +5932,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SPLIT_SEG_EDGE(NSNE_L,IS2SE,TAG_NSNE,TAG_SEG2,NI)
 C-----------------------------------------------

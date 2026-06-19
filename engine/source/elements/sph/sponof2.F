@@ -34,6 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    sphbox                ../engine/share/modules/sphbox.F
 !||====================================================================
       SUBROUTINE SPONOF2(X ,V       ,D        ,MS      ,SPBUF   ,

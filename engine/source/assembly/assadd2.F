@@ -30,6 +30,7 @@ C Parith/On SPMD finalization (1st part carried out in Starter)
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ASSADD2(ADDCNE  ,INDSKY  ,FSKY  ,FSKYM    ,IAD_ELEM ,
      2             FR_ELEM ,FR_NBCC ,PROCNE,NISKYFI  ,ADDCNI2  ,        

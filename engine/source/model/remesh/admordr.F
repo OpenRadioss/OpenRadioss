@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    admordr        ../engine/source/model/remesh/admordr.F
+!||    admordr          ../engine/source/model/remesh/admordr.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
-!||    resol_init     ../engine/source/engine/resol_init.F
+!||    resol            ../engine/source/engine/resol.F
+!||    resol_init       ../engine/source/engine/resol_init.F
 !||--- calls      -----------------------------------------------------
-!||    my_orders      ../common_source/tools/sort/my_orders.c
+!||    my_orders        ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-!||    remesh_mod     ../engine/share/modules/remesh_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    remesh_mod       ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMORDR(SH4TREE,SH3TREE,IXC,IXTG)
 C-----------------------------------------------

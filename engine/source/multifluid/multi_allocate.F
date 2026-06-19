@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE MULTI_ALLOCATE(MULTI_FVM, H3D_DATA)
 C-----------------------------------------------

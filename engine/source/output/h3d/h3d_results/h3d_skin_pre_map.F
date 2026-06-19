@@ -24,9 +24,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_skin_pre_map   ../engine/source/output/h3d/h3d_results/h3d_skin_pre_map.F
 !||--- called by ------------------------------------------------------
 !||    genh3d             ../engine/source/output/h3d/h3d_results/genh3d.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    h3d_inc_mod        ../engine/share/modules/h3d_inc_mod.F
 !||    loads_mod          ../common_source/modules/loads/loads_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    pblast_mod         ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
 !||====================================================================

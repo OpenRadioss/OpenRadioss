@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_db              ../common_source/tools/input_output/write_db.F
 !||--- uses       -----------------------------------------------------
 !||    group_param_mod       ../common_source/modules/mat_elem/group_param_mod.F90
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,NGROUP)
 C-----------------------------------------------

@@ -33,6 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    state_mod          ../common_source/modules/state_mod.F
 !||====================================================================
       SUBROUTINE READ_DYNAIN(IPART,DYNAIN_DATA,IPARTC,IPARTTG,IXC,IXTG)

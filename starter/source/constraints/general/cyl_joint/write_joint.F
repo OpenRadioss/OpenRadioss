@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    write_joint   ../starter/source/constraints/general/cyl_joint/write_joint.F
+!||    write_joint    ../starter/source/constraints/general/cyl_joint/write_joint.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    joint_mod     ../starter/share/modules1/joint_mod.F
+!||    joint_mod      ../starter/share/modules1/joint_mod.F
 !||====================================================================
             SUBROUTINE WRITE_JOINT(LJOINT,CEP,CEL,PROC,
      +                   NODLOCAL,LJOINT_L,LEN_IA,NUMNOD_L)

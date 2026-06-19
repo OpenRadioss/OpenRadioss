@@ -96,11 +96,14 @@ c-----------
       END
 
 !||====================================================================
-!||    initnoise2    ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise2       ../engine/source/general_controls/computation/initnoise.F
 !||--- called by ------------------------------------------------------
-!||    noise         ../engine/source/general_controls/computation/noise.F
+!||    noise            ../engine/source/general_controls/computation/noise.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,IWA,IPARG,IXQ)
 C-----------------------------------------------

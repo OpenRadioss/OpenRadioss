@@ -24,8 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
 !||--- called by ------------------------------------------------------
 !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    element_mod                 ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,

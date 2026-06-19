@@ -101,6 +101,8 @@ C
 !||    table_interp          ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
 !||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
 !||====================================================================
       SUBROUTINE GET_TABLE_VALUE(ITABLE,XX,XXDIM,YY) 
@@ -137,6 +139,8 @@ C
 !||    table_interp_dydx      ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
 !||    interface_table_mod    ../engine/share/modules/table_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
 !||====================================================================
       SUBROUTINE GET_TABLE_VALUE_DYDX(ITABLE,XX,XXDIM,YY,DYDX) 
@@ -205,6 +209,8 @@ C
 !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
 !||    interface_table_mod   ../engine/share/modules/table_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    table_glob_mod        ../engine/share/modules/table_glob_mod.F
 !||====================================================================
       SUBROUTINE GET_VTABLE_VALUE(ITABLE,NEL0,IPOS,XX,XXDIM,YY,DYDX1) 

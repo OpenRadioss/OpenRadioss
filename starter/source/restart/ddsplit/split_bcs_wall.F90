@@ -38,6 +38,7 @@
 !||    split_bcs_wall   ../starter/source/restart/ddsplit/split_bcs_wall.F90
 !||--- called by ------------------------------------------------------
 !||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine split_bcs_wall(bcs_per_proc, cep, scep, nspmd)

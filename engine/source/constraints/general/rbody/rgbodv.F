@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    velrot_explicit       ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||====================================================================
       SUBROUTINE RGBODV(V     ,VR   ,X     ,RBY ,NOD  ,

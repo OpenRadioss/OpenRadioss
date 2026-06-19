@@ -21,20 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cmatc3         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    cmatc3           ../engine/source/elements/shell/coqueba/cmatc3.F
 !||--- called by ------------------------------------------------------
-!||    c3ke3          ../engine/source/elements/sh3n/coque3n/c3ke3.F
-!||    cbake3         ../engine/source/elements/shell/coqueba/cbake3.F
-!||    czke3          ../engine/source/elements/shell/coquez/czke3.F
+!||    c3ke3            ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||    cbake3           ../engine/source/elements/shell/coqueba/cbake3.F
+!||    czke3            ../engine/source/elements/shell/coquez/czke3.F
 !||--- calls      -----------------------------------------------------
-!||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
-!||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F
-!||    get_etfac_s    ../engine/source/elements/solid/solide8z/get_etfac_s.F
-!||    layini         ../engine/source/elements/shell/coque/layini.F
+!||    cctoglob         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    gepm_lc          ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    get_etfac_s      ../engine/source/elements/solid/solide8z/get_etfac_s.F
+!||    layini           ../engine/source/elements/shell/coque/layini.F
 !||--- uses       -----------------------------------------------------
-!||    drape_mod      ../engine/share/modules/drape_mod.F
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    stack_mod        ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO      ,
      1                  PID    ,AREA    ,THK0   ,THK02   ,THK      , 

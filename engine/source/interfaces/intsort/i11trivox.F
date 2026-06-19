@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i11trivox     ../engine/source/interfaces/intsort/i11trivox.F
+!||    i11trivox        ../engine/source/interfaces/intsort/i11trivox.F
 !||--- called by ------------------------------------------------------
-!||    i11buce_vox   ../engine/source/interfaces/intsort/i11buce.F
+!||    i11buce_vox      ../engine/source/interfaces/intsort/i11buce.F
 !||--- calls      -----------------------------------------------------
-!||    i11sto_vox    ../engine/source/interfaces/intsort/i11sto.F
-!||    ireallocate   ../engine/share/modules/realloc_mod.F
-!||    my_barrier    ../engine/source/system/machine.F
+!||    i11sto_vox       ../engine/source/interfaces/intsort/i11sto.F
+!||    ireallocate      ../engine/share/modules/realloc_mod.F
+!||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    realloc_mod   ../engine/share/modules/realloc_mod.F
-!||    tri11         ../engine/share/modules/tri11_mod.F
-!||    tri7box       ../engine/share/modules/tri7box.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    realloc_mod      ../engine/share/modules/realloc_mod.F
+!||    tri11            ../engine/share/modules/tri11_mod.F
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I11TRIVOX(
      1      IRECTS, IRECTM , X      , NRTM      ,NRTSR ,

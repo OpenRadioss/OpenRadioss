@@ -241,13 +241,16 @@ C---
       END
 
 !||====================================================================
-!||    sms_rbe3t2   ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t2       ../engine/source/ams/sms_rbe3.F
 !||--- called by ------------------------------------------------------
-!||    sms_pcg      ../engine/source/ams/sms_pcg.F
+!||    sms_pcg          ../engine/source/ams/sms_pcg.F
 !||--- calls      -----------------------------------------------------
-!||    prerbe3      ../engine/source/constraints/general/rbe3/rbe3f.F
-!||    prerbe3p     ../engine/source/constraints/general/rbe3/rbe3f.F
-!||    rbe3cl       ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    prerbe3          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    prerbe3p         ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3cl           ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_RBE3T2(IRBE3 ,LRBE3 ,X    ,A     ,FRBE3 ,
      2                      SKEW  ,R     ,PREC_SMS3)
@@ -450,13 +453,16 @@ C---
       END
 
 !||====================================================================
-!||    sms_rbe3_1      ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3_1       ../engine/source/ams/sms_rbe3.F
 !||--- called by ------------------------------------------------------
-!||    sms_rbe3_prec   ../engine/source/ams/sms_rbe3.F
-!||    sms_rbe3t1      ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3_prec    ../engine/source/ams/sms_rbe3.F
+!||    sms_rbe3t1       ../engine/source/ams/sms_rbe3.F
 !||--- calls      -----------------------------------------------------
-!||    mfac_rbe3       ../engine/source/constraints/general/rbe3/rbe3f.F
-!||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    mfac_rbe3        ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3cl           ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_RBE3_1(
      1                 IRBE3 ,LRBE3 ,X     ,A     ,FRBE3 ,

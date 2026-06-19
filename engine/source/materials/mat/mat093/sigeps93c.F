@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sigeps93c   ../engine/source/materials/mat/mat093/sigeps93c.F
+!||    sigeps93c        ../engine/source/materials/mat/mat093/sigeps93c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||--- calls      -----------------------------------------------------
-!||    vinter      ../engine/source/tools/curve/vinter.F
+!||    vinter           ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SIGEPS93C(
      1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,

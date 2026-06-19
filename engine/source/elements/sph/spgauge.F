@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    spgauge         ../engine/source/elements/sph/spgauge.F
+!||    spgauge          ../engine/source/elements/sph/spgauge.F
 !||--- called by ------------------------------------------------------
-!||    forintp         ../engine/source/elements/forintp.F
+!||    forintp          ../engine/source/elements/forintp.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_exch_fr6   ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-!||    sum_6_float     ../engine/source/system/parit.F
-!||    weight0         ../engine/source/elements/sph/weight.F
+!||    spmd_exch_fr6    ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+!||    sum_6_float      ../engine/source/system/parit.F
+!||    weight0          ../engine/source/elements/sph/weight.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    initbuf_mod     ../engine/share/resol/initbuf.F
-!||    sphbox          ../engine/share/modules/sphbox.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    initbuf_mod      ../engine/share/resol/initbuf.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    sphbox           ../engine/share/modules/sphbox.F
 !||====================================================================
       SUBROUTINE SPGAUGE(LGAUGE  ,GAUGE ,KXSP   ,IXSP  ,
      1                   SPBUF   ,IPARG ,ELBUF_TAB,ISPSYM ,XSPSYM,

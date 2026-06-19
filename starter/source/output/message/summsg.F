@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anprint                ../starter/source/output/analyse/analyse_arret.F
 !||    arret                  ../starter/source/system/arret.F
 !||--- calls      -----------------------------------------------------
+!||    arret                  ../starter/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================

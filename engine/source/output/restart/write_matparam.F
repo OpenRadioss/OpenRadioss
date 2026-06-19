@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_viscparam                ../engine/source/output/restart/write_viscparam.F
 !||--- uses       -----------------------------------------------------
 !||    mat_elem_mod                   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod                   ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                 ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
 !||    write_ale_rezoning_param_mod   ../engine/source/output/restart/write_ale_rezoning_param.F90
 !||    write_therpmaram_mod           ../engine/source/output/restart/write_thermparam.F90

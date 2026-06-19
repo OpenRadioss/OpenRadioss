@@ -222,7 +222,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_inivell_mod                    ../starter/source/restart/ddsplit/c_inivell.F90
 !||    checksum_starter_option_mod      ../starter/source/output/checksum/checksum_option.F90
 !||    cluster_mod                      ../starter/share/modules1/cluster_mod.F
-!||    constraint_mod                   ../starter/source/modules/constaint_mod.F90
+!||    constraint_mod                   ../starter/source/modules/constraint_mod.F90
 !||    detonators_mod                   ../starter/share/modules1/detonators_mod.F
 !||    drape_mod                        ../starter/share/modules1/drape_mod.F
 !||    dsgraph_mod                      ../starter/share/modules1/dsgraph_mod.F

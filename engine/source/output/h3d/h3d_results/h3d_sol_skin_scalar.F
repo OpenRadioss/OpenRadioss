@@ -34,6 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       SUBROUTINE H3D_SOL_SKIN_SCALAR(
@@ -157,6 +159,9 @@ C-----------
 !||--- calls      -----------------------------------------------------
 !||    finter                 ../engine/source/tools/curve/finter.F
 !||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE IDX_FLD_SOL(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
@@ -360,6 +365,9 @@ C------------------------
 !||--- calls      -----------------------------------------------------
 !||    finter                 ../engine/source/tools/curve/finter.F
 !||    finterfld              ../engine/source/materials/fail/fld/fail_fld_c.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE DAM_FLD_SOL(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,

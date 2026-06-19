@@ -41,6 +41,8 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod                 ../common_source/modules/constant_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
 !||====================================================================
         subroutine spmd_update_frontier_int25( ispmd,nspmd,ninter25,npari,ninter,nbintc, &

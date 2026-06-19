@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ALEW5( 
      1     X               ,V       ,W       , WA      ,

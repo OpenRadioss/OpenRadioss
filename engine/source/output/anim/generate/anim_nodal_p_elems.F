@@ -24,12 +24,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_nodal_p_elems   ../engine/source/output/anim/generate/anim_nodal_p_elems.F
 !||--- called by ------------------------------------------------------
 !||    nodalp               ../engine/source/output/anim/generate/nodalp.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod          ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ANIM_NODAL_P_ELEMS(IFUNC, WA4, IPARG,  ELBUF_TAB, IX , NIX  , NUMEL, ITAB , NV46, IS_WRITTEN_NODE)
 C-----------------------------------------------

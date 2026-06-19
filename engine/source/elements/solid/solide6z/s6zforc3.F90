@@ -86,6 +86,7 @@
 !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    mmain_mod               ../engine/source/materials/mat_share/mmain.F90
 !||    mvsiz_mod               ../engine/share/spe_inc/mvsiz_mod.F90
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
 !||    names_and_titles_mod    ../common_source/modules/names_and_titles_mod.F
 !||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod              ../common_source/modules/output/output_mod.F90

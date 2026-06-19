@@ -789,6 +789,8 @@ C
 !||    spmd_mumps_deal   ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_mumps_exec   ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_mumps_ini    ../engine/source/mpi/implicit/imp_spmd.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE LAG_MULT_SDP(
      1                    NH    ,NC      ,NCR   ,A     ,V     ,

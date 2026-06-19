@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float      ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================

@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fvbric      ../starter/source/airbag/fvbric.F
+!||    fvbric         ../starter/source/airbag/fvbric.F
 !||--- called by ------------------------------------------------------
-!||    fvmesh0     ../starter/source/airbag/fvmesh0.F
+!||    fvmesh0        ../starter/source/airbag/fvmesh0.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+!||    fvbag_mod      ../starter/share/modules1/fvbag_mod.F
 !||====================================================================
       SUBROUTINE FVBRIC(IVOLU, RVOLU, IBUF, X, NN)
 C-----------------------------------------------

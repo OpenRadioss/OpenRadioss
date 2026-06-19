@@ -24,8 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_failwave_boundaries   ../engine/source/mpi/output/spmd_exch_failwave.F
 !||--- called by ------------------------------------------------------
 !||    resol_init                 ../engine/source/engine/resol_init.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    failwave_mod               ../common_source/modules/failwave_mod.F
+!||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod        ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_FAILWAVE_BOUNDARIES(FAILWAVE,IAD_ELEM,FR_ELEM)
@@ -104,6 +106,7 @@ C count the #boundaries failwave nodes
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    failwave_mod          ../common_source/modules/failwave_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_FAILWAVE(FAILWAVE)

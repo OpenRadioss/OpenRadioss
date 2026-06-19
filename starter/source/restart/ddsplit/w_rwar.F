@@ -22,11 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_rwar     ../starter/source/restart/ddsplit/w_rwar.F
+!||    w_rwar         ../starter/source/restart/ddsplit/w_rwar.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal     ../starter/source/spmd/node/ddtools.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_RWAR(NPRW    ,LPRW ,RWL, RWSAV,
      +                  LWSAV_L ,LRW_PEN_L,NRW_PEN_L,RWSTIF_PEN,

@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    write_th   ../engine/source/output/th/write_th.F
+!||    write_th         ../engine/source/output/th/write_th.F
 !||--- called by ------------------------------------------------------
-!||    hist2      ../engine/source/output/th/hist2.F
+!||    hist2            ../engine/source/output/th/hist2.F
 !||--- calls      -----------------------------------------------------
-!||    wrtdes     ../engine/source/output/th/wrtdes.F
+!||    wrtdes           ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
-!||    th_mod     ../engine/share/modules/th_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    th_mod           ../engine/share/modules/th_mod.F
 !||====================================================================
         SUBROUTINE WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      ELTYPE_STRUCT,WA_ELTYPE_P0)

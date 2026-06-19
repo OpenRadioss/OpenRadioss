@@ -2688,13 +2688,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    spdometis    ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    spdometis      ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    format_mod   ../starter/share/modules1/format_mod.F90
-!||    metis_mod    ../starter/source/spmd/domain_decomposition/metis_mod.F90
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||    metis_mod      ../starter/source/spmd/domain_decomposition/metis_mod.F90
 !||====================================================================
       SUBROUTINE SPDOMETIS(KXSP, IXSP, NOD2SP, CEPSP, RESERVEP,
      .                     SPH2SOL, CEP)
@@ -3201,9 +3201,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    dd_bfs    ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    dd_bfs         ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||--- called by ------------------------------------------------------
-!||    dometis   ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    dometis        ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DD_BFS(XADJ,ADJNCY,NELEM,NEDGES,NCONNX,COLORS,ROOTS)
 C-----------------------------------------------

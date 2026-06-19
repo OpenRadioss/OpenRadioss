@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_sd_cj_2         ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_BUILD_DIAG(
      1             ITASK    ,NODFT   ,NODLT  ,MS      ,NODII_SMS   ,

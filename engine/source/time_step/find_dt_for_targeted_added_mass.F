@@ -34,6 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod                      ../common_source/modules/groupdef_mod.F
 !||    message_mod                       ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod                      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                    ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FIND_DT_FOR_TARGETED_ADDED_MASS(MS,STIFN,DTSCA,IGRP_USR,TARGET_DT,
      .                                           PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,TOTMAS,WEIGHT,IGRNOD,

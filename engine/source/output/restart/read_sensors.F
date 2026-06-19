@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90

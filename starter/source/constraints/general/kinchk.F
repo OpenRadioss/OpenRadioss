@@ -1412,12 +1412,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    rbe3_impd   ../starter/source/constraints/general/kinchk.F
+!||    rbe3_impd      ../starter/source/constraints/general/kinchk.F
 !||--- called by ------------------------------------------------------
-!||    inivchk     ../starter/source/constraints/general/kinchk.F
+!||    inivchk        ../starter/source/constraints/general/kinchk.F
 !||--- calls      -----------------------------------------------------
-!||    prerbe3     ../starter/source/constraints/general/kinchk.F
-!||    rbe3cl      ../starter/source/constraints/general/kinchk.F
+!||    prerbe3        ../starter/source/constraints/general/kinchk.F
+!||    rbe3cl         ../starter/source/constraints/general/kinchk.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,D     ,DR    ,
      1                     FRBE3 ,SKEW  )

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_list_remnode   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
 !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr             ../starter/source/interfaces/interf1/inintr.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufmod          ../starter/share/modules1/restart_mod.F
 !||====================================================================
@@ -105,6 +106,7 @@ C
 !||    remn_i2_edgop      ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    remn_i2op          ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    remn_self24        ../starter/source/interfaces/inter3d1/remn_self24.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufmod          ../starter/share/modules1/restart_mod.F
 !||    restmod            ../starter/share/modules1/restart_mod.F
@@ -220,6 +222,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    inint3                ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                ../starter/source/interfaces/interf1/inintr.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufmod             ../starter/share/modules1/restart_mod.F
 !||====================================================================
@@ -276,6 +279,7 @@ C
 !||    upgrade_remnode_edg2   ../starter/source/interfaces/interf1/upgrade_remnode.F
 !||--- called by ------------------------------------------------------
 !||    remn_i2op_edg25        ../starter/source/interfaces/int25/i25remlin.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufmod              ../starter/share/modules1/restart_mod.F
 !||====================================================================
@@ -344,6 +348,7 @@ C
 !||    upgrade_remnode_e2s   ../starter/source/interfaces/interf1/upgrade_remnode.F
 !||--- called by ------------------------------------------------------
 !||    remn_i2op_edg25       ../starter/source/interfaces/int25/i25remlin.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufmod             ../starter/share/modules1/restart_mod.F
 !||====================================================================

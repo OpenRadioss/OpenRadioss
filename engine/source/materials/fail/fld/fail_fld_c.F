@@ -21,14 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_fld_c      ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    fail_fld_c       ../engine/source/materials/fail/fld/fail_fld_c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
-!||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
-!||    finter          ../engine/source/tools/curve/finter.F
-!||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
-!||    vinter2         ../engine/source/tools/curve/vinter.F
+!||    finter           ../engine/source/tools/curve/finter.F
+!||    finterfld        ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    vinter2          ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FAIL_FLD_C(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,

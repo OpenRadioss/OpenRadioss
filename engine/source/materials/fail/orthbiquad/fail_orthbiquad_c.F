@@ -27,6 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
 !||--- calls      -----------------------------------------------------
 !||    finter              ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FAIL_ORTHBIQUAD_C(
      1           NEL      ,NUVAR    ,

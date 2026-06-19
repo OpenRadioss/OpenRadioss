@@ -31,6 +31,8 @@ C
 !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
 !||====================================================================
       SUBROUTINE CHKLOAD(

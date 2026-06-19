@@ -246,6 +246,8 @@ C
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
+!||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod           ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FVUPD1(NEL       , IBUF    , ELEM     , X    , NPOLH ,
      .                  MPOLH     , QPOLH   , EPOLH    , V    ,

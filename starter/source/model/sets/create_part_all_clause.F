@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    create_part_all_clause   ../starter/source/model/sets/create_part_all_clause.F
 !||--- called by ------------------------------------------------------
 !||    hm_set                   ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE CREATE_PART_ALL_CLAUSE( CLAUSE )

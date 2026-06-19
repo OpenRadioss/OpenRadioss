@@ -58,6 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
 !||    rad2r_mod            ../engine/share/modules/rad2r.F
 !||====================================================================
@@ -556,6 +558,8 @@ C-----------------------------------------------------------------
 !||    spmd_r2r_rget3     ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    rad2r_mod          ../engine/share/modules/rad2r.F
 !||====================================================================
       SUBROUTINE INIT_LINK_SPMD(

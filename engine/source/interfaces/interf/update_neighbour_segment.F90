@@ -56,6 +56,8 @@
 !||    get_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
 !||    get_segment_criteria_mod                  ../engine/source/interfaces/interf/get_segment_criteria.F90
 !||    intbufdef_mod                             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                              ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                            ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                             ../common_source/modules/precision_mod.F90
 !||    shooting_node_mod                         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================

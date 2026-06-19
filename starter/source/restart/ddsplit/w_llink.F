@@ -22,11 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_llink     ../starter/source/restart/ddsplit/w_llink.F
+!||    w_llink        ../starter/source/restart/ddsplit/w_llink.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_LLINK(
      .   NNLINK,LLLINK,NODLOCAL,PROC,NLLINK_L,LEN_IA)

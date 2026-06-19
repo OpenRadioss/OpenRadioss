@@ -21,19 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i24ke3          ../engine/source/interfaces/int24/i24ke3.F
+!||    i24ke3           ../engine/source/interfaces/int24/i24ke3.F
 !||--- called by ------------------------------------------------------
-!||    imp_int_k       ../engine/source/implicit/imp_int_k.F
+!||    imp_int_k        ../engine/source/implicit/imp_int_k.F
 !||--- calls      -----------------------------------------------------
-!||    ass_spmd        ../engine/source/implicit/assem_int.F
-!||    assem_int       ../engine/source/implicit/assem_int.F
-!||    ffizero         ../engine/source/interfaces/int07/i7ke3.F
-!||    i24corkm        ../engine/source/interfaces/int24/i24cork3.F
-!||    i24keg3         ../engine/source/interfaces/int24/i24ke3.F
-!||    i24kgeo3        ../engine/source/interfaces/int24/i24ke3.F
+!||    ass_spmd         ../engine/source/implicit/assem_int.F
+!||    assem_int        ../engine/source/implicit/assem_int.F
+!||    ffizero          ../engine/source/interfaces/int07/i7ke3.F
+!||    i24corkm         ../engine/source/interfaces/int24/i24cork3.F
+!||    i24keg3          ../engine/source/interfaces/int24/i24ke3.F
+!||    i24kgeo3         ../engine/source/interfaces/int24/i24ke3.F
 !||--- uses       -----------------------------------------------------
-!||    imp_intbufdef   ../engine/share/modules/imp_mod_def.F90
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    imp_intbufdef    ../engine/share/modules/imp_mod_def.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE I24KE3( A     ,V      ,MS   ,
      1                   IPARI ,INTBUF_TAB,X    ,NIN   ,

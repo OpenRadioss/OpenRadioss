@@ -45,6 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf_mod                     ../engine/share/resol/initbuf.F
 !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
 !||    mvsiz_mod                       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                  ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
 !||    spmd_exch_min_max_mod           ../engine/source/mpi/ale/spmd_exch_min_max.F90

@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_bufel    ../starter/source/restart/ddsplit/w_bufel.F
+!||    w_bufel        ../starter/source/restart/ddsplit/w_bufel.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_BUFEL(IPARG,PROC,LBUFEL_L,ELBUF,LEN_AM)
 C-----------------------------------------------

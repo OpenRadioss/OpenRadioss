@@ -41,6 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    stack_mod          ../engine/share/modules/stack_mod.F
 !||    th_mod             ../engine/share/modules/th_mod.F
 !||====================================================================

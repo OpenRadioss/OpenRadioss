@@ -25,6 +25,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    fail_inievo_ib   ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
 !||    fail_inievo_s    ../engine/source/materials/fail/inievo/fail_inievo_s.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE  JACOBIEW_V(DIM1,DIM2,A,EW,EV,NROT)
 C-----------------------------------------------

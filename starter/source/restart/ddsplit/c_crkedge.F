@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c_crkedge   ../starter/source/restart/ddsplit/c_crkedge.F
+!||    c_crkedge      ../starter/source/restart/ddsplit/c_crkedge.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C_CRKEDGE(IELC_L   ,IELTG_L ,IEDGECRK_L,NUMEDGES  ,
      .                     IEDGESH4 ,IEDGESH3,CEP       ,P         ,

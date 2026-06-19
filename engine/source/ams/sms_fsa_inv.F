@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ams_work_mod     ../engine/source/modules/ams_work_mod.F90
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    timer_mod        ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
@@ -327,18 +328,20 @@ C--------------------------------------------
       END
 C--------factorized sparse approximate inverse version hybrid------- 
 !||====================================================================
-!||    sms_fsa_invh    ../engine/source/ams/sms_fsa_inv.F
+!||    sms_fsa_invh     ../engine/source/ams/sms_fsa_inv.F
 !||--- called by ------------------------------------------------------
-!||    sms_check       ../engine/source/ams/sms_fsa_inv.F
+!||    sms_check        ../engine/source/ams/sms_fsa_inv.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
-!||    arret           ../engine/source/system/arret.F
-!||    get_subsp_sms   ../engine/source/ams/sms_fsa_inv.F
-!||    imp_fsai        ../engine/source/implicit/imp_fsa_inv.F
-!||    sms_pcg1        ../engine/source/ams/sms_fsa_inv.F
-!||    sp_stat0        ../engine/source/implicit/imp_fsa_inv.F
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
+!||    get_subsp_sms    ../engine/source/ams/sms_fsa_inv.F
+!||    imp_fsai         ../engine/source/implicit/imp_fsa_inv.F
+!||    sms_pcg1         ../engine/source/ams/sms_fsa_inv.F
+!||    sp_stat0         ../engine/source/implicit/imp_fsa_inv.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_FSA_INVH(NNZM   ,IADM  ,JDIM  , DIAG_M, LT_M, 
      1                  NNDFT0 ,NNDFT1,ITASK ,DIAG_INV)

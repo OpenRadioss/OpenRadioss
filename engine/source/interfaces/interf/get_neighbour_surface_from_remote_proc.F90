@@ -54,6 +54,8 @@
 !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
 !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
 !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                             ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                           ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                            ../common_source/modules/precision_mod.F90
 !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F90

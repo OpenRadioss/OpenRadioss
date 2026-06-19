@@ -147,6 +147,7 @@ c
 !||    arret             ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         SUBROUTINE STACK_PLY_ALLOC(STACK,IPART_STACK,NPT_STACK,NS_STACK)
 C-----------------------------------------------

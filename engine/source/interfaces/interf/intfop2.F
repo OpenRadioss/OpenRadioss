@@ -51,6 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
 !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
 !||    timer_mod                    ../engine/source/system/timer_mod.F90

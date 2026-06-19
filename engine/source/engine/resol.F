@@ -292,6 +292,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
 !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
 !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
+!||    report_alloc                                 ../common_source/tools/memory/my_alloc_tools.F90
 !||    resol_alloc_nitsche                          ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase1                           ../engine/source/engine/resol_alloc.F90
 !||    resol_alloc_phase10                          ../engine/source/engine/resol_alloc.F90

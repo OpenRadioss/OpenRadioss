@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    prerafig3d        ../starter/source/elements/ige3d/prerafig3d.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE COMPUT_COINKNOT(IEL ,IXIG3D,KXIG3D ,MESHIGE,PTANG1 ,PTANG2 ,IDDIR,
      .                           IDTANG1,IDTANG2,NELDIR,NELTANG1,NELTANG2,DIR,

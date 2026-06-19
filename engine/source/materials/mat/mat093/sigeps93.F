@@ -22,12 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C Orthotropic Hill
 !||====================================================================
-!||    sigeps93       ../engine/source/materials/mat/mat093/sigeps93.F
+!||    sigeps93         ../engine/source/materials/mat/mat093/sigeps93.F
 !||--- called by ------------------------------------------------------
-!||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||--- calls      -----------------------------------------------------
-!||    mstrain_rate   ../engine/source/materials/mat_share/mstrain_rate.F
-!||    vinter         ../engine/source/tools/curve/vinter.F
+!||    mstrain_rate     ../engine/source/materials/mat_share/mstrain_rate.F
+!||    vinter           ../engine/source/tools/curve/vinter.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
        SUBROUTINE SIGEPS93(
      1      NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    , 

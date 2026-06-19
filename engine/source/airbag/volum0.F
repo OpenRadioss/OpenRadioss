@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float         ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE VOLUM0(IVOLU   ,RVOLU ,VOL  ,X  ,SURF_NODES,
      2                  N       ,NN    ,SURF_ELTYP,SURF_ELEM,

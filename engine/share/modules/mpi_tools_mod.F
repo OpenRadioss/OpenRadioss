@@ -67,6 +67,7 @@ C  ! TAB2 is the TAB of the processor that has the minimum value of VAL
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT) 
@@ -161,6 +162,7 @@ C-----------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT) 

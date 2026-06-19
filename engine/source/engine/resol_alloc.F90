@@ -282,9 +282,11 @@
 !||    resol_alloc_phase4   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    alemuscl_mod         ../common_source/modules/ale/alemuscl_mod.F
 !||    constant_mod         ../common_source/modules/constant_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    output_mod           ../common_source/modules/output/output_mod.F90
 !||    pblast_mod           ../common_source/modules/loads/pblast_mod.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
@@ -402,9 +404,11 @@
 !||    resol_alloc_phase5   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod         ../common_source/modules/constant_mod.F
 !||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_phase5(glob_therm,numnod,ninter,nodadt,nthread,iparit,lsky,lskyi,&
@@ -532,8 +536,10 @@
 !||    resol_alloc_phase6   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod         ../common_source/modules/constant_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
@@ -632,8 +638,10 @@
 !||    resol_alloc_phase7   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod         ../common_source/modules/constant_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_phase7(ialelag,numnod,nthread,iparit,lsky,msnf,msf, &
@@ -692,8 +700,10 @@
 !||    resol_alloc_phase8   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_phase8(nadmesh,numelc,numeltg,numnod,levelmax,iparit,istatcnd,anim_n, &
@@ -878,8 +888,10 @@
 !||    resol_alloc_phase10   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod          ../common_source/modules/constant_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_phase10(ngroup,idtmins, idtmins_int,tagnod_sms,nativ_sms,tagprt_sms,tagrel_sms, &
@@ -1091,8 +1103,10 @@
 !||    resol_alloc_phase11   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod          ../common_source/modules/constant_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_phase11(IREAC,IGRELEM,NUMNOD,NUMELSG,NUMELS16G,NUMSPHG, &
@@ -1189,8 +1203,10 @@
 !||    resol_alloc_nitsche   ../engine/source/engine/resol_alloc.F90
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod          ../common_source/modules/constant_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine resol_alloc_nitsche(NFACNIT, NITSCHE, IPARIT, NUMELS, NUMELS10G, LSKY, &

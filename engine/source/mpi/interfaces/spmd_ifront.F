@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ifront_mod            ../engine/share/modules/ifront_mod.F
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F

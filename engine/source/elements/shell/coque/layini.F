@@ -33,9 +33,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stat_c_strafg      ../engine/source/output/sta/stat_c_strafg.F
 !||    stat_c_strsfg      ../engine/source/output/sta/stat_c_strsfg.F
 !||    tensorc            ../engine/source/output/anim/generate/tensorc.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    stack_mod          ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE LAYINI(

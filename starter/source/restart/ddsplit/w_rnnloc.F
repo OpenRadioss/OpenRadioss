@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_rnnloc   ../starter/source/restart/ddsplit/w_rnnloc.F
+!||    w_rnnloc         ../starter/source/restart/ddsplit/w_rnnloc.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_RNNLOC(RTAB,NODGLOB,NUMNOD_L,DIM,LEN_AM)
 C-----------------------------------------------

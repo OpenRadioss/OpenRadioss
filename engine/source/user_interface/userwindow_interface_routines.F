@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    user_windows_mod   ../common_source/modules/user_windows_mod.F
 !||====================================================================
       SUBROUTINE USERWI_READ(USER_WINDOWS,ISPMD,NSPMD,NUMNOD)

@@ -264,6 +264,8 @@ C-----------
 !||    rbe3cl            ../engine/source/constraints/general/rbe3/rbe3f.F
 !||    rbe3f_pen         ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||    rbe3_mod          ../common_source/modules/constraints/rbe3_mod.F90
 !||    rbe3f_pen_mod     ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||====================================================================
@@ -2274,13 +2276,14 @@ C---
       RETURN
       END
 !||====================================================================
-!||    prerbe3p0      ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    prerbe3p0        ../engine/source/constraints/general/rbe3/rbe3f.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-!||    rbe3_mod       ../common_source/modules/constraints/rbe3_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
 !||====================================================================
       SUBROUTINE PRERBE3P0(RBE3)
       use rbe3_mod

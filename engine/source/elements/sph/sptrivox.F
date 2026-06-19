@@ -22,16 +22,18 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 !||====================================================================
-!||    sptrivox        ../engine/source/elements/sph/sptrivox.F
+!||    sptrivox         ../engine/source/elements/sph/sptrivox.F
 !||--- called by ------------------------------------------------------
-!||    spbuc3          ../engine/source/elements/sph/spbuc3.F
+!||    spbuc3           ../engine/source/elements/sph/spbuc3.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier      ../engine/source/system/machine.F
-!||    spmd_sphgetdk   ../engine/source/mpi/elements/spmd_sph.F
-!||    sppro3          ../engine/source/elements/sph/sppro3.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||    spmd_sphgetdk    ../engine/source/mpi/elements/spmd_sph.F
+!||    sppro3           ../engine/source/elements/sph/sppro3.F
 !||--- uses       -----------------------------------------------------
-!||    sphbox          ../engine/share/modules/sphbox.F
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    sphbox           ../engine/share/modules/sphbox.F
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPTRIVOX(
      1      NSN    ,NSNR    ,X       ,BMINMA  ,NOD2SP  ,

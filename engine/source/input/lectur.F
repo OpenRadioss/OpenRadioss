@@ -72,6 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90

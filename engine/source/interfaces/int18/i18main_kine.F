@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -323,6 +324,8 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================

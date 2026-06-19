@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    prerbe3            ../engine/source/constraints/general/rbe3/rbe3f.F
 !||    rbe3cl             ../engine/source/constraints/general/rbe3/rbe3f.F
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    rbe3_mod           ../common_source/modules/constraints/rbe3_mod.F90
 !||====================================================================
@@ -131,12 +133,15 @@ C---
       RETURN
       END
 !||====================================================================
-!||    rbe3_impd   ../engine/source/constraints/general/rbe3/rbe3v.F
+!||    rbe3_impd        ../engine/source/constraints/general/rbe3/rbe3v.F
 !||--- called by ------------------------------------------------------
-!||    recukin     ../engine/source/implicit/recudis.F
+!||    recukin          ../engine/source/implicit/recudis.F
 !||--- calls      -----------------------------------------------------
-!||    prerbe3     ../engine/source/constraints/general/rbe3/rbe3f.F
-!||    rbe3cl      ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    prerbe3          ../engine/source/constraints/general/rbe3/rbe3f.F
+!||    rbe3cl           ../engine/source/constraints/general/rbe3/rbe3f.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,D     ,DR    ,
      1                     FRBE3 ,SKEW  )

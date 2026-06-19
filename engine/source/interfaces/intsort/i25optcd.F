@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier        ../engine/source/system/machine.F
 !||    sync_data         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||    tri7box           ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25OPTCD(

@@ -217,6 +217,7 @@ C
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
 !||====================================================================

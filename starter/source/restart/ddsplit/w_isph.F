@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_isph        ../starter/source/restart/ddsplit/w_isph.F
+!||    w_isph           ../starter/source/restart/ddsplit/w_isph.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
+!||    ancmsg           ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE W_ISPH(KXSP    ,IXSP    ,NUMSPH_L,CEPSP ,PROC   ,
      +                  NODLOCAL,NUMNOD_L,ISPCOND ,IPARG ,ISPHIO ,

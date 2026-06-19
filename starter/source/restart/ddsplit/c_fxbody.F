@@ -155,11 +155,12 @@ C
       RETURN
       END
 !||====================================================================
-!||    c_fxbody2   ../starter/source/restart/ddsplit/c_fxbody.F
+!||    c_fxbody2      ../starter/source/restart/ddsplit/c_fxbody.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C_FXBODY2(
      .   FXBIPM   , FXBNOD  , NODLOCAL, IPARG   , FXBELM ,

@@ -71,6 +71,7 @@
 !||    radiossviper_sendmass                    ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod                         ../common_source/modules/connectivity.F90
+!||    my_alloc_mod                             ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         subroutine viper_coupling_initialize(VIPER, NODES, ELEMENT,   NUMNOD,&
@@ -179,6 +180,10 @@
 !||    radiossviper_inittab        ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
 !||    viper_coupling_initialize   ../engine/source/coupling/viper/viper_interface_mod.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine RadiossViper_InitTab(numnod,itab,itabm1,ncol,ioffset)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -317,6 +322,9 @@
 !||--- called by ------------------------------------------------------
 !||    viper_coupling_initialize   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine RadiossViper_SendMass(numnod,MS,itabm1)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -412,6 +420,9 @@
 !||--- called by ------------------------------------------------------
 !||    resol                  ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine RadiossViper_SendXVE( &
           numnod, numele_radioss, numele_viper, nparg, ngroup, &
@@ -508,6 +519,9 @@
 !||--- called by ------------------------------------------------------
 !||    resol                               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine RadiossViper_ReceiveAccelerations(numnod,A,Fext,itabm1)
 ! ----------------------------------------------------------------------------------------------------------------------

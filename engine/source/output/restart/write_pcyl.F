@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    write_pcyl   ../engine/source/output/restart/write_pcyl.F
+!||    write_pcyl       ../engine/source/output/restart/write_pcyl.F
 !||--- called by ------------------------------------------------------
-!||    wrrestp      ../engine/source/output/restart/wrrestp.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db     ../common_source/tools/input_output/write_db.F
-!||    write_i_c    ../common_source/tools/input_output/write_routines.c
+!||    write_db         ../common_source/tools/input_output/write_db.F
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    loads_mod    ../common_source/modules/loads/loads_mod.F90
+!||    loads_mod        ../common_source/modules/loads/loads_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE WRITE_PCYL(LOADS)
 C-----------------------------------------------

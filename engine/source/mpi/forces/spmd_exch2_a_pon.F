@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    heat_mod               ../engine/share/modules/heat_mod.F
 !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

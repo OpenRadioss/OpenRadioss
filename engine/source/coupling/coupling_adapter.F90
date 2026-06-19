@@ -322,6 +322,7 @@
 !||    coupling_adapter_set_nodes   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine coupling_set_nodes(coupling, igrnod, ngrnod)
           use GROUPDEF_MOD
@@ -377,6 +378,7 @@
 !||    make_unique                  ../engine/source/coupling/coupling_adapter.F90
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         subroutine coupling_set_mesh(coupling, surf,  nodes)
@@ -568,6 +570,8 @@
 !||--- calls      -----------------------------------------------------
 !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_write(coupling, dt, global_values, nb_nodes, name_id)
@@ -611,6 +615,8 @@
 !||--- calls      -----------------------------------------------------
 !||    coupling_adapter_write_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_write_scalar(coupling, dt, global_values, nb_nodes, name_id)
@@ -651,6 +657,8 @@
 !||--- calls      -----------------------------------------------------
 !||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_read(coupling, dt, global_values, nb_nodes, mode, name_id)
@@ -699,6 +707,8 @@
 !||--- calls      -----------------------------------------------------
 !||    coupling_adapter_read_data   ../engine/source/coupling/coupling_c_interface.cpp
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine coupling_read_scalar(coupling, dt, global_values, nb_nodes, mode, name_id)

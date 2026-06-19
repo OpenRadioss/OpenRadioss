@@ -33,6 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod              ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
 !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod           ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_COLLECT_MULTI_FVM(IXS,MULTI_FVM,FLAG)

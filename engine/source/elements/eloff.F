@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    eloff          ../engine/source/elements/eloff.F
+!||    eloff            ../engine/source/elements/eloff.F
 !||--- called by ------------------------------------------------------
-!||    desacti        ../engine/source/elements/desacti.F
+!||    desacti          ../engine/source/elements/desacti.F
 !||--- calls      -----------------------------------------------------
-!||    s10nxt4        ../engine/source/elements/solid/solide10/s10nxt4.F
-!||    s4volume       ../engine/source/elements/solid/solide4/s4volume.F
-!||    s8etemper      ../engine/source/elements/solid/solide8e/s8etemper.F
-!||    s8evolume      ../engine/source/elements/solid/solide8e/s8evolume.F
+!||    s10nxt4          ../engine/source/elements/solid/solide10/s10nxt4.F
+!||    s4volume         ../engine/source/elements/solid/solide4/s4volume.F
+!||    s8etemper        ../engine/source/elements/solid/solide8e/s8etemper.F
+!||    s8evolume        ../engine/source/elements/solid/solide8e/s8evolume.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    groupdef_mod   ../common_source/modules/groupdef_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
        SUBROUTINE ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
      .                  IXR     ,IXTG    ,IPARG    , 

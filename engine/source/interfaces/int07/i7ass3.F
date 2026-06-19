@@ -1790,15 +1790,17 @@ C
       RETURN
       END
 !||====================================================================
-!||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
+!||    i7assigeo0       ../engine/source/interfaces/int07/i7ass3.F
 !||--- called by ------------------------------------------------------
-!||    i7ass33        ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass33          ../engine/source/interfaces/int07/i7ass3.F
 !||--- calls      -----------------------------------------------------
-!||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
+!||    ig3donebasis     ../engine/source/elements/ige3d/ig3donebasis.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod        ../engine/share/modules/h3d_mod.F
-!||    message_mod    ../engine/share/message_module/message_mod.F
-!||    tri7box        ../engine/share/modules/tri7box.F
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I7ASSIGEO0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                  NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,

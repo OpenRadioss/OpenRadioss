@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_ixbloc    ../starter/source/restart/ddsplit/w_ixbloc.F
+!||    w_ixbloc         ../starter/source/restart/ddsplit/w_ixbloc.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_IXBLOC(IXA,NNOD,DIM,CEP,P,
      +                    NUMEL,NUMEL_L,NODLOCAL,LEN_IA)

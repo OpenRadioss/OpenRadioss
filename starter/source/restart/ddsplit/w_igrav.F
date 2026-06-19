@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_igrav     ../starter/source/restart/ddsplit/w_igrav.F
+!||    w_igrav        ../starter/source/restart/ddsplit/w_igrav.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_IGRAV(
      .  IGRAV,LGRAV,NODLOCAL,PROC,LLGRAV_L,LEN_IA,NUMNOD_L)

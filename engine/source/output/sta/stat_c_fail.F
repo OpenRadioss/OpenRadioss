@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE STAT_C_FAIL(ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXC ,
      2                       IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,

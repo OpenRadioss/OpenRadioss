@@ -37,6 +37,7 @@
 !||--- called by ------------------------------------------------------
 !||    i25buc_vox1        ../starter/source/interfaces/inter3d1/i25buc_vox1.F
 !||    i7buc_vox1         ../starter/source/interfaces/inter3d1/i7buc_vox1.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,STIFN,DD0)

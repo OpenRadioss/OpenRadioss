@@ -21,20 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    admregul       ../engine/source/model/remesh/admregul.F
+!||    admregul         ../engine/source/model/remesh/admregul.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    admmap3        ../engine/source/model/remesh/admmap3.F
-!||    admmap4        ../engine/source/model/remesh/admmap4.F
-!||    my_barrier     ../engine/source/system/machine.F
-!||    my_orders      ../common_source/tools/sort/my_orders.c
-!||    sync_data      ../engine/source/system/machine.F
+!||    admmap3          ../engine/source/model/remesh/admmap3.F
+!||    admmap4          ../engine/source/model/remesh/admmap4.F
+!||    my_barrier       ../engine/source/system/machine.F
+!||    my_orders        ../common_source/tools/sort/my_orders.c
+!||    sync_data        ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-!||    remesh_mod     ../engine/share/modules/remesh_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    remesh_mod       ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMREGUL(IXC  ,IPARTC  ,IXTG ,IPARTTG,IPART,
      .                    ITASK,IPARG   ,X    ,MS     ,IN   ,

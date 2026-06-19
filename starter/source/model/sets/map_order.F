@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    create_map_tables   ../starter/source/model/sets/map_tables.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE MAP_ORDER(IXELM,SIXELM,UID,NUM_ELM,MAP)
 C-----------------------------------------------

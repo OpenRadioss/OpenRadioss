@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_joint   ../starter/source/constraints/general/cyl_joint/init_joint.F
+!||    init_joint     ../starter/source/constraints/general/cyl_joint/init_joint.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    joint_mod    ../starter/share/modules1/joint_mod.F
+!||    joint_mod      ../starter/share/modules1/joint_mod.F
 !||====================================================================
         SUBROUTINE INIT_JOINT(NJOINT)
 !$COMMENT

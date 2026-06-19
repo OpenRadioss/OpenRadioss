@@ -22,11 +22,12 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_itabm1    ../starter/source/restart/ddsplit/w_itabm1.F
+!||    w_itabm1       ../starter/source/restart/ddsplit/w_itabm1.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    usr2sys     ../starter/source/system/sysfus.F
+!||    usr2sys        ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_ITABM1(ITABM1,ITABM2,NODGLOB,NODLOCAL,NUMNOD_L,
      2                   ITAB, LEN_IA)

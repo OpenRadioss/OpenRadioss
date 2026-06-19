@@ -26,6 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortie_main               ../engine/source/output/sortie_main.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_h3d_sum_r_nodal_21   ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod            ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FCONT_MAX_OUTPUT(CONT,FCONTG,NODGLOB,FCONT_MAX,WEIGHT)
 C-----------------------------s------------------

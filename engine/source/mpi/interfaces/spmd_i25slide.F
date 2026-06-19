@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    mpi_commod            ../engine/share/modules/mpi_comm_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    pointerdef            ../engine/share/modules/pointerdef_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
@@ -241,6 +242,7 @@ C
 !||    ifront_mod            ../engine/share/modules/ifront_mod.F
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
 !||    tri7box               ../engine/share/modules/tri7box.F
@@ -1323,8 +1325,10 @@ C
 !||    deallocate_fi1_tmp    ../engine/source/mpi/interfaces/spmd_i25slide.F
 !||--- called by ------------------------------------------------------
 !||    spmd_i25_slide_gat    ../engine/source/mpi/interfaces/spmd_i25slide.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25tmp              ../engine/share/modules/tri25tmp_mod.F
 !||    tri7box               ../engine/share/modules/tri7box.F
@@ -1436,6 +1440,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod               ../engine/share/modules/h3d_mod.F
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================

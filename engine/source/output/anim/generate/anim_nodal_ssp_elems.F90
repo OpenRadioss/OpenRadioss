@@ -38,11 +38,14 @@
 !||    anim_nodal_ssp_elems   ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||--- called by ------------------------------------------------------
 !||    nodalssp               ../engine/source/output/anim/generate/nodalssp.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    constant_mod           ../common_source/modules/constant_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine anim_nodal_ssp_elems( wa4, swa4, iparg, elbuf_tab, ix, nix, numel, is_written_node, &

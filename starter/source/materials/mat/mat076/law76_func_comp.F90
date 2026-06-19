@@ -39,6 +39,7 @@
 !||    law76_func_comp   ../starter/source/materials/mat/mat076/law76_func_comp.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat76     ../starter/source/materials/mat/mat076/hm_read_mat76.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine law76_func_comp(func_tens,func_shear,func_comp,nptmax,nup)

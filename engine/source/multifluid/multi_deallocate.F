@@ -24,9 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_deallocate   ../engine/source/multifluid/multi_deallocate.F
 !||--- called by ------------------------------------------------------
 !||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE MULTI_DEALLOCATE(MULTI_FVM)
 C-----------------------------------------------

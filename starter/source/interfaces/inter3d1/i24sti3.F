@@ -1802,10 +1802,11 @@ C-----------------------------------------------
  !    +                      ' ARE REVERSED THE NORMAL DIRECTION')
       END
 !||====================================================================
-!||    i24bord     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24bord        ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- called by ------------------------------------------------------
-!||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24sti3        ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24BORD(NSEG,SURF_NODES ,TAGB)
 C-----------------------------------------------
@@ -1901,13 +1902,14 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    i24normns   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24normns      ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- called by ------------------------------------------------------
-!||    i24sti3     ../starter/source/interfaces/inter3d1/i24sti3.F
-!||    i25sti3     ../starter/source/interfaces/inter3d1/i25sti3.F
+!||    i24sti3        ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i25sti3        ../starter/source/interfaces/inter3d1/i25sti3.F
 !||--- calls      -----------------------------------------------------
-!||    normv3      ../starter/source/interfaces/inter3d1/i24tools.F
-!||    normvec     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    normv3         ../starter/source/interfaces/inter3d1/i24tools.F
+!||    normvec        ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24NORMNS(
      1 X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD, STF)

@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_spmd_ne_connect      ../starter/source/ale/spmd_ne_connect.F
 !||--- called by ------------------------------------------------------
 !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 

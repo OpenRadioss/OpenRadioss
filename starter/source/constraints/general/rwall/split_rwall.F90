@@ -40,7 +40,7 @@
 !||--- calls      -----------------------------------------------------
 !||    plist_ifront     ../starter/source/spmd/node/ddtools.F
 !||--- uses       -----------------------------------------------------
-!||    constraint_mod   ../starter/source/modules/constaint_mod.F90
+!||    constraint_mod   ../starter/source/modules/constraint_mod.F90
 !||====================================================================
         subroutine split_rwall(nrwall,nspmd,nnprw ,slprw,nprw,lprw,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------

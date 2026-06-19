@@ -33,6 +33,7 @@
 !||    law190_upd         ../starter/source/materials/mat/mat190/law190_upd.F90
 !||--- called by ------------------------------------------------------
 !||    updmat             ../starter/source/materials/updmat.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine law190_upd(  matparam ,numtabl ,itable   ,table    ,pm ,  &

@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_dpdb        ../common_source/tools/input_output/write_db.F
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    sfem_mod          ../common_source/modules/elements/sfem_mod.F90
 !||    time_mod          ../engine/share/modules/time_mod.F

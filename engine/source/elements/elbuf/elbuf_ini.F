@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
 !||--- uses       -----------------------------------------------------
 !||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE ELBUF_INI(MAT_ELEM ,NGROUP ,IPARG)  
 C-----------------------------------------------

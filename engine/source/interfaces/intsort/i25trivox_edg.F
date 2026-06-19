@@ -21,21 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||    i25trivox_edg    ../engine/source/interfaces/intsort/i25trivox_edg.F
 !||--- called by ------------------------------------------------------
-!||    i25buce_edg     ../engine/source/interfaces/intsort/i25buce_edg.F
+!||    i25buce_edg      ../engine/source/interfaces/intsort/i25buce_edg.F
 !||--- calls      -----------------------------------------------------
-!||    i25sto_e2s      ../engine/source/interfaces/intsort/i25sto_e2s.F
-!||    i25sto_edg      ../engine/source/interfaces/intsort/i25sto_edg.F
-!||    int_checksum    ../engine/share/modules/debug_mod.F
-!||    ireallocate     ../engine/share/modules/realloc_mod.F
-!||    my_barrier      ../engine/source/system/machine.F
+!||    i25sto_e2s       ../engine/source/interfaces/intsort/i25sto_e2s.F
+!||    i25sto_edg       ../engine/source/interfaces/intsort/i25sto_edg.F
+!||    int_checksum     ../engine/share/modules/debug_mod.F
+!||    ireallocate      ../engine/share/modules/realloc_mod.F
+!||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    debug_mod       ../engine/share/modules/debug_mod.F
-!||    realloc_mod     ../engine/share/modules/realloc_mod.F
-!||    tri11           ../engine/share/modules/tri11_mod.F
-!||    tri25ebox       ../engine/share/modules/tri25ebox.F
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    debug_mod        ../engine/share/modules/debug_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    realloc_mod      ../engine/share/modules/realloc_mod.F
+!||    tri11            ../engine/share/modules/tri11_mod.F
+!||    tri25ebox        ../engine/share/modules/tri25ebox.F
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25TRIVOX_EDG(
      1      I_MEM   ,VMAXDT  ,INACTI ,IRECT   ,

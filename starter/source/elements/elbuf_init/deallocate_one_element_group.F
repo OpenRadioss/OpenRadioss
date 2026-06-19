@@ -24,8 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    deallocate_one_element_group   ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
 !||--- called by ------------------------------------------------------
 !||    deallocate_elbuf               ../starter/source/elements/elbuf_init/deallocate_buffer.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    message_mod                    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE DEALLOCATE_ONE_ELEMENT_GROUP(
      .                         ELBUF_TAB,NLAY,NPTR,NPTS  ,NPTT, NINTLAY,

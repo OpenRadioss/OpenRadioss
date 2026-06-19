@@ -499,19 +499,21 @@ C
       RETURN
       END
 !||====================================================================
-!||    cncoefort      ../engine/source/elements/sh3n/coquedk/cncoef3.F
+!||    cncoefort        ../engine/source/elements/sh3n/coquedk/cncoef3.F
 !||--- called by ------------------------------------------------------
-!||    czforc3        ../engine/source/elements/shell/coquez/czforc3.F
-!||    czforc3_crk    ../engine/source/elements/xfem/czforc3_crk.F
+!||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+!||    czforc3_crk      ../engine/source/elements/xfem/czforc3_crk.F
 !||--- calls      -----------------------------------------------------
-!||    cctoglob       ../engine/source/elements/shell/coqueba/cmatc3.F
-!||    gepm_lc        ../engine/source/elements/shell/coqueba/cmatc3.F
-!||    layini         ../engine/source/elements/shell/coque/layini.F
+!||    cctoglob         ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    gepm_lc          ../engine/source/elements/shell/coqueba/cmatc3.F
+!||    layini           ../engine/source/elements/shell/coque/layini.F
 !||--- uses       -----------------------------------------------------
-!||    drape_mod      ../engine/share/modules/drape_mod.F
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
-!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    stack_mod        ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE CNCOEFORT(JFT    ,JLT     ,PM        ,MAT     ,GEO    ,
      1                     PID    ,MTN     ,NPT       ,HM      ,HF     ,

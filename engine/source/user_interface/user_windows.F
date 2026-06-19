@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_userwi       ../engine/source/mpi/user_interface/spmd_exch_userwi.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
 !||====================================================================
        SUBROUTINE USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL   ,

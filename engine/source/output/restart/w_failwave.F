@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    w_failwave     ../engine/source/output/restart/w_failwave.F
+!||    w_failwave       ../engine/source/output/restart/w_failwave.F
 !||--- called by ------------------------------------------------------
-!||    wrrestp        ../engine/source/output/restart/wrrestp.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c      ../common_source/tools/input_output/write_routines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    failwave_mod   ../common_source/modules/failwave_mod.F
+!||    failwave_mod     ../common_source/modules/failwave_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE W_FAILWAVE(FAILWAVE)
 C-----------------------------------------------

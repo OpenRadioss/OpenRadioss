@@ -57,6 +57,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22bufbric_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    my_alloc_mod                     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                   ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
 !||    timer_mod                        ../engine/source/system/timer_mod.F90

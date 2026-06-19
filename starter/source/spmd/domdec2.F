@@ -2862,9 +2862,10 @@ C-----------------------------------------------
       END
 C
 !||====================================================================
-!||    fillcni2        ../starter/source/spmd/domdec2.F
+!||    fillcni2         ../starter/source/spmd/domdec2.F
 !||--- called by ------------------------------------------------------
-!||    lectur          ../starter/source/starter/lectur.F
+!||    lectur           ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FILLCNI2(
@@ -2944,9 +2945,11 @@ C
       END
 C
 !||====================================================================
-!||    ddprint   ../starter/source/spmd/domdec2.F
+!||    ddprint        ../starter/source/spmd/domdec2.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE  DDPRINT(DDSTAT,  MEMFLOW)
 C-----------------------------------------------
@@ -3212,12 +3215,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    c_doms10     ../starter/source/spmd/domdec2.F
+!||    c_doms10       ../starter/source/spmd/domdec2.F
 !||--- called by ------------------------------------------------------
-!||    domdec2      ../starter/source/spmd/domdec2.F
+!||    domdec2        ../starter/source/spmd/domdec2.F
 !||--- calls      -----------------------------------------------------
-!||    ifrontplus   ../starter/source/spmd/node/frontplus.F
-!||    nlocal       ../starter/source/spmd/node/ddtools.F
+!||    ifrontplus     ../starter/source/spmd/node/frontplus.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C_DOMS10(ICNDS10,ITAGND,IPLUS)
 C-----------------------------------------------

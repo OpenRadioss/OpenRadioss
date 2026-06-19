@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE STAT_SHEL_SPMD(ITAB,ITABG,LENG,IPART,IGEO,
      .            IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,

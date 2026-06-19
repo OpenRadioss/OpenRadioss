@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
 !||    nlocal               ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,PROC)
 C-----------------------------------------------

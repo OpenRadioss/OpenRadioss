@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
 !||    spmd_fl_sum            ../engine/source/mpi/generic/spmd_fl_sum.F
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================

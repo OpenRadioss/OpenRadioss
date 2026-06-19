@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rmdim_imp     ../engine/source/model/remesh/rm_imp0.F
+!||    rmdim_imp        ../engine/source/model/remesh/rm_imp0.F
 !||--- called by ------------------------------------------------------
-!||    dim_kinmax    ../engine/source/implicit/ind_glob_k.F
+!||    dim_kinmax       ../engine/source/implicit/ind_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    cp_int        ../engine/source/implicit/produt_v.F
-!||    reorder_a     ../engine/source/implicit/ind_glob_k.F
+!||    cp_int           ../engine/source/implicit/produt_v.F
+!||    reorder_a        ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
-!||    element_mod   ../common_source/modules/elements/element_mod.F90
-!||    remesh_mod    ../engine/share/modules/remesh_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    remesh_mod       ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE RMDIM_IMP(IXC ,IXTG  ,NDOF   ,NNMAX ,NKINE,
      1                     INLOC,NROW ,ITAB   ,SH4TREE,SH3TREE)

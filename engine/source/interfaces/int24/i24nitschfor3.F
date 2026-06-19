@@ -25,10 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i24nitschfor3   ../engine/source/interfaces/int24/i24nitschfor3.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod     ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||    tri7box         ../engine/share/modules/tri7box.F
 !||====================================================================
        SUBROUTINE  I24NITSCHFOR3 (IPARI ,INTBUF_TAB ,IPARIT ,STRESSMEAN,

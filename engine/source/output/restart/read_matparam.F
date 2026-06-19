@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    mat_elem_mod                  ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod                   ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod          ../common_source/modules/names_and_titles_mod.F
 !||    read_ale_rezoning_param_mod   ../engine/source/output/restart/read_ale_rezoning_param.F90
 !||    read_eosparam_mod             ../engine/source/output/restart/read_eosparam.F90

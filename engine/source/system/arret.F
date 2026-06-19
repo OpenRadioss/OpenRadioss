@@ -267,7 +267,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
-!||    my_alloc_check                   ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_check                   ../common_source/tools/memory/my_alloc_tools.F90
 !||    ndof_fv                          ../engine/source/implicit/ind_glob_k.F
 !||    pblast_1                         ../engine/source/loads/pblast/pblast_1.F
 !||    pblast_2                         ../engine/source/loads/pblast/pblast_2.F

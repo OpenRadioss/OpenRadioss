@@ -37,6 +37,10 @@
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
 !||--- calls      -----------------------------------------------------
 !||    build_error_message           ../common_source/tools/memory/extend_array.F90
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
+!||    my_move_alloc_mod             ../common_source/tools/memory/my_move_alloc.F90
 !||====================================================================
       module extend_array_mod
         use my_alloc_mod, only : my_alloc

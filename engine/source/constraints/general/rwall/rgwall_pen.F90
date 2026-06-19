@@ -213,6 +213,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod          ../common_source/modules/constant_mod.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    velrot_explicit_mod   ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||====================================================================

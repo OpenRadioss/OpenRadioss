@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    deallocate_one_element_group   ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod                   ../starter/share/modules1/elbuftag_mod.F
-!||    message_mod                    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE DEALLOCATE_ELBUF(
      .           ELBUF_TAB ,IGEO      ,IPARG    , IXS      ,IXC      ,IXTG      ,

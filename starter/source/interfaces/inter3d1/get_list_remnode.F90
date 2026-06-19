@@ -34,11 +34,11 @@
 !! \brief here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
 !||====================================================================
-!||    get_list_remnode   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
+!||    get_list_remnode    ../starter/source/interfaces/inter3d1/get_list_remnode.F90
 !||--- called by ------------------------------------------------------
-!||    i7remnode          ../starter/source/interfaces/inter3d1/i7remnode.F
+!||    i7remnode           ../starter/source/interfaces/inter3d1/i7remnode.F
 !||--- calls      -----------------------------------------------------
-!||    upgrade_remnode    ../starter/source/interfaces/interf1/upgrade_remnode.F
+!||    upgrade_remnode     ../starter/source/interfaces/interf1/upgrade_remnode.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine get_list_remnode(nrtm,igap ,numnod,npari,irect,kremnode, &

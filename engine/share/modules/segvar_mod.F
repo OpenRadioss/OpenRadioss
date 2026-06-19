@@ -96,6 +96,9 @@ C-----------------------------------------------
       
 !||====================================================================
 !||    segvar_destroy   ../engine/share/modules/segvar_mod.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SEGVAR_DESTROY(this)
       use my_dealloc_mod, only : my_dealloc
@@ -113,9 +116,11 @@ C-----------------------------------------------
       
 !||====================================================================
 !||    segvar_create   ../engine/share/modules/segvar_mod.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    ale_mod         ../common_source/modules/ale/ale_mod.F
 !||    constant_mod    ../common_source/modules/constant_mod.F
+!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE SEGVAR_CREATE(this,NBMAT)
       USE ALE_MOD      

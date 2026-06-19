@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    read_failwave   ../engine/source/output/restart/read_failwave.F
+!||    read_failwave    ../engine/source/output/restart/read_failwave.F
 !||--- called by ------------------------------------------------------
-!||    rdresb          ../engine/source/output/restart/rdresb.F
+!||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    failwave_mod    ../common_source/modules/failwave_mod.F
+!||    failwave_mod     ../common_source/modules/failwave_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE READ_FAILWAVE(FAILWAVE)
 C-----------------------------------------------

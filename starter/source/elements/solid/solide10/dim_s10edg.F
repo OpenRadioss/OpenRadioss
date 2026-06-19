@@ -652,13 +652,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    bcsmodif_nd   ../starter/source/elements/solid/solide10/dim_s10edg.F
+!||    bcsmodif_nd    ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||--- called by ------------------------------------------------------
-!||    lectur        ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
+!||    ancmsg         ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB  ,
      .                       NNPBY,SLRBODY,NRBE2L ,SLRBE2,

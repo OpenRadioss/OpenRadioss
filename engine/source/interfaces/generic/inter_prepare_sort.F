@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_component_bound_mod     ../engine/source/interfaces/generic/inter_component_bound.F90
 !||    inter_sorting_mod             ../engine/share/modules/inter_sorting_mod.F
 !||    inter_struct_mod              ../engine/share/modules/inter_struct_mod.F
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
 !||    spmd_exchange_component_mod   ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    tri7box                       ../engine/share/modules/tri7box.F
 !||    voxel_dimensions_mod          ../engine/source/interfaces/intsort/voxel_dimensions.F90

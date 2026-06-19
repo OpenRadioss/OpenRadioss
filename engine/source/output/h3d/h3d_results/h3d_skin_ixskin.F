@@ -491,8 +491,11 @@ C-----------
 !||    h3d_skin_pre_dim   ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
 !||--- called by ------------------------------------------------------
 !||    h3d_skin_dim       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    loads_mod          ../common_source/modules/loads/loads_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    pblast_mod         ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod      ../common_source/modules/pinchtype_mod.F
 !||====================================================================

@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    spmd_inisph   ../engine/source/mpi/sph/spmd_sptool.F
+!||    spmd_inisph    ../engine/source/mpi/sph/spmd_sptool.F
 !||--- called by ------------------------------------------------------
-!||    rdresb        ../engine/source/output/restart/rdresb.F
+!||    rdresb         ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../engine/source/output/message/message.F
-!||    arret         ../engine/source/system/arret.F
-!||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routines.c
+!||    ancmsg         ../engine/source/output/message/message.F
+!||    arret          ../engine/source/system/arret.F
+!||    read_db        ../common_source/tools/input_output/read_db.F
+!||    read_i_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../engine/share/message_module/message_mod.F
-!||    sphbox        ../engine/share/modules/sphbox.F
+!||    message_mod    ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    sphbox         ../engine/share/modules/sphbox.F
 !||====================================================================
       SUBROUTINE SPMD_INISPH(IFLG)
 C-----------------------------------------------

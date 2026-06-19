@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    constraint_mod   ../starter/source/modules/constaint_mod.F90
+!||    constraint_mod   ../starter/source/modules/constraint_mod.F90
 !||--- called by ------------------------------------------------------
 !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||    lectur           ../starter/source/starter/lectur.F
@@ -81,9 +81,12 @@
 ! ======================================================================================================================
 !! \brief Allocation of constraint_struct
 !||====================================================================
-!||    alloc_constraint_struct   ../starter/source/modules/constaint_mod.F90
+!||    alloc_constraint_struct   ../starter/source/modules/constraint_mod.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                    ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||    arret                     ../starter/source/system/arret.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine alloc_constraint_struct(nrwall,nspmd,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -134,9 +137,11 @@
 ! ======================================================================================================================
 !! \brief Deallocation of constraint_struct
 !||====================================================================
-!||    dealloc_constraint_struct   ../starter/source/modules/constaint_mod.F90
+!||    dealloc_constraint_struct   ../starter/source/modules/constraint_mod.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                      ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine dealloc_constraint_struct(nrwall,constraint_struct)
 ! ----------------------------------------------------------------------------------------------------------------------

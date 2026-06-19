@@ -21,14 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    int18_alloc     ../engine/source/interfaces/int18/int18_alloc.F
+!||    int18_alloc      ../engine/source/interfaces/int18/int18_alloc.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    array_mod       ../common_source/modules/array_mod.F
-!||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-!||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    array_mod        ../common_source/modules/array_mod.F
+!||    groupdef_mod     ../common_source/modules/groupdef_mod.F
+!||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
         SUBROUTINE INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE, NSPMD)
 !$COMMENT

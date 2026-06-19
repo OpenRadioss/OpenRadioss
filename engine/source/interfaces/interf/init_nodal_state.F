@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_hashtable_for_neighbour_segment_mod    ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
 !||    init_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
 !||    intbufdef_mod                              ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                               ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod                           ../common_source/modules/nodal_arrays.F90
 !||    shooting_node_mod                          ../engine/share/modules/shooting_node_mod.F90
 !||    spmd_comm_world_mod                        ../engine/source/mpi/spmd_comm_world.F90

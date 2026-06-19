@@ -551,6 +551,7 @@ C
 !||    read_rwall            ../starter/source/constraints/general/rwall/read_rwall.F
 !||--- calls      -----------------------------------------------------
 !||    udoubl2               ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
 C      TEST FOR DUPLICATE NODES
@@ -600,8 +601,9 @@ C
       END
 
 !||====================================================================
-!||    udoublex   ../starter/source/system/sysfus.F
+!||    udoublex       ../starter/source/system/sysfus.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLEX(NLIST,ILIST,IXX,KXX)
 C      TEST FOR DUPLICATE NODES
@@ -722,6 +724,7 @@ C
 !||    hm_read_rbody   ../starter/source/constraints/general/rbody/hm_read_rbody.F
 !||--- calls      -----------------------------------------------------
 !||    newdbl2         ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE NEWDBL(LIST,ILIST,NLIST,TAB,ERRID,STATUS,NOM_OPT)
 C      TEST FOR DUPLICATE NODES IN LISTS OF NODE OR ELEMENT IDs, ETC.
@@ -850,6 +853,7 @@ C
 !||    read_monvol          ../starter/source/airbag/read_monvol.F
 !||--- calls      -----------------------------------------------------
 !||    vdoubl2              ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE VDOUBLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
 C      TEST LES N0 DOUBLES , TOUS FORMATS, ERREUR
@@ -956,6 +960,7 @@ C-----------------------
 !||    hm_read_unit       ../starter/source/general_controls/computation/hm_read_unit.F
 !||--- calls      -----------------------------------------------------
 !||    udoubl2_wo_title   ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLE_WO_TITLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
 C      TEST FOR DUPLICATE NODES
@@ -1068,6 +1073,7 @@ C-----------------------
 !||    hm_read_drape   ../starter/source/properties/composite_options/drape/hm_read_drape.F
 !||--- calls      -----------------------------------------------------
 !||    udoubl3         ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLE3(LIST,ILIST,NLIST,MESS,MESS2,IR,RLIST)
 C      TEST FOR DUPLICATE NODES
@@ -1189,6 +1195,7 @@ C-----------------------
 !||    hm_read_surf       ../starter/source/groups/hm_read_surf.F
 !||--- calls      -----------------------------------------------------
 !||    udoubl2_igr        ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLE_IGR(LIST,NLIST,MESS,IR,RLIST)
 C      TEST FOR DUPLICATE NODES
@@ -1237,9 +1244,10 @@ C
       RETURN
       END
 !||====================================================================
-!||    udouble_set   ../starter/source/system/sysfus.F
+!||    udouble_set    ../starter/source/system/sysfus.F
 !||--- calls      -----------------------------------------------------
-!||    udoubl2_set   ../starter/source/system/sysfus.F
+!||    udoubl2_set    ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLE_SET(LIST,NLIST,MESS,IR,RLIST)
 C      TEST FOR DUPLICATE NODES

@@ -410,15 +410,15 @@ C
       RETURN
       END
 !||====================================================================
-!||    i24edge1      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24edge1       ../starter/source/interfaces/inter3d1/i24surfi.F
 !||--- called by ------------------------------------------------------
-!||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
-!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod    ../starter/share/modules1/format_mod.F90
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I24EDGE1(IALLO      ,NSEG    ,NACTIF  ,IEDGE   ,
      1                    SURF_NODES ,ITAB    ,ISU     ,
@@ -1154,15 +1154,15 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 !||====================================================================
-!||    i24edge2      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24edge2       ../starter/source/interfaces/inter3d1/i24surfi.F
 !||--- called by ------------------------------------------------------
-!||    i24surfi      ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i24surfi       ../starter/source/interfaces/inter3d1/i24surfi.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
-!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod    ../starter/share/modules1/format_mod.F90
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I24EDGE2(IALLO      ,NSEG    ,NACTIF  ,
      1                    SURF_NODES ,ITAB    ,ISU     ,

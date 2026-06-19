@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iniboltprel   ../starter/source/loads/bolt/iniboltprel.F
+!||    iniboltprel    ../starter/source/loads/bolt/iniboltprel.F
 !||--- called by ------------------------------------------------------
-!||    initia        ../starter/source/elements/initia/initia.F
+!||    initia         ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
-!||    uel2sys       ../starter/source/initial_conditions/inista/yctrl.F
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    uel2sys        ../starter/source/initial_conditions/inista/yctrl.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIBOLTPREL(IXS, IPRELOAD ,PRELOAD  ,VPRELOAD, IFLAG_BPRELOAD)
 C-----------------------------------------------

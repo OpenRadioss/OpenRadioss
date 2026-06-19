@@ -64,6 +64,8 @@ c
 !||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE XYZNOD_CRK(ICRK,NFNOD_CRKXFEMG,NODGLOBXFE)
 C-----------------------------------------------

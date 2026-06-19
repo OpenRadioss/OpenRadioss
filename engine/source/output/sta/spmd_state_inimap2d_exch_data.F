@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stat_inimap2d_spmd              ../engine/source/output/sta/stat_inimap2d_spmd.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                  ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
 !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
 !||====================================================================

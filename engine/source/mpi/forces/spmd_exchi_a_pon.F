@@ -27,6 +27,7 @@ C
 !||    spmd_exch2_a_pon      ../engine/source/mpi/forces/spmd_exch2_a_pon.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

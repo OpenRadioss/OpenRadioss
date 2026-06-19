@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_vgath             ../engine/source/mpi/anim/spmd_vgath.F
 !||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE VELVEC(V,V_TEMP,IVOIS,AL,NODCUT,NNWL,NNSRG,
@@ -640,6 +641,8 @@ c----------------------------
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||    write_r_c         ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE VELVECC21(V,V_TEMP,IVOIS,AL,NODCUT,NNWL,
      .                  NNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
@@ -1064,6 +1067,7 @@ C-------------
 !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod      ../engine/share/resol/initbuf.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE VELVECC22(ELBUF_TAB,IPARG,IFLG,IXS,IXQ,ITAB)
 C-----------------------------------------------

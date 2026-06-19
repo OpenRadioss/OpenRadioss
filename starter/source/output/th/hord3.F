@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    hm_read_thgrne   ../starter/source/output/th/hm_read_thgrne.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE HORD3(NEL,NSEL,ISK,IASC,L)
 C-----------------------------------------------

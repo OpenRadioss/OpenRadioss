@@ -49,6 +49,8 @@
 !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod                  ../common_source/modules/ale/multi_fvm_mod.F90
 !||    mvsiz_mod                      ../engine/share/spe_inc/mvsiz_mod.F90
+!||    my_alloc_mod                   ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                 ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.F
 !||    nodal_arrays_mod               ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                  ../common_source/modules/precision_mod.F90

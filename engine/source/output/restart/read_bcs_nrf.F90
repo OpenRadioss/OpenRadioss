@@ -36,16 +36,18 @@
 !! \details  necessary buffer specific to option /BCS/NRF/...
 !
 !||====================================================================
-!||    read_bcs_nrf    ../engine/source/output/restart/read_bcs_nrf.F90
+!||    read_bcs_nrf     ../engine/source/output/restart/read_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    rdresb          ../engine/source/output/restart/rdresb.F
+!||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_db         ../common_source/tools/input_output/read_db.F
-!||    read_i_c        ../common_source/tools/input_output/write_routines.c
+!||    read_db          ../common_source/tools/input_output/read_db.F
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
-!||    constant_mod    ../common_source/modules/constant_mod.F
-!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    bcs_mod          ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine read_bcs_nrf(numnod)
 ! ----------------------------------------------------------------------------------------------------------------------

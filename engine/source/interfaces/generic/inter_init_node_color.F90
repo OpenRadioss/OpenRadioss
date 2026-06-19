@@ -42,6 +42,8 @@
 !||--- uses       -----------------------------------------------------
 !||    array_mod               ../common_source/modules/array_mod.F
 !||    constant_mod            ../common_source/modules/constant_mod.F
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine inter_init_node_color( nsn,nrtm,nb_cell_x,nb_cell_y,nb_cell_z, &

@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    int18_law151_init   ../starter/source/interfaces/int18/int18_law151_init.F
 !||--- called by ------------------------------------------------------
 !||    lectur              ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE INT18_LAW151_INIT(S_APPEND_ARRAY,NINTER,NPARI,

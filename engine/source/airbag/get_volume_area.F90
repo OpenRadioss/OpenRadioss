@@ -48,6 +48,8 @@
 !||    constant_mod          ../common_source/modules/constant_mod.F
 !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
 !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &

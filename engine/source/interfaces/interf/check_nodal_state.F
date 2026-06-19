@@ -24,8 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    check_nodal_state   ../engine/source/interfaces/interf/check_nodal_state.F
 !||--- called by ------------------------------------------------------
 !||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE CHECK_NODAL_STATE( ITASK,ITAG,NEWFRONT,INTBUF_TAB,SIZE_SEC_NODE,
      .                        SHIFT_S_NODE,INTER_SEC_NODE,SEC_NODE_ID)

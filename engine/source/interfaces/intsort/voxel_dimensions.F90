@@ -39,6 +39,7 @@
 !||    constant_mod               ../common_source/modules/constant_mod.F
 !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
 !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod             ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod              ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine compute_voxel_dimensions(nrtm,nmn, inter_struct)

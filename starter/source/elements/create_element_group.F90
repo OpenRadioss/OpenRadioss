@@ -38,6 +38,7 @@
 !||--- called by ------------------------------------------------------
 !||    get_element_group      ../starter/source/elements/get_element_group.F90
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine create_element_group(entity_nb,nb_key,elm_group_data,sort_key,iddlevel)
 

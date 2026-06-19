@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_i25_edge   ../engine/source/interfaces/int25/init_i25_edge.F
+!||    init_i25_edge    ../engine/source/interfaces/int25/init_i25_edge.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE INIT_I25_EDGE(NLEDGE,NINTER,NPARI,IPARI,INTBUF_TAB)
 !$COMMENT

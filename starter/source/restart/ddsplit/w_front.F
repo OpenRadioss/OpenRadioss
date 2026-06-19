@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nlocal                 ../starter/source/spmd/node/ddtools.F
 !||    plist_ifront           ../starter/source/spmd/node/ddtools.F
 !||--- uses       -----------------------------------------------------
-!||    constraint_mod         ../starter/source/modules/constaint_mod.F90
+!||    constraint_mod         ../starter/source/modules/constraint_mod.F90
 !||    front_mod              ../starter/share/modules1/front_mod.F
 !||    fvbag_mod              ../starter/share/modules1/fvbag_mod.F
 !||    split_cfd_mod          ../starter/share/modules1/split_cfd_mod.F

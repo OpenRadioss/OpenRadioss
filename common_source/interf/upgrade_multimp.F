@@ -21,26 +21,28 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    upgrade_multimp   ../common_source/interf/upgrade_multimp.F
+!||    upgrade_multimp     ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
-!||    i10main_tri       ../engine/source/interfaces/intsort/i10main_tri.F
-!||    i11main_tri       ../engine/source/interfaces/intsort/i11main_tri.F
-!||    i20main_tri       ../engine/source/interfaces/intsort/i20main_tri.F
-!||    i21main_tri       ../engine/source/interfaces/intsort/i21main_tri.F
-!||    i22main_tri       ../engine/source/interfaces/intsort/i22main_tri.F
-!||    i23main_tri       ../engine/source/interfaces/intsort/i23main_tri.F
-!||    i24main_tri       ../engine/source/interfaces/intsort/i24main_tri.F
-!||    i25main_tri       ../engine/source/interfaces/intsort/i25main_tri.F
-!||    i25trivox1        ../starter/source/interfaces/inter3d1/i25trivox1.F
-!||    i7main_tri        ../engine/source/interfaces/intsort/i7main_tri.F
-!||    i7trivox1         ../starter/source/interfaces/inter3d1/i7trivox1.F
-!||    inintr            ../starter/source/interfaces/interf1/inintr.F
-!||    inintr_thkvar     ../starter/source/interfaces/interf1/inintr_thkvar.F
-!||    inter_sort_07     ../engine/source/interfaces/int07/inter_sort_07.F
+!||    i10main_tri         ../engine/source/interfaces/intsort/i10main_tri.F
+!||    i11main_tri         ../engine/source/interfaces/intsort/i11main_tri.F
+!||    i20main_tri         ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i21main_tri         ../engine/source/interfaces/intsort/i21main_tri.F
+!||    i22main_tri         ../engine/source/interfaces/intsort/i22main_tri.F
+!||    i23main_tri         ../engine/source/interfaces/intsort/i23main_tri.F
+!||    i24main_tri         ../engine/source/interfaces/intsort/i24main_tri.F
+!||    i25main_tri         ../engine/source/interfaces/intsort/i25main_tri.F
+!||    i25trivox1          ../starter/source/interfaces/inter3d1/i25trivox1.F
+!||    i7main_tri          ../engine/source/interfaces/intsort/i7main_tri.F
+!||    i7trivox1           ../starter/source/interfaces/inter3d1/i7trivox1.F
+!||    inintr              ../starter/source/interfaces/interf1/inintr.F
+!||    inintr_thkvar       ../starter/source/interfaces/interf1/inintr_thkvar.F
+!||    inter_sort_07       ../engine/source/interfaces/int07/inter_sort_07.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    restmod           ../engine/share/modules/restart_mod.F
+!||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_move_alloc_mod   ../common_source/tools/memory/my_move_alloc.F90
+!||    restmod             ../engine/share/modules/restart_mod.F
 !||====================================================================
       subroutine upgrade_multimp(ni, multimp_parameter, intbuf_tab)
 !-----------------------------------------------
@@ -719,14 +721,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       end subroutine upgrade_multimp
 
 !||====================================================================
-!||    upgrade_cand_opt   ../common_source/interf/upgrade_multimp.F
+!||    upgrade_cand_opt    ../common_source/interf/upgrade_multimp.F
 !||--- called by ------------------------------------------------------
-!||    i25main_opt_tri    ../engine/source/interfaces/intsort/i25main_opt_tri.F
-!||    i25main_slid       ../engine/source/interfaces/int25/i25main_slid.F
+!||    i25main_opt_tri     ../engine/source/interfaces/intsort/i25main_opt_tri.F
+!||    i25main_slid        ../engine/source/interfaces/int25/i25main_slid.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    restmod            ../engine/share/modules/restart_mod.F
+!||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_move_alloc_mod   ../common_source/tools/memory/my_move_alloc.F90
+!||    restmod             ../engine/share/modules/restart_mod.F
 !||====================================================================
       subroutine upgrade_cand_opt(ni, k_stok, intbuf_tab)
 !-----------------------------------------------
@@ -860,6 +864,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_move_alloc_mod   ../common_source/tools/memory/my_move_alloc.F90
 !||    restmod             ../engine/share/modules/restart_mod.F
 !||====================================================================
       subroutine upgrade_lcand_edg(ni, multimp_parameter, intbuf_tab)
@@ -1019,6 +1025,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_move_alloc_mod   ../common_source/tools/memory/my_move_alloc.F90
 !||    restmod             ../engine/share/modules/restart_mod.F
 !||====================================================================
       subroutine upgrade_lcand_e2s(ni, multimp_parameter, intbuf_tab)

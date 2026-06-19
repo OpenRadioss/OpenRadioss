@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sync_data         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    debug_mod         ../engine/share/modules/debug_mod.F
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||    tri25ebox         ../engine/share/modules/tri25ebox.F
 !||    tri7box           ../engine/share/modules/tri7box.F
 !||====================================================================

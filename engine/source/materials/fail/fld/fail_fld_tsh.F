@@ -21,12 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fail_fld_tsh   ../engine/source/materials/fail/fld/fail_fld_tsh.F
+!||    fail_fld_tsh     ../engine/source/materials/fail/fld/fail_fld_tsh.F
 !||--- called by ------------------------------------------------------
-!||    h3d_fld_tsh    ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
+!||    h3d_fld_tsh      ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
 !||--- calls      -----------------------------------------------------
-!||    finter         ../engine/source/tools/curve/finter.F
-!||    finterfld      ../engine/source/materials/fail/fld/fail_fld_c.F
+!||    finter           ../engine/source/tools/curve/finter.F
+!||    finterfld        ../engine/source/materials/fail/fld/fail_fld_c.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FAIL_FLD_TSH(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,

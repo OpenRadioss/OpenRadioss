@@ -33,11 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       CONTAINS
         
 !||====================================================================
-!||    ireallocate     ../engine/share/modules/realloc_mod.F
+!||    ireallocate      ../engine/share/modules/realloc_mod.F
 !||--- called by ------------------------------------------------------
-!||    i11trivox       ../engine/source/interfaces/intsort/i11trivox.F
-!||    i22trivox       ../engine/source/interfaces/intsort/i22trivox.F
-!||    i25trivox_edg   ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||    i11trivox        ../engine/source/interfaces/intsort/i11trivox.F
+!||    i22trivox        ../engine/source/interfaces/intsort/i22trivox.F
+!||    i25trivox_edg    ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       FUNCTION IREALLOCATE(ptr, new_size)
 !reallocate INTEGER ARRAY
@@ -77,7 +80,10 @@ C-----------------------------------------------
 
 
 !||====================================================================
-!||    jreallocate   ../engine/share/modules/realloc_mod.F
+!||    jreallocate      ../engine/share/modules/realloc_mod.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       FUNCTION JREALLOCATE(ptr, new_size)
 !reallocate MY_REAL ARRAY

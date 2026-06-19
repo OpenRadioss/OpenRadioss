@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    nsegmt   ../starter/source/interfaces/interf1/nsegmt.F
+!||    nsegmt         ../starter/source/interfaces/interf1/nsegmt.F
 !||--- called by ------------------------------------------------------
-!||    lecins   ../starter/source/interfaces/interf1/lecins.F
-!||    scrint   ../starter/source/interfaces/interf1/scrint.F
+!||    lecins         ../starter/source/interfaces/interf1/lecins.F
+!||    scrint         ../starter/source/interfaces/interf1/scrint.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE NSEGMT(IPAR,IRECT,NODES,NSEG,NST,NRT,NNO)
 C

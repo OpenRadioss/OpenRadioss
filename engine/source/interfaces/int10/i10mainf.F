@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I10MAINF(output, IPARI  ,X      ,A      ,

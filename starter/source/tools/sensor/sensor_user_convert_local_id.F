@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur                         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    usr2sys                        ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SENSOR_USER_CONVERT_LOCAL_ID(ITABM1,POINTER_ENTITY,NUMBER_ENTITY,LIST_ENTITY,MODE0,IPART)
 !$COMMENT

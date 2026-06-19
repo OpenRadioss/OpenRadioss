@@ -314,15 +314,15 @@ c-----------------------------------------------------------------
 
 
 !||====================================================================
-!||    i20edge1      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i20edge1       ../starter/source/interfaces/inter3d1/i20surfi.F
 !||--- called by ------------------------------------------------------
-!||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i20surfi       ../starter/source/interfaces/inter3d1/i20surfi.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
-!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod    ../starter/share/modules1/format_mod.F90
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    format_mod     ../starter/share/modules1/format_mod.F90
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I20EDGE1(IALLO     ,NSEG0     ,NLIN0   ,NLIN    ,NACTIF  ,
      2                    IXLINE    ,MSVE      ,NSME    ,IEDGE   ,
@@ -637,14 +637,14 @@ C-----------
 
 
 !||====================================================================
-!||    i20bord       ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i20bord        ../starter/source/interfaces/inter3d1/i20surfi.F
 !||--- called by ------------------------------------------------------
-!||    i20surfi      ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i20surfi       ../starter/source/interfaces/inter3d1/i20surfi.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
-!||    bitset        ../starter/source/interfaces/inter3d1/bitget.F
+!||    ancmsg         ../starter/source/output/message/message.F
+!||    bitset         ../starter/source/interfaces/inter3d1/bitget.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I20BORD(NSEG  ,SURF_NODES ,TAGB,ISU)
 C-----------------------------------------------

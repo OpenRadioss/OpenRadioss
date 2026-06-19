@@ -60,11 +60,12 @@ c      RETURN
 c      END
 C
 !||====================================================================
-!||    w_mad       ../starter/source/restart/ddsplit/w_mad.F
+!||    w_mad          ../starter/source/restart/ddsplit/w_mad.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal      ../starter/source/spmd/node/ddtools.F
+!||    nlocal         ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_MAD(IEXMAD  ,NMADSH4_L,NMADSH3_L,NMADSOL_L,NMADNOD_L,
      +                 MADCL_NMADNOD_L,CEP,PROC,NODLOCAL ,CEL  ,

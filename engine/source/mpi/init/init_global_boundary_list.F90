@@ -37,7 +37,10 @@
 !||    init_global_boundary_list   ../engine/source/mpi/init/init_global_boundary_list.F90
 !||--- called by ------------------------------------------------------
 !||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
 !||====================================================================
         subroutine init_global_boundary_list(numnod,nspmd,nodes)

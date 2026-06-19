@@ -23,9 +23,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    stock_msg              ../engine/source/output/message/stock_msg.F
 !||--- called by ------------------------------------------------------
-!||    build_msg              ../common_source/tools/memory/my_alloc.F90
+!||    build_msg              ../common_source/tools/memory/my_alloc_tools.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       SUBROUTINE STOCK_MSG(ID,ITYPE,SBUFMSG,BUFMSG)

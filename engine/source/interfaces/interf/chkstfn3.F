@@ -560,6 +560,8 @@ C
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
 !||    rad2r_mod            ../engine/share/modules/rad2r.F
 !||    remesh_mod           ../engine/share/modules/remesh_mod.F
@@ -1273,6 +1275,8 @@ C
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod       ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
 !||====================================================================
       SUBROUTINE CHKSTFN3N(NODES,
@@ -1925,6 +1929,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE CHKMSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,

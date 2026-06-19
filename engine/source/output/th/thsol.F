@@ -21,21 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    thsol           ../engine/source/output/th/thsol.F
+!||    thsol            ../engine/source/output/th/thsol.F
 !||--- called by ------------------------------------------------------
-!||    hist2           ../engine/source/output/th/hist2.F
+!||    hist2            ../engine/source/output/th/hist2.F
 !||--- calls      -----------------------------------------------------
-!||    initbuf         ../engine/share/resol/initbuf.F
-!||    scoor431        ../engine/source/elements/solid/sconnect/scoor431.F
-!||    scortho31       ../engine/source/elements/thickshell/solidec/scortho31.F
-!||    sortho31        ../engine/source/elements/solid/solide/sortho31.F
-!||    srota6          ../engine/source/output/anim/generate/srota6.F
+!||    initbuf          ../engine/share/resol/initbuf.F
+!||    scoor431         ../engine/source/elements/solid/sconnect/scoor431.F
+!||    scortho31        ../engine/source/elements/thickshell/solidec/scortho31.F
+!||    sortho31         ../engine/source/elements/solid/solide/sortho31.F
+!||    srota6           ../engine/source/output/anim/generate/srota6.F
 !||--- uses       -----------------------------------------------------
-!||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
-!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod     ../common_source/modules/elements/element_mod.F90
-!||    initbuf_mod     ../engine/share/resol/initbuf.F
-!||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
+!||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    initbuf_mod      ../engine/share/resol/initbuf.F
+!||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE THSOL(ELBUF_TAB, NTHGRP2, ITHGRP ,
      .                 IPARG    , ITHBUF , WA     ,

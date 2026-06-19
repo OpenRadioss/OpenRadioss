@@ -1042,6 +1042,7 @@ C
 !||    sec_nodes      ../starter/source/tools/sect/hm_read_sect.F
 !||--- called by ------------------------------------------------------
 !||    lecsec42       ../starter/source/tools/sect/hm_read_sect.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SEC_NODES(IGU1,ISTYP,NGRELE,IGRELE,X0,A,
@@ -1202,6 +1203,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    lecsec42        ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt     ../starter/source/tools/sect/lecsec4bolt.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SEC_NODES_SOL(IGU1,ISTYP,IGRBRIC,X0,A,

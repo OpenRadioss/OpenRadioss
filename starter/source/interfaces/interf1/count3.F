@@ -22,12 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    count3      ../starter/source/interfaces/interf1/count3.F
+!||    count3         ../starter/source/interfaces/interf1/count3.F
 !||--- called by ------------------------------------------------------
-!||    inslin      ../starter/source/interfaces/interf1/inslin.F
-!||    insurf      ../starter/source/interfaces/interf1/insurf.F
-!||    insurf23    ../starter/source/interfaces/interf1/insurf23.F
+!||    inslin         ../starter/source/interfaces/interf1/inslin.F
+!||    insurf         ../starter/source/interfaces/interf1/insurf.F
+!||    insurf23       ../starter/source/interfaces/interf1/insurf23.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE COUNT3(IRECT,MNN,N,NRT,NTAG)
 C-----------------------------------------------------------------------

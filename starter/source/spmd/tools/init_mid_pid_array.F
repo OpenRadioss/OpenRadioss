@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_mid_pid_array   ../starter/source/spmd/tools/init_mid_pid_array.F
 !||--- called by ------------------------------------------------------
 !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    mid_pid_mod          ../starter/share/modules1/mid_pid_mod.F
 !||====================================================================

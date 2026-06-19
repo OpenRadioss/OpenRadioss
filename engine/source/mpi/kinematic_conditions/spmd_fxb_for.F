@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fxbyfor               ../engine/source/constraints/fxbody/fxbyfor.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_FXB_FOR(FXBIPM, MFEXTP)

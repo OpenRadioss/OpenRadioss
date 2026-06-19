@@ -21,13 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    setprojks6     ../engine/source/elements/thickshell/solide6c/setprojks6.F
+!||    setprojks6       ../engine/source/elements/thickshell/solide6c/setprojks6.F
 !||--- called by ------------------------------------------------------
-!||    s6ccumg3       ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
+!||    s6ccumg3         ../engine/source/elements/thickshell/solide6c/s6ccumg3.F
 !||--- calls      -----------------------------------------------------
-!||    tranpvq33      ../engine/source/elements/thickshell/solide6c/tranpvq33.F
-!||    tranqikqj      ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranridrrj33   ../engine/source/elements/thickshell/solide6c/tranridrrj33.F
+!||    tranpvq33        ../engine/source/elements/thickshell/solide6c/tranpvq33.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranridrrj33     ../engine/source/elements/thickshell/solide6c/tranridrrj33.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SETPROJKS6(
      1                 DR    ,R1     ,R2     ,R3     ,R4    ,

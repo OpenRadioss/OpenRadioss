@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    main_beam18    ../engine/source/elements/beam/main_beam18.F
+!||    main_beam18      ../engine/source/elements/beam/main_beam18.F
 !||--- called by ------------------------------------------------------
-!||    pforc3         ../engine/source/elements/beam/pforc3.F
+!||    pforc3           ../engine/source/elements/beam/pforc3.F
 !||--- calls      -----------------------------------------------------
-!||    fail_beam18    ../engine/source/elements/beam/fail_beam18.F
-!||    m2lawpi        ../engine/source/materials/mat/mat002/m2lawpi.F
-!||    mulaw_ib       ../engine/source/elements/beam/mulaw_ib.F
+!||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
+!||    m2lawpi          ../engine/source/materials/mat/mat002/m2lawpi.F
+!||    mulaw_ib         ../engine/source/elements/beam/mulaw_ib.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    mat_elem_mod   ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE MAIN_BEAM18(ELBUF_STR,
      1                  NEL     ,NPT     ,MTN     ,IMAT    ,

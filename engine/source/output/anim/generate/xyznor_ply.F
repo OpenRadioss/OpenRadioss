@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_anim_ply_xyznor   ../engine/source/mpi/anim/spmd_anim_ply_xyznor.F
 !||    write_s_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE XYZNOR_PLY(IPLY,XNORM,NODGLOB,WEIGHT,EMPSIZPL)

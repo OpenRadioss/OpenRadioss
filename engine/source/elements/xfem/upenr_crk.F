@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    upenr_crk       ../engine/source/elements/xfem/upenr_crk.F
+!||    upenr_crk        ../engine/source/elements/xfem/upenr_crk.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE UPENR_CRK(ADDCNE_CRK ,INOD_CRK ,NODFT ,NODLT,
      .                     NODENR     ,ENRTAG   ,NODLEVXF,PROCNE_CRK)

@@ -687,6 +687,8 @@
 !||    extend_array_mod             ../common_source/tools/memory/extend_array.F90
 !||    ghost_shells_mod             ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90

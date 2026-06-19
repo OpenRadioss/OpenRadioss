@@ -37,9 +37,12 @@
 !||    init_monvol_omp_structure   ../engine/source/airbag/init_monvol_omp_structure.F90
 !||--- called by ------------------------------------------------------
 !||    resol                       ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
 !||    monvol_struct_mod           ../engine/share/modules/monvol_struct_mod.F
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine init_monvol_omp_structure(ispmd,nspmd,nvolu,nsurf,monvol,  &
           nimv,numnod,                     &

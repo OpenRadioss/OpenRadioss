@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    loads_mod        ../common_source/modules/loads/loads_mod.F90
 !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
 !||    outmax_mod       ../common_source/modules/outmax_mod.F
 !||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F

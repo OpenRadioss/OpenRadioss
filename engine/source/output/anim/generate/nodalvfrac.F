@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodalvfrac           ../engine/source/output/anim/generate/nodalvfrac.F
 !||--- called by ------------------------------------------------------
 !||    genani               ../engine/source/output/anim/generate/genani.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -31,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE NODALVFRAC(IFUNC    , WA4, IFLOW, RFLOW, IPARG, 
      .                      ELBUF_TAB, IX , NIX  , ITAB , NV46 )

@@ -30,6 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_solid       ../engine/source/materials/mat_share/usermat_solid.F
 !||--- calls      -----------------------------------------------------
 !||    finter              ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE FAIL_ORTHBIQUAD_S (
      1     NEL      ,NUPARAM  ,NUVAR    ,MFUNC    ,KFUNC    ,

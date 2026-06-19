@@ -36,6 +36,8 @@
 !||    write_mat_table        ../engine/source/materials/tools/write_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    eos_param_mod          ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================

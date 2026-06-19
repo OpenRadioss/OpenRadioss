@@ -2085,18 +2085,20 @@ C---------reset in BC_IMPA ---
       END
 C
 !||====================================================================
-!||    upd_aspc0     ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    upd_aspc0        ../engine/source/constraints/general/bcs/bc_imp0.F
 !||--- called by ------------------------------------------------------
-!||    upd_aspc      ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    upd_aspc         ../engine/source/constraints/general/bcs/bc_imp0.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../engine/source/output/message/message.F
-!||    arret         ../engine/source/system/arret.F
-!||    autspc        ../engine/source/constraints/general/bcs/bc_imp0.F
-!||    get_kii       ../engine/source/implicit/imp_glob_k.F
-!||    spc_dir       ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
+!||    autspc           ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    get_kii          ../engine/source/implicit/imp_glob_k.F
+!||    spc_dir          ../engine/source/constraints/general/bcs/bc_imp0.F
 !||--- uses       -----------------------------------------------------
-!||    imp_aspc      ../engine/share/modules/impbufdef_mod.F
-!||    message_mod   ../engine/share/message_module/message_mod.F
+!||    imp_aspc         ../engine/share/modules/impbufdef_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE UPD_ASPC0(NDDL  ,NDOF  ,IDDL  ,IKC    ,ITAB  ,
      .                    IADK  ,JDIK  ,DIAG_K,LT_K   )
@@ -2315,13 +2317,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    upd_aspc      ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    upd_aspc         ../engine/source/constraints/general/bcs/bc_imp0.F
 !||--- called by ------------------------------------------------------
-!||    upd_glob_k    ../engine/source/implicit/upd_glob_k.F
+!||    upd_glob_k       ../engine/source/implicit/upd_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    cp_real       ../engine/source/implicit/produt_v.F
-!||    spmd_sumf_k   ../engine/source/mpi/implicit/imp_spmd.F
-!||    upd_aspc0     ../engine/source/constraints/general/bcs/bc_imp0.F
+!||    cp_real          ../engine/source/implicit/produt_v.F
+!||    spmd_sumf_k      ../engine/source/mpi/implicit/imp_spmd.F
+!||    upd_aspc0        ../engine/source/constraints/general/bcs/bc_imp0.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE UPD_ASPC(NDDL  ,NDOF  ,IDDL  ,IKC    ,ITAB     ,
      .                    IADK  ,JDIK  ,DIAG_K,LT_K   )

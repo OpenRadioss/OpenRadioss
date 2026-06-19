@@ -24,7 +24,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_wind_frwave_init   ../engine/source/materials/fail/alter/fail_wind_frwave_init.F
 !||--- called by ------------------------------------------------------
 !||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
 !||    rupture_mod             ../engine/share/modules/rupture_mod.F
 !||====================================================================
         SUBROUTINE FAIL_WIND_FRWAVE_INIT(NGROUP)

@@ -41,6 +41,8 @@
 !||    collision_mod                ../engine/source/interfaces/intsort/collision_mod.F
 !||    constant_mod                 ../common_source/modules/constant_mod.F
 !||    inter7_filter_cand_mod       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||====================================================================
         SUBROUTINE INTER7_CANDIDATE_PAIRS(&
@@ -705,7 +707,9 @@
 !! \brief write the data to a file
 !||====================================================================
 !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         SUBROUTINE INTER7_DESERIALIZE(    filename     ,&

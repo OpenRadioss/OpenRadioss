@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    heat_mod               ../engine/share/modules/heat_mod.F
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    parith_on_mod          ../common_source/modules/parith_on_mod.F90
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================

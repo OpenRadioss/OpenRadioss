@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    addmast10                           ../starter/source/tools/admas/addmast10.F
 !||    admbcs                              ../starter/source/model/remesh/admbcs.F
 !||    alelec                              ../starter/source/ale/alelec.F
-!||    alloc_constraint_struct             ../starter/source/modules/constaint_mod.F90
+!||    alloc_constraint_struct             ../starter/source/modules/constraint_mod.F90
 !||    allocxfem                           ../starter/source/elements/xfem/allocxfem.F
 !||    ancmsg                              ../starter/source/output/message/message.F
 !||    ani_fasolfr1                        ../starter/source/output/anim/ani_fasolfr.F
@@ -74,7 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    damping_rby_spmdset                 ../starter/source/general_controls/damping/damping_rby_spmdset.F90
 !||    ddprint                             ../starter/source/spmd/domdec2.F
 !||    ddsplit                             ../starter/source/restart/ddsplit/ddsplit.F
-!||    dealloc_constraint_struct           ../starter/source/modules/constaint_mod.F90
+!||    dealloc_constraint_struct           ../starter/source/modules/constraint_mod.F90
 !||    deallocate_detonators               ../starter/share/modules1/detonators_mod.F
 !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
 !||    deallocate_igrsurf_split            ../starter/source/spmd/deallocate_igrsurf_split.F
@@ -484,7 +484,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    brokmann_elem_renum_mod             ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
 !||    chk_shell_offset_mod                ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
 !||    cluster_mod                         ../starter/share/modules1/cluster_mod.F
-!||    constraint_mod                      ../starter/source/modules/constaint_mod.F90
+!||    constraint_mod                      ../starter/source/modules/constraint_mod.F90
 !||    damping_rby_spmdset_mod             ../starter/source/general_controls/damping/damping_rby_spmdset.F90
 !||    ddweights_mod                       ../starter/share/modules1/ddweights_mod.F
 !||    defaults_mod                        ../starter/source/modules/defaults_mod.F90

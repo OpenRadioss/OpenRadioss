@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    stat_shel_mp   ../engine/source/output/sta/stat_shel_mp.F
+!||    stat_shel_mp     ../engine/source/output/sta/stat_shel_mp.F
 !||--- called by ------------------------------------------------------
-!||    genstat        ../engine/source/output/sta/genstat.F
+!||    genstat          ../engine/source/output/sta/genstat.F
 !||--- calls      -----------------------------------------------------
-!||    my_orders      ../common_source/tools/sort/my_orders.c
+!||    my_orders        ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE STAT_SHEL_MP(ITAB,ITABG,LENG,IPART,IGEO,
      .            IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,

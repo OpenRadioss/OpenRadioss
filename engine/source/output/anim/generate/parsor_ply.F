@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE PARSOR_PLY(NEL_PLY, X,       D,       XNORM,  CDG,

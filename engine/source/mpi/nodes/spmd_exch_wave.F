@@ -46,6 +46,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_wave_init   ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE SPMD_EXCH_WAVE_INIT(FR_WAVE_BUF, SIZ, LENR, NSPMD)
       use my_alloc_mod

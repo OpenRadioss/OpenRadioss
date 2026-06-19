@@ -24,7 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dealloc_shoot_inter   ../engine/source/interfaces/interf/dealloc_shoot_inter.F
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||    shooting_node_mod     ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE DEALLOC_SHOOT_INTER( SHOOT_STRUCT )

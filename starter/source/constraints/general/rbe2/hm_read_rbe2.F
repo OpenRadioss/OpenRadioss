@@ -386,11 +386,12 @@ C-----------
       RETURN
       END SUBROUTINE HM_PREREAD_RBE2
 !||====================================================================
-!||    reorbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    reorbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- called by ------------------------------------------------------
-!||    inirbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    inirbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- calls      -----------------------------------------------------
-!||    setiadm   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    setiadm        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE REORBE2(IRBE2  ,LRBE2  ,NC )
 C-----------------------------------------------
@@ -539,10 +540,12 @@ C
       RETURN
       END SUBROUTINE REORBE2
 !||====================================================================
-!||    setiadm     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    setiadm        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- called by ------------------------------------------------------
-!||    hierarbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-!||    reorbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    hierarbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    reorbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SETIADM(IADM,NZ,IAD_N,IRBE2)
         USE MY_ALLOC_MOD
@@ -600,11 +603,12 @@ C
       RETURN
       END SUBROUTINE SETIADM
 !||====================================================================
-!||    hierarbe2   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    hierarbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- called by ------------------------------------------------------
-!||    inirbe2     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    inirbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- calls      -----------------------------------------------------
-!||    setiadm     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    setiadm        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE HIERARBE2(IRBE2  ,LRBE2)
 C-----------------------------------------------
@@ -1328,12 +1332,13 @@ C
       END
 C
 !||====================================================================
-!||    rbe2_merge   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    rbe2_merge     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- called by ------------------------------------------------------
-!||    inirbe2      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    inirbe2        ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- calls      -----------------------------------------------------
-!||    ic_mrg       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-!||    same_nsn     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    ic_mrg         ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    same_nsn       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RBE2_MERGE(IRBE2  ,LRBE2  )
 C-----------------------------------------------

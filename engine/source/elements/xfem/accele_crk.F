@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    crk_accele      ../engine/source/elements/xfem/accele_crk.F
+!||    crk_accele       ../engine/source/elements/xfem/accele_crk.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE CRK_ACCELE(ADDCNE_CRK,INOD_CRK ,NODLEVXF ,NODFT    ,NODLT   ,
      .                      NODENR    ,CRKSKY   ,MS       ,IN       ,ITAB    )

@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iedge_xfem    ../starter/source/elements/xfem/iedge_xfem.F
+!||    iedge_xfem     ../starter/source/elements/xfem/iedge_xfem.F
 !||--- called by ------------------------------------------------------
-!||    lectur        ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../starter/source/output/message/message.F
+!||    ancmsg         ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod    ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE IEDGE_XFEM(
      .           IBORDNODE ,IXC       ,IXTG    ,IEDGESH4,IEDGESH3,

@@ -46,6 +46,8 @@
 !||--- uses       -----------------------------------------------------
 !||    debug_mod                             ../engine/share/modules/debug_mod.F
 !||    intbufdef_mod                         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod                          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                        ../common_source/tools/memory/my_dealloc.F90
 !||    shooting_node_mod                     ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -311,6 +312,7 @@ c                WRITE(6,*) "found at ",K
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    mpi_commod            ../engine/share/modules/mpi_comm_mod.F
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F

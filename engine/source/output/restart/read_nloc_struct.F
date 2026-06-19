@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_db            ../common_source/tools/input_output/read_db.F
 !||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    nlocal_reg_mod     ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
       SUBROUTINE READ_NLOC_STRUCT(NLOC_DMG)

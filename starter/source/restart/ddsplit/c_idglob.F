@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_idglob               ../starter/source/restart/ddsplit/c_idglob.F
 !||--- called by ------------------------------------------------------
 !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
 !||====================================================================

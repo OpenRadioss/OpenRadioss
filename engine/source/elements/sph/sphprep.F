@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
 !||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
 !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
 !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90

@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
       SUBROUTINE NLOCAL_DTNODA(NODFT    ,NODLT    ,NLOC_DMG ,DTNOD_NLOCAL, DT2T )

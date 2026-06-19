@@ -22,13 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_anim_ply    ../starter/source/restart/ddsplit/w_anim_ply.F
+!||    w_anim_ply       ../starter/source/restart/ddsplit/w_anim_ply.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    get_ply_nod   ../starter/source/spmd/spmd_anim_ply_init.F
+!||    get_ply_nod      ../starter/source/spmd/spmd_anim_ply_init.F
 !||--- uses       -----------------------------------------------------
-!||    plyxfem_mod   ../starter/share/modules1/plyxfem_mod.F
+!||    plyxfem_mod      ../starter/share/modules1/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE W_ANIM_PLY(IXC,NUMELC_L,NODLOCAL,
      *                      NUMNOD_L,CEL,CEP,PROC)

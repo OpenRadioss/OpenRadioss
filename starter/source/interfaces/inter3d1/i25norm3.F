@@ -31,11 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .       , DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
       END MODULE MOD_I25NORM
 !||====================================================================
-!||    i25norm       ../starter/source/interfaces/inter3d1/i25norm3.F
+!||    i25norm          ../starter/source/interfaces/inter3d1/i25norm3.F
 !||--- called by ------------------------------------------------------
-!||    inint3        ../starter/source/interfaces/inter3d1/inint3.F
+!||    inint3           ../starter/source/interfaces/inter3d1/inint3.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    mod_i25norm   ../starter/source/interfaces/inter3d1/i25norm3.F
+!||    mod_i25norm      ../starter/source/interfaces/inter3d1/i25norm3.F
 !||====================================================================
       SUBROUTINE I25NORM(NRTM,IRECTM,NUMNOD,X     ,NOD_NORMAL,
      .                  NMN  ,MSR   ,ITAB  ,NRTM0 ,MSEGTYP   ,

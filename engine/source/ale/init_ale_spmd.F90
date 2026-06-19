@@ -44,6 +44,8 @@
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine init_ale_spmd(nv46,n2d,numels,numelq,numeltg,numnod, &
           nspmd,nsvois,nqvois,ntgvois,s_lesdvois,s_lercvois,nesdvois,nercvois, &

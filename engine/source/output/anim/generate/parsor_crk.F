@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE PARSOR_CRK(IPARG  ,IXC     ,IXTG  ,EL2FA,IDCRK   ,
      .                      IAD_CRK,IAD_CRKG,NBF_L ,NBF  ,IEL_CRK ,

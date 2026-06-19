@@ -39,6 +39,7 @@
 !||    connectivity_mod          ../common_source/modules/connectivity.F90
 !||    extend_array_mod          ../common_source/tools/memory/extend_array.F90
 !||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    my_move_alloc_mod         ../common_source/tools/memory/my_move_alloc.F90
 !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
 !||====================================================================
         subroutine update_pon_shells(elements, n, shell_list, new_numnod)

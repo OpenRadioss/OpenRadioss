@@ -217,6 +217,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod           ../engine/share/modules/fvbag_mod.F
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SPMD_FVB_GATH_END(IFV, X, XXX, XXXA, 
      .                                    V, VVV, VVVA)

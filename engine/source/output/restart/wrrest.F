@@ -389,11 +389,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    imp_trans0     ../engine/source/output/restart/wrrest.F
+!||    imp_trans0       ../engine/source/output/restart/wrrest.F
 !||--- called by ------------------------------------------------------
-!||    imp_sol_init   ../engine/source/implicit/imp_sol_init.F
+!||    imp_sol_init     ../engine/source/implicit/imp_sol_init.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    imp_rest       ../engine/share/modules/impbufdef_mod.F
+!||    imp_rest         ../engine/share/modules/impbufdef_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE IMP_TRANS0(R_IMP,NR)
 C-----------------------------------------------
@@ -1268,14 +1271,16 @@ C-----------------------------------------------*
        RETURN
       END
 !||====================================================================
-!||    drape_wrest   ../engine/source/output/restart/wrrest.F
+!||    drape_wrest      ../engine/source/output/restart/wrrest.F
 !||--- called by ------------------------------------------------------
-!||    wrrestp       ../engine/source/output/restart/wrrestp.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routines.c
+!||    write_db         ../common_source/tools/input_output/write_db.F
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    drape_mod     ../engine/share/modules/drape_mod.F
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE DRAPE_WREST(DRAPE_SH4N,DRAPE_SH3N, DRAPEG)      
 C      

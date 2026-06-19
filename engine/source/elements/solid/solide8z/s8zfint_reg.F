@@ -26,7 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8eforc3         ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8sforc3         ../engine/source/elements/solid/solide8s/s8sforc3.F
 !||    s8zforc3         ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
       SUBROUTINE S8ZFINT_REG(

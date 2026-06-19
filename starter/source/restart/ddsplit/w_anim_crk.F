@@ -22,9 +22,9 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_anim_crk     ../starter/source/restart/ddsplit/w_anim_crk.F
+!||    w_anim_crk       ../starter/source/restart/ddsplit/w_anim_crk.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit        ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

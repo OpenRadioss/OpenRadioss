@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    nlocal         ../starter/source/spmd/node/ddtools.F
 !||    plist_ifront   ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C_IRBE2(IRBE2,LRBE2,PROC  ,NRBE2_L,
      .                   SLMN_L ,NBDDRBE2)

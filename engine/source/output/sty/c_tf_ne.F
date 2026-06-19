@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c_tf_ne        ../engine/source/output/sty/c_tf_ne.F
+!||    c_tf_ne          ../engine/source/output/sty/c_tf_ne.F
 !||--- called by ------------------------------------------------------
-!||    outp_c_tf      ../engine/source/output/sty/outp_c_t.F
+!||    outp_c_tf        ../engine/source/output/sty/outp_c_t.F
 !||--- calls      -----------------------------------------------------
-!||    layini         ../engine/source/elements/shell/coque/layini.F
+!||    layini           ../engine/source/elements/shell/coque/layini.F
 !||--- uses       -----------------------------------------------------
-!||    drape_mod      ../engine/share/modules/drape_mod.F
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    stack_mod      ../engine/share/modules/stack_mod.F
+!||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    stack_mod        ../engine/share/modules/stack_mod.F
 !||====================================================================
       SUBROUTINE C_TF_NE(ELBUF_STR,IHBE     ,NEL  ,NPT   ,MLW   ,
      .                   ITY      ,ISTRAIN  ,JJ   ,WA    ,IW    ,

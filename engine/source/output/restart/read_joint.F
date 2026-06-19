@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    read_joint   ../engine/source/output/restart/read_joint.F
+!||    read_joint       ../engine/source/output/restart/read_joint.F
 !||--- called by ------------------------------------------------------
-!||    rdresb       ../engine/source/output/restart/rdresb.F
+!||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c     ../common_source/tools/input_output/write_routines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    joint_mod    ../engine/share/modules/joint_mod.F
-!||    restmod      ../engine/share/modules/restart_mod.F
+!||    joint_mod        ../engine/share/modules/joint_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    restmod          ../engine/share/modules/restart_mod.F
 !||====================================================================
         SUBROUTINE READ_JOINT()
 !$COMMENT

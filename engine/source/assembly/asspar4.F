@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod            ../common_source/modules/ale/ale_mod.F
 !||    connectivity_mod   ../common_source/modules/connectivity.F90
 !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
 !||====================================================================

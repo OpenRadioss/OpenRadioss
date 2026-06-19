@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                     ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multimat_param_mod              ../common_source/modules/multimat_param_mod.F90
+!||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                  ../common_source/tools/memory/my_dealloc.F90
 !||    state_inimap_mod                ../engine/share/modules/state_inimap_mod.F
 !||====================================================================
       SUBROUTINE STAT_INIMAP2D_SPMD(

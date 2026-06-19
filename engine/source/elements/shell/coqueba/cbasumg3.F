@@ -924,15 +924,18 @@ C
       RETURN
       END
 !||====================================================================
-!||    setprojkba    ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    setprojkba       ../engine/source/elements/shell/coqueba/cbasumg3.F
 !||--- called by ------------------------------------------------------
-!||    cbaprojk      ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    cbaprojk         ../engine/source/elements/shell/coqueba/cbasumg3.F
 !||--- calls      -----------------------------------------------------
-!||    trankl1       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranklq       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj33   ../engine/source/elements/shell/coqueba/cbasumg3.F
-!||    tranqnkq      ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    trankl1          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranklq          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj33      ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    tranqnkq         ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SETPROJKBA(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,

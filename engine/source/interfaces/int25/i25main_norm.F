@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    mpi_commod         ../engine/share/modules/mpi_comm_mod.F
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================

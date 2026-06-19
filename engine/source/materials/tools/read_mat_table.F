@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_db          ../common_source/tools/input_output/read_db.F
 !||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    table4d_mod      ../common_source/modules/table4d_mod.F
 !||====================================================================
       SUBROUTINE READ_MAT_TABLE(TABLE, NUMTABL)

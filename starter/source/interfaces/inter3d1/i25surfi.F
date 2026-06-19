@@ -652,9 +652,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    sh2surf25   ../starter/source/interfaces/inter3d1/i25surfi.F
+!||    sh2surf25        ../starter/source/interfaces/inter3d1/i25surfi.F
 !||--- called by ------------------------------------------------------
-!||    i25surfi    ../starter/source/interfaces/inter3d1/i25surfi.F
+!||    i25surfi         ../starter/source/interfaces/inter3d1/i25surfi.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SH2SURF25(NRTM0,IRECT,IMBIN,MBINFLG,MSEGTYP,NRTM )
 C-----------------------------------------------

@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    split_pcyl   ../starter/source/loads/general/load_pcyl/split_pcyl.F
+!||    split_pcyl     ../starter/source/loads/general/load_pcyl/split_pcyl.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur         ../starter/source/starter/lectur.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE SPLIT_PCYL(TOTAL_NUMBER_PCYL,LOADS,LOADS_PER_PROC)

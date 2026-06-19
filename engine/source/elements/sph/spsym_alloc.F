@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    spsym_alloc   ../engine/source/elements/sph/spsym_alloc.F
+!||    spsym_alloc      ../engine/source/elements/sph/spsym_alloc.F
 !||--- called by ------------------------------------------------------
-!||    sphprep       ../engine/source/elements/sph/sphprep.F
+!||    sphprep          ../engine/source/elements/sph/sphprep.F
 !||--- calls      -----------------------------------------------------
-!||    my_barrier    ../engine/source/system/machine.F
+!||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../engine/share/message_module/message_mod.F
-!||    sphbox        ../engine/share/modules/sphbox.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    sphbox           ../engine/share/modules/sphbox.F
 !||====================================================================
       SUBROUTINE SPSYM_ALLOC(
      1    X, ISPCOND ,ISPSYM  ,XFRAME  ,XSPSYM   ,

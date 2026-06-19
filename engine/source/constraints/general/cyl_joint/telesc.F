@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float      ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    joint_mod        ../engine/share/modules/joint_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         SUBROUTINE TELESC(N_JOINT,A,AR,V,VR,X,FS,MS,IN,ITASK)

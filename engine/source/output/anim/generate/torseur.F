@@ -31,6 +31,7 @@ C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE TORSEUR(IADG  ,IPARG,ITENS,IXT   ,IXP  ,
      .                   IXR   ,EL2FA,NBF  ,TENS  ,TORS ,

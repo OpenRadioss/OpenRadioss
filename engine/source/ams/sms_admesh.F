@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    remesh_mod         ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE SMS_ADMESH_0(A    ,DIAG_SMS, IXC, IXTG,SH4TREE  ,
@@ -172,14 +173,15 @@ C
       RETURN
       END
 !||====================================================================
-!||    sms_admesh_1   ../engine/source/ams/sms_admesh.F
+!||    sms_admesh_1     ../engine/source/ams/sms_admesh.F
 !||--- called by ------------------------------------------------------
-!||    sms_pcg        ../engine/source/ams/sms_pcg.F
+!||    sms_pcg          ../engine/source/ams/sms_pcg.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
-!||    remesh_mod     ../engine/share/modules/remesh_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    remesh_mod       ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE SMS_ADMESH_1(A    ,DIAG_SMS, IXC, IXTG,SH4TREE  ,
      .                        SH3TREE  ,NODNX_SMS)

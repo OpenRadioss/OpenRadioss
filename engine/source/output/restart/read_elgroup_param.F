@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_db              ../common_source/tools/input_output/read_db.F
 !||--- uses       -----------------------------------------------------
 !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE READ_ELGROUP_PARAM(MAT_ELEM)
 C-----------------------------------------------

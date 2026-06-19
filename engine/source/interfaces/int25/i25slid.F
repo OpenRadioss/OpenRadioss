@@ -377,7 +377,10 @@ C
 !||    i25prep_slid_2   ../engine/source/interfaces/int25/i25slid.F
 !||--- called by ------------------------------------------------------
 !||    i25main_slid     ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25PREP_SLID_2(

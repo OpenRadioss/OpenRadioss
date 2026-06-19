@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    daaacc        ../engine/source/fluid/daaacc.F
+!||    daaacc           ../engine/source/fluid/daaacc.F
 !||--- called by ------------------------------------------------------
-!||    flow1         ../engine/source/fluid/flow1.F
+!||    flow1            ../engine/source/fluid/flow1.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_fl_sum   ../engine/source/mpi/generic/spmd_fl_sum.F
+!||    spmd_fl_sum      ../engine/source/mpi/generic/spmd_fl_sum.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE DAAACC(NDIM, NNO, NEL, IFLOW, IBUF, ELEM, IBUFL, CNP, A, NORMAL, ACCF)
 C-----------------------------------------------

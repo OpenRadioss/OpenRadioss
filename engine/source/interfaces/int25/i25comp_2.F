@@ -21,21 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i25comp_2       ../engine/source/interfaces/int25/i25comp_2.F
+!||    i25comp_2        ../engine/source/interfaces/int25/i25comp_2.F
 !||--- called by ------------------------------------------------------
-!||    i25maind_2      ../engine/source/interfaces/int25/i25maind_2.F
+!||    i25maind_2       ../engine/source/interfaces/int25/i25maind_2.F
 !||--- calls      -----------------------------------------------------
-!||    i25cdcor3       ../engine/source/interfaces/int25/i25mainf.F
-!||    i25cor3_21      ../engine/source/interfaces/int25/i25cor3.F
-!||    i25cor3_22      ../engine/source/interfaces/int25/i25cor3.F
-!||    i25dst3_21      ../engine/source/interfaces/int25/i25dst3_21.F
-!||    i25dst3_22      ../engine/source/interfaces/int25/i25dst3_22.F
-!||    i25glob         ../engine/source/interfaces/int25/i25dst3_1.F
-!||    i25glob_22      ../engine/source/interfaces/int25/i25dst3_22.F
-!||    my_barrier      ../engine/source/system/machine.F
+!||    i25cdcor3        ../engine/source/interfaces/int25/i25mainf.F
+!||    i25cor3_21       ../engine/source/interfaces/int25/i25cor3.F
+!||    i25cor3_22       ../engine/source/interfaces/int25/i25cor3.F
+!||    i25dst3_21       ../engine/source/interfaces/int25/i25dst3_21.F
+!||    i25dst3_22       ../engine/source/interfaces/int25/i25dst3_22.F
+!||    i25glob          ../engine/source/interfaces/int25/i25dst3_1.F
+!||    i25glob_22       ../engine/source/interfaces/int25/i25dst3_22.F
+!||    my_barrier       ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I25COMP_2(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,

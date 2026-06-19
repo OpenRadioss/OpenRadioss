@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    damping_vref_compute_dampa_mod   ../engine/source/assembly/damping_vref_compute_dampa.F90
 !||    groupdef_mod                     ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod                     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE DAMPING51(
      1  DIM    ,V      ,

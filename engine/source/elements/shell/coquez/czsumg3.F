@@ -1025,15 +1025,18 @@ C
       RETURN
       END
 !||====================================================================
-!||    setprojk      ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojk         ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- called by ------------------------------------------------------
-!||    czprojk       ../engine/source/elements/shell/coquez/czsumg3.F
+!||    czprojk          ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- calls      -----------------------------------------------------
-!||    cztrank33     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    trankl1       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranklq       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj67   ../engine/source/elements/shell/coquez/czsumg3.F
+!||    cztrank33        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    trankl1          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranklq          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj67      ../engine/source/elements/shell/coquez/czsumg3.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SETPROJK(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
@@ -1592,13 +1595,17 @@ C
       RETURN
       END
 !||====================================================================
-!||    tranqikqj    ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- called by ------------------------------------------------------
-!||    setprojk     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    setprojkba   ../engine/source/elements/shell/coqueba/cbasumg3.F
-!||    setprojks6   ../engine/source/elements/thickshell/solide6c/setprojks6.F
-!||    setprojkz    ../engine/source/elements/shell/coquez/czsumg3.F
-!||    setprojkz1   ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojk         ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojkba       ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    setprojks6       ../engine/source/elements/thickshell/solide6c/setprojks6.F
+!||    setprojkz        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojkz1       ../engine/source/elements/shell/coquez/czsumg3.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE TRANQIKQJ(JFT   ,JLT    ,VQI   ,KK,VQJ ,ND ,ISYM) 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1823,15 +1830,18 @@ C
       RETURN
       END
 !||====================================================================
-!||    setprojkz     ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojkz        ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- called by ------------------------------------------------------
-!||    czprojk       ../engine/source/elements/shell/coquez/czsumg3.F
+!||    czprojk          ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- calls      -----------------------------------------------------
-!||    trankl1       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranklq       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj67   ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqjrz   ../engine/source/elements/shell/coquez/czsumg3.F
+!||    trankl1          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranklq          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj67      ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqjrz      ../engine/source/elements/shell/coquez/czsumg3.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SETPROJKZ(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
@@ -2484,14 +2494,17 @@ C
       RETURN
       END
 !||====================================================================
-!||    setprojkz1    ../engine/source/elements/shell/coquez/czsumg3.F
+!||    setprojkz1       ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- called by ------------------------------------------------------
-!||    czprojkr      ../engine/source/elements/shell/coquez/czsumg3.F
+!||    czprojkr         ../engine/source/elements/shell/coquez/czsumg3.F
 !||--- calls      -----------------------------------------------------
-!||    trankl1       ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranklqn      ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj     ../engine/source/elements/shell/coquez/czsumg3.F
-!||    tranqikqj33   ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||    trankl1          ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranklqn         ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj        ../engine/source/elements/shell/coquez/czsumg3.F
+!||    tranqikqj33      ../engine/source/elements/shell/coqueba/cbasumg3.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SETPROJKZ1(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,

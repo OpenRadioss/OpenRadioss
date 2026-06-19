@@ -207,6 +207,8 @@
 !||--- called by ------------------------------------------------------
 !||    radioss2       ../engine/source/engine/radioss2.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine initime(t)
 !     initialization of timers

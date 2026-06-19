@@ -30,6 +30,7 @@ C
 !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
 !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE HORD(NEL,NSEL)
 C-----------------------------------------------

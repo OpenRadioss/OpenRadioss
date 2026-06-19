@@ -37,8 +37,11 @@
 !||    inter_init_component_list   ../engine/source/interfaces/generic/inter_init_component_list.F90
 !||--- called by ------------------------------------------------------
 !||    inter_init_component        ../engine/source/interfaces/generic/inter_init_component.F90
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    inter_sorting_mod           ../engine/share/modules/inter_sorting_mod.F
+!||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod              ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine inter_init_component_list( nsn,nrtm,numnod,nsv,irectm,s_node_color,m_node_color, &
           component )

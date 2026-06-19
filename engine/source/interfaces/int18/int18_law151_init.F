@@ -24,12 +24,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    int18_law151_init   ../engine/source/interfaces/int18/int18_law151_init.F
 !||--- called by ------------------------------------------------------
 !||    resol               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE INT18_LAW151_INIT(MULTI_FVM,IGRBRIC,IPARI,IXS,
      1                               IGROUPS ,IPARG   ,ELBUF_TAB  ,FORCE_INT   ,

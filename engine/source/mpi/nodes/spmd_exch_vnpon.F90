@@ -40,6 +40,7 @@
 !||--- calls      -----------------------------------------------------
 !||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )

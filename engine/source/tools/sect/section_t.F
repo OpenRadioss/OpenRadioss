@@ -30,6 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float_sect   ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SECTION_T (LFT,LLT,NFT,NSEG,N1,
      2                      N2,N3,NSTRF,X,V,FSAV,

@@ -47,6 +47,8 @@
 !||    array_mod            ../common_source/modules/array_mod.F
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||    sfem_init_spmd_mod   ../engine/source/elements/solid/solide4_sfem/sfem_init_spmd.F90

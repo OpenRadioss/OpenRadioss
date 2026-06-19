@@ -1913,16 +1913,18 @@ C
       END
 C
 !||====================================================================
-!||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetd     ../engine/source/mpi/elements/spmd_sph.F
 !||--- called by ------------------------------------------------------
-!||    sponfv         ../engine/source/elements/sph/sponfv.F
+!||    sponfv           ../engine/source/elements/sph/sponfv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_wait      ../engine/source/mpi/spmd_wait.F90
-!||    weight0        ../engine/source/elements/sph/weight.F
-!||    weight1        ../engine/source/elements/sph/weight.F
+!||    spmd_wait        ../engine/source/mpi/spmd_wait.F90
+!||    weight0          ../engine/source/elements/sph/weight.F
+!||    weight1          ../engine/source/elements/sph/weight.F
 !||--- uses       -----------------------------------------------------
-!||    sphbox         ../engine/share/modules/sphbox.F
-!||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    sphbox           ../engine/share/modules/sphbox.F
+!||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_SPHGETD(KXSP,IXSP,ISPHIO,X,WASPACT,NOD2SP,
      .                        SPBUF,V,A,ASPHR,DSPHR)

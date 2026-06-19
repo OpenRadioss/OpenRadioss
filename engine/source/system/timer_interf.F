@@ -155,6 +155,8 @@ C
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    metric_mod        ../common_source/modules/interfaces/metric_mod.F
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE PRINTIME_INTERF(INTBUF_TAB,IPARI,INTLIST,NBINTC,TRESHOLD)
 C-----------------------------------------------

@@ -21,17 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sponfv         ../engine/source/elements/sph/sponfv.F
+!||    sponfv           ../engine/source/elements/sph/sponfv.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_sphgeta   ../engine/source/mpi/elements/spmd_sph.F
-!||    spmd_sphgetd   ../engine/source/mpi/elements/spmd_sph.F
-!||    weight0        ../engine/source/elements/sph/weight.F
-!||    weight1        ../engine/source/elements/sph/weight.F
+!||    spmd_sphgeta     ../engine/source/mpi/elements/spmd_sph.F
+!||    spmd_sphgetd     ../engine/source/mpi/elements/spmd_sph.F
+!||    weight0          ../engine/source/elements/sph/weight.F
+!||    weight1          ../engine/source/elements/sph/weight.F
 !||--- uses       -----------------------------------------------------
-!||    sph_work_mod   ../common_source/modules/mat_elem/sph_work.F90
-!||    sphbox         ../engine/share/modules/sphbox.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
+!||    sphbox           ../engine/share/modules/sphbox.F
 !||====================================================================
       SUBROUTINE SPONFV(X ,V        ,A       ,D       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,

@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    fail_param_mod         ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
       SUBROUTINE READ_FAILPARAM(FAIL)

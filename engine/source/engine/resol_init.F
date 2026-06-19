@@ -86,6 +86,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
 !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
 !||    loads_mod                  ../common_source/modules/loads/loads_mod.F90
+!||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod             ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
 !||    outmax_mod                 ../common_source/modules/outmax_mod.F
 !||    output_mod                 ../common_source/modules/output/output_mod.F90
@@ -1230,13 +1232,15 @@ C-------------------------------------------
 C
 C-----------------------------------------------
 !||====================================================================
-!||    grpsplit       ../engine/source/engine/resol_init.F
+!||    grpsplit         ../engine/source/engine/resol_init.F
 !||--- called by ------------------------------------------------------
-!||    resol_init     ../engine/source/engine/resol_init.F
+!||    resol_init       ../engine/source/engine/resol_init.F
 !||--- calls      -----------------------------------------------------
-!||    sort_mid_pid   ../engine/source/system/sort_mid_pid.F
+!||    sort_mid_pid     ../engine/source/system/sort_mid_pid.F
 !||--- uses       -----------------------------------------------------
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE  GRPSPLIT(
      1     IPARG, IGROUC, NGROUC, IGROUNC, NGROUNC,

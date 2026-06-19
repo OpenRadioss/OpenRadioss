@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    clause_init   ../starter/source/model/sets/clause_init.F
+!||    clause_init      ../starter/source/model/sets/clause_init.F
 !||--- called by ------------------------------------------------------
-!||    hm_set        ../starter/source/model/sets/hm_set.F
+!||    hm_set           ../starter/source/model/sets/hm_set.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    message_mod   ../starter/share/message_module/message_mod.F
+!||    message_mod      ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE CLAUSE_INIT(CLAUSE)
 C-----------------------------------------------

@@ -1695,6 +1695,7 @@ C-------------produit {w}=[K]{v} using full matrix K ----
 !||    stoptime           ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE SMS_MAV_LT(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,

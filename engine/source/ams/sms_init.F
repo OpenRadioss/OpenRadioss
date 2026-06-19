@@ -192,13 +192,14 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    sms_ini_kad    ../engine/source/ams/sms_init.F
+!||    sms_ini_kad      ../engine/source/ams/sms_init.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
-!||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_KAD(
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
@@ -545,10 +546,11 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    nodnx_sms_ini   ../engine/source/ams/sms_init.F
+!||    nodnx_sms_ini    ../engine/source/ams/sms_init.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE NODNX_SMS_INI(
      1 NUMNOD  ,NUMEL ,NIX ,MIX ,LIX ,
@@ -600,16 +602,17 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    sms_ini_kdi     ../engine/source/ams/sms_init.F
+!||    sms_ini_kdi      ../engine/source/ams/sms_init.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    startimeg       ../engine/source/system/timer.F
-!||    stoptimeg       ../engine/source/system/timer.F
+!||    startimeg        ../engine/source/system/timer.F
+!||    stoptimeg        ../engine/source/system/timer.F
 !||--- uses       -----------------------------------------------------
-!||    element_mod     ../common_source/modules/elements/element_mod.F90
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_KDI(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1040,15 +1043,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    sms_ini_jad_1   ../engine/source/ams/sms_init.F
+!||    sms_ini_jad_1    ../engine/source/ams/sms_init.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    my_orders       ../common_source/tools/sort/my_orders.c
+!||    my_orders        ../common_source/tools/sort/my_orders.c
 !||--- uses       -----------------------------------------------------
-!||    element_mod     ../common_source/modules/elements/element_mod.F90
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_JAD_1(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1390,16 +1394,17 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    sms_ini_jad_2   ../engine/source/ams/sms_init.F
+!||    sms_ini_jad_2    ../engine/source/ams/sms_init.F
 !||--- called by ------------------------------------------------------
-!||    resol           ../engine/source/engine/resol.F
+!||    resol            ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    element_mod     ../common_source/modules/elements/element_mod.F90
-!||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    intstamp_mod    ../engine/share/modules/intstamp_mod.F
-!||    message_mod     ../engine/share/message_module/message_mod.F
-!||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    intstamp_mod     ../engine/share/modules/intstamp_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_JAD_2(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1725,6 +1730,7 @@ C-----------------------------------------------
 !||    intstamp_mod         ../engine/share/modules/intstamp_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_JAD_3(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -2188,6 +2194,7 @@ C-----------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod        ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_KIN_1(
      1  NODNX_SMS ,INDX1_SMS ,ILINK     ,RLINK    ,NNLINK    ,
@@ -2576,6 +2583,7 @@ C-----------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SMS_INI_INT(
      1  IPARI    ,INTBUF_TAB     ,IAD_ELEM   ,FR_ELEM  ,INTLIST,

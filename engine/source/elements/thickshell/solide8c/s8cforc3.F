@@ -78,6 +78,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sc8dlenmax_sm_mod      ../engine/source/elements/thickshell/solidec/sc8dlenmax_sm.F90

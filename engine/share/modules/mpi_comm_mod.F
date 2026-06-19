@@ -56,8 +56,10 @@ C where send and received are not done in the same routine
 !||    allocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
 !||--- called by ------------------------------------------------------
 !||    i25main_slid           ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    mpi_commod             ../engine/share/modules/mpi_comm_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE ALLOCATE_COMM_STRUCT(OBJECT,S1,S2)
         USE MPI_COMMOD
@@ -78,8 +80,10 @@ C-----------------------------------------------
 !||    deallocate_comm_struct   ../engine/share/modules/mpi_comm_mod.F
 !||--- called by ------------------------------------------------------
 !||    i25main_slid             ../engine/source/interfaces/int25/i25main_slid.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    mpi_commod               ../engine/share/modules/mpi_comm_mod.F
+!||    my_dealloc_mod           ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE DEALLOCATE_COMM_STRUCT(OBJECT,S1,S2)
        USE MPI_COMMOD

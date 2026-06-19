@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    prerafig3d         ../starter/source/elements/ige3d/prerafig3d.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE TEST_SUPPORT_FCT(IXIG3D, KXIG3D, KNOTLOCPC, DEGTANG1, DEGTANG2, DIR,
      .                            TAB_ELCUT, L_TAB_ELCUT,

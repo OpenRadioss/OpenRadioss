@@ -38,6 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    th_mod                 ../engine/share/modules/th_mod.F
 !||====================================================================

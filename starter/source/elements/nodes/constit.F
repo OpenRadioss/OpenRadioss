@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nbadmesh       ../starter/source/model/remesh/nbadmesh.F
 !||    r2r_split      ../starter/source/coupling/rad2rad/r2r_split.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE CONSTIT(ITAB,ITABM1,NUMNOD)
 C

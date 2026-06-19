@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    finter2                       ../engine/source/tools/curve/vinter.F
 !||    finter2_smooth                ../engine/source/tools/curve/finter_smooth.F
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod              ../common_source/modules/nodal_arrays.F90
 !||    python_call_funct_cload_mod   ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_funct_mod              ../common_source/modules/python_mod.F90

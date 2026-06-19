@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE TENSORS(ELBUF_TAB,IPARG   ,ITENS   ,IXS     ,PM       ,
      2                   EL2FA    ,NBF     ,TENS    ,EPSDOT  ,
@@ -3910,6 +3911,7 @@ C-----------
 !||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    outmax_mod         ../common_source/modules/outmax_mod.F
 !||====================================================================
       SUBROUTINE TENSGPS3(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -4759,6 +4761,7 @@ C-----------------------------------------------
 !||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE TENSGPS_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,
      .                        IXS      ,IXS10   ,IXS16   ,IXS20   ,X        ,

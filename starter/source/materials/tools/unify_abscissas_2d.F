@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func_table_copy     ../starter/source/materials/tools/func_table_copy.F90
 !||    law70_table         ../starter/source/materials/mat/mat070/law70_table.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
        SUBROUTINE UNIFY_ABSCISSA_2D(NFUNC,LEN,LMAX,NPT,XI,XF)
 C-----------------------------------------------

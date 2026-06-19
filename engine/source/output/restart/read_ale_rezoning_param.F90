@@ -42,6 +42,8 @@
 !||    read_i_c                  ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                   ../common_source/modules/ale/ale_mod.F
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod            ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         subroutine read_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------

@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod         ../engine/share/resol/initbuf.F
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod      ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE STAT_S_STRAF(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,

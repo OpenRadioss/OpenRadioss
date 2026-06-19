@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
+!||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod             ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE INTER_COLOR_COARSE_VOXEL(ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,INTBUF_TAB,
      .                                      X,SORT_COMM)

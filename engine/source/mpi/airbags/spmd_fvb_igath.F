@@ -29,6 +29,8 @@ C
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod        ../engine/share/modules/fvbag_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SPMD_FVB_IGATH(IFV, ITABS, ITABG)
 C-----------------------------------------------

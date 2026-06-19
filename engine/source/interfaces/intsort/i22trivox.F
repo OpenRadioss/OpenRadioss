@@ -33,6 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod      ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    realloc_mod      ../engine/share/modules/realloc_mod.F
 !||====================================================================
       SUBROUTINE I22TRIVOX(

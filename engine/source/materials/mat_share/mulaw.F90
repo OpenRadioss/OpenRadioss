@@ -172,6 +172,7 @@
 !||    mat_elem_mod            ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod             ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod          ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    precision_mod           ../common_source/modules/precision_mod.F90

@@ -50,6 +50,8 @@
 !||    inter_init_component_list_mod   ../engine/source/interfaces/generic/inter_init_component_list.F90
 !||    inter_init_node_color_mod       ../engine/source/interfaces/generic/inter_init_node_color.F90
 !||    inter_sorting_mod               ../engine/share/modules/inter_sorting_mod.F
+!||    my_alloc_mod                    ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                  ../common_source/tools/memory/my_dealloc.F90
 !||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================

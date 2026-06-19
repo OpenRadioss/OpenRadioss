@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    w_elbuf_str    ../engine/source/elements/elbuf/w_elbuf_str.F
+!||    w_elbuf_str      ../engine/source/elements/elbuf/w_elbuf_str.F
 !||--- called by ------------------------------------------------------
-!||    wrrestp        ../engine/source/output/restart/wrrestp.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db       ../common_source/tools/input_output/write_db.F
-!||    write_dpdb     ../common_source/tools/input_output/write_db.F
+!||    write_db         ../common_source/tools/input_output/write_db.F
+!||    write_dpdb       ../common_source/tools/input_output/write_db.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE W_ELBUF_STR(IPARG,ELBUF_TAB,FLAG_XFEM)
 C-----------------------------------------------

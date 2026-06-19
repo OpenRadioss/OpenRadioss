@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_inloc     ../starter/source/restart/ddsplit/w_inloc.F
+!||    w_inloc          ../starter/source/restart/ddsplit/w_inloc.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_INLOC(ITAB,NODGLOB,NUMNOD_L,LEN_IA)
 C-----------------------------------------------

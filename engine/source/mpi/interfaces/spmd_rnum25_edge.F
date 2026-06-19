@@ -24,7 +24,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rnum25_edge   ../engine/source/mpi/interfaces/spmd_rnum25_edge.F
 !||--- called by ------------------------------------------------------
 !||    i25main_tri        ../engine/source/interfaces/intsort/i25main_tri.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    tri25ebox          ../engine/share/modules/tri25ebox.F
 !||    tri7box            ../engine/share/modules/tri7box.F
 !||====================================================================

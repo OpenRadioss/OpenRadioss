@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    gps_solid      ../engine/source/output/outmaxsubr.F
+!||    gps_solid        ../engine/source/output/outmaxsubr.F
 !||--- called by ------------------------------------------------------
-!||    upd_tmax       ../engine/source/output/upd_outmax.F
+!||    upd_tmax         ../engine/source/output/upd_outmax.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_exch_v    ../engine/source/mpi/generic/spmd_exch_v.F
-!||    tensgps3       ../engine/source/output/anim/generate/tensor6.F
+!||    spmd_exch_v      ../engine/source/mpi/generic/spmd_exch_v.F
+!||    tensgps3         ../engine/source/output/anim/generate/tensor6.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    element_mod    ../common_source/modules/elements/element_mod.F90
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -129,6 +131,8 @@ C
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    element_mod          ../common_source/modules/elements/element_mod.F90
+!||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod       ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .           IXS  ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,

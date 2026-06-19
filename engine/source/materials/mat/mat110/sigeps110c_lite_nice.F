@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_vinterp          ../engine/source/tools/curve/table_tools.F
 !||--- uses       -----------------------------------------------------
 !||    interface_table_mod    ../engine/share/modules/table_mod.F
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||====================================================================
       SUBROUTINE SIGEPS110C_LITE_NICE(

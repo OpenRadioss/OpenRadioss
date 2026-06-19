@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    read5p    ../engine/source/input/read5p.F
+!||    read5p           ../engine/source/input/read5p.F
 !||--- called by ------------------------------------------------------
-!||    rdele     ../engine/source/input/rdele.F
+!||    rdele            ../engine/source/input/rdele.F
 !||--- calls      -----------------------------------------------------
-!||    wciusc2   ../engine/source/input/wciusc2.F
+!||    wciusc2          ../engine/source/input/wciusc2.F
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE READ5P(IREC,NBC,KEY0,IV2,JJ)
 C-----------------------------------------------

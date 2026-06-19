@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    w_cluster     ../engine/source/output/cluster/w_cluster.F
+!||    w_cluster        ../engine/source/output/cluster/w_cluster.F
 !||--- called by ------------------------------------------------------
-!||    wrrestp       ../engine/source/output/restart/wrrestp.F
+!||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routines.c
+!||    write_db         ../common_source/tools/input_output/write_db.F
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
-!||    cluster_mod   ../engine/share/modules/cluster_mod.F
+!||    cluster_mod      ../engine/share/modules/cluster_mod.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE W_CLUSTER(CLUSTER)
 C-----------------------------------------------

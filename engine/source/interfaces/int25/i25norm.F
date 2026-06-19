@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier         ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
 !||    tri7box            ../engine/share/modules/tri7box.F
 !||====================================================================

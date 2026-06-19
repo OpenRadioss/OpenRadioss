@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genh3d                       ../engine/source/output/h3d/h3d_results/genh3d.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
        SUBROUTINE SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,V,LEN,VP0,LENP0)

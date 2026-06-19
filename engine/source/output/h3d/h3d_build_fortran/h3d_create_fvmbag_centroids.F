@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod                     ../engine/share/modules/fvbag_mod.F
 !||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
+!||    my_alloc_mod                  ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod                ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE H3D_CREATE_FVMBAG_CENTROIDS(MONVOL,VOLMON, FVDATA, NFVBAG, SMONVOL, SVOLMON, AIRBAGS_NODE_ID_SHIFT)
 C-----------------------------------------------

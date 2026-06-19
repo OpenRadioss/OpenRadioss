@@ -58,6 +58,8 @@ C
 !||    interfaces_mod         ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod    ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25ebox              ../engine/share/modules/tri25ebox.F

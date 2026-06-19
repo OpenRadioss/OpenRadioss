@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    spmd_tri20gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
+!||    spmd_tri20gat    ../engine/source/mpi/interfaces/spmd_i7crit.F
 !||--- called by ------------------------------------------------------
-!||    i20main_tri     ../engine/source/interfaces/intsort/i20main_tri.F
+!||    i20main_tri      ../engine/source/interfaces/intsort/i20main_tri.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
-!||    arret           ../engine/source/system/arret.F
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod         ../engine/share/modules/h3d_mod.F
-!||    message_mod     ../engine/share/message_module/message_mod.F
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI20GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN  ,
      2                         IGAP  ,NSNR,MULTIMP,ITY   ,INTTH,
@@ -1656,6 +1657,7 @@ C
 !||    arret            ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI20GATE(RESULT,NRTS ,CAND_S ,I_STOK,NIN,
@@ -2687,15 +2689,16 @@ C
       END
 C
 !||====================================================================
-!||    spmd_tri17gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
+!||    spmd_tri17gat    ../engine/source/mpi/interfaces/spmd_i7crit.F
 !||--- called by ------------------------------------------------------
-!||    i17main_tri     ../engine/source/interfaces/int17/i17main_pena.F
+!||    i17main_tri      ../engine/source/interfaces/int17/i17main_pena.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg          ../engine/source/output/message/message.F
-!||    arret           ../engine/source/system/arret.F
+!||    ancmsg           ../engine/source/output/message/message.F
+!||    arret            ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod     ../engine/share/message_module/message_mod.F
-!||    tri7box         ../engine/share/modules/tri7box.F
+!||    message_mod      ../engine/share/message_module/message_mod.F
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI17GAT(RESULT,NMES ,CAND_N ,I_STOK,NIN,
      2                         NMESR )

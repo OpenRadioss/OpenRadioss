@@ -24,8 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cdkfint_reg      ../engine/source/elements/sh3n/coquedk/cdkfint_reg.F
 !||--- called by ------------------------------------------------------
 !||    cdkforc3         ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
 !||====================================================================
       SUBROUTINE CDKFINT_REG(

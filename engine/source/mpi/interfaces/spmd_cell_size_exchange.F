@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
 !||    message_mod               ../engine/share/message_module/message_mod.F
+!||    my_alloc_mod              ../common_source/tools/memory/my_alloc.F90
 !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box                   ../engine/share/modules/tri7box.F
 !||====================================================================

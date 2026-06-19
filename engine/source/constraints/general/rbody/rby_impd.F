@@ -336,9 +336,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    rby_imp5   ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rby_imp5         ../engine/source/constraints/general/rbody/rby_impd.F
 !||--- called by ------------------------------------------------------
-!||    rby_impd   ../engine/source/constraints/general/rbody/rby_impd.F
+!||    rby_impd         ../engine/source/constraints/general/rbody/rby_impd.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE RBY_IMP5(
      1                  X  ,RBY ,NOD  ,ITRMAX,

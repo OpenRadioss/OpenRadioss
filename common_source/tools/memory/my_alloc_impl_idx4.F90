@@ -20,13 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!||====================================================================
-!||    my_alloc_impl_idx4_mod   ../common_source/tools/memory/my_alloc_impl_idx4.F90
-!||--- calls      -----------------------------------------------------
-!||    my_alloc_tools_mod       ../common_source/tools/memory/my_alloc_tools.F90
-!||--- called by  -----------------------------------------------------
-!||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
-!||====================================================================
 ! ======================================================================================================================
 ! fypp template — generates my_alloc_impl_idx4.F90
 ! Do NOT edit the generated my_alloc_impl_idx4.F90 directly; edit this file and re-run fypp.
@@ -76,6 +69,14 @@
 
 
 
+!||====================================================================
+!||    my_alloc_impl_idx4_mod   ../common_source/tools/memory/my_alloc_impl_idx4.F90
+!||--- called by ------------------------------------------------------
+!||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    my_alloc_tools_mod       ../common_source/tools/memory/my_alloc_tools.F90
+!||====================================================================
       module my_alloc_impl_idx4_mod
         use iso_c_binding,      only : c_loc
         use my_alloc_tools_mod, only : my_alloc_check, record_alloc_addr
@@ -219,9 +220,11 @@
 
 !! \brief Allocate a 1D real array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_real_1d
+!||    my_alloc_real_1d    ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_real_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -249,9 +252,11 @@
 
 !! \brief Allocate a 2D real array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_real_2d
+!||    my_alloc_real_2d    ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_real_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -280,9 +285,11 @@
 
 !! \brief Allocate a 3D real array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_real_3d
+!||    my_alloc_real_3d    ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_real_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -312,9 +319,11 @@
 
 !! \brief Allocate a 1D double precision array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_double_1d
+!||    my_alloc_double_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_double_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -342,9 +351,11 @@
 
 !! \brief Allocate a 2D double precision array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_double_2d
+!||    my_alloc_double_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_double_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -373,9 +384,11 @@
 
 !! \brief Allocate a 3D double precision array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_double_3d
+!||    my_alloc_double_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_double_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -405,9 +418,11 @@
 
 !! \brief Allocate a 1D integer array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_integer_1d
+!||    my_alloc_integer_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_integer_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -435,9 +450,11 @@
 
 !! \brief Allocate a 2D integer array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_integer_2d
+!||    my_alloc_integer_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_integer_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -466,9 +483,11 @@
 
 !! \brief Allocate a 3D integer array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_integer_3d
+!||    my_alloc_integer_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_integer_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -498,9 +517,11 @@
 
 !! \brief Allocate a 1D logical array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_logical_1d
+!||    my_alloc_logical_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_logical_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -528,9 +549,11 @@
 
 !! \brief Allocate a 2D logical array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_logical_2d
+!||    my_alloc_logical_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_logical_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -559,9 +582,11 @@
 
 !! \brief Allocate a 3D logical array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_logical_3d
+!||    my_alloc_logical_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_logical_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -591,9 +616,11 @@
 
 !! \brief Allocate a 1D type(elbuf_struct_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_elbuf_1d
+!||    my_alloc_elbuf_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_elbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -621,9 +648,11 @@
 
 !! \brief Allocate a 1D type(g_bufel_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_gbuf_1d
+!||    my_alloc_gbuf_1d    ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_gbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -651,9 +680,11 @@
 
 !! \brief Allocate a 1D type(l_bufel_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_lbuf_1d
+!||    my_alloc_lbuf_1d    ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_lbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -681,9 +712,11 @@
 
 !! \brief Allocate a 1D type(buf_prop_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufprop_1d
+!||    my_alloc_bufprop_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufprop_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -711,9 +744,11 @@
 
 !! \brief Allocate a 1D type(buf_nloc_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufnloc_1d
+!||    my_alloc_bufnloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufnloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -741,9 +776,11 @@
 
 !! \brief Allocate a 1D type(buf_nlocts_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufnlocts_1d
+!||    my_alloc_bufnlocts_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check          ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr       ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufnlocts_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -771,9 +808,11 @@
 
 !! \brief Allocate a 1D type(buf_damp_range_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufdamp_1d
+!||    my_alloc_bufdamp_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufdamp_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -801,9 +840,11 @@
 
 !! \brief Allocate a 1D type(buf_eos_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufeos_1d
+!||    my_alloc_bufeos_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufeos_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -831,9 +872,11 @@
 
 !! \brief Allocate a 1D type(buf_poro_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufporo_1d
+!||    my_alloc_bufporo_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufporo_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -861,9 +904,11 @@
 
 !! \brief Allocate a 1D type(buf_visc_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufvisc_1d
+!||    my_alloc_bufvisc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufvisc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -891,9 +936,11 @@
 
 !! \brief Allocate a 1D type(buf_xfem_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufxfem_1d
+!||    my_alloc_bufxfem_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufxfem_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -921,9 +968,11 @@
 
 !! \brief Allocate a 1D type(fail_loc_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_failloc_1d
+!||    my_alloc_failloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_failloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -951,9 +1000,11 @@
 
 !! \brief Allocate a 1D type(buf_fail_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_buffail_1d
+!||    my_alloc_buffail_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_buffail_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -981,9 +1032,11 @@
 
 !! \brief Allocate a 1D type(buf_mat_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufmat_1d
+!||    my_alloc_bufmat_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufmat_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1011,9 +1064,11 @@
 
 !! \brief Allocate a 1D type(l_bufel_dir_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_lbufdir_1d
+!||    my_alloc_lbufdir_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_lbufdir_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1041,9 +1096,11 @@
 
 !! \brief Allocate a 1D type(buf_intloc_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufintloc_1d
+!||    my_alloc_bufintloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check          ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr       ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufintloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1071,9 +1128,11 @@
 
 !! \brief Allocate a 1D type(buf_intlay_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_bufintlay_1d
+!||    my_alloc_bufintlay_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check          ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr       ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_bufintlay_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1101,9 +1160,11 @@
 
 !! \brief Allocate a 1D type(buf_lay_) array (allocatable, integer dims)
 !||====================================================================
-!||    my_alloc_buflay_1d
+!||    my_alloc_buflay_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_buflay_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1131,9 +1192,11 @@
 
 !! \brief Allocate a 1D real array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_preal_1d
+!||    my_alloc_preal_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_preal_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1161,9 +1224,11 @@
 
 !! \brief Allocate a 2D real array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_preal_2d
+!||    my_alloc_preal_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_preal_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1192,9 +1257,11 @@
 
 !! \brief Allocate a 3D real array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_preal_3d
+!||    my_alloc_preal_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_preal_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1224,9 +1291,11 @@
 
 !! \brief Allocate a 1D double precision array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pdouble_1d
+!||    my_alloc_pdouble_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pdouble_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1254,9 +1323,11 @@
 
 !! \brief Allocate a 2D double precision array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pdouble_2d
+!||    my_alloc_pdouble_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pdouble_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1285,9 +1356,11 @@
 
 !! \brief Allocate a 3D double precision array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pdouble_3d
+!||    my_alloc_pdouble_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pdouble_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1317,9 +1390,11 @@
 
 !! \brief Allocate a 1D integer array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pinteger_1d
+!||    my_alloc_pinteger_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pinteger_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1347,9 +1422,11 @@
 
 !! \brief Allocate a 2D integer array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pinteger_2d
+!||    my_alloc_pinteger_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pinteger_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1378,9 +1455,11 @@
 
 !! \brief Allocate a 3D integer array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pinteger_3d
+!||    my_alloc_pinteger_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pinteger_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1410,9 +1489,11 @@
 
 !! \brief Allocate a 1D logical array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_plogical_1d
+!||    my_alloc_plogical_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_plogical_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1440,9 +1521,11 @@
 
 !! \brief Allocate a 2D logical array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_plogical_2d
+!||    my_alloc_plogical_2d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_plogical_2d(a, n, m, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1471,9 +1554,11 @@
 
 !! \brief Allocate a 3D logical array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_plogical_3d
+!||    my_alloc_plogical_3d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_plogical_3d(a, l, m, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1503,9 +1588,11 @@
 
 !! \brief Allocate a 1D type(elbuf_struct_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pelbuf_1d
+!||    my_alloc_pelbuf_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check       ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr    ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pelbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1533,9 +1620,11 @@
 
 !! \brief Allocate a 1D type(g_bufel_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pgbuf_1d
+!||    my_alloc_pgbuf_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pgbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1563,9 +1652,11 @@
 
 !! \brief Allocate a 1D type(l_bufel_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_plbuf_1d
+!||    my_alloc_plbuf_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check      ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr   ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_plbuf_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1593,9 +1684,11 @@
 
 !! \brief Allocate a 1D type(buf_prop_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufprop_1d
+!||    my_alloc_pbufprop_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufprop_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1623,9 +1716,11 @@
 
 !! \brief Allocate a 1D type(buf_nloc_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufnloc_1d
+!||    my_alloc_pbufnloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufnloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1653,9 +1748,11 @@
 
 !! \brief Allocate a 1D type(buf_nlocts_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufnlocts_1d
+!||    my_alloc_pbufnlocts_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check           ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr        ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufnlocts_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1683,9 +1780,11 @@
 
 !! \brief Allocate a 1D type(buf_damp_range_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufdamp_1d
+!||    my_alloc_pbufdamp_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufdamp_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1713,9 +1812,11 @@
 
 !! \brief Allocate a 1D type(buf_eos_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufeos_1d
+!||    my_alloc_pbufeos_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufeos_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1743,9 +1844,11 @@
 
 !! \brief Allocate a 1D type(buf_poro_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufporo_1d
+!||    my_alloc_pbufporo_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufporo_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1773,9 +1876,11 @@
 
 !! \brief Allocate a 1D type(buf_visc_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufvisc_1d
+!||    my_alloc_pbufvisc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufvisc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1803,9 +1908,11 @@
 
 !! \brief Allocate a 1D type(buf_xfem_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufxfem_1d
+!||    my_alloc_pbufxfem_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufxfem_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1833,9 +1940,11 @@
 
 !! \brief Allocate a 1D type(fail_loc_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pfailloc_1d
+!||    my_alloc_pfailloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pfailloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1863,9 +1972,11 @@
 
 !! \brief Allocate a 1D type(buf_fail_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbuffail_1d
+!||    my_alloc_pbuffail_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbuffail_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1893,9 +2004,11 @@
 
 !! \brief Allocate a 1D type(buf_mat_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufmat_1d
+!||    my_alloc_pbufmat_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufmat_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1923,9 +2036,11 @@
 
 !! \brief Allocate a 1D type(l_bufel_dir_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_plbufdir_1d
+!||    my_alloc_plbufdir_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check         ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr      ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_plbufdir_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1953,9 +2068,11 @@
 
 !! \brief Allocate a 1D type(buf_intloc_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufintloc_1d
+!||    my_alloc_pbufintloc_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check           ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr        ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufintloc_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -1983,9 +2100,11 @@
 
 !! \brief Allocate a 1D type(buf_intlay_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbufintlay_1d
+!||    my_alloc_pbufintlay_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check           ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr        ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbufintlay_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc
@@ -2013,9 +2132,11 @@
 
 !! \brief Allocate a 1D type(buf_lay_) array (pointer, integer dims)
 !||====================================================================
-!||    my_alloc_pbuflay_1d
+!||    my_alloc_pbuflay_1d   ../common_source/tools/memory/my_alloc_impl_idx4.F90
 !||--- calls      -----------------------------------------------------
-!||    my_alloc_check   ../common_source/tools/memory/my_alloc_tools.F90
+!||    my_alloc_check        ../common_source/tools/memory/my_alloc_tools.F90
+!||    record_alloc_addr     ../common_source/tools/memory/my_move_alloc.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine my_alloc_pbuflay_1d(a, n, msg, stat, lower_bound)
           use iso_c_binding, only: c_loc

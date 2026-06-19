@@ -419,11 +419,14 @@ C-----------------------------------------------------------------
       END SUBROUTINE GET_STIFF_SPMD
 C
 !||====================================================================
-!||    r2r_tagel   ../engine/source/coupling/rad2rad/r2r_exchange.F
+!||    r2r_tagel        ../engine/source/coupling/rad2rad/r2r_exchange.F
 !||--- called by ------------------------------------------------------
-!||    tagoff3n    ../engine/source/interfaces/interf/chkstfn3.F
+!||    tagoff3n         ../engine/source/interfaces/interf/chkstfn3.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
-!||    rad2r_mod   ../engine/share/modules/rad2r.F
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
+!||    rad2r_mod        ../engine/share/modules/rad2r.F
 !||====================================================================
       SUBROUTINE R2R_TAGEL(NTAGEL_R2R_SEND,ID_EL,ID_NODE,ITY,OFUR,TAGEL_SIZE)
 C-----------------------------------------------

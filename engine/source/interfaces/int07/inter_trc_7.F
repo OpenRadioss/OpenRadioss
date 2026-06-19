@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
      1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)

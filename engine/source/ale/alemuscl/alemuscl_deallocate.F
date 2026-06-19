@@ -24,8 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemuscl_deallocate   ../engine/source/ale/alemuscl/alemuscl_deallocate.F
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    alemuscl_mod          ../common_source/modules/ale/alemuscl_mod.F
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ALEMUSCL_DEALLOCATE()
 C-----------------------------------------------

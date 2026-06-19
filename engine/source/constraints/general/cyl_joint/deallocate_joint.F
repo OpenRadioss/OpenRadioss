@@ -24,8 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    deallocate_joint   ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
 !||--- called by ------------------------------------------------------
 !||    resol              ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    joint_mod          ../engine/share/modules/joint_mod.F
+!||    my_dealloc_mod     ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE DEALLOCATE_JOINT()
 !$COMMENT

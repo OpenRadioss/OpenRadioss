@@ -21,9 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sigeps42c   ../engine/source/materials/mat/mat042/sigeps42c.F
+!||    sigeps42c        ../engine/source/materials/mat/mat042/sigeps42c.F
 !||--- called by ------------------------------------------------------
-!||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
+!||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SIGEPS42C(
      1      NEL    , NUPARAM ,NIPARAM, NUVAR  , ISMSTR ,

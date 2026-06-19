@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_ixaloc    ../starter/source/restart/ddsplit/w_ixaloc.F
+!||    w_ixaloc         ../starter/source/restart/ddsplit/w_ixaloc.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE W_IXALOC(IXA,NNOD,CEP,P,
      +                   NUMEL,NUMEL_L,NODLOCAL,LEN_IA)

@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    allocbuf_auto   ../engine/source/elements/elbuf/allocbuf_auto.F
+!||    allocbuf_auto    ../engine/source/elements/elbuf/allocbuf_auto.F
 !||--- called by ------------------------------------------------------
-!||    elbuf_ini       ../engine/source/elements/elbuf/elbuf_ini.F
+!||    elbuf_ini        ../engine/source/elements/elbuf/elbuf_ini.F
 !||--- calls      -----------------------------------------------------
-!||    read_db         ../common_source/tools/input_output/read_db.F
-!||    read_dpdb       ../common_source/tools/input_output/read_db.F
+!||    read_db          ../common_source/tools/input_output/read_db.F
+!||    read_dpdb        ../common_source/tools/input_output/read_db.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
-!||    mat_elem_mod    ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    h3d_inc_mod      ../engine/share/modules/h3d_inc_mod.F
+!||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod   ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,MAT_ELEM,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                         IDAMP_FREQ_RANGE)

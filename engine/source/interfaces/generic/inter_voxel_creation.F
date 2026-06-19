@@ -24,9 +24,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_voxel_creation   ../engine/source/interfaces/generic/inter_voxel_creation.F
 !||--- called by ------------------------------------------------------
 !||    inter_prepare_sort     ../engine/source/interfaces/generic/inter_prepare_sort.F
+!||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod          ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    inter_sorting_mod      ../engine/share/modules/inter_sorting_mod.F
+!||    my_dealloc_mod         ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
         SUBROUTINE INTER_VOXEL_CREATION(IPARI,INTBUF_TAB,X,NIN,SORT_COMM)
 !$COMMENT

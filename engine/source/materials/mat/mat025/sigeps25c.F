@@ -33,6 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat25_crasurv_c_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
 !||    mat25_tsaiwu_c_mod    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
 !||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod        ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE SIGEPS25C(MAT_PARAM,
      1                    NEL      ,PM       ,OFF     ,GSTR    ,

@@ -35,6 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
+!||    my_dealloc_mod    ../common_source/tools/memory/my_dealloc.F90
 !||====================================================================
       SUBROUTINE WRITE_INTBUF(INTBUF_TAB)  
 C-----------------------------------------------

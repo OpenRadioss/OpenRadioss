@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
+!||    my_dealloc_mod               ../common_source/tools/memory/my_dealloc.F90
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||    timer_mod                    ../engine/source/system/timer_mod.F90
