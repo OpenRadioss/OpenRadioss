@@ -1672,7 +1672,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N,I,J,K,NSN
+      INTEGER  N,I,J,K,NSN,M,NI
 
       DO J=1,NUMNOD
         IKINE(J)=0
@@ -1691,6 +1691,26 @@ C-------------------------------------
         ENDDO
         K = K + NSN
       ENDDO
+! initialize  NPBY(12,N) : parent id 
+      NPBY(12,1:NRBYKIN) =0 
+      IF (NHIER_RBY>0) THEN
+        TAGSLV_RBY(1:NUMNOD)=0
+        DO N=1,NRBYKIN 
+          M = NPBY(1,N) 
+          IF (M>0) TAGSLV_RBY(M) = N
+        END DO
+        DO N=NRBYKIN,1,-1
+          K = NPBY(11,N)
+          NSN = NPBY(2,N) 
+          DO I=1,NSN
+            J=LPBY(K+I)
+            IF (TAGSLV_RBY(J)>0) THEN 
+              NI = TAGSLV_RBY(J) 
+              NPBY(12,NI) =N 
+            END IF
+          END DO
+        END DO
+      END IF !(NHIER_RBY>0) THEN
 C-------------------------------------------
       TAGSLV_RBY(1:NUMNOD)=0
       K=0

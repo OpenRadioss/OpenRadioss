@@ -166,6 +166,9 @@ C
      6                  FREAC     )
 !
             IF(NRBFAIL /= 0 .AND. NSPMD > 1) CRIT(N)= RBY(30,N)
+          ELSEIF(IM>0.AND.NPBY(21,N)>0) THEN 
+            A(1:3,IM) = ZERO
+            AR(1:3,IM) = ZERO
 !
           ENDIF
         ENDDO
